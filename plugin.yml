@@ -1,0 +1,5 @@
+name: CityWorld
+main: me.daddychurchill.CityWorld.CityWorld
+version: 0.1
+load: startup
+author: DaddyChurchill
