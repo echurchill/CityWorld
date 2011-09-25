@@ -24,6 +24,6 @@ public class CityWorld extends JavaPlugin{
 	
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(String worldName, String id){
-		return new CityWorldGenerator(this);
+		return new CityWorldGenerator(this, id);
 	}
 }
