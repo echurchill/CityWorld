@@ -1,0 +1,52 @@
+== **CityWorld** ==
+===== //Version 0.2// =====
+
+This effort started life as a [[http://forums.bukkit.org/threads/edit-sec-admn-worldedit-4-6-world-editing-de-griefing-1000.62/|WorldEdit ]] [[http://forum.sk89q.com/threads/fab-a-city-fabulous.556/|script]] that got a little out of hand. After a number of requests I have decided to reboot the effort, this time as a true world generator. 
+
+{{http://dev.bukkit.org/media/images/34/310/2011-09-25_13.00.48.jpg|CityWorld}}
+
+There is still much to do, but it is good beginning. We now have a little bit of color. There are basements and stairs but no doors... doh!. Still much to do... including: parks (real ones not the silly ones I have now), cisterns, neighborhoods, parking structures, sewers, farms and DOORS!
+
+=== Heads up! ===
+
+I am not sure exactly what is causing this but right now when you teleport into a newly created CityWorld world the spawn is kinda goofed up and it will appear like you are falling through twinkling stars. Eventually things will stabilize and you will find yourself standing in the new world. I will fix this "issue" once I figure out what the heck is going on. If anyone can enlighten me as to what is happening I am happy to learn.
+
+----
+=== Installing ===
+
+This is purely a world generator, it does not add any new commands, have permissions or options to configure (but I might add one or more of those in the future). If you need permissions, teleportation or world management support there are plenty of plugins that will do that for you. The Bukkit plugin ecosystem does not need more of those puppies. This is JUST A WORLD GENERATOR. :-)
+
+To install it you will need to do three things...
+# Download the plugin and place it in the Bukkit plugin folder
+# Either install a [[http://dev.bukkit.org/server-mods/?category=world-editing-and-management|world manager]] (I use [[http://dev.bukkit.org/server-mods/multiverse-core/|Multiverse]] but there are PLENTY of other ones out there) ...OR... you can add a reference to CityWorld to your **bukkit.yml** file (more on this later)
+# Now start up Minecraft Server via Bukkit (if you don't know how to do this I recommend reading [[http://wiki.bukkit.org/Setting_up_a_server|this]])
+
+One of two things will need to happen at this point...
+If you modified your bukkit.org, you will either be in a CityWorld because you made the default world use the CityWorld world generator (mind you might have to walk to a region/chunk you haven't been to before to get the CityWorld chunk generator to kick in. Or if you set up Bukkit to create a new world using CityWorld, you will need to teleport to it. Pick your favorite multi-world teleport [[http://dev.bukkit.org/server-mods/?category=teleportation|plugin]] and transport yourself to the world you specified in bukkit.yml.
+
+...On the other hand, if you are using a multi-world plug in like [[http://dev.bukkit.org/server-mods/multiverse-core/|Multiverse]] then you will need to look at it's documentation on how to create a new world using a custom world generator. Then teleport into it.
+
+=== Modifying Bukkit.yml ===
+
+If you don't want to add a bunch of plugins or just like keeping things REAL simple then you can leverage Bukkit's built in world management via modifying it's bukkit.yml. For whatever reason this file is pretty undocumented and I am not going to attempt to do so here. For our purposes we only need to make a small modification/addition to it. A word of warning about YML files, the reader for them is pretty darn fragile. If you use tabs or goof up the indenting Bukkit will likely quit working or complain a bunch when started. 
+
+To modify the default world used by Minecraft/Bukkit make the following change/addition to bukkit.yml
+<<code lua>>
+worlds:
+    world:
+        generator: CityWorld
+<</code>>
+
+To add a new world, "parallel" to your default world add this (if there is already a "##worlds:##" section just skip the initial "##worlds:##" line)
+<<code lua>>
+worlds:
+    thecity:
+        generator: CityWorld
+<</code>>
+
+=== About the old WorldEdit script ===
+
+Here is a screenshot and video of the WorldEdit Fab [[http://forum.sk89q.com/threads/fab-a-city-fabulous.556/|script]].
+{{http://dev.bukkit.org/media/images/34/293/2011-07-10_170653.jpg|Fab script}}
+
+[[http://www.youtube.com/watch?v=c79Djkb2-XQ|Youtube Video]]

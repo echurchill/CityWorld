@@ -1,269 +1,127 @@
 package me.daddychurchill.CityWorld;
 
-import java.util.Random;
+import java.util.Arrays;
 
 import org.bukkit.Material;
-import org.bukkit.World;
 
 public class Chunk {
+	public final static int Width = 16;
+	public final static int Height = 128;
+
+	public int X;
+	public int Z;
 	public byte[] blocks;
 		
-	Chunk () {
-		blocks = new byte[32768];
+	Chunk (int chunkX, int chunkZ) {
+		super();
+		X = chunkX;
+		Z = chunkZ;
+		blocks = new byte[Width * Width * Height];
 	}
 	
-	protected void setBlock(int x, int y, int z, byte blockId) {
-		blocks[(x * 16 + z) * 128 + y] = blockId;
+	public void setBlock(int x, int y, int z, byte materialId) {
+		blocks[(x * Width + z) * Height + y] = materialId;
 	}
 	
-	protected byte getBlock(int x, int y, int z) {
-		return blocks[(x * 16 + z) * 128 + y];
+	public byte getBlock(int x, int y, int z) {
+		return blocks[(x * Width + z) * Height + y];
 	}
 	
-	public void setLayer(Random random, int blocky, Material material) {
-		int x, z;
-		byte materialId = (byte) material.getId();
-		
-		for (x = 0; x < 16; x++) {
-			for (z = 0; z < 16; z++) {
-				setBlock(x, blocky, z, materialId);
+	public void setBlocks(int x, int y1, int y2, int z, byte materialId) {
+		int xz = (x * Width + z) * Height;
+		Arrays.fill(blocks, xz + y1, xz + y2, materialId);
+	}
+	
+	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte materialId) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				int xz = (x * Width + z) * Height;
+				Arrays.fill(blocks, xz + y1, xz + y2, materialId);
 			}
 		}
 	}
 	
-	private void setLayer(Random random, int blocky, int height, Material material) {
-		int x, z, y;
-		byte materialId = (byte) material.getId();
-		
-		for (x = 0; x < 16; x++) {
-			for (z = 0; z < 16; z++) {
-				for (y = blocky; y < blocky + height; y++) {
-					setBlock(x, y, z, materialId);
-				}
+	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte firstId, byte secondId, GlassMaker maker) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				int xz = (x * Width + z) * Height;
+				Arrays.fill(blocks, xz + y1, xz + y2, maker.pickMaterial(firstId, secondId, x, z));
 			}
 		}
 	}
+	
+	public void setLayer(int blocky, Material material) {
+		setBlocks(0, Width, blocky, blocky + 1, 0, Width, (byte) material.getId());
+	}
+	
+	public void setLayer(int blocky, int height, Material material) {
+		setBlocks(0, Width, blocky, blocky + height, 0, Width, (byte) material.getId());
+	}
+	
+	public void setLayer(int blocky, int height, int inset, Material material) {
+		setBlocks(inset, Width - inset, blocky, blocky + height, inset, Width - inset, (byte) material.getId());
+	}
+	
+	//TODO Debug
+	public void drawCoordinate(int X, int Z, int blocky, boolean andNorth) {
+		drawNumber(X, 0, 3, blocky + 1);
+		drawNumber(Z, 0, 8, blocky + 1);
+		if (andNorth) {
+			drawNorth(0, 14, blocky + 1);
+		}
+	}
+	
+	//TODO Debug
+	private void drawNorth(int X, int Z, int blocky) {
+		byte id = (byte) Material.GLOWSTONE.getId();
+		this.setBlock(X + 4, blocky, Z - 2, id);
+		
+		this.setBlock(X + 3, blocky, Z - 1, id);
+		this.setBlock(X + 3, blocky, Z - 2, id);
+		this.setBlock(X + 3, blocky, Z - 3, id);
+		
+		this.setBlock(X + 2, blocky, Z    , id);
+		this.setBlock(X + 2, blocky, Z - 1, id);
+		this.setBlock(X + 2, blocky, Z - 2, id);
+		this.setBlock(X + 2, blocky, Z - 3, id);
+		this.setBlock(X + 2, blocky, Z - 4, id);
 
-	final static int chunkwidth = 16;
-	final static int foundationheight = 2;
-	final static int wallheight = 4;
-	final static int wallinset = 1;
-	final static int windowsall = 1;
-	final static int windowsrandom = 0;
-	final static int windowsnone = -1;
-	final static int stairinsetx = 5;
-	final static int stairinsetz = 6;
-	final static int sidewalkwidth = 3;
-	
-	private byte getWallMaterial(Random random, int i, byte materialId, byte windowId, int windowsize) {
-		
-		// assume the wall is the winner
-		byte blockId = materialId;
-		
-		// when we are not talking about the corners, when they are glass they look weird
-		if (i != wallinset && i != chunkwidth - wallinset - 1 && windowsize != windowsnone) {
-			
-			// windows win if it all windows or...
-			if (windowsize == windowsall ||
-				(windowsize != windowsrandom && i % windowsize != 0) ||
-				(windowsize == windowsrandom && random.nextInt(3) == 0)) {
-				blockId = windowId;
-			} 	
-		}
-		
-		return blockId;
+		this.setBlock(X + 1, blocky, Z - 2, id);
+		this.setBlock(X    , blocky, Z - 2, id);
 	}
 	
-	private void setFloorWall(Random random, int blocky, Material material, Material glass, int windowsize) {
-		int x, y, z;
-		byte materialId = (byte) material.getId();
-		byte windowId = (byte) glass.getId();
-		byte blockId;
-		
-		for (x = wallinset; x < chunkwidth - wallinset; x++) {
-			blockId = getWallMaterial(random, x, materialId, windowId, windowsize);
-			
-			// lets do it
-			for (y = blocky; y < blocky + wallheight - 1; y++) {
-				setBlock(x, y, wallinset, blockId);
-				setBlock(x, y, chunkwidth - wallinset - 1, blockId);
+	//TODO Debug
+	private void drawNumber(int I, int X, int Z, int Y) {
+		drawPixel(I, X + 4, Z - 2, Y,    2, 3, 4, 5,    7, 8, 9, 0);
+		drawPixel(I, X + 4, Z - 1, Y,    2, 3,    5, 6, 7, 8, 9, 0);
+		drawPixel(I, X + 4, Z - 0, Y, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
+
+		drawPixel(I, X + 3, Z - 2, Y,          4, 5, 6,    8, 9, 0);
+		drawPixel(I, X + 3, Z - 0, Y, 1, 2, 3, 4,       7, 8, 9, 0);
+
+		drawPixel(I, X + 2, Z - 2, Y,    2, 3, 4, 5, 6,    8, 9, 0);
+		drawPixel(I, X + 2, Z - 1, Y,    2, 3, 4, 5, 6,    8, 9   );
+		drawPixel(I, X + 2, Z - 0, Y, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
+
+		drawPixel(I, X + 1, Z - 2, Y,    2,          6,    8,    0);
+		drawPixel(I, X + 1, Z - 0, Y, 1,    3, 4, 5, 6, 7, 8, 9, 0);
+
+		drawPixel(I, X + 0, Z - 2, Y,    2, 3,    5, 6,    8,    0);
+		drawPixel(I, X + 0, Z - 1, Y,    2, 3,    5, 6,    8,    0);
+		drawPixel(I, X + 0, Z - 0, Y, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
+	}
+	
+	//TODO Debug
+	private void drawPixel(int I, int X, int Z, int Y, int ... vals) {
+		boolean setit = false;
+		for (int v : vals) {
+			if (I == v) {
+				setit = true;
+				break;
 			}
 		}
-			
-		for (z = wallinset; z < chunkwidth - wallinset; z++) {
-			blockId = getWallMaterial(random, z, materialId, windowId, windowsize);
-			
-			// lets do it
-			for (y = blocky; y < blocky + wallheight - 1; y++) {
-				setBlock(wallinset, y, z, blockId);
-				setBlock(chunkwidth - wallinset - 1, y, z, blockId);
-			}
+		if (setit) {
+			setBlock(X, Y, Z, (byte) Material.GLOWSTONE.getId());
 		}
-	}
-	
-	private void setFloorLayer(Random random, int blocky, Material material) {
-		int x, z;
-		byte materialId = (byte) material.getId();
-		
-		for (x = wallinset; x < chunkwidth - wallinset; x++) {
-			for (z = wallinset; z < chunkwidth - wallinset; z++) {
-				setBlock(x, blocky, z, materialId);
-			}
-		}
-	}
-	
-	private void setFloor(Random random, int blocky, Material material, Material layer, Material glass, int windowsize) {
-
-		// the big bits
-		setFloorWall(random, blocky, material, glass, windowsize);
-		setFloorLayer(random, blocky + wallheight - 1, layer);
-		
-		// the stairs
-		byte airId = (byte) Material.AIR.getId();
-		byte stairId = (byte) Material.SMOOTH_STAIRS.getId();
-		int x;
-		for (x = 0; x < wallheight; x++) {
-			setBlock(x + stairinsetx, blocky + wallheight - 1, stairinsetz, airId);
-			setBlock(x + stairinsetx, blocky + wallheight - 1, stairinsetz + 1, airId);
-			
-			setBlock(x + stairinsetx, blocky + x, stairinsetz, stairId);
-			setBlock(x + stairinsetx, blocky + x, stairinsetz + 1, stairId);
-		}
-	}
-	
-	protected int getFloorCount(Random random) {
-		switch (random.nextInt(5)) {
-		case 0:
-			return random.nextInt(4) + 1;
-		case 1:
-		case 2:
-		case 3:
-			return random.nextInt(10) + 5;
-		default:
-			return random.nextInt(5) + 12;
-		}
-	}
-	
-	protected Material getRandomWallMaterial(Random random) {
-		switch (random.nextInt(12)) {
-		case 1: return Material.COBBLESTONE;
-		case 2: return Material.STONE;
-		case 3: return Material.SMOOTH_BRICK;
-		case 4: return Material.CLAY;
-		case 5: return Material.IRON_BLOCK;
-		case 6: return Material.BRICK;
-		case 7: return Material.MOSSY_COBBLESTONE;
-		case 8: return Material.DOUBLE_STEP;
-		case 9: return Material.SANDSTONE;
-		case 10: return Material.WOOD;
-		case 11: return Material.WOOL;
-		default: return Material.SAND;
-		}
-	}
-	
-	protected Material getRandomLayerMaterial(Random random) {
-		switch (random.nextInt(11)) {
-		case 1: return Material.COBBLESTONE;
-		case 2: return Material.STONE;
-		case 3: return Material.SMOOTH_BRICK;
-		case 4: return Material.CLAY;
-		case 5: return Material.IRON_BLOCK;
-		case 6: return Material.BRICK;
-		case 7: return Material.MOSSY_COBBLESTONE;
-		case 8: return Material.DOUBLE_STEP;
-		case 9: return Material.SANDSTONE;
-		case 10: return Material.WOOD;
-		default: return Material.WOOL;
-		}
-	}
-	
-	public void setBuilding(World world, Random random, int blocky) {
-		int floor;
-		int floors = getFloorCount(random);
-		int basementfloors = random.nextInt(3);
-		int windowsize = random.nextInt(5);
-		
-		// let's pick some materials
-		Material foundation = Material.STONE;
-		Material material = getRandomWallMaterial(random);
-		Material layer = getRandomLayerMaterial(random);
-		
-		// some basements, maybe
-		if (basementfloors > 0) {
-			
-			// outer layer
-			setLayer(random, blocky + 1, foundation);
-
-			// the rooms them
-			for (floor = -basementfloors; floor < 0; floor++) {
-				setFloor(random, blocky - Math.abs(floor) * wallheight + foundationheight, material, layer, Material.GLASS, windowsnone);
-			}
-			
-			// bottom most bit
-			setFloorLayer(random, blocky - basementfloors * wallheight - 1 + foundationheight, layer);
-		} else {
-			
-			// if no basement then a foundation
-			setLayer(random, blocky, foundationheight, foundation);
-		}
-		
-		// now the floor itself
-		for (floor = 0; floor < floors; floor++) {
-			setFloor(random, blocky + floor * 4 + foundationheight, material, layer, Material.GLASS, windowsize);
-		}
-	}
-	
-	private void setSidewalkPart(int blocky, int xStart, int zStart, int xSize, int zSize, Material material) {
-		int x, z;
-		byte materialId = (byte) material.getId();
-		
-		for (x = xStart; x < xStart + xSize; x++) {
-			for (z = zStart; z < zStart + zSize; z++) {
-				setBlock(x, blocky, z, materialId);
-			}
-		}
-	}
-
-	public void setSidewalks(Random random, int blocky, Material material, boolean northsouth,
-			boolean eastwest) {
-		
-		// corners
-		setSidewalkPart(blocky, 0, 0, sidewalkwidth, sidewalkwidth, material);
-		setSidewalkPart(blocky, chunkwidth - sidewalkwidth, 0, sidewalkwidth, sidewalkwidth, material);
-		setSidewalkPart(blocky, 0, chunkwidth - sidewalkwidth, sidewalkwidth, sidewalkwidth, material);
-		setSidewalkPart(blocky, chunkwidth - sidewalkwidth, chunkwidth - sidewalkwidth, sidewalkwidth, sidewalkwidth, material);
-		
-		// strait bits
-		if (!northsouth) {
-			setSidewalkPart(blocky, sidewalkwidth, 0, chunkwidth - sidewalkwidth * 2, sidewalkwidth, material);
-			setSidewalkPart(blocky, sidewalkwidth, chunkwidth - sidewalkwidth, chunkwidth - sidewalkwidth * 2, sidewalkwidth, material);
-		}
-		if (!eastwest) {
-			setSidewalkPart(blocky, 0, sidewalkwidth, sidewalkwidth, chunkwidth - sidewalkwidth * 2, material);
-			setSidewalkPart(blocky, chunkwidth - sidewalkwidth, sidewalkwidth, sidewalkwidth, chunkwidth - sidewalkwidth * 2, material);
-		}
-
-		// TODO street lights
-}
-
-	public void setStreet(World world, Random random, int blocky, boolean northsouth, boolean eastwest) {
-		// top layers
-		setLayer(random, blocky, Material.STONE);
-		setSidewalks(random, blocky + 1, Material.STEP, northsouth, eastwest);
-		
-		// TODO traffic lanes
-		// TODO sewers
-		// TODO vaults
-		// TODO plumbing
-	}
-	
-	public void setPark(World world, Random random, int blocky) {
-		// top layers
-		setLayer(random, blocky, Material.STONE);
-		setLayer(random, blocky + 1, Material.GRASS);
-		
-		// TODO trees via world.generateTree(..)
-		// TODO fountain
-		// TODO cistern
 	}
 }
