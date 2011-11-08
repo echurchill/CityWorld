@@ -3,10 +3,15 @@
 
 This effort started life as a [[http://forums.bukkit.org/threads/edit-sec-admn-worldedit-4-6-world-editing-de-griefing-1000.62/|WorldEdit ]] [[http://forum.sk89q.com/threads/fab-a-city-fabulous.556/|script]] that got a little out of hand. After a number of requests I have decided to reboot the effort, this time as a true world generator. 
 
-{{http://dev.bukkit.org/media/images/34/310/2011-09-25_13.00.48.jpg|CityWorld}}
+{{http://dev.bukkit.org/media/images/35/422/2011-11-07_18.02.36.jpg|CityWorld}}
 
 v0.3
-Reworked 
+Added sewers and plumbing
+Added vaults
+Added basements
+Removed stairs (coming back in next release)
+Better road layouts
+Better building layouts
 
 v0.2
 There is still much to do, but it is good beginning. We now have a little bit of color. There are basements and stairs but no doors... doh!. Still much to do... including: parks (real ones not the silly ones I have now), cisterns, neighborhoods, parking structures, sewers, farms and DOORS!
