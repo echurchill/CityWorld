@@ -1,6 +1,6 @@
 /***** CITYWORLD v0.3
 * City world generator for Minecraft/Bukkit
-* Copyright (C) 2011 echurch <http://www.virtualchurchill.com>
+* Copyright (C) 2011 daddychurchill <http://www.virtualchurchill.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,15 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Need to add more stuff here
+v0.3
+Added sewers and plumbing
+Added vaults
+Added basements
+Removed stairs (coming back in next release)
+Better road layouts
+Better building layouts
+
+v0.2
+There is still much to do, but it is good beginning. We now have a little bit of color. There are basements and stairs but no doors... doh!. Still much to do... including: parks (real ones not the silly ones I have now), cisterns, neighborhoods, parking structures, sewers, farms and DOORS!
 
 */
