@@ -1,5 +1,6 @@
 == **CityWorld** ==
 ===== //Version 0.3// =====
+(if the new version of the plugin isn't available in files, just wait a bit while it goes through the approval process)
 
 This effort started life as a [[http://forums.bukkit.org/threads/edit-sec-admn-worldedit-4-6-world-editing-de-griefing-1000.62/|WorldEdit ]] [[http://forum.sk89q.com/threads/fab-a-city-fabulous.556/|script]] that got a little out of hand. After a number of requests I have decided to reboot the effort, this time as a true world generator. 
 
