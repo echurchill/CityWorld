@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
     <jar path="C:/Users/Eddie/Desktop/Minecraft/plugins/CityWorld.jar"/>
-    <options buildIfNeeded="true" compress="true" descriptionLocation="/CityWorld/ToMinecraft.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/CityWorld/ToMinecraft.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
     <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
@@ -10,10 +10,12 @@
             <packagesToUnSeal/>
         </sealing>
     </manifest>
-    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+    <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
         <file path="/CityWorld/.classpath"/>
         <javaElement handleIdentifier="=CityWorld/src"/>
         <file path="/CityWorld/plugin.yml"/>
         <file path="/CityWorld/.project"/>
+        <file path="/CityWorld/cityworld_description.txt"/>
+        <file path="/CityWorld/README.txt"/>
     </selectedElements>
 </jardesc>

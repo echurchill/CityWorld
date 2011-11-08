@@ -1,5 +1,5 @@
-/***** CITYWORLD v1.0
-* City world generator Bukkit
+/***** CITYWORLD v0.3
+* City world generator for Minecraft/Bukkit
 * Copyright (C) 2011 echurch <http://www.virtualchurchill.com>
 *
 * This program is free software: you can redistribute it and/or modify

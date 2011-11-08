@@ -3,6 +3,9 @@ package me.daddychurchill.CityWorld;
 import java.util.Random;
 import java.util.logging.Logger;
 
+import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
+import me.daddychurchill.CityWorld.Support.Chunk;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.generator.ChunkGenerator;
