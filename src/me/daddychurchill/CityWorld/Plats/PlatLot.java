@@ -1,20 +1,19 @@
 package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
-import java.util.logging.Logger;
-
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
-import me.daddychurchill.CityWorld.Support.Chunk;
+import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.Material;
 
 public abstract class PlatLot {
-	//TODO debugging
-	protected Logger log = Logger.getLogger("Minecraft");
-	
 	protected Random rand;
 	protected long connectedkey;
+	
 	protected static byte bedrockId = (byte) Material.BEDROCK.getId();
+	protected static byte lavaId = (byte) Material.LAVA.getId();
+	protected final static int lavaInHellOdds = 15; // how often does lava show up in the underworld 1/n of the time
 	
 	public PlatLot(Random rand) {
 		super();
@@ -24,7 +23,11 @@ public abstract class PlatLot {
 		connectedkey = rand.nextLong();
 	}
 	
-	public abstract void generateChunk(PlatMap platmap, Chunk chunk, int platX, int platZ);
+	public abstract void generateChunk(PlatMap platmap, ByteChunk chunk, int platX, int platZ);
+	
+	public void generateBlocks(PlatMap platmap, RealChunk chunk, int platX, int platZ) {
+		// default one does nothing!
+	}
 	
 	public void makeConnected(Random rand, PlatLot relative) {
 		connectedkey = relative.connectedkey;
@@ -64,7 +67,28 @@ public abstract class PlatLot {
 		return connectedkey == relative.connectedkey;
 	}
 	
-	protected void generateBedrock(Chunk chunk, int uptoY) {
-		chunk.setBlocks(0, Chunk.Width, 0, uptoY, 0, Chunk.Width, bedrockId);
+	protected void generateBedrock(ByteChunk byteChunk, int uptoY) {
+		
+		// bottom of the bottom
+		byteChunk.setLayer(0, bedrockId);
+		
+		// the pillars of the world
+		for (int x = 0; x < ByteChunk.Width; x++) {
+			for (int z = 0; z < ByteChunk.Width; z++) {
+				int x4 = x % 4;
+				int z4 = z % 4;
+				if ((x4 == 0 || x4 == 3) && (z4 == 0 || z4 == 3))
+					byteChunk.setBlocks(x, 1, uptoY - 1, z, bedrockId);
+				else if (rand.nextBoolean()) {
+					if (rand.nextInt(lavaInHellOdds) == 0)
+						byteChunk.setBlock(x, 1, z, lavaId);
+					else
+						byteChunk.setBlock(x, 1, z, bedrockId);
+				}
+			}
+		}
+		
+		// top of the bottom
+		byteChunk.setLayer(uptoY - 1, bedrockId);
 	}
 }

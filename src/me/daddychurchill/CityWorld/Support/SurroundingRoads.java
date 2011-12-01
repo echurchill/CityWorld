@@ -1,15 +1,10 @@
 package me.daddychurchill.CityWorld.Support;
 
-import java.util.logging.Logger;
-
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatRoad;
 
 public class SurroundingRoads {
-
-	// debugging
-	protected static Logger log = Logger.getLogger("Minecraft");
 
 	private boolean[][] roads;
 

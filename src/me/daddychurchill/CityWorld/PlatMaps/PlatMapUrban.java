@@ -16,10 +16,7 @@ public abstract class PlatMapUrban extends PlatMap {
 	
 	public PlatMapUrban(World world, Random random, int platX, int platZ) {
 		super(world, random, platX, platZ);
-		// TODO Auto-generated constructor stub
 
-		//TODO make some roundabouts?
-		//TODO something other than the normal two roads in a cardinal direction
 		//TODO rivers and railroads?
 		
 		// for each cardinal direction see if there is a road there

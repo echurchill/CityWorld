@@ -9,6 +9,6 @@ public abstract class PlatRoad extends PlatLot {
 	public PlatRoad(Random rand) {
 		super(rand);
 		
-		// TODO Auto-generated constructor stub
+		// is there more to life?
 	}
 }

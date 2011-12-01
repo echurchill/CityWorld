@@ -7,6 +7,8 @@ public class CityWorldConfig
 
 	public CityWorldConfig(File configFile)
 	{
+		super();
+		
 		// TODO Auto-generated constructor stub
 	}
 

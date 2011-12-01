@@ -34,7 +34,6 @@ public class PlatMapCity extends PlatMapUrban {
 				if (current == null) {
 
 					// what to build?
-					// TODO parks and other such stuff
 					if (platRand.nextInt(overallParkOdds) == 0)
 						current = new PlatPark(platRand);
 					else
@@ -49,11 +48,6 @@ public class PlatMapCity extends PlatMapUrban {
 					} else if (z > 0 && current.isConnectable(platLots[x][z - 1])) {
 						previous = platLots[x][z - 1];
 					}
-
-					// TODO debug
-					// if (previous != null)
-					// log.info(String.format("PlatMap: Previous = %s",
-					// previous.getClass().getName()));
 
 					// if there was a similar previous one then copy it... maybe
 					if (previous != null

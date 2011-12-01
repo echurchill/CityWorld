@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.logging.Logger;
 
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.Chunk;
+import me.daddychurchill.CityWorld.Support.ByteChunk;
 
 import org.bukkit.World;
 
@@ -17,7 +17,7 @@ public abstract class PlatMap {
 	// Class Constants
 	static final public int Width = 10;
 	static final public int FloorHeight = 4;
-	static final public int StreetLevel = FloorHeight * 5;
+	static final public int StreetLevel = FloorHeight * 6;
 	
 	/*
 	public class Bla {
@@ -71,23 +71,38 @@ public abstract class PlatMap {
 		platLots = new PlatLot[Width][Width];
 	}
 
-	public void generateChunk(Chunk chunk) {
-		// log.info(String.format("GC: %d x %d (%d x %d) is %s",
-		// chunk.X, chunk.Z, chunk.X - X, chunk.Z - Z,
-		// PlatChunks[chunk.X - X][chunk.Z - Z].above.toString()));
+	public void generateChunk(ByteChunk byteChunk) {
 
 		// depending on the platchunk's type render a layer
-		int platX = chunk.X - X;
-		int platZ = chunk.Z - Z;
-		PlatLot current = platLots[platX][platZ];
-		if (current != null) {
+		int platX = byteChunk.X - X;
+		int platZ = byteChunk.Z - Z;
+		PlatLot platlot = platLots[platX][platZ];
+		if (platlot != null) {
 
 			// do what we came here for
-			current.generateChunk(this, chunk, platX, platZ);
+			platlot.generateChunk(this, byteChunk, platX, platZ);
 		}
+	}
 
-		// chunk.drawCoordinate(chunk.X - X, chunk.Z - Z, StreetLevel +
-		// MaximumFloors, chunk.X - X == 0 && chunk.Z - Z == 0);
+	// this function is designed for BlockPopulators...
+	//    calling it else where will likely result in nulls being returned
+	static public PlatLot getPlatLot(World world, Random random, int chunkX, int chunkZ) {
+		PlatLot platlot = null;
+		
+		// try and find the lot handler for this chunk
+		PlatMap platmap = getPlatMap(world, random, chunkX, chunkZ);
+		if (platmap != null) {
+			
+			// calculate the right index
+			int platX = chunkX - platmap.X;
+			int platZ = chunkZ - platmap.Z;
+			
+			// see if there is something there yet
+			platlot = platmap.platLots[platX][platZ];
+		}
+		
+		// return what we got
+		return platlot;
 	}
 
 	// ***********
@@ -114,21 +129,27 @@ public abstract class PlatMap {
 			
 			// figure out the biome for this platmap
 			switch (world.getBiome(platX, platZ)) {
-			case EXTREME_HILLS: // city
-			case SAVANNA: // town
-			case SWAMPLAND: // government
-			case OCEAN: // ocean/lake side 
-			case DESERT: // industrial
-			case PLAINS: // farm land
-			case FOREST: // neighborhood
-			case TUNDRA: // recreation
-			case SEASONAL_FOREST:
-			case SHRUBLAND:
-			case TAIGA:
-			case ICE_DESERT:
-			case RIVER:
-			case RAINFOREST:
-				// for now do this
+			case DESERT:			// industrial zone
+			case EXTREME_HILLS:		// tall city
+			case FOREST:			// neighborhood
+			case FROZEN_OCEAN:		// winter ocean/lake side
+			case FROZEN_RIVER:		// ???
+			case ICE_DESERT:		// stark industrial zone
+			case ICE_MOUNTAINS:		// stark tall city
+			case ICE_PLAINS:		// apartments
+			case MUSHROOM_ISLAND:	// ???
+			case MUSHROOM_SHORE:	// ???
+			case OCEAN:				// ocean/lake side
+			case PLAINS:			// farm land
+			case RAINFOREST:		// ???
+			case RIVER:				// ???
+			case SAVANNA:			// town
+			case SEASONAL_FOREST:	// ???
+			case SHRUBLAND:			// ???
+			case SWAMPLAND:			// government
+			case TAIGA:				// ???
+			case TUNDRA:			// recreation
+ 				// for now do this
 				platmap = new PlatMapCity(world, random, platX, platZ);
 				break;
 			default:
@@ -138,13 +159,10 @@ public abstract class PlatMap {
 				break;
 			}
 			
-//			log.info(String.format("Created %s platmap for %d x %d", platmap.getClass().getName(), platX, platZ));
-			
 			// remember it for quicker look up
 			platmaps.put(platkey, platmap);
-		} //else
-			//log.info(String.format("Returned %s platmap", platmap.getClass().getName()));
-
+		}
+		
 		// finally return the plat
 		return platmap;
 	}

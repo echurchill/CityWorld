@@ -5,11 +5,11 @@ import java.util.Random;
 public class GlassFactoryX extends MaterialFactory {
 
 	public GlassFactoryX(Random rand) {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	public GlassFactoryX(Random rand, SkipStyles style) {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	@Override

@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plats;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
-import me.daddychurchill.CityWorld.Support.Chunk;
+import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.MaterialFactory;
 import me.daddychurchill.CityWorld.Support.GlassFactoryX;
 import me.daddychurchill.CityWorld.Support.GlassFactoryZ;
@@ -20,8 +20,6 @@ public abstract class PlatBuilding extends PlatLot {
 	protected MaterialFactory windowsX;
 	protected MaterialFactory windowsZ;
 	
-	protected Material[] materials;
-	
 	public PlatBuilding(Random rand, int maxHeight, int maxDepth, int overallIdenticalHeightsOdds, int overallSimilarHeightsOdds) {
 		super(rand);
 		
@@ -31,10 +29,6 @@ public abstract class PlatBuilding extends PlatLot {
 		depth = rand.nextInt(maxDepth) + 1;
 		windowsX = new GlassFactoryX(rand);
 		windowsZ = new GlassFactoryZ(rand, windowsX.style);
-	}
-	
-	protected void setMaterials(Material ... data) {
-		materials = data.clone();
 	}
 	
 	static public Material pickGlassMaterial(Random rand) {
@@ -59,11 +53,6 @@ public abstract class PlatBuilding extends PlatLot {
 			if (neighborsHaveIdenticalHeights || rand.nextInt(neighborsHaveSimilarHeightsOdds) != 0) {
 				height = relativebuilding.height;
 				depth = relativebuilding.depth;
-			}
-
-			// copy over the material bits
-			if (relativebuilding.materials != null) {
-				materials = relativebuilding.materials.clone();
 			}
 			
 			// any other bits
@@ -112,89 +101,89 @@ public abstract class PlatBuilding extends PlatLot {
 		return neighborBuildings;
 	}
 	
-	protected void drawCeilings(Chunk chunk, int blocky, int height, int insetNS, int insetEW, Material material, SurroundingFloors heights) {
+	protected void drawCeilings(ByteChunk byteChunk, int blocky, int height, int insetNS, int insetEW, Material material, SurroundingFloors heights) {
 		byte materialId = (byte) material.getId();
 		
 		// center part
-		chunk.setBlocks(insetNS, Chunk.Width - insetNS, blocky, blocky + height, insetEW, Chunk.Width - insetEW, materialId);
+		byteChunk.setBlocks(insetNS, ByteChunk.Width - insetNS, blocky, blocky + height, insetEW, ByteChunk.Width - insetEW, materialId);
 		
 		// only if we are inset
 		if (insetNS > 0 || insetEW > 0) {
 			
 			// cardinal bits
 			if (heights.toSouth())
-				chunk.setBlocks(0, insetNS, blocky, blocky + height, insetEW, Chunk.Width - insetEW, materialId);
+				byteChunk.setBlocks(0, insetNS, blocky, blocky + height, insetEW, ByteChunk.Width - insetEW, materialId);
 			if (heights.toNorth())
-				chunk.setBlocks(Chunk.Width - insetNS, Chunk.Width, blocky, blocky + height, insetEW, Chunk.Width - insetEW, materialId);
+				byteChunk.setBlocks(ByteChunk.Width - insetNS, ByteChunk.Width, blocky, blocky + height, insetEW, ByteChunk.Width - insetEW, materialId);
 			if (heights.toWest())
-				chunk.setBlocks(insetNS, Chunk.Width - insetNS, blocky, blocky + height, 0, insetEW, materialId);
+				byteChunk.setBlocks(insetNS, ByteChunk.Width - insetNS, blocky, blocky + height, 0, insetEW, materialId);
 			if (heights.toEast())
-				chunk.setBlocks(insetNS, Chunk.Width - insetNS, blocky, blocky + height, Chunk.Width - insetEW, Chunk.Width, materialId);
+				byteChunk.setBlocks(insetNS, ByteChunk.Width - insetNS, blocky, blocky + height, ByteChunk.Width - insetEW, ByteChunk.Width, materialId);
 			
 			// corner bits
 			if (heights.toSouthWest())
-				chunk.setBlocks(0, insetNS, blocky, blocky + height, 0, insetEW, materialId);
+				byteChunk.setBlocks(0, insetNS, blocky, blocky + height, 0, insetEW, materialId);
 			if (heights.toSouthEast())
-				chunk.setBlocks(0, insetNS, blocky, blocky + height, Chunk.Width - insetEW, Chunk.Width, materialId);
+				byteChunk.setBlocks(0, insetNS, blocky, blocky + height, ByteChunk.Width - insetEW, ByteChunk.Width, materialId);
 			if (heights.toNorthWest())
-				chunk.setBlocks(Chunk.Width - insetNS, Chunk.Width, blocky, blocky + height, 0, insetEW, materialId);
+				byteChunk.setBlocks(ByteChunk.Width - insetNS, ByteChunk.Width, blocky, blocky + height, 0, insetEW, materialId);
 			if (heights.toNorthEast())
-				chunk.setBlocks(Chunk.Width - insetNS, Chunk.Width, blocky, blocky + height, Chunk.Width - insetEW, Chunk.Width, materialId);
+				byteChunk.setBlocks(ByteChunk.Width - insetNS, ByteChunk.Width, blocky, blocky + height, ByteChunk.Width - insetEW, ByteChunk.Width, materialId);
 		}
 	}
 	
-	protected void drawWalls(Chunk chunk, int y1, int height, int insetNS, int insetEW, Material material, Material glass, SurroundingFloors heights) {
+	protected void drawWalls(ByteChunk byteChunk, int y1, int height, int insetNS, int insetEW, Material material, Material glass, SurroundingFloors heights) {
 		byte materialId = (byte) material.getId();
 		byte glassId = (byte) glass.getId();
 		int y2 = y1 + height;
 		
 		// corner columns
 		if (!heights.toSouthWest())
-			chunk.setBlocks(insetNS, y1, y2, insetEW, materialId);
+			byteChunk.setBlocks(insetNS, y1, y2, insetEW, materialId);
 		if (!heights.toSouthEast())
-			chunk.setBlocks(insetNS, y1, y2, Chunk.Width - insetEW - 1, materialId);
+			byteChunk.setBlocks(insetNS, y1, y2, ByteChunk.Width - insetEW - 1, materialId);
 		if (!heights.toNorthWest())
-			chunk.setBlocks(Chunk.Width - insetNS - 1, y1, y2, insetEW, materialId);
+			byteChunk.setBlocks(ByteChunk.Width - insetNS - 1, y1, y2, insetEW, materialId);
 		if (!heights.toNorthEast())
-			chunk.setBlocks(Chunk.Width - insetNS - 1, y1, y2, Chunk.Width - insetEW - 1, materialId);
+			byteChunk.setBlocks(ByteChunk.Width - insetNS - 1, y1, y2, ByteChunk.Width - insetEW - 1, materialId);
 		
 		// cardinal walls
 		if (!heights.toSouth())
-			chunk.setBlocks(insetNS,  insetNS + 1, y1, y2, insetEW + 1, Chunk.Width - insetEW - 1, materialId, glassId, windowsZ);
+			byteChunk.setBlocks(insetNS,  insetNS + 1, y1, y2, insetEW + 1, ByteChunk.Width - insetEW - 1, materialId, glassId, windowsZ);
 		if (!heights.toNorth())
-			chunk.setBlocks(Chunk.Width - insetNS - 1,  Chunk.Width - insetNS, y1, y2, insetEW + 1, Chunk.Width - insetEW - 1, materialId, glassId, windowsZ);
+			byteChunk.setBlocks(ByteChunk.Width - insetNS - 1,  ByteChunk.Width - insetNS, y1, y2, insetEW + 1, ByteChunk.Width - insetEW - 1, materialId, glassId, windowsZ);
 		if (!heights.toWest())
-			chunk.setBlocks(insetNS + 1, Chunk.Width - insetNS - 1, y1, y2, insetEW, insetEW + 1, materialId, glassId, windowsX);
+			byteChunk.setBlocks(insetNS + 1, ByteChunk.Width - insetNS - 1, y1, y2, insetEW, insetEW + 1, materialId, glassId, windowsX);
 		if (!heights.toEast())
-			chunk.setBlocks(insetNS + 1, Chunk.Width - insetNS - 1, y1, y2, Chunk.Width - insetEW - 1, Chunk.Width - insetEW, materialId, glassId, windowsX);
+			byteChunk.setBlocks(insetNS + 1, ByteChunk.Width - insetNS - 1, y1, y2, ByteChunk.Width - insetEW - 1, ByteChunk.Width - insetEW, materialId, glassId, windowsX);
 		
 		// only if there are insets
 		if (insetNS > 0) {
 			if (heights.toSouth()) {
 				if (!heights.toSouthWest())
-					chunk.setBlocks(0, insetNS, y1, y2, insetEW, insetEW + 1, materialId, glassId, windowsZ);
+					byteChunk.setBlocks(0, insetNS, y1, y2, insetEW, insetEW + 1, materialId, glassId, windowsZ);
 				if (!heights.toSouthEast())
-					chunk.setBlocks(0, insetNS, y1, y2, Chunk.Width - insetEW - 1, Chunk.Width - insetEW, materialId, glassId, windowsZ);
+					byteChunk.setBlocks(0, insetNS, y1, y2, ByteChunk.Width - insetEW - 1, ByteChunk.Width - insetEW, materialId, glassId, windowsZ);
 			}
 			if (heights.toNorth()) {
 				if (!heights.toNorthWest())
-					chunk.setBlocks(Chunk.Width - insetNS, Chunk.Width, y1, y2, insetEW, insetEW + 1, materialId, glassId, windowsZ);
+					byteChunk.setBlocks(ByteChunk.Width - insetNS, ByteChunk.Width, y1, y2, insetEW, insetEW + 1, materialId, glassId, windowsZ);
 				if (!heights.toNorthEast())
-					chunk.setBlocks(Chunk.Width - insetNS, Chunk.Width, y1, y2, Chunk.Width - insetEW - 1, Chunk.Width - insetEW, materialId, glassId, windowsZ);
+					byteChunk.setBlocks(ByteChunk.Width - insetNS, ByteChunk.Width, y1, y2, ByteChunk.Width - insetEW - 1, ByteChunk.Width - insetEW, materialId, glassId, windowsZ);
 			}
 		}
 		if (insetEW > 0) {
 			if (heights.toWest()) {
 				if (!heights.toSouthWest())
-					chunk.setBlocks(insetNS, insetNS + 1, y1, y2, 0, insetEW, materialId, glassId, windowsX);
+					byteChunk.setBlocks(insetNS, insetNS + 1, y1, y2, 0, insetEW, materialId, glassId, windowsX);
 				if (!heights.toNorthWest())
-					chunk.setBlocks(Chunk.Width - insetNS - 1, Chunk.Width - insetNS, y1, y2, 0, insetEW, materialId, glassId, windowsX);
+					byteChunk.setBlocks(ByteChunk.Width - insetNS - 1, ByteChunk.Width - insetNS, y1, y2, 0, insetEW, materialId, glassId, windowsX);
 			}
 			if (heights.toEast()) {
 				if (!heights.toSouthEast())
-					chunk.setBlocks(insetNS, insetNS + 1, y1, y2, Chunk.Width - insetEW, Chunk.Width, materialId, glassId, windowsX);
+					byteChunk.setBlocks(insetNS, insetNS + 1, y1, y2, ByteChunk.Width - insetEW, ByteChunk.Width, materialId, glassId, windowsX);
 				if (!heights.toNorthEast())
-					chunk.setBlocks(Chunk.Width - insetNS - 1, Chunk.Width - insetNS, y1, y2, Chunk.Width - insetEW, Chunk.Width, materialId, glassId, windowsX);
+					byteChunk.setBlocks(ByteChunk.Width - insetNS - 1, ByteChunk.Width - insetNS, y1, y2, ByteChunk.Width - insetEW, ByteChunk.Width, materialId, glassId, windowsX);
 			}
 		}
 	}

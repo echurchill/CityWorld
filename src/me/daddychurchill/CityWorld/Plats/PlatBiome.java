@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plats;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
-import me.daddychurchill.CityWorld.Support.Chunk;
+import me.daddychurchill.CityWorld.Support.ByteChunk;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -14,18 +14,17 @@ public class PlatBiome extends PlatLot {
 	
 	public PlatBiome(Random rand) {
 		super(rand);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, Chunk chunk, int platX, int platZ) {
+	public void generateChunk(PlatMap platmap, ByteChunk byteChunk, int platX, int platZ) {
 		
-		chunk.setLayer(0, PlatMap.StreetLevel + 1, stoneId);
+		byteChunk.setLayer(0, PlatMap.StreetLevel + 1, stoneId);
 		
-		Biome biome = platmap.theWorld.getBiome(chunk.X, chunk.Z);
+		Biome biome = platmap.theWorld.getBiome(byteChunk.X, byteChunk.Z);
 		int tens = biome.ordinal() / 10;
 		int ones = biome.ordinal() % 10;
-		chunk.drawCoordinate(tens, ones, PlatMap.StreetLevel + 1, (platX == 0 && platZ == 0));
+		byteChunk.drawCoordinate(tens, ones, PlatMap.StreetLevel + 1, (platX == 0 && platZ == 0));
 	}
 
 }

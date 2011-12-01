@@ -1,4 +1,4 @@
-/***** CITYWORLD v0.3
+/***** CITYWORLD v0.4
 * City world generator for Minecraft/Bukkit
 * Copyright (C) 2011 daddychurchill <http://www.virtualchurchill.com>
 *
@@ -14,6 +14,20 @@
 *
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+Todo
+Park benches
+Figure out why trees are missing from parks sometimes
+
+v0.4 (preliminary)
+Added cisterns and most of the tops of parks
+Added the command "CityWorld", which will teleport you to (and create) "CityWorld"
+Added stairs back in (they might be missing in some buildings but that is pretty rare)
+Added doors (like stairs they might be missing in some buildings)
+Manholes are more functional (ladders and doors are down there now)
+Roundabouts now have fountains, "ART!" or a bit of both
+Got BlockPopulators working
+Cleaned up the code considerably
 
 v0.3
 Added sewers and plumbing

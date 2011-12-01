@@ -40,6 +40,19 @@ public class SurroundingFloors {
 //		return neighbors;
 //	}
 	
+	public int getNeighborCount() {
+		int result = 0;
+		if (floors[0][1] > 0)
+			result++;
+		if (floors[1][0] > 0)
+			result++;
+		if (floors[2][1] > 0)
+			result++;
+		if (floors[1][2] > 0)
+			result++;
+		return result;
+	}
+	
 	public boolean toNorthWest() {
 		return floors[2][0] > 0 && toNorth() && toWest();
 	}
