@@ -22,44 +22,33 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	protected Material stairMaterial;
 	protected Material stairWallMaterial;
 	protected Material doorMaterial;
+	private boolean hasStairsBelow;
+	private boolean hasStairsAbove;
 	
 	//TODO columns height
 	//TODO size reduction both, NS, EW, N/S/E/W only
 	//TODO girders unfinished buildings (all or starting at some floor) ???
 	//TODO rounded building corners (if connected N and E and have a quarter arc of a building)
-	/*
-	 * 
-		void drawCircle(int r)
-		{
-			int x=0, y=r, d = 1-r;
-			circlePoints(x, y); //This will the point on the circle
-			while(x < y) {
-				if (d < 0) {
-					d = d+2*x+3;
-					x = x+1;
-				} else {
-					d = d+2*(x-y)+5;
-					x = x+1;
-					y = y-1;
-				}
-				circlePoints(x,y); //This will the point on the circle
-			}
-		}
-	 */
 
 	protected int insetWallNS;
 	protected int insetWallEW;
 	protected int insetCeilingNS;
 	protected int insetCeilingEW;
 
-	public PlatOfficeBuilding(Random rand, int maxHeight, int maxDepth, int overallIdenticalHeightsOdds, int overallSimilarHeightsOdds) {
-		super(rand, maxHeight, maxDepth, overallIdenticalHeightsOdds, overallSimilarHeightsOdds);
+	public PlatOfficeBuilding(Random rand, int maxHeight, int maxDepth, 
+			int overallIdenticalHeightsOdds, 
+			int overallSimilarHeightsOdds,
+			int overallSimilarRoundedOdds) {
+		super(rand, maxHeight, maxDepth, overallIdenticalHeightsOdds, 
+				overallSimilarHeightsOdds, overallSimilarRoundedOdds);
 
 		// our bits
-		insetWallNS = rand.nextInt(2) + 1;
-		insetWallEW = rand.nextInt(2) + 1;
+		insetWallNS = rand.nextInt(2) + 2;
+		insetWallEW = rand.nextInt(2) + 2;
 		insetCeilingNS = insetWallNS + rand.nextInt(3) - 1;
 		insetCeilingEW = insetWallEW + rand.nextInt(3) - 1;
+		hasStairsBelow = false;
+		hasStairsAbove = false;
 		
 		// what is it made of?
 		wallMaterial = pickWallMaterial(rand);
@@ -109,6 +98,8 @@ public class PlatOfficeBuilding extends PlatBuilding {
 
 	@Override
 	public void generateChunk(PlatMap platmap, ByteChunk chunk, int platX, int platZ) {
+		double throwOfDice = rand.nextDouble();
+		boolean allowRounded = rounded && insetWallNS == insetWallEW && insetCeilingNS == insetCeilingEW;
 		
 		// starting with the bottom
 		int lowestY = PlatMap.StreetLevel - FloorHeight * (depth - 1) - 3;
@@ -121,14 +112,15 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
 		for (int floor = 0; floor < depth; floor++) {
 			drawWalls(chunk, PlatMap.StreetLevel - FloorHeight * floor - 2, FloorHeight - 1, 
-					0, 0,
-					wallMaterial, wallMaterial, 
-					neighborBasements);
+					0, 0, false,
+					wallMaterial, wallMaterial, neighborBasements);
 			drawCeilings(chunk, PlatMap.StreetLevel - FloorHeight * floor - 2 + FloorHeight - 1, 1, 
-					0, 0, 
-					ceilingMaterial,
-					neighborBasements);
-
+					0, 0, false,
+					ceilingMaterial, neighborBasements);
+			
+			// see if stairs are needed
+			hasStairsBelow = hasStairsBelow || stairsHere(neighborBasements, throwOfDice);
+			
 			// one down, more to go
 			neighborBasements.decrement();
 		}
@@ -137,14 +129,15 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);
 		for (int floor = 0; floor < height; floor++) {
 			drawWalls(chunk, PlatMap.StreetLevel + FloorHeight * floor + 2, FloorHeight - 1, 
-					insetWallNS, insetWallEW,
-					wallMaterial, glassMaterial, 
-					neighborFloors);
+					insetWallNS, insetWallEW, allowRounded,
+					wallMaterial, glassMaterial, neighborFloors);
 			drawCeilings(chunk, PlatMap.StreetLevel + FloorHeight * floor + 2 + FloorHeight - 1, 1, 
-					insetCeilingNS, insetCeilingEW, 
-					ceilingMaterial,
-					neighborFloors);
+					insetCeilingNS, insetCeilingEW, allowRounded, 
+					ceilingMaterial, neighborFloors);
 
+			// see if stairs are needed
+			hasStairsAbove = hasStairsAbove || stairsHere(neighborFloors, throwOfDice);
+			
 			// one down, more to go
 			neighborFloors.decrement();
 		}
@@ -152,58 +145,50 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	
 	@Override
 	public void generateBlocks(PlatMap platmap, RealChunk chunk, int platX, int platZ) {
-		//int lowestY = PlatMap.StreetLevel - FloorHeight * (depth - 1) - 3;
-		double throwOfDice = rand.nextDouble();
-		
 		// check out the neighbors
-		SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
+		//SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);
 		
-		// if there is going to be stairs here, lets place some matching doors
-		if (stairsHere(neighborFloors, throwOfDice)) {
-			drawDoors(chunk, insetWallNS, RealChunk.Width - insetWallNS - 1, 
-					  insetWallEW, RealChunk.Width - insetWallEW - 1,
-					  PlatMap.StreetLevel + 2,
-					  !neighborFloors.toSouth(), !neighborFloors.toNorth(), 
-					  !neighborFloors.toWest(), !neighborFloors.toEast());
-		}
+		// check for rounding errors
+		boolean allowRounded = rounded && insetWallNS == insetWallEW && insetCeilingNS == insetCeilingEW;
+		boolean isRounded = allowRounded && neighborFloors.getNeighborCount() == 2;
 		
-		// work on the basement stairs first
-		boolean lastFloorHadStairs = false;
-		for (int floor = 0; floor < depth; floor++) {
-			
-			// place the stairs and such
-			if (stairsHere(neighborBasements, throwOfDice)) {
-				lastFloorHadStairs = true;
-				drawStairs(chunk, PlatMap.StreetLevel - FloorHeight * floor - 2);
-				
-				// plain walls please
-				drawStairsWalls(chunk, PlatMap.StreetLevel - FloorHeight * floor - 2, wallMaterial, false, floor == 0);
-			
-			// fix up the isolate stairs that stop before continuing up
-			} else if (lastFloorHadStairs) {
-				lastFloorHadStairs = false;
-				drawStairsWalls(chunk, PlatMap.StreetLevel - FloorHeight * floor - 2, wallMaterial, true, false);
+		// stairs when not rounded
+		if (!isRounded) {
+		
+			// if there is going to be stairs here, lets place some matching doors
+			if (hasStairsAbove) {
+				drawDoors(chunk, insetWallNS, RealChunk.Width - insetWallNS - 1, 
+						  insetWallEW, RealChunk.Width - insetWallEW - 1,
+						  PlatMap.StreetLevel + 2,
+						  !neighborFloors.toSouth(), !neighborFloors.toNorth(), 
+						  !neighborFloors.toWest(), !neighborFloors.toEast());
 			}
 			
-			// one down, more to go
-			neighborBasements.decrement();
-		}
-		
-		// now the above ground floors
-		for (int floor = 0; floor < height; floor++) {
-			
-			// more stairs and such
-			if (stairsHere(neighborFloors, throwOfDice)) {
-				if (floor < height - 1)
-					drawStairs(chunk, PlatMap.StreetLevel + FloorHeight * floor + 2);
-				
-				// fancy walls... maybe
-				drawStairsWalls(chunk, PlatMap.StreetLevel + FloorHeight * floor + 2, stairWallMaterial, floor == height - 1, false);
+			// work on the basement stairs first
+			if (hasStairsBelow) {
+				for (int floor = 0; floor < depth; floor++) {
+					
+					// place the stairs and such
+					drawStairs(chunk, PlatMap.StreetLevel - FloorHeight * floor - 2);
+						
+					// plain walls please
+					drawStairsWalls(chunk, PlatMap.StreetLevel - FloorHeight * floor - 2, wallMaterial, false, floor == depth - 1);
+				}
 			}
-				
-			// one down, more to go
-			neighborFloors.decrement();
+			
+			// now the above ground floors
+			if (hasStairsAbove) {
+				for (int floor = 0; floor < height; floor++) {
+					
+					// more stairs and such
+					if (floor < height - 1)
+						drawStairs(chunk, PlatMap.StreetLevel + FloorHeight * floor + 2);
+					
+					// fancy walls... maybe
+					drawStairsWalls(chunk, PlatMap.StreetLevel + FloorHeight * floor + 2, stairWallMaterial, floor == height - 1, false);
+				}
+			}
 		}
 	}
 	
@@ -248,9 +233,9 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		chunk.setBlocks(x, x + FloorHeight, y, y + FloorHeight - 1, z, z + 1, material);
 		chunk.setBlocks(x, x + FloorHeight, y, y + FloorHeight - 1, z + 3, z + 4, material);
 		if (drawStartcap)
-			chunk.setBlocks(x, x + 1, y, y + FloorHeight - 1, z + 1, z + 3, material);
+			chunk.setBlocks(x - 1, x, y, y + FloorHeight - 1, z, z + 4, material);
 		if (drawEndcap)
-			chunk.setBlocks(x + FloorHeight - 1, x + FloorHeight, y, y + FloorHeight - 1, z + 1, z + 3, material);
+			chunk.setBlocks(x + FloorHeight, x + FloorHeight + 1, y, y + FloorHeight - 1, z, z + 4, material);
 	}
 
 	static protected Material pickWallMaterial(Random rand) {

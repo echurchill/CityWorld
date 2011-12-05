@@ -31,6 +31,10 @@ public class PlatPark extends PlatLot {
 	
 	protected final static Material ledgeMaterial = Material.IRON_BLOCK;
 	
+	//TODO NW/SE quarter partial circle sidewalks
+	//TODO pond inside of circle sidewalks instead of tree
+	//TODO park benches
+	
 	private boolean circleSidewalk;
 	
 	public PlatPark(Random rand) {
@@ -50,7 +54,8 @@ public class PlatPark extends PlatLot {
 
 	@Override
 	public void generateChunk(PlatMap platmap, ByteChunk chunk, int platX, int platZ) {
-
+		generateBedrock(chunk, PlatMap.StreetLevel + 1);
+		
 		// starting with the bottom
 		int lowestY = PlatMap.StreetLevel - cisternDepth + 1;
 		int highestY = PlatMap.StreetLevel - groundDepth;

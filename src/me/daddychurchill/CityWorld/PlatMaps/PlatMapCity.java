@@ -15,10 +15,11 @@ public class PlatMapCity extends PlatMapUrban {
 	public int floorsMaximumBelow;
 	
 	// Class Odds
-	static final public int overallParkOdds = 6; // parks show up 1/n of the time
+	static final public int overallParkOdds = 4; //5; // parks show up 1/n of the time
 	static final public int overallIsolatedBuildingOdds = 3; // isolated buildings 1/n of the time
 	static final public int overallIdenticalHeightsOdds = 2; // similar height 1/n of the time
 	static final public int overallSimilarHeightsOdds = 2; // identical height 1/n of the time
+	static final public int overallSimilarRoundedOdds = 1; // like rounding 1/n of the time
 
 	public PlatMapCity(World world, Random random, int platX, int platZ) {
 		super(world, random, platX, platZ);
@@ -39,7 +40,9 @@ public class PlatMapCity extends PlatMapUrban {
 					else
 						current = new PlatOfficeBuilding(platRand,
 								floorsMaximumAbove, floorsMaximumBelow, 
-								overallIdenticalHeightsOdds, overallSimilarHeightsOdds);
+								overallIdenticalHeightsOdds, 
+								overallSimilarHeightsOdds,
+								overallSimilarRoundedOdds);
 
 					// see if the previous chunk is the same type
 					PlatLot previous = null;

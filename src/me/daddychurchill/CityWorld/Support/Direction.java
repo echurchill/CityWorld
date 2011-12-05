@@ -1,6 +1,14 @@
 package me.daddychurchill.CityWorld.Support;
 
 public class Direction {
+	public enum Cardinal {
+		NORTH, SOUTH, WEST, EAST
+	};
+
+	public enum Ordinal {
+		NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEAST
+	};
+
 	public enum Stair {
 		NORTH, SOUTH, EAST, WEST;
 		
