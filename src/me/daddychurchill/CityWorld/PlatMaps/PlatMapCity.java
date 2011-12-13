@@ -5,6 +5,7 @@ import java.util.Random;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatOfficeBuilding;
 import me.daddychurchill.CityWorld.Plats.PlatPark;
+import me.daddychurchill.CityWorld.Plats.PlatUnfinishedBuilding;
 
 import org.bukkit.World;
 
@@ -25,7 +26,7 @@ public class PlatMapCity extends PlatMapUrban {
 		super(world, random, platX, platZ);
 
 		// calculate the extremes for this plat
-		floorsMaximumAbove = 3 + platRand.nextInt(3) * 4;
+		floorsMaximumAbove = 3 + platRand.nextInt(4) * 4;
 		floorsMaximumBelow = 1 + platRand.nextInt(4);
 
 		// backfill with buildings and parks
@@ -38,11 +39,23 @@ public class PlatMapCity extends PlatMapUrban {
 					if (platRand.nextInt(overallParkOdds) == 0)
 						current = new PlatPark(platRand);
 					else
+//						current = new PlatUnfinishedBuilding(platRand,
 						current = new PlatOfficeBuilding(platRand,
 								floorsMaximumAbove, floorsMaximumBelow, 
 								overallIdenticalHeightsOdds, 
 								overallSimilarHeightsOdds,
 								overallSimilarRoundedOdds);
+					
+					/* for each plot
+					 *   randomly pick a plattype
+					 *   see if the "previous chunk" is the same type
+					 *     if so make the new plattype connected to the previous type
+					 *   if the new plot is shorter than the previous plot or
+					 *   if the new plot is shallower than the previous slot
+					 *     mark the previous plot to have stairs
+					 *   if plot does not have neighbors yet
+					 *     mark the plot to have stairs
+					 */
 
 					// see if the previous chunk is the same type
 					PlatLot previous = null;
@@ -51,6 +64,8 @@ public class PlatMapCity extends PlatMapUrban {
 					} else if (z > 0 && current.isConnectable(platLots[x][z - 1])) {
 						previous = platLots[x][z - 1];
 					}
+					
+					//TODO note the running size of the connected building
 
 					// if there was a similar previous one then copy it... maybe
 					if (previous != null
@@ -63,5 +78,8 @@ public class PlatMapCity extends PlatMapUrban {
 				}
 			}
 		}
+		
+		//TODO now go through all of the lots and for each connected one make sure there is 
+		//     one vertical access point (stairs, ladders, etc.)
 	}
 }

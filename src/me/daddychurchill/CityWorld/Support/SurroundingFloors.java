@@ -53,6 +53,27 @@ public class SurroundingFloors {
 		return result;
 	}
 	
+	public boolean isRoundable() {
+		if (toSouth()) {
+			if (toWest()) {
+				return !toNorth() && !toEast() && floors[0][1] == floors[1][0];
+			} else if (toEast()) {
+				return !toNorth() && floors[0][1] == floors[1][2];
+			}
+		} else if (toNorth()) {
+			if (toWest()) {
+				return !toEast() && floors[2][1] == floors[1][0];
+			} else if (toEast()) {
+				return floors[2][1] == floors[1][2];
+			}
+		}
+		return false;
+//		return  (toSouth() && toWest() && !toNorth() && !toEast() && South# == West#) ||
+//				(toSouth() && toEast() && !toNorth() && !toWest() && South# == East#) ||
+//				(toNorth() && toWest() && !toSouth() && !toEast() && North# == West#) ||
+//				(toNorth() && toEast() && !toSouth() && !toWest() && North# == East#);
+	}
+	
 	public boolean toNorthWest() {
 		return floors[2][0] > 0 && toNorth() && toWest();
 	}
