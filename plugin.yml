@@ -1,6 +1,6 @@
 name: CityWorld
 main: me.daddychurchill.CityWorld.CityWorld
-version: 0.52
+version: 0.53
 load: startup
 author: DaddyChurchill
 commands:

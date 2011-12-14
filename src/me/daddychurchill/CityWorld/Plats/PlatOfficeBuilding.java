@@ -4,6 +4,7 @@ import java.util.Random;
 
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.Direction.StairWell;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
 
@@ -134,19 +135,15 @@ public class PlatOfficeBuilding extends PlatBuilding {
 			drawCeilings(chunk, floorAt + FloorHeight - 1, 1, 0, 0, false,
 					ceilingMaterial, neighborBasements);
 			
-			// pillars 
-			byte wallMaterialId = (byte) wallMaterial.getId();
-			int ceilingAt = floorAt + FloorHeight - 1;
-			chunk.setBlocks(3, 5, floorAt, ceilingAt, 3, 5, wallMaterialId);
-			chunk.setBlocks(3, 5, floorAt, ceilingAt, 11, 13, wallMaterialId);
-			chunk.setBlocks(11, 13, floorAt, ceilingAt, 3, 5, wallMaterialId);
-			chunk.setBlocks(11, 13, floorAt, ceilingAt, 11, 13, wallMaterialId);
-			
 			// one down, more to go
 			neighborBasements.decrement();
 		}
 
-		boolean allowRounded = rounded && insetWallNS == insetWallEW && insetCeilingNS == insetCeilingEW;
+		// is rounding allowed?
+		boolean allowRounded = rounded && 
+				insetWallNS == insetWallEW && insetCeilingNS == insetCeilingEW;
+		
+		// insetting the inset
 		int localInsetWallNS = insetWallNS;
 		int localInsetWallEW = insetWallEW;
 		int localInsetCeilingNS = insetCeilingNS;
@@ -186,9 +183,11 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		//SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);
 		
-		//TODO get rid of PlatBuilding.enableRounding once rounding works
-		boolean allowRounded = rounded && insetWallNS == insetWallEW && insetCeilingNS == insetCeilingEW;
-		allowRounded = allowRounded && neighborFloors.isRoundable();
+		// is rounding allowed and where are the stairs
+		boolean allowRounded = rounded && 
+				insetWallNS == insetWallEW && insetCeilingNS == insetCeilingEW && 
+				neighborFloors.isRoundable();
+		StairWell stairLocation = getStairWellLocation(allowRounded, neighborFloors);
 		
 		// bottom floor? if there is going to be stairs here, lets place some matching doors
 		if (allowRounded) {
@@ -203,22 +202,31 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		}
 		
 		// work on the basement stairs first
-		if (needStairsDown) {
-			for (int floor = 0; floor < depth; floor++) {
-				int y = PlatMap.StreetLevel - FloorHeight * floor - 2;
+		for (int floor = 0; floor < depth; floor++) {
+			int y = PlatMap.StreetLevel - FloorHeight * floor - 2;
+			
+			// stairs?
+			if (needStairsDown) {
 				
 				// top is special... but only if there are no stairs up
 				if (floor == 0 && !needStairsUp) {
-					drawStairsWalls(chunk, y, FloorHeight, stairWallMaterial, true, false);
+					drawStairsWalls(chunk, y, FloorHeight, insetWallNS, insetWallEW, stairLocation, stairWallMaterial, true, false);
 				
 				// all the rest of those lovely stairs
 				} else {
 					// place the stairs and such
-					drawStairs(chunk, y, FloorHeight, stairMaterial);
+					drawStairs(chunk, y, FloorHeight, insetWallNS, insetWallEW, stairLocation, stairMaterial);
 						
 					// plain walls please
-					drawStairsWalls(chunk, y, FloorHeight, wallMaterial, false, floor == depth - 1);
+					drawStairsWalls(chunk, y, FloorHeight, insetWallNS, insetWallEW, stairLocation, wallMaterial, false, floor == depth - 1);
+
+					// pillars if no stairs here
+					drawOtherPillars(chunk, y, FloorHeight, stairLocation, wallMaterial);
 				}
+			
+			// if no stairs then
+			} else {
+				drawOtherPillars(chunk, y, FloorHeight, StairWell.CENTER, wallMaterial);
 			}
 		}
 		
@@ -229,10 +237,10 @@ public class PlatOfficeBuilding extends PlatBuilding {
 				
 				// more stairs and such
 				if (floor < height - 1)
-					drawStairs(chunk, y, FloorHeight, stairMaterial);
+					drawStairs(chunk, y, FloorHeight, insetWallNS, insetWallEW, stairLocation, stairMaterial);
 				
 				// fancy walls... maybe
-				drawStairsWalls(chunk, y, FloorHeight, stairWallMaterial, floor == height - 1, false);
+				drawStairsWalls(chunk, y, FloorHeight, insetWallNS, insetWallEW, stairLocation, stairWallMaterial, floor == height - 1, false);
 			}
 		}
 	}

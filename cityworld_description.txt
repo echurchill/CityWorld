@@ -6,6 +6,14 @@ This effort started life as a [[http://forums.bukkit.org/threads/edit-sec-admn-w
 
 {{http://dev.bukkit.org/media/images/35/422/2011-11-07_18.02.36.jpg|CityWorld}}
 
+Todo
+Park benches and other furniture
+Really get rounded buildings to work... darnit
+
+v0.53
+Stairs and rounded buildings are happy again
+Still working on rounded building problems (doors, overhangs and missing blocks due to differences in insets
+
 v0.52
 Rounded buildings are back but I still need to get doors and stairs working with them better
 Doors and stairs now position themselves better

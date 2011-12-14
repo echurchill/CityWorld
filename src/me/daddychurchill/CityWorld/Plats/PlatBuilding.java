@@ -5,6 +5,7 @@ import java.util.Random;
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
+import me.daddychurchill.CityWorld.Support.Direction.StairWell;
 import me.daddychurchill.CityWorld.Support.MaterialFactory;
 import me.daddychurchill.CityWorld.Support.GlassFactoryX;
 import me.daddychurchill.CityWorld.Support.GlassFactoryZ;
@@ -136,7 +137,7 @@ public abstract class PlatBuilding extends PlatLot {
 		boolean stillNeedCeiling = true;
 		
 		// rounded and square inset and there are exactly two neighbors?
-		if (allowRounded && rounded && insetNS == insetEW && heights.getNeighborCount() == 2) {
+		if (allowRounded && rounded) { // && insetNS == insetEW && heights.getNeighborCount() == 2
 			int innerCorner = (ByteChunk.Width - insetNS * 2) + insetNS; // iiWwwwwwWii
 			if (heights.toSouth()) {
 				if (heights.toWest()) {
@@ -208,7 +209,7 @@ public abstract class PlatBuilding extends PlatLot {
 		boolean stillNeedWalls = true;
 		
 		// rounded and square inset and there are exactly two neighbors?
-		if (allowRounded && rounded && insetNS == insetEW && heights.getNeighborCount() == 2) {
+		if (allowRounded && rounded) { //TODO && insetNS == insetEW && heights.getNeighborCount() == 2
 			glassId = (byte) Material.GLASS.getId();
 			if (heights.toSouth()) {
 				if (heights.toWest()) {
@@ -297,11 +298,11 @@ public abstract class PlatBuilding extends PlatLot {
 		chunk.setWoodenDoor(x2, y1, z2, direction);
 	}
 	
-	//TODO add doors that support rounded corners (ie. SW allows for doors at the NW and SE corners)
+	//TODO add doors that support rounded corners (i.e. SW allows for doors at the NW and SE corners)
 	
 	protected void drawCenteredDoors(RealChunk chunk, int x1, int x2, int z1, int z2, int y1, int floorHeight,
-			boolean doorToSouth, boolean doorToNorth,
-			boolean doorToWest, boolean doorToEast, Material wallMaterial) {
+			boolean doorToSouth, boolean doorToNorth, boolean doorToWest, boolean doorToEast, 
+			Material wallMaterial) {
 		int center = RealChunk.Width / 2;
 		
 		//TODO Need to assure that there is at least one door... but how is the question... humm?
@@ -324,31 +325,87 @@ public abstract class PlatBuilding extends PlatLot {
 		return (throwOfDice < 1.0 - ((double) neighbors.getNeighborCount() / 4.0));
 	}
 	
-	//TODO add stairs that support rounded corners (ie. SW puts stairs in the NE corner)
-	
-	protected void drawStairs(RealChunk chunk, int y, int floorHeight, Material stairMaterial) {
-		int x = (RealChunk.Width - floorHeight) / 2;
-		int z = (RealChunk.Width - 4) / 2; // room for a two walls and two wide stairs
-		for (int i = 0; i < floorHeight; i++) {
-			chunk.setBlock(x + i, y + floorHeight - 1, z + 1, Material.AIR);
-			chunk.setBlock(x + i, y + floorHeight - 1, z + 2, Material.AIR);
-			chunk.setBlock(x + i, y + i, z + 1, stairMaterial);
-			chunk.setBlock(x + i, y + i, z + 2, stairMaterial);
+	class StairAt {
+		public int X = 0;
+		public int Z = 0;
+		public StairAt(int floorHeight, int insetNS, int insetEW, StairWell where) {
+			switch (where) {
+			case CENTER:
+				X = (RealChunk.Width - floorHeight) / 2;
+				Z = (RealChunk.Width - 4) / 2;
+				break;
+			case SOUTHWEST:
+				X = insetNS;
+				Z = insetEW;
+				break;
+			case SOUTHEAST:
+				X = insetNS;
+				Z = RealChunk.Width - 4 - insetEW;
+				break;
+			case NORTHWEST:
+				X = RealChunk.Width - floorHeight - insetNS;
+				Z = insetEW;
+				break;
+			case NORTHEAST:
+				X = RealChunk.Width - floorHeight - insetNS;
+				Z = RealChunk.Width - 4 - insetEW;
+				break;
+			}
 		}
 	}
 
-	//TODO add similar rounded corner support for stairwalls
+	public StairWell getStairWellLocation(boolean allowRounded, SurroundingFloors heights) {
+		if (allowRounded && rounded) { //TODO && insetNS == insetEW && heights.getNeighborCount() == 2
+			if (heights.toSouth()) {
+				if (heights.toWest()) {
+					return StairWell.SOUTHWEST;
+				} else if (heights.toEast()) {
+					return StairWell.SOUTHEAST;
+				}
+			} else if (heights.toNorth()) {
+				if (heights.toWest()) {
+					return StairWell.NORTHWEST;
+				} else if (heights.toEast()) {
+					return StairWell.NORTHEAST;
+				}
+			}
+		}
+		return StairWell.CENTER;
+	}
 	
-	protected void drawStairsWalls(RealChunk chunk, int y, int floorHeight,
-			Material wallMaterial, boolean drawStartcap, boolean drawEndcap) {
-		int x = (RealChunk.Width - floorHeight) / 2;
-		int z = (RealChunk.Width - 4) / 2; // room for a two walls and two wide stairs
-		chunk.setBlocks(x, x + floorHeight, y, y + floorHeight - 1, z, z + 1, wallMaterial);
-		chunk.setBlocks(x, x + floorHeight, y, y + floorHeight - 1, z + 3, z + 4, wallMaterial);
-		if (drawStartcap)
-			chunk.setBlocks(x - 1, x, y, y + floorHeight - 1, z, z + 4, wallMaterial);
-		if (drawEndcap)
-			chunk.setBlocks(x + floorHeight, x + floorHeight + 1, y, y + floorHeight - 1, z, z + 4, wallMaterial);
+	protected void drawStairs(RealChunk chunk, int y, int floorHeight, 
+			int insetNS, int insetEW, StairWell where, Material stairMaterial) {
+		StairAt at = new StairAt(floorHeight, insetNS, insetEW, where);
+		for (int i = 0; i < floorHeight; i++) {
+			chunk.setBlock(at.X + i, y + floorHeight - 1, at.Z + 1, Material.AIR);
+			chunk.setBlock(at.X + i, y + floorHeight - 1, at.Z + 2, Material.AIR);
+			chunk.setBlock(at.X + i, y + i, at.Z + 1, stairMaterial);
+			chunk.setBlock(at.X + i, y + i, at.Z + 2, stairMaterial);
+		}
 	}
 
+	protected void drawStairsWalls(RealChunk chunk, int y, int floorHeight, 
+			int insetNS, int insetEW, StairWell where, 
+			Material wallMaterial, boolean drawStartcap, boolean drawEndcap) {
+		StairAt at = new StairAt(floorHeight, insetNS, insetEW, where);
+		chunk.setBlocks(at.X, at.X + floorHeight, y, y + floorHeight - 1, at.Z, at.Z + 1, wallMaterial);
+		chunk.setBlocks(at.X, at.X + floorHeight, y, y + floorHeight - 1, at.Z + 3, at.Z + 4, wallMaterial);
+		if (drawStartcap)
+			chunk.setBlocks(at.X - 1, at.X, y, y + floorHeight - 1, at.Z, at.Z + 4, wallMaterial);
+		if (drawEndcap)
+			chunk.setBlocks(at.X + floorHeight, at.X + floorHeight + 1, y, y + floorHeight - 1, at.Z, at.Z + 4, wallMaterial);
+	};
+
+	protected void drawOtherPillars(RealChunk chunk, int y1, int floorHeight,
+			StairWell where, Material wallMaterial) {
+		int y2 = y1 + floorHeight - 1;
+		if (where != StairWell.SOUTHWEST)
+			chunk.setBlocks(3, 5, y1, y2 , 3, 5, wallMaterial);
+		if (where != StairWell.SOUTHEAST)
+			chunk.setBlocks(3, 5, y1, y2, 11, 13, wallMaterial);
+		if (where != StairWell.NORTHWEST)
+			chunk.setBlocks(11, 13, y1, y2, 3, 5, wallMaterial);
+		if (where != StairWell.NORTHEAST)
+			chunk.setBlocks(11, 13, y1, y2, 11, 13, wallMaterial);
+	}
 }

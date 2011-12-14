@@ -1,4 +1,4 @@
-/***** CITYWORLD v0.52
+/***** CITYWORLD v0.53
 * City world generator for Minecraft/Bukkit
 * Copyright (C) 2011 daddychurchill <http://www.virtualchurchill.com>
 *
@@ -18,6 +18,10 @@
 Todo
 Park benches and other furniture
 Really get rounded buildings to work... darnit
+
+v0.53
+Stairs and rounded buildings are happy again
+Still working on rounded building problems (doors, overhangs and missing blocks due to differences in insets
 
 v0.52
 Rounded buildings are back but I still need to get doors and stairs working with them better

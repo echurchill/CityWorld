@@ -8,6 +8,7 @@ import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
+import me.daddychurchill.CityWorld.Support.Direction.StairWell;
 
 public class PlatUnfinishedBuilding extends PlatBuilding {
 
@@ -116,10 +117,10 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 			for (int floor = 0; floor < depth; floor++) {
 				
 				// place the stairs and such
-				drawStairs(chunk, PlatMap.StreetLevel - FloorHeight * floor - 2, FloorHeight, stairMaterial);
+				drawStairs(chunk, PlatMap.StreetLevel - FloorHeight * floor - 2, FloorHeight, 0, 0, StairWell.CENTER, stairMaterial);
 					
 				// plain walls please
-				drawStairsWalls(chunk, PlatMap.StreetLevel - FloorHeight * floor - 2, FloorHeight, wallMaterial, false, floor == depth - 1);
+				drawStairsWalls(chunk, PlatMap.StreetLevel - FloorHeight * floor - 2, FloorHeight, 0, 0, StairWell.CENTER, wallMaterial, false, floor == depth - 1);
 			}
 		}
 	}
