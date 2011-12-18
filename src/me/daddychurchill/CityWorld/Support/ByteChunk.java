@@ -2,13 +2,11 @@ package me.daddychurchill.CityWorld.Support;
 
 import java.util.Arrays;
 
-import me.daddychurchill.CityWorld.CityWorld;
 import org.bukkit.Material;
 
 public class ByteChunk {
 	public final static int Width = 16;
 	public final static int Height = 128;
-	private final static boolean safeBlock = true;
 	
 	public int X;
 	public int Z;
@@ -67,44 +65,43 @@ public class ByteChunk {
 		return blocky + height;
 	}
 	
-	private void setSafeBlock(int x, int y, int z, byte materialId) {
-		if (!safeBlock || x >= 0 && x < Width && z >= 0 && z < Width && y >= 0 && y < Height)
-			setBlock(x, y, z, materialId);
-		else
-			CityWorld.log.info("Block out of bounds: " + x + ", " + y + ", " + z);
-	}
-	
-	private void setSafeBlocks(int x, int y1, int y2, int z, byte materialId) {
-		if (!safeBlock || x >= 0 && x < Width &&
-						  z >= 0 && z < Width && 
-						  y1 >= 0 && y1 < Height && y2 > 0 && y2 <= Height)
-			setBlocks(x, y1, y2, z, materialId);
-		else
-			CityWorld.log.info("Blocks out of bounds: " + x + ", " + y1 + "-" + y2 + ", " + z);
-	}
-	
-	private void setSafeBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte materialId) {
-		if (!safeBlock || x1 >= 0 && x1 < Width && x2 > 0 && x2 <= Width && 
-						  z1 >= 0 && z1 < Width && z2 > 0 && z2 <= Width && 
-						  y1 >= 0 && y1 < Height && y2 > 0 && y2 <= Height)
-			setBlocks(x1, x2, y1, y2, z1, z2, materialId);
-		else
-			CityWorld.log.info("Blocks out of bounds: " + x1 + "-" + x2 + ", " 
-														+ y1 + "-" + y2 + ", " 
-														+ z1 + "-" + z2);
-	}
+//	private void setSafeBlock(int x, int y, int z, byte materialId) {
+//		if (!safeBlock || x >= 0 && x < Width && z >= 0 && z < Width && y >= 0 && y < Height)
+//			setBlock(x, y, z, materialId);
+//		else
+//			CityWorld.log.info("Block out of bounds: " + x + ", " + y + ", " + z);
+//	}
+//	
+//	private void setSafeBlocks(int x, int y1, int y2, int z, byte materialId) {
+//		if (!safeBlock || x >= 0 && x < Width &&
+//						  z >= 0 && z < Width && 
+//						  y1 >= 0 && y1 < Height && y2 > 0 && y2 <= Height)
+//			setBlocks(x, y1, y2, z, materialId);
+//		else
+//			CityWorld.log.info("Blocks out of bounds: " + x + ", " + y1 + "-" + y2 + ", " + z);
+//	}
+//	
+//	private void setSafeBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte materialId) {
+//		if (!safeBlock || x1 >= 0 && x1 < Width && x2 > 0 && x2 <= Width && 
+//						  z1 >= 0 && z1 < Width && z2 > 0 && z2 <= Width && 
+//						  y1 >= 0 && y1 < Height && y2 > 0 && y2 <= Height)
+//			setBlocks(x1, x2, y1, y2, z1, z2, materialId);
+//		else
+//			CityWorld.log.info("Blocks out of bounds: " + x1 + "-" + x2 + ", " 
+//														+ y1 + "-" + y2 + ", " 
+//														+ z1 + "-" + z2);
+//	}
 	
 	private void setCircleBlocks(int cx, int cz, int x, int z, int y, byte materialId) {
-		
 		// Ref: Notes/BCircle.PDF
-		setSafeBlock(cx + x, y, cz + z, materialId); // point in octant 1
-		setSafeBlock(cx + z, y, cz + x, materialId); // point in octant 2
-		setSafeBlock(cx - z - 1, y, cz + x, materialId); // point in octant 3
-		setSafeBlock(cx - x - 1, y, cz + z, materialId); // point in octant 4
-		setSafeBlock(cx - x - 1, y, cz - z - 1, materialId); // point in octant 5
-		setSafeBlock(cx - z - 1, y, cz - x - 1, materialId); // point in octant 6
-		setSafeBlock(cx + z, y, cz - x - 1, materialId); // point in octant 7
-		setSafeBlock(cx + x, y, cz - z - 1, materialId); // point in octant 8
+		setBlock(cx + x, y, cz + z, materialId); // point in octant 1
+		setBlock(cx + z, y, cz + x, materialId); // point in octant 2
+		setBlock(cx - z - 1, y, cz + x, materialId); // point in octant 3
+		setBlock(cx - x - 1, y, cz + z, materialId); // point in octant 4
+		setBlock(cx - x - 1, y, cz - z - 1, materialId); // point in octant 5
+		setBlock(cx - z - 1, y, cz - x - 1, materialId); // point in octant 6
+		setBlock(cx + z, y, cz - x - 1, materialId); // point in octant 7
+		setBlock(cx + x, y, cz - z - 1, materialId); // point in octant 8
 	}
 	
 	public void setCircle(int cx, int cz, int r, int y, byte materialId) {
@@ -128,43 +125,11 @@ public class ByteChunk {
 		}
 	}
 	
-	public void setArcNorthEast(int inset, int y1, int y2, byte materialId, boolean fill) {
-		
-		int cx = 0;
-		int cz = 0;
-		int r = Width - inset - 1;
-		int x = r;
-		int z = 0;
-		int xChange = 1 - 2 * r;
-		int zChange = 1;
-		int rError = 0;
-		
-		while (x >= z) {
-			// set the right quadrant
-			if (fill) {
-				setSafeBlocks(cx, cx + x + 1, y1, y2, cz + z, cz + z + 1, materialId); // point in octant 1 ENE
-				setSafeBlocks(cx, cx + z + 1, y1, y2, cz + x, cz + x + 1, materialId); // point in octant 2 NNE
-			} else {
-				setSafeBlocks(cx + x, y1, y2, cz + z, materialId); // point in octant 1 ENE
-				setSafeBlocks(cx + z, y1, y2, cz + x, materialId); // point in octant 2 NNE
-			}
-			
-			z++;
-			rError += zChange;
-			zChange += 2;
-			if (2 * rError + xChange > 0) {
-				x--;
-				rError += xChange;
-				xChange += 2;
-			}
-		}
-	}
-	
 	public void setArcNorthWest(int inset, int y1, int y2, byte materialId, boolean fill) {
-		
-		int cx = 0;
-		int cz = Width;
-		int r = Width - inset - 1;
+		// Ref: Notes/BCircle.PDF
+		int cx = inset;
+		int cz = inset;
+		int r = Width - inset * 2 - 1;
 		int x = r;
 		int z = 0;
 		int xChange = 1 - 2 * r;
@@ -173,43 +138,11 @@ public class ByteChunk {
 		
 		while (x >= z) {
 			if (fill) {
-				setSafeBlocks(cx, cx + z + 1, y1, y2, cz - x - 1, cz - x, materialId); // point in octant 7 WNW
-				setSafeBlocks(cx, cx + x + 1, y1, y2, cz - z - 1, cz - z, materialId); // point in octant 8 NNW
+				setBlocks(cx, cx + x + 1, y1, y2, cz + z, cz + z + 1, materialId); // point in octant 1 ENE
+				setBlocks(cx, cx + z + 1, y1, y2, cz + x, cz + x + 1, materialId); // point in octant 2 NNE
 			} else {
-				setSafeBlocks(cx + z, y1, y2, cz - x - 1, materialId); // point in octant 7 WNW
-				setSafeBlocks(cx + x, y1, y2, cz - z - 1, materialId); // point in octant 8 NNW
-			}
-			
-			z++;
-			rError += zChange;
-			zChange += 2;
-			if (2 * rError + xChange > 0) {
-				x--;
-				rError += xChange;
-				xChange += 2;
-			}
-		}
-	}
-	
-	public void setArcSouthEast(int inset, int y1, int y2, byte materialId, boolean fill) {
-		
-		int cx = Width;
-		int cz = 0;
-		int r = Width - inset - 1;
-		int x = r;
-		int z = 0;
-		int xChange = 1 - 2 * r;
-		int zChange = 1;
-		int rError = 0;
-		
-		while (x >= z) {
-			// set the right quadrant
-			if (fill) {
-				setSafeBlocks(cx - z - 1, cx, y1, y2, cz + x, cz + x + 1, materialId); // point in octant 3 ESE
-				setSafeBlocks(cx - x - 1, cx, y1, y2, cz + z, cz + z + 1, materialId); // point in octant 4 SSE
-			} else {
-				setSafeBlocks(cx - z - 1, y1, y2, cz + x, materialId); // point in octant 3 ESE
-				setSafeBlocks(cx - x - 1, y1, y2, cz + z, materialId); // point in octant 4 SSE
+				setBlocks(cx + x, y1, y2, cz + z, materialId); // point in octant 1 ENE
+				setBlocks(cx + z, y1, y2, cz + x, materialId); // point in octant 2 NNE
 			}
 			
 			z++;
@@ -224,10 +157,10 @@ public class ByteChunk {
 	}
 	
 	public void setArcSouthWest(int inset, int y1, int y2, byte materialId, boolean fill) {
-		
-		int cx = Width;
-		int cz = Width;
-		int r = Width - inset - 1;
+		// Ref: Notes/BCircle.PDF
+		int cx = inset;
+		int cz = Width - inset;
+		int r = Width - inset * 2 - 1;
 		int x = r;
 		int z = 0;
 		int xChange = 1 - 2 * r;
@@ -235,13 +168,74 @@ public class ByteChunk {
 		int rError = 0;
 		
 		while (x >= z) {
-			// set the right quadrant
 			if (fill) {
-				setSafeBlocks(cx - x - 1, cx, y1, y2, cz - z - 1, cz - z, materialId); // point in octant 5 SSW
-				setSafeBlocks(cx - z - 1, cx, y1, y2, cz - x - 1, cz - x, materialId); // point in octant 6 WSW
+				setBlocks(cx, cx + z + 1, y1, y2, cz - x - 1, cz - x, materialId); // point in octant 7 WNW
+				setBlocks(cx, cx + x + 1, y1, y2, cz - z - 1, cz - z, materialId); // point in octant 8 NNW
 			} else {
-				setSafeBlocks(cx - x - 1, y1, y2, cz - z - 1, materialId); // point in octant 5 SSW
-				setSafeBlocks(cx - z - 1, y1, y2, cz - x - 1, materialId); // point in octant 6 WSW
+				setBlocks(cx + z, y1, y2, cz - x - 1, materialId); // point in octant 7 WNW
+				setBlocks(cx + x, y1, y2, cz - z - 1, materialId); // point in octant 8 NNW
+			}
+			
+			z++;
+			rError += zChange;
+			zChange += 2;
+			if (2 * rError + xChange > 0) {
+				x--;
+				rError += xChange;
+				xChange += 2;
+			}
+		}
+	}
+	
+	public void setArcNorthEast(int inset, int y1, int y2, byte materialId, boolean fill) {
+		// Ref: Notes/BCircle.PDF
+		int cx = Width - inset;
+		int cz = inset;
+		int r = Width - inset * 2 - 1;
+		int x = r;
+		int z = 0;
+		int xChange = 1 - 2 * r;
+		int zChange = 1;
+		int rError = 0;
+		
+		while (x >= z) {
+			if (fill) {
+				setBlocks(cx - z - 1, cx, y1, y2, cz + x, cz + x + 1, materialId); // point in octant 3 ESE
+				setBlocks(cx - x - 1, cx, y1, y2, cz + z, cz + z + 1, materialId); // point in octant 4 SSE
+			} else {
+				setBlocks(cx - z - 1, y1, y2, cz + x, materialId); // point in octant 3 ESE
+				setBlocks(cx - x - 1, y1, y2, cz + z, materialId); // point in octant 4 SSE
+			}
+			
+			z++;
+			rError += zChange;
+			zChange += 2;
+			if (2 * rError + xChange > 0) {
+				x--;
+				rError += xChange;
+				xChange += 2;
+			}
+		}
+	}
+	
+	public void setArcSouthEast(int inset, int y1, int y2, byte materialId, boolean fill) {
+		// Ref: Notes/BCircle.PDF
+		int cx = Width - inset;
+		int cz = Width - inset;
+		int r = Width - inset * 2 - 1;
+		int x = r;
+		int z = 0;
+		int xChange = 1 - 2 * r;
+		int zChange = 1;
+		int rError = 0;
+		
+		while (x >= z) {
+			if (fill) {
+				setBlocks(cx - x - 1, cx, y1, y2, cz - z - 1, cz - z, materialId); // point in octant 5 SSW
+				setBlocks(cx - z - 1, cx, y1, y2, cz - x - 1, cz - x, materialId); // point in octant 6 WSW
+			} else {
+				setBlocks(cx - x - 1, y1, y2, cz - z - 1, materialId); // point in octant 5 SSW
+				setBlocks(cx - z - 1, y1, y2, cz - x - 1, materialId); // point in octant 6 WSW
 			}
 			
 			z++;

@@ -1,12 +1,18 @@
 package me.daddychurchill.CityWorld.Support;
 
 public class Direction {
-	public enum Cardinal {
-		NORTH, SOUTH, WEST, EAST
+	public enum Facing { // clockwise starting with South
+		SOUTH, // 0 - increasing Z
+		WEST,  // 1 - decreasing X
+		NORTH, // 2 - decreasing Z 
+		EAST   // 3 - increasing X
 	};
 
-	public enum Ordinal {
-		NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEAST
+	public enum Ordinal { // clockwise starting with SouthWest (see above)
+		SOUTHWEST, // 0.5
+		NORTHWEST, // 1.5
+		NORTHEAST, // 2.5
+		SOUTHEAST  // 3.5
 	};
 
 	public enum StairWell {
@@ -14,7 +20,7 @@ public class Direction {
 	};
 
 	public enum Stair {
-		NORTH, SOUTH, EAST, WEST;
+		EAST, WEST, SOUTH, NORTH;
 		
 		public byte getData() {
 			return (byte) ordinal();
@@ -22,8 +28,8 @@ public class Direction {
 	};
 
 	public enum Door {
-		WESTBYSOUTHWEST, NORTHBYNORTHWEST, EASTBYNORTHEAST, SOUTHBYSOUTHEAST,
-		SOUTHBYSOUTHWEST, WESTBYNORTHWEST, NORTHBYNORTHEAST, EASTBYSOUTHEAST;
+		WESTBYNORTHWEST, NORTHBYNORTHEAST, EASTBYSOUTHEAST, SOUTHBYSOUTHWEST,
+		NORTHBYNORTHWEST, EASTBYNORTHEAST, SOUTHBYSOUTHEAST, WESTBYSOUTHWEST;
 		
 		public byte getData() {
 			return (byte) ordinal();
@@ -31,7 +37,7 @@ public class Direction {
 	};
 
 	public enum TrapDoor {
-		EAST, WEST, NORTH, SOUTH;
+		SOUTH, NORTH, EAST, WEST;
 		
 		public byte getData() {
 			return (byte) ordinal();
@@ -39,7 +45,7 @@ public class Direction {
 	};
 	
 	public enum Ladder {
-		EAST(2), WEST(3), NORTH(4), SOUTH(5);
+		NORTH(2), SOUTH(3), WEST(4), EAST(5);
 		
 		private byte data;
 		private Ladder(int d) {
@@ -51,7 +57,7 @@ public class Direction {
 	};
 	
 	public enum Vine {
-		EAST(1), SOUTH(2), WEST(4), NORTH(8);
+		SOUTH(1), WEST(2), NORTH(4), EAST(8);
 		
 		private byte data;
 		private Vine(int d) {

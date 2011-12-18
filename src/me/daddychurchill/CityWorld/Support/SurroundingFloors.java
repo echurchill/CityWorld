@@ -56,37 +56,53 @@ public class SurroundingFloors {
 	public boolean isRoundable() {
 		if (toSouth()) {
 			if (toWest()) {
-				return !toNorth() && !toEast() && floors[0][1] == floors[1][0];
+				return !toNorth() && !toEast() && floorsSame(floorsToSouth(), floorsToWest());
 			} else if (toEast()) {
-				return !toNorth() && floors[0][1] == floors[1][2];
+				return !toNorth() && floorsSame(floorsToSouth(), floorsToEast());
 			}
 		} else if (toNorth()) {
 			if (toWest()) {
-				return !toEast() && floors[2][1] == floors[1][0];
+				return !toEast() && floorsSame(floorsToNorth(), floorsToWest());
 			} else if (toEast()) {
-				return floors[2][1] == floors[1][2];
+				return floorsSame(floorsToNorth(), floorsToEast());
 			}
 		}
 		return false;
-//		return  (toSouth() && toWest() && !toNorth() && !toEast() && South# == West#) ||
-//				(toSouth() && toEast() && !toNorth() && !toWest() && South# == East#) ||
-//				(toNorth() && toWest() && !toSouth() && !toEast() && North# == West#) ||
-//				(toNorth() && toEast() && !toSouth() && !toWest() && North# == East#);
 	}
 	
-	public boolean toNorthWest() {
-		return floors[2][0] > 0 && toNorth() && toWest();
+	private boolean floorsSame(int other1, int other2) {
+		return floors[1][1] == other1 && other1 == other2;
+	}
+	
+	private int floorsToWest() {
+		return floors[0][1];
+	}
+	
+	private int floorsToEast() {
+		return floors[2][1];
+	}
+	
+	private int floorsToNorth() {
+		return floors[1][0];
+	}
+	
+	private int floorsToSouth() {
+		return floors[1][2];
+	}
+	
+	public boolean toNorthEast() {
+		return floors[2][0] > 0 && toEast() && toNorth();
 	}
 
-	public boolean toNorth() {
+	public boolean toEast() {
 		return floors[2][1] > 0;
 	}
 
-	public boolean toNorthEast() {
-		return floors[2][2] > 0 && toNorth() && toEast();
+	public boolean toSouthEast() {
+		return floors[2][2] > 0 && toEast() && toSouth();
 	}
 	
-	public boolean toWest() {
+	public boolean toNorth() {
 		return floors[1][0] > 0;
 	}
 	
@@ -94,19 +110,19 @@ public class SurroundingFloors {
 		return true;
 	}
 	
-	public boolean toEast() {
+	public boolean toSouth() {
 		return floors[1][2] > 0;
 	}
 
-	public boolean toSouthWest() {
-		return floors[0][0] > 0 && toSouth() && toWest();
+	public boolean toNorthWest() {
+		return floors[0][0] > 0 && toWest() && toNorth();
 	}
 
-	public boolean toSouth() {
+	public boolean toWest() {
 		return floors[0][1] > 0;
 	}
 
-	public boolean toSouthEast() {
-		return floors[0][2] > 0 && toSouth() && toEast();
+	public boolean toSouthWest() {
+		return floors[0][2] > 0 && toWest() && toSouth();
 	}
 }

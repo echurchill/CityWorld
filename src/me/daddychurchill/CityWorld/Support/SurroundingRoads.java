@@ -33,9 +33,9 @@ public class SurroundingRoads {
 				// beyond the edge
 				if (neighbor == null) {
 					roads[x][z] = platX == PlatRoad.PlatMapRoadInset - 1 ||
-							platZ == PlatRoad.PlatMapRoadInset - 1 || 
-							platX == PlatMap.Width - PlatRoad.PlatMapRoadInset ||
-							platZ == PlatMap.Width - PlatRoad.PlatMapRoadInset; 
+								  platZ == PlatRoad.PlatMapRoadInset - 1 || 
+								  platX == PlatMap.Width - PlatRoad.PlatMapRoadInset ||
+								  platZ == PlatMap.Width - PlatRoad.PlatMapRoadInset; 
 
 					// is connected in some way?
 				} else {
@@ -47,39 +47,39 @@ public class SurroundingRoads {
 	
 	// adjacent roads?
 	public boolean adjacentRoads() {
-		return toNorth() || toSouth() || toWest() || toEast();
+		return toEast() || toWest() || toNorth() || toSouth();
+	}
+
+	public boolean toCenter() {
+		return true;
+	}
+	
+	public boolean toNorth() {
+		return roads[1][0];
+	}
+	
+	public boolean toSouth() {
+		return roads[1][2];
+	}
+
+	public boolean toWest() {
+		return roads[0][1];
+	}
+
+	public boolean toEast() {
+		return roads[2][1];
 	}
 
 	public boolean toNorthWest() {
 		return true;
 	}
 
-	public boolean toNorth() {
-		return roads[2][1];
-	}
-
 	public boolean toNorthEast() {
 		return true;
 	}
 	
-	public boolean toWest() {
-		return roads[1][0];
-	}
-	
-	public boolean toCenter() {
-		return true;
-	}
-	
-	public boolean toEast() {
-		return roads[1][2];
-	}
-
 	public boolean toSouthWest() {
 		return true;
-	}
-
-	public boolean toSouth() {
-		return roads[0][1];
 	}
 
 	public boolean toSouthEast() {

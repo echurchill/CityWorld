@@ -17,10 +17,11 @@ public class PlatMapCity extends PlatMapUrban {
 	
 	// Class Odds
 	static final public int overallParkOdds = 4; //5; // parks show up 1/n of the time
-	static final public int overallIsolatedBuildingOdds = 3; // isolated buildings 1/n of the time
+	static final public int overallIsolatedBuildingOdds = 4; // isolated buildings 1/n of the time
 	static final public int overallIdenticalHeightsOdds = 2; // similar height 1/n of the time
 	static final public int overallSimilarHeightsOdds = 2; // identical height 1/n of the time
-	static final public int overallSimilarRoundedOdds = 1; // like rounding 1/n of the time
+	static final public int overallSimilarRoundedOdds = 2; // like rounding 1/n of the time
+	static final public int overallUnfinishedOdds = 10; // unfinished buildings show up 1/n of the time
 
 	public PlatMapCity(World world, Random random, int platX, int platZ) {
 		super(world, random, platX, platZ);
@@ -38,8 +39,13 @@ public class PlatMapCity extends PlatMapUrban {
 					// what to build?
 					if (platRand.nextInt(overallParkOdds) == 0)
 						current = new PlatPark(platRand);
+					else if (platRand.nextInt(overallUnfinishedOdds) == 0)
+						current = new PlatUnfinishedBuilding(platRand,
+								floorsMaximumAbove, floorsMaximumBelow, 
+								overallIdenticalHeightsOdds, 
+								overallSimilarHeightsOdds,
+								overallSimilarRoundedOdds);
 					else
-//						current = new PlatUnfinishedBuilding(platRand,
 						current = new PlatOfficeBuilding(platRand,
 								floorsMaximumAbove, floorsMaximumBelow, 
 								overallIdenticalHeightsOdds, 

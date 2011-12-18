@@ -25,15 +25,15 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	protected Material stairMaterial;
 	protected Material stairWallMaterial;
 	protected Material doorMaterial;
+	protected Material roofMaterial;
 	
 	//TODO columns height
-	//TODO rounded building corners (if connected N and E and have a quarter arc of a building)
 	//TODO roof fixtures (peak, antenna, air conditioning, stairwells access, penthouse, castle trim, etc.
 
-	protected int insetWallNS;
 	protected int insetWallEW;
-	protected int insetCeilingNS;
+	protected int insetWallNS;
 	protected int insetCeilingEW;
+	protected int insetCeilingNS;
 	protected boolean insetInsetted;
 	protected int insetInsetMidAt;
 	protected int insetInsetHighAt;
@@ -46,10 +46,16 @@ public class PlatOfficeBuilding extends PlatBuilding {
 				overallSimilarHeightsOdds, overallSimilarRoundedOdds);
 
 		// nudge in a bit
-		insetWallNS = rand.nextInt(2) + 1; // 1 or 2
-		insetWallEW = insetWallNS;//rand.nextInt(2) + 1;
-		insetCeilingNS = insetWallNS + rand.nextInt(3) - 1; // -1, 0 or 1 -> 0, 1, 2
-		insetCeilingEW = insetCeilingNS;//insetWallEW + rand.nextInt(3) - 1;
+		insetWallEW = rand.nextInt(2) + 1; // 1 or 2
+		insetWallNS = rand.nextInt(2) + 1;
+		insetCeilingEW = insetWallEW + rand.nextInt(3) - 1; // -1, 0 or 1 -> 0, 1, 2
+		insetCeilingNS = insetWallNS + rand.nextInt(3) - 1;
+		
+		// make the buildings have a better chance at being round
+		if (rand.nextBoolean()) {
+			insetWallNS = insetWallEW;
+			insetCeilingNS = insetCeilingEW;
+		}
 		
 		// nudge in a bit more as we go up
 		insetInsetMidAt = 1;
@@ -66,6 +72,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		glassMaterial = pickGlassMaterial(rand);
 		stairMaterial = pickStairMaterial(wallMaterial);
 		doorMaterial = Material.WOOD_DOOR;
+		roofMaterial = wallMaterial;
 		
 		// what are the walls of the stairs made of?
 		if (rand.nextInt(stairWallMaterialIsWallMaterialOdds) == 0)
@@ -77,8 +84,8 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		// thin glass should not be used with ceiling inset, it looks goofy
 		// thin glass should not be used with double-step walls, the glass does not align correctly
 		if (glassMaterial == Material.THIN_GLASS) {
-			insetCeilingNS = Math.min(insetCeilingNS, insetWallNS);
 			insetCeilingEW = Math.min(insetCeilingEW, insetWallEW);
+			insetCeilingNS = Math.min(insetCeilingNS, insetWallNS);
 			if (wallMaterial == Material.DOUBLE_STEP)
 				glassMaterial = Material.GLASS;
 		}
@@ -92,10 +99,10 @@ public class PlatOfficeBuilding extends PlatBuilding {
 			PlatOfficeBuilding relativebuilding = (PlatOfficeBuilding) relative;
 
 			// nudge in a bit
-			insetWallNS = relativebuilding.insetWallNS;
 			insetWallEW = relativebuilding.insetWallEW;
-			insetCeilingNS = relativebuilding.insetCeilingNS;
+			insetWallNS = relativebuilding.insetWallNS;
 			insetCeilingEW = relativebuilding.insetCeilingEW;
+			insetCeilingNS = relativebuilding.insetCeilingNS;
 			
 			// nudge in a bit more as we go up
 			insetInsetted = relativebuilding.insetInsetted;
@@ -123,6 +130,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		generateBedrock(chunk, lowestY);
 		
 		// bottom most floor
+		drawCeilings(chunk, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);
 		chunk.setBlocks(0, ByteChunk.Width, lowestY, lowestY + 1, 0, ByteChunk.Width, (byte) ceilingMaterial.getId());
 		
 		// below ground
@@ -141,13 +149,13 @@ public class PlatOfficeBuilding extends PlatBuilding {
 
 		// is rounding allowed?
 		boolean allowRounded = rounded && 
-				insetWallNS == insetWallEW && insetCeilingNS == insetCeilingEW;
+				insetWallEW == insetWallNS && insetCeilingEW == insetCeilingNS;
 		
 		// insetting the inset
-		int localInsetWallNS = insetWallNS;
 		int localInsetWallEW = insetWallEW;
-		int localInsetCeilingNS = insetCeilingNS;
+		int localInsetWallNS = insetWallNS;
 		int localInsetCeilingEW = insetCeilingEW;
+		int localInsetCeilingNS = insetCeilingNS;
 
 		// above ground
 		for (int floor = 0; floor < height; floor++) {
@@ -157,19 +165,19 @@ public class PlatOfficeBuilding extends PlatBuilding {
 			// breath in?
 			if (insetInsetted) {
 				if (floor == insetInsetMidAt || floor == insetInsetHighAt) {
-					localInsetWallNS++;
 					localInsetWallEW++;
-					localInsetCeilingNS++;
+					localInsetWallNS++;
 					localInsetCeilingEW++;
+					localInsetCeilingNS++;
 				}
 			}
 			
 			// one floor please
 			drawWalls(chunk, floorAt, FloorHeight - 1, 
-					localInsetWallNS, localInsetWallEW, 
+					localInsetWallEW, localInsetWallNS, 
 					allowRounded, wallMaterial, glassMaterial, neighborFloors);
 			drawCeilings(chunk, floorAt + FloorHeight - 1, 1, 
-					localInsetCeilingNS, localInsetCeilingEW, 
+					localInsetCeilingEW, localInsetCeilingNS, 
 					allowRounded, ceilingMaterial, neighborFloors);
 
 			// one down, more to go
@@ -185,21 +193,13 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		
 		// is rounding allowed and where are the stairs
 		boolean allowRounded = rounded && 
-				insetWallNS == insetWallEW && insetCeilingNS == insetCeilingEW && 
+				insetWallEW == insetWallNS && insetCeilingEW == insetCeilingNS && 
 				neighborFloors.isRoundable();
 		StairWell stairLocation = getStairWellLocation(allowRounded, neighborFloors);
 		
-		// bottom floor? if there is going to be stairs here, lets place some matching doors
-		if (allowRounded) {
-			//TODO drawCornerDoors
-		} else {
-			drawCenteredDoors(chunk, insetWallNS, RealChunk.Width - insetWallNS - 1, 
-					  insetWallEW, RealChunk.Width - insetWallEW - 1,
-					  PlatMap.StreetLevel + 2, FloorHeight,
-					  !neighborFloors.toSouth(), !neighborFloors.toNorth(), 
-					  !neighborFloors.toWest(), !neighborFloors.toEast(),
-					  wallMaterial);
-		}
+		// bottom floor? 
+		drawDoors(chunk, PlatMap.StreetLevel + 2, FloorHeight, insetWallEW, insetWallNS, 
+				stairLocation, neighborFloors, wallMaterial);
 		
 		// work on the basement stairs first
 		for (int floor = 0; floor < depth; floor++) {
@@ -210,23 +210,28 @@ public class PlatOfficeBuilding extends PlatBuilding {
 				
 				// top is special... but only if there are no stairs up
 				if (floor == 0 && !needStairsUp) {
-					drawStairsWalls(chunk, y, FloorHeight, insetWallNS, insetWallEW, stairLocation, stairWallMaterial, true, false);
+					drawStairsWalls(chunk, y, FloorHeight, insetWallEW, insetWallNS, 
+							stairLocation, stairWallMaterial, true, false);
 				
 				// all the rest of those lovely stairs
 				} else {
 					// place the stairs and such
-					drawStairs(chunk, y, FloorHeight, insetWallNS, insetWallEW, stairLocation, stairMaterial);
+					drawStairs(chunk, y, FloorHeight, insetWallEW, insetWallNS, 
+							stairLocation, stairMaterial);
 						
 					// plain walls please
-					drawStairsWalls(chunk, y, FloorHeight, insetWallNS, insetWallEW, stairLocation, wallMaterial, false, floor == depth - 1);
+					drawStairsWalls(chunk, y, FloorHeight, insetWallEW, insetWallNS, 
+							stairLocation, wallMaterial, false, floor == depth - 1);
 
 					// pillars if no stairs here
-					drawOtherPillars(chunk, y, FloorHeight, stairLocation, wallMaterial);
+					drawOtherPillars(chunk, y, FloorHeight, 
+							stairLocation, wallMaterial);
 				}
 			
 			// if no stairs then
 			} else {
-				drawOtherPillars(chunk, y, FloorHeight, StairWell.CENTER, wallMaterial);
+				drawOtherPillars(chunk, y, FloorHeight, 
+						StairWell.CENTER, wallMaterial);
 			}
 		}
 		
@@ -237,10 +242,12 @@ public class PlatOfficeBuilding extends PlatBuilding {
 				
 				// more stairs and such
 				if (floor < height - 1)
-					drawStairs(chunk, y, FloorHeight, insetWallNS, insetWallEW, stairLocation, stairMaterial);
+					drawStairs(chunk, y, FloorHeight, insetWallEW, insetWallNS, 
+							stairLocation, stairMaterial);
 				
 				// fancy walls... maybe
-				drawStairsWalls(chunk, y, FloorHeight, insetWallNS, insetWallEW, stairLocation, stairWallMaterial, floor == height - 1, false);
+				drawStairsWalls(chunk, y, FloorHeight, insetWallEW, insetWallNS, 
+						stairLocation, stairWallMaterial, floor == height - 1, false);
 			}
 		}
 	}

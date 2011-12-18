@@ -1,4 +1,4 @@
-/***** CITYWORLD v0.53
+/***** CITYWORLD v0.54
 * City world generator for Minecraft/Bukkit
 * Copyright (C) 2011 daddychurchill <http://www.virtualchurchill.com>
 *
@@ -15,13 +15,20 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-Todo
-Park benches and other furniture
-Really get rounded buildings to work... darnit
 
-v0.53
-Stairs and rounded buildings are happy again
-Still working on rounded building problems (doors, overhangs and missing blocks due to differences in insets
+Todo
+Add command to level a city block
+Rivers and bridges
+Subway/elevated rail roads
+Terrain under the city
+Theming of blocks (industrial, highrise, midrise, government, residential, condos, etc.)
+Bring back rural blocks
+Park benches and other furniture
+
+v0.54
+West is North... I really hope I have this issue nailed this time
+Rounded buildings and doors seem to be happy at last!
+Added unfinished buildings, just to add variety
 
 v0.52
 Rounded buildings are back but I still need to get doors and stairs working with them better

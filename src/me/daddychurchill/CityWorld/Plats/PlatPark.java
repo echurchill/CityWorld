@@ -69,22 +69,22 @@ public class PlatPark extends PlatLot {
 		SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
 		
 		// outer columns and walls as needed
-		if (neighbors.toWest()) {
+		if (neighbors.toNorth()) {
 			chunk.setBlocks(3, 5, lowestY, highestY, 0, 1, cisternId);
 			chunk.setBlocks(11, 13, lowestY, highestY, 0, 1, cisternId);
 		} else
 			chunk.setBlocks(0, 16, lowestY, highestY + 1, 0, 1, cisternId);
-		if (neighbors.toEast()) {
+		if (neighbors.toSouth()) {
 			chunk.setBlocks(3, 5, lowestY, highestY, 15, 16, cisternId);
 			chunk.setBlocks(11, 13, lowestY, highestY, 15, 16, cisternId);
 		} else
 			chunk.setBlocks(0, 16, lowestY, highestY + 1, 15, 16, cisternId);
-		if (neighbors.toSouth()) {
+		if (neighbors.toWest()) {
 			chunk.setBlocks(0, 1, lowestY, highestY, 3, 5, cisternId);
 			chunk.setBlocks(0, 1, lowestY, highestY, 11, 13, cisternId);
 		} else
 			chunk.setBlocks(0, 1, lowestY, highestY + 1, 0, 16, cisternId);
-		if (neighbors.toNorth()) {
+		if (neighbors.toEast()) {
 			chunk.setBlocks(15, 16, lowestY, highestY, 3, 5, cisternId);
 			chunk.setBlocks(15, 16, lowestY, highestY, 11, 13, cisternId);
 		} else
@@ -109,7 +109,7 @@ public class PlatPark extends PlatLot {
 		
 		// surface features
 		int surfaceY = PlatMap.StreetLevel + 2;
-		if (!neighbors.toWest()) {
+		if (!neighbors.toNorth()) {
 			chunk.setBlocks(0, 6, surfaceY, surfaceY + 1, 0, 1, fenceId);
 			chunk.setBlocks(10, 16, surfaceY, surfaceY + 1, 0, 1, fenceId);
 			chunk.setBlocks(6, surfaceY, surfaceY + 2, 0, columnId);
@@ -117,7 +117,7 @@ public class PlatPark extends PlatLot {
 			chunk.setBlock(6, surfaceY, 1, columnId);
 			chunk.setBlock(9, surfaceY, 1, columnId);
 		}
-		if (!neighbors.toEast()) {
+		if (!neighbors.toSouth()) {
 			chunk.setBlocks(0, 6, surfaceY, surfaceY + 1, 15, 16, fenceId);
 			chunk.setBlocks(10, 16, surfaceY, surfaceY + 1, 15, 16, fenceId);
 			chunk.setBlocks(6, surfaceY, surfaceY + 2, 15, columnId);
@@ -125,7 +125,7 @@ public class PlatPark extends PlatLot {
 			chunk.setBlock(6, surfaceY, 14, columnId);
 			chunk.setBlock(9, surfaceY, 14, columnId);
 		}
-		if (!neighbors.toSouth()) {
+		if (!neighbors.toWest()) {
 			chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 0, 6, fenceId);
 			chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 10, 16, fenceId);
 			chunk.setBlocks(0, surfaceY, surfaceY + 2, 6, columnId);
@@ -133,7 +133,7 @@ public class PlatPark extends PlatLot {
 			chunk.setBlock(1, surfaceY, 6, columnId);
 			chunk.setBlock(1, surfaceY, 9, columnId);
 		}
-		if (!neighbors.toNorth()) {
+		if (!neighbors.toEast()) {
 			chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 0, 6, fenceId);
 			chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 10, 16, fenceId);
 			chunk.setBlocks(15, surfaceY, surfaceY + 2, 6, columnId);
@@ -164,11 +164,11 @@ public class PlatPark extends PlatLot {
 		
 		// way down?
 		SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
-		if (!neighbors.toWest()) {
+		if (!neighbors.toNorth()) {
 			int lowestY = PlatMap.StreetLevel - cisternDepth + 1 + maxWaterDepth;
 			chunk.setBlocks(4, 7, lowestY, lowestY + 1, 1, 2, ledgeMaterial);
-			chunk.setLadder(5, lowestY + 1, surfaceY, 1, Ladder.WEST);
-			chunk.setTrapDoor(5, surfaceY, 1, TrapDoor.NORTH);
+			chunk.setLadder(5, lowestY + 1, surfaceY, 1, Ladder.SOUTH);
+			chunk.setTrapDoor(5, surfaceY, 1, TrapDoor.EAST);
 		}
 		
 		// sprinkle some trees

@@ -2,23 +2,23 @@ package me.daddychurchill.CityWorld.Support;
 
 import java.util.Random;
 
-public class GlassFactoryX extends MaterialFactory {
+public class GlassFactoryNS extends MaterialFactory {
 
-	public GlassFactoryX(Random rand) {
-		super();
+	public GlassFactoryNS(Random rand) {
+		super(rand);
 	}
 
-	public GlassFactoryX(Random rand, SkipStyles style) {
-		super();
+	public GlassFactoryNS(Random rand, SkipStyles style) {
+		super(rand, style);
 	}
 
 	@Override
 	public byte pickMaterial(byte primaryId, byte secondaryId, int x, int z) {
 		switch (style) {
 		case SINGLE: 
-			return x % 2 == 0 ? primaryId : secondaryId;
+			return z % 2 == 0 ? primaryId : secondaryId;
 		case DOUBLE: 
-			return x % 3 == 0 ? primaryId : secondaryId;
+			return z % 3 == 0 ? primaryId : secondaryId;
 		default:	 
 			return rand.nextInt(2) == 0 ? primaryId : secondaryId;
 		}

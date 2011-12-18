@@ -95,10 +95,10 @@ public class PlatRoadPaved extends PlatRoad {
 		generateCeilingInset(chunk, vaultWidth, ByteChunk.Width - vaultWidth,
 				sewerY,
 				vaultWidth, ByteChunk.Width - vaultWidth, 
-				!roads.toSouth(), !roads.toNorth(), !roads.toWest(), !roads.toEast());
+				!roads.toWest(), !roads.toEast(), !roads.toNorth(), !roads.toSouth());
 
 		// now cardinal water, vaults and insets
-		if (roads.toSouth()) {
+		if (roads.toWest()) {
 			chunk.setBlocks(0, crossDitchEdge, 
 							sewerY - 1, sewerY, 
 							crossDitchEdge, ByteChunk.Width - crossDitchEdge, airId);
@@ -111,7 +111,7 @@ public class PlatRoadPaved extends PlatRoad {
 					sewerY, 
 					vaultWidth, ByteChunk.Width - vaultWidth, false, true);
 		}
-		if (roads.toNorth()) {
+		if (roads.toEast()) {
 			chunk.setBlocks(ByteChunk.Width - crossDitchEdge, ByteChunk.Width, 
 							sewerY - 1, sewerY, 
 							crossDitchEdge, ByteChunk.Width - crossDitchEdge, airId);
@@ -124,7 +124,7 @@ public class PlatRoadPaved extends PlatRoad {
 					sewerY, 
 					vaultWidth, ByteChunk.Width - vaultWidth, false, true);
 		}
-		if (roads.toWest()) {
+		if (roads.toNorth()) {
 			chunk.setBlocks(crossDitchEdge, ByteChunk.Width - crossDitchEdge, 
 							sewerY - 1, sewerY, 
 							0, crossDitchEdge, airId);
@@ -137,7 +137,7 @@ public class PlatRoadPaved extends PlatRoad {
 					sewerY, 
 					0, vaultWidth, true, false);
 		}
-		if (roads.toEast()) {
+		if (roads.toSouth()) {
 			chunk.setBlocks(crossDitchEdge, ByteChunk.Width - crossDitchEdge, 
 							sewerY - 1, sewerY, 
 							ByteChunk.Width - crossDitchEdge, ByteChunk.Width, airId);
@@ -187,26 +187,26 @@ public class PlatRoadPaved extends PlatRoad {
 		chunk.setBlocks(ByteChunk.Width - sidewalkWidth, ByteChunk.Width, sidewalkLevel, sidewalkLevel + 1, ByteChunk.Width - sidewalkWidth, ByteChunk.Width, sidewalkId);
 		
 		// sidewalk edges
-		if (!roads.toSouth())
-			chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, sidewalkWidth, ByteChunk.Width - sidewalkWidth, sidewalkId);
-		if (!roads.toNorth())
-			chunk.setBlocks(ByteChunk.Width - sidewalkWidth, ByteChunk.Width, sidewalkLevel, sidewalkLevel + 1, sidewalkWidth, ByteChunk.Width - sidewalkWidth, sidewalkId);
 		if (!roads.toWest())
-			chunk.setBlocks(sidewalkWidth, ByteChunk.Width - sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkId);
+			chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, sidewalkWidth, ByteChunk.Width - sidewalkWidth, sidewalkId);
 		if (!roads.toEast())
+			chunk.setBlocks(ByteChunk.Width - sidewalkWidth, ByteChunk.Width, sidewalkLevel, sidewalkLevel + 1, sidewalkWidth, ByteChunk.Width - sidewalkWidth, sidewalkId);
+		if (!roads.toNorth())
+			chunk.setBlocks(sidewalkWidth, ByteChunk.Width - sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkId);
+		if (!roads.toSouth())
 			chunk.setBlocks(sidewalkWidth, ByteChunk.Width - sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, ByteChunk.Width - sidewalkWidth, ByteChunk.Width, sidewalkId);
 		
 		// round things out
-		if (!roads.toSouth() && roads.toNorth() && !roads.toWest() && roads.toEast())
+		if (!roads.toWest() && roads.toEast() && !roads.toNorth() && roads.toSouth())
 			generateRoundedOut(chunk, sidewalkWidth, sidewalkWidth, 
 					false, false);
-		if (!roads.toSouth() && roads.toNorth() && roads.toWest() && !roads.toEast())
+		if (!roads.toWest() && roads.toEast() && roads.toNorth() && !roads.toSouth())
 			generateRoundedOut(chunk, sidewalkWidth, ByteChunk.Width - sidewalkWidth - 4, 
 					false, true);
-		if (roads.toSouth() && !roads.toNorth() && !roads.toWest() && roads.toEast())
+		if (roads.toWest() && !roads.toEast() && !roads.toNorth() && roads.toSouth())
 			generateRoundedOut(chunk, ByteChunk.Width - sidewalkWidth - 4, sidewalkWidth, 
 					true, false);
-		if (roads.toSouth() && !roads.toNorth() && roads.toWest() && !roads.toEast())
+		if (roads.toWest() && !roads.toEast() && roads.toNorth() && !roads.toSouth())
 			generateRoundedOut(chunk, ByteChunk.Width - sidewalkWidth - 4, ByteChunk.Width - sidewalkWidth - 4, 
 					true, true);
 	}
@@ -227,7 +227,7 @@ public class PlatRoadPaved extends PlatRoad {
 		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);
 		
 		// drill down
-		if (roads.toNorth() && roads.toWest())
+		if (roads.toEast() && roads.toNorth())
 			generateManhole(chunk, ByteChunk.Width - sidewalkWidth, 
 							base2Y,
 							sidewalkLevel,
@@ -329,7 +329,7 @@ public class PlatRoadPaved extends PlatRoad {
 	
 	protected void generateManhole(RealChunk chunk, int x, int y1, int y2, int z) {
 		// place the manhole
-		chunk.setTrapDoor(x, y2, z, TrapDoor.EAST);
+		chunk.setTrapDoor(x, y2, z, TrapDoor.SOUTH);
 		
 		// make a tube of material going down
 		chunk.setBlocks(x - 1, x + 2, y1 + 1, y2 - 1, z - 1, z + 2, manpipeMaterial);
@@ -337,10 +337,10 @@ public class PlatRoadPaved extends PlatRoad {
 		// empty the vault and fix up the doors
 		chunk.setBlocks(x - 1, x + vaultWidth - 3, y1 - PlatMap.FloorHeight, y1, z, z + vaultWidth - 2, airMaterial);
 		chunk.setBlocks(x, y1 - PlatMap.FloorHeight, y1 - PlatMap.FloorHeight + 2, z - 1, sewerWallMaterial);
-		chunk.setWoodenDoor(x + 1, y1 - PlatMap.FloorHeight, z - 1, Direction.Door.NORTHBYNORTHWEST);
+		chunk.setWoodenDoor(x + 1, y1 - PlatMap.FloorHeight, z - 1, Direction.Door.NORTHBYNORTHEAST);
 		
 		// ladder
-		chunk.setLadder(x, y1 - PlatMap.FloorHeight, y2, z, Ladder.WEST);
+		chunk.setLadder(x, y1 - PlatMap.FloorHeight, y2, z, Ladder.SOUTH);
 	}
 	
 	protected void generateRoundedOut(ByteChunk chunk, int x, int z, boolean toNorth, boolean toEast) {
