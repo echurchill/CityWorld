@@ -1,14 +1,14 @@
 == **CityWorld** ==
 If you want to learn the latest on CityWorld: //[[http://dev.bukkit.org/server-mods/cityworld/pages/dev-blog-ish-thing/|Dev-Blog-Ish-Thing]]//
 
-===== //Version 0.55// =====
+===== //Version 0.56// =====
 (if the new version of the plugin isn't available in files, just wait a bit while it goes through the approval process)
 
 This effort started life as a [[http://forums.bukkit.org/threads/edit-sec-admn-worldedit-4-6-world-editing-de-griefing-1000.62/|WorldEdit ]] [[http://forum.sk89q.com/threads/fab-a-city-fabulous.556/|script]] that got a little out of hand. After a number of requests I have decided to reboot the effort, this time as a true world generator. 
 
 {{http://dev.bukkit.org/media/images/35/422/2011-11-07_18.02.36.jpg|CityWorld}}
 
-Todo
+Todo.. some day but not today
 Add command to level a city block
 Rivers and bridges
 Subway/elevated rail roads
@@ -16,6 +16,11 @@ Terrain under the city
 Bring back rural blocks
 Park benches and other furniture
 Need to fix bugs in building roofs
+
+v0.56
+Added occasional crane on unfinished buildings
+Hacked my way around a number of roof issues, still more that can be done
+Added nav lights onto the tallest antenna on a building, if it has any
 
 v0.55
 Theming of city blocks (highrise, midrise, lowrise, big parks, etc.)

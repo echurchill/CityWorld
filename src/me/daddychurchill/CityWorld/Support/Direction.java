@@ -56,6 +56,18 @@ public class Direction {
 		}
 	};
 	
+	public enum Torch {
+		EAST(1), WEST(2), SOUTH(3), NORTH(4), FLOOR(5);
+		
+		private byte data;
+		private Torch(int d) {
+			data = (byte) d;
+		}
+		public byte getData() {
+			return data;
+		}
+	};
+	
 	public enum Vine {
 		SOUTH(1), WEST(2), NORTH(4), EAST(8);
 		

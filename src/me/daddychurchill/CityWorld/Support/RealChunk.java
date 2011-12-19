@@ -127,4 +127,8 @@ public class RealChunk {
 		setBlock(x, y, z, Material.VINE.getId(), direction.getData());
 	}
 
+	public void setTorch(int x, int y, int z, Material material, Direction.Torch direction) {
+		setBlock(x, y, z, material.getId(), direction.getData());
+	}
+
 }

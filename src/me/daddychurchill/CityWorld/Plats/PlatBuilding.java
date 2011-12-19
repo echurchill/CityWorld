@@ -7,6 +7,7 @@ import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
+import me.daddychurchill.CityWorld.Support.Direction.Torch;
 import me.daddychurchill.CityWorld.Support.MaterialFactory;
 import me.daddychurchill.CityWorld.Support.GlassFactoryEW;
 import me.daddychurchill.CityWorld.Support.GlassFactoryNS;
@@ -35,11 +36,15 @@ public abstract class PlatBuilding extends PlatLot {
 	protected final static byte conditionerId = (byte) Material.ENDER_PORTAL_FRAME.getId();
 	protected final static Material tileMaterial = Material.STEP;
 	
-	public enum RoofStyle {FLATTOP, EDGED, PEAK};
+	public enum RoofStyle {FLATTOP, EDGED, PEAK, TENTNS, TENTEW};
 	public enum RoofFeature {ANTENNAS, CONDITIONERS, TILE};
 	protected RoofStyle roofStyle;
 	protected RoofFeature roofFeature;
 	protected int roofScale;
+	
+	protected int navLightX = 0;
+	protected int navLightY = 0;
+	protected int navLightZ = 0;
 	
 	public PlatBuilding(Random rand, ContextUrban context) {
 		super(rand, context);
@@ -60,11 +65,15 @@ public abstract class PlatBuilding extends PlatLot {
 	}
 	
 	static public RoofStyle pickRoofStyle(Random rand) {
-		switch (rand.nextInt(3)) {
+		switch (rand.nextInt(5)) {
 		case 1:
 			return RoofStyle.EDGED;
 		case 2:
 			return RoofStyle.PEAK;
+		case 3:
+			return RoofStyle.TENTNS;
+		case 4:
+			return RoofStyle.TENTEW;
 		default:
 			return RoofStyle.FLATTOP;
 		}
@@ -244,7 +253,13 @@ public abstract class PlatBuilding extends PlatLot {
 		boolean stillNeedWalls = true;
 		
 		// rounded and square inset and there are exactly two neighbors?
-		if (allowRounded && rounded) { //TODO && insetNS == insetEW && heights.getNeighborCount() == 2
+		if (allowRounded && rounded) { 
+			
+			// hack the glass material if needed
+			if (glass == Material.THIN_GLASS)
+				glassId = (byte) Material.GLASS.getId();
+			
+			// do the sides
 			if (heights.toSouth()) {
 				if (heights.toWest()) {
 					byteChunk.setArcSouthWest(insetNS, y1, y2, glassId, false);
@@ -329,39 +344,61 @@ public abstract class PlatBuilding extends PlatLot {
 	
 	//TODO roof fixtures (peak, antenna, helipad, air conditioning, stairwells access, penthouse, castle trim, etc.
 	protected void drawRoof(ByteChunk chunk, int y1, 
-			int insetNS, int insetEW, boolean allowRounded, 
+			int insetEW, int insetNS, boolean allowRounded, 
 			Material material, SurroundingFloors heights) {
 		switch (roofStyle) {
 		case PEAK:
-			for (int i = 0; i < PlatMap.FloorHeight; i++) {
-				if (i == PlatMap.FloorHeight - 1)
-					drawCeilings(chunk, y1 + i * roofScale, roofScale, insetNS + i, insetEW + i, allowRounded, material, heights);
-				else
-					drawWalls(chunk, y1 + i * roofScale, roofScale, insetNS + i, insetEW + i, allowRounded, material, material, heights);
-			}
-			break;
+			if (heights.getNeighborCount() == 0) { 
+				for (int i = 0; i < PlatMap.FloorHeight; i++) {
+					if (i == PlatMap.FloorHeight - 1)
+						drawCeilings(chunk, y1 + i * roofScale, roofScale, insetEW + i, insetNS + i, allowRounded, material, heights);
+					else
+						drawWalls(chunk, y1 + i * roofScale, roofScale, insetEW + i, insetNS + i, allowRounded, material, material, heights);
+				}
+				break;
+			} // else go for edged
+		case TENTNS:
+			if (heights.getNeighborCount() == 0) { 
+				for (int i = 0; i < PlatMap.FloorHeight; i++) {
+					if (i == PlatMap.FloorHeight - 1)
+						drawCeilings(chunk, y1 + i * roofScale, roofScale, insetEW + i, insetNS, allowRounded, material, heights);
+					else
+						drawWalls(chunk, y1 + i * roofScale, roofScale, insetEW + i, insetNS, allowRounded, material, material, heights);
+				}
+				break;
+			} // else go for edged
+		case TENTEW:
+			if (heights.getNeighborCount() == 0) { 
+				for (int i = 0; i < PlatMap.FloorHeight; i++) {
+					if (i == PlatMap.FloorHeight - 1)
+						drawCeilings(chunk, y1 + i * roofScale, roofScale, insetEW, insetNS + i, allowRounded, material, heights);
+					else
+						drawWalls(chunk, y1 + i * roofScale, roofScale, insetEW, insetNS + i, allowRounded, material, material, heights);
+				}
+				break;
+			} // else go for edged
 		case EDGED:
-			drawWalls(chunk, y1, 1, insetNS, insetEW, allowRounded, material, material, heights);
+			drawWalls(chunk, y1, 1, insetEW, insetNS, allowRounded, material, material, heights);
 			// falls through to default/FlatTop
 			
 		case FLATTOP:
 			switch (roofFeature) {
 			case ANTENNAS:
 				if (heights.getNeighborCount() == 0) {
-					drawAntenna(chunk, 5, y1, 4);
-					drawAntenna(chunk, 9, y1, 5);
-					drawAntenna(chunk, 6, y1, 11);
-					drawAntenna(chunk, 11, y1, 11);
+					drawAntenna(chunk, 6, y1, 6);
+					drawAntenna(chunk, 6, y1, 9);
+					drawAntenna(chunk, 9, y1, 6);
+					drawAntenna(chunk, 9, y1, 9);
 					break;
 				} // else go for the conditioners
 			case CONDITIONERS:
-				drawConditioner(chunk, 4, y1, 5);
-				drawConditioner(chunk, 10, y1, 4);
-				drawConditioner(chunk, 5, y1, 12);
-				drawConditioner(chunk, 8, y1, 10);
+				drawConditioner(chunk, 6, y1, 6);
+				drawConditioner(chunk, 6, y1, 9);
+				drawConditioner(chunk, 9, y1, 6);
+				drawConditioner(chunk, 9, y1, 9);
 				break;
 			case TILE:
-				drawCeilings(chunk, y1, 1, insetNS + 1, insetEW + 1, allowRounded, tileMaterial, heights);
+				drawCeilings(chunk, y1, 1, insetEW + 1, insetNS + 1, allowRounded, tileMaterial, heights);
 				break;
 			}
 		}
@@ -369,10 +406,20 @@ public abstract class PlatBuilding extends PlatLot {
 	
 	private void drawAntenna(ByteChunk chunk, int x, int y, int z) {
 		if (rand.nextBoolean()) {
-			int h = rand.nextInt(12) + 4;
-			chunk.setBlocks(x, y, y + h, z, antennaId);
-			chunk.setBlock(x, y + h, z, lightId);
+			int y2 = y + rand.nextInt(8) + 8;
+			chunk.setBlocks(x, y, y + 3, z, ironId);
+			chunk.setBlocks(x, y + 2, y2, z, antennaId);
+			if (y2 > navLightY) {
+				navLightX = x;
+				navLightY = y2;
+				navLightZ = z;
+			}
 		}
+	}
+	
+	protected void drawNavLight(RealChunk chunk) {
+		if (navLightY > 0)
+			chunk.setTorch(navLightX, navLightY, navLightZ, Material.TORCH, Torch.FLOOR);
 	}
 	
 	private void drawConditioner(ByteChunk chunk, int x, int y, int z) {
@@ -491,7 +538,7 @@ public abstract class PlatBuilding extends PlatLot {
 	}
 
 	public StairWell getStairWellLocation(boolean allowRounded, SurroundingFloors heights) {
-		if (allowRounded && rounded) { //TODO && insetNS == insetEW && heights.getNeighborCount() == 2
+		if (allowRounded && rounded) {
 			if (heights.toWest()) {
 				if (heights.toNorth()) {
 					return StairWell.SOUTHWEST;

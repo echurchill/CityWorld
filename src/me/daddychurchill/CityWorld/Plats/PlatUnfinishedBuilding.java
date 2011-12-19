@@ -7,6 +7,8 @@ import org.bukkit.Material;
 import me.daddychurchill.CityWorld.Context.ContextUrban;
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.Direction.Stair;
+import me.daddychurchill.CityWorld.Support.Direction.Torch;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
@@ -29,6 +31,7 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	// our special bits
 	protected boolean unfinishedBasementOnly;
 	protected int floorsBuilt;
+	protected int lastHorizontalGirder;
 	
 	//TODO randomly add a construction crane on the top most horizontal girder
 	
@@ -104,6 +107,7 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 		
 		// do more?
 		if (!unfinishedBasementOnly) {
+			lastHorizontalGirder = 0;
 
 			// above ground
 			for (int floor = 0; floor < height; floor++) {
@@ -118,8 +122,10 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 				} else {
 					
 					// sometimes the top most girders aren't there quite yet
-					if (floor < height - 1 || rand.nextBoolean())
+					if (floor < height - 1 || rand.nextBoolean()) {
 						drawHorizontalGirders(chunk, floorAt + FloorHeight - 1, neighborFloors);
+						lastHorizontalGirder = floorAt + FloorHeight - 1;
+					}
 				}
 	
 				// hold up the bit we just drew
@@ -145,7 +151,6 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 					drawStairs(chunk, y, FloorHeight, inset, inset, StairWell.CENTER, stairMaterial);
 
 // unfinished buildings don't need walls on the stairs
-//					// plain walls please
 //					drawStairsWalls(chunk, y, FloorHeight, inset, inset, StairWell.CENTER, 
 //							wallMaterial, false, false);
 				}
@@ -163,14 +168,40 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 							drawStairs(chunk, y, FloorHeight, inset, inset, StairWell.CENTER, stairMaterial);
 						
 // unfinished buildings don't need walls on the stairs
-//						// fancy walls... maybe
 //						if (floor > 0 || (floor == 0 && (depth > 0 || height > 1)))
 //							drawStairsWalls(chunk, y, FloorHeight, inset, inset, StairWell.CENTER, 
 //									stairWallMaterial, false, false);
 					}
 				}
 			}
+			
+			// plop a crane on top?
+			if (lastHorizontalGirder > 0 && rand.nextInt(context.oddsOfCranes) == 0) {
+				if (rand.nextBoolean())
+					drawCrane(chunk, inset + 2, lastHorizontalGirder + 1, inset);
+				else
+					drawCrane(chunk, inset + 2, lastHorizontalGirder + 1, RealChunk.Width - inset - 1);
+			}
 		}
+	}
+	
+	private void drawCrane(RealChunk chunk, int x, int y, int z) {
+		// vertical bit
+		chunk.setBlocks(x, y, y + 8, z, Material.IRON_FENCE);
+		chunk.setBlocks(x, y + 8, y + 10, z, Material.DOUBLE_STEP);
+		chunk.setBlocks(x - 1, y + 8, y + 10, z, Material.STEP);
+		chunk.setTorch(x, y + 10, z, Material.TORCH, Torch.FLOOR);
+		
+		// horizontal bit
+		chunk.setBlock(x + 1, y + 8, z, Material.GLASS);
+		chunk.setBlocks(x + 2, x + 11, y + 8, y + 9, z, z + 1, Material.IRON_FENCE);
+		chunk.setBlocks(x + 1, x + 10, y + 9, y + 10, z, z + 1, Material.STEP);
+		chunk.setStair(x + 10, y + 9, z, Material.SMOOTH_STAIRS, Stair.WEST);
+		
+		// counter weight
+		chunk.setBlock(x - 2, y + 9, z, Material.STEP);
+		chunk.setStair(x - 3, y + 9, z, Material.SMOOTH_STAIRS, Stair.EAST);
+		chunk.setBlocks(x - 3, x - 1, y + 7, y + 9, z, z + 1, Material.WOOL.getId(), (byte) rand.nextInt(16));
 	}
 	
 	private void drawVerticalGirders(ByteChunk chunk, int y1, int floorHeight) {

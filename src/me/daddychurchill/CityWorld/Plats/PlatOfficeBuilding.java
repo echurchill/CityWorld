@@ -70,7 +70,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		glassMaterial = pickGlassMaterial(rand);
 		stairMaterial = pickStairMaterial(wallMaterial);
 		doorMaterial = Material.WOOD_DOOR;
-		roofMaterial = wallMaterial;
+		roofMaterial = pickRoofMaterial(rand);
 		
 		// what are the walls of the stairs made of?
 		if (rand.nextInt(context.oddsOfStairWallMaterialIsWallMaterial) == 0)
@@ -114,7 +114,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 			stairMaterial = relativebuilding.stairMaterial;
 			stairWallMaterial = relativebuilding.stairWallMaterial;
 			doorMaterial = relativebuilding.doorMaterial;
-			roofMaterial = relativebuilding.wallMaterial;
+			roofMaterial = relativebuilding.roofMaterial;
 		}
 	}
 
@@ -254,6 +254,9 @@ public class PlatOfficeBuilding extends PlatBuilding {
 							stairLocation, stairWallMaterial, floor == height - 1, floor == 0 && depth == 0);
 			}
 		}
+		
+		// maybe draw a navlight?
+		drawNavLight(chunk);
 	}
 	
 	static protected Material pickWallMaterial(Random rand) {
@@ -282,6 +285,33 @@ public class PlatOfficeBuilding extends PlatBuilding {
 			return Material.WOOL;
 		default:
 			return Material.SAND;
+		}
+	}
+
+	static protected Material pickRoofMaterial(Random rand) {
+		switch (rand.nextInt(11)) {
+		case 1:
+			return Material.COBBLESTONE;
+		case 2:
+			return Material.STONE;
+		case 3:
+			return Material.SMOOTH_BRICK;
+		case 4:
+			return Material.CLAY;
+		case 5:
+			return Material.IRON_BLOCK;
+		case 6:
+			return Material.BRICK;
+		case 7:
+			return Material.MOSSY_COBBLESTONE;
+		case 8:
+			return Material.DOUBLE_STEP;
+		case 9:
+			return Material.SANDSTONE;
+		case 10:
+			return Material.WOOD;
+		default:
+			return Material.WOOL;
 		}
 	}
 

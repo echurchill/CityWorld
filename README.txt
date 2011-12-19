@@ -1,4 +1,4 @@
-/***** CITYWORLD v0.55
+/***** CITYWORLD v0.56
 * City world generator for Minecraft/Bukkit
 * Copyright (C) 2011 daddychurchill <http://www.virtualchurchill.com>
 *
@@ -23,6 +23,11 @@ Terrain under the city
 Bring back rural blocks
 Park benches and other furniture
 Need to fix bugs in building roofs
+
+v0.56
+Added occasional crane on unfinished buildings
+Hacked my way around a number of roof issues, still more that can be done
+Added nav lights onto the tallest antenna on a building, if it has any
 
 v0.55
 Theming of city blocks (highrise, midrise, lowrise, big parks, etc.)

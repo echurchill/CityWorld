@@ -14,11 +14,13 @@ public class ContextUnfinished extends ContextUrban {
 		oddsOfIdenticalBuildingHeights = oddsExtremelyLikely;
 		oddsOfSimilarBuildingHeights = oddsExtremelyLikely;
 		oddsOfSimilarBuildingRounding = oddsExtremelyLikely;
-		oddsOfUnfinishedBuildings = oddsExtremelyLikely;
-		oddsOfOnlyUnfinishedBasements = oddsLikely;
 		oddsOfMissingRoad = oddsLikely;
 		oddsOfRoundAbouts = oddsLikely;
 		 
+		oddsOfUnfinishedBuildings = oddsExtremelyLikely;
+		oddsOfOnlyUnfinishedBasements = oddsLikely;
+		oddsOfCranes = oddsExtremelyLikely;
+		
 		oddsOfStairWallMaterialIsWallMaterial = oddsExtremelyLikely;
 		oddsOfBuildingWallInset = oddsExtremelyLikely;
 		oddsOfFlatWalledBuildings = oddsExtremelyLikely;
