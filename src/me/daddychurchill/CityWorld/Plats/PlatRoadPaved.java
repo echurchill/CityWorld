@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.Context.ContextUrban;
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Direction.Ladder;
@@ -15,10 +16,6 @@ public class PlatRoadPaved extends PlatRoad {
 	//TODO Lines on the road
 	
 	protected static long connectedkeyForPavedRoads = 0;
-	
-	protected final static int oddsOfPlumbingConnection = 2;
-	protected final static int oddsOfPlumbingTreasure = 4;
-	protected final static int oddsOfSewerVines = 25;
 	
 	protected final static int sidewalkWidth = 3;
 	protected final static int lightpostHeight = 3;
@@ -45,8 +42,8 @@ public class PlatRoadPaved extends PlatRoad {
 	protected final static byte pavementId = (byte) Material.STONE.getId();
 	protected final static byte sidewalkId = (byte) Material.STEP.getId();
 	
-	public PlatRoadPaved(Random rand) {
-		super(rand);
+	public PlatRoadPaved(Random rand, ContextUrban context) {
+		super(rand, context);
 
 		// if the master key for paved roads isn't calculated then do it
 		if (connectedkeyForPavedRoads == 0) {
@@ -58,7 +55,7 @@ public class PlatRoadPaved extends PlatRoad {
 	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk chunk, int platX, int platZ) {
+	public void generateChunk(PlatMap platmap, ByteChunk chunk, ContextUrban context, int platX, int platZ) {
 		
 		// where do we start
 		int base1Y = PlatMap.StreetLevel - PlatMap.FloorHeight * 3 + 1;
@@ -68,7 +65,7 @@ public class PlatRoadPaved extends PlatRoad {
 		int base3Y = PlatMap.StreetLevel - 1;
 
 		// starting with the bottom
-		generateBedrock(chunk, base1Y);
+		generateBedrock(chunk, context, base1Y);
 		
 		// look around
 		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);
@@ -158,18 +155,18 @@ public class PlatRoadPaved extends PlatRoad {
 		for (int x = 0; x < ByteChunk.Width - 1; x = x + 2) {
 			for (int z = 0; z < ByteChunk.Width - 1; z = z + 2) {
 				chunk.setBlocks(x + 1, plumbingY, plumbingY + 4, z + 1, plumbingId);
-				if (rand.nextInt(oddsOfPlumbingConnection) == 0)
+				if (rand.nextInt(context.oddsOfPlumbingConnection) == 0)
 					chunk.setBlocks(x + 1, plumbingY, plumbingY + 4, z, plumbingId);
-				if (rand.nextInt(oddsOfPlumbingConnection) == 0)
+				if (rand.nextInt(context.oddsOfPlumbingConnection) == 0)
 					chunk.setBlocks(x, plumbingY, plumbingY + 4, z + 1, plumbingId);
-				if (rand.nextInt(oddsOfPlumbingTreasure) == 0) {
+				if (rand.nextInt(context.oddsOfPlumbingTreasure) == 0) {
 					byte treasureId = (byte) pickPlumbingTreasure().getId();
 					chunk.setBlocks(x, plumbingY, plumbingY + 1, z, treasureId);
 					if (treasureId == waterId &&
 						x >= crossDitchEdge && x < ByteChunk.Width - crossDitchEdge &&
 						z >= crossDitchEdge && z < ByteChunk.Width - crossDitchEdge)
 						chunk.setBlock(x, plumbingY - 1, z, airId);
-				} else if (rand.nextInt(oddsOfPlumbingConnection) == 0)
+				} else if (rand.nextInt(context.oddsOfPlumbingConnection) == 0)
 					chunk.setBlocks(x, plumbingY + 2, plumbingY + 4, z, plumbingId);
 			}
 		}
@@ -212,7 +209,7 @@ public class PlatRoadPaved extends PlatRoad {
 	}
 	
 	@Override
-	public void generateBlocks(PlatMap platmap, RealChunk chunk, int platX, int platZ) {
+	public void generateBlocks(PlatMap platmap, RealChunk chunk, ContextUrban context, int platX, int platZ) {
 		
 		// light posts
 		generateLightPost(chunk, sidewalkWidth - 1, sidewalkWidth - 1);
@@ -293,33 +290,33 @@ public class PlatRoadPaved extends PlatRoad {
 		*/
 	}
 	
-	protected void generateCeilingVines(RealChunk chunk, int x1, int x2, int y1, int z1, int z2, 
-			boolean insetS, boolean insetN, boolean insetE, boolean insetW) {
-		int y = y1 + PlatMap.FloorHeight - 1;
-		
-		if (insetS || insetN)
-			for (int z = z1; z < z2; z++) {
-				if (insetS) {
-					if (rand.nextInt(oddsOfSewerVines) == 0)
-						chunk.setBlock(x1 + 1, y, z, vineMaterial);
-				}
-				if (insetN) {
-					if (rand.nextInt(oddsOfSewerVines) == 0)
-						chunk.setBlock(x2 - 2, y, z, vineMaterial);
-				}
-			}
-		if (insetE || insetW)
-			for (int x = x1; x < x2; x++) {
-				if (insetE) {
-					if (rand.nextInt(oddsOfSewerVines) == 0)
-						chunk.setBlock(x, y, z1 + 1, vineMaterial);
-				}
-				if (insetW) {
-					if (rand.nextInt(oddsOfSewerVines) == 0)
-						chunk.setBlock(x, y, z2 - 2, vineMaterial);
-				}
-			}
-	}
+//	protected void generateCeilingVines(RealChunk chunk, ContextUrban context, int x1, int x2, int y1, int z1, int z2, 
+//			boolean insetS, boolean insetN, boolean insetE, boolean insetW) {
+//		int y = y1 + PlatMap.FloorHeight - 1;
+//		
+//		if (insetS || insetN)
+//			for (int z = z1; z < z2; z++) {
+//				if (insetS) {
+//					if (rand.nextInt(context.oddsOfSewerVines) == 0)
+//						chunk.setBlock(x1 + 1, y, z, vineMaterial);
+//				}
+//				if (insetN) {
+//					if (rand.nextInt(context.oddsOfSewerVines) == 0)
+//						chunk.setBlock(x2 - 2, y, z, vineMaterial);
+//				}
+//			}
+//		if (insetE || insetW)
+//			for (int x = x1; x < x2; x++) {
+//				if (insetE) {
+//					if (rand.nextInt(context.oddsOfSewerVines) == 0)
+//						chunk.setBlock(x, y, z1 + 1, vineMaterial);
+//				}
+//				if (insetW) {
+//					if (rand.nextInt(context.oddsOfSewerVines) == 0)
+//						chunk.setBlock(x, y, z2 - 2, vineMaterial);
+//				}
+//			}
+//	}
 	
 	protected void generateLightPost(RealChunk chunk, int x, int z) {
 		chunk.setBlock(x, sidewalkLevel, z, lightpostbaseMaterial);

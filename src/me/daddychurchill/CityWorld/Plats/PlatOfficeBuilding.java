@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.Context.ContextUrban;
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
@@ -13,11 +14,6 @@ import org.bukkit.Material;
 public class PlatOfficeBuilding extends PlatBuilding {
 
 	protected final static int FloorHeight = PlatMap.FloorHeight;
-	protected final static int stairWallMaterialIsWallMaterialOdds = 2; // stair walls are the same as walls 1/n of the time
-	protected final static int buildingWallInsettedOdds = 2; // building walls inset as they go up 1/n of the time
-	protected final static int buildingWallInsettedMinHeight = 8; // minimum building height before insetting is allowed
-	protected final static int buildingWallInsettedMinMidPoint = 2; // lowest point of inset
-	protected final static int buildingWallInsettedMinHighPoint = buildingWallInsettedMinHeight; // lowest highest point of inset
 	
 	protected Material wallMaterial;
 	protected Material ceilingMaterial;
@@ -28,8 +24,6 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	protected Material roofMaterial;
 	
 	//TODO columns height
-	//TODO roof fixtures (peak, antenna, air conditioning, stairwells access, penthouse, castle trim, etc.
-
 	protected int insetWallEW;
 	protected int insetWallNS;
 	protected int insetCeilingEW;
@@ -38,21 +32,24 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	protected int insetInsetMidAt;
 	protected int insetInsetHighAt;
 
-	public PlatOfficeBuilding(Random rand, int maxHeight, int maxDepth, 
-			int overallIdenticalHeightsOdds, 
-			int overallSimilarHeightsOdds,
-			int overallSimilarRoundedOdds) {
-		super(rand, maxHeight, maxDepth, overallIdenticalHeightsOdds, 
-				overallSimilarHeightsOdds, overallSimilarRoundedOdds);
+	public PlatOfficeBuilding(Random rand, ContextUrban context) {
+		super(rand, context);
 
-		// nudge in a bit
-		insetWallEW = rand.nextInt(2) + 1; // 1 or 2
-		insetWallNS = rand.nextInt(2) + 1;
-		insetCeilingEW = insetWallEW + rand.nextInt(3) - 1; // -1, 0 or 1 -> 0, 1, 2
-		insetCeilingNS = insetWallNS + rand.nextInt(3) - 1;
+		// how do the walls inset?
+		insetWallEW = rand.nextInt(context.rangeOfWallInset) + 1; // 1 or 2
+		insetWallNS = rand.nextInt(context.rangeOfWallInset) + 1;
+		
+		// what about the ceiling?
+		if (rand.nextInt(context.oddsOfFlatWalledBuildings) == 0) {
+			insetCeilingEW = insetWallEW;
+			insetCeilingNS = insetWallNS;
+		} else {
+			insetCeilingEW = insetWallEW + rand.nextInt(3) - 1; // -1, 0 or 1 -> 0, 1, 2
+			insetCeilingNS = insetWallNS + rand.nextInt(3) - 1;
+		}
 		
 		// make the buildings have a better chance at being round
-		if (rand.nextBoolean()) {
+		if (rand.nextInt(context.oddsOfSimilarInsetBuildings) == 0) {
 			insetWallNS = insetWallEW;
 			insetCeilingNS = insetCeilingEW;
 		}
@@ -60,10 +57,11 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		// nudge in a bit more as we go up
 		insetInsetMidAt = 1;
 		insetInsetHighAt = 1;
-		insetInsetted = height >= buildingWallInsettedMinHeight && rand.nextInt(buildingWallInsettedOdds) == 0;
+		insetInsetted = height >= context.buildingWallInsettedMinLowPoint && rand.nextInt(context.oddsOfBuildingWallInset) == 0;
 		if (insetInsetted) {
-			insetInsetMidAt = Math.max(buildingWallInsettedMinMidPoint, rand.nextInt(buildingWallInsettedMinHeight));
-			insetInsetHighAt = Math.max(insetInsetMidAt + 1, rand.nextInt(buildingWallInsettedMinHeight));
+			insetInsetMidAt = Math.max(context.buildingWallInsettedMinMidPoint, 
+									   rand.nextInt(context.buildingWallInsettedMinLowPoint));
+			insetInsetHighAt = Math.max(insetInsetMidAt + 1, rand.nextInt(context.buildingWallInsettedMinLowPoint));
 		}
 		
 		// what is it made of?
@@ -75,7 +73,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		roofMaterial = wallMaterial;
 		
 		// what are the walls of the stairs made of?
-		if (rand.nextInt(stairWallMaterialIsWallMaterialOdds) == 0)
+		if (rand.nextInt(context.oddsOfStairWallMaterialIsWallMaterial) == 0)
 			stairWallMaterial = wallMaterial;
 		else
 			stairWallMaterial = pickStairWallMaterial(wallMaterial);
@@ -116,18 +114,19 @@ public class PlatOfficeBuilding extends PlatBuilding {
 			stairMaterial = relativebuilding.stairMaterial;
 			stairWallMaterial = relativebuilding.stairWallMaterial;
 			doorMaterial = relativebuilding.doorMaterial;
+			roofMaterial = relativebuilding.wallMaterial;
 		}
 	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk chunk, int platX, int platZ) {
+	public void generateChunk(PlatMap platmap, ByteChunk chunk, ContextUrban context, int platX, int platZ) {
 		// check out the neighbors
 		SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);
 
 		// starting with the bottom
 		int lowestY = PlatMap.StreetLevel - FloorHeight * (depth - 1) - 3;
-		generateBedrock(chunk, lowestY);
+		generateBedrock(chunk, context, lowestY);
 		
 		// bottom most floor
 		drawCeilings(chunk, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);
@@ -136,7 +135,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		// below ground
 		for (int floor = 0; floor < depth; floor++) {
 			int floorAt = PlatMap.StreetLevel - FloorHeight * floor - 2;
-			
+
 			// one floor please
 			drawWalls(chunk, floorAt, FloorHeight - 1, 0, 0, false,
 					wallMaterial, wallMaterial, neighborBasements);
@@ -179,6 +178,10 @@ public class PlatOfficeBuilding extends PlatBuilding {
 			drawCeilings(chunk, floorAt + FloorHeight - 1, 1, 
 					localInsetCeilingEW, localInsetCeilingNS, 
 					allowRounded, ceilingMaterial, neighborFloors);
+			
+			// final floor is done... how about a roof then?
+			if (floor == height - 1)
+				drawRoof(chunk, PlatMap.StreetLevel + FloorHeight * (floor + 1) + 2, localInsetWallEW, localInsetWallNS, allowRounded, roofMaterial, neighborFloors);
 
 			// one down, more to go
 			neighborFloors.decrement();
@@ -186,7 +189,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	}
 	
 	@Override
-	public void generateBlocks(PlatMap platmap, RealChunk chunk, int platX, int platZ) {
+	public void generateBlocks(PlatMap platmap, RealChunk chunk, ContextUrban context, int platX, int platZ) {
 		// check out the neighbors
 		//SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);
@@ -246,8 +249,9 @@ public class PlatOfficeBuilding extends PlatBuilding {
 							stairLocation, stairMaterial);
 				
 				// fancy walls... maybe
-				drawStairsWalls(chunk, y, FloorHeight, insetWallEW, insetWallNS, 
-						stairLocation, stairWallMaterial, floor == height - 1, false);
+				if (floor > 0 || (floor == 0 && (depth > 0 || height > 1)))
+					drawStairsWalls(chunk, y, FloorHeight, insetWallEW, insetWallNS, 
+							stairLocation, stairWallMaterial, floor == height - 1, floor == 0 && depth == 0);
 			}
 		}
 	}

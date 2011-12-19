@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.Context.ContextUrban;
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 
@@ -12,12 +13,12 @@ public class PlatBiome extends PlatLot {
 
 	protected final static byte stoneId = (byte) Material.STONE.getId();
 	
-	public PlatBiome(Random rand) {
-		super(rand);
+	public PlatBiome(Random rand, ContextUrban context) {
+		super(rand, context);
 	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk byteChunk, int platX, int platZ) {
+	public void generateChunk(PlatMap platmap, ByteChunk byteChunk, ContextUrban context, int platX, int platZ) {
 		
 		byteChunk.setLayer(0, PlatMap.StreetLevel + 1, stoneId);
 		

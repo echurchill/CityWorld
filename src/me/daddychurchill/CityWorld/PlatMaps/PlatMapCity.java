@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.PlatMaps;
 
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.Context.ContextUrban;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatOfficeBuilding;
 import me.daddychurchill.CityWorld.Plats.PlatPark;
@@ -15,20 +16,8 @@ public class PlatMapCity extends PlatMapUrban {
 	public int floorsMaximumAbove;
 	public int floorsMaximumBelow;
 	
-	// Class Odds
-	static final public int overallParkOdds = 4; //5; // parks show up 1/n of the time
-	static final public int overallIsolatedBuildingOdds = 4; // isolated buildings 1/n of the time
-	static final public int overallIdenticalHeightsOdds = 2; // similar height 1/n of the time
-	static final public int overallSimilarHeightsOdds = 2; // identical height 1/n of the time
-	static final public int overallSimilarRoundedOdds = 2; // like rounding 1/n of the time
-	static final public int overallUnfinishedOdds = 10; // unfinished buildings show up 1/n of the time
-
-	public PlatMapCity(World world, Random random, int platX, int platZ) {
-		super(world, random, platX, platZ);
-
-		// calculate the extremes for this plat
-		floorsMaximumAbove = 3 + platRand.nextInt(4) * 4;
-		floorsMaximumBelow = 1 + platRand.nextInt(4);
+	public PlatMapCity(World world, Random random, ContextUrban context, int platX, int platZ) {
+		super(world, random, context, platX, platZ);
 
 		// backfill with buildings and parks
 		for (int x = 0; x < Width; x++) {
@@ -36,21 +25,14 @@ public class PlatMapCity extends PlatMapUrban {
 				PlatLot current = platLots[x][z];
 				if (current == null) {
 
+					//TODO I need to come up with a more elegant way of doing this!
 					// what to build?
-					if (platRand.nextInt(overallParkOdds) == 0)
-						current = new PlatPark(platRand);
-					else if (platRand.nextInt(overallUnfinishedOdds) == 0)
-						current = new PlatUnfinishedBuilding(platRand,
-								floorsMaximumAbove, floorsMaximumBelow, 
-								overallIdenticalHeightsOdds, 
-								overallSimilarHeightsOdds,
-								overallSimilarRoundedOdds);
+					if (platRand.nextInt(context.oddsOfParks) == 0)
+						current = new PlatPark(platRand, context);
+					else if (platRand.nextInt(context.oddsOfUnfinishedBuildings) == 0)
+						current = new PlatUnfinishedBuilding(platRand, context);
 					else
-						current = new PlatOfficeBuilding(platRand,
-								floorsMaximumAbove, floorsMaximumBelow, 
-								overallIdenticalHeightsOdds, 
-								overallSimilarHeightsOdds,
-								overallSimilarRoundedOdds);
+						current = new PlatOfficeBuilding(platRand, context);
 					
 					/* for each plot
 					 *   randomly pick a plattype
@@ -71,11 +53,8 @@ public class PlatMapCity extends PlatMapUrban {
 						previous = platLots[x][z - 1];
 					}
 					
-					//TODO note the running size of the connected building
-
 					// if there was a similar previous one then copy it... maybe
-					if (previous != null
-							&& platRand.nextInt(overallIsolatedBuildingOdds) != 0) {
+					if (previous != null && !previous.isIsolatedLot(context.oddsOfIsolatedLots)) {
 						current.makeConnected(platRand, previous);
 					}
 
@@ -84,8 +63,5 @@ public class PlatMapCity extends PlatMapUrban {
 				}
 			}
 		}
-		
-		//TODO now go through all of the lots and for each connected one make sure there is 
-		//     one vertical access point (stairs, ladders, etc.)
 	}
 }

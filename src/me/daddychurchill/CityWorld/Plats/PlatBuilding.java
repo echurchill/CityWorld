@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.Context.ContextUrban;
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
@@ -17,9 +18,6 @@ import org.bukkit.Material;
 
 public abstract class PlatBuilding extends PlatLot {
 	
-	//TODO remove this once rounding buildings really works
-	public static final boolean enableRounding = true;
-	
 	protected boolean neighborsHaveIdenticalHeights;
 	protected int neighborsHaveSimilarHeightsOdds;
 	protected int neighborsHaveSimilarRoundedOdds;
@@ -32,39 +30,54 @@ public abstract class PlatBuilding extends PlatLot {
 	protected MaterialFactory windowsNS;
 	protected final static byte airId = (byte) Material.AIR.getId();
 	protected final static byte ironId = (byte) Material.IRON_BLOCK.getId();
+	protected final static byte antennaId = (byte) Material.FENCE.getId();
+	protected final static byte lightId = (byte) Material.GLOWSTONE.getId();
+	protected final static byte conditionerId = (byte) Material.ENDER_PORTAL_FRAME.getId();
+	protected final static Material tileMaterial = Material.STEP;
 	
-	public enum RoofStyle {FLATTOP, EDGED, PEAK, ANTENNA};
-	
+	public enum RoofStyle {FLATTOP, EDGED, PEAK};
+	public enum RoofFeature {ANTENNAS, CONDITIONERS, TILE};
 	protected RoofStyle roofStyle;
+	protected RoofFeature roofFeature;
+	protected int roofScale;
 	
-	public PlatBuilding(Random rand, int maxHeight, int maxDepth, 
-			int overallIdenticalHeightsOdds, int overallSimilarHeightsOdds, 
-			int overallSimilarRoundedOdds) {
-		super(rand);
+	public PlatBuilding(Random rand, ContextUrban context) {
+		super(rand, context);
 		
-		neighborsHaveIdenticalHeights = rand.nextInt(overallIdenticalHeightsOdds) == 0;
-		neighborsHaveSimilarHeightsOdds = overallIdenticalHeightsOdds;
-		neighborsHaveSimilarRoundedOdds = overallSimilarRoundedOdds;
-		height = rand.nextInt(maxHeight) + 1;
-		depth = rand.nextInt(maxDepth) + 1;
+		neighborsHaveIdenticalHeights = rand.nextInt(context.oddsOfIdenticalBuildingHeights) == 0;
+		neighborsHaveSimilarHeightsOdds = context.oddsOfIdenticalBuildingHeights;
+		neighborsHaveSimilarRoundedOdds = context.oddsOfSimilarBuildingRounding;
+		height = rand.nextInt(context.maximumFloorsAbove) + 1;
+		depth = rand.nextInt(context.maximumFloorsBelow) + 1;
 		needStairsDown = true;
 		needStairsUp = true;
-		rounded = rand.nextInt(overallSimilarRoundedOdds) == 0;
+		rounded = rand.nextInt(context.oddsOfSimilarBuildingRounding) == 0;
 		roofStyle = pickRoofStyle(rand);
+		roofFeature = pickRoofFeature(rand);
+		roofScale = rand.nextInt(2) + 1;
 		windowsEW = new GlassFactoryEW(rand);
 		windowsNS = new GlassFactoryNS(rand, windowsEW.style);
 	}
 	
 	static public RoofStyle pickRoofStyle(Random rand) {
-		switch (RoofStyle.values().length) {
+		switch (rand.nextInt(3)) {
 		case 1:
 			return RoofStyle.EDGED;
 		case 2:
 			return RoofStyle.PEAK;
-		case 3:
-			return RoofStyle.ANTENNA;
 		default:
 			return RoofStyle.FLATTOP;
+		}
+	}
+	
+	static public RoofFeature pickRoofFeature(Random rand) {
+		switch (rand.nextInt(3)) {
+		case 1:
+			return RoofFeature.ANTENNAS;
+		case 2:
+			return RoofFeature.CONDITIONERS;
+		default:
+			return RoofFeature.TILE;
 		}
 	}
 	
@@ -97,6 +110,8 @@ public abstract class PlatBuilding extends PlatLot {
 			
 			// any other bits
 			roofStyle = relativebuilding.roofStyle;
+			roofFeature = relativebuilding.roofFeature;
+			roofScale = relativebuilding.roofScale;
 			windowsEW = relativebuilding.windowsEW;
 			windowsNS = relativebuilding.windowsNS;
 			
@@ -230,7 +245,6 @@ public abstract class PlatBuilding extends PlatLot {
 		
 		// rounded and square inset and there are exactly two neighbors?
 		if (allowRounded && rounded) { //TODO && insetNS == insetEW && heights.getNeighborCount() == 2
-			glassId = (byte) Material.GLASS.getId();
 			if (heights.toSouth()) {
 				if (heights.toWest()) {
 					byteChunk.setArcSouthWest(insetNS, y1, y2, glassId, false);
@@ -313,99 +327,57 @@ public abstract class PlatBuilding extends PlatLot {
 		}
 	}
 	
-	protected void drawRoof(ByteChunk byteChunk, int y1, int height, 
+	//TODO roof fixtures (peak, antenna, helipad, air conditioning, stairwells access, penthouse, castle trim, etc.
+	protected void drawRoof(ByteChunk chunk, int y1, 
 			int insetNS, int insetEW, boolean allowRounded, 
 			Material material, SurroundingFloors heights) {
-		
-//		// precalculate
-//		byte materialId = (byte) material.getId();
-//		byte glassId = (byte) glass.getId();
-//		int y2 = y1 + height;
-//		boolean stillNeedWalls = true;
-//		
-//		// rounded and square inset and there are exactly two neighbors?
-//		if (allowRounded && rounded) { //TODO && insetNS == insetEW && heights.getNeighborCount() == 2
-//			glassId = (byte) Material.GLASS.getId();
-//			if (heights.toSouth()) {
-//				if (heights.toWest()) {
-//					byteChunk.setArcSouthWest(insetNS, y1, y2, glassId, false);
-//					if (!heights.toSouthWest())
-//						byteChunk.setBlocks(insetNS, y1, y2, ByteChunk.Width - insetEW - 1, materialId);
-//					stillNeedWalls = false;
-//				} else if (heights.toEast()) {
-//					byteChunk.setArcSouthEast(insetNS, y1, y2, glassId, false);
-//					if (!heights.toSouthEast())
-//						byteChunk.setBlocks(ByteChunk.Width - insetNS - 1, y1, y2, ByteChunk.Width - insetEW - 1, materialId);
-//					stillNeedWalls = false;
-//				}
-//			} else if (heights.toNorth()) {
-//				if (heights.toWest()) {
-//					byteChunk.setArcNorthWest(insetNS, y1, y2, glassId, false);
-//					if (!heights.toNorthWest())
-//						byteChunk.setBlocks(insetNS, y1, y2, insetEW, materialId);
-//					stillNeedWalls = false;
-//				} else if (heights.toEast()) {
-//					byteChunk.setArcNorthEast(insetNS, y1, y2, glassId, false);
-//					if (!heights.toNorthEast())
-//						byteChunk.setBlocks(ByteChunk.Width - insetNS - 1, y1, y2, insetEW, materialId);
-//					stillNeedWalls = false;
-//				}
-//			}
-//		}
-//		
-//		// still need to do something?
-//		if (stillNeedWalls) {
-//			
-//			// corner columns
-//			if (!heights.toNorthWest())
-//				byteChunk.setBlocks(insetNS, y1, y2, insetEW, materialId);
-//			if (!heights.toSouthWest())
-//				byteChunk.setBlocks(insetNS, y1, y2, ByteChunk.Width - insetEW - 1, materialId);
-//			if (!heights.toNorthEast())
-//				byteChunk.setBlocks(ByteChunk.Width - insetNS - 1, y1, y2, insetEW, materialId);
-//			if (!heights.toSouthEast())
-//				byteChunk.setBlocks(ByteChunk.Width - insetNS - 1, y1, y2, ByteChunk.Width - insetEW - 1, materialId);
-//			
-//			// cardinal walls
-//			if (!heights.toWest())
-//				byteChunk.setBlocks(insetNS,  insetNS + 1, y1, y2, insetEW + 1, ByteChunk.Width - insetEW - 1, materialId, glassId, windowsNS);
-//			if (!heights.toEast())
-//				byteChunk.setBlocks(ByteChunk.Width - insetNS - 1,  ByteChunk.Width - insetNS, y1, y2, insetEW + 1, ByteChunk.Width - insetEW - 1, materialId, glassId, windowsNS);
-//			if (!heights.toNorth())
-//				byteChunk.setBlocks(insetNS + 1, ByteChunk.Width - insetNS - 1, y1, y2, insetEW, insetEW + 1, materialId, glassId, windowsEW);
-//			if (!heights.toSouth())
-//				byteChunk.setBlocks(insetNS + 1, ByteChunk.Width - insetNS - 1, y1, y2, ByteChunk.Width - insetEW - 1, ByteChunk.Width - insetEW, materialId, glassId, windowsEW);
-//		}
-//			
-//		// only if there are insets
-//		if (insetNS > 0) {
-//			if (heights.toWest()) {
-//				if (!heights.toNorthWest())
-//					byteChunk.setBlocks(0, insetNS, y1, y2, insetEW, insetEW + 1, materialId, glassId, windowsNS);
-//				if (!heights.toSouthWest())
-//					byteChunk.setBlocks(0, insetNS, y1, y2, ByteChunk.Width - insetEW - 1, ByteChunk.Width - insetEW, materialId, glassId, windowsNS);
-//			}
-//			if (heights.toEast()) {
-//				if (!heights.toNorthEast())
-//					byteChunk.setBlocks(ByteChunk.Width - insetNS, ByteChunk.Width, y1, y2, insetEW, insetEW + 1, materialId, glassId, windowsNS);
-//				if (!heights.toSouthEast())
-//					byteChunk.setBlocks(ByteChunk.Width - insetNS, ByteChunk.Width, y1, y2, ByteChunk.Width - insetEW - 1, ByteChunk.Width - insetEW, materialId, glassId, windowsNS);
-//			}
-//		}
-//		if (insetEW > 0) {
-//			if (heights.toNorth()) {
-//				if (!heights.toNorthWest())
-//					byteChunk.setBlocks(insetNS, insetNS + 1, y1, y2, 0, insetEW, materialId, glassId, windowsEW);
-//				if (!heights.toNorthEast())
-//					byteChunk.setBlocks(ByteChunk.Width - insetNS - 1, ByteChunk.Width - insetNS, y1, y2, 0, insetEW, materialId, glassId, windowsEW);
-//			}
-//			if (heights.toSouth()) {
-//				if (!heights.toSouthWest())
-//					byteChunk.setBlocks(insetNS, insetNS + 1, y1, y2, ByteChunk.Width - insetEW, ByteChunk.Width, materialId, glassId, windowsEW);
-//				if (!heights.toSouthEast())
-//					byteChunk.setBlocks(ByteChunk.Width - insetNS - 1, ByteChunk.Width - insetNS, y1, y2, ByteChunk.Width - insetEW, ByteChunk.Width, materialId, glassId, windowsEW);
-//			}
-//		}
+		switch (roofStyle) {
+		case PEAK:
+			for (int i = 0; i < PlatMap.FloorHeight; i++) {
+				if (i == PlatMap.FloorHeight - 1)
+					drawCeilings(chunk, y1 + i * roofScale, roofScale, insetNS + i, insetEW + i, allowRounded, material, heights);
+				else
+					drawWalls(chunk, y1 + i * roofScale, roofScale, insetNS + i, insetEW + i, allowRounded, material, material, heights);
+			}
+			break;
+		case EDGED:
+			drawWalls(chunk, y1, 1, insetNS, insetEW, allowRounded, material, material, heights);
+			// falls through to default/FlatTop
+			
+		case FLATTOP:
+			switch (roofFeature) {
+			case ANTENNAS:
+				if (heights.getNeighborCount() == 0) {
+					drawAntenna(chunk, 5, y1, 4);
+					drawAntenna(chunk, 9, y1, 5);
+					drawAntenna(chunk, 6, y1, 11);
+					drawAntenna(chunk, 11, y1, 11);
+					break;
+				} // else go for the conditioners
+			case CONDITIONERS:
+				drawConditioner(chunk, 4, y1, 5);
+				drawConditioner(chunk, 10, y1, 4);
+				drawConditioner(chunk, 5, y1, 12);
+				drawConditioner(chunk, 8, y1, 10);
+				break;
+			case TILE:
+				drawCeilings(chunk, y1, 1, insetNS + 1, insetEW + 1, allowRounded, tileMaterial, heights);
+				break;
+			}
+		}
+	}
+	
+	private void drawAntenna(ByteChunk chunk, int x, int y, int z) {
+		if (rand.nextBoolean()) {
+			int h = rand.nextInt(12) + 4;
+			chunk.setBlocks(x, y, y + h, z, antennaId);
+			chunk.setBlock(x, y + h, z, lightId);
+		}
+	}
+	
+	private void drawConditioner(ByteChunk chunk, int x, int y, int z) {
+		if (rand.nextBoolean())
+			chunk.setBlocks(x, y, y + 1, z, conditionerId);
 	}
 	
 	private void drawDoor(RealChunk chunk, int x1, int x2, int x3, int y1, int y2, int z1, int z2, int z3, 
@@ -489,7 +461,7 @@ public abstract class PlatBuilding extends PlatLot {
 	}
 	
 	//TODO These might go too far by one
-	class StairAt {
+	static class StairAt {
 		public int X = 0;
 		public int Z = 0;
 		public StairAt(int floorHeight, int insetNS, int insetEW, StairWell where) {

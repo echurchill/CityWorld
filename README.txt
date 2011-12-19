@@ -1,4 +1,4 @@
-/***** CITYWORLD v0.54
+/***** CITYWORLD v0.55
 * City world generator for Minecraft/Bukkit
 * Copyright (C) 2011 daddychurchill <http://www.virtualchurchill.com>
 *
@@ -15,15 +15,18 @@
 * You should have received a copy of the GNU General Public License
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-
 Todo
 Add command to level a city block
 Rivers and bridges
 Subway/elevated rail roads
 Terrain under the city
-Theming of blocks (industrial, highrise, midrise, government, residential, condos, etc.)
 Bring back rural blocks
 Park benches and other furniture
+Need to fix bugs in building roofs
+
+v0.55
+Theming of city blocks (highrise, midrise, lowrise, big parks, etc.)
+First pass of roofs (peaks, edges, antennas, air conditioners, etc.)
 
 v0.54
 West is North... I really hope I have this issue nailed this time

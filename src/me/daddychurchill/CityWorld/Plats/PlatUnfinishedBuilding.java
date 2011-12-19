@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.bukkit.Material;
 
+import me.daddychurchill.CityWorld.Context.ContextUrban;
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -18,25 +19,24 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	protected final static byte girderId = (byte) Material.IRON_BLOCK.getId();
 	protected final static Material dirtMaterial = Material.DIRT;
 	protected final static Material fenceMaterial = Material.IRON_FENCE;
-	protected final static Material stairMaterial = Material.SMOOTH_STAIRS;
-	protected final static Material stairWallMaterial = Material.SMOOTH_BRICK;
+	protected final static Material stairMaterial = Material.WOOD_STAIRS;
 	protected final static Material wallMaterial = Material.SMOOTH_BRICK;
 	protected final static Material ceilingMaterial = Material.STONE;
 	
-	protected final static int onlyUnfinishedBasementsOdds = 8; // unfinished buildings only have basements 1/n of the time
 	protected final static int fenceHeight = 3;
 	protected final static int inset = 2;
-	protected boolean basementOnly;
+	
+	// our special bits
+	protected boolean unfinishedBasementOnly;
 	protected int floorsBuilt;
 	
-	public PlatUnfinishedBuilding(Random rand, int maxHeight, int maxDepth,
-			int overallIdenticalHeightsOdds, int overallSimilarHeightsOdds,
-			int overallSimilarRoundedOdds) {
-		super(rand, maxHeight, maxDepth, overallIdenticalHeightsOdds,
-				overallSimilarHeightsOdds, overallSimilarRoundedOdds);
+	//TODO randomly add a construction crane on the top most horizontal girder
+	
+	public PlatUnfinishedBuilding(Random rand, ContextUrban context) {
+		super(rand, context);
 		
 		// basement only?
-		basementOnly = rand.nextInt(onlyUnfinishedBasementsOdds) == 0;
+		unfinishedBasementOnly = rand.nextInt(context.oddsOfOnlyUnfinishedBasements) == 0;
 		
 		// how many floors are finished?
 		floorsBuilt = rand.nextInt(height);
@@ -45,26 +45,27 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	@Override
 	public void makeConnected(Random rand, PlatLot relative) {
 		super.makeConnected(rand, relative);
+		// unlike most other plat types, this one doesn't attempt to make its bits similar
 		
 		// other bits
-		if (relative instanceof PlatUnfinishedBuilding) {
-			//PlatUnfinishedBuilding relativebuilding = (PlatUnfinishedBuilding) relative;
-
-			// unlike most other plat types, this one doesn't attempt to make its bits similar
-			//basementOnly = relativebuilding.basementOnly;
-			//floorsBuilt = relativebuilding.floorsBuilt;
-		}
+//		if (relative instanceof PlatUnfinishedBuilding) {
+//			PlatUnfinishedBuilding relativebuilding = (PlatUnfinishedBuilding) relative;
+//
+//			// our special bits
+//			basementOnly = relativebuilding.basementOnly;
+//			floorsBuilt = relativebuilding.floorsBuilt;
+//		}
 	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk chunk, int platX, int platZ) {
+	public void generateChunk(PlatMap platmap, ByteChunk chunk, ContextUrban context, int platX, int platZ) {
 		// check out the neighbors
 		SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);
 
 		// starting with the bottom
 		int lowestY = PlatMap.StreetLevel - FloorHeight * (depth - 1) - 3;
-		generateBedrock(chunk, lowestY);
+		generateBedrock(chunk, context, lowestY);
 		
 		// bottom most floor
 		drawCeilings(chunk, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);
@@ -87,21 +88,22 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 					wallMaterial, wallMaterial, neighborBasements);
 			
 			// ceilings if needed
-			if (basementOnly) {
-				drawHorizontalGirders(chunk, floorAt + FloorHeight - 1, neighborBasements);
-				drawVerticalGirders(chunk, floorAt, FloorHeight);
-			} else {
+			if (!unfinishedBasementOnly) {
 				drawCeilings(chunk, floorAt + FloorHeight - 1, 1, 1, 1, false,
 						ceilingMaterial, neighborBasements);
-				drawVerticalGirders(chunk, floorAt, FloorHeight);
+			} else {
+				drawHorizontalGirders(chunk, floorAt + FloorHeight - 1, neighborBasements);
 			}
 	
+			// hold up the bit we just drew
+			drawVerticalGirders(chunk, floorAt, FloorHeight);
+			
 			// one down, more to go
 			neighborBasements.decrement();
 		}
 		
 		// do more?
-		if (!basementOnly) {
+		if (!unfinishedBasementOnly) {
 
 			// above ground
 			for (int floor = 0; floor < height; floor++) {
@@ -109,14 +111,20 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 				
 				// floor built yet?
 				if (floor <= floorsBuilt) {
+					
+					// the floor of the next floor
 					drawCeilings(chunk, floorAt + FloorHeight - 1, 1, 1, 1, false,
 							ceilingMaterial, neighborFloors);
-					drawVerticalGirders(chunk, floorAt, FloorHeight);
 				} else {
-					drawHorizontalGirders(chunk, floorAt + FloorHeight - 1, neighborFloors);
-					drawVerticalGirders(chunk, floorAt, FloorHeight);
+					
+					// sometimes the top most girders aren't there quite yet
+					if (floor < height - 1 || rand.nextBoolean())
+						drawHorizontalGirders(chunk, floorAt + FloorHeight - 1, neighborFloors);
 				}
 	
+				// hold up the bit we just drew
+				drawVerticalGirders(chunk, floorAt, FloorHeight);
+				
 				// one down, more to go
 				neighborFloors.decrement();
 			}
@@ -124,10 +132,10 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	}
 
 	@Override
-	public void generateBlocks(PlatMap platmap, RealChunk chunk, int platX, int platZ) {
+	public void generateBlocks(PlatMap platmap, RealChunk chunk, ContextUrban context, int platX, int platZ) {
 		
 		// work on the basement stairs first
-		if (!basementOnly) {
+		if (!unfinishedBasementOnly) {
 			
 			if (needStairsDown) {
 				for (int floor = 0; floor < depth; floor++) {
@@ -135,9 +143,11 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 					
 					// place the stairs and such
 					drawStairs(chunk, y, FloorHeight, inset, inset, StairWell.CENTER, stairMaterial);
-						
-					// plain walls please
-					drawStairsWalls(chunk, y, FloorHeight, inset, inset, StairWell.CENTER, wallMaterial, false, floor == depth - 1);
+
+// unfinished buildings don't need walls on the stairs
+//					// plain walls please
+//					drawStairsWalls(chunk, y, FloorHeight, inset, inset, StairWell.CENTER, 
+//							wallMaterial, false, false);
 				}
 			}
 			
@@ -149,10 +159,14 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 					if (floor <= floorsBuilt) {
 						
 						// more stairs and such
-						drawStairs(chunk, y, FloorHeight, inset, inset, StairWell.CENTER, stairMaterial);
+						if (floor < height - 1)
+							drawStairs(chunk, y, FloorHeight, inset, inset, StairWell.CENTER, stairMaterial);
 						
-						// fancy walls... maybe
-						drawStairsWalls(chunk, y, FloorHeight, inset, inset, StairWell.CENTER, stairWallMaterial, false, false);
+// unfinished buildings don't need walls on the stairs
+//						// fancy walls... maybe
+//						if (floor > 0 || (floor == 0 && (depth > 0 || height > 1)))
+//							drawStairsWalls(chunk, y, FloorHeight, inset, inset, StairWell.CENTER, 
+//									stairWallMaterial, false, false);
 					}
 				}
 			}

@@ -4,8 +4,17 @@ import java.util.Hashtable;
 import java.util.Random;
 import java.util.logging.Logger;
 
+import me.daddychurchill.CityWorld.Context.ContextAllPark;
+import me.daddychurchill.CityWorld.Context.ContextCityCenter;
+import me.daddychurchill.CityWorld.Context.ContextHighrise;
+import me.daddychurchill.CityWorld.Context.ContextLowrise;
+import me.daddychurchill.CityWorld.Context.ContextMall;
+import me.daddychurchill.CityWorld.Context.ContextMidrise;
+import me.daddychurchill.CityWorld.Context.ContextUnfinished;
+import me.daddychurchill.CityWorld.Context.ContextUrban;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.World;
 
@@ -17,70 +26,58 @@ public abstract class PlatMap {
 	// Class Constants
 	static final public int Width = 10;
 	static final public int FloorHeight = 4;
-	static final public int StreetLevel = FloorHeight * 6;
-	
-	/*
-	public class Bla {
-		public int oddsOfMissingRoad; // 1/n = odds of a road being missing
-		public int oddsOfRoundAbouts; // 1/n = odds of an intersection being a roundabout
-	
-		public int oddsOfParks; // 1/n = odds of a plat being a park
-		public int oddsOfSquaredParks; // 1/n = odds of a neighboring connected parks being rectangular (platwise)
-		
-		public int oddsOfIsolatedBuildings; // 1/n = odds of isolated buildings
-		public int oddsOfIdenticalBuildingHeights; // 1/n = odds of buildings in neighboring plats are the same size
-		public int oddsOfSimilarBuildingHeights; // 1/n = if not identical, how similar are the heights
-		public int oddsOfSquaredBuildings; // 1/n = odds of neighboring connected buildings being rectangular (plat wise)
-		public int oddsOfHiddenBuildings; // 1/n = odds buildings buried behind buildings 
-		
-		public int oddsOfRoundedCorners; // 1/n = odds of a building having rounded corners
-		
-		public int floorsTallestBuilding; // n = tallest building possible in a platmap in floors
-		public int floorsShortestBuilding; // n = shortest building possible in a platmap in floors
-		public int floorsDeepestBasement; // n = deepest basement possible in a platmap in floors
-		
-		public int oddsOfExtraHighFirstFloor; // 1/n = is the first floor extra tall
-		public int oddsOfExtraHighFloors; // 1/n = are all the floors extra tall
-		public int multiplierExtraHighFloor; // n = how high are the extra tall floors (even multiple of floor height)
-		
-		public int oddsOfColumnsForFirstFloor; // does the first floor have columns
-		public int oddsOfColumnsForBuilding; // odds the building has lots of columns
-		public int oddsOfColumnsToHeight; // if the building has lots of columns, maximum of height that might have columns
-		
-	}
-	 */
+	static final public int FudgeFloorsBelow = 2;
+	static final public int FudgeFloorsAbove = 4;
+	static final public int AbsoluteMaximumFloorsBelow = 4;
+	static final public int StreetLevel = FloorHeight * (AbsoluteMaximumFloorsBelow + FudgeFloorsBelow);
+	static final public int AbsoluteMaximumFloorsAbove = (RealChunk.Height - StreetLevel) / FloorHeight - FudgeFloorsAbove; 
 	
 	// Instance data
 	public World theWorld;
 	public int X;
 	public int Z;
 	public Random platRand;
+	public ContextUrban context;
 	public PlatLot[][] platLots;
 
-	public PlatMap(World world, Random random, int platX, int platZ) {
+	public PlatMap(World world, Random random, ContextUrban context, int platX, int platZ) {
 		super();
 		// log.info(String.format("PM: %d x %d create", platX, platZ));
 
 		// populate the instance data
-		theWorld = world;
-		X = platX;
-		Z = platZ;
-		platRand = new Random(world.getSeed() + (long) X * (long) Width + (long) Z);
+		this.theWorld = world;
+		this.context = context;
+		this.X = platX;
+		this.Z = platZ;
+		this.platRand = new Random(world.getSeed() + (long) X * (long) Width + (long) Z);
 
 		// make room for plat data
 		platLots = new PlatLot[Width][Width];
 	}
 
-	public void generateChunk(ByteChunk byteChunk) {
+	public void generateChunk(ByteChunk chunk) {
 
 		// depending on the platchunk's type render a layer
-		int platX = byteChunk.X - X;
-		int platZ = byteChunk.Z - Z;
+		int platX = chunk.X - X;
+		int platZ = chunk.Z - Z;
 		PlatLot platlot = platLots[platX][platZ];
 		if (platlot != null) {
 
 			// do what we came here for
-			platlot.generateChunk(this, byteChunk, platX, platZ);
+			platlot.generateChunk(this, chunk, context, platX, platZ);
+		}
+	}
+
+	public void generateBlocks(RealChunk chunk) {
+
+		// depending on the platchunk's type render a layer
+		int platX = chunk.X - X;
+		int platZ = chunk.Z - Z;
+		PlatLot platlot = platLots[platX][platZ];
+		if (platlot != null) {
+
+			// do what we came here for
+			platlot.generateBlocks(this, chunk, context, platX, platZ);
 		}
 	}
 
@@ -127,6 +124,9 @@ public abstract class PlatMap {
 		// doesn't exist? then make it!
 		if (platmap == null) {
 			
+			// what is the context for this one?
+			ContextUrban context = getContext(world, random, chunkX, chunkZ);
+			
 			// figure out the biome for this platmap
 			switch (world.getBiome(platX, platZ)) {
 			case DESERT:			// industrial zone
@@ -150,12 +150,12 @@ public abstract class PlatMap {
 			case TAIGA:				// ???
 			case TUNDRA:			// recreation
  				// for now do this
-				platmap = new PlatMapCity(world, random, platX, platZ);
+				platmap = new PlatMapCity(world, random, context, platX, platZ);
 				break;
 			default:
 				//case HELL:
 				//case SKY:
-				platmap = new PlatMapBiome(world, random, platX, platZ);
+				platmap = new PlatMapBiome(world, random, context, platX, platZ);
 				break;
 			}
 			
@@ -165,6 +165,39 @@ public abstract class PlatMap {
 		
 		// finally return the plat
 		return platmap;
+	}
+	
+	static private ContextUrban getContext(World world, Random random, int chunkX, int chunkZ) {
+		switch (random.nextInt(20)) {
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+			return new ContextLowrise(random);
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+			return new ContextMidrise(random);
+		case 8:
+		case 9:
+		case 10:
+			return new ContextHighrise(random);
+		case 11:
+		case 12:
+			return new ContextAllPark(random);
+		case 13:
+		case 14:
+			return new ContextMall(random);
+		case 15:
+		case 16:
+		case 17:
+			return new ContextCityCenter(random);
+		case 18:
+		case 19:
+		default:
+			return new ContextUnfinished(random);
+		}
 	}
 
 	// Class instance data
@@ -178,6 +211,4 @@ public abstract class PlatMap {
 			return -((Math.abs(i + 1) / Width * Width) + Width);
 		}
 	}
-	
-	// ***********
 }

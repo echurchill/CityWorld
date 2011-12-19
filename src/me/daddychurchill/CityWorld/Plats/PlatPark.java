@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.Context.ContextUrban;
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Ladder;
@@ -18,7 +19,6 @@ public class PlatPark extends PlatLot {
 	protected static long connectedkeyForParks = 0;
 	
 	protected final static int cisternDepth = PlatMap.FloorHeight * 4;
-	protected final static int maxWaterDepth = PlatMap.FloorHeight * 2;
 	protected final static int groundDepth = 2;
 	
 	protected final static byte cisternId = (byte) Material.IRON_BLOCK.getId();
@@ -34,11 +34,13 @@ public class PlatPark extends PlatLot {
 	//TODO NW/SE quarter partial circle sidewalks
 	//TODO pond inside of circle sidewalks instead of tree
 	//TODO park benches
+	//TODO gazebos
 	
 	private boolean circleSidewalk;
+	private int waterDepth;
 	
-	public PlatPark(Random rand) {
-		super(rand);
+	public PlatPark(Random rand, ContextUrban context) {
+		super(rand, context);
 		
 		// if the master key for paved roads isn't calculated then do it
 		if (connectedkeyForParks == 0) {
@@ -50,20 +52,40 @@ public class PlatPark extends PlatLot {
 		
 		// pick a style
 		circleSidewalk = rand.nextBoolean();
+		waterDepth = rand.nextInt(PlatMap.FloorHeight * 2);
 	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk chunk, int platX, int platZ) {
+	public void makeConnected(Random rand, PlatLot relative) {
+		// TODO Auto-generated method stub
+		super.makeConnected(rand, relative);
+		
+		// other bits
+		if (relative instanceof PlatPark) {
+			PlatPark relativebuilding = (PlatPark) relative;
+
+			// we don't card about circleSidewalk, that is supposed to be different
+			waterDepth = relativebuilding.waterDepth;
+		}
+	}
+
+	@Override
+	public boolean isIsolatedLot(int oddsOfIsolation) {
+		return false;
+	}
+
+	@Override
+	public void generateChunk(PlatMap platmap, ByteChunk chunk, ContextUrban context, int platX, int platZ) {
 
 		// starting with the bottom
 		int lowestY = PlatMap.StreetLevel - cisternDepth + 1;
 		int highestY = PlatMap.StreetLevel - groundDepth;
-		generateBedrock(chunk, lowestY);
+		generateBedrock(chunk, context, lowestY);
 		chunk.setLayer(lowestY, cisternId);
 		
 		// fill with water
 		lowestY++;
-		chunk.setBlocks(0, ByteChunk.Width, lowestY, lowestY + maxWaterDepth, 0, ByteChunk.Width, waterId);
+		chunk.setBlocks(0, ByteChunk.Width, lowestY, lowestY + waterDepth, 0, ByteChunk.Width, waterId);
 		
 		// look around
 		SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
@@ -159,13 +181,13 @@ public class PlatPark extends PlatLot {
 	}
 	
 	@Override
-	public void generateBlocks(PlatMap platmap, RealChunk chunk, int platX, int platZ) {
+	public void generateBlocks(PlatMap platmap, RealChunk chunk, ContextUrban context, int platX, int platZ) {
 		int surfaceY = PlatMap.StreetLevel + 2;
 		
 		// way down?
 		SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
 		if (!neighbors.toNorth()) {
-			int lowestY = PlatMap.StreetLevel - cisternDepth + 1 + maxWaterDepth;
+			int lowestY = PlatMap.StreetLevel - cisternDepth + 1 + waterDepth;
 			chunk.setBlocks(4, 7, lowestY, lowestY + 1, 1, 2, ledgeMaterial);
 			chunk.setLadder(5, lowestY + 1, surfaceY, 1, Ladder.SOUTH);
 			chunk.setTrapDoor(5, surfaceY, 1, TrapDoor.EAST);
@@ -184,11 +206,4 @@ public class PlatPark extends PlatLot {
 			world.generateTree(chunk.getBlockLocation(12, surfaceY, 12), tree);
 		}
 	}
-
-	public void makeConnected(Random rand, PlatBuilding relative) {
-		super.makeConnected(rand, relative);
-		
-		// other bits
-	}
-	
 }

@@ -39,7 +39,6 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 	
 	@Override
 	public byte[] generate(World world, Random random, int chunkX, int chunkZ) {
-		//CityWorld.log.info("CityWorldChunkGenerator for " + chunkX + ", " + chunkZ);
 		
 		// place to work
 		ByteChunk byteChunk = new ByteChunk(chunkX, chunkZ);
