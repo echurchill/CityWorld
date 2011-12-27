@@ -355,8 +355,9 @@ public abstract class PlatBuilding extends PlatLot {
 					else
 						drawWalls(chunk, y1 + i * roofScale, roofScale, insetEW + i, insetNS + i, allowRounded, material, material, heights);
 				}
-				break;
-			} // else go for edged
+			} else
+				drawEdgedRoof(chunk, y1, insetEW, insetNS, allowRounded, material, true, heights);
+			break;
 		case TENTNS:
 			if (heights.getNeighborCount() == 0) { 
 				for (int i = 0; i < PlatMap.FloorHeight; i++) {
@@ -365,8 +366,9 @@ public abstract class PlatBuilding extends PlatLot {
 					else
 						drawWalls(chunk, y1 + i * roofScale, roofScale, insetEW + i, insetNS, allowRounded, material, material, heights);
 				}
-				break;
-			} // else go for edged
+			} else
+				drawEdgedRoof(chunk, y1, insetEW, insetNS, allowRounded, material, true, heights);
+			break;
 		case TENTEW:
 			if (heights.getNeighborCount() == 0) { 
 				for (int i = 0; i < PlatMap.FloorHeight; i++) {
@@ -375,32 +377,45 @@ public abstract class PlatBuilding extends PlatLot {
 					else
 						drawWalls(chunk, y1 + i * roofScale, roofScale, insetEW, insetNS + i, allowRounded, material, material, heights);
 				}
-				break;
-			} // else go for edged
+			} else
+				drawEdgedRoof(chunk, y1, insetEW, insetNS, allowRounded, material, true, heights);
+			break;
 		case EDGED:
-			drawWalls(chunk, y1, 1, insetEW, insetNS, allowRounded, material, material, heights);
-			// falls through to default/FlatTop
-			
+			drawEdgedRoof(chunk, y1, insetEW, insetNS, allowRounded, material, true, heights);
+			break;
 		case FLATTOP:
-			switch (roofFeature) {
-			case ANTENNAS:
-				if (heights.getNeighborCount() == 0) {
-					drawAntenna(chunk, 6, y1, 6);
-					drawAntenna(chunk, 6, y1, 9);
-					drawAntenna(chunk, 9, y1, 6);
-					drawAntenna(chunk, 9, y1, 9);
-					break;
-				} // else go for the conditioners
-			case CONDITIONERS:
-				drawConditioner(chunk, 6, y1, 6);
-				drawConditioner(chunk, 6, y1, 9);
-				drawConditioner(chunk, 9, y1, 6);
-				drawConditioner(chunk, 9, y1, 9);
+			drawEdgedRoof(chunk, y1, insetEW, insetNS, allowRounded, material, false, heights);
+			break;
+		}
+	}
+	
+	private void drawEdgedRoof(ByteChunk chunk, int y1, 
+			int insetEW, int insetNS, boolean allowRounded, 
+			Material material, boolean doEdge, SurroundingFloors heights) {
+		
+		// a little bit of edge 
+		if (doEdge)
+			drawWalls(chunk, y1, 1, insetEW, insetNS, allowRounded, material, material, heights);
+		
+		// add the special features
+		switch (roofFeature) {
+		case ANTENNAS:
+			if (heights.getNeighborCount() == 0) {
+				drawAntenna(chunk, 6, y1, 6);
+				drawAntenna(chunk, 6, y1, 9);
+				drawAntenna(chunk, 9, y1, 6);
+				drawAntenna(chunk, 9, y1, 9);
 				break;
-			case TILE:
-				drawCeilings(chunk, y1, 1, insetEW + 1, insetNS + 1, allowRounded, tileMaterial, heights);
-				break;
-			}
+			} // else go for the conditioners
+		case CONDITIONERS:
+			drawConditioner(chunk, 6, y1, 6);
+			drawConditioner(chunk, 6, y1, 9);
+			drawConditioner(chunk, 9, y1, 6);
+			drawConditioner(chunk, 9, y1, 9);
+			break;
+		case TILE:
+			drawCeilings(chunk, y1, 1, insetEW + 1, insetNS + 1, allowRounded, tileMaterial, heights);
+			break;
 		}
 	}
 	

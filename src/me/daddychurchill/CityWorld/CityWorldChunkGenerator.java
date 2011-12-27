@@ -30,9 +30,9 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 
 	@Override
 	public Location getFixedSpawnLocation(World world, Random random) {
-		// see if this works any better (borrowed from ExpansiveTerrain)
-		int x = random.nextInt(250) - 250;
-		int z = random.nextInt(250) - 250;
+		// see if this works any better (loosely based on ExpansiveTerrain)
+		int x = random.nextInt(100) - 50;
+		int z = random.nextInt(100) - 50;
 		int y = Math.max(world.getHighestBlockYAt(x, z), PlatMap.StreetLevel + 1);
 		return new Location(world, x, y, z);
 	}
