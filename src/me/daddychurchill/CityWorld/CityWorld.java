@@ -1,6 +1,5 @@
 package me.daddychurchill.CityWorld;
 
-import java.util.HashMap;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -8,13 +7,29 @@ import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.entity.Player;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/* CityWorld [Leave]
+ * CityBlock Reset
+ * CityBlock Clear (just roads, no buildings
+ * Noise generator used for block placement
+ * Lakes, Rivers and Oceans
+ * Dynamically load cityblocks from plugins/cityworld
+ * YML
+ *    Underworld = True/False
+ *    Plumbing = True/False
+ *    BedrockIsolation = True/False
+ */
+
 public class CityWorld extends JavaPlugin{
-    public static final Logger log = Logger.getLogger("Minecraft.CityWorld");
+	
+	public static final Logger log = Logger.getLogger("Minecraft.CityWorld");
    	
+    public CityWorld() {
+		super();
+	}
+
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(String name, String style){
 		return new CityWorldChunkGenerator(this, name, style);
@@ -30,7 +45,7 @@ public class CityWorld extends JavaPlugin{
 		//PluginManager pm = getServer().getPluginManager();
 		
 		addCommand("cityworld", new CityWorldCreateCMD(this));
-		addCommand("cityworlddebug", new CityWorldDebugCMD(this));
+//		addCommand("cityblock", new CityWorldBlockCMD(this));
 
 		// configFile can be retrieved via getConfig()
 		log.info(getDescription().getFullName() + " is enabled" );
@@ -45,18 +60,6 @@ public class CityWorld extends JavaPlugin{
 		}
 	}
 	
-	// debugging support (from HaxtorMoogle) (eddie: I am still fuzzy on what this is for)
-    private final HashMap<Player, Boolean> debugees = new HashMap<Player, Boolean>();
-	public boolean isDebugging(Player player) 
-	{
-		return debugees.containsKey(player) ? debugees.get(player) : false;
-    }
-
-    public void setDebugging(Player player, boolean value) 
-    {
-        debugees.put(player, value);
-    }
-    
     // prime world support (loosely based on ExpansiveTerrain)
 	public final static String WORLD_NAME = "CityWorld";
 	private static World cityWorldPrime = null;

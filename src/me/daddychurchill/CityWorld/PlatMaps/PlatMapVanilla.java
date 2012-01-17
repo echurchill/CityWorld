@@ -8,9 +8,9 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 
 import org.bukkit.World;
 
-public class PlatMapBiome extends PlatMap {
+public class PlatMapVanilla extends PlatMap {
 
-	public PlatMapBiome(World world, Random random, ContextUrban context, int platX, int platZ) {
+	public PlatMapVanilla(World world, Random random, ContextUrban context, int platX, int platZ) {
 		super(world, random, context, platX, platZ);
 
 		for (int x = 0; x < Width; x++) {
