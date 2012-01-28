@@ -1,15 +1,14 @@
 == **CityWorld** ==
 The great outdoors is all good and fine but sometimes you just want to go to town. Not any town will do, how about one that goes on forever. The Big Apple has nothing on this world generator. :-)
 
-===== //Version 0.60// =====
+===== //Version 0.57// =====
 
 {{http://dev.bukkit.org/media/images/36/712/BeautyShot.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
-v0.60
-Added /CityBlock Refresh
-Added /CityBlock Clear
+v0.57
+Quickie patch to permit support for 1.1
 
 v0.56
 Added occasional crane on unfinished buildings

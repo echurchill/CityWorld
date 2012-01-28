@@ -10,17 +10,33 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.java.JavaPlugin;
 
-/* CityWorld [Leave]
- * CityBlock Reset
- * CityBlock Clear (just roads, no buildings
- * Noise generator used for block placement
- * Lakes, Rivers and Oceans
- * Dynamically load cityblocks from plugins/cityworld
- * YML
- *    Underworld = True/False
- *    Plumbing = True/False
- *    BedrockIsolation = True/False
- */
+//TODO Global.BedrockIsolation = obsidian or bedrock barriers (false)
+//TODO Global.Plumbing = plumbing between street and underworld (true)
+//TODO Global.Sewers = sewers between street (and plumbing) and underworld (true)
+//TODO Global.Underworld = underworld beneath the city (true)
+//TODO "worldname".<option> support for world specific options
+
+//DONE Command.CityWorld
+//TODO Command.CityWorld Leave
+//TODO Command.CityWorld Regenerate
+//TODO Command.CityWorld Regenerate "PlatMapType"
+//TODO player.hasPermission("CityWorld.CityWorldCommand") = CityWorld command enabled (true)
+//TODO player.hasPermission("CityWorld.CityWorldCommandLeave") = CityWorld command leave option enabled (true)
+//TODO player.hasPermission("CityWorld.CityWorldCommandRegeneration") = CityWorld command block regeneration option enabled (true)
+
+//TODO Dynamically load platmap "engines" from plugin/cityworld/*.platmaps
+//TODO Autoregister platmap "generators" from code
+//TODO Predictable platmaps types/seeds via noise instead of random
+//TODO Oceans/lakes
+//TODO Farms
+//TODO Residential
+//TODO Sewers more maze like
+//TODO Sewers with levels
+//TODO Sewers with iron bars instead of bricks sometimes
+//TODO Sewers with vines coming down
+//TODO Mob generators in Sewers
+//TODO Treasure chests instead of chunks of ores
+//TODO Underworld with "noisy" terrain and ores
 
 public class CityWorld extends JavaPlugin{
 	

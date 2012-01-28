@@ -23,7 +23,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 public class CityWorldChunkGenerator extends ChunkGenerator {
 
@@ -101,9 +100,12 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 
 	// ***********
 	// manager for handling the city plat maps collection
-	//private double xFactor = 25.0;
-	//private double zFactor = 25.0;
-	private SimplexNoiseGenerator generator;
+//	private double xFactor = 25.0;
+//	private double zFactor = 25.0;
+//	private SimplexNoiseGenerator generatorUrban;
+//	private SimplexNoiseGenerator generatorWater;
+//	private SimplexNoiseGenerator generatorUnfinished;
+	
 	private Hashtable<Long, PlatMap> platmaps;
 	public PlatMap getPlatMap(World world, Random random, int chunkX, int chunkZ) {
 
@@ -125,44 +127,60 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 		if (platmap == null) {
 			
 			// generator generated?
-			if (generator == null)
-				generator = new SimplexNoiseGenerator(world.getSeed());
-			CityWorld.log.info("PlatMapAt: " + platX / PlatMap.Width + ", " + platZ / PlatMap.Width);
+//			if (generatorUrban == null) {
+//				long seed = world.getSeed();
+//				generatorUrban = new SimplexNoiseGenerator(seed);
+//				generatorWater = new SimplexNoiseGenerator(seed + 1);
+//				generatorUnfinished = new SimplexNoiseGenerator(seed + 2);
+//			}
+			
+//			int platX
+//			CityWorld.log.info("PlatMapAt: " + platX / PlatMap.Width + ", " + platZ / PlatMap.Width + " OR " + chunkX + ", " + chunkZ);
 			
 			// what is the context for this one?
 			ContextUrban context = getContext(world, random, chunkX, chunkZ);
 			
 			// figure out the biome for this platmap
 			switch (world.getBiome(platX, platZ)) {
-			case DESERT:			// industrial zone
-			case EXTREME_HILLS:		// tall city
-			case FOREST:			// neighborhood
-			case FROZEN_OCEAN:		// winter ocean/lake side
-			case FROZEN_RIVER:		// ???
-			case ICE_DESERT:		// stark industrial zone
-			case ICE_MOUNTAINS:		// stark tall city
-			case ICE_PLAINS:		// apartments
-			case MUSHROOM_ISLAND:	// ???
-			case MUSHROOM_SHORE:	// ???
-			case OCEAN:				// ocean/lake side
-			case PLAINS:			// farm land
-			case RAINFOREST:		// ???
-			case RIVER:				// ???
-			case SAVANNA:			// town
-			case SEASONAL_FOREST:	// ???
-			case SHRUBLAND:			// ???
-			case SWAMPLAND:			// government
-			case TAIGA:				// ???
-			case TUNDRA:			// recreation
- 				// for now do this
-				platmap = new PlatMapCity(world, random, context, platX, platZ);
-				break;
-			default:
-				//case HELL:
-				//case SKY:
+			case HELL:
+			case SKY:
 				platmap = new PlatMapVanilla(world, random, context, platX, platZ);
 				break;
+			default:
+				platmap = new PlatMapCity(world, random, context, platX, platZ);
+				break;
 			}
+			
+//			switch (world.getBiome(platX, platZ)) {
+//			case DESERT:			// industrial zone
+//			case EXTREME_HILLS:		// tall city
+//			case FOREST:			// neighborhood
+//			case FROZEN_OCEAN:		// winter ocean/lake side
+//			case FROZEN_RIVER:		// ???
+//			case ICE_DESERT:		// stark industrial zone
+//			case ICE_MOUNTAINS:		// stark tall city
+//			case ICE_PLAINS:		// apartments
+//			case MUSHROOM_ISLAND:	// ???
+//			case MUSHROOM_SHORE:	// ???
+//			case OCEAN:				// ocean/lake side
+//			case PLAINS:			// farm land
+//			case RAINFOREST:		// ???
+//			case RIVER:				// ???
+//			case SAVANNA:			// town
+//			case SEASONAL_FOREST:	// ???
+//			case SHRUBLAND:			// ???
+//			case SWAMPLAND:			// government
+//			case TAIGA:				// ???
+//			case TUNDRA:			// recreation
+// 				// for now do this
+//				platmap = new PlatMapCity(world, random, context, platX, platZ);
+//				break;
+//			default:
+//				//case HELL:
+//				//case SKY:
+//				platmap = new PlatMapVanilla(world, random, context, platX, platZ);
+//				break;
+//			}
 			
 			// remember it for quicker look up
 			platmaps.put(platkey, platmap);

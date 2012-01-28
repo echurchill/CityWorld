@@ -1,13 +1,10 @@
 name: CityWorld
 main: me.daddychurchill.CityWorld.CityWorld
-version: 0.6
+version: 0.57
 load: startup
 author: DaddyChurchill
 commands:
   cityworld:
     description: Sends you to the cityworld.
     usage: /cityworld
-  cityblock:
-    description: Performs an operation on a city block.
-    usage: /cityblock clear|refresh
     
