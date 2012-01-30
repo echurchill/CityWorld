@@ -139,6 +139,7 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 			
 			// what is the context for this one?
 			ContextUrban context = getContext(world, random, chunkX, chunkZ);
+			context.copyGlobals(plugin);
 			
 			// figure out the biome for this platmap
 			switch (world.getBiome(platX, platZ)) {

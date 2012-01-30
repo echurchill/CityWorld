@@ -123,9 +123,10 @@ public class PlatStatue extends PlatLot {
 				somethingInTheCenter = false;
 			}
 			
-			// manhole to hell?
-			if (rand.nextInt(context.oddsOfManholeToDownBelow) == 0)
-				generateManhole(chunk);
+			// manhole to underworld?
+			if (context.doUnderworld)
+				if (rand.nextInt(context.oddsOfManholeToDownBelow) == 0)
+					generateManhole(chunk);
 			break;
 		case GRASS:
 			
@@ -135,9 +136,10 @@ public class PlatStatue extends PlatLot {
 				somethingInTheCenter = false;
 			}
 			
-			// manhole to fun?
-			if (rand.nextInt(context.oddsOfManholeToDownBelow) == 0)
-				generateManhole(chunk);
+			// manhole to underworld?
+			if (context.doUnderworld)
+				if (rand.nextInt(context.oddsOfManholeToDownBelow) == 0)
+					generateManhole(chunk);
 			break;
 		case PEDESTAL:
 			

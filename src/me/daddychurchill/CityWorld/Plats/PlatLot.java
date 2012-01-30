@@ -14,6 +14,7 @@ public abstract class PlatLot {
 	protected long connectedkey;
 	
 	protected static byte bedrockId = (byte) Material.BEDROCK.getId();
+	protected static byte stoneId = (byte) Material.STONE.getId();
 	protected static byte lavaId = (byte) Material.LAVA.getId();
 	
 	public PlatLot(Random rand, ContextUrban context) {
@@ -77,23 +78,31 @@ public abstract class PlatLot {
 		// bottom of the bottom
 		byteChunk.setLayer(0, bedrockId);
 		
-		// the pillars of the world
-		for (int x = 0; x < ByteChunk.Width; x++) {
-			for (int z = 0; z < ByteChunk.Width; z++) {
-				int x4 = x % 4;
-				int z4 = z % 4;
-				if ((x4 == 0 || x4 == 3) && (z4 == 0 || z4 == 3))
-					byteChunk.setBlocks(x, 1, uptoY - 1, z, bedrockId);
-				else if (rand.nextBoolean()) {
-					if (rand.nextInt(context.oddsOfLavaDownBelow) == 0)
-						byteChunk.setBlock(x, 1, z, lavaId);
-					else
-						byteChunk.setBlock(x, 1, z, bedrockId);
+		// draw the underworld
+		if (context.doUnderworld) {
+		
+			// the pillars of the world
+			for (int x = 0; x < ByteChunk.Width; x++) {
+				for (int z = 0; z < ByteChunk.Width; z++) {
+					int x4 = x % 4;
+					int z4 = z % 4;
+					if ((x4 == 0 || x4 == 3) && (z4 == 0 || z4 == 3))
+						byteChunk.setBlocks(x, 1, uptoY - 1, z, context.isolationId);
+					else if (rand.nextBoolean()) {
+						if (rand.nextInt(context.oddsOfLavaDownBelow) == 0)
+							byteChunk.setBlock(x, 1, z, lavaId);
+						else
+							byteChunk.setBlock(x, 1, z, context.isolationId);
+					}
 				}
 			}
+			
+			// top of the bottom
+			byteChunk.setLayer(uptoY - 1, context.isolationId);
+		} else {
+			
+			// back fill with stone
+			byteChunk.setLayer(1, uptoY - 1, stoneId);
 		}
-		
-		// top of the bottom
-		byteChunk.setLayer(uptoY - 1, bedrockId);
 	}
 }

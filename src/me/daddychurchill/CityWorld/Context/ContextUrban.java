@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Context;
 
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 
 public class ContextUrban {
@@ -16,7 +17,7 @@ public class ContextUrban {
 	
 	public int oddsOfIsolatedLots = oddsExtremelyLikely; // isolated buildings 1/n of the time
 	
-	public int oddsOfParks = oddsVeryLikely; //5; // parks show up 1/n of the time
+	public int oddsOfParks = oddsVeryLikely; // parks show up 1/n of the time
 	
 	public int maximumFloorsAbove;
 	public int maximumFloorsBelow;
@@ -40,6 +41,9 @@ public class ContextUrban {
 	public int oddsOfPlumbingConnection = oddsExtremelyLikely;
 	public int oddsOfPlumbingTreasure = oddsVeryLikely;
 	public int oddsOfSewerVines = oddsUnlikely;
+	public int oddsOfSewerTreasure = oddsExtremelyLikely;
+	public int oddsOfSewerTrick = oddsExtremelyLikely;
+	public int maxTreasureCount = 5;
 	
 	public int oddsOfMissingRoad = oddsLikely; // roads are missing 1/n of the time
 	public int oddsOfRoundAbouts = oddsLikely; // roundabouts are created 1/n of the time
@@ -47,11 +51,35 @@ public class ContextUrban {
 	public int oddsOfMoneyInFountains = oddsLikely; // gold is in the fountain 1/n of the time
 	public int oddsOfMissingArt = oddsUnlikely; // art is missing 1/n of the time
 	public int oddsOfLavaDownBelow = oddsUnlikely; // how often does lava show up in the underworld 1/n of the time
-	public int oddsOfManholeToDownBelow = oddsVeryLikely; // manhole/ladder down to the lowest levels 1/n of the time
+	public int oddsOfManholeToDownBelow = oddsExtremelyLikely; // manhole/ladder down to the lowest levels 1/n of the time
 	public int oddsOfNaturalArt = oddsExtremelyLikely; // sometimes nature is art 1/n of the time 
 	
 	public ContextUrban(Random rand) {
 		setFloorRange(rand, 2, 2);
+	}
+	
+	public byte isolationId;
+	public boolean doPlumbing;
+	public boolean doSewer;
+	public boolean doCistern;
+	public boolean doBasement;
+	public boolean doUnderworld;
+	public boolean doTreasureInSewer;
+	public boolean doTreasureInPlumbing;
+	public boolean doSpawnerInSewer;
+	public int streetLevel;
+	
+	public void copyGlobals(CityWorld plugin) {
+		isolationId = (byte) plugin.getIsolationMaterial().getId();
+		doPlumbing = plugin.isDoPlumbing();
+		doSewer = plugin.isDoSewer();
+		doCistern = plugin.isDoCistern();
+		doBasement = plugin.isDoBasement();
+		doUnderworld = plugin.isDoUnderworld();
+		doTreasureInSewer = plugin.isDoTreasureInSewer();
+		doTreasureInPlumbing = plugin.isDoTreasureInPlumbing();
+		doSpawnerInSewer = plugin.isDoSpawnerInSewer();
+		streetLevel = plugin.getStreetLevel();
 	}
 	
 	protected void setFloorRange(Random rand, int aboveRange, int belowRange) {

@@ -53,7 +53,8 @@ public abstract class PlatBuilding extends PlatLot {
 		neighborsHaveSimilarHeightsOdds = context.oddsOfIdenticalBuildingHeights;
 		neighborsHaveSimilarRoundedOdds = context.oddsOfSimilarBuildingRounding;
 		height = rand.nextInt(context.maximumFloorsAbove) + 1;
-		depth = rand.nextInt(context.maximumFloorsBelow) + 1;
+		if (context.doBasement)
+			depth = rand.nextInt(context.maximumFloorsBelow) + 1;
 		needStairsDown = true;
 		needStairsUp = true;
 		rounded = rand.nextInt(context.oddsOfSimilarBuildingRounding) == 0;
