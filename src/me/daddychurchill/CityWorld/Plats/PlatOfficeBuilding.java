@@ -270,7 +270,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		case 4:
 			return Material.CLAY;
 		case 5:
-			return Material.IRON_BLOCK;
+			return Material.NETHER_BRICK;
 		case 6:
 			return Material.BRICK;
 		case 7:
@@ -299,7 +299,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		case 4:
 			return Material.CLAY;
 		case 5:
-			return Material.IRON_BLOCK;
+			return Material.NETHER_BRICK;
 		case 6:
 			return Material.BRICK;
 		case 7:
@@ -367,7 +367,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		case 4:
 			return Material.CLAY;
 		case 5:
-			return Material.IRON_BLOCK;
+			return Material.NETHER_BRICK;
 		case 6:
 			return Material.BRICK;
 		case 7:

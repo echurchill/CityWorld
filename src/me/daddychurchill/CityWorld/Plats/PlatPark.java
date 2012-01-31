@@ -21,7 +21,7 @@ public class PlatPark extends PlatLot {
 	protected final static int cisternDepth = PlatMap.FloorHeight * 4;
 	protected final static int groundDepth = 2;
 	
-	protected final static byte cisternId = (byte) Material.IRON_BLOCK.getId();
+	protected final static byte cisternId = (byte) Material.SMOOTH_BRICK.getId();
 	protected final static byte grassId = (byte) Material.GRASS.getId();
 	protected final static byte dirtId = (byte) Material.DIRT.getId();
 	protected final static byte waterId = (byte) Material.WATER.getId();
@@ -29,7 +29,7 @@ public class PlatPark extends PlatLot {
 	protected final static byte columnId = (byte) Material.SMOOTH_BRICK.getId();
 	protected final static byte pavementId = (byte) Material.SANDSTONE.getId();
 	
-	protected final static Material ledgeMaterial = Material.IRON_BLOCK;
+	protected final static Material ledgeMaterial = Material.SMOOTH_BRICK;
 	
 	//TODO NW/SE quarter partial circle sidewalks
 	//TODO pond inside of circle sidewalks instead of tree

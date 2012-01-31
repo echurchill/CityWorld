@@ -32,6 +32,7 @@ public class PlatRoadPaved extends PlatRoad {
 	protected final static Material lightpostbaseMaterial = Material.DOUBLE_STEP;
 	protected final static Material lightpostMaterial = Material.FENCE;
 	protected final static Material lightMaterial = Material.GLOWSTONE;
+	protected final static Material brokenLightMaterial = Material.GLASS;
 	protected final static Material manpipeMaterial = Material.OBSIDIAN;
 	protected final static Material sewerWallMaterial = Material.MOSSY_COBBLESTONE;
 	protected final static Material vineMaterial = Material.VINE;
@@ -348,7 +349,16 @@ public class PlatRoadPaved extends PlatRoad {
 	protected void generateLightPost(RealChunk chunk, int x, int z) {
 		chunk.setBlock(x, sidewalkLevel, z, lightpostbaseMaterial);
 		chunk.setBlocks(x, sidewalkLevel + 1, sidewalkLevel + lightpostHeight + 1, z, lightpostMaterial);
-		chunk.setBlock(x, sidewalkLevel + lightpostHeight + 1, z, lightMaterial, true);
+		Random ran = new Random();
+		int test = ran.nextInt(8);
+		if(test == 4)
+		{
+			chunk.setBlock(x, sidewalkLevel + lightpostHeight + 1, z, lightMaterial, true);
+		}
+		else
+		{
+			chunk.setBlock(x, sidewalkLevel + lightpostHeight + 1, z, brokenLightMaterial, true);
+		}
 	}
 	
 	protected void generateManhole(RealChunk chunk, int x, int y1, int y2, int z) {
@@ -493,15 +503,21 @@ public class PlatRoadPaved extends PlatRoad {
 		
 		// random junk
 		case 0:
+			return Material.SNOW_BLOCK;
 		case 1:
+			return Material.COAL_ORE;
 		case 2:
+			return Material.DIAMOND_ORE;
 		case 3:
 			return Material.IRON_BLOCK;
 		case 4:
+			return Material.IRON_ORE;
 		case 5:
+			return Material.GOLD_ORE;
 		case 6:
 			return Material.GOLD_BLOCK;
 		case 7:
+			return Material.MELON;
 		case 8:
 			return Material.LAPIS_BLOCK;
 		case 9:
