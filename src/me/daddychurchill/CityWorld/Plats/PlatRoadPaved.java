@@ -427,7 +427,8 @@ public class PlatRoadPaved extends PlatRoad {
 			chunk.setBlocks(x1, y1, y2, z, sewerWallId);
 			chunk.setBlocks(x2 - 1, y1, y2, z, sewerWallId);
 		}
-		
+		 byte vaultId = (byte) pickVaultContent().getId();
+		 chunk.setBlocks(x1 + 1, x2 - 1, y1, y2 - rand.nextInt(3) - 1, z1 + 1, z2 - 1, vaultId);
 		// is the vault empty?
 		byte doorId = rand.nextBoolean() ? doorIronId : doorBrickId;
 		
@@ -497,6 +498,110 @@ public class PlatRoadPaved extends PlatRoad {
 			return CreatureType.ENDERMAN;
 		}
 	}
+	protected Material pickVaultContent() {
+		switch (rand.nextInt(100)) {
+
+		// random junk
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+		case 9:
+		return Material.DIRT;
+		case 10:
+		case 11:
+		case 12:
+		case 13:
+		case 14:
+		return Material.SAND;
+		case 15:
+		case 16:
+		case 17:
+		case 18:
+		case 19:
+		return Material.GRAVEL;
+		case 20:
+		case 21:
+		case 22:
+		case 23:
+		case 24:
+		return Material.CLAY;
+
+		// raw ores
+		case 25:
+		case 26:
+		case 27:
+		case 28:
+		case 29:
+		return Material.IRON_ORE;
+		case 30:
+		case 31:
+		case 32:
+		case 33:
+		case 34:
+		return Material.COAL_ORE;
+		case 35:
+		case 36:
+		case 37:
+		return Material.GOLD_ORE;
+		case 38:
+		case 39:
+		case 40:
+		return Material.LAPIS_ORE;
+		case 41:
+		case 42:
+		return Material.DIAMOND_ORE;
+		case 43:
+		case 44:
+		return Material.REDSTONE_ORE;
+
+		// pure ores
+		case 45:
+		case 46:
+		case 47:
+		case 48:
+		return Material.IRON_BLOCK;
+		case 49:
+		case 50:
+		return Material.GOLD_BLOCK;
+		case 51:
+		case 52:
+		return Material.LAPIS_BLOCK;
+		case 53:
+		return Material.DIAMOND_BLOCK;
+
+		// odd items
+		case 54:
+		return Material.TNT;
+		case 55:
+		return Material.SPONGE;
+		case 56:
+		return Material.SOUL_SAND;
+		case 57:
+		return Material.NETHERRACK;
+		case 58:
+		case 59:
+		case 60:
+		return Material.LAVA;
+		case 61:
+		return Material.SNOW_BLOCK;
+		case 62:
+		return Material.ICE;
+		case 63:
+		case 64:
+		case 65:
+		return Material.WATER;
+
+		// the rest of the time it is empty
+		default:
+		return Material.AIR;
+		        }
+		}
 	
 	protected Material pickPlumbingTreasure() {
 		switch (rand.nextInt(20)) {
