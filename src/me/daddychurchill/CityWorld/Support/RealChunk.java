@@ -3,6 +3,12 @@ package me.daddychurchill.CityWorld.Support;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
+import org.bukkit.block.CreatureSpawner;
+import org.bukkit.entity.CreatureType;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 public class RealChunk {
 	private Chunk chunk;
@@ -30,11 +36,19 @@ public class RealChunk {
 	}
 
 	public void setBlock(int x, int y, int z, Material material) {
-		chunk.getBlock(x, y, z).setType(material);
+		chunk.getBlock(x, y, z).setTypeId(material.getId(), doPhysics);
 	}
 
 	public void setBlock(int x, int y, int z, int type, byte data) {
 		chunk.getBlock(x, y, z).setTypeIdAndData(type, data, doPhysics);
+	}
+	
+	public void setBlock(int x, int y, int z, Material material, boolean aDoPhysics) {
+		chunk.getBlock(x, y, z).setTypeId(material.getId(), aDoPhysics);
+	}
+
+	public void setBlock(int x, int y, int z, int type, byte data, boolean aDoPhysics) {
+		chunk.getBlock(x, y, z).setTypeIdAndData(type, data, aDoPhysics);
 	}
 	
 	public Location getBlockLocation(int x, int y, int z) {
@@ -86,8 +100,7 @@ public class RealChunk {
 	}
 
 	public int setLayer(int blocky, int height, int inset, Material material) {
-		setBlocks(inset, Width - inset, blocky, blocky + height, inset, Width
-				- inset, material);
+		setBlocks(inset, Width - inset, blocky, blocky + height, inset, Width - inset, material);
 		return blocky + height;
 	}
 	
@@ -130,5 +143,23 @@ public class RealChunk {
 	public void setTorch(int x, int y, int z, Material material, Direction.Torch direction) {
 		setBlock(x, y, z, material.getId(), direction.getData());
 	}
+	
+	public void setChest(int x, int y, int z, Direction.Chest direction, ItemStack... items) {
+		Block block = chunk.getBlock(x, y, z);
+		block.setTypeIdAndData(Material.CHEST.getId(), direction.getData(), true);
+		if (items.length > 0) {
+			Chest chest = (Chest) block.getState();
+			Inventory inv = chest.getInventory();
+			inv.clear();
+			inv.addItem(items);
+		}
+	}
 
+	public void setSpawner(int x, int y, int z, CreatureType aType) {
+		Block block = chunk.getBlock(x, y, z);
+		block.setType(Material.MOB_SPAWNER);
+		CreatureSpawner spawner = (CreatureSpawner) block.getState();
+		spawner.setCreatureType(aType);
+		spawner.update(true);
+	}
 }

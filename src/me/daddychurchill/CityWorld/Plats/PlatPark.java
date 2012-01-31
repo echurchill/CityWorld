@@ -77,55 +77,65 @@ public class PlatPark extends PlatLot {
 	@Override
 	public void generateChunk(PlatMap platmap, ByteChunk chunk, ContextUrban context, int platX, int platZ) {
 
+		// look around
+		SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
+		
 		// starting with the bottom
 		int lowestY = PlatMap.StreetLevel - cisternDepth + 1;
 		int highestY = PlatMap.StreetLevel - groundDepth;
 		generateBedrock(chunk, context, lowestY);
-		chunk.setLayer(lowestY, cisternId);
 		
-		// fill with water
-		lowestY++;
-		chunk.setBlocks(0, ByteChunk.Width, lowestY, lowestY + waterDepth, 0, ByteChunk.Width, waterId);
+		// cistern?
+		if (context.doCistern) {
+			chunk.setLayer(lowestY, cisternId);
+			
+			// fill with water
+			lowestY++;
+			chunk.setBlocks(0, ByteChunk.Width, lowestY, lowestY + waterDepth, 0, ByteChunk.Width, waterId);
+			
+			// outer columns and walls as needed
+			if (neighbors.toNorth()) {
+				chunk.setBlocks(3, 5, lowestY, highestY, 0, 1, cisternId);
+				chunk.setBlocks(11, 13, lowestY, highestY, 0, 1, cisternId);
+			} else
+				chunk.setBlocks(0, 16, lowestY, highestY + 1, 0, 1, cisternId);
+			if (neighbors.toSouth()) {
+				chunk.setBlocks(3, 5, lowestY, highestY, 15, 16, cisternId);
+				chunk.setBlocks(11, 13, lowestY, highestY, 15, 16, cisternId);
+			} else
+				chunk.setBlocks(0, 16, lowestY, highestY + 1, 15, 16, cisternId);
+			if (neighbors.toWest()) {
+				chunk.setBlocks(0, 1, lowestY, highestY, 3, 5, cisternId);
+				chunk.setBlocks(0, 1, lowestY, highestY, 11, 13, cisternId);
+			} else
+				chunk.setBlocks(0, 1, lowestY, highestY + 1, 0, 16, cisternId);
+			if (neighbors.toEast()) {
+				chunk.setBlocks(15, 16, lowestY, highestY, 3, 5, cisternId);
+				chunk.setBlocks(15, 16, lowestY, highestY, 11, 13, cisternId);
+			} else
+				chunk.setBlocks(15, 16, lowestY, highestY + 1, 0, 16, cisternId);
+			
+			// center columns
+			chunk.setBlocks(7, 9, lowestY, highestY, 3, 5, cisternId);
+			chunk.setBlocks(7, 9, lowestY, highestY, 11, 13, cisternId);
+			chunk.setBlocks(3, 5, lowestY, highestY, 7, 9, cisternId);
+			chunk.setBlocks(11, 13, lowestY, highestY, 7, 9, cisternId);
+			
+			// ceiling supports
+			chunk.setBlocks(3, 5, highestY, highestY + 1, 0, 16, cisternId);
+			chunk.setBlocks(11, 13, highestY, highestY + 1, 0, 16, cisternId);
+			chunk.setBlocks(0, 16, highestY, highestY + 1, 3, 5, cisternId);
+			chunk.setBlocks(0, 16, highestY, highestY + 1, 11, 13, cisternId);
+	
+			// top it off
+			chunk.setLayer(highestY + 1, cisternId);
+		} else {
+			
+			// backfill with dirt
+			chunk.setLayer(lowestY, highestY + 2 - lowestY, dirtId);
+		}
 		
-		// look around
-		SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
-		
-		// outer columns and walls as needed
-		if (neighbors.toNorth()) {
-			chunk.setBlocks(3, 5, lowestY, highestY, 0, 1, cisternId);
-			chunk.setBlocks(11, 13, lowestY, highestY, 0, 1, cisternId);
-		} else
-			chunk.setBlocks(0, 16, lowestY, highestY + 1, 0, 1, cisternId);
-		if (neighbors.toSouth()) {
-			chunk.setBlocks(3, 5, lowestY, highestY, 15, 16, cisternId);
-			chunk.setBlocks(11, 13, lowestY, highestY, 15, 16, cisternId);
-		} else
-			chunk.setBlocks(0, 16, lowestY, highestY + 1, 15, 16, cisternId);
-		if (neighbors.toWest()) {
-			chunk.setBlocks(0, 1, lowestY, highestY, 3, 5, cisternId);
-			chunk.setBlocks(0, 1, lowestY, highestY, 11, 13, cisternId);
-		} else
-			chunk.setBlocks(0, 1, lowestY, highestY + 1, 0, 16, cisternId);
-		if (neighbors.toEast()) {
-			chunk.setBlocks(15, 16, lowestY, highestY, 3, 5, cisternId);
-			chunk.setBlocks(15, 16, lowestY, highestY, 11, 13, cisternId);
-		} else
-			chunk.setBlocks(15, 16, lowestY, highestY + 1, 0, 16, cisternId);
-		
-		// center columns
-		chunk.setBlocks(7, 9, lowestY, highestY, 3, 5, cisternId);
-		chunk.setBlocks(7, 9, lowestY, highestY, 11, 13, cisternId);
-		chunk.setBlocks(3, 5, lowestY, highestY, 7, 9, cisternId);
-		chunk.setBlocks(11, 13, lowestY, highestY, 7, 9, cisternId);
-		
-		// ceiling supports
-		chunk.setBlocks(3, 5, highestY, highestY + 1, 0, 16, cisternId);
-		chunk.setBlocks(11, 13, highestY, highestY + 1, 0, 16, cisternId);
-		chunk.setBlocks(0, 16, highestY, highestY + 1, 3, 5, cisternId);
-		chunk.setBlocks(0, 16, highestY, highestY + 1, 11, 13, cisternId);
-
 		// top it off
-		chunk.setLayer(highestY + 1, cisternId);
 		chunk.setLayer(highestY + 2, dirtId);
 		chunk.setLayer(highestY + 3, grassId);
 		
@@ -185,12 +195,14 @@ public class PlatPark extends PlatLot {
 		int surfaceY = PlatMap.StreetLevel + 2;
 		
 		// way down?
-		SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
-		if (!neighbors.toNorth()) {
-			int lowestY = PlatMap.StreetLevel - cisternDepth + 1 + waterDepth;
-			chunk.setBlocks(4, 7, lowestY, lowestY + 1, 1, 2, ledgeMaterial);
-			chunk.setLadder(5, lowestY + 1, surfaceY, 1, Ladder.SOUTH);
-			chunk.setTrapDoor(5, surfaceY, 1, TrapDoor.EAST);
+		if (context.doCistern) {
+			SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
+			if (!neighbors.toNorth()) {
+				int lowestY = PlatMap.StreetLevel - cisternDepth + 1 + waterDepth;
+				chunk.setBlocks(4, 7, lowestY, lowestY + 1, 1, 2, ledgeMaterial);
+				chunk.setLadder(5, lowestY + 1, surfaceY, 1, Ladder.SOUTH);
+				chunk.setTrapDoor(5, surfaceY, 1, TrapDoor.EAST);
+			}
 		}
 		
 		// sprinkle some trees

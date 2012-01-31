@@ -5,12 +5,15 @@ import java.util.Random;
 import me.daddychurchill.CityWorld.Context.ContextUrban;
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Support.Direction;
+import me.daddychurchill.CityWorld.Support.Direction.Chest;
 import me.daddychurchill.CityWorld.Support.Direction.Ladder;
 import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingRoads;
 import org.bukkit.Material;
+import org.bukkit.entity.CreatureType;
+import org.bukkit.inventory.ItemStack;
 
 public class PlatRoadPaved extends PlatRoad {
 	//TODO Lines on the road
@@ -37,7 +40,8 @@ public class PlatRoadPaved extends PlatRoad {
 	protected final static byte sewerFloorId = (byte) Material.COBBLESTONE.getId();
 	protected final static byte sewerWallId = (byte) sewerWallMaterial.getId();
 	protected final static byte plumbingId = (byte) Material.OBSIDIAN.getId();
-	protected final static byte brickId = (byte) Material.BRICK.getId();
+	protected final static byte doorBrickId = (byte) Material.BRICK.getId();
+	protected final static byte doorIronId = (byte) Material.IRON_FENCE.getId();
 	protected final static byte waterId = (byte) Material.WATER.getId();
 	protected final static byte pavementId = (byte) Material.STONE.getId();
 	protected final static byte sidewalkId = (byte) Material.STEP.getId();
@@ -70,109 +74,129 @@ public class PlatRoadPaved extends PlatRoad {
 		// look around
 		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);
 		
-		// draw the floor of the sewer
-		chunk.setLayer(sewerY - 1, sewerFloorId);
-		chunk.setBlocks(crossDitchEdge, ByteChunk.Width - crossDitchEdge, 
-						sewerY - 1, sewerY, 
-						crossDitchEdge, ByteChunk.Width - crossDitchEdge, airId);
-
-		// draw/fill vaults and ceiling inset
-		generateVault(chunk, 0, vaultWidth, 
-				sewerY, 
-				0, vaultWidth, true, true);
-		generateVault(chunk, 0, vaultWidth, 
-				sewerY, 
-				ByteChunk.Width - vaultWidth, ByteChunk.Width, true, true);
-		generateVault(chunk, ByteChunk.Width - vaultWidth, ByteChunk.Width, 
-				sewerY, 
-				0, vaultWidth, true, true);
-		generateVault(chunk, ByteChunk.Width - vaultWidth, ByteChunk.Width, 
-				sewerY, 
-				ByteChunk.Width - vaultWidth, ByteChunk.Width, true, true);
-		generateCeilingInset(chunk, vaultWidth, ByteChunk.Width - vaultWidth,
-				sewerY,
-				vaultWidth, ByteChunk.Width - vaultWidth, 
-				!roads.toWest(), !roads.toEast(), !roads.toNorth(), !roads.toSouth());
-
-		// now cardinal water, vaults and insets
-		if (roads.toWest()) {
-			chunk.setBlocks(0, crossDitchEdge, 
-							sewerY - 1, sewerY, 
-							crossDitchEdge, ByteChunk.Width - crossDitchEdge, airId);
-			generateCeilingInset(chunk, 0, vaultWidth,
-					sewerY, 
-					vaultWidth, ByteChunk.Width - vaultWidth, false, false, true, true);
-			chunk.setBlock(waterOffset, sewerY - 1, crossDitchEdge, waterId);
-		} else {
-			generateVault(chunk, 0, vaultWidth,
-					sewerY, 
-					vaultWidth, ByteChunk.Width - vaultWidth, false, true);
-		}
-		if (roads.toEast()) {
-			chunk.setBlocks(ByteChunk.Width - crossDitchEdge, ByteChunk.Width, 
-							sewerY - 1, sewerY, 
-							crossDitchEdge, ByteChunk.Width - crossDitchEdge, airId);
-			generateCeilingInset(chunk, ByteChunk.Width - vaultWidth, ByteChunk.Width,
-					sewerY, 
-					vaultWidth, ByteChunk.Width - vaultWidth, false, false, true, true);
-			chunk.setBlock(ByteChunk.Width - waterOffset - 1, sewerY - 1, ByteChunk.Width - crossDitchEdge - 1, waterId);
-		} else {
-			generateVault(chunk, ByteChunk.Width - vaultWidth, ByteChunk.Width,
-					sewerY, 
-					vaultWidth, ByteChunk.Width - vaultWidth, false, true);
-		}
-		if (roads.toNorth()) {
+		// sewer or not?
+		if (context.doSewer) {
+			
+			// draw the floor of the sewer
+			chunk.setLayer(sewerY - 1, sewerFloorId);
 			chunk.setBlocks(crossDitchEdge, ByteChunk.Width - crossDitchEdge, 
 							sewerY - 1, sewerY, 
-							0, crossDitchEdge, airId);
+							crossDitchEdge, ByteChunk.Width - crossDitchEdge, airId);
+			
+			// draw/fill vaults and ceiling inset
+			generateVault(chunk, context, 0, vaultWidth, 
+					sewerY, 
+					0, vaultWidth, true, true);
+			generateVault(chunk, context, 0, vaultWidth, 
+					sewerY, 
+					ByteChunk.Width - vaultWidth, ByteChunk.Width, true, true);
+			generateVault(chunk, context, ByteChunk.Width - vaultWidth, ByteChunk.Width, 
+					sewerY, 
+					0, vaultWidth, true, true);
+			generateVault(chunk, context, ByteChunk.Width - vaultWidth, ByteChunk.Width, 
+					sewerY, 
+					ByteChunk.Width - vaultWidth, ByteChunk.Width, true, true);
 			generateCeilingInset(chunk, vaultWidth, ByteChunk.Width - vaultWidth,
 					sewerY,
-					0, vaultWidth, true, true, false, false);
-			chunk.setBlock(crossDitchEdge, sewerY - 1, waterOffset, waterId);
-		} else {
-			generateVault(chunk, vaultWidth, ByteChunk.Width - vaultWidth,
-					sewerY, 
-					0, vaultWidth, true, false);
-		}
-		if (roads.toSouth()) {
-			chunk.setBlocks(crossDitchEdge, ByteChunk.Width - crossDitchEdge, 
-							sewerY - 1, sewerY, 
-							ByteChunk.Width - crossDitchEdge, ByteChunk.Width, airId);
-			generateCeilingInset(chunk, vaultWidth, ByteChunk.Width - vaultWidth,
-					sewerY, 
-					ByteChunk.Width - vaultWidth, ByteChunk.Width, true, true, false, false);
-			chunk.setBlock(ByteChunk.Width - crossDitchEdge - 1, sewerY - 1, ByteChunk.Width - waterOffset - 1, waterId);
-		} else {
-			generateVault(chunk, vaultWidth, ByteChunk.Width - vaultWidth,
-					sewerY, 
-					ByteChunk.Width - vaultWidth, ByteChunk.Width, true, false);
-		}
+					vaultWidth, ByteChunk.Width - vaultWidth, 
+					!roads.toWest(), !roads.toEast(), !roads.toNorth(), !roads.toSouth());
 		
-		// draw plumbing floor
-		chunk.setLayer(base2Y, bedrockId);
-		
-		// draw plumbing
-		for (int x = 0; x < ByteChunk.Width - 1; x = x + 2) {
-			for (int z = 0; z < ByteChunk.Width - 1; z = z + 2) {
-				chunk.setBlocks(x + 1, plumbingY, plumbingY + 4, z + 1, plumbingId);
-				if (rand.nextInt(context.oddsOfPlumbingConnection) == 0)
-					chunk.setBlocks(x + 1, plumbingY, plumbingY + 4, z, plumbingId);
-				if (rand.nextInt(context.oddsOfPlumbingConnection) == 0)
-					chunk.setBlocks(x, plumbingY, plumbingY + 4, z + 1, plumbingId);
-				if (rand.nextInt(context.oddsOfPlumbingTreasure) == 0) {
-					byte treasureId = (byte) pickPlumbingTreasure().getId();
-					chunk.setBlocks(x, plumbingY, plumbingY + 1, z, treasureId);
-					if (treasureId == waterId &&
-						x >= crossDitchEdge && x < ByteChunk.Width - crossDitchEdge &&
-						z >= crossDitchEdge && z < ByteChunk.Width - crossDitchEdge)
-						chunk.setBlock(x, plumbingY - 1, z, airId);
-				} else if (rand.nextInt(context.oddsOfPlumbingConnection) == 0)
-					chunk.setBlocks(x, plumbingY + 2, plumbingY + 4, z, plumbingId);
+			// now cardinal water, vaults and insets
+			if (roads.toWest()) {
+				chunk.setBlocks(0, crossDitchEdge, 
+								sewerY - 1, sewerY, 
+								crossDitchEdge, ByteChunk.Width - crossDitchEdge, airId);
+				generateCeilingInset(chunk, 0, vaultWidth,
+						sewerY, 
+						vaultWidth, ByteChunk.Width - vaultWidth, false, false, true, true);
+				chunk.setBlock(waterOffset, sewerY - 1, crossDitchEdge, waterId);
+			} else {
+				generateVault(chunk, context, 0, vaultWidth,
+						sewerY, 
+						vaultWidth, ByteChunk.Width - vaultWidth, false, true);
 			}
+			if (roads.toEast()) {
+				chunk.setBlocks(ByteChunk.Width - crossDitchEdge, ByteChunk.Width, 
+								sewerY - 1, sewerY, 
+								crossDitchEdge, ByteChunk.Width - crossDitchEdge, airId);
+				generateCeilingInset(chunk, ByteChunk.Width - vaultWidth, ByteChunk.Width,
+						sewerY, 
+						vaultWidth, ByteChunk.Width - vaultWidth, false, false, true, true);
+				chunk.setBlock(ByteChunk.Width - waterOffset - 1, sewerY - 1, ByteChunk.Width - crossDitchEdge - 1, waterId);
+			} else {
+				generateVault(chunk, context, ByteChunk.Width - vaultWidth, ByteChunk.Width,
+						sewerY, 
+						vaultWidth, ByteChunk.Width - vaultWidth, false, true);
+			}
+			if (roads.toNorth()) {
+				chunk.setBlocks(crossDitchEdge, ByteChunk.Width - crossDitchEdge, 
+								sewerY - 1, sewerY, 
+								0, crossDitchEdge, airId);
+				generateCeilingInset(chunk, vaultWidth, ByteChunk.Width - vaultWidth,
+						sewerY,
+						0, vaultWidth, true, true, false, false);
+				chunk.setBlock(crossDitchEdge, sewerY - 1, waterOffset, waterId);
+			} else {
+				generateVault(chunk, context, vaultWidth, ByteChunk.Width - vaultWidth,
+						sewerY, 
+						0, vaultWidth, true, false);
+			}
+			if (roads.toSouth()) {
+				chunk.setBlocks(crossDitchEdge, ByteChunk.Width - crossDitchEdge, 
+								sewerY - 1, sewerY, 
+								ByteChunk.Width - crossDitchEdge, ByteChunk.Width, airId);
+				generateCeilingInset(chunk, vaultWidth, ByteChunk.Width - vaultWidth,
+						sewerY, 
+						ByteChunk.Width - vaultWidth, ByteChunk.Width, true, true, false, false);
+				chunk.setBlock(ByteChunk.Width - crossDitchEdge - 1, sewerY - 1, ByteChunk.Width - waterOffset - 1, waterId);
+			} else {
+				generateVault(chunk, context, vaultWidth, ByteChunk.Width - vaultWidth,
+						sewerY, 
+						ByteChunk.Width - vaultWidth, ByteChunk.Width, true, false);
+			}
+		} else {
+			
+			// backfill the sewer
+			chunk.setLayer(base1Y, base2Y - base1Y, stoneId);
 		}
 		
-		// draw plumbing ceiling
-		chunk.setLayer(base3Y, bedrockId);
+		// plumbing?
+		if (context.doPlumbing) {
+				
+			// draw plumbing floor
+			chunk.setLayer(base2Y, context.isolationId);
+			
+			// draw plumbing
+			for (int x = 0; x < ByteChunk.Width - 1; x = x + 2) {
+				for (int z = 0; z < ByteChunk.Width - 1; z = z + 2) {
+					chunk.setBlocks(x + 1, plumbingY, plumbingY + 4, z + 1, plumbingId);
+					if (rand.nextInt(context.oddsOfPlumbingConnection) == 0)
+						chunk.setBlocks(x + 1, plumbingY, plumbingY + 4, z, plumbingId);
+					if (rand.nextInt(context.oddsOfPlumbingConnection) == 0)
+						chunk.setBlocks(x, plumbingY, plumbingY + 4, z + 1, plumbingId);
+					if (rand.nextInt(context.oddsOfPlumbingTreasure) == 0) {
+						if (context.doTreasureInPlumbing) {
+							byte treasureId = (byte) pickPlumbingTreasure().getId();
+							chunk.setBlocks(x, plumbingY, plumbingY + 1, z, treasureId);
+							if (context.doSewer) {
+								if (treasureId == waterId &&
+									x >= crossDitchEdge && x < ByteChunk.Width - crossDitchEdge &&
+									z >= crossDitchEdge && z < ByteChunk.Width - crossDitchEdge)
+									chunk.setBlock(x, plumbingY - 1, z, airId);
+							}
+						}
+					} else if (rand.nextInt(context.oddsOfPlumbingConnection) == 0)
+						chunk.setBlocks(x, plumbingY + 2, plumbingY + 4, z, plumbingId);
+				}
+			}
+			
+			// draw plumbing ceiling
+			chunk.setLayer(base3Y, context.isolationId);
+		} else {
+			
+			// backfill the plumbing
+			chunk.setLayer(base2Y, base3Y - base2Y + 1, stoneId);
+		}
 		
 		// draw pavement
 		chunk.setLayer(PlatMap.StreetLevel, pavementId);
@@ -217,77 +241,80 @@ public class PlatRoadPaved extends PlatRoad {
 
 		// where do we start
 		int base1Y = PlatMap.StreetLevel - PlatMap.FloorHeight * 3 + 1;
-		//int sewerY = base1Y + 1;
+		int sewerY = base1Y + 1;
 		int base2Y = base1Y + PlatMap.FloorHeight + 1;
 		
 		// look around
 		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);
 		
-		// drill down
-		if (roads.toEast() && roads.toNorth())
-			generateManhole(chunk, ByteChunk.Width - sidewalkWidth, 
-							base2Y,
-							sidewalkLevel,
-							ByteChunk.Width - sidewalkWidth - 1);
+		// sewer?
+		if (context.doSewer) {
+			
+			// drill down
+			if (roads.toEast() && roads.toNorth())
+				generateManhole(chunk, ByteChunk.Width - sidewalkWidth, 
+								base2Y,
+								sidewalkLevel,
+								ByteChunk.Width - sidewalkWidth - 1);
+			
+			// draw/fill vaults and ceiling inset
+			populateVault(chunk, context, 0, vaultWidth, 
+					sewerY, 
+					0, vaultWidth);
+			populateVault(chunk, context, 0, vaultWidth, 
+					sewerY, 
+					ByteChunk.Width - vaultWidth, ByteChunk.Width);
+			populateVault(chunk, context, ByteChunk.Width - vaultWidth, ByteChunk.Width, 
+					sewerY, 
+					0, vaultWidth);
+			populateVault(chunk, context, ByteChunk.Width - vaultWidth, ByteChunk.Width, 
+					sewerY, 
+					ByteChunk.Width - vaultWidth, ByteChunk.Width);
 		
-		// add spookiness
-/*
-		// draw/fill vaults and ceiling inset
-//		generateVault(byteChunk, 0, vaultWidth, 
-//				sewerY, 
-//				0, vaultWidth, true, true);
-//		generateVault(byteChunk, 0, vaultWidth, 
-//				sewerY, 
-//				ByteChunk.Width - vaultWidth, ByteChunk.Width, true, true);
-//		generateVault(byteChunk, ByteChunk.Width - vaultWidth, ByteChunk.Width, 
-//				sewerY, 
-//				0, vaultWidth, true, true);
-//		generateVault(byteChunk, ByteChunk.Width - vaultWidth, ByteChunk.Width, 
-//				sewerY, 
-//				ByteChunk.Width - vaultWidth, ByteChunk.Width, true, true);
-		generateCeilingVines(chunk, vaultWidth, RealChunk.Width - vaultWidth,
-				sewerY,
-				vaultWidth, RealChunk.Width - vaultWidth, 
-				!roads.toSouth(), !roads.toNorth(), !roads.toWest(), !roads.toEast());
-
-		// now cardinal water, vaults and insets
-		if (roads.toSouth()) {
-			generateCeilingVines(chunk, 0, vaultWidth,
-					sewerY, 
-					vaultWidth, RealChunk.Width - vaultWidth, false, false, true, true);
-		} else {
-//			generateVault(RealChunk, 0, vaultWidth,
-//					sewerY, 
-//					vaultWidth, RealChunk.Width - vaultWidth, false, true);
+			// now cardinal water, vaults and insets
+			if (!roads.toWest()) {
+				populateVault(chunk, context, 0, vaultWidth,
+						sewerY, 
+						vaultWidth, ByteChunk.Width - vaultWidth);
+			}
+			if (!roads.toEast()) {
+				populateVault(chunk, context, ByteChunk.Width - vaultWidth, ByteChunk.Width,
+						sewerY, 
+						vaultWidth, ByteChunk.Width - vaultWidth);
+			}
+			if (!roads.toNorth()) {
+				populateVault(chunk, context, vaultWidth, ByteChunk.Width - vaultWidth,
+						sewerY, 
+						0, vaultWidth);
+			}
+			if (!roads.toSouth()) {
+				populateVault(chunk, context, vaultWidth, ByteChunk.Width - vaultWidth,
+						sewerY, 
+						ByteChunk.Width - vaultWidth, ByteChunk.Width);
+			}
+			
+//			// now cardinal water, vaults and insets
+//			if (roads.toSouth()) {
+//				generateCeilingVines(chunk, 0, vaultWidth,
+//						sewerY, 
+//						vaultWidth, RealChunk.Width - vaultWidth, false, false, true, true);
+//			}
+//			if (roads.toNorth()) {
+//				generateCeilingVines(chunk, RealChunk.Width - vaultWidth, RealChunk.Width,
+//						sewerY, 
+//						vaultWidth, RealChunk.Width - vaultWidth, false, false, true, true);
+//			}
+//			if (roads.toWest()) {
+//				generateCeilingVines(chunk, vaultWidth, RealChunk.Width - vaultWidth,
+//						sewerY,
+//						0, vaultWidth, true, true, false, false);
+//			}
+//			if (roads.toEast()) {
+//				generateCeilingVines(chunk, vaultWidth, RealChunk.Width - vaultWidth,
+//						sewerY, 
+//						RealChunk.Width - vaultWidth, RealChunk.Width, true, true, false, false);
+//			}
 		}
-		if (roads.toNorth()) {
-			generateCeilingVines(chunk, RealChunk.Width - vaultWidth, RealChunk.Width,
-					sewerY, 
-					vaultWidth, RealChunk.Width - vaultWidth, false, false, true, true);
-		} else {
-//			generateVault(RealChunk, RealChunk.Width - vaultWidth, RealChunk.Width,
-//					sewerY, 
-//					vaultWidth, RealChunk.Width - vaultWidth, false, true);
-		}
-		if (roads.toWest()) {
-			generateCeilingVines(chunk, vaultWidth, RealChunk.Width - vaultWidth,
-					sewerY,
-					0, vaultWidth, true, true, false, false);
-		} else {
-//			generateVault(RealChunk, vaultWidth, RealChunk.Width - vaultWidth,
-//					sewerY, 
-//					0, vaultWidth, true, false);
-		}
-		if (roads.toEast()) {
-			generateCeilingVines(chunk, vaultWidth, RealChunk.Width - vaultWidth,
-					sewerY, 
-					RealChunk.Width - vaultWidth, RealChunk.Width, true, true, false, false);
-		} else {
-//			generateVault(RealChunk, vaultWidth, RealChunk.Width - vaultWidth,
-//					sewerY, 
-//					RealChunk.Width - vaultWidth, RealChunk.Width, true, false);
-		}
-		*/
 	}
 	
 //	protected void generateCeilingVines(RealChunk chunk, ContextUrban context, int x1, int x2, int y1, int z1, int z2, 
@@ -321,7 +348,7 @@ public class PlatRoadPaved extends PlatRoad {
 	protected void generateLightPost(RealChunk chunk, int x, int z) {
 		chunk.setBlock(x, sidewalkLevel, z, lightpostbaseMaterial);
 		chunk.setBlocks(x, sidewalkLevel + 1, sidewalkLevel + lightpostHeight + 1, z, lightpostMaterial);
-		chunk.setBlock(x, sidewalkLevel + lightpostHeight + 1, z, lightMaterial);
+		chunk.setBlock(x, sidewalkLevel + lightpostHeight + 1, z, lightMaterial, true);
 	}
 	
 	protected void generateManhole(RealChunk chunk, int x, int y1, int y2, int z) {
@@ -378,7 +405,7 @@ public class PlatRoadPaved extends PlatRoad {
 			}
 	}
 	
-	protected void generateVault(ByteChunk chunk, int x1, int x2, int y1, int z1, int z2, boolean doorNS, boolean doorEW) {
+	protected void generateVault(ByteChunk chunk, ContextUrban context, int x1, int x2, int y1, int z1, int z2, boolean doorNS, boolean doorEW) {
 		int y2 = y1 + PlatMap.FloorHeight;
 		
 		// place the walls
@@ -391,10 +418,8 @@ public class PlatRoadPaved extends PlatRoad {
 			chunk.setBlocks(x2 - 1, y1, y2, z, sewerWallId);
 		}
 		
-		// fill the vault
-		byte vaultId = (byte) pickVaultContent().getId();
-		byte doorId = vaultId == airId ? airId : brickId;
-		chunk.setBlocks(x1 + 1, x2 - 1, y1, y2 - rand.nextInt(3) - 1, z1 + 1, z2 - 1, vaultId);
+		// is the vault empty?
+		byte doorId = rand.nextBoolean() ? doorIronId : doorBrickId;
 		
 		// place the doors, if the vault is empty then just "leave the door" open
 		if (doorNS) {
@@ -407,109 +432,60 @@ public class PlatRoadPaved extends PlatRoad {
 		}
 	}
 	
-	protected Material pickVaultContent() {
-		switch (rand.nextInt(100)) {
+	private int minTreasureId = Material.IRON_SPADE.getId();
+	private int maxTreasureId = Material.ROTTEN_FLESH.getId();
+	private int countTreasureIds = maxTreasureId - minTreasureId;
+	
+	protected void populateVault(RealChunk chunk, ContextUrban context, int x1, int x2, int y1, int z1, int z2) {
+		//int y2 = y1 + PlatMap.FloorHeight;
 		
-		// random junk
-		case 0:
-		case 1:
-		case 2:
-		case 3:
-		case 4:
-		case 5:
-		case 6:
-		case 7:
-		case 8:
-		case 9:
-			return Material.DIRT;
-		case 10:
-		case 11:
-		case 12:
-		case 13:
-		case 14:
-			return Material.SAND;
-		case 15:
-		case 16:
-		case 17:
-		case 18:
-		case 19:
-			return Material.GRAVEL;
-		case 20:
-		case 21:
-		case 22:
-		case 23:
-		case 24:
-			return Material.CLAY;
-		
-		// raw ores
-		case 25:
-		case 26:
-		case 27:
-		case 28:
-		case 29:
-			return Material.IRON_ORE;
-		case 30:
-		case 31:
-		case 32:
-		case 33:
-		case 34:
-			return Material.COAL_ORE;
-		case 35:
-		case 36:
-		case 37:
-			return Material.GOLD_ORE;
-		case 38:
-		case 39:
-		case 40:
-			return Material.LAPIS_ORE;
-		case 41:
-		case 42:
-			return Material.DIAMOND_ORE;
-		case 43:
-		case 44:
-			return Material.REDSTONE_ORE;
+		// fill the vault
+		if (context.doTreasureInSewer) {
 			
-		// pure ores
-		case 45:
-		case 46:
-		case 47:
-		case 48:
-			return Material.IRON_BLOCK;
-		case 49:
-		case 50:
-			return Material.GOLD_BLOCK;
-		case 51:
-		case 52:
-			return Material.LAPIS_BLOCK;
-		case 53:
-			return Material.DIAMOND_BLOCK;
-		
-		// odd items
-		case 54:
-			return Material.TNT;
-		case 55:
-			return Material.SPONGE;
-		case 56:
-			return Material.SOUL_SAND;
-		case 57:
-			return Material.NETHERRACK;
-		case 58:
-		case 59:
-		case 60:
-			return Material.LAVA;
-		case 61:
-			return Material.SNOW_BLOCK;
-		case 62:
-			return Material.ICE;
-		case 63:
-		case 64:
-		case 65:
-			return Material.WATER;
-		
-		// the rest of the time it is empty
+			// trick or treat?
+			if (rand.nextInt(context.oddsOfSewerTreasure) == 0) {
+
+				// where is it?
+				int xC = (x2 - x1) / 2 + x1;
+				int zC = (z2 - z1) / 2 + z1;
+				
+				if (context.doSpawnerInSewer && rand.nextInt(context.oddsOfSewerTrick) == 0) {
+					chunk.setSpawner(xC, y1, zC, pickTrick());
+				} else {
+					
+					// fabricate the treasures
+					int treasureCount = rand.nextInt(context.maxTreasureCount) + 1;
+					ItemStack[] items = new ItemStack[treasureCount];
+					for (int i = 0; i < treasureCount; i++) {
+						items[i] = new ItemStack(rand.nextInt(countTreasureIds) + minTreasureId, rand.nextInt(2) + 1);
+					}
+					
+					// make a chest and stuff the stuff into it
+					chunk.setChest(xC, y1, zC, Chest.NORTH, items);
+				}
+			}
+		}
+	}
+	
+	protected CreatureType pickTrick() {
+		switch (rand.nextInt(8)) {
+		case 1:
+			return CreatureType.CREEPER;
+		case 2:
+			return CreatureType.PIG_ZOMBIE;
+		case 3:
+			return CreatureType.SKELETON;
+		case 4:
+			return CreatureType.SPIDER;
+		case 5:
+			return CreatureType.ZOMBIE;
+		case 6:
+			return CreatureType.CAVE_SPIDER;
+		case 7:
+			return CreatureType.SILVERFISH;
 		default:
-			return Material.AIR;
-        }
+			return CreatureType.ENDERMAN;
+		}
 	}
 	
 	protected Material pickPlumbingTreasure() {

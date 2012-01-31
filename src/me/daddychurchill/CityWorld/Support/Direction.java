@@ -80,6 +80,18 @@ public class Direction {
 		}
 	};
 	
+	public enum Chest {
+		NORTH(2), SOUTH(3), WEST(4), EAST(5);
+		
+		private byte data;
+		private Chest(int d) {
+			data = (byte) d;
+		}
+		public byte getData() {
+			return data;
+		}
+	}
+	
 	//TODO wool (0 to 15 colors)
 	//TODO slab (0 to 6 material type)
 	//TODO double slab (0 to 6 material type)

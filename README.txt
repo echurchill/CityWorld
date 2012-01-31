@@ -1,4 +1,4 @@
-/***** CITYWORLD v0.57
+/***** CITYWORLD v0.60
 * City world generator for Minecraft/Bukkit
 * Copyright (C) 2011 daddychurchill <http://www.virtualchurchill.com>
 *
@@ -23,6 +23,10 @@ Terrain under the city
 Bring back rural blocks
 Park benches and other furniture
 Need to fix bugs in building roofs
+
+v0.60
+Permissions for CityWorld command
+YML global options for BedrockIsolation, Plumbing, Sewer and Underworld... all default to true
 
 v0.57
 Quickie patch to permit support for 1.1
