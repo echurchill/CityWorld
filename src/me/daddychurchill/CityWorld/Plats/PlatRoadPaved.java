@@ -428,7 +428,54 @@ public class PlatRoadPaved extends PlatRoad {
 			chunk.setBlocks(x2 - 1, y1, y2, z, sewerWallId);
 		}
 		 byte vaultId = (byte) pickVaultContent().getId();
-		 chunk.setBlocks(x1 + 1, x2 - 1, y1, y2 - rand.nextInt(3) - 1, z1 + 1, z2 - 1, vaultId);
+		 if(vaultId == (byte)Material.NETHER_WARTS.getId())
+		 {
+			 chunk.setBlocks(x1 + 1, x2 - 1, y1, y2 - 1, z1 + 1, z2 - 1,  (byte)Material.SOUL_SAND.getId());
+			 
+			 chunk.setBlock(x1 + 1, y2 - 2,z1 + 1 , vaultId);
+			 chunk.setBlock(x1 + 3, y2 - 2,z1 + 1 , vaultId);
+			 chunk.setBlock(x1 + 1, y2 - 2,z1 + 3 , vaultId);
+		 }
+		 // making the map more fair for survival mode
+		 else if(vaultId == (byte)Material.DIAMOND_BLOCK.getId()||vaultId == (byte)Material.GOLD_BLOCK.getId()||vaultId == (byte)Material.IRON_BLOCK.getId()||vaultId == (byte)Material.DIAMOND_ORE.getId()||vaultId == (byte)Material.GOLD_ORE.getId()||vaultId == (byte)Material.IRON_ORE.getId())
+		 {
+			 int hi = rand.nextInt(3);
+			 for(int i =x1 + 1; i <x2 - 1; i++)
+			 {
+				 for(int t =y1; t <y2 - hi; t++)
+				 {
+					 for(int d =z1 + 1; d <z2 - 1; d++)
+					 {
+						 if(rand.nextBoolean())
+						 {
+							 if(vaultId == (byte)Material.DIAMOND_BLOCK.getId()||vaultId == (byte)Material.GOLD_BLOCK.getId()||vaultId == (byte)Material.IRON_BLOCK.getId())
+							 {	 
+								 if(rand.nextBoolean())
+								 {
+									 chunk.setBlock(i, t, d, vaultId);
+								 }
+								 else
+								 {
+									 chunk.setBlock(i, t, d,(byte) Material.COBBLESTONE.getId());
+								 }
+							 }
+							 else
+							 {
+								 chunk.setBlock(i, t, d, vaultId);
+							 }
+						 }
+						 else
+						 {
+							 chunk.setBlock(i, t, d,(byte) Material.STONE.getId());
+						 }
+					 }
+				 }
+			 }	 
+		 }
+		 else
+		 {
+			 chunk.setBlocks(x1 + 1, x2 - 1, y1, y2 - rand.nextInt(3) - 1, z1 + 1, z2 - 1, vaultId);
+		 }
 		// is the vault empty?
 		byte doorId = rand.nextBoolean() ? doorIronId : doorBrickId;
 		
@@ -444,7 +491,7 @@ public class PlatRoadPaved extends PlatRoad {
 	}
 	
 	private int minTreasureId = Material.IRON_SPADE.getId();
-	private int maxTreasureId = Material.ROTTEN_FLESH.getId();
+	private int maxTreasureId = 382;  // Glistering Melon
 	private int countTreasureIds = maxTreasureId - minTreasureId;
 	
 	protected void populateVault(RealChunk chunk, ContextUrban context, int x1, int x2, int y1, int z1, int z2) {
@@ -465,7 +512,7 @@ public class PlatRoadPaved extends PlatRoad {
 				} else {
 					
 					// fabricate the treasures
-					int treasureCount = rand.nextInt(context.maxTreasureCount) + 1;
+					int treasureCount = rand.nextInt(context.maxTreasureCount) + 2;
 					ItemStack[] items = new ItemStack[treasureCount];
 					for (int i = 0; i < treasureCount; i++) {
 						items[i] = new ItemStack(rand.nextInt(countTreasureIds) + minTreasureId, rand.nextInt(2) + 1);
@@ -479,7 +526,7 @@ public class PlatRoadPaved extends PlatRoad {
 	}
 	
 	protected CreatureType pickTrick() {
-		switch (rand.nextInt(8)) {
+		switch (rand.nextInt(11)) {
 		case 1:
 			return CreatureType.CREEPER;
 		case 2:
@@ -494,6 +541,12 @@ public class PlatRoadPaved extends PlatRoad {
 			return CreatureType.CAVE_SPIDER;
 		case 7:
 			return CreatureType.SILVERFISH;
+		case 8:
+			return CreatureType.BLAZE;
+		case 9:
+			return CreatureType.MAGMA_CUBE;
+		case 10:
+			return CreatureType.SLIME;
 		default:
 			return CreatureType.ENDERMAN;
 		}
@@ -585,7 +638,9 @@ public class PlatRoadPaved extends PlatRoad {
 		case 57:
 		return Material.NETHERRACK;
 		case 58:
+			return Material.NETHER_BRICK;
 		case 59:
+			return Material.NETHER_WARTS;
 		case 60:
 		return Material.LAVA;
 		case 61:
@@ -604,7 +659,7 @@ public class PlatRoadPaved extends PlatRoad {
 		}
 	
 	protected Material pickPlumbingTreasure() {
-		switch (rand.nextInt(20)) {
+		switch (rand.nextInt(25)) {
 		
 		// random junk
 		case 0:
@@ -627,7 +682,12 @@ public class PlatRoadPaved extends PlatRoad {
 			return Material.LAPIS_BLOCK;
 		case 9:
 			return Material.DIAMOND_BLOCK;
-		
+		case 10:
+			return Material.COBBLESTONE;
+		case 11:
+			return Material.COBBLESTONE;
+		case 12:
+			return Material.MOSSY_COBBLESTONE;
 		// the rest of the time it is just flooded
 		default:
 			return Material.WATER;
