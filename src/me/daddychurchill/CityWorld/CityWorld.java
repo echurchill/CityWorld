@@ -15,6 +15,8 @@ import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+//This is just a test I'm not changing anything just to test. this text is worthless :D
+
 //DONE Global.BedrockIsolation = obsidian or bedrock barriers (true)
 //DONE Global.Plumbing = plumbing between street and underworld (true)
 //DONE Global.Sewer = sewers between street (and plumbing) and underworld (true)
