@@ -1,15 +1,31 @@
 == **CityWorld** ==
 The great outdoors is all good and fine but sometimes you just want to go to town. Not any town will do, how about one that goes on forever. The Big Apple has nothing on this world generator. :-)
 
-===== //Version 0.60// =====
+===== //Version 0.60// ===== 
+====== //(pending approval by the BukkitDev managers)// ======
 
 {{http://dev.bukkit.org/media/images/36/712/BeautyShot.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
-v0.60
+v0.60 Permissions and Config file
+
 Permissions for CityWorld command
-YML global options for BedrockIsolation, Plumbing, Sewer and Underworld... all default to true
+* cityworld.command (defaults to op)
+
+Config option file is now generated when CityWorld runs. These options only affect "new generation" and are not world specific (yet). Changing them after a world has been generated will produce some odd results at times.
+* Global.BedrockIsolation (defaults to true) //obsidian or bedrock barriers// 
+* Global.Plumbing (true) //plumbing between street and underworld//
+* Global.Sewer (true) //sewers between street (and plumbing) and underworld//
+* Global.Cistern (true) //cisterns beneath parks//
+* Global.Basement (true) //basements beneath buildings//
+* Global.Underworld (true) //underworld beneath the city's sewers, plumbing, cisterns, etc.//
+* Global.TreasureInFountain (true) //treasure ores (coins) in the Fountains//
+* Global.TreasureInPlumbing (true) //treasure blocks (stuff flushed down) in the Plumbing//
+* Global.TreasureInSewer (true) //treasure chests in the sewer (items include IRON_SPADE through ROTTEN_FLESH, inclusive)//
+* Global.SpawnersInSewer (true) //sewers treasure rooms might have spawners//
+* Global.StreetLevel (24) //Y coordinate where the streets start (higher this is the shorter the buildings)//
+* Global.MaximumFloors (100) //floor count of the tallest building (clamped to what MineCraft can actually do)//
 
 v0.57
 Quickie patch to permit support for 1.1
@@ -53,7 +69,7 @@ This plugin really "tests" MineCraft/Bukkit when it comes to complex worlds. In 
 ----
 === Installing ===
 
-This is purely a world generator, it does not add permissions or options to configure. If you need permissions, teleportation or world management support there are plenty of plugins that will do that for you. The Bukkit plugin ecosystem does not need more of those puppies. This is JUST A WORLD GENERATOR. :-)
+This is purely a world generator. If you need teleportation or world management support there are plenty of plugins that will do that for you. The Bukkit plugin ecosystem does not need more of those puppies. This is JUST A WORLD GENERATOR. :-)
 
 To install it you will need to do three things...
 # **Download the plugin and place it in Bukkit's plugin folder.** If you don't know where or what the Bukkit's plugin folder is, read [[http://wiki.bukkit.org/Setting_up_a_server|this]].
@@ -61,11 +77,8 @@ To install it you will need to do three things...
 
 At this point, you may be asking yourself: **How do I get to the city?** 
 There are two options...
-# **Press "T", type in "/CityWorld" and press return
+# **Press "T", type in "/CityWorld" and press return (if you do this, remember that some plugins might not work with CityWorld until you modify bukkit's YML to include a reference to the world)
 # **OR... you can use a multiverse plugin and use the CityWorld as the generator for one of your worlds. We use [[http://dev.bukkit.org/server-mods/multiverse-core/|Multiverse]].
 
 If you are still confused then rereread [[http://wiki.bukkit.org/Setting_up_a_server|this]]. :-)
 
-----
-=== Dev blog ===
-If you want to learn the latest on CityWorld: //[[http://dev.bukkit.org/server-mods/cityworld/pages/dev-blog-ish-thing/|Dev-Blog-Ish-Thing]]//

@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.Context.ContextUrban;
+import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -17,7 +17,7 @@ public abstract class PlatLot {
 	protected static byte stoneId = (byte) Material.STONE.getId();
 	protected static byte lavaId = (byte) Material.LAVA.getId();
 	
-	public PlatLot(Random rand, ContextUrban context) {
+	public PlatLot(Random rand, PlatMapContext context) {
 		super();
 		this.rand = rand;
 		
@@ -25,9 +25,9 @@ public abstract class PlatLot {
 		connectedkey = rand.nextLong();
 	}
 	
-	public abstract void generateChunk(PlatMap platmap, ByteChunk chunk, ContextUrban context, int platX, int platZ);
+	public abstract void generateChunk(PlatMap platmap, ByteChunk chunk, PlatMapContext context, int platX, int platZ);
 	
-	public void generateBlocks(PlatMap platmap, RealChunk chunk, ContextUrban context, int platX, int platZ) {
+	public void generateBlocks(PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
 		// default one does nothing!
 	}
 	
@@ -73,7 +73,7 @@ public abstract class PlatLot {
 		return miniPlatMap;
 	}
 	
-	protected void generateBedrock(ByteChunk byteChunk, ContextUrban context, int uptoY) {
+	protected void generateBedrock(ByteChunk byteChunk, PlatMapContext context, int uptoY) {
 		
 		// bottom of the bottom
 		byteChunk.setLayer(0, bedrockId);

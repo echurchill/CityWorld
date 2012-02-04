@@ -5,6 +5,6 @@ load: startup
 author: DaddyChurchill
 commands:
   cityworld:
-    description: Sends you to the cityworld.
+    description: Sends you to the CityWorld
     usage: /cityworld
     

@@ -2,10 +2,12 @@ package me.daddychurchill.CityWorld.Context;
 
 import java.util.Random;
 
-public class ContextCityCenter extends ContextUrban {
+import me.daddychurchill.CityWorld.CityWorld;
 
-	public ContextCityCenter(Random rand) {
-		super(rand);
+public class ContextCityCenter extends PlatMapContext {
+
+	public ContextCityCenter(CityWorld plugin, Random rand) {
+		super(plugin, rand);
 
 		setFloorRange(rand, 5, 2);
 		

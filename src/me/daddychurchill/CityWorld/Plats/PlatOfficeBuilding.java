@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.Context.ContextUrban;
+import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
@@ -13,7 +13,7 @@ import org.bukkit.Material;
 
 public class PlatOfficeBuilding extends PlatBuilding {
 
-	protected final static int FloorHeight = PlatMap.FloorHeight;
+	protected final static int FloorHeight = PlatMapContext.FloorHeight;
 	
 	protected Material wallMaterial;
 	protected Material ceilingMaterial;
@@ -32,7 +32,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	protected int insetInsetMidAt;
 	protected int insetInsetHighAt;
 
-	public PlatOfficeBuilding(Random rand, ContextUrban context) {
+	public PlatOfficeBuilding(Random rand, PlatMapContext context) {
 		super(rand, context);
 
 		// how do the walls inset?
@@ -119,27 +119,27 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk chunk, ContextUrban context, int platX, int platZ) {
+	public void generateChunk(PlatMap platmap, ByteChunk chunk, PlatMapContext context, int platX, int platZ) {
 		// check out the neighbors
 		SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);
 
 		// starting with the bottom
-		int lowestY = PlatMap.StreetLevel - FloorHeight * (depth - 1) - 3;
+		int lowestY = context.streetLevel - FloorHeight * (depth - 1) - 3;
 		generateBedrock(chunk, context, lowestY);
 		
 		// bottom most floor
-		drawCeilings(chunk, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);
+		drawCeilings(chunk, context, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);
 		chunk.setBlocks(0, ByteChunk.Width, lowestY, lowestY + 1, 0, ByteChunk.Width, (byte) ceilingMaterial.getId());
 		
 		// below ground
 		for (int floor = 0; floor < depth; floor++) {
-			int floorAt = PlatMap.StreetLevel - FloorHeight * floor - 2;
+			int floorAt = context.streetLevel - FloorHeight * floor - 2;
 
 			// one floor please
-			drawWalls(chunk, floorAt, FloorHeight - 1, 0, 0, false,
+			drawWalls(chunk, context, floorAt, FloorHeight - 1, 0, 0, false,
 					wallMaterial, wallMaterial, neighborBasements);
-			drawCeilings(chunk, floorAt + FloorHeight - 1, 1, 0, 0, false,
+			drawCeilings(chunk, context, floorAt + FloorHeight - 1, 1, 0, 0, false,
 					ceilingMaterial, neighborBasements);
 			
 			// one down, more to go
@@ -158,7 +158,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 
 		// above ground
 		for (int floor = 0; floor < height; floor++) {
-			int floorAt = PlatMap.StreetLevel + FloorHeight * floor + 2;
+			int floorAt = context.streetLevel + FloorHeight * floor + 2;
 			allowRounded = allowRounded && neighborFloors.isRoundable();
 
 			// breath in?
@@ -172,16 +172,16 @@ public class PlatOfficeBuilding extends PlatBuilding {
 			}
 			
 			// one floor please
-			drawWalls(chunk, floorAt, FloorHeight - 1, 
+			drawWalls(chunk, context, floorAt, FloorHeight - 1, 
 					localInsetWallEW, localInsetWallNS, 
 					allowRounded, wallMaterial, glassMaterial, neighborFloors);
-			drawCeilings(chunk, floorAt + FloorHeight - 1, 1, 
+			drawCeilings(chunk, context, floorAt + FloorHeight - 1, 1, 
 					localInsetCeilingEW, localInsetCeilingNS, 
 					allowRounded, ceilingMaterial, neighborFloors);
 			
 			// final floor is done... how about a roof then?
 			if (floor == height - 1)
-				drawRoof(chunk, PlatMap.StreetLevel + FloorHeight * (floor + 1) + 2, localInsetWallEW, localInsetWallNS, allowRounded, roofMaterial, neighborFloors);
+				drawRoof(chunk, context, context.streetLevel + FloorHeight * (floor + 1) + 2, localInsetWallEW, localInsetWallNS, allowRounded, roofMaterial, neighborFloors);
 
 			// one down, more to go
 			neighborFloors.decrement();
@@ -189,7 +189,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	}
 	
 	@Override
-	public void generateBlocks(PlatMap platmap, RealChunk chunk, ContextUrban context, int platX, int platZ) {
+	public void generateBlocks(PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
 		// check out the neighbors
 		//SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);
@@ -201,12 +201,12 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		StairWell stairLocation = getStairWellLocation(allowRounded, neighborFloors);
 		
 		// bottom floor? 
-		drawDoors(chunk, PlatMap.StreetLevel + 2, FloorHeight, insetWallEW, insetWallNS, 
+		drawDoors(chunk, context.streetLevel + 2, FloorHeight, insetWallEW, insetWallNS, 
 				stairLocation, neighborFloors, wallMaterial);
 		
 		// work on the basement stairs first
 		for (int floor = 0; floor < depth; floor++) {
-			int y = PlatMap.StreetLevel - FloorHeight * floor - 2;
+			int y = context.streetLevel - FloorHeight * floor - 2;
 			
 			// stairs?
 			if (needStairsDown) {
@@ -241,7 +241,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		// now the above ground floors
 		if (needStairsUp) {
 			for (int floor = 0; floor < height; floor++) {
-				int y = PlatMap.StreetLevel + FloorHeight * floor + 2;
+				int y = context.streetLevel + FloorHeight * floor + 2;
 				
 				// more stairs and such
 				if (floor < height - 1)

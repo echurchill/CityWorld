@@ -3,9 +3,9 @@ package me.daddychurchill.CityWorld.Context;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.CityWorld;
-import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
+import me.daddychurchill.CityWorld.Support.RealChunk;
 
-public class ContextUrban {
+public class PlatMapContext {
 	public static int oddsNeverGoingToHappen = Integer.MAX_VALUE;
 	public static int oddsExtremelyUnlikely = 80;
 	public static int oddsVeryUnlikely = 40;
@@ -54,9 +54,14 @@ public class ContextUrban {
 	public int oddsOfManholeToDownBelow = oddsExtremelyLikely; // manhole/ladder down to the lowest levels 1/n of the time
 	public int oddsOfNaturalArt = oddsExtremelyLikely; // sometimes nature is art 1/n of the time 
 	
-	public ContextUrban(Random rand) {
-		setFloorRange(rand, 2, 2);
-	}
+	public static final int FloorHeight = 4;
+	public static final int FudgeFloorsBelow = 2;
+	public static final int FudgeFloorsAbove = 3;
+	public static final int absoluteMinimumFloorsAbove = 5; // shortest tallest building
+	public static final int absoluteAbsoluteMaximumFloorsBelow = 3; // that is as many basements as I can tolerate
+	public int absoluteMaximumFloorsBelow;
+	public int absoluteMaximumFloorsAbove; 
+	public int streetLevel;
 	
 	public byte isolationId;
 	public boolean doPlumbing;
@@ -66,10 +71,10 @@ public class ContextUrban {
 	public boolean doUnderworld;
 	public boolean doTreasureInSewer;
 	public boolean doTreasureInPlumbing;
+	public boolean doTreasureInFountain;
 	public boolean doSpawnerInSewer;
-	public int streetLevel;
 	
-	public void copyGlobals(CityWorld plugin) {
+	public PlatMapContext(CityWorld plugin, Random rand) {
 		isolationId = (byte) plugin.getIsolationMaterial().getId();
 		doPlumbing = plugin.isDoPlumbing();
 		doSewer = plugin.isDoSewer();
@@ -78,14 +83,34 @@ public class ContextUrban {
 		doUnderworld = plugin.isDoUnderworld();
 		doTreasureInSewer = plugin.isDoTreasureInSewer();
 		doTreasureInPlumbing = plugin.isDoTreasureInPlumbing();
+		doTreasureInFountain = plugin.isDoTreasureInFountain();
 		doSpawnerInSewer = plugin.isDoSpawnerInSewer();
-		streetLevel = plugin.getStreetLevel();
+		
+		// where is the ground
+		streetLevel = Math.min(Math.max(plugin.getStreetLevel(), 
+				FloorHeight * FudgeFloorsBelow), 
+				RealChunk.Height - FloorHeight * (FudgeFloorsAbove + absoluteMinimumFloorsAbove));
+		
+		// worst case?
+		absoluteMaximumFloorsBelow = Math.max(Math.min(streetLevel / FloorHeight - FudgeFloorsBelow, absoluteAbsoluteMaximumFloorsBelow), 0);
+		absoluteMaximumFloorsAbove = Math.max(Math.min((RealChunk.Height - streetLevel) / FloorHeight - FudgeFloorsAbove, plugin.getMaximumFloors()), absoluteMinimumFloorsAbove);
+		
+		// turn off a few things if there isn't room
+		if (absoluteMaximumFloorsBelow == 0) {
+			doPlumbing = false;
+			doSewer = false;
+			doCistern = false;
+			doBasement = false;
+		}
+
+		// default floor range
+		setFloorRange(rand, 2, 2);
 	}
 	
 	protected void setFloorRange(Random rand, int aboveRange, int belowRange) {
 		// calculate the extremes for this plat
-		maximumFloorsAbove = Math.min((rand.nextInt(aboveRange) + 1) * 2, PlatMap.AbsoluteMaximumFloorsAbove);
-		maximumFloorsBelow = Math.min(rand.nextInt(belowRange) + 1, PlatMap.AbsoluteMaximumFloorsBelow);
+		maximumFloorsAbove = Math.min((rand.nextInt(aboveRange) + 1) * 2, absoluteMaximumFloorsAbove);
+		maximumFloorsBelow = Math.min(rand.nextInt(belowRange) + 1, absoluteMaximumFloorsBelow);
 		
 		int floorsFourth = Math.max((maximumFloorsAbove) / 4, 1);
 		buildingWallInsettedMinLowPoint = floorsFourth;

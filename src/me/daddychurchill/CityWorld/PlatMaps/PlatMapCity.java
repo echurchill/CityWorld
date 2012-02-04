@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.PlatMaps;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.Context.ContextUrban;
+import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatOfficeBuilding;
 import me.daddychurchill.CityWorld.Plats.PlatPark;
@@ -16,7 +16,7 @@ public class PlatMapCity extends PlatMapUrban {
 	public int floorsMaximumAbove;
 	public int floorsMaximumBelow;
 	
-	public PlatMapCity(World world, Random random, ContextUrban context, int platX, int platZ) {
+	public PlatMapCity(World world, Random random, PlatMapContext context, int platX, int platZ) {
 		super(world, random, context, platX, platZ);
 
 		// backfill with buildings and parks

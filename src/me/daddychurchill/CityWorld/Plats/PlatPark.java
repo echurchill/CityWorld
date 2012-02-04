@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.Context.ContextUrban;
+import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Ladder;
@@ -18,7 +18,7 @@ public class PlatPark extends PlatLot {
 
 	protected static long connectedkeyForParks = 0;
 	
-	protected final static int cisternDepth = PlatMap.FloorHeight * 4;
+	protected final static int cisternDepth = PlatMapContext.FloorHeight * 4;
 	protected final static int groundDepth = 2;
 	
 	protected final static byte cisternId = (byte) Material.IRON_BLOCK.getId();
@@ -39,7 +39,7 @@ public class PlatPark extends PlatLot {
 	private boolean circleSidewalk;
 	private int waterDepth;
 	
-	public PlatPark(Random rand, ContextUrban context) {
+	public PlatPark(Random rand, PlatMapContext context) {
 		super(rand, context);
 		
 		// if the master key for paved roads isn't calculated then do it
@@ -52,7 +52,7 @@ public class PlatPark extends PlatLot {
 		
 		// pick a style
 		circleSidewalk = rand.nextBoolean();
-		waterDepth = rand.nextInt(PlatMap.FloorHeight * 2);
+		waterDepth = rand.nextInt(PlatMapContext.FloorHeight * 2) + 1;
 	}
 
 	@Override
@@ -75,14 +75,14 @@ public class PlatPark extends PlatLot {
 	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk chunk, ContextUrban context, int platX, int platZ) {
+	public void generateChunk(PlatMap platmap, ByteChunk chunk, PlatMapContext context, int platX, int platZ) {
 
 		// look around
 		SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
 		
 		// starting with the bottom
-		int lowestY = PlatMap.StreetLevel - cisternDepth + 1;
-		int highestY = PlatMap.StreetLevel - groundDepth;
+		int lowestY = context.streetLevel - cisternDepth + 1;
+		int highestY = context.streetLevel - groundDepth;
 		generateBedrock(chunk, context, lowestY);
 		
 		// cistern?
@@ -140,7 +140,7 @@ public class PlatPark extends PlatLot {
 		chunk.setLayer(highestY + 3, grassId);
 		
 		// surface features
-		int surfaceY = PlatMap.StreetLevel + 2;
+		int surfaceY = context.streetLevel + 2;
 		if (!neighbors.toNorth()) {
 			chunk.setBlocks(0, 6, surfaceY, surfaceY + 1, 0, 1, fenceId);
 			chunk.setBlocks(10, 16, surfaceY, surfaceY + 1, 0, 1, fenceId);
@@ -191,14 +191,14 @@ public class PlatPark extends PlatLot {
 	}
 	
 	@Override
-	public void generateBlocks(PlatMap platmap, RealChunk chunk, ContextUrban context, int platX, int platZ) {
-		int surfaceY = PlatMap.StreetLevel + 2;
+	public void generateBlocks(PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+		int surfaceY = context.streetLevel + 2;
 		
 		// way down?
 		if (context.doCistern) {
 			SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
 			if (!neighbors.toNorth()) {
-				int lowestY = PlatMap.StreetLevel - cisternDepth + 1 + waterDepth;
+				int lowestY = context.streetLevel - cisternDepth + 1 + waterDepth;
 				chunk.setBlocks(4, 7, lowestY, lowestY + 1, 1, 2, ledgeMaterial);
 				chunk.setLadder(5, lowestY + 1, surfaceY, 1, Ladder.SOUTH);
 				chunk.setTrapDoor(5, surfaceY, 1, TrapDoor.EAST);

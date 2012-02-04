@@ -12,7 +12,7 @@ import me.daddychurchill.CityWorld.Context.ContextLowrise;
 import me.daddychurchill.CityWorld.Context.ContextMall;
 import me.daddychurchill.CityWorld.Context.ContextMidrise;
 import me.daddychurchill.CityWorld.Context.ContextUnfinished;
-import me.daddychurchill.CityWorld.Context.ContextUrban;
+import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.PlatMaps.PlatMapCity;
 import me.daddychurchill.CityWorld.PlatMaps.PlatMapVanilla;
@@ -23,6 +23,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 public class CityWorldChunkGenerator extends ChunkGenerator {
 
@@ -58,7 +59,8 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 		// see if this works any better (loosely based on ExpansiveTerrain)
 		int x = random.nextInt(100) - 50;
 		int z = random.nextInt(100) - 50;
-		int y = Math.max(world.getHighestBlockYAt(x, z), PlatMap.StreetLevel + 1);
+		//int y = Math.max(world.getHighestBlockYAt(x, z), PlatMap.StreetLevel + 1);
+		int y = world.getHighestBlockYAt(x, z);
 		return new Location(world, x, y, z);
 	}
 	
@@ -100,11 +102,11 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 
 	// ***********
 	// manager for handling the city plat maps collection
-//	private double xFactor = 25.0;
-//	private double zFactor = 25.0;
-//	private SimplexNoiseGenerator generatorUrban;
-//	private SimplexNoiseGenerator generatorWater;
-//	private SimplexNoiseGenerator generatorUnfinished;
+	private double xFactor = 25.0;
+	private double zFactor = 25.0;
+	private SimplexNoiseGenerator generatorUrban;
+	private SimplexNoiseGenerator generatorWater;
+	private SimplexNoiseGenerator generatorUnfinished;
 	
 	private Hashtable<Long, PlatMap> platmaps;
 	public PlatMap getPlatMap(World world, Random random, int chunkX, int chunkZ) {
@@ -127,19 +129,18 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 		if (platmap == null) {
 			
 			// generator generated?
-//			if (generatorUrban == null) {
-//				long seed = world.getSeed();
-//				generatorUrban = new SimplexNoiseGenerator(seed);
-//				generatorWater = new SimplexNoiseGenerator(seed + 1);
-//				generatorUnfinished = new SimplexNoiseGenerator(seed + 2);
-//			}
+			if (generatorUrban == null) {
+				long seed = world.getSeed();
+				generatorUrban = new SimplexNoiseGenerator(seed);
+				generatorWater = new SimplexNoiseGenerator(seed + 1);
+				generatorUnfinished = new SimplexNoiseGenerator(seed + 2);
+			}
 			
 //			int platX
 //			CityWorld.log.info("PlatMapAt: " + platX / PlatMap.Width + ", " + platZ / PlatMap.Width + " OR " + chunkX + ", " + chunkZ);
 			
 			// what is the context for this one?
-			ContextUrban context = getContext(world, random, chunkX, chunkZ);
-			context.copyGlobals(plugin);
+			PlatMapContext context = getContext(world, plugin, random, chunkX, chunkZ);
 			
 			// figure out the biome for this platmap
 			switch (world.getBiome(platX, platZ)) {
@@ -191,36 +192,36 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 		return platmap;
 	}
 	
-	private ContextUrban getContext(World world, Random random, int chunkX, int chunkZ) {
+	private PlatMapContext getContext(World world, CityWorld plugin, Random random, int chunkX, int chunkZ) {
 		switch (random.nextInt(20)) {
 		case 0:
 		case 1:
 		case 2:
 		case 3:
-			return new ContextLowrise(random);
+			return new ContextLowrise(plugin, random);
 		case 4:
 		case 5:
 		case 6:
 		case 7:
-			return new ContextMidrise(random);
+			return new ContextMidrise(plugin, random);
 		case 8:
 		case 9:
 		case 10:
-			return new ContextHighrise(random);
+			return new ContextHighrise(plugin, random);
 		case 11:
 		case 12:
-			return new ContextAllPark(random);
+			return new ContextAllPark(plugin, random);
 		case 13:
 		case 14:
-			return new ContextMall(random);
+			return new ContextMall(plugin, random);
 		case 15:
 		case 16:
 		case 17:
-			return new ContextCityCenter(random);
+			return new ContextCityCenter(plugin, random);
 		case 18:
 		case 19:
 		default:
-			return new ContextUnfinished(random);
+			return new ContextUnfinished(plugin, random);
 		}
 	}
 

@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.PlatMaps;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.Context.ContextUrban;
+import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.Plats.PlatRoad;
 import me.daddychurchill.CityWorld.Plats.PlatRoadPaved;
 import me.daddychurchill.CityWorld.Plats.PlatStatue;
@@ -11,7 +11,7 @@ import org.bukkit.World;
 
 public abstract class PlatMapUrban extends PlatMap {
 
-	public PlatMapUrban(World world, Random random, ContextUrban context, int platX, int platZ) {
+	public PlatMapUrban(World world, Random random, PlatMapContext context, int platX, int platZ) {
 		super(world, random, context, platX, platZ);
 
 		//TODO rivers and railroads?

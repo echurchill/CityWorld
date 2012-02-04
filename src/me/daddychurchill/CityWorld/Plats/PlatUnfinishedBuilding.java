@@ -4,7 +4,7 @@ import java.util.Random;
 
 import org.bukkit.Material;
 
-import me.daddychurchill.CityWorld.Context.ContextUrban;
+import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
@@ -15,7 +15,7 @@ import me.daddychurchill.CityWorld.Support.Direction.StairWell;
 
 public class PlatUnfinishedBuilding extends PlatBuilding {
 
-	protected final static int FloorHeight = PlatMap.FloorHeight;
+	protected final static int FloorHeight = PlatMapContext.FloorHeight;
 	
 	protected final static byte airId = (byte) Material.AIR.getId();
 	protected final static byte girderId = (byte) Material.IRON_BLOCK.getId();
@@ -35,7 +35,7 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	
 	//TODO randomly add a construction crane on the top most horizontal girder
 	
-	public PlatUnfinishedBuilding(Random rand, ContextUrban context) {
+	public PlatUnfinishedBuilding(Random rand, PlatMapContext context) {
 		super(rand, context);
 		
 		// basement only?
@@ -61,38 +61,38 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk chunk, ContextUrban context, int platX, int platZ) {
+	public void generateChunk(PlatMap platmap, ByteChunk chunk, PlatMapContext context, int platX, int platZ) {
 		// check out the neighbors
 		SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);
 
 		// starting with the bottom
-		int lowestY = PlatMap.StreetLevel - FloorHeight * (depth - 1) - 3;
+		int lowestY = context.streetLevel - FloorHeight * (depth - 1) - 3;
 		generateBedrock(chunk, context, lowestY);
 		
 		// bottom most floor
-		drawCeilings(chunk, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);
+		drawCeilings(chunk, context, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);
 		
 		// below ground
 		for (int floor = 0; floor < depth; floor++) {
-			int floorAt = PlatMap.StreetLevel - FloorHeight * floor - 2;
+			int floorAt = context.streetLevel - FloorHeight * floor - 2;
 			
 			// at the first floor add a fence to prevent folks from falling in
 			if (floor == 0) {
-				drawWalls(chunk, PlatMap.StreetLevel + 2, fenceHeight, 0, 0, false,
+				drawWalls(chunk, context, context.streetLevel + 2, fenceHeight, 0, 0, false,
 						fenceMaterial, fenceMaterial, neighborBasements);
-				holeFence(chunk, PlatMap.StreetLevel + 2, neighborBasements);
+				holeFence(chunk, context.streetLevel + 2, neighborBasements);
 			}
 			
 			// one floor please
-			drawWalls(chunk, floorAt, FloorHeight, 0, 0, false,
+			drawWalls(chunk, context, floorAt, FloorHeight, 0, 0, false,
 					dirtMaterial, dirtMaterial, neighborBasements);
-			drawWalls(chunk, floorAt, FloorHeight, 1, 1, false,
+			drawWalls(chunk, context, floorAt, FloorHeight, 1, 1, false,
 					wallMaterial, wallMaterial, neighborBasements);
 			
 			// ceilings if needed
 			if (!unfinishedBasementOnly) {
-				drawCeilings(chunk, floorAt + FloorHeight - 1, 1, 1, 1, false,
+				drawCeilings(chunk, context, floorAt + FloorHeight - 1, 1, 1, 1, false,
 						ceilingMaterial, neighborBasements);
 			} else {
 				drawHorizontalGirders(chunk, floorAt + FloorHeight - 1, neighborBasements);
@@ -111,13 +111,13 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 
 			// above ground
 			for (int floor = 0; floor < height; floor++) {
-				int floorAt = PlatMap.StreetLevel + FloorHeight * floor + 2;
+				int floorAt = context.streetLevel + FloorHeight * floor + 2;
 				
 				// floor built yet?
 				if (floor <= floorsBuilt) {
 					
 					// the floor of the next floor
-					drawCeilings(chunk, floorAt + FloorHeight - 1, 1, 1, 1, false,
+					drawCeilings(chunk, context, floorAt + FloorHeight - 1, 1, 1, 1, false,
 							ceilingMaterial, neighborFloors);
 				} else {
 					
@@ -138,14 +138,14 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	}
 
 	@Override
-	public void generateBlocks(PlatMap platmap, RealChunk chunk, ContextUrban context, int platX, int platZ) {
+	public void generateBlocks(PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
 		
 		// work on the basement stairs first
 		if (!unfinishedBasementOnly) {
 			
 			if (needStairsDown) {
 				for (int floor = 0; floor < depth; floor++) {
-					int y = PlatMap.StreetLevel - FloorHeight * floor - 2;
+					int y = context.streetLevel - FloorHeight * floor - 2;
 					
 					// place the stairs and such
 					drawStairs(chunk, y, FloorHeight, inset, inset, StairWell.CENTER, stairMaterial);
@@ -158,7 +158,7 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 			
 			if (needStairsUp) {
 				for (int floor = 0; floor < height; floor++) {
-					int y = PlatMap.StreetLevel + FloorHeight * floor + 2;
+					int y = context.streetLevel + FloorHeight * floor + 2;
 					
 					// floor built yet?
 					if (floor <= floorsBuilt) {

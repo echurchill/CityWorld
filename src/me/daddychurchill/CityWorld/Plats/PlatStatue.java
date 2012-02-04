@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.Context.ContextUrban;
+import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Ladder;
@@ -33,7 +33,7 @@ public class PlatStatue extends PlatLot {
 	
 	protected StatueBase statueBase;
 	
-	public PlatStatue(Random rand, ContextUrban context) {
+	public PlatStatue(Random rand, PlatMapContext context) {
 		super(rand, context);
 		
 		// what is it build on?
@@ -41,14 +41,14 @@ public class PlatStatue extends PlatLot {
 	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk chunk, ContextUrban context, int platX, int platZ) {
+	public void generateChunk(PlatMap platmap, ByteChunk chunk, PlatMapContext context, int platX, int platZ) {
 
 		// starting with the bottom
-		generateBedrock(chunk, context, PlatMap.StreetLevel);
-		chunk.setLayer(PlatMap.StreetLevel, stoneId);
+		generateBedrock(chunk, context, context.streetLevel);
+		chunk.setLayer(context.streetLevel, stoneId);
 
 		// where to start?
-		int y1 = PlatMap.StreetLevel + 1;
+		int y1 = context.streetLevel + 1;
 		chunk.setLayer(y1, curbId);
 		
 		// what to build?
@@ -59,12 +59,16 @@ public class PlatStatue extends PlatLot {
 			chunk.setCircle(8, 8, 5, y1, stoneId);
 			for (int x = 0; x < 10; x++)
 				for (int z = 0; z < 10; z++)
-					chunk.setBlock(x + 3, y1, z + 3, rand.nextInt(context.oddsOfMoneyInFountains) == 0 ? goldId : stoneId);
+					if (context.doTreasureInFountain)
+						chunk.setBlock(x + 3, y1, z + 3, rand.nextInt(context.oddsOfMoneyInFountains) == 0 ? goldId : stoneId);
+					else
+						chunk.setBlock(x + 3, y1, z + 3, stoneId);
 			
 			// the plain bit... later we will take care of the fancy bit
 			y1++;
 			chunk.setCircle(8, 8, 6, y1, brickId);
 			
+			//TODO need to improve this silly logic
 			// fill with water
 			chunk.setCircle(8, 8, 5, y1, waterId);
 			chunk.setCircle(8, 8, 4, y1, waterId);
@@ -96,14 +100,14 @@ public class PlatStatue extends PlatLot {
 	}
 	
 	@Override
-	public void generateBlocks(PlatMap platmap, RealChunk chunk, ContextUrban context, int platX, int platZ) {
+	public void generateBlocks(PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
 		super.generateBlocks(platmap, chunk, context, platX, platZ);
 		
 		// something got stolen?
 		boolean somethingInTheCenter = rand.nextInt(context.oddsOfMissingArt) != 0;
 		
 		// where to start?
-		int y1 = PlatMap.StreetLevel + 2;
+		int y1 = context.streetLevel + 2;
 		
 		// making a fountain?
 		switch (statueBase) {
@@ -126,7 +130,7 @@ public class PlatStatue extends PlatLot {
 			// manhole to underworld?
 			if (context.doUnderworld)
 				if (rand.nextInt(context.oddsOfManholeToDownBelow) == 0)
-					generateManhole(chunk);
+					generateManhole(chunk, context);
 			break;
 		case GRASS:
 			
@@ -139,7 +143,7 @@ public class PlatStatue extends PlatLot {
 			// manhole to underworld?
 			if (context.doUnderworld)
 				if (rand.nextInt(context.oddsOfManholeToDownBelow) == 0)
-					generateManhole(chunk);
+					generateManhole(chunk, context);
 			break;
 		case PEDESTAL:
 			
@@ -174,10 +178,10 @@ public class PlatStatue extends PlatLot {
 		
 	}
 	
-	private void generateManhole(RealChunk chunk) {
+	private void generateManhole(RealChunk chunk, PlatMapContext context) {
 		// maybe.. maybe not...
-		chunk.setTrapDoor(4, PlatMap.StreetLevel + 2, 1, TrapDoor.EAST);
-		chunk.setLadder(4, 2, PlatMap.StreetLevel + 2, 1, Ladder.SOUTH);
+		chunk.setTrapDoor(4, context.streetLevel + 2, 1, TrapDoor.EAST);
+		chunk.setLadder(4, 2, context.streetLevel + 2, 1, Ladder.SOUTH);
 		chunk.setBlock(4, 1, 1, manholePlatformMaterial);
 	}
 

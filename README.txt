@@ -1,6 +1,6 @@
 /***** CITYWORLD v0.60
 * City world generator for Minecraft/Bukkit
-* Copyright (C) 2011 daddychurchill <http://www.virtualchurchill.com>
+* Copyright (C) 2011-2012 daddychurchill <http://www.virtualchurchill.com>
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -22,11 +22,26 @@ Subway/elevated rail roads
 Terrain under the city
 Bring back rural blocks
 Park benches and other furniture
-Need to fix bugs in building roofs
+Need to fix bugs in building roofs (including those silly air conditioning units)
 
-v0.60
+v0.60 Permissions and Config file
+
 Permissions for CityWorld command
-YML global options for BedrockIsolation, Plumbing, Sewer and Underworld... all default to true
+* cityworld.command (defaults to op)
+
+Config option file is now generated when CityWorld runs. These options only affect "new generation" and are not world specific (yet). Changing them after a world has been generated will produce some odd results at times.
+* Global.BedrockIsolation (defaults to true) //obsidian or bedrock barriers// 
+* Global.Plumbing (true) //plumbing between street and underworld//
+* Global.Sewer (true) //sewers between street (and plumbing) and underworld//
+* Global.Cistern (true) //cisterns beneath parks//
+* Global.Basement (true) //basements beneath buildings//
+* Global.Underworld (true) //underworld beneath the city's sewers, plumbing, cisterns, etc.//
+* Global.TreasureInFountain (true) //treasure ores (coins) in the Fountains//
+* Global.TreasureInPlumbing (true) //treasure blocks (stuff flushed down) in the Plumbing//
+* Global.TreasureInSewer (true) //treasure chests in the sewer (items include IRON_SPADE through ROTTEN_FLESH, inclusive)//
+* Global.SpawnersInSewer (true) //sewers treasure rooms might have spawners//
+* Global.StreetLevel (24) //Y coordinate where the streets start (higher this is the shorter the buildings)//
+* Global.MaximumFloors (100) //floor count of the tallest building (clamped to what MineCraft can actually do)//
 
 v0.57
 Quickie patch to permit support for 1.1

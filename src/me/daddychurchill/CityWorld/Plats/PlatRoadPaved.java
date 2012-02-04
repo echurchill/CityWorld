@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.Context.ContextUrban;
+import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Direction.Chest;
@@ -22,7 +22,6 @@ public class PlatRoadPaved extends PlatRoad {
 	
 	protected final static int sidewalkWidth = 3;
 	protected final static int lightpostHeight = 3;
-	protected final static int sidewalkLevel = PlatMap.StreetLevel + 1;
 	protected final static int crossDitchEdge = 7;
 	protected final static int vaultWidth = 5;
 	protected final static int vaultDoorOffset = 2;
@@ -46,7 +45,7 @@ public class PlatRoadPaved extends PlatRoad {
 	protected final static byte pavementId = (byte) Material.STONE.getId();
 	protected final static byte sidewalkId = (byte) Material.STEP.getId();
 	
-	public PlatRoadPaved(Random rand, ContextUrban context) {
+	public PlatRoadPaved(Random rand, PlatMapContext context) {
 		super(rand, context);
 
 		// if the master key for paved roads isn't calculated then do it
@@ -59,14 +58,15 @@ public class PlatRoadPaved extends PlatRoad {
 	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk chunk, ContextUrban context, int platX, int platZ) {
+	public void generateChunk(PlatMap platmap, ByteChunk chunk, PlatMapContext context, int platX, int platZ) {
 		
 		// where do we start
-		int base1Y = PlatMap.StreetLevel - PlatMap.FloorHeight * 3 + 1;
+		int base1Y = context.streetLevel - PlatMapContext.FloorHeight * 3 + 1;
 		int sewerY = base1Y + 1;
-		int base2Y = base1Y + PlatMap.FloorHeight + 1;
+		int base2Y = base1Y + PlatMapContext.FloorHeight + 1;
 		int plumbingY = base2Y + 1;
-		int base3Y = PlatMap.StreetLevel - 1;
+		int base3Y = context.streetLevel - 1;
+		int sidewalkLevel = context.streetLevel + 1;
 
 		// starting with the bottom
 		generateBedrock(chunk, context, base1Y);
@@ -96,7 +96,7 @@ public class PlatRoadPaved extends PlatRoad {
 			generateVault(chunk, context, ByteChunk.Width - vaultWidth, ByteChunk.Width, 
 					sewerY, 
 					ByteChunk.Width - vaultWidth, ByteChunk.Width, true, true);
-			generateCeilingInset(chunk, vaultWidth, ByteChunk.Width - vaultWidth,
+			generateCeilingInset(chunk, context, vaultWidth, ByteChunk.Width - vaultWidth,
 					sewerY,
 					vaultWidth, ByteChunk.Width - vaultWidth, 
 					!roads.toWest(), !roads.toEast(), !roads.toNorth(), !roads.toSouth());
@@ -106,7 +106,7 @@ public class PlatRoadPaved extends PlatRoad {
 				chunk.setBlocks(0, crossDitchEdge, 
 								sewerY - 1, sewerY, 
 								crossDitchEdge, ByteChunk.Width - crossDitchEdge, airId);
-				generateCeilingInset(chunk, 0, vaultWidth,
+				generateCeilingInset(chunk, context, 0, vaultWidth,
 						sewerY, 
 						vaultWidth, ByteChunk.Width - vaultWidth, false, false, true, true);
 				chunk.setBlock(waterOffset, sewerY - 1, crossDitchEdge, waterId);
@@ -119,7 +119,7 @@ public class PlatRoadPaved extends PlatRoad {
 				chunk.setBlocks(ByteChunk.Width - crossDitchEdge, ByteChunk.Width, 
 								sewerY - 1, sewerY, 
 								crossDitchEdge, ByteChunk.Width - crossDitchEdge, airId);
-				generateCeilingInset(chunk, ByteChunk.Width - vaultWidth, ByteChunk.Width,
+				generateCeilingInset(chunk, context, ByteChunk.Width - vaultWidth, ByteChunk.Width,
 						sewerY, 
 						vaultWidth, ByteChunk.Width - vaultWidth, false, false, true, true);
 				chunk.setBlock(ByteChunk.Width - waterOffset - 1, sewerY - 1, ByteChunk.Width - crossDitchEdge - 1, waterId);
@@ -132,7 +132,7 @@ public class PlatRoadPaved extends PlatRoad {
 				chunk.setBlocks(crossDitchEdge, ByteChunk.Width - crossDitchEdge, 
 								sewerY - 1, sewerY, 
 								0, crossDitchEdge, airId);
-				generateCeilingInset(chunk, vaultWidth, ByteChunk.Width - vaultWidth,
+				generateCeilingInset(chunk, context, vaultWidth, ByteChunk.Width - vaultWidth,
 						sewerY,
 						0, vaultWidth, true, true, false, false);
 				chunk.setBlock(crossDitchEdge, sewerY - 1, waterOffset, waterId);
@@ -145,7 +145,7 @@ public class PlatRoadPaved extends PlatRoad {
 				chunk.setBlocks(crossDitchEdge, ByteChunk.Width - crossDitchEdge, 
 								sewerY - 1, sewerY, 
 								ByteChunk.Width - crossDitchEdge, ByteChunk.Width, airId);
-				generateCeilingInset(chunk, vaultWidth, ByteChunk.Width - vaultWidth,
+				generateCeilingInset(chunk, context, vaultWidth, ByteChunk.Width - vaultWidth,
 						sewerY, 
 						ByteChunk.Width - vaultWidth, ByteChunk.Width, true, true, false, false);
 				chunk.setBlock(ByteChunk.Width - crossDitchEdge - 1, sewerY - 1, ByteChunk.Width - waterOffset - 1, waterId);
@@ -199,7 +199,7 @@ public class PlatRoadPaved extends PlatRoad {
 		}
 		
 		// draw pavement
-		chunk.setLayer(PlatMap.StreetLevel, pavementId);
+		chunk.setLayer(context.streetLevel, pavementId);
 		
 		// sidewalk corners
 		chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkId);
@@ -219,30 +219,31 @@ public class PlatRoadPaved extends PlatRoad {
 		
 		// round things out
 		if (!roads.toWest() && roads.toEast() && !roads.toNorth() && roads.toSouth())
-			generateRoundedOut(chunk, sidewalkWidth, sidewalkWidth, 
+			generateRoundedOut(chunk, context, sidewalkWidth, sidewalkWidth, 
 					false, false);
 		if (!roads.toWest() && roads.toEast() && roads.toNorth() && !roads.toSouth())
-			generateRoundedOut(chunk, sidewalkWidth, ByteChunk.Width - sidewalkWidth - 4, 
+			generateRoundedOut(chunk, context, sidewalkWidth, ByteChunk.Width - sidewalkWidth - 4, 
 					false, true);
 		if (roads.toWest() && !roads.toEast() && !roads.toNorth() && roads.toSouth())
-			generateRoundedOut(chunk, ByteChunk.Width - sidewalkWidth - 4, sidewalkWidth, 
+			generateRoundedOut(chunk, context, ByteChunk.Width - sidewalkWidth - 4, sidewalkWidth, 
 					true, false);
 		if (roads.toWest() && !roads.toEast() && roads.toNorth() && !roads.toSouth())
-			generateRoundedOut(chunk, ByteChunk.Width - sidewalkWidth - 4, ByteChunk.Width - sidewalkWidth - 4, 
+			generateRoundedOut(chunk, context, ByteChunk.Width - sidewalkWidth - 4, ByteChunk.Width - sidewalkWidth - 4, 
 					true, true);
 	}
 	
 	@Override
-	public void generateBlocks(PlatMap platmap, RealChunk chunk, ContextUrban context, int platX, int platZ) {
+	public void generateBlocks(PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
 		
 		// light posts
-		generateLightPost(chunk, sidewalkWidth - 1, sidewalkWidth - 1);
-		generateLightPost(chunk, ByteChunk.Width - sidewalkWidth, ByteChunk.Width - sidewalkWidth);
+		generateLightPost(chunk, context, sidewalkWidth - 1, sidewalkWidth - 1);
+		generateLightPost(chunk, context, ByteChunk.Width - sidewalkWidth, ByteChunk.Width - sidewalkWidth);
 
 		// where do we start
-		int base1Y = PlatMap.StreetLevel - PlatMap.FloorHeight * 3 + 1;
+		int base1Y = context.streetLevel - PlatMapContext.FloorHeight * 3 + 1;
 		int sewerY = base1Y + 1;
-		int base2Y = base1Y + PlatMap.FloorHeight + 1;
+		int base2Y = base1Y + PlatMapContext.FloorHeight + 1;
+		int sidewalkLevel = context.streetLevel + 1;
 		
 		// look around
 		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);
@@ -345,7 +346,8 @@ public class PlatRoadPaved extends PlatRoad {
 //			}
 //	}
 	
-	protected void generateLightPost(RealChunk chunk, int x, int z) {
+	protected void generateLightPost(RealChunk chunk, PlatMapContext context, int x, int z) {
+		int sidewalkLevel = context.streetLevel + 1;
 		chunk.setBlock(x, sidewalkLevel, z, lightpostbaseMaterial);
 		chunk.setBlocks(x, sidewalkLevel + 1, sidewalkLevel + lightpostHeight + 1, z, lightpostMaterial);
 		chunk.setBlock(x, sidewalkLevel + lightpostHeight + 1, z, lightMaterial, true);
@@ -359,15 +361,17 @@ public class PlatRoadPaved extends PlatRoad {
 		chunk.setBlocks(x - 1, x + 2, y1 + 1, y2 - 1, z - 1, z + 2, manpipeMaterial);
 		
 		// empty the vault and fix up the doors
-		chunk.setBlocks(x - 1, x + vaultWidth - 3, y1 - PlatMap.FloorHeight, y1, z, z + vaultWidth - 2, airMaterial);
-		chunk.setBlocks(x, y1 - PlatMap.FloorHeight, y1 - PlatMap.FloorHeight + 2, z - 1, sewerWallMaterial);
-		chunk.setWoodenDoor(x + 1, y1 - PlatMap.FloorHeight, z - 1, Direction.Door.NORTHBYNORTHEAST);
+		chunk.setBlocks(x - 1, x + vaultWidth - 3, y1 - PlatMapContext.FloorHeight, y1, z, z + vaultWidth - 2, airMaterial);
+		chunk.setBlocks(x, y1 - PlatMapContext.FloorHeight, y1 - PlatMapContext.FloorHeight + 2, z - 1, sewerWallMaterial);
+		chunk.setWoodenDoor(x + 1, y1 - PlatMapContext.FloorHeight, z - 1, Direction.Door.NORTHBYNORTHEAST);
 		
 		// ladder
-		chunk.setLadder(x, y1 - PlatMap.FloorHeight, y2, z, Ladder.SOUTH);
+		chunk.setLadder(x, y1 - PlatMapContext.FloorHeight, y2, z, Ladder.SOUTH);
 	}
 	
-	protected void generateRoundedOut(ByteChunk chunk, int x, int z, boolean toNorth, boolean toEast) {
+	protected void generateRoundedOut(ByteChunk chunk, PlatMapContext context, int x, int z, boolean toNorth, boolean toEast) {
+		int sidewalkLevel = context.streetLevel + 1;
+		
 		// long bits
 		for (int i = 0; i < 4; i++) {
 			chunk.setBlock(toNorth ? x + 3 : x, sidewalkLevel, z + i, sidewalkId);
@@ -381,9 +385,9 @@ public class PlatRoadPaved extends PlatRoad {
 					   sidewalkId);
 	}
 	
-	protected void generateCeilingInset(ByteChunk chunk, int x1, int x2, int y1, int z1, int z2, 
+	protected void generateCeilingInset(ByteChunk chunk, PlatMapContext context, int x1, int x2, int y1, int z1, int z2, 
 			boolean insetS, boolean insetN, boolean insetE, boolean insetW) {
-		int y = y1 + PlatMap.FloorHeight - 1;
+		int y = y1 + PlatMapContext.FloorHeight - 1;
 		
 		if (insetS || insetN)
 			for (int z = z1; z < z2; z++) {
@@ -405,8 +409,8 @@ public class PlatRoadPaved extends PlatRoad {
 			}
 	}
 	
-	protected void generateVault(ByteChunk chunk, ContextUrban context, int x1, int x2, int y1, int z1, int z2, boolean doorNS, boolean doorEW) {
-		int y2 = y1 + PlatMap.FloorHeight;
+	protected void generateVault(ByteChunk chunk, PlatMapContext context, int x1, int x2, int y1, int z1, int z2, boolean doorNS, boolean doorEW) {
+		int y2 = y1 + PlatMapContext.FloorHeight;
 		
 		// place the walls
 		for (int x = x1; x < x2; x++) {
@@ -436,7 +440,7 @@ public class PlatRoadPaved extends PlatRoad {
 	private int maxTreasureId = Material.ROTTEN_FLESH.getId();
 	private int countTreasureIds = maxTreasureId - minTreasureId;
 	
-	protected void populateVault(RealChunk chunk, ContextUrban context, int x1, int x2, int y1, int z1, int z2) {
+	protected void populateVault(RealChunk chunk, PlatMapContext context, int x1, int x2, int y1, int z1, int z2) {
 		//int y2 = y1 + PlatMap.FloorHeight;
 		
 		// fill the vault
