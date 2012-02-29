@@ -23,7 +23,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 public class CityWorldChunkGenerator extends ChunkGenerator {
 
@@ -102,11 +101,11 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 
 	// ***********
 	// manager for handling the city plat maps collection
-	private double xFactor = 25.0;
-	private double zFactor = 25.0;
-	private SimplexNoiseGenerator generatorUrban;
-	private SimplexNoiseGenerator generatorWater;
-	private SimplexNoiseGenerator generatorUnfinished;
+//	private double xFactor = 25.0;
+//	private double zFactor = 25.0;
+//	private SimplexNoiseGenerator generatorUrban;
+//	private SimplexNoiseGenerator generatorWater;
+//	private SimplexNoiseGenerator generatorUnfinished;
 	
 	private Hashtable<Long, PlatMap> platmaps;
 	public PlatMap getPlatMap(World world, Random random, int chunkX, int chunkZ) {
@@ -129,12 +128,12 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 		if (platmap == null) {
 			
 			// generator generated?
-			if (generatorUrban == null) {
-				long seed = world.getSeed();
-				generatorUrban = new SimplexNoiseGenerator(seed);
-				generatorWater = new SimplexNoiseGenerator(seed + 1);
-				generatorUnfinished = new SimplexNoiseGenerator(seed + 2);
-			}
+//			if (generatorUrban == null) {
+//				long seed = world.getSeed();
+//				generatorUrban = new SimplexNoiseGenerator(seed);
+//				generatorWater = new SimplexNoiseGenerator(seed + 1);
+//				generatorUnfinished = new SimplexNoiseGenerator(seed + 2);
+//			}
 			
 //			int platX
 //			CityWorld.log.info("PlatMapAt: " + platX / PlatMap.Width + ", " + platZ / PlatMap.Width + " OR " + chunkX + ", " + chunkZ);
