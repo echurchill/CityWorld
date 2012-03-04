@@ -130,7 +130,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		
 		// bottom most floor
 		drawCeilings(chunk, context, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);
-		chunk.setBlocks(0, ByteChunk.Width, lowestY, lowestY + 1, 0, ByteChunk.Width, (byte) ceilingMaterial.getId());
+		chunk.setBlocks(0, chunk.width, lowestY, lowestY + 1, 0, chunk.width, (byte) ceilingMaterial.getId());
 		
 		// below ground
 		for (int floor = 0; floor < depth; floor++) {
@@ -260,58 +260,70 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	}
 	
 	static protected Material pickWallMaterial(Random rand) {
-		switch (rand.nextInt(12)) {
+		switch (rand.nextInt(15)) {
 		case 1:
 			return Material.COBBLESTONE;
 		case 2:
-			return Material.STONE;
-		case 3:
-			return Material.SMOOTH_BRICK;
-		case 4:
-			return Material.CLAY;
-		case 5:
-			return Material.IRON_BLOCK;
-		case 6:
-			return Material.BRICK;
-		case 7:
-			return Material.MOSSY_COBBLESTONE;
-		case 8:
-			return Material.DOUBLE_STEP;
-		case 9:
-			return Material.SANDSTONE;
-		case 10:
-			return Material.WOOD;
-		case 11:
-			return Material.WOOL;
-		default:
 			return Material.SAND;
+		case 3:
+			return Material.GRAVEL;
+		case 4:
+			return Material.WOOD;
+		case 5:
+			return Material.SANDSTONE;
+		case 6:
+			return Material.WOOL;
+		case 7:
+			return Material.DOUBLE_STEP;
+		case 8:
+			return Material.BRICK;
+		case 9:
+			return Material.MOSSY_COBBLESTONE;
+		case 10:
+			return Material.CLAY;
+		case 11:
+			return Material.NETHERRACK;
+		case 12:
+			return Material.SOUL_SAND;
+		case 13:
+			return Material.SMOOTH_BRICK;
+		case 14:
+			return Material.NETHER_BRICK;
+//			case 15:
+//			return Material.IRON_BLOCK;
+		default:
+			return Material.STONE;
 		}
 	}
 
 	static protected Material pickRoofMaterial(Random rand) {
-		switch (rand.nextInt(11)) {
+		switch (rand.nextInt(12)) {
 		case 1:
 			return Material.COBBLESTONE;
 		case 2:
-			return Material.STONE;
+			return Material.WOOD;
 		case 3:
-			return Material.SMOOTH_BRICK;
+			return Material.SANDSTONE;
 		case 4:
-			return Material.CLAY;
+			return Material.WOOL;
 		case 5:
-			return Material.IRON_BLOCK;
+			return Material.DOUBLE_STEP;
 		case 6:
 			return Material.BRICK;
 		case 7:
 			return Material.MOSSY_COBBLESTONE;
 		case 8:
-			return Material.DOUBLE_STEP;
+			return Material.CLAY;
 		case 9:
-			return Material.SANDSTONE;
+			return Material.NETHERRACK;
 		case 10:
-			return Material.WOOD;
+			return Material.SMOOTH_BRICK;
+		case 11:
+			return Material.NETHER_BRICK;
+//			case 15:
+//			return Material.IRON_BLOCK;
 		default:
-			return Material.WOOL;
+			return Material.STONE;
 		}
 	}
 
@@ -324,13 +336,17 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		case STONE:
 		case SMOOTH_BRICK:
 		case CLAY:
-		case IRON_BLOCK:
+//		case IRON_BLOCK:
 		case DOUBLE_STEP:
 			return Material.SMOOTH_STAIRS;
 
 		case WOOL:
 		case BRICK:
 			return Material.BRICK_STAIRS;
+		
+		case NETHERRACK:
+		case NETHER_BRICK:
+			return Material.NETHER_BRICK_STAIRS;
 		
 		default: // SANDSTONE, WOOD, SAND
 			return Material.WOOD_STAIRS;
@@ -345,11 +361,15 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		case SMOOTH_BRICK:
 			return Material.IRON_FENCE;
 
-		case IRON_BLOCK:
+//		case IRON_BLOCK:
 		case DOUBLE_STEP:
 		case WOOL:
 		case BRICK:
 			return Material.THIN_GLASS;
+		
+		case NETHERRACK:
+		case NETHER_BRICK:
+			return Material.NETHER_FENCE;
 		
 		default: // SANDSTONE, WOOD, SAND, CLAY
 			return Material.FENCE;
@@ -357,29 +377,33 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	}
 
 	static protected Material pickCeilingMaterial(Random rand) {
-		switch (rand.nextInt(11)) {
+		switch (rand.nextInt(12)) {
 		case 1:
 			return Material.COBBLESTONE;
 		case 2:
-			return Material.STONE;
+			return Material.WOOD;
 		case 3:
-			return Material.SMOOTH_BRICK;
+			return Material.SANDSTONE;
 		case 4:
-			return Material.CLAY;
+			return Material.WOOL;
 		case 5:
-			return Material.IRON_BLOCK;
+			return Material.DOUBLE_STEP;
 		case 6:
 			return Material.BRICK;
 		case 7:
 			return Material.MOSSY_COBBLESTONE;
 		case 8:
-			return Material.DOUBLE_STEP;
+			return Material.CLAY;
 		case 9:
-			return Material.SANDSTONE;
+			return Material.NETHERRACK;
 		case 10:
-			return Material.WOOD;
+			return Material.SMOOTH_BRICK;
+		case 11:
+			return Material.NETHER_BRICK;
+//			case 15:
+//			return Material.IRON_BLOCK;
 		default:
-			return Material.WOOL;
+			return Material.STONE;
 		}
 	}
 }

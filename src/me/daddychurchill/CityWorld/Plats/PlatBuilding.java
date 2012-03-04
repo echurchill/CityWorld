@@ -30,10 +30,12 @@ public abstract class PlatBuilding extends PlatLot {
 	protected MaterialFactory windowsEW;
 	protected MaterialFactory windowsNS;
 	protected final static byte airId = (byte) Material.AIR.getId();
-	protected final static byte ironId = (byte) Material.IRON_BLOCK.getId();
+	protected final static byte antennaBaseId = (byte) Material.CLAY.getId();
 	protected final static byte antennaId = (byte) Material.FENCE.getId();
 	protected final static byte lightId = (byte) Material.GLOWSTONE.getId();
-	protected final static byte conditionerId = (byte) Material.ENDER_PORTAL_FRAME.getId();
+	protected final static byte conditionerId = (byte) Material.DOUBLE_STEP.getId();
+	protected final static byte conditionerTrimId = (byte) Material.STONE_PLATE.getId();
+	protected final static byte ductId = (byte) Material.STEP.getId();
 	protected final static Material tileMaterial = Material.STEP;
 	
 	public enum RoofStyle {FLATTOP, EDGED, PEAK, TENTNS, TENTEW};
@@ -182,7 +184,7 @@ public abstract class PlatBuilding extends PlatLot {
 		
 		// rounded and square inset and there are exactly two neighbors?
 		if (allowRounded && rounded) { // already know that... && insetNS == insetEW && heights.getNeighborCount() == 2
-			int innerCorner = (ByteChunk.Width - insetNS * 2) + insetNS;
+			int innerCorner = (byteChunk.width - insetNS * 2) + insetNS;
 			if (heights.toNorth()) {
 				if (heights.toEast()) {
 					byteChunk.setArcNorthEast(insetNS, y1, y2, materialId, true);
@@ -214,7 +216,7 @@ public abstract class PlatBuilding extends PlatLot {
 		if (stillNeedCeiling) {
 
 			// center part
-			byteChunk.setBlocks(insetNS, ByteChunk.Width - insetNS, y1, y2, insetEW, ByteChunk.Width - insetEW, materialId);
+			byteChunk.setBlocks(insetNS, byteChunk.width - insetNS, y1, y2, insetEW, byteChunk.width - insetEW, materialId);
 			
 		}
 		
@@ -223,23 +225,23 @@ public abstract class PlatBuilding extends PlatLot {
 			
 			// cardinal bits
 			if (heights.toWest())
-				byteChunk.setBlocks(0, insetNS, y1, y2, insetEW, ByteChunk.Width - insetEW, materialId);
+				byteChunk.setBlocks(0, insetNS, y1, y2, insetEW, byteChunk.width - insetEW, materialId);
 			if (heights.toEast())
-				byteChunk.setBlocks(ByteChunk.Width - insetNS, ByteChunk.Width, y1, y2, insetEW, ByteChunk.Width - insetEW, materialId);
+				byteChunk.setBlocks(byteChunk.width - insetNS, byteChunk.width, y1, y2, insetEW, byteChunk.width - insetEW, materialId);
 			if (heights.toNorth())
-				byteChunk.setBlocks(insetNS, ByteChunk.Width - insetNS, y1, y2, 0, insetEW, materialId);
+				byteChunk.setBlocks(insetNS, byteChunk.width - insetNS, y1, y2, 0, insetEW, materialId);
 			if (heights.toSouth())
-				byteChunk.setBlocks(insetNS, ByteChunk.Width - insetNS, y1, y2, ByteChunk.Width - insetEW, ByteChunk.Width, materialId);
+				byteChunk.setBlocks(insetNS, byteChunk.width - insetNS, y1, y2, byteChunk.width - insetEW, byteChunk.width, materialId);
 
 			// corner bits
 			if (heights.toNorthWest())
 				byteChunk.setBlocks(0, insetNS, y1, y2, 0, insetEW, materialId);
 			if (heights.toSouthWest())
-				byteChunk.setBlocks(0, insetNS, y1, y2, ByteChunk.Width - insetEW, ByteChunk.Width, materialId);
+				byteChunk.setBlocks(0, insetNS, y1, y2, byteChunk.width - insetEW, byteChunk.width, materialId);
 			if (heights.toNorthEast())
-				byteChunk.setBlocks(ByteChunk.Width - insetNS, ByteChunk.Width, y1, y2, 0, insetEW, materialId);
+				byteChunk.setBlocks(byteChunk.width - insetNS, byteChunk.width, y1, y2, 0, insetEW, materialId);
 			if (heights.toSouthEast())
-				byteChunk.setBlocks(ByteChunk.Width - insetNS, ByteChunk.Width, y1, y2, ByteChunk.Width - insetEW, ByteChunk.Width, materialId);
+				byteChunk.setBlocks(byteChunk.width - insetNS, byteChunk.width, y1, y2, byteChunk.width - insetEW, byteChunk.width, materialId);
 		}
 	}
 	
@@ -265,12 +267,12 @@ public abstract class PlatBuilding extends PlatLot {
 				if (heights.toWest()) {
 					byteChunk.setArcSouthWest(insetNS, y1, y2, glassId, false);
 					if (!heights.toSouthWest())
-						byteChunk.setBlocks(insetNS, y1, y2, ByteChunk.Width - insetEW - 1, materialId);
+						byteChunk.setBlocks(insetNS, y1, y2, byteChunk.width - insetEW - 1, materialId);
 					stillNeedWalls = false;
 				} else if (heights.toEast()) {
 					byteChunk.setArcSouthEast(insetNS, y1, y2, glassId, false);
 					if (!heights.toSouthEast())
-						byteChunk.setBlocks(ByteChunk.Width - insetNS - 1, y1, y2, ByteChunk.Width - insetEW - 1, materialId);
+						byteChunk.setBlocks(byteChunk.width - insetNS - 1, y1, y2, byteChunk.width - insetEW - 1, materialId);
 					stillNeedWalls = false;
 				}
 			} else if (heights.toNorth()) {
@@ -282,7 +284,7 @@ public abstract class PlatBuilding extends PlatLot {
 				} else if (heights.toEast()) {
 					byteChunk.setArcNorthEast(insetNS, y1, y2, glassId, false);
 					if (!heights.toNorthEast())
-						byteChunk.setBlocks(ByteChunk.Width - insetNS - 1, y1, y2, insetEW, materialId);
+						byteChunk.setBlocks(byteChunk.width - insetNS - 1, y1, y2, insetEW, materialId);
 					stillNeedWalls = false;
 				}
 			}
@@ -295,21 +297,21 @@ public abstract class PlatBuilding extends PlatLot {
 			if (!heights.toNorthWest())
 				byteChunk.setBlocks(insetNS, y1, y2, insetEW, materialId);
 			if (!heights.toSouthWest())
-				byteChunk.setBlocks(insetNS, y1, y2, ByteChunk.Width - insetEW - 1, materialId);
+				byteChunk.setBlocks(insetNS, y1, y2, byteChunk.width - insetEW - 1, materialId);
 			if (!heights.toNorthEast())
-				byteChunk.setBlocks(ByteChunk.Width - insetNS - 1, y1, y2, insetEW, materialId);
+				byteChunk.setBlocks(byteChunk.width - insetNS - 1, y1, y2, insetEW, materialId);
 			if (!heights.toSouthEast())
-				byteChunk.setBlocks(ByteChunk.Width - insetNS - 1, y1, y2, ByteChunk.Width - insetEW - 1, materialId);
+				byteChunk.setBlocks(byteChunk.width - insetNS - 1, y1, y2, byteChunk.width - insetEW - 1, materialId);
 			
 			// cardinal walls
 			if (!heights.toWest())
-				byteChunk.setBlocks(insetNS,  insetNS + 1, y1, y2, insetEW + 1, ByteChunk.Width - insetEW - 1, materialId, glassId, windowsNS);
+				byteChunk.setBlocks(insetNS,  insetNS + 1, y1, y2, insetEW + 1, byteChunk.width - insetEW - 1, materialId, glassId, windowsNS);
 			if (!heights.toEast())
-				byteChunk.setBlocks(ByteChunk.Width - insetNS - 1,  ByteChunk.Width - insetNS, y1, y2, insetEW + 1, ByteChunk.Width - insetEW - 1, materialId, glassId, windowsNS);
+				byteChunk.setBlocks(byteChunk.width - insetNS - 1,  byteChunk.width - insetNS, y1, y2, insetEW + 1, byteChunk.width - insetEW - 1, materialId, glassId, windowsNS);
 			if (!heights.toNorth())
-				byteChunk.setBlocks(insetNS + 1, ByteChunk.Width - insetNS - 1, y1, y2, insetEW, insetEW + 1, materialId, glassId, windowsEW);
+				byteChunk.setBlocks(insetNS + 1, byteChunk.width - insetNS - 1, y1, y2, insetEW, insetEW + 1, materialId, glassId, windowsEW);
 			if (!heights.toSouth())
-				byteChunk.setBlocks(insetNS + 1, ByteChunk.Width - insetNS - 1, y1, y2, ByteChunk.Width - insetEW - 1, ByteChunk.Width - insetEW, materialId, glassId, windowsEW);
+				byteChunk.setBlocks(insetNS + 1, byteChunk.width - insetNS - 1, y1, y2, byteChunk.width - insetEW - 1, byteChunk.width - insetEW, materialId, glassId, windowsEW);
 		}
 			
 		// only if there are insets
@@ -318,13 +320,13 @@ public abstract class PlatBuilding extends PlatLot {
 				if (!heights.toNorthWest())
 					byteChunk.setBlocks(0, insetNS, y1, y2, insetEW, insetEW + 1, materialId, glassId, windowsNS);
 				if (!heights.toSouthWest())
-					byteChunk.setBlocks(0, insetNS, y1, y2, ByteChunk.Width - insetEW - 1, ByteChunk.Width - insetEW, materialId, glassId, windowsNS);
+					byteChunk.setBlocks(0, insetNS, y1, y2, byteChunk.width - insetEW - 1, byteChunk.width - insetEW, materialId, glassId, windowsNS);
 			}
 			if (heights.toEast()) {
 				if (!heights.toNorthEast())
-					byteChunk.setBlocks(ByteChunk.Width - insetNS, ByteChunk.Width, y1, y2, insetEW, insetEW + 1, materialId, glassId, windowsNS);
+					byteChunk.setBlocks(byteChunk.width - insetNS, byteChunk.width, y1, y2, insetEW, insetEW + 1, materialId, glassId, windowsNS);
 				if (!heights.toSouthEast())
-					byteChunk.setBlocks(ByteChunk.Width - insetNS, ByteChunk.Width, y1, y2, ByteChunk.Width - insetEW - 1, ByteChunk.Width - insetEW, materialId, glassId, windowsNS);
+					byteChunk.setBlocks(byteChunk.width - insetNS, byteChunk.width, y1, y2, byteChunk.width - insetEW - 1, byteChunk.width - insetEW, materialId, glassId, windowsNS);
 			}
 		}
 		if (insetEW > 0) {
@@ -332,13 +334,13 @@ public abstract class PlatBuilding extends PlatLot {
 				if (!heights.toNorthWest())
 					byteChunk.setBlocks(insetNS, insetNS + 1, y1, y2, 0, insetEW, materialId, glassId, windowsEW);
 				if (!heights.toNorthEast())
-					byteChunk.setBlocks(ByteChunk.Width - insetNS - 1, ByteChunk.Width - insetNS, y1, y2, 0, insetEW, materialId, glassId, windowsEW);
+					byteChunk.setBlocks(byteChunk.width - insetNS - 1, byteChunk.width - insetNS, y1, y2, 0, insetEW, materialId, glassId, windowsEW);
 			}
 			if (heights.toSouth()) {
 				if (!heights.toSouthWest())
-					byteChunk.setBlocks(insetNS, insetNS + 1, y1, y2, ByteChunk.Width - insetEW, ByteChunk.Width, materialId, glassId, windowsEW);
+					byteChunk.setBlocks(insetNS, insetNS + 1, y1, y2, byteChunk.width - insetEW, byteChunk.width, materialId, glassId, windowsEW);
 				if (!heights.toSouthEast())
-					byteChunk.setBlocks(ByteChunk.Width - insetNS - 1, ByteChunk.Width - insetNS, y1, y2, ByteChunk.Width - insetEW, ByteChunk.Width, materialId, glassId, windowsEW);
+					byteChunk.setBlocks(byteChunk.width - insetNS - 1, byteChunk.width - insetNS, y1, y2, byteChunk.width - insetEW, byteChunk.width, materialId, glassId, windowsEW);
 			}
 		}
 	}
@@ -423,7 +425,7 @@ public abstract class PlatBuilding extends PlatLot {
 	private void drawAntenna(ByteChunk chunk, int x, int y, int z) {
 		if (rand.nextBoolean()) {
 			int y2 = y + rand.nextInt(8) + 8;
-			chunk.setBlocks(x, y, y + 3, z, ironId);
+			chunk.setBlocks(x, y, y + 3, z, antennaBaseId);
 			chunk.setBlocks(x, y + 2, y2, z, antennaId);
 			if (y2 >= navLightY) {
 				navLightX = x;
@@ -439,8 +441,26 @@ public abstract class PlatBuilding extends PlatLot {
 	}
 	
 	private void drawConditioner(ByteChunk chunk, int x, int y, int z) {
-		if (rand.nextBoolean())
-			chunk.setBlocks(x, y, y + 1, z, conditionerId);
+		if (rand.nextBoolean()) {
+			chunk.setBlock(x, y, z, conditionerId);
+			chunk.setBlock(x, y + 1, z, conditionerTrimId);
+			if (rand.nextBoolean()) {
+				chunk.setBlockIfAir(x - 1, y, z, ductId);
+				chunk.setBlockIfAir(x - 2, y, z, ductId);
+			}
+			if (rand.nextBoolean()) {
+				chunk.setBlockIfAir(x + 1, y, z, ductId);
+				chunk.setBlockIfAir(x + 2, y, z, ductId);
+			}
+			if (rand.nextBoolean()) {
+				chunk.setBlockIfAir(x, y, z - 1, ductId);
+				chunk.setBlockIfAir(x, y, z - 2, ductId);
+			}
+			if (rand.nextBoolean()) {
+				chunk.setBlockIfAir(x, y, z + 1, ductId);
+				chunk.setBlockIfAir(x, y, z + 2, ductId);
+			}
+		}
 	}
 	
 	private void drawDoor(RealChunk chunk, int x1, int x2, int x3, int y1, int y2, int z1, int z2, int z3, 
@@ -458,9 +478,9 @@ public abstract class PlatBuilding extends PlatLot {
 	protected void drawDoors(RealChunk chunk, int y1, int floorHeight, 
 			int insetNS, int insetEW, StairWell where, 
 			SurroundingFloors heights, Material wallMaterial) {
-		int w1 = RealChunk.Width - 1;
-		int w2 = RealChunk.Width - 2;
-		int w3 = RealChunk.Width - 3;
+		int w1 = chunk.width - 1;
+		int w2 = chunk.width - 2;
+		int w3 = chunk.width - 3;
 		int x1 = insetNS;
 		int x2 = w1 - insetNS;
 		int z1 = insetEW;
@@ -469,7 +489,7 @@ public abstract class PlatBuilding extends PlatLot {
 		
 		switch (where) {
 		case CENTER:
-			int center = RealChunk.Width / 2;
+			int center = chunk.width / 2;
 			
 			if (!heights.toWest() && rand.nextBoolean())
 				drawDoor(chunk, x1, x1, x1, 
@@ -527,11 +547,11 @@ public abstract class PlatBuilding extends PlatLot {
 	static class StairAt {
 		public int X = 0;
 		public int Z = 0;
-		public StairAt(int floorHeight, int insetNS, int insetEW, StairWell where) {
+		public StairAt(RealChunk chunk, int floorHeight, int insetNS, int insetEW, StairWell where) {
 			switch (where) {
 			case CENTER:
-				X = (RealChunk.Width - floorHeight) / 2;
-				Z = (RealChunk.Width - 4) / 2;
+				X = (chunk.width - floorHeight) / 2;
+				Z = (chunk.width - 4) / 2;
 				break;
 			case SOUTHWEST:
 				X = insetNS;
@@ -539,15 +559,15 @@ public abstract class PlatBuilding extends PlatLot {
 				break;
 			case SOUTHEAST:
 				X = insetNS;
-				Z = RealChunk.Width - 4 - insetEW;
+				Z = chunk.width - 4 - insetEW;
 				break;
 			case NORTHWEST:
-				X = RealChunk.Width - floorHeight - insetNS;
+				X = chunk.width - floorHeight - insetNS;
 				Z = insetEW;
 				break;
 			case NORTHEAST:
-				X = RealChunk.Width - floorHeight - insetNS;
-				Z = RealChunk.Width - 4 - insetEW;
+				X = chunk.width - floorHeight - insetNS;
+				Z = chunk.width - 4 - insetEW;
 				break;
 			}
 		}
@@ -574,7 +594,7 @@ public abstract class PlatBuilding extends PlatLot {
 	
 	protected void drawStairs(RealChunk chunk, int y, int floorHeight, 
 			int insetNS, int insetEW, StairWell where, Material stairMaterial) {
-		StairAt at = new StairAt(floorHeight, insetNS, insetEW, where);
+		StairAt at = new StairAt(chunk, floorHeight, insetNS, insetEW, where);
 		for (int i = 0; i < floorHeight; i++) {
 			chunk.setBlock(at.X + i, y + floorHeight - 1, at.Z + 1, Material.AIR);
 			chunk.setBlock(at.X + i, y + floorHeight - 1, at.Z + 2, Material.AIR);
@@ -586,7 +606,7 @@ public abstract class PlatBuilding extends PlatLot {
 	protected void drawStairsWalls(RealChunk chunk, int y, int floorHeight, 
 			int insetNS, int insetEW, StairWell where, 
 			Material wallMaterial, boolean drawStartcap, boolean drawEndcap) {
-		StairAt at = new StairAt(floorHeight, insetNS, insetEW, where);
+		StairAt at = new StairAt(chunk, floorHeight, insetNS, insetEW, where);
 		chunk.setBlocks(at.X, at.X + floorHeight, y, y + floorHeight - 1, at.Z, at.Z + 1, wallMaterial);
 		chunk.setBlocks(at.X, at.X + floorHeight, y, y + floorHeight - 1, at.Z + 3, at.Z + 4, wallMaterial);
 		if (drawStartcap)

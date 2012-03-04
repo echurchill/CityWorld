@@ -15,8 +15,6 @@ import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-//This is just a test I'm not changing anything just to test. this text is worthless :D
-
 //DONE Global.BedrockIsolation = obsidian or bedrock barriers (true)
 //DONE Global.Plumbing = plumbing between street and underworld (true)
 //DONE Global.Sewer = sewers between street (and plumbing) and underworld (true)
@@ -25,12 +23,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 //DONE Global.Underworld = underworld beneath the city (true)
 //DONE Global.TreasureInFountain = treasure ores in the Fountains (true)
 //DONE Global.TreasureInPlumbing = treasure blocks in the Plumbing (true)
+//DONE Global.OresInSewer = ore vaults in sewer (true)
+//DONE Global.OresInUnderworld = ore vaults in underworld (true)
 //DONE Global.TreasureInSewer = treasure chests in the sewer (true)
 //DONE Global.SpawnersInSewer = sewers treasure rooms might have spawners (true)
-//TODO Global.SpawnersInPlumbing = plumbing might have spawners (true)
-//TODO Global.MineralsInUnderworld = sprinkle minerals in the underworld backfill (true)
-//DONE Global.StreetLevel = where the streets start (24)
+//DONE Global.StreetLevel = where the streets start (30)
 //DONE Global.MaximumFloors = tallest building (100)
+//TODO Global.SpawnersInPlumbing = plumbing might have spawners (??)
 //TODO clamp streetlevel this value to something sane!
 //TODO if streetlevel gets too small turn off underworld, sewer, cistern and plumbing!
 //TODO streetlevel controls the various constants found in PlatMap
@@ -64,8 +63,6 @@ public class CityWorld extends JavaPlugin{
 	
 	public static final Logger log = Logger.getLogger("Minecraft.CityWorld");
    	
-	private FileConfiguration config;
-	
 	private Material isolationMaterial;
 	private boolean doPlumbing;
 	private boolean doSewer;
@@ -76,6 +73,8 @@ public class CityWorld extends JavaPlugin{
 	private boolean doTreasureInPlumbing;
 	private boolean doTreasureInFountain;
 	private boolean doSpawnerInSewer;
+	private boolean doOresInSewer;
+	private boolean doOresInUnderworld;
 	private int streetLevel;
 	private int maximumFloors;
 	
@@ -89,7 +88,9 @@ public class CityWorld extends JavaPlugin{
 	public final static boolean defaultDoTreasureInPlumbing = true;
 	public final static boolean defaultDoTreasureInFountain = true;
 	public final static boolean defaultDoSpawnerInSewer = true;
-	public final static int defaultStreetLevel = 24;
+	public final static boolean defaultDoOresInSewer = true;
+	public final static boolean defaultDoOresInUnderworld = true;
+	public final static int defaultStreetLevel = 30;
 	public final static int defaultMaximumFloors = 100;
 	
     public CityWorld() {
@@ -105,6 +106,8 @@ public class CityWorld extends JavaPlugin{
 		setDoTreasureInPlumbing(defaultDoTreasureInPlumbing);
 		setDoTreasureInFountain(defaultDoTreasureInFountain);
 		setDoSpawnerInSewer(defaultDoSpawnerInSewer);
+		setDoOresInSewer(defaultDoOresInSewer);
+		setDoOresInUnderworld(defaultDoOresInUnderworld);
 		setStreetLevel(defaultStreetLevel);
 	}
     
@@ -188,6 +191,22 @@ public class CityWorld extends JavaPlugin{
 		doSpawnerInSewer = doit;
 	}
 
+	public boolean isDoOresInSewer() {
+		return doOresInSewer;
+	}
+	
+	public void setDoOresInSewer(boolean doit) {
+		doOresInSewer = doit;
+	}
+
+	public boolean isDoOresInUnderworld() {
+		return doOresInUnderworld;
+	}
+	
+	public void setDoOresInUnderworld(boolean doit) {
+		doOresInUnderworld = doit;
+	}
+
 	public int getStreetLevel() {
 		return streetLevel;
 	}
@@ -227,7 +246,7 @@ public class CityWorld extends JavaPlugin{
 //		addCommand("cityblock", new CityWorldBlockCMD(this));
 
 		// add/get the configuration
-		config = getConfig();
+		FileConfiguration config = getConfig();
 		config.options().header("CityWorld Global Options");
 		config.addDefault("Global.BedrockIsolation", defaultBedrockIsolation);
 		config.addDefault("Global.Plumbing", defaultDoPlumbing);
@@ -239,6 +258,8 @@ public class CityWorld extends JavaPlugin{
 		config.addDefault("Global.TreasureInPlumbing", defaultDoTreasureInPlumbing);
 		config.addDefault("Global.TreasureInSewer", defaultDoTreasureInSewer);
 		config.addDefault("Global.SpawnerInSewer", defaultDoSpawnerInSewer);
+		config.addDefault("Global.OresInSewer", defaultDoOresInSewer);
+		config.addDefault("Global.OresInUnderworld", defaultDoOresInUnderworld);
 		config.addDefault("Global.StreetLevel", defaultStreetLevel);
 		config.addDefault("Global.MaximumFloors", defaultMaximumFloors);
 		config.options().copyDefaults(true);
@@ -255,6 +276,8 @@ public class CityWorld extends JavaPlugin{
 		setDoTreasureInPlumbing(config.getBoolean("Global.TreasureInPlumbing"));
 		setDoTreasureInSewer(config.getBoolean("Global.TreasureInSewer"));
 		setDoSpawnerInSewer(config.getBoolean("Global.SpawnerInSewer"));
+		setDoOresInSewer(config.getBoolean("Global.OresInSewer"));
+		setDoOresInUnderworld(config.getBoolean("Global.OresInUnderworld"));
 		setStreetLevel(config.getInt("Global.StreetLevel"));
 		setMaximumFloors(config.getInt("Global.MaximumFloors"));
 		

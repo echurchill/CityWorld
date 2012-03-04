@@ -2,12 +2,14 @@ package me.daddychurchill.CityWorld.Context;
 
 import java.util.Random;
 
+import org.bukkit.World;
+
 import me.daddychurchill.CityWorld.CityWorld;
 
 public class ContextMidrise extends PlatMapContext {
 
-	public ContextMidrise(CityWorld plugin, Random rand) {
-		super(plugin, rand);
+	public ContextMidrise(CityWorld plugin, World world, Random rand) {
+		super(plugin, world, rand);
 		
 		setFloorRange(rand, 7, 3);
 		

@@ -1,12 +1,21 @@
 == **CityWorld** ==
 The great outdoors is all good and fine but sometimes you just want to go to town. Not any town will do, how about one that goes on forever. The Big Apple has nothing on this world generator. :-)
 
-===== //Version 0.60// ===== 
+===== //Version 0.61// ===== 
 ====== //(pending approval by the BukkitDev managers)// ======
 
 {{http://dev.bukkit.org/media/images/36/712/BeautyShot.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
+
+v0.61 Made CityWorld potentially 1.2 happy and changed the following
+
+Clay is used instead of Iron where possible
+Rooftop air conditioners now don't use End Portal Frames anymore
+
+Config option file additions
+* Global.OresInSewers (true) //put the ores into the sewer vaults
+* Global.OresInUnderworld (true) //put the ores into the underworld
 
 v0.60 Permissions and Config file
 

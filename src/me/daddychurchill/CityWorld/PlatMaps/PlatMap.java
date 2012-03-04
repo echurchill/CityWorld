@@ -50,8 +50,8 @@ public abstract class PlatMap {
 	public void generateChunk(ByteChunk chunk) {
 
 		// depending on the platchunk's type render a layer
-		int platX = chunk.X - X;
-		int platZ = chunk.Z - Z;
+		int platX = chunk.chunkX - X;
+		int platZ = chunk.chunkZ - Z;
 		PlatLot platlot = platLots[platX][platZ];
 		if (platlot != null) {
 
@@ -63,8 +63,8 @@ public abstract class PlatMap {
 	public void generateBlocks(RealChunk chunk) {
 
 		// depending on the platchunk's type render a layer
-		int platX = chunk.X - X;
-		int platZ = chunk.Z - Z;
+		int platX = chunk.chunkX - X;
+		int platZ = chunk.chunkZ - Z;
 		PlatLot platlot = platLots[platX][platZ];
 		if (platlot != null) {
 

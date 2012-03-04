@@ -23,7 +23,7 @@ public class CityWorldBlockPopulator extends BlockPopulator {
 		int chunkZ = source.getZ();
 		
 		// place to work
-		RealChunk chunk = new RealChunk(source);
+		RealChunk chunk = new RealChunk(world, source);
 		
 		// figure out what everything looks like
 		PlatMap platmap = chunkGen.getPlatMap(world, random, chunkX, chunkZ);

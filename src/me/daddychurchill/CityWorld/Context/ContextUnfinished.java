@@ -2,12 +2,14 @@ package me.daddychurchill.CityWorld.Context;
 
 import java.util.Random;
 
+import org.bukkit.World;
+
 import me.daddychurchill.CityWorld.CityWorld;
 
 public class ContextUnfinished extends PlatMapContext {
 
-	public ContextUnfinished(CityWorld plugin, Random rand) {
-		super(plugin, rand);
+	public ContextUnfinished(CityWorld plugin, World world, Random rand) {
+		super(plugin, world, rand);
 
 		setFloorRange(rand, 9, 4);
 

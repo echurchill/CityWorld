@@ -22,7 +22,7 @@ public class PlatBiome extends PlatLot {
 		
 		byteChunk.setLayer(0, context.streetLevel + 1, stoneId);
 		
-		Biome biome = platmap.theWorld.getBiome(byteChunk.X, byteChunk.Z);
+		Biome biome = platmap.theWorld.getBiome(byteChunk.chunkX, byteChunk.chunkZ);
 		int tens = biome.ordinal() / 10;
 		int ones = biome.ordinal() % 10;
 		byteChunk.drawCoordinate(tens, ones, context.streetLevel + 1, (platX == 0 && platZ == 0));

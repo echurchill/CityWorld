@@ -18,7 +18,8 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	protected final static int FloorHeight = PlatMapContext.FloorHeight;
 	
 	protected final static byte airId = (byte) Material.AIR.getId();
-	protected final static byte girderId = (byte) Material.IRON_BLOCK.getId();
+	protected final static byte girderId = (byte) Material.CLAY.getId();
+//	protected final static byte girderId = (byte) Material.IRON_BLOCK.getId();
 	protected final static Material dirtMaterial = Material.DIRT;
 	protected final static Material fenceMaterial = Material.IRON_FENCE;
 	protected final static Material stairMaterial = Material.WOOD_STAIRS;
@@ -180,7 +181,7 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 				if (rand.nextBoolean())
 					drawCrane(chunk, inset + 2, lastHorizontalGirder + 1, inset);
 				else
-					drawCrane(chunk, inset + 2, lastHorizontalGirder + 1, RealChunk.Width - inset - 1);
+					drawCrane(chunk, inset + 2, lastHorizontalGirder + 1, chunk.width - inset - 1);
 			}
 		}
 	}
@@ -207,18 +208,18 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	private void drawVerticalGirders(ByteChunk chunk, int y1, int floorHeight) {
 		int y2 = y1 + floorHeight;
 		chunk.setBlocks(inset, y1, y2, inset, girderId);
-		chunk.setBlocks(inset, y1, y2, ByteChunk.Width - inset - 1, girderId);
-		chunk.setBlocks(ByteChunk.Width - inset - 1, y1, y2, inset, girderId);
-		chunk.setBlocks(ByteChunk.Width - inset - 1, y1, y2, ByteChunk.Width - inset - 1, girderId);
+		chunk.setBlocks(inset, y1, y2, chunk.width - inset - 1, girderId);
+		chunk.setBlocks(chunk.width - inset - 1, y1, y2, inset, girderId);
+		chunk.setBlocks(chunk.width - inset - 1, y1, y2, chunk.width - inset - 1, girderId);
 	}
 
 	private void drawHorizontalGirders(ByteChunk chunk, int y1, SurroundingFloors neighbors) {
 		int x1 = neighbors.toWest() ? 0 : inset;
-		int x2 = neighbors.toEast() ? ByteChunk.Width - 1 : ByteChunk.Width - inset - 1;
+		int x2 = neighbors.toEast() ? chunk.width - 1 : chunk.width - inset - 1;
 		int z1 = neighbors.toNorth() ? 0 : inset;
-		int z2 = neighbors.toSouth() ? ByteChunk.Width - 1 : ByteChunk.Width - inset - 1;
+		int z2 = neighbors.toSouth() ? chunk.width - 1 : chunk.width - inset - 1;
 		int i1 = inset;
-		int i2 = ByteChunk.Width - inset - 1;
+		int i2 = chunk.width - inset - 1;
 		
 		chunk.setBlocks(x1, x2 + 1, y1, y1 + 1, i1, i1 + 1, girderId);
 		chunk.setBlocks(x1, x2 + 1, y1, y1 + 1, i2, i2 + 1, girderId);
@@ -227,16 +228,16 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	}
 	
 	private void holeFence(ByteChunk chunk, int y1, SurroundingFloors neighbors) {
-		int i = rand.nextInt(ByteChunk.Width / 2) + 4;
+		int i = rand.nextInt(chunk.width / 2) + 4;
 		int y2 = y1 + 2;
 		if (rand.nextBoolean() && !neighbors.toWest())
 			chunk.setBlocks(0, y1, y2, i, airId);
 		if (rand.nextBoolean() && !neighbors.toEast())
-			chunk.setBlocks(ByteChunk.Width - 1, y1, y2, i, airId);
+			chunk.setBlocks(chunk.width - 1, y1, y2, i, airId);
 		if (rand.nextBoolean() && !neighbors.toNorth())
 			chunk.setBlocks(i, y1, y2, 0, airId);
 		if (rand.nextBoolean() && !neighbors.toSouth())
-			chunk.setBlocks(i, y1, y2, ByteChunk.Width - 1, airId);
+			chunk.setBlocks(i, y1, y2, chunk.width - 1, airId);
 	}
 
 }

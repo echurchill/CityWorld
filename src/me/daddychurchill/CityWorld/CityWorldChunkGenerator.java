@@ -19,7 +19,6 @@ import me.daddychurchill.CityWorld.PlatMaps.PlatMapVanilla;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
@@ -53,21 +52,21 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 		return Arrays.asList((BlockPopulator) new CityWorldBlockPopulator(this));
 	}
 
-	@Override
-	public Location getFixedSpawnLocation(World world, Random random) {
-		// see if this works any better (loosely based on ExpansiveTerrain)
-		int x = random.nextInt(100) - 50;
-		int z = random.nextInt(100) - 50;
-		//int y = Math.max(world.getHighestBlockYAt(x, z), PlatMap.StreetLevel + 1);
-		int y = world.getHighestBlockYAt(x, z);
-		return new Location(world, x, y, z);
-	}
+//	@Override
+//	public Location getFixedSpawnLocation(World world, Random random) {
+//		// see if this works any better (loosely based on ExpansiveTerrain)
+//		int x = random.nextInt(100) - 50;
+//		int z = random.nextInt(100) - 50;
+//		//int y = Math.max(world.getHighestBlockYAt(x, z), PlatMap.StreetLevel + 1);
+//		int y = world.getHighestBlockYAt(x, z);
+//		return new Location(world, x, y, z);
+//	}
 	
 	@Override
 	public byte[] generate(World world, Random random, int chunkX, int chunkZ) {
 		
 		// place to work
-		ByteChunk byteChunk = new ByteChunk(chunkX, chunkZ);
+		ByteChunk byteChunk = new ByteChunk(world, chunkX, chunkZ);
 		
 		// figure out what everything looks like
 		PlatMap platmap = getPlatMap(world, random, chunkX, chunkZ);
@@ -197,30 +196,30 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 		case 1:
 		case 2:
 		case 3:
-			return new ContextLowrise(plugin, random);
+			return new ContextLowrise(plugin, world, random);
 		case 4:
 		case 5:
 		case 6:
 		case 7:
-			return new ContextMidrise(plugin, random);
+			return new ContextMidrise(plugin, world, random);
 		case 8:
 		case 9:
 		case 10:
-			return new ContextHighrise(plugin, random);
+			return new ContextHighrise(plugin, world, random);
 		case 11:
 		case 12:
-			return new ContextAllPark(plugin, random);
+			return new ContextAllPark(plugin, world, random);
 		case 13:
 		case 14:
-			return new ContextMall(plugin, random);
+			return new ContextMall(plugin, world, random);
 		case 15:
 		case 16:
 		case 17:
-			return new ContextCityCenter(plugin, random);
+			return new ContextCityCenter(plugin, world, random);
 		case 18:
 		case 19:
 		default:
-			return new ContextUnfinished(plugin, random);
+			return new ContextUnfinished(plugin, world, random);
 		}
 	}
 

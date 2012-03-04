@@ -2,8 +2,9 @@ package me.daddychurchill.CityWorld.Context;
 
 import java.util.Random;
 
+import org.bukkit.World;
+
 import me.daddychurchill.CityWorld.CityWorld;
-import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class PlatMapContext {
 	public static int oddsNeverGoingToHappen = Integer.MAX_VALUE;
@@ -43,6 +44,7 @@ public class PlatMapContext {
 	public int oddsOfSewerVines = oddsUnlikely;
 	public int oddsOfSewerTreasure = oddsExtremelyLikely;
 	public int oddsOfSewerTrick = oddsExtremelyLikely;
+	public int oddsOfSewerOres = oddsVeryLikely;
 	public int maxTreasureCount = 5;
 	
 	public int oddsOfMissingRoad = oddsLikely; // roads are missing 1/n of the time
@@ -59,6 +61,7 @@ public class PlatMapContext {
 	public static final int FudgeFloorsAbove = 3;
 	public static final int absoluteMinimumFloorsAbove = 5; // shortest tallest building
 	public static final int absoluteAbsoluteMaximumFloorsBelow = 3; // that is as many basements as I can tolerate
+	public int worldHeight;
 	public int absoluteMaximumFloorsBelow;
 	public int absoluteMaximumFloorsAbove; 
 	public int streetLevel;
@@ -73,8 +76,10 @@ public class PlatMapContext {
 	public boolean doTreasureInPlumbing;
 	public boolean doTreasureInFountain;
 	public boolean doSpawnerInSewer;
+	public boolean doOresInSewer;
+	public boolean doOresInUnderworld;
 	
-	public PlatMapContext(CityWorld plugin, Random rand) {
+	public PlatMapContext(CityWorld plugin, World world, Random rand) {
 		isolationId = (byte) plugin.getIsolationMaterial().getId();
 		doPlumbing = plugin.isDoPlumbing();
 		doSewer = plugin.isDoSewer();
@@ -85,15 +90,18 @@ public class PlatMapContext {
 		doTreasureInPlumbing = plugin.isDoTreasureInPlumbing();
 		doTreasureInFountain = plugin.isDoTreasureInFountain();
 		doSpawnerInSewer = plugin.isDoSpawnerInSewer();
+		doOresInSewer = plugin.isDoOresInSewer();
+		doOresInUnderworld = plugin.isDoOresInUnderworld();
+		worldHeight = world.getMaxHeight();
 		
 		// where is the ground
 		streetLevel = Math.min(Math.max(plugin.getStreetLevel(), 
 				FloorHeight * FudgeFloorsBelow), 
-				RealChunk.Height - FloorHeight * (FudgeFloorsAbove + absoluteMinimumFloorsAbove));
+				worldHeight - FloorHeight * (FudgeFloorsAbove + absoluteMinimumFloorsAbove));
 		
 		// worst case?
 		absoluteMaximumFloorsBelow = Math.max(Math.min(streetLevel / FloorHeight - FudgeFloorsBelow, absoluteAbsoluteMaximumFloorsBelow), 0);
-		absoluteMaximumFloorsAbove = Math.max(Math.min((RealChunk.Height - streetLevel) / FloorHeight - FudgeFloorsAbove, plugin.getMaximumFloors()), absoluteMinimumFloorsAbove);
+		absoluteMaximumFloorsAbove = Math.max(Math.min((worldHeight - streetLevel) / FloorHeight - FudgeFloorsAbove, plugin.getMaximumFloors()), absoluteMinimumFloorsAbove);
 		
 		// turn off a few things if there isn't room
 		if (absoluteMaximumFloorsBelow == 0) {

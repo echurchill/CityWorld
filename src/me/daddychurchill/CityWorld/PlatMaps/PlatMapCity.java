@@ -13,8 +13,8 @@ import org.bukkit.World;
 public class PlatMapCity extends PlatMapUrban {
 
 	// Instance Constants
-	public int floorsMaximumAbove;
-	public int floorsMaximumBelow;
+	//public int floorsMaximumAbove;
+	//public int floorsMaximumBelow;
 	
 	public PlatMapCity(World world, Random random, PlatMapContext context, int platX, int platZ) {
 		super(world, random, context, platX, platZ);

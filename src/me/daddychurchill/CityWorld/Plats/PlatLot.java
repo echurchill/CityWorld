@@ -82,17 +82,23 @@ public abstract class PlatLot {
 		if (context.doUnderworld) {
 		
 			// the pillars of the world
-			for (int x = 0; x < ByteChunk.Width; x++) {
-				for (int z = 0; z < ByteChunk.Width; z++) {
+			for (int x = 0; x < byteChunk.width; x++) {
+				for (int z = 0; z < byteChunk.width; z++) {
 					int x4 = x % 4;
 					int z4 = z % 4;
 					if ((x4 == 0 || x4 == 3) && (z4 == 0 || z4 == 3))
 						byteChunk.setBlocks(x, 1, uptoY - 1, z, context.isolationId);
-					else if (rand.nextBoolean()) {
-						if (rand.nextInt(context.oddsOfLavaDownBelow) == 0)
-							byteChunk.setBlock(x, 1, z, lavaId);
-						else
-							byteChunk.setBlock(x, 1, z, context.isolationId);
+					else {
+						int y = 2 + rand.nextInt(2);
+						if (rand.nextBoolean()) {
+							if (rand.nextInt(context.oddsOfLavaDownBelow) == 0)
+								byteChunk.setBlocks(x, 1, y + 1, z, lavaId);
+							else {
+								byteChunk.setBlocks(x, 1, y, z, pickIsolationOre(context));
+								byteChunk.setBlock(x, y, z, stoneId);
+							}
+						} else
+							byteChunk.setBlocks(x, 1, y + 1, z, stoneId);
 					}
 				}
 			}
@@ -104,5 +110,55 @@ public abstract class PlatLot {
 			// back fill with stone
 			byteChunk.setLayer(1, uptoY - 1, stoneId);
 		}
+	}
+	
+	private static byte byteIron = (byte) Material.IRON_ORE.getId();
+	private static byte byteCoal = (byte) Material.COAL_ORE.getId();
+	private static byte byteGold = (byte) Material.GOLD_ORE.getId();
+	private static byte byteLapis = (byte) Material.LAPIS_ORE.getId();
+	private static byte byteDiamond = (byte) Material.DIAMOND_ORE.getId();
+	private static byte byteRedstone = (byte) Material.REDSTONE_ORE.getId();
+	
+	private byte pickIsolationOre(PlatMapContext context) {
+		if (context.doOresInUnderworld) {
+			switch (rand.nextInt(30)) {
+			// raw ores
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+			case 5:
+				return byteIron;
+			case 6:
+			case 7:
+			case 8:
+			case 9:
+			case 10:
+				return byteCoal;
+			case 11:
+			case 12:
+			case 13:
+				return byteGold;
+			case 14:
+			case 15:
+			case 16:
+				return byteLapis;
+			case 17:
+			case 18:
+				return byteDiamond;
+			case 19:
+			case 20:
+				return byteRedstone;
+			case 21:
+			case 22:
+			case 23:
+			case 24:
+			case 25:
+				return lavaId;
+			default:
+				return context.isolationId;
+			}
+		} else
+			return context.isolationId;
 	}
 }
