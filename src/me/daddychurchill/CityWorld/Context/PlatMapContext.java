@@ -92,7 +92,7 @@ public class PlatMapContext {
 		doSpawnerInSewer = plugin.isDoSpawnerInSewer();
 		doOresInSewer = plugin.isDoOresInSewer();
 		doOresInUnderworld = plugin.isDoOresInUnderworld();
-		worldHeight = world.getMaxHeight();
+		worldHeight = 128;//world.getMaxHeight();
 		
 		// where is the ground
 		streetLevel = Math.min(Math.max(plugin.getStreetLevel(), 

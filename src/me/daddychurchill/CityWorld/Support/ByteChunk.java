@@ -20,7 +20,7 @@ public class ByteChunk {
 		this.chunkX = chunkX;
 		this.chunkZ = chunkZ;
 		this.width = 16;
-		this.height = world.getMaxHeight();
+		this.height = 128;//world.getMaxHeight();
 		this.blocks = new byte[width * width * height];
 	}
 	
