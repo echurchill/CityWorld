@@ -16,6 +16,7 @@ public abstract class PlatLot {
 	protected static byte bedrockId = (byte) Material.BEDROCK.getId();
 	protected static byte stoneId = (byte) Material.STONE.getId();
 	protected static byte lavaId = (byte) Material.LAVA.getId();
+	public static final int underworldLevel = 3;
 	
 	public PlatLot(Random rand, PlatMapContext context) {
 		super();
@@ -89,7 +90,7 @@ public abstract class PlatLot {
 					if ((x4 == 0 || x4 == 3) && (z4 == 0 || z4 == 3))
 						byteChunk.setBlocks(x, 1, uptoY - 1, z, context.isolationId);
 					else {
-						int y = 2 + rand.nextInt(2);
+						int y = underworldLevel + rand.nextInt(2);
 						if (rand.nextBoolean()) {
 							if (rand.nextInt(context.oddsOfLavaDownBelow) == 0)
 								byteChunk.setBlocks(x, 1, y + 1, z, lavaId);
@@ -128,32 +129,33 @@ public abstract class PlatLot {
 			case 3:
 			case 4:
 			case 5:
-				return byteIron;
 			case 6:
+				return byteIron;
 			case 7:
 			case 8:
 			case 9:
 			case 10:
-				return byteCoal;
 			case 11:
 			case 12:
+				return byteCoal;
 			case 13:
-				return byteGold;
 			case 14:
 			case 15:
+				return byteGold;
 			case 16:
-				return byteLapis;
 			case 17:
 			case 18:
-				return byteDiamond;
+				return byteLapis;
 			case 19:
 			case 20:
-				return byteRedstone;
+				return byteDiamond;
 			case 21:
 			case 22:
+				return byteRedstone;
 			case 23:
 			case 24:
 			case 25:
+			case 26:
 				return lavaId;
 			default:
 				return context.isolationId;

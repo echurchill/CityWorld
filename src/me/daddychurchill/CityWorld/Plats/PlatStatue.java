@@ -181,7 +181,7 @@ public class PlatStatue extends PlatLot {
 	private void generateManhole(RealChunk chunk, PlatMapContext context) {
 		// maybe.. maybe not...
 		chunk.setTrapDoor(4, context.streetLevel + 2, 1, TrapDoor.EAST);
-		chunk.setLadder(4, 2, context.streetLevel + 2, 1, Ladder.SOUTH);
+		chunk.setLadder(4, PlatLot.underworldLevel, context.streetLevel + 2, 1, Ladder.SOUTH);
 		chunk.setBlock(4, 1, 1, manholePlatformMaterial);
 	}
 
