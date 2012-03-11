@@ -91,7 +91,7 @@ public class CityWorld extends JavaPlugin{
 	public final static boolean defaultDoOresInSewer = true;
 	public final static boolean defaultDoOresInUnderworld = true;
 	public final static int defaultStreetLevel = 30;
-	public final static int defaultMaximumFloors = 100;
+	public final static int defaultMaximumFloors = 20;
 	
     public CityWorld() {
 		super();

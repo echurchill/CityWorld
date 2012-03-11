@@ -26,7 +26,7 @@ public class RealChunk {
 		this.chunkX = chunk.getX();
 		this.chunkZ = chunk.getZ();
 		this.doPhysics = false;
-		height = 128;//world.getMaxHeight();
+		height = world.getMaxHeight();
 	}
 	
 	public boolean getDoPhysics() {
