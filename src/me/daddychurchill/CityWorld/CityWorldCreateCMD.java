@@ -18,7 +18,7 @@ public class CityWorldCreateCMD implements CommandExecutor {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			if (player.hasPermission("cityworld.command")) {
-				player.sendMessage("Loading/creating cityworld... This might take a moment...");
+				player.sendMessage("Loading/creating CityWorld... This might take a moment...");
 				player.teleport(plugin.getCityWorld().getSpawnLocation());
 				return true;
 			} else {
