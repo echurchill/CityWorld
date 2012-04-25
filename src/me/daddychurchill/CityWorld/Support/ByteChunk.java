@@ -5,58 +5,155 @@ import java.util.Arrays;
 import org.bukkit.Material;
 import org.bukkit.World;
 
+// new 1.2.3 block code is loosely based on Mike Primm's updated version of 
+// DinnerBone's Moon generator from: https://github.com/mikeprimm/BukkitFullOfMoon
+
 public class ByteChunk {
-		
 	public int chunkX;
 	public int chunkZ;
-	public byte[] blocks;
 	public int width;
 	public int height;
+	public byte[][] blocks;
 	
-	private static byte airId = (byte) Material.AIR.getId();
+	public static final byte airId = (byte) Material.AIR.getId();
+	public static final int chunksBlockWidth = 16;
+	public static final int sectionsPerChunk = 16;
+	public static final int bytesPerSection = chunksBlockWidth * chunksBlockWidth * chunksBlockWidth;
 		
-	public ByteChunk (World world, int chunkX, int chunkZ) {
-		super();
-		this.chunkX = chunkX;
-		this.chunkZ = chunkZ;
-		this.width = 16;
-		this.height = world.getMaxHeight();
-		this.blocks = new byte[width * width * height];
+	public ByteChunk (World aWorld, int aChunkX, int aChunkZ) {
+		super();	
+		chunkX = aChunkX;
+		chunkZ = aChunkZ;
+		width = chunksBlockWidth;
+		height = aWorld.getMaxHeight();
+		blocks = new byte[sectionsPerChunk][];
 	}
 	
-	public void setBlock(int x, int y, int z, byte materialId) {
-		blocks[(x * width + z) * height + y] = materialId;
+	public int getBlockX(int x) {
+		return chunkX * width + x;
 	}
 	
-	public void setBlockIfAir(int x, int y, int z, byte materialId) {
-		if (blocks[(x * width + z) * height + y] == airId &&
-			blocks[(x * width + z) * height + y - 1] != airId)
-			blocks[(x * width + z) * height + y] = materialId;
+	public int getBlockZ(int z) {
+		return chunkZ * width + z;
 	}
 	
 	public byte getBlock(int x, int y, int z) {
-		return blocks[(x * width + z) * height + y];
+        if (blocks[y >> 4] == null)
+        	return airId;
+        else
+        	return blocks[y >> 4][((y & 0xF) << 8) | (z << 4) | x];
+	}
+	
+	public void setBlock(int x, int y, int z, byte materialId) {
+        if (blocks[y >> 4] == null) {
+        	blocks[y >> 4] = new byte[bytesPerSection];
+        }
+        blocks[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = materialId;
+	}
+	
+	public void setBlock(int x, int y, int z, Material material) {
+		setBlock(x, y, z, (byte) material.getId());
+	}
+	
+	public void setBlockIfAir(int x, int y, int z, byte materialId) {
+		if (getBlock(x, y, z) == airId && getBlock(x, y - 1, z) != airId)
+			setBlock(x, y, z, materialId);
 	}
 	
 	public void setBlocks(int x, int y1, int y2, int z, byte materialId) {
-		int xz = (x * width + z) * height;
-		Arrays.fill(blocks, xz + y1, xz + y2, materialId);
+		for (int y = y1; y < y2; y++)
+			setBlock(x, y, z, materialId);
+	}
+	
+	public void setBlocks(int x, int y1, int y2, int z, Material material) {
+		setBlocks(x, y1, y2, z, (byte) material.getId());
 	}
 	
 	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte materialId) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				int xz = (x * width + z) * height;
-				Arrays.fill(blocks, xz + y1, xz + y2, materialId);
+				for (int y = y1; y < y2; y++)
+					setBlock(x, y, z, materialId);
 			}
 		}
+	}
+	
+	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
+		setBlocks(x1, x2, y1, y2, z1, z2, (byte) material.getId());
+	}
+	
+	public void setBlocksAt(int y, byte materialId) {
+		setBlocks(0, width, y, y + 1, 0, width, materialId);
+	}
+	
+	public void setBlocksAt(int y, Material material) {
+		setBlocks(0, width, y, y + 1, 0, width, (byte) material.getId());
+	}
+	
+	public void setBlocksAt(int y1, int y2, byte materialId) {
+		setBlocks(0, width, y1, y2, 0, width, materialId);
+	}
+	
+	public void setBlocksAt(int y1, int y2, Material material) {
+		setBlocks(0, width, y1, y2, 0, width, (byte) material.getId());
+	}
+	
+	public void setAllBlocks(byte materialID) {
+		// shortcut if we are simply clearing everything
+		if (materialID == airId) {
+			for (int c = 0; c < sectionsPerChunk; c++) {
+				blocks[c] = null;
+			}
+		
+		// fine.. do it the hard way
+		} else {
+			for (int c = 0; c < sectionsPerChunk; c++) {
+				if (blocks[c] == null)
+					blocks[c] = new byte[bytesPerSection];
+				Arrays.fill(blocks[c], 0, bytesPerSection, materialID);
+			}
+		}	
+	}
+
+	public void setAllBlocks(Material material) {
+		setAllBlocks((byte) material.getId());
+	}
+	
+	public void replaceBlocks(byte fromId, byte toId) {
+		// if we are replacing air we might need to do this the hard way
+		if (fromId == airId) {
+			for (int c = 0; c < sectionsPerChunk; c++) {
+				if (blocks[c] == null)
+					blocks[c] = new byte[bytesPerSection];
+				for (int i = 0; i < bytesPerSection; i++) {
+					if (blocks[c][i] == fromId)
+						blocks[c][i] = toId;
+				}
+			}
+		
+		// if not then take a short cut if we can
+		} else {
+			for (int c = 0; c < sectionsPerChunk; c++) {
+				if (blocks[c] != null) {
+					for (int i = 0; i < bytesPerSection; i++) {
+						if (blocks[c][i] == fromId)
+							blocks[c][i] = toId;
+					}
+				}
+			}
+		}
+	}
+
+	public void replaceBlocks(Material fromMaterial, Material toMaterial) {
+		replaceBlocks((byte) fromMaterial.getId(), (byte) toMaterial.getId());
 	}
 	
 	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte primaryId, byte secondaryId, MaterialFactory maker) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				int xz = (x * width + z) * height;
-				Arrays.fill(blocks, xz + y1, xz + y2, maker.pickMaterial(primaryId, secondaryId, x, z));
+				byte materialId = maker.pickMaterial(primaryId, secondaryId, x, z);
+				for (int y = y1; y < y2; y++)
+					setBlock(x, y, z, materialId);
 			}
 		}
 	}
@@ -75,33 +172,6 @@ public class ByteChunk {
 		setBlocks(inset, width - inset, blocky, blocky + height, inset, width - inset, materialId);
 		return blocky + height;
 	}
-	
-//	private void setSafeBlock(int x, int y, int z, byte materialId) {
-//		if (!safeBlock || x >= 0 && x < Width && z >= 0 && z < Width && y >= 0 && y < Height)
-//			setBlock(x, y, z, materialId);
-//		else
-//			CityWorld.log.info("Block out of bounds: " + x + ", " + y + ", " + z);
-//	}
-//	
-//	private void setSafeBlocks(int x, int y1, int y2, int z, byte materialId) {
-//		if (!safeBlock || x >= 0 && x < Width &&
-//						  z >= 0 && z < Width && 
-//						  y1 >= 0 && y1 < Height && y2 > 0 && y2 <= Height)
-//			setBlocks(x, y1, y2, z, materialId);
-//		else
-//			CityWorld.log.info("Blocks out of bounds: " + x + ", " + y1 + "-" + y2 + ", " + z);
-//	}
-//	
-//	private void setSafeBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte materialId) {
-//		if (!safeBlock || x1 >= 0 && x1 < Width && x2 > 0 && x2 <= Width && 
-//						  z1 >= 0 && z1 < Width && z2 > 0 && z2 <= Width && 
-//						  y1 >= 0 && y1 < Height && y2 > 0 && y2 <= Height)
-//			setBlocks(x1, x2, y1, y2, z1, z2, materialId);
-//		else
-//			CityWorld.log.info("Blocks out of bounds: " + x1 + "-" + x2 + ", " 
-//														+ y1 + "-" + y2 + ", " 
-//														+ z1 + "-" + z2);
-//	}
 	
 	private void setCircleBlocks(int cx, int cz, int x, int z, int y, byte materialId) {
 		// Ref: Notes/BCircle.PDF
@@ -257,69 +327,6 @@ public class ByteChunk {
 				rError += xChange;
 				xChange += 2;
 			}
-		}
-	}
-	
-	//TODO Debug
-	public void drawCoordinate(int X, int Z, int blocky, boolean andNorth) {
-		drawNumber(X, 0, 3, blocky + 1);
-		drawNumber(Z, 0, 8, blocky + 1);
-		if (andNorth) {
-			drawNorth(0, 14, blocky + 1);
-		}
-	}
-	
-	//TODO Debug
-	private void drawNorth(int X, int Z, int blocky) {
-		byte id = (byte) Material.GLOWSTONE.getId();
-		this.setBlock(X + 4, blocky, Z - 2, id);
-		
-		this.setBlock(X + 3, blocky, Z - 1, id);
-		this.setBlock(X + 3, blocky, Z - 2, id);
-		this.setBlock(X + 3, blocky, Z - 3, id);
-		
-		this.setBlock(X + 2, blocky, Z    , id);
-		this.setBlock(X + 2, blocky, Z - 1, id);
-		this.setBlock(X + 2, blocky, Z - 2, id);
-		this.setBlock(X + 2, blocky, Z - 3, id);
-		this.setBlock(X + 2, blocky, Z - 4, id);
-
-		this.setBlock(X + 1, blocky, Z - 2, id);
-		this.setBlock(X    , blocky, Z - 2, id);
-	}
-	
-	//TODO Debug
-	private void drawNumber(int I, int X, int Z, int Y) {
-		drawPixel(I, X + 4, Z - 2, Y,    2, 3, 4, 5,    7, 8, 9, 0);
-		drawPixel(I, X + 4, Z - 1, Y,    2, 3,    5, 6, 7, 8, 9, 0);
-		drawPixel(I, X + 4, Z - 0, Y, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
-
-		drawPixel(I, X + 3, Z - 2, Y,          4, 5, 6,    8, 9, 0);
-		drawPixel(I, X + 3, Z - 0, Y, 1, 2, 3, 4,       7, 8, 9, 0);
-
-		drawPixel(I, X + 2, Z - 2, Y,    2, 3, 4, 5, 6,    8, 9, 0);
-		drawPixel(I, X + 2, Z - 1, Y,    2, 3, 4, 5, 6,    8, 9   );
-		drawPixel(I, X + 2, Z - 0, Y, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
-
-		drawPixel(I, X + 1, Z - 2, Y,    2,          6,    8,    0);
-		drawPixel(I, X + 1, Z - 0, Y, 1,    3, 4, 5, 6, 7, 8, 9, 0);
-
-		drawPixel(I, X + 0, Z - 2, Y,    2, 3,    5, 6,    8,    0);
-		drawPixel(I, X + 0, Z - 1, Y,    2, 3,    5, 6,    8,    0);
-		drawPixel(I, X + 0, Z - 0, Y, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
-	}
-	
-	//TODO Debug
-	private void drawPixel(int I, int X, int Z, int Y, int ... vals) {
-		boolean setit = false;
-		for (int v : vals) {
-			if (I == v) {
-				setit = true;
-				break;
-			}
-		}
-		if (setit) {
-			setBlock(X, Y, Z, (byte) Material.GLOWSTONE.getId());
 		}
 	}
 }

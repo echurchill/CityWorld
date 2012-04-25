@@ -4,7 +4,7 @@ import java.util.Random;
 
 import me.daddychurchill.CityWorld.Context.PlatMapContext;
 
-public abstract class PlatRoad extends PlatLot {
+public abstract class PlatRoad extends PlatUrban {
 	
 	public static final int PlatMapRoadInset = 3;
 

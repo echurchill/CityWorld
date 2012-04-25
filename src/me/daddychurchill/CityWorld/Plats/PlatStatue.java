@@ -2,8 +2,8 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.PlatMapContext;
-import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Ladder;
 import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
@@ -12,7 +12,7 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
 
-public class PlatStatue extends PlatLot {
+public class PlatStatue extends PlatUrban {
 
 	private enum StatueBase { WATER, GRASS, PEDESTAL };
 	
@@ -181,7 +181,7 @@ public class PlatStatue extends PlatLot {
 	private void generateManhole(RealChunk chunk, PlatMapContext context) {
 		// maybe.. maybe not...
 		chunk.setTrapDoor(4, context.streetLevel + 2, 1, TrapDoor.EAST);
-		chunk.setLadder(4, PlatLot.underworldLevel, context.streetLevel + 2, 1, Ladder.SOUTH);
+		chunk.setLadder(4, underworldLevel, context.streetLevel + 2, 1, Ladder.SOUTH);
 		chunk.setBlock(4, 1, 1, manholePlatformMaterial);
 	}
 

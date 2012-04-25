@@ -2,8 +2,8 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.PlatMapContext;
-import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
@@ -17,7 +17,7 @@ import me.daddychurchill.CityWorld.Support.Direction.Door;
 
 import org.bukkit.Material;
 
-public abstract class PlatBuilding extends PlatLot {
+public abstract class PlatBuilding extends PlatUrban {
 	
 	protected boolean neighborsHaveIdenticalHeights;
 	protected int neighborsHaveSimilarHeightsOdds;

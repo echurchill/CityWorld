@@ -13,12 +13,10 @@ import me.daddychurchill.CityWorld.Context.ContextMall;
 import me.daddychurchill.CityWorld.Context.ContextMidrise;
 import me.daddychurchill.CityWorld.Context.ContextUnfinished;
 import me.daddychurchill.CityWorld.Context.PlatMapContext;
-import me.daddychurchill.CityWorld.PlatMaps.PlatMap;
-import me.daddychurchill.CityWorld.PlatMaps.PlatMapCity;
-import me.daddychurchill.CityWorld.PlatMaps.PlatMapVanilla;
-import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.RealChunk;
 
+import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
@@ -26,16 +24,16 @@ import org.bukkit.generator.ChunkGenerator;
 public class CityWorldChunkGenerator extends ChunkGenerator {
 
 	private CityWorld plugin;
-	public String worldname;
-	public String worldstyle;
+	private String worldname;
+	private String worldstyle;
 	
-	public CityWorldChunkGenerator(CityWorld instance, String name, String style){
-		this.plugin = instance;
-		this.worldname = name;
-		this.worldstyle = style;
+	public CityWorldChunkGenerator(CityWorld aPlugin, String name, String style) {
+		plugin = aPlugin;
+		worldname = name;
+		worldstyle = style;
 	}
 	
-	public CityWorld getWorld() {
+	public CityWorld getPlugin() {
 		return plugin;
 	}
 	
@@ -52,18 +50,8 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 		return Arrays.asList((BlockPopulator) new CityWorldBlockPopulator(this));
 	}
 
-//	@Override
-//	public Location getFixedSpawnLocation(World world, Random random) {
-//		// see if this works any better (loosely based on ExpansiveTerrain)
-//		int x = random.nextInt(100) - 50;
-//		int z = random.nextInt(100) - 50;
-//		//int y = Math.max(world.getHighestBlockYAt(x, z), PlatMap.StreetLevel + 1);
-//		int y = world.getHighestBlockYAt(x, z);
-//		return new Location(world, x, y, z);
-//	}
-	
 	@Override
-	public byte[] generate(World world, Random random, int chunkX, int chunkZ) {
+	public byte[][] generateBlockSections(World world, Random random, int chunkX, int chunkZ, BiomeGrid biomes) {
 		
 		// place to work
 		ByteChunk byteChunk = new ByteChunk(world, chunkX, chunkZ);
@@ -72,42 +60,16 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 		PlatMap platmap = getPlatMap(world, random, chunkX, chunkZ);
 		if (platmap != null) {
 			platmap.generateChunk(byteChunk);
+			platmap.generateBiome(byteChunk, biomes);
 		}
 		 
 		return byteChunk.blocks;
 	}
 
-	// this function is designed for BlockPopulators...
-	//    calling it else where will likely result in nulls being returned
-	public PlatLot getPlatLot(World world, Random random, int chunkX, int chunkZ) {
-		PlatLot platlot = null;
-		
-		// try and find the lot handler for this chunk
-		PlatMap platmap = getPlatMap(world, random, chunkX, chunkZ);
-		if (platmap != null) {
-			
-			// calculate the right index
-			int platX = chunkX - platmap.X;
-			int platZ = chunkZ - platmap.Z;
-			
-			// see if there is something there yet
-			platlot = platmap.platLots[platX][platZ];
-		}
-		
-		// return what we got
-		return platlot;
-	}
-
 	// ***********
 	// manager for handling the city plat maps collection
-//	private double xFactor = 25.0;
-//	private double zFactor = 25.0;
-//	private SimplexNoiseGenerator generatorUrban;
-//	private SimplexNoiseGenerator generatorWater;
-//	private SimplexNoiseGenerator generatorUnfinished;
-	
 	private Hashtable<Long, PlatMap> platmaps;
-	public PlatMap getPlatMap(World world, Random random, int chunkX, int chunkZ) {
+	private PlatMap getPlatMap(World world, Random random, int chunkX, int chunkZ) {
 
 		// get the plat map collection
 		if (platmaps == null)
@@ -126,61 +88,9 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 		// doesn't exist? then make it!
 		if (platmap == null) {
 			
-			// generator generated?
-//			if (generatorUrban == null) {
-//				long seed = world.getSeed();
-//				generatorUrban = new SimplexNoiseGenerator(seed);
-//				generatorWater = new SimplexNoiseGenerator(seed + 1);
-//				generatorUnfinished = new SimplexNoiseGenerator(seed + 2);
-//			}
-			
-//			int platX
-//			CityWorld.log.info("PlatMapAt: " + platX / PlatMap.Width + ", " + platZ / PlatMap.Width + " OR " + chunkX + ", " + chunkZ);
-			
 			// what is the context for this one?
 			PlatMapContext context = getContext(world, plugin, random, chunkX, chunkZ);
-			
-			// figure out the biome for this platmap
-			switch (world.getBiome(platX, platZ)) {
-			case HELL:
-			case SKY:
-				platmap = new PlatMapVanilla(world, random, context, platX, platZ);
-				break;
-			default:
-				platmap = new PlatMapCity(world, random, context, platX, platZ);
-				break;
-			}
-			
-//			switch (world.getBiome(platX, platZ)) {
-//			case DESERT:			// industrial zone
-//			case EXTREME_HILLS:		// tall city
-//			case FOREST:			// neighborhood
-//			case FROZEN_OCEAN:		// winter ocean/lake side
-//			case FROZEN_RIVER:		// ???
-//			case ICE_DESERT:		// stark industrial zone
-//			case ICE_MOUNTAINS:		// stark tall city
-//			case ICE_PLAINS:		// apartments
-//			case MUSHROOM_ISLAND:	// ???
-//			case MUSHROOM_SHORE:	// ???
-//			case OCEAN:				// ocean/lake side
-//			case PLAINS:			// farm land
-//			case RAINFOREST:		// ???
-//			case RIVER:				// ???
-//			case SAVANNA:			// town
-//			case SEASONAL_FOREST:	// ???
-//			case SHRUBLAND:			// ???
-//			case SWAMPLAND:			// government
-//			case TAIGA:				// ???
-//			case TUNDRA:			// recreation
-// 				// for now do this
-//				platmap = new PlatMapCity(world, random, context, platX, platZ);
-//				break;
-//			default:
-//				//case HELL:
-//				//case SKY:
-//				platmap = new PlatMapVanilla(world, random, context, platX, platZ);
-//				break;
-//			}
+			platmap = new PlatMap(world, random, context, platX, platZ);
 			
 			// remember it for quicker look up
 			platmaps.put(platkey, platmap);
@@ -191,6 +101,8 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 	}
 	
 	private PlatMapContext getContext(World world, CityWorld plugin, Random random, int chunkX, int chunkZ) {
+		//TODO derive this from the CityNoise generator
+		
 		switch (random.nextInt(20)) {
 		case 0:
 		case 1:
@@ -229,6 +141,30 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 			return i / PlatMap.Width * PlatMap.Width;
 		} else {
 			return -((Math.abs(i + 1) / PlatMap.Width * PlatMap.Width) + PlatMap.Width);
+		}
+	}
+
+	private class CityWorldBlockPopulator extends BlockPopulator {
+
+		private CityWorldChunkGenerator chunkGen;
+		
+		public CityWorldBlockPopulator(CityWorldChunkGenerator chunkGen){
+			this.chunkGen = chunkGen;
+		}
+		
+		@Override
+		public void populate(World world, Random random, Chunk source) {
+			int chunkX = source.getX();
+			int chunkZ = source.getZ();
+			
+			// place to work
+			RealChunk chunk = new RealChunk(world, source);
+			
+			// figure out what everything looks like
+			PlatMap platmap = chunkGen.getPlatMap(world, random, chunkX, chunkZ);
+			if (platmap != null) {
+				platmap.generateBlocks(chunk);
+			}
 		}
 	}
 }
