@@ -48,7 +48,6 @@ public class PlatMap {
 		platLots = new PlatLot[Width][Width];
 		
 		// sprinkle nature, roads and buildings
-		populateNature();
 		populateRoads();
 		populateBuildings();
 	}
@@ -90,10 +89,6 @@ public class PlatMap {
 			// do what we came here for
 			platlot.generateBlocks(this, chunk, context, platX, platZ);
 		}
-	}
-	
-	private void populateNature() {
-		
 	}
 	
 	private void populateRoads() {

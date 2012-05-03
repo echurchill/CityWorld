@@ -13,6 +13,7 @@ public class ByteChunk {
 	public int chunkZ;
 	public int width;
 	public int height;
+	//public int sealevel;
 	public byte[][] blocks;
 	
 	public static final byte airId = (byte) Material.AIR.getId();
@@ -26,6 +27,7 @@ public class ByteChunk {
 		chunkZ = aChunkZ;
 		width = chunksBlockWidth;
 		height = aWorld.getMaxHeight();
+		//sealevel = aWorld.getSeaLevel();
 		blocks = new byte[sectionsPerChunk][];
 	}
 	
