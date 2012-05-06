@@ -11,6 +11,7 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.Material;
 import org.bukkit.TreeType;
+import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class PlatStatue extends PlatUrban {
 
@@ -41,7 +42,7 @@ public class PlatStatue extends PlatUrban {
 	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk chunk, PlatMapContext context, int platX, int platZ) {
+	public void generateChunk(PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
 
 		// starting with the bottom
 		generateBedrock(chunk, context, context.streetLevel);

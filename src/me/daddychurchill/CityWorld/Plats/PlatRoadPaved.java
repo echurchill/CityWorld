@@ -13,6 +13,7 @@ import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingRoads;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import org.bukkit.inventory.ItemStack;
 
 public class PlatRoadPaved extends PlatRoad {
@@ -58,7 +59,7 @@ public class PlatRoadPaved extends PlatRoad {
 	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk chunk, PlatMapContext context, int platX, int platZ) {
+	public void generateChunk(PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
 		
 		// where do we start
 		int base1Y = context.streetLevel - PlatMapContext.FloorHeight * 3 + 1;

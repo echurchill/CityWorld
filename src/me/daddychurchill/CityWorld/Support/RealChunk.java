@@ -11,22 +11,18 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-public class RealChunk {
+public class RealChunk extends SupportChunk {
 	private Chunk chunk;
-
-	public int chunkX;
-	public int chunkZ;
 	private boolean doPhysics;
-	public int width = 16;
-	public int height;
 
-	public RealChunk(World world, Chunk chunk) {
-		super();
-		this.chunk = chunk;
-		this.chunkX = chunk.getX();
-		this.chunkZ = chunk.getZ();
-		this.doPhysics = false;
-		height = world.getMaxHeight();
+	public RealChunk(World aWorld, Chunk aChunk) {
+		super(aWorld);
+		
+		chunk = aChunk;
+		chunkX = chunk.getX();
+		chunkZ = chunk.getZ();
+		
+		doPhysics = false;
 	}
 	
 	public boolean getDoPhysics() {

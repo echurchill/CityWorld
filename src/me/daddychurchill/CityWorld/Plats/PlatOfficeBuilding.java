@@ -10,6 +10,7 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
 
 import org.bukkit.Material;
+import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class PlatOfficeBuilding extends PlatBuilding {
 
@@ -119,7 +120,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk chunk, PlatMapContext context, int platX, int platZ) {
+	public void generateChunk(PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
 		// check out the neighbors
 		SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);

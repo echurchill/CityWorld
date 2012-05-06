@@ -8,22 +8,34 @@ import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public abstract class PlatLot {
+	
+	public short[][] heightmap;
+//	public boolean buildable;
+//	private int heightsLeft = SupportChunk.chunksBlockWidth * SupportChunk.chunksBlockWidth;
 
 	public PlatLot(Random rand) {
 		super();
+		
+		heightmap = new short[SupportChunk.chunksBlockWidth][SupportChunk.chunksBlockWidth];
+//		buildable = true;
 	}
-	
-	public abstract void generateChunk(PlatMap platmap, ByteChunk chunk, PlatMapContext context, int platX, int platZ);
-	public abstract void generateBiomes(PlatMap platmap, BiomeGrid biomes, PlatMapContext context, int platX, int platZ);
-	public abstract void generateBlocks(PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ);
 	
 	public abstract long getConnectedKey();
 	public abstract void makeConnected(Random rand, PlatLot relative);
 	public abstract boolean isConnectable(PlatLot relative);
 	public abstract boolean isIsolatedLot(int oddsOfIsolation);
 	public abstract boolean isConnected(PlatLot relative);
+	
+	public void generateChunk(PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
+		// do the natural bits
+	}
+	
+	public void generateBlocks(PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+		// do the natural bits
+	}
 	
 	//TODO move this logic to SurroundingLots, add to it the ability to produce SurroundingHeights and SurroundingDepths
 	public PlatLot[][] getNeighborPlatLots(PlatMap platmap, int platX, int platZ, boolean onlyConnectedNeighbors) {

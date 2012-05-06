@@ -52,7 +52,7 @@ public class PlatMap {
 		populateBuildings();
 	}
 
-	public void generateChunk(ByteChunk chunk) {
+	public void generateChunk(ByteChunk chunk, BiomeGrid biomes) {
 
 		// depending on the platchunk's type render a layer
 		int platX = chunk.chunkX - X;
@@ -61,23 +61,10 @@ public class PlatMap {
 		if (platlot != null) {
 
 			// do what we came here for
-			platlot.generateChunk(this, chunk, context, platX, platZ);
+			platlot.generateChunk(this, chunk, biomes, context, platX, platZ);
 		}
 	}
 	
-	public void generateBiome(ByteChunk chunk, BiomeGrid biomes) {
-
-		// depending on the platchunk's type render a layer
-		int platX = chunk.chunkX - X;
-		int platZ = chunk.chunkZ - Z;
-		PlatLot platlot = platLots[platX][platZ];
-		if (platlot != null) {
-
-			// do what we came here for
-			platlot.generateBiomes(this, biomes, context, platX, platZ);
-		}
-	}
-
 	public void generateBlocks(RealChunk chunk) {
 
 		// depending on the platchunk's type render a layer
@@ -102,10 +89,10 @@ public class PlatMap {
 		// calculate the roads
 		for (int i = 0; i < Width; i++) {
 			if (i < PlatRoad.PlatMapRoadInset || i >= Width - PlatRoad.PlatMapRoadInset) {
-				placePlatRoad(i, PlatRoad.PlatMapRoadInset - 1);
-				placePlatRoad(i, Width - PlatRoad.PlatMapRoadInset);
-				placePlatRoad(PlatRoad.PlatMapRoadInset - 1, i);
-				placePlatRoad(Width - PlatRoad.PlatMapRoadInset, i);
+				placeIntersection(i, PlatRoad.PlatMapRoadInset - 1);
+				placeIntersection(i, Width - PlatRoad.PlatMapRoadInset);
+				placeIntersection(PlatRoad.PlatMapRoadInset - 1, i);
+				placeIntersection(Width - PlatRoad.PlatMapRoadInset, i);
 			} else {
 				if (northroad)
 					placePlatRoad(i, Width - PlatRoad.PlatMapRoadInset);
@@ -117,30 +104,29 @@ public class PlatMap {
 					placePlatRoad(Width - PlatRoad.PlatMapRoadInset, i);
 			}
 		}
-		
-		// for each intersection see if a roundabout exists
+	}
+	
+	private void placeIntersection(int x, int z) {
 		if (platRand.nextInt(context.oddsOfRoundAbouts) == 0)
-			PlaceRoundAbout(PlatRoad.PlatMapRoadInset - 1, PlatRoad.PlatMapRoadInset - 1);
-		if (platRand.nextInt(context.oddsOfRoundAbouts) == 0)
-			PlaceRoundAbout(PlatRoad.PlatMapRoadInset - 1, Width - PlatRoad.PlatMapRoadInset);
-		if (platRand.nextInt(context.oddsOfRoundAbouts) == 0)
-			PlaceRoundAbout(Width - PlatRoad.PlatMapRoadInset, PlatRoad.PlatMapRoadInset - 1);
-		if (platRand.nextInt(context.oddsOfRoundAbouts) == 0)
-			PlaceRoundAbout(Width - PlatRoad.PlatMapRoadInset, Width - PlatRoad.PlatMapRoadInset);
+			PlaceRoundAbout(x, z);
+		else
+			placePlatRoad(x, z);
 	}
 	
 	private void PlaceRoundAbout(int x, int z) {
-		placePlatRoad(x - 1, z - 1);
-		placePlatRoad(x - 1, z    );
-		placePlatRoad(x - 1, z + 1);
-		
-		placePlatRoad(x    , z - 1);
-		platLots[x][z] = new PlatStatue(platRand, context);
-		placePlatRoad(x    , z + 1);
-
-		placePlatRoad(x + 1, z - 1);
-		placePlatRoad(x + 1, z    );
-		placePlatRoad(x + 1, z + 1);
+		if (platLots[x][z] == null) {
+			placePlatRoad(x - 1, z - 1);
+			placePlatRoad(x - 1, z    );
+			placePlatRoad(x - 1, z + 1);
+			
+			placePlatRoad(x    , z - 1);
+			platLots[x][z] = new PlatStatue(platRand, context);
+			placePlatRoad(x    , z + 1);
+	
+			placePlatRoad(x + 1, z - 1);
+			placePlatRoad(x + 1, z    );
+			placePlatRoad(x + 1, z + 1);
+		}
 	}
 	
 	private void placePlatRoad(int x, int z) {

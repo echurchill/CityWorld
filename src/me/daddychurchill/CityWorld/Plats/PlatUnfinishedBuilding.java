@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Plats;
 import java.util.Random;
 
 import org.bukkit.Material;
+import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.PlatMapContext;
@@ -62,7 +63,7 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk chunk, PlatMapContext context, int platX, int platZ) {
+	public void generateChunk(PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
 		// check out the neighbors
 		SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);

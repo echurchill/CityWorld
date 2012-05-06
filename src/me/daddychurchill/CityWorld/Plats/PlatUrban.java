@@ -3,8 +3,6 @@ package me.daddychurchill.CityWorld.Plats;
 import java.util.Random;
 
 import org.bukkit.Material;
-import org.bukkit.generator.ChunkGenerator.BiomeGrid;
-
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
@@ -31,11 +29,6 @@ public abstract class PlatUrban extends PlatLot {
 
 	@Override
 	public void generateBlocks(PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
-		// default one does nothing!
-	}
-	
-	@Override
-	public void generateBiomes(PlatMap platmap, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
 		// default one does nothing!
 	}
 	

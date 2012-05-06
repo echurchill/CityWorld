@@ -10,25 +10,13 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class PlatNature extends PlatLot {
 
-	// mountains and valleys
-	// seas
-//	noiseUrbanization = new SimplexNoiseGenerator(getNextSeed());
-//	noiseGreenBelt = new SimplexNoiseGenerator(getNextSeed());
-	
-	
-	public PlatNature(Random rand) {
+	public PlatNature(Random rand, PlatMapContext context) {
 		super(rand);
 		
 	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk chunk, PlatMapContext context, int platX, int platZ) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void generateBiomes(PlatMap platmap, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
+	public void generateChunk(PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,33 +1,23 @@
 package me.daddychurchill.CityWorld.Support;
 
 import java.util.Arrays;
-
 import org.bukkit.Material;
 import org.bukkit.World;
 
 // new 1.2.3 block code is loosely based on Mike Primm's updated version of 
 // DinnerBone's Moon generator from: https://github.com/mikeprimm/BukkitFullOfMoon
 
-public class ByteChunk {
-	public int chunkX;
-	public int chunkZ;
-	public int width;
-	public int height;
-	//public int sealevel;
+public class ByteChunk extends SupportChunk {
 	public byte[][] blocks;
 	
-	public static final byte airId = (byte) Material.AIR.getId();
-	public static final int chunksBlockWidth = 16;
-	public static final int sectionsPerChunk = 16;
 	public static final int bytesPerSection = chunksBlockWidth * chunksBlockWidth * chunksBlockWidth;
 		
 	public ByteChunk (World aWorld, int aChunkX, int aChunkZ) {
-		super();	
+		super(aWorld);
+		
 		chunkX = aChunkX;
 		chunkZ = aChunkZ;
-		width = chunksBlockWidth;
-		height = aWorld.getMaxHeight();
-		//sealevel = aWorld.getSeaLevel();
+		
 		blocks = new byte[sectionsPerChunk][];
 	}
 	
