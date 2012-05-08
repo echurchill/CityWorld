@@ -38,12 +38,17 @@ public abstract class PlatUrban extends PlatLot {
 	}
 	
 	@Override
-	public void makeConnected(Random rand, PlatLot relative) {
+	public boolean makeConnected(Random rand, PlatLot relative) {
+		if (relative == null)
+			return false;
 		connectedkey = relative.getConnectedKey();
+		return isConnected(relative);
 	}
 	
 	@Override
 	public boolean isConnectable(PlatLot relative) {
+		if (relative == null)
+			return false;
 		return getClass().isInstance(relative);
 	}
 	
@@ -54,6 +59,8 @@ public abstract class PlatUrban extends PlatLot {
 
 	@Override
 	public boolean isConnected(PlatLot relative) {
+		if (relative == null)
+			return false;
 		return connectedkey == relative.getConnectedKey();
 	}
 	

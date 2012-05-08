@@ -58,17 +58,17 @@ public class PlatPark extends PlatUrban {
 	}
 
 	@Override
-	public void makeConnected(Random rand, PlatLot relative) {
-		// TODO Auto-generated method stub
-		super.makeConnected(rand, relative);
+	public boolean makeConnected(Random rand, PlatLot relative) {
+		boolean result = super.makeConnected(rand, relative);
 		
 		// other bits
-		if (relative instanceof PlatPark) {
+		if (result && relative instanceof PlatPark) {
 			PlatPark relativebuilding = (PlatPark) relative;
 
 			// we don't card about circleSidewalk, that is supposed to be different
 			waterDepth = relativebuilding.waterDepth;
 		}
+		return result;
 	}
 
 	@Override

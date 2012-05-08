@@ -48,8 +48,8 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	}
 	
 	@Override
-	public void makeConnected(Random rand, PlatLot relative) {
-		super.makeConnected(rand, relative);
+	public boolean makeConnected(Random rand, PlatLot relative) {
+		return super.makeConnected(rand, relative);
 		// unlike most other plat types, this one doesn't attempt to make its bits similar
 		
 		// other bits

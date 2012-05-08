@@ -33,8 +33,8 @@ public class PlatNature extends PlatLot {
 	}
 
 	@Override
-	public void makeConnected(Random rand, PlatLot relative) {
-		// NOOP
+	public boolean makeConnected(Random rand, PlatLot relative) {
+		return false;
 	}
 
 	@Override

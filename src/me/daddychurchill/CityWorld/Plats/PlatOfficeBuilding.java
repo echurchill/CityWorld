@@ -90,11 +90,11 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		}
 	}
 
-	public void makeConnected(Random rand, PlatLot relative) {
-		super.makeConnected(rand, relative);
+	public boolean makeConnected(Random rand, PlatLot relative) {
+		boolean result = super.makeConnected(rand, relative);
 
 		// other bits
-		if (relative instanceof PlatOfficeBuilding) {
+		if (result && relative instanceof PlatOfficeBuilding) {
 			PlatOfficeBuilding relativebuilding = (PlatOfficeBuilding) relative;
 
 			// nudge in a bit
@@ -117,6 +117,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 			doorMaterial = relativebuilding.doorMaterial;
 			roofMaterial = relativebuilding.roofMaterial;
 		}
+		return result;
 	}
 
 	@Override

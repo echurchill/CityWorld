@@ -24,7 +24,7 @@ public abstract class PlatLot {
 	}
 	
 	public abstract long getConnectedKey();
-	public abstract void makeConnected(Random rand, PlatLot relative);
+	public abstract boolean makeConnected(Random rand, PlatLot relative);
 	public abstract boolean isConnectable(PlatLot relative);
 	public abstract boolean isIsolatedLot(int oddsOfIsolation);
 	public abstract boolean isConnected(PlatLot relative);

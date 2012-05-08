@@ -103,12 +103,11 @@ public abstract class PlatBuilding extends PlatUrban {
 	}
 	
 	@Override
-	public void makeConnected(Random rand, PlatLot relative) {
-		//log.info("PlatBuilding's makeConnected");
-		super.makeConnected(rand, relative);
+	public boolean makeConnected(Random rand, PlatLot relative) {
+		boolean result = super.makeConnected(rand, relative);
 		
 		// other bits
-		if (relative instanceof PlatBuilding) {
+		if (result && relative instanceof PlatBuilding) {
 			PlatBuilding relativebuilding = (PlatBuilding) relative;
 
 			neighborsHaveIdenticalHeights = relativebuilding.neighborsHaveIdenticalHeights;
@@ -131,6 +130,7 @@ public abstract class PlatBuilding extends PlatUrban {
 			relativebuilding.needStairsDown = relativebuilding.depth > depth;
 			relativebuilding.needStairsUp = relativebuilding.height > height;
 		}
+		return result;
 	}
 	
 	protected SurroundingFloors getNeighboringFloorCounts(PlatMap platmap, int platX, int platZ) {
