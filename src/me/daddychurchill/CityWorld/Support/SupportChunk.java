@@ -7,6 +7,7 @@ import org.bukkit.World;
 
 public class SupportChunk {
 	
+	public World theWorld;
 	public int chunkX;
 	public int chunkZ;
 	public int width;
@@ -15,6 +16,8 @@ public class SupportChunk {
 	public int treelevel;
 	public int evergreenlevel;
 	public int sealevel;
+	public int streetlevel;
+	public Random random;
 	
 	private byte[] ores;
 	
@@ -30,17 +33,19 @@ public class SupportChunk {
 	public static final byte diamondId = (byte) Material.DIAMOND_ORE.getId();
 	public static final byte coalId = (byte) Material.COAL_ORE.getId();
 	
-	public SupportChunk(World aWorld) {
+	public SupportChunk(World aWorld, Random aRandom) {
 		super();
 		
+		theWorld = aWorld;
+		random = aRandom;
 		width = chunksBlockWidth;
-		
-		height = aWorld.getMaxHeight();
+		height = theWorld.getMaxHeight();
+
+		sealevel = theWorld.getSeaLevel();
+		streetlevel = sealevel + 1;
 		snowlevel = height - 48;
 		evergreenlevel = snowlevel - 32;
 		treelevel = evergreenlevel - 32;
-
-		sealevel = aWorld.getSeaLevel();
 	}
 
 	public byte getOre(int y) {

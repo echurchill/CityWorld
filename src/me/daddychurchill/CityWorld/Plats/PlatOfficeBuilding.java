@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.CityWorldChunkGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
@@ -33,24 +34,24 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	protected int insetInsetMidAt;
 	protected int insetInsetHighAt;
 
-	public PlatOfficeBuilding(Random rand, PlatMapContext context) {
-		super(rand, context);
+	public PlatOfficeBuilding(Random random, PlatMapContext context) {
+		super(random, context);
 
 		// how do the walls inset?
-		insetWallEW = rand.nextInt(context.rangeOfWallInset) + 1; // 1 or 2
-		insetWallNS = rand.nextInt(context.rangeOfWallInset) + 1;
+		insetWallEW = random.nextInt(context.rangeOfWallInset) + 1; // 1 or 2
+		insetWallNS = random.nextInt(context.rangeOfWallInset) + 1;
 		
 		// what about the ceiling?
-		if (rand.nextInt(context.oddsOfFlatWalledBuildings) == 0) {
+		if (random.nextInt(context.oddsOfFlatWalledBuildings) == 0) {
 			insetCeilingEW = insetWallEW;
 			insetCeilingNS = insetWallNS;
 		} else {
-			insetCeilingEW = insetWallEW + rand.nextInt(3) - 1; // -1, 0 or 1 -> 0, 1, 2
-			insetCeilingNS = insetWallNS + rand.nextInt(3) - 1;
+			insetCeilingEW = insetWallEW + random.nextInt(3) - 1; // -1, 0 or 1 -> 0, 1, 2
+			insetCeilingNS = insetWallNS + random.nextInt(3) - 1;
 		}
 		
 		// make the buildings have a better chance at being round
-		if (rand.nextInt(context.oddsOfSimilarInsetBuildings) == 0) {
+		if (random.nextInt(context.oddsOfSimilarInsetBuildings) == 0) {
 			insetWallNS = insetWallEW;
 			insetCeilingNS = insetCeilingEW;
 		}
@@ -58,23 +59,23 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		// nudge in a bit more as we go up
 		insetInsetMidAt = 1;
 		insetInsetHighAt = 1;
-		insetInsetted = height >= context.buildingWallInsettedMinLowPoint && rand.nextInt(context.oddsOfBuildingWallInset) == 0;
+		insetInsetted = height >= context.buildingWallInsettedMinLowPoint && random.nextInt(context.oddsOfBuildingWallInset) == 0;
 		if (insetInsetted) {
 			insetInsetMidAt = Math.max(context.buildingWallInsettedMinMidPoint, 
-									   rand.nextInt(context.buildingWallInsettedMinLowPoint));
-			insetInsetHighAt = Math.max(insetInsetMidAt + 1, rand.nextInt(context.buildingWallInsettedMinLowPoint));
+									   random.nextInt(context.buildingWallInsettedMinLowPoint));
+			insetInsetHighAt = Math.max(insetInsetMidAt + 1, random.nextInt(context.buildingWallInsettedMinLowPoint));
 		}
 		
 		// what is it made of?
-		wallMaterial = pickWallMaterial(rand);
-		ceilingMaterial = pickCeilingMaterial(rand);
-		glassMaterial = pickGlassMaterial(rand);
+		wallMaterial = pickWallMaterial(random);
+		ceilingMaterial = pickCeilingMaterial(random);
+		glassMaterial = pickGlassMaterial(random);
 		stairMaterial = pickStairMaterial(wallMaterial);
 		doorMaterial = Material.WOOD_DOOR;
-		roofMaterial = pickRoofMaterial(rand);
+		roofMaterial = pickRoofMaterial(random);
 		
 		// what are the walls of the stairs made of?
-		if (rand.nextInt(context.oddsOfStairWallMaterialIsWallMaterial) == 0)
+		if (random.nextInt(context.oddsOfStairWallMaterialIsWallMaterial) == 0)
 			stairWallMaterial = wallMaterial;
 		else
 			stairWallMaterial = pickStairWallMaterial(wallMaterial);
@@ -90,8 +91,8 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		}
 	}
 
-	public boolean makeConnected(Random rand, PlatLot relative) {
-		boolean result = super.makeConnected(rand, relative);
+	public boolean makeConnected(Random random, PlatLot relative) {
+		boolean result = super.makeConnected(random, relative);
 
 		// other bits
 		if (result && relative instanceof PlatOfficeBuilding) {
@@ -121,14 +122,15 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
+	public void generateChunk(CityWorldChunkGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
+		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
+
 		// check out the neighbors
 		SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);
 
 		// starting with the bottom
 		int lowestY = context.streetLevel - FloorHeight * (depth - 1) - 3;
-		generateBedrock(chunk, context, lowestY);
 		
 		// bottom most floor
 		drawCeilings(chunk, context, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);
@@ -191,7 +193,8 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	}
 	
 	@Override
-	public void generateBlocks(PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+	public void generateBlocks(CityWorldChunkGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+
 		// check out the neighbors
 		//SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);

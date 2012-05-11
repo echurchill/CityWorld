@@ -1,5 +1,7 @@
 package me.daddychurchill.CityWorld.Support;
 
+import java.util.Random;
+
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,8 +17,8 @@ public class RealChunk extends SupportChunk {
 	private Chunk chunk;
 	private boolean doPhysics;
 
-	public RealChunk(World aWorld, Chunk aChunk) {
-		super(aWorld);
+	public RealChunk(World aWorld, Random aRandom, Chunk aChunk) {
+		super(aWorld, aRandom);
 		
 		chunk = aChunk;
 		chunkX = chunk.getX();

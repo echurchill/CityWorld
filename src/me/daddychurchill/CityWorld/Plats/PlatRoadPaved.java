@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.CityWorldChunkGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.Support.Direction;
@@ -59,8 +60,10 @@ public class PlatRoadPaved extends PlatRoad {
 	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
-		
+	public void generateChunk(CityWorldChunkGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
+		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
+		Random random = chunk.random;
+	
 		// where do we start
 		int base1Y = context.streetLevel - PlatMapContext.FloorHeight * 3 + 1;
 		int sewerY = base1Y + 1;
@@ -69,9 +72,6 @@ public class PlatRoadPaved extends PlatRoad {
 		int base3Y = context.streetLevel - 1;
 		int sidewalkLevel = context.streetLevel + 1;
 
-		// starting with the bottom
-		generateBedrock(chunk, context, base1Y);
-		
 		// look around
 		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);
 		
@@ -171,13 +171,13 @@ public class PlatRoadPaved extends PlatRoad {
 			for (int x = 0; x < chunk.width - 1; x = x + 2) {
 				for (int z = 0; z < chunk.width - 1; z = z + 2) {
 					chunk.setBlocks(x + 1, plumbingY, plumbingY + 4, z + 1, plumbingId);
-					if (rand.nextInt(context.oddsOfPlumbingConnection) == 0)
+					if (random.nextInt(context.oddsOfPlumbingConnection) == 0)
 						chunk.setBlocks(x + 1, plumbingY, plumbingY + 4, z, plumbingId);
-					if (rand.nextInt(context.oddsOfPlumbingConnection) == 0)
+					if (random.nextInt(context.oddsOfPlumbingConnection) == 0)
 						chunk.setBlocks(x, plumbingY, plumbingY + 4, z + 1, plumbingId);
-					if (rand.nextInt(context.oddsOfPlumbingTreasure) == 0) {
+					if (random.nextInt(context.oddsOfPlumbingTreasure) == 0) {
 						if (context.doTreasureInPlumbing) {
-							byte treasureId = (byte) pickPlumbingTreasure().getId();
+							byte treasureId = (byte) pickPlumbingTreasure(random).getId();
 							chunk.setBlocks(x, plumbingY, plumbingY + 1, z, treasureId);
 							if (context.doSewer) {
 								if (treasureId == waterId &&
@@ -186,7 +186,7 @@ public class PlatRoadPaved extends PlatRoad {
 									chunk.setBlock(x, plumbingY - 1, z, airId);
 							}
 						}
-					} else if (rand.nextInt(context.oddsOfPlumbingConnection) == 0)
+					} else if (random.nextInt(context.oddsOfPlumbingConnection) == 0)
 						chunk.setBlocks(x, plumbingY + 2, plumbingY + 4, z, plumbingId);
 				}
 			}
@@ -234,7 +234,7 @@ public class PlatRoadPaved extends PlatRoad {
 	}
 	
 	@Override
-	public void generateBlocks(PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+	public void generateBlocks(CityWorldChunkGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
 		
 		// light posts
 		generateLightPost(chunk, context, sidewalkWidth - 1, sidewalkWidth - 1);
@@ -414,6 +414,7 @@ public class PlatRoadPaved extends PlatRoad {
 	}
 	
 	protected void generateVault(ByteChunk chunk, PlatMapContext context, int x1, int x2, int y1, int z1, int z2, boolean doorNS, boolean doorEW) {
+		Random random = chunk.random;
 		int y2 = y1 + PlatMapContext.FloorHeight;
 		
 		// place the walls
@@ -427,7 +428,7 @@ public class PlatRoadPaved extends PlatRoad {
 		}
 		
 		// is the vault empty?
-		byte doorId = rand.nextBoolean() ? doorIronId : doorBrickId;
+		byte doorId = random.nextBoolean() ? doorIronId : doorBrickId;
 		
 		// place the doors, if the vault is empty then just "leave the door" open
 		if (doorNS) {
@@ -440,14 +441,14 @@ public class PlatRoadPaved extends PlatRoad {
 		}
 		
 		// if it's bricked up... maybe this is a 
-		if (doorId == doorBrickId && context.doOresInSewer && rand.nextInt(context.oddsOfSewerOres) == 0) {
-			byte vaultId = (byte) pickVaultContent().getId();
-			chunk.setBlocks(x1 + 1, x2 - 1, y1, y2 - rand.nextInt(3) - 1, z1 + 1, z2 - 1, vaultId);
+		if (doorId == doorBrickId && context.doOresInSewer && random.nextInt(context.oddsOfSewerOres) == 0) {
+			byte vaultId = (byte) pickVaultContent(random).getId();
+			chunk.setBlocks(x1 + 1, x2 - 1, y1, y2 - random.nextInt(3) - 1, z1 + 1, z2 - 1, vaultId);
 		}
 	}
 
-	protected Material pickVaultContent() {
-		switch (rand.nextInt(100)) {
+	protected Material pickVaultContent(Random random) {
+		switch (random.nextInt(100)) {
 		// random junk
 		case 0:
 		case 1:
@@ -555,13 +556,14 @@ public class PlatRoadPaved extends PlatRoad {
 	private int countTreasureIds = maxTreasureId - minTreasureId;
 	
 	protected void populateVault(RealChunk chunk, PlatMapContext context, int x1, int x2, int y1, int z1, int z2) {
+		Random random = chunk.random;
 		//int y2 = y1 + PlatMap.FloorHeight;
 		
 		// fill the vault
 		if (context.doTreasureInSewer) {
 			
 			// trick or treat?
-			if (rand.nextInt(context.oddsOfSewerTreasure) == 0) {
+			if (random.nextInt(context.oddsOfSewerTreasure) == 0) {
 
 				// where is it?
 				int xC = (x2 - x1) / 2 + x1;
@@ -571,15 +573,15 @@ public class PlatRoadPaved extends PlatRoad {
 				if (chunk.getBlock(xC, y1, zC) == Material.AIR) {
 				
 					// trick or treat?
-					if (context.doSpawnerInSewer && rand.nextInt(context.oddsOfSewerTrick) == 0) {
-						chunk.setSpawner(xC, y1, zC, pickTrick());
+					if (context.doSpawnerInSewer && random.nextInt(context.oddsOfSewerTrick) == 0) {
+						chunk.setSpawner(xC, y1, zC, pickTrick(random));
 					} else {
 						
 						// fabricate the treasures
-						int treasureCount = rand.nextInt(context.maxTreasureCount) + 1;
+						int treasureCount = random.nextInt(context.maxTreasureCount) + 1;
 						ItemStack[] items = new ItemStack[treasureCount];
 						for (int i = 0; i < treasureCount; i++) {
-							items[i] = new ItemStack(rand.nextInt(countTreasureIds) + minTreasureId, rand.nextInt(2) + 1);
+							items[i] = new ItemStack(random.nextInt(countTreasureIds) + minTreasureId, random.nextInt(2) + 1);
 						}
 						
 						// make a chest and stuff the stuff into it
@@ -590,8 +592,8 @@ public class PlatRoadPaved extends PlatRoad {
 		}
 	}
 	
-	protected EntityType pickTrick() {
-		switch (rand.nextInt(8)) {
+	protected EntityType pickTrick(Random random) {
+		switch (random.nextInt(8)) {
 		case 1:
 			return EntityType.CREEPER;
 		case 2:
@@ -611,8 +613,8 @@ public class PlatRoadPaved extends PlatRoad {
 		}
 	}
 	
-	protected Material pickPlumbingTreasure() {
-		switch (rand.nextInt(20)) {
+	protected Material pickPlumbingTreasure(Random random) {
+		switch (random.nextInt(20)) {
 		
 		// random junk
 		case 0:

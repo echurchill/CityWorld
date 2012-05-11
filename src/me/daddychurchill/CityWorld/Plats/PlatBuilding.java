@@ -103,20 +103,20 @@ public abstract class PlatBuilding extends PlatUrban {
 	}
 	
 	@Override
-	public boolean makeConnected(Random rand, PlatLot relative) {
-		boolean result = super.makeConnected(rand, relative);
+	public boolean makeConnected(Random random, PlatLot relative) {
+		boolean result = super.makeConnected(random, relative);
 		
 		// other bits
 		if (result && relative instanceof PlatBuilding) {
 			PlatBuilding relativebuilding = (PlatBuilding) relative;
 
 			neighborsHaveIdenticalHeights = relativebuilding.neighborsHaveIdenticalHeights;
-			if (neighborsHaveIdenticalHeights || rand.nextInt(neighborsHaveSimilarHeightsOdds) != 0) {
+			if (neighborsHaveIdenticalHeights || random.nextInt(neighborsHaveSimilarHeightsOdds) != 0) {
 				height = relativebuilding.height;
 				depth = relativebuilding.depth;
 			}
 			
-			if (rand.nextInt(neighborsHaveSimilarRoundedOdds) == 0)
+			if (random.nextInt(neighborsHaveSimilarRoundedOdds) == 0)
 				rounded = relativebuilding.rounded;
 			
 			// any other bits
@@ -423,8 +423,10 @@ public abstract class PlatBuilding extends PlatUrban {
 	}
 	
 	private void drawAntenna(ByteChunk chunk, int x, int y, int z) {
-		if (rand.nextBoolean()) {
-			int y2 = y + rand.nextInt(8) + 8;
+		Random random = chunk.random;
+		
+		if (random.nextBoolean()) {
+			int y2 = y + random.nextInt(8) + 8;
 			chunk.setBlocks(x, y, y + 3, z, antennaBaseId);
 			chunk.setBlocks(x, y + 2, y2, z, antennaId);
 			if (y2 >= navLightY) {
@@ -441,22 +443,24 @@ public abstract class PlatBuilding extends PlatUrban {
 	}
 	
 	private void drawConditioner(ByteChunk chunk, int x, int y, int z) {
-		if (rand.nextBoolean()) {
+		Random random = chunk.random;
+		
+		if (random.nextBoolean()) {
 			chunk.setBlock(x, y, z, conditionerId);
 			chunk.setBlock(x, y + 1, z, conditionerTrimId);
-			if (rand.nextBoolean()) {
+			if (random.nextBoolean()) {
 				chunk.setBlockIfAir(x - 1, y, z, ductId);
 				chunk.setBlockIfAir(x - 2, y, z, ductId);
 			}
-			if (rand.nextBoolean()) {
+			if (random.nextBoolean()) {
 				chunk.setBlockIfAir(x + 1, y, z, ductId);
 				chunk.setBlockIfAir(x + 2, y, z, ductId);
 			}
-			if (rand.nextBoolean()) {
+			if (random.nextBoolean()) {
 				chunk.setBlockIfAir(x, y, z - 1, ductId);
 				chunk.setBlockIfAir(x, y, z - 2, ductId);
 			}
-			if (rand.nextBoolean()) {
+			if (random.nextBoolean()) {
 				chunk.setBlockIfAir(x, y, z + 1, ductId);
 				chunk.setBlockIfAir(x, y, z + 2, ductId);
 			}
@@ -478,6 +482,8 @@ public abstract class PlatBuilding extends PlatUrban {
 	protected void drawDoors(RealChunk chunk, int y1, int floorHeight, 
 			int insetNS, int insetEW, StairWell where, 
 			SurroundingFloors heights, Material wallMaterial) {
+		Random random = chunk.random;
+		
 		int w1 = chunk.width - 1;
 		int w2 = chunk.width - 2;
 		int w3 = chunk.width - 3;
@@ -491,49 +497,49 @@ public abstract class PlatBuilding extends PlatUrban {
 		case CENTER:
 			int center = chunk.width / 2;
 			
-			if (!heights.toWest() && rand.nextBoolean())
+			if (!heights.toWest() && random.nextBoolean())
 				drawDoor(chunk, x1, x1, x1, 
 						y1, y2, 
 						center - 1, center, center + 1, 
 						Door.WESTBYNORTHWEST, wallMaterial);
-			if (!heights.toEast() && rand.nextBoolean())
+			if (!heights.toEast() && random.nextBoolean())
 				drawDoor(chunk, x2, x2, x2, 
 						y1, y2, 
 						center - 1, center, center + 1, 
 						Door.EASTBYSOUTHEAST, wallMaterial);
-			if (!heights.toNorth() && rand.nextBoolean())
+			if (!heights.toNorth() && random.nextBoolean())
 				drawDoor(chunk, center - 1, center, center + 1, 
 						y1, y2, 
 						z1, z1, z1, 
 						Door.NORTHBYNORTHEAST, wallMaterial);
-			if (!heights.toSouth() && rand.nextBoolean())
+			if (!heights.toSouth() && random.nextBoolean())
 				drawDoor(chunk, center - 1, center, center + 1, 
 						y1, y2, 
 						z2, z2, z2, 
 						Door.SOUTHBYSOUTHWEST, wallMaterial);
 			break;
 		case SOUTHWEST:
-			if (rand.nextBoolean())
+			if (random.nextBoolean())
 				drawDoor(chunk, x2, x2, x2, y1, y2, 0, 1, 2, Door.EASTBYNORTHEAST, wallMaterial); 
-			if (rand.nextBoolean())
+			if (random.nextBoolean())
 				drawDoor(chunk, 0, 1, 2, y1, y2, z2, z2, z2, Door.SOUTHBYSOUTHWEST, wallMaterial); 
 			break;
 		case SOUTHEAST:
-			if (rand.nextBoolean())
+			if (random.nextBoolean())
 				drawDoor(chunk, 0, 1, 2, y1, y2, z1, z1, z1, Door.NORTHBYNORTHWEST, wallMaterial); 
-			if (rand.nextBoolean())
+			if (random.nextBoolean())
 				drawDoor(chunk, x2, x2, x2, y1, y2, w1, w2, w3, Door.EASTBYSOUTHEAST, wallMaterial); 
 			break;
 		case NORTHWEST:
-			if (rand.nextBoolean())
+			if (random.nextBoolean())
 				drawDoor(chunk, x1, x1, x1, y1, y2, 0, 1, 2, Door.WESTBYNORTHWEST, wallMaterial); 
-			if (rand.nextBoolean())
+			if (random.nextBoolean())
 				drawDoor(chunk, w1, w2, w3, y1, y2, z2, z2, z2, Door.SOUTHBYSOUTHEAST, wallMaterial); 
 			break;
 		case NORTHEAST:
-			if (rand.nextBoolean())
+			if (random.nextBoolean())
 				drawDoor(chunk, w1, w2, w3, y1, y2, z1, z1, z1, Door.NORTHBYNORTHEAST, wallMaterial); 
-			if (rand.nextBoolean())
+			if (random.nextBoolean())
 				drawDoor(chunk, x1, x1, x1, y1, y2, w1, w2, w3, Door.WESTBYSOUTHWEST, wallMaterial); 
 			break;
 		}

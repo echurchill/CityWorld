@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.CityWorldChunkGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
@@ -58,8 +59,8 @@ public class PlatPark extends PlatUrban {
 	}
 
 	@Override
-	public boolean makeConnected(Random rand, PlatLot relative) {
-		boolean result = super.makeConnected(rand, relative);
+	public boolean makeConnected(Random random, PlatLot relative) {
+		boolean result = super.makeConnected(random, relative);
 		
 		// other bits
 		if (result && relative instanceof PlatPark) {
@@ -72,12 +73,13 @@ public class PlatPark extends PlatUrban {
 	}
 
 	@Override
-	public boolean isIsolatedLot(int oddsOfIsolation) {
+	public boolean isIsolatedLot(Random random, int oddsOfIsolation) {
 		return false;
 	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
+	public void generateChunk(CityWorldChunkGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
+		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
 
 		// look around
 		SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
@@ -85,7 +87,6 @@ public class PlatPark extends PlatUrban {
 		// starting with the bottom
 		int lowestY = context.streetLevel - cisternDepth + 1;
 		int highestY = context.streetLevel - groundDepth;
-		generateBedrock(chunk, context, lowestY);
 		
 		// cistern?
 		if (context.doCistern) {
@@ -193,7 +194,8 @@ public class PlatPark extends PlatUrban {
 	}
 	
 	@Override
-	public void generateBlocks(PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+	public void generateBlocks(CityWorldChunkGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+		Random random = chunk.random;
 		int surfaceY = context.streetLevel + 2;
 		
 		// way down?
@@ -211,9 +213,9 @@ public class PlatPark extends PlatUrban {
 		World world = platmap.theWorld;
 		if (circleSidewalk) {
 			world.generateTree(chunk.getBlockLocation(7, surfaceY, 7), 
-					rand.nextBoolean() ? TreeType.BIG_TREE : TreeType.TALL_REDWOOD);
+					random.nextBoolean() ? TreeType.BIG_TREE : TreeType.TALL_REDWOOD);
 		} else {
-			TreeType tree = rand.nextBoolean() ? TreeType.BIRCH : TreeType.TREE;
+			TreeType tree = random.nextBoolean() ? TreeType.BIRCH : TreeType.TREE;
 			world.generateTree(chunk.getBlockLocation(3, surfaceY, 3), tree);
 			world.generateTree(chunk.getBlockLocation(12, surfaceY, 3), tree);
 			world.generateTree(chunk.getBlockLocation(3, surfaceY, 12), tree);

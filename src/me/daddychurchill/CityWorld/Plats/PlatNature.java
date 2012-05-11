@@ -2,28 +2,15 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
-import org.bukkit.generator.ChunkGenerator.BiomeGrid;
+import me.daddychurchill.CityWorld.CityWorldChunkGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.PlatMapContext;
-import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class PlatNature extends PlatLot {
 
-	public PlatNature(Random rand, PlatMapContext context) {
-		super(rand);
-		
-	}
-
-	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void generateBlocks(PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
-		// TODO Auto-generated method stub
+	public PlatNature(Random random, PlatMapContext context) {
+		super(random);
 		
 	}
 
@@ -33,7 +20,7 @@ public class PlatNature extends PlatLot {
 	}
 
 	@Override
-	public boolean makeConnected(Random rand, PlatLot relative) {
+	public boolean makeConnected(Random random, PlatLot relative) {
 		return false;
 	}
 
@@ -43,7 +30,7 @@ public class PlatNature extends PlatLot {
 	}
 
 	@Override
-	public boolean isIsolatedLot(int oddsOfIsolation) {
+	public boolean isIsolatedLot(Random random, int oddsOfIsolation) {
 		return false;
 	}
 
@@ -55,5 +42,10 @@ public class PlatNature extends PlatLot {
 	@Override
 	public PlatLot[][] getNeighborPlatLots(PlatMap platmap, int platX, int platZ, boolean onlyConnectedNeighbors) {
 		return null;
+	}
+
+	@Override
+	public void generateBlocks(CityWorldChunkGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+		// TODO add foliage and underground fixtures
 	}
 }

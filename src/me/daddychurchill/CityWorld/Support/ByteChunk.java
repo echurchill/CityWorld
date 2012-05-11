@@ -1,6 +1,8 @@
 package me.daddychurchill.CityWorld.Support;
 
 import java.util.Arrays;
+import java.util.Random;
+
 import org.bukkit.Material;
 import org.bukkit.World;
 
@@ -12,8 +14,8 @@ public class ByteChunk extends SupportChunk {
 	
 	public static final int bytesPerSection = chunksBlockWidth * chunksBlockWidth * chunksBlockWidth;
 		
-	public ByteChunk (World aWorld, int aChunkX, int aChunkZ) {
-		super(aWorld);
+	public ByteChunk (World aWorld, Random aRandom, int aChunkX, int aChunkZ) {
+		super(aWorld, aRandom);
 		
 		chunkX = aChunkX;
 		chunkZ = aChunkZ;

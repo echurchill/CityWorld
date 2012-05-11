@@ -2,9 +2,8 @@ package me.daddychurchill.CityWorld.Context;
 
 import java.util.Random;
 
-import org.bukkit.World;
-
 import me.daddychurchill.CityWorld.CityWorld;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class PlatMapContext {
 	public static int oddsNeverGoingToHappen = Integer.MAX_VALUE;
@@ -79,7 +78,10 @@ public class PlatMapContext {
 	public boolean doOresInSewer;
 	public boolean doOresInUnderworld;
 	
-	public PlatMapContext(CityWorld plugin, World world, Random rand) {
+	public PlatMapContext(CityWorld plugin, SupportChunk typicalChunk) {
+		super();
+		Random random = typicalChunk.random;
+		
 		isolationId = (byte) plugin.getIsolationMaterial().getId();
 		doPlumbing = plugin.isDoPlumbing();
 		doSewer = plugin.isDoSewer();
@@ -92,10 +94,10 @@ public class PlatMapContext {
 		doSpawnerInSewer = plugin.isDoSpawnerInSewer();
 		doOresInSewer = plugin.isDoOresInSewer();
 		doOresInUnderworld = plugin.isDoOresInUnderworld();
-		worldHeight = world.getMaxHeight();
+		worldHeight = typicalChunk.height;
 		
 		// where is the ground
-		streetLevel = Math.min(Math.max(plugin.getStreetLevel(), 
+		streetLevel = Math.min(Math.max(typicalChunk.streetlevel, 
 				FloorHeight * FudgeFloorsBelow), 
 				worldHeight - FloorHeight * (FudgeFloorsAbove + absoluteMinimumFloorsAbove));
 		
@@ -112,13 +114,13 @@ public class PlatMapContext {
 		}
 
 		// default floor range
-		setFloorRange(rand, 2, 2);
+		setFloorRange(random, 2, 2);
 	}
 	
-	protected void setFloorRange(Random rand, int aboveRange, int belowRange) {
+	protected void setFloorRange(Random random, int aboveRange, int belowRange) {
 		// calculate the extremes for this plat
-		maximumFloorsAbove = Math.min((rand.nextInt(aboveRange) + 1) * 2, absoluteMaximumFloorsAbove);
-		maximumFloorsBelow = Math.min(rand.nextInt(belowRange) + 1, absoluteMaximumFloorsBelow);
+		maximumFloorsAbove = Math.min((random.nextInt(aboveRange) + 1) * 2, absoluteMaximumFloorsAbove);
+		maximumFloorsBelow = Math.min(random.nextInt(belowRange) + 1, absoluteMaximumFloorsBelow);
 		
 		int floorsFourth = Math.max((maximumFloorsAbove) / 4, 1);
 		buildingWallInsettedMinLowPoint = floorsFourth;

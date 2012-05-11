@@ -2,16 +2,16 @@ package me.daddychurchill.CityWorld.Context;
 
 import java.util.Random;
 
-import org.bukkit.World;
-
 import me.daddychurchill.CityWorld.CityWorld;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class ContextAllPark extends PlatMapContext {
 
-	public ContextAllPark(CityWorld plugin, World world, Random rand) {
-		super(plugin, world, rand);
+	public ContextAllPark(CityWorld plugin, SupportChunk typicalChunk) {
+		super(plugin, typicalChunk);
+		Random random = typicalChunk.random;
 
-		setFloorRange(rand, 2, 4);
+		setFloorRange(random, 2, 4);
 		
 		oddsOfParks = oddsAlwaysGoingToHappen;
 		oddsOfIsolatedLots = oddsExtremelyLikely;

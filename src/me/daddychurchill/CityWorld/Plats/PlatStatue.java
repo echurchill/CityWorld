@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.CityWorldChunkGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
@@ -34,19 +35,17 @@ public class PlatStatue extends PlatUrban {
 	
 	protected StatueBase statueBase;
 	
-	public PlatStatue(Random rand, PlatMapContext context) {
-		super(rand, context);
+	public PlatStatue(Random random, PlatMapContext context) {
+		super(random, context);
 		
 		// what is it build on?
-		statueBase = randomBase();
+		statueBase = randomBase(random);
 	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
-
-		// starting with the bottom
-		generateBedrock(chunk, context, context.streetLevel);
-		chunk.setLayer(context.streetLevel, stoneId);
+	public void generateChunk(CityWorldChunkGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
+		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
+		Random random = chunk.random;
 
 		// where to start?
 		int y1 = context.streetLevel + 1;
@@ -61,7 +60,7 @@ public class PlatStatue extends PlatUrban {
 			for (int x = 0; x < 10; x++)
 				for (int z = 0; z < 10; z++)
 					if (context.doTreasureInFountain)
-						chunk.setBlock(x + 3, y1, z + 3, rand.nextInt(context.oddsOfMoneyInFountains) == 0 ? goldId : stoneId);
+						chunk.setBlock(x + 3, y1, z + 3, random.nextInt(context.oddsOfMoneyInFountains) == 0 ? goldId : stoneId);
 					else
 						chunk.setBlock(x + 3, y1, z + 3, stoneId);
 			
@@ -101,11 +100,11 @@ public class PlatStatue extends PlatUrban {
 	}
 	
 	@Override
-	public void generateBlocks(PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
-		super.generateBlocks(platmap, chunk, context, platX, platZ);
+	public void generateBlocks(CityWorldChunkGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+		Random random = chunk.random;
 		
 		// something got stolen?
-		boolean somethingInTheCenter = rand.nextInt(context.oddsOfMissingArt) != 0;
+		boolean somethingInTheCenter = random.nextInt(context.oddsOfMissingArt) != 0;
 		
 		// where to start?
 		int y1 = context.streetLevel + 2;
@@ -115,35 +114,35 @@ public class PlatStatue extends PlatUrban {
 		case WATER:
 			
 			// four little fountains?
-			if (rand.nextBoolean()) {
-				chunk.setBlock(5, y1 + rand.nextInt(3) + 1, 5, waterMaterial);
-				chunk.setBlock(5, y1 + rand.nextInt(3) + 1, 10, waterMaterial);
-				chunk.setBlock(10, y1 + rand.nextInt(3) + 1, 5, waterMaterial);
-				chunk.setBlock(10, y1 + rand.nextInt(3) + 1, 10, waterMaterial);
+			if (random.nextBoolean()) {
+				chunk.setBlock(5, y1 + random.nextInt(3) + 1, 5, waterMaterial);
+				chunk.setBlock(5, y1 + random.nextInt(3) + 1, 10, waterMaterial);
+				chunk.setBlock(10, y1 + random.nextInt(3) + 1, 5, waterMaterial);
+				chunk.setBlock(10, y1 + random.nextInt(3) + 1, 10, waterMaterial);
 			}
 			
 			// water can be art too, you know?
-			if (rand.nextInt(context.oddsOfNaturalArt) == 0) {
-				chunk.setBlocks(7, 9, y1, y1 + rand.nextInt(4) + 4, 7, 9, waterMaterial);
+			if (random.nextInt(context.oddsOfNaturalArt) == 0) {
+				chunk.setBlocks(7, 9, y1, y1 + random.nextInt(4) + 4, 7, 9, waterMaterial);
 				somethingInTheCenter = false;
 			}
 			
 			// manhole to underworld?
 			if (context.doUnderworld)
-				if (rand.nextInt(context.oddsOfManholeToDownBelow) == 0)
+				if (random.nextInt(context.oddsOfManholeToDownBelow) == 0)
 					generateManhole(chunk, context);
 			break;
 		case GRASS:
 			
 			// tree can be art too, you know!
-			if (rand.nextInt(context.oddsOfNaturalArt) == 0) {
+			if (random.nextInt(context.oddsOfNaturalArt) == 0) {
 				platmap.theWorld.generateTree(chunk.getBlockLocation(7, y1, 7), TreeType.BIG_TREE);
 				somethingInTheCenter = false;
 			}
 			
 			// manhole to underworld?
 			if (context.doUnderworld)
-				if (rand.nextInt(context.oddsOfManholeToDownBelow) == 0)
+				if (random.nextInt(context.oddsOfManholeToDownBelow) == 0)
 					generateManhole(chunk, context);
 			break;
 		case PEDESTAL:
@@ -156,22 +155,22 @@ public class PlatStatue extends PlatUrban {
 		if (somethingInTheCenter) {
 			
 			// simple glass or colored blocks?
-			boolean crystalArt = rand.nextBoolean();
-			byte solidColor = (byte) rand.nextInt(17);
+			boolean crystalArt = random.nextBoolean();
+			byte solidColor = (byte) random.nextInt(17);
 			boolean singleArt = solidColor != 16; // Whoops, 16 is too large, let's go random
 			
 			// now the "art"
 			for (int x = 6; x < 10; x++) 
 				for (int y = y1 + 4; y < y1 + 8; y++) 
 					for (int z = 6; z < 10; z++) 
-						if (rand.nextBoolean())
+						if (random.nextBoolean())
 							chunk.setBlock(x, y, z, glassPaneMaterial);
 						else
 							if (crystalArt)
 								chunk.setBlock(x, y, z, glassBlockMaterial);
 							else
 								chunk.setBlock(x, y, z, woolBlockMaterial.getId(), 
-										singleArt ? solidColor : (byte) rand.nextInt(9));
+										singleArt ? solidColor : (byte) random.nextInt(9));
 			
 			// now put the base in
 			chunk.setBlocks(7, 9, y1, y1 + 5, 7, 9, stoneMaterial);
@@ -186,14 +185,8 @@ public class PlatStatue extends PlatUrban {
 		chunk.setBlock(4, 1, 1, manholePlatformMaterial);
 	}
 
-	public void makeConnected(Random rand, PlatBuilding relative) {
-		super.makeConnected(rand, relative);
-		
-		// other bits
-	}
-
-	private StatueBase randomBase() {
-		switch (rand.nextInt(StatueBase.values().length)) {
+	private StatueBase randomBase(Random random) {
+		switch (random.nextInt(StatueBase.values().length)) {
 		case 0:
 			return StatueBase.WATER;
 		case 1:

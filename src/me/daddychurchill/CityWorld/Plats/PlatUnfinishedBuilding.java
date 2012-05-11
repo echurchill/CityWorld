@@ -5,6 +5,7 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
+import me.daddychurchill.CityWorld.CityWorldChunkGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
@@ -46,31 +47,18 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 		// how many floors are finished?
 		floorsBuilt = rand.nextInt(height);
 	}
-	
-	@Override
-	public boolean makeConnected(Random rand, PlatLot relative) {
-		return super.makeConnected(rand, relative);
-		// unlike most other plat types, this one doesn't attempt to make its bits similar
-		
-		// other bits
-//		if (relative instanceof PlatUnfinishedBuilding) {
-//			PlatUnfinishedBuilding relativebuilding = (PlatUnfinishedBuilding) relative;
-//
-//			// our special bits
-//			basementOnly = relativebuilding.basementOnly;
-//			floorsBuilt = relativebuilding.floorsBuilt;
-//		}
-	}
 
 	@Override
-	public void generateChunk(PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
+	public void generateChunk(CityWorldChunkGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
+		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
+		Random random = chunk.random;
+
 		// check out the neighbors
 		SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);
 
 		// starting with the bottom
 		int lowestY = context.streetLevel - FloorHeight * (depth - 1) - 3;
-		generateBedrock(chunk, context, lowestY);
 		
 		// bottom most floor
 		drawCeilings(chunk, context, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);
@@ -124,7 +112,7 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 				} else {
 					
 					// sometimes the top most girders aren't there quite yet
-					if (floor < height - 1 || rand.nextBoolean()) {
+					if (floor < height - 1 || random.nextBoolean()) {
 						drawHorizontalGirders(chunk, floorAt + FloorHeight - 1, neighborFloors);
 						lastHorizontalGirder = floorAt + FloorHeight - 1;
 					}
@@ -140,7 +128,8 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	}
 
 	@Override
-	public void generateBlocks(PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+	public void generateBlocks(CityWorldChunkGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+		Random random = chunk.random;
 		
 		// work on the basement stairs first
 		if (!unfinishedBasementOnly) {
@@ -178,8 +167,8 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 			}
 			
 			// plop a crane on top?
-			if (lastHorizontalGirder > 0 && rand.nextInt(context.oddsOfCranes) == 0) {
-				if (rand.nextBoolean())
+			if (lastHorizontalGirder > 0 && random.nextInt(context.oddsOfCranes) == 0) {
+				if (random.nextBoolean())
 					drawCrane(chunk, inset + 2, lastHorizontalGirder + 1, inset);
 				else
 					drawCrane(chunk, inset + 2, lastHorizontalGirder + 1, chunk.width - inset - 1);
@@ -188,6 +177,8 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	}
 	
 	private void drawCrane(RealChunk chunk, int x, int y, int z) {
+		Random random = chunk.random;
+		
 		// vertical bit
 		chunk.setBlocks(x, y, y + 8, z, Material.IRON_FENCE);
 		chunk.setBlocks(x, y + 8, y + 10, z, Material.DOUBLE_STEP);
@@ -203,7 +194,7 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 		// counter weight
 		chunk.setBlock(x - 2, y + 9, z, Material.STEP);
 		chunk.setStair(x - 3, y + 9, z, Material.SMOOTH_STAIRS, Stair.EAST);
-		chunk.setBlocks(x - 3, x - 1, y + 7, y + 9, z, z + 1, Material.WOOL.getId(), (byte) rand.nextInt(16));
+		chunk.setBlocks(x - 3, x - 1, y + 7, y + 9, z, z + 1, Material.WOOL.getId(), (byte) random.nextInt(16));
 	}
 	
 	private void drawVerticalGirders(ByteChunk chunk, int y1, int floorHeight) {
@@ -229,15 +220,17 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	}
 	
 	private void holeFence(ByteChunk chunk, int y1, SurroundingFloors neighbors) {
-		int i = rand.nextInt(chunk.width / 2) + 4;
+		Random random = chunk.random;
+		
+		int i = random.nextInt(chunk.width / 2) + 4;
 		int y2 = y1 + 2;
-		if (rand.nextBoolean() && !neighbors.toWest())
+		if (random.nextBoolean() && !neighbors.toWest())
 			chunk.setBlocks(0, y1, y2, i, airId);
-		if (rand.nextBoolean() && !neighbors.toEast())
+		if (random.nextBoolean() && !neighbors.toEast())
 			chunk.setBlocks(chunk.width - 1, y1, y2, i, airId);
-		if (rand.nextBoolean() && !neighbors.toNorth())
+		if (random.nextBoolean() && !neighbors.toNorth())
 			chunk.setBlocks(i, y1, y2, 0, airId);
-		if (rand.nextBoolean() && !neighbors.toSouth())
+		if (random.nextBoolean() && !neighbors.toSouth())
 			chunk.setBlocks(i, y1, y2, chunk.width - 1, airId);
 	}
 
