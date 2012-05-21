@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.CityWorldChunkGenerator;
+import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
@@ -34,8 +34,9 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	protected int insetInsetMidAt;
 	protected int insetInsetHighAt;
 
-	public PlatOfficeBuilding(Random random, PlatMapContext context) {
-		super(random, context);
+	public PlatOfficeBuilding(Random random, PlatMap platmap) {
+		super(random, platmap);
+		PlatMapContext context = platmap.context;
 
 		// how do the walls inset?
 		insetWallEW = random.nextInt(context.rangeOfWallInset) + 1; // 1 or 2
@@ -122,7 +123,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	}
 
 	@Override
-	public void generateChunk(CityWorldChunkGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
+	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
 		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
 
 		// check out the neighbors
@@ -139,6 +140,9 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		// below ground
 		for (int floor = 0; floor < depth; floor++) {
 			int floorAt = context.streetLevel - FloorHeight * floor - 2;
+
+			// clear it out
+			chunk.setLayer(floorAt, FloorHeight, airId);
 
 			// one floor please
 			drawWalls(chunk, context, floorAt, FloorHeight - 1, 0, 0, false,
@@ -193,7 +197,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	}
 	
 	@Override
-	public void generateBlocks(CityWorldChunkGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
 
 		// check out the neighbors
 		//SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);

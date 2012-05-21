@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.CityWorldChunkGenerator;
+import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
@@ -18,8 +18,6 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class PlatPark extends PlatUrban {
 
-	protected static long connectedkeyForParks = 0;
-	
 	protected final static int cisternDepth = PlatMapContext.FloorHeight * 4;
 	protected final static int groundDepth = 2;
 	
@@ -42,16 +40,11 @@ public class PlatPark extends PlatUrban {
 	private boolean circleSidewalk;
 	private int waterDepth;
 	
-	public PlatPark(Random rand, PlatMapContext context) {
-		super(rand, context);
+	public PlatPark(Random rand, PlatMap platmap, long globalconnectionkey) {
+		super(rand, platmap);
 		
-		// if the master key for paved roads isn't calculated then do it
-		if (connectedkeyForParks == 0) {
-			connectedkeyForParks = rand.nextLong();
-		}
-
 		// all parks are interconnected
-		connectedkey = connectedkeyForParks;
+		connectedkey = globalconnectionkey;
 		
 		// pick a style
 		circleSidewalk = rand.nextBoolean();
@@ -78,7 +71,7 @@ public class PlatPark extends PlatUrban {
 	}
 
 	@Override
-	public void generateChunk(CityWorldChunkGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
+	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
 		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
 
 		// look around
@@ -95,6 +88,9 @@ public class PlatPark extends PlatUrban {
 			// fill with water
 			lowestY++;
 			chunk.setBlocks(0, chunk.width, lowestY, lowestY + waterDepth, 0, chunk.width, waterId);
+			
+			// clear out the rest
+			chunk.setBlocks(0, chunk.width, lowestY + waterDepth, highestY + 1, 0, chunk.width, airId);
 			
 			// outer columns and walls as needed
 			if (neighbors.toNorth()) {
@@ -194,7 +190,7 @@ public class PlatPark extends PlatUrban {
 	}
 	
 	@Override
-	public void generateBlocks(CityWorldChunkGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
 		Random random = chunk.random;
 		int surfaceY = context.streetLevel + 2;
 		
@@ -210,7 +206,7 @@ public class PlatPark extends PlatUrban {
 		}
 		
 		// sprinkle some trees
-		World world = platmap.theWorld;
+		World world = platmap.world;
 		if (circleSidewalk) {
 			world.generateTree(chunk.getBlockLocation(7, surfaceY, 7), 
 					random.nextBoolean() ? TreeType.BIG_TREE : TreeType.TALL_REDWOOD);

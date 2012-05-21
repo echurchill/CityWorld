@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.CityWorldChunkGenerator;
+import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
@@ -35,15 +35,15 @@ public class PlatStatue extends PlatUrban {
 	
 	protected StatueBase statueBase;
 	
-	public PlatStatue(Random random, PlatMapContext context) {
-		super(random, context);
+	public PlatStatue(Random random, PlatMap platmap) {
+		super(random, platmap);
 		
 		// what is it build on?
 		statueBase = randomBase(random);
 	}
 
 	@Override
-	public void generateChunk(CityWorldChunkGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
+	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
 		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
 		Random random = chunk.random;
 
@@ -100,7 +100,7 @@ public class PlatStatue extends PlatUrban {
 	}
 	
 	@Override
-	public void generateBlocks(CityWorldChunkGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
 		Random random = chunk.random;
 		
 		// something got stolen?
@@ -136,7 +136,7 @@ public class PlatStatue extends PlatUrban {
 			
 			// tree can be art too, you know!
 			if (random.nextInt(context.oddsOfNaturalArt) == 0) {
-				platmap.theWorld.generateTree(chunk.getBlockLocation(7, y1, 7), TreeType.BIG_TREE);
+				platmap.world.generateTree(chunk.getBlockLocation(7, y1, 7), TreeType.BIG_TREE);
 				somethingInTheCenter = false;
 			}
 			

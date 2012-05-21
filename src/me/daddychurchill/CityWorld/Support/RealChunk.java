@@ -2,10 +2,11 @@ package me.daddychurchill.CityWorld.Support;
 
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.WorldGenerator;
+
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.block.CreatureSpawner;
@@ -17,8 +18,8 @@ public class RealChunk extends SupportChunk {
 	private Chunk chunk;
 	private boolean doPhysics;
 
-	public RealChunk(World aWorld, Random aRandom, Chunk aChunk) {
-		super(aWorld, aRandom);
+	public RealChunk(WorldGenerator aGenerator, Random aRandom, Chunk aChunk) {
+		super(aGenerator, aRandom);
 		
 		chunk = aChunk;
 		chunkX = chunk.getX();

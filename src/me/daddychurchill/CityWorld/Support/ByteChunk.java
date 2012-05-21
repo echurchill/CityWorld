@@ -3,8 +3,9 @@ package me.daddychurchill.CityWorld.Support;
 import java.util.Arrays;
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.WorldGenerator;
+
 import org.bukkit.Material;
-import org.bukkit.World;
 
 // new 1.2.3 block code is loosely based on Mike Primm's updated version of 
 // DinnerBone's Moon generator from: https://github.com/mikeprimm/BukkitFullOfMoon
@@ -14,8 +15,8 @@ public class ByteChunk extends SupportChunk {
 	
 	public static final int bytesPerSection = chunksBlockWidth * chunksBlockWidth * chunksBlockWidth;
 		
-	public ByteChunk (World aWorld, Random aRandom, int aChunkX, int aChunkZ) {
-		super(aWorld, aRandom);
+	public ByteChunk (WorldGenerator aGenerator, Random aRandom, int aChunkX, int aChunkZ) {
+		super(aGenerator, aRandom);
 		
 		chunkX = aChunkX;
 		chunkZ = aChunkZ;

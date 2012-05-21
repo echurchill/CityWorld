@@ -48,23 +48,24 @@ public abstract class PlatBuilding extends PlatUrban {
 	protected int navLightY = 0;
 	protected int navLightZ = 0;
 	
-	public PlatBuilding(Random rand, PlatMapContext context) {
-		super(rand, context);
+	public PlatBuilding(Random random, PlatMap platmap) {
+		super(random, platmap);
+		PlatMapContext context = platmap.context;
 		
-		neighborsHaveIdenticalHeights = rand.nextInt(context.oddsOfIdenticalBuildingHeights) == 0;
+		neighborsHaveIdenticalHeights = random.nextInt(context.oddsOfIdenticalBuildingHeights) == 0;
 		neighborsHaveSimilarHeightsOdds = context.oddsOfIdenticalBuildingHeights;
 		neighborsHaveSimilarRoundedOdds = context.oddsOfSimilarBuildingRounding;
-		height = rand.nextInt(context.maximumFloorsAbove) + 1;
+		height = random.nextInt(context.maximumFloorsAbove) + 1;
 		if (context.doBasement)
-			depth = rand.nextInt(context.maximumFloorsBelow) + 1;
+			depth = random.nextInt(context.maximumFloorsBelow) + 1;
 		needStairsDown = true;
 		needStairsUp = true;
-		rounded = rand.nextInt(context.oddsOfSimilarBuildingRounding) == 0;
-		roofStyle = pickRoofStyle(rand);
-		roofFeature = pickRoofFeature(rand);
-		roofScale = rand.nextInt(2) + 1;
-		windowsEW = new GlassFactoryEW(rand);
-		windowsNS = new GlassFactoryNS(rand, windowsEW.style);
+		rounded = random.nextInt(context.oddsOfSimilarBuildingRounding) == 0;
+		roofStyle = pickRoofStyle(random);
+		roofFeature = pickRoofFeature(random);
+		roofScale = random.nextInt(2) + 1;
+		windowsEW = new GlassFactoryEW(random);
+		windowsNS = new GlassFactoryNS(random, windowsEW.style);
 	}
 	
 	static public RoofStyle pickRoofStyle(Random rand) {

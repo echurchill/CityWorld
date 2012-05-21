@@ -1,4 +1,4 @@
-/***** CITYWORLD v0.60
+/***** CITYWORLD v0.80
 * City world generator for Minecraft/Bukkit
 * Copyright (C) 2011-2012 daddychurchill <http://www.virtualchurchill.com>
 *
@@ -23,6 +23,29 @@ Terrain under the city
 Bring back rural blocks
 Park benches and other furniture
 Need to fix bugs in building roofs (including those silly air conditioning units)
+
+v0.80
+* Include working terrain generation
+* Bridges and Tunnels now generate
+
+v0.7x
+* Never released due to "issues"
+
+v0.63
+* 1.2.3-R0.2 Happy
+* Fixed a few string and permission issues
+
+v0.62
+* 1.2.3 R0 Happy, since Bukkit doesn't support taller generated heights yet we are still stuck at 127, sorry
+
+v0.61
+* 1.1 R6 Happy
+* Clay is used instead of Iron where possible
+* Rooftop air conditioners now don't use End Portal Frames anymore
+
+Config option file additions
+* Global.OresInSewers (true) //put the ores into the sewer vaults
+* Global.OresInUnderworld (true) //put the ores into the underworld
 
 v0.60 Permissions and Config file
 

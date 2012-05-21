@@ -57,10 +57,10 @@ public class PlatMapContext {
 	
 	public static final int FloorHeight = 4;
 	public static final int FudgeFloorsBelow = 2;
-	public static final int FudgeFloorsAbove = 3;
+	public static final int FudgeFloorsAbove = 0;//3;
 	public static final int absoluteMinimumFloorsAbove = 5; // shortest tallest building
-	public static final int absoluteAbsoluteMaximumFloorsBelow = 3; // that is as many basements as I can tolerate
-	public int worldHeight;
+	public static final int absoluteAbsoluteMaximumFloorsBelow = 3; // that is as many basements as I personally can tolerate
+	public int buildingMaximumY;
 	public int absoluteMaximumFloorsBelow;
 	public int absoluteMaximumFloorsAbove; 
 	public int streetLevel;
@@ -94,16 +94,16 @@ public class PlatMapContext {
 		doSpawnerInSewer = plugin.isDoSpawnerInSewer();
 		doOresInSewer = plugin.isDoOresInSewer();
 		doOresInUnderworld = plugin.isDoOresInUnderworld();
-		worldHeight = typicalChunk.height;
+		buildingMaximumY = Math.min(126 + FudgeFloorsAbove * FloorHeight, typicalChunk.height);
 		
 		// where is the ground
-		streetLevel = Math.min(Math.max(typicalChunk.streetlevel, 
+		streetLevel = Math.min(Math.max(typicalChunk.sidewalklevel, 
 				FloorHeight * FudgeFloorsBelow), 
-				worldHeight - FloorHeight * (FudgeFloorsAbove + absoluteMinimumFloorsAbove));
+				buildingMaximumY - FloorHeight * (FudgeFloorsAbove + absoluteMinimumFloorsAbove));
 		
 		// worst case?
 		absoluteMaximumFloorsBelow = Math.max(Math.min(streetLevel / FloorHeight - FudgeFloorsBelow, absoluteAbsoluteMaximumFloorsBelow), 0);
-		absoluteMaximumFloorsAbove = Math.max(Math.min((worldHeight - streetLevel) / FloorHeight - FudgeFloorsAbove, plugin.getMaximumFloors()), absoluteMinimumFloorsAbove);
+		absoluteMaximumFloorsAbove = Math.max(Math.min((buildingMaximumY - streetLevel) / FloorHeight - FudgeFloorsAbove, plugin.getMaximumFloors()), absoluteMinimumFloorsAbove);
 		
 		// turn off a few things if there isn't room
 		if (absoluteMaximumFloorsBelow == 0) {

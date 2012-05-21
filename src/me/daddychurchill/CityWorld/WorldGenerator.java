@@ -26,26 +26,32 @@ import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-public class CityWorldChunkGenerator extends ChunkGenerator {
+public class WorldGenerator extends ChunkGenerator {
 
 	private CityWorld plugin;
 	private World world;
 	private String worldname;
 	private String worldstyle;
 
-	public SimplexOctaveGenerator landShape;
+	public SimplexOctaveGenerator landShape1;
+	public SimplexOctaveGenerator landShape2;
 	public SimplexOctaveGenerator seaShape;
 	public SimplexOctaveGenerator noiseShape;
 	public SimplexOctaveGenerator featureShape;
 	public SimplexNoiseGenerator caveShape;
 	public SimplexNoiseGenerator oreShape;
+	public SimplexNoiseGenerator roadShape;
 	
 	public int topLevel;
 	public int seaLevel;
+	public int sidewalkLevel;
 	public int landRange;
 	public int seaRange;
+	
+	public long connectedKeyForPavedRoads;
+	public long connectedKeyForParks;
 
-	public CityWorldChunkGenerator(CityWorld aPlugin, String aWorldname, String aWorldstyle) {
+	public WorldGenerator(CityWorld aPlugin, String aWorldname, String aWorldstyle) {
 		plugin = aPlugin;
 		worldname = aWorldname;
 		worldstyle = aWorldstyle;
@@ -53,6 +59,10 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 
 	public CityWorld getPlugin() {
 		return plugin;
+	}
+
+	public World getWorld() {
+		return world;
 	}
 
 	public String getWorldname() {
@@ -69,11 +79,15 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 	}
 	
 	public int landFlattening = 32;
-	public int seaFlattening = 8;
+	public int seaFlattening = 4;
 
-	public double landFrequency = 1.00;
-	public double landAmplitude = 4.00;
-	public double landHorizontalScale = 1.0 / 512.0;
+	public int landFactor1to2 = 3;
+	public double landFrequency1 = 1.50;
+	public double landAmplitude1 = 20.0;
+	public double landHorizontalScale1 = 1.0 / 2048.0;
+	public double landFrequency2 = 1.0;
+	public double landAmplitude2 = landAmplitude1 / landFactor1to2;
+	public double landHorizontalScale2 = landHorizontalScale1 * landFactor1to2;
 
 	public double seaFrequency = 1.00;
 	public double seaAmplitude = 2.00;
@@ -87,9 +101,9 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 	public double featureFrequency = 1.50;
 	public double featureAmplitude = 0.75;
 	public double featureHorizontalScale = 1.0 / 64.0;
-	public int featureVerticalScale = 15;
-
-	public int fudgeVerticalScale = noiseVerticalScale + featureVerticalScale;
+	public int featureVerticalScale = 10;
+	
+	public int fudgeVerticalScale = noiseVerticalScale * landFactor1to2 + featureVerticalScale * landFactor1to2;
 
 	public double caveScale = 1.0 / 32.0;
 	public double caveScaleY = caveScale * 2;
@@ -97,8 +111,11 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 
 	public double oreScale = 1.0 / 16.0;
 	public double oreScaleY = oreScale * 2;
-	public double oreThreshold = 0.90;
+	public double oreThreshold = 0.85;
 
+	public double bridgeScale = 1.0 / 256.0;
+	public double roundaboutThreshold = 0.50;
+	
 	@Override
 	public byte[][] generateBlockSections(World aWorld, Random random, int chunkX, int chunkZ, BiomeGrid biomes) {
 
@@ -107,53 +124,72 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 			world = aWorld;
 			long seed = world.getSeed();
 
-			landShape = new SimplexOctaveGenerator(seed, 4);
-			landShape.setScale(landHorizontalScale);
-			seaShape = new SimplexOctaveGenerator(seed, 8);
+			landShape1 = new SimplexOctaveGenerator(seed, 4);
+			landShape1.setScale(landHorizontalScale1);
+			landShape2 = new SimplexOctaveGenerator(seed, 6);
+			landShape2.setScale(landHorizontalScale2);
+			seaShape = new SimplexOctaveGenerator(seed + 2, 8);
 			seaShape.setScale(seaHorizontalScale);
-			noiseShape = new SimplexOctaveGenerator(seed, 16);
+			noiseShape = new SimplexOctaveGenerator(seed + 3, 16);
 			noiseShape.setScale(noiseHorizontalScale);
-			featureShape = new SimplexOctaveGenerator(seed, 2);
+			featureShape = new SimplexOctaveGenerator(seed + 4, 2);
 			featureShape.setScale(featureHorizontalScale);
+			
 			caveShape = new SimplexNoiseGenerator(seed);
 			oreShape = new SimplexNoiseGenerator(seed + 1);
+			roadShape = new SimplexNoiseGenerator(seed + 2);
 			
 			// get ranges
 			topLevel = world.getMaxHeight();
 			seaLevel = world.getSeaLevel();
+			sidewalkLevel = seaLevel + 1;
 			landRange = topLevel - seaLevel - fudgeVerticalScale + landFlattening;
 			seaRange = seaLevel - fudgeVerticalScale + seaFlattening;
+			
+			// get the connectionKeys
+			connectedKeyForPavedRoads = random.nextLong();
+			connectedKeyForParks = random.nextLong();
 		}
-
+		
 		// place to work
-		ByteChunk byteChunk = new ByteChunk(world, random, chunkX, chunkZ);
+		ByteChunk byteChunk = new ByteChunk(this, random, chunkX, chunkZ);
 		
 		// figure out what everything looks like
 		PlatMap platmap = getPlatMap(byteChunk, chunkX, chunkZ);
 		if (platmap != null) {
-			platmap.generateChunk(this, byteChunk, biomes);
+			platmap.generateChunk(byteChunk, biomes);
 		}
 
 		return byteChunk.blocks;
 	}
 	
-	public int findBlockY(int blockX, int blockZ) {
-		int y = 0;
+	public double findPerciseY(int blockX, int blockZ) {
+		double y = 0;
 		
 		// shape the noise
 		double noise = noiseShape.noise(blockX, blockZ, noiseFrequency, noiseAmplitude, true);
 		double feature = featureShape.noise(blockX, blockZ, featureFrequency, featureAmplitude, true);
 
 		// shape the shapes
-		double land = landShape.noise(blockX, blockZ, landFrequency, landAmplitude, true);
+//		double land = (landShape1.noise(blockX, blockZ, landFrequency, landAmplitude, true) +
+//					   landShape2.noise(blockX, blockZ, landFrequency, landAmplitude, true)) / 2;
+//		double land1 = landShape1.noise(blockX, blockZ, landFrequency1, landAmplitude1, true);
+//		double land2 = landShape2.noise(blockX, blockZ, landFrequency2, landAmplitude2, true);
+		
+		double land1 = seaLevel + (landShape1.noise(blockX, blockZ, landFrequency1, landAmplitude1, true) * landRange) + 
+				(noise * noiseVerticalScale * landFactor1to2 + feature * featureVerticalScale * landFactor1to2) - landFlattening;
+		double land2 = seaLevel + (landShape2.noise(blockX, blockZ, landFrequency2, landAmplitude2, true) * (landRange / landFactor1to2)) + 
+				(noise * noiseVerticalScale + feature * featureVerticalScale) - landFlattening;
+		
+		double landY = Math.max(land1, land2);
 		double sea = seaShape.noise(blockX, blockZ, seaFrequency, seaAmplitude, true);
 		
 		// calculate the Ys
-		int landY = seaLevel + NoiseGenerator.floor(land * landRange) + 
-				NoiseGenerator.floor(noise * noiseVerticalScale + feature * featureVerticalScale) - landFlattening;
-		int seaY = seaLevel + NoiseGenerator.floor(sea * seaRange) + 
-				NoiseGenerator.floor(noise * noiseVerticalScale) + seaFlattening;
+//		int landY = seaLevel + NoiseGenerator.floor(land * landRange) + 
+//				NoiseGenerator.floor(noise * noiseVerticalScale + feature * featureVerticalScale) - landFlattening;
+		double seaY = seaLevel + (sea * seaRange) + (noise * noiseVerticalScale) + seaFlattening;
 
+		//TODO there is a fracture between mountains and the sea (and sometimes on the land itself) that appeared when I made this floating point
 		// land is below the sea
 		if (landY <= seaLevel) {
 
@@ -162,14 +198,14 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 				y = seaLevel + 1;
 
 				// if we are too near the sea then we must be on the beach
-				if (seaY <= seaLevel + 3) {
+				if (seaY <= seaLevel + 1) {
 					y = seaLevel;
 				}
 
 			// if land is higher than the seabed use land to smooth
 			// out under water base of the mountains 
-			} else if (landY > seaY) {
-				y = Math.min(seaLevel, landY);
+			} else if (landY >= seaY) {
+				y = Math.min(seaLevel, landY + 1);
 
 				// otherwise just take the sea bed as is
 			} else {
@@ -178,13 +214,57 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 
 			// must be a mountain then
 		} else {
-			y = Math.max(seaLevel, landY);
+			y = Math.max(seaLevel, landY + 1);
 		}
 
 		// range validation
 		return Math.min(topLevel - 3, Math.max(y, 3));
 	}
+	
+	public int findBlockY(int blockX, int blockZ) {
+		return NoiseGenerator.floor(findPerciseY(blockX, blockZ));
+	}
+	
+	private final static int naturalNSBridgeOddSlot = 0; 
+	private final static int naturalRoundaboutOddSlot = 10; 
+	
+	public boolean isNSBridgeAt(double chunkX, double chunkZ) {
+		return roadShape.noise(chunkX * bridgeScale, chunkZ * bridgeScale, naturalNSBridgeOddSlot) >= 0.0;
+	}
 
+	public boolean isRoundaboutAt(double chunkX, double chunkZ) {
+		return roadShape.noise(chunkX, chunkZ, naturalRoundaboutOddSlot) >= roundaboutThreshold;
+	}
+	
+	public boolean onTheLevel(int blockX, int blockZ, int level) {
+		return (findBlockY(blockX + 8, blockZ + 8) == level && // center
+				findBlockY(blockX + 0, blockZ + 0) == level && // corners
+				findBlockY(blockX + 0, blockZ + 15) == level && 
+				findBlockY(blockX + 15, blockZ + 0) == level && 
+				findBlockY(blockX + 15, blockZ + 15) == level);
+	}
+	
+	public boolean isBuildableAt(int blockX, int blockZ) {
+		return onTheLevel(blockX, blockZ, sidewalkLevel);
+	}
+
+	public boolean notACave(int blockX, int blockY, int blockZ) {
+
+		// cave or not?
+		double cave = caveShape.noise(blockX * caveScale, blockY * caveScaleY, blockZ * caveScale);
+		return !(cave > caveThreshold || cave < -caveThreshold);
+	}
+
+	public byte getOre(ByteChunk byteChunk, int blockX, int blockY, int blockZ, byte defaultId) {
+
+		// ore or not?
+		double ore = oreShape.noise(blockX * oreScale, blockY * oreScaleY, blockZ * oreScale);
+		if (ore > oreThreshold || ore < -oreThreshold)
+			return byteChunk.getOre(blockY);
+		else
+			return defaultId;
+	}
+	
 	private final static int spawnRadius = 100;
 	
 	@Override
@@ -220,17 +300,17 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 
 		// get the right plat
 		PlatMap platmap = platmaps.get(platkey);
-
-		 // doesn't exist? then make it!
-		 if (platmap == null) {
 		
-			 // what is the context for this one?
-			 PlatMapContext context = getContext(cornerChunk, chunkX, chunkZ);
-			 platmap = new PlatMap(this, cornerChunk, context, platX, platZ);
+		// doesn't exist? then make it!
+		if (platmap == null) {
 			
-			 // remember it for quicker look up
-			 platmaps.put(platkey, platmap);
-		 }
+			// what is the context for this one?
+			PlatMapContext context = getContext(cornerChunk, chunkX, chunkZ);
+			platmap = new PlatMap(this, cornerChunk, context, platX, platZ);
+			
+			// remember it for quicker look up
+			platmaps.put(platkey, platmap);
+		}
 
 		// finally return the plat
 		return platmap;
@@ -283,9 +363,9 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 
 	private class CityWorldBlockPopulator extends BlockPopulator {
 
-		private CityWorldChunkGenerator chunkGen;
+		private WorldGenerator chunkGen;
 
-		public CityWorldBlockPopulator(CityWorldChunkGenerator chunkGen) {
+		public CityWorldBlockPopulator(WorldGenerator chunkGen) {
 			this.chunkGen = chunkGen;
 		}
 
@@ -295,12 +375,12 @@ public class CityWorldChunkGenerator extends ChunkGenerator {
 			int chunkZ = chunk.getZ();
 
 			// place to work
-			RealChunk realChunk = new RealChunk(world, random, chunk);
+			RealChunk realChunk = new RealChunk(chunkGen, random, chunk);
 
 			// figure out what everything looks like
 			PlatMap platmap = chunkGen.getPlatMap(realChunk, chunkX, chunkZ);
 			if (platmap != null) {
-				platmap.generateBlocks(chunkGen, realChunk);
+				platmap.generateBlocks(realChunk);
 			}
 		}
 	}

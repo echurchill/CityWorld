@@ -6,31 +6,31 @@ import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-import me.daddychurchill.CityWorld.CityWorldChunkGenerator;
+import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public abstract class PlatLot {
 	
-	public short[][] heightmap;
-
+	protected int averageHeight;
+	protected boolean structure;
+	
 	public PlatLot(Random random) {
 		super();
-		
-		heightmap = new short[SupportChunk.chunksBlockWidth][SupportChunk.chunksBlockWidth];
+		structure = false;
 	}
 	
-	private final static byte snowId = (byte) Material.SNOW_BLOCK.getId();
-	private final static byte grassId = (byte) Material.GRASS.getId();
-	private final static byte dirtId = (byte) Material.DIRT.getId();
-	private final static byte stoneId = (byte) Material.STONE.getId();
-	private final static byte waterId = (byte) Material.STATIONARY_WATER.getId();
-	private final static byte sandId = (byte) Material.SAND.getId();
-	private final static byte sandstoneId = (byte) Material.SANDSTONE.getId();
-	private final static byte bedrockId = (byte) Material.BEDROCK.getId();
+	protected final static byte airId = (byte) Material.AIR.getId();
+	protected final static byte snowId = (byte) Material.SNOW_BLOCK.getId();
+	protected final static byte grassId = (byte) Material.GRASS.getId();
+	protected final static byte dirtId = (byte) Material.DIRT.getId();
+	protected final static byte stoneId = (byte) Material.STONE.getId();
+	protected final static byte waterId = (byte) Material.STATIONARY_WATER.getId();
+	protected final static byte sandId = (byte) Material.SAND.getId();
+	protected final static byte sandstoneId = (byte) Material.SANDSTONE.getId();
+	protected final static byte bedrockId = (byte) Material.BEDROCK.getId();
 
 	public abstract long getConnectedKey();
 	public abstract boolean makeConnected(Random random, PlatLot relative);
@@ -38,28 +38,34 @@ public abstract class PlatLot {
 	public abstract boolean isIsolatedLot(Random random, int oddsOfIsolation);
 	public abstract boolean isConnected(PlatLot relative);
 	
-	public abstract void generateBlocks(CityWorldChunkGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ);
-	
-	public void generateChunk(CityWorldChunkGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
+	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
 		
 		// compute offset to start of chunk
-		int blockX = chunk.chunkX * chunk.width;
-		int blockZ = chunk.chunkZ * chunk.width;
+		int originX = chunk.getOriginX();
+		int originZ = chunk.getOriginZ();
 		
 		// shape the world
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {
 
 				// how high are we?
-				int y = generator.findBlockY(blockX + x, blockZ + z);
+				int y = generator.findBlockY(originX + x, originZ + z);
+				averageHeight =+ y;
 
 				// make the base
 				chunk.setBlock(x, 0, z, bedrockId);
 
 				// buildable?
-				if (y == chunk.streetlevel) {
+				if (structure) {
+					generateCrust(generator, chunk, x, z, stoneId, chunk.sidewalklevel - 2, dirtId, chunk.sidewalklevel, dirtId, false);
+					biomes.setBiome(x, z, Biome.JUNGLE);
+					
+				// possibly buildable?
+				} else if (y == chunk.sidewalklevel) {
 					generateCrust(generator, chunk, x, z, stoneId, y - 2, dirtId, y, grassId, false);
 					biomes.setBiome(x, z, Biome.PLAINS);
+				
+				// won't likely have a building
 				} else {
 
 					// on the beach
@@ -75,7 +81,7 @@ public abstract class PlatLot {
 						// we are in the mountains
 					} else {
 
-						// what treeline are we at?
+						// what tree line are we at?
 						if (y < chunk.treelevel - generator.fudgeVerticalScale) {
 							generateCrust(generator, chunk, x, z, stoneId, y - 2, dirtId, y, grassId, false);
 							biomes.setBiome(x, z, Biome.FOREST_HILLS);
@@ -85,40 +91,45 @@ public abstract class PlatLot {
 							biomes.setBiome(x, z, Biome.EXTREME_HILLS);
 
 						} else {
-							generateCrust(generator, chunk, x, z, stoneId, y - 1, grassId, y, snowId, true);
+							generateCrust(generator, chunk, x, z, stoneId, y - 1, stoneId, y, stoneId, true);
 							biomes.setBiome(x, z, Biome.ICE_MOUNTAINS);
 						}
 					}
 				}
 			}
 		}
+		
+		// what was the average height
+		averageHeight = averageHeight / (chunk.width * chunk.width);
 	}
 	
-	private void generateCrust(CityWorldChunkGenerator generator, ByteChunk byteChunk, int x, int z, byte baseId,
-			int baseY, byte substrateId, int substrateY, byte surfaceId,
+	//TODO make surfaceCaves dependent on a random factor per chunk rather than the snow line
+
+	private void generateCrust(WorldGenerator generator, ByteChunk byteChunk, int x, int z, 
+			byte baseId, int baseY, byte substrateId, int substrateY, byte surfaceId,
 			boolean surfaceCaves) {
 
 		// compute the world block coordinates
-		int blockX = byteChunk.chunkX * byteChunk.width + x;
-		int blockZ = byteChunk.chunkZ * byteChunk.width + z;
+		int blockX = byteChunk.getBlockX(x);
+		int blockZ = byteChunk.getBlockZ(z);
 
 		// stony bits
 		for (int y = 1; y < baseY; y++)
-			if (notACave(generator, blockX, y, blockZ))
-				byteChunk.setBlock(x, y, z, getOre(generator, byteChunk, blockX, y, blockZ, baseId));
+			if (generator.notACave(blockX, y, blockZ))
+				byteChunk.setBlock(x, y, z, baseId);
 
 		// aggregate bits
 		for (int y = baseY; y < substrateY; y++)
-			if (!surfaceCaves || notACave(generator, blockX, y, blockZ))
+			if (!surfaceCaves || generator.notACave(blockX, y, blockZ))
 				byteChunk.setBlock(x, y, z, substrateId);
 
 		// icing for the cake
-		if (!surfaceCaves || notACave(generator, blockX, substrateY, blockZ))
+		if (!surfaceCaves || generator.notACave(blockX, substrateY, blockZ))
 			byteChunk.setBlock(x, substrateY, z, surfaceId);
 
 	}
-
-	private void generateCrust(CityWorldChunkGenerator generator, ByteChunk byteChunk, int x, int z, byte baseId,
+	
+	private void generateCrust(WorldGenerator generator, ByteChunk byteChunk, int x, int z, byte baseId,
 			int baseY, byte substrateId, int substrateY, byte surfaceId,
 			int coverY, byte coverId, boolean surfaceCaves) {
 
@@ -130,23 +141,46 @@ public abstract class PlatLot {
 			byteChunk.setBlock(x, y, z, coverId);
 	}
 
-	private boolean notACave(CityWorldChunkGenerator generator, int blockX, int blockY, int blockZ) {
-
-		// cave or not?
-		double cave = generator.caveShape.noise(blockX * generator.caveScale, blockY * generator.caveScaleY, blockZ * generator.caveScale);
-		return !(cave > generator.caveThreshold || cave < -generator.caveThreshold);
+	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+		//TODO add minerals and additional natural sub-terrain structures, if any
 	}
-
-	private byte getOre(CityWorldChunkGenerator generator, ByteChunk byteChunk, int blockX, int blockY,
-			int blockZ, byte defaultId) {
-
-		// ore or not?
-		double ore = generator.oreShape.noise(blockX * generator.oreScale, blockY * generator.oreScaleY, blockZ * generator.oreScale);
-		if (ore > generator.oreThreshold || ore < -generator.oreThreshold)
-			return byteChunk.getOre(blockY);
-		else
-			return defaultId;
-	}
+	
+//	private void generateCrust(WorldGenerator generator, ByteChunk byteChunk, int x, int z, byte baseId,
+//			int baseY, byte substrateId, int substrateY, byte surfaceId,
+//			boolean surfaceCaves) {
+//
+//		// compute the world block coordinates
+//		int blockX = byteChunk.chunkX * byteChunk.width + x;
+//		int blockZ = byteChunk.chunkZ * byteChunk.width + z;
+//
+//		// stony bits
+//		for (int y = 1; y < baseY; y++)
+//			if (notACave(generator, blockX, y, blockZ))
+//				byteChunk.setBlock(x, y, z, getOre(generator, byteChunk, blockX, y, blockZ, baseId));
+//
+//		// aggregate bits
+//		for (int y = baseY; y < substrateY; y++)
+//			if (!surfaceCaves || notACave(generator, blockX, y, blockZ))
+//				byteChunk.setBlock(x, y, z, substrateId);
+//
+//		// icing for the cake
+//		if (!surfaceCaves || notACave(generator, blockX, substrateY, blockZ))
+//			byteChunk.setBlock(x, substrateY, z, surfaceId);
+//
+//	}
+//
+//	private void generateCrust(WorldGenerator generator, ByteChunk byteChunk, int x, int z, byte baseId,
+//			int baseY, byte substrateId, int substrateY, byte surfaceId,
+//			int coverY, byte coverId, boolean surfaceCaves) {
+//
+//		// a little crust please?
+//		generateCrust(generator, byteChunk, x, z, baseId, baseY, substrateId, substrateY, surfaceId, surfaceCaves);
+//
+//		// cover it up
+//		for (int y = substrateY + 1; y <= coverY; y++)
+//			byteChunk.setBlock(x, y, z, coverId);
+//	}
+//
 
 	//TODO move this logic to SurroundingLots, add to it the ability to produce SurroundingHeights and SurroundingDepths
 	public PlatLot[][] getNeighborPlatLots(PlatMap platmap, int platX, int platZ, boolean onlyConnectedNeighbors) {

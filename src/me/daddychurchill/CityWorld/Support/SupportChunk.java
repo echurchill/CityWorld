@@ -2,12 +2,15 @@ package me.daddychurchill.CityWorld.Support;
 
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.WorldGenerator;
+
 import org.bukkit.Material;
 import org.bukkit.World;
 
 public class SupportChunk {
 	
-	public World theWorld;
+	private WorldGenerator generator;
+	public World world;
 	public int chunkX;
 	public int chunkZ;
 	public int width;
@@ -16,7 +19,7 @@ public class SupportChunk {
 	public int treelevel;
 	public int evergreenlevel;
 	public int sealevel;
-	public int streetlevel;
+	public int sidewalklevel;
 	public Random random;
 	
 	private byte[] ores;
@@ -33,19 +36,36 @@ public class SupportChunk {
 	public static final byte diamondId = (byte) Material.DIAMOND_ORE.getId();
 	public static final byte coalId = (byte) Material.COAL_ORE.getId();
 	
-	public SupportChunk(World aWorld, Random aRandom) {
+	public SupportChunk(WorldGenerator aGenerator, Random aRandom) {
 		super();
 		
-		theWorld = aWorld;
+		generator = aGenerator;
+		world = generator.getWorld();
 		random = aRandom;
+		
 		width = chunksBlockWidth;
-		height = theWorld.getMaxHeight();
-
-		sealevel = theWorld.getSeaLevel();
-		streetlevel = sealevel + 1;
-		snowlevel = height - 48;
-		evergreenlevel = snowlevel - 32;
+		height = generator.topLevel;
+		sealevel = generator.seaLevel;
+		sidewalklevel = generator.sidewalkLevel;
+		snowlevel = height - 64;
+		evergreenlevel = height - 48;
 		treelevel = evergreenlevel - 32;
+	}
+	
+	public int getBlockX(int x) {
+		return getOriginX() + x;
+	}
+
+	public int getBlockZ(int z) {
+		return getOriginZ() + z;
+	}
+
+	public int getOriginX() {
+		return chunkX * width;
+	}
+
+	public int getOriginZ() {
+		return chunkZ * width;
 	}
 
 	public byte getOre(int y) {
@@ -77,7 +97,7 @@ public class SupportChunk {
 	}
 	
 	private byte pickRandomMineral(int max) {
-		switch (new Random().nextInt(max)) {
+		switch (random.nextInt(max)) {
 		default:                     // 67--99   
 		case 1:
 		case 2: return coalId;

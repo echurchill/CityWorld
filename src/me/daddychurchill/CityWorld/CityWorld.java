@@ -225,7 +225,7 @@ public class CityWorld extends JavaPlugin{
 
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(String name, String style){
-		return new CityWorldChunkGenerator(this, name, style);
+		return new WorldGenerator(this, name, style);
 	}
 	
 	@Override
@@ -309,7 +309,8 @@ public class CityWorld extends JavaPlugin{
 				// if neither then create/build it!
 				WorldCreator worldcreator = new WorldCreator(WORLD_NAME);
 				worldcreator.environment(World.Environment.NORMAL);
-				worldcreator.generator(new CityWorldChunkGenerator(this, WORLD_NAME, ""));
+				//worldcreator.seed(100);
+				worldcreator.generator(new WorldGenerator(this, WORLD_NAME, ""));
 				cityWorldPrime = Bukkit.getServer().createWorld(worldcreator);
 			}
 		}

@@ -1,7 +1,7 @@
 == **CityWorld** ==
 The great outdoors is all good and fine but sometimes you just want to go to town. Not any town will do, how about one that goes on forever. The Big Apple has nothing on this world generator. :-)
 
-===== //Version 0.63// ===== 
+===== //Version 0.80// ===== 
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, if the above version isn't available check back in an hour or so)//,,
 
 //(This should support the newer "taller" chunks but there might an issue or two)//
@@ -9,6 +9,13 @@ The great outdoors is all good and fine but sometimes you just want to go to tow
 {{http://dev.bukkit.org/media/images/36/712/BeautyShot.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
+
+v0.80
+* Include working terrain generation
+* Bridges and Tunnels now generate
+
+v0.7x
+* Never released due to "issues"
 
 v0.63
 * 1.2.3-R0.2 Happy
