@@ -291,11 +291,11 @@ public class PlatMap {
 		int chunkZ = (originZ + z) * typicalChunk.width;
 		
 		// what is the polarity of this spot
-		boolean originNS = generator.isNSBridgeAt(chunkX, chunkZ);
-		boolean polarity = originNS;
+		boolean originPolarity = generator.getBridgePolarityAt(chunkX, chunkZ);
+		boolean currentPolarity = originPolarity;
 		
 		// short cut things a bit by looking for impossible things
-		if (originNS) {
+		if (originPolarity) {
 			if (deltaX != 0)
 				return false;
 		} else {
@@ -304,17 +304,17 @@ public class PlatMap {
 		}
 		
 		// keep searching in the delta direction until polarity shifts
-		while (originNS == polarity) {
+		while (originPolarity == currentPolarity) {
 			
 			// move it along a bit
 			chunkX += offsetX;
 			chunkZ += offsetZ;
 			
 			// keep going as long it is the same polarity
-			polarity = generator.isNSBridgeAt(chunkX, chunkZ);
+			currentPolarity = generator.getBridgePolarityAt(chunkX, chunkZ);
 			
 			// did we found a "real" spot and the polarity is still the same
-			if (polarity == originNS && generator.isBuildableAt(chunkX, chunkZ))
+			if (currentPolarity == originPolarity && generator.isBuildableAt(chunkX, chunkZ))
 				return true;
 		};
 		

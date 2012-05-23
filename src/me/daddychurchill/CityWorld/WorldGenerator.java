@@ -113,7 +113,7 @@ public class WorldGenerator extends ChunkGenerator {
 	public double oreScaleY = oreScale * 2;
 	public double oreThreshold = 0.85;
 
-	public double bridgeScale = 1.0 / 256.0;
+	public double bridgeScale = 1.0 / 512.0;
 	public double roundaboutThreshold = 0.50;
 	
 	@Override
@@ -228,7 +228,7 @@ public class WorldGenerator extends ChunkGenerator {
 	private final static int naturalNSBridgeOddSlot = 0; 
 	private final static int naturalRoundaboutOddSlot = 10; 
 	
-	public boolean isNSBridgeAt(double chunkX, double chunkZ) {
+	public boolean getBridgePolarityAt(double chunkX, double chunkZ) {
 		return roadShape.noise(chunkX * bridgeScale, chunkZ * bridgeScale, naturalNSBridgeOddSlot) >= 0.0;
 	}
 

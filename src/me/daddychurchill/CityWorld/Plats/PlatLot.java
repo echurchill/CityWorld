@@ -15,6 +15,8 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 public abstract class PlatLot {
 	
 	protected int averageHeight;
+	protected int minHeight = 1024;
+	protected int maxHeight = 0;
 	protected boolean structure;
 	
 	public PlatLot(Random random) {
@@ -50,7 +52,11 @@ public abstract class PlatLot {
 
 				// how high are we?
 				int y = generator.findBlockY(originX + x, originZ + z);
-				averageHeight =+ y;
+				
+				// keep the tally going
+				averageHeight = averageHeight + y;
+				minHeight = Math.min(minHeight, y);
+				maxHeight = Math.max(maxHeight, y);
 
 				// make the base
 				chunk.setBlock(x, 0, z, bedrockId);
