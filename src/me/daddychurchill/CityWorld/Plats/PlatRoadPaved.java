@@ -2,7 +2,6 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.PlatMapContext;
@@ -48,7 +47,10 @@ public class PlatRoadPaved extends PlatRoad {
 	protected final static byte pavementId = (byte) Material.STONE.getId();
 	protected final static byte sidewalkId = (byte) Material.STEP.getId();
 	protected final static byte retainingWallId = (byte) Material.DOUBLE_STEP.getId();
-	protected final static byte fenceId = (byte) Material.IRON_FENCE.getId();
+	protected final static byte retainingFenceId = (byte) Material.IRON_FENCE.getId();
+	protected final static byte tunnelWallId = (byte) Material.SMOOTH_BRICK.getId();
+	protected final static byte tunnelTileId = (byte) Material.SANDSTONE.getId();
+	protected final static byte tunnelCeilingId = (byte) Material.GLASS.getId();
 	
 	public PlatRoadPaved(Random random, PlatMap platmap, long globalconnectionkey) {
 		super(random, platmap);
@@ -77,7 +79,6 @@ public class PlatRoadPaved extends PlatRoad {
 		
 		// easy stuff
 		//CityWorld.log.info("Avg = " + averageHeight + " Min/Max = " + minHeight + "/" + maxHeight + " vs. sidewalk = " + sidewalkLevel);
-		chunk.setLayer(context.streetLevel + 1, tunnelHeight, airId);
 
 		// ok, deep enough for a bridge
 //		if (averageHeight < sidewalkLevel - 2) {
@@ -111,13 +112,36 @@ public class PlatRoadPaved extends PlatRoad {
 			// tunnel walls please
 			if (maxHeight > sidewalkLevel + tunnelHeight) {
 				doSewer = false;
-				chunk.setLayer(sidewalkLevel - 1, (byte) Material.DIAMOND_BLOCK.getId());
+				
+				// draw pavement
+				chunk.setLayer(context.streetLevel - 2, 2, pavementId);
 				
 				// tunnel to the east/west
 				if (roads.toWest() && roads.toEast()) {
 					
+					// carve out the tunnel
+					chunk.setBlocks(0, 16, sidewalkLevel, sidewalkLevel + 1, 3, 13, airId);
+					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + 6, 2, 14, airId);
+					
+					// place the arches
+					placeEWTunnelArch(chunk, 0, sidewalkLevel, tunnelWallId, tunnelWallId, tunnelWallId);
+					for (int x = 1; x < chunk.width - 1; x++) {
+						placeEWTunnelArch(chunk, x, sidewalkLevel, tunnelWallId, tunnelTileId, tunnelCeilingId);
+					}
+					placeEWTunnelArch(chunk, 15, sidewalkLevel, tunnelWallId, tunnelWallId, tunnelWallId);
+					
 				} else if (roads.toNorth() && roads.toSouth()) {
 					
+					// carve out the tunnel
+					chunk.setBlocks(3, 13, sidewalkLevel, sidewalkLevel + 1, 0, 16, airId);
+					chunk.setBlocks(2, 14, sidewalkLevel + 1, sidewalkLevel + 6, 0, 16, airId);
+					
+					// place the arches
+					placeNSTunnelArch(chunk, 0, sidewalkLevel, tunnelWallId, tunnelWallId, tunnelWallId);
+					for (int z = 1; z < chunk.width - 1; z++) {
+						placeNSTunnelArch(chunk, z, sidewalkLevel, tunnelWallId, tunnelTileId, tunnelCeilingId);
+					}
+					placeNSTunnelArch(chunk, 15, sidewalkLevel, tunnelWallId, tunnelWallId, tunnelWallId);
 				}
 				
 			// retaining walls please
@@ -125,11 +149,23 @@ public class PlatRoadPaved extends PlatRoad {
 				
 				// wall to the east/west
 				if (roads.toWest() && roads.toEast()) {
+					
+					// carve out the tunnel
+					chunk.setBlocks(0, 16, sidewalkLevel, sidewalkLevel + tunnelHeight, 3, 13, airId);
+					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + tunnelHeight, 0, 16, airId);
+					
+					// walls please
 					for (int x = 0; x < chunk.width; x++) {
 						placeRetainingWall(chunk, x, 0, sidewalkLevel, generator.findBlockY(originX + x, originZ - 1));
 						placeRetainingWall(chunk, x, 15, sidewalkLevel, generator.findBlockY(originX + x, originZ + 16));
 					}
 				} else if (roads.toNorth() && roads.toSouth()) {
+
+					// carve out the tunnel
+					chunk.setBlocks(3, 13, sidewalkLevel, sidewalkLevel + 1, 0, 16, airId);
+					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + tunnelHeight, 0, 16, airId);
+
+					// walls please
 					for (int z = 0; z < chunk.width; z++) {
 						placeRetainingWall(chunk, 0, z, sidewalkLevel, generator.findBlockY(originX - 1, originZ + z));
 						placeRetainingWall(chunk, 15, z, sidewalkLevel, generator.findBlockY(originX + 16, originZ + z));
@@ -244,10 +280,78 @@ public class PlatRoadPaved extends PlatRoad {
 		}
 	}
 	
+	private void placeEWTunnelArch(ByteChunk chunk, int x, int baseY, byte shellId, byte tileId, byte ceilingId) {
+		chunk.setBlocks(x, baseY - 2, baseY + 4, 0, shellId);
+
+		chunk.setBlocks(x, baseY, baseY + 3, 1, tileId);
+		chunk.setBlocks(x, baseY + 3, baseY + 6, 1, shellId);
+		
+		chunk.setBlocks(x, baseY + 3, baseY + 5, 2, tileId);
+		chunk.setBlocks(x, baseY + 5, baseY + 7, 2, shellId);
+
+		chunk.setBlocks(x, baseY + 5, baseY + 6, 3, tileId);
+		chunk.setBlocks(x, baseY + 6, baseY + 8, 3, shellId);
+		
+		chunk.setBlocks(x, x + 1, baseY + 6, baseY + 7, 4, 12, tileId);
+		chunk.setBlocks(x, x + 1, baseY + 7, baseY + 8, 4, 12, shellId);
+		chunk.setBlocks(x, x + 1, baseY + 8, baseY + 9, 5, 11, shellId);
+		
+		if (shellId != tileId) {
+			chunk.setBlock(x, baseY + 6, 5, ceilingId);
+			chunk.setBlock(x, baseY + 6, 10, ceilingId);
+			chunk.setBlocks(x, x + 1, baseY + 7, baseY + 8, 5, 11, airId);
+		}
+		
+		chunk.setBlocks(x, baseY + 5, baseY + 6, 12, tileId);
+		chunk.setBlocks(x, baseY + 6, baseY + 8, 12, shellId);
+		
+		chunk.setBlocks(x, baseY + 3, baseY + 5, 13, tileId);
+		chunk.setBlocks(x, baseY + 5, baseY + 7, 13, shellId);
+		
+		chunk.setBlocks(x, baseY, baseY + 3, 14, tileId);
+		chunk.setBlocks(x, baseY + 3, baseY + 6, 14, shellId);
+		
+		chunk.setBlocks(x, baseY - 2, baseY + 4, 15, shellId);
+	}
+	
+	private void placeNSTunnelArch(ByteChunk chunk, int z, int baseY, byte shellId, byte tileId, byte ceilingId) {
+		chunk.setBlocks(0, baseY - 2, baseY + 4, z, shellId);
+
+		chunk.setBlocks(1, baseY, baseY + 3, z, tileId);
+		chunk.setBlocks(1, baseY + 3, baseY + 6, z, shellId);
+		
+		chunk.setBlocks(2, baseY + 3, baseY + 5, z, tileId);
+		chunk.setBlocks(2, baseY + 5, baseY + 7, z, shellId);
+
+		chunk.setBlocks(3, baseY + 5, baseY + 6, z, tileId);
+		chunk.setBlocks(3, baseY + 6, baseY + 8, z, shellId);
+		
+		chunk.setBlocks(4, 12, baseY + 6, baseY + 7, z, z + 1, tileId);
+		chunk.setBlocks(4, 12, baseY + 7, baseY + 8, z, z + 1, shellId);
+		chunk.setBlocks(5, 11, baseY + 8, baseY + 9, z, z + 1, shellId);
+		
+		if (shellId != tileId) {
+			chunk.setBlock(5, baseY + 6, z, ceilingId);
+			chunk.setBlock(10, baseY + 6, z, ceilingId);
+			chunk.setBlocks(5, 11, baseY + 7, baseY + 8, z, z + 1, airId);
+		}
+		
+		chunk.setBlocks(12, baseY + 5, baseY + 6, z, tileId);
+		chunk.setBlocks(12, baseY + 6, baseY + 8, z, shellId);
+		
+		chunk.setBlocks(13, baseY + 3, baseY + 5, z, tileId);
+		chunk.setBlocks(13, baseY + 5, baseY + 7, z, shellId);
+		
+		chunk.setBlocks(14, baseY, baseY + 3, z, tileId);
+		chunk.setBlocks(14, baseY + 3, baseY + 6, z, shellId);
+		
+		chunk.setBlocks(15, baseY - 2, baseY + 4, z, shellId);
+	}
+	
 	private void placeRetainingWall(ByteChunk chunk, int x, int z, int baseY, int topY) {
 		chunk.setBlocks(x, baseY, topY + 1, z, retainingWallId);
 		if (topY > baseY + fenceHeight)
-			chunk.setBlocks(x, topY + 1, topY + fenceHeight + 1, z, fenceId);
+			chunk.setBlocks(x, topY + 1, topY + fenceHeight + 1, z, retainingFenceId);
 	}
 	
 	private void placeWater(ByteChunk chunk, int x, int y, int z) {
@@ -283,9 +387,11 @@ public class PlatRoadPaved extends PlatRoad {
 				
 				// tunnel to the east/west
 				if (roads.toWest() && roads.toEast()) {
-					
+					chunk.setBlock(3, sidewalkLevel + 7, 8, lightMaterial);
+					chunk.setBlock(12, sidewalkLevel + 7, 7, lightMaterial);
 				} else if (roads.toNorth() && roads.toSouth()) {
-					
+					chunk.setBlock(8, sidewalkLevel + 7, 3, lightMaterial);
+					chunk.setBlock(7, sidewalkLevel + 7, 12, lightMaterial);
 				}
 				
 //			// retaining walls 
