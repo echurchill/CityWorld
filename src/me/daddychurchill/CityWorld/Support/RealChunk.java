@@ -106,7 +106,8 @@ public class RealChunk extends SupportChunk {
 	}
 	
 	private void setDoor(int x, int y, int z, int doorId, Direction.Door direction) {
-		chunk.getBlock(x, y + 1, z).setTypeIdAndData(doorId, (byte) (direction.getData() + 8), doPhysics);
+//		chunk.getBlock(x, y + 1, z).setTypeIdAndData(doorId, (byte) (direction.getData() + 8), doPhysics);
+		chunk.getBlock(x, y + 1, z).setTypeIdAndData(doorId, (byte) 8, false);
 		chunk.getBlock(x, y    , z).setTypeIdAndData(doorId, direction.getData(), doPhysics);
 	}
 

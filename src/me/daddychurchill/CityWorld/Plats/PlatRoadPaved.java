@@ -20,37 +20,38 @@ import org.bukkit.inventory.ItemStack;
 public class PlatRoadPaved extends PlatRoad {
 	//TODO Lines on the road
 	
-	protected final static int sidewalkWidth = 3;
-	protected final static int lightpostHeight = 3;
-	protected final static int crossDitchEdge = 7;
-	protected final static int vaultWidth = 5;
-	protected final static int vaultDoorOffset = 2;
-	protected final static int waterOffset = 3;
-	protected final static int tunnelHeight = 10;
-	protected final static int fenceHeight = 2;
+	private final static int sidewalkWidth = 3;
+	private final static int lightpostHeight = 3;
+	private final static int crossDitchEdge = 7;
+	private final static int vaultWidth = 5;
+	private final static int vaultDoorOffset = 2;
+	private final static int waterOffset = 3;
+	private final static int tunnelHeight = 8;
+	private final static int fenceHeight = 2;
 	
-	protected final static Material airMaterial = Material.AIR;
-	protected final static Material lightpostbaseMaterial = Material.DOUBLE_STEP;
-	protected final static Material lightpostMaterial = Material.FENCE;
-	protected final static Material lightMaterial = Material.GLOWSTONE;
-	protected final static Material manpipeMaterial = Material.STONE;
-	protected final static Material sewerWallMaterial = Material.MOSSY_COBBLESTONE;
-	protected final static Material vineMaterial = Material.VINE;
+	private final static Material airMaterial = Material.AIR;
+	private final static Material lightpostbaseMaterial = Material.DOUBLE_STEP;
+	private final static Material lightpostMaterial = Material.FENCE;
+	private final static Material lightMaterial = Material.GLOWSTONE;
+	private final static Material manpipeMaterial = Material.STONE;
+	private final static Material sewerWallMaterial = Material.MOSSY_COBBLESTONE;
+	//private final static Material vineMaterial = Material.VINE;
 
-	protected final static byte airId = (byte) airMaterial.getId();
-	protected final static byte sewerFloorId = (byte) Material.COBBLESTONE.getId();
-	protected final static byte sewerWallId = (byte) sewerWallMaterial.getId();
-	protected final static byte sewerCeilingId = sewerFloorId;
-	protected final static byte doorBrickId = (byte) Material.BRICK.getId();
-	protected final static byte doorIronId = (byte) Material.IRON_FENCE.getId();
-	protected final static byte waterId = (byte) Material.WATER.getId();
-	protected final static byte pavementId = (byte) Material.STONE.getId();
-	protected final static byte sidewalkId = (byte) Material.STEP.getId();
-	protected final static byte retainingWallId = (byte) Material.DOUBLE_STEP.getId();
-	protected final static byte retainingFenceId = (byte) Material.IRON_FENCE.getId();
-	protected final static byte tunnelWallId = (byte) Material.SMOOTH_BRICK.getId();
-	protected final static byte tunnelTileId = (byte) Material.SANDSTONE.getId();
-	protected final static byte tunnelCeilingId = (byte) Material.GLASS.getId();
+	private final static byte airId = (byte) airMaterial.getId();
+	private final static byte sewerFloorId = (byte) Material.COBBLESTONE.getId();
+	private final static byte sewerWallId = (byte) sewerWallMaterial.getId();
+	private final static byte sewerCeilingId = sewerFloorId;
+	private final static byte doorBrickId = (byte) Material.BRICK.getId();
+	private final static byte doorIronId = (byte) Material.IRON_FENCE.getId();
+	private final static byte waterId = (byte) Material.WATER.getId();
+	private final static byte pavementId = (byte) Material.STONE.getId();
+	private final static byte sidewalkId = (byte) Material.STEP.getId();
+	private final static byte retainingWallId = (byte) Material.SMOOTH_BRICK.getId();
+	private final static byte retainingFenceId = (byte) Material.IRON_FENCE.getId();
+	private final static byte tunnelWallId = (byte) Material.SMOOTH_BRICK.getId();
+	private final static byte tunnelTileId = (byte) Material.SANDSTONE.getId();
+	private final static byte tunnelCeilingId = (byte) Material.GLASS.getId();
+	private final static byte bridgePavementId = (byte) Material.DOUBLE_STEP.getId();
 	
 	public PlatRoadPaved(Random random, PlatMap platmap, long globalconnectionkey) {
 		super(random, platmap);
@@ -82,12 +83,77 @@ public class PlatRoadPaved extends PlatRoad {
 
 		// ok, deep enough for a bridge
 //		if (averageHeight < sidewalkLevel - 2) {
-		if (maxHeight < sidewalkLevel - 2) {
+		if (maxHeight < sidewalkLevel - 1) {
 			doSewer = false;
 
-			// draw a bridge
-			chunk.setLayer(sidewalkLevel - 1, (byte) Material.LAPIS_BLOCK.getId());
-		
+			// bridge to the east/west
+			if (roads.toWest() && roads.toEast()) {
+				
+				// more bridge beside this one?
+				boolean toWest = generator.isTheSea(originX - chunk.width, originZ);
+				boolean toEast = generator.isTheSea(originX + chunk.width, originZ);
+				
+				if (toWest) {
+					
+					// tall span
+					if (toEast) {
+						chunk.setLayer(sidewalkLevel + 8, bridgePavementId);
+						
+						
+					// ramp down
+					} else {
+						chunk.setLayer(sidewalkLevel + 4, (byte) Material.DIAMOND_BLOCK.getId());
+						
+					}
+						
+					
+				} else {
+					
+					// ramp up
+					if (toEast) {
+						chunk.setLayer(sidewalkLevel + 4, (byte) Material.GOLD_BLOCK.getId());
+						
+					// short span
+					} else {
+						chunk.setLayer(sidewalkLevel - 1, bridgePavementId);
+						
+					}
+				}
+				
+			} else if (roads.toNorth() && roads.toSouth()) {
+				
+				// more bridge beside this one?
+				boolean toNorth = generator.isTheSea(originX, originZ - chunk.width);
+				boolean toSouth = generator.isTheSea(originX, originZ + chunk.width);
+				
+				if (toNorth) {
+					
+					// tall span
+					if (toSouth) {
+						chunk.setLayer(sidewalkLevel + 8, bridgePavementId);
+						
+						
+					// ramp down
+					} else {
+						chunk.setLayer(sidewalkLevel + 4, (byte) Material.ENDER_STONE.getId());
+						
+					}
+						
+					
+				} else {
+					
+					// ramp up
+					if (toSouth) {
+						chunk.setLayer(sidewalkLevel + 4, (byte) Material.NETHER_BRICK.getId());
+						
+					// short span
+					} else {
+						chunk.setLayer(sidewalkLevel - 1, bridgePavementId);
+						
+					}
+				}
+			}
+			
 		} else {
 			
 			// draw pavement
@@ -372,7 +438,7 @@ public class PlatRoadPaved extends PlatRoad {
 		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);
 		
 		// what are we making?
-		if (maxHeight < sidewalkLevel - 2) {
+		if (maxHeight < sidewalkLevel - 1) {
 			doSewer = false;
 
 			// draw a bridge bits

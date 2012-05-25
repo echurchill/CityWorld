@@ -229,11 +229,23 @@ public class WorldGenerator extends ChunkGenerator {
 	private final static int naturalRoundaboutOddSlot = 10; 
 	
 	public boolean getBridgePolarityAt(double chunkX, double chunkZ) {
-		return roadShape.noise(chunkX * bridgeScale, chunkZ * bridgeScale, naturalNSBridgeOddSlot) >= 0.0;
+		return true; //roadShape.noise(chunkX * bridgeScale, chunkZ * bridgeScale, naturalNSBridgeOddSlot) >= 0.0;
 	}
 
 	public boolean isRoundaboutAt(double chunkX, double chunkZ) {
 		return roadShape.noise(chunkX, chunkZ, naturalRoundaboutOddSlot) >= roundaboutThreshold;
+	}
+	
+	public boolean isTheSea(int blockX, int blockZ) {
+		return (findBlockY(blockX + 8, blockZ + 8) <= seaLevel && // center
+				findBlockY(blockX + 0, blockZ + 0) <= seaLevel && // corners
+				findBlockY(blockX + 0, blockZ + 15) <= seaLevel && 
+				findBlockY(blockX + 15, blockZ + 0) <= seaLevel && 
+				findBlockY(blockX + 15, blockZ + 15) <= seaLevel &&
+				findBlockY(blockX + 0, blockZ + 8) <= seaLevel && // edges 
+				findBlockY(blockX + 15, blockZ + 8) <= seaLevel && 
+				findBlockY(blockX + 8, blockZ + 15) <= seaLevel && 
+				findBlockY(blockX + 8, blockZ + 15) <= seaLevel);
 	}
 	
 	public boolean onTheLevel(int blockX, int blockZ, int level) {
