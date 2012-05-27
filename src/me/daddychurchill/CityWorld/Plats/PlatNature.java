@@ -91,7 +91,7 @@ public class PlatNature extends PlatLot {
 					if (y < chunk.treelevel) {
 	
 						// trees?
-						if (primary > 0.98) {
+						if (primary > 0.99) {
 							if (secondary > 0.90)
 								chunk.world.generateTree(chunk.getBlockLocation(x, y + 1, z), TreeType.BIG_TREE);
 							else if (secondary > 0.50)

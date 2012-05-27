@@ -309,7 +309,7 @@ public class CityWorld extends JavaPlugin{
 				// if neither then create/build it!
 				WorldCreator worldcreator = new WorldCreator(WORLD_NAME);
 				worldcreator.environment(World.Environment.NORMAL);
-				worldcreator.seed(-2229444761488738473L);
+				//worldcreator.seed(-2229444761488738473L);
 				worldcreator.generator(new WorldGenerator(this, WORLD_NAME, ""));
 				cityWorldPrime = Bukkit.getServer().createWorld(worldcreator);
 			}

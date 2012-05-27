@@ -178,7 +178,7 @@ public class WorldGenerator extends ChunkGenerator {
 		
 		double land1 = seaLevel + (landShape1.noise(blockX, blockZ, landFrequency1, landAmplitude1, true) * landRange) + 
 				(noise * noiseVerticalScale * landFactor1to2 + feature * featureVerticalScale * landFactor1to2) - landFlattening;
-		double land2 = seaLevel + (landShape2.noise(blockX, blockZ, landFrequency2, landAmplitude2, true) * (landRange / landFactor1to2)) + 
+		double land2 = seaLevel + (landShape2.noise(blockX, blockZ, landFrequency2, landAmplitude2, true) * (landRange / (double) landFactor1to2)) + 
 				(noise * noiseVerticalScale + feature * featureVerticalScale) - landFlattening;
 		
 		double landY = Math.max(land1, land2);
