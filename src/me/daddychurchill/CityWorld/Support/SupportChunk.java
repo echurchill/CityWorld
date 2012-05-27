@@ -35,6 +35,8 @@ public class SupportChunk {
 	public static final byte redstoneId = (byte) Material.REDSTONE_ORE.getId();
 	public static final byte diamondId = (byte) Material.DIAMOND_ORE.getId();
 	public static final byte coalId = (byte) Material.COAL_ORE.getId();
+	public static final byte dirtId = (byte) Material.DIRT.getId();
+	public static final byte grassId = (byte) Material.GRASS.getId();
 	
 	public SupportChunk(WorldGenerator aGenerator, Random aRandom) {
 		super();
@@ -48,7 +50,7 @@ public class SupportChunk {
 		sealevel = generator.seaLevel;
 		sidewalklevel = generator.sidewalkLevel;
 		snowlevel = height - 64;
-		evergreenlevel = height - 48;
+		evergreenlevel = snowlevel - 48;
 		treelevel = evergreenlevel - 32;
 	}
 	

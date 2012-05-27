@@ -36,6 +36,15 @@ public class RealChunk extends SupportChunk {
 		doPhysics = dophysics;
 	}
 
+	public boolean isEmpty(int x, int y, int z) {
+		return getBlock(x, y, z).getId() == airId;
+	}
+	
+	public boolean isPlantable(int x, int y, int z) {
+		return getBlock(x, y, z).getId() == grassId;
+	}
+	
+	
 	public void setBlock(int x, int y, int z, Material material) {
 		chunk.getBlock(x, y, z).setTypeId(material.getId(), doPhysics);
 	}

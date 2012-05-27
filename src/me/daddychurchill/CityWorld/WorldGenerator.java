@@ -113,7 +113,7 @@ public class WorldGenerator extends ChunkGenerator {
 	public double oreScaleY = oreScale * 2;
 	public double oreThreshold = 0.85;
 
-	public double bridgeScale = 1.0 / 512.0;
+	public double bridgeScale = 1.0 / 384.0;
 	public double roundaboutThreshold = 0.50;
 	
 	@Override
@@ -229,14 +229,39 @@ public class WorldGenerator extends ChunkGenerator {
 	private final static int naturalRoundaboutOddSlot = 10; 
 	
 	public boolean getBridgePolarityAt(double chunkX, double chunkZ) {
-		return true; //roadShape.noise(chunkX * bridgeScale, chunkZ * bridgeScale, naturalNSBridgeOddSlot) >= 0.0;
+		return roadShape.noise(chunkX * bridgeScale, chunkZ * bridgeScale, naturalNSBridgeOddSlot) >= 0.0;
 	}
 
 	public boolean isRoundaboutAt(double chunkX, double chunkZ) {
 		return roadShape.noise(chunkX, chunkZ, naturalRoundaboutOddSlot) >= roundaboutThreshold;
 	}
 	
+	public int maxHeight(int blockX, int blockZ) {
+		int result = Integer.MIN_VALUE;
+		for (int x = 0; x < SupportChunk.chunksBlockWidth; x++) {
+			for (int z = 0; z < SupportChunk.chunksBlockWidth; z++) {
+				int y = findBlockY(blockX + x, blockZ + z);
+				if (y > result)
+					result = y;
+			}
+		}
+		return result;
+	}
+	
+	public int minHeight(int blockX, int blockZ) {
+		int result = Integer.MAX_VALUE;
+		for (int x = 0; x < SupportChunk.chunksBlockWidth; x++) {
+			for (int z = 0; z < SupportChunk.chunksBlockWidth; z++) {
+				int y = findBlockY(blockX + x, blockZ + z);
+				if (y < result)
+					result = y;
+			}
+		}
+		return result;
+	}
+	
 	public boolean isTheSea(int blockX, int blockZ) {
+//		return minHeight(blockX, blockZ) <= seaLevel;
 		return (findBlockY(blockX + 8, blockZ + 8) <= seaLevel && // center
 				findBlockY(blockX + 0, blockZ + 0) <= seaLevel && // corners
 				findBlockY(blockX + 0, blockZ + 15) <= seaLevel && 
@@ -258,6 +283,22 @@ public class WorldGenerator extends ChunkGenerator {
 	
 	public boolean isBuildableAt(int blockX, int blockZ) {
 		return onTheLevel(blockX, blockZ, sidewalkLevel);
+	}
+	
+	public boolean isBuildableToNorth(SupportChunk chunk) {
+		return isBuildableAt(chunk.getOriginX(), chunk.getOriginZ() - chunk.width);
+	}
+
+	public boolean isBuildableToSouth(SupportChunk chunk) {
+		return isBuildableAt(chunk.getOriginX(), chunk.getOriginZ() + chunk.width);
+	}
+
+	public boolean isBuildableToWest(SupportChunk chunk) {
+		return isBuildableAt(chunk.getOriginX() - chunk.width, chunk.getOriginZ());
+	}
+
+	public boolean isBuildableToEast(SupportChunk chunk) {
+		return isBuildableAt(chunk.getOriginX() + chunk.width, chunk.getOriginZ());
 	}
 
 	public boolean notACave(int blockX, int blockY, int blockZ) {

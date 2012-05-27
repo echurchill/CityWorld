@@ -231,14 +231,14 @@ public class PlatMap {
 		} else {
 			
 			// are there roads from here?
-			if (isBridgeTowards(typicalChunk, x, z, 0, -5) &&
-				isBridgeTowards(typicalChunk, x, z, 0, 5)) {
+			if (isBridgeTowardsNorth(typicalChunk, x, z) &&
+				isBridgeTowardsSouth(typicalChunk, x, z)) {
 				roadToNorth = true;
 				roadToSouth = true;
 				roadHere = true;
 				
-			} else if (isBridgeTowards(typicalChunk, x, z, 5, 0) && 
-					   isBridgeTowards(typicalChunk, x, z, -5, 0)) {
+			} else if (isBridgeTowardsEast(typicalChunk, x, z) && 
+					   isBridgeTowardsWest(typicalChunk, x, z)) {
 				roadToEast = true;
 				roadToWest = true;
 				roadHere = true;
@@ -278,6 +278,22 @@ public class PlatMap {
 		
 		// report back
 		return result;
+	}
+	
+	public boolean isBridgeTowardsNorth(SupportChunk typicalChunk, int x, int z) {
+		return isBridgeTowards(typicalChunk, x, z, 0, -5);
+	}
+	
+	public boolean isBridgeTowardsSouth(SupportChunk typicalChunk, int x, int z) {
+		return isBridgeTowards(typicalChunk, x, z, 0, 5);
+	}
+	
+	public boolean isBridgeTowardsWest(SupportChunk typicalChunk, int x, int z) {
+		return isBridgeTowards(typicalChunk, x, z, -5, 0);
+	}
+	
+	public boolean isBridgeTowardsEast(SupportChunk typicalChunk, int x, int z) {
+		return isBridgeTowards(typicalChunk, x, z, 5, 0);
 	}
 	
 	private boolean isBridgeTowards(SupportChunk typicalChunk, int x, int z, int deltaX, int deltaZ) {

@@ -46,12 +46,20 @@ public class PlatRoadPaved extends PlatRoad {
 	private final static byte waterId = (byte) Material.WATER.getId();
 	private final static byte pavementId = (byte) Material.STONE.getId();
 	private final static byte sidewalkId = (byte) Material.STEP.getId();
+	
 	private final static byte retainingWallId = (byte) Material.SMOOTH_BRICK.getId();
 	private final static byte retainingFenceId = (byte) Material.IRON_FENCE.getId();
+
 	private final static byte tunnelWallId = (byte) Material.SMOOTH_BRICK.getId();
 	private final static byte tunnelTileId = (byte) Material.SANDSTONE.getId();
 	private final static byte tunnelCeilingId = (byte) Material.GLASS.getId();
-	private final static byte bridgePavementId = (byte) Material.DOUBLE_STEP.getId();
+	
+	private final static byte bridgePavement1Id = (byte) Material.STEP.getId(); //TODO WOOD_STEP
+	private final static byte bridgePavement2Id = (byte) Material.DOUBLE_STEP.getId(); //TODO WOOD_DOUBLESTEP
+	private final static byte bridgeSidewalk1Id = (byte) Material.STEP.getId();
+	private final static byte bridgeSidewalk2Id = (byte) Material.DOUBLE_STEP.getId();
+	private final static byte bridgeEdgeId = (byte) Material.SMOOTH_BRICK.getId();
+	private final static byte bridgeRailId = (byte) Material.FENCE.getId();
 	
 	public PlatRoadPaved(Random random, PlatMap platmap, long globalconnectionkey) {
 		super(random, platmap);
@@ -83,7 +91,8 @@ public class PlatRoadPaved extends PlatRoad {
 
 		// ok, deep enough for a bridge
 //		if (averageHeight < sidewalkLevel - 2) {
-		if (maxHeight < sidewalkLevel - 1) {
+//		if (maxHeight < sidewalkLevel - 1) {
+		if (generator.isTheSea(originX, originZ)) {
 			doSewer = false;
 
 			// bridge to the east/west
@@ -97,13 +106,30 @@ public class PlatRoadPaved extends PlatRoad {
 					
 					// tall span
 					if (toEast) {
-						chunk.setLayer(sidewalkLevel + 8, bridgePavementId);
+						placeWBridgeColumns(chunk, sidewalkLevel + 4);
+						placeEWBridgePartA(chunk, 0, sidewalkLevel + 4);
+						placeEWBridgePartA(chunk, 2, sidewalkLevel + 4);
+						placeEWBridgePartA(chunk, 4, sidewalkLevel + 4);
+						placeEWBridgePartA(chunk, 6, sidewalkLevel + 4);
+						placeEWBridgePartA(chunk, 8, sidewalkLevel + 4);
+						placeEWBridgePartA(chunk, 10, sidewalkLevel + 4);
+						placeEWBridgePartA(chunk, 12, sidewalkLevel + 4);
+						placeEWBridgePartA(chunk, 14, sidewalkLevel + 4);
+						placeEBridgeColumns(chunk, sidewalkLevel + 4);
 						
 						
 					// ramp down
 					} else {
-						chunk.setLayer(sidewalkLevel + 4, (byte) Material.DIAMOND_BLOCK.getId());
-						
+						placeEWBridgeCap(chunk, 14, base1Y, sidewalkLevel);
+						placeEWBridgePartA(chunk, 14, sidewalkLevel);
+						placeEWBridgePartB(chunk, 12, sidewalkLevel);
+						placeEWBridgePartA(chunk, 10, sidewalkLevel + 1);
+						placeEWBridgePartB(chunk, 8, sidewalkLevel + 1);
+						placeEWBridgePartA(chunk, 6, sidewalkLevel + 2);
+						placeEWBridgePartB(chunk, 4, sidewalkLevel + 2);
+						placeEWBridgePartA(chunk, 2, sidewalkLevel + 3);
+						placeEWBridgePartB(chunk, 0, sidewalkLevel + 3);
+						placeWBridgeColumns(chunk, sidewalkLevel + 3);
 					}
 						
 					
@@ -111,12 +137,29 @@ public class PlatRoadPaved extends PlatRoad {
 					
 					// ramp up
 					if (toEast) {
-						chunk.setLayer(sidewalkLevel + 4, (byte) Material.GOLD_BLOCK.getId());
+						placeEWBridgeCap(chunk, 0, base1Y, sidewalkLevel);
+						placeEWBridgePartA(chunk, 0, sidewalkLevel);
+						placeEWBridgePartB(chunk, 2, sidewalkLevel);
+						placeEWBridgePartA(chunk, 4, sidewalkLevel + 1);
+						placeEWBridgePartB(chunk, 6, sidewalkLevel + 1);
+						placeEWBridgePartA(chunk, 8, sidewalkLevel + 2);
+						placeEWBridgePartB(chunk, 10, sidewalkLevel + 2);
+						placeEWBridgePartA(chunk, 12, sidewalkLevel + 3);
+						placeEWBridgePartB(chunk, 14, sidewalkLevel + 3);
+						placeEBridgeColumns(chunk, sidewalkLevel + 3);
 						
 					// short span
 					} else {
-						chunk.setLayer(sidewalkLevel - 1, bridgePavementId);
-						
+						placeEWBridgeCap(chunk, 0, base1Y, sidewalkLevel);
+						placeEWBridgePartA(chunk, 0, sidewalkLevel);
+						placeEWBridgePartB(chunk, 2, sidewalkLevel);
+						placeEWBridgePartA(chunk, 4, sidewalkLevel + 1);
+						placeEWBridgePartA(chunk, 6, sidewalkLevel + 1);
+						placeEWBridgePartA(chunk, 8, sidewalkLevel + 1);
+						placeEWBridgePartA(chunk, 10, sidewalkLevel + 1);
+						placeEWBridgePartB(chunk, 12, sidewalkLevel);
+						placeEWBridgePartA(chunk, 14, sidewalkLevel);
+						placeEWBridgeCap(chunk, 14, base1Y, sidewalkLevel);
 					}
 				}
 				
@@ -130,13 +173,29 @@ public class PlatRoadPaved extends PlatRoad {
 					
 					// tall span
 					if (toSouth) {
-						chunk.setLayer(sidewalkLevel + 8, bridgePavementId);
-						
+						placeNBridgeColumns(chunk, sidewalkLevel + 4);
+						placeNSBridgePartA(chunk, 0, sidewalkLevel + 4);
+						placeNSBridgePartA(chunk, 2, sidewalkLevel + 4);
+						placeNSBridgePartA(chunk, 4, sidewalkLevel + 4);
+						placeNSBridgePartA(chunk, 6, sidewalkLevel + 4);
+						placeNSBridgePartA(chunk, 8, sidewalkLevel + 4);
+						placeNSBridgePartA(chunk, 10, sidewalkLevel + 4);
+						placeNSBridgePartA(chunk, 12, sidewalkLevel + 4);
+						placeNSBridgePartA(chunk, 14, sidewalkLevel + 4);
+						placeSBridgeColumns(chunk, sidewalkLevel + 4);
 						
 					// ramp down
 					} else {
-						chunk.setLayer(sidewalkLevel + 4, (byte) Material.ENDER_STONE.getId());
-						
+						placeNSBridgeCap(chunk, 14, base1Y, sidewalkLevel);
+						placeNSBridgePartA(chunk, 14, sidewalkLevel);
+						placeNSBridgePartB(chunk, 12, sidewalkLevel);
+						placeNSBridgePartA(chunk, 10, sidewalkLevel + 1);
+						placeNSBridgePartB(chunk, 8, sidewalkLevel + 1);
+						placeNSBridgePartA(chunk, 6, sidewalkLevel + 2);
+						placeNSBridgePartB(chunk, 4, sidewalkLevel + 2);
+						placeNSBridgePartA(chunk, 2, sidewalkLevel + 3);
+						placeNSBridgePartB(chunk, 0, sidewalkLevel + 3);
+						placeNBridgeColumns(chunk, sidewalkLevel + 3);
 					}
 						
 					
@@ -144,20 +203,38 @@ public class PlatRoadPaved extends PlatRoad {
 					
 					// ramp up
 					if (toSouth) {
-						chunk.setLayer(sidewalkLevel + 4, (byte) Material.NETHER_BRICK.getId());
+						placeNSBridgeCap(chunk, 0, base1Y, sidewalkLevel);
+						placeNSBridgePartA(chunk, 0, sidewalkLevel);
+						placeNSBridgePartB(chunk, 2, sidewalkLevel);
+						placeNSBridgePartA(chunk, 4, sidewalkLevel + 1);
+						placeNSBridgePartB(chunk, 6, sidewalkLevel + 1);
+						placeNSBridgePartA(chunk, 8, sidewalkLevel + 2);
+						placeNSBridgePartB(chunk, 10, sidewalkLevel + 2);
+						placeNSBridgePartA(chunk, 12, sidewalkLevel + 3);
+						placeNSBridgePartB(chunk, 14, sidewalkLevel + 3);
+						placeSBridgeColumns(chunk, sidewalkLevel + 3);
 						
 					// short span
 					} else {
-						chunk.setLayer(sidewalkLevel - 1, bridgePavementId);
-						
+						placeNSBridgeCap(chunk, 0, base1Y, sidewalkLevel);
+						placeNSBridgePartA(chunk, 0, sidewalkLevel);
+						placeNSBridgePartB(chunk, 2, sidewalkLevel);
+						placeNSBridgePartA(chunk, 4, sidewalkLevel + 1);
+						placeNSBridgePartA(chunk, 6, sidewalkLevel + 1);
+						placeNSBridgePartA(chunk, 8, sidewalkLevel + 1);
+						placeNSBridgePartA(chunk, 10, sidewalkLevel + 1);
+						placeNSBridgePartB(chunk, 12, sidewalkLevel);
+						placeNSBridgePartA(chunk, 14, sidewalkLevel);
+						placeNSBridgeCap(chunk, 14, base1Y, sidewalkLevel);
 					}
 				}
 			}
 			
 		} else {
 			
-			// draw pavement
+			// draw pavement and clear out a bit
 			chunk.setLayer(context.streetLevel, pavementId);
+			chunk.setLayer(context.streetLevel + 1, airId);
 			
 			// sidewalk corners
 			chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkId);
@@ -186,7 +263,7 @@ public class PlatRoadPaved extends PlatRoad {
 				if (roads.toWest() && roads.toEast()) {
 					
 					// carve out the tunnel
-					chunk.setBlocks(0, 16, sidewalkLevel, sidewalkLevel + 1, 3, 13, airId);
+//					chunk.setBlocks(0, 16, sidewalkLevel, sidewalkLevel + 1, 3, 13, airId);
 					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + 6, 2, 14, airId);
 					
 					// place the arches
@@ -199,7 +276,7 @@ public class PlatRoadPaved extends PlatRoad {
 				} else if (roads.toNorth() && roads.toSouth()) {
 					
 					// carve out the tunnel
-					chunk.setBlocks(3, 13, sidewalkLevel, sidewalkLevel + 1, 0, 16, airId);
+//					chunk.setBlocks(3, 13, sidewalkLevel, sidewalkLevel + 1, 0, 16, airId);
 					chunk.setBlocks(2, 14, sidewalkLevel + 1, sidewalkLevel + 6, 0, 16, airId);
 					
 					// place the arches
@@ -217,8 +294,8 @@ public class PlatRoadPaved extends PlatRoad {
 				if (roads.toWest() && roads.toEast()) {
 					
 					// carve out the tunnel
-					chunk.setBlocks(0, 16, sidewalkLevel, sidewalkLevel + tunnelHeight, 3, 13, airId);
-					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + tunnelHeight, 0, 16, airId);
+//					chunk.setBlocks(0, 16, sidewalkLevel, sidewalkLevel + tunnelHeight, 3, 13, airId);
+					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + tunnelHeight + 1, 0, 16, airId);
 					
 					// walls please
 					for (int x = 0; x < chunk.width; x++) {
@@ -228,8 +305,8 @@ public class PlatRoadPaved extends PlatRoad {
 				} else if (roads.toNorth() && roads.toSouth()) {
 
 					// carve out the tunnel
-					chunk.setBlocks(3, 13, sidewalkLevel, sidewalkLevel + 1, 0, 16, airId);
-					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + tunnelHeight, 0, 16, airId);
+//					chunk.setBlocks(3, 13, sidewalkLevel, sidewalkLevel + 1, 0, 16, airId);
+					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + tunnelHeight + 1, 0, 16, airId);
 
 					// walls please
 					for (int z = 0; z < chunk.width; z++) {
@@ -346,6 +423,116 @@ public class PlatRoadPaved extends PlatRoad {
 		}
 	}
 	
+	private void placeEWBridgeCap(ByteChunk chunk, int x, int baseY, int topY) {
+		chunk.setBlocks(x, x + 2, baseY, topY, 0, 16, retainingWallId);
+	}
+	
+	private void placeEWBridgePartA(ByteChunk chunk, int x, int baseY) {
+		
+		// cross beam
+		chunk.setBlocks(x, x + 2, baseY - 1, baseY, 0, 16, bridgeEdgeId);
+		
+		// edges
+		chunk.setBlocks(x, x + 2, baseY, baseY + 1, 0, 1, bridgeEdgeId);
+		chunk.setBlocks(x, x + 2, baseY, baseY + 1, 15, 16, bridgeEdgeId);
+		
+		// rails
+		chunk.setBlocks(x, x + 2, baseY + 1, baseY + 2, 0, 1, bridgeRailId);
+		chunk.setBlocks(x, x + 2, baseY + 1, baseY + 2, 15, 16, bridgeRailId);
+
+		// sidewalks
+		chunk.setBlocks(x, x + 2, baseY, baseY + 1, 1, 3, bridgeSidewalk2Id);
+		chunk.setBlocks(x, x + 2, baseY, baseY + 1, 13, 15, bridgeSidewalk2Id);
+		
+		// pavement
+		chunk.setBlocks(x, x + 2, baseY, baseY + 1, 3, 13, bridgePavement1Id);
+	}
+	
+	private void placeEWBridgePartB(ByteChunk chunk, int x, int baseY) {
+
+		// edges
+		chunk.setBlocks(x, x + 2, baseY, baseY + 2, 0, 1, bridgeEdgeId);
+		chunk.setBlocks(x, x + 2, baseY, baseY + 2, 15, 16, bridgeEdgeId);
+		
+		// rails
+		chunk.setBlocks(x, x + 2, baseY + 2, baseY + 3, 0, 1, bridgeRailId);
+		chunk.setBlocks(x, x + 2, baseY + 2, baseY + 3, 15, 16, bridgeRailId);
+
+		// sidewalks
+		chunk.setBlocks(x, x + 2, baseY, baseY + 1, 1, 3, bridgeSidewalk2Id);
+		chunk.setBlocks(x, x + 2, baseY, baseY + 1, 13, 15, bridgeSidewalk2Id);
+		chunk.setBlocks(x, x + 2, baseY + 1, baseY + 2, 1, 3, bridgeSidewalk1Id);
+		chunk.setBlocks(x, x + 2, baseY + 1, baseY + 2, 13, 15, bridgeSidewalk1Id);
+		
+		// pavement
+		chunk.setBlocks(x, x + 2, baseY, baseY + 1, 3, 13, bridgePavement2Id);
+	}
+	
+	private void placeWBridgeColumns(ByteChunk chunk, int baseY) {
+		chunk.setBlocks(0, 1, minHeight, baseY, 2, 4, bridgeEdgeId);
+		chunk.setBlocks(0, 1, minHeight, baseY, 12, 14, bridgeEdgeId);
+	}
+
+	private void placeEBridgeColumns(ByteChunk chunk, int baseY) {
+		chunk.setBlocks(15, 16, minHeight, baseY, 2, 4, bridgeEdgeId);
+		chunk.setBlocks(15, 16, minHeight, baseY, 12, 14, bridgeEdgeId);
+	}
+
+	private void placeNSBridgeCap(ByteChunk chunk, int z, int baseY, int topY) {
+		chunk.setBlocks(0, 16, baseY, topY - 1, z, z + 2, retainingWallId);
+	}
+	
+	private void placeNSBridgePartA(ByteChunk chunk, int z, int baseY) {
+		
+		// cross beam
+		chunk.setBlocks(0, 16, baseY - 1, baseY, z, z + 2, bridgeEdgeId);
+		
+		// edges
+		chunk.setBlocks(0, 1, baseY, baseY + 1, z, z + 2, bridgeEdgeId);
+		chunk.setBlocks(15, 16, baseY, baseY + 1, z, z + 2, bridgeEdgeId);
+		
+		// rails
+		chunk.setBlocks(0, 1, baseY + 1, baseY + 2, z, z + 2, bridgeRailId);
+		chunk.setBlocks(15, 16, baseY + 1, baseY + 2, z, z + 2, bridgeRailId);
+
+		// sidewalks
+		chunk.setBlocks(1, 3, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Id);
+		chunk.setBlocks(13, 15, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Id);
+		
+		// pavement
+		chunk.setBlocks(3, 13, baseY, baseY + 1, z, z + 2, bridgePavement1Id);
+	}
+	
+	private void placeNSBridgePartB(ByteChunk chunk, int z, int baseY) {
+		
+		// edges
+		chunk.setBlocks(0, 1, baseY, baseY + 2, z, z + 2, bridgeEdgeId);
+		chunk.setBlocks(15, 16, baseY, baseY + 2, z, z + 2, bridgeEdgeId);
+		
+		// rails
+		chunk.setBlocks(0, 1, baseY + 2, baseY + 3, z, z + 2, bridgeRailId);
+		chunk.setBlocks(15, 16, baseY + 2, baseY + 3, z, z + 2, bridgeRailId);
+
+		// sidewalks
+		chunk.setBlocks(1, 3, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Id);
+		chunk.setBlocks(13, 15, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Id);
+		chunk.setBlocks(1, 3, baseY + 1, baseY + 2, z, z + 2, bridgeSidewalk1Id);
+		chunk.setBlocks(13, 15, baseY + 1, baseY + 2, z, z + 2, bridgeSidewalk1Id);
+		
+		// pavement
+		chunk.setBlocks(3, 13, baseY, baseY + 1, z, z + 2, bridgePavement2Id);
+	}
+	
+	private void placeNBridgeColumns(ByteChunk chunk, int baseY) {
+		chunk.setBlocks(2, 4, minHeight, baseY, 0, 1, bridgeEdgeId);
+		chunk.setBlocks(12, 14, minHeight, baseY, 0, 1, bridgeEdgeId);
+	}
+
+	private void placeSBridgeColumns(ByteChunk chunk, int baseY) {
+		chunk.setBlocks(2, 4, minHeight, baseY, 15, 16, bridgeEdgeId);
+		chunk.setBlocks(12, 14, minHeight, baseY, 15, 16, bridgeEdgeId);
+	}
+	
 	private void placeEWTunnelArch(ByteChunk chunk, int x, int baseY, byte shellId, byte tileId, byte ceilingId) {
 		chunk.setBlocks(x, baseY - 2, baseY + 4, 0, shellId);
 
@@ -427,6 +614,10 @@ public class PlatRoadPaved extends PlatRoad {
 	@Override
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
 
+		// compute offset to start of chunk
+		int originX = chunk.getOriginX();
+		int originZ = chunk.getOriginZ();
+		
 		// where do we start
 		int base1Y = context.streetLevel - PlatMapContext.FloorHeight * 2 + 1;
 		int sewerY = base1Y + 1;
@@ -438,10 +629,30 @@ public class PlatRoadPaved extends PlatRoad {
 		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);
 		
 		// what are we making?
-		if (maxHeight < sidewalkLevel - 1) {
+//		if (maxHeight < sidewalkLevel - 1) {
+		if (generator.isTheSea(originX, originZ)) {
 			doSewer = false;
 
 			// draw a bridge bits
+			// bridge to the east/west
+			if (roads.toWest() && roads.toEast()) {
+				if (generator.isTheSea(originX - chunk.width, originZ) &&
+					generator.isTheSea(originX + chunk.width, originZ)) {
+					
+					// lights please
+					generateLightPost(chunk, sidewalkLevel + 5, 7, 0);
+					generateLightPost(chunk, sidewalkLevel + 5, 8, 15);
+				}
+				
+			} else if (roads.toNorth() && roads.toSouth()) {
+				if (generator.isTheSea(originX, originZ - chunk.width) && 
+					generator.isTheSea(originX, originZ + chunk.width)) {
+					
+					// lights please
+					generateLightPost(chunk, sidewalkLevel + 5, 0, 7);
+					generateLightPost(chunk, sidewalkLevel + 5, 15, 8);
+				}
+			}
 		
 		} else {
 			
@@ -468,8 +679,8 @@ public class PlatRoadPaved extends PlatRoad {
 			} else {
 				
 				// light posts
-				generateLightPost(chunk, context, sidewalkWidth - 1, sidewalkWidth - 1);
-				generateLightPost(chunk, context, chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
+				generateLightPost(chunk, sidewalkLevel, sidewalkWidth - 1, sidewalkWidth - 1);
+				generateLightPost(chunk, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
 			}
 		}
 		
@@ -574,8 +785,7 @@ public class PlatRoadPaved extends PlatRoad {
 //			}
 //	}
 	
-	protected void generateLightPost(RealChunk chunk, PlatMapContext context, int x, int z) {
-		int sidewalkLevel = context.streetLevel + 1;
+	protected void generateLightPost(RealChunk chunk, int sidewalkLevel, int x, int z) {
 		chunk.setBlock(x, sidewalkLevel, z, lightpostbaseMaterial);
 		chunk.setBlocks(x, sidewalkLevel + 1, sidewalkLevel + lightpostHeight + 1, z, lightpostMaterial);
 		chunk.setBlock(x, sidewalkLevel + lightpostHeight + 1, z, lightMaterial, true);

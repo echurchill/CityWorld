@@ -27,7 +27,8 @@ public class PlatPark extends PlatUrban {
 	protected final static byte waterId = (byte) Material.WATER.getId();
 	protected final static byte fenceId = (byte) Material.FENCE.getId();
 	protected final static byte columnId = (byte) Material.SMOOTH_BRICK.getId();
-	protected final static byte pavementId = (byte) Material.SANDSTONE.getId();
+	protected final static byte pathId = (byte) Material.SAND.getId();
+	protected final static byte stepId = (byte) Material.STEP.getId();
 	
 //	protected final static Material ledgeMaterial = Material.IRON_BLOCK;
 	protected final static Material ledgeMaterial = Material.CLAY;
@@ -79,7 +80,7 @@ public class PlatPark extends PlatUrban {
 		
 		// starting with the bottom
 		int lowestY = context.streetLevel - cisternDepth + 1;
-		int highestY = context.streetLevel - groundDepth;
+		int highestY = context.streetLevel - groundDepth - 1;
 		
 		// cistern?
 		if (context.doCistern) {
@@ -139,35 +140,47 @@ public class PlatPark extends PlatUrban {
 		chunk.setLayer(highestY + 3, grassId);
 		
 		// surface features
-		int surfaceY = context.streetLevel + 2;
-		if (!neighbors.toNorth()) {
-			chunk.setBlocks(0, 6, surfaceY, surfaceY + 1, 0, 1, fenceId);
-			chunk.setBlocks(10, 16, surfaceY, surfaceY + 1, 0, 1, fenceId);
+		int surfaceY = context.streetLevel + 1;
+		if (!neighbors.toNorth() && generator.isBuildableToNorth(chunk)) {
+			chunk.setBlocks(0, 6, surfaceY, surfaceY + 1, 0, 1, columnId);
+			chunk.setBlocks(0, 6, surfaceY + 1, surfaceY + 2, 0, 1, fenceId);
+			chunk.setBlocks(10, 16, surfaceY, surfaceY + 1, 0, 1, columnId);
+			chunk.setBlocks(10, 16, surfaceY + 1, surfaceY + 2, 0, 1, fenceId);
 			chunk.setBlocks(6, surfaceY, surfaceY + 2, 0, columnId);
+			chunk.setBlocks(7, 9, surfaceY, surfaceY + 1, 0, 1, stepId);
 			chunk.setBlocks(9, surfaceY, surfaceY + 2, 0, columnId);
 			chunk.setBlock(6, surfaceY, 1, columnId);
 			chunk.setBlock(9, surfaceY, 1, columnId);
 		}
-		if (!neighbors.toSouth()) {
-			chunk.setBlocks(0, 6, surfaceY, surfaceY + 1, 15, 16, fenceId);
-			chunk.setBlocks(10, 16, surfaceY, surfaceY + 1, 15, 16, fenceId);
+		if (!neighbors.toSouth() && generator.isBuildableToSouth(chunk)) {
+			chunk.setBlocks(0, 6, surfaceY, surfaceY + 1, 15, 16, columnId);
+			chunk.setBlocks(0, 6, surfaceY + 1, surfaceY + 2, 15, 16, fenceId);
+			chunk.setBlocks(10, 16, surfaceY, surfaceY + 1, 15, 16, columnId);
+			chunk.setBlocks(10, 16, surfaceY + 1, surfaceY + 2, 15, 16, fenceId);
 			chunk.setBlocks(6, surfaceY, surfaceY + 2, 15, columnId);
+			chunk.setBlocks(7, 9, surfaceY, surfaceY + 1, 15, 16, stepId);
 			chunk.setBlocks(9, surfaceY, surfaceY + 2, 15, columnId);
 			chunk.setBlock(6, surfaceY, 14, columnId);
 			chunk.setBlock(9, surfaceY, 14, columnId);
 		}
-		if (!neighbors.toWest()) {
-			chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 0, 6, fenceId);
-			chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 10, 16, fenceId);
+		if (!neighbors.toWest() && generator.isBuildableToWest(chunk)) {
+			chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 0, 6, columnId);
+			chunk.setBlocks(0, 1, surfaceY + 1, surfaceY + 2, 0, 6, fenceId);
+			chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 10, 16, columnId);
+			chunk.setBlocks(0, 1, surfaceY + 1, surfaceY + 2, 10, 16, fenceId);
 			chunk.setBlocks(0, surfaceY, surfaceY + 2, 6, columnId);
+			chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 7, 9, stepId);
 			chunk.setBlocks(0, surfaceY, surfaceY + 2, 9, columnId);
 			chunk.setBlock(1, surfaceY, 6, columnId);
 			chunk.setBlock(1, surfaceY, 9, columnId);
 		}
-		if (!neighbors.toEast()) {
-			chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 0, 6, fenceId);
-			chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 10, 16, fenceId);
+		if (!neighbors.toEast() && generator.isBuildableToEast(chunk)) {
+			chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 0, 6, columnId);
+			chunk.setBlocks(15, 16, surfaceY + 1, surfaceY + 2, 0, 6, fenceId);
+			chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 10, 16, columnId);
+			chunk.setBlocks(15, 16, surfaceY + 1, surfaceY + 2, 10, 16, fenceId);
 			chunk.setBlocks(15, surfaceY, surfaceY + 2, 6, columnId);
+			chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 7, 9, stepId);
 			chunk.setBlocks(15, surfaceY, surfaceY + 2, 9, columnId);
 			chunk.setBlock(14, surfaceY, 6, columnId);
 			chunk.setBlock(14, surfaceY, 9, columnId);
@@ -175,29 +188,29 @@ public class PlatPark extends PlatUrban {
 		
 		// draw the sidewalks
 		if (circleSidewalk) {
-			chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 0, 3, pavementId);
-			chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 13, 16, pavementId);
-			chunk.setBlocks(0, 3, surfaceY - 1, surfaceY, 7, 9, pavementId);
-			chunk.setBlocks(13, 16, surfaceY - 1, surfaceY, 7, 9, pavementId);
-			chunk.setCircle(8, 8, 4, surfaceY - 1, pavementId);
-			chunk.setCircle(8, 8, 3, surfaceY - 1, pavementId);
+			chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 0, 3, pathId);
+			chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 13, 16, pathId);
+			chunk.setBlocks(0, 3, surfaceY - 1, surfaceY, 7, 9, pathId);
+			chunk.setBlocks(13, 16, surfaceY - 1, surfaceY, 7, 9, pathId);
+			chunk.setCircle(8, 8, 4, surfaceY - 1, pathId);
+			chunk.setCircle(8, 8, 3, surfaceY - 1, pathId);
 		} else {
-			chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 0, 8, pavementId);
-			chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 8, 16, pavementId);
-			chunk.setBlocks(0, 8, surfaceY - 1, surfaceY, 7, 9, pavementId);
-			chunk.setBlocks(8, 16, surfaceY - 1, surfaceY, 7, 9, pavementId);
+			chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 0, 8, pathId);
+			chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 8, 16, pathId);
+			chunk.setBlocks(0, 8, surfaceY - 1, surfaceY, 7, 9, pathId);
+			chunk.setBlocks(8, 16, surfaceY - 1, surfaceY, 7, 9, pathId);
 		}
 	}
 	
 	@Override
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
 		Random random = chunk.random;
-		int surfaceY = context.streetLevel + 2;
+		int surfaceY = context.streetLevel + 1;
 		
 		// way down?
 		if (context.doCistern) {
 			SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
-			if (!neighbors.toNorth()) {
+			if (!neighbors.toNorth() && generator.isBuildableToNorth(chunk)) {
 				int lowestY = context.streetLevel - cisternDepth + 1 + waterDepth;
 				chunk.setBlocks(4, 7, lowestY, lowestY + 1, 1, 2, ledgeMaterial);
 				chunk.setLadder(5, lowestY + 1, surfaceY, 1, Ladder.SOUTH);
@@ -208,8 +221,9 @@ public class PlatPark extends PlatUrban {
 		// sprinkle some trees
 		World world = platmap.world;
 		if (circleSidewalk) {
-			world.generateTree(chunk.getBlockLocation(7, surfaceY, 7), 
-					random.nextBoolean() ? TreeType.BIG_TREE : TreeType.TALL_REDWOOD);
+			world.generateTree(chunk.getBlockLocation(7, surfaceY, 7), TreeType.BIG_TREE);
+		
+		// four smaller trees
 		} else {
 			TreeType tree = random.nextBoolean() ? TreeType.BIRCH : TreeType.TREE;
 			world.generateTree(chunk.getBlockLocation(3, surfaceY, 3), tree);

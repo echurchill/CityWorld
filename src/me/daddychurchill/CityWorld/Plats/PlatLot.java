@@ -68,7 +68,7 @@ public abstract class PlatLot {
 					
 				// possibly buildable?
 				} else if (y == chunk.sidewalklevel) {
-					generateCrust(generator, chunk, x, z, stoneId, y - 2, dirtId, y, grassId, false);
+					generateCrust(generator, chunk, x, z, stoneId, y - 3, dirtId, y, grassId, false);
 					biomes.setBiome(x, z, Biome.PLAINS);
 				
 				// won't likely have a building
@@ -87,18 +87,25 @@ public abstract class PlatLot {
 						// we are in the mountains
 					} else {
 
-						// what tree line are we at?
-						if (y < chunk.treelevel - generator.fudgeVerticalScale) {
-							generateCrust(generator, chunk, x, z, stoneId, y - 2, dirtId, y, grassId, false);
+						// regular trees only
+						if (y < chunk.treelevel) {
+							generateCrust(generator, chunk, x, z, stoneId, y - 3, dirtId, y, grassId, false);
 							biomes.setBiome(x, z, Biome.FOREST_HILLS);
 
-						} else if (y < chunk.snowlevel - generator.fudgeVerticalScale) {
-							generateCrust(generator, chunk, x, z, stoneId, y - 2, stoneId, y, grassId, true);
+						// regular trees and some evergreen trees
+						} else if (y < chunk.evergreenlevel) {
+							generateCrust(generator, chunk, x, z, stoneId, y - 2, dirtId, y, grassId, true);
 							biomes.setBiome(x, z, Biome.EXTREME_HILLS);
 
-						} else {
-							generateCrust(generator, chunk, x, z, stoneId, y - 1, stoneId, y, stoneId, true);
+						// evergreen and some of fallen snow
+						} else if (y < chunk.snowlevel) {
+							generateCrust(generator, chunk, x, z, stoneId, y - 1, dirtId, y, grassId, true);
 							biomes.setBiome(x, z, Biome.ICE_MOUNTAINS);
+							
+						// only snow up here!
+						} else {
+							generateCrust(generator, chunk, x, z, stoneId, y - 1, stoneId, y, snowId, true);
+							biomes.setBiome(x, z, Biome.ICE_PLAINS);
 						}
 					}
 				}
