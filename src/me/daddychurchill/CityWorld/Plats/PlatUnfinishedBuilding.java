@@ -7,7 +7,7 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
-import me.daddychurchill.CityWorld.Context.PlatMapContext;
+import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.Direction.Torch;
@@ -17,11 +17,10 @@ import me.daddychurchill.CityWorld.Support.Direction.StairWell;
 
 public class PlatUnfinishedBuilding extends PlatBuilding {
 
-	protected final static int FloorHeight = PlatMapContext.FloorHeight;
+	protected final static int FloorHeight = ContextData.FloorHeight;
 	
-	protected final static byte airId = (byte) Material.AIR.getId();
 	protected final static byte girderId = (byte) Material.CLAY.getId();
-//	protected final static byte girderId = (byte) Material.IRON_BLOCK.getId();
+	
 	protected final static Material dirtMaterial = Material.DIRT;
 	protected final static Material fenceMaterial = Material.IRON_FENCE;
 	protected final static Material stairMaterial = Material.WOOD_STAIRS;
@@ -40,7 +39,7 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	
 	public PlatUnfinishedBuilding(Random random, PlatMap platmap) {
 		super(random, platmap);
-		PlatMapContext context = platmap.context;
+		ContextData context = platmap.context;
 		
 		// basement only?
 		unfinishedBasementOnly = random.nextInt(context.oddsOfOnlyUnfinishedBasements) == 0;
@@ -50,7 +49,7 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	}
 
 	@Override
-	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
+	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
 		Random random = chunk.random;
 
@@ -132,7 +131,7 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	}
 
 	@Override
-	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
 		Random random = chunk.random;
 		
 		// work on the basement stairs first

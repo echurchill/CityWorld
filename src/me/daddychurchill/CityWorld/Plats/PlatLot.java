@@ -8,7 +8,7 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
-import me.daddychurchill.CityWorld.Context.PlatMapContext;
+import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -17,11 +17,12 @@ public abstract class PlatLot {
 	protected int averageHeight;
 	protected int minHeight = 1024;
 	protected int maxHeight = 0;
-	protected boolean structure;
+	
+	public enum lotStyle {NATURE, STRUCTURE, ROAD};
+	public lotStyle style;
 	
 	public PlatLot(Random random) {
 		super();
-		structure = false;
 	}
 	
 	protected final static byte airId = (byte) Material.AIR.getId();
@@ -33,6 +34,8 @@ public abstract class PlatLot {
 	protected final static byte sandId = (byte) Material.SAND.getId();
 	protected final static byte sandstoneId = (byte) Material.SANDSTONE.getId();
 	protected final static byte bedrockId = (byte) Material.BEDROCK.getId();
+	protected final static byte lavaId = (byte) Material.LAVA.getId();
+	protected final static byte fenceId = (byte) Material.FENCE.getId();
 
 	public abstract long getConnectedKey();
 	public abstract boolean makeConnected(Random random, PlatLot relative);
@@ -40,11 +43,14 @@ public abstract class PlatLot {
 	public abstract boolean isIsolatedLot(Random random, int oddsOfIsolation);
 	public abstract boolean isConnected(PlatLot relative);
 	
-	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
+	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		
 		// compute offset to start of chunk
 		int originX = chunk.getOriginX();
 		int originZ = chunk.getOriginZ();
+		
+		// surface caves?
+		boolean surfaceCaves = generator.isSurfaceCaveAt(chunk.chunkX, chunk.chunkZ);
 		
 		// shape the world
 		for (int x = 0; x < chunk.width; x++) {
@@ -62,7 +68,7 @@ public abstract class PlatLot {
 				chunk.setBlock(x, 0, z, bedrockId);
 
 				// buildable?
-				if (structure) {
+				if (style == lotStyle.STRUCTURE) {
 					generateCrust(generator, chunk, x, z, stoneId, chunk.sidewalklevel - 2, dirtId, chunk.sidewalklevel, dirtId, false);
 					biomes.setBiome(x, z, Biome.JUNGLE);
 					
@@ -81,7 +87,7 @@ public abstract class PlatLot {
 
 						// we are in the water!
 					} else if (y < chunk.sealevel) {
-						generateCrust(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, chunk.sealevel, waterId, true);
+						generateCrust(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, chunk.sealevel, waterId, surfaceCaves);
 						biomes.setBiome(x, z, Biome.OCEAN);
 
 						// we are in the mountains
@@ -94,17 +100,17 @@ public abstract class PlatLot {
 
 						// regular trees and some evergreen trees
 						} else if (y < chunk.evergreenlevel) {
-							generateCrust(generator, chunk, x, z, stoneId, y - 2, dirtId, y, grassId, true);
+							generateCrust(generator, chunk, x, z, stoneId, y - 2, dirtId, y, grassId, surfaceCaves);
 							biomes.setBiome(x, z, Biome.EXTREME_HILLS);
 
 						// evergreen and some of fallen snow
 						} else if (y < chunk.snowlevel) {
-							generateCrust(generator, chunk, x, z, stoneId, y - 1, dirtId, y, grassId, true);
+							generateCrust(generator, chunk, x, z, stoneId, y - 1, dirtId, y, grassId, surfaceCaves);
 							biomes.setBiome(x, z, Biome.ICE_MOUNTAINS);
 							
 						// only snow up here!
 						} else {
-							generateCrust(generator, chunk, x, z, stoneId, y - 1, stoneId, y, snowId, true);
+							generateCrust(generator, chunk, x, z, stoneId, y - 1, stoneId, y, snowId, surfaceCaves);
 							biomes.setBiome(x, z, Biome.ICE_PLAINS);
 						}
 					}
@@ -154,7 +160,7 @@ public abstract class PlatLot {
 			byteChunk.setBlock(x, y, z, coverId);
 	}
 
-	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
 		//TODO add minerals and additional natural sub-terrain structures, if any
 	}
 	

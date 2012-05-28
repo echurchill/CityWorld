@@ -5,7 +5,7 @@ import java.util.Random;
 import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
-public class ContextMidrise extends PlatMapContext {
+public class ContextMidrise extends ContextUrban {
 
 	public ContextMidrise(CityWorld plugin, SupportChunk typicalChunk) {
 		super(plugin, typicalChunk);

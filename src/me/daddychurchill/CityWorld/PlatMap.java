@@ -1,15 +1,23 @@
 package me.daddychurchill.CityWorld;
 
 import java.util.Random;
-import me.daddychurchill.CityWorld.Context.PlatMapContext;
+
+import me.daddychurchill.CityWorld.Context.ContextFarm;
+import me.daddychurchill.CityWorld.Context.ContextNature;
+import me.daddychurchill.CityWorld.Context.ContextNeighborhood;
+import me.daddychurchill.CityWorld.Context.ContextCityCenter;
+import me.daddychurchill.CityWorld.Context.ContextHighrise;
+import me.daddychurchill.CityWorld.Context.ContextLowrise;
+import me.daddychurchill.CityWorld.Context.ContextMall;
+import me.daddychurchill.CityWorld.Context.ContextMidrise;
+import me.daddychurchill.CityWorld.Context.ContextUnconstruction;
+import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plats.PlatLot.lotStyle;
 import me.daddychurchill.CityWorld.Plats.PlatNature;
-import me.daddychurchill.CityWorld.Plats.PlatOfficeBuilding;
-import me.daddychurchill.CityWorld.Plats.PlatPark;
 import me.daddychurchill.CityWorld.Plats.PlatRoad;
 import me.daddychurchill.CityWorld.Plats.PlatRoadPaved;
 import me.daddychurchill.CityWorld.Plats.PlatStatue;
-import me.daddychurchill.CityWorld.Plats.PlatUnfinishedBuilding;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
@@ -19,24 +27,6 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class PlatMap {
 	
-	/* On top of tall mountains put...
-	 *    Radio towers
-	 *    Telescopes
-	 * Inside mountains put...
-	 *    Mines
-	 *    Bunkers
-	 * On top of deep seas put...
-	 *    Drilling platforms
-	 * Isolated spots of buildable land...
-	 *    Houses without roads
-	 *    Residential 
-	 *    
-	 * On top of seas put...
-	 *    Boats
-	 * Under the sea put...
-	 *    Submarines
-	 */
-	
 	// Class Constants
 	static final public int Width = 10;
 	
@@ -45,11 +35,11 @@ public class PlatMap {
 	public WorldGenerator generator;
 	public int originX;
 	public int originZ;
-	public PlatMapContext context;
+	public ContextData context;
 	public PlatLot[][] platLots;
-	private int buildablePlats;
+	private int naturalPlats;
 
-	public PlatMap(WorldGenerator aGenerator, SupportChunk typicalChunk, PlatMapContext aContext, int aOriginX, int aOriginZ) {
+	public PlatMap(WorldGenerator aGenerator, SupportChunk typicalChunk, int aOriginX, int aOriginZ) {
 		super();
 		
 		// log.info(String.format("PM: %d x %d create", platX, platZ));
@@ -57,22 +47,74 @@ public class PlatMap {
 		// populate the instance data
 		world = typicalChunk.world;
 		generator = aGenerator;
-		context = aContext;
 		originX = aOriginX;
 		originZ = aOriginZ;
 
 		// make room for plat data
 		platLots = new PlatLot[Width][Width];
-		buildablePlats = Width * Width;
+		naturalPlats = 0;
+		
+		// assume everything is natural
+		context = new ContextNature(generator.getPlugin(), typicalChunk);
 		
 		// sprinkle nature, roads and buildings
 		populateNature(typicalChunk);
 		
-		//TODO calculate the platmapcontext
-		
-		// place the roads and buildings
+		// place the roads
 		populateRoads(typicalChunk);
-		populateBuildings(typicalChunk);
+		
+		// validate the roads
+		validateRoads(typicalChunk);
+		
+		// recalculate the context based on the "natural-ness" of the platmap
+		context = getContext(typicalChunk);
+		
+		// now let the context take over
+		context.populateMap(generator, this, typicalChunk);
+	}
+
+	/* On top of tall mountains put...
+	 *    Radio towers
+	 *    Telescopes
+	 * On hills/mountains put
+	 *    Shacks
+	 * Inside mountains put...
+	 *    Mines
+	 *    Bunkers
+	 * On top of deep seas put...
+	 *    Drilling platforms
+	 * Isolated spots of buildable land...
+	 *    Houses without roads
+	 *    Residential 
+	 *    Farms w/Farm house
+	 */
+	
+	private ContextData getContext(SupportChunk typicalChunk) {
+		CityWorld plugin = generator.getPlugin();
+		
+		// how natural is this platmap?
+		if (naturalPlats == 0)
+			return new ContextHighrise(plugin, typicalChunk);
+		else if (naturalPlats < 15)
+			return new ContextUnconstruction(plugin, typicalChunk);
+		else if (naturalPlats < 25)
+			return new ContextMidrise(plugin, typicalChunk);
+		else if (naturalPlats < 40)
+			return new ContextCityCenter(plugin, typicalChunk);
+		else if (naturalPlats < 55)
+			return new ContextMall(plugin, typicalChunk);
+		else if (naturalPlats < 70)
+			return new ContextLowrise(plugin, typicalChunk);
+		else if (naturalPlats < 85)
+			return new ContextNeighborhood(plugin, typicalChunk);
+		else if (naturalPlats < 95)
+			return new ContextFarm(plugin, typicalChunk);
+		else if (naturalPlats < 100)
+			return new ContextNeighborhood(plugin, typicalChunk);
+		
+		// otherwise just keep what we have
+		else
+			return context;
 	}
 
 	public void generateChunk(ByteChunk chunk, BiomeGrid biomes) {
@@ -102,6 +144,33 @@ public class PlatMap {
 		}
 	}
 	
+	private boolean isEmptyLot(int x, int z) {
+		return platLots[x][z] == null;
+	}
+	
+	public void recycleLot(Random random, int x, int z) {
+
+		// if it is not natural, make it so
+		PlatLot current = platLots[x][z];
+		if (current == null || current.style != lotStyle.NATURE) {
+		
+			// place nature
+			platLots[x][z] = new PlatNature(random, this);
+			naturalPlats++;
+		}
+	}
+	
+	public void paveLot(Random random, int x, int z) {
+
+		// keep track of the nature count
+		PlatLot current = platLots[x][z];
+		if (current != null && current.style == lotStyle.NATURE)
+			naturalPlats--;
+		
+		// place the road
+		platLots[x][z] = new PlatRoadPaved(random, this, generator.connectedKeyForPavedRoads);
+	}
+	
 	private void populateNature(SupportChunk typicalChunk) {
 		Random random = typicalChunk.random;
 		
@@ -116,15 +185,11 @@ public class PlatMap {
 					int blockZ = (originZ + z) * typicalChunk.width;
 					
 					// is the center and corners at the wrong level?
-					if (!generator.isBuildableAt(blockX, blockZ)) {
-						platLots[x][z] = new PlatNature(random, this);
-						buildablePlats--;
-					}
+					if (!generator.isBuildableAt(blockX, blockZ))
+						recycleLot(random, x, z);
 				}
 			}
 		}
-		
-		CityWorld.log.info("Buildable plats = " + buildablePlats);
 	}
 	
 	private void populateRoads(SupportChunk typicalChunk) {
@@ -134,54 +199,6 @@ public class PlatMap {
 		placeIntersection(typicalChunk, PlatRoad.PlatMapRoadInset - 1, Width - PlatRoad.PlatMapRoadInset);
 		placeIntersection(typicalChunk, Width - PlatRoad.PlatMapRoadInset, PlatRoad.PlatMapRoadInset - 1);
 		placeIntersection(typicalChunk, Width - PlatRoad.PlatMapRoadInset, Width - PlatRoad.PlatMapRoadInset);
-		
-//		// place NW intersection 
-//		// place NE intersection 
-//		// place SW intersection 
-//		// place SE intersection 
-//		
-//		// for each intersection
-//		//   if ALL the surrounding chunks are NOT natural then POSSIBLY place a round about
-//		//   if ONE or MORE roads connect this to another intersection then this intersection is 
-//		
-//		// 
-//		
-//		// for each cardinal direction see if there is a road there
-//		boolean northroad = random.nextInt(context.oddsOfMissingRoad) != 0;
-//		boolean southroad = random.nextInt(context.oddsOfMissingRoad) != 0;
-//		boolean westroad = random.nextInt(context.oddsOfMissingRoad) != 0;
-//		boolean eastroad = random.nextInt(context.oddsOfMissingRoad) != 0;
-//
-//		// calculate the roads
-//		for (int i = 0; i < Width; i++) {
-//			if (i < PlatRoad.PlatMapRoadInset || i >= Width - PlatRoad.PlatMapRoadInset) {
-//				placePlatRoad(random, i, PlatRoad.PlatMapRoadInset - 1);
-//				placePlatRoad(random, i, Width - PlatRoad.PlatMapRoadInset);
-//				placePlatRoad(random, PlatRoad.PlatMapRoadInset - 1, i);
-//				placePlatRoad(random, Width - PlatRoad.PlatMapRoadInset, i);
-//			} else {
-//				if (northroad)
-//					placePlatRoad(random, i, Width - PlatRoad.PlatMapRoadInset);
-//				if (southroad)
-//					placePlatRoad(random, i, PlatRoad.PlatMapRoadInset - 1);
-//				if (westroad)
-//					placePlatRoad(random, PlatRoad.PlatMapRoadInset - 1, i);
-//				if (eastroad)
-//					placePlatRoad(random, Width - PlatRoad.PlatMapRoadInset, i);
-//			}
-//		}
-//		if (random.nextInt(context.oddsOfRoundAbouts) == 0)
-//			PlaceRoundAbout(random, PlatRoad.PlatMapRoadInset - 1, PlatRoad.PlatMapRoadInset - 1);
-//		if (random.nextInt(context.oddsOfRoundAbouts) == 0)
-//			PlaceRoundAbout(random, PlatRoad.PlatMapRoadInset - 1, Width - PlatRoad.PlatMapRoadInset);
-//		if (random.nextInt(context.oddsOfRoundAbouts) == 0)
-//			PlaceRoundAbout(random, Width - PlatRoad.PlatMapRoadInset, PlatRoad.PlatMapRoadInset - 1);
-//		if (random.nextInt(context.oddsOfRoundAbouts) == 0)
-//			PlaceRoundAbout(random, Width - PlatRoad.PlatMapRoadInset, Width - PlatRoad.PlatMapRoadInset);
-	}
-	
-	private boolean isEmptyLot(int x, int z) {
-		return platLots[x][z] == null;
 	}
 	
 	private void placeIntersection(SupportChunk typicalChunk, int x, int z) {
@@ -209,17 +226,17 @@ public class PlatMap {
 					isEmptyLot(x, z - 1) &&	isEmptyLot(x, z + 1) &&
 					isEmptyLot(x + 1, z - 1) &&	isEmptyLot(x + 1, z) &&	isEmptyLot(x + 1, z + 1)) {
 					
-					placePlatRoad(random, x - 1, z - 1);
-					placePlatRoad(random, x - 1, z    );
-					placePlatRoad(random, x - 1, z + 1);
+					paveLot(random, x - 1, z - 1);
+					paveLot(random, x - 1, z    );
+					paveLot(random, x - 1, z + 1);
 					
-					placePlatRoad(random, x    , z - 1);
+					paveLot(random, x    , z - 1);
 					platLots[x][z] = new PlatStatue(random, this);
-					placePlatRoad(random, x    , z + 1);
+					paveLot(random, x    , z + 1);
 			
-					placePlatRoad(random, x + 1, z - 1);
-					placePlatRoad(random, x + 1, z    );
-					placePlatRoad(random, x + 1, z + 1);
+					paveLot(random, x + 1, z - 1);
+					paveLot(random, x + 1, z    );
+					paveLot(random, x + 1, z + 1);
 				
 				// place the intersection then
 				} else {
@@ -247,22 +264,22 @@ public class PlatMap {
 		
 		// now place any remaining roads we need
 		if (roadHere)
-			placePlatRoad(random, x, z);
+			paveLot(random, x, z);
 		if (roadToNorth) {
-			placePlatRoad(random, x, z - 1);
-			placePlatRoad(random, x, z - 2);
+			paveLot(random, x, z - 1);
+			paveLot(random, x, z - 2);
 		}
 		if (roadToSouth) {
-			placePlatRoad(random, x, z + 1);
-			placePlatRoad(random, x, z + 2);
+			paveLot(random, x, z + 1);
+			paveLot(random, x, z + 2);
 		}
 		if (roadToEast) {
-			placePlatRoad(random, x + 1, z);
-			placePlatRoad(random, x + 2, z);
+			paveLot(random, x + 1, z);
+			paveLot(random, x + 2, z);
 		}
 		if (roadToWest) {
-			placePlatRoad(random, x - 1, z);
-			placePlatRoad(random, x - 2, z);
+			paveLot(random, x - 1, z);
+			paveLot(random, x - 2, z);
 		}
 	}
 	
@@ -338,58 +355,33 @@ public class PlatMap {
 		return false;
 	}
 	
-	private void placePlatRoad(Random random, int x, int z) {
-		platLots[x][z] = new PlatRoadPaved(random, this, generator.connectedKeyForPavedRoads);
-	}
-	
-	private void populateBuildings(SupportChunk typicalChunk) {
-		Random random = typicalChunk.random;
+	private void validateRoads(SupportChunk typicalChunk) {
 		
-		// backfill with buildings and parks
-		for (int x = 0; x < Width; x++) {
-			for (int z = 0; z < Width; z++) {
-				PlatLot current = platLots[x][z];
-				if (current == null) {
-
-					//TODO I need to come up with a more elegant way of doing this!
-					// what to build?
-					if (random.nextInt(context.oddsOfParks) == 0)
-						current = new PlatPark(random, this, generator.connectedKeyForParks);
-					else if (random.nextInt(context.oddsOfUnfinishedBuildings) == 0)
-						current = new PlatUnfinishedBuilding(random, this);
-					// houses
-					// yards
-					else
-						current = new PlatOfficeBuilding(random, this);
-					
-					/* for each plot
-					 *   randomly pick a plattype
-					 *   see if the "previous chunk" is the same type
-					 *     if so make the new plattype connected to the previous type
-					 *   if the new plot is shorter than the previous plot or
-					 *   if the new plot is shallower than the previous slot
-					 *     mark the previous plot to have stairs
-					 *   if plot does not have neighbors yet
-					 *     mark the plot to have stairs
-					 */
-
-					// see if the previous chunk is the same type
-					PlatLot previous = null;
-					if (x > 0 && current.isConnectable(platLots[x - 1][z])) {
-						previous = platLots[x - 1][z];
-					} else if (z > 0 && current.isConnectable(platLots[x][z - 1])) {
-						previous = platLots[x][z - 1];
-					}
-					
-					// if there was a similar previous one then copy it... maybe
-					if (previous != null && !previous.isIsolatedLot(random, context.oddsOfIsolatedLots)) {
-						current.makeConnected(random, previous);
-					}
-
-					// remember what we did
-					platLots[x][z] = current;
+		// any roads leading out?
+		if (!(isRoad(0, PlatRoad.PlatMapRoadInset - 1) ||
+			  isRoad(0, Width - PlatRoad.PlatMapRoadInset) ||
+			  isRoad(Width - 1, PlatRoad.PlatMapRoadInset - 1) ||
+			  isRoad(Width - 1, Width - PlatRoad.PlatMapRoadInset) ||
+			  isRoad(PlatRoad.PlatMapRoadInset - 1, 0) ||
+			  isRoad(Width - PlatRoad.PlatMapRoadInset, 0) ||
+			  isRoad(PlatRoad.PlatMapRoadInset - 1, Width - 1) ||
+			  isRoad(Width - PlatRoad.PlatMapRoadInset, Width - 1))) {
+			
+			// reclaim all of the silly roads
+			for (int x = 0; x < Width; x++) {
+				for (int z = 0; z < Width; z++) {
+					this.recycleLot(typicalChunk.random, x, z);
 				}
 			}
+			
+		} else {
+			
+			//TODO any other validation?
 		}
+	}
+	
+	private boolean isRoad(int x, int z) {
+		PlatLot current = platLots[x][z];
+		return current != null && current.style == lotStyle.ROAD;
 	}
 }

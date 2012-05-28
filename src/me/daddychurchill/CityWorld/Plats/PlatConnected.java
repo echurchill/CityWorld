@@ -2,32 +2,19 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
-import org.bukkit.Material;
-
 import me.daddychurchill.CityWorld.PlatMap;
 
-public abstract class PlatUrban extends PlatLot {
+public abstract class PlatConnected extends PlatLot {
 
 	protected long connectedkey;
 	
-	protected static byte bedrockId = (byte) Material.BEDROCK.getId();
-	protected static byte stoneId = (byte) Material.STONE.getId();
-	protected static byte lavaId = (byte) Material.LAVA.getId();
-	public static final int underworldLevel = 3;
-	
-	public PlatUrban(Random random, PlatMap platmap) {
+	public PlatConnected(Random random, PlatMap platmap) {
 		super(random);
 		
 		//TODO while this is relatively safe, I would feel better to have something airtight
 		connectedkey = random.nextLong();
-		structure = true;
 	}
 
-//	@Override
-//	public void generateBlocks(CityWorldChunkGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, Random random, int platX, int platZ) {
-//		// default one does nothing!
-//	}
-//	
 	@Override
 	public long getConnectedKey() {
 		return connectedkey;

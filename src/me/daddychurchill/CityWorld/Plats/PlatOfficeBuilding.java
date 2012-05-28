@@ -4,7 +4,7 @@ import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
-import me.daddychurchill.CityWorld.Context.PlatMapContext;
+import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -15,7 +15,7 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class PlatOfficeBuilding extends PlatBuilding {
 
-	protected final static int FloorHeight = PlatMapContext.FloorHeight;
+	protected final static int FloorHeight = ContextData.FloorHeight;
 	
 	protected Material wallMaterial;
 	protected Material ceilingMaterial;
@@ -36,7 +36,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 
 	public PlatOfficeBuilding(Random random, PlatMap platmap) {
 		super(random, platmap);
-		PlatMapContext context = platmap.context;
+		ContextData context = platmap.context;
 
 		// how do the walls inset?
 		insetWallEW = random.nextInt(context.rangeOfWallInset) + 1; // 1 or 2
@@ -123,7 +123,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	}
 
 	@Override
-	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
+	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
 
 		// check out the neighbors
@@ -197,7 +197,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	}
 	
 	@Override
-	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
 
 		// check out the neighbors
 		//SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);

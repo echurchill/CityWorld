@@ -4,17 +4,15 @@ import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
-import me.daddychurchill.CityWorld.Context.PlatMapContext;
+import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
-import me.daddychurchill.CityWorld.Support.Direction.Ladder;
-import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.Material;
 import org.bukkit.TreeType;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-public class PlatStatue extends PlatUrban {
+public class PlatStatue extends PlatIsolated {
 
 	private enum StatueBase { WATER, GRASS, PEDESTAL };
 	
@@ -25,13 +23,9 @@ public class PlatStatue extends PlatUrban {
 	protected final static Material woolBlockMaterial = Material.WOOL;
 	protected final static Material manholePlatformMaterial = Material.BEDROCK;
 	
-	protected final static byte stoneId = (byte) stoneMaterial.getId();
-	protected final static byte waterId = (byte) waterMaterial.getId();
 	protected final static byte curbId = (byte) Material.DOUBLE_STEP.getId();
 	protected final static byte goldId = (byte) Material.GOLD_ORE.getId();
 	protected final static byte brickId = (byte) Material.SMOOTH_BRICK.getId();
-	protected final static byte fenceId = (byte) Material.FENCE.getId();
-	protected final static byte grassId = (byte) Material.GRASS.getId();
 	
 	protected StatueBase statueBase;
 	
@@ -40,10 +34,11 @@ public class PlatStatue extends PlatUrban {
 		
 		// what is it build on?
 		statueBase = randomBase(random);
+		style = lotStyle.STRUCTURE;
 	}
 
 	@Override
-	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
+	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
 		Random random = chunk.random;
 
@@ -100,7 +95,7 @@ public class PlatStatue extends PlatUrban {
 	}
 	
 	@Override
-	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
 		Random random = chunk.random;
 		
 		// something got stolen?
@@ -127,10 +122,10 @@ public class PlatStatue extends PlatUrban {
 				somethingInTheCenter = false;
 			}
 			
-			// manhole to underworld?
-			if (context.doUnderworld)
-				if (random.nextInt(context.oddsOfManholeToDownBelow) == 0)
-					generateManhole(chunk, context);
+//			// manhole to underworld?
+//			if (context.doUnderworld)
+//				if (random.nextInt(context.oddsOfManholeToDownBelow) == 0)
+//					generateManhole(chunk, context);
 			break;
 		case GRASS:
 			
@@ -140,10 +135,10 @@ public class PlatStatue extends PlatUrban {
 				somethingInTheCenter = false;
 			}
 			
-			// manhole to underworld?
-			if (context.doUnderworld)
-				if (random.nextInt(context.oddsOfManholeToDownBelow) == 0)
-					generateManhole(chunk, context);
+//			// manhole to underworld?
+//			if (context.doUnderworld)
+//				if (random.nextInt(context.oddsOfManholeToDownBelow) == 0)
+//					generateManhole(chunk, context);
 			break;
 		case PEDESTAL:
 			
@@ -178,12 +173,12 @@ public class PlatStatue extends PlatUrban {
 		
 	}
 	
-	private void generateManhole(RealChunk chunk, PlatMapContext context) {
-		// maybe.. maybe not...
-		chunk.setTrapDoor(4, context.streetLevel + 2, 1, TrapDoor.EAST);
-		chunk.setLadder(4, underworldLevel, context.streetLevel + 2, 1, Ladder.SOUTH);
-		chunk.setBlock(4, 1, 1, manholePlatformMaterial);
-	}
+//	private void generateManhole(RealChunk chunk, PlatMapContext context) {
+//		// maybe.. maybe not...
+//		chunk.setTrapDoor(4, context.streetLevel + 2, 1, TrapDoor.EAST);
+//		chunk.setLadder(4, underworldLevel, context.streetLevel + 2, 1, Ladder.SOUTH);
+//		chunk.setBlock(4, 1, 1, manholePlatformMaterial);
+//	}
 
 	private StatueBase randomBase(Random random) {
 		switch (random.nextInt(StatueBase.values().length)) {

@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plats;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.PlatMap;
-import me.daddychurchill.CityWorld.Context.PlatMapContext;
+import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
@@ -17,7 +17,7 @@ import me.daddychurchill.CityWorld.Support.Direction.Door;
 
 import org.bukkit.Material;
 
-public abstract class PlatBuilding extends PlatUrban {
+public abstract class PlatBuilding extends PlatConnected {
 	
 	protected boolean neighborsHaveIdenticalHeights;
 	protected int neighborsHaveSimilarHeightsOdds;
@@ -50,7 +50,9 @@ public abstract class PlatBuilding extends PlatUrban {
 	
 	public PlatBuilding(Random random, PlatMap platmap) {
 		super(random, platmap);
-		PlatMapContext context = platmap.context;
+		style = lotStyle.STRUCTURE;
+		
+		ContextData context = platmap.context;
 		
 		neighborsHaveIdenticalHeights = random.nextInt(context.oddsOfIdenticalBuildingHeights) == 0;
 		neighborsHaveSimilarHeightsOdds = context.oddsOfIdenticalBuildingHeights;
@@ -174,7 +176,7 @@ public abstract class PlatBuilding extends PlatUrban {
 		return neighborBuildings;
 	}
 	
-	protected void drawCeilings(ByteChunk byteChunk, PlatMapContext context, int y1, int height, 
+	protected void drawCeilings(ByteChunk byteChunk, ContextData context, int y1, int height, 
 			int insetNS, int insetEW, boolean allowRounded, 
 			Material material, SurroundingFloors heights) {
 		
@@ -246,7 +248,7 @@ public abstract class PlatBuilding extends PlatUrban {
 		}
 	}
 	
-	protected void drawWalls(ByteChunk byteChunk, PlatMapContext context, int y1, int height, 
+	protected void drawWalls(ByteChunk byteChunk, ContextData context, int y1, int height, 
 			int insetNS, int insetEW, boolean allowRounded, 
 			Material material, Material glass, SurroundingFloors heights) {
 		
@@ -347,14 +349,14 @@ public abstract class PlatBuilding extends PlatUrban {
 	}
 	
 	//TODO roof fixtures (peak, antenna, helipad, air conditioning, stairwells access, penthouse, castle trim, etc.
-	protected void drawRoof(ByteChunk chunk, PlatMapContext context, int y1, 
+	protected void drawRoof(ByteChunk chunk, ContextData context, int y1, 
 			int insetEW, int insetNS, boolean allowRounded, 
 			Material material, SurroundingFloors heights) {
 		switch (roofStyle) {
 		case PEAK:
 			if (heights.getNeighborCount() == 0) { 
-				for (int i = 0; i < PlatMapContext.FloorHeight; i++) {
-					if (i == PlatMapContext.FloorHeight - 1)
+				for (int i = 0; i < ContextData.FloorHeight; i++) {
+					if (i == ContextData.FloorHeight - 1)
 						drawCeilings(chunk, context, y1 + i * roofScale, roofScale, insetEW + i, insetNS + i, allowRounded, material, heights);
 					else
 						drawWalls(chunk, context, y1 + i * roofScale, roofScale, insetEW + i, insetNS + i, allowRounded, material, material, heights);
@@ -364,8 +366,8 @@ public abstract class PlatBuilding extends PlatUrban {
 			break;
 		case TENTNS:
 			if (heights.getNeighborCount() == 0) { 
-				for (int i = 0; i < PlatMapContext.FloorHeight; i++) {
-					if (i == PlatMapContext.FloorHeight - 1)
+				for (int i = 0; i < ContextData.FloorHeight; i++) {
+					if (i == ContextData.FloorHeight - 1)
 						drawCeilings(chunk, context, y1 + i * roofScale, roofScale, insetEW + i, insetNS, allowRounded, material, heights);
 					else
 						drawWalls(chunk, context, y1 + i * roofScale, roofScale, insetEW + i, insetNS, allowRounded, material, material, heights);
@@ -375,8 +377,8 @@ public abstract class PlatBuilding extends PlatUrban {
 			break;
 		case TENTEW:
 			if (heights.getNeighborCount() == 0) { 
-				for (int i = 0; i < PlatMapContext.FloorHeight; i++) {
-					if (i == PlatMapContext.FloorHeight - 1)
+				for (int i = 0; i < ContextData.FloorHeight; i++) {
+					if (i == ContextData.FloorHeight - 1)
 						drawCeilings(chunk, context, y1 + i * roofScale, roofScale, insetEW, insetNS + i, allowRounded, material, heights);
 					else
 						drawWalls(chunk, context, y1 + i * roofScale, roofScale, insetEW, insetNS + i, allowRounded, material, material, heights);
@@ -393,7 +395,7 @@ public abstract class PlatBuilding extends PlatUrban {
 		}
 	}
 	
-	private void drawEdgedRoof(ByteChunk chunk, PlatMapContext context, int y1, 
+	private void drawEdgedRoof(ByteChunk chunk, ContextData context, int y1, 
 			int insetEW, int insetNS, boolean allowRounded, 
 			Material material, boolean doEdge, SurroundingFloors heights) {
 		

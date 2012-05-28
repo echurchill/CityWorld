@@ -5,7 +5,7 @@ import java.util.Random;
 import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
-public class ContextMall extends PlatMapContext {
+public class ContextMall extends ContextUrban {
 
 	public ContextMall(CityWorld plugin, SupportChunk typicalChunk) {
 		super(plugin, typicalChunk);

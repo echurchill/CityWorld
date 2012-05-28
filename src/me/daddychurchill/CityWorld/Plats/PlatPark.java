@@ -4,7 +4,7 @@ import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
-import me.daddychurchill.CityWorld.Context.PlatMapContext;
+import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Ladder;
 import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
@@ -16,9 +16,9 @@ import org.bukkit.TreeType;
 import org.bukkit.World;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-public class PlatPark extends PlatUrban {
+public class PlatPark extends PlatConnected {
 
-	protected final static int cisternDepth = PlatMapContext.FloorHeight * 4;
+	protected final static int cisternDepth = ContextData.FloorHeight * 4;
 	protected final static int groundDepth = 2;
 	
 	protected final static byte cisternId = (byte) Material.CLAY.getId();
@@ -46,10 +46,11 @@ public class PlatPark extends PlatUrban {
 		
 		// all parks are interconnected
 		connectedkey = globalconnectionkey;
+		style = lotStyle.STRUCTURE;
 		
 		// pick a style
 		circleSidewalk = rand.nextBoolean();
-		waterDepth = rand.nextInt(PlatMapContext.FloorHeight * 2) + 1;
+		waterDepth = rand.nextInt(ContextData.FloorHeight * 2) + 1;
 	}
 
 	@Override
@@ -72,7 +73,7 @@ public class PlatPark extends PlatUrban {
 	}
 
 	@Override
-	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
+	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
 
 		// look around
@@ -203,7 +204,7 @@ public class PlatPark extends PlatUrban {
 	}
 	
 	@Override
-	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
 		Random random = chunk.random;
 		int surfaceY = context.streetLevel + 1;
 		

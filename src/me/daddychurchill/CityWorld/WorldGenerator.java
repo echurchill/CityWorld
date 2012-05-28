@@ -5,14 +5,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.Context.ContextAllPark;
-import me.daddychurchill.CityWorld.Context.ContextCityCenter;
-import me.daddychurchill.CityWorld.Context.ContextHighrise;
-import me.daddychurchill.CityWorld.Context.ContextLowrise;
-import me.daddychurchill.CityWorld.Context.ContextMall;
-import me.daddychurchill.CityWorld.Context.ContextMidrise;
-import me.daddychurchill.CityWorld.Context.ContextUnfinished;
-import me.daddychurchill.CityWorld.Context.PlatMapContext;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
@@ -40,7 +32,8 @@ public class WorldGenerator extends ChunkGenerator {
 	public SimplexOctaveGenerator featureShape;
 	public SimplexNoiseGenerator caveShape;
 	public SimplexNoiseGenerator oreShape;
-	public SimplexNoiseGenerator roadShape;
+	public SimplexNoiseGenerator macroShape;
+	public SimplexNoiseGenerator microShape;
 	
 	public int topLevel;
 	public int seaLevel;
@@ -113,8 +106,8 @@ public class WorldGenerator extends ChunkGenerator {
 	public double oreScaleY = oreScale * 2;
 	public double oreThreshold = 0.85;
 
-	public double bridgeScale = 1.0 / 384.0;
-	public double roundaboutThreshold = 0.50;
+	public double macroScale = 1.0 / 384.0;
+	public double microScale = 2.0;
 	
 	@Override
 	public byte[][] generateBlockSections(World aWorld, Random random, int chunkX, int chunkZ, BiomeGrid biomes) {
@@ -137,7 +130,8 @@ public class WorldGenerator extends ChunkGenerator {
 			
 			caveShape = new SimplexNoiseGenerator(seed);
 			oreShape = new SimplexNoiseGenerator(seed + 1);
-			roadShape = new SimplexNoiseGenerator(seed + 2);
+			macroShape = new SimplexNoiseGenerator(seed + 2);
+			microShape = new SimplexNoiseGenerator(seed + 2);
 			
 			// get ranges
 			topLevel = world.getMaxHeight();
@@ -225,15 +219,28 @@ public class WorldGenerator extends ChunkGenerator {
 		return NoiseGenerator.floor(findPerciseY(blockX, blockZ));
 	}
 	
+	// macro slots
 	private final static int naturalNSBridgeOddSlot = 0; 
-	private final static int naturalRoundaboutOddSlot = 10; 
+	
+	// micro slots
+	private final static int naturalRoundaboutOddSlot = 0; 
+	private final static int naturalCaveOddSlot = 1; 
+	private final static int naturalFarmHouseOddSlot = 2;
 	
 	public boolean getBridgePolarityAt(double chunkX, double chunkZ) {
-		return roadShape.noise(chunkX * bridgeScale, chunkZ * bridgeScale, naturalNSBridgeOddSlot) >= 0.0;
+		return macroShape.noise(chunkX * macroScale, chunkZ * macroScale, naturalNSBridgeOddSlot) >= 0.0;
 	}
 
 	public boolean isRoundaboutAt(double chunkX, double chunkZ) {
-		return roadShape.noise(chunkX, chunkZ, naturalRoundaboutOddSlot) >= roundaboutThreshold;
+		return microShape.noise(chunkX * microScale, chunkZ * microScale, naturalRoundaboutOddSlot) >= 0.0;
+	}
+	
+	public boolean isSurfaceCaveAt(double chunkX, double chunkZ) {
+		return microShape.noise(chunkX * microScale, chunkZ * microScale, naturalCaveOddSlot) >= 0.0;
+	}
+	
+	public boolean isFarmHouseAt(double chunkX, double chunkZ) {
+		return microShape.noise(chunkX * microScale, chunkZ * microScale, naturalFarmHouseOddSlot) >= 0.0;
 	}
 	
 	public int maxHeight(int blockX, int blockZ) {
@@ -358,8 +365,7 @@ public class WorldGenerator extends ChunkGenerator {
 		if (platmap == null) {
 			
 			// what is the context for this one?
-			PlatMapContext context = getContext(cornerChunk, chunkX, chunkZ);
-			platmap = new PlatMap(this, cornerChunk, context, platX, platZ);
+			platmap = new PlatMap(this, cornerChunk, platX, platZ);
 			
 			// remember it for quicker look up
 			platmaps.put(platkey, platmap);
@@ -367,42 +373,6 @@ public class WorldGenerator extends ChunkGenerator {
 
 		// finally return the plat
 		return platmap;
-	}
-
-	private PlatMapContext getContext(SupportChunk cornerChunk, int chunkX, int chunkZ) {
-		Random random = cornerChunk.random;
-		
-		// TODO derive this from the CityNoise generator
-		switch (random.nextInt(20)) {
-		case 0:
-		case 1:
-		case 2:
-		case 3:
-			return new ContextLowrise(plugin, cornerChunk);
-		case 4:
-		case 5:
-		case 6:
-		case 7:
-			return new ContextMidrise(plugin, cornerChunk);
-		case 8:
-		case 9:
-		case 10:
-			return new ContextHighrise(plugin, cornerChunk);
-		case 11:
-		case 12:
-			return new ContextAllPark(plugin, cornerChunk);
-		case 13:
-		case 14:
-			return new ContextMall(plugin, cornerChunk);
-		case 15:
-		case 16:
-		case 17:
-			return new ContextCityCenter(plugin, cornerChunk);
-		case 18:
-		case 19:
-		default:
-			return new ContextUnfinished(plugin, cornerChunk);
-		}
 	}
 
 	// Supporting code used by getPlatMap

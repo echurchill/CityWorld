@@ -3,9 +3,11 @@ package me.daddychurchill.CityWorld.Context;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.CityWorld;
+import me.daddychurchill.CityWorld.PlatMap;
+import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
-public class PlatMapContext {
+public abstract class ContextData {
 	public static int oddsNeverGoingToHappen = Integer.MAX_VALUE;
 	public static int oddsExtremelyUnlikely = 80;
 	public static int oddsVeryUnlikely = 40;
@@ -78,7 +80,7 @@ public class PlatMapContext {
 	public boolean doOresInSewer;
 	public boolean doOresInUnderworld;
 	
-	public PlatMapContext(CityWorld plugin, SupportChunk typicalChunk) {
+	public ContextData(CityWorld plugin, SupportChunk typicalChunk) {
 		super();
 		Random random = typicalChunk.random;
 		
@@ -116,6 +118,8 @@ public class PlatMapContext {
 		// default floor range
 		setFloorRange(random, 2, 2);
 	}
+	
+	public abstract void populateMap(WorldGenerator generator, PlatMap platmap, SupportChunk typicalChunk);
 	
 	protected void setFloorRange(Random random, int aboveRange, int belowRange) {
 		// calculate the extremes for this plat

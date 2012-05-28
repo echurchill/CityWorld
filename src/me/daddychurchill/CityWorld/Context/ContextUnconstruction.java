@@ -5,9 +5,9 @@ import java.util.Random;
 import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
-public class ContextUnfinished extends PlatMapContext {
+public class ContextUnconstruction extends ContextUrban {
 
-	public ContextUnfinished(CityWorld plugin, SupportChunk typicalChunk) {
+	public ContextUnconstruction(CityWorld plugin, SupportChunk typicalChunk) {
 		super(plugin, typicalChunk);
 		Random random = typicalChunk.random;
 
@@ -21,7 +21,7 @@ public class ContextUnfinished extends PlatMapContext {
 		oddsOfMissingRoad = oddsLikely;
 		oddsOfRoundAbouts = oddsLikely;
 		 
-		oddsOfUnfinishedBuildings = oddsExtremelyLikely;
+		oddsOfUnfinishedBuildings = oddsVeryLikely;
 		oddsOfOnlyUnfinishedBasements = oddsLikely;
 		oddsOfCranes = oddsExtremelyLikely;
 		

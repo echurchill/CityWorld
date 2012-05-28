@@ -8,10 +8,10 @@ import org.bukkit.util.noise.NoiseGenerator;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
-import me.daddychurchill.CityWorld.Context.PlatMapContext;
+import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
-public class PlatNature extends PlatLot {
+public class PlatNature extends PlatIsolated {
 
 	protected final static Material snowMaterial= Material.SNOW;
 	protected final static Material grassMaterial= Material.LONG_GRASS;
@@ -23,42 +23,12 @@ public class PlatNature extends PlatLot {
 	protected final static byte grassId = (byte) grassMaterial.getId();
 	
 	public PlatNature(Random random, PlatMap platmap) {
-		super(random);
-		
+		super(random, platmap);
+		style = lotStyle.NATURE;
 	}
 
 	@Override
-	public long getConnectedKey() {
-		return 0;
-	}
-
-	@Override
-	public boolean makeConnected(Random random, PlatLot relative) {
-		return false;
-	}
-
-	@Override
-	public boolean isConnectable(PlatLot relative) {
-		return false;
-	}
-
-	@Override
-	public boolean isIsolatedLot(Random random, int oddsOfIsolation) {
-		return false;
-	}
-
-	@Override
-	public boolean isConnected(PlatLot relative) {
-		return false;
-	}
-
-	@Override
-	public PlatLot[][] getNeighborPlatLots(PlatMap platmap, int platX, int platZ, boolean onlyConnectedNeighbors) {
-		return null;
-	}
-
-	@Override
-	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, PlatMapContext context, int platX, int platZ) {
+	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
 		// TODO add foliage and underground fixtures
 		
 		// compute offset to start of chunk
@@ -90,9 +60,9 @@ public class PlatNature extends PlatLot {
 					// regular trees, grass and flowers only
 					if (y < chunk.treelevel) {
 	
-						// trees?
-						if (primary > 0.99) {
-							if (secondary > 0.90)
+						// trees? but only if we are not too close to the edge
+						if (primary > 0.97 && x > 2 && x < 14 && z > 2 && z < 14) {
+							if (secondary > 0.90 && x > 5 && x < 11 && z > 5 && z < 11)
 								chunk.world.generateTree(chunk.getBlockLocation(x, y + 1, z), TreeType.BIG_TREE);
 							else if (secondary > 0.50)
 								chunk.world.generateTree(chunk.getBlockLocation(x, y + 1, z), TreeType.BIRCH);
@@ -100,7 +70,7 @@ public class PlatNature extends PlatLot {
 								chunk.world.generateTree(chunk.getBlockLocation(x, y + 1, z), TreeType.TREE);
 						
 						// foliage?
-						} else if (primary > 0.70) {
+						} else if (primary > 0.75) {
 							
 							// what to pepper about
 							if (secondary > 0.90)
@@ -114,8 +84,8 @@ public class PlatNature extends PlatLot {
 					// regular trees, grass and some evergreen trees... no flowers
 					} else if (y < chunk.evergreenlevel) {
 	
-						// trees?
-						if (primary > 0.92) {
+						// trees? but only if we are not too close to the edge
+						if (primary > 0.90 && x > 2 && x < 14 && z > 2 && z < 14) {
 							
 							// range change?
 							if (secondary > ((double) (y - chunk.treelevel) / (double) deciduousRange))
@@ -124,7 +94,7 @@ public class PlatNature extends PlatLot {
 								chunk.world.generateTree(chunk.getBlockLocation(x, y + 1, z), TreeType.REDWOOD);
 						
 						// foliage?
-						} else if (primary > 0.60) {
+						} else if (primary > 0.75) {
 
 							// range change?
 							if (secondary > ((double) (y - chunk.treelevel) / (double) deciduousRange))
@@ -136,8 +106,8 @@ public class PlatNature extends PlatLot {
 					// evergreen and some grass and fallen snow, no regular trees or flowers
 					} else if (y < chunk.snowlevel) {
 						
-						// trees?
-						if (primary > 0.92) {
+						// trees? but only if we are not too close to the edge
+						if (primary > 0.90 && x > 2 && x < 14 && z > 2 && z < 14) {
 							if (secondary > 0.50)
 								chunk.world.generateTree(chunk.getBlockLocation(x, y + 1, z), TreeType.REDWOOD);
 							else
