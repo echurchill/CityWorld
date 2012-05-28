@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class RealChunk extends SupportChunk {
 	private Chunk chunk;
+
 	private boolean doPhysics;
 
 	public RealChunk(WorldGenerator aGenerator, Random aRandom, Chunk aChunk) {
@@ -24,7 +25,6 @@ public class RealChunk extends SupportChunk {
 		chunk = aChunk;
 		chunkX = chunk.getX();
 		chunkZ = chunk.getZ();
-		
 		doPhysics = false;
 	}
 	
@@ -36,15 +36,6 @@ public class RealChunk extends SupportChunk {
 		doPhysics = dophysics;
 	}
 
-	public boolean isEmpty(int x, int y, int z) {
-		return getBlock(x, y, z).getId() == airId;
-	}
-	
-	public boolean isPlantable(int x, int y, int z) {
-		return getBlock(x, y, z).getId() == grassId;
-	}
-	
-	
 	public void setBlock(int x, int y, int z, Material material) {
 		chunk.getBlock(x, y, z).setTypeId(material.getId(), doPhysics);
 	}
@@ -89,6 +80,36 @@ public class RealChunk extends SupportChunk {
 		}
 	}
 
+	public void setBlocks(int x, int y1, int y2, int z, Material material, byte data) {
+		for (int y = y1; y < y2; y++)
+			chunk.getBlock(x, y, z).setTypeIdAndData(material.getId(), data, doPhysics);
+	}
+
+	public void setBlocks(int x, int y1, int y2, int z, Material material, byte data, boolean aDoPhysics) {
+		for (int y = y1; y < y2; y++)
+			chunk.getBlock(x, y, z).setTypeIdAndData(material.getId(), data, aDoPhysics);
+	}
+
+	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, byte data, boolean aDoPhysics) {
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
+				for (int z = z1; z < z2; z++) {
+					chunk.getBlock(x, y, z).setTypeIdAndData(material.getId(), data, aDoPhysics);
+				}
+			}
+		}
+	}
+
+	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, byte data) {
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
+				for (int z = z1; z < z2; z++) {
+					chunk.getBlock(x, y, z).setTypeIdAndData(material.getId(), data, doPhysics);
+				}
+			}
+		}
+	}
+
 	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, int type, byte data) {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
@@ -112,6 +133,14 @@ public class RealChunk extends SupportChunk {
 	public int setLayer(int blocky, int height, int inset, Material material) {
 		setBlocks(inset, width - inset, blocky, blocky + height, inset, width - inset, material);
 		return blocky + height;
+	}
+	
+	public boolean isEmpty(int x, int y, int z) {
+		return getBlock(x, y, z).getId() == airId;
+	}
+	
+	public boolean isPlantable(int x, int y, int z) {
+		return getBlock(x, y, z).getId() == grassId;
 	}
 	
 	private void setDoor(int x, int y, int z, int doorId, Direction.Door direction) {

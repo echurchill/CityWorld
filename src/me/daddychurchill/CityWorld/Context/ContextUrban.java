@@ -23,6 +23,10 @@ public abstract class ContextUrban extends ContextData {
 	public void populateMap(WorldGenerator generator, PlatMap platmap, SupportChunk typicalChunk) {
 		Random random = typicalChunk.random;
 		
+		// where do we begin?
+		int originX = platmap.originX;
+		int originZ = platmap.originZ;
+		
 		// backfill with buildings and parks
 		for (int x = 0; x < PlatMap.Width; x++) {
 			for (int z = 0; z < PlatMap.Width; z++) {
@@ -32,13 +36,13 @@ public abstract class ContextUrban extends ContextData {
 					//TODO I need to come up with a more elegant way of doing this!
 					// what to build?
 					if (random.nextInt(oddsOfParks) == 0)
-						current = new PlatPark(random, platmap, generator.connectedKeyForParks);
+						current = new PlatPark(random, platmap, originX + x, originZ + z, generator.connectedKeyForParks);
 					else if (random.nextInt(oddsOfUnfinishedBuildings) == 0)
-						current = new PlatUnfinishedBuilding(random, platmap);
+						current = new PlatUnfinishedBuilding(random, platmap, originX + x, originZ + z);
 					// houses
 					// yards
 					else
-						current = new PlatOfficeBuilding(random, platmap);
+						current = new PlatOfficeBuilding(random, platmap, originX + x, originZ + z);
 					
 					/* for each plot
 					 *   randomly pick a plattype

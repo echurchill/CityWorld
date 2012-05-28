@@ -17,6 +17,13 @@ public class ContextFarm extends ContextRural {
 
 		oddsOfIsolatedLots = oddsVeryLikely;
 	}
+	
+	private boolean isLotEmpty(PlatMap platmap, int x, int z) {
+		if (x >= 0 && x < PlatMap.Width && z >= 0 && z < PlatMap.Width)
+			return platmap.platLots[x][z] == null;
+		else
+			return true;
+	}
 
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap, SupportChunk typicalChunk) {
@@ -24,7 +31,36 @@ public class ContextFarm extends ContextRural {
 		boolean housePlaced = false;
 		int lastX = 0, lastZ = 0;
 		
-		// backfill with buildings and parks
+		// where do we begin?
+		int originX = platmap.originX;
+		int originZ = platmap.originZ;
+		
+		// look for isolated lots and turn them into nature
+		for (int x = 0; x < PlatMap.Width; x++) {
+			for (int z = 0; z < PlatMap.Width; z++) {
+				PlatLot current = platmap.platLots[x][z];
+				
+				// something here?
+				if (current == null) {
+					
+					// but there aren't neighbors
+					if (!isLotEmpty(platmap, x - 1, z) && !isLotEmpty(platmap, x + 1, z) &&
+						!isLotEmpty(platmap, x, z - 1) && !isLotEmpty(platmap, x, z + 1))
+						platmap.recycleLot(random, x, z);
+				}
+				
+				// if a single natural thing is here but surrounded by four farm lots
+				else if (current != null) {
+					
+					// but there are a lot of neighbors
+					if (isLotEmpty(platmap, x - 1, z) && isLotEmpty(platmap, x + 1, z) &&
+						isLotEmpty(platmap, x, z - 1) && isLotEmpty(platmap, x, z + 1))
+						platmap.platLots[x][z] = null;
+				}
+			}
+		}
+		
+		// backfill with farms and a single house
 		for (int x = 0; x < PlatMap.Width; x++) {
 			for (int z = 0; z < PlatMap.Width; z++) {
 				PlatLot current = platmap.platLots[x][z];
@@ -32,14 +68,14 @@ public class ContextFarm extends ContextRural {
 					
 					// farm house here?
 					if (!housePlaced && generator.isFarmHouseAt(platmap.originX + x, platmap.originZ + z)) {
-						platmap.platLots[x][z] = new PlatHouse(random, platmap);
+						platmap.platLots[x][z] = new PlatHouse(random, platmap, originX + x, originZ + z);
 						housePlaced = true;
 					
 					// place the farm
 					} else {
 						
 						// place the farm
-						current = new PlatFarm(random, platmap);
+						current = new PlatFarm(random, platmap, originX + x, originZ + z);
 						
 						// see if the previous chunk is the same type
 						PlatLot previous = null;
@@ -67,7 +103,7 @@ public class ContextFarm extends ContextRural {
 		
 		// did we miss out placing the farm house?
 		if (!housePlaced && platmap.platLots[lastX][lastZ] == null) {
-			platmap.platLots[lastX][lastZ] = new PlatHouse(random, platmap);
+			platmap.platLots[lastX][lastZ] = new PlatHouse(random, platmap, originX + lastX, originZ + lastZ);
 		}
 	}
 }

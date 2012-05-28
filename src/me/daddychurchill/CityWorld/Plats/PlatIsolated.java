@@ -6,7 +6,7 @@ import me.daddychurchill.CityWorld.PlatMap;
 
 public abstract class PlatIsolated extends PlatLot {
 
-	public PlatIsolated(Random random, PlatMap platmap) {
+	public PlatIsolated(Random random, PlatMap platmap, int chunkX, int chunkZ) {
 		super(random);
 		
 		// TODO Auto-generated constructor stub

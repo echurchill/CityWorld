@@ -34,8 +34,8 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	protected int insetInsetMidAt;
 	protected int insetInsetHighAt;
 
-	public PlatOfficeBuilding(Random random, PlatMap platmap) {
-		super(random, platmap);
+	public PlatOfficeBuilding(Random random, PlatMap platmap, int chunkX, int chunkZ) {
+		super(random, platmap, chunkX, chunkZ);
 		ContextData context = platmap.context;
 
 		// how do the walls inset?

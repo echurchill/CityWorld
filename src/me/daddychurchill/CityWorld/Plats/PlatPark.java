@@ -41,8 +41,8 @@ public class PlatPark extends PlatConnected {
 	private boolean circleSidewalk;
 	private int waterDepth;
 	
-	public PlatPark(Random rand, PlatMap platmap, long globalconnectionkey) {
-		super(rand, platmap);
+	public PlatPark(Random rand, PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey) {
+		super(rand, platmap, chunkX, chunkZ);
 		
 		// all parks are interconnected
 		connectedkey = globalconnectionkey;

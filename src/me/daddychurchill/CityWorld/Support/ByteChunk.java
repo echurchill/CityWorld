@@ -24,6 +24,10 @@ public class ByteChunk extends SupportChunk {
 		blocks = new byte[sectionsPerChunk][];
 	}
 	
+	public byte[][] getActualBlocks() {
+		return blocks;
+	}
+	
 	public int getBlockX(int x) {
 		return chunkX * width + x;
 	}

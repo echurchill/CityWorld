@@ -220,27 +220,53 @@ public class WorldGenerator extends ChunkGenerator {
 	}
 	
 	// macro slots
-	private final static int naturalNSBridgeOddSlot = 0; 
+	private final static int macroNSBridgeSlot = 0; 
 	
 	// micro slots
-	private final static int naturalRoundaboutOddSlot = 0; 
-	private final static int naturalCaveOddSlot = 1; 
-	private final static int naturalFarmHouseOddSlot = 2;
+	private final static int microRoundaboutSlot = 0; 
+	private final static int microCaveSlot = 1; 
+	private final static int microFarmHouseSlot = 2;
+	private final static int microFarmCropSlot = 3;
+	private final static int microFarmDirectionSlot = 4;
 	
 	public boolean getBridgePolarityAt(double chunkX, double chunkZ) {
-		return macroShape.noise(chunkX * macroScale, chunkZ * macroScale, naturalNSBridgeOddSlot) >= 0.0;
+		return macroBooleanAt(chunkX, chunkZ, macroNSBridgeSlot);
 	}
 
 	public boolean isRoundaboutAt(double chunkX, double chunkZ) {
-		return microShape.noise(chunkX * microScale, chunkZ * microScale, naturalRoundaboutOddSlot) >= 0.0;
+		return microBooleanAt(chunkX, chunkZ, microRoundaboutSlot);
 	}
 	
 	public boolean isSurfaceCaveAt(double chunkX, double chunkZ) {
-		return microShape.noise(chunkX * microScale, chunkZ * microScale, naturalCaveOddSlot) >= 0.0;
+		return microBooleanAt(chunkX, chunkZ, microCaveSlot);
 	}
 	
 	public boolean isFarmHouseAt(double chunkX, double chunkZ) {
-		return microShape.noise(chunkX * microScale, chunkZ * microScale, naturalFarmHouseOddSlot) >= 0.0;
+		return microBooleanAt(chunkX, chunkZ, microFarmHouseSlot);
+	}
+	
+	public int getFarmCropAt(double chunkX, double chunkZ, int scale) {
+		return microScaleAt(chunkX, chunkZ, microFarmCropSlot, scale);
+	}
+	
+	public boolean isFarmNSCropAt(double chunkX, double chunkZ) {
+		return microBooleanAt(chunkX, chunkZ, microFarmDirectionSlot);
+	}
+	
+	private boolean macroBooleanAt(double chunkX, double chunkZ, int slot) {
+		return macroShape.noise(chunkX * macroScale, chunkZ * macroScale, slot) >= 0.0;
+	}
+	
+	private boolean microBooleanAt(double chunkX, double chunkZ, int slot) {
+		return microShape.noise(chunkX * microScale, chunkZ * microScale, slot) >= 0.0;
+	}
+	
+//	private int macroScaleAt(double chunkX, double chunkZ, int slot, int scale) {
+//		return NoiseGenerator.floor(((macroShape.noise(chunkX * macroScale, chunkZ * macroScale, slot) + 1.0) / 2.0) * scale);
+//	}
+//	
+	private int microScaleAt(double chunkX, double chunkZ, int slot, int scale) {
+		return NoiseGenerator.floor(((microShape.noise(chunkX * microScale, chunkZ * microScale, slot) + 1.0) / 2.0) * scale);
 	}
 	
 	public int maxHeight(int blockX, int blockZ) {

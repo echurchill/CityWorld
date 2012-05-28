@@ -21,12 +21,16 @@ public class ContextNeighborhood extends ContextRural {
 	public void populateMap(WorldGenerator generator, PlatMap platmap, SupportChunk typicalChunk) {
 		Random random = typicalChunk.random;
 		
+		// where do we begin?
+		int originX = platmap.originX;
+		int originZ = platmap.originZ;
+		
 		// backfill with buildings and parks
 		for (int x = 0; x < PlatMap.Width; x++) {
 			for (int z = 0; z < PlatMap.Width; z++) {
 				PlatLot current = platmap.platLots[x][z];
 				if (current == null) {
-					platmap.platLots[x][z] = new PlatHouse(random, platmap);
+					platmap.platLots[x][z] = new PlatHouse(random, platmap, originX + x, originZ + z);
 				}
 			}
 		}

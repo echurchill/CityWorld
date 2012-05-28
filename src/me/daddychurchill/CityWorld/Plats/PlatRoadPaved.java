@@ -61,8 +61,8 @@ public class PlatRoadPaved extends PlatRoad {
 	private final static byte bridgeEdgeId = (byte) Material.SMOOTH_BRICK.getId();
 	private final static byte bridgeRailId = (byte) Material.FENCE.getId();
 	
-	public PlatRoadPaved(Random random, PlatMap platmap, long globalconnectionkey) {
-		super(random, platmap);
+	public PlatRoadPaved(Random random, PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey) {
+		super(random, platmap, chunkX, chunkZ);
 
 		// all paved roads are interconnected
 		connectedkey = globalconnectionkey;

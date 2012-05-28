@@ -105,9 +105,11 @@ public class PlatMap {
 			return new ContextMall(plugin, typicalChunk);
 		else if (naturalPlats < 70)
 			return new ContextLowrise(plugin, typicalChunk);
-		else if (naturalPlats < 85)
+		else 
+		if (naturalPlats < 85)
 			return new ContextNeighborhood(plugin, typicalChunk);
-		else if (naturalPlats < 95)
+		else 
+		if (naturalPlats < 95)
 			return new ContextFarm(plugin, typicalChunk);
 		else if (naturalPlats < 100)
 			return new ContextNeighborhood(plugin, typicalChunk);
@@ -155,7 +157,7 @@ public class PlatMap {
 		if (current == null || current.style != lotStyle.NATURE) {
 		
 			// place nature
-			platLots[x][z] = new PlatNature(random, this);
+			platLots[x][z] = new PlatNature(random, this, originX + x, originZ + z);
 			naturalPlats++;
 		}
 	}
@@ -168,7 +170,7 @@ public class PlatMap {
 			naturalPlats--;
 		
 		// place the road
-		platLots[x][z] = new PlatRoadPaved(random, this, generator.connectedKeyForPavedRoads);
+		platLots[x][z] = new PlatRoadPaved(random, this, originX + x, originZ + z, generator.connectedKeyForPavedRoads);
 	}
 	
 	private void populateNature(SupportChunk typicalChunk) {
@@ -231,7 +233,7 @@ public class PlatMap {
 					paveLot(random, x - 1, z + 1);
 					
 					paveLot(random, x    , z - 1);
-					platLots[x][z] = new PlatStatue(random, this);
+					platLots[x][z] = new PlatStatue(random, this, originX + x, originZ + z);
 					paveLot(random, x    , z + 1);
 			
 					paveLot(random, x + 1, z - 1);

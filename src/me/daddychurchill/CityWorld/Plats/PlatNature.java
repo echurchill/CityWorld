@@ -22,8 +22,8 @@ public class PlatNature extends PlatIsolated {
 	protected final static byte snowId = (byte) snowMaterial.getId();
 	protected final static byte grassId = (byte) grassMaterial.getId();
 	
-	public PlatNature(Random random, PlatMap platmap) {
-		super(random, platmap);
+	public PlatNature(Random random, PlatMap platmap, int chunkX, int chunkZ) {
+		super(random, platmap, chunkX, chunkZ);
 		style = lotStyle.NATURE;
 	}
 

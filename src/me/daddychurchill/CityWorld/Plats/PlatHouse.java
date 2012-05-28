@@ -12,8 +12,8 @@ import me.daddychurchill.CityWorld.Support.ByteChunk;
 
 public class PlatHouse extends PlatIsolated {
 
-	public PlatHouse(Random random, PlatMap platmap) {
-		super(random, platmap);
+	public PlatHouse(Random random, PlatMap platmap, int chunkX, int chunkZ) {
+		super(random, platmap, chunkX, chunkZ);
 		
 		style = lotStyle.STRUCTURE;
 	}
