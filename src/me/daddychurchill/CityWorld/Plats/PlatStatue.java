@@ -34,7 +34,7 @@ public class PlatStatue extends PlatIsolated {
 		
 		// what is it build on?
 		statueBase = randomBase(random);
-		style = lotStyle.STRUCTURE;
+		style = LotStyle.ROUNDABOUT;
 	}
 
 	@Override

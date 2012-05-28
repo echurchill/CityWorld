@@ -15,7 +15,7 @@ public class PlatHouse extends PlatIsolated {
 	public PlatHouse(Random random, PlatMap platmap, int chunkX, int chunkZ) {
 		super(random, platmap, chunkX, chunkZ);
 		
-		style = lotStyle.STRUCTURE;
+		style = LotStyle.STRUCTURE;
 	}
 
 	@Override

@@ -46,7 +46,7 @@ public class PlatPark extends PlatConnected {
 		
 		// all parks are interconnected
 		connectedkey = globalconnectionkey;
-		style = lotStyle.STRUCTURE;
+		style = LotStyle.STRUCTURE;
 		
 		// pick a style
 		circleSidewalk = rand.nextBoolean();

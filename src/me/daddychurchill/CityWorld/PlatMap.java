@@ -13,7 +13,7 @@ import me.daddychurchill.CityWorld.Context.ContextMidrise;
 import me.daddychurchill.CityWorld.Context.ContextUnconstruction;
 import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plats.PlatLot.lotStyle;
+import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Plats.PlatNature;
 import me.daddychurchill.CityWorld.Plats.PlatRoad;
 import me.daddychurchill.CityWorld.Plats.PlatRoadPaved;
@@ -105,13 +105,13 @@ public class PlatMap {
 			return new ContextMall(plugin, typicalChunk);
 		else if (naturalPlats < 70)
 			return new ContextLowrise(plugin, typicalChunk);
-		else 
-		if (naturalPlats < 85)
+		else if (naturalPlats < 85)
 			return new ContextNeighborhood(plugin, typicalChunk);
 		else 
 		if (naturalPlats < 95)
 			return new ContextFarm(plugin, typicalChunk);
-		else if (naturalPlats < 100)
+		else 
+		if (naturalPlats < 100)
 			return new ContextNeighborhood(plugin, typicalChunk);
 		
 		// otherwise just keep what we have
@@ -154,7 +154,7 @@ public class PlatMap {
 
 		// if it is not natural, make it so
 		PlatLot current = platLots[x][z];
-		if (current == null || current.style != lotStyle.NATURE) {
+		if (current == null || current.style != LotStyle.NATURE) {
 		
 			// place nature
 			platLots[x][z] = new PlatNature(random, this, originX + x, originZ + z);
@@ -166,7 +166,7 @@ public class PlatMap {
 
 		// keep track of the nature count
 		PlatLot current = platLots[x][z];
-		if (current != null && current.style == lotStyle.NATURE)
+		if (current != null && current.style == LotStyle.NATURE)
 			naturalPlats--;
 		
 		// place the road
@@ -384,6 +384,6 @@ public class PlatMap {
 	
 	private boolean isRoad(int x, int z) {
 		PlatLot current = platLots[x][z];
-		return current != null && current.style == lotStyle.ROAD;
+		return current != null && (current.style == LotStyle.ROAD || current.style == LotStyle.ROUNDABOUT);
 	}
 }

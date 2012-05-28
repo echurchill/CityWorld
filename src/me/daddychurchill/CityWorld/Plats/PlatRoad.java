@@ -11,6 +11,6 @@ public abstract class PlatRoad extends PlatConnected {
 	public PlatRoad(Random random, PlatMap platmap, int chunkX, int chunkZ) {
 		super(random, platmap, chunkX, chunkZ);
 		
-		style = lotStyle.ROAD;
+		style = LotStyle.ROAD;
 	}
 }

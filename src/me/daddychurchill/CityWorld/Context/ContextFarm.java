@@ -8,6 +8,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatFarm;
 import me.daddychurchill.CityWorld.Plats.PlatHouse;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class ContextFarm extends ContextRural {
@@ -35,7 +36,7 @@ public class ContextFarm extends ContextRural {
 		int originX = platmap.originX;
 		int originZ = platmap.originZ;
 		
-		// look for isolated lots and turn them into nature
+		// clean up the platmap of singletons and odd road structures
 		for (int x = 0; x < PlatMap.Width; x++) {
 			for (int z = 0; z < PlatMap.Width; z++) {
 				PlatLot current = platmap.platLots[x][z];
@@ -49,13 +50,23 @@ public class ContextFarm extends ContextRural {
 						platmap.recycleLot(random, x, z);
 				}
 				
-				// if a single natural thing is here but surrounded by four farm lots
+				// look for singleton nature and roundabouts
 				else if (current != null) {
 					
-					// but there are a lot of neighbors
-					if (isLotEmpty(platmap, x - 1, z) && isLotEmpty(platmap, x + 1, z) &&
+					// if a single natural thing is here but surrounded by four "things"
+					if (current.style == LotStyle.NATURE &&
+						isLotEmpty(platmap, x - 1, z) && isLotEmpty(platmap, x + 1, z) &&
 						isLotEmpty(platmap, x, z - 1) && isLotEmpty(platmap, x, z + 1))
 						platmap.platLots[x][z] = null;
+					
+					// get rid of roundabouts
+					else if (current.style == LotStyle.ROUNDABOUT) {
+						platmap.paveLot(random, x, z);
+						platmap.platLots[x - 1][z - 1] = null;
+						platmap.platLots[x - 1][z + 1] = null;
+						platmap.platLots[x + 1][z - 1] = null;
+						platmap.platLots[x + 1][z + 1] = null;
+					}
 				}
 			}
 		}

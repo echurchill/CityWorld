@@ -50,7 +50,7 @@ public abstract class PlatBuilding extends PlatConnected {
 	
 	public PlatBuilding(Random random, PlatMap platmap, int chunkX, int chunkZ) {
 		super(random, platmap, chunkX, chunkZ);
-		style = lotStyle.STRUCTURE;
+		style = LotStyle.STRUCTURE;
 		
 		ContextData context = platmap.context;
 		

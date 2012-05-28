@@ -21,7 +21,7 @@ public class PlatFarm extends PlatConnected {
 	public PlatFarm(Random random, PlatMap platmap, int chunkX, int chunkZ) {
 		super(random, platmap, chunkX, chunkZ);
 		
-		style = lotStyle.STRUCTURE;
+		style = LotStyle.STRUCTURE;
 		
 		directionNorthSouth = platmap.generator.isFarmNSCropAt(chunkX, chunkZ);
 		cropType = getCrop(platmap, chunkX, chunkZ);

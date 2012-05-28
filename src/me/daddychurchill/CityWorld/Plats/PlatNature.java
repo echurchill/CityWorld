@@ -24,7 +24,7 @@ public class PlatNature extends PlatIsolated {
 	
 	public PlatNature(Random random, PlatMap platmap, int chunkX, int chunkZ) {
 		super(random, platmap, chunkX, chunkZ);
-		style = lotStyle.NATURE;
+		style = LotStyle.NATURE;
 	}
 
 	@Override

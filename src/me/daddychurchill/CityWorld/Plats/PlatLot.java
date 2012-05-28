@@ -18,8 +18,8 @@ public abstract class PlatLot {
 	protected int minHeight = 1024;
 	protected int maxHeight = 0;
 	
-	public enum lotStyle {NATURE, STRUCTURE, ROAD};
-	public lotStyle style;
+	public enum LotStyle {NATURE, STRUCTURE, ROAD, ROUNDABOUT};
+	public LotStyle style;
 	
 	public PlatLot(Random random) {
 		super();
@@ -68,7 +68,7 @@ public abstract class PlatLot {
 				chunk.setBlock(x, 0, z, bedrockId);
 
 				// buildable?
-				if (style == lotStyle.STRUCTURE) {
+				if (style == LotStyle.STRUCTURE || style == LotStyle.ROUNDABOUT) {
 					generateCrust(generator, chunk, x, z, stoneId, chunk.sidewalklevel - 2, dirtId, chunk.sidewalklevel, dirtId, false);
 					biomes.setBiome(x, z, Biome.JUNGLE);
 					
