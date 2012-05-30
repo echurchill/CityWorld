@@ -223,11 +223,16 @@ public class WorldGenerator extends ChunkGenerator {
 	private final static int macroNSBridgeSlot = 0; 
 	
 	// micro slots
+	private final static int microRoofMaterialSlot = -4;
+	private final static int microCeilingMaterialSlot = -3;
+	private final static int microFloorMaterialSlot = -2;
+	private final static int microWallMaterialSlot = -1;
 	private final static int microRoundaboutSlot = 0; 
 	private final static int microCaveSlot = 1; 
 	private final static int microFarmHouseSlot = 2;
 	private final static int microFarmCropSlot = 3;
 	private final static int microFarmDirectionSlot = 4;
+	private final static int microHouseFloorsSlot = 5;
 	
 	public boolean getBridgePolarityAt(double chunkX, double chunkZ) {
 		return macroBooleanAt(chunkX, chunkZ, macroNSBridgeSlot);
@@ -246,27 +251,55 @@ public class WorldGenerator extends ChunkGenerator {
 	}
 	
 	public int getFarmCropAt(double chunkX, double chunkZ, int scale) {
-		return microScaleAt(chunkX, chunkZ, microFarmCropSlot, scale);
+		return microValueAt(chunkX, chunkZ, microFarmCropSlot, scale);
+	}
+	
+	public int getHouseFloorsAt(double chunkX, double chunkZ, int scale) {
+		return microValueAt(chunkX, chunkZ, microHouseFloorsSlot, scale);
 	}
 	
 	public boolean isFarmNSCropAt(double chunkX, double chunkZ) {
 		return microBooleanAt(chunkX, chunkZ, microFarmDirectionSlot);
 	}
 	
-	private boolean macroBooleanAt(double chunkX, double chunkZ, int slot) {
+	public int getRoofMaterialAt(double chunkX, double chunkZ, int scale) {
+		return microValueAt(chunkX, chunkZ, microRoofMaterialSlot, scale);
+	}
+	
+	public int getCeilingMaterialAt(double chunkX, double chunkZ, int scale) {
+		return microValueAt(chunkX, chunkZ, microCeilingMaterialSlot, scale);
+	}
+	
+	public int getFloorMaterialAt(double chunkX, double chunkZ, int scale) {
+		return microValueAt(chunkX, chunkZ, microFloorMaterialSlot, scale);
+	}
+	
+	public int getWallMaterialAt(double chunkX, double chunkZ, int scale) {
+		return microValueAt(chunkX, chunkZ, microWallMaterialSlot, scale);
+	}
+	
+	protected boolean macroBooleanAt(double chunkX, double chunkZ, int slot) {
 		return macroShape.noise(chunkX * macroScale, chunkZ * macroScale, slot) >= 0.0;
 	}
 	
-	private boolean microBooleanAt(double chunkX, double chunkZ, int slot) {
+	protected boolean microBooleanAt(double chunkX, double chunkZ, int slot) {
 		return microShape.noise(chunkX * microScale, chunkZ * microScale, slot) >= 0.0;
 	}
 	
-//	private int macroScaleAt(double chunkX, double chunkZ, int slot, int scale) {
-//		return NoiseGenerator.floor(((macroShape.noise(chunkX * macroScale, chunkZ * macroScale, slot) + 1.0) / 2.0) * scale);
-//	}
-//	
-	private int microScaleAt(double chunkX, double chunkZ, int slot, int scale) {
-		return NoiseGenerator.floor(((microShape.noise(chunkX * microScale, chunkZ * microScale, slot) + 1.0) / 2.0) * scale);
+	protected int macroValueAt(double chunkX, double chunkZ, int slot, int scale) {
+		return NoiseGenerator.floor(macroScaleAt(chunkX, chunkZ, slot) * scale);
+	}
+	
+	protected int microValueAt(double chunkX, double chunkZ, int slot, int scale) {
+		return NoiseGenerator.floor(microScaleAt(chunkX, chunkZ, slot) * scale);
+	}
+	
+	protected double macroScaleAt(double chunkX, double chunkZ, int slot) {
+		return (macroShape.noise(chunkX * macroScale, chunkZ * macroScale, slot) + 1.0) / 2.0;
+	}
+
+	protected double microScaleAt(double chunkX, double chunkZ, int slot) {
+		return (microShape.noise(chunkX * microScale, chunkZ * microScale, slot) + 1.0) / 2.0;
 	}
 	
 	public int maxHeight(int blockX, int blockZ) {

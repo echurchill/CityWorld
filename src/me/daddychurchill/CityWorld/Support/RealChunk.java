@@ -7,6 +7,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.TreeType;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.block.CreatureSpawner;
@@ -201,5 +202,25 @@ public class RealChunk extends SupportChunk {
 		CreatureSpawner spawner = (CreatureSpawner) block.getState();
 		spawner.setSpawnedType(aType);
 		spawner.update(true);
+	}
+	
+	protected Material getRandomFlowerType(Random random) {
+		switch (random.nextInt(2)) {
+		case 1:
+			return Material.RED_ROSE;
+		default:
+			return Material.YELLOW_FLOWER;
+		}
+	}
+	
+	protected TreeType getRandomTreeType(Random random) {
+		switch (random.nextInt(3)) {
+		case 1:
+			return TreeType.BIRCH;
+		case 2:
+			return TreeType.REDWOOD;
+		default:
+			return TreeType.TREE;
+		}
 	}
 }

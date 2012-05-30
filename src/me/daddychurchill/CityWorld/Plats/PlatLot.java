@@ -5,7 +5,6 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.ContextData;
@@ -226,5 +225,4 @@ public abstract class PlatLot {
 		
 		return miniPlatMap;
 	}
-	
 }

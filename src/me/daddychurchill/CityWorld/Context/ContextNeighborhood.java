@@ -25,6 +25,8 @@ public class ContextNeighborhood extends ContextRural {
 		int originX = platmap.originX;
 		int originZ = platmap.originZ;
 		
+		//TODO if there are roads in the map, remove any houses that are not next to a road
+		
 		// backfill with buildings and parks
 		for (int x = 0; x < PlatMap.Width; x++) {
 			for (int z = 0; z < PlatMap.Width; z++) {
