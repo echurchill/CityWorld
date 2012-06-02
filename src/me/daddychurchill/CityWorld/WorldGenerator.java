@@ -109,6 +109,8 @@ public class WorldGenerator extends ChunkGenerator {
 	public double macroScale = 1.0 / 384.0;
 	public double microScale = 2.0;
 	
+	public double oddsMountainShack = 0.75;
+	
 	@Override
 	public byte[][] generateBlockSections(World aWorld, Random random, int chunkX, int chunkZ, BiomeGrid biomes) {
 
@@ -164,12 +166,6 @@ public class WorldGenerator extends ChunkGenerator {
 		double noise = noiseShape.noise(blockX, blockZ, noiseFrequency, noiseAmplitude, true);
 		double feature = featureShape.noise(blockX, blockZ, featureFrequency, featureAmplitude, true);
 
-		// shape the shapes
-//		double land = (landShape1.noise(blockX, blockZ, landFrequency, landAmplitude, true) +
-//					   landShape2.noise(blockX, blockZ, landFrequency, landAmplitude, true)) / 2;
-//		double land1 = landShape1.noise(blockX, blockZ, landFrequency1, landAmplitude1, true);
-//		double land2 = landShape2.noise(blockX, blockZ, landFrequency2, landAmplitude2, true);
-		
 		double land1 = seaLevel + (landShape1.noise(blockX, blockZ, landFrequency1, landAmplitude1, true) * landRange) + 
 				(noise * noiseVerticalScale * landFactor1to2 + feature * featureVerticalScale * landFactor1to2) - landFlattening;
 		double land2 = seaLevel + (landShape2.noise(blockX, blockZ, landFrequency2, landAmplitude2, true) * (landRange / (double) landFactor1to2)) + 
@@ -179,11 +175,8 @@ public class WorldGenerator extends ChunkGenerator {
 		double sea = seaShape.noise(blockX, blockZ, seaFrequency, seaAmplitude, true);
 		
 		// calculate the Ys
-//		int landY = seaLevel + NoiseGenerator.floor(land * landRange) + 
-//				NoiseGenerator.floor(noise * noiseVerticalScale + feature * featureVerticalScale) - landFlattening;
 		double seaY = seaLevel + (sea * seaRange) + (noise * noiseVerticalScale) + seaFlattening;
 
-		//TODO there is a fracture between mountains and the sea (and sometimes on the land itself) that appeared when I made this floating point
 		// land is below the sea
 		if (landY <= seaLevel) {
 
@@ -223,16 +216,12 @@ public class WorldGenerator extends ChunkGenerator {
 	private final static int macroNSBridgeSlot = 0; 
 	
 	// micro slots
-	private final static int microRoofMaterialSlot = -4;
-	private final static int microCeilingMaterialSlot = -3;
-	private final static int microFloorMaterialSlot = -2;
-	private final static int microWallMaterialSlot = -1;
 	private final static int microRoundaboutSlot = 0; 
 	private final static int microCaveSlot = 1; 
 	private final static int microFarmHouseSlot = 2;
 	private final static int microFarmCropSlot = 3;
 	private final static int microFarmDirectionSlot = 4;
-	private final static int microHouseFloorsSlot = 5;
+	private final static int microMountainShackSlot = 5;
 	
 	public boolean getBridgePolarityAt(double chunkX, double chunkZ) {
 		return macroBooleanAt(chunkX, chunkZ, macroNSBridgeSlot);
@@ -254,28 +243,12 @@ public class WorldGenerator extends ChunkGenerator {
 		return microValueAt(chunkX, chunkZ, microFarmCropSlot, scale);
 	}
 	
-	public int getHouseFloorsAt(double chunkX, double chunkZ, int scale) {
-		return microValueAt(chunkX, chunkZ, microHouseFloorsSlot, scale);
-	}
-	
 	public boolean isFarmNSCropAt(double chunkX, double chunkZ) {
 		return microBooleanAt(chunkX, chunkZ, microFarmDirectionSlot);
 	}
 	
-	public int getRoofMaterialAt(double chunkX, double chunkZ, int scale) {
-		return microValueAt(chunkX, chunkZ, microRoofMaterialSlot, scale);
-	}
-	
-	public int getCeilingMaterialAt(double chunkX, double chunkZ, int scale) {
-		return microValueAt(chunkX, chunkZ, microCeilingMaterialSlot, scale);
-	}
-	
-	public int getFloorMaterialAt(double chunkX, double chunkZ, int scale) {
-		return microValueAt(chunkX, chunkZ, microFloorMaterialSlot, scale);
-	}
-	
-	public int getWallMaterialAt(double chunkX, double chunkZ, int scale) {
-		return microValueAt(chunkX, chunkZ, microWallMaterialSlot, scale);
+	public boolean isMountainShackAt(double chunkX, double chunkZ) {
+		return microScaleAt(chunkX, chunkZ, microMountainShackSlot) > oddsMountainShack;
 	}
 	
 	protected boolean macroBooleanAt(double chunkX, double chunkZ, int slot) {
@@ -302,71 +275,6 @@ public class WorldGenerator extends ChunkGenerator {
 		return (microShape.noise(chunkX * microScale, chunkZ * microScale, slot) + 1.0) / 2.0;
 	}
 	
-	public int maxHeight(int blockX, int blockZ) {
-		int result = Integer.MIN_VALUE;
-		for (int x = 0; x < SupportChunk.chunksBlockWidth; x++) {
-			for (int z = 0; z < SupportChunk.chunksBlockWidth; z++) {
-				int y = findBlockY(blockX + x, blockZ + z);
-				if (y > result)
-					result = y;
-			}
-		}
-		return result;
-	}
-	
-	public int minHeight(int blockX, int blockZ) {
-		int result = Integer.MAX_VALUE;
-		for (int x = 0; x < SupportChunk.chunksBlockWidth; x++) {
-			for (int z = 0; z < SupportChunk.chunksBlockWidth; z++) {
-				int y = findBlockY(blockX + x, blockZ + z);
-				if (y < result)
-					result = y;
-			}
-		}
-		return result;
-	}
-	
-	public boolean isTheSea(int blockX, int blockZ) {
-//		return minHeight(blockX, blockZ) <= seaLevel;
-		return (findBlockY(blockX + 8, blockZ + 8) <= seaLevel && // center
-				findBlockY(blockX + 0, blockZ + 0) <= seaLevel && // corners
-				findBlockY(blockX + 0, blockZ + 15) <= seaLevel && 
-				findBlockY(blockX + 15, blockZ + 0) <= seaLevel && 
-				findBlockY(blockX + 15, blockZ + 15) <= seaLevel &&
-				findBlockY(blockX + 0, blockZ + 8) <= seaLevel && // edges 
-				findBlockY(blockX + 15, blockZ + 8) <= seaLevel && 
-				findBlockY(blockX + 8, blockZ + 15) <= seaLevel && 
-				findBlockY(blockX + 8, blockZ + 15) <= seaLevel);
-	}
-	
-	public boolean onTheLevel(int blockX, int blockZ, int level) {
-		return (findBlockY(blockX + 8, blockZ + 8) == level && // center
-				findBlockY(blockX + 0, blockZ + 0) == level && // corners
-				findBlockY(blockX + 0, blockZ + 15) == level && 
-				findBlockY(blockX + 15, blockZ + 0) == level && 
-				findBlockY(blockX + 15, blockZ + 15) == level);
-	}
-	
-	public boolean isBuildableAt(int blockX, int blockZ) {
-		return onTheLevel(blockX, blockZ, sidewalkLevel);
-	}
-	
-	public boolean isBuildableToNorth(SupportChunk chunk) {
-		return isBuildableAt(chunk.getOriginX(), chunk.getOriginZ() - chunk.width);
-	}
-
-	public boolean isBuildableToSouth(SupportChunk chunk) {
-		return isBuildableAt(chunk.getOriginX(), chunk.getOriginZ() + chunk.width);
-	}
-
-	public boolean isBuildableToWest(SupportChunk chunk) {
-		return isBuildableAt(chunk.getOriginX() - chunk.width, chunk.getOriginZ());
-	}
-
-	public boolean isBuildableToEast(SupportChunk chunk) {
-		return isBuildableAt(chunk.getOriginX() + chunk.width, chunk.getOriginZ());
-	}
-
 	public boolean notACave(int blockX, int blockY, int blockZ) {
 
 		// cave or not?
@@ -414,7 +322,6 @@ public class WorldGenerator extends ChunkGenerator {
 		int platZ = calcOrigin(chunkZ);
 
 		// calculate the plat's key
-//TODO	Long platkey = Long.valueOf(((long) platX << 32 + (long) platZ));
 		Long platkey = Long.valueOf(((long) platX * (long) Integer.MAX_VALUE + (long) platZ));
 
 		// get the right plat

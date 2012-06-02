@@ -19,13 +19,6 @@ public class ContextFarm extends ContextRural {
 		oddsOfIsolatedLots = oddsVeryLikely;
 	}
 	
-	private boolean isLotEmpty(PlatMap platmap, int x, int z) {
-		if (x >= 0 && x < PlatMap.Width && z >= 0 && z < PlatMap.Width)
-			return platmap.platLots[x][z] == null;
-		else
-			return true;
-	}
-
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap, SupportChunk typicalChunk) {
 		Random random = typicalChunk.random;
@@ -39,14 +32,14 @@ public class ContextFarm extends ContextRural {
 		// clean up the platmap of singletons and odd road structures
 		for (int x = 0; x < PlatMap.Width; x++) {
 			for (int z = 0; z < PlatMap.Width; z++) {
-				PlatLot current = platmap.platLots[x][z];
+				PlatLot current = platmap.getLot(x, z);
 				
 				// something here?
 				if (current == null) {
 					
 					// but there aren't neighbors
-					if (!isLotEmpty(platmap, x - 1, z) && !isLotEmpty(platmap, x + 1, z) &&
-						!isLotEmpty(platmap, x, z - 1) && !isLotEmpty(platmap, x, z + 1))
+					if (!platmap.isEmptyLot(x - 1, z) && !platmap.isEmptyLot(x + 1, z) &&
+						!platmap.isEmptyLot(x, z - 1) && !platmap.isEmptyLot(x, z + 1))
 						platmap.recycleLot(random, x, z);
 				}
 				
@@ -55,17 +48,17 @@ public class ContextFarm extends ContextRural {
 					
 					// if a single natural thing is here but surrounded by four "things"
 					if (current.style == LotStyle.NATURE &&
-						isLotEmpty(platmap, x - 1, z) && isLotEmpty(platmap, x + 1, z) &&
-						isLotEmpty(platmap, x, z - 1) && isLotEmpty(platmap, x, z + 1))
-						platmap.platLots[x][z] = null;
+						platmap.isEmptyLot(x - 1, z) && platmap.isEmptyLot(x + 1, z) &&
+						platmap.isEmptyLot(x, z - 1) && platmap.isEmptyLot(x, z + 1))
+						platmap.emptyLot(x, z);
 					
 					// get rid of roundabouts
 					else if (current.style == LotStyle.ROUNDABOUT) {
 						platmap.paveLot(random, x, z);
-						platmap.platLots[x - 1][z - 1] = null;
-						platmap.platLots[x - 1][z + 1] = null;
-						platmap.platLots[x + 1][z - 1] = null;
-						platmap.platLots[x + 1][z + 1] = null;
+						platmap.emptyLot(x - 1, z - 1);
+						platmap.emptyLot(x - 1, z + 1);
+						platmap.emptyLot(x + 1, z - 1);
+						platmap.emptyLot(x + 1, z + 1);
 					}
 				}
 			}
@@ -74,12 +67,12 @@ public class ContextFarm extends ContextRural {
 		// backfill with farms and a single house
 		for (int x = 0; x < PlatMap.Width; x++) {
 			for (int z = 0; z < PlatMap.Width; z++) {
-				PlatLot current = platmap.platLots[x][z];
+				PlatLot current = platmap.getLot(x, z);
 				if (current == null) {
 					
 					// farm house here?
 					if (!housePlaced && generator.isFarmHouseAt(platmap.originX + x, platmap.originZ + z)) {
-						platmap.platLots[x][z] = new PlatHouse(random, platmap, originX + x, originZ + z);
+						platmap.setLot(x, z, new PlatHouse(random, platmap)); 
 						housePlaced = true;
 					
 					// place the farm
@@ -90,10 +83,10 @@ public class ContextFarm extends ContextRural {
 						
 						// see if the previous chunk is the same type
 						PlatLot previous = null;
-						if (x > 0 && current.isConnectable(platmap.platLots[x - 1][z])) {
-							previous = platmap.platLots[x - 1][z];
-						} else if (z > 0 && current.isConnectable(platmap.platLots[x][z - 1])) {
-							previous = platmap.platLots[x][z - 1];
+						if (x > 0 && current.isConnectable(platmap.getLot(x - 1, z))) {
+							previous = platmap.getLot(x - 1, z);
+						} else if (z > 0 && current.isConnectable(platmap.getLot(x, z - 1))) {
+							previous = platmap.getLot(x, z - 1);
 						}
 						
 						// if there was a similar previous one then copy it... maybe
@@ -102,7 +95,7 @@ public class ContextFarm extends ContextRural {
 						}
 
 						// remember what we did
-						platmap.platLots[x][z] = current;
+						platmap.setLot(x, z, current);
 
 						// remember the last place
 						lastX = x;
@@ -113,8 +106,8 @@ public class ContextFarm extends ContextRural {
 		}
 		
 		// did we miss out placing the farm house?
-		if (!housePlaced && platmap.platLots[lastX][lastZ] == null) {
-			platmap.platLots[lastX][lastZ] = new PlatHouse(random, platmap, originX + lastX, originZ + lastZ);
+		if (!housePlaced && platmap.isEmptyLot(lastX, lastZ)) {
+			platmap.setLot(lastX, lastZ, new PlatHouse(random, platmap)); 
 		}
 	}
 }

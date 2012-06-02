@@ -8,6 +8,7 @@ import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Ladder;
 import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
+import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.SurroundingParks;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -41,8 +42,8 @@ public class PlatPark extends PlatConnected {
 	private boolean circleSidewalk;
 	private int waterDepth;
 	
-	public PlatPark(Random rand, PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey) {
-		super(rand, platmap, chunkX, chunkZ);
+	public PlatPark(Random rand, PlatMap platmap, long globalconnectionkey) {
+		super(rand, platmap);
 		
 		// all parks are interconnected
 		connectedkey = globalconnectionkey;
@@ -142,7 +143,7 @@ public class PlatPark extends PlatConnected {
 		
 		// surface features
 		int surfaceY = context.streetLevel + 1;
-		if (!neighbors.toNorth() && generator.isBuildableToNorth(chunk)) {
+		if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
 			chunk.setBlocks(0, 6, surfaceY, surfaceY + 1, 0, 1, columnId);
 			chunk.setBlocks(0, 6, surfaceY + 1, surfaceY + 2, 0, 1, fenceId);
 			chunk.setBlocks(10, 16, surfaceY, surfaceY + 1, 0, 1, columnId);
@@ -153,7 +154,7 @@ public class PlatPark extends PlatConnected {
 			chunk.setBlock(6, surfaceY, 1, columnId);
 			chunk.setBlock(9, surfaceY, 1, columnId);
 		}
-		if (!neighbors.toSouth() && generator.isBuildableToSouth(chunk)) {
+		if (!neighbors.toSouth() && HeightInfo.isBuildableToSouth(generator, chunk)) {
 			chunk.setBlocks(0, 6, surfaceY, surfaceY + 1, 15, 16, columnId);
 			chunk.setBlocks(0, 6, surfaceY + 1, surfaceY + 2, 15, 16, fenceId);
 			chunk.setBlocks(10, 16, surfaceY, surfaceY + 1, 15, 16, columnId);
@@ -164,7 +165,7 @@ public class PlatPark extends PlatConnected {
 			chunk.setBlock(6, surfaceY, 14, columnId);
 			chunk.setBlock(9, surfaceY, 14, columnId);
 		}
-		if (!neighbors.toWest() && generator.isBuildableToWest(chunk)) {
+		if (!neighbors.toWest() && HeightInfo.isBuildableToWest(generator, chunk)) {
 			chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 0, 6, columnId);
 			chunk.setBlocks(0, 1, surfaceY + 1, surfaceY + 2, 0, 6, fenceId);
 			chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 10, 16, columnId);
@@ -175,7 +176,7 @@ public class PlatPark extends PlatConnected {
 			chunk.setBlock(1, surfaceY, 6, columnId);
 			chunk.setBlock(1, surfaceY, 9, columnId);
 		}
-		if (!neighbors.toEast() && generator.isBuildableToEast(chunk)) {
+		if (!neighbors.toEast() && HeightInfo.isBuildableToEast(generator, chunk)) {
 			chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 0, 6, columnId);
 			chunk.setBlocks(15, 16, surfaceY + 1, surfaceY + 2, 0, 6, fenceId);
 			chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 10, 16, columnId);
@@ -211,7 +212,7 @@ public class PlatPark extends PlatConnected {
 		// way down?
 		if (context.doCistern) {
 			SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
-			if (!neighbors.toNorth() && generator.isBuildableToNorth(chunk)) {
+			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
 				int lowestY = context.streetLevel - cisternDepth + 1 + waterDepth;
 				chunk.setBlocks(4, 7, lowestY, lowestY + 1, 1, 2, ledgeMaterial);
 				chunk.setLadder(5, lowestY + 1, surfaceY, 1, Ladder.SOUTH);

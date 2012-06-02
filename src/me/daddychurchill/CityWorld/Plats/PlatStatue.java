@@ -29,8 +29,8 @@ public class PlatStatue extends PlatIsolated {
 	
 	protected StatueBase statueBase;
 	
-	public PlatStatue(Random random, PlatMap platmap, int chunkX, int chunkZ) {
-		super(random, platmap, chunkX, chunkZ);
+	public PlatStatue(Random random, PlatMap platmap) {
+		super(random, platmap);
 		
 		// what is it build on?
 		statueBase = randomBase(random);

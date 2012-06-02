@@ -35,10 +35,8 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	protected int floorsBuilt;
 	protected int lastHorizontalGirder;
 	
-	//TODO randomly add a construction crane on the top most horizontal girder
-	
-	public PlatUnfinishedBuilding(Random random, PlatMap platmap, int chunkX, int chunkZ) {
-		super(random, platmap, chunkX, chunkZ);
+	public PlatUnfinishedBuilding(Random random, PlatMap platmap) {
+		super(random, platmap);
 		ContextData context = platmap.context;
 		
 		// basement only?

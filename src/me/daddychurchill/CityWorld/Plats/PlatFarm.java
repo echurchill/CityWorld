@@ -19,7 +19,7 @@ public class PlatFarm extends PlatConnected {
 	private Material cropType;
 
 	public PlatFarm(Random random, PlatMap platmap, int chunkX, int chunkZ) {
-		super(random, platmap, chunkX, chunkZ);
+		super(random, platmap);
 		
 		style = LotStyle.STRUCTURE;
 		

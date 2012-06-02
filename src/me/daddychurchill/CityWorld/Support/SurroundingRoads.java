@@ -22,7 +22,7 @@ public class SurroundingRoads {
 	}
 	
 	protected void updateNeighbors(PlatMap platmap, int platX, int platZ) {
-		PlatLot platlot = platmap.platLots[platX][platZ];	
+		PlatLot platlot = platmap.getLot(platX, platZ);	
 		
 		// get a list of qualified neighbors
 		PlatLot[][] neighborChunks = platlot.getNeighborPlatLots(platmap, platX, platZ, false);

@@ -21,20 +21,32 @@ public class ContextNeighborhood extends ContextRural {
 	public void populateMap(WorldGenerator generator, PlatMap platmap, SupportChunk typicalChunk) {
 		Random random = typicalChunk.random;
 		
-		// where do we begin?
-		int originX = platmap.originX;
-		int originZ = platmap.originZ;
-		
-		//TODO if there are roads in the map, remove any houses that are not next to a road
+		// do we check for roads?
+		boolean checkForRoads = platmap.getNumberOfRoads() > 0;
 		
 		// backfill with buildings and parks
 		for (int x = 0; x < PlatMap.Width; x++) {
 			for (int z = 0; z < PlatMap.Width; z++) {
-				PlatLot current = platmap.platLots[x][z];
+				PlatLot current = platmap.getLot(x, z);
 				if (current == null) {
-					platmap.platLots[x][z] = new PlatHouse(random, platmap, originX + x, originZ + z);
+					
+					// check for roads?
+					if (checkForRoads) {
+						if (platmap.isExistingRoad(x - 1, z) || platmap.isExistingRoad(x + 1, z) || 
+							platmap.isExistingRoad(x, z - 1) || platmap.isExistingRoad(x, z + 1))
+							placeHouse(random, platmap, x, z);
+						else
+							platmap.recycleLot(random, x, z);
+						
+					// just do it then
+					} else
+						placeHouse(random, platmap, x, z);
 				}
 			}
 		}
+	}
+	
+	private void placeHouse(Random random, PlatMap platmap, int x, int z) {
+		platmap.setLot(x, z, new PlatHouse(random, platmap));
 	}
 }

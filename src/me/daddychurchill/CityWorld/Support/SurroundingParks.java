@@ -12,7 +12,7 @@ public class SurroundingParks {
 		neighbors = new boolean[3][3];
 		
 		// get a list of qualified neighbors
-		PlatLot platlot = platmap.platLots[platX][platZ];
+		PlatLot platlot = platmap.getLot(platX, platZ);
 		PlatLot[][] neighborChunks = platlot.getNeighborPlatLots(platmap, platX, platZ, true);
 		for (int x = 0; x < 3; x++)
 			for (int z = 0; z < 3; z++)

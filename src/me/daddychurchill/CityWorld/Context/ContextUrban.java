@@ -23,26 +23,22 @@ public abstract class ContextUrban extends ContextData {
 	public void populateMap(WorldGenerator generator, PlatMap platmap, SupportChunk typicalChunk) {
 		Random random = typicalChunk.random;
 		
-		// where do we begin?
-		int originX = platmap.originX;
-		int originZ = platmap.originZ;
-		
 		// backfill with buildings and parks
 		for (int x = 0; x < PlatMap.Width; x++) {
 			for (int z = 0; z < PlatMap.Width; z++) {
-				PlatLot current = platmap.platLots[x][z];
+				PlatLot current = platmap.getLot(x, z);
 				if (current == null) {
 					
 					//TODO I need to come up with a more elegant way of doing this!
 					// what to build?
 					if (random.nextInt(oddsOfParks) == 0)
-						current = new PlatPark(random, platmap, originX + x, originZ + z, generator.connectedKeyForParks);
+						current = new PlatPark(random, platmap, generator.connectedKeyForParks);
 					else if (random.nextInt(oddsOfUnfinishedBuildings) == 0)
-						current = new PlatUnfinishedBuilding(random, platmap, originX + x, originZ + z);
+						current = new PlatUnfinishedBuilding(random, platmap);
 					// houses
 					// yards
 					else
-						current = new PlatOfficeBuilding(random, platmap, originX + x, originZ + z);
+						current = new PlatOfficeBuilding(random, platmap);
 					
 					/* for each plot
 					 *   randomly pick a plattype
@@ -57,10 +53,10 @@ public abstract class ContextUrban extends ContextData {
 
 					// see if the previous chunk is the same type
 					PlatLot previous = null;
-					if (x > 0 && current.isConnectable(platmap.platLots[x - 1][z])) {
-						previous = platmap.platLots[x - 1][z];
-					} else if (z > 0 && current.isConnectable(platmap.platLots[x][z - 1])) {
-						previous = platmap.platLots[x][z - 1];
+					if (x > 0 && current.isConnectable(platmap.getLot(x - 1, z))) {
+						previous = platmap.getLot(x - 1, z);
+					} else if (z > 0 && current.isConnectable(platmap.getLot(x, z - 1))) {
+						previous = platmap.getLot(x, z - 1);
 					}
 					
 					// if there was a similar previous one then copy it... maybe
@@ -69,7 +65,7 @@ public abstract class ContextUrban extends ContextData {
 					}
 
 					// remember what we did
-					platmap.platLots[x][z] = current;
+					platmap.setLot(x, z, current);
 				}
 			}
 		}

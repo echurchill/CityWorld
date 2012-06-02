@@ -120,21 +120,24 @@ public abstract class PlatLot {
 		// what was the average height
 		averageHeight = averageHeight / (chunk.width * chunk.width);
 	}
-	
-	//TODO make surfaceCaves dependent on a random factor per chunk rather than the snow line
 
-	private void generateCrust(WorldGenerator generator, ByteChunk byteChunk, int x, int z, 
-			byte baseId, int baseY, byte substrateId, int substrateY, byte surfaceId,
+	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
+		//TODO additional natural sub-terrain structures, if any
+	}
+	
+	private void generateCrust(WorldGenerator generator, ByteChunk byteChunk, int x, int z, byte baseId,
+			int baseY, byte substrateId, int substrateY, byte surfaceId,
 			boolean surfaceCaves) {
 
 		// compute the world block coordinates
-		int blockX = byteChunk.getBlockX(x);
-		int blockZ = byteChunk.getBlockZ(z);
+		int blockX = byteChunk.chunkX * byteChunk.width + x;
+		int blockZ = byteChunk.chunkZ * byteChunk.width + z;
 
 		// stony bits
 		for (int y = 1; y < baseY; y++)
 			if (generator.notACave(blockX, y, blockZ))
-				byteChunk.setBlock(x, y, z, baseId);
+//				byteChunk.setBlock(x, y, z, baseId);
+				byteChunk.setBlock(x, y, z, generator.getOre(byteChunk, blockX, y, blockZ, baseId));
 
 		// aggregate bits
 		for (int y = baseY; y < substrateY; y++)
@@ -146,7 +149,7 @@ public abstract class PlatLot {
 			byteChunk.setBlock(x, substrateY, z, surfaceId);
 
 	}
-	
+
 	private void generateCrust(WorldGenerator generator, ByteChunk byteChunk, int x, int z, byte baseId,
 			int baseY, byte substrateId, int substrateY, byte surfaceId,
 			int coverY, byte coverId, boolean surfaceCaves) {
@@ -158,47 +161,6 @@ public abstract class PlatLot {
 		for (int y = substrateY + 1; y <= coverY; y++)
 			byteChunk.setBlock(x, y, z, coverId);
 	}
-
-	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
-		//TODO add minerals and additional natural sub-terrain structures, if any
-	}
-	
-//	private void generateCrust(WorldGenerator generator, ByteChunk byteChunk, int x, int z, byte baseId,
-//			int baseY, byte substrateId, int substrateY, byte surfaceId,
-//			boolean surfaceCaves) {
-//
-//		// compute the world block coordinates
-//		int blockX = byteChunk.chunkX * byteChunk.width + x;
-//		int blockZ = byteChunk.chunkZ * byteChunk.width + z;
-//
-//		// stony bits
-//		for (int y = 1; y < baseY; y++)
-//			if (notACave(generator, blockX, y, blockZ))
-//				byteChunk.setBlock(x, y, z, getOre(generator, byteChunk, blockX, y, blockZ, baseId));
-//
-//		// aggregate bits
-//		for (int y = baseY; y < substrateY; y++)
-//			if (!surfaceCaves || notACave(generator, blockX, y, blockZ))
-//				byteChunk.setBlock(x, y, z, substrateId);
-//
-//		// icing for the cake
-//		if (!surfaceCaves || notACave(generator, blockX, substrateY, blockZ))
-//			byteChunk.setBlock(x, substrateY, z, surfaceId);
-//
-//	}
-//
-//	private void generateCrust(WorldGenerator generator, ByteChunk byteChunk, int x, int z, byte baseId,
-//			int baseY, byte substrateId, int substrateY, byte surfaceId,
-//			int coverY, byte coverId, boolean surfaceCaves) {
-//
-//		// a little crust please?
-//		generateCrust(generator, byteChunk, x, z, baseId, baseY, substrateId, substrateY, surfaceId, surfaceCaves);
-//
-//		// cover it up
-//		for (int y = substrateY + 1; y <= coverY; y++)
-//			byteChunk.setBlock(x, y, z, coverId);
-//	}
-//
 
 	//TODO move this logic to SurroundingLots, add to it the ability to produce SurroundingHeights and SurroundingDepths
 	public PlatLot[][] getNeighborPlatLots(PlatMap platmap, int platX, int platZ, boolean onlyConnectedNeighbors) {
@@ -214,7 +176,7 @@ public abstract class PlatLot {
 
 				// is it in bounds?
 				if (!(atX < 0 || atX > PlatMap.Width - 1 || atZ < 0 || atZ > PlatMap.Width - 1)) {
-					PlatLot relative = platmap.platLots[atX][atZ];
+					PlatLot relative = platmap.getLot(atX, atZ);
 					
 					if (!onlyConnectedNeighbors || isConnected(relative)) {
 						miniPlatMap[x][z] = relative;

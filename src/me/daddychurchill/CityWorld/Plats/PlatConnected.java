@@ -8,7 +8,7 @@ public abstract class PlatConnected extends PlatLot {
 
 	protected long connectedkey;
 	
-	public PlatConnected(Random random, PlatMap platmap, int chunkX, int chunkZ) {
+	public PlatConnected(Random random, PlatMap platmap) {
 		super(random);
 		
 		//TODO while this is relatively safe, I would feel better to have something airtight

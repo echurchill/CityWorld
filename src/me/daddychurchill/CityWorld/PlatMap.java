@@ -16,9 +16,9 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Plats.PlatNature;
 import me.daddychurchill.CityWorld.Plats.PlatRoad;
-import me.daddychurchill.CityWorld.Plats.PlatRoadPaved;
 import me.daddychurchill.CityWorld.Plats.PlatStatue;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
@@ -36,14 +36,12 @@ public class PlatMap {
 	public int originX;
 	public int originZ;
 	public ContextData context;
-	public PlatLot[][] platLots;
+	private PlatLot[][] platLots;
 	private int naturalPlats;
 
 	public PlatMap(WorldGenerator aGenerator, SupportChunk typicalChunk, int aOriginX, int aOriginZ) {
 		super();
 		
-		// log.info(String.format("PM: %d x %d create", platX, platZ));
-
 		// populate the instance data
 		world = typicalChunk.world;
 		generator = aGenerator;
@@ -56,20 +54,14 @@ public class PlatMap {
 		
 		// assume everything is natural
 		context = new ContextNature(generator.getPlugin(), typicalChunk);
+		context.populateMap(generator, this, typicalChunk);
 		
-		// sprinkle nature, roads and buildings
-		populateNature(typicalChunk);
-		
-		// place the roads
+		// place and validate the roads
 		populateRoads(typicalChunk);
-		
-		// validate the roads
 		validateRoads(typicalChunk);
 		
 		// recalculate the context based on the "natural-ness" of the platmap
 		context = getContext(typicalChunk);
-		
-		// now let the context take over
 		context.populateMap(generator, this, typicalChunk);
 	}
 
@@ -146,8 +138,26 @@ public class PlatMap {
 		}
 	}
 	
-	private boolean isEmptyLot(int x, int z) {
-		return platLots[x][z] == null;
+	public int getNumberOfRoads() {
+		int result = 0;
+		for (int x = 0; x < Width; x++) {
+			for (int z = 0; z < Width; z++) {
+				if (platLots[x][z] != null && platLots[x][z].style == LotStyle.ROAD)
+					result++;
+			}
+		}
+		return result;
+	}
+	
+	public PlatLot getLot(int x, int z) {
+		return platLots[x][z];
+	}
+	
+	public boolean isEmptyLot(int x, int z) {
+		if (x >= 0 && x < Width && z >= 0 && z < Width)
+			return platLots[x][z] == null;
+		else
+			return true;
 	}
 	
 	public void recycleLot(Random random, int x, int z) {
@@ -157,41 +167,38 @@ public class PlatMap {
 		if (current == null || current.style != LotStyle.NATURE) {
 		
 			// place nature
-			platLots[x][z] = new PlatNature(random, this, originX + x, originZ + z);
+			platLots[x][z] = new PlatNature(random, this);
 			naturalPlats++;
 		}
 	}
 	
 	public void paveLot(Random random, int x, int z) {
+		
+		// clear it please
+		emptyLot(x, z);
+		
+		// place the road
+		platLots[x][z] = new PlatRoad(random, this, generator.connectedKeyForPavedRoads);
+	}
+	
+	public void setLot(int x, int z, PlatLot lot) {
 
+		// clear it please
+		emptyLot(x, z);
+		
+		// place the road
+		platLots[x][z] = lot;
+	}
+	
+	public void emptyLot(int x, int z) {
+		
 		// keep track of the nature count
 		PlatLot current = platLots[x][z];
 		if (current != null && current.style == LotStyle.NATURE)
 			naturalPlats--;
 		
-		// place the road
-		platLots[x][z] = new PlatRoadPaved(random, this, originX + x, originZ + z, generator.connectedKeyForPavedRoads);
-	}
-	
-	private void populateNature(SupportChunk typicalChunk) {
-		Random random = typicalChunk.random;
-		
-		// is this natural or buildable?
-		for (int x = 0; x < Width; x++) {
-			for (int z = 0; z < Width; z++) {
-				PlatLot current = platLots[x][z];
-				if (current == null) {
-					
-					// what is the world location of the lot?
-					int blockX = (originX + x) * typicalChunk.width;
-					int blockZ = (originZ + z) * typicalChunk.width;
-					
-					// is the center and corners at the wrong level?
-					if (!generator.isBuildableAt(blockX, blockZ))
-						recycleLot(random, x, z);
-				}
-			}
-		}
+		// empty this one out
+		platLots[x][z] = null;
 	}
 	
 	private void populateRoads(SupportChunk typicalChunk) {
@@ -233,7 +240,7 @@ public class PlatMap {
 					paveLot(random, x - 1, z + 1);
 					
 					paveLot(random, x    , z - 1);
-					platLots[x][z] = new PlatStatue(random, this, originX + x, originZ + z);
+					platLots[x][z] = new PlatStatue(random, this);
 					paveLot(random, x    , z + 1);
 			
 					paveLot(random, x + 1, z - 1);
@@ -288,8 +295,8 @@ public class PlatMap {
 	private boolean isRoadTowards(SupportChunk typicalChunk, int x, int z, int deltaX, int deltaZ) {
 		
 		// is this a "real" spot?
-		boolean result = generator.isBuildableAt((originX + x + deltaX) * typicalChunk.width,
-									   			 (originZ + z + deltaZ) * typicalChunk.width);
+		boolean result = HeightInfo.isBuildableAt(generator, (originX + x + deltaX) * typicalChunk.width,
+									   			 			 (originZ + z + deltaZ) * typicalChunk.width);
 		
 		// if this isn't a buildable spot, is there a bridge or tunnel that gets us there?
 		if (!result)
@@ -349,7 +356,7 @@ public class PlatMap {
 			currentPolarity = generator.getBridgePolarityAt(chunkX, chunkZ);
 			
 			// did we found a "real" spot and the polarity is still the same
-			if (currentPolarity == originPolarity && generator.isBuildableAt(chunkX, chunkZ))
+			if (currentPolarity == originPolarity && HeightInfo.isBuildableAt(generator, chunkX, chunkZ))
 				return true;
 		};
 		
@@ -385,5 +392,12 @@ public class PlatMap {
 	private boolean isRoad(int x, int z) {
 		PlatLot current = platLots[x][z];
 		return current != null && (current.style == LotStyle.ROAD || current.style == LotStyle.ROUNDABOUT);
+	}
+	
+	public boolean isExistingRoad(int x, int z) {
+		if (x >= 0 && x < Width && z >= 0 && z < Width)
+			return isRoad(x, z);
+		else
+			return false;
 	}
 }
