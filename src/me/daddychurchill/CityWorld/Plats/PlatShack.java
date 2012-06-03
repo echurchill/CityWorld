@@ -32,7 +32,7 @@ public class PlatShack extends PlatIsolated {
 		int blockX = chunk.chunkX * chunk.width;
 		int blockZ = chunk.chunkZ * chunk.width;
 		
-		// plant grass or snow
+		// flatten things out a bit
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {
 				int y = generator.findBlockY(blockX + x, blockZ + z);

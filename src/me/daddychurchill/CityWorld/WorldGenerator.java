@@ -35,9 +35,13 @@ public class WorldGenerator extends ChunkGenerator {
 	public SimplexNoiseGenerator macroShape;
 	public SimplexNoiseGenerator microShape;
 	
-	public int topLevel;
+	public int deepseaLevel;
 	public int seaLevel;
 	public int sidewalkLevel;
+	public int treeLevel;
+	public int evergreenLevel;
+	public int height;
+	public int snowLevel;
 	public int landRange;
 	public int seaRange;
 	
@@ -109,7 +113,7 @@ public class WorldGenerator extends ChunkGenerator {
 	public double macroScale = 1.0 / 384.0;
 	public double microScale = 2.0;
 	
-	public double oddsMountainShack = 0.75;
+	public double oddsIsolatedBuilding = 0.75;
 	
 	@Override
 	public byte[][] generateBlockSections(World aWorld, Random random, int chunkX, int chunkZ, BiomeGrid biomes) {
@@ -136,11 +140,27 @@ public class WorldGenerator extends ChunkGenerator {
 			microShape = new SimplexNoiseGenerator(seed + 2);
 			
 			// get ranges
-			topLevel = world.getMaxHeight();
+			height = world.getMaxHeight();
 			seaLevel = world.getSeaLevel();
-			sidewalkLevel = seaLevel + 1;
-			landRange = topLevel - seaLevel - fudgeVerticalScale + landFlattening;
+			landRange = height - seaLevel - fudgeVerticalScale + landFlattening;
 			seaRange = seaLevel - fudgeVerticalScale + seaFlattening;
+
+			// now the other vertical points
+			deepseaLevel = seaLevel - (seaRange / 2);
+			sidewalkLevel = seaLevel + 1;
+			snowLevel = seaLevel + (landRange / 4 * 3);
+			evergreenLevel = seaLevel + (landRange / 4 * 2);
+			treeLevel = seaLevel + (landRange / 4);
+			
+			// seabed = 35 deepsea = 50 sea = 64 sidewalk = 65 tree = 110 evergreen = 156 snow = 202 top = 249
+			CityWorld.log.info("seabed = " + (seaLevel - seaRange) + 
+							   " deepsea = " + deepseaLevel + 
+							   " sea = " + seaLevel + 
+							   " sidewalk = " + sidewalkLevel + 
+							   " tree = " + treeLevel + 
+							   " evergreen = " + evergreenLevel + 
+							   " snow = " + snowLevel + 
+							   " top = " + (seaLevel + landRange));
 			
 			// get the connectionKeys
 			connectedKeyForPavedRoads = random.nextLong();
@@ -205,7 +225,7 @@ public class WorldGenerator extends ChunkGenerator {
 		}
 
 		// range validation
-		return Math.min(topLevel - 3, Math.max(y, 3));
+		return Math.min(height - 3, Math.max(y, 3));
 	}
 	
 	public int findBlockY(int blockX, int blockZ) {
@@ -221,7 +241,7 @@ public class WorldGenerator extends ChunkGenerator {
 	private final static int microFarmHouseSlot = 2;
 	private final static int microFarmCropSlot = 3;
 	private final static int microFarmDirectionSlot = 4;
-	private final static int microMountainShackSlot = 5;
+	private final static int microIsolatedBuildingSlot = 5;
 	
 	public boolean getBridgePolarityAt(double chunkX, double chunkZ) {
 		return macroBooleanAt(chunkX, chunkZ, macroNSBridgeSlot);
@@ -247,8 +267,12 @@ public class WorldGenerator extends ChunkGenerator {
 		return microBooleanAt(chunkX, chunkZ, microFarmDirectionSlot);
 	}
 	
-	public boolean isMountainShackAt(double chunkX, double chunkZ) {
-		return microScaleAt(chunkX, chunkZ, microMountainShackSlot) > oddsMountainShack;
+	public boolean isIsolatedBuildingAt(double chunkX, double chunkZ) {
+		return microScaleAt(chunkX, chunkZ, microIsolatedBuildingSlot) > oddsIsolatedBuilding;
+	}
+	
+	public boolean isNotSoIsolatedBuildingAt(double chunkX, double chunkZ) {
+		return microScaleAt(chunkX, chunkZ, microIsolatedBuildingSlot) > (oddsIsolatedBuilding / 2);
 	}
 	
 	protected boolean macroBooleanAt(double chunkX, double chunkZ, int slot) {

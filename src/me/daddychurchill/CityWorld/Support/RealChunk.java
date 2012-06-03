@@ -17,15 +17,19 @@ import org.bukkit.inventory.ItemStack;
 
 public class RealChunk extends SupportChunk {
 	private Chunk chunk;
+	public int worldX;
+	public int worldZ;
 
 	private boolean doPhysics;
 
-	public RealChunk(WorldGenerator aGenerator, Random aRandom, Chunk aChunk) {
-		super(aGenerator, aRandom);
+	public RealChunk(WorldGenerator generator, Random aRandom, Chunk aChunk) {
+		super(generator, aRandom);
 		
 		chunk = aChunk;
 		chunkX = chunk.getX();
 		chunkZ = chunk.getZ();
+		worldX = chunkX * width;
+		worldZ = chunkZ * width;
 		doPhysics = false;
 	}
 	
@@ -35,6 +39,14 @@ public class RealChunk extends SupportChunk {
 	
 	public void setDoPhysics(boolean dophysics) {
 		doPhysics = dophysics;
+	}
+
+	public Location getBlockLocation(int x, int y, int z) {
+		return chunk.getBlock(x, y, z).getLocation();
+	}
+
+	public Material getBlock(int x, int y, int z) {
+		return chunk.getBlock(x, y, z).getType();
 	}
 
 	public void setBlock(int x, int y, int z, Material material) {
@@ -53,14 +65,6 @@ public class RealChunk extends SupportChunk {
 		chunk.getBlock(x, y, z).setTypeIdAndData(type, data, aDoPhysics);
 	}
 	
-	public Location getBlockLocation(int x, int y, int z) {
-		return chunk.getBlock(x, y, z).getLocation();
-	}
-
-	public Material getBlock(int x, int y, int z) {
-		return chunk.getBlock(x, y, z).getType();
-	}
-
 	public void setBlocks(int x, int y1, int y2, int z, Material material) {
 		for (int y = y1; y < y2; y++)
 			chunk.getBlock(x, y, z).setType(material);
@@ -136,6 +140,106 @@ public class RealChunk extends SupportChunk {
 		return blocky + height;
 	}
 	
+	public void setWorldBlock(int x, int y, int z, Material material) {
+		world.getBlockAt(chunkX + x, y, chunkZ + z).setTypeId(material.getId(), doPhysics);
+	}
+
+	public void setWorldBlock(int x, int y, int z, int type, byte data) {
+		world.getBlockAt(chunkX + x, y, chunkZ + z).setTypeIdAndData(type, data, doPhysics);
+	}
+	
+	public void setWorldBlock(int x, int y, int z, Material material, boolean aDoPhysics) {
+		world.getBlockAt(chunkX + x, y, chunkZ + z).setTypeId(material.getId(), aDoPhysics);
+	}
+
+	public void setWorldBlock(int x, int y, int z, int type, byte data, boolean aDoPhysics) {
+		world.getBlockAt(chunkX + x, y, chunkZ + z).setTypeIdAndData(type, data, aDoPhysics);
+	}
+	
+	public void setWorldBlocks(int x, int y1, int y2, int z, Material material) {
+		x += worldX;
+		z += worldZ;
+		for (int y = y1; y < y2; y++)
+			world.getBlockAt(x, y, z).setType(material);
+	}
+
+	public void setWorldBlocks(int x, int y1, int y2, int z, int type, byte data) {
+		x += worldX;
+		z += worldZ;
+		for (int y = y1; y < y2; y++)
+			world.getBlockAt(x, y, z).setTypeIdAndData(type, data, doPhysics);
+	}
+
+	public void setWorldBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
+		x1 += worldX;
+		x2 += worldX;
+		z1 += worldZ;
+		z2 += worldZ;
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
+				for (int z = z1; z < z2; z++) {
+					world.getBlockAt(x, y, z).setType(material);
+				}
+			}
+		}
+	}
+
+	public void setWorldBlocks(int x, int y1, int y2, int z, Material material, byte data) {
+		x += worldX;
+		z += worldZ;
+		for (int y = y1; y < y2; y++)
+			world.getBlockAt(x, y, z).setTypeIdAndData(material.getId(), data, doPhysics);
+	}
+
+	public void setWorldBlocks(int x, int y1, int y2, int z, Material material, byte data, boolean aDoPhysics) {
+		x += worldX;
+		z += worldZ;
+		for (int y = y1; y < y2; y++)
+			world.getBlockAt(x, y, z).setTypeIdAndData(material.getId(), data, aDoPhysics);
+	}
+
+	public void setWorldBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, byte data, boolean aDoPhysics) {
+		x1 += worldX;
+		x2 += worldX;
+		z1 += worldZ;
+		z2 += worldZ;
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
+				for (int z = z1; z < z2; z++) {
+					world.getBlockAt(x, y, z).setTypeIdAndData(material.getId(), data, aDoPhysics);
+				}
+			}
+		}
+	}
+
+	public void setWorldBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, byte data) {
+		x1 += worldX;
+		x2 += worldX;
+		z1 += worldZ;
+		z2 += worldZ;
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
+				for (int z = z1; z < z2; z++) {
+					world.getBlockAt(x, y, z).setTypeIdAndData(material.getId(), data, doPhysics);
+				}
+			}
+		}
+	}
+
+	public void setWorldBlocks(int x1, int x2, int y1, int y2, int z1, int z2, int type, byte data) {
+		x1 += worldX;
+		x2 += worldX;
+		z1 += worldZ;
+		z2 += worldZ;
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
+				for (int z = z1; z < z2; z++) {
+					world.getBlockAt(x, y, z).setTypeIdAndData(type, data, doPhysics);
+				}
+			}
+		}
+	}
+
 	public boolean isEmpty(int x, int y, int z) {
 		return getBlock(x, y, z).getId() == airId;
 	}

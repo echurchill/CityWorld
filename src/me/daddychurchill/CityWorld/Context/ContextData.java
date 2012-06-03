@@ -80,7 +80,7 @@ public abstract class ContextData {
 	public boolean doOresInSewer;
 	public boolean doOresInUnderworld;
 	
-	public ContextData(CityWorld plugin, SupportChunk typicalChunk) {
+	public ContextData(CityWorld plugin, WorldGenerator generator, SupportChunk typicalChunk) {
 		super();
 		Random random = typicalChunk.random;
 		
@@ -96,10 +96,10 @@ public abstract class ContextData {
 		doSpawnerInSewer = plugin.isDoSpawnerInSewer();
 		doOresInSewer = plugin.isDoOresInSewer();
 		doOresInUnderworld = plugin.isDoOresInUnderworld();
-		buildingMaximumY = Math.min(126 + FudgeFloorsAbove * FloorHeight, typicalChunk.height);
+		buildingMaximumY = Math.min(126 + FudgeFloorsAbove * FloorHeight, generator.height);
 		
 		// where is the ground
-		streetLevel = Math.min(Math.max(typicalChunk.sidewalklevel, 
+		streetLevel = Math.min(Math.max(generator.sidewalkLevel, 
 				FloorHeight * FudgeFloorsBelow), 
 				buildingMaximumY - FloorHeight * (FudgeFloorsAbove + absoluteMinimumFloorsAbove));
 		

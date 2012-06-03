@@ -13,8 +13,8 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class ContextFarm extends ContextRural {
 
-	public ContextFarm(CityWorld plugin, SupportChunk typicalChunk) {
-		super(plugin, typicalChunk);
+	public ContextFarm(CityWorld plugin, WorldGenerator generator, SupportChunk typicalChunk) {
+		super(plugin, generator, typicalChunk);
 
 		oddsOfIsolatedLots = oddsVeryLikely;
 	}

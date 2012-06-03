@@ -5,22 +5,28 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 public final class HeightInfo {
 	
 	public enum HeightState {DEEPSEA, SEA, BUILDING, LOWLAND, MIDLAND, HIGHLAND, PEAK};
-
-	int count = 0;
-	int summary = 0;
-	int average = 0;
-	int maximum = Integer.MIN_VALUE;
-	int minimum = Integer.MAX_VALUE;
 	public HeightState state;
+
+	private int count = 0;
+	private int summary = 0;
+	
+	public int averageHeight = 0;
+
+	public int minHeight = Integer.MAX_VALUE;
+	public int minHeightX = 0;
+	public int minHeightZ = 0;
+	public int maxHeight = Integer.MIN_VALUE;
+	public int maxHeightX = 0;
+	public int maxHeightZ = 0;
 	
 	public final static HeightInfo getHeightsFaster(WorldGenerator generator, int blockX, int blockZ) {
 		HeightInfo heights = new HeightInfo();
 		
-		heights.add(generator.findBlockY(blockX + 8, blockZ + 8)); // center
-		heights.add(generator.findBlockY(blockX + 0, blockZ + 0)); // corners
-		heights.add(generator.findBlockY(blockX + 15, blockZ + 0)); 
-		heights.add(generator.findBlockY(blockX + 0, blockZ + 15)); 
-		heights.add(generator.findBlockY(blockX + 15, blockZ + 15));
+		heights.add(generator, blockX + 8, blockZ + 8); // center
+		heights.add(generator, blockX + 0, blockZ + 0); // corners
+		heights.add(generator, blockX + 15, blockZ + 0); 
+		heights.add(generator, blockX + 0, blockZ + 15); 
+		heights.add(generator, blockX + 15, blockZ + 15);
 		
 		heights.calcState(generator);
 		return heights;
@@ -29,15 +35,15 @@ public final class HeightInfo {
 	public final static HeightInfo getHeightsFast(WorldGenerator generator, int blockX, int blockZ) {
 		HeightInfo heights = new HeightInfo();
 		
-		heights.add(generator.findBlockY(blockX + 8, blockZ + 8)); // center
-		heights.add(generator.findBlockY(blockX + 0, blockZ + 0)); // corners
-		heights.add(generator.findBlockY(blockX + 15, blockZ + 0)); 
-		heights.add(generator.findBlockY(blockX + 0, blockZ + 15)); 
-		heights.add(generator.findBlockY(blockX + 15, blockZ + 15));
-		heights.add(generator.findBlockY(blockX + 0, blockZ + 8)); // edges 
-		heights.add(generator.findBlockY(blockX + 15, blockZ + 8)); 
-		heights.add(generator.findBlockY(blockX + 8, blockZ + 15)); 
-		heights.add(generator.findBlockY(blockX + 8, blockZ + 15));
+		heights.add(generator, blockX + 8, blockZ + 8); // center
+		heights.add(generator, blockX + 0, blockZ + 0); // corners
+		heights.add(generator, blockX + 15, blockZ + 0); 
+		heights.add(generator, blockX + 0, blockZ + 15); 
+		heights.add(generator, blockX + 15, blockZ + 15);
+		heights.add(generator, blockX + 0, blockZ + 8); // edges 
+		heights.add(generator, blockX + 15, blockZ + 8); 
+		heights.add(generator, blockX + 8, blockZ + 15); 
+		heights.add(generator, blockX + 8, blockZ + 15);
 		
 		heights.calcState(generator);
 		return heights;
@@ -48,7 +54,7 @@ public final class HeightInfo {
 		
 		for (int x = 0; x < SupportChunk.chunksBlockWidth; x++) {
 			for (int z = 0; z < SupportChunk.chunksBlockWidth; z++) {
-				heights.add(generator.findBlockY(blockX + x, blockZ + z));
+				heights.add(generator, blockX + x, blockZ + z);
 			}
 		}
 		
@@ -77,20 +83,19 @@ public final class HeightInfo {
 	}
 	
 	private final void calcState(WorldGenerator generator) {
-		average = summary / count;
-		if (maximum <= generator.seaLevel / 2)
+		averageHeight = summary / count;
+		if (maxHeight <= generator.deepseaLevel)
 			state = HeightState.DEEPSEA;
-		else if (maximum <= generator.seaLevel)
+		else if (maxHeight <= generator.seaLevel)
 			state = HeightState.SEA;
-		else if (maximum == generator.sidewalkLevel && minimum == generator.sidewalkLevel)
+		else if (maxHeight == generator.sidewalkLevel && minHeight == generator.sidewalkLevel)
 			state = HeightState.BUILDING;
 		else {
-			int delta = (generator.topLevel - generator.seaLevel) / 4;
-			if (average <= generator.seaLevel + delta)
+			if (averageHeight <= generator.treeLevel)
 				state = HeightState.LOWLAND;
-			else if (average <= generator.seaLevel + delta * 2)
+			else if (averageHeight <= generator.evergreenLevel)
 				state = HeightState.MIDLAND;
-			else if (average >= generator.topLevel - delta)
+			else if (averageHeight >= generator.snowLevel)
 				state = HeightState.PEAK;
 			else
 				state = HeightState.HIGHLAND;
@@ -98,19 +103,19 @@ public final class HeightInfo {
 	}
 	
 	public final int getRange() {
-		return maximum - minimum;
+		return maxHeight - minHeight;
 	}
 	
 	public final boolean isSortaFlat() {
-		return (maximum - minimum) < 8;
+		return (maxHeight - minHeight) < 8;
 	}
 	
 	public final boolean isAbsolutelyFlat() {
-		return maximum == minimum;
+		return maxHeight == minHeight;
 	}
 	
 	public final boolean isOnLevel(int value) {
-		return value == maximum && value == minimum;
+		return value == maxHeight && value == minHeight;
 	}
 	
 	public final boolean isBuildable() {
@@ -121,12 +126,19 @@ public final class HeightInfo {
 		return state == HeightState.DEEPSEA || state == HeightState.SEA;
 	}
 	
-	public final void add(int value) {
+	public final void add(WorldGenerator generator, int x, int z) {
+		int value = generator.findBlockY(x, z);
 		count++;
 		summary += value;
-		if (value < minimum) 
-			minimum = value;
-		if (value > maximum) 
-			maximum = value;
+		if (value < minHeight) {
+			minHeight = value;
+			minHeightX = x;
+			minHeightZ = z;
+		}
+		if (value > maxHeight) {
+			maxHeight = value;
+			maxHeightX = x;
+			maxHeightZ = z;
+		}
 	}
 }

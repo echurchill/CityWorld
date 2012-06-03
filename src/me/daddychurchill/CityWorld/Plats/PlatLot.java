@@ -14,14 +14,20 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 public abstract class PlatLot {
 	
 	protected int averageHeight;
-	protected int minHeight = 1024;
-	protected int maxHeight = 0;
+
+	protected int minHeight = Integer.MAX_VALUE;
+	protected int minHeightX = 0;
+	protected int minHeightZ = 0;
+	protected int maxHeight = Integer.MIN_VALUE;
+	protected int maxHeightX = 0;
+	protected int maxHeightZ = 0;
 	
 	public enum LotStyle {NATURE, STRUCTURE, ROAD, ROUNDABOUT};
 	public LotStyle style;
 	
 	public PlatLot(Random random) {
 		super();
+		style = LotStyle.NATURE;
 	}
 	
 	protected final static byte airId = (byte) Material.AIR.getId();
@@ -44,6 +50,9 @@ public abstract class PlatLot {
 	
 	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		
+		// total height
+		int sumHeight = 0;
+		
 		// compute offset to start of chunk
 		int originX = chunk.getOriginX();
 		int originZ = chunk.getOriginZ();
@@ -59,20 +68,28 @@ public abstract class PlatLot {
 				int y = generator.findBlockY(originX + x, originZ + z);
 				
 				// keep the tally going
-				averageHeight = averageHeight + y;
-				minHeight = Math.min(minHeight, y);
-				maxHeight = Math.max(maxHeight, y);
+				sumHeight += y;
+				if (y < minHeight) {
+					minHeight = y;
+					minHeightX = x;
+					minHeightZ = z;
+				}
+				if (y > maxHeight) {
+					maxHeight = y;
+					maxHeightX = x;
+					maxHeightZ = z;
+				}
 
 				// make the base
 				chunk.setBlock(x, 0, z, bedrockId);
 
 				// buildable?
 				if (style == LotStyle.STRUCTURE || style == LotStyle.ROUNDABOUT) {
-					generateCrust(generator, chunk, x, z, stoneId, chunk.sidewalklevel - 2, dirtId, chunk.sidewalklevel, dirtId, false);
+					generateCrust(generator, chunk, x, z, stoneId, generator.sidewalkLevel - 2, dirtId, generator.sidewalkLevel, dirtId, false);
 					biomes.setBiome(x, z, Biome.JUNGLE);
 					
 				// possibly buildable?
-				} else if (y == chunk.sidewalklevel) {
+				} else if (y == generator.sidewalkLevel) {
 					generateCrust(generator, chunk, x, z, stoneId, y - 3, dirtId, y, grassId, false);
 					biomes.setBiome(x, z, Biome.PLAINS);
 				
@@ -80,30 +97,30 @@ public abstract class PlatLot {
 				} else {
 
 					// on the beach
-					if (y == chunk.sealevel) {
+					if (y == generator.seaLevel) {
 						generateCrust(generator, chunk, x, z, stoneId, y - 2, sandId, y, sandId, false);
 						biomes.setBiome(x, z, Biome.BEACH);
 
 						// we are in the water!
-					} else if (y < chunk.sealevel) {
-						generateCrust(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, chunk.sealevel, waterId, surfaceCaves);
+					} else if (y < generator.seaLevel) {
+						generateCrust(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, generator.seaLevel, waterId, surfaceCaves);
 						biomes.setBiome(x, z, Biome.OCEAN);
 
 						// we are in the mountains
 					} else {
 
 						// regular trees only
-						if (y < chunk.treelevel) {
+						if (y < generator.treeLevel) {
 							generateCrust(generator, chunk, x, z, stoneId, y - 3, dirtId, y, grassId, false);
 							biomes.setBiome(x, z, Biome.FOREST_HILLS);
 
 						// regular trees and some evergreen trees
-						} else if (y < chunk.evergreenlevel) {
+						} else if (y < generator.evergreenLevel) {
 							generateCrust(generator, chunk, x, z, stoneId, y - 2, dirtId, y, grassId, surfaceCaves);
 							biomes.setBiome(x, z, Biome.EXTREME_HILLS);
 
 						// evergreen and some of fallen snow
-						} else if (y < chunk.snowlevel) {
+						} else if (y < generator.snowLevel) {
 							generateCrust(generator, chunk, x, z, stoneId, y - 1, dirtId, y, grassId, surfaceCaves);
 							biomes.setBiome(x, z, Biome.ICE_MOUNTAINS);
 							
@@ -118,7 +135,7 @@ public abstract class PlatLot {
 		}
 		
 		// what was the average height
-		averageHeight = averageHeight / (chunk.width * chunk.width);
+		averageHeight = sumHeight / (chunk.width * chunk.width);
 	}
 
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {

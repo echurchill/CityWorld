@@ -11,8 +11,8 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class ContextNeighborhood extends ContextRural {
 
-	public ContextNeighborhood(CityWorld plugin, SupportChunk typicalChunk) {
-		super(plugin, typicalChunk);
+	public ContextNeighborhood(CityWorld plugin, WorldGenerator generator, SupportChunk typicalChunk) {
+		super(plugin, generator, typicalChunk);
 
 		//TODO anything else?
 	}

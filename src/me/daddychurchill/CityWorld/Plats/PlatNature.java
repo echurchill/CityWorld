@@ -37,8 +37,8 @@ public class PlatNature extends PlatIsolated {
 		int blockZ = chunk.chunkZ * chunk.width;
 		
 		// precalculate 
-		int deciduousRange = chunk.evergreenlevel - chunk.treelevel;
-		int evergreenRange = chunk.snowlevel - chunk.evergreenlevel;
+		int deciduousRange = generator.evergreenLevel - generator.treeLevel;
+		int evergreenRange = generator.snowLevel - generator.evergreenLevel;
 		
 		// plant grass or snow
 		for (int x = 0; x < chunk.width; x++) {
@@ -47,7 +47,7 @@ public class PlatNature extends PlatIsolated {
 				int y = NoiseGenerator.floor(perciseY);
 				
 				// top of the world?
-				if (y >= chunk.snowlevel) {
+				if (y >= generator.snowLevel) {
 					if (!chunk.isEmpty(x, y, z))
 						chunk.setBlock(x, y + 1, z, snowId, (byte) NoiseGenerator.floor((perciseY - Math.floor(perciseY)) * 8.0));
 				
@@ -59,7 +59,7 @@ public class PlatNature extends PlatIsolated {
 					double secondary = chunk.random.nextDouble();
 					
 					// regular trees, grass and flowers only
-					if (y < chunk.treelevel) {
+					if (y < generator.treeLevel) {
 	
 						// trees? but only if we are not too close to the edge
 						if (primary > 0.97 && x > 2 && x < 14 && z > 2 && z < 14) {
@@ -83,13 +83,13 @@ public class PlatNature extends PlatIsolated {
 						}
 						
 					// regular trees, grass and some evergreen trees... no flowers
-					} else if (y < chunk.evergreenlevel) {
+					} else if (y < generator.evergreenLevel) {
 	
 						// trees? but only if we are not too close to the edge
 						if (primary > 0.90 && x > 2 && x < 14 && z > 2 && z < 14) {
 							
 							// range change?
-							if (secondary > ((double) (y - chunk.treelevel) / (double) deciduousRange))
+							if (secondary > ((double) (y - generator.treeLevel) / (double) deciduousRange))
 								chunk.world.generateTree(chunk.getBlockLocation(x, y + 1, z), TreeType.TREE);
 							else
 								chunk.world.generateTree(chunk.getBlockLocation(x, y + 1, z), TreeType.REDWOOD);
@@ -98,14 +98,14 @@ public class PlatNature extends PlatIsolated {
 						} else if (primary > 0.75) {
 
 							// range change?
-							if (secondary > ((double) (y - chunk.treelevel) / (double) deciduousRange))
+							if (secondary > ((double) (y - generator.treeLevel) / (double) deciduousRange))
 								chunk.setBlock(x, y + 1, z, grassId, (byte) 1);
 							else
 								chunk.setBlock(x, y + 1, z, grassId, (byte) 2);
 						}
 						
 					// evergreen and some grass and fallen snow, no regular trees or flowers
-					} else if (y < chunk.snowlevel) {
+					} else if (y < generator.snowLevel) {
 						
 						// trees? but only if we are not too close to the edge
 						if (primary > 0.90 && x > 2 && x < 14 && z > 2 && z < 14) {
@@ -118,7 +118,7 @@ public class PlatNature extends PlatIsolated {
 						} else if (primary > 0.40) {
 							
 							// range change?
-							if (secondary > ((double) (y - chunk.evergreenlevel) / (double) evergreenRange)) {
+							if (secondary > ((double) (y - generator.evergreenLevel) / (double) evergreenRange)) {
 								if (chunk.random.nextBoolean())
 									chunk.setBlock(x, y + 1, z, grassId, (byte) 2);
 							} else {

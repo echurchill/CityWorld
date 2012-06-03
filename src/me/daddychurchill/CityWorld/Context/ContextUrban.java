@@ -13,8 +13,8 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public abstract class ContextUrban extends ContextData {
 
-	public ContextUrban(CityWorld plugin, SupportChunk typicalChunk) {
-		super(plugin, typicalChunk);
+	public ContextUrban(CityWorld plugin, WorldGenerator generator, SupportChunk typicalChunk) {
+		super(plugin, generator, typicalChunk);
 
 		//TODO anything to generalized?
 	}

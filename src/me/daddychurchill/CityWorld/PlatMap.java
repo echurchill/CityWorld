@@ -53,7 +53,7 @@ public class PlatMap {
 		naturalPlats = 0;
 		
 		// assume everything is natural
-		context = new ContextNature(generator.getPlugin(), typicalChunk);
+		context = new ContextNature(generator.getPlugin(), generator, typicalChunk);
 		context.populateMap(generator, this, typicalChunk);
 		
 		// place and validate the roads
@@ -65,46 +65,30 @@ public class PlatMap {
 		context.populateMap(generator, this, typicalChunk);
 	}
 
-	/* On top of tall mountains put...
-	 *    Radio towers
-	 *    Telescopes
-	 * On hills/mountains put
-	 *    Shacks
-	 * Inside mountains put...
-	 *    Mines
-	 *    Bunkers
-	 * On top of deep seas put...
-	 *    Drilling platforms
-	 * Isolated spots of buildable land...
-	 *    Houses without roads
-	 *    Residential 
-	 *    Farms w/Farm house
-	 */
-	
 	private ContextData getContext(SupportChunk typicalChunk) {
 		CityWorld plugin = generator.getPlugin();
 		
 		// how natural is this platmap?
 		if (naturalPlats == 0)
-			return new ContextHighrise(plugin, typicalChunk);
+			return new ContextHighrise(plugin, generator, typicalChunk);
 		else if (naturalPlats < 15)
-			return new ContextUnconstruction(plugin, typicalChunk);
+			return new ContextUnconstruction(plugin, generator, typicalChunk);
 		else if (naturalPlats < 25)
-			return new ContextMidrise(plugin, typicalChunk);
+			return new ContextMidrise(plugin, generator, typicalChunk);
 		else if (naturalPlats < 40)
-			return new ContextCityCenter(plugin, typicalChunk);
+			return new ContextCityCenter(plugin, generator, typicalChunk);
 		else if (naturalPlats < 55)
-			return new ContextMall(plugin, typicalChunk);
+			return new ContextMall(plugin, generator, typicalChunk);
 		else if (naturalPlats < 70)
-			return new ContextLowrise(plugin, typicalChunk);
+			return new ContextLowrise(plugin, generator, typicalChunk);
 		else if (naturalPlats < 85)
-			return new ContextNeighborhood(plugin, typicalChunk);
+			return new ContextNeighborhood(plugin, generator, typicalChunk);
 		else 
 		if (naturalPlats < 95)
-			return new ContextFarm(plugin, typicalChunk);
+			return new ContextFarm(plugin, generator, typicalChunk);
 		else 
 		if (naturalPlats < 100)
-			return new ContextNeighborhood(plugin, typicalChunk);
+			return new ContextNeighborhood(plugin, generator, typicalChunk);
 		
 		// otherwise just keep what we have
 		else

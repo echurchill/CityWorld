@@ -9,17 +9,11 @@ import org.bukkit.World;
 
 public class SupportChunk {
 	
-	private WorldGenerator generator;
 	public World world;
 	public int chunkX;
 	public int chunkZ;
 	public int width;
 	public int height;
-	public int snowlevel;
-	public int treelevel;
-	public int evergreenlevel;
-	public int sealevel;
-	public int sidewalklevel;
 	public Random random;
 	
 	private byte[] ores;
@@ -38,20 +32,14 @@ public class SupportChunk {
 	public static final byte dirtId = (byte) Material.DIRT.getId();
 	public static final byte grassId = (byte) Material.GRASS.getId();
 	
-	public SupportChunk(WorldGenerator aGenerator, Random aRandom) {
+	public SupportChunk(WorldGenerator generator, Random aRandom) {
 		super();
 		
-		generator = aGenerator;
 		world = generator.getWorld();
 		random = aRandom;
 		
 		width = chunksBlockWidth;
-		height = generator.topLevel;
-		sealevel = generator.seaLevel;
-		sidewalklevel = generator.sidewalkLevel;
-		snowlevel = height - 64;
-		evergreenlevel = snowlevel - 48;
-		treelevel = evergreenlevel - 32;
+		height = generator.height;
 	}
 	
 	public int getBlockX(int x) {
