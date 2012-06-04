@@ -6,8 +6,6 @@ import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plats.PlatObservatory;
-import me.daddychurchill.CityWorld.Plats.PlatPlatform;
 import me.daddychurchill.CityWorld.Plats.PlatShack;
 import me.daddychurchill.CityWorld.Plats.PlatTower;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
@@ -103,27 +101,29 @@ public class ContextNature extends ContextRural {
 		Random random = typicalChunk.random;
 
 		// what type of height are we talking about?
-		if (state != HeightState.BUILDING) {// && generator.isNotSoIsolatedBuildingAt(platmap.originX + x, platmap.originZ + z)) {
+		if (state != HeightState.BUILDING && generator.isNotSoIsolatedBuildingAt(platmap.originX + x, platmap.originZ + z)) {
 			switch (state) {
-			case DEEPSEA:
-				// Oil rigs
-				platmap.setLot(x, z, new PlatPlatform(random, platmap));
-				break;
-			case SEA:
-				break;
-			case BUILDING:
-				break;
-			case LOWLAND:
-				break;
-			case MIDLAND: 
-				break;
+//			case DEEPSEA:
+//				// Oil rigs
+//				platmap.setLot(x, z, new PlatPlatform(random, platmap));
+//				break;
+//			case SEA:
+//				break;
+//			case BUILDING:
+//				break;
+//			case LOWLAND:
+//				break;
+//			case MIDLAND: 
+//				break;
 			case HIGHLAND: 
 				// Radio towers
 				platmap.setLot(x, z, new PlatTower(random, platmap));
 				break;
-			case PEAK:
-				// Observatories
-				platmap.setLot(x, z, new PlatObservatory(random, platmap));
+//			case PEAK:
+//				// Observatories
+//				platmap.setLot(x, z, new PlatObservatory(random, platmap));
+//				break;
+			default:
 				break;
 			}
 		}

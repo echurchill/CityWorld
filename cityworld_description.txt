@@ -4,8 +4,6 @@ The great outdoors is all good and fine but sometimes you just want to go to tow
 ===== //Version 0.80// ===== 
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, if the above version isn't available check back in an hour or so)//,,
 
-//(This should support the newer "taller" chunks but there might an issue or two)//
-
 {{http://dev.bukkit.org/media/images/36/712/BeautyShot.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
@@ -13,6 +11,9 @@ More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|
 v0.80
 * Include working terrain generation
 * Bridges and Tunnels now generate
+* Radio Towers
+* Interiors are still missing (as well as doors into the houses)
+* ISSUE: lights sometimes don't light (or do) when we want them to... seems to be a Minecraft issue
 
 v0.7x
 * Never released due to "issues"

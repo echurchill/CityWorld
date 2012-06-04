@@ -32,7 +32,6 @@ public abstract class PlatBuilding extends PlatConnected {
 	protected final static byte airId = (byte) Material.AIR.getId();
 	protected final static byte antennaBaseId = (byte) Material.CLAY.getId();
 	protected final static byte antennaId = (byte) Material.FENCE.getId();
-	protected final static byte lightId = (byte) Material.GLOWSTONE.getId();
 	protected final static byte conditionerId = (byte) Material.DOUBLE_STEP.getId();
 	protected final static byte conditionerTrimId = (byte) Material.STONE_PLATE.getId();
 	protected final static byte ductId = (byte) Material.STEP.getId();
@@ -440,9 +439,9 @@ public abstract class PlatBuilding extends PlatConnected {
 		}
 	}
 	
-	protected void drawNavLight(RealChunk chunk) {
+	protected void drawNavLight(RealChunk chunk, ContextData context) {
 		if (navLightY > 0)
-			chunk.setTorch(navLightX, navLightY, navLightZ, Material.TORCH, Torch.FLOOR);
+			chunk.setTorch(navLightX, navLightY, navLightZ, context.torchMat, Torch.FLOOR);
 	}
 	
 	private void drawConditioner(ByteChunk chunk, int x, int y, int z) {

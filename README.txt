@@ -17,16 +17,17 @@
 
 Todo
 Add command to level a city block
-Rivers and bridges
 Subway/elevated rail roads
 Terrain under the city
-Bring back rural blocks
 Park benches and other furniture
-Need to fix bugs in building roofs (including those silly air conditioning units)
 
 v0.80
 * Include working terrain generation
 * Bridges and Tunnels now generate
+* Radio Towers
+* Rural blocks are back
+* Interiors are still missing (as well as doors into the houses)
+* ISSUE: lights sometimes don't light (or do) when we want them to... seems to be a Minecraft issue
 
 v0.7x
 * Never released due to "issues"

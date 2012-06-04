@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.Context.ContextData;
 import org.bukkit.Material;
 
 public final class HouseFactory {
-
+	
 	public final static void generateHouse(RealChunk chunk, ContextData context, int baseY, int maxFloors) {
 		Random random = chunk.random;
 		
@@ -30,13 +30,12 @@ public final class HouseFactory {
 	}
 
 	protected final static Material materialAir = Material.AIR;
-	protected final static Material materialLight = Material.GLOWSTONE;
 	protected final static Material materialGlass = Material.THIN_GLASS;
 	
 	// the description of a single room
 	private final static class Room {
 		public static final int MinSize = 5;
-		public static final int MaxSize = 7;
+		public static final int MaxSize = 6;
 		public static final int MissingRoomOdds = 12; // 1/n of the time a room is missing
 		
 		public boolean Missing;

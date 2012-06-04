@@ -38,7 +38,6 @@ public class PlatRoad extends PlatConnected {
 	private final static Material airMaterial = Material.AIR;
 	private final static Material lightpostbaseMaterial = Material.DOUBLE_STEP;
 	private final static Material lightpostMaterial = Material.FENCE;
-	private final static Material lightMaterial = Material.GLOWSTONE;
 	private final static Material manpipeMaterial = Material.STONE;
 	private final static Material sewerWallMaterial = Material.MOSSY_COBBLESTONE;
 	//private final static Material vineMaterial = Material.VINE;
@@ -646,8 +645,8 @@ public class PlatRoad extends PlatConnected {
 					HeightInfo.getHeightsFast(generator, originX + chunk.width, originZ).isSea()) {
 					
 					// lights please
-					generateLightPost(chunk, sidewalkLevel + 5, 7, 0);
-					generateLightPost(chunk, sidewalkLevel + 5, 8, 15);
+					generateLightPost(chunk, context, sidewalkLevel + 5, 7, 0);
+					generateLightPost(chunk, context, sidewalkLevel + 5, 8, 15);
 				}
 				
 			} else if (roads.toNorth() && roads.toSouth()) {
@@ -655,8 +654,8 @@ public class PlatRoad extends PlatConnected {
 					HeightInfo.getHeightsFast(generator, originX, originZ + chunk.width).isSea()) {
 					
 					// lights please
-					generateLightPost(chunk, sidewalkLevel + 5, 0, 7);
-					generateLightPost(chunk, sidewalkLevel + 5, 15, 8);
+					generateLightPost(chunk, context, sidewalkLevel + 5, 0, 7);
+					generateLightPost(chunk, context, sidewalkLevel + 5, 15, 8);
 				}
 			}
 		
@@ -670,11 +669,11 @@ public class PlatRoad extends PlatConnected {
 				
 				// tunnel to the east/west
 				if (roads.toWest() && roads.toEast()) {
-					chunk.setBlock(3, sidewalkLevel + 7, 8, lightMaterial);
-					chunk.setBlock(12, sidewalkLevel + 7, 7, lightMaterial);
+					chunk.setBlock(3, sidewalkLevel + 7, 8, context.lightMat);
+					chunk.setBlock(12, sidewalkLevel + 7, 7, context.lightMat);
 				} else if (roads.toNorth() && roads.toSouth()) {
-					chunk.setBlock(8, sidewalkLevel + 7, 3, lightMaterial);
-					chunk.setBlock(7, sidewalkLevel + 7, 12, lightMaterial);
+					chunk.setBlock(8, sidewalkLevel + 7, 3, context.lightMat);
+					chunk.setBlock(7, sidewalkLevel + 7, 12, context.lightMat);
 				}
 				
 //			// retaining walls 
@@ -685,8 +684,8 @@ public class PlatRoad extends PlatConnected {
 			} else {
 				
 				// light posts
-				generateLightPost(chunk, sidewalkLevel, sidewalkWidth - 1, sidewalkWidth - 1);
-				generateLightPost(chunk, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
+				generateLightPost(chunk, context, sidewalkLevel, sidewalkWidth - 1, sidewalkWidth - 1);
+				generateLightPost(chunk, context, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
 			}
 		}
 		
@@ -791,10 +790,10 @@ public class PlatRoad extends PlatConnected {
 //			}
 //	}
 	
-	protected void generateLightPost(RealChunk chunk, int sidewalkLevel, int x, int z) {
+	protected void generateLightPost(RealChunk chunk, ContextData context, int sidewalkLevel, int x, int z) {
 		chunk.setBlock(x, sidewalkLevel, z, lightpostbaseMaterial);
 		chunk.setBlocks(x, sidewalkLevel + 1, sidewalkLevel + lightpostHeight + 1, z, lightpostMaterial);
-		chunk.setBlock(x, sidewalkLevel + lightpostHeight + 1, z, lightMaterial, true);
+		chunk.setBlock(x, sidewalkLevel + lightpostHeight + 1, z, context.lightMat, true);
 	}
 	
 	protected void generateManhole(RealChunk chunk, int x, int y1, int y2, int z) {

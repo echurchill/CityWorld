@@ -17,8 +17,6 @@ import org.bukkit.inventory.ItemStack;
 
 public class RealChunk extends SupportChunk {
 	private Chunk chunk;
-	public int worldX;
-	public int worldZ;
 
 	private boolean doPhysics;
 
@@ -125,6 +123,20 @@ public class RealChunk extends SupportChunk {
 		}
 	}
 
+	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
+		setBlocks(x1, x2, y1, y2, z1, z1 + 1, material);
+		setBlocks(x1, x2, y1, y2, z2 - 1, z2, material);
+		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material);
+		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material);
+	}
+	
+	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, int type, byte data) {
+		setBlocks(x1, x2, y1, y2, z1, z1 + 1, type, data);
+		setBlocks(x1, x2, y1, y2, z2 - 1, z2, type, data);
+		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, type, data);
+		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, type, data);
+	}
+	
 	public int setLayer(int blocky, Material material) {
 		setBlocks(0, width, blocky, blocky + 1, 0, width, material);
 		return blocky + 1;

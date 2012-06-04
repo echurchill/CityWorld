@@ -15,27 +15,23 @@ import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-//DONE Global.BedrockIsolation = obsidian or bedrock barriers (true)
-//DONE Global.Plumbing = plumbing between street and underworld (true)
 //DONE Global.Sewer = sewers between street (and plumbing) and underworld (true)
 //DONE Global.Cistern = cisterns beneath parks (true)
 //DONE Global.Basement = basements beneath buildings (true)
-//DONE Global.Underworld = underworld beneath the city (true)
 //DONE Global.TreasureInFountain = treasure ores in the Fountains (true)
-//DONE Global.TreasureInPlumbing = treasure blocks in the Plumbing (true)
 //DONE Global.OresInSewer = ore vaults in sewer (true)
-//DONE Global.OresInUnderworld = ore vaults in underworld (true)
 //DONE Global.TreasureInSewer = treasure chests in the sewer (true)
 //DONE Global.SpawnersInSewer = sewers treasure rooms might have spawners (true)
-//DONE Global.StreetLevel = where the streets start (30)
 //DONE Global.MaximumFloors = tallest building (100)
-//TODO Global.SpawnersInPlumbing = plumbing might have spawners (??)
-//TODO clamp streetlevel this value to something sane!
-//TODO if streetlevel gets too small turn off underworld, sewer, cistern and plumbing!
-//TODO streetlevel controls the various constants found in PlatMap
-//TODO move the constants in PlatMap to ContextUrban
-//TODO "worldname".<option> support for world specific options
+//DONE Oceans/lakes
+//DONE Farms
+//DONE Residential
+//DONE Predictable platmaps types/seeds via noise instead of random
+//DONE Mob generators in Sewers.. maybe instead of treasure chests... sometimes
+//DONE Treasure chests instead of chunks of ores in the sewers
+//DONE Sewers with iron bars instead of bricks sometimes
 
+//TODO "worldname".<option> support for world specific options
 //DONE Command.CityWorld
 //TODO Command.CityWorld Leave
 //TODO Command.CityWorld Regenerate
@@ -45,18 +41,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 //TODO Dynamically load platmap "engines" from plugin/cityworld/*.platmaps
 //TODO Autoregister platmap "generators" from code
-//TODO Predictable platmaps types/seeds via noise instead of random
-//TODO Oceans/lakes
-//TODO Farms
-//TODO Residential
 //TODO Sewers more maze like
 //TODO Sewers with levels
-//DONE Sewers with iron bars instead of bricks sometimes
 //TODO Sewers with vines coming down
 //TODO Sewers with indents to remove the hallways aspect of them
 //TODO Sewer treasure chests should be limited in what they can "auto-populate" with
-//TODO Mob generators in Sewers.. maybe instead of treasure chests... sometimes
-//TODO Treasure chests instead of chunks of ores in the sewers
 //TODO Underworld with "noisy" terrain and ores
 
 public class CityWorld extends JavaPlugin{
@@ -64,51 +53,37 @@ public class CityWorld extends JavaPlugin{
 	public static final Logger log = Logger.getLogger("Minecraft.CityWorld");
    	
 	private Material isolationMaterial;
-	private boolean doPlumbing;
 	private boolean doSewer;
 	private boolean doCistern;
 	private boolean doBasement;
-	private boolean doUnderworld;
 	private boolean doTreasureInSewer;
-	private boolean doTreasureInPlumbing;
 	private boolean doTreasureInFountain;
 	private boolean doSpawnerInSewer;
 	private boolean doOresInSewer;
-	private boolean doOresInUnderworld;
-	private int streetLevel;
+	private boolean doWorkingLights;
 	private int maximumFloors;
 	
-	public final static boolean defaultBedrockIsolation = true;
-	public final static boolean defaultDoPlumbing = true;
 	public final static boolean defaultDoSewer = true;
 	public final static boolean defaultDoCistern = true;
 	public final static boolean defaultDoBasement = true;
-	public final static boolean defaultDoUnderworld = true;
 	public final static boolean defaultDoTreasureInSewer = true;
-	public final static boolean defaultDoTreasureInPlumbing = true;
 	public final static boolean defaultDoTreasureInFountain = true;
 	public final static boolean defaultDoSpawnerInSewer = true;
 	public final static boolean defaultDoOresInSewer = true;
-	public final static boolean defaultDoOresInUnderworld = true;
-	public final static int defaultStreetLevel = 30;
+	public final static boolean defaultDoWorkingLights = false;
 	public final static int defaultMaximumFloors = 20;
 	
     public CityWorld() {
 		super();
 		
-		setBedrockIsolation(defaultBedrockIsolation);
-		setDoPlumbing(defaultDoPlumbing);
 		setDoSewer(defaultDoSewer);
 		setDoCistern(defaultDoCistern);
 		setDoBasement(defaultDoBasement);
-		setDoUnderworld(defaultDoUnderworld);
 		setDoTreasureInSewer(defaultDoTreasureInSewer);
-		setDoTreasureInPlumbing(defaultDoTreasureInPlumbing);
 		setDoTreasureInFountain(defaultDoTreasureInFountain);
 		setDoSpawnerInSewer(defaultDoSpawnerInSewer);
 		setDoOresInSewer(defaultDoOresInSewer);
-		setDoOresInUnderworld(defaultDoOresInUnderworld);
-		setStreetLevel(defaultStreetLevel);
+		setDoWorkingLights(defaultDoWorkingLights);
 	}
     
     public void setBedrockIsolation(boolean doit) {
@@ -117,14 +92,6 @@ public class CityWorld extends JavaPlugin{
     
     public Material getIsolationMaterial() {
 		return isolationMaterial;
-	}
-
-	public boolean isDoPlumbing() {
-		return doPlumbing;
-	}
-
-	public void setDoPlumbing(boolean doit) {
-		doPlumbing = doit;
 	}
 
 	public boolean isDoSewer() {
@@ -151,28 +118,12 @@ public class CityWorld extends JavaPlugin{
 		doBasement = doit;
 	}
 
-	public boolean isDoUnderworld() {
-		return doUnderworld;
-	}
-	
-	public void setDoUnderworld(boolean doit) {
-		doUnderworld = doit;
-	}
-
 	public boolean isDoTreasureInSewer() {
 		return doTreasureInSewer;
 	}
 	
 	public void setDoTreasureInSewer(boolean doit) {
 		doTreasureInSewer = doit;
-	}
-
-	public boolean isDoTreasureInPlumbing() {
-		return doTreasureInPlumbing;
-	}
-	
-	public void setDoTreasureInPlumbing(boolean doit) {
-		doTreasureInPlumbing = doit;
 	}
 
 	public boolean isDoTreasureInFountain() {
@@ -199,20 +150,12 @@ public class CityWorld extends JavaPlugin{
 		doOresInSewer = doit;
 	}
 
-	public boolean isDoOresInUnderworld() {
-		return doOresInUnderworld;
+	public boolean isDoWorkingLights() {
+		return doWorkingLights;
 	}
 	
-	public void setDoOresInUnderworld(boolean doit) {
-		doOresInUnderworld = doit;
-	}
-
-	public int getStreetLevel() {
-		return streetLevel;
-	}
-	
-	public void setStreetLevel(int value) {
-		streetLevel = value;
+	public void setDoWorkingLights(boolean doit) {
+		doWorkingLights = doit;
 	}
 
 	public int getMaximumFloors() {
@@ -248,37 +191,26 @@ public class CityWorld extends JavaPlugin{
 		// add/get the configuration
 		FileConfiguration config = getConfig();
 		config.options().header("CityWorld Global Options");
-		config.addDefault("Global.BedrockIsolation", defaultBedrockIsolation);
-		config.addDefault("Global.Plumbing", defaultDoPlumbing);
 		config.addDefault("Global.Sewer", defaultDoSewer);
 		config.addDefault("Global.Cistern", defaultDoCistern);
 		config.addDefault("Global.Basement", defaultDoBasement);
-		config.addDefault("Global.Underworld", defaultDoUnderworld);
 		config.addDefault("Global.TreasureInFountain", defaultDoTreasureInFountain);
-		config.addDefault("Global.TreasureInPlumbing", defaultDoTreasureInPlumbing);
 		config.addDefault("Global.TreasureInSewer", defaultDoTreasureInSewer);
 		config.addDefault("Global.SpawnerInSewer", defaultDoSpawnerInSewer);
 		config.addDefault("Global.OresInSewer", defaultDoOresInSewer);
-		config.addDefault("Global.OresInUnderworld", defaultDoOresInUnderworld);
-		config.addDefault("Global.StreetLevel", defaultStreetLevel);
 		config.addDefault("Global.MaximumFloors", defaultMaximumFloors);
 		config.options().copyDefaults(true);
 		saveConfig();
 		
 		// now read out the bits for real
 		setBedrockIsolation(config.getBoolean("Global.BedrockIsolation"));
-		setDoPlumbing(config.getBoolean("Global.Plumbing"));
 		setDoSewer(config.getBoolean("Global.Sewer"));
 		setDoCistern(config.getBoolean("Global.Cistern"));
 		setDoBasement(config.getBoolean("Global.Basement"));
-		setDoUnderworld(config.getBoolean("Global.Underworld"));
 		setDoTreasureInFountain(config.getBoolean("Global.TreasureInFountain"));
-		setDoTreasureInPlumbing(config.getBoolean("Global.TreasureInPlumbing"));
 		setDoTreasureInSewer(config.getBoolean("Global.TreasureInSewer"));
 		setDoSpawnerInSewer(config.getBoolean("Global.SpawnerInSewer"));
 		setDoOresInSewer(config.getBoolean("Global.OresInSewer"));
-		setDoOresInUnderworld(config.getBoolean("Global.OresInUnderworld"));
-		setStreetLevel(config.getInt("Global.StreetLevel"));
 		setMaximumFloors(config.getInt("Global.MaximumFloors"));
 		
 		// configFile can be retrieved via getConfig()
@@ -309,7 +241,7 @@ public class CityWorld extends JavaPlugin{
 				// if neither then create/build it!
 				WorldCreator worldcreator = new WorldCreator(WORLD_NAME);
 				worldcreator.environment(World.Environment.NORMAL);
-				worldcreator.seed(-7003854148399448818L);
+				//worldcreator.seed(-7003854148399448818L);
 				worldcreator.generator(new WorldGenerator(this, WORLD_NAME, ""));
 				cityWorldPrime = Bukkit.getServer().createWorld(worldcreator);
 			}

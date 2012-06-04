@@ -152,15 +152,15 @@ public class WorldGenerator extends ChunkGenerator {
 			evergreenLevel = seaLevel + (landRange / 4 * 2);
 			treeLevel = seaLevel + (landRange / 4);
 			
-			// seabed = 35 deepsea = 50 sea = 64 sidewalk = 65 tree = 110 evergreen = 156 snow = 202 top = 249
-			CityWorld.log.info("seabed = " + (seaLevel - seaRange) + 
-							   " deepsea = " + deepseaLevel + 
-							   " sea = " + seaLevel + 
-							   " sidewalk = " + sidewalkLevel + 
-							   " tree = " + treeLevel + 
-							   " evergreen = " + evergreenLevel + 
-							   " snow = " + snowLevel + 
-							   " top = " + (seaLevel + landRange));
+//			// seabed = 35 deepsea = 50 sea = 64 sidewalk = 65 tree = 110 evergreen = 156 snow = 202 top = 249
+//			CityWorld.log.info("seabed = " + (seaLevel - seaRange) + 
+//							   " deepsea = " + deepseaLevel + 
+//							   " sea = " + seaLevel + 
+//							   " sidewalk = " + sidewalkLevel + 
+//							   " tree = " + treeLevel + 
+//							   " evergreen = " + evergreenLevel + 
+//							   " snow = " + snowLevel + 
+//							   " top = " + (seaLevel + landRange));
 			
 			// get the connectionKeys
 			connectedKeyForPavedRoads = random.nextLong();

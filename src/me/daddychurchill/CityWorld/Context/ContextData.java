@@ -2,6 +2,8 @@ package me.daddychurchill.CityWorld.Context;
 
 import java.util.Random;
 
+import org.bukkit.Material;
+
 import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
@@ -68,34 +70,32 @@ public abstract class ContextData {
 	public int streetLevel;
 	
 	public byte isolationId;
-	public boolean doPlumbing;
 	public boolean doSewer;
 	public boolean doCistern;
 	public boolean doBasement;
-	public boolean doUnderworld;
 	public boolean doTreasureInSewer;
-	public boolean doTreasureInPlumbing;
 	public boolean doTreasureInFountain;
 	public boolean doSpawnerInSewer;
 	public boolean doOresInSewer;
-	public boolean doOresInUnderworld;
+	public boolean doWorkingLights;
+	
+	public Material lightMat;
+	public Byte lightId;
+	public Material torchMat;
+	public Byte torchId;
 	
 	public ContextData(CityWorld plugin, WorldGenerator generator, SupportChunk typicalChunk) {
 		super();
 		Random random = typicalChunk.random;
 		
 		isolationId = (byte) plugin.getIsolationMaterial().getId();
-		doPlumbing = plugin.isDoPlumbing();
 		doSewer = plugin.isDoSewer();
 		doCistern = plugin.isDoCistern();
 		doBasement = plugin.isDoBasement();
-		doUnderworld = plugin.isDoUnderworld();
 		doTreasureInSewer = plugin.isDoTreasureInSewer();
-		doTreasureInPlumbing = plugin.isDoTreasureInPlumbing();
 		doTreasureInFountain = plugin.isDoTreasureInFountain();
 		doSpawnerInSewer = plugin.isDoSpawnerInSewer();
 		doOresInSewer = plugin.isDoOresInSewer();
-		doOresInUnderworld = plugin.isDoOresInUnderworld();
 		buildingMaximumY = Math.min(126 + FudgeFloorsAbove * FloorHeight, generator.height);
 		
 		// where is the ground
@@ -109,11 +109,21 @@ public abstract class ContextData {
 		
 		// turn off a few things if there isn't room
 		if (absoluteMaximumFloorsBelow == 0) {
-			doPlumbing = false;
 			doSewer = false;
 			doCistern = false;
 			doBasement = false;
 		}
+		
+		// lights?
+		if (plugin.isDoWorkingLights()) {
+			lightMat = Material.GLOWSTONE;
+			torchMat = Material.TORCH;
+		} else {
+			lightMat = Material.REDSTONE_LAMP_OFF;
+			torchMat = Material.REDSTONE_TORCH_OFF;
+		}
+		lightId = (byte) lightMat.getId();
+		torchId = (byte) torchMat.getId();
 
 		// default floor range
 		setFloorRange(random, 2, 2);

@@ -8,7 +8,7 @@ public final class HeightInfo {
 	public HeightState state;
 
 	private int count = 0;
-	private int summary = 0;
+	private int sumHeight = 0;
 	
 	public int averageHeight = 0;
 
@@ -83,7 +83,7 @@ public final class HeightInfo {
 	}
 	
 	private final void calcState(WorldGenerator generator) {
-		averageHeight = summary / count;
+		averageHeight = sumHeight / count;
 		if (maxHeight <= generator.deepseaLevel)
 			state = HeightState.DEEPSEA;
 		else if (maxHeight <= generator.seaLevel)
@@ -129,7 +129,7 @@ public final class HeightInfo {
 	public final void add(WorldGenerator generator, int x, int z) {
 		int value = generator.findBlockY(x, z);
 		count++;
-		summary += value;
+		sumHeight += value;
 		if (value < minHeight) {
 			minHeight = value;
 			minHeightX = x;

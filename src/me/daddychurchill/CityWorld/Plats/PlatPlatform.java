@@ -5,7 +5,6 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
@@ -17,7 +16,6 @@ public class PlatPlatform extends PlatIsolated {
 	public PlatPlatform(Random random, PlatMap platmap) {
 		super(random, platmap);
 
-		CityWorld.log.info("Platform!");
 	}
 
 	private final static byte platformId = (byte) Material.DOUBLE_STEP.getId();
@@ -30,7 +28,7 @@ public class PlatPlatform extends PlatIsolated {
 	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
 		
-		CityWorld.log.info("Platform @ " + (chunk.chunkX * chunk.width) + ", " + (chunk.chunkZ * chunk.width));
+//		CityWorld.log.info("Platform @ " + (chunk.chunkX * chunk.width) + ", " + (chunk.chunkZ * chunk.width));
 		
 		// legs
 		chunk.setBlocks(2, 4, minHeight, generator.seaLevel + aboveSea, 2, 4, supportId);

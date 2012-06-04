@@ -3,11 +3,12 @@ package me.daddychurchill.CityWorld.Plats;
 import java.util.Random;
 
 import org.bukkit.Material;
+import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class PlatObservatory extends PlatIsolated {
@@ -17,35 +18,34 @@ public class PlatObservatory extends PlatIsolated {
 
 	}
 	
-	private final static int platformWidth = 12;
+	private final static byte platformId = (byte) Material.SMOOTH_BRICK.getId();
+	private final static byte supportId = (byte) Material.COBBLESTONE.getId();
+	
+	@Override
+	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
+		
+//		CityWorld.log.info("Observatory @ " + chunk.worldX + ", " + chunk.worldZ);
+		
+		// legs
+		chunk.setBlocks(2, 4, minHeight, maxHeight - 1, 2, 4, supportId);
+		chunk.setBlocks(2, 4, minHeight, maxHeight - 1, 7, 9, supportId);
+		chunk.setBlocks(2, 4, minHeight, maxHeight - 1, 12, 14, supportId);
+		chunk.setBlocks(7, 9, minHeight, maxHeight - 1, 2, 4, supportId);
+		//chunk.setBlocks(7, 9, minHeight, maxHeight - 1, 7, 9, supportId);
+		chunk.setBlocks(7, 9, minHeight, maxHeight - 1, 12, 14, supportId);
+		chunk.setBlocks(12, 14, minHeight, maxHeight - 1, 2, 4, supportId);
+		chunk.setBlocks(12, 14, minHeight, maxHeight - 1, 7, 9, supportId);
+		chunk.setBlocks(12, 14, minHeight, maxHeight - 1, 12, 14, supportId);
 
-	private final static Material airMat = Material.AIR;
-	private final static Material platformMat = Material.SMOOTH_BRICK;
-	private final static Material supportMat = Material.COBBLESTONE;
+		// platform
+		chunk.setLayer(maxHeight - 1, supportId);
+		chunk.setLayer(maxHeight, platformId);
+	}
 	
 	@Override
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
 		super.generateBlocks(generator, platmap, chunk, context, platX, platZ);
 
-		// compute offset to start of chunk
-		int originX = maxHeightX - platformWidth / 2;
-		int originZ = maxHeightZ - platformWidth / 2;
-		CityWorld.log.info("Observatory @ " + (chunk.worldX + originX) + ", " + (chunk.worldZ + originZ));
-		
-		// base
-		for (int x = originX; x < originX + platformWidth; x++) {
-			for (int z = originZ; z < originZ + platformWidth; z++) {
-				int y = generator.findBlockY(chunk.worldX + x, chunk.worldZ + z);
-				
-				// erase or draw, that is the question
-				if (y > maxHeight)
-					chunk.setWorldBlocks(x, x + 1, maxHeight, y + 1, z, z + 1, airMat);
-				else
-					chunk.setWorldBlocks(x, x + 1, y, maxHeight, z, z + 1, supportMat);
-			}
-		}
-		
-		// top it off
-		chunk.setWorldBlocks(originX, originX + platformWidth, maxHeight, maxHeight + 1, originZ, originZ + platformWidth, platformMat);
 	}
 }

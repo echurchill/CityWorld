@@ -12,6 +12,8 @@ public class SupportChunk {
 	public World world;
 	public int chunkX;
 	public int chunkZ;
+	public int worldX;
+	public int worldZ;
 	public int width;
 	public int height;
 	public Random random;

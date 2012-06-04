@@ -9,12 +9,14 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public abstract class PlatLot {
 	
+	// extremes
+	private boolean extremeComputed = false;
 	protected int averageHeight;
-
 	protected int minHeight = Integer.MAX_VALUE;
 	protected int minHeightX = 0;
 	protected int minHeightZ = 0;
@@ -136,9 +138,24 @@ public abstract class PlatLot {
 		
 		// what was the average height
 		averageHeight = sumHeight / (chunk.width * chunk.width);
+		extremeComputed = true;
 	}
 
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
+		
+		// have we done this yet?
+		if (!extremeComputed) {
+			HeightInfo heights = HeightInfo.getHeights(generator, chunk.worldX, chunk.worldZ);
+			averageHeight = heights.averageHeight;
+			minHeight = heights.minHeight;
+			minHeightX = heights.minHeightX;
+			minHeightZ = heights.minHeightZ;
+			maxHeight = heights.maxHeight;
+			maxHeightX = heights.maxHeightX;
+			maxHeightZ = heights.maxHeightZ;
+			extremeComputed = true;
+		}
+		
 		//TODO additional natural sub-terrain structures, if any
 	}
 	

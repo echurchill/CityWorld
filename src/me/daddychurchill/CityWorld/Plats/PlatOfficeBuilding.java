@@ -265,7 +265,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		}
 		
 		// maybe draw a navlight?
-		drawNavLight(chunk);
+		drawNavLight(chunk, context);
 	}
 	
 	static protected Material pickWallMaterial(Random rand) {
