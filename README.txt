@@ -25,8 +25,9 @@ v0.80
 * Include working terrain generation
 * Bridges and Tunnels now generate
 * Radio Towers
+* Oil drilling platforms out where the sea is deepest
 * Rural blocks are back
-* Interiors are still missing (as well as doors into the houses)
+* Interiors are still missing 
 * ISSUE: lights sometimes don't light (or do) when we want them to... seems to be a Minecraft issue
 
 v0.7x

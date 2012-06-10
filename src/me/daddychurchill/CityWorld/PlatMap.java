@@ -83,8 +83,7 @@ public class PlatMap {
 			return new ContextLowrise(plugin, generator, typicalChunk);
 		else if (naturalPlats < 85)
 			return new ContextNeighborhood(plugin, generator, typicalChunk);
-		else 
-		if (naturalPlats < 95)
+		else if (naturalPlats < 95)
 			return new ContextFarm(plugin, generator, typicalChunk);
 		else 
 		if (naturalPlats < 100)

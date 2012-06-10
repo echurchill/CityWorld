@@ -9,8 +9,6 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
-import me.daddychurchill.CityWorld.Support.Direction.Stair;
-import me.daddychurchill.CityWorld.Support.Direction.Torch;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
@@ -170,32 +168,11 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 			// plop a crane on top?
 			if (lastHorizontalGirder > 0 && random.nextInt(context.oddsOfCranes) == 0) {
 				if (random.nextBoolean())
-					drawCrane(chunk, context, inset + 2, lastHorizontalGirder + 1, inset);
+					chunk.drawCrane(context, inset + 2, lastHorizontalGirder + 1, inset);
 				else
-					drawCrane(chunk, context, inset + 2, lastHorizontalGirder + 1, chunk.width - inset - 1);
+					chunk.drawCrane(context, inset + 2, lastHorizontalGirder + 1, chunk.width - inset - 1);
 			}
 		}
-	}
-	
-	private void drawCrane(RealChunk chunk, ContextData context, int x, int y, int z) {
-		Random random = chunk.random;
-		
-		// vertical bit
-		chunk.setBlocks(x, y, y + 8, z, Material.IRON_FENCE);
-		chunk.setBlocks(x, y + 8, y + 10, z, Material.DOUBLE_STEP);
-		chunk.setBlocks(x - 1, y + 8, y + 10, z, Material.STEP);
-		chunk.setTorch(x, y + 10, z, context.torchMat, Torch.FLOOR);
-		
-		// horizontal bit
-		chunk.setBlock(x + 1, y + 8, z, Material.GLASS);
-		chunk.setBlocks(x + 2, x + 11, y + 8, y + 9, z, z + 1, Material.IRON_FENCE);
-		chunk.setBlocks(x + 1, x + 10, y + 9, y + 10, z, z + 1, Material.STEP);
-		chunk.setStair(x + 10, y + 9, z, Material.SMOOTH_STAIRS, Stair.WEST);
-		
-		// counter weight
-		chunk.setBlock(x - 2, y + 9, z, Material.STEP);
-		chunk.setStair(x - 3, y + 9, z, Material.SMOOTH_STAIRS, Stair.EAST);
-		chunk.setBlocks(x - 3, x - 1, y + 7, y + 9, z, z + 1, Material.WOOL, (byte) random.nextInt(16));
 	}
 	
 	private void drawVerticalGirders(ByteChunk chunk, int y1, int floorHeight) {

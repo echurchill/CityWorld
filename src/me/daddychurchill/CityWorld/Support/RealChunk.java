@@ -3,6 +3,9 @@ package me.daddychurchill.CityWorld.Support;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Support.Direction.Stair;
+import me.daddychurchill.CityWorld.Support.Direction.Torch;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -47,6 +50,46 @@ public class RealChunk extends SupportChunk {
 		return chunk.getBlock(x, y, z).getType();
 	}
 
+	public void clearBlock(int x, int y, int z) {
+		chunk.getBlock(x, y, z).setType(Material.AIR);
+	}
+
+	public boolean setEmptyBlock(int x, int y, int z, Material material) {
+		Block block = chunk.getBlock(x, y, z);
+		if (block.isEmpty()) {
+			block.setTypeId(material.getId(), doPhysics);
+			return true;
+		} else
+			return false;
+	}
+
+	public boolean setEmptyBlock(int x, int y, int z, int type, byte data) {
+		Block block = chunk.getBlock(x, y, z);
+		if (block.isEmpty()) {
+			block.setTypeIdAndData(type, data, doPhysics);
+			return true;
+		} else
+			return false;
+	}
+	
+	public boolean setEmptyBlock(int x, int y, int z, Material material, boolean aDoPhysics) {
+		Block block = chunk.getBlock(x, y, z);
+		if (block.isEmpty()) {
+			block.setTypeId(material.getId(), aDoPhysics);
+			return true;
+		} else
+			return false;
+	}
+
+	public boolean setEmptyBlock(int x, int y, int z, int type, byte data, boolean aDoPhysics) {
+		Block block = chunk.getBlock(x, y, z);
+		if (block.isEmpty()) {
+			block.setTypeIdAndData(type, data, aDoPhysics);
+			return true;
+		} else
+			return false;
+	}
+	
 	public void setBlock(int x, int y, int z, Material material) {
 		chunk.getBlock(x, y, z).setTypeId(material.getId(), doPhysics);
 	}
@@ -253,7 +296,7 @@ public class RealChunk extends SupportChunk {
 	}
 
 	public boolean isEmpty(int x, int y, int z) {
-		return getBlock(x, y, z).getId() == airId;
+		return chunk.getBlock(x, y, z).isEmpty();
 	}
 	
 	public boolean isPlantable(int x, int y, int z) {
@@ -339,4 +382,25 @@ public class RealChunk extends SupportChunk {
 			return TreeType.TREE;
 		}
 	}
+	
+	public void drawCrane(ContextData context, int x, int y, int z) {
+		
+		// vertical bit
+		setBlocks(x, y, y + 8, z, Material.IRON_FENCE);
+		setBlocks(x, y + 8, y + 10, z, Material.DOUBLE_STEP);
+		setBlocks(x - 1, y + 8, y + 10, z, Material.STEP);
+		setTorch(x, y + 10, z, context.torchMat, Torch.FLOOR);
+		
+		// horizontal bit
+		setBlock(x + 1, y + 8, z, Material.GLASS);
+		setBlocks(x + 2, x + 11, y + 8, y + 9, z, z + 1, Material.IRON_FENCE);
+		setBlocks(x + 1, x + 10, y + 9, y + 10, z, z + 1, Material.STEP);
+		setStair(x + 10, y + 9, z, Material.SMOOTH_STAIRS, Stair.WEST);
+		
+		// counter weight
+		setBlock(x - 2, y + 9, z, Material.STEP);
+		setStair(x - 3, y + 9, z, Material.SMOOTH_STAIRS, Stair.EAST);
+		setBlocks(x - 3, x - 1, y + 7, y + 9, z, z + 1, Material.WOOL, (byte) random.nextInt(16));
+	}
+	
 }

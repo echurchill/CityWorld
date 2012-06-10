@@ -6,6 +6,7 @@ import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plats.PlatPlatform;
 import me.daddychurchill.CityWorld.Plats.PlatShack;
 import me.daddychurchill.CityWorld.Plats.PlatTower;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
@@ -103,10 +104,11 @@ public class ContextNature extends ContextRural {
 		// what type of height are we talking about?
 		if (state != HeightState.BUILDING && generator.isNotSoIsolatedBuildingAt(platmap.originX + x, platmap.originZ + z)) {
 			switch (state) {
-//			case DEEPSEA:
-//				// Oil rigs
-//				platmap.setLot(x, z, new PlatPlatform(random, platmap));
-//				break;
+//			case SEA:
+			case DEEPSEA:
+				// Oil rigs
+				platmap.setLot(x, z, new PlatPlatform(random, platmap));
+				break;
 //			case SEA:
 //				break;
 //			case BUILDING:

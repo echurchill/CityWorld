@@ -228,23 +228,19 @@ public class CityWorld extends JavaPlugin{
 	
     // prime world support (loosely based on ExpansiveTerrain)
 	public final static String WORLD_NAME = "CityWorld";
-	private static World cityWorldPrime = null;
 	public World getCityWorld() {
 		
-		// created yet?
+		// built yet?
+		World cityWorldPrime = Bukkit.getServer().getWorld(WORLD_NAME);
 		if (cityWorldPrime == null) {
 			
-			// built yet?
-			cityWorldPrime = Bukkit.getServer().getWorld(WORLD_NAME);
-			if (cityWorldPrime == null) {
-				
-				// if neither then create/build it!
-				WorldCreator worldcreator = new WorldCreator(WORLD_NAME);
-				worldcreator.environment(World.Environment.NORMAL);
-				//worldcreator.seed(-7003854148399448818L);
-				worldcreator.generator(new WorldGenerator(this, WORLD_NAME, ""));
-				cityWorldPrime = Bukkit.getServer().createWorld(worldcreator);
-			}
+			// if neither then create/build it!
+			WorldCreator worldcreator = new WorldCreator(WORLD_NAME);
+			worldcreator.environment(World.Environment.NORMAL);
+			worldcreator.seed(-5068588521833479712L); // nearby oil platform
+			//worldcreator.seed(-5532243395819143634L);
+			worldcreator.generator(new WorldGenerator(this, WORLD_NAME, ""));
+			cityWorldPrime = Bukkit.getServer().createWorld(worldcreator);
 		}
 		return cityWorldPrime;
 	}

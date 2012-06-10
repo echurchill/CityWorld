@@ -59,7 +59,7 @@ public class PlatShack extends PlatIsolated {
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
 		super.generateBlocks(generator, platmap, chunk, context, platX, platZ);
 
-		// now make a house
-		HouseFactory.generateHouse(chunk, context, averageHeight + 1, 1);
+		// now make a shack
+		HouseFactory.generateShack(chunk, context, averageHeight + 1);
 	}
 }
