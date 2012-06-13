@@ -96,6 +96,7 @@ public abstract class ContextData {
 		doTreasureInFountain = plugin.isDoTreasureInFountain();
 		doSpawnerInSewer = plugin.isDoSpawnerInSewer();
 		doOresInSewer = plugin.isDoOresInSewer();
+		doWorkingLights = plugin.isDoWorkingLights();
 		buildingMaximumY = Math.min(126 + FudgeFloorsAbove * FloorHeight, generator.height);
 		
 		// where is the ground
@@ -115,7 +116,7 @@ public abstract class ContextData {
 		}
 		
 		// lights?
-		if (plugin.isDoWorkingLights()) {
+		if (doWorkingLights) {
 			lightMat = Material.GLOWSTONE;
 			torchMat = Material.TORCH;
 		} else {

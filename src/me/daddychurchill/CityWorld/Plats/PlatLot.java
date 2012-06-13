@@ -9,7 +9,6 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
-import me.daddychurchill.CityWorld.Support.Direction.Ladder;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -86,6 +85,7 @@ public abstract class PlatLot {
 
 				// make the base
 				chunk.setBlock(x, 0, z, bedrockId);
+				chunk.setBlock(x, 1, z, stoneId);
 
 				// buildable?
 				if (style == LotStyle.STRUCTURE || style == LotStyle.ROUNDABOUT) {
@@ -142,10 +142,12 @@ public abstract class PlatLot {
 		averageHeight = sumHeight / (chunk.width * chunk.width);
 		extremeComputed = true;
 		
-		// get shafted!
-		for (int y = 0; y + 16 < minHeight; y += 16) {
-			generateHorizontalMineShafts(generator, chunk, context, y);
-		}
+		// get shafted! (this builds down to keep the support poles happy)
+		if (minHeight > generator.seaLevel)
+			for (int y = (minHeight / 16 - 1) * 16; y >= 0; y -= 16) {
+			//for (int y = 0; y + 16 < minHeight; y += 16) {
+				generateHorizontalMineShafts(generator, chunk, context, y);
+			}
 	}
 
 	private void generateHorizontalMineShafts(WorldGenerator generator, ByteChunk chunk, ContextData context, int y) {
@@ -180,7 +182,7 @@ public abstract class PlatLot {
 	
 	private final static byte shaftBridgeId = (byte) Material.WOOD.getId(); 
 	private final static byte shaftSupportId = (byte) Material.FENCE.getId();
-	private final static byte shaftBeamId = (byte) Material.STEP.getId(); //TODO need to switch this over to wooden slabs
+	private final static byte shaftBeamId = (byte) Material.WOOD.getId(); //TODO need to switch this over to wooden slabs
 
 	private void generateShaftSpace(ByteChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2) {
 		chunk.setEmptyBlocks(x1, x2, y1, z1, z2, shaftBridgeId);
@@ -188,19 +190,51 @@ public abstract class PlatLot {
 	}
 	
 	private void generateNSSupport(ByteChunk chunk, int x, int y, int z) {
-		chunk.setBlock(x, y, z, shaftSupportId);
-		chunk.setBlock(x, y + 1, z, shaftSupportId);
-		chunk.setBlock(x + 3, y, z, shaftSupportId);
-		chunk.setBlock(x + 3, y + 1, z, shaftSupportId);
-		chunk.setBlocks(x, x + 4, y + 2, z, z + 1, shaftBeamId);
+		
+		// on a bridge
+		if (chunk.getBlock(x, y - 1, z) == shaftBridgeId && 
+			chunk.getBlock(x + 3, y - 1, z) == shaftBridgeId) {
+			
+			// place supports
+			generateSupport(chunk, x, y - 1, z);
+			generateSupport(chunk, x + 3, y - 1, z);
+			
+		// in a tunnel
+		} else {
+			chunk.setBlock(x, y, z, shaftSupportId);
+			chunk.setBlock(x, y + 1, z, shaftSupportId);
+			chunk.setBlock(x + 3, y, z, shaftSupportId);
+			chunk.setBlock(x + 3, y + 1, z, shaftSupportId);
+			chunk.setBlocks(x, x + 4, y + 2, z, z + 1, shaftBeamId);
+		}
 	}
 	
 	private void generateWESupport(ByteChunk chunk, int x, int y, int z) {
-		chunk.setBlock(x, y, z, shaftSupportId);
-		chunk.setBlock(x, y + 1, z, shaftSupportId);
-		chunk.setBlock(x, y, z + 3, shaftSupportId);
-		chunk.setBlock(x, y + 1, z + 3, shaftSupportId);
-		chunk.setBlocks(x, x + 1, y + 2, z, z + 4, shaftBeamId);
+		// on a bridge
+		if (chunk.getBlock(x, y - 1, z) == shaftBridgeId && 
+			chunk.getBlock(x, y - 1, z + 3) == shaftBridgeId) {
+			
+			// place supports
+			generateSupport(chunk, x, y - 1, z);
+			generateSupport(chunk, x, y - 1, z + 3);
+			
+		// in a tunnel
+		} else {
+			chunk.setBlock(x, y, z, shaftSupportId);
+			chunk.setBlock(x, y + 1, z, shaftSupportId);
+			chunk.setBlock(x, y, z + 3, shaftSupportId);
+			chunk.setBlock(x, y + 1, z + 3, shaftSupportId);
+			chunk.setBlocks(x, x + 1, y + 2, z, z + 4, shaftBeamId);
+		}
+	}
+	
+	private void generateSupport(ByteChunk chunk, int x, int y, int z) {
+		int aboveSupport = chunk.findLastEmptyAbove(x, y, z);
+//		int belowSupport = chunk.findLastEmptyBelow(x, y, z);
+//		if (belowSupport < aboveSupport)
+//			chunk.setBlocks(x, belowSupport, y, z, shaftSupportId);
+//		else
+			chunk.setBlocks(x, y + 1, aboveSupport + 1, z, shaftSupportId);
 	}
 	
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
@@ -219,9 +253,10 @@ public abstract class PlatLot {
 		}
 		
 		// get shafted!
-		for (int y = 0; y + 16 < minHeight; y += 16) {
-			generateVerticalMineShafts(generator, chunk, context, y);
-		}
+		if (minHeight > generator.seaLevel)
+			for (int y = 0; y + 16 < minHeight; y += 16) {
+				generateVerticalMineShafts(generator, chunk, context, y);
+			}
 		
 		//TODO additional natural sub-terrain structures, if any
 		
@@ -229,11 +264,10 @@ public abstract class PlatLot {
 	
 	private void generateVerticalMineShafts(WorldGenerator generator, RealChunk chunk, ContextData context, int y) {
 		int y1 = y + 6;
-		int y2 = y1 + 1;
 		boolean stairsFound = false;
 		
 		// going down?
-		if (y - 16 > 0) {
+		if (y - 16 >= 0) {
 			if (generator.getHorizontalNSShaft(chunk.chunkX, y, chunk.chunkZ) &&
 				generator.getHorizontalNSShaft(chunk.chunkX, y - 16, chunk.chunkZ)) {
 				
@@ -246,8 +280,6 @@ public abstract class PlatLot {
 				placeStairStep(chunk, 10, y1 - 4, 10, Stair.SOUTH);
 				placeStairStep(chunk, 10, y1 - 5,  9, Stair.SOUTH);
 				placeStairStep(chunk, 10, y1 - 6,  8, Stair.SOUTH);
-				
-				// only one type of stairs are allowed
 				stairsFound = true;
 			}
 			
@@ -267,11 +299,11 @@ public abstract class PlatLot {
 			}
 		}
 		
-		// reset the flag
+		// reset the stairs flag
 		stairsFound = false;
 		
 		// going up?
-		if (y + 16 < minHeight) {
+		if (y + 32 < minHeight) {
 			if (generator.getHorizontalNSShaft(chunk.chunkX, y, chunk.chunkZ) &&
 				generator.getHorizontalNSShaft(chunk.chunkX, y + 16, chunk.chunkZ)) {
 					
@@ -293,7 +325,9 @@ public abstract class PlatLot {
 				placeStairBase(chunk, 10, y1 + 8,  6);
 				placeStairStep(chunk, 10, y1 + 9,  7, Stair.SOUTH);
 				
-				// only one type of stairs are allowed
+				generateSupport(chunk, 6, y1 + 7, 7);
+				generateSupport(chunk, 9, y1 + 7, 7);
+				
 				stairsFound = true;
 			}
 			
@@ -318,17 +352,24 @@ public abstract class PlatLot {
 				placeStairBase(chunk,  6, y1 + 8,  9);
 				placeStairBase(chunk,  6, y1 + 8, 10);
 				placeStairStep(chunk,  7, y1 + 9, 10, Stair.EAST);
+				
+				generateSupport(chunk, 7, y1 + 7, 6);
+				generateSupport(chunk, 7, y1 + 7, 9);
 			}
 		}
 	}
 	
+	private void generateSupport(RealChunk chunk, int x, int y, int z) {
+		int aboveSupport = chunk.findLastEmptyAbove(x, y, z);
+		chunk.setBlocks(x, y + 1, aboveSupport + 1, z, Material.FENCE);
+	}
 	private void placeStairBase(RealChunk chunk, int x, int y, int z) {
-		chunk.setBlocks(x, y + 1, y + 3, z, Material.AIR);
+		chunk.setBlocks(x, y + 1, y + 4, z, Material.AIR);
 		chunk.setEmptyBlock(x, y, z, Material.WOOD);
 	}
 	
 	private void placeStairStep(RealChunk chunk, int x, int y, int z, Stair direction) {
-		chunk.setBlocks(x, y + 1, y + 3, z, Material.AIR);
+		chunk.setBlocks(x, y + 1, y + 4, z, Material.AIR);
 		chunk.setStair(x, y, z, Material.WOOD_STAIRS, direction);
 	}
 	
@@ -338,24 +379,23 @@ public abstract class PlatLot {
 
 		byteChunk.setBlock(x, baseY, z, surfaceId);
 		
-//		// compute the world block coordinates
-//		int blockX = byteChunk.chunkX * byteChunk.width + x;
-//		int blockZ = byteChunk.chunkZ * byteChunk.width + z;
-//
-//		// stony bits
-//		for (int y = 1; y < baseY; y++)
-//			if (generator.notACave(blockX, y, blockZ))
-////				byteChunk.setBlock(x, y, z, baseId);
-//				byteChunk.setBlock(x, y, z, generator.getOre(byteChunk, blockX, y, blockZ, baseId));
-//
-//		// aggregate bits
-//		for (int y = baseY; y < substrateY; y++)
-//			if (!surfaceCaves || generator.notACave(blockX, y, blockZ))
-//				byteChunk.setBlock(x, y, z, substrateId);
-//
-//		// icing for the cake
-//		if (!surfaceCaves || generator.notACave(blockX, substrateY, blockZ))
-//			byteChunk.setBlock(x, substrateY, z, surfaceId);
+		// compute the world block coordinates
+		int blockX = byteChunk.chunkX * byteChunk.width + x;
+		int blockZ = byteChunk.chunkZ * byteChunk.width + z;
+
+		// stony bits
+		for (int y = 2; y < baseY; y++)
+			if (generator.notACave(blockX, y, blockZ))
+				byteChunk.setBlock(x, y, z, generator.getOre(byteChunk, blockX, y, blockZ, baseId));
+
+		// aggregate bits
+		for (int y = baseY; y < substrateY; y++)
+			if (!surfaceCaves || generator.notACave(blockX, y, blockZ))
+				byteChunk.setBlock(x, y, z, substrateId);
+
+		// icing for the cake
+		if (!surfaceCaves || generator.notACave(blockX, substrateY, blockZ))
+			byteChunk.setBlock(x, substrateY, z, surfaceId);
 
 	}
 
@@ -366,9 +406,9 @@ public abstract class PlatLot {
 		// a little crust please?
 		generateCrust(generator, byteChunk, x, z, baseId, baseY, substrateId, substrateY, surfaceId, surfaceCaves);
 
-//		// cover it up
-//		for (int y = substrateY + 1; y <= coverY; y++)
-//			byteChunk.setBlock(x, y, z, coverId);
+		// cover it up
+		for (int y = substrateY + 1; y <= coverY; y++)
+			byteChunk.setBlock(x, y, z, coverId);
 	}
 
 	//TODO move this logic to SurroundingLots, add to it the ability to produce SurroundingHeights and SurroundingDepths

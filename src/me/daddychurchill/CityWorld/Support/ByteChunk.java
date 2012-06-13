@@ -131,6 +131,22 @@ public class ByteChunk extends SupportChunk {
 		setEmptyBlocks(x1, x2, y, z1, z2, (byte) material.getId());
 	}
 	
+	public int findLastEmptyAbove(int x, int y, int z) {
+		int y1 = y;
+		while (getBlock(x, y1 + 1, z) == airId) {
+			y1++;
+		}
+		return y1;
+	}
+	
+	public int findLastEmptyBelow(int x, int y, int z) {
+		int y1 = y;
+		while (getBlock(x, y1 - 1, z) == airId) {
+			y1--;
+		}
+		return y1;
+	}
+	
 	public void setBlocksAt(int y, byte materialId) {
 		setBlocks(0, width, y, y + 1, 0, width, materialId);
 	}

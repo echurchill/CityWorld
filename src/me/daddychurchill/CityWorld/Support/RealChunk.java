@@ -224,6 +224,22 @@ public class RealChunk extends SupportChunk {
 		}
 	}
 	
+	public int findLastEmptyAbove(int x, int y, int z) {
+		int y1 = y;
+		while (chunk.getBlock(x, y1 + 1, z).isEmpty()) {
+			y1++;
+		}
+		return y1;
+	}
+	
+	public int findLastEmptyBelow(int x, int y, int z) {
+		int y1 = y;
+		while (chunk.getBlock(x, y1 - 1, z).isEmpty()) {
+			y1--;
+		}
+		return y1;
+	}
+	
 	public int setLayer(int blocky, Material material) {
 		setBlocks(0, width, blocky, blocky + 1, 0, width, material);
 		return blocky + 1;
