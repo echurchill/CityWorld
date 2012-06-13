@@ -32,6 +32,7 @@ public class WorldGenerator extends ChunkGenerator {
 	public SimplexOctaveGenerator featureShape;
 	public SimplexNoiseGenerator caveShape;
 	public SimplexNoiseGenerator oreShape;
+	public SimplexNoiseGenerator mineShape;
 	public SimplexNoiseGenerator macroShape;
 	public SimplexNoiseGenerator microShape;
 	
@@ -102,13 +103,16 @@ public class WorldGenerator extends ChunkGenerator {
 	
 	public int fudgeVerticalScale = noiseVerticalScale * landFactor1to2 + featureVerticalScale * landFactor1to2;
 
-	public double caveScale = 1.0 / 32.0;
+	public double caveScale = 1.0 / 64.0;
 	public double caveScaleY = caveScale * 2;
 	public double caveThreshold = 0.70;
 
 	public double oreScale = 1.0 / 16.0;
 	public double oreScaleY = oreScale * 2;
 	public double oreThreshold = 0.85;
+
+	public double mineScale = 1.0 / 4.0;
+	public double mineScaleY = mineScale;
 
 	public double macroScale = 1.0 / 384.0;
 	public double microScale = 2.0;
@@ -136,8 +140,9 @@ public class WorldGenerator extends ChunkGenerator {
 			
 			caveShape = new SimplexNoiseGenerator(seed);
 			oreShape = new SimplexNoiseGenerator(seed + 1);
-			macroShape = new SimplexNoiseGenerator(seed + 2);
-			microShape = new SimplexNoiseGenerator(seed + 2);
+			mineShape = new SimplexNoiseGenerator(seed + 2);
+			macroShape = new SimplexNoiseGenerator(seed + 3);
+			microShape = new SimplexNoiseGenerator(seed + 4);
 			
 			// get ranges
 			height = world.getMaxHeight();
@@ -299,6 +304,18 @@ public class WorldGenerator extends ChunkGenerator {
 		return (microShape.noise(chunkX * microScale, chunkZ * microScale, slot) + 1.0) / 2.0;
 	}
 	
+	public boolean getHorizontalNSShaft(int chunkX, int chunkY, int chunkZ) {
+		return mineShape.noise(chunkX * mineScale, chunkY * mineScale, chunkZ * mineScale + 0.5) > 0.0;
+	}
+
+	public boolean getHorizontalWEShaft(int chunkX, int chunkY, int chunkZ) {
+		return mineShape.noise(chunkX * mineScale + 0.5, chunkY * mineScale, chunkZ * mineScale) > 0.0;
+	}
+
+	public boolean getVerticalShaft(int chunkX, int chunkY, int chunkZ) {
+		return mineShape.noise(chunkX * mineScale, chunkY * mineScale + 0.5, chunkZ * mineScale) > 0.0;
+	}
+
 	public boolean notACave(int blockX, int blockY, int blockZ) {
 
 		// cave or not?

@@ -30,7 +30,7 @@ public class PlatNature extends PlatIsolated {
 
 	@Override
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
-		// TODO add foliage and underground fixtures
+		super.generateBlocks(generator, platmap, chunk, context, platX, platZ);
 		
 		// compute offset to start of chunk
 		int blockX = chunk.chunkX * chunk.width;

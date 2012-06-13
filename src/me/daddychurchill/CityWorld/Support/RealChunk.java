@@ -54,42 +54,6 @@ public class RealChunk extends SupportChunk {
 		chunk.getBlock(x, y, z).setType(Material.AIR);
 	}
 
-	public boolean setEmptyBlock(int x, int y, int z, Material material) {
-		Block block = chunk.getBlock(x, y, z);
-		if (block.isEmpty()) {
-			block.setTypeId(material.getId(), doPhysics);
-			return true;
-		} else
-			return false;
-	}
-
-	public boolean setEmptyBlock(int x, int y, int z, int type, byte data) {
-		Block block = chunk.getBlock(x, y, z);
-		if (block.isEmpty()) {
-			block.setTypeIdAndData(type, data, doPhysics);
-			return true;
-		} else
-			return false;
-	}
-	
-	public boolean setEmptyBlock(int x, int y, int z, Material material, boolean aDoPhysics) {
-		Block block = chunk.getBlock(x, y, z);
-		if (block.isEmpty()) {
-			block.setTypeId(material.getId(), aDoPhysics);
-			return true;
-		} else
-			return false;
-	}
-
-	public boolean setEmptyBlock(int x, int y, int z, int type, byte data, boolean aDoPhysics) {
-		Block block = chunk.getBlock(x, y, z);
-		if (block.isEmpty()) {
-			block.setTypeIdAndData(type, data, aDoPhysics);
-			return true;
-		} else
-			return false;
-	}
-	
 	public void setBlock(int x, int y, int z, Material material) {
 		chunk.getBlock(x, y, z).setTypeId(material.getId(), doPhysics);
 	}
@@ -166,6 +130,30 @@ public class RealChunk extends SupportChunk {
 		}
 	}
 
+	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, byte data, boolean aDoPhysics) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				chunk.getBlock(x, y, z).setTypeIdAndData(material.getId(), data, aDoPhysics);
+			}
+		}
+	}
+
+	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, byte data) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				chunk.getBlock(x, y, z).setTypeIdAndData(material.getId(), data, doPhysics);
+			}
+		}
+	}
+
+	public void setBlocks(int x1, int x2, int y, int z1, int z2, int type, byte data) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				chunk.getBlock(x, y, z).setTypeIdAndData(type, data, doPhysics);
+			}
+		}
+	}
+
 	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
 		setBlocks(x1, x2, y1, y2, z1, z1 + 1, material);
 		setBlocks(x1, x2, y1, y2, z2 - 1, z2, material);
@@ -178,6 +166,62 @@ public class RealChunk extends SupportChunk {
 		setBlocks(x1, x2, y1, y2, z2 - 1, z2, type, data);
 		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, type, data);
 		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, type, data);
+	}
+	
+	public boolean setEmptyBlock(int x, int y, int z, Material material) {
+		Block block = chunk.getBlock(x, y, z);
+		if (block.isEmpty()) {
+			block.setTypeId(material.getId(), doPhysics);
+			return true;
+		} else
+			return false;
+	}
+
+	public boolean setEmptyBlock(int x, int y, int z, int type, byte data) {
+		Block block = chunk.getBlock(x, y, z);
+		if (block.isEmpty()) {
+			block.setTypeIdAndData(type, data, doPhysics);
+			return true;
+		} else
+			return false;
+	}
+	
+	public boolean setEmptyBlock(int x, int y, int z, Material material, boolean aDoPhysics) {
+		Block block = chunk.getBlock(x, y, z);
+		if (block.isEmpty()) {
+			block.setTypeId(material.getId(), aDoPhysics);
+			return true;
+		} else
+			return false;
+	}
+
+	public boolean setEmptyBlock(int x, int y, int z, int type, byte data, boolean aDoPhysics) {
+		Block block = chunk.getBlock(x, y, z);
+		if (block.isEmpty()) {
+			block.setTypeIdAndData(type, data, aDoPhysics);
+			return true;
+		} else
+			return false;
+	}
+	
+	public void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				Block block = chunk.getBlock(x, y, z);
+				if (block.isEmpty())
+					block.setType(material);
+			}
+		}
+	}
+	
+	public void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, int type, byte data, boolean aDoPhysics) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				Block block = chunk.getBlock(x, y, z);
+				if (block.isEmpty())
+					block.setTypeIdAndData(type, data, aDoPhysics);
+			}
+		}
 	}
 	
 	public int setLayer(int blocky, Material material) {

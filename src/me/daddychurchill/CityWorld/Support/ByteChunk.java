@@ -83,6 +83,18 @@ public class ByteChunk extends SupportChunk {
 		setBlocks(x1, x2, y1, y2, z1, z2, (byte) material.getId());
 	}
 	
+	public void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				setBlock(x, y, z, materialId);
+			}
+		}
+	}
+	
+	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
+		setBlocks(x1, x2, y, z1, z2, (byte) material.getId());
+	}
+	
 	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, byte materialId) {
 		setBlocks(x1, x2, y1, y2, z1, z1 + 1, materialId);
 		setBlocks(x1, x2, y1, y2, z2 - 1, z2, materialId);
@@ -92,6 +104,31 @@ public class ByteChunk extends SupportChunk {
 	
 	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
 		setWalls(x1, x2, y1, y2, z1, z2, (byte) material.getId());
+	}
+	
+	public boolean setEmptyBlock(int x, int y, int z, byte materialId) {
+		if (getBlock(x, y, z) == airId) {
+			setBlock(x, y, z, materialId);
+			return true;
+		} else
+			return false;
+	}
+	
+	public boolean setEmptyBlock(int x, int y, int z, Material material) {
+		return setEmptyBlock(x, y, z, (byte) material.getId());
+	}
+
+	public void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, byte materialId) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				if (getBlock(x, y, z) == airId)
+					setBlock(x, y, z, materialId);
+			}
+		}
+	}
+	
+	public void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
+		setEmptyBlocks(x1, x2, y, z1, z2, (byte) material.getId());
 	}
 	
 	public void setBlocksAt(int y, byte materialId) {

@@ -73,8 +73,8 @@ public class ContextNature extends ContextRural {
 							// what type of height are we talking about?
 							switch (heights.state) {
 							case MIDLAND: 
-								// Bunkers
-								// Mine entrances
+								//TODO Bunkers
+								//TODO Mine entrances
 								if (heights.isSortaFlat() && generator.isIsolatedBuildingAt(originX + x, originZ + z))
 									current = new PlatShack(random, platmap);
 								break;

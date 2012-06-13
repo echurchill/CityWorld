@@ -39,6 +39,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 //DONE player.hasPermission("cityworld.command") = CityWorld command enabled (true)
 //TODO player.hasPermission("cityworld.cityblock") = CityWorld command block regeneration option enabled (true)
 
+//TODO Add central park context
 //TODO Dynamically load platmap "engines" from plugin/cityworld/*.platmaps
 //TODO Autoregister platmap "generators" from code
 //TODO Sewers more maze like
@@ -237,8 +238,8 @@ public class CityWorld extends JavaPlugin{
 			// if neither then create/build it!
 			WorldCreator worldcreator = new WorldCreator(WORLD_NAME);
 			worldcreator.environment(World.Environment.NORMAL);
-			worldcreator.seed(-5068588521833479712L); // nearby oil platform
-			//worldcreator.seed(-5532243395819143634L);
+			//worldcreator.seed(-5068588521833479712L); // nearby oil platform
+			worldcreator.seed(-8052576251523963231L);
 			worldcreator.generator(new WorldGenerator(this, WORLD_NAME, ""));
 			cityWorldPrime = Bukkit.getServer().createWorld(worldcreator);
 		}
