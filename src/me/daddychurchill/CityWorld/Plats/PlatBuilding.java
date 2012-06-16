@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Plats;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.PlatMap;
+import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
@@ -69,6 +70,11 @@ public abstract class PlatBuilding extends PlatConnected {
 		windowsNS = new GlassFactoryNS(random, windowsEW.style);
 	}
 	
+	@Override
+	protected boolean isShaftableLevel(WorldGenerator generator, ContextData context, int y) {
+		return y >= 0 && y < context.streetLevel - ContextData.FloorHeight * depth - 2 - 16;	
+	}
+
 	static public RoofStyle pickRoofStyle(Random rand) {
 		switch (rand.nextInt(5)) {
 		case 1:

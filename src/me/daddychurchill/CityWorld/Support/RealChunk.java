@@ -226,7 +226,7 @@ public class RealChunk extends SupportChunk {
 	
 	public int findLastEmptyAbove(int x, int y, int z) {
 		int y1 = y;
-		while (chunk.getBlock(x, y1 + 1, z).isEmpty()) {
+		while (y1 < height - 1 && chunk.getBlock(x, y1 + 1, z).isEmpty()) {
 			y1++;
 		}
 		return y1;
@@ -234,7 +234,7 @@ public class RealChunk extends SupportChunk {
 	
 	public int findLastEmptyBelow(int x, int y, int z) {
 		int y1 = y;
-		while (chunk.getBlock(x, y1 - 1, z).isEmpty()) {
+		while (y1 > 0 && chunk.getBlock(x, y1 - 1, z).isEmpty()) {
 			y1--;
 		}
 		return y1;
@@ -364,7 +364,6 @@ public class RealChunk extends SupportChunk {
 	}
 	
 	private void setDoor(int x, int y, int z, int doorId, Direction.Door direction) {
-//		chunk.getBlock(x, y + 1, z).setTypeIdAndData(doorId, (byte) (direction.getData() + 8), doPhysics);
 		chunk.getBlock(x, y + 1, z).setTypeIdAndData(doorId, (byte) 8, false);
 		chunk.getBlock(x, y    , z).setTypeIdAndData(doorId, direction.getData(), doPhysics);
 	}

@@ -12,6 +12,7 @@ import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public abstract class PlatLot {
 	
@@ -25,6 +26,7 @@ public abstract class PlatLot {
 	protected int maxHeightX = 0;
 	protected int maxHeightZ = 0;
 	
+	// styling!
 	public enum LotStyle {NATURE, STRUCTURE, ROAD, ROUNDABOUT};
 	public LotStyle style;
 	
@@ -44,6 +46,7 @@ public abstract class PlatLot {
 	protected final static byte bedrockId = (byte) Material.BEDROCK.getId();
 	protected final static byte lavaId = (byte) Material.LAVA.getId();
 	protected final static byte fenceId = (byte) Material.FENCE.getId();
+	protected final static byte cobbleId = (byte) Material.COBBLESTONE.getId();
 
 	public abstract long getConnectedKey();
 	public abstract boolean makeConnected(Random random, PlatLot relative);
@@ -52,7 +55,12 @@ public abstract class PlatLot {
 	public abstract boolean isConnected(PlatLot relative);
 	
 	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+		generateCrust(generator, platmap, chunk, biomes, context, platX, platZ);
+		generateMines(generator, chunk, context);
+	}
 		
+	protected void generateCrust(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+
 		// total height
 		int sumHeight = 0;
 		
@@ -89,12 +97,12 @@ public abstract class PlatLot {
 
 				// buildable?
 				if (style == LotStyle.STRUCTURE || style == LotStyle.ROUNDABOUT) {
-					generateCrust(generator, chunk, x, z, stoneId, generator.sidewalkLevel - 2, dirtId, generator.sidewalkLevel, dirtId, false);
+					generateStratas(generator, chunk, x, z, stoneId, generator.sidewalkLevel - 2, dirtId, generator.sidewalkLevel, dirtId, false);
 					biomes.setBiome(x, z, Biome.JUNGLE);
 					
 				// possibly buildable?
 				} else if (y == generator.sidewalkLevel) {
-					generateCrust(generator, chunk, x, z, stoneId, y - 3, dirtId, y, grassId, false);
+					generateStratas(generator, chunk, x, z, stoneId, y - 3, dirtId, y, grassId, false);
 					biomes.setBiome(x, z, Biome.PLAINS);
 				
 				// won't likely have a building
@@ -102,12 +110,12 @@ public abstract class PlatLot {
 
 					// on the beach
 					if (y == generator.seaLevel) {
-						generateCrust(generator, chunk, x, z, stoneId, y - 2, sandId, y, sandId, false);
+						generateStratas(generator, chunk, x, z, stoneId, y - 2, sandId, y, sandId, false);
 						biomes.setBiome(x, z, Biome.BEACH);
 
 						// we are in the water!
 					} else if (y < generator.seaLevel) {
-						generateCrust(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, generator.seaLevel, waterId, surfaceCaves);
+						generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, generator.seaLevel, waterId, surfaceCaves);
 						biomes.setBiome(x, z, Biome.OCEAN);
 
 						// we are in the mountains
@@ -115,22 +123,22 @@ public abstract class PlatLot {
 
 						// regular trees only
 						if (y < generator.treeLevel) {
-							generateCrust(generator, chunk, x, z, stoneId, y - 3, dirtId, y, grassId, false);
+							generateStratas(generator, chunk, x, z, stoneId, y - 3, dirtId, y, grassId, false);
 							biomes.setBiome(x, z, Biome.FOREST_HILLS);
 
 						// regular trees and some evergreen trees
 						} else if (y < generator.evergreenLevel) {
-							generateCrust(generator, chunk, x, z, stoneId, y - 2, dirtId, y, grassId, surfaceCaves);
+							generateStratas(generator, chunk, x, z, stoneId, y - 2, dirtId, y, grassId, surfaceCaves);
 							biomes.setBiome(x, z, Biome.EXTREME_HILLS);
 
 						// evergreen and some of fallen snow
 						} else if (y < generator.snowLevel) {
-							generateCrust(generator, chunk, x, z, stoneId, y - 1, dirtId, y, grassId, surfaceCaves);
+							generateStratas(generator, chunk, x, z, stoneId, y - 1, dirtId, y, grassId, surfaceCaves);
 							biomes.setBiome(x, z, Biome.ICE_MOUNTAINS);
 							
 						// only snow up here!
 						} else {
-							generateCrust(generator, chunk, x, z, stoneId, y - 1, stoneId, y, snowId, surfaceCaves);
+							generateStratas(generator, chunk, x, z, stoneId, y - 1, stoneId, y, snowId, surfaceCaves);
 							biomes.setBiome(x, z, Biome.ICE_PLAINS);
 						}
 					}
@@ -141,16 +149,25 @@ public abstract class PlatLot {
 		// what was the average height
 		averageHeight = sumHeight / (chunk.width * chunk.width);
 		extremeComputed = true;
+	}
+	
+	protected void generateMines(WorldGenerator generator, ByteChunk chunk, ContextData context) {
+		
+		// make sure we have the facts
+		precomputeExtremes(generator, chunk);
 		
 		// get shafted! (this builds down to keep the support poles happy)
-		if (minHeight > generator.seaLevel)
-			for (int y = (minHeight / 16 - 1) * 16; y >= 0; y -= 16) {
-			//for (int y = 0; y + 16 < minHeight; y += 16) {
-				generateHorizontalMineShafts(generator, chunk, context, y);
-			}
+		for (int y = (minHeight / 16 - 1) * 16; y >= 0; y -= 16) {
+			if (isShaftableLevel(generator, context, y))
+				generateHorizontalMineLevel(generator, chunk, context, y);
+		}
+	}
+	
+	protected boolean isShaftableLevel(WorldGenerator generator, ContextData context, int y) {
+		return y >= 0 && y < minHeight && minHeight > generator.seaLevel;
 	}
 
-	private void generateHorizontalMineShafts(WorldGenerator generator, ByteChunk chunk, ContextData context, int y) {
+	private void generateHorizontalMineLevel(WorldGenerator generator, ByteChunk chunk, ContextData context, int y) {
 		int y1 = y + 6;
 		int y2 = y1 + 1;
 		
@@ -230,15 +247,17 @@ public abstract class PlatLot {
 	
 	private void generateSupport(ByteChunk chunk, int x, int y, int z) {
 		int aboveSupport = chunk.findLastEmptyAbove(x, y, z);
-//		int belowSupport = chunk.findLastEmptyBelow(x, y, z);
-//		if (belowSupport < aboveSupport)
-//			chunk.setBlocks(x, belowSupport, y, z, shaftSupportId);
-//		else
-			chunk.setBlocks(x, y + 1, aboveSupport + 1, z, shaftSupportId);
+		chunk.setBlocks(x, y + 1, aboveSupport + 1, z, shaftSupportId);
 	}
 	
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
+		generateMines(generator, chunk, context);
+
+		//TODO what else needs to be done block wise?
+	}
 		
+	protected void precomputeExtremes(WorldGenerator generator, SupportChunk chunk) {
+
 		// have we done this yet?
 		if (!extremeComputed) {
 			HeightInfo heights = HeightInfo.getHeights(generator, chunk.worldX, chunk.worldZ);
@@ -251,23 +270,26 @@ public abstract class PlatLot {
 			maxHeightZ = heights.maxHeightZ;
 			extremeComputed = true;
 		}
+	}
 		
+	protected void generateMines(WorldGenerator generator, RealChunk chunk, ContextData context) {
+		
+		// make sure we have the facts
+		precomputeExtremes(generator, chunk);
+
 		// get shafted!
-		if (minHeight > generator.seaLevel)
-			for (int y = 0; y + 16 < minHeight; y += 16) {
-				generateVerticalMineShafts(generator, chunk, context, y);
-			}
-		
-		//TODO additional natural sub-terrain structures, if any
-		
+		for (int y = 0; y + 16 < minHeight; y += 16) {
+			if (isShaftableLevel(generator, context, y))
+				generateVerticalMineLevel(generator, chunk, context, y);
+		}
 	}
 	
-	private void generateVerticalMineShafts(WorldGenerator generator, RealChunk chunk, ContextData context, int y) {
+	private void generateVerticalMineLevel(WorldGenerator generator, RealChunk chunk, ContextData context, int y) {
 		int y1 = y + 6;
 		boolean stairsFound = false;
 		
 		// going down?
-		if (y - 16 >= 0) {
+		if (isShaftableLevel(generator, context, y - 16)) {
 			if (generator.getHorizontalNSShaft(chunk.chunkX, y, chunk.chunkZ) &&
 				generator.getHorizontalNSShaft(chunk.chunkX, y - 16, chunk.chunkZ)) {
 				
@@ -303,7 +325,7 @@ public abstract class PlatLot {
 		stairsFound = false;
 		
 		// going up?
-		if (y + 32 < minHeight) {
+		if (isShaftableLevel(generator, context, y + 32)) {
 			if (generator.getHorizontalNSShaft(chunk.chunkX, y, chunk.chunkZ) &&
 				generator.getHorizontalNSShaft(chunk.chunkX, y + 16, chunk.chunkZ)) {
 					
@@ -373,16 +395,16 @@ public abstract class PlatLot {
 		chunk.setStair(x, y, z, Material.WOOD_STAIRS, direction);
 	}
 	
-	private void generateCrust(WorldGenerator generator, ByteChunk byteChunk, int x, int z, byte baseId,
+	private void generateStratas(WorldGenerator generator, ByteChunk byteChunk, int x, int z, byte baseId,
 			int baseY, byte substrateId, int substrateY, byte surfaceId,
 			boolean surfaceCaves) {
 
-		byteChunk.setBlock(x, baseY, z, surfaceId);
-		
 		// compute the world block coordinates
 		int blockX = byteChunk.chunkX * byteChunk.width + x;
 		int blockZ = byteChunk.chunkZ * byteChunk.width + z;
-
+		
+		//	byteChunk.setBlock(x, baseY, z, surfaceId);
+		
 		// stony bits
 		for (int y = 2; y < baseY; y++)
 			if (generator.notACave(blockX, y, blockZ))
@@ -399,13 +421,14 @@ public abstract class PlatLot {
 
 	}
 
-	private void generateCrust(WorldGenerator generator, ByteChunk byteChunk, int x, int z, byte baseId,
+	private void generateStratas(WorldGenerator generator, ByteChunk byteChunk, int x, int z, byte baseId,
 			int baseY, byte substrateId, int substrateY, byte surfaceId,
 			int coverY, byte coverId, boolean surfaceCaves) {
 
 		// a little crust please?
-		generateCrust(generator, byteChunk, x, z, baseId, baseY, substrateId, substrateY, surfaceId, surfaceCaves);
+		generateStratas(generator, byteChunk, x, z, baseId, baseY, substrateId, substrateY, surfaceId, surfaceCaves);
 
+		//TODO Plantable in RealChunk
 		// cover it up
 		for (int y = substrateY + 1; y <= coverY; y++)
 			byteChunk.setBlock(x, y, z, coverId);

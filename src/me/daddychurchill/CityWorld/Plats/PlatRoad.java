@@ -71,8 +71,17 @@ public class PlatRoad extends PlatConnected {
 		
 		style = LotStyle.ROAD;
 		connectedkey = globalconnectionkey;
+		
 	}
 	
+	@Override
+	protected boolean isShaftableLevel(WorldGenerator generator, ContextData context, int y) {
+		return (y < generator.sidewalkLevel - ContextData.FloorHeight * 2 - 16 || y >= generator.sidewalkLevel + tunnelHeight + 1 + 16 ) &&
+				super.isShaftableLevel(generator, context, y);	
+//		return (y >= 0 && y < generator.sidewalkLevel - ContextData.FloorHeight * 2 - 16) ||
+//			   (y >= generator.sidewalkLevel + tunnelHeight + 1 + 16 && y < minHeight);	
+	}
+
 	@Override
 	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
@@ -91,12 +100,7 @@ public class PlatRoad extends PlatConnected {
 		// look around
 		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);
 		
-		// easy stuff
-		//CityWorld.log.info("Avg = " + averageHeight + " Min/Max = " + minHeight + "/" + maxHeight + " vs. sidewalk = " + sidewalkLevel);
-
 		// ok, deep enough for a bridge
-//		if (averageHeight < sidewalkLevel - 2) {
-//		if (maxHeight < sidewalkLevel - 1) {
 		if (HeightInfo.getHeightsFast(generator, originX, originZ).isSea()) {
 			doSewer = false;
 
@@ -281,7 +285,6 @@ public class PlatRoad extends PlatConnected {
 				} else if (roads.toNorth() && roads.toSouth()) {
 					
 					// carve out the tunnel
-//					chunk.setBlocks(3, 13, sidewalkLevel, sidewalkLevel + 1, 0, 16, airId);
 					chunk.setBlocks(2, 14, sidewalkLevel + 1, sidewalkLevel + 6, 0, 16, airId);
 					
 					// place the arches
@@ -299,7 +302,6 @@ public class PlatRoad extends PlatConnected {
 				if (roads.toWest() && roads.toEast()) {
 					
 					// carve out the tunnel
-//					chunk.setBlocks(0, 16, sidewalkLevel, sidewalkLevel + tunnelHeight, 3, 13, airId);
 					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + tunnelHeight + 1, 0, 16, airId);
 					
 					// walls please
@@ -310,7 +312,6 @@ public class PlatRoad extends PlatConnected {
 				} else if (roads.toNorth() && roads.toSouth()) {
 
 					// carve out the tunnel
-//					chunk.setBlocks(3, 13, sidewalkLevel, sidewalkLevel + 1, 0, 16, airId);
 					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + tunnelHeight + 1, 0, 16, airId);
 
 					// walls please
@@ -618,6 +619,7 @@ public class PlatRoad extends PlatConnected {
 	
 	@Override
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
+		super.generateBlocks(generator, platmap, chunk, context, platX, platZ);
 
 		// compute offset to start of chunk
 		int originX = chunk.getOriginX();

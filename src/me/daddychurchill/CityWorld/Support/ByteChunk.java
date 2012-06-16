@@ -133,7 +133,7 @@ public class ByteChunk extends SupportChunk {
 	
 	public int findLastEmptyAbove(int x, int y, int z) {
 		int y1 = y;
-		while (getBlock(x, y1 + 1, z) == airId) {
+		while (y1 < height - 1 && getBlock(x, y1 + 1, z) == airId) {
 			y1++;
 		}
 		return y1;
@@ -141,7 +141,7 @@ public class ByteChunk extends SupportChunk {
 	
 	public int findLastEmptyBelow(int x, int y, int z) {
 		int y1 = y;
-		while (getBlock(x, y1 - 1, z) == airId) {
+		while (y1 > 0 && getBlock(x, y1 - 1, z) == airId) {
 			y1--;
 		}
 		return y1;

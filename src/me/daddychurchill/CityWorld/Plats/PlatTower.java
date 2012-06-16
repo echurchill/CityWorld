@@ -44,7 +44,6 @@ public class PlatTower extends PlatIsolated {
 		int platformOffset = platformWidth / 2;
 		int originX = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, maxHeightX));
 		int originZ = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, maxHeightZ));
-//		CityWorld.log.info("Tower @ " + (chunk.worldX + originX) + ", " + (chunk.worldZ + originZ));
 		
 		// base
 		chunk.setBlocks(originX + 1, originX + platformWidth - 1, minHeight, maxHeight, originZ + 1, originZ + platformWidth - 1, supportId);

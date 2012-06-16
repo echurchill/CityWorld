@@ -239,7 +239,7 @@ public class CityWorld extends JavaPlugin{
 			WorldCreator worldcreator = new WorldCreator(WORLD_NAME);
 			worldcreator.environment(World.Environment.NORMAL);
 			//worldcreator.seed(-5068588521833479712L); // nearby oil platform
-			worldcreator.seed(-8052576251523963231L);
+			worldcreator.seed(-3173976033717979562L);
 			worldcreator.generator(new WorldGenerator(this, WORLD_NAME, ""));
 			cityWorldPrime = Bukkit.getServer().createWorld(worldcreator);
 		}

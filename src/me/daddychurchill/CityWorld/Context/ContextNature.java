@@ -5,8 +5,10 @@ import java.util.Random;
 import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Plats.PlatBunker;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatPlatform;
+import me.daddychurchill.CityWorld.Plats.PlatRoad;
 import me.daddychurchill.CityWorld.Plats.PlatShack;
 import me.daddychurchill.CityWorld.Plats.PlatTower;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
@@ -69,14 +71,26 @@ public class ContextNature extends ContextRural {
 								maxHeightZ = z;
 								maxState = heights.state;
 							}
-						
+							
+							// innermost chunks?
+							boolean innermost = x >= PlatRoad.PlatMapRoadInset && x < PlatMap.Width - PlatRoad.PlatMapRoadInset && 
+												z >= PlatRoad.PlatMapRoadInset && z < PlatMap.Width - PlatRoad.PlatMapRoadInset;
+							
 							// what type of height are we talking about?
 							switch (heights.state) {
 							case MIDLAND: 
-								//TODO Bunkers
 								//TODO Mine entrances
-								if (heights.isSortaFlat() && generator.isIsolatedBuildingAt(originX + x, originZ + z))
-									current = new PlatShack(random, platmap);
+								if (!innermost && (minHeight < generator.sidewalkLevel + PlatBunker.bunkerMinHeight)) {
+									if (heights.isSortaFlat() && generator.isIsolatedBuildingAt(originX + x, originZ + z))
+										current = new PlatShack(random, platmap);
+									break;
+								}
+							case HIGHLAND:
+							case PEAK:
+								//TODO Bunkers
+								if (innermost) {
+									current = new PlatBunker(random, platmap);
+								}
 								break;
 							default:
 								break;
