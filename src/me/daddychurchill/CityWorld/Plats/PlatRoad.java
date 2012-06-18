@@ -671,11 +671,11 @@ public class PlatRoad extends PlatConnected {
 				
 				// tunnel to the east/west
 				if (roads.toWest() && roads.toEast()) {
-					chunk.setBlock(3, sidewalkLevel + 7, 8, context.lightMat);
-					chunk.setBlock(12, sidewalkLevel + 7, 7, context.lightMat);
+					chunk.setBlock(3, sidewalkLevel + 7, 8, context.lightMat, true);
+					chunk.setBlock(12, sidewalkLevel + 7, 7, context.lightMat, true);
 				} else if (roads.toNorth() && roads.toSouth()) {
-					chunk.setBlock(8, sidewalkLevel + 7, 3, context.lightMat);
-					chunk.setBlock(7, sidewalkLevel + 7, 12, context.lightMat);
+					chunk.setBlock(8, sidewalkLevel + 7, 3, context.lightMat, true);
+					chunk.setBlock(7, sidewalkLevel + 7, 12, context.lightMat, true);
 				}
 				
 //			// retaining walls 

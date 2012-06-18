@@ -80,7 +80,9 @@ public class ContextNature extends ContextRural {
 							switch (heights.state) {
 							case MIDLAND: 
 								//TODO Mine entrances
-								if (!innermost && (minHeight < generator.sidewalkLevel + PlatBunker.bunkerMinHeight)) {
+								
+								// if not one of the innermost or the height isn't tall enough for bunkers
+								if (!innermost || minHeight < PlatBunker.calcBunkerMinHeight(generator)) {
 									if (heights.isSortaFlat() && generator.isIsolatedBuildingAt(originX + x, originZ + z))
 										current = new PlatShack(random, platmap);
 									break;

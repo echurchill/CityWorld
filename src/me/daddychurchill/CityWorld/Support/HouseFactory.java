@@ -4,6 +4,9 @@ import java.util.Random;
 
 import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Support.Direction.Door;
+import me.daddychurchill.CityWorld.Support.Direction.Ladder;
+import me.daddychurchill.CityWorld.Support.Direction.Stair;
+import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
 
 import org.bukkit.Material;
 
@@ -45,8 +48,10 @@ public final class HouseFactory {
 	}
 
 	private final static Material materialAir = Material.AIR;
-	private final static Material materialGlass = Material.THIN_GLASS;
+	private final static Material materialGlass = Material.GLASS;
 	private final static Material materialFence = Material.FENCE;
+	private final static Material materialStair = Material.WOOD_STAIRS;
+	private final static Material materialUnderStairs = Material.WOOD;
 	
 	private static final int MinSize = 4;
 	private static final int MaxSize = 6;
@@ -108,18 +113,18 @@ public final class HouseFactory {
 			// draw the walls
 			if (roomEast) {
 				chunk.setBlocks(x2, x2 + 1, y1, 	y2, 	z1, 	z2 + 1, matWall); // east wall
-				chunk.setBlocks(x2, x2 + 1, y1 + 1, y2 - 1, z1 + 2, z2 - 1, materialGlass); // eastern window
+				chunk.setBlocks(x2, x2 + 1, y1 + 1, y2 - 1, z1 + 1, z2    , materialGlass); // eastern window
 				
 				if (roomSouth) {
 					chunk.setBlocks(x1, 	x2 + 1, y1, 	y2, 	z2, z2 + 1, matWall); // south wall
-					chunk.setBlocks(x1 + 2, x2 - 1, y1 + 1, y2 - 1, z2, z2 + 1, materialGlass); // southern window
+					chunk.setBlocks(x1 + 1, x2    , y1 + 1, y2 - 1, z2, z2 + 1, materialGlass); // southern window
 
 					chunk.setBlocks(x1, x2 + 1, y1, y2,	z1, z1 + 1, matWall); // north wall
 					chunk.setBlocks(x1, x1 + 1, y1, y2, z1, z2 + 1, matWall); // west wall
 					
 				} else {
 					chunk.setBlocks(x1, 	x2 + 1, y1, 	y2, 	z1, z1 + 1, matWall); // north wall
-					chunk.setBlocks(x1 + 2, x2 - 1, y1 + 1, y2 - 1, z1,	z1 + 1, materialGlass); // northern window
+					chunk.setBlocks(x1 + 1, x2    , y1 + 1, y2 - 1, z1,	z1 + 1, materialGlass); // northern window
 					
 					chunk.setBlocks(x1, x2 + 1, y1, y2, z2, z2 + 1, matWall); // south wall
 					chunk.setBlocks(x1, x1 + 1, y1, y2, z1, z2 + 1, matWall); // west wall
@@ -127,18 +132,18 @@ public final class HouseFactory {
 				}
 			} else {
 				chunk.setBlocks(x1, x1 + 1, y1, 	y2, 	z1, 	z2 + 1, matWall); // west wall
-				chunk.setBlocks(x1, x1 + 1, y1 + 1, y2 - 1, z1 + 2, z2 - 1, materialGlass); // western window
+				chunk.setBlocks(x1, x1 + 1, y1 + 1, y2 - 1, z1 + 1, z2    , materialGlass); // western window
 				
 				if (roomSouth) {
 					chunk.setBlocks(x1, 	x2 + 1, y1, 	y2, 	z2, z2 + 1, matWall); // south wall
-					chunk.setBlocks(x1 + 2, x2 - 1, y1 + 1, y2 - 1, z2, z2 + 1, materialGlass); // southern window
+					chunk.setBlocks(x1 + 1, x2    , y1 + 1, y2 - 1, z2, z2 + 1, materialGlass); // southern window
 
 					chunk.setBlocks(x1, x2 + 1, y1, y2, z1, z1 + 1, matWall); // north wall
 					chunk.setBlocks(x2, x2 + 1, y1, y2, z1, z2 + 1, matWall); // east wall
 					
 				} else {
 					chunk.setBlocks(x1, 	x2 + 1, y1, 	y2, 	z1, z1 + 1, matWall); // north wall
-					chunk.setBlocks(x1 + 2, x2 - 1, y1 + 1, y2 - 1, z1, z1 + 1, materialGlass); // northern window
+					chunk.setBlocks(x1 + 1, x2    , y1 + 1, y2 - 1, z1, z1 + 1, materialGlass); // northern window
 					
 					chunk.setBlocks(x1, x2 + 1, y1, y2, z2, z2 + 1, matWall); // south wall
 					chunk.setBlocks(x2, x2 + 1, y1, y2, z1, z2 + 1, matWall); // east wall
@@ -228,12 +233,12 @@ public final class HouseFactory {
 					doorEast = roomEast;
 				}
 				
-				chunk.setBlock((x2 - x1) / 2 + x1, y1, (z2 - z1) / 2 + z1, Material.CHEST);
+//				chunk.setBlock((x2 - x1) / 2 + x1, y1, (z2 - z1) / 2 + z1, Material.CHEST);
 				break;
 			case DINING:
 				
-				chunk.setBlock((x2 - x1) / 2 + x1, y1, (z2 - z1) / 2 + z1, Material.FENCE);
-				chunk.setBlock((x2 - x1) / 2 + x1, y1 + 1, (z2 - z1) / 2 + z1, Material.WOOD_PLATE);
+//				chunk.setBlock((x2 - x1) / 2 + x1, y1, (z2 - z1) / 2 + z1, Material.FENCE);
+//				chunk.setBlock((x2 - x1) / 2 + x1, y1 + 1, (z2 - z1) / 2 + z1, Material.WOOD_PLATE);
 				break;
 			case ENTRY:
 				
@@ -248,21 +253,144 @@ public final class HouseFactory {
 					}
 				}
 				
-				// where is the stairs
-				//if ()
+				// below the top floor
+				if (floor < floors - 1) {
+					if (roomEast) {
+						if (roomSouth) {
+							chunk.setBlocks(x1 + 1, x2, y2, z1 + 1, z1 + 2, materialAir);
+
+							chunk.setBlock(x1 + 1, y1 + 3, z1 + 1, materialUnderStairs);
+
+							chunk.setStair(x1 + 2, y1 + 3, z1 + 1, materialStair, Stair.WEST);
+							chunk.setStair(x1 + 2, y1 + 2, z1 + 1, materialStair, Stair.EASTFLIP);
+
+							chunk.setStair(x1 + 3, y1 + 2, z1 + 1, materialStair, Stair.WEST);
+							chunk.setStair(x1 + 3, y1 + 1, z1 + 1, materialStair, Stair.EASTFLIP);
+							
+							chunk.setStair(x1 + 4, y1 + 1, z1 + 1, materialStair, Stair.WEST);
+							chunk.setStair(x1 + 4, y1    , z1 + 1, materialStair, Stair.EASTFLIP);
+
+							chunk.setBlock(x1 + 5, y1    , z1 + 1, materialUnderStairs);
+							chunk.setStair(x1 + 5, y1    , z1 + 2, materialStair, Stair.NORTH);
+							
+//							chunk.setBlocks(x1 + 3, y1, y2 + 50, z1 + 3, Material.FENCE);
+//							chunk.setBlock(x1 + 3, y2 + 50, z1 + 3, Material.GOLD_BLOCK);
+						} else {
+							chunk.setBlocks(x1 + 1, x1 + 2, y2, z1 + 1, z2, materialAir);
+
+							chunk.setBlock(x1 + 1, y1 + 3, z2 - 1, materialUnderStairs);
+
+							chunk.setStair(x1 + 1, y1 + 3, z2 - 2, materialStair, Stair.SOUTH);
+							chunk.setStair(x1 + 1, y1 + 2, z2 - 2, materialStair, Stair.NORTHFLIP);
+
+							chunk.setStair(x1 + 1, y1 + 2, z2 - 3, materialStair, Stair.SOUTH);
+							chunk.setStair(x1 + 1, y1 + 1, z2 - 3, materialStair, Stair.NORTHFLIP);
+							
+							chunk.setStair(x1 + 1, y1 + 1, z2 - 4, materialStair, Stair.SOUTH);
+							chunk.setStair(x1 + 1, y1    , z2 - 4, materialStair, Stair.NORTHFLIP);
+
+							chunk.setBlock(x1 + 1, y1    , z2 - 5, materialUnderStairs);
+							chunk.setStair(x1 + 2, y1    , z2 - 5, materialStair, Stair.WEST);
+							
+//							chunk.setBlocks(x1 + 3, y1, y2 + 50, z1 + 3, Material.FENCE);
+//							chunk.setBlock(x1 + 3, y2 + 50, z1 + 3, Material.LAPIS_BLOCK);
+						}
+					} else {
+						if (roomSouth) {
+							chunk.setBlocks(x2 - 1, x2, y2, z1 + 1, z2, materialAir);
+
+							chunk.setBlock(x2 - 1, y1 + 3, z1 + 1, materialUnderStairs);
+
+							chunk.setStair(x2 - 1, y1 + 3, z1 + 2, materialStair, Stair.NORTH);
+							chunk.setStair(x2 - 1, y1 + 2, z1 + 2, materialStair, Stair.SOUTHFLIP);
+
+							chunk.setStair(x2 - 1, y1 + 2, z1 + 3, materialStair, Stair.NORTH);
+							chunk.setStair(x2 - 1, y1 + 1, z1 + 3, materialStair, Stair.SOUTHFLIP);
+							
+							chunk.setStair(x2 - 1, y1 + 1, z1 + 4, materialStair, Stair.NORTH);
+							chunk.setStair(x2 - 1, y1    , z1 + 4, materialStair, Stair.SOUTHFLIP);
+
+							chunk.setBlock(x2 - 1, y1    , z1 + 5, materialUnderStairs);
+							chunk.setStair(x2 - 2, y1    , z1 + 5, materialStair, Stair.EAST);
+							
+//							chunk.setBlocks(x1 + 3, y1, y2 + 50, z1 + 3, Material.FENCE);
+//							chunk.setBlock(x1 + 3, y2 + 50, z1 + 3, Material.DIAMOND_BLOCK);
+						} else {
+							chunk.setBlocks(x1 + 1, x2, y2, z2 - 1, z2, materialAir);
+
+							chunk.setBlock(x2 - 1, y1 + 3, z2 - 1, materialUnderStairs);
+
+							chunk.setStair(x2 - 2, y1 + 3, z2 - 1, materialStair, Stair.EAST);
+							chunk.setStair(x2 - 2, y1 + 2, z2 - 1, materialStair, Stair.WESTFLIP);
+
+							chunk.setStair(x2 - 3, y1 + 2, z2 - 1, materialStair, Stair.EAST);
+							chunk.setStair(x2 - 3, y1 + 1, z2 - 1, materialStair, Stair.WESTFLIP);
+							
+							chunk.setStair(x2 - 4, y1 + 1, z2 - 1, materialStair, Stair.EAST);
+							chunk.setStair(x2 - 4, y1    , z2 - 1, materialStair, Stair.WESTFLIP);
+
+							chunk.setBlock(x2 - 5, y1    , z2 - 1, materialUnderStairs);
+							chunk.setStair(x2 - 5, y1    , z2 - 2, materialStair, Stair.SOUTH);
+							
+//							chunk.setBlocks(x1 + 3, y1, y2 + 50, z1 + 3, Material.FENCE);
+//							chunk.setBlock(x1 + 3, y2 + 50, z1 + 3, Material.GLOWSTONE);
+						}
+					}
+				}
 				
+				// above the bottom floor
+				if (floor > 0) {
+					if (roomEast) {
+						if (roomSouth) {
+							hallNorth = false;
+							
+						} else {
+							hallWest = false;
+
+						}
+					} else {
+						if (roomSouth) {
+							hallEast = false;
+	
+						} else {
+							hallSouth = false;
+						
+						}
+					}
+				}
 				
-				if (floors > 1)
-					chunk.setBlock((x2 - x1) / 2 + x1, y1, (z2 - z1) / 2 + z1, Material.WOOD_STAIRS);
-				else
-					chunk.setBlock((x2 - x1) / 2 + x1, y1, (z2 - z1) / 2 + z1, Material.GOLD_BLOCK);
+				// the top floor
+				if (floor == floors - 1) {
+					if (roomEast) {
+						if (roomSouth) {
+							chunk.setLadder(x1 + 1, y1, y1 + 3, z1 + 1, Ladder.SOUTH);
+							chunk.setTrapDoor(x1 + 1, y2, z1 + 1, TrapDoor.SOUTH);
+							
+						} else {
+							chunk.setLadder(x1 + 1, y1, y1 + 3, z2 - 1, Ladder.EAST);
+							chunk.setTrapDoor(x1 + 1, y2, z2 - 1, TrapDoor.EAST);
+
+						}
+					} else {
+						if (roomSouth) {
+							chunk.setLadder(x2 - 1, y1, y1 + 3, z1 + 1, Ladder.WEST);
+							chunk.setTrapDoor(x2 - 1, y2, z1 + 1, TrapDoor.WEST);
+	
+						} else {
+							chunk.setLadder(x2 - 1, y1, y1 + 3, z2 - 1, Ladder.NORTH);
+							chunk.setTrapDoor(x2 - 1, y2, z2 - 1, TrapDoor.NORTH);
+						
+						}
+					}
+				}
+				
 				break;
 			case LIVING:
 				
-				chunk.setBlock((x2 - x1) / 2 + x1, y1, (z2 - z1) / 2 + z1, Material.DIAMOND_BLOCK);
+//				chunk.setBlock((x2 - x1) / 2 + x1, y1, (z2 - z1) / 2 + z1, Material.DIAMOND_BLOCK);
 				break;
 			case BED:
-				chunk.setBlock((x2 - x1) / 2 + x1, y1, (z2 - z1) / 2 + z1, Material.WOOL);
+//				chunk.setBlock((x2 - x1) / 2 + x1, y1, (z2 - z1) / 2 + z1, Material.WOOL);
 				break;
 			}
 			
@@ -270,49 +398,49 @@ public final class HouseFactory {
 			if (roomEast) {
 				if (roomSouth) {
 					if (doorSouth)
-						chunk.setWoodenDoor(x1 + 2,	y1, z2, Door.SOUTHBYSOUTHEAST);
+						chunk.setWoodenDoor(x1 + 3,	y1, z2, Door.SOUTHBYSOUTHEAST);
 					if (doorEast)
-						chunk.setWoodenDoor(x2, y1, z1 + 2, Door.EASTBYSOUTHEAST);
+						chunk.setWoodenDoor(x2, y1, z1 + 3, Door.EASTBYSOUTHEAST);
 
 					if (hallNorth)
-						chunk.setBlocks(x1 + 2,	y1,	y2 - 1, z1,	materialAir); 
+						chunk.setWoodenDoor(x1 + 2,	y1, z1,	Door.NORTHBYNORTHWEST); 
 					if (hallWest)
-						chunk.setBlocks(x1, y1, y2 - 1, z1 + 2, materialAir); 
+						chunk.setWoodenDoor(x1, y1, z1 + 2, Door.WESTBYNORTHWEST); 
 					
 				} else {
 					if (doorNorth)
-						chunk.setWoodenDoor(x1 + 2, y1, z1, Door.NORTHBYNORTHEAST); 
+						chunk.setWoodenDoor(x1 + 3, y1, z1, Door.NORTHBYNORTHEAST); 
 					if (doorEast)
-						chunk.setWoodenDoor(x2, y1, z2 - 2, Door.EASTBYNORTHEAST); 
+						chunk.setWoodenDoor(x2, y1, z2 - 3, Door.EASTBYNORTHEAST); 
 
 					if (hallSouth)
-						chunk.setBlocks(x1 + 2, y1, y2 - 1, z2, materialAir); 
+						chunk.setWoodenDoor(x1 + 2, y1, z2, Door.SOUTHBYSOUTHWEST); 
 					if (hallWest)
-						chunk.setBlocks(x1, y1, y2 - 1, z2 - 2, materialAir); 
+						chunk.setWoodenDoor(x1, y1, z2 - 2, Door.WESTBYSOUTHWEST); 
 					
 				}
 			} else {
 				if (roomSouth) {
 					if (doorSouth)
-						chunk.setWoodenDoor(x2 - 2, y1, z2, Door.SOUTHBYSOUTHWEST); 
+						chunk.setWoodenDoor(x2 - 3, y1, z2, Door.SOUTHBYSOUTHWEST); 
 					if (doorWest)
-						chunk.setWoodenDoor(x1, y1, z1 + 2, Door.WESTBYSOUTHWEST); 
+						chunk.setWoodenDoor(x1, y1, z1 + 3, Door.WESTBYSOUTHWEST); 
 
 					if (hallNorth)
-						chunk.setBlocks(x2 - 2, y1, y2 - 1, z1, materialAir); 
+						chunk.setWoodenDoor(x2 - 2, y1, z1, Door.NORTHBYNORTHEAST); 
 					if (hallEast)
-						chunk.setBlocks(x2, y1, y2 - 1, z1 + 2, materialAir); 
+						chunk.setWoodenDoor(x2, y1, z1 + 2, Door.EASTBYNORTHEAST); 
 					
 				} else {
 					if (doorNorth)
-						chunk.setWoodenDoor(x2 - 2, y1, z1, Door.NORTHBYNORTHWEST); 
+						chunk.setWoodenDoor(x2 - 3, y1, z1, Door.NORTHBYNORTHWEST); 
 					if (doorWest)
-						chunk.setWoodenDoor(x1, y1, z2 - 2, Door.WESTBYNORTHWEST); 
+						chunk.setWoodenDoor(x1, y1, z2 - 3, Door.WESTBYNORTHWEST); 
 
 					if (hallSouth)
-						chunk.setBlocks(x2 - 2, y1, y2 - 1, z2, materialAir); 
+						chunk.setWoodenDoor(x2 - 2, y1, z2, Door.SOUTHBYSOUTHEAST); 
 					if (hallEast)
-						chunk.setBlocks(x2, y1, y2 - 1, z2 - 2, materialAir); 
+						chunk.setWoodenDoor(x2, y1, z2 - 2, Door.EASTBYSOUTHEAST); 
 				}
 			}
 		}
@@ -456,37 +584,88 @@ public final class HouseFactory {
 		
 		// draw the individual rooms
 		for (int f = 0; f < floors; f++) {
+			
+			// just in case we come across an entry way
+			int entryX = -1;
+			int entryZ = -1;
+			
+			// do the rooms
 			for (int x = 0; x < 2; x++) {
 				for (int z = 0; z < 2; z++) {
-					drawRoom(chunk, context, rooms, f, floors, x, z, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
+					
+					// do entry ways later
+					if (rooms[f][x][z].style == Room.Style.ENTRY) {
+						entryX = x;
+						entryZ = z;
+					} else
+						drawRoom(chunk, context, rooms, f, floors, x, z, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
 				}
+			}
+			
+			// found an entry
+			if (entryX != -1) {
+				drawRoom(chunk, context, rooms, f, floors, entryX, entryZ, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
 			}
 		}
 		
-//		// extrude roof
-//		int roofY = baseY + floors * ContextData.FloorHeight - 1;
-//		for (int y = 0; y < ContextData.FloorHeight - 1; y++) {
-//			for (int x = 1; x < chunk.width - 1; x++) {
-//				for (int z = 1; z < chunk.width - 1; z++) {
-//					int yAt = y + roofY;
-//					if (chunk.getBlock(x - 1, yAt, z) != materialAir && chunk.getBlock(x + 1, yAt, z) != materialAir &&
-//						chunk.getBlock(x, yAt, z - 1) != materialAir && chunk.getBlock(x, yAt, z + 1) != materialAir) {
-//						chunk.setBlock(x, yAt + 1, z, matRoof);
+//		// flat roof?
+//		if (random.nextDouble() < 0.95) {
+			
+			//TODO simple blocks
+			//TODO flat roofs
+			//TODO NS stair roof
+			//TODO EW stair root
+			// extrude roof
+			int roofY = baseY + floors * ContextData.FloorHeight - 1;
+			for (int y = 0; y < ContextData.FloorHeight - 1; y++) {
+				for (int x = 1; x < chunk.width - 1; x++) {
+					for (int z = 1; z < chunk.width - 1; z++) {
+						int yAt = y + roofY;
+						if (chunk.getBlock(x - 1, yAt, z) != materialAir && chunk.getBlock(x + 1, yAt, z) != materialAir &&
+							chunk.getBlock(x, yAt, z - 1) != materialAir && chunk.getBlock(x, yAt, z + 1) != materialAir) {
+							chunk.setBlock(x, yAt + 1, z, matRoof);
+						}
+					}
+				}
+			}
+			
+			// carve out the attic
+			for (int y = 1; y < ContextData.FloorHeight - 1; y++) {
+				for (int x = 1; x < chunk.width - 1; x++) {
+					for (int z = 1; z < chunk.width - 1; z++) {
+						int yAt = y + roofY;
+						if (chunk.getBlock(x, yAt + 1, z) != materialAir) {
+							chunk.setBlock(x, yAt, z, materialAir);
+						}
+					}
+				}
+			}
+
+//			// extrude roof
+//			int roofY = baseY + floors * ContextData.FloorHeight - 1;
+//			for (int y = 0; y < ContextData.FloorHeight - 1; y++) {
+//				for (int x = 1; x < chunk.width - 1; x++) {
+//					for (int z = 1; z < chunk.width - 1; z++) {
+//						int yAt = y + roofY;
+//						if (chunk.getBlock(x, yAt, z - 1) != materialAir && chunk.getBlock(x, yAt, z + 1) != materialAir) {
+//							chunk.setBlock(x, yAt + 1, z, matRoof);
+//						}
 //					}
 //				}
 //			}
-//		}
-//		
-		// carve out the attic
-//		for (int y = 1; y < Generator.floorHeight - 1; y++) {
-//			for (int x = 1; x < chunk.width - 1; x++) {
-//				for (int z = 1; z < chunk.width - 1; z++) {
-//					int yAt = y + roofY;
-//					if (chunk.getBlock(x, yAt + 1, z) != materialAir) {
-//						chunk.setBlock(x, yAt, z, materialAir);
+//			
+//			// carve out the attic
+//			for (int y = 1; y < ContextData.FloorHeight - 1; y++) {
+//				for (int x = 1; x < chunk.width - 1; x++) {
+//					for (int z = 1; z < chunk.width - 1; z++) {
+//						int yAt = y + roofY;
+//						if (chunk.getBlock(x, yAt + 1, z) != materialAir) {
+//							chunk.setBlock(x, yAt, z, materialAir);
+//						}
 //					}
 //				}
 //			}
+
 //		}
 	}
 	

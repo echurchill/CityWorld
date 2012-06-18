@@ -130,6 +130,22 @@ public class RealChunk extends SupportChunk {
 		}
 	}
 
+	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				chunk.getBlock(x, y, z).setTypeId(material.getId(), doPhysics);
+			}
+		}
+	}
+
+	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, boolean aDoPhysics) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				chunk.getBlock(x, y, z).setTypeId(material.getId(), aDoPhysics);
+			}
+		}
+	}
+
 	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, byte data, boolean aDoPhysics) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
@@ -400,7 +416,7 @@ public class RealChunk extends SupportChunk {
 	}
 
 	public void setTorch(int x, int y, int z, Material material, Direction.Torch direction) {
-		setBlock(x, y, z, material.getId(), direction.getData());
+		setBlock(x, y, z, material.getId(), direction.getData(), true);
 	}
 	
 	public void setChest(int x, int y, int z, Direction.Chest direction, ItemStack... items) {

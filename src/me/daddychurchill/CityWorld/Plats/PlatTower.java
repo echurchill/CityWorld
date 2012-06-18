@@ -46,7 +46,17 @@ public class PlatTower extends PlatIsolated {
 		int originZ = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, maxHeightZ));
 		
 		// base
-		chunk.setBlocks(originX + 1, originX + platformWidth - 1, minHeight, maxHeight, originZ + 1, originZ + platformWidth - 1, supportId);
+		for (int x = originX + 1; x < originX + platformWidth - 1; x++) {
+			for (int z = originZ + 1; z < originZ + platformWidth - 1; z++) {
+				for (int y = maxHeight - 1; y > minHeight; y--) {
+					if (!chunk.setEmptyBlock(x, y, z, supportId)) {
+						chunk.setBlocks(x, y - 3, y + 1, z, supportId);
+						break;
+					}
+				}
+			}
+		}
+//		chunk.setBlocks(originX + 1, originX + platformWidth - 1, minHeight, maxHeight, originZ + 1, originZ + platformWidth - 1, supportId);
 		
 		// top it off
 		chunk.setBlocks(originX, originX + platformWidth, maxHeight, maxHeight + 1, originZ, originZ + platformWidth, platformId);

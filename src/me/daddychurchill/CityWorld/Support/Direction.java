@@ -20,7 +20,7 @@ public class Direction {
 	};
 
 	public enum Stair {
-		EAST, WEST, SOUTH, NORTH;
+		EAST, WEST, SOUTH, NORTH, EASTFLIP, WESTFLIP, SOUTHFLIP, NORTHFLIP;
 		
 		public byte getData() {
 			return (byte) ordinal();
