@@ -247,6 +247,8 @@ public class WorldGenerator extends ChunkGenerator {
 	private final static int microFarmCropSlot = 3;
 	private final static int microFarmDirectionSlot = 4;
 	private final static int microIsolatedBuildingSlot = 5;
+	private final static int microBuildingTypeSlot = 6;
+	private final static int microRandomGeneratorSlot = 7;
 	
 	public boolean getBridgePolarityAt(double chunkX, double chunkZ) {
 		return macroBooleanAt(chunkX, chunkZ, macroNSBridgeSlot);
@@ -278,6 +280,14 @@ public class WorldGenerator extends ChunkGenerator {
 	
 	public boolean isNotSoIsolatedBuildingAt(double chunkX, double chunkZ) {
 		return microScaleAt(chunkX, chunkZ, microIsolatedBuildingSlot) > (oddsIsolatedBuilding / 2);
+	}
+	
+	public int getBuildingTypeAt(double chunkX, double chunkZ, int range) {
+		return NoiseGenerator.floor(microScaleAt(chunkX, chunkZ, microBuildingTypeSlot) * range);
+	}
+	
+	public Random getRandomGeneratorAt(double chunkX, double chunkZ) {
+		return new Random(NoiseGenerator.floor(microScaleAt(chunkX, chunkZ, microRandomGeneratorSlot)));
 	}
 	
 	protected boolean macroBooleanAt(double chunkX, double chunkZ, int slot) {
