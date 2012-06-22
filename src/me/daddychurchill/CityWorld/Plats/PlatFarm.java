@@ -3,9 +3,12 @@ package me.daddychurchill.CityWorld.Plats;
 import java.util.Random;
 
 import org.bukkit.Material;
+import org.bukkit.generator.ChunkGenerator.BiomeGrid;
+
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class PlatFarm extends PlatConnected {
@@ -18,18 +21,18 @@ public class PlatFarm extends PlatConnected {
 	private boolean directionNorthSouth;
 	private Material cropType;
 
-	public PlatFarm(Random random, PlatMap platmap, int chunkX, int chunkZ) {
-		super(random, platmap);
+	public PlatFarm(PlatMap platmap, int chunkX, int chunkZ) {
+		super(platmap, chunkX, chunkZ);
 		
 		style = LotStyle.STRUCTURE;
 		
-		directionNorthSouth = platmap.generator.isFarmNSCropAt(chunkX, chunkZ);
-		cropType = getCrop(platmap, chunkX, chunkZ);
+		directionNorthSouth = chunkRandom.nextBoolean();
+		cropType = getCrop();
 	}
 
 	@Override
-	public boolean makeConnected(Random random, PlatLot relative) {
-		boolean result = super.makeConnected(random, relative);
+	public boolean makeConnected(PlatLot relative) {
+		boolean result = super.makeConnected(relative);
 		
 		// other bits
 		if (result && relative instanceof PlatFarm) {
@@ -64,28 +67,38 @@ public class PlatFarm extends PlatConnected {
 	private final static Material cropGrass = Material.LONG_GRASS;
 	
 	@Override
+	protected void generateRandomness() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
-		super.generateBlocks(generator, platmap, chunk, context, platX, platZ);
-		Random random = chunk.random;
 		int croplevel = generator.sidewalkLevel + 1;
 		
 		// what type of crop do we plant?
 		if (cropType == cropYellowFlower || cropType == cropRedFlower)
-			plowField(chunk, random, croplevel, matSoil, 8, matWater, cropType, 0, deadOnDirt, 1, 2, 1);
+			plowField(chunk, chunkRandom, croplevel, matSoil, 8, matWater, cropType, 0, deadOnDirt, 1, 2, 1);
 		else if (cropType == cropGrass)
-			plowField(chunk, random, croplevel, matSoil, 8, matWater, cropType, 1, deadOnDirt, 1, 2, 1);
+			plowField(chunk, chunkRandom, croplevel, matSoil, 8, matWater, cropType, 1, deadOnDirt, 1, 2, 1);
 		else if (cropType == cropWheat)
-			plowField(chunk, random, croplevel, matSoil, 8, matWater, cropType, random.nextBoolean() ? 5 : 3, deadOnDirt, 1, 2, 1);
+			plowField(chunk, chunkRandom, croplevel, matSoil, 8, matWater, cropType, chunkRandom.nextBoolean() ? 5 : 3, deadOnDirt, 1, 2, 1);
 		else if (cropType == cropPumpkin || cropType == cropMelon)
-			plowField(chunk, random, croplevel, matSoil, 8, matWater, cropType, random.nextBoolean() ? 5 : 3, deadOnDirt, 1, 3, 1);
+			plowField(chunk, chunkRandom, croplevel, matSoil, 8, matWater, cropType, chunkRandom.nextBoolean() ? 5 : 3, deadOnDirt, 1, 3, 1);
 		else if (cropType == cropSugarCane)
-			plowField(chunk, random, croplevel, matSand, 0, matWater, cropType, 0, deadOnSand, 1, 2, 3);
+			plowField(chunk, chunkRandom, croplevel, matSand, 0, matWater, cropType, 0, deadOnSand, 1, 2, 3);
 		else if (cropType == cropVine)
-			buildVineyard(chunk, random, croplevel);
+			buildVineyard(chunk, chunkRandom, croplevel);
 		else if (cropType == cropNone)
-			plowField(chunk, random, croplevel, matSoil, 8, matWater, matAir, 0, matAir, 1, 2, 1);
+			plowField(chunk, chunkRandom, croplevel, matSoil, 8, matWater, matAir, 0, matAir, 1, 2, 1);
 		else // cropFallow
-			plowField(chunk, random, croplevel, matDirt, 0, matAir, cropType, 0, cropFallow, 1, 2, 1);
+			plowField(chunk, chunkRandom, croplevel, matDirt, 0, matAir, cropType, 0, cropFallow, 1, 2, 1);
 	}
 
 	private void buildVineyard(RealChunk chunk, Random random, int cropLevel) {
@@ -157,8 +170,8 @@ public class PlatFarm extends PlatConnected {
 		}
 	}
 	
-	private Material getCrop(PlatMap platmap, int chunkX, int chunkZ) {
-		switch (platmap.generator.getFarmCropAt(chunkX, chunkZ, 12)) {
+	private Material getCrop() {
+		switch (chunkRandom.nextInt(12)) {
 		case 1:
 			return cropYellowFlower;
 		case 2:
@@ -181,4 +194,5 @@ public class PlatFarm extends PlatConnected {
 			return cropWheat;
 		}
 	}
+
 }

@@ -48,28 +48,34 @@ public abstract class PlatBuilding extends PlatConnected {
 	protected int navLightY = 0;
 	protected int navLightZ = 0;
 	
-	public PlatBuilding(Random random, PlatMap platmap) {
-		super(random, platmap);
+	public PlatBuilding(PlatMap platmap, int chunkX, int chunkZ) {
+		super(platmap, chunkX, chunkZ);
 		style = LotStyle.STRUCTURE;
 		
 		ContextData context = platmap.context;
 		
-		neighborsHaveIdenticalHeights = random.nextInt(context.oddsOfIdenticalBuildingHeights) == 0;
-		neighborsHaveSimilarHeightsOdds = context.oddsOfIdenticalBuildingHeights;
+		neighborsHaveIdenticalHeights = chunkRandom.nextInt(context.oddsOfIdenticalBuildingHeights) == 0;
+		neighborsHaveSimilarHeightsOdds = context.oddsOfSimilarBuildingHeights;
 		neighborsHaveSimilarRoundedOdds = context.oddsOfSimilarBuildingRounding;
-		height = random.nextInt(context.maximumFloorsAbove) + 1;
+		height = chunkRandom.nextInt(context.maximumFloorsAbove) + 1;
 		if (context.doBasement)
-			depth = random.nextInt(context.maximumFloorsBelow) + 1;
+			depth = chunkRandom.nextInt(context.maximumFloorsBelow) + 1;
 		needStairsDown = true;
 		needStairsUp = true;
-		rounded = random.nextInt(context.oddsOfSimilarBuildingRounding) == 0;
-		roofStyle = pickRoofStyle(random);
-		roofFeature = pickRoofFeature(random);
-		roofScale = random.nextInt(2) + 1;
-		windowsEW = new GlassFactoryEW(random);
-		windowsNS = new GlassFactoryNS(random, windowsEW.style);
+		rounded = chunkRandom.nextInt(context.oddsOfSimilarBuildingRounding) == 0;
+		roofStyle = pickRoofStyle(chunkRandom);
+		roofFeature = pickRoofFeature(chunkRandom);
+		roofScale = chunkRandom.nextInt(2) + 1;
+		windowsEW = new GlassFactoryEW(chunkRandom);
+		windowsNS = new GlassFactoryNS(chunkRandom, windowsEW.style);
 	}
-	
+
+	@Override
+	protected void generateRandomness() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	@Override
 	protected boolean isShaftableLevel(WorldGenerator generator, ContextData context, int y) {
 		return y >= 0 && y < context.streetLevel - ContextData.FloorHeight * depth - 2 - 16;	
@@ -111,20 +117,20 @@ public abstract class PlatBuilding extends PlatConnected {
 	}
 	
 	@Override
-	public boolean makeConnected(Random random, PlatLot relative) {
-		boolean result = super.makeConnected(random, relative);
+	public boolean makeConnected(PlatLot relative) {
+		boolean result = super.makeConnected(relative);
 		
 		// other bits
 		if (result && relative instanceof PlatBuilding) {
 			PlatBuilding relativebuilding = (PlatBuilding) relative;
 
 			neighborsHaveIdenticalHeights = relativebuilding.neighborsHaveIdenticalHeights;
-			if (neighborsHaveIdenticalHeights || random.nextInt(neighborsHaveSimilarHeightsOdds) != 0) {
+			if (neighborsHaveIdenticalHeights || chunkRandom.nextInt(neighborsHaveSimilarHeightsOdds) != 0) {
 				height = relativebuilding.height;
 				depth = relativebuilding.depth;
 			}
 			
-			if (random.nextInt(neighborsHaveSimilarRoundedOdds) == 0)
+			if (chunkRandom.nextInt(neighborsHaveSimilarRoundedOdds) == 0)
 				rounded = relativebuilding.rounded;
 			
 			// any other bits

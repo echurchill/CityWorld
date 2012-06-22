@@ -3,17 +3,15 @@ package me.daddychurchill.CityWorld.Context;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.CityWorld;
+import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class ContextMidrise extends ContextUrban {
 
-	public ContextMidrise(CityWorld plugin, WorldGenerator generator, SupportChunk typicalChunk) {
-		super(plugin, generator, typicalChunk);
-		Random random = typicalChunk.random;
-		
-		setFloorRange(random, 7, 3);
-		
+	public ContextMidrise(CityWorld plugin, WorldGenerator generator, PlatMap platmap) {
+		super(plugin, generator, platmap);
+		Random platmapRandom = platmap.getRandomGenerator();
+
 		oddsOfParks = oddsUnlikely;
 		oddsOfIsolatedLots = oddsLikely;
 		oddsOfIdenticalBuildingHeights = oddsExtremelyLikely;
@@ -29,6 +27,9 @@ public class ContextMidrise extends ContextUrban {
 		oddsOfFlatWalledBuildings = oddsExtremelyLikely;
 		oddsOfSimilarInsetBuildings = oddsExtremelyLikely;
 		rangeOfWallInset = 2;
+		
+		setFloorRange(platmapRandom, 7, 3);
+		
 	}
 
 }

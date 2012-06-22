@@ -17,14 +17,19 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class ContextNature extends ContextRural {
 
-	public ContextNature(CityWorld plugin, WorldGenerator generator, SupportChunk typicalChunk) {
-		super(plugin, generator, typicalChunk);
+	public ContextNature(CityWorld plugin, WorldGenerator generator, PlatMap platmap) {
+		super(plugin, generator, platmap);
 
 	}
 
 	@Override
-	public void populateMap(WorldGenerator generator, PlatMap platmap, SupportChunk typicalChunk) {
-		Random random = typicalChunk.random;
+	public void populateMap(WorldGenerator generator, PlatMap platmap) {
+		
+		// random stuff?
+		Random platmapRandom = platmap.getRandomGenerator();
+		boolean doBunkers = platmapRandom.nextBoolean();
+		
+		// where it all begins
 		int originX = platmap.originX;
 		int originZ = platmap.originZ;
 		HeightInfo heights;
@@ -48,8 +53,8 @@ public class ContextNature extends ContextRural {
 				if (current == null) {
 					
 					// what is the world location of the lot?
-					int blockX = (originX + x) * typicalChunk.width;
-					int blockZ = (originZ + z) * typicalChunk.width;
+					int blockX = (originX + x) * SupportChunk.chunksBlockWidth;
+					int blockZ = (originZ + z) * SupportChunk.chunksBlockWidth;
 					
 					// get the height info for this chunk
 					heights = HeightInfo.getHeightsFaster(generator, blockX, blockZ);
@@ -84,14 +89,13 @@ public class ContextNature extends ContextRural {
 								// if not one of the innermost or the height isn't tall enough for bunkers
 								if (!innermost || minHeight < PlatBunker.calcBunkerMinHeight(generator)) {
 									if (heights.isSortaFlat() && generator.isIsolatedBuildingAt(originX + x, originZ + z))
-										current = new PlatShack(random, platmap);
+										current = new PlatShack(platmap, originX + x, originZ + z);
 									break;
 								}
 							case HIGHLAND:
 							case PEAK:
-								//TODO Bunkers
-								if (innermost) {
-									current = new PlatBunker(random, platmap);
+								if (doBunkers && innermost) {
+									current = new PlatBunker(platmap, originX + x, originZ + z);
 								}
 								break;
 							default:
@@ -103,19 +107,18 @@ public class ContextNature extends ContextRural {
 						if (current != null)
 							platmap.setLot(x, z, current);
 						else
-							platmap.recycleLot(random, x, z);
+							platmap.recycleLot(x, z);
 					}
 				}
 			}
 		}
 		
 		// any special things to do?
-		populateSpecial(generator, platmap, typicalChunk, maxHeightX, maxHeightZ, maxState);
-		populateSpecial(generator, platmap, typicalChunk, minHeightX, minHeightZ, minState);
+		populateSpecial(generator, platmap, maxHeightX, maxHeightZ, maxState);
+		populateSpecial(generator, platmap, minHeightX, minHeightZ, minState);
 	}
 	
-	private void populateSpecial(WorldGenerator generator, PlatMap platmap, SupportChunk typicalChunk, int x, int z, HeightState state) {
-		Random random = typicalChunk.random;
+	private void populateSpecial(WorldGenerator generator, PlatMap platmap, int x, int z, HeightState state) {
 
 		// what type of height are we talking about?
 		if (state != HeightState.BUILDING && generator.isNotSoIsolatedBuildingAt(platmap.originX + x, platmap.originZ + z)) {
@@ -123,19 +126,21 @@ public class ContextNature extends ContextRural {
 //			case SEA:
 			case DEEPSEA:
 				// Oil rigs
-				platmap.setLot(x, z, new PlatPlatform(random, platmap));
+				//CityWorld.log.info("Drilling platform at " + (platmap.originX + x) * 16 + ", " + (platmap.originZ + z) * 16);
+				platmap.setLot(x, z, new PlatPlatform(platmap, platmap.originX + x, platmap.originZ + z));
 				break;
 //			case SEA:
 //				break;
 //			case BUILDING:
 //				break;
 //			case LOWLAND:
+//				//TODO Statue overlooking the city?
 //				break;
 //			case MIDLAND: 
 //				break;
 			case HIGHLAND: 
 				// Radio towers
-				platmap.setLot(x, z, new PlatTower(random, platmap));
+				platmap.setLot(x, z, new PlatTower(platmap, platmap.originX + x, platmap.originZ + z));
 				break;
 //			case PEAK:
 //				// Observatories

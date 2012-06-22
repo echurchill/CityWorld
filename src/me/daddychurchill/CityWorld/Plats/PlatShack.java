@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import java.util.Random;
-
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
@@ -14,10 +12,16 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class PlatShack extends PlatIsolated {
 
-	public PlatShack(Random random, PlatMap platmap) {
-		super(random, platmap);
+	public PlatShack(PlatMap platmap, int chunkX, int chunkZ) {
+		super(platmap, chunkX, chunkZ);
 		
 		style = LotStyle.NATURE;
+	}
+	
+	@Override
+	protected void generateRandomness() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	private final static byte retainingWallId = (byte) Material.SMOOTH_BRICK.getId();
@@ -26,7 +30,6 @@ public class PlatShack extends PlatIsolated {
 
 	@Override
 	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
-		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
 		
 		// compute offset to start of chunk
 		int blockX = chunk.chunkX * chunk.width;
@@ -57,9 +60,8 @@ public class PlatShack extends PlatIsolated {
 	
 	@Override
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
-		super.generateBlocks(generator, platmap, chunk, context, platX, platZ);
 
 		// now make a shack
-		HouseFactory.generateShack(chunk, context, averageHeight + 1);
+		HouseFactory.generateShack(chunk, context, chunkRandom, averageHeight + 1);
 	}
 }

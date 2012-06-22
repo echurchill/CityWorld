@@ -1,14 +1,14 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import java.util.Random;
-
 import org.bukkit.Material;
 import org.bukkit.TreeType;
+import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import org.bukkit.util.noise.NoiseGenerator;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class PlatNature extends PlatIsolated {
@@ -22,15 +22,26 @@ public class PlatNature extends PlatIsolated {
 	protected final static byte snowId = (byte) snowMaterial.getId();
 	protected final static byte grassId = (byte) grassMaterial.getId();
 	
-	public PlatNature(Random random, PlatMap platmap) {
-		super(random, platmap);
+	public PlatNature(PlatMap platmap, int chunkX, int chunkZ) {
+		super(platmap, chunkX, chunkZ);
 		
 		style = LotStyle.NATURE;
 	}
 
 	@Override
+	protected void generateRandomness() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
-		super.generateBlocks(generator, platmap, chunk, context, platX, platZ);
 		
 		// compute offset to start of chunk
 		int blockX = chunk.chunkX * chunk.width;
@@ -55,8 +66,8 @@ public class PlatNature extends PlatIsolated {
 				} else if (chunk.isPlantable(x, y, z)) {
 					
 					// roll the dice
-					double primary = chunk.random.nextDouble();
-					double secondary = chunk.random.nextDouble();
+					double primary = chunkRandom.nextDouble();
+					double secondary = chunkRandom.nextDouble();
 					
 					// regular trees, grass and flowers only
 					if (y < generator.treeLevel) {
@@ -119,7 +130,7 @@ public class PlatNature extends PlatIsolated {
 							
 							// range change?
 							if (secondary > ((double) (y - generator.evergreenLevel) / (double) evergreenRange)) {
-								if (chunk.random.nextBoolean())
+								if (chunkRandom.nextBoolean())
 									chunk.setBlock(x, y + 1, z, grassId, (byte) 2);
 							} else {
 								chunk.setBlock(x, y + 1, z, snowMaterial);
@@ -130,10 +141,4 @@ public class PlatNature extends PlatIsolated {
 			}
 		}
 	}
-	
-//	@Override
-//	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, PlatMapContext context, int platX, int platZ) {
-//		//TODO turn on nature again!
-//		chunk.setLayer(0, bedrockId);
-//	}
 }

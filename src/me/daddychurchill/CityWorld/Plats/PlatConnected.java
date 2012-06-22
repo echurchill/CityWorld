@@ -1,18 +1,15 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.PlatMap;
 
 public abstract class PlatConnected extends PlatLot {
 
 	protected long connectedkey;
 	
-	public PlatConnected(Random random, PlatMap platmap) {
-		super(random);
+	public PlatConnected(PlatMap platmap, int chunkX, int chunkZ) {
+		super(platmap, chunkX, chunkZ);
 		
-		//TODO while this is relatively safe, I would feel better to have something airtight
-		connectedkey = random.nextLong();
+		connectedkey = platmap.generator.getConnectionKey();
 	}
 
 	@Override
@@ -21,7 +18,7 @@ public abstract class PlatConnected extends PlatLot {
 	}
 	
 	@Override
-	public boolean makeConnected(Random random, PlatLot relative) {
+	public boolean makeConnected(PlatLot relative) {
 		if (relative == null)
 			return false;
 		connectedkey = relative.getConnectedKey();
@@ -35,11 +32,6 @@ public abstract class PlatConnected extends PlatLot {
 		return getClass().isInstance(relative);
 	}
 	
-	@Override
-	public boolean isIsolatedLot(Random random, int oddsOfIsolation) {
-		return random.nextInt(oddsOfIsolation) == 0;
-	}
-
 	@Override
 	public boolean isConnected(PlatLot relative) {
 		if (relative == null)

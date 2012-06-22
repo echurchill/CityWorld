@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import java.util.Random;
-
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
@@ -15,8 +13,8 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class PlatPlatform extends PlatIsolated {
 
-	public PlatPlatform(Random random, PlatMap platmap) {
-		super(random, platmap);
+	public PlatPlatform(PlatMap platmap, int chunkX, int chunkZ) {
+		super(platmap, chunkX, chunkZ);
 
 	}
 
@@ -30,8 +28,13 @@ public class PlatPlatform extends PlatIsolated {
 	private final static int aboveSea = 6;
 
 	@Override
+	protected void generateRandomness() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
-		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
 		
 //		CityWorld.log.info("Platform @ " + (chunk.chunkX * chunk.width) + ", " + (chunk.chunkZ * chunk.width));
 		
@@ -106,7 +109,6 @@ public class PlatPlatform extends PlatIsolated {
 	
 	@Override
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
-		super.generateBlocks(generator, platmap, chunk, context, platX, platZ);
 
 		// working levels
 		int y0 = generator.seaLevel;

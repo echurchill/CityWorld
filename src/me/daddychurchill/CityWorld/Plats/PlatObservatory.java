@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import java.util.Random;
-
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
@@ -13,8 +11,8 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class PlatObservatory extends PlatIsolated {
 
-	public PlatObservatory(Random random, PlatMap platmap) {
-		super(random, platmap);
+	public PlatObservatory(PlatMap platmap, int chunkX, int chunkZ) {
+		super(platmap, chunkX, chunkZ);
 
 	}
 	
@@ -22,8 +20,13 @@ public class PlatObservatory extends PlatIsolated {
 	private final static byte supportId = (byte) Material.COBBLESTONE.getId();
 	
 	@Override
+	protected void generateRandomness() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
-		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
 		
 //		CityWorld.log.info("Observatory @ " + chunk.worldX + ", " + chunk.worldZ);
 		
@@ -45,7 +48,7 @@ public class PlatObservatory extends PlatIsolated {
 	
 	@Override
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
-		super.generateBlocks(generator, platmap, chunk, context, platX, platZ);
 
+		//TODO something!
 	}
 }

@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.ContextData;
@@ -42,21 +40,21 @@ public class PlatPark extends PlatConnected {
 	private boolean circleSidewalk;
 	private int waterDepth;
 	
-	public PlatPark(Random rand, PlatMap platmap, long globalconnectionkey) {
-		super(rand, platmap);
+	public PlatPark(PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey) {
+		super(platmap, chunkX, chunkZ);
 		
 		// all parks are interconnected
 		connectedkey = globalconnectionkey;
 		style = LotStyle.STRUCTURE;
 		
 		// pick a style
-		circleSidewalk = rand.nextBoolean();
-		waterDepth = rand.nextInt(ContextData.FloorHeight * 2) + 1;
+		circleSidewalk = chunkRandom.nextBoolean();
+		waterDepth = chunkRandom.nextInt(ContextData.FloorHeight * 2) + 1;
 	}
 
 	@Override
-	public boolean makeConnected(Random random, PlatLot relative) {
-		boolean result = super.makeConnected(random, relative);
+	public boolean makeConnected(PlatLot relative) {
+		boolean result = super.makeConnected(relative);
 		
 		// other bits
 		if (result && relative instanceof PlatPark) {
@@ -69,13 +67,13 @@ public class PlatPark extends PlatConnected {
 	}
 
 	@Override
-	public boolean isIsolatedLot(Random random, int oddsOfIsolation) {
-		return false;
+	protected void generateRandomness() {
+		// TODO Auto-generated method stub
+		
 	}
-
+	
 	@Override
 	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
-		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
 
 		// look around
 		SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
@@ -206,7 +204,6 @@ public class PlatPark extends PlatConnected {
 	
 	@Override
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
-		Random random = chunk.random;
 		int surfaceY = context.streetLevel + 1;
 		
 		// way down?
@@ -227,7 +224,7 @@ public class PlatPark extends PlatConnected {
 		
 		// four smaller trees
 		} else {
-			TreeType tree = random.nextBoolean() ? TreeType.BIRCH : TreeType.TREE;
+			TreeType tree = chunkRandom.nextBoolean() ? TreeType.BIRCH : TreeType.TREE;
 			world.generateTree(chunk.getBlockLocation(3, surfaceY, 3), tree);
 			world.generateTree(chunk.getBlockLocation(12, surfaceY, 3), tree);
 			world.generateTree(chunk.getBlockLocation(3, surfaceY, 12), tree);

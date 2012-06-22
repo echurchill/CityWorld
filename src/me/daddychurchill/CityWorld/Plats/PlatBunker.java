@@ -15,17 +15,17 @@ public class PlatBunker extends PlatNature {
 
 	private final static int FloorHeight = ContextData.FloorHeight;
 	
-	public PlatBunker(Random random, PlatMap platmap) {
-		super(random, platmap);
-		// TODO Auto-generated constructor stub
+	public PlatBunker(PlatMap platmap, int chunkX, int chunkZ) {
+		super(platmap, chunkX, chunkZ);
+
 	}
 	
 	// these MUST be given in chunk segment units (currently 16) 
-	public final static int bunkerSegment = 16;
-	public final static int bunkerBuffer = bunkerSegment;
-	public final static int bunkerBelowStreet = bunkerSegment;
-	public final static int bunkerMinHeight = bunkerSegment * 2;
-	public final static int bunkerMaxHeight = bunkerSegment * 8;
+	private final static int bunkerSegment = 16;
+	private final static int bunkerBuffer = bunkerSegment;
+	private final static int bunkerBelowStreet = bunkerSegment;
+	private final static int bunkerMinHeight = bunkerSegment * 2;
+	private final static int bunkerMaxHeight = bunkerSegment * 8;
 
 	@Override
 	protected boolean isShaftableLevel(WorldGenerator generator, ContextData context, int y) {
@@ -61,14 +61,19 @@ public class PlatBunker extends PlatNature {
 		return Math.min(calcBunkerMaxHeight(generator), calcSegmentOrigin(minHeight) - bunkerBuffer);
 	}
 
+	private int bilgeType;
+	private int buildingType;
+	
+	@Override
+	protected void generateRandomness() {
+			
+		// initial rolls
+		bilgeType = platmapRandom.nextInt(5);
+		buildingType = chunkRandom.nextInt(7);
+	}
+	
 	@Override
 	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
-		generateCrust(generator, platmap, chunk, biomes, context, platX, platZ);
-//		this.precomputeExtremes(generator, chunk);
-		
-		// pick up the dice
-		Random platmapRandom = generator.getRandomGeneratorAt(platmap.originX, platmap.originX);
-		Random platRandom = generator.getRandomGeneratorAt(chunk.chunkX, chunk.chunkZ);
 		
 		// precalculate
 		int yBottom = calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet;
@@ -82,7 +87,7 @@ public class PlatBunker extends PlatNature {
 		chunk.setLayer(yBottom, supportId);
 		
 		// clear out stuff?
-		switch (platmapRandom.nextInt(5)) {
+		switch (bilgeType) {
 		case 1:
 			chunk.setLayer(yBottom + 1, waterId);
 			chunk.setBlocks(0, 16, yBottom + 2, yTop3, 0, 16, airId);
@@ -152,32 +157,29 @@ public class PlatBunker extends PlatNature {
 		chunk.setBlocks(14, 16, yPlatform, yPlatform + 2, 9, 10, railingId);
 		
 		// build a pretend building
-		switch (generator.getBuildingTypeAt(chunk.chunkX, chunk.chunkZ, 7)) {
+		switch (buildingType) {
 		case 1:
-			generateGrowingBuilding(chunk, platRandom, yPlatform + 1, yTop2);
+			generateGrowingBuilding(chunk, chunkRandom, yPlatform + 1, yTop2);
 			break;
 		case 2:
-			generateFlooredBuilding(chunk, platRandom, yPlatform + 1, yTop2);
+			generateFlooredBuilding(chunk, chunkRandom, yPlatform + 1, yTop2);
 			break;
 		case 3:
-			generateBallsyBuilding(chunk, platRandom, yPlatform + 1, yTop2);
+			generateBallsyBuilding(chunk, chunkRandom, yPlatform + 1, yTop2);
 			break;
 		case 4:
-			generateRecallBuilding(chunk, platRandom, yPlatform + 1, yTop2);
+			generateRecallBuilding(chunk, chunkRandom, yPlatform + 1, yTop2);
 			break;
 		case 5:
-			generateQuadBuilding(chunk, platRandom, yPlatform + 1, yTop2);
+			generateQuadBuilding(chunk, chunkRandom, yPlatform + 1, yTop2);
 			break;
 		case 6:
-			generateWaterBuilding(chunk, platRandom, yPlatform + 1, yTop2);
+			generateWaterBuilding(chunk, chunkRandom, yPlatform + 1, yTop2);
 			break;
 		default:
-			generatePyramidBuilding(chunk, platRandom, yPlatform + 1, yTop2);
+			generatePyramidBuilding(chunk, chunkRandom, yPlatform + 1, yTop2);
 			break;
 		}
-		
-		// a mining we go
-		generateMines(generator, chunk, context);
 		
 //		// poke out a flag
 //		chunk.setBlocks(7, yTop4, maxHeight + 3, 7, airId);
@@ -400,13 +402,12 @@ public class PlatBunker extends PlatNature {
 
 	@Override
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
-		super.generateBlocks(generator, platmap, chunk, context, platX, platZ);
 		
 		int yBottom = calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet;
 		int yTop4 = calcBunkerCeiling(generator);
-		int yTop3 = yTop4 - 2;
+//		int yTop3 = yTop4 - 2;
 		int yTop2 = yTop4 - bunkerSegment; 
-		int yTop1 = yTop2 - 2;
+//		int yTop1 = yTop2 - 2;
 		int yPlatform = calcSegmentOrigin(yBottom) + 6;
 		
 		// hold up buildings
@@ -414,6 +415,31 @@ public class PlatBunker extends PlatNature {
 		generateSupport(chunk, context, 3, yBottom + 1, 10);
 		generateSupport(chunk, context, 10, yBottom + 1, 3);
 		generateSupport(chunk, context, 10, yBottom + 1, 10);
+		
+		// build a pretend building
+		switch (buildingType) {
+		case 1:
+			decorateGrowingBuilding(chunk, chunkRandom, yPlatform + 1, yTop2);
+			break;
+		case 2:
+			decorateFlooredBuilding(chunk, chunkRandom, yPlatform + 1, yTop2);
+			break;
+		case 3:
+			decorateBallsyBuilding(chunk, chunkRandom, yPlatform + 1, yTop2);
+			break;
+		case 4:
+			decorateRecallBuilding(chunk, chunkRandom, yPlatform + 1, yTop2);
+			break;
+		case 5:
+			decorateQuadBuilding(chunk, chunkRandom, yPlatform + 1, yTop2);
+			break;
+		case 6:
+			decorateWaterBuilding(chunk, chunkRandom, yPlatform + 1, yTop2);
+			break;
+		default:
+			decoratePyramidBuilding(chunk, chunkRandom, yPlatform + 1, yTop2);
+			break;
+		}
 		
 		// a mining we go
 		generateMines(generator, chunk, context);
@@ -444,5 +470,219 @@ public class PlatBunker extends PlatNature {
 		chunk.setStair(x, y    , z, springMat, data1);
 		chunk.setStair(x, y + 1, z, springMat, data2);
 		chunk.setStair(x, y + 2, z, springMat, data3);
+	}
+
+	private void decorateGrowingBuilding(RealChunk chunk, Random random, int y1, int y2) {
+//		int x1 = 4;
+//		int x2 = x1 + 8;
+//		int y = y1;
+//		int z1 = 4;
+//		int z2 = z1 + 8;
+//		int Height = FloorHeight;
+//		while (y + Height < y2) {
+//			
+//			// walls please
+//			chunk.setWalls(x1, x2, y, y + Height - 1, z1, z2, buildingId);
+//			
+//			// interspace
+//			chunk.setBlocks(x1 + 1, x2 - 1, y + Height - 1, y + Height, z1 + 1, z2 - 1, buildingId);
+//			
+//			// make things bigger
+//			y += Height;
+//			Height += FloorHeight;
+//		}
+
+//		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.IRON_BLOCK);
+	}
+
+	private void decorateFlooredBuilding(RealChunk chunk, Random random, int y1, int y2) {
+//		int x1 = 4;
+//		int x2 = x1 + 8;
+//		int z1 = 4;
+//		int z2 = z1 + 8;
+//		int y3 = y2 - 2;
+//		for (int y = y1; y < y3; y += FloorHeight) {
+//			
+//			// walls please
+//			chunk.setWalls(x1, x2, y, y + FloorHeight - 1, z1, z2, buildingId);
+//			
+//			// windows in the wall
+//			chunk.setBlocks(x1 + 2, x2 - 2, y + 1, y + 2, z1, z1 + 1, glassId);
+//			chunk.setBlocks(x1 + 2, x2 - 2, y + 1, y + 2, z2 - 1, z2, glassId);
+//			chunk.setBlocks(x1, x1 + 1, y + 1, y + 2, z1 + 2, z2 - 2, glassId);
+//			chunk.setBlocks(x2 - 1, x2, y + 1, y + 2, z1 + 2, z2 - 2, glassId);
+//			
+//			//TODO add doors & stairs
+//			
+//			// interspace
+//			chunk.setBlocks(x1 + 1, x2 - 1, y + FloorHeight - 1, y + FloorHeight, z1 + 1, z2 - 1, buildingId);
+//		}
+
+//		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.BOOKSHELF);
+	}
+
+	private void decorateRecallBuilding(RealChunk chunk, Random random, int y1, int y2) {
+//		int buildingWidth = 10;
+//		int x1 = (chunk.width - buildingWidth) / 2;
+//		int x2 = x1 + buildingWidth;
+//		int z1 = x1;
+//		int z2 = z1 + buildingWidth;
+//		
+//		// lower bit
+//		chunk.setWalls(x1 + 1, x2 - 1, y1, y1 + 1, z1 + 1, z2 - 1, buildingId);
+//		chunk.setWalls(x1 + 1, x2 - 1, y1 + 1, y1 + 2, z1 + 1, z2 - 1, glassId);
+//		
+//		// make it so we can walk into the 
+//		chunk.setBlocks(x1 + 4, x2 - 4, y1, y1 + 2, z1 + 1, z1 + 2, airId);
+//		chunk.setBlocks(x1 + 4, x2 - 4, y1, y1 + 2, z2 - 2, z2 - 1, airId);
+//		chunk.setBlocks(x1 + 1, x1 + 2, y1, y1 + 2, z1 + 4, z2 - 4, airId);
+//		chunk.setBlocks(x2 - 2, x2 - 1, y1, y1 + 2, z1 + 4, z2 - 4, airId);
+//		
+//		int y = y1 + 2;
+//		int Height = FloorHeight;
+//		while (y + Height < y2) {
+//			int yTop = y + Height - 1;
+//			
+//			// texture
+//			for (int i = 1; i < buildingWidth; i += 2) {
+//				chunk.setBlocks(x1 + i, y, yTop, z1, buildingId);
+//				chunk.setBlocks(x1 + i - 1, y, yTop, z2 - 1, buildingId);
+//				chunk.setBlocks(x1, y, yTop, z1 + i, buildingId);
+//				chunk.setBlocks(x2 - 1, y, yTop, z1 + i - 1, buildingId);
+//			}
+//			
+//			// inner wall
+//			chunk.setWalls(x1 + 1, x2 - 1, y, yTop, z1 + 1, z2 - 1, buildingId);
+//			
+//			// cap it off
+//			chunk.setBlocks(x1 + 1, x2 - 1, yTop, yTop + 1, z1 + 1, z2 - 1, buildingId);
+//			
+//			// make things bigger
+//			y += Height;
+//			Height += FloorHeight;
+//		}
+		
+//		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.DIAMOND_BLOCK);
+	}
+
+	private void decorateBallsyBuilding(RealChunk chunk, Random random, int y1, int y2) {
+//		int x1 = 2;
+//		int x2 = x1 + 12;
+//		int z1 = 2;
+//		int z2 = z1 + 12;
+//		int y3 = y2 - 5;
+//		
+//		// initial pylon
+//		chunk.setBlocks(x1 + 4, x2 - 4, y1, y1 + 2, z1 + 4, z2 - 4, buildingId);
+//		
+//		// rest of the pylon and balls
+//		for (int y = y1 + 2; y < y3; y += 6) {
+//			
+//			// center pylon
+//			chunk.setBlocks(x1 + 4, x2 - 4, y, y + 6, z1 + 4, z2 - 4, buildingId);
+//			
+//			// balls baby!
+//			decorateBallsyBuildingBall(chunk, random, x1, y, z1);
+//			decorateBallsyBuildingBall(chunk, random, x1, y, z2 - 5);
+//			decorateBallsyBuildingBall(chunk, random, x2 - 5, y, z1);
+//			decorateBallsyBuildingBall(chunk, random, x2 - 5, y, z2 - 5);
+//		}
+
+//		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.BEDROCK);
+	}
+	
+//	private void decorateBallsyBuildingBall(RealChunk chunk, Random random, int x, int y, int z) {
+//		if (random.nextDouble() > 0.25) {
+//			
+//			// bottom
+//			chunk.setBlocks(x + 1, x + 4, y, y + 1, z + 1, z + 4, buildingId);
+//			
+//			// sides
+//			chunk.setBlocks(x, x + 5, y + 1, y + 4, z, z + 5, buildingId);
+//			
+//			// top
+//			chunk.setBlocks(x + 1, x + 4, y + 4, y + 5, z + 1, z + 4, buildingId);
+//		}
+//	}
+
+	private void decorateQuadBuilding(RealChunk chunk, Random random, int y1, int y2) {
+//		int x1 = 2;
+//		int x2 = x1 + 12;
+//		int z1 = 2;
+//		int z2 = z1 + 12;
+//		int ySegment = (y2 - y1) / 5;
+//		int yRange = ySegment * 3;
+//		int yBase = y1 + ySegment;
+//		
+//		// four towers
+//		chunk.setBlocks(x1, x1 + 5, y1, yBase + random.nextInt(yRange), z1, z1 + 5, buildingId);
+//		chunk.setBlocks(x1, x1 + 5, y1, yBase + random.nextInt(yRange), z2 - 5, z2, buildingId);
+//		chunk.setBlocks(x2 - 5, x2, y1, yBase + random.nextInt(yRange), z1, z1 + 5, buildingId);
+//		chunk.setBlocks(x2 - 5, x2, y1, yBase + random.nextInt(yRange), z2 - 5, z2, buildingId);
+		
+//		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.GOLD_BLOCK);
+	}
+	
+	private void decorateWaterBuilding(RealChunk chunk, Random random, int y1, int y2) {
+//		int x1 = 4;
+//		int x2 = x1 + 8;
+//		int z1 = 4;
+//		int z2 = z1 + 8;
+//		int yBottom = y1 + 4;
+//		int yTop = y2;
+//		
+//		// supports
+//		chunk.setBlocks(x1 + 1, x1 + 3, y1, yBottom, z1 + 1, z1 + 3, buildingId);
+//		chunk.setBlocks(x1 + 1, x1 + 3, y1, yBottom, z2 - 3, z2 - 1, buildingId);
+//		chunk.setBlocks(x2 - 3, x2 - 1, y1, yBottom, z1 + 1, z1 + 3, buildingId);
+//		chunk.setBlocks(x2 - 3, x2 - 1, y1, yBottom, z2 - 3, z2 - 1, buildingId);
+//		
+//		// bottom bit
+//		chunk.setBlocks(x1, x2, yBottom, yBottom + 1, z1, z2, buildingId);
+//		
+//		// walls
+//		chunk.setBlocks(x1, x2, yBottom + 1, yTop, z1 - 1, z1, buildingId);
+//		chunk.setBlocks(x1, x2, yBottom + 1, yTop, z2    , z2 + 1, buildingId);
+//		chunk.setBlocks(x1 - 1, x1, yBottom + 1, yTop, z1, z2, buildingId);
+//		chunk.setBlocks(x2    , x2 + 1, yBottom + 1, yTop, z1, z2, buildingId);
+//		
+//		// make it so we can see in a bit
+//		chunk.setBlocks(x1 + 3, x2 - 3, yBottom + 1, yTop, z1 - 1, z1, glassId);
+//		chunk.setBlocks(x1 + 3, x2 - 3, yBottom + 1, yTop, z2    , z2 + 1, glassId);
+//		chunk.setBlocks(x1 - 1, x1, yBottom + 1, yTop, z1 + 3, z2 - 3, glassId);
+//		chunk.setBlocks(x2    , x2 + 1, yBottom + 1, yTop, z1 + 3, z2 - 3, glassId);
+//		
+//		// put a top on it
+//		chunk.setBlocks(x1, x2, yTop, yTop + 1, z1, z2, buildingId);
+//		
+//		// fill it
+//		chunk.setBlocks(x1, x2, yBottom + 1, yBottom + ((yTop - yBottom) / 3) * 2, z1, z2, waterId);
+
+//		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.LAPIS_BLOCK);
+	}
+
+	private void decoratePyramidBuilding(RealChunk chunk, Random random, int y1, int y2) {
+//		int x1 = 2;
+//		int x2 = x1 + 12;
+//		int z1 = 2;
+//		int z2 = z1 + 12;
+//		for (int i = 0; i < 7; i++) {
+//			int y = y1 + i * 2;
+//			chunk.setWalls(x1 + i, x2 - i, y, y + 2, z1 + i, z2 - i, buildingId);
+//		}
+//
+//		// make it so we can walk through the pyramid
+//		chunk.setBlocks(x1 + 5, x2 - 5, y1, y1 + 2, z1    , z1 + 1, airId);
+//		chunk.setBlocks(x1 + 5, x2 - 5, y1, y1 + 2, z2 - 1, z2    , airId);
+//		chunk.setBlocks(x1    , x1 + 1, y1, y1 + 2, z1 + 5, z2 - 5, airId);
+//		chunk.setBlocks(x2 - 1, x2    , y1, y1 + 2, z1 + 5, z2 - 5, airId);
+//		
+//		// top off the entry ways
+//		chunk.setBlocks(x1 + 4, x2 - 4, y1 + 2, y1 + 3, z1    , z1 + 1, buildingId);
+//		chunk.setBlocks(x1 + 4, x2 - 4, y1 + 2, y1 + 3, z2 - 1, z2    , buildingId);
+//		chunk.setBlocks(x1    , x1 + 1, y1 + 2, y1 + 3, z1 + 4, z2 - 4, buildingId);
+//		chunk.setBlocks(x2 - 1, x2    , y1 + 2, y1 + 3, z1 + 4, z2 - 4, buildingId);
+
+//		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.STONE);
 	}
 }

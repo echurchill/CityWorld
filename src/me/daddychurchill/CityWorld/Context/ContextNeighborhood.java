@@ -1,25 +1,21 @@
 package me.daddychurchill.CityWorld.Context;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatHouse;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class ContextNeighborhood extends ContextRural {
 
-	public ContextNeighborhood(CityWorld plugin, WorldGenerator generator, SupportChunk typicalChunk) {
-		super(plugin, generator, typicalChunk);
+	public ContextNeighborhood(CityWorld plugin, WorldGenerator generator, PlatMap platmap) {
+		super(plugin, generator, platmap);
 
 		//TODO anything else?
 	}
 
 	@Override
-	public void populateMap(WorldGenerator generator, PlatMap platmap, SupportChunk typicalChunk) {
-		Random random = typicalChunk.random;
+	public void populateMap(WorldGenerator generator, PlatMap platmap) {
 		
 		// do we check for roads?
 		boolean checkForRoads = platmap.getNumberOfRoads() > 0;
@@ -34,19 +30,19 @@ public class ContextNeighborhood extends ContextRural {
 					if (checkForRoads) {
 						if (platmap.isExistingRoad(x - 1, z) || platmap.isExistingRoad(x + 1, z) || 
 							platmap.isExistingRoad(x, z - 1) || platmap.isExistingRoad(x, z + 1))
-							placeHouse(random, platmap, x, z);
+							placeHouse(platmap, x, z);
 						else
-							platmap.recycleLot(random, x, z);
+							platmap.recycleLot(x, z);
 						
 					// just do it then
 					} else
-						placeHouse(random, platmap, x, z);
+						placeHouse(platmap, x, z);
 				}
 			}
 		}
 	}
 	
-	private void placeHouse(Random random, PlatMap platmap, int x, int z) {
-		platmap.setLot(x, z, new PlatHouse(random, platmap));
+	private void placeHouse(PlatMap platmap, int x, int z) {
+		platmap.setLot(x, z, new PlatHouse(platmap, platmap.originX + x, platmap.originZ + z));
 	}
 }

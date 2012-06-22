@@ -3,17 +3,15 @@ package me.daddychurchill.CityWorld.Context;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.CityWorld;
+import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public abstract class ContextRural extends ContextData {
 
-	public ContextRural(CityWorld plugin, WorldGenerator generator, SupportChunk typicalChunk) {
-		super(plugin, generator, typicalChunk);
+	public ContextRural(CityWorld plugin, WorldGenerator generator, PlatMap platmap) {
+		super(plugin, generator, platmap);
 		
-		Random random = typicalChunk.random;
-
-		setFloorRange(random, 1, 2);
+		Random platmapRandom = platmap.getRandomGenerator();
 		
 		oddsOfParks = oddsNeverGoingToHappen;
 		oddsOfIsolatedLots = oddsNeverGoingToHappen;
@@ -30,6 +28,8 @@ public abstract class ContextRural extends ContextData {
 		oddsOfFlatWalledBuildings = oddsNeverGoingToHappen;
 		oddsOfSimilarInsetBuildings = oddsNeverGoingToHappen;
 		rangeOfWallInset = 2;
+
+		setFloorRange(platmapRandom, 1, 2);
 	}
 
 }

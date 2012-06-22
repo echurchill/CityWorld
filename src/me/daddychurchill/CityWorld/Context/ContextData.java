@@ -7,7 +7,6 @@ import org.bukkit.Material;
 import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public abstract class ContextData {
 	public static int oddsNeverGoingToHappen = Integer.MAX_VALUE;
@@ -42,8 +41,6 @@ public abstract class ContextData {
 	public int rangeOfWallInset = 2; // 1 or 2 in... but not zero
 	public int oddsOfFlatWalledBuildings = oddsExtremelyLikely; // the ceilings are inset like the walls 1/n of the time
 	
-	public int oddsOfPlumbingConnection = oddsExtremelyLikely;
-	public int oddsOfPlumbingTreasure = oddsVeryLikely;
 	public int oddsOfSewerVines = oddsUnlikely;
 	public int oddsOfSewerTreasure = oddsExtremelyLikely;
 	public int oddsOfSewerTrick = oddsExtremelyLikely;
@@ -55,8 +52,6 @@ public abstract class ContextData {
 	
 	public int oddsOfMoneyInFountains = oddsLikely; // gold is in the fountain 1/n of the time
 	public int oddsOfMissingArt = oddsUnlikely; // art is missing 1/n of the time
-	public int oddsOfLavaDownBelow = oddsUnlikely; // how often does lava show up in the underworld 1/n of the time
-	public int oddsOfManholeToDownBelow = oddsExtremelyLikely; // manhole/ladder down to the lowest levels 1/n of the time
 	public int oddsOfNaturalArt = oddsExtremelyLikely; // sometimes nature is art 1/n of the time 
 	
 	public static final int FloorHeight = 4;
@@ -84,9 +79,9 @@ public abstract class ContextData {
 	public Material torchMat;
 	public Byte torchId;
 	
-	public ContextData(CityWorld plugin, WorldGenerator generator, SupportChunk typicalChunk) {
+	public ContextData(CityWorld plugin, WorldGenerator generator, PlatMap platmap) {
 		super();
-		Random random = typicalChunk.random;
+		Random platmapRandom = platmap.getRandomGenerator();
 		
 		isolationId = (byte) plugin.getIsolationMaterial().getId();
 		doSewer = plugin.isDoSewer();
@@ -127,10 +122,10 @@ public abstract class ContextData {
 		torchId = (byte) torchMat.getId();
 
 		// default floor range
-		setFloorRange(random, 2, 2);
+		setFloorRange(platmapRandom, 2, 2);
 	}
 	
-	public abstract void populateMap(WorldGenerator generator, PlatMap platmap, SupportChunk typicalChunk);
+	public abstract void populateMap(WorldGenerator generator, PlatMap platmap);
 	
 	protected void setFloorRange(Random random, int aboveRange, int belowRange) {
 		// calculate the extremes for this plat

@@ -53,49 +53,61 @@ public class PlatMap {
 		naturalPlats = 0;
 		
 		// assume everything is natural
-		context = new ContextNature(generator.getPlugin(), generator, typicalChunk);
-		context.populateMap(generator, this, typicalChunk);
+		context = new ContextNature(generator.getPlugin(), generator, this);
+		context.populateMap(generator, this);
 		
 		// place and validate the roads
 		populateRoads(typicalChunk);
 		validateRoads(typicalChunk);
 		
 		// recalculate the context based on the "natural-ness" of the platmap
-		context = getContext(typicalChunk);
-		context.populateMap(generator, this, typicalChunk);
+		context = getContext();
+		context.populateMap(generator, this);
 	}
 
-	private ContextData getContext(SupportChunk typicalChunk) {
+	private ContextData getContext() {
 		CityWorld plugin = generator.getPlugin();
 		
 		// how natural is this platmap?
 		if (naturalPlats == 0) {
 //			if (typicalChunk.random.nextDouble() > oddsOfCentralPark)
-//				return new ContextCentralPark(plugin, generator, typicalChunk);
+//				return new ContextCentralPark(plugin, generator, this);
 //			else
-				return new ContextHighrise(plugin, generator, typicalChunk);
+				return new ContextHighrise(plugin, generator, this);
 		} else if (naturalPlats < 15)
-			return new ContextUnconstruction(plugin, generator, typicalChunk);
+			return new ContextUnconstruction(plugin, generator, this);
 		else if (naturalPlats < 25)
-			return new ContextMidrise(plugin, generator, typicalChunk);
+			return new ContextMidrise(plugin, generator, this);
 		else if (naturalPlats < 40)
-			return new ContextCityCenter(plugin, generator, typicalChunk);
+			return new ContextCityCenter(plugin, generator, this);
 		else if (naturalPlats < 55)
-			return new ContextMall(plugin, generator, typicalChunk);
+			return new ContextMall(plugin, generator, this);
 		else if (naturalPlats < 70)
-			return new ContextLowrise(plugin, generator, typicalChunk);
+			return new ContextLowrise(plugin, generator, this);
 		else if (naturalPlats < 85)
-			return new ContextNeighborhood(plugin, generator, typicalChunk);
+			return new ContextNeighborhood(plugin, generator, this);
 		else if (naturalPlats < 95)
-			return new ContextFarm(plugin, generator, typicalChunk);
+			return new ContextFarm(plugin, generator, this);
 		else if (naturalPlats < 100)
-			return new ContextNeighborhood(plugin, generator, typicalChunk);
+			return new ContextNeighborhood(plugin, generator, this);
 		
 		// otherwise just keep what we have
 		else
 			return context;
 	}
 
+	public Random getRandomGenerator() {
+		return generator.getMacroRandomGeneratorAt(originX, originZ);
+	}
+	
+	public Random getChunkRandomGenerator(SupportChunk chunk) {
+		return generator.getMicroRandomGeneratorAt(chunk.chunkX, chunk.chunkZ);
+	}
+	
+	public Random getChunkRandomGenerator(int chunkX, int chunkZ) {
+		return generator.getMicroRandomGeneratorAt(chunkX, chunkZ);
+	}
+	
 	public void generateChunk(ByteChunk chunk, BiomeGrid biomes) {
 
 		// depending on the platchunk's type render a layer
@@ -106,7 +118,7 @@ public class PlatMap {
 		if (platlot != null) {
 
 			// do what we came here for
-			platlot.generateChunk(generator, this, chunk, biomes, context, platX, platZ);
+			platlot.generateActualChunk(generator, this, chunk, biomes, context, platX, platZ);
 		}
 	}
 	
@@ -119,7 +131,7 @@ public class PlatMap {
 		if (platlot != null) {
 
 			// do what we came here for
-			platlot.generateBlocks(generator, this, chunk, context, platX, platZ);
+			platlot.generateActualBlocks(generator, this, chunk, context, platX, platZ);
 		}
 	}
 	
@@ -145,25 +157,25 @@ public class PlatMap {
 			return true;
 	}
 	
-	public void recycleLot(Random random, int x, int z) {
+	public void recycleLot(int x, int z) {
 
 		// if it is not natural, make it so
 		PlatLot current = platLots[x][z];
 		if (current == null || current.style != LotStyle.NATURE) {
 		
 			// place nature
-			platLots[x][z] = new PlatNature(random, this);
+			platLots[x][z] = new PlatNature(this, originX + x, originZ + z);
 			naturalPlats++;
 		}
 	}
 	
-	public void paveLot(Random random, int x, int z) {
+	public void paveLot(int x, int z) {
 		
 		// clear it please
 		emptyLot(x, z);
 		
 		// place the road
-		platLots[x][z] = new PlatRoad(random, this, generator.connectedKeyForPavedRoads);
+		platLots[x][z] = new PlatRoad(this, originX + x, originZ + z, generator.connectedKeyForPavedRoads);
 	}
 	
 	public void setLot(int x, int z, PlatLot lot) {
@@ -196,7 +208,6 @@ public class PlatMap {
 	}
 	
 	private void placeIntersection(SupportChunk typicalChunk, int x, int z) {
-		Random random = typicalChunk.random;
 		boolean roadToNorth = false, roadToSouth = false, 
 				roadToEast = false, roadToWest = false, 
 				roadHere = false;
@@ -220,17 +231,17 @@ public class PlatMap {
 					isEmptyLot(x, z - 1) &&	isEmptyLot(x, z + 1) &&
 					isEmptyLot(x + 1, z - 1) &&	isEmptyLot(x + 1, z) &&	isEmptyLot(x + 1, z + 1)) {
 					
-					paveLot(random, x - 1, z - 1);
-					paveLot(random, x - 1, z    );
-					paveLot(random, x - 1, z + 1);
+					paveLot(x - 1, z - 1);
+					paveLot(x - 1, z    );
+					paveLot(x - 1, z + 1);
 					
-					paveLot(random, x    , z - 1);
-					platLots[x][z] = new PlatStatue(random, this);
-					paveLot(random, x    , z + 1);
+					paveLot(x    , z - 1);
+					platLots[x][z] = new PlatStatue(this, originX + x, originZ + z);
+					paveLot(x    , z + 1);
 			
-					paveLot(random, x + 1, z - 1);
-					paveLot(random, x + 1, z    );
-					paveLot(random, x + 1, z + 1);
+					paveLot(x + 1, z - 1);
+					paveLot(x + 1, z    );
+					paveLot(x + 1, z + 1);
 				
 				// place the intersection then
 				} else {
@@ -258,22 +269,22 @@ public class PlatMap {
 		
 		// now place any remaining roads we need
 		if (roadHere)
-			paveLot(random, x, z);
+			paveLot(x, z);
 		if (roadToNorth) {
-			paveLot(random, x, z - 1);
-			paveLot(random, x, z - 2);
+			paveLot(x, z - 1);
+			paveLot(x, z - 2);
 		}
 		if (roadToSouth) {
-			paveLot(random, x, z + 1);
-			paveLot(random, x, z + 2);
+			paveLot(x, z + 1);
+			paveLot(x, z + 2);
 		}
 		if (roadToEast) {
-			paveLot(random, x + 1, z);
-			paveLot(random, x + 2, z);
+			paveLot(x + 1, z);
+			paveLot(x + 2, z);
 		}
 		if (roadToWest) {
-			paveLot(random, x - 1, z);
-			paveLot(random, x - 2, z);
+			paveLot(x - 1, z);
+			paveLot(x - 2, z);
 		}
 	}
 	
@@ -364,7 +375,7 @@ public class PlatMap {
 			// reclaim all of the silly roads
 			for (int x = 0; x < Width; x++) {
 				for (int z = 0; z < Width; z++) {
-					this.recycleLot(typicalChunk.random, x, z);
+					this.recycleLot(x, z);
 				}
 			}
 			

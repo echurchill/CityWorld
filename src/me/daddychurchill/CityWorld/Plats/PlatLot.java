@@ -26,13 +26,21 @@ public abstract class PlatLot {
 	protected int maxHeightX = 0;
 	protected int maxHeightZ = 0;
 	
+	protected Random platmapRandom;
+	protected Random chunkRandom;
+	protected boolean initialized;
+	
 	// styling!
 	public enum LotStyle {NATURE, STRUCTURE, ROAD, ROUNDABOUT};
 	public LotStyle style;
 	
-	public PlatLot(Random random) {
+	public PlatLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super();
+		
+		initializeDice(platmap, chunkX, chunkZ);
+		
 		style = LotStyle.NATURE;
+		
 	}
 	
 	protected final static byte airId = (byte) Material.AIR.getId();
@@ -49,14 +57,53 @@ public abstract class PlatLot {
 	protected final static byte cobbleId = (byte) Material.COBBLESTONE.getId();
 
 	public abstract long getConnectedKey();
-	public abstract boolean makeConnected(Random random, PlatLot relative);
+	public abstract boolean makeConnected(PlatLot relative);
 	public abstract boolean isConnectable(PlatLot relative);
-	public abstract boolean isIsolatedLot(Random random, int oddsOfIsolation);
 	public abstract boolean isConnected(PlatLot relative);
 	
-	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+	//TODO I should swap the names generateChunk/generateActualChunk and likewise for Blocks since they don't make sense right now
+	
+	protected abstract void generateRandomness();
+	public abstract void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ);
+	public abstract void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ);
+	
+	private void initializeDice(PlatMap platmap, int chunkX, int chunkZ) {
+		
+		// reset and pick up the dice
+		platmapRandom = platmap.getRandomGenerator();
+		chunkRandom = platmap.getChunkRandomGenerator(chunkX, chunkZ);
+	}
+	
+	private void initializeBits(PlatMap platmap, SupportChunk chunk) {
+		
+		// reset and pick up the dice
+		initializeDice(platmap, chunk.chunkX, chunk.chunkZ);
+		
+		if (!initialized) {
+			generateRandomness();
+			
+			initialized = true;
+		}
+	}
+	
+	public void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+		initializeBits(platmap, chunk);
+		
 		generateCrust(generator, platmap, chunk, biomes, context, platX, platZ);
+		
+		generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
+		
 		generateMines(generator, chunk, context);
+	}
+		
+	public void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
+		initializeBits(platmap, chunk);
+		
+		generateBlocks(generator, platmap, chunk, context, platX, platZ);
+		
+		generateMines(generator, chunk, context);
+
+		//TODO what else needs to be done block wise?
 	}
 		
 	protected void generateCrust(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
@@ -250,12 +297,6 @@ public abstract class PlatLot {
 		chunk.setBlocks(x, y + 1, aboveSupport + 1, z, shaftSupportId);
 	}
 	
-	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
-		generateMines(generator, chunk, context);
-
-		//TODO what else needs to be done block wise?
-	}
-		
 	protected void precomputeExtremes(WorldGenerator generator, SupportChunk chunk) {
 
 		// have we done this yet?

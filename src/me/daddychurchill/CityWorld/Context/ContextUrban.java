@@ -9,19 +9,18 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatOfficeBuilding;
 import me.daddychurchill.CityWorld.Plats.PlatPark;
 import me.daddychurchill.CityWorld.Plats.PlatUnfinishedBuilding;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public abstract class ContextUrban extends ContextData {
 
-	public ContextUrban(CityWorld plugin, WorldGenerator generator, SupportChunk typicalChunk) {
-		super(plugin, generator, typicalChunk);
+	public ContextUrban(CityWorld plugin, WorldGenerator generator, PlatMap platmap) {
+		super(plugin, generator, platmap);
 
 		//TODO anything to generalized?
 	}
 
 	@Override
-	public void populateMap(WorldGenerator generator, PlatMap platmap, SupportChunk typicalChunk) {
-		Random random = typicalChunk.random;
+	public void populateMap(WorldGenerator generator, PlatMap platmap) {
+		Random platmapRandom = platmap.getRandomGenerator();
 		
 		// backfill with buildings and parks
 		for (int x = 0; x < PlatMap.Width; x++) {
@@ -31,14 +30,14 @@ public abstract class ContextUrban extends ContextData {
 					
 					//TODO I need to come up with a more elegant way of doing this!
 					// what to build?
-					if (random.nextInt(oddsOfParks) == 0)
-						current = new PlatPark(random, platmap, generator.connectedKeyForParks);
-					else if (random.nextInt(oddsOfUnfinishedBuildings) == 0)
-						current = new PlatUnfinishedBuilding(random, platmap);
-					// houses
-					// yards
+					if (platmapRandom.nextInt(oddsOfParks) == 0)
+						current = new PlatPark(platmap, platmap.originX + x, platmap.originZ + z, generator.connectedKeyForParks);
+					else if (platmapRandom.nextInt(oddsOfUnfinishedBuildings) == 0)
+						current = new PlatUnfinishedBuilding(platmap, platmap.originX + x, platmap.originZ + z);
+					//TODO warehouses
+					//TODO government buildings
 					else
-						current = new PlatOfficeBuilding(random, platmap);
+						current = new PlatOfficeBuilding(platmap, platmap.originX + x, platmap.originZ + z);
 					
 					/* for each plot
 					 *   randomly pick a plattype
@@ -60,8 +59,8 @@ public abstract class ContextUrban extends ContextData {
 					}
 					
 					// if there was a similar previous one then copy it... maybe
-					if (previous != null && !previous.isIsolatedLot(random, oddsOfIsolatedLots)) {
-						current.makeConnected(random, previous);
+					if (previous != null && !generator.isIsolatedLotAt(platmap.originX + x, platmap.originZ + z, oddsOfIsolatedLots)) {
+						current.makeConnected(previous);
 					}
 
 					// remember what we did

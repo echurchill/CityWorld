@@ -9,19 +9,20 @@ import me.daddychurchill.CityWorld.Plats.PlatFarm;
 import me.daddychurchill.CityWorld.Plats.PlatHouse;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class ContextFarm extends ContextRural {
 
-	public ContextFarm(CityWorld plugin, WorldGenerator generator, SupportChunk typicalChunk) {
-		super(plugin, generator, typicalChunk);
+	public ContextFarm(CityWorld plugin, WorldGenerator generator, PlatMap platmap) {
+		super(plugin, generator, platmap);
 
 		oddsOfIsolatedLots = oddsVeryLikely;
 	}
 	
+	private final static double oddsOfFarmHouse = 0.25;
+	
 	@Override
-	public void populateMap(WorldGenerator generator, PlatMap platmap, SupportChunk typicalChunk) {
-		Random random = typicalChunk.random;
+	public void populateMap(WorldGenerator generator, PlatMap platmap) {
+		Random platmapRandom = platmap.getRandomGenerator();
 		boolean housePlaced = false;
 		int lastX = 0, lastZ = 0;
 		
@@ -40,7 +41,7 @@ public class ContextFarm extends ContextRural {
 					// but there aren't neighbors
 					if (!platmap.isEmptyLot(x - 1, z) && !platmap.isEmptyLot(x + 1, z) &&
 						!platmap.isEmptyLot(x, z - 1) && !platmap.isEmptyLot(x, z + 1))
-						platmap.recycleLot(random, x, z);
+						platmap.recycleLot(x, z);
 				}
 				
 				// look for singleton nature and roundabouts
@@ -54,7 +55,7 @@ public class ContextFarm extends ContextRural {
 					
 					// get rid of roundabouts
 					else if (current.style == LotStyle.ROUNDABOUT) {
-						platmap.paveLot(random, x, z);
+						platmap.paveLot(x, z);
 						platmap.emptyLot(x - 1, z - 1);
 						platmap.emptyLot(x - 1, z + 1);
 						platmap.emptyLot(x + 1, z - 1);
@@ -71,15 +72,15 @@ public class ContextFarm extends ContextRural {
 				if (current == null) {
 					
 					// farm house here?
-					if (!housePlaced && generator.isFarmHouseAt(platmap.originX + x, platmap.originZ + z)) {
-						platmap.setLot(x, z, new PlatHouse(random, platmap)); 
+					if (!housePlaced && platmapRandom.nextDouble() > oddsOfFarmHouse) {
+						platmap.setLot(x, z, new PlatHouse(platmap, platmap.originX + x, platmap.originZ + z)); 
 						housePlaced = true;
 					
 					// place the farm
 					} else {
 						
 						// place the farm
-						current = new PlatFarm(random, platmap, originX + x, originZ + z);
+						current = new PlatFarm(platmap, originX + x, originZ + z);
 						
 						// see if the previous chunk is the same type
 						PlatLot previous = null;
@@ -90,8 +91,8 @@ public class ContextFarm extends ContextRural {
 						}
 						
 						// if there was a similar previous one then copy it... maybe
-						if (previous != null && !previous.isIsolatedLot(random, oddsOfIsolatedLots)) {
-							current.makeConnected(random, previous);
+						if (previous != null && !generator.isIsolatedLotAt(platmap.originX + x, platmap.originZ + z, oddsOfIsolatedLots)) {
+							current.makeConnected(previous);
 						}
 
 						// remember what we did
@@ -107,7 +108,7 @@ public class ContextFarm extends ContextRural {
 		
 		// did we miss out placing the farm house?
 		if (!housePlaced && platmap.isEmptyLot(lastX, lastZ)) {
-			platmap.setLot(lastX, lastZ, new PlatHouse(random, platmap)); 
+			platmap.setLot(lastX, lastZ, new PlatHouse(platmap, platmap.originX + lastX, platmap.originZ + lastZ)); 
 		}
 	}
 }

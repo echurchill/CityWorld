@@ -33,21 +33,19 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	protected int floorsBuilt;
 	protected int lastHorizontalGirder;
 	
-	public PlatUnfinishedBuilding(Random random, PlatMap platmap) {
-		super(random, platmap);
+	public PlatUnfinishedBuilding(PlatMap platmap, int chunkX, int chunkZ) {
+		super(platmap, chunkX, chunkZ);
 		ContextData context = platmap.context;
 		
 		// basement only?
-		unfinishedBasementOnly = random.nextInt(context.oddsOfOnlyUnfinishedBasements) == 0;
+		unfinishedBasementOnly = chunkRandom.nextInt(context.oddsOfOnlyUnfinishedBasements) == 0;
 		
 		// how many floors are finished?
-		floorsBuilt = random.nextInt(height);
+		floorsBuilt = chunkRandom.nextInt(height);
 	}
 
 	@Override
 	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
-		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
-		Random random = chunk.random;
 
 		// check out the neighbors
 		SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
@@ -111,7 +109,7 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 				} else {
 					
 					// sometimes the top most girders aren't there quite yet
-					if (floor < height - 1 || random.nextBoolean()) {
+					if (floor < height - 1 || chunkRandom.nextBoolean()) {
 						drawHorizontalGirders(chunk, floorAt + FloorHeight - 1, neighborFloors);
 						lastHorizontalGirder = floorAt + FloorHeight - 1;
 					}
@@ -211,5 +209,4 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 		if (random.nextBoolean() && !neighbors.toSouth())
 			chunk.setBlocks(i, y1, y2, chunk.width - 1, airId);
 	}
-
 }

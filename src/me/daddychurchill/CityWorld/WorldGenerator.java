@@ -24,6 +24,7 @@ public class WorldGenerator extends ChunkGenerator {
 	private World world;
 	private String worldname;
 	private String worldstyle;
+	private Random connectionKeyGen;
 
 	public SimplexOctaveGenerator landShape1;
 	public SimplexOctaveGenerator landShape2;
@@ -121,11 +122,12 @@ public class WorldGenerator extends ChunkGenerator {
 	
 	@Override
 	public byte[][] generateBlockSections(World aWorld, Random random, int chunkX, int chunkZ, BiomeGrid biomes) {
-
+		
 		// initialize the shaping logic
 		if (world == null) {
 			world = aWorld;
 			long seed = world.getSeed();
+			connectionKeyGen = new Random(seed + 1);
 
 			landShape1 = new SimplexOctaveGenerator(seed, 4);
 			landShape1.setScale(landHorizontalScale1);
@@ -151,7 +153,7 @@ public class WorldGenerator extends ChunkGenerator {
 			seaRange = seaLevel - fudgeVerticalScale + seaFlattening;
 
 			// now the other vertical points
-			deepseaLevel = seaLevel - (seaRange / 2);
+			deepseaLevel = seaLevel - seaRange / 3;
 			sidewalkLevel = seaLevel + 1;
 			snowLevel = seaLevel + (landRange / 4 * 3);
 			evergreenLevel = seaLevel + (landRange / 4 * 2);
@@ -168,12 +170,15 @@ public class WorldGenerator extends ChunkGenerator {
 //							   " top = " + (seaLevel + landRange));
 			
 			// get the connectionKeys
-			connectedKeyForPavedRoads = random.nextLong();
-			connectedKeyForParks = random.nextLong();
+			connectedKeyForPavedRoads = connectionKeyGen.nextLong();
+			connectedKeyForParks = connectionKeyGen.nextLong();
 		}
 		
+		// get the chunk specific random 
+		Random chunkRandom = getMicroRandomGeneratorAt(chunkX, chunkZ);
+
 		// place to work
-		ByteChunk byteChunk = new ByteChunk(this, random, chunkX, chunkZ);
+		ByteChunk byteChunk = new ByteChunk(this, chunkRandom, chunkX, chunkZ);
 		
 		// figure out what everything looks like
 		PlatMap platmap = getPlatMap(byteChunk, chunkX, chunkZ);
@@ -182,6 +187,10 @@ public class WorldGenerator extends ChunkGenerator {
 		}
 
 		return byteChunk.blocks;
+	}
+	
+	public long getConnectionKey() {
+		return connectionKeyGen.nextLong();
 	}
 	
 	public double findPerciseY(int blockX, int blockZ) {
@@ -238,17 +247,24 @@ public class WorldGenerator extends ChunkGenerator {
 	}
 	
 	// macro slots
-	private final static int macroNSBridgeSlot = 0; 
+	private final static int macroRandomGeneratorSlot = 0;
+	private final static int macroNSBridgeSlot = 1; 
 	
 	// micro slots
-	private final static int microRoundaboutSlot = 0; 
-	private final static int microCaveSlot = 1; 
-	private final static int microFarmHouseSlot = 2;
-	private final static int microFarmCropSlot = 3;
-	private final static int microFarmDirectionSlot = 4;
-	private final static int microIsolatedBuildingSlot = 5;
-	private final static int microBuildingTypeSlot = 6;
-	private final static int microRandomGeneratorSlot = 7;
+	private final static int microRandomGeneratorSlot = 0;
+	private final static int microRoundaboutSlot = 1; 
+	private final static int microCaveSlot = 2; 
+	private final static int microIsolatedLotSlot = 3;
+	
+	public Random getMicroRandomGeneratorAt(int x, int z) {
+		double noise = microShape.noise(x * microScale, z * microScale, microRandomGeneratorSlot);
+		return new Random((long) (noise * Long.MAX_VALUE));
+	}
+	
+	public Random getMacroRandomGeneratorAt(int x, int z) {
+		double noise = macroShape.noise(x * macroScale, z * macroScale, macroRandomGeneratorSlot);
+		return new Random((long) (noise * Long.MAX_VALUE));
+	}
 	
 	public boolean getBridgePolarityAt(double chunkX, double chunkZ) {
 		return macroBooleanAt(chunkX, chunkZ, macroNSBridgeSlot);
@@ -262,32 +278,16 @@ public class WorldGenerator extends ChunkGenerator {
 		return microBooleanAt(chunkX, chunkZ, microCaveSlot);
 	}
 	
-	public boolean isFarmHouseAt(double chunkX, double chunkZ) {
-		return microBooleanAt(chunkX, chunkZ, microFarmHouseSlot);
-	}
-	
-	public int getFarmCropAt(double chunkX, double chunkZ, int scale) {
-		return microValueAt(chunkX, chunkZ, microFarmCropSlot, scale);
-	}
-	
-	public boolean isFarmNSCropAt(double chunkX, double chunkZ) {
-		return microBooleanAt(chunkX, chunkZ, microFarmDirectionSlot);
-	}
-	
 	public boolean isIsolatedBuildingAt(double chunkX, double chunkZ) {
-		return microScaleAt(chunkX, chunkZ, microIsolatedBuildingSlot) > oddsIsolatedBuilding;
+		return isIsolatedLotAt(chunkX, chunkZ, oddsIsolatedBuilding);
 	}
 	
 	public boolean isNotSoIsolatedBuildingAt(double chunkX, double chunkZ) {
-		return microScaleAt(chunkX, chunkZ, microIsolatedBuildingSlot) > (oddsIsolatedBuilding / 2);
+		return isIsolatedLotAt(chunkX, chunkZ, oddsIsolatedBuilding / 2);
 	}
 	
-	public int getBuildingTypeAt(double chunkX, double chunkZ, int range) {
-		return NoiseGenerator.floor(microScaleAt(chunkX, chunkZ, microBuildingTypeSlot) * range);
-	}
-	
-	public Random getRandomGeneratorAt(double chunkX, double chunkZ) {
-		return new Random(NoiseGenerator.floor(microScaleAt(chunkX, chunkZ, microRandomGeneratorSlot)));
+	public boolean isIsolatedLotAt(double chunkX, double chunkZ, double odds) {
+		return microScaleAt(chunkX, chunkZ, microIsolatedLotSlot) > odds;
 	}
 	
 	protected boolean macroBooleanAt(double chunkX, double chunkZ, int slot) {
@@ -413,9 +413,12 @@ public class WorldGenerator extends ChunkGenerator {
 		public void populate(World world, Random random, Chunk chunk) {
 			int chunkX = chunk.getX();
 			int chunkZ = chunk.getZ();
+			
+			// replace random with our chunk specific random 
+			Random chunkRandom = getMicroRandomGeneratorAt(chunkX, chunkZ);
 
 			// place to work
-			RealChunk realChunk = new RealChunk(chunkGen, random, chunk);
+			RealChunk realChunk = new RealChunk(chunkGen, chunkRandom, chunk);
 
 			// figure out what everything looks like
 			PlatMap platmap = chunkGen.getPlatMap(realChunk, chunkX, chunkZ);

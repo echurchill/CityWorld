@@ -12,8 +12,7 @@ import org.bukkit.Material;
 
 public final class HouseFactory {
 	
-	public final static void generateShack(RealChunk chunk, ContextData context, int baseY) {
-//		Random random = chunk.random;
+	public final static void generateShack(RealChunk chunk, ContextData context, Random random, int baseY) {
 		
 		// what are we made of?
 		Material matWall = Material.WOOD;
@@ -26,8 +25,7 @@ public final class HouseFactory {
 	}
 	
 	
-	public final static void generateHouse(RealChunk chunk, ContextData context, int baseY, int maxFloors) {
-		Random random = chunk.random;
+	public final static void generateHouse(RealChunk chunk, ContextData context, Random random, int baseY, int maxFloors) {
 		
 		// what are we made of?
 		Material matWall = pickWallMaterial(random);

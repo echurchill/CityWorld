@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import java.util.Random;
-
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
@@ -15,8 +13,8 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class PlatTower extends PlatIsolated {
 
-	public PlatTower(Random random, PlatMap platmap) {
-		super(random, platmap);
+	public PlatTower(PlatMap platmap, int chunkX, int chunkZ) {
+		super(platmap, chunkX, chunkZ);
 
 	}
 	
@@ -37,8 +35,13 @@ public class PlatTower extends PlatIsolated {
 	private final static Material capTinyMat = Material.STEP;
 	
 	@Override
+	protected void generateRandomness() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
-		super.generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
 		
 		// compute offset to start of chunk
 		int platformOffset = platformWidth / 2;
@@ -68,7 +71,6 @@ public class PlatTower extends PlatIsolated {
 	
 	@Override
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
-		super.generateBlocks(generator, platmap, chunk, context, platX, platZ);
 
 		// compute offset to start of chunk
 		int platformOffset = platformWidth / 2;
@@ -88,29 +90,29 @@ public class PlatTower extends PlatIsolated {
 	private void generateAntenna(RealChunk chunk, ContextData context, int x, int y, int z, boolean lastChance) {
 		
 		// build an antenna?
-		if ((lastChance && !antennaBuilt) || chunk.random.nextBoolean()) {
+		if ((lastChance && !antennaBuilt) || chunkRandom.nextBoolean()) {
 			chunk.setBlocks(x, y, y + 2, z, baseMat);
 			
 			// how tall?
 			int antennaHeight = heightShortest;
-			if (!tallestBuilt && (lastChance || chunk.random.nextBoolean())) {
+			if (!tallestBuilt && (lastChance || chunkRandom.nextBoolean())) {
 				antennaHeight = heightTallest;
 				tallestBuilt = true;
 			} else
-				antennaHeight += chunk.random.nextInt(heightRange);
+				antennaHeight += chunkRandom.nextInt(heightRange);
 			
 			// actually build the antenna
 			chunk.setBlocks(x, y + 2, y + 2 + antennaHeight, z, antennaMat);
 			
 			// do a fancy middle?
-			if (chunk.random.nextBoolean()) {
+			if (chunkRandom.nextBoolean()) {
 				int yPoint = y + 2 + antennaHeight - 5;
 				chunk.setBlocks(x - 2, x + 3, yPoint, yPoint + 1, z, z + 1, antennaMat);
 				chunk.setBlocks(x, x + 1, yPoint, yPoint + 1, z - 2, z + 3, antennaMat);
 			}
 			
 			// do a fancy top?
-			if (chunk.random.nextBoolean()) {
+			if (chunkRandom.nextBoolean()) {
 				int yPoint = y + 2 + antennaHeight - 1;
 				chunk.setBlocks(x - 2, x + 3, yPoint, yPoint + 1, z, z + 1, antennaMat);
 				chunk.setBlocks(x, x + 1, yPoint, yPoint + 1, z - 2, z + 3, antennaMat);
