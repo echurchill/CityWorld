@@ -2,14 +2,13 @@ package me.daddychurchill.CityWorld.Context;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 
 public class ContextMidrise extends ContextUrban {
 
-	public ContextMidrise(CityWorld plugin, WorldGenerator generator, PlatMap platmap) {
-		super(plugin, generator, platmap);
+	public ContextMidrise(WorldGenerator generator, PlatMap platmap) {
+		super(generator, platmap);
 		Random platmapRandom = platmap.getRandomGenerator();
 
 		oddsOfParks = oddsUnlikely;

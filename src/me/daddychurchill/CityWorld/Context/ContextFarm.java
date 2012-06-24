@@ -2,7 +2,6 @@ package me.daddychurchill.CityWorld.Context;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatFarm;
@@ -12,8 +11,8 @@ import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 
 public class ContextFarm extends ContextRural {
 
-	public ContextFarm(CityWorld plugin, WorldGenerator generator, PlatMap platmap) {
-		super(plugin, generator, platmap);
+	public ContextFarm(WorldGenerator generator, PlatMap platmap) {
+		super(generator, platmap);
 
 		oddsOfIsolatedLots = oddsVeryLikely;
 	}

@@ -58,7 +58,7 @@ public abstract class PlatBuilding extends PlatConnected {
 		neighborsHaveSimilarHeightsOdds = context.oddsOfSimilarBuildingHeights;
 		neighborsHaveSimilarRoundedOdds = context.oddsOfSimilarBuildingRounding;
 		height = chunkRandom.nextInt(context.maximumFloorsAbove) + 1;
-		if (context.doBasement)
+		if (platmap.generator.getSettings().isIncludeBasement())
 			depth = chunkRandom.nextInt(context.maximumFloorsBelow) + 1;
 		needStairsDown = true;
 		needStairsUp = true;
@@ -71,7 +71,7 @@ public abstract class PlatBuilding extends PlatConnected {
 	}
 
 	@Override
-	protected void generateRandomness() {
+	protected void generateActualRandomness() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -359,7 +359,7 @@ public abstract class PlatBuilding extends PlatConnected {
 		}
 	}
 	
-	//TODO roof fixtures (peak, antenna, helipad, air conditioning, stairwells access, penthouse, castle trim, etc.
+	//TODO roof fixtures (peak, helipad, air conditioning, stairwells access, penthouse, castle trim, etc.
 	protected void drawRoof(ByteChunk chunk, ContextData context, int y1, 
 			int insetEW, int insetNS, boolean allowRounded, 
 			Material material, SurroundingFloors heights) {

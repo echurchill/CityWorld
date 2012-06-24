@@ -67,13 +67,13 @@ public class PlatPark extends PlatConnected {
 	}
 
 	@Override
-	protected void generateRandomness() {
+	protected void generateActualRandomness() {
 		// TODO Auto-generated method stub
 		
 	}
 	
 	@Override
-	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 
 		// look around
 		SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
@@ -83,7 +83,7 @@ public class PlatPark extends PlatConnected {
 		int highestY = context.streetLevel - groundDepth - 1;
 		
 		// cistern?
-		if (context.doCistern) {
+		if (generator.getSettings().isIncludeCistern()) {
 			chunk.setLayer(lowestY, cisternId);
 			
 			// fill with water
@@ -203,11 +203,11 @@ public class PlatPark extends PlatConnected {
 	}
 	
 	@Override
-	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
+	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
 		int surfaceY = context.streetLevel + 1;
 		
 		// way down?
-		if (context.doCistern) {
+		if (generator.getSettings().isIncludeCistern()) {
 			SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
 			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
 				int lowestY = context.streetLevel - cisternDepth + 1 + waterDepth;

@@ -49,6 +49,10 @@ public class RealChunk extends SupportChunk {
 	public Material getBlock(int x, int y, int z) {
 		return chunk.getBlock(x, y, z).getType();
 	}
+	
+	public Block getActualBlock(int x, int y, int z) {
+		return chunk.getBlock(x, y, z);
+	}
 
 	public void clearBlock(int x, int y, int z) {
 		chunk.getBlock(x, y, z).setType(Material.AIR);
@@ -394,6 +398,15 @@ public class RealChunk extends SupportChunk {
 
 	public void setTrapDoor(int x, int y, int z, Direction.TrapDoor direction) {
 		setBlock(x, y, z, Material.TRAP_DOOR.getId(), direction.getData());
+	}
+
+	public void setStoneSlab(int x, int y, int z, Direction.StoneSlab direction) {
+		setBlock(x, y, z, Material.STEP.getId(), direction.getData());
+	}
+
+	//TODO change this to actual wood in 1.3
+	public void setWoodSlab(int x, int y, int z, Direction.WoodSlab direction) {
+		setBlock(x, y, z, Material.STEP.getId(), direction.getData());
 	}
 
 	public void setLadder(int x, int y1, int y2, int z, Direction.Ladder direction) {

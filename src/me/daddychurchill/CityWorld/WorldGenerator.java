@@ -5,6 +5,8 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.Plugins.LootProvider;
+import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
@@ -21,10 +23,14 @@ import org.bukkit.util.noise.SimplexOctaveGenerator;
 public class WorldGenerator extends ChunkGenerator {
 
 	private CityWorld plugin;
+	private CityWorldSettings settings;
 	private World world;
 	private String worldname;
 	private String worldstyle;
 	private Random connectionKeyGen;
+	private Random stashRandomGenerator;
+	private LootProvider lootProvider;
+	private SpawnProvider spawnProvider;
 
 	public SimplexOctaveGenerator landShape1;
 	public SimplexOctaveGenerator landShape2;
@@ -54,6 +60,7 @@ public class WorldGenerator extends ChunkGenerator {
 		plugin = aPlugin;
 		worldname = aWorldname;
 		worldstyle = aWorldstyle;
+		settings = new CityWorldSettings(plugin, worldname);
 	}
 
 	public CityWorld getPlugin() {
@@ -70,6 +77,10 @@ public class WorldGenerator extends ChunkGenerator {
 
 	public String getWorldstyle() {
 		return worldstyle;
+	}
+	
+	public CityWorldSettings getSettings() {
+		return settings;
 	}
 
 	@Override
@@ -93,7 +104,7 @@ public class WorldGenerator extends ChunkGenerator {
 	public double seaHorizontalScale = 1.0 / 384.0;
 
 	public double noiseFrequency = 1.50;
-	public double noiseAmplitude = 0.50;
+	public double noiseAmplitude = 0.70;
 	public double noiseHorizontalScale = 1.0 / 32.0;
 	public int noiseVerticalScale = 3;
 
@@ -128,6 +139,9 @@ public class WorldGenerator extends ChunkGenerator {
 			world = aWorld;
 			long seed = world.getSeed();
 			connectionKeyGen = new Random(seed + 1);
+			stashRandomGenerator = new Random(seed + 2);
+			lootProvider = LootProvider.loadProvider();
+			spawnProvider = SpawnProvider.loadProvider();
 
 			landShape1 = new SimplexOctaveGenerator(seed, 4);
 			landShape1.setScale(landHorizontalScale1);
@@ -191,6 +205,18 @@ public class WorldGenerator extends ChunkGenerator {
 	
 	public long getConnectionKey() {
 		return connectionKeyGen.nextLong();
+	}
+	
+	public Random getStashRandomGenerator() {
+		return stashRandomGenerator;
+	}
+	
+	public LootProvider getLootProvider() {
+		return lootProvider;
+	}
+	
+	public SpawnProvider getSpawnProvider() {
+		return spawnProvider;
 	}
 	
 	public double findPerciseY(int blockX, int blockZ) {

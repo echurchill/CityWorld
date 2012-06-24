@@ -1,6 +1,5 @@
 package me.daddychurchill.CityWorld.Context;
 
-import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatHouse;
@@ -8,8 +7,8 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 
 public class ContextNeighborhood extends ContextRural {
 
-	public ContextNeighborhood(CityWorld plugin, WorldGenerator generator, PlatMap platmap) {
-		super(plugin, generator, platmap);
+	public ContextNeighborhood(WorldGenerator generator, PlatMap platmap) {
+		super(generator, platmap);
 
 		//TODO anything else?
 	}

@@ -65,7 +65,7 @@ public class PlatBunker extends PlatNature {
 	private int buildingType;
 	
 	@Override
-	protected void generateRandomness() {
+	protected void generateActualRandomness() {
 			
 		// initial rolls
 		bilgeType = platmapRandom.nextInt(5);
@@ -73,7 +73,7 @@ public class PlatBunker extends PlatNature {
 	}
 	
 	@Override
-	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		
 		// precalculate
 		int yBottom = calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet;
@@ -401,7 +401,7 @@ public class PlatBunker extends PlatNature {
 	}
 
 	@Override
-	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
+	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
 		
 		int yBottom = calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet;
 		int yTop4 = calcBunkerCeiling(generator);

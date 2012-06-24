@@ -61,11 +61,13 @@ public abstract class PlatLot {
 	public abstract boolean isConnectable(PlatLot relative);
 	public abstract boolean isConnected(PlatLot relative);
 	
-	//TODO I should swap the names generateChunk/generateActualChunk and likewise for Blocks since they don't make sense right now
-	
-	protected abstract void generateRandomness();
-	public abstract void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ);
-	public abstract void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ);
+	protected abstract void generateActualRandomness();
+	protected abstract void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ);
+	protected abstract void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ);
+
+	protected Biome getChunkBiome() {
+		return Biome.PLAINS;
+	}
 	
 	private void initializeDice(PlatMap platmap, int chunkX, int chunkZ) {
 		
@@ -80,34 +82,44 @@ public abstract class PlatLot {
 		initializeDice(platmap, chunk.chunkX, chunk.chunkZ);
 		
 		if (!initialized) {
-			generateRandomness();
+			generateActualRandomness();
 			
 			initialized = true;
 		}
 	}
 	
-	public void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		initializeBits(platmap, chunk);
 		
+		// let there be dirt!
 		generateCrust(generator, platmap, chunk, biomes, context, platX, platZ);
 		
-		generateChunk(generator, platmap, chunk, biomes, context, platX, platZ);
+		// let the specialized platlot do it's thing
+		generateActualChunk(generator, platmap, chunk, biomes, context, platX, platZ);
 		
-		generateMines(generator, chunk, context);
+		// do we do it or not?
+		if (generator.getSettings().isIncludeMines())
+			generateMines(generator, chunk, context);
 	}
 		
-	public void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
+	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
 		initializeBits(platmap, chunk);
 		
-		generateBlocks(generator, platmap, chunk, context, platX, platZ);
+		// let the specialized platlot do it's thing
+		generateActualBlocks(generator, platmap, chunk, context, platX, platZ);
 		
-		generateMines(generator, chunk, context);
+		// do we do it or not?
+		if (generator.getSettings().isIncludeMines())
+			generateMines(generator, chunk, context);
 
 		//TODO what else needs to be done block wise?
 	}
-		
+	
 	protected void generateCrust(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 
+		// biome for the chunk
+		Biome chunkBiome = getChunkBiome();
+		
 		// total height
 		int sumHeight = 0;
 		
@@ -145,12 +157,12 @@ public abstract class PlatLot {
 				// buildable?
 				if (style == LotStyle.STRUCTURE || style == LotStyle.ROUNDABOUT) {
 					generateStratas(generator, chunk, x, z, stoneId, generator.sidewalkLevel - 2, dirtId, generator.sidewalkLevel, dirtId, false);
-					biomes.setBiome(x, z, Biome.JUNGLE);
+					biomes.setBiome(x, z, chunkBiome);
 					
 				// possibly buildable?
 				} else if (y == generator.sidewalkLevel) {
 					generateStratas(generator, chunk, x, z, stoneId, y - 3, dirtId, y, grassId, false);
-					biomes.setBiome(x, z, Biome.PLAINS);
+					biomes.setBiome(x, z, chunkBiome);
 				
 				// won't likely have a building
 				} else {

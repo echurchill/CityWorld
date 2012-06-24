@@ -4,7 +4,7 @@ import java.util.Random;
 
 import org.bukkit.Material;
 
-import me.daddychurchill.CityWorld.CityWorld;
+import me.daddychurchill.CityWorld.CityWorldSettings;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 
@@ -41,57 +41,40 @@ public abstract class ContextData {
 	public int rangeOfWallInset = 2; // 1 or 2 in... but not zero
 	public int oddsOfFlatWalledBuildings = oddsExtremelyLikely; // the ceilings are inset like the walls 1/n of the time
 	
-	public int oddsOfSewerVines = oddsUnlikely;
-	public int oddsOfSewerTreasure = oddsExtremelyLikely;
-	public int oddsOfSewerTrick = oddsExtremelyLikely;
-	public int oddsOfSewerOres = oddsVeryLikely;
-	public int maxTreasureCount = 5;
-	
 	public int oddsOfMissingRoad = oddsLikely; // roads are missing 1/n of the time
 	public int oddsOfRoundAbouts = oddsLikely; // roundabouts are created 1/n of the time
 	
-	public int oddsOfMoneyInFountains = oddsLikely; // gold is in the fountain 1/n of the time
 	public int oddsOfMissingArt = oddsUnlikely; // art is missing 1/n of the time
 	public int oddsOfNaturalArt = oddsExtremelyLikely; // sometimes nature is art 1/n of the time 
+	
+	public double oddsOfTreasureInSewers = 0.50;
+	public double oddsOfTreasureInMines = 0.50;
+	public double oddsOfTreasureInBunkers = 0.50;
+	public double oddsOfSpawnerInSewers = 0.50;
+	public double oddsOfSpawnerInMines = 0.50;
+	public double oddsOfSpawnerInBunkers = 0.50;
 	
 	public static final int FloorHeight = 4;
 	public static final int FudgeFloorsBelow = 2;
 	public static final int FudgeFloorsAbove = 0;//3;
 	public static final int absoluteMinimumFloorsAbove = 5; // shortest tallest building
 	public static final int absoluteAbsoluteMaximumFloorsBelow = 3; // that is as many basements as I personally can tolerate
+	public static final int absoluteAbsoluteMaximumFloorsAbove = 20; // that is tall enough folks
 	public int buildingMaximumY;
 	public int absoluteMaximumFloorsBelow;
 	public int absoluteMaximumFloorsAbove; 
 	public int streetLevel;
-	
-	public byte isolationId;
-	public boolean doSewer;
-	public boolean doCistern;
-	public boolean doBasement;
-	public boolean doTreasureInSewer;
-	public boolean doTreasureInFountain;
-	public boolean doSpawnerInSewer;
-	public boolean doOresInSewer;
-	public boolean doWorkingLights;
 	
 	public Material lightMat;
 	public Byte lightId;
 	public Material torchMat;
 	public Byte torchId;
 	
-	public ContextData(CityWorld plugin, WorldGenerator generator, PlatMap platmap) {
+	public ContextData(WorldGenerator generator, PlatMap platmap) {
 		super();
 		Random platmapRandom = platmap.getRandomGenerator();
+		CityWorldSettings settings = generator.getSettings();
 		
-		isolationId = (byte) plugin.getIsolationMaterial().getId();
-		doSewer = plugin.isDoSewer();
-		doCistern = plugin.isDoCistern();
-		doBasement = plugin.isDoBasement();
-		doTreasureInSewer = plugin.isDoTreasureInSewer();
-		doTreasureInFountain = plugin.isDoTreasureInFountain();
-		doSpawnerInSewer = plugin.isDoSpawnerInSewer();
-		doOresInSewer = plugin.isDoOresInSewer();
-		doWorkingLights = plugin.isDoWorkingLights();
 		buildingMaximumY = Math.min(126 + FudgeFloorsAbove * FloorHeight, generator.height);
 		
 		// where is the ground
@@ -101,17 +84,10 @@ public abstract class ContextData {
 		
 		// worst case?
 		absoluteMaximumFloorsBelow = Math.max(Math.min(streetLevel / FloorHeight - FudgeFloorsBelow, absoluteAbsoluteMaximumFloorsBelow), 0);
-		absoluteMaximumFloorsAbove = Math.max(Math.min((buildingMaximumY - streetLevel) / FloorHeight - FudgeFloorsAbove, plugin.getMaximumFloors()), absoluteMinimumFloorsAbove);
-		
-		// turn off a few things if there isn't room
-		if (absoluteMaximumFloorsBelow == 0) {
-			doSewer = false;
-			doCistern = false;
-			doBasement = false;
-		}
+		absoluteMaximumFloorsAbove = Math.max(Math.min((buildingMaximumY - streetLevel) / FloorHeight - FudgeFloorsAbove, absoluteAbsoluteMaximumFloorsAbove), absoluteMinimumFloorsAbove);
 		
 		// lights?
-		if (doWorkingLights) {
+		if (settings.isWorkingLights()) {
 			lightMat = Material.GLOWSTONE;
 			torchMat = Material.TORCH;
 		} else {

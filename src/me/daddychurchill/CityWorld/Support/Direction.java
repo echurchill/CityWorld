@@ -44,6 +44,40 @@ public class Direction {
 		}
 	};
 	
+	public enum StoneSlab {
+		STONE(0), SANDSTONE(1), 
+		WOODSTONE(2), COBBLESTONE(3), 
+		BRICK(4), STONEBRICK(5),
+		
+		STONEFLIP(8 + 0), SANDSTONEFLIP(8 + 1), 
+		WOODSTONEFLIP(8 + 2), COBBLESTONEFLIP(8 + 3), 
+		BRICKFLIP(8 + 4), STONEBRICKFLIP(8 + 5);
+			
+		private byte data;
+		private StoneSlab(int d) {
+			data = (byte) d;
+		}
+		public byte getData() {
+			return data;
+		}
+	};
+	
+	public enum WoodSlab {
+		OAK(0), SPRUCE(1), 
+		BIRCH(2), JUNGLE(3),
+		
+		OAKFLIP(8 + 0), SPRUCEFLIP(8 + 1), 
+		BIRCHFLIP(8 + 2), JUNGLEFLIP(8 + 3);
+			
+		private byte data;
+		private WoodSlab(int d) {
+			data = (byte) d;
+		}
+		public byte getData() {
+			return data;
+		}
+	};
+	
 	public enum Ladder {
 		NORTH(2), SOUTH(3), WEST(4), EAST(5);
 		
@@ -93,7 +127,6 @@ public class Direction {
 	}
 	
 	//TODO wool (0 to 15 colors)
-	//TODO slab (0 to 6 material type)
 	//TODO double slab (0 to 6 material type)
 	//TODO stone (0 to 2 material type)
 	//TODO silver fish (0 to 2 material type)

@@ -35,13 +35,13 @@ public class PlatStatue extends PlatIsolated {
 	}
 
 	@Override
-	protected void generateRandomness() {
+	protected void generateActualRandomness() {
 		// what is it build on?
 		statueBase = randomBase(chunkRandom);
 	}
 
 	@Override
-	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 
 		// where to start?
 		int y1 = context.streetLevel + 1;
@@ -55,9 +55,9 @@ public class PlatStatue extends PlatIsolated {
 			chunk.setCircle(8, 8, 5, y1, stoneId);
 			for (int x = 0; x < 10; x++)
 				for (int z = 0; z < 10; z++)
-					if (context.doTreasureInFountain)
-						chunk.setBlock(x + 3, y1, z + 3, chunkRandom.nextInt(context.oddsOfMoneyInFountains) == 0 ? goldId : stoneId);
-					else
+//					if (context.doTreasureInFountain)
+//						chunk.setBlock(x + 3, y1, z + 3, chunkRandom.nextInt(context.oddsOfMoneyInFountains) == 0 ? goldId : stoneId);
+//					else
 						chunk.setBlock(x + 3, y1, z + 3, stoneId);
 			
 			// the plain bit... later we will take care of the fancy bit
@@ -96,7 +96,7 @@ public class PlatStatue extends PlatIsolated {
 	}
 	
 	@Override
-	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
+	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
 		
 		// something got stolen?
 		boolean somethingInTheCenter = chunkRandom.nextInt(context.oddsOfMissingArt) != 0;

@@ -2,7 +2,6 @@ package me.daddychurchill.CityWorld.Context;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatBunker;
@@ -17,8 +16,8 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class ContextNature extends ContextRural {
 
-	public ContextNature(CityWorld plugin, WorldGenerator generator, PlatMap platmap) {
-		super(plugin, generator, platmap);
+	public ContextNature(WorldGenerator generator, PlatMap platmap) {
+		super(generator, platmap);
 
 	}
 
@@ -27,7 +26,7 @@ public class ContextNature extends ContextRural {
 		
 		// random stuff?
 		Random platmapRandom = platmap.getRandomGenerator();
-		boolean doBunkers = platmapRandom.nextBoolean();
+		boolean doBunkers = generator.getSettings().isIncludeBunkers() && platmapRandom.nextBoolean();
 		
 		// where it all begins
 		int originX = platmap.originX;

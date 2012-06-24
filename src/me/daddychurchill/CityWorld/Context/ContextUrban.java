@@ -2,7 +2,6 @@ package me.daddychurchill.CityWorld.Context;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -12,8 +11,8 @@ import me.daddychurchill.CityWorld.Plats.PlatUnfinishedBuilding;
 
 public abstract class ContextUrban extends ContextData {
 
-	public ContextUrban(CityWorld plugin, WorldGenerator generator, PlatMap platmap) {
-		super(plugin, generator, platmap);
+	public ContextUrban(WorldGenerator generator, PlatMap platmap) {
+		super(generator, platmap);
 
 		//TODO anything to generalized?
 	}

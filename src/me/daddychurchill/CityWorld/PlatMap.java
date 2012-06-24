@@ -53,7 +53,7 @@ public class PlatMap {
 		naturalPlats = 0;
 		
 		// assume everything is natural
-		context = new ContextNature(generator.getPlugin(), generator, this);
+		context = new ContextNature(generator, this);
 		context.populateMap(generator, this);
 		
 		// place and validate the roads
@@ -66,30 +66,29 @@ public class PlatMap {
 	}
 
 	private ContextData getContext() {
-		CityWorld plugin = generator.getPlugin();
 		
 		// how natural is this platmap?
 		if (naturalPlats == 0) {
 //			if (typicalChunk.random.nextDouble() > oddsOfCentralPark)
-//				return new ContextCentralPark(plugin, generator, this);
+//				return new ContextCentralPark(generator, this);
 //			else
-				return new ContextHighrise(plugin, generator, this);
+				return new ContextHighrise(generator, this);
 		} else if (naturalPlats < 15)
-			return new ContextUnconstruction(plugin, generator, this);
+			return new ContextUnconstruction(generator, this);
 		else if (naturalPlats < 25)
-			return new ContextMidrise(plugin, generator, this);
+			return new ContextMidrise(generator, this);
 		else if (naturalPlats < 40)
-			return new ContextCityCenter(plugin, generator, this);
+			return new ContextCityCenter(generator, this);
 		else if (naturalPlats < 55)
-			return new ContextMall(plugin, generator, this);
+			return new ContextMall(generator, this);
 		else if (naturalPlats < 70)
-			return new ContextLowrise(plugin, generator, this);
+			return new ContextLowrise(generator, this);
 		else if (naturalPlats < 85)
-			return new ContextNeighborhood(plugin, generator, this);
+			return new ContextNeighborhood(generator, this);
 		else if (naturalPlats < 95)
-			return new ContextFarm(plugin, generator, this);
+			return new ContextFarm(generator, this);
 		else if (naturalPlats < 100)
-			return new ContextNeighborhood(plugin, generator, this);
+			return new ContextNeighborhood(generator, this);
 		
 		// otherwise just keep what we have
 		else
@@ -118,7 +117,7 @@ public class PlatMap {
 		if (platlot != null) {
 
 			// do what we came here for
-			platlot.generateActualChunk(generator, this, chunk, biomes, context, platX, platZ);
+			platlot.generateChunk(generator, this, chunk, biomes, context, platX, platZ);
 		}
 	}
 	
@@ -131,7 +130,7 @@ public class PlatMap {
 		if (platlot != null) {
 
 			// do what we came here for
-			platlot.generateActualBlocks(generator, this, chunk, context, platX, platZ);
+			platlot.generateBlocks(generator, this, chunk, context, platX, platZ);
 		}
 	}
 	

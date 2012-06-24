@@ -29,19 +29,19 @@ public class PlatNature extends PlatIsolated {
 	}
 
 	@Override
-	protected void generateRandomness() {
+	protected void generateActualRandomness() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
+	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
 		
 		// compute offset to start of chunk
 		int blockX = chunk.chunkX * chunk.width;
