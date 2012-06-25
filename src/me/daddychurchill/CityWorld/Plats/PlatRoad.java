@@ -40,9 +40,10 @@ public class PlatRoad extends PlatConnected {
 	private final static byte sewerFloorId = (byte) Material.COBBLESTONE.getId();
 	private final static byte sewerWallId = (byte) sewerWallMaterial.getId();
 	private final static byte sewerCeilingId = sewerFloorId;
-	private final static byte sewerPlankId = (byte) Material.STEP.getId(); //TODO should be Material.WOODSTEP (or whatever it is called)
 	private final static byte pavementId = (byte) Material.STONE.getId();
 	private final static byte sidewalkId = (byte) Material.STEP.getId();
+	private final static byte sewerPlankId = (byte) Material.STEP.getId(); //TODO should be Material.WOODSTEP (or whatever it is called)
+	private final static byte sewerPlankData = 2;
 	
 	private final static byte retainingWallId = (byte) Material.SMOOTH_BRICK.getId();
 	private final static byte retainingFenceId = (byte) Material.IRON_FENCE.getId();
@@ -473,37 +474,22 @@ public class PlatRoad extends PlatConnected {
 				chunk.setBlocks(14, 15, base2Y - 1, base2Y, 10, 14, sewerCeilingId);
 			}
 			
-			// we might put down a plank... or maybe not...
-			boolean placedPlank = false;
-			
 			// show the center center
 			if (centerNorth) {
 				chunk.setBlocks(4, 12, sewerY, base2Y - 1, 4, 5, sewerWallId);
 				chunk.setBlocks(3, 13, base2Y - 1, base2Y, 3, 6, sewerCeilingId);
-			} else if (!placedPlank && roads.toNorth() && chunk.random.nextBoolean()) {
-				placedPlank = true;
-				chunk.setBlocks(6, 10, sewerY, 5, 6, sewerPlankId);
 			}
 			if (centerSouth) {
 				chunk.setBlocks(4, 12, sewerY, base2Y - 1, 11, 12, sewerWallId);
 				chunk.setBlocks(3, 13, base2Y - 1, base2Y, 10, 13, sewerCeilingId);
-			} else if (!placedPlank && roads.toSouth() && chunk.random.nextBoolean()) {
-				placedPlank = true;
-				chunk.setBlocks(6, 10, sewerY, 10, 11, sewerPlankId);
 			} 
 			if (centerWest) {
 				chunk.setBlocks(4, 5, sewerY, base2Y - 1, 4, 12, sewerWallId);
 				chunk.setBlocks(3, 6, base2Y - 1, base2Y, 3, 13, sewerCeilingId);
-			} else if (!placedPlank && roads.toWest() && chunk.random.nextBoolean()) {
-				placedPlank = true;
-				chunk.setBlocks(5, 6, sewerY, 6, 10, sewerPlankId);
 			}
 			if (centerEast) {
 				chunk.setBlocks(11, 12, sewerY, base2Y - 1, 4, 12, sewerWallId);
 				chunk.setBlocks(10, 13, base2Y - 1, base2Y, 3, 13, sewerCeilingId);
-			} else if (!placedPlank && roads.toEast() && chunk.random.nextBoolean()) {
-				placedPlank = true;
-				chunk.setBlocks(10, 11, sewerY, 6, 10, sewerPlankId);
 			}
 			
 			// ceiling please
@@ -854,26 +840,41 @@ public class PlatRoad extends PlatConnected {
 				generateDoor(chunk, 11, sewerY, 14, Direction.Door.WESTBYSOUTHWEST);
 			}
 			
+			// we might put down a plank... or maybe not...
+			boolean placedPlank = false;
+			
 			// fancy up the center walls?
 			if (centerNorth) {
 				generateDoor(chunk, 10, sewerY, 4, Direction.Door.NORTHBYNORTHEAST);
 				chunk.setStoneSlab(7, sewerY, 4, Direction.StoneSlab.COBBLESTONEFLIP);
 				chunk.setStoneSlab(8, sewerY, 4, Direction.StoneSlab.COBBLESTONEFLIP);
+			} else if (!placedPlank && roads.toNorth() && chunk.random.nextBoolean()) {
+				placedPlank = true;
+				chunk.setBlocks(6, 10, sewerY, 5, 6, sewerPlankId, sewerPlankData);
 			}
 			if (centerSouth) {
 				generateDoor(chunk, 5, sewerY, 11, Direction.Door.SOUTHBYSOUTHWEST);
 				chunk.setStoneSlab(7, sewerY, 11, Direction.StoneSlab.COBBLESTONEFLIP);
 				chunk.setStoneSlab(8, sewerY, 11, Direction.StoneSlab.COBBLESTONEFLIP);
-			}
+			} else if (!placedPlank && roads.toSouth() && chunk.random.nextBoolean()) {
+				placedPlank = true;
+				chunk.setBlocks(6, 10, sewerY, 10, 11, sewerPlankId, sewerPlankData);
+			} 
 			if (centerWest) {
 				generateDoor(chunk, 4, sewerY, 5, Direction.Door.WESTBYNORTHWEST);
 				chunk.setStoneSlab(4, sewerY, 7, Direction.StoneSlab.COBBLESTONEFLIP);
 				chunk.setStoneSlab(4, sewerY, 8, Direction.StoneSlab.COBBLESTONEFLIP);
+			} else if (!placedPlank && roads.toWest() && chunk.random.nextBoolean()) {
+				placedPlank = true;
+				chunk.setBlocks(5, 6, sewerY, 6, 10, sewerPlankId, sewerPlankData);
 			}
 			if (centerEast) { 
 				generateDoor(chunk, 11, sewerY, 10, Direction.Door.EASTBYSOUTHEAST);
 				chunk.setStoneSlab(11, sewerY, 7, Direction.StoneSlab.COBBLESTONEFLIP);
 				chunk.setStoneSlab(11, sewerY, 8, Direction.StoneSlab.COBBLESTONEFLIP);
+			} else if (!placedPlank && roads.toEast() && chunk.random.nextBoolean()) {
+				placedPlank = true;
+				chunk.setBlocks(10, 11, sewerY, 6, 10, sewerPlankId, sewerPlankData);
 			}
 			
 			// populate the vaults

@@ -384,8 +384,48 @@ public class RealChunk extends SupportChunk {
 	}
 	
 	private void setDoor(int x, int y, int z, int doorId, Direction.Door direction) {
-		chunk.getBlock(x, y + 1, z).setTypeIdAndData(doorId, (byte) 8, false);
-		chunk.getBlock(x, y    , z).setTypeIdAndData(doorId, direction.getData(), doPhysics);
+		byte orentation = 0;
+		byte hinge = 0;
+		
+		// orientation
+		switch (direction) {
+		case NORTHBYNORTHEAST:
+		case NORTHBYNORTHWEST:
+			orentation = 1;
+			break;
+		case SOUTHBYSOUTHEAST:
+		case SOUTHBYSOUTHWEST:
+			orentation = 3;
+			break;
+		case WESTBYNORTHWEST:
+		case WESTBYSOUTHWEST:
+			orentation = 0;
+			break;
+		case EASTBYNORTHEAST:
+		case EASTBYSOUTHEAST:
+			orentation = 2;
+			break;
+		}
+		
+		// hinge?
+		switch (direction) {
+		case SOUTHBYSOUTHEAST:
+		case NORTHBYNORTHWEST:
+		case WESTBYSOUTHWEST:
+		case EASTBYNORTHEAST:
+			hinge = 8 + 0;
+			break;
+		case NORTHBYNORTHEAST:
+		case SOUTHBYSOUTHWEST:
+		case WESTBYNORTHWEST:
+		case EASTBYSOUTHEAST:
+			hinge = 8 + 1;
+			break;
+		}
+		
+		// set the door
+		chunk.getBlock(x, y + 1, z).setTypeIdAndData(doorId, hinge, false);
+		chunk.getBlock(x, y    , z).setTypeIdAndData(doorId, orentation, doPhysics);
 	}
 
 	public void setWoodenDoor(int x, int y, int z, Direction.Door direction) {
