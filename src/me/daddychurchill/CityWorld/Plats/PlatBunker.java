@@ -14,7 +14,7 @@ import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
-public class PlatBunker extends PlatNature {
+public class PlatBunker extends PlatIsolated {
 
 	private final static int FloorHeight = ContextData.FloorHeight;
 	
@@ -457,8 +457,8 @@ public class PlatBunker extends PlatNature {
 			break;
 		}
 		
-		// a mining we go
-		generateMines(generator, chunk, context);
+		// add some surface
+		generateSurface(generator, platmap, chunk, context, platX, platZ, true);
 	}
 
 	private final static Material springMat = Material.SMOOTH_STAIRS;

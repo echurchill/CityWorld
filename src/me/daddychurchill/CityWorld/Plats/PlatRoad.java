@@ -745,6 +745,9 @@ public class PlatRoad extends PlatConnected {
 					chunk.setBlock(7, sidewalkLevel + 7, 12, context.lightMat, true);
 				}
 				
+				// add nature on top
+				generateSurface(generator, platmap, chunk, context, platX, platZ, true);
+				
 			// stuff that only can happen outside of tunnels and bridges
 			} else {
 				

@@ -2,11 +2,11 @@ package me.daddychurchill.CityWorld.Plats;
 
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
-
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Direction.Door;
 import me.daddychurchill.CityWorld.Support.Direction.Torch;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -41,11 +41,12 @@ public class PlatTower extends PlatIsolated {
 		int platformOffset = platformWidth / 2;
 		int originX = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, maxHeightX));
 		int originZ = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, maxHeightZ));
+		int platformY = maxHeight + 2;
 		
 		// base
 		for (int x = originX + 1; x < originX + platformWidth - 1; x++) {
 			for (int z = originZ + 1; z < originZ + platformWidth - 1; z++) {
-				for (int y = maxHeight - 1; y > minHeight; y--) {
+				for (int y = platformY - 2; y > minHeight; y--) {
 					if (!chunk.setEmptyBlock(x, y, z, supportId)) {
 						chunk.setBlocks(x, y - 3, y + 1, z, supportId);
 						break;
@@ -53,14 +54,24 @@ public class PlatTower extends PlatIsolated {
 				}
 			}
 		}
-//		chunk.setBlocks(originX + 1, originX + platformWidth - 1, minHeight, maxHeight, originZ + 1, originZ + platformWidth - 1, supportId);
 		
 		// top it off
-		chunk.setBlocks(originX, originX + platformWidth, maxHeight, maxHeight + 1, originZ, originZ + platformWidth, platformId);
+		chunk.setBlocks(originX, originX + platformWidth, platformY - 1, originZ, originZ + platformWidth, platformId);
+		
+		// base
+		if (minHeight > generator.evergreenLevel) {
+			for (int x = originX; x < originX + platformWidth; x++) {
+				for (int z = originZ; z < originZ + platformWidth; z++) {
+					if (chunkRandom.nextDouble() > 0.40)
+						chunk.setBlock(x, platformY, z, snowMaterial);
+				}
+			}
+		}
 		
 		// building
-		chunk.setWalls(originX + 2, originX + platformWidth - 2, maxHeight + 1, maxHeight + 3, originZ + 2, originZ + platformWidth - 2, wallId);
-		chunk.setBlocks(originX + 2, originX + platformWidth - 2, maxHeight + 3, maxHeight + 4, originZ + 2, originZ + platformWidth - 2, roofId);
+		chunk.setBlocks(originX + 2, originX + platformWidth - 2, platformY, platformY + 2, originZ + 2, originZ + platformWidth - 2, wallId);
+		chunk.setBlocks(originX + 3, originX + platformWidth - 4, platformY, platformY + 2, originZ + 3, originZ + platformWidth - 4, airId);
+		chunk.setBlocks(originX + 2, originX + platformWidth - 2, platformY + 2, platformY + 3, originZ + 2, originZ + platformWidth - 2, roofId);
 	}
 	
 	@Override
@@ -70,15 +81,27 @@ public class PlatTower extends PlatIsolated {
 		int platformOffset = platformWidth / 2;
 		int originX = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, maxHeightX));
 		int originZ = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, maxHeightZ));
+		int platformY = maxHeight + 2;
+		
+		// place snow
+		generateSurface(generator, platmap, chunk, context, platX, platZ, false);
 		
 		// place a door
-		chunk.setWoodenDoor(originX + 2, maxHeight + 1, originZ + 3, Door.WESTBYNORTHWEST);
+		chunk.setWoodenDoor(originX + 2, platformY, originZ + 3, Door.WESTBYNORTHWEST);
+		
+		// place the ladder
+		int ladderBase = platformY - 2;
+		while (chunk.isEmpty(originX, ladderBase, originZ + 4)) {
+			ladderBase--;
+		}
+		chunk.setLadder(originX, ladderBase, platformY, originZ + 4, Direction.Ladder.WEST);
+		chunk.setBlock(originX, platformY, originZ + 4, airMaterial);
 		
 		// place antennas
-		generateAntenna(chunk, context, originX + 1, maxHeight + 1, originZ + 1, false);
-		generateAntenna(chunk, context, originX + 1, maxHeight + 1, originZ + platformWidth - 2, false);
-		generateAntenna(chunk, context, originX + platformWidth - 2, maxHeight + 1, originZ + 1, false);
-		generateAntenna(chunk, context, originX + platformWidth - 2, maxHeight + 1, originZ + platformWidth - 2, true);
+		generateAntenna(chunk, context, originX + 1, platformY, originZ + 1, false);
+		generateAntenna(chunk, context, originX + 1, platformY, originZ + platformWidth - 2, false);
+		generateAntenna(chunk, context, originX + platformWidth - 2, platformY, originZ + 1, false);
+		generateAntenna(chunk, context, originX + platformWidth - 2, platformY, originZ + platformWidth - 2, true);
 	}
 	
 	private void generateAntenna(RealChunk chunk, ContextData context, int x, int y, int z, boolean lastChance) {
