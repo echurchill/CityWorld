@@ -344,7 +344,7 @@ public abstract class PlatBuilding extends PlatConnected {
 			if (!heights.toSouth())
 				byteChunk.setBlocks(insetNS + 1, byteChunk.width - insetNS - 1, y1, y2, byteChunk.width - insetEW - 1, byteChunk.width - insetEW, materialId, glassId, windowsEW);
 			
-			// interior walls
+//			// interior walls
 //			if (!heights.toWest()) {
 //				byteChunk.setBlocks(insetNS,  insetNS + 1, y1, y2, insetEW + 1, byteChunk.width - insetEW - 1, materialId, glassId, windowsNS);
 //			}

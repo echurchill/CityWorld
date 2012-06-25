@@ -432,7 +432,7 @@ public class PlatRoad extends PlatConnected {
 			}
 			
 			// figure out the center
-			if (!(vaultNorthWest && vaultNorthEast && vaultSouthWest && vaultSouthWest)) {
+			if (!(vaultNorthWest && vaultNorthEast && vaultSouthWest && vaultSouthEast)) {
 				centerNorth = sewerCenterBit || (vaultNorthWest && vaultNorthEast);
 				centerSouth = sewerCenterBit || (vaultSouthWest && vaultSouthEast);
 				centerWest = sewerCenterBit || (vaultNorthWest && vaultSouthWest);
@@ -811,7 +811,7 @@ public class PlatRoad extends PlatConnected {
 			}
 			
 			// figure out the center
-			if (!(vaultNorthWest && vaultNorthEast && vaultSouthWest && vaultSouthWest)) {
+			if (!(vaultNorthWest && vaultNorthEast && vaultSouthWest && vaultSouthEast)) {
 				centerNorth = sewerCenterBit || (vaultNorthWest && vaultNorthEast);
 				centerSouth = sewerCenterBit || (vaultSouthWest && vaultSouthEast);
 				centerWest = sewerCenterBit || (vaultNorthWest && vaultSouthWest);

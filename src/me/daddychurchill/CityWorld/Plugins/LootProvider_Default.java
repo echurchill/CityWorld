@@ -16,10 +16,10 @@ public class LootProvider_Default extends LootProvider {
 		Random random = generator.getStashRandomGenerator();
 
 		// which mix?
-		if (name == chestInSewers)
+		if (name.equals(chestInSewers))
 			return createTreasures(random, Material.IRON_SPADE, Material.COAL, 5, 2);
 			
-		else if (name == chestInMines)
+		else if (name.equals(chestInMines))
 			return createTreasures(random, Material.FLINT, Material.ROTTEN_FLESH, 5, 1);
 			
 		else //if (name == chestInBunkers) {

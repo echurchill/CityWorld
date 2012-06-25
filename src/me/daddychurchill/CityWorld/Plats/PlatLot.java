@@ -33,7 +33,6 @@ public abstract class PlatLot {
 	
 	protected Random platmapRandom;
 	protected Random chunkRandom;
-	protected boolean initialized;
 	
 	// styling!
 	public enum LotStyle {NATURE, STRUCTURE, ROAD, ROUNDABOUT};
@@ -297,7 +296,8 @@ public abstract class PlatLot {
 	
 	private void generateSupport(ByteChunk chunk, int x, int y, int z) {
 		int aboveSupport = chunk.findLastEmptyAbove(x, y, z);
-		chunk.setBlocks(x, y + 1, aboveSupport + 1, z, shaftSupportId);
+		if (aboveSupport < maxHeight)
+			chunk.setBlocks(x, y + 1, aboveSupport + 1, z, shaftSupportId);
 	}
 	
 	protected void precomputeExtremes(WorldGenerator generator, SupportChunk chunk) {
@@ -476,7 +476,8 @@ public abstract class PlatLot {
 	
 	private void generateSupport(RealChunk chunk, int x, int y, int z) {
 		int aboveSupport = chunk.findLastEmptyAbove(x, y, z);
-		chunk.setBlocks(x, y + 1, aboveSupport + 1, z, Material.FENCE);
+		if (aboveSupport < maxHeight)
+			chunk.setBlocks(x, y + 1, aboveSupport + 1, z, Material.FENCE);
 	}
 	private void placeStairBase(RealChunk chunk, int x, int y, int z) {
 		chunk.setBlocks(x, y + 1, y + 4, z, Material.AIR);

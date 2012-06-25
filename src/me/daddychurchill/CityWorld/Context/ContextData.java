@@ -50,9 +50,9 @@ public abstract class ContextData {
 	public double oddsOfTreasureInSewers = 0.50;
 	public double oddsOfTreasureInMines = 0.50;
 	public double oddsOfTreasureInBunkers = 0.50;
-	public double oddsOfSpawnerInSewers = 0.50;
-	public double oddsOfSpawnerInMines = 0.50;
-	public double oddsOfSpawnerInBunkers = 0.50;
+	public double oddsOfSpawnerInSewers = 0.20;
+	public double oddsOfSpawnerInMines = 0.20;
+	public double oddsOfSpawnerInBunkers = 0.20;
 	
 	public static final int FloorHeight = 4;
 	public static final int FudgeFloorsBelow = 2;

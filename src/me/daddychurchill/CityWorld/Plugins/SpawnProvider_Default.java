@@ -15,7 +15,7 @@ public class SpawnProvider_Default extends SpawnProvider {
 		//CityWorldSettings settings = generator.getSettings();
 		Random random = generator.getStashRandomGenerator();
 
-		if (name == spawnerInSewers) {
+		if (name.equals(spawnerInSewers)) {
 			switch (random.nextInt(4)) {
 			case 1:
 				return EntityType.CREEPER;
@@ -26,7 +26,7 @@ public class SpawnProvider_Default extends SpawnProvider {
 			default:
 				return EntityType.ZOMBIE;
 			}
-		} else if (name == spawnerInMines) {
+		} else if (name.equals(spawnerInMines)) {
 			switch (random.nextInt(4)) {
 			case 1:
 				return EntityType.SKELETON;
@@ -37,7 +37,7 @@ public class SpawnProvider_Default extends SpawnProvider {
 			default:
 				return EntityType.ZOMBIE;
 			}
-		} else if (name == spawnerInBunkers) {
+		} else if (name.equals(spawnerInBunkers)) {
 			switch (random.nextInt(3)) {
 			case 1:
 				return EntityType.ENDERMAN;
