@@ -67,12 +67,6 @@ public class PlatFarm extends PlatConnected {
 	private final static Material cropGrass = Material.LONG_GRASS;
 	
 	@Override
-	protected void generateActualRandomness() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		// TODO Auto-generated method stub
 		

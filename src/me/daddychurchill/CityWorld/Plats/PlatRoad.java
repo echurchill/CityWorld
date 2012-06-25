@@ -83,16 +83,14 @@ public class PlatRoad extends PlatConnected {
 	private boolean sewerSouthEastBias;
 
 	@Override
-	protected void generateActualRandomness() {
+	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+		
+		// random bits
 		sewerCenterBit = chunkRandom.nextBoolean();
 		sewerNorthWestBias = chunkRandom.nextBoolean();
 		sewerNorthEastBias = chunkRandom.nextBoolean();
 		sewerSouthWestBias = chunkRandom.nextBoolean();
 		sewerSouthEastBias = chunkRandom.nextBoolean();
-	}
-	
-	@Override
-	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		
 		// compute offset to start of chunk
 		int originX = chunk.getOriginX();
@@ -348,8 +346,6 @@ public class PlatRoad extends PlatConnected {
 		
 		// sewer or not?
 		if (doSewer) {
-			
-//			chunk.setLayer(base2Y, sidewalkLevel - base2Y, airId);
 			
 			// empty out the sewer
 			chunk.setLayer(base1Y, base2Y - base1Y, airId);
@@ -702,6 +698,13 @@ public class PlatRoad extends PlatConnected {
 	@Override
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
 
+		// random bits
+		sewerCenterBit = chunkRandom.nextBoolean();
+		sewerNorthWestBias = chunkRandom.nextBoolean();
+		sewerNorthEastBias = chunkRandom.nextBoolean();
+		sewerSouthWestBias = chunkRandom.nextBoolean();
+		sewerSouthEastBias = chunkRandom.nextBoolean();
+		
 		// compute offset to start of chunk
 		int originX = chunk.getOriginX();
 		int originZ = chunk.getOriginZ();
@@ -798,7 +801,7 @@ public class PlatRoad extends PlatConnected {
 			
 			// make sure there is a way down
 			if (roads.toNorth() && roads.toWest()) {
-				vaultNorthEast = true;
+				vaultNorthWest = true;
 				
 				// place the manhole
 				chunk.setTrapDoor(3, sidewalkLevel, 2, TrapDoor.WEST);
@@ -1012,7 +1015,7 @@ public class PlatRoad extends PlatConnected {
 		
 		// cool stuff?
 		if (settings.isTreasuresInSewers() && chunkRandom.nextDouble() <= context.oddsOfTreasureInSewers) {
-			 chunk.setChest(x, y, z, Direction.Chest.NORTH, generator.getLootProvider().getItems(generator, LootProvider.chestInSewer));
+			 chunk.setChest(x, y, z, Direction.Chest.NORTH, generator.getLootProvider().getItems(generator, LootProvider.chestInSewers));
 		}
 	}
 
@@ -1021,7 +1024,7 @@ public class PlatRoad extends PlatConnected {
 		
 		// not so cool stuff?
 		if (settings.isSpawnersInSewers() && chunkRandom.nextDouble() <= context.oddsOfSpawnerInSewers) {
-			chunk.setSpawner(x, y, z, generator.getSpawnProvider().getEntity(generator, SpawnProvider.spawnerInSewer));
+			chunk.setSpawner(x, y, z, generator.getSpawnProvider().getEntity(generator, SpawnProvider.spawnerInSewers));
 		}
 	}
 }

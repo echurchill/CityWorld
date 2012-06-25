@@ -35,12 +35,6 @@ public class PlatTower extends PlatIsolated {
 	private final static Material capTinyMat = Material.STEP;
 	
 	@Override
-	protected void generateActualRandomness() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		
 		// compute offset to start of chunk

@@ -92,14 +92,14 @@ public class SupportChunk {
 		switch (random.nextInt(max)) {
 		default:                     // 67--99   
 		case 1:
-		case 2: return coalId;
-		case 3:
+		case 2: 
+		case 3: return coalId;
 		case 4:
 		case 5:                      // 33--128
 		case 6: return ironId;
-		case 7: return goldId;       // 31--136
-		case 8: return lapisId;      // 17--191
-		case 9:
+		case 7:
+		case 8: return goldId;       // 31--136
+		case 9: return lapisId;      // 17--191
 		case 10:                     // 15--199
 		case 11: return redstoneId;
 		case 12: return diamondId;   //  0--255

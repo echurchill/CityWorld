@@ -8,9 +8,9 @@ public abstract class SpawnProvider {
 
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	
-	public final static String spawnerInSewer = "CityWorld_Spawner_Sewer";
-	public final static String spawnerInMine = "CityWorld_Spawner_Mine";
-	public final static String spawnerInBunker = "CityWorld_Spawner_Bunker";
+	public final static String spawnerInSewers = "CityWorld_Spawner_Sewer";
+	public final static String spawnerInMines = "CityWorld_Spawner_Mine";
+	public final static String spawnerInBunkers = "CityWorld_Spawner_Bunker";
 	
 	protected SpawnProvider() {
 		// who's your daddy?

@@ -9,6 +9,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -40,7 +41,6 @@ public abstract class PlatLot {
 		initializeDice(platmap, chunkX, chunkZ);
 		
 		style = LotStyle.NATURE;
-		
 	}
 	
 	protected final static byte airId = (byte) Material.AIR.getId();
@@ -61,7 +61,6 @@ public abstract class PlatLot {
 	public abstract boolean isConnectable(PlatLot relative);
 	public abstract boolean isConnected(PlatLot relative);
 	
-	protected abstract void generateActualRandomness();
 	protected abstract void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ);
 	protected abstract void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ);
 
@@ -76,20 +75,8 @@ public abstract class PlatLot {
 		chunkRandom = platmap.getChunkRandomGenerator(chunkX, chunkZ);
 	}
 	
-	private void initializeBits(PlatMap platmap, SupportChunk chunk) {
-		
-		// reset and pick up the dice
-		initializeDice(platmap, chunk.chunkX, chunk.chunkZ);
-		
-		if (!initialized) {
-			generateActualRandomness();
-			
-			initialized = true;
-		}
-	}
-	
 	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
-		initializeBits(platmap, chunk);
+		initializeDice(platmap, chunk.chunkX, chunk.chunkZ);
 		
 		// let there be dirt!
 		generateCrust(generator, platmap, chunk, biomes, context, platX, platZ);
@@ -103,7 +90,7 @@ public abstract class PlatLot {
 	}
 		
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
-		initializeBits(platmap, chunk);
+		initializeDice(platmap, chunk.chunkX, chunk.chunkZ);
 		
 		// let the specialized platlot do it's thing
 		generateActualBlocks(generator, platmap, chunk, context, platX, platZ);
@@ -430,6 +417,33 @@ public abstract class PlatLot {
 				
 				generateSupport(chunk, 7, y1 + 7, 6);
 				generateSupport(chunk, 7, y1 + 7, 9);
+			}
+		}
+		
+		// make the ceiling pretty
+		boolean pathFound = false;
+		if (generator.getHorizontalNSShaft(chunk.chunkX, y, chunk.chunkZ)) {
+			generateShaftSpace(chunk, 6, 10, y1 + 3, 0, 6);
+			generateShaftSpace(chunk, 6, 10, y1 + 3, 10, 16);
+			pathFound = true;
+		}
+		if (generator.getHorizontalWEShaft(chunk.chunkX, y, chunk.chunkZ)) {
+			generateShaftSpace(chunk, 0, 6, y1 + 3, 6, 10);
+			generateShaftSpace(chunk, 10, 16, y1 + 3, 6, 10);
+			pathFound = true;
+		}
+		
+		// draw the center bit
+		if (pathFound)
+			generateShaftSpace(chunk, 6, 10, y1 + 3, 6, 10);
+	}
+	
+	private void generateShaftSpace(RealChunk chunk, int x1, int x2, int y, int z1, int z2) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				if (chunkRandom.nextBoolean())
+					if (!chunk.isEmpty(x, y + 1, z) && chunk.isEmpty(x, y, z))
+						chunk.setStoneSlab(x, y, z, Direction.StoneSlab.COBBLESTONEFLIP);
 			}
 		}
 	}

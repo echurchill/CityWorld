@@ -8,9 +8,9 @@ public abstract class LootProvider {
 
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	
-	public final static String chestInSewer = "CityWorld_Chest_Sewer";
-	public final static String chestInMine = "CityWorld_Chest_Mine";
-	public final static String chestInBunker = "CityWorld_Chest_Bunker";
+	public final static String chestInSewers = "CityWorld_Chest_Sewer";
+	public final static String chestInMines = "CityWorld_Chest_Mine";
+	public final static String chestInBunkers = "CityWorld_Chest_Bunker";
 	
 	protected LootProvider() {
 		// who's your daddy?

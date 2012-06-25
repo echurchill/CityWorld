@@ -35,13 +35,9 @@ public class PlatStatue extends PlatIsolated {
 	}
 
 	@Override
-	protected void generateActualRandomness() {
+	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		// what is it build on?
 		statueBase = randomBase(chunkRandom);
-	}
-
-	@Override
-	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 
 		// where to start?
 		int y1 = context.streetLevel + 1;
@@ -97,6 +93,8 @@ public class PlatStatue extends PlatIsolated {
 	
 	@Override
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
+		// what is it build on?
+		statueBase = randomBase(chunkRandom);
 		
 		// something got stolen?
 		boolean somethingInTheCenter = chunkRandom.nextInt(context.oddsOfMissingArt) != 0;

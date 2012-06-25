@@ -1,4 +1,4 @@
-/***** CITYWORLD v0.80
+/***** CITYWORLD v1.00
 * City world generator for Minecraft/Bukkit
 * Copyright (C) 2011-2012 daddychurchill <http://www.virtualchurchill.com>
 *
@@ -20,6 +20,14 @@ Add command to level a city block
 Subway/elevated rail roads
 Terrain under the city
 Park benches and other furniture
+
+v1.00
+* Treats and Tricks in the Bunkers and Mineshafts
+* Reworked the sewers... you can now get seriously lost down there 
+
+v0.90
+* Bunkers and Mineshafts
+* Reworked the settings, you will need to wipe out your old CityWorld settings
 
 v0.80
 * Include working terrain generation

@@ -67,12 +67,6 @@ public class PlatPark extends PlatConnected {
 	}
 
 	@Override
-	protected void generateActualRandomness() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 
 		// look around

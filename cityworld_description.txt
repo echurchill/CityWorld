@@ -1,12 +1,20 @@
 == **CityWorld** ==
 The great outdoors is all good and fine but sometimes you just want to go to town. Not any town will do, how about one that goes on forever. The Big Apple has nothing on this world generator. :-)
 
-===== //Version 0.80// ===== 
+===== //Version 1.00// ===== 
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, if the above version isn't available check back in an hour or so)//,,
 
 {{http://dev.bukkit.org/media/images/36/712/BeautyShot.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
+
+v1.00
+* Treats and Tricks in the Bunkers and Mineshafts
+* Reworked the sewers... you can now get seriously lost down there 
+
+v0.90
+* Bunkers and Mineshafts
+* Reworked the settings, you will need to wipe out your old CityWorld settings
 
 v0.80
 * Include working terrain generation

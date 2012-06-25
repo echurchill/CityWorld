@@ -117,11 +117,11 @@ public class WorldGenerator extends ChunkGenerator {
 
 	public double caveScale = 1.0 / 64.0;
 	public double caveScaleY = caveScale * 2;
-	public double caveThreshold = 0.70;
+	public double caveThreshold = 0.75; //was 70
 
 	public double oreScale = 1.0 / 16.0;
 	public double oreScaleY = oreScale * 2;
-	public double oreThreshold = 0.85;
+	public double oreThreshold = 0.90; //was 85
 
 	public double mineScale = 1.0 / 4.0;
 	public double mineScaleY = mineScale;

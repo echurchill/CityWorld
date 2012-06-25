@@ -71,12 +71,6 @@ public abstract class PlatBuilding extends PlatConnected {
 	}
 
 	@Override
-	protected void generateActualRandomness() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	protected boolean isShaftableLevel(WorldGenerator generator, ContextData context, int y) {
 		return y >= 0 && y < context.streetLevel - ContextData.FloorHeight * depth - 2 - 16;	
 	}

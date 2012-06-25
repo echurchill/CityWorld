@@ -11,33 +11,35 @@ public class LootProvider_Default extends LootProvider {
 
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	
-	private final static int minTreasureId = Material.IRON_SPADE.getId();
-	private final static int maxTreasureId = Material.ROTTEN_FLESH.getId();
-	private final static int countTreasureIds = maxTreasureId - minTreasureId;
-	private final static int maxTreasureCount = 5;
-
 	@Override
 	public ItemStack[] getItems(WorldGenerator generator, String name) {
-		//CityWorldSettings settings = generator.getSettings();
 		Random random = generator.getStashRandomGenerator();
 
-		// how many items are we talking about?
-		int treasureCount = random.nextInt(maxTreasureCount) + 1;
-		ItemStack[] items = new ItemStack[treasureCount];
-		
 		// which mix?
-		if (name == chestInSewer) {
+		if (name == chestInSewers)
+			return createTreasures(random, Material.IRON_SPADE, Material.COAL, 5, 2);
 			
-			// fabricate the SewerVault treasures
-			for (int i = 0; i < treasureCount; i++) {
-				items[i] = new ItemStack(random.nextInt(countTreasureIds) + minTreasureId, random.nextInt(2) + 1);
-			}
+		else if (name == chestInMines)
+			return createTreasures(random, Material.FLINT, Material.ROTTEN_FLESH, 5, 1);
 			
-		} else if (name == chestInMine) {
-			
-		} else if (name == chestInBunker) {
-			
-		}
+		else //if (name == chestInBunkers) {
+			return createTreasures(random, Material.IRON_SPADE, Material.GOLD_BOOTS, 2, 1);
+	}
+	
+	private ItemStack[] createTreasures(Random random, Material minTreasure, Material maxTreasure, int maxCount, int maxStack) {
+		int minId = minTreasure.getId();
+		int maxId = maxTreasure.getId();
+		int range = maxId - minId;
+		int count = random.nextInt(maxCount) + 1;
+		
+		// make room
+		ItemStack[] items = new ItemStack[count];
+		
+		// populate
+		for (int i = 0; i < count; i++)
+			items[i] = new ItemStack(random.nextInt(range) + minId, random.nextInt(maxStack) + 1);
+		
+		// all done
 		return items;
 	}
 }

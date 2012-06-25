@@ -18,12 +18,6 @@ public class PlatShack extends PlatIsolated {
 		style = LotStyle.NATURE;
 	}
 	
-	@Override
-	protected void generateActualRandomness() {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	private final static byte retainingWallId = (byte) Material.SMOOTH_BRICK.getId();
 	private final static byte fillId = (byte) Material.DIRT.getId();
 	private final static byte surfaceId = (byte) Material.GRASS.getId();

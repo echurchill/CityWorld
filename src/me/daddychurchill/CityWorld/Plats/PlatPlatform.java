@@ -28,12 +28,6 @@ public class PlatPlatform extends PlatIsolated {
 	private final static int aboveSea = 6;
 
 	@Override
-	protected void generateActualRandomness() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		
 //		CityWorld.log.info("Platform @ " + (chunk.chunkX * chunk.width) + ", " + (chunk.chunkZ * chunk.width));
