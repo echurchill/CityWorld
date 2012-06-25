@@ -10,8 +10,9 @@ import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
 import me.daddychurchill.CityWorld.Support.Direction.Torch;
 import me.daddychurchill.CityWorld.Support.MaterialFactory;
-import me.daddychurchill.CityWorld.Support.GlassFactoryEW;
-import me.daddychurchill.CityWorld.Support.GlassFactoryNS;
+import me.daddychurchill.CityWorld.Support.OutsideWEWallFactory;
+import me.daddychurchill.CityWorld.Support.OutsideNSWallFactory;
+import me.daddychurchill.CityWorld.Support.InteriorWallFactory;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
 import me.daddychurchill.CityWorld.Support.Direction.Door;
@@ -30,6 +31,7 @@ public abstract class PlatBuilding extends PlatConnected {
 	protected boolean rounded; // rounded corners if possible? (only if the insets match)
 	protected MaterialFactory windowsEW;
 	protected MaterialFactory windowsNS;
+	protected MaterialFactory interiorWalls;
 	protected final static byte airId = (byte) Material.AIR.getId();
 	protected final static byte antennaBaseId = (byte) Material.CLAY.getId();
 	protected final static byte antennaId = (byte) Material.FENCE.getId();
@@ -66,8 +68,9 @@ public abstract class PlatBuilding extends PlatConnected {
 		roofStyle = pickRoofStyle(chunkRandom);
 		roofFeature = pickRoofFeature(chunkRandom);
 		roofScale = chunkRandom.nextInt(2) + 1;
-		windowsEW = new GlassFactoryEW(chunkRandom);
-		windowsNS = new GlassFactoryNS(chunkRandom, windowsEW.style);
+		windowsEW = new OutsideWEWallFactory(chunkRandom);
+		windowsNS = new OutsideNSWallFactory(chunkRandom, windowsEW.style);
+		interiorWalls = new InteriorWallFactory(chunkRandom);
 	}
 
 	@Override
@@ -133,6 +136,7 @@ public abstract class PlatBuilding extends PlatConnected {
 			roofScale = relativebuilding.roofScale;
 			windowsEW = relativebuilding.windowsEW;
 			windowsNS = relativebuilding.windowsNS;
+			interiorWalls = relativebuilding.interiorWalls;
 			
 			// do we need stairs?
 			relativebuilding.needStairsDown = relativebuilding.depth > depth;
@@ -270,29 +274,48 @@ public abstract class PlatBuilding extends PlatConnected {
 			if (glass == Material.THIN_GLASS)
 				glassId = (byte) Material.GLASS.getId();
 			
+			// raised?
+			byte primaryId = materialId;
+			byte secondaryId = glassId;
+			switch (windowsNS.style) {
+			case RANDOM:
+			case SINGLE:
+			case DOUBLE:
+				primaryId = secondaryId;
+				break;
+			}
+			
 			// do the sides
 			if (heights.toSouth()) {
 				if (heights.toWest()) {
-					byteChunk.setArcSouthWest(insetNS, y1, y2, glassId, false);
-					if (!heights.toSouthWest())
-						byteChunk.setBlocks(insetNS, y1, y2, byteChunk.width - insetEW - 1, materialId);
+					byteChunk.setArcSouthWest(insetNS, y1, y2, primaryId, secondaryId, false);
+					if (!heights.toSouthWest()) {
+						byteChunk.setBlock(insetNS, y1, byteChunk.width - insetEW - 1, primaryId);
+						byteChunk.setBlocks(insetNS, y1 + 1, y2, byteChunk.width - insetEW - 1, secondaryId);
+					}
 					stillNeedWalls = false;
 				} else if (heights.toEast()) {
-					byteChunk.setArcSouthEast(insetNS, y1, y2, glassId, false);
-					if (!heights.toSouthEast())
-						byteChunk.setBlocks(byteChunk.width - insetNS - 1, y1, y2, byteChunk.width - insetEW - 1, materialId);
+					byteChunk.setArcSouthEast(insetNS, y1, y2, primaryId, secondaryId, false);
+					if (!heights.toSouthEast()) {
+						byteChunk.setBlock(byteChunk.width - insetNS - 1, y1, byteChunk.width - insetEW - 1, primaryId);
+						byteChunk.setBlocks(byteChunk.width - insetNS - 1, y1 + 1, y2, byteChunk.width - insetEW - 1, secondaryId);
+					}
 					stillNeedWalls = false;
 				}
 			} else if (heights.toNorth()) {
 				if (heights.toWest()) {
-					byteChunk.setArcNorthWest(insetNS, y1, y2, glassId, false);
-					if (!heights.toNorthWest())
-						byteChunk.setBlocks(insetNS, y1, y2, insetEW, materialId);
+					byteChunk.setArcNorthWest(insetNS, y1, y2, primaryId, secondaryId, false);
+					if (!heights.toNorthWest()) {
+						byteChunk.setBlock(insetNS, y1, insetEW, primaryId);
+						byteChunk.setBlocks(insetNS, y1 + 1, y2, insetEW, secondaryId);
+					}
 					stillNeedWalls = false;
 				} else if (heights.toEast()) {
-					byteChunk.setArcNorthEast(insetNS, y1, y2, glassId, false);
-					if (!heights.toNorthEast())
-						byteChunk.setBlocks(byteChunk.width - insetNS - 1, y1, y2, insetEW, materialId);
+					byteChunk.setArcNorthEast(insetNS, y1, y2, primaryId, secondaryId, false);
+					if (!heights.toNorthEast()) {
+						byteChunk.setBlock(byteChunk.width - insetNS - 1, y1, insetEW, primaryId);
+						byteChunk.setBlocks(byteChunk.width - insetNS - 1, y1 + 1, y2, insetEW, secondaryId);
+					}
 					stillNeedWalls = false;
 				}
 			}
@@ -320,6 +343,20 @@ public abstract class PlatBuilding extends PlatConnected {
 				byteChunk.setBlocks(insetNS + 1, byteChunk.width - insetNS - 1, y1, y2, insetEW, insetEW + 1, materialId, glassId, windowsEW);
 			if (!heights.toSouth())
 				byteChunk.setBlocks(insetNS + 1, byteChunk.width - insetNS - 1, y1, y2, byteChunk.width - insetEW - 1, byteChunk.width - insetEW, materialId, glassId, windowsEW);
+			
+			// interior walls
+//			if (!heights.toWest()) {
+//				byteChunk.setBlocks(insetNS,  insetNS + 1, y1, y2, insetEW + 1, byteChunk.width - insetEW - 1, materialId, glassId, windowsNS);
+//			}
+//			if (!heights.toEast()) {
+//				byteChunk.setBlocks(byteChunk.width - insetNS - 1,  byteChunk.width - insetNS, y1, y2, insetEW + 1, byteChunk.width - insetEW - 1, materialId, glassId, windowsNS);
+//			}
+//			if (!heights.toNorth()) {
+//				byteChunk.setBlocks(insetNS + 1, byteChunk.width - insetNS - 1, y1, y2, insetEW, insetEW + 1, materialId, glassId, windowsEW);
+//			}
+//			if (!heights.toSouth()) {
+//				byteChunk.setBlocks(insetNS + 1, byteChunk.width - insetNS - 1, y1, y2, byteChunk.width - insetEW - 1, byteChunk.width - insetEW, materialId, glassId, windowsEW);
+//			}
 		}
 			
 		// only if there are insets

@@ -23,7 +23,7 @@ public class LootProvider_Default extends LootProvider {
 			return createTreasures(random, Material.FLINT, Material.ROTTEN_FLESH, 5, 1);
 			
 		else //if (name == chestInBunkers) {
-			return createTreasures(random, Material.IRON_SPADE, Material.GOLD_BOOTS, 2, 1);
+			return createTreasures(random, Material.IRON_SWORD, Material.GOLD_BOOTS, 2, 1);
 	}
 	
 	private ItemStack[] createTreasures(Random random, Material minTreasure, Material maxTreasure, int maxCount, int maxStack) {

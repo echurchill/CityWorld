@@ -891,6 +891,8 @@ public class PlatRoad extends PlatConnected {
 				generateTreat(generator, context, chunk, 13, sewerY, 13);
 			}
 			if (centerNorth && centerSouth && centerWest && centerEast) {
+				
+				// look carefully, these are actually different
 				switch(chunkRandom.nextInt(4)) {
 				case 1:
 					generateTreat(generator, context, chunk, 6, sewerY, 6);

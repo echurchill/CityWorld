@@ -5,9 +5,13 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
+
+import me.daddychurchill.CityWorld.CityWorldSettings;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Plugins.LootProvider;
+import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
@@ -434,8 +438,12 @@ public abstract class PlatLot {
 		}
 		
 		// draw the center bit
-		if (pathFound)
+		if (pathFound) {
 			generateShaftSpace(chunk, 6, 10, y1 + 3, 6, 10);
+			
+			generateTreat(generator, context, chunk, 6, y1 + 1, 6);
+			generateTrick(generator, context, chunk, 9, y1 + 1, 9);
+		}
 	}
 	
 	private void generateShaftSpace(RealChunk chunk, int x1, int x2, int y, int z1, int z2) {
@@ -445,6 +453,24 @@ public abstract class PlatLot {
 					if (!chunk.isEmpty(x, y + 1, z) && chunk.isEmpty(x, y, z))
 						chunk.setStoneSlab(x, y, z, Direction.StoneSlab.COBBLESTONEFLIP);
 			}
+		}
+	}
+	
+	private void generateTreat(WorldGenerator generator, ContextData context, RealChunk chunk, int x, int y, int z) {
+		CityWorldSettings settings = generator.getSettings();
+		
+		// cool stuff?
+		if (settings.isTreasuresInMines() && chunkRandom.nextDouble() <= context.oddsOfTreasureInMines) {
+			 chunk.setChest(x, y, z, Direction.Chest.SOUTH, generator.getLootProvider().getItems(generator, LootProvider.chestInMines));
+		}
+	}
+
+	private void generateTrick(WorldGenerator generator, ContextData context, RealChunk chunk, int x, int y, int z) {
+		CityWorldSettings settings = generator.getSettings();
+		
+		// not so cool stuff?
+		if (settings.isSpawnersInMines() && chunkRandom.nextDouble() <= context.oddsOfSpawnerInMines) {
+			chunk.setSpawner(x, y, z, generator.getSpawnProvider().getEntity(generator, SpawnProvider.spawnerInMines));
 		}
 	}
 	

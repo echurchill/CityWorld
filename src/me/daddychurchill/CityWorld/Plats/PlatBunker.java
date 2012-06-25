@@ -190,9 +190,9 @@ public class PlatBunker extends PlatNature {
 			break;
 		}
 		
-		// poke out a flag
-		chunk.setBlocks(7, yTop4, maxHeight + 3, 7, airId);
-		chunk.setBlocks(7, maxHeight + 3, maxHeight + 10, 7, (byte) Material.GLOWSTONE.getId());
+//		// poke out a flag
+//		chunk.setBlocks(7, yTop4, maxHeight + 3, 7, airId);
+//		chunk.setBlocks(7, maxHeight + 3, maxHeight + 10, 7, (byte) Material.GLOWSTONE.getId());
 	}
 	
 	private void generateGrowingBuilding(WorldGenerator generator, ContextData context, ByteChunk chunk, int y1, int y2) {
