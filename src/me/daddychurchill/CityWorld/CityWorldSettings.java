@@ -5,24 +5,30 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class CityWorldSettings {
 
-	private boolean includeSewers = true;
-	private boolean includeCisterns = true;
-	private boolean includeBasements = true;
-	private boolean includeMines = true;
-	private boolean includeBunkers = true;
-	private boolean treasuresInSewers = true;
-	private boolean spawnersInSewers = true;
-	private boolean treasuresInMines = true;
-	private boolean spawnersInMines = true;
-	private boolean treasuresInBunkers = true;
-	private boolean spawnersInBunkers = true;
-	private boolean workingLights = false;
+	public boolean includeSewers = true;
+	public boolean includeCisterns = true;
+	public boolean includeBasements = true;
+	public boolean includeMines = true;
+	public boolean includeBunkers = true;
+	public boolean includeOres = true;
+	public boolean includeCaves = true;
+	public boolean includeBuildings = true;
+	public boolean treasuresInSewers = true;
+	public boolean spawnersInSewers = true;
+	public boolean treasuresInMines = true;
+	public boolean spawnersInMines = true;
+	public boolean treasuresInBunkers = true;
+	public boolean spawnersInBunkers = true;
+	public boolean workingLights = true;
 	
 	private final static String tagIncludeSewers = "IncludeSewers";
 	private final static String tagIncludeCisterns = "IncludeCisterns";
 	private final static String tagIncludeBasements = "IncludeBasements";
 	private final static String tagIncludeMines = "IncludeMines";
 	private final static String tagIncludeBunkers = "IncludeBunkers";
+	private final static String tagIncludeOres = "IncludeOres";
+	private final static String tagIncludeCaves = "IncludeCaves";
+	private final static String tagIncludeBuildings = "IncludeBuildings";
 	private final static String tagTreasuresInSewers = "TreasuresInSewers";
 	private final static String tagSpawnersInSewers = "SpawnersInSewers";
 	private final static String tagTreasuresInMines = "TreasuresInMines";
@@ -42,6 +48,9 @@ public class CityWorldSettings {
 		config.addDefault(tagIncludeBasements, includeBasements);
 		config.addDefault(tagIncludeMines, includeMines);
 		config.addDefault(tagIncludeBunkers, includeBunkers);
+		config.addDefault(tagIncludeOres, includeOres);
+		config.addDefault(tagIncludeCaves, includeCaves);
+		config.addDefault(tagIncludeBuildings, includeBuildings);
 		config.addDefault(tagTreasuresInSewers, treasuresInSewers);
 		config.addDefault(tagSpawnersInSewers, spawnersInSewers);
 		config.addDefault(tagTreasuresInMines, treasuresInMines);
@@ -60,6 +69,9 @@ public class CityWorldSettings {
 			includeBasements = section.getBoolean(tagIncludeSewers);
 			includeMines = section.getBoolean(tagIncludeMines);
 			includeBunkers = section.getBoolean(tagIncludeBunkers);
+			includeOres = section.getBoolean(tagIncludeOres);
+			includeCaves = section.getBoolean(tagIncludeCaves);
+			includeBuildings = section.getBoolean(tagIncludeBuildings);
 			treasuresInSewers = section.getBoolean(tagIncludeSewers);
 			spawnersInSewers = section.getBoolean(tagIncludeSewers);
 			treasuresInMines = section.getBoolean(tagIncludeMines);
@@ -71,53 +83,5 @@ public class CityWorldSettings {
 		
 		// write it back out if needed
 		plugin.saveConfig();
-	}
-	
-	public boolean isIncludeSewer() {
-		return includeSewers;
-	}
-
-	public boolean isIncludeCistern() {
-		return includeCisterns;
-	}
-
-	public boolean isIncludeBasement() {
-		return includeBasements;
-	}
-
-	public boolean isIncludeMines() {
-		return includeMines;
-	}
-
-	public boolean isIncludeBunkers() {
-		return includeBunkers;
-	}
-
-	public boolean isTreasuresInSewers() {
-		return treasuresInSewers;
-	}
-	
-	public boolean isSpawnersInSewers() {
-		return spawnersInSewers;
-	}
-	
-	public boolean isTreasuresInMines() {
-		return treasuresInMines;
-	}
-	
-	public boolean isSpawnersInMines() {
-		return spawnersInMines;
-	}
-	
-	public boolean isTreasuresInBunkers() {
-		return treasuresInBunkers;
-	}
-	
-	public boolean isSpawnersInBunkers() {
-		return spawnersInBunkers;
-	}
-	
-	public boolean isWorkingLights() {
-		return workingLights;
 	}
 }

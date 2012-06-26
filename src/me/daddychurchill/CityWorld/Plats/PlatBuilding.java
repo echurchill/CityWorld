@@ -60,7 +60,7 @@ public abstract class PlatBuilding extends PlatConnected {
 		neighborsHaveSimilarHeightsOdds = context.oddsOfSimilarBuildingHeights;
 		neighborsHaveSimilarRoundedOdds = context.oddsOfSimilarBuildingRounding;
 		height = chunkRandom.nextInt(context.maximumFloorsAbove) + 1;
-		if (platmap.generator.getSettings().isIncludeBasement())
+		if (platmap.generator.settings.includeBasements)
 			depth = chunkRandom.nextInt(context.maximumFloorsBelow) + 1;
 		needStairsDown = true;
 		needStairsUp = true;

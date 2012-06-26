@@ -57,12 +57,14 @@ public class PlatMap {
 		context.populateMap(generator, this);
 		
 		// place and validate the roads
-		populateRoads(typicalChunk);
-		validateRoads(typicalChunk);
-		
-		// recalculate the context based on the "natural-ness" of the platmap
-		context = getContext();
-		context.populateMap(generator, this);
+		if (generator.settings.includeBuildings) {
+			populateRoads(typicalChunk);
+			validateRoads(typicalChunk);
+
+			// recalculate the context based on the "natural-ness" of the platmap
+			context = getContext();
+			context.populateMap(generator, this);
+		}
 	}
 
 	private ContextData getContext() {

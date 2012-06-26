@@ -3,7 +3,6 @@ package me.daddychurchill.CityWorld.Plats;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-import me.daddychurchill.CityWorld.CityWorldSettings;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
@@ -650,19 +649,17 @@ public class PlatBunker extends PlatIsolated {
 	}
 	
 	private void generateTreat(WorldGenerator generator, ContextData context, RealChunk chunk, int x, int y, int z) {
-		CityWorldSettings settings = generator.getSettings();
 		
 		// cool stuff?
-		if (settings.isTreasuresInBunkers() && chunkRandom.nextDouble() <= context.oddsOfTreasureInBunkers) {
+		if (generator.settings.treasuresInBunkers && chunkRandom.nextDouble() <= context.oddsOfTreasureInBunkers) {
 			 chunk.setChest(x, y, z, Direction.Chest.NORTH, generator.getLootProvider().getItems(generator, LootProvider.chestInBunkers));
 		}
 	}
 
 	private void generateTrick(WorldGenerator generator, ContextData context, RealChunk chunk, int x, int y, int z) {
-		CityWorldSettings settings = generator.getSettings();
-		
+
 		// not so cool stuff?
-		if (settings.isSpawnersInBunkers() && chunkRandom.nextDouble() <= context.oddsOfSpawnerInBunkers) {
+		if (generator.settings.spawnersInBunkers && chunkRandom.nextDouble() <= context.oddsOfSpawnerInBunkers) {
 			chunk.setSpawner(x, y, z, generator.getSpawnProvider().getEntity(generator, SpawnProvider.spawnerInBunkers));
 		}
 	}

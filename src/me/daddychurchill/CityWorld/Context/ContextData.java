@@ -4,7 +4,6 @@ import java.util.Random;
 
 import org.bukkit.Material;
 
-import me.daddychurchill.CityWorld.CityWorldSettings;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 
@@ -73,7 +72,6 @@ public abstract class ContextData {
 	public ContextData(WorldGenerator generator, PlatMap platmap) {
 		super();
 		Random platmapRandom = platmap.getRandomGenerator();
-		CityWorldSettings settings = generator.getSettings();
 		
 		buildingMaximumY = Math.min(126 + FudgeFloorsAbove * FloorHeight, generator.height);
 		
@@ -87,7 +85,7 @@ public abstract class ContextData {
 		absoluteMaximumFloorsAbove = Math.max(Math.min((buildingMaximumY - streetLevel) / FloorHeight - FudgeFloorsAbove, absoluteAbsoluteMaximumFloorsAbove), absoluteMinimumFloorsAbove);
 		
 		// lights?
-		if (settings.isWorkingLights()) {
+		if (generator.settings.workingLights) {
 			lightMat = Material.GLOWSTONE;
 			torchMat = Material.TORCH;
 		} else {

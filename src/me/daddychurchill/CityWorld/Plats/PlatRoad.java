@@ -3,7 +3,6 @@ package me.daddychurchill.CityWorld.Plats;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
-import me.daddychurchill.CityWorld.CityWorldSettings;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
@@ -102,7 +101,7 @@ public class PlatRoad extends PlatConnected {
 		int sewerY = base1Y + 1;
 		int base2Y = base1Y + ContextData.FloorHeight + 1;
 		int sidewalkLevel = context.streetLevel + 1;
-		boolean doSewer = generator.getSettings().isIncludeSewer();
+		boolean doSewer = generator.settings.includeSewers;
 		
 		// look around
 		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);
@@ -700,7 +699,7 @@ public class PlatRoad extends PlatConnected {
 		int sewerY = base1Y + 1;
 		int base2Y = base1Y + ContextData.FloorHeight + 1;
 		int sidewalkLevel = context.streetLevel + 1;
-		boolean doSewer = generator.getSettings().isIncludeSewer();
+		boolean doSewer = generator.settings.includeSewers;
 		
 		// look around
 		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);
@@ -1017,19 +1016,17 @@ public class PlatRoad extends PlatConnected {
 	}
 	
 	private void generateTreat(WorldGenerator generator, ContextData context, RealChunk chunk, int x, int y, int z) {
-		CityWorldSettings settings = generator.getSettings();
 		
 		// cool stuff?
-		if (settings.isTreasuresInSewers() && chunkRandom.nextDouble() <= context.oddsOfTreasureInSewers) {
+		if (generator.settings.treasuresInSewers && chunkRandom.nextDouble() <= context.oddsOfTreasureInSewers) {
 			 chunk.setChest(x, y, z, Direction.Chest.NORTH, generator.getLootProvider().getItems(generator, LootProvider.chestInSewers));
 		}
 	}
 
 	private void generateTrick(WorldGenerator generator, ContextData context, RealChunk chunk, int x, int y, int z) {
-		CityWorldSettings settings = generator.getSettings();
 		
 		// not so cool stuff?
-		if (settings.isSpawnersInSewers() && chunkRandom.nextDouble() <= context.oddsOfSpawnerInSewers) {
+		if (generator.settings.spawnersInSewers && chunkRandom.nextDouble() <= context.oddsOfSpawnerInSewers) {
 			chunk.setSpawner(x, y, z, generator.getSpawnProvider().getEntity(generator, SpawnProvider.spawnerInSewers));
 		}
 	}

@@ -23,7 +23,6 @@ import org.bukkit.util.noise.SimplexOctaveGenerator;
 public class WorldGenerator extends ChunkGenerator {
 
 	private CityWorld plugin;
-	private CityWorldSettings settings;
 	private World world;
 	private String worldname;
 	private String worldstyle;
@@ -31,6 +30,8 @@ public class WorldGenerator extends ChunkGenerator {
 	private Random stashRandomGenerator;
 	private LootProvider lootProvider;
 	private SpawnProvider spawnProvider;
+
+	public CityWorldSettings settings;
 
 	public SimplexOctaveGenerator landShape1;
 	public SimplexOctaveGenerator landShape2;
@@ -77,10 +78,6 @@ public class WorldGenerator extends ChunkGenerator {
 
 	public String getWorldstyle() {
 		return worldstyle;
-	}
-	
-	public CityWorldSettings getSettings() {
-		return settings;
 	}
 
 	@Override
@@ -355,17 +352,23 @@ public class WorldGenerator extends ChunkGenerator {
 	public boolean notACave(int blockX, int blockY, int blockZ) {
 
 		// cave or not?
-		double cave = caveShape.noise(blockX * caveScale, blockY * caveScaleY, blockZ * caveScale);
-		return !(cave > caveThreshold || cave < -caveThreshold);
+		if (settings.includeCaves) {
+			double cave = caveShape.noise(blockX * caveScale, blockY * caveScaleY, blockZ * caveScale);
+			return !(cave > caveThreshold || cave < -caveThreshold);
+		} else
+			return true;
 	}
 
 	public byte getOre(ByteChunk byteChunk, int blockX, int blockY, int blockZ, byte defaultId) {
 
 		// ore or not?
-		double ore = oreShape.noise(blockX * oreScale, blockY * oreScaleY, blockZ * oreScale);
-		if (ore > oreThreshold || ore < -oreThreshold)
-			return byteChunk.getOre(blockY);
-		else
+		if (settings.includeOres) {
+			double ore = oreShape.noise(blockX * oreScale, blockY * oreScaleY, blockZ * oreScale);
+			if (ore > oreThreshold || ore < -oreThreshold)
+				return byteChunk.getOre(blockY);
+			else
+				return defaultId;
+		} else
 			return defaultId;
 	}
 	

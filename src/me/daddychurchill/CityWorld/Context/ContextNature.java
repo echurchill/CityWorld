@@ -26,7 +26,7 @@ public class ContextNature extends ContextRural {
 		
 		// random stuff?
 		Random platmapRandom = platmap.getRandomGenerator();
-		boolean doBunkers = generator.getSettings().isIncludeBunkers() && platmapRandom.nextBoolean();
+		boolean doBunkers = generator.settings.includeBunkers && platmapRandom.nextBoolean();
 		
 		// where it all begins
 		int originX = platmap.originX;
@@ -51,70 +51,79 @@ public class ContextNature extends ContextRural {
 				PlatLot current = platmap.getLot(x, z);
 				if (current == null) {
 					
-					// what is the world location of the lot?
-					int blockX = (originX + x) * SupportChunk.chunksBlockWidth;
-					int blockZ = (originZ + z) * SupportChunk.chunksBlockWidth;
-					
-					// get the height info for this chunk
-					heights = HeightInfo.getHeightsFaster(generator, blockX, blockZ);
-					if (!heights.isBuildable()) {
+					// buildings?
+					if (generator.settings.includeBuildings) {
 						
-						// our inner chunks?
-						if (x > 0 && x < PlatMap.Width - 1 && z > 0 && z < PlatMap.Width - 1) {
+						// what is the world location of the lot?
+						int blockX = (originX + x) * SupportChunk.chunksBlockWidth;
+						int blockZ = (originZ + z) * SupportChunk.chunksBlockWidth;
+						
+						// get the height info for this chunk
+						heights = HeightInfo.getHeightsFaster(generator, blockX, blockZ);
+						if (!heights.isBuildable()) {
 							
-							// extreme changes?
-							if (heights.minHeight < minHeight) {
-								minHeight = heights.minHeight;
-								minHeightX = x;
-								minHeightZ = z;
-								minState = heights.state;
-							}
-							if (heights.maxHeight > maxHeight) {
-								maxHeight = heights.maxHeight;
-								maxHeightX = x;
-								maxHeightZ = z;
-								maxState = heights.state;
-							}
-							
-							// innermost chunks?
-							boolean innermost = x >= PlatRoad.PlatMapRoadInset && x < PlatMap.Width - PlatRoad.PlatMapRoadInset && 
-												z >= PlatRoad.PlatMapRoadInset && z < PlatMap.Width - PlatRoad.PlatMapRoadInset;
-							
-							// what type of height are we talking about?
-							switch (heights.state) {
-							case MIDLAND: 
-								//TODO Mine entrances
+							// our inner chunks?
+							if (x > 0 && x < PlatMap.Width - 1 && z > 0 && z < PlatMap.Width - 1) {
 								
-								// if not one of the innermost or the height isn't tall enough for bunkers
-								if (!innermost || minHeight < PlatBunker.calcBunkerMinHeight(generator)) {
-									if (heights.isSortaFlat() && generator.isIsolatedBuildingAt(originX + x, originZ + z))
-										current = new PlatShack(platmap, originX + x, originZ + z);
+								// extreme changes?
+								if (heights.minHeight < minHeight) {
+									minHeight = heights.minHeight;
+									minHeightX = x;
+									minHeightZ = z;
+									minState = heights.state;
+								}
+								if (heights.maxHeight > maxHeight) {
+									maxHeight = heights.maxHeight;
+									maxHeightX = x;
+									maxHeightZ = z;
+									maxState = heights.state;
+								}
+								
+								// innermost chunks?
+								boolean innermost = x >= PlatRoad.PlatMapRoadInset && x < PlatMap.Width - PlatRoad.PlatMapRoadInset && 
+													z >= PlatRoad.PlatMapRoadInset && z < PlatMap.Width - PlatRoad.PlatMapRoadInset;
+								
+								// what type of height are we talking about?
+								switch (heights.state) {
+								case MIDLAND: 
+									//TODO Mine entrances
+									
+									// if not one of the innermost or the height isn't tall enough for bunkers
+									if (!innermost || minHeight < PlatBunker.calcBunkerMinHeight(generator)) {
+										if (heights.isSortaFlat() && generator.isIsolatedBuildingAt(originX + x, originZ + z))
+											current = new PlatShack(platmap, originX + x, originZ + z);
+										break;
+									}
+								case HIGHLAND:
+								case PEAK:
+									if (doBunkers && innermost) {
+										current = new PlatBunker(platmap, originX + x, originZ + z);
+									}
+									break;
+								default:
 									break;
 								}
-							case HIGHLAND:
-							case PEAK:
-								if (doBunkers && innermost) {
-									current = new PlatBunker(platmap, originX + x, originZ + z);
-								}
-								break;
-							default:
-								break;
 							}
+							
+							// did current get defined?
+							if (current != null)
+								platmap.setLot(x, z, current);
+							else
+								platmap.recycleLot(x, z);
 						}
-						
-						// did current get defined?
-						if (current != null)
-							platmap.setLot(x, z, current);
-						else
-							platmap.recycleLot(x, z);
-					}
+					
+					// ok... no buildings then
+					} else
+						platmap.recycleLot(x, z);
 				}
 			}
 		}
 		
 		// any special things to do?
-		populateSpecial(generator, platmap, maxHeightX, maxHeightZ, maxState);
-		populateSpecial(generator, platmap, minHeightX, minHeightZ, minState);
+		if (generator.settings.includeBuildings) {
+			populateSpecial(generator, platmap, maxHeightX, maxHeightZ, maxState);
+			populateSpecial(generator, platmap, minHeightX, minHeightZ, minState);
+		}
 	}
 	
 	private void populateSpecial(WorldGenerator generator, PlatMap platmap, int x, int z, HeightState state) {

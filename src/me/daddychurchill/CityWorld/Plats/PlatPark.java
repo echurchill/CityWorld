@@ -53,6 +53,11 @@ public class PlatPark extends PlatConnected {
 	}
 
 	@Override
+	protected boolean isShaftableLevel(WorldGenerator generator, ContextData context, int y) {
+		return y >= 0 && y < context.streetLevel - cisternDepth - 2 - 16;	
+	}
+
+	@Override
 	public boolean makeConnected(PlatLot relative) {
 		boolean result = super.makeConnected(relative);
 		
@@ -77,7 +82,7 @@ public class PlatPark extends PlatConnected {
 		int highestY = context.streetLevel - groundDepth - 1;
 		
 		// cistern?
-		if (generator.getSettings().isIncludeCistern()) {
+		if (generator.settings.includeCisterns) {
 			chunk.setLayer(lowestY, cisternId);
 			
 			// fill with water
@@ -201,7 +206,7 @@ public class PlatPark extends PlatConnected {
 		int surfaceY = context.streetLevel + 1;
 		
 		// way down?
-		if (generator.getSettings().isIncludeCistern()) {
+		if (generator.settings.includeCisterns) {
 			SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
 			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
 				int lowestY = context.streetLevel - cisternDepth + 1 + waterDepth;
