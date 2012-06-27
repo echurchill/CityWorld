@@ -17,8 +17,8 @@ Latest release notes...
 * Bridges and Tunnels now generate
 * Radio Towers
 * Oil drilling platforms out where the sea is deepest
-* Rural blocks are back
-* Interiors are still missing 
+* Rural blocks are back (farms, houses, mountain shacks... but they are rare)
+* Interiors are still missing... I have decided I really don't like doing these
 * ISSUE: lights sometimes don't light (or do) when we want them to... seems to be a Minecraft issue
 
 ...older version history can be found in the repository...
@@ -38,8 +38,8 @@ To install it you will need to do three things...
 # **Now start up Minecraft Server via Bukkit.** If you don't know how to do this, I recommend rereading [[http://wiki.bukkit.org/Setting_up_a_server|this]].
 # At this point, you may be asking yourself: **How do I get to the city?** 
 
-There are two options...
-* **Press "T", type in "/CityWorld" and press return (if you do this, remember that some plugins might not work with CityWorld until you modify bukkit's YML to include a reference to the world. For more info read [[http://wiki.bukkit.org/Bukkit.yml|this]]).
+There are two options for getting to the city...
+* If you are the "OP" for your server: **Press "T", type in "/CityWorld" and press return (if you do this, remember that some plugins might not work with CityWorld until you modify bukkit's YML to include a reference to the world. For more info read [[http://wiki.bukkit.org/Bukkit.yml|this]]).
 * **OR... you can use a world management plugin and use the CityWorld as the generator for one of your worlds. We have used [[http://dev.bukkit.org/server-mods/multiverse-core/|Multiverse]] and [[http://dev.bukkit.org/server-mods/multiworld-v-2-0/|Multiworld]].
 
 If you are still confused then rereread [[http://wiki.bukkit.org/Setting_up_a_server|this]]. :-)
@@ -49,3 +49,26 @@ To perform a command just type the letter **"T"** and enter the following...
 * /CityWorld [Leave]
 
 If you leave out the **Leave** you will be transported to CityWorld. Adding the **Leave** will transport you to Minecraft/Bukkit's default world.
+
+You can disable this command via permissions
+* cityworld.command (defaults to op)
+
+=== Options ===
+Config option file is now generated when CityWorld runs. These options only affect "new generation" and are not world specific (yet). Changing them after a world has been generated will produce some odd results. 
+
+These all default to true and simply control the inclusion of a certain feature or not. 
+* IncludeSewers
+* IncludeCisterns
+* IncludeBasements
+* IncludeMines
+* IncludeBunkers
+* IncludeOres
+* IncludeCaves
+* IncludeBuildings
+* TreasuresInSewers
+* SpawnersInSewers
+* TreasuresInMines
+* SpawnersInMines
+* TreasuresInBunkers
+* SpawnersInBunkers
+* WorkingLights
