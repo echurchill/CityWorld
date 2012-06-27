@@ -10,6 +10,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.SurroundingFarms;
 
 public class PlatFarm extends PlatConnected {
 
@@ -44,6 +45,9 @@ public class PlatFarm extends PlatConnected {
 		return result;
 	}
 
+	private final static byte isolationId = (byte) Material.LOG.getId();
+	private final static byte grassId = (byte) Material.GRASS.getId();
+	
 	private final static Material matWater = Material.STATIONARY_WATER;
 	private final static Material matSoil = Material.SOIL;
 	private final static Material matSand = Material.SAND;
@@ -68,8 +72,54 @@ public class PlatFarm extends PlatConnected {
 	
 	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
-		// TODO Auto-generated method stub
+		// look around
+		SurroundingFarms farms = new SurroundingFarms(platmap, platX, platZ);
 		
+		// draw the isolation blocks
+		if (!farms.toNorth()) {
+			chunk.setBlocks(1, 15, generator.sidewalkLevel, 0, 1, isolationId);
+			if (farms.toWest())
+				chunk.setBlock(0, generator.sidewalkLevel, 0, isolationId);
+			else
+				chunk.setBlock(0, generator.sidewalkLevel, 0, grassId);
+			if (farms.toEast())
+				chunk.setBlock(15, generator.sidewalkLevel, 0, isolationId);
+			else
+				chunk.setBlock(15, generator.sidewalkLevel, 0, grassId);
+		} 
+		if (!farms.toSouth()) {
+			chunk.setBlocks(1, 15, generator.sidewalkLevel, 15, 16, isolationId);
+			if (farms.toWest())
+				chunk.setBlock(0, generator.sidewalkLevel, 15, isolationId);
+			else
+				chunk.setBlock(0, generator.sidewalkLevel, 15, grassId);
+			if (farms.toEast())
+				chunk.setBlock(15, generator.sidewalkLevel, 15, isolationId);
+			else
+				chunk.setBlock(15, generator.sidewalkLevel, 15, grassId);
+		}
+		if (!farms.toWest()) {
+			chunk.setBlocks(0, 1, generator.sidewalkLevel, 1, 15, isolationId);
+			if (farms.toNorth())
+				chunk.setBlock(0, generator.sidewalkLevel, 0, isolationId);
+			else
+				chunk.setBlock(0, generator.sidewalkLevel, 0, grassId);
+			if (farms.toSouth())
+				chunk.setBlock(0, generator.sidewalkLevel, 15, isolationId);
+			else
+				chunk.setBlock(0, generator.sidewalkLevel, 15, grassId);
+		}
+		if (!farms.toEast()) {
+			chunk.setBlocks(15, 16, generator.sidewalkLevel, 1, 15, isolationId);
+			if (farms.toNorth())
+				chunk.setBlock(15, generator.sidewalkLevel, 0, isolationId);
+			else
+				chunk.setBlock(15, generator.sidewalkLevel, 0, grassId);
+			if (farms.toSouth())
+				chunk.setBlock(15, generator.sidewalkLevel, 15, isolationId);
+			else
+				chunk.setBlock(15, generator.sidewalkLevel, 15, grassId);
+		}
 	}
 	
 	@Override

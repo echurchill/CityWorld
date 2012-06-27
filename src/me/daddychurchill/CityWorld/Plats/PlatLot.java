@@ -174,7 +174,7 @@ public abstract class PlatLot {
 
 						// we are in the water!
 					} else if (y < generator.seaLevel) {
-						generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, generator.seaLevel, waterId, surfaceCaves);
+						generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, generator.seaLevel, waterId, false);
 						biomes.setBiome(x, z, Biome.OCEAN);
 
 						// we are in the mountains
@@ -512,13 +512,15 @@ public abstract class PlatLot {
 				byteChunk.setBlock(x, y, z, generator.getOre(byteChunk, blockX, y, blockZ, baseId));
 
 		// aggregate bits
-		for (int y = baseY; y < substrateY; y++)
+		for (int y = baseY; y < substrateY - 1; y++)
 			if (!surfaceCaves || generator.notACave(blockX, y, blockZ))
 				byteChunk.setBlock(x, y, z, substrateId);
 
 		// icing for the cake
-		if (!surfaceCaves || generator.notACave(blockX, substrateY, blockZ))
+		if (!surfaceCaves || generator.notACave(blockX, substrateY, blockZ)) {
+			byteChunk.setBlock(x, substrateY - 1, z, substrateId);
 			byteChunk.setBlock(x, substrateY, z, surfaceId);
+		}
 
 	}
 
