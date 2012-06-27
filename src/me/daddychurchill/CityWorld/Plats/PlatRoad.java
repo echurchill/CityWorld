@@ -110,6 +110,9 @@ public class PlatRoad extends PlatConnected {
 		if (HeightInfo.getHeightsFast(generator, originX, originZ).isSea()) {
 			doSewer = false;
 
+			// clear a little space
+			chunk.setLayer(sidewalkLevel, 2, airId);
+			
 			// bridge to the east/west
 			if (roads.toWest() && roads.toEast()) {
 				

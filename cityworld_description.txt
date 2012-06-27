@@ -8,15 +8,11 @@ The great outdoors is all good and fine but sometimes you just want to go to tow
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
-v1.00
+Latest release notes...
 * Treats and Tricks in the Bunkers and Mineshafts
 * Reworked the sewers... you can now get seriously lost down there 
-
-v0.90
 * Bunkers and Mineshafts
 * Reworked the settings, you will need to wipe out your old CityWorld settings
-
-v0.80
 * Include working terrain generation
 * Bridges and Tunnels now generate
 * Radio Towers
@@ -24,76 +20,6 @@ v0.80
 * Rural blocks are back
 * Interiors are still missing 
 * ISSUE: lights sometimes don't light (or do) when we want them to... seems to be a Minecraft issue
-
-v0.7x
-* Never released due to "issues"
-
-v0.63
-* 1.2.3-R0.2 Happy
-* Fixed a few string and permission issues
-
-v0.62
-* 1.2.3 R0 Happy, since Bukkit doesn't support taller generated heights yet we are still stuck at 127, sorry
-
-v0.61
-* 1.1 R6 Happy
-* Clay is used instead of Iron where possible
-* Rooftop air conditioners now don't use End Portal Frames anymore
-
-Config option file additions
-* Global.OresInSewers (true) //put the ores into the sewer vaults
-* Global.OresInUnderworld (true) //put the ores into the underworld
-
-v0.60 Permissions and Config file
-
-Permissions for CityWorld command
-* cityworld.command (defaults to op)
-
-Config option file is now generated when CityWorld runs. These options only affect "new generation" and are not world specific (yet). Changing them after a world has been generated will produce some odd results at times.
-* Global.BedrockIsolation (defaults to true) //obsidian or bedrock barriers// 
-* Global.Plumbing (true) //plumbing between street and underworld//
-* Global.Sewer (true) //sewers between street (and plumbing) and underworld//
-* Global.Cistern (true) //cisterns beneath parks//
-* Global.Basement (true) //basements beneath buildings//
-* Global.Underworld (true) //underworld beneath the city's sewers, plumbing, cisterns, etc.//
-* Global.TreasureInFountain (true) //treasure ores (coins) in the Fountains//
-* Global.TreasureInPlumbing (true) //treasure blocks (stuff flushed down) in the Plumbing//
-* Global.TreasureInSewer (true) //treasure chests in the sewer (items include IRON_SPADE through ROTTEN_FLESH, inclusive)//
-* Global.SpawnersInSewer (true) //sewers treasure rooms might have spawners//
-* Global.StreetLevel (24) //Y coordinate where the streets start (higher this is the shorter the buildings)//
-* Global.MaximumFloors (100) //floor count of the tallest building (clamped to what MineCraft can actually do)//
-
-v0.57
-Quickie patch to permit support for 1.1
-
-v0.56
-Added occasional crane on unfinished buildings
-Hacked my way around a number of roof issues, still more that can be done
-Added nav lights onto the tallest antenna on a building, if it has any
-
-v0.55
-Theming of city blocks (highrise, midrise, lowrise, big parks, etc.)
-First pass of roofs (peaks, edges, antennas, air conditioners, etc.)
-
-v0.54
-West is North... I really hope I have this issue nailed this time
-Rounded buildings and doors seem to be happy at last!
-Added unfinished buildings, just to add variety
-
-v0.52
-Rounded buildings are back but I still need to get doors and stairs working with them better
-Doors and stairs now position themselves better
-Started support for unfinished buildings
-
-v0.40
-Added cisterns and most of the tops of parks
-Added the command "CityWorld", which will teleport you to (and create) "CityWorld"
-Added stairs back in (they might be missing in some buildings but that is pretty rare)
-Added doors (like stairs they might be missing in some buildings)
-Manholes are more functional (ladders and doors are down there now)
-Roundabouts now have fountains, "ART!" or a bit of both
-Got BlockPopulators working
-Cleaned up the code considerably
 
 ...older version history can be found in the repository...
 
@@ -110,11 +36,16 @@ This is purely a world generator. If you need teleportation or world management 
 To install it you will need to do three things...
 # **Download the plugin and place it in Bukkit's plugin folder.** If you don't know where or what the Bukkit's plugin folder is, read [[http://wiki.bukkit.org/Setting_up_a_server|this]].
 # **Now start up Minecraft Server via Bukkit.** If you don't know how to do this, I recommend rereading [[http://wiki.bukkit.org/Setting_up_a_server|this]].
+# At this point, you may be asking yourself: **How do I get to the city?** 
 
-At this point, you may be asking yourself: **How do I get to the city?** 
 There are two options...
-# **Press "T", type in "/CityWorld" and press return (if you do this, remember that some plugins might not work with CityWorld until you modify bukkit's YML to include a reference to the world)
-# **OR... you can use a multiverse plugin and use the CityWorld as the generator for one of your worlds. We use [[http://dev.bukkit.org/server-mods/multiverse-core/|Multiverse]].
+* **Press "T", type in "/CityWorld" and press return (if you do this, remember that some plugins might not work with CityWorld until you modify bukkit's YML to include a reference to the world. For more info read [[http://wiki.bukkit.org/Bukkit.yml|this]]).
+* **OR... you can use a world management plugin and use the CityWorld as the generator for one of your worlds. We have used [[http://dev.bukkit.org/server-mods/multiverse-core/|Multiverse]] and [[http://dev.bukkit.org/server-mods/multiworld-v-2-0/|Multiworld]].
 
 If you are still confused then rereread [[http://wiki.bukkit.org/Setting_up_a_server|this]]. :-)
 
+=== Commands ===
+To perform a command just type the letter **"T"** and enter the following...
+* /CityWorld [Leave]
+
+If you leave out the **Leave** you will be transported to CityWorld. Adding the **Leave** will transport you to Minecraft/Bukkit's default world.
