@@ -12,7 +12,7 @@ public class ContextMall extends ContextUrban {
 		Random platmapRandom = platmap.getRandomGenerator();
 		
 		oddsOfParks = oddsUnlikely;
-		oddsOfIsolatedLots = oddsNeverGoingToHappen;
+		oddsOfIsolatedLots = oddsVeryUnlikely;
 		oddsOfIdenticalBuildingHeights = oddsAlwaysGoingToHappen;
 		oddsOfSimilarBuildingHeights = oddsExtremelyLikely;
 		oddsOfSimilarBuildingRounding = oddsExtremelyLikely;

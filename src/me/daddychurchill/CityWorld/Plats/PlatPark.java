@@ -191,8 +191,8 @@ public class PlatPark extends PlatConnected {
 			chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 13, 16, pathId);
 			chunk.setBlocks(0, 3, surfaceY - 1, surfaceY, 7, 9, pathId);
 			chunk.setBlocks(13, 16, surfaceY - 1, surfaceY, 7, 9, pathId);
-			chunk.setCircle(8, 8, 4, surfaceY - 1, pathId);
-			chunk.setCircle(8, 8, 3, surfaceY - 1, pathId);
+			chunk.setCircle(8, 8, 4, surfaceY - 1, pathId, false);
+			chunk.setCircle(8, 8, 3, surfaceY - 1, pathId, false);
 		} else {
 			chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 0, 8, pathId);
 			chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 8, 16, pathId);

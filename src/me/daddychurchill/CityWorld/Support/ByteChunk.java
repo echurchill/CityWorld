@@ -45,6 +45,7 @@ public class ByteChunk extends SupportChunk {
         	return blocks[y >> 4][((y & 0xF) << 8) | (z << 4) | x];
 	}
 	
+	@Override
 	public void setBlock(int x, int y, int z, byte materialId) {
         if (blocks[y >> 4] == null) {
         	blocks[y >> 4] = new byte[bytesPerSection];
@@ -83,6 +84,7 @@ public class ByteChunk extends SupportChunk {
 		setBlocks(x1, x2, y1, y2, z1, z2, (byte) material.getId());
 	}
 	
+	@Override
 	public void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
@@ -234,39 +236,6 @@ public class ByteChunk extends SupportChunk {
 	public int setLayer(int blocky, int height, int inset, byte materialId) {
 		setBlocks(inset, width - inset, blocky, blocky + height, inset, width - inset, materialId);
 		return blocky + height;
-	}
-	
-	private void setCircleBlocks(int cx, int cz, int x, int z, int y, byte materialId) {
-		// Ref: Notes/BCircle.PDF
-		setBlock(cx + x, y, cz + z, materialId); // point in octant 1
-		setBlock(cx + z, y, cz + x, materialId); // point in octant 2
-		setBlock(cx - z - 1, y, cz + x, materialId); // point in octant 3
-		setBlock(cx - x - 1, y, cz + z, materialId); // point in octant 4
-		setBlock(cx - x - 1, y, cz - z - 1, materialId); // point in octant 5
-		setBlock(cx - z - 1, y, cz - x - 1, materialId); // point in octant 6
-		setBlock(cx + z, y, cz - x - 1, materialId); // point in octant 7
-		setBlock(cx + x, y, cz - z - 1, materialId); // point in octant 8
-	}
-	
-	public void setCircle(int cx, int cz, int r, int y, byte materialId) {
-		// Ref: Notes/BCircle.PDF
-		int x = r;
-		int z = 0;
-		int xChange = 1 - 2 * r;
-		int zChange = 1;
-		int rError = 0;
-		
-		while (x >= z) {
-			setCircleBlocks(cx, cz, x, z, y, materialId);
-			z++;
-			rError += zChange;
-			zChange += 2;
-			if (2 * rError + xChange > 0) {
-				x--;
-				rError += xChange;
-				xChange += 2;
-			}
-		}
 	}
 	
 	public void setArcNorthWest(int inset, int y1, int y2, byte materialId, boolean fill) {

@@ -79,15 +79,16 @@ public class PlatMap {
 			return new ContextUnconstruction(generator, this);
 		else if (naturalPlats < 25)
 			return new ContextMidrise(generator, this);
-		else if (naturalPlats < 40)
+		else if (naturalPlats < 37)
 			return new ContextCityCenter(generator, this);
-		else if (naturalPlats < 55)
+		else if (naturalPlats < 50)
 			return new ContextMall(generator, this);
-		else if (naturalPlats < 70)
+		else if (naturalPlats < 65)
 			return new ContextLowrise(generator, this);
-		else if (naturalPlats < 85)
+		else if (naturalPlats < 80)
 			return new ContextNeighborhood(generator, this);
-		else if (naturalPlats < 95)
+		else 
+		if (naturalPlats < 90)
 			return new ContextFarm(generator, this);
 		else if (naturalPlats < 100)
 			return new ContextNeighborhood(generator, this);

@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import org.bukkit.Material;
 import org.bukkit.World;
 
-public class SupportChunk {
+public abstract class SupportChunk {
 	
 	public World world;
 	public int chunkX;
@@ -33,6 +33,8 @@ public class SupportChunk {
 	public static final byte coalId = (byte) Material.COAL_ORE.getId();
 	public static final byte dirtId = (byte) Material.DIRT.getId();
 	public static final byte grassId = (byte) Material.GRASS.getId();
+	public static final byte waterId = (byte) Material.WATER.getId(); // the fluid type
+	public static final byte lavaId = (byte) Material.LAVA.getId(); // the fluid type
 	
 	public SupportChunk(WorldGenerator generator, Random aRandom) {
 		super();
@@ -90,19 +92,19 @@ public class SupportChunk {
 	
 	private byte pickRandomMineral(int max) {
 		switch (random.nextInt(max)) {
-		default:                     // 67--99   
+		default:  
 		case 1:
 		case 2: 
 		case 3: return coalId;
 		case 4:
-		case 5:                      // 33--128
+		case 5:                      
 		case 6: return ironId;
 		case 7:
-		case 8: return goldId;       // 31--136
-		case 9: return lapisId;      // 17--191
-		case 10:                     // 15--199
+		case 8: return goldId;
+		case 9: return lapisId;     
+		case 10:                     
 		case 11: return redstoneId;
-		case 12: return diamondId;   //  0--255
+		case 12: return diamondId;   
 		}
 	}
 	
@@ -110,4 +112,59 @@ public class SupportChunk {
 		return blockY <= lower || blockY >= upper;
 	}
 
+	protected abstract void setBlock(int x, int y, int z, byte materialId);
+	protected abstract void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId);
+	
+	private void drawCircleBlocks(int cx, int cz, int x, int z, int y, byte materialId) {
+		// Ref: Notes/BCircle.PDF
+//		setBlock(cx + x, y, cz + z, coalId); // point in octant 1
+//		setBlock(cx + z, y, cz + x, ironId); // point in octant 2
+//		setBlock(cx - z - 1, y, cz + x, goldId); // point in octant 3
+//		setBlock(cx - x - 1, y, cz + z, lapisId); // point in octant 4
+//		setBlock(cx - x - 1, y, cz - z - 1, redstoneId); // point in octant 5
+//		setBlock(cx - z - 1, y, cz - x - 1, diamondId); // point in octant 6
+//		setBlock(cx + z, y, cz - x - 1, stoneId); // point in octant 7
+//		setBlock(cx + x, y, cz - z - 1, grassId); // point in octant 8
+		setBlock(cx + x, y, cz + z, materialId); // point in octant 1
+		setBlock(cx + z, y, cz + x, materialId); // point in octant 2
+		setBlock(cx - z - 1, y, cz + x, materialId); // point in octant 3
+		setBlock(cx - x - 1, y, cz + z, materialId); // point in octant 4
+		setBlock(cx - x - 1, y, cz - z - 1, materialId); // point in octant 5
+		setBlock(cx - z - 1, y, cz - x - 1, materialId); // point in octant 6
+		setBlock(cx + z, y, cz - x - 1, materialId); // point in octant 7
+		setBlock(cx + x, y, cz - z - 1, materialId); // point in octant 8
+	}
+	
+	private void fillCircleBlocks(int cx, int cz, int x, int z, int y, byte materialId) {
+		// Ref: Notes/BCircle.PDF
+		setBlocks(cx - x - 1, cx - x, y, cz - z - 1, cz + z + 1, materialId); // point in octant 5
+		setBlocks(cx - z - 1, cx - z, y, cz - x - 1, cz + x + 1, materialId); // point in octant 6
+		setBlocks(cx + z, cx + z + 1, y, cz - x - 1, cz + x + 1, materialId); // point in octant 7
+		setBlocks(cx + x, cx + x + 1, y, cz - z - 1, cz + z + 1, materialId); // point in octant 8
+	}
+	
+	public void setCircle(int cx, int cz, int r, int y, byte materialId, boolean fill) {
+		// Ref: Notes/BCircle.PDF
+		int x = r;
+		int z = 0;
+		int xChange = 1 - 2 * r;
+		int zChange = 1;
+		int rError = 0;
+		
+		while (x >= z) {
+			if (fill)
+				fillCircleBlocks(cx, cz, x, z, y, materialId);
+			else
+				drawCircleBlocks(cx, cz, x, z, y, materialId);
+			z++;
+			rError += zChange;
+			zChange += 2;
+			if (2 * rError + xChange > 0) {
+				x--;
+				rError += xChange;
+				xChange += 2;
+			}
+		}
+	}
+	
 }

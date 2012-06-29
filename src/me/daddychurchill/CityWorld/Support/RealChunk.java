@@ -58,6 +58,11 @@ public class RealChunk extends SupportChunk {
 		chunk.getBlock(x, y, z).setType(Material.AIR);
 	}
 
+	@Override
+	public void setBlock(int x, int y, int z, byte materialId) {
+		chunk.getBlock(x, y, z).setTypeId(materialId, doPhysics);
+	}
+
 	public void setBlock(int x, int y, int z, Material material) {
 		chunk.getBlock(x, y, z).setTypeId(material.getId(), doPhysics);
 	}
@@ -79,10 +84,10 @@ public class RealChunk extends SupportChunk {
 			chunk.getBlock(x, y, z).setType(material);
 	}
 
-	public void setBlocks(int x, int y1, int y2, int z, int type, byte data) {
-		for (int y = y1; y < y2; y++)
-			chunk.getBlock(x, y, z).setTypeIdAndData(type, data, doPhysics);
-	}
+//	public void setBlocks(int x, int y1, int y2, int z, int type, byte data) {
+//		for (int y = y1; y < y2; y++)
+//			chunk.getBlock(x, y, z).setTypeIdAndData(type, data, doPhysics);
+//	}
 
 	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
 		for (int x = x1; x < x2; x++) {
@@ -134,6 +139,15 @@ public class RealChunk extends SupportChunk {
 		}
 	}
 
+	@Override
+	public void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				chunk.getBlock(x, y, z).setTypeId(materialId, doPhysics);
+			}
+		}
+	}
+	
 	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
@@ -166,13 +180,13 @@ public class RealChunk extends SupportChunk {
 		}
 	}
 
-	public void setBlocks(int x1, int x2, int y, int z1, int z2, int type, byte data) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				chunk.getBlock(x, y, z).setTypeIdAndData(type, data, doPhysics);
-			}
-		}
-	}
+//	public void setBlocks(int x1, int x2, int y, int z1, int z2, int type, byte data) {
+//		for (int x = x1; x < x2; x++) {
+//			for (int z = z1; z < z2; z++) {
+//				chunk.getBlock(x, y, z).setTypeIdAndData(type, data, doPhysics);
+//			}
+//		}
+//	}
 
 	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
 		setBlocks(x1, x2, y1, y2, z1, z1 + 1, material);
@@ -476,6 +490,10 @@ public class RealChunk extends SupportChunk {
 		Block block = chunk.getBlock(x, y, z);
 		block.setTypeIdAndData(Material.CHEST.getId(), direction.getData(), true);
 		if (items.length > 0) {
+//			Material material = block.getType();
+//			BlockState state = block.getState();
+//			CityWorld.log.info("BlockState = " + state);
+//			CityWorld.log.info("BlockMaterial = " + material);
 			Chest chest = (Chest) block.getState();
 			Inventory inv = chest.getInventory();
 			inv.clear();

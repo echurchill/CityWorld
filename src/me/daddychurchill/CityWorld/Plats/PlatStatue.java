@@ -48,7 +48,7 @@ public class PlatStatue extends PlatIsolated {
 		case WATER:
 			
 			// bottom of the fountain... any coins?
-			chunk.setCircle(8, 8, 5, y1, stoneId);
+			chunk.setCircle(8, 8, 5, y1, stoneId, false);
 			for (int x = 0; x < 10; x++)
 				for (int z = 0; z < 10; z++)
 //					if (context.doTreasureInFountain)
@@ -58,23 +58,23 @@ public class PlatStatue extends PlatIsolated {
 			
 			// the plain bit... later we will take care of the fancy bit
 			y1++;
-			chunk.setCircle(8, 8, 6, y1, brickId);
+			chunk.setCircle(8, 8, 6, y1, brickId, false);
 			
 			//TODO need to improve this silly logic
 			// fill with water
-			chunk.setCircle(8, 8, 5, y1, waterId);
-			chunk.setCircle(8, 8, 4, y1, waterId);
-			chunk.setCircle(8, 8, 3, y1, waterId);
-			chunk.setCircle(8, 8, 2, y1, waterId);
+			chunk.setCircle(8, 8, 5, y1, waterId, true);
+//			chunk.setCircle(8, 8, 4, y1, waterId, false);
+//			chunk.setCircle(8, 8, 3, y1, waterId);
+//			chunk.setCircle(8, 8, 2, y1, waterId);
 			break;
 		case GRASS:
 			
 			// outer edge
 			y1++;
-			chunk.setCircle(8, 8, 6, y1, brickId);
+			chunk.setCircle(8, 8, 6, y1, brickId, false);
 			
 			// backfill with grass
-			chunk.setCircle(8, 8, 5, y1 - 1, grassId);
+			chunk.setCircle(8, 8, 5, y1 - 1, grassId, false);
 			chunk.setBlocks(3, 13, y1 - 1, y1, 4, 12, grassId);
 			chunk.setBlocks(4, 12, y1 - 1, y1, 3, 13, grassId);
 			break;
@@ -82,10 +82,10 @@ public class PlatStatue extends PlatIsolated {
 			
 			// pedestal, imagine that!
 			y1++;
-			chunk.setCircle(8, 8, 4, y1, stoneId);
-			chunk.setCircle(8, 8, 3, y1, stoneId);
-			chunk.setCircle(8, 8, 3, y1 + 1, stoneId);
-			chunk.setCircle(8, 8, 3, y1 + 2, fenceId);
+			chunk.setCircle(8, 8, 4, y1, stoneId, false);
+			chunk.setCircle(8, 8, 3, y1, stoneId, false);
+			chunk.setCircle(8, 8, 3, y1 + 1, stoneId, false);
+			chunk.setCircle(8, 8, 3, y1 + 2, fenceId, false);
 			chunk.setBlocks(5, 11, y1, y1 + 2, 5, 11, stoneId);
 			break;
 		}
