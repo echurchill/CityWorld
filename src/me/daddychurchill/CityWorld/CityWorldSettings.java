@@ -43,26 +43,36 @@ public class CityWorldSettings {
 		// add/get the configuration
 		FileConfiguration config = plugin.getConfig();
 		config.options().header("CityWorld Plugin Options");
-		config.addDefault(tagIncludeSewers, includeSewers);
-		config.addDefault(tagIncludeCisterns, includeCisterns);
-		config.addDefault(tagIncludeBasements, includeBasements);
-		config.addDefault(tagIncludeMines, includeMines);
-		config.addDefault(tagIncludeBunkers, includeBunkers);
-		config.addDefault(tagIncludeOres, includeOres);
-		config.addDefault(tagIncludeCaves, includeCaves);
-		config.addDefault(tagIncludeBuildings, includeBuildings);
-		config.addDefault(tagTreasuresInSewers, treasuresInSewers);
-		config.addDefault(tagSpawnersInSewers, spawnersInSewers);
-		config.addDefault(tagTreasuresInMines, treasuresInMines);
-		config.addDefault(tagSpawnersInMines, spawnersInMines);
-		config.addDefault(tagTreasuresInBunkers, treasuresInBunkers);
-		config.addDefault(tagSpawnersInBunkers, spawnersInBunkers);
-		config.addDefault(tagWorkingLights, workingLights);
 		config.options().copyDefaults(true);
-		config.options().copyHeader(true);
 		
 		// get the right section
-		ConfigurationSection section = config.getConfigurationSection(worldname);
+		ConfigurationSection section = null;
+		
+		// see if we can find the specific world
+		if (config.isConfigurationSection(worldname))
+			section = config.getConfigurationSection(worldname);
+		
+		// if not then create it
+		else {
+			section = config.createSection(worldname);
+			section.addDefault(tagIncludeSewers, includeSewers);
+			section.addDefault(tagIncludeCisterns, includeCisterns);
+			section.addDefault(tagIncludeBasements, includeBasements);
+			section.addDefault(tagIncludeMines, includeMines);
+			section.addDefault(tagIncludeBunkers, includeBunkers);
+			section.addDefault(tagIncludeOres, includeOres);
+			section.addDefault(tagIncludeCaves, includeCaves);
+			section.addDefault(tagIncludeBuildings, includeBuildings);
+			section.addDefault(tagTreasuresInSewers, treasuresInSewers);
+			section.addDefault(tagSpawnersInSewers, spawnersInSewers);
+			section.addDefault(tagTreasuresInMines, treasuresInMines);
+			section.addDefault(tagSpawnersInMines, spawnersInMines);
+			section.addDefault(tagTreasuresInBunkers, treasuresInBunkers);
+			section.addDefault(tagSpawnersInBunkers, spawnersInBunkers);
+			section.addDefault(tagWorkingLights, workingLights);
+		}
+		
+		// did we get a section?
 		if (section != null) {
 			includeSewers = section.getBoolean(tagIncludeSewers);
 			includeCisterns = section.getBoolean(tagIncludeSewers);

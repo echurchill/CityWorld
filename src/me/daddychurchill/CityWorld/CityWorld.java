@@ -2,9 +2,6 @@ package me.daddychurchill.CityWorld;
 
 import java.util.logging.Logger;
 
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.generator.ChunkGenerator;
@@ -34,7 +31,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 //TODO "worldname".<option> support for world specific options
 //DONE Command.CityWorld
-//TODO Command.CityWorld Leave
+//DONE Command.CityWorld Leave
 //TODO Command.CityWorld Regenerate
 //TODO Command.CityWorld Regenerate "PlatMapType"
 //DONE player.hasPermission("cityworld.command") = CityWorld command enabled (true)
@@ -74,8 +71,8 @@ public class CityWorld extends JavaPlugin{
 		PluginManager pm = getServer().getPluginManager();
 		pm.addPermission(new Permission("cityworld.command", PermissionDefault.OP));
 		
-		addCommand("cityworld", new CityWorldCreateCMD(this));
-//		addCommand("cityblock", new CityWorldBlockCMD(this));
+		addCommand("cityworld", new CommandCityWorld(this));
+		addCommand("citychunk", new CommandCityChunk(this));
 
 		// configFile can be retrieved via getConfig()
 		log.info(getDescription().getFullName() + " is enabled" );
@@ -88,25 +85,6 @@ public class CityWorld extends JavaPlugin{
 		} else {
 			cmd.setExecutor(exec);
 		}
-	}
-	
-    // prime world support (loosely based on ExpansiveTerrain)
-	public final static String WORLD_NAME = "CityWorld";
-	public World getCityWorld() {
-		
-		// built yet?
-		World cityWorldPrime = Bukkit.getServer().getWorld(WORLD_NAME);
-		if (cityWorldPrime == null) {
-			
-			// if neither then create/build it!
-			WorldCreator worldcreator = new WorldCreator(WORLD_NAME);
-			worldcreator.environment(World.Environment.NORMAL);
-			//worldcreator.seed(-7457540200860308014L); // Beta seed
-			//worldcreator.seed(-5068588521833479712L); 
-			worldcreator.generator(new WorldGenerator(this, WORLD_NAME, ""));
-			cityWorldPrime = Bukkit.getServer().createWorld(worldcreator);
-		}
-		return cityWorldPrime;
 	}
 }
 
