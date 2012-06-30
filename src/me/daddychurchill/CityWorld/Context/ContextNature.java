@@ -6,6 +6,7 @@ import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatBunker;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plats.PlatMineEntrance;
 import me.daddychurchill.CityWorld.Plats.PlatPlatform;
 import me.daddychurchill.CityWorld.Plats.PlatRoad;
 import me.daddychurchill.CityWorld.Plats.PlatShack;
@@ -144,8 +145,10 @@ public class ContextNature extends ContextRural {
 //			case LOWLAND:
 //				//TODO Statue overlooking the city?
 //				break;
-//			case MIDLAND: 
-//				break;
+			case MIDLAND: 
+				// Mine entrance
+				//platmap.setLot(x, z, new PlatMineEntrance(platmap, platmap.originX + x, platmap.originZ + z));
+				break;
 			case HIGHLAND: 
 				// Radio towers
 				platmap.setLot(x, z, new PlatTower(platmap, platmap.originX + x, platmap.originZ + z));

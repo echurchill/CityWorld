@@ -10,15 +10,19 @@ public class CityWorldSettings {
 	public boolean includeBasements = true;
 	public boolean includeMines = true;
 	public boolean includeBunkers = true;
-	public boolean includeOres = true;
-	public boolean includeCaves = true;
 	public boolean includeBuildings = true;
+
+	public boolean includeCaves = true;
+	public boolean includeOres = true;
+	public boolean includeUndergroundFluids = true;
+	
 	public boolean treasuresInSewers = true;
 	public boolean spawnersInSewers = true;
 	public boolean treasuresInMines = true;
 	public boolean spawnersInMines = true;
 	public boolean treasuresInBunkers = true;
 	public boolean spawnersInBunkers = true;
+	
 	public boolean workingLights = true;
 	
 	private final static String tagIncludeSewers = "IncludeSewers";
@@ -26,15 +30,19 @@ public class CityWorldSettings {
 	private final static String tagIncludeBasements = "IncludeBasements";
 	private final static String tagIncludeMines = "IncludeMines";
 	private final static String tagIncludeBunkers = "IncludeBunkers";
-	private final static String tagIncludeOres = "IncludeOres";
-	private final static String tagIncludeCaves = "IncludeCaves";
 	private final static String tagIncludeBuildings = "IncludeBuildings";
+
+	private final static String tagIncludeCaves = "IncludeCaves";
+	private final static String tagIncludeOres = "IncludeOres";
+	private final static String tagIncludeUndergroundFluids = "IncludeUndergroundFluids";
+	
 	private final static String tagTreasuresInSewers = "TreasuresInSewers";
 	private final static String tagSpawnersInSewers = "SpawnersInSewers";
 	private final static String tagTreasuresInMines = "TreasuresInMines";
 	private final static String tagSpawnersInMines = "SpawnersInMines";
 	private final static String tagTreasuresInBunkers = "TreasuresInBunkers";
 	private final static String tagSpawnersInBunkers = "SpawnersInBunkers";
+	
 	private final static String tagWorkingLights = "WorkingLights";
 	
 	public CityWorldSettings(CityWorld plugin, String worldname) {
@@ -60,34 +68,42 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeBasements, includeBasements);
 			section.addDefault(tagIncludeMines, includeMines);
 			section.addDefault(tagIncludeBunkers, includeBunkers);
-			section.addDefault(tagIncludeOres, includeOres);
-			section.addDefault(tagIncludeCaves, includeCaves);
 			section.addDefault(tagIncludeBuildings, includeBuildings);
+			
+			section.addDefault(tagIncludeCaves, includeCaves);
+			section.addDefault(tagIncludeOres, includeOres);
+			section.addDefault(tagIncludeUndergroundFluids, includeUndergroundFluids);
+			
 			section.addDefault(tagTreasuresInSewers, treasuresInSewers);
 			section.addDefault(tagSpawnersInSewers, spawnersInSewers);
 			section.addDefault(tagTreasuresInMines, treasuresInMines);
 			section.addDefault(tagSpawnersInMines, spawnersInMines);
 			section.addDefault(tagTreasuresInBunkers, treasuresInBunkers);
 			section.addDefault(tagSpawnersInBunkers, spawnersInBunkers);
+			
 			section.addDefault(tagWorkingLights, workingLights);
 		}
 		
 		// did we get a section?
 		if (section != null) {
 			includeSewers = section.getBoolean(tagIncludeSewers);
-			includeCisterns = section.getBoolean(tagIncludeSewers);
-			includeBasements = section.getBoolean(tagIncludeSewers);
+			includeCisterns = section.getBoolean(tagIncludeCisterns);
+			includeBasements = section.getBoolean(tagIncludeBasements);
 			includeMines = section.getBoolean(tagIncludeMines);
 			includeBunkers = section.getBoolean(tagIncludeBunkers);
-			includeOres = section.getBoolean(tagIncludeOres);
-			includeCaves = section.getBoolean(tagIncludeCaves);
 			includeBuildings = section.getBoolean(tagIncludeBuildings);
-			treasuresInSewers = section.getBoolean(tagIncludeSewers);
-			spawnersInSewers = section.getBoolean(tagIncludeSewers);
-			treasuresInMines = section.getBoolean(tagIncludeMines);
-			spawnersInMines = section.getBoolean(tagIncludeMines);
-			treasuresInBunkers = section.getBoolean(tagIncludeBunkers);
-			spawnersInBunkers = section.getBoolean(tagIncludeBunkers);
+			
+			includeCaves = section.getBoolean(tagIncludeCaves);
+			includeOres = section.getBoolean(tagIncludeOres);
+			includeUndergroundFluids = section.getBoolean(tagIncludeUndergroundFluids);
+
+			treasuresInSewers = section.getBoolean(tagTreasuresInSewers);
+			spawnersInSewers = section.getBoolean(tagSpawnersInSewers);
+			treasuresInMines = section.getBoolean(tagTreasuresInMines);
+			spawnersInMines = section.getBoolean(tagSpawnersInMines);
+			treasuresInBunkers = section.getBoolean(tagTreasuresInBunkers);
+			spawnersInBunkers = section.getBoolean(tagSpawnersInBunkers);
+			
 			workingLights = section.getBoolean(tagWorkingLights);
 		}
 		

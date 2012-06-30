@@ -47,6 +47,7 @@ public class PlatBunker extends PlatIsolated {
 	private final static byte waterId = (byte) Material.STATIONARY_WATER.getId();
 	private final static byte lavaId = (byte) Material.STATIONARY_LAVA.getId();
 	private final static byte iceId = (byte) Material.ICE.getId();
+	private final static byte spongeId = (byte) Material.SPONGE.getId();
 	
 	//private final static int bilgeEmpty = 0;
 	private final static int bilgeWater = 1;
@@ -182,7 +183,7 @@ public class PlatBunker extends PlatIsolated {
 			generateQuadBuilding(generator, context, chunk, yPlatform + 1, yTop2);
 			break;
 		case 6:
-			generateWaterBuilding(generator, context, chunk, yPlatform + 1, yTop2);
+			generateTankBuilding(generator, context, chunk, yPlatform + 1, yTop2);
 			break;
 		default:
 			generatePyramidBuilding(generator, context, chunk, yPlatform + 1, yTop2);
@@ -348,7 +349,7 @@ public class PlatBunker extends PlatIsolated {
 //		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.GOLD_BLOCK);
 	}
 	
-	private void generateWaterBuilding(WorldGenerator generator, ContextData context, ByteChunk chunk, int y1, int y2) {
+	private void generateTankBuilding(WorldGenerator generator, ContextData context, ByteChunk chunk, int y1, int y2) {
 		int x1 = 4;
 		int x2 = x1 + 8;
 		int z1 = 4;
@@ -381,7 +382,25 @@ public class PlatBunker extends PlatIsolated {
 		chunk.setBlocks(x1, x2, yTop, yTop + 1, z1, z2, buildingId);
 		
 		// fill it
-		chunk.setBlocks(x1, x2, yBottom + 1, yBottom + ((yTop - yBottom) / 3) * 2, z1, z2, waterId);
+		byte fillId;
+		switch (chunkRandom.nextInt(4)) {
+		case 1:
+			fillId = lavaId;
+			break;
+		case 2:
+			fillId = iceId;
+			break;
+		case 3:
+			fillId = snowId;
+			break;
+		case 4:
+			fillId = spongeId;
+			break;
+		default:
+			fillId = waterId;
+			break;
+		}
+		chunk.setBlocks(x1, x2, yBottom + 1, yBottom + ((yTop - yBottom) / 3) * 2, z1, z2, fillId);
 
 //		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.LAPIS_BLOCK);
 	}

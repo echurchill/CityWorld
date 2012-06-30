@@ -38,7 +38,7 @@ public class WorldGenerator extends ChunkGenerator {
 	public SimplexOctaveGenerator seaShape;
 	public SimplexOctaveGenerator noiseShape;
 	public SimplexOctaveGenerator featureShape;
-	public SimplexNoiseGenerator caveShape;
+	public SimplexNoiseGenerator geologyShape;
 	public SimplexNoiseGenerator oreShape;
 	public SimplexNoiseGenerator mineShape;
 	public SimplexNoiseGenerator macroShape;
@@ -115,6 +115,9 @@ public class WorldGenerator extends ChunkGenerator {
 	public double caveScale = 1.0 / 64.0;
 	public double caveScaleY = caveScale * 2;
 	public double caveThreshold = 0.75; //was 70
+	
+	public double strataFluidScale = 1.0 / 8.0;
+	public double strataFluidThreshold = 0.08;
 
 	public double oreScale = 1.0 / 16.0;
 	public double oreScaleY = oreScale * 2;
@@ -151,7 +154,7 @@ public class WorldGenerator extends ChunkGenerator {
 			featureShape = new SimplexOctaveGenerator(seed + 4, 2);
 			featureShape.setScale(featureHorizontalScale);
 			
-			caveShape = new SimplexNoiseGenerator(seed);
+			geologyShape = new SimplexNoiseGenerator(seed);
 			oreShape = new SimplexNoiseGenerator(seed + 1);
 			mineShape = new SimplexNoiseGenerator(seed + 2);
 			macroShape = new SimplexNoiseGenerator(seed + 3);
@@ -276,8 +279,8 @@ public class WorldGenerator extends ChunkGenerator {
 	// micro slots
 	private final static int microRandomGeneratorSlot = 0;
 	private final static int microRoundaboutSlot = 1; 
-	private final static int microCaveSlot = 2; 
 	private final static int microIsolatedLotSlot = 3;
+	private final static int microCaveSlot = 2; 
 	
 	public Random getMicroRandomGeneratorAt(int x, int z) {
 		double noise = microShape.noise(x * microScale, z * microScale, microRandomGeneratorSlot);
@@ -353,10 +356,15 @@ public class WorldGenerator extends ChunkGenerator {
 
 		// cave or not?
 		if (settings.includeCaves) {
-			double cave = caveShape.noise(blockX * caveScale, blockY * caveScaleY, blockZ * caveScale);
+			double cave = geologyShape.noise(blockX * caveScale, blockY * caveScaleY, blockZ * caveScale);
 			return !(cave > caveThreshold || cave < -caveThreshold);
 		} else
 			return true;
+	}
+	
+	public boolean anyStrataFluid(int blockX, int blockY, int blockZ) {
+		double fluid = geologyShape.noise(blockX * strataFluidScale, blockY * strataFluidScale, blockZ * strataFluidScale); // why 50? why not?
+		return !(fluid > strataFluidThreshold || fluid < -strataFluidThreshold);
 	}
 
 	public byte getOre(ByteChunk byteChunk, int blockX, int blockY, int blockZ, byte defaultId) {
