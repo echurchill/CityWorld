@@ -18,7 +18,7 @@ public abstract class SupportChunk {
 	public int height;
 	public Random random;
 	
-	private byte[] ores;
+//	private byte[] ores;
 	
 	public static final int chunksBlockWidth = 16;
 	public static final int sectionsPerChunk = 16;
@@ -64,56 +64,56 @@ public abstract class SupportChunk {
 		return chunkZ * width;
 	}
 
-	public byte getOre(int y) {
-		// a VERY VERY rough approximation of http://www.minecraftwiki.net/wiki/Ore
-		
-		// haven't been here before
-		if (ores == null)
-			ores = new byte[sectionsPerChunk];
-		
-		// what is the random ore for this section?
-		int section = y >> 4;
-		if (ores[section] == 0) {
-			if (inRange(y, 14, 200)) //      diamond, red(more), lapis, gold, iron, coal, fluid(air)
-				ores[section] = pickRandomMineral(14);
-			else if (inRange(y, 16, 192)) // red, lapis, gold, iron, coal, fluid(air)
-				ores[section] = pickRandomMineral(12);
-			else if (inRange(y, 30, 137)) // lapis, gold(more), iron, coal, fluid(air)
-				ores[section] = pickRandomMineral(11);  
-			else if (inRange(y, 32, 129)) // gold, iron, coal, fluid(air)
-				ores[section] = pickRandomMineral(9); 
-			else if (inRange(y, 66, 100)) // iron, coal, fluid(air)
-				ores[section] = pickRandomMineral(8);  
-			else //                          coal
-				ores[section] = pickRandomMineral(4); 
-		}
-		
-		// return it
-		return ores[section];
-	}
-	
-	private byte pickRandomMineral(int max) {
-		switch (random.nextInt(max)) {
-		default:
-		case 1:
-		case 2:
-		case 3: return coalId;
-		case 4:
-		case 5:
-		case 6: return ironId;
-		case 7: return waterId;
-		case 8:
-		case 9: return goldId;
-		case 10: return lapisId;
-		case 11:
-		case 12: return redstoneId;
-		case 13: return diamondId;
-		}
-	}
-	
-	private boolean inRange(int blockY, int lower, int upper) {
-		return blockY <= lower || blockY >= upper;
-	}
+//	public byte getOre(int y) {
+//		// a VERY VERY rough approximation of http://www.minecraftwiki.net/wiki/Ore
+//		
+//		// haven't been here before
+//		if (ores == null)
+//			ores = new byte[sectionsPerChunk];
+//		
+//		// what is the random ore for this section?
+//		int section = y >> 4;
+//		if (ores[section] == 0) {
+//			if (inRange(y, 14, 200)) //      diamond, red(more), lapis, gold, iron, coal, fluid(air)
+//				ores[section] = pickRandomMineral(14);
+//			else if (inRange(y, 16, 192)) // red, lapis, gold, iron, coal, fluid(air)
+//				ores[section] = pickRandomMineral(12);
+//			else if (inRange(y, 30, 137)) // lapis, gold(more), iron, coal, fluid(air)
+//				ores[section] = pickRandomMineral(11);  
+//			else if (inRange(y, 32, 129)) // gold, iron, coal, fluid(air)
+//				ores[section] = pickRandomMineral(9); 
+//			else if (inRange(y, 66, 100)) // iron, coal, fluid(air)
+//				ores[section] = pickRandomMineral(8);  
+//			else //                          coal
+//				ores[section] = pickRandomMineral(4); 
+//		}
+//		
+//		// return it
+//		return ores[section];
+//	}
+//	
+//	private byte pickRandomMineral(int max) {
+//		switch (random.nextInt(max)) {
+//		default:
+//		case 1:
+//		case 2:
+//		case 3: return coalId;
+//		case 4:
+//		case 5:
+//		case 6: return ironId;
+//		case 7: return waterId;
+//		case 8:
+//		case 9: return goldId;
+//		case 10: return lapisId;
+//		case 11:
+//		case 12: return redstoneId;
+//		case 13: return diamondId;
+//		}
+//	}
+//	
+//	private boolean inRange(int blockY, int lower, int upper) {
+//		return blockY <= lower || blockY >= upper;
+//	}
 
 	protected abstract void setBlock(int x, int y, int z, byte materialId);
 	protected abstract void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId);

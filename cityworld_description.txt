@@ -1,18 +1,23 @@
 == **CityWorld** ==
 The great outdoors is all good and fine but sometimes you just want to go to town. Not any town will do, how about one that goes on forever or multiple ones separated by the largest mountains possible in Minecraft. But what is under those mountains? There is an entire world to explore, have fun!
 
-=== If you like CityWorld, please consider donating via the **Donate** button in the upper right corner. ===
+==== If you like CityWorld, please consider donating via the **Donate** button in the upper right corner. ====
 
 ----
 
-===== //Version 1.00// ===== 
+===== //Version 1.01// ===== 
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, if the above version isn't available check back in an hour or so)//,,
 
 {{http://dev.bukkit.org/media/images/42/577/2012-07-01_02.40.31.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
-Latest release notes...
+v1.01
+* Fixed a default settings issue where Mountains were not being included
+* Reworked the ore distribution to speed things up a bit
+* Added an option for inclusion of the bedrock level lava fields
+
+Recent release notes...
 * Treats and Tricks in the Bunkers and Mineshafts
 * Reworked the sewers... you can now get seriously lost down there 
 * Bunkers and Mineshafts
@@ -74,6 +79,7 @@ These all default to true and simply control the inclusion of a certain feature 
 * IncludeBuildings
 * IncludeOres
 * IncludeCaves
+* IncludeLavaFields
 * IncludeUndergroundFluids
 * IncludeSeas
 * IncludeMountains

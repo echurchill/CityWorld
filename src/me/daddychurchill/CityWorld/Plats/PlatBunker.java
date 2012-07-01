@@ -31,7 +31,7 @@ public class PlatBunker extends PlatIsolated {
 
 	@Override
 	protected boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
-		return blockY < calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet - bunkerBuffer || blockY > calcBunkerCeiling(generator) - bunkerSegment - bunkerBuffer;
+		return blockY < calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet || blockY > calcBunkerCeiling(generator);
 	}
 
 	@Override

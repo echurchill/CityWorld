@@ -115,11 +115,10 @@ public class WorldGenerator extends ChunkGenerator {
 
 	public double caveScale = 1.0 / 64.0;
 	public double caveScaleY = caveScale * 2;
-	public double caveThreshold = 0.80; //was 70
+	public double caveThreshold = 0.75; // smaller the number the more larger the caves will be
 	
-	public double oreScale = 1.0 / 16.0;
-	public double oreScaleY = oreScale * 2;
-	public double oreThreshold = 0.95; //was 85
+	public double oreScale = 2.5;
+	public double oreThreshold = 0.30; // smaller the number the more frequent ores will appear
 
 	public double mineScale = 1.0 / 4.0;
 	public double mineScaleY = mineScale;
@@ -371,21 +370,52 @@ public class WorldGenerator extends ChunkGenerator {
 	protected final static byte liquidWaterId = (byte) Material.WATER.getId();
 	protected final static byte liquidLavaId = (byte) Material.LAVA.getId();
 	
-	public byte getOre(SupportChunk chunk, int blockX, int blockY, int blockZ) {
-		byte oreId = airId;
+	public byte getOre(Random random, int blockX, int blockY, int blockZ) {
+		// a VERY VERY rough approximation of http://www.minecraftwiki.net/wiki/Ore
 
 		// ore or not?
-		double ore = oreShape.noise(blockX * oreScale, blockY * oreScaleY, blockZ * oreScale);
-		if (ore > oreThreshold || ore < -oreThreshold)
-			oreId = chunk.getOre(blockY);
-		return oreId;
+		double ore = oreShape.noise(blockX * oreScale, blockY * oreScale, blockZ * oreScale);
+		if (ore > oreThreshold || ore < -oreThreshold) {
+			if (inRange(blockY, 14, 200)) //      diamond, red(more), lapis, gold, iron, coal, fluid(air)
+				return pickRandomMineral(random.nextInt(10));
+			else if (inRange(blockY, 16, 192)) // red, lapis, gold, iron, coal, fluid(air)
+				return pickRandomMineral(random.nextInt(9));
+			else if (inRange(blockY, 30, 137)) // lapis, gold, iron, coal, fluid(air)
+				return pickRandomMineral(random.nextInt(8));
+			else if (inRange(blockY, 32, 129)) // gold, iron, coal, fluid(air)
+				return pickRandomMineral(random.nextInt(6));
+			else if (inRange(blockY, 66, 100)) // iron, coal
+				return pickRandomMineral(random.nextInt(4));
+			else //                               coal
+				return pickRandomMineral(random.nextInt(2));
+		} else
+			return SupportChunk.stoneId;
 	}
 	
-	public byte getFluid(SupportChunk chunk, int blockX, int blockY, int blockZ) {
-		byte oreId = airId;
+	private boolean inRange(int blockY, int lower, int upper) {
+		return blockY <= lower || blockY >= upper;
+	}
+	
+	private byte pickRandomMineral(int index) {
+		switch (index) {
+		default: 
+		case 1: return SupportChunk.coalId;
+		case 2:
+		case 3: return SupportChunk.ironId;
+		case 4: return SupportChunk.waterId;
+		case 5: 
+		case 6: return SupportChunk.goldId;
+		case 7: return SupportChunk.lapisId;
+		case 8: return SupportChunk.redstoneId;
+		case 9: return SupportChunk.diamondId;
+		}
+	}
+	
+	public byte getFluid(int blockY) {
+		byte oreId;
 
 		// ore or not?
-		if (blockY <= 10)
+		if (blockY <= 30)
 			oreId = SupportChunk.lavaId;
 		else if (blockY > snowLevel)
 			oreId = SupportChunk.iceId;

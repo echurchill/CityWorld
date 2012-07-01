@@ -72,7 +72,7 @@ public class PlatRoad extends PlatConnected {
 
 	@Override
 	protected boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
-		return blockY < generator.sidewalkLevel - ContextData.FloorHeight * 2 - 16 || blockY >= generator.sidewalkLevel + tunnelHeight + 1 + 16;
+		return blockY < generator.sidewalkLevel - 1 || blockY > generator.sidewalkLevel;
 	}
 
 	@Override
@@ -738,6 +738,8 @@ public class PlatRoad extends PlatConnected {
 			}
 		
 		} else {
+			// repave a bit
+			//chunk.setBlocks(0, 16, sidewalkLevel - 1, 0, 16, Material.WOOL, (byte) 15, false);
 			
 			// tunnel please
 			if (maxHeight > sidewalkLevel + tunnelHeight) {
