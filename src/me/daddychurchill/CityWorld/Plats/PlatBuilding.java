@@ -75,7 +75,7 @@ public abstract class PlatBuilding extends PlatConnected {
 
 	@Override
 	protected boolean isShaftableLevel(WorldGenerator generator, ContextData context, int y) {
-		return y >= 0 && y < context.streetLevel - ContextData.FloorHeight * depth - 2 - 16;	
+		return y >= 0 && y < generator.sidewalkLevel - ContextData.FloorHeight * depth - 2 - 16;	
 	}
 
 	static public RoofStyle pickRoofStyle(Random rand) {

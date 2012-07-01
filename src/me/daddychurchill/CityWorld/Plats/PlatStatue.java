@@ -35,12 +35,17 @@ public class PlatStatue extends PlatIsolated {
 	}
 
 	@Override
+	protected int getTopStrataY(WorldGenerator generator, int blockX, int blockZ) {
+		return generator.sidewalkLevel - 1;
+	}
+
+	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		// what is it build on?
 		statueBase = randomBase(chunkRandom);
 
 		// where to start?
-		int y1 = context.streetLevel + 1;
+		int y1 = generator.sidewalkLevel + 1;
 		chunk.setLayer(y1, curbId);
 		
 		// what to build?
@@ -51,21 +56,14 @@ public class PlatStatue extends PlatIsolated {
 			chunk.setCircle(8, 8, 5, y1, stoneId, false);
 			for (int x = 0; x < 10; x++)
 				for (int z = 0; z < 10; z++)
-//					if (context.doTreasureInFountain)
-//						chunk.setBlock(x + 3, y1, z + 3, chunkRandom.nextInt(context.oddsOfMoneyInFountains) == 0 ? goldId : stoneId);
-//					else
-						chunk.setBlock(x + 3, y1, z + 3, stoneId);
+					chunk.setBlock(x + 3, y1, z + 3, stoneId);
 			
-			// the plain bit... later we will take care of the fancy bit
+			//TODO the plain bit... later we will take care of the fancy bit
 			y1++;
 			chunk.setCircle(8, 8, 6, y1, brickId, false);
 			
-			//TODO need to improve this silly logic
 			// fill with water
-			chunk.setCircle(8, 8, 5, y1, waterId, true);
-//			chunk.setCircle(8, 8, 4, y1, waterId, false);
-//			chunk.setCircle(8, 8, 3, y1, waterId);
-//			chunk.setCircle(8, 8, 2, y1, waterId);
+			chunk.setCircle(8, 8, 5, y1, stillWaterId, true);
 			break;
 		case GRASS:
 			
@@ -100,7 +98,7 @@ public class PlatStatue extends PlatIsolated {
 		boolean somethingInTheCenter = chunkRandom.nextInt(context.oddsOfMissingArt) != 0;
 		
 		// where to start?
-		int y1 = context.streetLevel + 2;
+		int y1 = generator.sidewalkLevel + 2;
 		
 		// making a fountain?
 		switch (statueBase) {
@@ -120,10 +118,6 @@ public class PlatStatue extends PlatIsolated {
 				somethingInTheCenter = false;
 			}
 			
-//			// manhole to underworld?
-//			if (context.doUnderworld)
-//				if (chunkRandom.nextInt(context.oddsOfManholeToDownBelow) == 0)
-//					generateManhole(chunk, context);
 			break;
 		case GRASS:
 			
@@ -133,10 +127,6 @@ public class PlatStatue extends PlatIsolated {
 				somethingInTheCenter = false;
 			}
 			
-//			// manhole to underworld?
-//			if (context.doUnderworld)
-//				if (chunkRandom.nextInt(context.oddsOfManholeToDownBelow) == 0)
-//					generateManhole(chunk, context);
 			break;
 		case PEDESTAL:
 			
@@ -171,13 +161,6 @@ public class PlatStatue extends PlatIsolated {
 		
 	}
 	
-//	private void generateManhole(RealChunk chunk, PlatMapContext context) {
-//		// maybe.. maybe not...
-//		chunk.setTrapDoor(4, context.streetLevel + 2, 1, TrapDoor.EAST);
-//		chunk.setLadder(4, underworldLevel, context.streetLevel + 2, 1, Ladder.SOUTH);
-//		chunk.setBlock(4, 1, 1, manholePlatformMaterial);
-//	}
-
 	private StatueBase randomBase(Random random) {
 		switch (random.nextInt(StatueBase.values().length)) {
 		case 0:

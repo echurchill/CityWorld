@@ -19,6 +19,11 @@ public class PlatHouse extends PlatIsolated {
 	}
 
 	@Override
+	protected int getTopStrataY(WorldGenerator generator, int blockX, int blockZ) {
+		return generator.sidewalkLevel - 1;
+	}
+
+	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		// TODO Auto-generated method stub
 		
@@ -28,10 +33,10 @@ public class PlatHouse extends PlatIsolated {
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
 
 		// ground please
-		chunk.setLayer(context.streetLevel, Material.GRASS);
+		chunk.setLayer(generator.sidewalkLevel, Material.GRASS);
 		
 		// now make a house
-		HouseFactory.generateHouse(chunk, context, chunkRandom, context.streetLevel + 1, 2);
+		HouseFactory.generateHouse(chunk, context, chunkRandom, generator.sidewalkLevel + 1, 2);
 	}
 
 }

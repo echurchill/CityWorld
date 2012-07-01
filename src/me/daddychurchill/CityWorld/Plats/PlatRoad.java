@@ -71,6 +71,11 @@ public class PlatRoad extends PlatConnected {
 	}
 
 	@Override
+	protected boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
+		return blockY < generator.sidewalkLevel - ContextData.FloorHeight * 2 - 16 || blockY >= generator.sidewalkLevel + tunnelHeight + 1 + 16;
+	}
+
+	@Override
 	protected boolean isShaftableLevel(WorldGenerator generator, ContextData context, int y) {
 		return (y < generator.sidewalkLevel - ContextData.FloorHeight * 2 - 16 || y >= generator.sidewalkLevel + tunnelHeight + 1 + 16 ) &&
 				super.isShaftableLevel(generator, context, y);	
@@ -97,10 +102,10 @@ public class PlatRoad extends PlatConnected {
 		int originZ = chunk.getOriginZ();
 		
 		// where do we start
-		int base1Y = context.streetLevel - ContextData.FloorHeight * 2 + 1;
+		int base1Y = generator.sidewalkLevel - ContextData.FloorHeight * 2 + 1;
 		int sewerY = base1Y + 1;
 		int base2Y = base1Y + ContextData.FloorHeight + 1;
-		int sidewalkLevel = context.streetLevel + 1;
+		int sidewalkLevel = generator.sidewalkLevel + 1;
 		boolean doSewer = generator.settings.includeSewers;
 		
 		// look around
@@ -274,7 +279,7 @@ public class PlatRoad extends PlatConnected {
 				doSewer = false;
 				
 				// draw pavement
-				chunk.setLayer(context.streetLevel - 2, 2, pavementId);
+				chunk.setLayer(generator.sidewalkLevel - 2, 2, pavementId);
 				
 				// tunnel to the east/west
 				if (roads.toWest() && roads.toEast()) {
@@ -333,16 +338,16 @@ public class PlatRoad extends PlatConnected {
 				
 				// round things out
 				if (!roads.toWest() && roads.toEast() && !roads.toNorth() && roads.toSouth())
-					generateRoundedOut(chunk, context, sidewalkWidth, sidewalkWidth, 
+					generateRoundedOut(generator, context, chunk, sidewalkWidth, sidewalkWidth, 
 							false, false);
 				if (!roads.toWest() && roads.toEast() && roads.toNorth() && !roads.toSouth())
-					generateRoundedOut(chunk, context, sidewalkWidth, chunk.width - sidewalkWidth - 4, 
+					generateRoundedOut(generator, context, chunk, sidewalkWidth, chunk.width - sidewalkWidth - 4, 
 							false, true);
 				if (roads.toWest() && !roads.toEast() && !roads.toNorth() && roads.toSouth())
-					generateRoundedOut(chunk, context, chunk.width - sidewalkWidth - 4, sidewalkWidth, 
+					generateRoundedOut(generator, context, chunk, chunk.width - sidewalkWidth - 4, sidewalkWidth, 
 							true, false);
 				if (roads.toWest() && !roads.toEast() && roads.toNorth() && !roads.toSouth())
-					generateRoundedOut(chunk, context, chunk.width - sidewalkWidth - 4, chunk.width - sidewalkWidth - 4, 
+					generateRoundedOut(generator, context, chunk, chunk.width - sidewalkWidth - 4, chunk.width - sidewalkWidth - 4, 
 							true, true);
 			}
 		}
@@ -698,10 +703,10 @@ public class PlatRoad extends PlatConnected {
 		int originZ = chunk.getOriginZ();
 		
 		// where do we start
-		int base1Y = context.streetLevel - ContextData.FloorHeight * 2 + 1;
+		int base1Y = generator.sidewalkLevel - ContextData.FloorHeight * 2 + 1;
 		int sewerY = base1Y + 1;
 		int base2Y = base1Y + ContextData.FloorHeight + 1;
-		int sidewalkLevel = context.streetLevel + 1;
+		int sidewalkLevel = generator.sidewalkLevel + 1;
 		boolean doSewer = generator.settings.includeSewers;
 		
 		// look around
@@ -1002,8 +1007,8 @@ public class PlatRoad extends PlatConnected {
 		}
 	}
 	
-	private void generateRoundedOut(ByteChunk chunk, ContextData context, int x, int z, boolean toNorth, boolean toEast) {
-		int sidewalkLevel = context.streetLevel + 1;
+	private void generateRoundedOut(WorldGenerator generator, ContextData context, ByteChunk chunk, int x, int z, boolean toNorth, boolean toEast) {
+		int sidewalkLevel = generator.sidewalkLevel + 1;
 		
 		// long bits
 		for (int i = 0; i < 4; i++) {

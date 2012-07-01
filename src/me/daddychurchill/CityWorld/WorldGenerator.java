@@ -13,6 +13,7 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
@@ -114,14 +115,11 @@ public class WorldGenerator extends ChunkGenerator {
 
 	public double caveScale = 1.0 / 64.0;
 	public double caveScaleY = caveScale * 2;
-	public double caveThreshold = 0.75; //was 70
+	public double caveThreshold = 0.80; //was 70
 	
-	public double strataFluidScale = 1.0 / 8.0;
-	public double strataFluidThreshold = 0.10;
-
 	public double oreScale = 1.0 / 16.0;
 	public double oreScaleY = oreScale * 2;
-	public double oreThreshold = 0.90; //was 85
+	public double oreThreshold = 0.95; //was 85
 
 	public double mineScale = 1.0 / 4.0;
 	public double mineScaleY = mineScale;
@@ -368,22 +366,32 @@ public class WorldGenerator extends ChunkGenerator {
 			return true;
 	}
 	
-	public boolean anyStrataFluid(int blockX, int blockY, int blockZ) {
-		double fluid = geologyShape.noise(blockX * strataFluidScale, blockY * strataFluidScale, blockZ * strataFluidScale); // why 50? why not?
-		return !(fluid > strataFluidThreshold || fluid < -strataFluidThreshold);
-	}
-
-	public byte getOre(ByteChunk byteChunk, int blockX, int blockY, int blockZ, byte defaultId) {
+	protected final static byte airId = (byte) Material.AIR.getId();
+	protected final static byte iceId = (byte) Material.ICE.getId();
+	protected final static byte liquidWaterId = (byte) Material.WATER.getId();
+	protected final static byte liquidLavaId = (byte) Material.LAVA.getId();
+	
+	public byte getOre(SupportChunk chunk, int blockX, int blockY, int blockZ) {
+		byte oreId = airId;
 
 		// ore or not?
-		if (settings.includeOres) {
-			double ore = oreShape.noise(blockX * oreScale, blockY * oreScaleY, blockZ * oreScale);
-			if (ore > oreThreshold || ore < -oreThreshold)
-				return byteChunk.getOre(blockY);
-			else
-				return defaultId;
-		} else
-			return defaultId;
+		double ore = oreShape.noise(blockX * oreScale, blockY * oreScaleY, blockZ * oreScale);
+		if (ore > oreThreshold || ore < -oreThreshold)
+			oreId = chunk.getOre(blockY);
+		return oreId;
+	}
+	
+	public byte getFluid(SupportChunk chunk, int blockX, int blockY, int blockZ) {
+		byte oreId = airId;
+
+		// ore or not?
+		if (blockY <= 10)
+			oreId = SupportChunk.lavaId;
+		else if (blockY > snowLevel)
+			oreId = SupportChunk.iceId;
+		else
+			oreId = SupportChunk.waterId;
+		return oreId;
 	}
 	
 	private final static int spawnRadius = 100;

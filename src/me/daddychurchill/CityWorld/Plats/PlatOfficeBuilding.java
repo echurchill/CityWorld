@@ -124,6 +124,11 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	}
 
 	@Override
+	protected int getTopStrataY(WorldGenerator generator, int blockX, int blockZ) {
+		return generator.sidewalkLevel - FloorHeight * (depth - 1) - 3;
+	}
+
+	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 
 		// check out the neighbors
@@ -131,7 +136,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);
 
 		// starting with the bottom
-		int lowestY = context.streetLevel - FloorHeight * (depth - 1) - 3;
+		int lowestY = generator.sidewalkLevel - FloorHeight * (depth - 1) - 3;
 		
 		// bottom most floor
 		drawCeilings(chunk, context, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);
@@ -139,7 +144,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		
 		// below ground
 		for (int floor = 0; floor < depth; floor++) {
-			int floorAt = context.streetLevel - FloorHeight * floor - 2;
+			int floorAt = generator.sidewalkLevel - FloorHeight * floor - 2;
 
 			// clear it out
 			chunk.setLayer(floorAt, FloorHeight, airId);
@@ -166,7 +171,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 
 		// above ground
 		for (int floor = 0; floor < height; floor++) {
-			int floorAt = context.streetLevel + FloorHeight * floor + 2;
+			int floorAt = generator.sidewalkLevel + FloorHeight * floor + 2;
 			allowRounded = allowRounded && neighborFloors.isRoundable();
 
 			// breath in?
@@ -189,7 +194,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 			
 			// final floor is done... how about a roof then?
 			if (floor == height - 1)
-				drawRoof(chunk, context, context.streetLevel + FloorHeight * (floor + 1) + 2, localInsetWallEW, localInsetWallNS, allowRounded, roofMaterial, neighborFloors);
+				drawRoof(chunk, context, generator.sidewalkLevel + FloorHeight * (floor + 1) + 2, localInsetWallEW, localInsetWallNS, allowRounded, roofMaterial, neighborFloors);
 
 			// one down, more to go
 			neighborFloors.decrement();
@@ -210,12 +215,12 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		StairWell stairLocation = getStairWellLocation(allowRounded, neighborFloors);
 		
 		// bottom floor? 
-		drawDoors(chunk, context.streetLevel + 2, FloorHeight, insetWallEW, insetWallNS, 
+		drawDoors(chunk, generator.sidewalkLevel + 2, FloorHeight, insetWallEW, insetWallNS, 
 				stairLocation, neighborFloors, wallMaterial);
 		
 		// work on the basement stairs first
 		for (int floor = 0; floor < depth; floor++) {
-			int y = context.streetLevel - FloorHeight * floor - 2;
+			int y = generator.sidewalkLevel - FloorHeight * floor - 2;
 			
 			// stairs?
 			if (needStairsDown) {
@@ -250,7 +255,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		// now the above ground floors
 		if (needStairsUp) {
 			for (int floor = 0; floor < height; floor++) {
-				int y = context.streetLevel + FloorHeight * floor + 2;
+				int y = generator.sidewalkLevel + FloorHeight * floor + 2;
 				
 				// more stairs and such
 				if (floor < height - 1)

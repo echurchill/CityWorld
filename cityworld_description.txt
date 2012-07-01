@@ -4,7 +4,7 @@ The great outdoors is all good and fine but sometimes you just want to go to tow
 ===== //Version 1.00// ===== 
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, if the above version isn't available check back in an hour or so)//,,
 
-{{http://dev.bukkit.org/media/images/36/712/BeautyShot.jpg|CityWorld}}
+{{http://dev.bukkit.org/media/images/42/575/2012-07-01_01.57.09.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 

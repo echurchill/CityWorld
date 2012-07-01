@@ -30,6 +30,11 @@ public class PlatBunker extends PlatIsolated {
 	private final static int bunkerMaxHeight = bunkerSegment * 8;
 
 	@Override
+	protected boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
+		return blockY < calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet - bunkerBuffer || blockY > calcBunkerCeiling(generator) - bunkerSegment - bunkerBuffer;
+	}
+
+	@Override
 	protected boolean isShaftableLevel(WorldGenerator generator, ContextData context, int y) {
 		return (y < calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet - bunkerBuffer || y > calcBunkerCeiling(generator) - bunkerSegment - bunkerBuffer) &&
 				super.isShaftableLevel(generator, context, y);

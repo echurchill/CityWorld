@@ -53,8 +53,13 @@ public class PlatPark extends PlatConnected {
 	}
 
 	@Override
+	protected int getTopStrataY(WorldGenerator generator, int blockX, int blockZ) {
+		return generator.sidewalkLevel - cisternDepth - 2 - 16;
+	}
+
+	@Override
 	protected boolean isShaftableLevel(WorldGenerator generator, ContextData context, int y) {
-		return y >= 0 && y < context.streetLevel - cisternDepth - 2 - 16;	
+		return y >= 0 && y < generator.sidewalkLevel - cisternDepth - 2 - 16;	
 	}
 
 	@Override
@@ -78,8 +83,8 @@ public class PlatPark extends PlatConnected {
 		SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
 		
 		// starting with the bottom
-		int lowestY = context.streetLevel - cisternDepth + 1;
-		int highestY = context.streetLevel - groundDepth - 1;
+		int lowestY = generator.sidewalkLevel - cisternDepth + 1;
+		int highestY = generator.sidewalkLevel - groundDepth - 1;
 		
 		// cistern?
 		if (generator.settings.includeCisterns) {
@@ -139,7 +144,7 @@ public class PlatPark extends PlatConnected {
 		chunk.setLayer(highestY + 3, grassId);
 		
 		// surface features
-		int surfaceY = context.streetLevel + 1;
+		int surfaceY = generator.sidewalkLevel + 1;
 		if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
 			chunk.setBlocks(0, 6, surfaceY, surfaceY + 1, 0, 1, columnId);
 			chunk.setBlocks(0, 6, surfaceY + 1, surfaceY + 2, 0, 1, fenceId);
@@ -203,13 +208,13 @@ public class PlatPark extends PlatConnected {
 	
 	@Override
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
-		int surfaceY = context.streetLevel + 1;
+		int surfaceY = generator.sidewalkLevel + 1;
 		
 		// way down?
 		if (generator.settings.includeCisterns) {
 			SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
 			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
-				int lowestY = context.streetLevel - cisternDepth + 1 + waterDepth;
+				int lowestY = generator.sidewalkLevel - cisternDepth + 1 + waterDepth;
 				chunk.setBlocks(4, 7, lowestY, lowestY + 1, 1, 2, ledgeMaterial);
 				chunk.setLadder(5, lowestY + 1, surfaceY, 1, Ladder.SOUTH);
 				chunk.setTrapDoor(5, surfaceY, 1, TrapDoor.EAST);

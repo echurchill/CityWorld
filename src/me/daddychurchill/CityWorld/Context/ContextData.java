@@ -62,7 +62,6 @@ public abstract class ContextData {
 	public int buildingMaximumY;
 	public int absoluteMaximumFloorsBelow;
 	public int absoluteMaximumFloorsAbove; 
-	public int streetLevel;
 	
 	public Material lightMat;
 	public Byte lightId;
@@ -76,13 +75,8 @@ public abstract class ContextData {
 		buildingMaximumY = Math.min(126 + FudgeFloorsAbove * FloorHeight, generator.height);
 		
 		// where is the ground
-		streetLevel = Math.min(Math.max(generator.sidewalkLevel, 
-				FloorHeight * FudgeFloorsBelow), 
-				buildingMaximumY - FloorHeight * (FudgeFloorsAbove + absoluteMinimumFloorsAbove));
-		
-		// worst case?
-		absoluteMaximumFloorsBelow = Math.max(Math.min(streetLevel / FloorHeight - FudgeFloorsBelow, absoluteAbsoluteMaximumFloorsBelow), 0);
-		absoluteMaximumFloorsAbove = Math.max(Math.min((buildingMaximumY - streetLevel) / FloorHeight - FudgeFloorsAbove, absoluteAbsoluteMaximumFloorsAbove), absoluteMinimumFloorsAbove);
+		absoluteMaximumFloorsBelow = Math.max(Math.min(generator.sidewalkLevel / FloorHeight - FudgeFloorsBelow, absoluteAbsoluteMaximumFloorsBelow), 0);
+		absoluteMaximumFloorsAbove = Math.max(Math.min((buildingMaximumY - generator.sidewalkLevel) / FloorHeight - FudgeFloorsAbove, absoluteAbsoluteMaximumFloorsAbove), absoluteMinimumFloorsAbove);
 		
 		// lights?
 		if (generator.settings.workingLights) {

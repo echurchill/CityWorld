@@ -33,8 +33,10 @@ public abstract class SupportChunk {
 	public static final byte coalId = (byte) Material.COAL_ORE.getId();
 	public static final byte dirtId = (byte) Material.DIRT.getId();
 	public static final byte grassId = (byte) Material.GRASS.getId();
+	public static final byte iceId = (byte) Material.ICE.getId(); // the fluid type
 	public static final byte waterId = (byte) Material.WATER.getId(); // the fluid type
 	public static final byte lavaId = (byte) Material.LAVA.getId(); // the fluid type
+	public static final byte stillLavaId = (byte) Material.STATIONARY_LAVA.getId(); // the fluid type
 	
 	public SupportChunk(WorldGenerator generator, Random aRandom) {
 		super();
@@ -72,18 +74,18 @@ public abstract class SupportChunk {
 		// what is the random ore for this section?
 		int section = y >> 4;
 		if (ores[section] == 0) {
-			if (inRange(y, 14, 200)) //      diamond, red, lapis, gold, iron, coal
-				ores[section] = pickRandomMineral(13);
-			else if (inRange(y, 16, 192)) // red, lapis, gold, iron, coal
-				ores[section] = pickRandomMineral(11);
-			else if (inRange(y, 30, 137)) // lapis, gold, iron, coal
-				ores[section] = pickRandomMineral(9);  
-			else if (inRange(y, 32, 129)) // gold, iron, coal
-				ores[section] = pickRandomMineral(8); 
-			else if (inRange(y, 66, 100)) // iron, coal
-				ores[section] = pickRandomMineral(6);  
+			if (inRange(y, 14, 200)) //      diamond, red(more), lapis, gold, iron, coal, fluid(air)
+				ores[section] = pickRandomMineral(14);
+			else if (inRange(y, 16, 192)) // red, lapis, gold, iron, coal, fluid(air)
+				ores[section] = pickRandomMineral(12);
+			else if (inRange(y, 30, 137)) // lapis, gold(more), iron, coal, fluid(air)
+				ores[section] = pickRandomMineral(11);  
+			else if (inRange(y, 32, 129)) // gold, iron, coal, fluid(air)
+				ores[section] = pickRandomMineral(9); 
+			else if (inRange(y, 66, 100)) // iron, coal, fluid(air)
+				ores[section] = pickRandomMineral(8);  
 			else //                          coal
-				ores[section] = pickRandomMineral(1); 
+				ores[section] = pickRandomMineral(4); 
 		}
 		
 		// return it
@@ -92,19 +94,20 @@ public abstract class SupportChunk {
 	
 	private byte pickRandomMineral(int max) {
 		switch (random.nextInt(max)) {
-		default:  
+		default:
 		case 1:
-		case 2: 
+		case 2:
 		case 3: return coalId;
 		case 4:
-		case 5:                      
+		case 5:
 		case 6: return ironId;
-		case 7:
-		case 8: return goldId;
-		case 9: return lapisId;     
-		case 10:                     
-		case 11: return redstoneId;
-		case 12: return diamondId;   
+		case 7: return waterId;
+		case 8:
+		case 9: return goldId;
+		case 10: return lapisId;
+		case 11:
+		case 12: return redstoneId;
+		case 13: return diamondId;
 		}
 	}
 	

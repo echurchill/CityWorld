@@ -45,6 +45,11 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	}
 
 	@Override
+	protected int getTopStrataY(WorldGenerator generator, int blockX, int blockZ) {
+		return generator.sidewalkLevel - FloorHeight * (depth - 1) - 3;
+	}
+
+	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 
 		// check out the neighbors
@@ -52,23 +57,23 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);
 
 		// starting with the bottom
-		int lowestY = context.streetLevel - FloorHeight * (depth - 1) - 3;
+		int lowestY = generator.sidewalkLevel - FloorHeight * (depth - 1) - 3;
 		
 		// bottom most floor
 		drawCeilings(chunk, context, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);
 		
 		// below ground
 		for (int floor = 0; floor < depth; floor++) {
-			int floorAt = context.streetLevel - FloorHeight * floor - 2;
+			int floorAt = generator.sidewalkLevel - FloorHeight * floor - 2;
 			
 			// clear it out
 			chunk.setLayer(floorAt, FloorHeight, airId);
 			
 			// at the first floor add a fence to prevent folks from falling in
 			if (floor == 0) {
-				drawWalls(chunk, context, context.streetLevel + 2, fenceHeight, 0, 0, false,
+				drawWalls(chunk, context, generator.sidewalkLevel + 2, fenceHeight, 0, 0, false,
 						fenceMaterial, fenceMaterial, neighborBasements);
-				holeFence(chunk, context.streetLevel + 2, neighborBasements);
+				holeFence(chunk, generator.sidewalkLevel + 2, neighborBasements);
 			}
 			
 			// one floor please
@@ -98,7 +103,7 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 
 			// above ground
 			for (int floor = 0; floor < height; floor++) {
-				int floorAt = context.streetLevel + FloorHeight * floor + 2;
+				int floorAt = generator.sidewalkLevel + FloorHeight * floor + 2;
 				
 				// floor built yet?
 				if (floor <= floorsBuilt) {
@@ -133,7 +138,7 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 			
 			if (needStairsDown) {
 				for (int floor = 0; floor < depth; floor++) {
-					int y = context.streetLevel - FloorHeight * floor - 2;
+					int y = generator.sidewalkLevel - FloorHeight * floor - 2;
 					
 					// place the stairs and such
 					drawStairs(chunk, y, FloorHeight, inset, inset, StairWell.CENTER, stairMaterial);
@@ -146,7 +151,7 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 			
 			if (needStairsUp) {
 				for (int floor = 0; floor < height; floor++) {
-					int y = context.streetLevel + FloorHeight * floor + 2;
+					int y = generator.sidewalkLevel + FloorHeight * floor + 2;
 					
 					// floor built yet?
 					if (floor <= floorsBuilt) {

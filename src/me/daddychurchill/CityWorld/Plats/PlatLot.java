@@ -5,6 +5,7 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
 import org.bukkit.block.Biome;
+import org.bukkit.block.Block;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import org.bukkit.util.noise.NoiseGenerator;
 
@@ -31,6 +32,7 @@ public abstract class PlatLot {
 	protected int maxHeight = Integer.MIN_VALUE;
 	protected int maxHeightX = 0;
 	protected int maxHeightZ = 0;
+	protected int oreTopY = -1; // use generator.findBlockY()
 	
 	protected Random platmapRandom;
 	protected Random chunkRandom;
@@ -57,11 +59,8 @@ public abstract class PlatLot {
 	protected final static byte bedrockId = (byte) Material.BEDROCK.getId();
 	protected final static byte fenceId = (byte) Material.FENCE.getId();
 	protected final static byte cobbleId = (byte) Material.COBBLESTONE.getId();
-	protected final static byte iceId = (byte) Material.ICE.getId();
-	protected final static byte waterId = (byte) Material.STATIONARY_WATER.getId();
-	protected final static byte lavaId = (byte) Material.STATIONARY_LAVA.getId();
-	protected final static byte liquidWaterId = (byte) Material.WATER.getId();
-	protected final static byte liquidLavaId = (byte) Material.LAVA.getId();
+	protected final static byte stillWaterId = (byte) Material.STATIONARY_WATER.getId();
+	protected final static byte stillLavaId = (byte) Material.STATIONARY_LAVA.getId();
 
 	protected final static int snowMaterialId = Material.SNOW.getId();
 	protected final static int grassMaterialId = Material.LONG_GRASS.getId();
@@ -110,6 +109,10 @@ public abstract class PlatLot {
 		
 		// let the specialized platlot do it's thing
 		generateActualBlocks(generator, platmap, chunk, context, platX, platZ);
+		
+		// put ores in?
+		if (generator.settings.includeOres || generator.settings.includeUndergroundFluids)
+			generateOres(generator, chunk);
 		
 		// do we do it or not?
 		if (generator.settings.includeMines)
@@ -177,7 +180,7 @@ public abstract class PlatLot {
 
 						// we are in the water!
 					} else if (y < generator.seaLevel) {
-						generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, generator.seaLevel, waterId, false);
+						generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, generator.seaLevel, stillWaterId, false);
 						biomes.setBiome(x, z, Biome.OCEAN);
 
 						// we are in the mountains
@@ -514,61 +517,151 @@ public abstract class PlatLot {
 		}
 	}
 	
-	private byte getStrataFluid(WorldGenerator generator, int y) {
-		if (y <= 20)
-			return liquidLavaId;
-		else if (y > generator.snowLevel)
-			return iceId;
-		else 
-			return liquidWaterId;
-	}
-	
-	private void generateStratas(WorldGenerator generator, ByteChunk byteChunk, int x, int z, byte baseId,
+//	private void generateStratas(WorldGenerator generator, ByteChunk byteChunk, int x, int z, byte baseId,
+//			int baseY, byte substrateId, int substrateY, byte surfaceId,
+//			boolean surfaceCaves) {
+//
+//		// compute the world block coordinates
+//		int blockX = byteChunk.chunkX * byteChunk.width + x;
+//		int blockZ = byteChunk.chunkZ * byteChunk.width + z;
+//		
+//		// stony bits
+//		for (int y = 2; y < baseY; y++)
+//			if (generator.notACave(blockX, y, blockZ)) {
+//				byte oreId = generator.getOre(byteChunk, blockX, y, blockZ, baseId);
+//				
+//				// transmute to fluid?
+//				if (generator.settings.includeUndergroundFluids && oreId != baseId && generator.anyStrataFluid(blockX, y, blockZ))
+//					oreId = getStrataFluid(generator, y);
+//				
+//				// place it
+//				byteChunk.setBlock(x, y, z, oreId);
+//		
+//			// Loosely based on http://www.minecraftwiki.net/wiki/Lava
+//			} else if (y <= 10)
+//				byteChunk.setBlock(x, y, z, lavaId);
+//
+//		// aggregate bits
+//		for (int y = baseY; y < substrateY - 1; y++)
+//			if (!surfaceCaves || generator.notACave(blockX, y, blockZ))
+//				byteChunk.setBlock(x, y, z, substrateId);
+//
+//		// icing for the cake
+//		if (!surfaceCaves || generator.notACave(blockX, substrateY, blockZ)) {
+//			byteChunk.setBlock(x, substrateY - 1, z, substrateId);
+//			byteChunk.setBlock(x, substrateY, z, surfaceId);
+//		}
+//	}
+//
+//	private void generateStratas(WorldGenerator generator, ByteChunk chunk, int x, int z, byte baseId,
+//			int baseY, byte substrateId, int substrateY, byte surfaceId,
+//			int coverY, byte coverId, boolean surfaceCaves) {
+//
+//		// a little crust please?
+//		generateStratas(generator, chunk, x, z, baseId, baseY, substrateId, substrateY, surfaceId, surfaceCaves);
+//
+//		// cover it up
+//		for (int y = substrateY + 1; y <= coverY; y++)
+//			chunk.setBlock(x, y, z, coverId);
+//	}
+
+	private void generateStratas(WorldGenerator generator, ByteChunk chunk, int x, int z, byte baseId,
 			int baseY, byte substrateId, int substrateY, byte surfaceId,
 			boolean surfaceCaves) {
 
 		// compute the world block coordinates
-		int blockX = byteChunk.chunkX * byteChunk.width + x;
-		int blockZ = byteChunk.chunkZ * byteChunk.width + z;
+		int blockX = chunk.chunkX * chunk.width + x;
+		int blockZ = chunk.chunkZ * chunk.width + z;
 		
 		// stony bits
 		for (int y = 2; y < baseY; y++)
-			if (generator.notACave(blockX, y, blockZ)) {
-				byte oreId = generator.getOre(byteChunk, blockX, y, blockZ, baseId);
-				
-				// transmute to fluid?
-				if (generator.settings.includeUndergroundFluids && oreId != baseId && generator.anyStrataFluid(blockX, y, blockZ))
-					oreId = getStrataFluid(generator, y);
-				
-				// place it
-				byteChunk.setBlock(x, y, z, oreId);
-		
-			// Loosely based on http://www.minecraftwiki.net/wiki/Lava
-			} else if (y <= 10)
-				byteChunk.setBlock(x, y, z, lavaId);
+			if (isValidStrataY(generator, blockX, y, blockZ))
+				chunk.setBlock(x, y, z, baseId);
 
 		// aggregate bits
 		for (int y = baseY; y < substrateY - 1; y++)
 			if (!surfaceCaves || generator.notACave(blockX, y, blockZ))
-				byteChunk.setBlock(x, y, z, substrateId);
+				chunk.setBlock(x, y, z, substrateId);
 
 		// icing for the cake
 		if (!surfaceCaves || generator.notACave(blockX, substrateY, blockZ)) {
-			byteChunk.setBlock(x, substrateY - 1, z, substrateId);
-			byteChunk.setBlock(x, substrateY, z, surfaceId);
+			chunk.setBlock(x, substrateY - 1, z, substrateId);
+			chunk.setBlock(x, substrateY, z, surfaceId);
 		}
 	}
 
-	private void generateStratas(WorldGenerator generator, ByteChunk byteChunk, int x, int z, byte baseId,
+	private void generateStratas(WorldGenerator generator, ByteChunk chunk, int x, int z, byte baseId,
 			int baseY, byte substrateId, int substrateY, byte surfaceId,
 			int coverY, byte coverId, boolean surfaceCaves) {
 
 		// a little crust please?
-		generateStratas(generator, byteChunk, x, z, baseId, baseY, substrateId, substrateY, surfaceId, surfaceCaves);
+		generateStratas(generator, chunk, x, z, baseId, baseY, substrateId, substrateY, surfaceId, surfaceCaves);
 
 		// cover it up
 		for (int y = substrateY + 1; y <= coverY; y++)
-			byteChunk.setBlock(x, y, z, coverId);
+			chunk.setBlock(x, y, z, coverId);
+	}
+	
+	protected boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
+		return generator.notACave(blockX, blockY, blockZ);
+	}
+	
+	protected int getTopStrataY(WorldGenerator generator, int blockX, int blockZ) {
+		return generator.findBlockY(blockX, blockZ);
+	}
+	
+	private void generateOres(WorldGenerator generator, RealChunk chunk) {
+
+		// compute the world block coordinates
+		int originX = chunk.getOriginX();
+		int originZ = chunk.getOriginZ();
+		Block block;
+		
+		// shape the world
+		for (int x = 0; x < chunk.width; x++) {
+			for (int z = 0; z < chunk.width; z++) {
+
+				// how high are we?
+				int topStrataY = getTopStrataY(generator, originX + x, originZ + z);
+		
+				// stony bits
+				for (int y = 2; y < topStrataY; y++) {
+					int blockX = originX + x;
+					int blockZ = originZ + z;
+					block = null;
+					
+					// low enough for lava?
+					if (generator.settings.includeUndergroundFluids && y <= 10) {
+						block = chunk.getActualBlock(x, y, z);
+						if (block.isEmpty())
+							block.setTypeId(SupportChunk.stillLavaId, false);
+						else
+							continue;
+					}
+					
+					// good location?
+					if (isValidStrataY(generator, blockX, y, blockZ)) {
+						if (block == null)
+							block = chunk.getActualBlock(x, y, z);
+						
+						// figure out the ore
+						byte oreId = generator.getOre(chunk, blockX, y, blockZ);
+					
+						// possible fluid?
+						if (oreId == SupportChunk.waterId) {
+							if (generator.settings.includeUndergroundFluids) {
+								oreId = generator.getFluid(chunk, blockX, y, blockZ);
+								if (block.getTypeId() == stoneId)
+									block.setTypeId(oreId, true);
+							}
+						
+						// if not a fluid then don't enable physics
+						} else if (oreId != airId && block.getTypeId() == stoneId)
+							block.setTypeId(oreId, false);
+					}
+				}
+			}
+		}
 	}
 
 	//TODO move this logic to SurroundingLots, add to it the ability to produce SurroundingHeights and SurroundingDepths
