@@ -1,10 +1,14 @@
 == **CityWorld** ==
 The great outdoors is all good and fine but sometimes you just want to go to town. Not any town will do, how about one that goes on forever or multiple ones separated by the largest mountains possible in Minecraft. But what is under those mountains? There is an entire world to explore, have fun!
 
+=== If you like CityWorld, please consider donating via the **Donate** button in the upper right corner. ===
+
+----
+
 ===== //Version 1.00// ===== 
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, if the above version isn't available check back in an hour or so)//,,
 
-{{http://dev.bukkit.org/media/images/42/575/2012-07-01_01.57.09.jpg|CityWorld}}
+{{http://dev.bukkit.org/media/images/42/577/2012-07-01_02.40.31.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
@@ -39,20 +43,20 @@ To install it you will need to do three things...
 # At this point, you may be asking yourself: **How do I get to the city?** 
 
 There are two options for getting to the city...
-* If you are the "OP" for your server: **Press "T", type in "/CityWorld" and press return (if you do this, remember that some plugins might not work with CityWorld until you modify bukkit's YML to include a reference to the world. For more info read [[http://wiki.bukkit.org/Bukkit.yml|this]]).
-* **OR... you can use a world management plugin and use the CityWorld as the generator for one of your worlds. We have used [[http://dev.bukkit.org/server-mods/multiverse-core/|Multiverse]] and [[http://dev.bukkit.org/server-mods/multiworld-v-2-0/|Multiworld]].
+* If you are the "OP" for your server: Press ##"T"##, type in ##"/CityWorld"## and press return (if you do this, remember that some plugins might not work with CityWorld until you modify bukkit's YML to include a reference to the world. For more info read [[http://wiki.bukkit.org/Bukkit.yml|this]]).
+* OR... you can use a world management plugin and use the CityWorld as the generator for one of your worlds. We have used [[http://dev.bukkit.org/server-mods/multiverse-core/|Multiverse]] and [[http://dev.bukkit.org/server-mods/multiworld-v-2-0/|Multiworld]].
 
 If you are still confused then rereread [[http://wiki.bukkit.org/Setting_up_a_server|this]]. :-)
 
 === Commands ===
 To perform a command just type the letter **"T"** and enter the following...
-* /CityWorld [Leave]
-If you leave out the **Leave** you will be transported to CityWorld. Adding the **Leave** will transport you to Minecraft/Bukkit's default world.
+* ##/CityWorld [Leave]##
+If you leave out the ##Leave## you will be transported to CityWorld. Adding the ##Leave## will transport you to Minecraft/Bukkit's default world.
 
-* /CityChunk [Regen] [Clean] [ChunkRadius]
-**Regen will for the chunk to regenerate. 
-**Clean will remove any "floating" items. 
-**Providing ChunkRadius will cause the operation to effect not just the current chunk but surrounding ones as well, this is an integer. For example, specifying 3 as **ChunkRadius** will perform the operation on an area of 7x7 chunks centered on your current chunk.
+* ##/CityChunk [Regen] [Clean] [ChunkRadius]##
+**##Regen## will for the chunk to regenerate. 
+**##Clean## will remove any "floating" items. 
+**Providing ##ChunkRadius## will cause the operation to effect not just the current chunk but surrounding ones as well, this is an integer. For example, specifying 3 as ##ChunkRadius## will perform the operation on an area of 7x7 chunks centered on your current chunk.
 
 You can disable the commands via permissions, both default to OP (so make yourself an Op to maximize the fun)
 * cityworld.command
