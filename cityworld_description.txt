@@ -1,5 +1,5 @@
 == **CityWorld** ==
-The great outdoors is all good and fine but sometimes you just want to go to town. Not any town will do, how about one that goes on forever. The Big Apple has nothing on this world generator. :-)
+The great outdoors is all good and fine but sometimes you just want to go to town. Not any town will do, how about one that goes on forever or multiple ones separated by the largest mountains possible in Minecraft. But what is under those mountains? There is an entire world to explore, have fun!
 
 ===== //Version 1.00// ===== 
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, if the above version isn't available check back in an hour or so)//,,
@@ -49,12 +49,14 @@ To perform a command just type the letter **"T"** and enter the following...
 * /CityWorld [Leave]
 If you leave out the **Leave** you will be transported to CityWorld. Adding the **Leave** will transport you to Minecraft/Bukkit's default world.
 
-* /CityChunk [Regen] [Clean] [Refresh] [ChunkRadius]
-**Regen** will for the chunk to regenerate. **Clean** will remove any "floating" items. **Refresh** will cause the chunks to be resent to clients. Providing **ChunkRadius** will cause the operation to effect not just the current chunk but surrounding ones as well, this is an integer. For example, specifying 3 as **ChunkRadius** will perform the operation on an area of 7x7 chunks centered on your current chunk.
+* /CityChunk [Regen] [Clean] [ChunkRadius]
+**Regen will for the chunk to regenerate. 
+**Clean will remove any "floating" items. 
+**Providing ChunkRadius will cause the operation to effect not just the current chunk but surrounding ones as well, this is an integer. For example, specifying 3 as **ChunkRadius** will perform the operation on an area of 7x7 chunks centered on your current chunk.
 
-You can disable this commands via permissions
-* cityworld.command (defaults to op)
-* citychunk.command (defaults to op)
+You can disable the commands via permissions, both default to OP (so make yourself an Op to maximize the fun)
+* cityworld.command
+* citychunk.command
 
 === Options ===
 Config option file is now generated when CityWorld runs. These options only affect "new generation" and are not world specific (yet). Changing them after a world has been generated will produce some odd results. 
@@ -68,6 +70,7 @@ These all default to true and simply control the inclusion of a certain feature 
 * IncludeBuildings
 * IncludeOres
 * IncludeCaves
+* IncludeUndergroundFluids
 * IncludeSeas
 * IncludeMountains
 * TreasuresInSewers
