@@ -24,6 +24,7 @@ Park benches and other furniture
 v1.00
 * Treats and Tricks in the Bunkers and Mineshafts
 * Reworked the sewers... you can now get seriously lost down there 
+* Added IncludeSeas and IncludeMountains
 
 v0.90
 * Bunkers and Mineshafts

@@ -89,7 +89,7 @@ public class CommandCityWorld implements CommandExecutor {
 			WorldCreator worldcreator = new WorldCreator(DEFAULT_WORLD_NAME);
 			worldcreator.environment(World.Environment.NORMAL);
 			//worldcreator.seed(-7457540200860308014L); // Beta seed
-			//worldcreator.seed(-5068588521833479712L); 
+			worldcreator.seed(5035880561223452806L); 
 			worldcreator.generator(new WorldGenerator(plugin, DEFAULT_WORLD_NAME, ""));
 			cityWorldPrime = Bukkit.getServer().createWorld(worldcreator);
 		}

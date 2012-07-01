@@ -16,9 +16,9 @@ Latest release notes...
 * Include working terrain generation
 * Bridges and Tunnels now generate
 * Radio Towers
-* Oil drilling platforms out where the sea is deepest
+* Oil drilling platforms out where the water is deepest
 * Rural blocks are back (farms, houses, mountain shacks... but they are rare)
-* Interiors are still missing... I have decided I really don't like doing these
+* Interiors are still missing... I have decided I really don't like doing these. That doesn't mean it won't happen, just I don't like doing them :-)
 * ISSUE: lights sometimes don't light (or do) when we want them to... seems to be a Minecraft issue
 
 ...older version history can be found in the repository...
@@ -65,9 +65,11 @@ These all default to true and simply control the inclusion of a certain feature 
 * IncludeBasements
 * IncludeMines
 * IncludeBunkers
+* IncludeBuildings
 * IncludeOres
 * IncludeCaves
-* IncludeBuildings
+* IncludeSeas
+* IncludeMountains
 * TreasuresInSewers
 * SpawnersInSewers
 * TreasuresInMines

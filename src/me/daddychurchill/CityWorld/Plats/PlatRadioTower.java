@@ -11,9 +11,9 @@ import me.daddychurchill.CityWorld.Support.Direction.Door;
 import me.daddychurchill.CityWorld.Support.Direction.Torch;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
-public class PlatTower extends PlatIsolated {
+public class PlatRadioTower extends PlatIsolated {
 
-	public PlatTower(PlatMap platmap, int chunkX, int chunkZ) {
+	public PlatRadioTower(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 
 	}

@@ -15,6 +15,8 @@ public class CityWorldSettings {
 	public boolean includeCaves = true;
 	public boolean includeOres = true;
 	public boolean includeUndergroundFluids = true;
+	public boolean includeSeas = true;
+	public boolean includeMountains = false;
 	
 	public boolean treasuresInSewers = true;
 	public boolean spawnersInSewers = true;
@@ -35,6 +37,8 @@ public class CityWorldSettings {
 	private final static String tagIncludeCaves = "IncludeCaves";
 	private final static String tagIncludeOres = "IncludeOres";
 	private final static String tagIncludeUndergroundFluids = "IncludeUndergroundFluids";
+	private final static String tagIncludeSeas = "IncludeSeas";
+	private final static String tagIncludeMountains = "IncludeMountains";
 	
 	private final static String tagTreasuresInSewers = "TreasuresInSewers";
 	private final static String tagSpawnersInSewers = "SpawnersInSewers";
@@ -73,6 +77,8 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeCaves, includeCaves);
 			section.addDefault(tagIncludeOres, includeOres);
 			section.addDefault(tagIncludeUndergroundFluids, includeUndergroundFluids);
+			section.addDefault(tagIncludeSeas, includeSeas);
+			section.addDefault(tagIncludeMountains, includeMountains);
 			
 			section.addDefault(tagTreasuresInSewers, treasuresInSewers);
 			section.addDefault(tagSpawnersInSewers, spawnersInSewers);
@@ -96,6 +102,8 @@ public class CityWorldSettings {
 			includeCaves = section.getBoolean(tagIncludeCaves);
 			includeOres = section.getBoolean(tagIncludeOres);
 			includeUndergroundFluids = section.getBoolean(tagIncludeUndergroundFluids);
+			includeSeas = section.getBoolean(tagIncludeSeas);
+			includeMountains = section.getBoolean(tagIncludeMountains);
 
 			treasuresInSewers = section.getBoolean(tagTreasuresInSewers);
 			spawnersInSewers = section.getBoolean(tagSpawnersInSewers);

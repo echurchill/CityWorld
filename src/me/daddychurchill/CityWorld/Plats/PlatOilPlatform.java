@@ -11,9 +11,9 @@ import me.daddychurchill.CityWorld.Support.Direction.Ladder;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
-public class PlatPlatform extends PlatIsolated {
+public class PlatOilPlatform extends PlatIsolated {
 
-	public PlatPlatform(PlatMap platmap, int chunkX, int chunkZ) {
+	public PlatOilPlatform(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 
 	}

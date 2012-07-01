@@ -225,6 +225,21 @@ public abstract class PlatLot {
 		}
 	}
 	
+	protected int findHighestShaftableLevel(WorldGenerator generator, ContextData context, SupportChunk chunk) {
+
+		// make sure we have the facts
+		precomputeExtremes(generator, chunk);
+		
+		// keep going down until we find what we are looking for
+		for (int y = (minHeight / 16 - 1) * 16; y >= 0; y -= 16) {
+			if (isShaftableLevel(generator, context, y) && generator.getHorizontalWEShaft(chunk.chunkX, y, chunk.chunkZ))
+				return y + 7;
+		}
+		
+		// nothing found
+		return 0;
+	}
+	
 	protected boolean isShaftableLevel(WorldGenerator generator, ContextData context, int y) {
 		return y >= 0 && y < minHeight && minHeight > generator.seaLevel;
 	}
@@ -469,21 +484,6 @@ public abstract class PlatLot {
 		}
 	}
 	
-	private void generateMineTreat(WorldGenerator generator, ContextData context, RealChunk chunk, int x, int y, int z) {
-
-		// cool stuff?
-		if (generator.settings.treasuresInMines && chunkRandom.nextDouble() <= context.oddsOfTreasureInMines) {
-			 chunk.setChest(x, y, z, Direction.Chest.SOUTH, generator.getLootProvider().getItems(generator, LootProvider.chestInMines));
-		}
-	}
-
-	private void generateMineTrick(WorldGenerator generator, ContextData context, RealChunk chunk, int x, int y, int z) {
-		// not so cool stuff?
-		if (generator.settings.spawnersInMines && chunkRandom.nextDouble() <= context.oddsOfSpawnerInMines) {
-			chunk.setSpawner(x, y, z, generator.getSpawnProvider().getEntity(generator, SpawnProvider.spawnerInMines));
-		}
-	}
-	
 	private void generateMineSupport(RealChunk chunk, int x, int y, int z) {
 		int aboveSupport = chunk.findLastEmptyAbove(x, y, z);
 		if (aboveSupport < maxHeight)
@@ -497,6 +497,21 @@ public abstract class PlatLot {
 	private void placeMineStairStep(RealChunk chunk, int x, int y, int z, Stair direction) {
 		chunk.setBlocks(x, y + 1, y + 4, z, Material.AIR);
 		chunk.setStair(x, y, z, Material.WOOD_STAIRS, direction);
+	}
+	
+	private void generateMineTreat(WorldGenerator generator, ContextData context, RealChunk chunk, int x, int y, int z) {
+
+		// cool stuff?
+		if (generator.settings.treasuresInMines && chunkRandom.nextDouble() <= context.oddsOfTreasureInMines) {
+			 chunk.setChest(x, y, z, Direction.Chest.SOUTH, generator.getLootProvider().getItems(generator, LootProvider.chestInMines));
+		}
+	}
+
+	private void generateMineTrick(WorldGenerator generator, ContextData context, RealChunk chunk, int x, int y, int z) {
+		// not so cool stuff?
+		if (generator.settings.spawnersInMines && chunkRandom.nextDouble() <= context.oddsOfSpawnerInMines) {
+			chunk.setSpawner(x, y, z, generator.getSpawnProvider().getEntity(generator, SpawnProvider.spawnerInMines));
+		}
 	}
 	
 	private byte getStrataFluid(WorldGenerator generator, int y) {

@@ -117,7 +117,7 @@ public class WorldGenerator extends ChunkGenerator {
 	public double caveThreshold = 0.75; //was 70
 	
 	public double strataFluidScale = 1.0 / 8.0;
-	public double strataFluidThreshold = 0.08;
+	public double strataFluidThreshold = 0.10;
 
 	public double oreScale = 1.0 / 16.0;
 	public double oreScaleY = oreScale * 2;
@@ -254,15 +254,21 @@ public class WorldGenerator extends ChunkGenerator {
 			} else if (landY >= seaY) {
 				y = Math.min(seaLevel, landY + 1);
 
-				// otherwise just take the sea bed as is
+			// otherwise just take the sea bed as is
 			} else {
 				y = Math.min(seaLevel, seaY);
 			}
 
-			// must be a mountain then
+		// must be a mountain then
 		} else {
 			y = Math.max(seaLevel, landY + 1);
 		}
+		
+		// for real?
+		if (!settings.includeMountains)
+			y = Math.min(seaLevel + 1, y);
+		if (!settings.includeSeas)
+			y = Math.max(seaLevel + 1, y);
 
 		// range validation
 		return Math.min(height - 3, Math.max(y, 3));
