@@ -116,9 +116,6 @@ public class WorldGenerator extends ChunkGenerator {
 	public double caveScaleY = caveScale * 2;
 	public double caveThreshold = 0.75; // smaller the number the more larger the caves will be
 	
-	public double oreScale = 2.5;
-	public double oreThreshold = 0.30; // smaller the number the more frequent ores will appear
-
 	public double mineScale = 1.0 / 4.0;
 	public double mineScaleY = mineScale;
 
