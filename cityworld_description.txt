@@ -5,12 +5,16 @@ The great outdoors is all good and fine but sometimes you just want to go to tow
 
 ----
 
-===== //Version 1.01// ===== 
+===== //Version 1.02// ===== 
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, if the above version isn't available check back in an hour or so)//,,
 
 {{http://dev.bukkit.org/media/images/42/577/2012-07-01_02.40.31.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
+
+v1.02
+* Might have "fixed" the versioning issue that Java was having
+* Reworked the ore distribution to speed things up a bit... AGAIN!
 
 v1.01
 * Fixed a default settings issue where Mountains were not being included

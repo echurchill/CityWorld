@@ -110,12 +110,12 @@ public abstract class PlatLot {
 		// let the specialized platlot do it's thing
 		generateActualBlocks(generator, platmap, chunk, context, platX, platZ);
 		
+		// put ores in?
+		generateOres(generator, chunk);
+
 		// do we do it or not?
 		if (generator.settings.includeMines)
 			generateMines(generator, chunk, context);
-
-		// put ores in?
-		generateOres(generator, chunk);
 	}
 	
 	protected void generateCrust(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
@@ -213,13 +213,15 @@ public abstract class PlatLot {
 		extremeComputed = true;
 	}
 	
+	private final static int lowestMineSegment = 16;
+	
 	protected void generateMines(WorldGenerator generator, ByteChunk chunk, ContextData context) {
 		
 		// make sure we have the facts
 		precomputeExtremes(generator, chunk);
 		
 		// get shafted! (this builds down to keep the support poles happy)
-		for (int y = (minHeight / 16 - 1) * 16; y >= 0; y -= 16) {
+		for (int y = (minHeight / 16 - 1) * 16; y >= lowestMineSegment; y -= 16) {
 			if (isShaftableLevel(generator, context, y))
 				generateHorizontalMineLevel(generator, chunk, context, y);
 		}
@@ -231,7 +233,7 @@ public abstract class PlatLot {
 		precomputeExtremes(generator, chunk);
 		
 		// keep going down until we find what we are looking for
-		for (int y = (minHeight / 16 - 1) * 16; y >= 0; y -= 16) {
+		for (int y = (minHeight / 16 - 1) * 16; y >= lowestMineSegment; y -= 16) {
 			if (isShaftableLevel(generator, context, y) && generator.getHorizontalWEShaft(chunk.chunkX, y, chunk.chunkZ))
 				return y + 7;
 		}
@@ -241,7 +243,7 @@ public abstract class PlatLot {
 	}
 	
 	protected boolean isShaftableLevel(WorldGenerator generator, ContextData context, int y) {
-		return y >= 0 && y < minHeight && minHeight > generator.seaLevel;
+		return y >= lowestMineSegment && y < minHeight && minHeight > generator.seaLevel;
 	}
 
 	private void generateHorizontalMineLevel(WorldGenerator generator, ByteChunk chunk, ContextData context, int y) {
@@ -625,121 +627,126 @@ public abstract class PlatLot {
 		}
 		
 		// shape the world
-		if (generator.settings.includeOres || generator.settings.includeUndergroundFluids) {
-			boolean topReached = false;
+		if (generator.settings.includeOres || generator.settings.includeUndergroundFluids)
+			sprinkleOres(generator, chunk, chunkRandom);
+	}
 
-			// work our way up
-			for (int y = 0; y < chunk.height; y += 16) {
-				int sectionAttempts = 5;
-				int oresPlaced = 0;
-				while (!topReached && sectionAttempts > 0 && oresPlaced < 24) {
-					sectionAttempts--;
-					
-					// let try to place something
-					int x = chunkRandom.nextInt(16);
-					int z = chunkRandom.nextInt(16);
-					int blockX = chunk.getBlockX(x);
-					int blockZ = chunk.getBlockZ(z);
+	/**
+	 * Populates the world with ores.
+	 *
+	 * @author Nightgunner5
+	 * @author Markus Persson
+	 * modified by simplex
+	 * wildly modified by daddychurchill
+	 */
 	
-					// how high are we? if over the top stop
-					int topStrataY = getTopStrataY(generator, blockX, blockZ);
-					if (y > topStrataY + 16) {
-						topReached = true;
-						break;
-					}
-			
-					// is there an ore here?
-					byte oreId = generator.getOre(chunkRandom, blockX, y, blockZ);
-					
-					// water is special!
-					if (oreId == SupportChunk.waterId) {
-						if (generator.settings.includeUndergroundFluids && isValidStrataY(generator, blockX, y, blockZ)) {	
-							oreId = generator.getFluid(y);
-							Block block = chunk.world.getBlockAt(blockX, y, blockZ);
-							if (block.getTypeId() == stoneId) {
-								block.setTypeId(oreId, true);
-								oresPlaced++;
-								break;
-							}
-						}
-					
-					// now let's sprinkle some ore about
-					} else {
-						for (int oreX = blockX - 1; oreX < blockX + 2; oreX++) {
-							for (int oreY = y - 1; oreY < y + 2; oreY++) {
-								for (int oreZ = blockZ - 1; oreZ < blockZ + 2; oreZ++) {
-									if (oreY >= 0 && oreY < chunk.height && isValidStrataY(generator, oreX, oreY, oreZ)) {
-										if (chunkRandom.nextDouble() < 0.40) {
-											Block block = chunk.world.getBlockAt(oreX, oreY, oreZ);
-											if (block.getTypeId() == stoneId) {
-												block.setTypeId(oreId, false);
-												oresPlaced++;
-												break;
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				} 
+	private static final int[] ore_types = new int[] {Material.WATER.getId(),
+		  											  Material.GRAVEL.getId(), 
+													  Material.COAL_ORE.getId(),
+													  Material.IRON_ORE.getId(), 
+													  Material.GOLD_ORE.getId(), 
+													  Material.LAPIS_ORE.getId(),
+													  Material.REDSTONE_ORE.getId(),
+													  Material.DIAMOND_ORE.getId()}; 
+	//                                                         WATER   GRAV   COAL   IRON   GOLD  LAPIS  REDST   DIAM  
+	private static final int[] ore_iterations = new int[]    {     4,    40,    35,    12,     4,     3,     6,     2};
+	private static final int[] ore_amountToDo = new int[]    {     1,     8,     8,     8,     3,     2,     4,     2};
+	private static final int[] ore_maxY = new int[]          {   128,    96,   128,    68,    34,    30,    17,    16};
+	private static final int[] ore_minY = new int[]          {     8,    40,    16,    16,     5,     5,     8,     1};
+	private static final boolean[] ore_upper = new boolean[] {  true, false,  true,  true,  true,  true,  true, false};
+	
+	public void sprinkleOres(WorldGenerator generator, RealChunk chunk, Random random) {
+		for (int typeNdx = 0; typeNdx < ore_types.length; typeNdx++) {
+			int range = ore_maxY[typeNdx] - ore_minY[typeNdx];
+			for (int iter = 0; iter < ore_iterations[typeNdx]; iter++) {
+				sprinkleOres_iterate(generator, chunk, random, random.nextInt(16), random.nextInt(range) + ore_minY[typeNdx], random.nextInt(16), ore_amountToDo[typeNdx], ore_types[typeNdx]);
+				if (ore_upper[typeNdx])
+					sprinkleOres_iterate(generator, chunk, random, random.nextInt(16), 
+							(generator.seaLevel + generator.landRange) - ore_minY[typeNdx] - random.nextInt(range), random.nextInt(16), ore_amountToDo[typeNdx], ore_types[typeNdx]);
 			}
 		}
 	}
 
-//	private void generateOres(WorldGenerator generator, RealChunk chunk) {
-//
-//		// compute the world block coordinates
-//		int originX = chunk.getOriginX();
-//		int originZ = chunk.getOriginZ();
-//		Block block;
-//		
-//		// shape the world
-//		for (int x = 0; x < chunk.width; x++) {
-//			for (int z = 0; z < chunk.width; z++) {
-//
-//				// how high are we?
-//				int topStrataY = getTopStrataY(generator, originX + x, originZ + z);
-//		
-//				// stony bits
-//				for (int y = 2; y < topStrataY; y++) {
-//					int blockX = originX + x;
-//					int blockZ = originZ + z;
-//					block = null;
-//					
-//					// low enough for lava?
-//					if (generator.settings.includeLava && y <= 10) {
-//						block = chunk.getActualBlock(x, y, z);
-//						if (block.isEmpty())
-//							block.setTypeId(SupportChunk.stillLavaId, false);
-//						else
-//							continue;
-//					}
-//					
-//					// sprinkle stuff
-//					if (isValidStrataY(generator, blockX, y, blockZ)) {
-//						if (block == null)
-//							block = chunk.getActualBlock(x, y, z);
-//						
-//						// figure out the ore
-//						byte oreId = generator.getOre(chunk, blockX, y, blockZ);
-//					
-//						// possible fluid?
-//						if (oreId == SupportChunk.waterId) {
-//							if (generator.settings.includeUndergroundFluids) {
-//								oreId = generator.getFluid(chunk, blockX, y, blockZ);
-//								if (block.getTypeId() == stoneId)
-//									block.setTypeId(oreId, true);
-//							}
-//						
-//						// if not a fluid then don't enable physics
-//						} else if (oreId != airId && block.getTypeId() == stoneId)
-//							block.setTypeId(oreId, false);
-//					}
-//				}
-//			}
-//		}
-//	}
+	private void sprinkleOres_iterate(WorldGenerator generator, RealChunk chunk, Random random, int originX, int originY, int originZ, int amountToDo, int typeId) {
+		int trysLeft = amountToDo * 2;
+		int oresDone = 0;
+		if (generator.findBlockY(chunk.getBlockX(originX), chunk.getBlockZ(originZ)) > originY + amountToDo / 4) {
+			while (oresDone < amountToDo && trysLeft > 0) {
+				
+				// ore or not?
+				if (typeId == waterTypeId) {
+					if (generator.settings.includeUndergroundFluids)
+						oresDone += sprinkleOres_placeFluid(generator, chunk, random, originX, originY, originZ);
+
+				} else {
+					
+					// shimmy
+					int x = originX + random.nextInt(Math.max(1, amountToDo / 2)) - amountToDo / 4;
+					int y = originY + random.nextInt(Math.max(1, amountToDo / 4)) - amountToDo / 8;
+					int z = originZ + random.nextInt(Math.max(1, amountToDo / 2)) - amountToDo / 4;
+					
+					// ore it is
+					oresDone += sprinkleOres_placeOre(generator, chunk, random, x, y, z, amountToDo - oresDone, typeId);
+				}
+				
+				// one less try to try
+				trysLeft--;
+			}
+		}
+	}
+	
+	private int sprinkleOres_placeOre(WorldGenerator generator, RealChunk chunk, Random random, int centerX, int centerY, int centerZ, int oresToDo, int typeId) {
+		int count = 0;
+		if (centerY > 0 && centerY < chunk.height) {
+			if (sprinkleOres_placeThing(chunk, random, centerX, centerY, centerZ, typeId, false)) {
+				count++;
+				if (count < oresToDo && centerX < 15 && sprinkleOres_placeThing(chunk, random, centerX + 1, centerY, centerZ, typeId, false))
+					count++;
+				if (count < oresToDo && centerX > 0 && sprinkleOres_placeThing(chunk, random, centerX - 1, centerY, centerZ, typeId, false))
+					count++;
+				if (count < oresToDo && centerZ < 15 && sprinkleOres_placeThing(chunk, random, centerX, centerY, centerZ + 1, typeId, false))
+					count++;
+				if (count < oresToDo && centerZ > 0 && sprinkleOres_placeThing(chunk, random, centerX, centerY, centerZ - 1, typeId, false))
+					count++;
+			}
+		}
+		return count;
+	}
+	
+	private static final int iceTypeId = Material.ICE.getId();
+	private static final int waterTypeId = Material.WATER.getId();
+	private static final int lavaTypeId = Material.LAVA.getId();
+	
+	private int sprinkleOres_placeFluid(WorldGenerator generator, RealChunk chunk, Random random, int centerX, int centerY, int centerZ) {
+		int count = 0;
+		if (centerY > 0 && centerY < chunk.height) {
+
+			// what type of fluid are we talking about?
+			int fluidId;
+			if (centerY < 24)
+				fluidId = lavaTypeId;
+			else if (centerY > generator.snowLevel)
+				fluidId = iceTypeId;
+			else
+				fluidId = waterTypeId;
+			
+			// odds are?
+			if (sprinkleOres_placeThing(chunk, random, centerX, centerY, centerZ, fluidId, true))
+				count++;
+		}
+		return count;
+	}
+	
+	private boolean sprinkleOres_placeThing(RealChunk chunk, Random random, int x, int y, int z, int typeId, boolean physics) {
+		if (random.nextDouble() < 0.35) {
+			Block block = chunk.getActualBlock(x, y, z);
+			if (block.getTypeId() == stoneId) {
+				block.setTypeId(typeId, physics);
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	//TODO move this logic to SurroundingLots, add to it the ability to produce SurroundingHeights and SurroundingDepths
 	public PlatLot[][] getNeighborPlatLots(PlatMap platmap, int platX, int platZ, boolean onlyConnectedNeighbors) {

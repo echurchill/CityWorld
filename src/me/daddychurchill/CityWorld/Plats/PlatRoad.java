@@ -739,7 +739,7 @@ public class PlatRoad extends PlatConnected {
 		
 		} else {
 			// repave a bit
-			//chunk.setBlocks(0, 16, sidewalkLevel - 1, 0, 16, Material.WOOL, (byte) 15, false);
+			chunk.setBlocks(0, 16, sidewalkLevel - 1, 0, 16, Material.WOOL, (byte) 15, false);
 			
 			// tunnel please
 			if (maxHeight > sidewalkLevel + tunnelHeight) {

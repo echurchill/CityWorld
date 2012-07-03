@@ -13,7 +13,6 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
@@ -128,8 +127,7 @@ public class WorldGenerator extends ChunkGenerator {
 	
 	public double oddsIsolatedBuilding = 0.75;
 	
-	@Override
-	public byte[][] generateBlockSections(World aWorld, Random random, int chunkX, int chunkZ, BiomeGrid biomes) {
+	private void initializeWorldInfo(World aWorld) {
 		
 		// initialize the shaping logic
 		if (world == null) {
@@ -184,6 +182,11 @@ public class WorldGenerator extends ChunkGenerator {
 			connectedKeyForPavedRoads = connectionKeyGen.nextLong();
 			connectedKeyForParks = connectionKeyGen.nextLong();
 		}
+	}
+	
+	@Override
+	public byte[][] generateBlockSections(World aWorld, Random random, int chunkX, int chunkZ, BiomeGrid biomes) {
+		initializeWorldInfo(aWorld);
 		
 		// get the chunk specific random 
 		Random chunkRandom = getMicroRandomGeneratorAt(chunkX, chunkZ);
@@ -365,65 +368,6 @@ public class WorldGenerator extends ChunkGenerator {
 			return true;
 	}
 	
-	protected final static byte airId = (byte) Material.AIR.getId();
-	protected final static byte iceId = (byte) Material.ICE.getId();
-	protected final static byte liquidWaterId = (byte) Material.WATER.getId();
-	protected final static byte liquidLavaId = (byte) Material.LAVA.getId();
-	
-	public byte getOre(Random random, int blockX, int blockY, int blockZ) {
-		// a VERY VERY rough approximation of http://www.minecraftwiki.net/wiki/Ore
-
-		// ore or not?
-		double ore = oreShape.noise(blockX * oreScale, blockY * oreScale, blockZ * oreScale);
-		if (ore > oreThreshold || ore < -oreThreshold) {
-			if (inRange(blockY, 14, 200)) //      diamond, red(more), lapis, gold, iron, coal, fluid(air)
-				return pickRandomMineral(random.nextInt(10));
-			else if (inRange(blockY, 16, 192)) // red, lapis, gold, iron, coal, fluid(air)
-				return pickRandomMineral(random.nextInt(9));
-			else if (inRange(blockY, 30, 137)) // lapis, gold, iron, coal, fluid(air)
-				return pickRandomMineral(random.nextInt(8));
-			else if (inRange(blockY, 32, 129)) // gold, iron, coal, fluid(air)
-				return pickRandomMineral(random.nextInt(6));
-			else if (inRange(blockY, 66, 100)) // iron, coal
-				return pickRandomMineral(random.nextInt(4));
-			else //                               coal
-				return pickRandomMineral(random.nextInt(2));
-		} else
-			return SupportChunk.stoneId;
-	}
-	
-	private boolean inRange(int blockY, int lower, int upper) {
-		return blockY <= lower || blockY >= upper;
-	}
-	
-	private byte pickRandomMineral(int index) {
-		switch (index) {
-		default: 
-		case 1: return SupportChunk.coalId;
-		case 2:
-		case 3: return SupportChunk.ironId;
-		case 4: return SupportChunk.waterId;
-		case 5: 
-		case 6: return SupportChunk.goldId;
-		case 7: return SupportChunk.lapisId;
-		case 8: return SupportChunk.redstoneId;
-		case 9: return SupportChunk.diamondId;
-		}
-	}
-	
-	public byte getFluid(int blockY) {
-		byte oreId;
-
-		// ore or not?
-		if (blockY <= 30)
-			oreId = SupportChunk.lavaId;
-		else if (blockY > snowLevel)
-			oreId = SupportChunk.iceId;
-		else
-			oreId = SupportChunk.waterId;
-		return oreId;
-	}
-	
 	private final static int spawnRadius = 100;
 	
 	@Override
@@ -491,7 +435,10 @@ public class WorldGenerator extends ChunkGenerator {
 		}
 
 		@Override
-		public void populate(World world, Random random, Chunk chunk) {
+		public void populate(World aWorld, Random random, Chunk chunk) {
+			chunkGen.initializeWorldInfo(aWorld);
+			
+			// where are we?
 			int chunkX = chunk.getX();
 			int chunkZ = chunk.getZ();
 			
