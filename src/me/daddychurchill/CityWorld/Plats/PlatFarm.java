@@ -52,6 +52,8 @@ public class PlatFarm extends PlatConnected {
 
 	private final static byte isolationId = (byte) Material.LOG.getId();
 	private final static byte grassId = (byte) Material.GRASS.getId();
+	private final static byte dirtId = (byte) Material.DIRT.getId();
+	private final static byte sandId = (byte) Material.SAND.getId();
 	
 	private final static Material matWater = Material.STATIONARY_WATER;
 	private final static Material matSoil = Material.SOIL;
@@ -74,11 +76,18 @@ public class PlatFarm extends PlatConnected {
 	private final static Material cropVine = Material.VINE;
 	private final static Material cropSugarCane = Material.SUGAR_CANE_BLOCK;
 	private final static Material cropGrass = Material.LONG_GRASS;
+	private final static Material cropCactus = Material.CACTUS;
 	
 	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		// look around
 		SurroundingFarms farms = new SurroundingFarms(platmap, platX, platZ);
+		
+		// what type of ground do we have
+		byte groundId = dirtId;
+		if (cropType == cropSugarCane || cropType == cropCactus)
+			groundId = sandId;
+		chunk.setLayer(generator.sidewalkLevel, groundId);
 		
 		// draw the isolation blocks
 		if (!farms.toNorth()) {
@@ -91,7 +100,7 @@ public class PlatFarm extends PlatConnected {
 				chunk.setBlock(15, generator.sidewalkLevel, 0, isolationId);
 			else
 				chunk.setBlock(15, generator.sidewalkLevel, 0, grassId);
-		} 
+		}
 		if (!farms.toSouth()) {
 			chunk.setBlocks(1, 15, generator.sidewalkLevel, 15, 16, isolationId);
 			if (farms.toWest())
@@ -142,6 +151,8 @@ public class PlatFarm extends PlatConnected {
 			plowField(chunk, chunkRandom, croplevel, matSoil, 8, matWater, cropType, chunkRandom.nextBoolean() ? 5 : 3, deadOnDirt, 1, 3, 1);
 		else if (cropType == cropSugarCane)
 			plowField(chunk, chunkRandom, croplevel, matSand, 0, matWater, cropType, 0, deadOnSand, 1, 2, 3);
+		else if (cropType == cropCactus)
+			plowField(chunk, chunkRandom, croplevel, matSand, 0, matSand, cropType, 0, deadOnSand, 2, 2, 3);
 		else if (cropType == cropVine)
 			buildVineyard(chunk, chunkRandom, croplevel);
 		else if (cropType == cropNone)
@@ -150,39 +161,6 @@ public class PlatFarm extends PlatConnected {
 			plowField(chunk, chunkRandom, croplevel, matDirt, 0, matAir, cropType, 0, cropFallow, 1, 2, 1);
 	}
 
-	private void buildVineyard(RealChunk chunk, Random random, int cropLevel) {
-		int stepCol = 3;
-		if (directionNorthSouth) {
-			for (int x = 1; x < 15; x += stepCol) {
-				chunk.setBlocks(x, cropLevel, cropLevel + 4, 1, matPole);
-				chunk.setBlocks(x, cropLevel, cropLevel + 4, 14, matPole);
-				chunk.setBlocks(x, x + 1, cropLevel + 3, cropLevel + 4, 2, 14, matTrellis);
-//				if (!noise.isDecrepit(random)) {
-					for (int z = 2; z < 14; z++) {
-//						if (!noise.isDecrepit(random)) {
-							chunk.setBlocks(x - 1, x, cropLevel + 1 + random.nextInt(3), cropLevel + 4, z, z + 1, cropVine, (byte) 8);
-							chunk.setBlocks(x + 1, x + 2, cropLevel + 1 + random.nextInt(3), cropLevel + 4, z, z + 1, cropVine, (byte) 2);
-//						}
-					}
-//				}
-			}
-		} else {
-			for (int z = 1; z < 15; z += stepCol) {
-				chunk.setBlocks(1, cropLevel, cropLevel + 4, z, matPole);
-				chunk.setBlocks(14, cropLevel, cropLevel + 4, z, matPole);
-				chunk.setBlocks(2, 14, cropLevel + 3, cropLevel + 4, z, z + 1, matTrellis);
-//				if (!noise.isDecrepit(random)) {
-					for (int x = 2; x < 14; x++) {
-//						if (!noise.isDecrepit(random)) {
-							chunk.setBlocks(x, x + 1, cropLevel + 1 + random.nextInt(3), cropLevel + 4, z - 1, z, cropVine, (byte) 1);
-							chunk.setBlocks(x, x + 1, cropLevel + 1 + random.nextInt(3), cropLevel + 4, z + 1, z + 2, cropVine, (byte) 4);
-//						}
-					}
-//				}
-			}
-		}
-	}
-	
 	private void plowField(RealChunk chunk, Random random, int croplevel, 
 			Material matRidge, int datRidge, Material matFurrow, 
 			Material matCrop, int datCrop, Material matDead,
@@ -219,6 +197,39 @@ public class PlatFarm extends PlatConnected {
 		}
 	}
 	
+	private void buildVineyard(RealChunk chunk, Random random, int cropLevel) {
+		int stepCol = 3;
+		if (directionNorthSouth) {
+			for (int x = 1; x < 15; x += stepCol) {
+				chunk.setBlocks(x, cropLevel, cropLevel + 4, 1, matPole);
+				chunk.setBlocks(x, cropLevel, cropLevel + 4, 14, matPole);
+				chunk.setBlocks(x, x + 1, cropLevel + 3, cropLevel + 4, 2, 14, matTrellis);
+//				if (!noise.isDecrepit(random)) {
+					for (int z = 2; z < 14; z++) {
+//						if (!noise.isDecrepit(random)) {
+							chunk.setBlocks(x - 1, x, cropLevel + 1 + random.nextInt(3), cropLevel + 4, z, z + 1, cropVine, (byte) 8);
+							chunk.setBlocks(x + 1, x + 2, cropLevel + 1 + random.nextInt(3), cropLevel + 4, z, z + 1, cropVine, (byte) 2);
+//						}
+					}
+//				}
+			}
+		} else {
+			for (int z = 1; z < 15; z += stepCol) {
+				chunk.setBlocks(1, cropLevel, cropLevel + 4, z, matPole);
+				chunk.setBlocks(14, cropLevel, cropLevel + 4, z, matPole);
+				chunk.setBlocks(2, 14, cropLevel + 3, cropLevel + 4, z, z + 1, matTrellis);
+//				if (!noise.isDecrepit(random)) {
+					for (int x = 2; x < 14; x++) {
+//						if (!noise.isDecrepit(random)) {
+							chunk.setBlocks(x, x + 1, cropLevel + 1 + random.nextInt(3), cropLevel + 4, z - 1, z, cropVine, (byte) 1);
+							chunk.setBlocks(x, x + 1, cropLevel + 1 + random.nextInt(3), cropLevel + 4, z + 1, z + 2, cropVine, (byte) 4);
+//						}
+					}
+//				}
+			}
+		}
+	}
+	
 	private Material getCrop() {
 		switch (chunkRandom.nextInt(12)) {
 		case 1:
@@ -236,8 +247,10 @@ public class PlatFarm extends PlatConnected {
 		case 7:
 			return cropSugarCane;
 		case 8:
-			return cropFallow;
+			return cropCactus;
 		case 9:
+			return cropFallow;
+		case 10:
 			return cropNone;
 		default:
 			return cropWheat;

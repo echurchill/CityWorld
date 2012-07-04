@@ -11,6 +11,7 @@ public class CityWorldSettings {
 	public boolean includeMines = true;
 	public boolean includeBunkers = true;
 	public boolean includeBuildings = true;
+	public boolean includePavedRoads = true;
 
 	public boolean includeCaves = true;
 	public boolean includeOres = true;
@@ -34,6 +35,7 @@ public class CityWorldSettings {
 	private final static String tagIncludeMines = "IncludeMines";
 	private final static String tagIncludeBunkers = "IncludeBunkers";
 	private final static String tagIncludeBuildings = "IncludeBuildings";
+	private final static String tagIncludePavedRoads = "IncludePavedRoads";
 
 	private final static String tagIncludeCaves = "IncludeCaves";
 	private final static String tagIncludeOres = "IncludeOres";
@@ -75,6 +77,7 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeMines, includeMines);
 			section.addDefault(tagIncludeBunkers, includeBunkers);
 			section.addDefault(tagIncludeBuildings, includeBuildings);
+			section.addDefault(tagIncludePavedRoads, includePavedRoads);
 			
 			section.addDefault(tagIncludeCaves, includeCaves);
 			section.addDefault(tagIncludeOres, includeOres);
@@ -101,6 +104,7 @@ public class CityWorldSettings {
 			includeMines = section.getBoolean(tagIncludeMines);
 			includeBunkers = section.getBoolean(tagIncludeBunkers);
 			includeBuildings = section.getBoolean(tagIncludeBuildings);
+			includePavedRoads = section.getBoolean(tagIncludePavedRoads);
 			
 			includeCaves = section.getBoolean(tagIncludeCaves);
 			includeOres = section.getBoolean(tagIncludeOres);

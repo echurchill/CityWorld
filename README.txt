@@ -21,6 +21,14 @@ Subway/elevated rail roads
 Terrain under the city
 Park benches and other furniture
 
+v1.03
+* Cactus farms are back... I wonder what else got lost in the conurbation translation? :-)
+* Paved (wool) roads are in, including cross walks but sadly no lane lines... and yes, for those of you who hate wool, they can turned off 
+
+v1.02
+* Might have "fixed" the versioning issue that Java was having
+* Reworked the ore distribution to speed things up a bit... AGAIN!
+
 v1.01
 * Fixed a default settings issue where Mountains were not being included
 * Reworked the ore distribution to speed things up a bit

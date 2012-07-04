@@ -739,7 +739,22 @@ public class PlatRoad extends PlatConnected {
 		
 		} else {
 			// repave a bit
-			//chunk.setBlocks(0, 16, sidewalkLevel - 1, 0, 16, Material.WOOL, (byte) 15, false);
+			if (generator.settings.includePavedRoads) {
+				int pavementLevel = sidewalkLevel - 1;
+				
+				// center bit
+				chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, Material.WOOL, (byte) 15, false);
+				
+				// road to the whatever
+				if (roads.toNorth())
+					generateRoadNSBit(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth, roads.toWest() && roads.toEast());
+				if (roads.toSouth())
+					generateRoadNSBit(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width,  roads.toWest() && roads.toEast());
+				if (roads.toWest())
+					generateRoadWEBit(chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth,  roads.toNorth() && roads.toSouth());
+				if (roads.toEast())
+					generateRoadWEBit(chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth,  roads.toNorth() && roads.toSouth());
+			}
 			
 			// tunnel please
 			if (maxHeight > sidewalkLevel + tunnelHeight) {
@@ -963,6 +978,30 @@ public class PlatRoad extends PlatConnected {
 //				generateHangingVine(chunk, base2Y - 1, Direction.Vine.EAST, 10, i, 11, i);
 				generateHangingVine(chunk, base2Y - 1, Direction.Vine.EAST, 13, i, 14, i);
 			}
+		}
+	}
+	
+	Material pavementMat = Material.WOOL;
+	Byte pavementColor = 15;
+	Byte crosswalkColor = 8;
+	
+	private void generateRoadNSBit(RealChunk chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
+		chunk.setBlocks(x1, x2, y, z1, z2, pavementMat, pavementColor, false);
+		if (crosswalk) {
+			chunk.setBlocks(x1 + 1, x1 + 2, y, z1, z2, pavementMat, crosswalkColor, false);
+			chunk.setBlocks(x1 + 3, x1 + 4, y, z1, z2, pavementMat, crosswalkColor, false);
+			chunk.setBlocks(x2 - 2, x2 - 1, y, z1, z2, pavementMat, crosswalkColor, false);
+			chunk.setBlocks(x2 - 4, x2 - 3, y, z1, z2, pavementMat, crosswalkColor, false);
+		}
+	}
+
+	private void generateRoadWEBit(RealChunk chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
+		chunk.setBlocks(x1, x2, y, z1, z2, pavementMat, pavementColor, false);
+		if (crosswalk) {
+			chunk.setBlocks(x1, x2, y, z1 + 1, z1 + 2, pavementMat, crosswalkColor, false);
+			chunk.setBlocks(x1, x2, y, z1 + 3, z1 + 4, pavementMat, crosswalkColor, false);
+			chunk.setBlocks(x1, x2, y, z2 - 2, z2 - 1, pavementMat, crosswalkColor, false);
+			chunk.setBlocks(x1, x2, y, z2 - 4, z2 - 3, pavementMat, crosswalkColor, false);
 		}
 	}
 	

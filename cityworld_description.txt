@@ -5,12 +5,19 @@ The great outdoors is all good and fine but sometimes you just want to go to tow
 
 ----
 
-===== //Version 1.02// ===== 
-,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, if the above version isn't available check back in an hour or so)//,,
+===== //Version 1.03// ===== 
+,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, if the above version isn't available check back in an hour or so...)//,,
 
-{{http://dev.bukkit.org/media/images/42/577/2012-07-01_02.40.31.jpg|CityWorld}}
+,,//(...or possibly look here: http://dev.bukkit.org/server-mods/cityworld/files/15-v1-03/
+)//,,
+
+{{http://dev.bukkit.org/media/images/42/720/2012-07-04_11.31.52.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
+
+v1.03
+* Cactus farms are back... I wonder what else got lost in the conurbation translation? :-)
+* Paved (wool) roads are in, including cross walks but sadly no lane lines... and yes, for those of you who hate wool, they can turned off 
 
 v1.02
 * Might have "fixed" the versioning issue that Java was having
@@ -81,6 +88,7 @@ These all default to true and simply control the inclusion of a certain feature 
 * IncludeMines
 * IncludeBunkers
 * IncludeBuildings
+* IncludePavedRoads
 * IncludeOres
 * IncludeCaves
 * IncludeLavaFields
