@@ -1,4 +1,4 @@
-/***** CITYWORLD v1.01
+/***** CITYWORLD v1.04
 * City world generator for Minecraft/Bukkit
 * Copyright (C) 2011-2012 daddychurchill <http://www.virtualchurchill.com>
 *
@@ -20,6 +20,9 @@ Add command to level a city block
 Subway/elevated rail roads
 Terrain under the city
 Park benches and other furniture
+
+v1.04
+* If options are used, I put in some sanity checks to make sure all the plots are actually filled with something
 
 v1.03
 * Cactus farms are back... I wonder what else got lost in the conurbation translation? :-)
