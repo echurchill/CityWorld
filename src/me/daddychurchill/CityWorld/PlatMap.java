@@ -52,7 +52,7 @@ public class PlatMap {
 		platLots = new PlatLot[Width][Width];
 		naturalPlats = 0;
 		
-		// assume everything is natural
+		// assume everything is natural for the moment
 		context = new ContextNature(generator, this);
 		context.populateMap(generator, this);
 		
@@ -64,6 +64,14 @@ public class PlatMap {
 			// recalculate the context based on the "natural-ness" of the platmap
 			context = getContext();
 			context.populateMap(generator, this);
+		}
+		
+		// recycle all the remaining holes
+		for (int x = 0; x < Width; x++) {
+			for (int z = 0; z < Width; z++) {
+				if (isEmptyLot(x, z))
+					recycleLot(x, z);
+			}
 		}
 	}
 
