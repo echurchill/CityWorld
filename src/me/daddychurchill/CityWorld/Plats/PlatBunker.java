@@ -53,6 +53,7 @@ public class PlatBunker extends PlatIsolated {
 	private final static byte lavaId = (byte) Material.STATIONARY_LAVA.getId();
 	private final static byte iceId = (byte) Material.ICE.getId();
 	private final static byte spongeId = (byte) Material.SPONGE.getId();
+	private final static byte oilId = (byte) 163;
 	
 	//private final static int bilgeEmpty = 0;
 	private final static int bilgeWater = 1;
@@ -399,7 +400,11 @@ public class PlatBunker extends PlatIsolated {
 			fillId = snowId;
 			break;
 		case 4:
-			fillId = spongeId;
+			if (generator.settings.tekkitServer) {
+				fillId = oilId;
+			} else {
+				fillId = spongeId;
+			}
 			break;
 		default:
 			fillId = waterId;

@@ -29,6 +29,8 @@ public class CityWorldSettings {
 	
 	public boolean workingLights = true;
 	
+	public boolean tekkitServer = false;
+	
 	private final static String tagIncludeSewers = "IncludeSewers";
 	private final static String tagIncludeCisterns = "IncludeCisterns";
 	private final static String tagIncludeBasements = "IncludeBasements";
@@ -52,6 +54,8 @@ public class CityWorldSettings {
 	private final static String tagSpawnersInBunkers = "SpawnersInBunkers";
 	
 	private final static String tagWorkingLights = "WorkingLights";
+	
+	private final static String tagTekkitServer = "TekkitServer";
 	
 	public CityWorldSettings(CityWorld plugin, String worldname) {
 		super();
@@ -121,6 +125,8 @@ public class CityWorldSettings {
 			spawnersInBunkers = section.getBoolean(tagSpawnersInBunkers);
 			
 			workingLights = section.getBoolean(tagWorkingLights);
+			
+			tekkitServer = section.getBoolean(tagTekkitServer);
 		}
 		
 		// write it back out if needed
