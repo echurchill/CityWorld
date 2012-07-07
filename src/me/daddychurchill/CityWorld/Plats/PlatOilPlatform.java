@@ -1,6 +1,8 @@
 package me.daddychurchill.CityWorld.Plats;
 
+import java.util.Random;
 import org.bukkit.Material;
+
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.PlatMap;
@@ -24,6 +26,9 @@ public class PlatOilPlatform extends PlatIsolated {
 	private final static byte drillId = (byte) Material.FENCE.getId();
 	private final static byte supportId = (byte) Material.NETHER_BRICK.getId();
 	private final static byte topperId = (byte) Material.NETHER_BRICK_STAIRS.getId();
+	
+	//tekkit materials
+	private final static byte oilId = (byte) 163;
 	
 	private final static int aboveSea = 6;
 
@@ -93,13 +98,26 @@ public class PlatOilPlatform extends PlatIsolated {
 		chunk.setBlocks(2, y3, y3 + 2, 13, supportId);
 		
 		// drill and extra drill bits
-		chunk.setBlocks(8, 0, y4 + 3, 8, drillId);
+		if (generator.settings.tekkitServer && minHeight > 20) { //place a blob of oil if it's a tekkit server
+			Random rGen = new Random();
+			int oilBlobYFloor = rGen.nextInt(10)+2;
+			chunk.setBlocks(5, 11, oilBlobYFloor+1, oilBlobYFloor+7, 5, 11, oilId);
+			chunk.setBlocks(6, 10, oilBlobYFloor, oilBlobYFloor+8, 6, 10, oilId);
+			chunk.setBlocks(6, 10, oilBlobYFloor+2, oilBlobYFloor+6, 4, 12, oilId);
+			chunk.setBlocks(4, 12, oilBlobYFloor+2, oilBlobYFloor+6, 6, 10, oilId);
+			chunk.setBlocks(8, oilBlobYFloor, minHeight, 8, oilId);
+			chunk.setBlocks(8, minHeight, y4 + 3, 8, drillId);
+		} else {
+			chunk.setBlocks(8, 1, y4 + 3, 8, drillId); 
+		}
 		chunk.setBlocks(5, y2 + 1, y3 + 2, 1, drillId);
 		chunk.setBlocks(7, y2 + 1, y3 + 2, 1, drillId);
 		//chunk.setBlocks(9, y2 + 1, y3 + 2, 1, drillId);
 		chunk.setBlocks(11, y2 + 1, y3 + 2, 1, drillId);
 		chunk.setBlocks(13, y4 + 4, y4 + 8, 2, drillId); // bit hanging from the crane
 	}
+	//protected abstract void setBlock(int x, int y, int z, byte materialId);
+	//protected abstract void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId);
 	
 	@Override
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {

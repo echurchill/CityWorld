@@ -1,0 +1,255 @@
+Block. Name: tile.stone. ID: 1
+Block. Name: tile.grass. ID: 2
+Block. Name: tile.dirt. ID: 3
+Block. Name: tile.stonebrick. ID: 4
+Block. Name: tile.wood. ID: 5
+Block. Name: tile.sapling. ID: 6
+Block. Name: tile.bedrock. ID: 7
+Block. Name: tile.water. ID: 8
+Block. Name: tile.water. ID: 9
+Block. Name: tile.lava. ID: 10
+Block. Name: tile.lava. ID: 11
+Block. Name: tile.sand. ID: 12
+Block. Name: tile.gravel. ID: 13
+Block. Name: tile.oreGold. ID: 14
+Block. Name: tile.oreIron. ID: 15
+Block. Name: tile.oreCoal. ID: 16
+Block. Name: tile.log. ID: 17
+Block. Name: tile.leaves. ID: 18
+Block. Name: tile.sponge. ID: 19
+Block. Name: tile.glass. ID: 20
+Block. Name: tile.oreLapis. ID: 21
+Block. Name: tile.blockLapis. ID: 22
+Block. Name: tile.dispenser. ID: 23
+Block. Name: tile.sandStone. ID: 24
+Block. Name: tile.musicBlock. ID: 25
+Block. Name: tile.bed. ID: 26
+Block. Name: tile.goldenRail. ID: 27
+Block. Name: tile.detectorRail. ID: 28
+Block. Name: tile.pistonStickyBase. ID: 29
+Block. Name: tile.web. ID: 30
+Block. Name: tile.tallgrass. ID: 31
+Block. Name: tile.deadbush. ID: 32
+Block. Name: tile.pistonBase. ID: 33
+Block. Name: sq. ID: 34
+Block. Name: tile.cloth. ID: 35
+Block. Name: pa. ID: 36
+Block. Name: tile.flower. ID: 37
+Block. Name: tile.rose. ID: 38
+Block. Name: tile.mushroom. ID: 39
+Block. Name: tile.mushroom. ID: 40
+Block. Name: tile.blockGold. ID: 41
+Block. Name: tile.blockIron. ID: 42
+Block. Name: tile.stoneSlab. ID: 43
+Block. Name: tile.stoneSlab. ID: 44
+Block. Name: tile.brick. ID: 45
+Block. Name: tile.tnt. ID: 46
+Block. Name: tile.bookshelf. ID: 47
+Block. Name: tile.stoneMoss. ID: 48
+Block. Name: tile.obsidian. ID: 49
+Block. Name: tile.torch. ID: 50
+Block. Name: tile.fire. ID: 51
+Block. Name: tile.mobSpawner. ID: 52
+Block. Name: tile.stairsWood. ID: 53
+Block. Name: tile.chest. ID: 54
+Block. Name: tile.redstoneDust. ID: 55
+Block. Name: tile.oreDiamond. ID: 56
+Block. Name: tile.blockDiamond. ID: 57
+Block. Name: tile.workbench. ID: 58
+Block. Name: tile.crops. ID: 59
+Block. Name: tile.farmland. ID: 60
+Block. Name: tile.furnace. ID: 61
+Block. Name: tile.furnace. ID: 62
+Block. Name: tile.sign. ID: 63
+Block. Name: tile.doorWood. ID: 64
+Block. Name: tile.ladder. ID: 65
+Block. Name: tile.rail. ID: 66
+Block. Name: tile.stairsStone. ID: 67
+Block. Name: tile.sign. ID: 68
+Block. Name: tile.lever. ID: 69
+Block. Name: tile.pressurePlate. ID: 70
+Block. Name: tile.doorIron. ID: 71
+Block. Name: tile.pressurePlate. ID: 72
+Block. Name: tile.oreRedstone. ID: 73
+Block. Name: tile.oreRedstone. ID: 74
+Block. Name: tile.notGate. ID: 75
+Block. Name: tile.notGate. ID: 76
+Block. Name: tile.button. ID: 77
+Block. Name: tile.snow. ID: 78
+Block. Name: tile.ice. ID: 79
+Block. Name: tile.snow. ID: 80
+Block. Name: tile.cactus. ID: 81
+Block. Name: tile.clay. ID: 82
+Block. Name: tile.reeds. ID: 83
+Block. Name: tile.jukebox. ID: 84
+Block. Name: tile.fence. ID: 85
+Block. Name: tile.pumpkin. ID: 86
+Block. Name: tile.hellrock. ID: 87
+Block. Name: tile.hellsand. ID: 88
+Block. Name: tile.lightgem. ID: 89
+Block. Name: tile.portal. ID: 90
+Block. Name: tile.litpumpkin. ID: 91
+Block. Name: tile.cake. ID: 92
+Block. Name: tile.diode. ID: 93
+Block. Name: tile.diode. ID: 94
+Block. Name: tile.lockedchest. ID: 95
+Block. Name: tile.trapdoor. ID: 96
+Block. Name: age. ID: 97
+Block. Name: tile.stonebricksmooth. ID: 98
+Block. Name: tile.mushroom. ID: 99
+Block. Name: tile.mushroom. ID: 100
+Block. Name: tile.fenceIron. ID: 101
+Block. Name: tile.thinGlass. ID: 102
+Block. Name: tile.melon. ID: 103
+Block. Name: tile.pumpkinStem. ID: 104
+Block. Name: tile.pumpkinStem. ID: 105
+Block. Name: tile.vine. ID: 106
+Block. Name: tile.fenceGate. ID: 107
+Block. Name: tile.stairsBrick. ID: 108
+Block. Name: tile.stairsStoneBrickSmooth. ID: 109
+Block. Name: tile.mycel. ID: 110
+Block. Name: tile.waterlily. ID: 111
+Block. Name: tile.netherBrick. ID: 112
+Block. Name: tile.netherFence. ID: 113
+Block. Name: tile.stairsNetherBrick. ID: 114
+Block. Name: tile.netherStalk. ID: 115
+Block. Name: tile.enchantmentTable. ID: 116
+Block. Name: tile.brewingStand. ID: 117
+Block. Name: tile.cauldron. ID: 118
+Block. Name: tc. ID: 119
+Block. Name: tile.endPortalFrame. ID: 120
+Block. Name: tile.whiteStone. ID: 121
+Block. Name: tile.dragonEgg. ID: 122
+Block. Name: tile.redstoneLight. ID: 123
+Block. Name: tile.redstoneLight. ID: 124
+Block. Unused ID: 125
+Block. Name: tile.eeStone. ID: 126
+Block. Name: tile.eePedestal. ID: 127
+Block. Name: tile.eeChest. ID: 128
+Block. Name: tile.eeTorch. ID: 129
+Block. Name: tile.eeDevice. ID: 130
+Block. Unused ID: 131
+Block. Unused ID: 132
+Block. Name: eloraam.core.BlockMultipart. ID: 133
+Block. Name: eloraam.control.BlockPeripheral. ID: 134
+Block. Name: tile.blockNetherOres. ID: 135
+Block. Name: tile.rpwire. ID: 136
+Block. Name: eloraam.base.BlockAppliance. ID: 137
+Block. Name: eloraam.logic.BlockLogic. ID: 138
+Block. Name: tile.indigo. ID: 139
+Block. Name: tile.rpores. ID: 140
+Block. Name: tile.rpleaves. ID: 141
+Block. Name: tile.rpstone. ID: 142
+Block. Name: tile.rplog. ID: 143
+Block. Name: eloraam.world.BlockCustomCrops. ID: 144
+Block. Name: eloraam.world.BlockStorage. ID: 145
+Block. Name: tile.rplampon. ID: 146
+Block. Name: tile.rplampoff. ID: 147
+Block. Name: eloraam.core.BlockMultipart. ID: 148
+Block. Name: tile.craftingtableiii. ID: 149
+Block. Name: tile.rpmachine. ID: 150
+Block. Name: eloraam.machine.BlockMachinePanel. ID: 151
+Block. Name: tile.rpframe. ID: 152
+Block. Name: tile.machineBlock. ID: 153
+Block. Name: tile.markerBlock. ID: 154
+Block. Name: tile.fillerBlock. ID: 155
+Block. Name: buildcraft.transport.LegacyBlock. ID: 156
+Block. Name: tile.builderBlock. ID: 157
+Block. Name: tile.templateBlock. ID: 158
+Block. Name: buildcraft.transport.LegacyBlock. ID: 159
+Block. Name: tile.frameBlock. ID: 160
+Block. Name: buildcraft.energy.BlockEngine. ID: 161
+Block. Name: tile.oilMoving. ID: 162
+Block. Name: tile.oilStill. ID: 163
+Block. Name: tile.pumpBlock. ID: 164
+Block. Name: tile.tankBlock. ID: 165
+Block. Name: buildcraft.transport.BlockGenericPipe. ID: 166
+Block. Name: tile.refineryBlock. ID: 167
+Block. Unused ID: 168
+Block. Name: tile.autoWorkbenchBlock. ID: 169
+Block. Name: buildcraft.transport.LegacyBlock. ID: 170
+Block. Name: tile.plainPipeBlock. ID: 171
+Block. Name: buildcraft.transport.LegacyBlock. ID: 172
+Block. Name: buildcraft.transport.LegacyBlock. ID: 173
+Block. Name: tile.miningWellBlock. ID: 174
+Block. Name: buildcraft.transport.LegacyBlock. ID: 175
+Block. Name: buildcraft.transport.LegacyBlock. ID: 176
+Block. Name: eloraam.logic.BlockLogic. ID: 177
+Block. Name: tile.enderchest. ID: 178
+Block. Name: tile.Teleport Tether. ID: 179
+Block. Unused ID: 180
+Block. Name: tile.IronChest. ID: 181
+Block. Unused ID: 182
+Block. Name: tile.CompactSolar. ID: 183
+Block. Unused ID: 184
+Block. Unused ID: 185
+Block. Unused ID: 186
+Block. Name: BlockChargingBench. ID: 187
+Block. Name: ic2.advancedmachines.BlockAdvancedMachines. ID: 188
+Block. Unused ID: 189
+Block. Name: tile.powerConverter. ID: 190
+Block. Unused ID: 191
+Block. Name: tile.blockThermalMonitor. ID: 192
+Block. Unused ID: 193
+Block. Name: immibis.tubestuff.BlockTubestuff. ID: 194
+Block. Unused ID: 195
+Block. Unused ID: 196
+Block. Unused ID: 197
+Block. Unused ID: 198
+Block. Unused ID: 199
+Block. Unused ID: 200
+Block. Unused ID: 201
+Block. Unused ID: 202
+Block. Unused ID: 203
+Block. Unused ID: 204
+Block. Unused ID: 205
+Block. Name: tile.railcraftTrack. ID: 206
+Block. Name: tile.computer. ID: 207
+Block. Name: tile.diskdrive. ID: 208
+Block. Name: tile.structureBlock. ID: 209
+Block. Unused ID: 210
+Block. Name: tile.cartDetector. ID: 211
+Block. Name: tile.elevatorRail. ID: 212
+Block. Name: tile.blockUtility. ID: 213
+Block. Name: tile.blockRailcraftCube. ID: 214
+Block. Unused ID: 215
+Block. Name: tile.turtle. ID: 216
+Block. Name: ic2.common.BlockBarrel. ID: 217
+Block. Name: tile.blockCrop. ID: 218
+Block. Name: tile.blockLuminatorD. ID: 219
+Block. Name: tile.blockScaffold. ID: 220
+Block. Name: tile.blockWall. ID: 221
+Block. Name: tile.blockFoam. ID: 222
+Block. Name: ic2.common.BlockMachine2. ID: 223
+Block. Name: ic2.common.BlockMetal. ID: 224
+Block. Name: ic2.common.BlockPersonal. ID: 225
+Block. Name: tile.blockLuminator. ID: 226
+Block. Name: ic2.common.BlockElectric. ID: 227
+Block. Name: ic2.common.BlockCable. ID: 228
+Block. Name: tile.blockDoorAlloy. ID: 229
+Block. Name: tile.blockAlloyGlass. ID: 230
+Block. Name: tile.blockAlloy. ID: 231
+Block. Name: tile.blockFenceIron. ID: 232
+Block. Name: tile.blockReactorChamber. ID: 233
+Block. Name: tile.blockRubber. ID: 234
+Block. Name: tile.blockIronScaffold. ID: 235
+Block. Name: tile.blockDynamite. ID: 236
+Block. Name: tile.blockNuke. ID: 237
+Block. Name: tile.blockDynamiteRemote. ID: 238
+Block. Name: tile.blockITNT. ID: 239
+Block. Name: tile.blockHarz. ID: 240
+Block. Name: tile.blockRubSapling. ID: 241
+Block. Name: tile.leaves. ID: 242
+Block. Name: tile.blockRubWood. ID: 243
+Block. Name: tile.blockMiningTip. ID: 244
+Block. Name: tile.blockMiningPipe. ID: 245
+Block. Name: ic2.common.BlockGenerator. ID: 246
+Block. Name: tile.blockOreUran. ID: 247
+Block. Name: tile.blockOreTin. ID: 248
+Block. Name: tile.blockOreCopper. ID: 249
+Block. Name: ic2.common.BlockMachine. ID: 250
+Block. Unused ID: 251
+Block. Unused ID: 252
+Block. Unused ID: 253
+Block. Unused ID: 254
+Block. Unused ID: 255
