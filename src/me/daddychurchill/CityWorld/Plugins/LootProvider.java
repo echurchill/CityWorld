@@ -18,7 +18,7 @@ public abstract class LootProvider {
 	
 	public abstract ItemStack[] getItems(WorldGenerator generator, String name);
 
-	public static LootProvider loadProvider() {
+	public static LootProvider loadProvider(WorldGenerator generator) {
 
 		LootProvider provider = null;
 		

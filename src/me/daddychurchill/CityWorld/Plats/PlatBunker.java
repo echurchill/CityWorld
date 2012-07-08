@@ -8,6 +8,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
+import me.daddychurchill.CityWorld.Plugins.TekkitMaterial;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
@@ -31,7 +32,7 @@ public class PlatBunker extends PlatIsolated {
 
 	@Override
 	protected boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
-		return blockY < calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet || blockY > calcBunkerCeiling(generator);
+		return blockY < calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet || blockY >= calcBunkerCeiling(generator);
 	}
 
 	@Override
@@ -53,7 +54,7 @@ public class PlatBunker extends PlatIsolated {
 	private final static byte lavaId = (byte) Material.STATIONARY_LAVA.getId();
 	private final static byte iceId = (byte) Material.ICE.getId();
 	private final static byte spongeId = (byte) Material.SPONGE.getId();
-	private final static byte oilId = (byte) 163;
+	private final static byte oilId = (byte) TekkitMaterial.STATIONARY_OIL;
 	
 	//private final static int bilgeEmpty = 0;
 	private final static int bilgeWater = 1;
@@ -101,23 +102,20 @@ public class PlatBunker extends PlatIsolated {
 		switch (bilgeType) {
 		case bilgeWater:
 			chunk.setLayer(yBottom + 1, waterId);
-			chunk.setBlocks(0, 16, yBottom + 2, yTop3, 0, 16, airId);
+//			chunk.setBlocks(0, 16, yBottom + 2, yTop3, 0, 16, airId);
 			break;
 		case bilgeLava:
 			chunk.setLayer(yBottom + 1, lavaId);
-			chunk.setBlocks(0, 16, yBottom + 2, yTop3, 0, 16, airId);
+//			chunk.setBlocks(0, 16, yBottom + 2, yTop3, 0, 16, airId);
 			break;
 		case bilgeIce:
 			chunk.setLayer(yBottom + 1, iceId);
-			chunk.setBlocks(0, 16, yBottom + 2, yTop3, 0, 16, airId);
+//			chunk.setBlocks(0, 16, yBottom + 2, yTop3, 0, 16, airId);
 			break;
 		default: // bilgeEmpty:
-			chunk.setBlocks(0, 16, yBottom + 1, yTop3, 0, 16, airId);
+//			chunk.setBlocks(0, 16, yBottom + 1, yTop3, 0, 16, airId);
 			break;
 		}
-		
-		// clear out space
-		chunk.setBlocks(2, 14, yTop3, yTop3 + 2, 2, 14, airId);
 		
 		// vertical beams
 		chunk.setBlocks(0, 2, yBottom + 1, yTop3, 0, 1, supportId);
@@ -140,6 +138,9 @@ public class PlatBunker extends PlatIsolated {
 		chunk.setBlocks(0, 16, yTop3, yTop4, 14, 16, supportId);
 		chunk.setBlocks(0, 2, yTop3, yTop4, 2, 14, supportId);
 		chunk.setBlocks(14, 16, yTop3, yTop4, 2, 14, supportId);
+		
+//		// clear out space between the top cross beams
+//		chunk.setBlocks(2, 14, yTop3, yTop4, 2, 14, airId);
 		
 		// draw platform
 		chunk.setBlocks(2, 14, yPlatform, 2, 14, platformId);
@@ -389,7 +390,7 @@ public class PlatBunker extends PlatIsolated {
 		
 		// fill it
 		byte fillId;
-		switch (chunkRandom.nextInt(4)) {
+		switch (chunkRandom.nextInt(6)) {
 		case 1:
 			fillId = lavaId;
 			break;
@@ -400,12 +401,13 @@ public class PlatBunker extends PlatIsolated {
 			fillId = snowId;
 			break;
 		case 4:
-			if (generator.settings.tekkitServer) {
-				fillId = oilId;
-			} else {
-				fillId = spongeId;
-			}
+			fillId = spongeId;
 			break;
+		case 5:
+			if (generator.settings.includeTekkitMaterials) { // tekkit support by gunre
+				fillId = oilId;
+				break;
+			} // else just fill with some more water
 		default:
 			fillId = waterId;
 			break;
@@ -681,7 +683,7 @@ public class PlatBunker extends PlatIsolated {
 		
 		// cool stuff?
 		if (generator.settings.treasuresInBunkers && chunkRandom.nextDouble() <= context.oddsOfTreasureInBunkers) {
-			 chunk.setChest(x, y, z, Direction.Chest.NORTH, generator.getLootProvider().getItems(generator, LootProvider.chestInBunkers));
+			 chunk.setChest(x, y, z, Direction.Chest.NORTH, generator.lootProvider.getItems(generator, LootProvider.chestInBunkers));
 		}
 	}
 
@@ -689,7 +691,7 @@ public class PlatBunker extends PlatIsolated {
 
 		// not so cool stuff?
 		if (generator.settings.spawnersInBunkers && chunkRandom.nextDouble() <= context.oddsOfSpawnerInBunkers) {
-			chunk.setSpawner(x, y, z, generator.getSpawnProvider().getEntity(generator, SpawnProvider.spawnerInBunkers));
+			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, SpawnProvider.spawnerInBunkers));
 		}
 	}
 }

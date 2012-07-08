@@ -1068,7 +1068,7 @@ public class PlatRoad extends PlatConnected {
 		
 		// cool stuff?
 		if (generator.settings.treasuresInSewers && chunkRandom.nextDouble() <= context.oddsOfTreasureInSewers) {
-			 chunk.setChest(x, y, z, Direction.Chest.NORTH, generator.getLootProvider().getItems(generator, LootProvider.chestInSewers));
+			 chunk.setChest(x, y, z, Direction.Chest.NORTH, generator.lootProvider.getItems(generator, LootProvider.chestInSewers));
 		}
 	}
 
@@ -1076,7 +1076,7 @@ public class PlatRoad extends PlatConnected {
 		
 		// not so cool stuff?
 		if (generator.settings.spawnersInSewers && chunkRandom.nextDouble() <= context.oddsOfSpawnerInSewers) {
-			chunk.setSpawner(x, y, z, generator.getSpawnProvider().getEntity(generator, SpawnProvider.spawnerInSewers));
+			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, SpawnProvider.spawnerInSewers));
 		}
 	}
 }

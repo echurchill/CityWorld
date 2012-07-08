@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
+import me.daddychurchill.CityWorld.Plugins.OreProvider;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -28,8 +29,9 @@ public class WorldGenerator extends ChunkGenerator {
 	private String worldstyle;
 	private Random connectionKeyGen;
 	private Random stashRandomGenerator;
-	private LootProvider lootProvider;
-	private SpawnProvider spawnProvider;
+	public LootProvider lootProvider;
+	public SpawnProvider spawnProvider;
+	public OreProvider oreProvider;
 
 	public CityWorldSettings settings;
 
@@ -132,8 +134,9 @@ public class WorldGenerator extends ChunkGenerator {
 			long seed = world.getSeed();
 			connectionKeyGen = new Random(seed + 1);
 			stashRandomGenerator = new Random(seed + 2);
-			lootProvider = LootProvider.loadProvider();
-			spawnProvider = SpawnProvider.loadProvider();
+			lootProvider = LootProvider.loadProvider(this);
+			spawnProvider = SpawnProvider.loadProvider(this);
+			oreProvider = OreProvider.loadProvider(this);
 
 			landShape1 = new SimplexOctaveGenerator(seed, 4);
 			landShape1.setScale(landHorizontalScale1);
@@ -206,14 +209,6 @@ public class WorldGenerator extends ChunkGenerator {
 	
 	public Random getStashRandomGenerator() {
 		return stashRandomGenerator;
-	}
-	
-	public LootProvider getLootProvider() {
-		return lootProvider;
-	}
-	
-	public SpawnProvider getSpawnProvider() {
-		return spawnProvider;
 	}
 	
 	public double findPerciseY(int blockX, int blockZ) {

@@ -13,7 +13,9 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
+import me.daddychurchill.CityWorld.Plugins.OreProvider;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
+import me.daddychurchill.CityWorld.Plugins.TekkitMaterial;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
@@ -505,64 +507,16 @@ public abstract class PlatLot {
 
 		// cool stuff?
 		if (generator.settings.treasuresInMines && chunkRandom.nextDouble() <= context.oddsOfTreasureInMines) {
-			 chunk.setChest(x, y, z, Direction.Chest.SOUTH, generator.getLootProvider().getItems(generator, LootProvider.chestInMines));
+			 chunk.setChest(x, y, z, Direction.Chest.SOUTH, generator.lootProvider.getItems(generator, LootProvider.chestInMines));
 		}
 	}
 
 	private void generateMineTrick(WorldGenerator generator, ContextData context, RealChunk chunk, int x, int y, int z) {
 		// not so cool stuff?
 		if (generator.settings.spawnersInMines && chunkRandom.nextDouble() <= context.oddsOfSpawnerInMines) {
-			chunk.setSpawner(x, y, z, generator.getSpawnProvider().getEntity(generator, SpawnProvider.spawnerInMines));
+			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, SpawnProvider.spawnerInMines));
 		}
 	}
-	
-//	private void generateStratas(WorldGenerator generator, ByteChunk byteChunk, int x, int z, byte baseId,
-//			int baseY, byte substrateId, int substrateY, byte surfaceId,
-//			boolean surfaceCaves) {
-//
-//		// compute the world block coordinates
-//		int blockX = byteChunk.chunkX * byteChunk.width + x;
-//		int blockZ = byteChunk.chunkZ * byteChunk.width + z;
-//		
-//		// stony bits
-//		for (int y = 2; y < baseY; y++)
-//			if (generator.notACave(blockX, y, blockZ)) {
-//				byte oreId = generator.getOre(byteChunk, blockX, y, blockZ, baseId);
-//				
-//				// transmute to fluid?
-//				if (generator.settings.includeUndergroundFluids && oreId != baseId && generator.anyStrataFluid(blockX, y, blockZ))
-//					oreId = getStrataFluid(generator, y);
-//				
-//				// place it
-//				byteChunk.setBlock(x, y, z, oreId);
-//		
-//			// Loosely based on http://www.minecraftwiki.net/wiki/Lava
-//			} else if (y <= 10)
-//				byteChunk.setBlock(x, y, z, lavaId);
-//
-//		// aggregate bits
-//		for (int y = baseY; y < substrateY - 1; y++)
-//			if (!surfaceCaves || generator.notACave(blockX, y, blockZ))
-//				byteChunk.setBlock(x, y, z, substrateId);
-//
-//		// icing for the cake
-//		if (!surfaceCaves || generator.notACave(blockX, substrateY, blockZ)) {
-//			byteChunk.setBlock(x, substrateY - 1, z, substrateId);
-//			byteChunk.setBlock(x, substrateY, z, surfaceId);
-//		}
-//	}
-//
-//	private void generateStratas(WorldGenerator generator, ByteChunk chunk, int x, int z, byte baseId,
-//			int baseY, byte substrateId, int substrateY, byte surfaceId,
-//			int coverY, byte coverId, boolean surfaceCaves) {
-//
-//		// a little crust please?
-//		generateStratas(generator, chunk, x, z, baseId, baseY, substrateId, substrateY, surfaceId, surfaceCaves);
-//
-//		// cover it up
-//		for (int y = substrateY + 1; y <= coverY; y++)
-//			chunk.setBlock(x, y, z, coverId);
-//	}
 
 	private void generateStratas(WorldGenerator generator, ByteChunk chunk, int x, int z, byte baseId,
 			int baseY, byte substrateId, int substrateY, byte surfaceId,
@@ -574,7 +528,7 @@ public abstract class PlatLot {
 		
 		// stony bits
 		for (int y = 2; y < baseY; y++)
-			if (isValidStrataY(generator, blockX, y, blockZ))
+			if (isValidStrataY(generator, blockX, y, blockZ) && generator.notACave(blockX, y, blockZ))
 				chunk.setBlock(x, y, z, baseId);
 
 		// aggregate bits
@@ -602,7 +556,7 @@ public abstract class PlatLot {
 	}
 	
 	protected boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
-		return generator.notACave(blockX, blockY, blockZ);
+		return true;
 	}
 	
 	protected int getTopStrataY(WorldGenerator generator, int blockX, int blockZ) {
@@ -628,171 +582,9 @@ public abstract class PlatLot {
 		
 		// shape the world
 		if (generator.settings.includeOres || generator.settings.includeUndergroundFluids)
-			sprinkleOres(generator, chunk, chunkRandom);
+			generator.oreProvider.sprinkleOres(generator, chunk, OreProvider.oresInCrust);
 	}
 
-	/**
-	 * Populates the world with ores.
-	 *
-	 * @author Nightgunner5
-	 * @author Markus Persson
-	 * modified by simplex
-	 * wildly modified by daddychurchill
-	 */
-	
-	private static final int[] ore_types = new int[] {Material.WATER.getId(),
-		  											  Material.GRAVEL.getId(), 
-													  Material.COAL_ORE.getId(),
-													  Material.IRON_ORE.getId(), 
-													  Material.GOLD_ORE.getId(), 
-													  Material.LAPIS_ORE.getId(),
-													  Material.REDSTONE_ORE.getId(),
-													  Material.DIAMOND_ORE.getId()}; 
-	//                                                         WATER   GRAV   COAL   IRON   GOLD  LAPIS  REDST   DIAM  
-	private static final int[] ore_iterations = new int[]    {     4,    40,    35,    12,     4,     3,     6,     2};
-	private static final int[] ore_amountToDo = new int[]    {     1,     8,     8,     8,     3,     2,     4,     2};
-	private static final int[] ore_maxY = new int[]          {   128,    96,   128,    68,    34,    30,    17,    16};
-	private static final int[] ore_minY = new int[]          {     8,    40,    16,    16,     5,     5,     8,     1};
-	private static final boolean[] ore_upper = new boolean[] {  true, false,  true,  true,  true,  true,  true, false};
-	
-	private static final int[] ore_types_tekkit = new int[] {Material.WATER.getId(),
-													  Material.GRAVEL.getId(), 
-													  Material.COAL_ORE.getId(),
-													  Material.IRON_ORE.getId(), 
-													  Material.GOLD_ORE.getId(), 
-													  Material.LAPIS_ORE.getId(),
-													  Material.REDSTONE_ORE.getId(),
-													  Material.DIAMOND_ORE.getId(),
-													  140, //ruby
-													  1401, // emerald
-													  1402, //sapphire
-													  1403, //silver
-													  1404, //tin
-													  1405, //copper
-													  1406, //tungsten
-													  1407, //nikolite
-													  142, //marble
-													  1421, //basalt
-													  247 //uranium
-													  };
-	//                                                   		      WATER   GRAV   COAL   IRON   GOLD  LAPIS  REDST   DIAM   RUBY   EMER   SAPP   SILV    TIN  COPPR   TUNG   NIKO   MARB   BASA   URAN  
-	private static final int[] ore_iterations_tekkit = new int[]    {     4,    20,    15,     6,     2,     2,     4,     1,     1,     1,     1,     3,     6,     6,     2,     2,    30,    20,     1};
-	private static final int[] ore_amountToDo_tekkit = new int[]    {     1,     6,     8,     6,     3,     2,     4,     2,     2,     2,     2,     4,     6,     6,     3,     8,    20,     8,     1};
-	private static final int[] ore_maxY_tekkit = new int[]          {   128,    96,   128,    68,    34,    30,    17,    16,    16,    16,    16,    34,    68,    96,    34,    68,   128,    10,    16};
-	private static final int[] ore_minY_tekkit = new int[]          {     8,    40,    16,    16,     5,     5,     8,     1,     2,     2,     2,     5,    16,    16,     2,     2,    40,     1,     2};
-	private static final boolean[] ore_upper_tekkit = new boolean[] {  true, false,  true,  true,  true,  true,  true, false, false, false, false,  true,  true,  true,  true,  true,  true, false, false};
-	
-	public void sprinkleOres(WorldGenerator generator, RealChunk chunk, Random random) {
-		if (generator.settings.tekkitServer) {
-			for (int typeNdx = 0; typeNdx < ore_types_tekkit.length; typeNdx++) {
-				int range = ore_maxY_tekkit[typeNdx] - ore_minY_tekkit[typeNdx];
-				for (int iter = 0; iter < ore_iterations_tekkit[typeNdx]; iter++) {
-					sprinkleOres_iterate(generator, chunk, random, random.nextInt(16), random.nextInt(range) + ore_minY_tekkit[typeNdx], random.nextInt(16), ore_amountToDo_tekkit[typeNdx], ore_types_tekkit[typeNdx]);
-					if (ore_upper_tekkit[typeNdx])
-						sprinkleOres_iterate(generator, chunk, random, random.nextInt(16), 
-								(generator.seaLevel + generator.landRange) - ore_minY_tekkit[typeNdx] - random.nextInt(range), random.nextInt(16), ore_amountToDo_tekkit[typeNdx], ore_types_tekkit[typeNdx]);
-				}
-			}
-		} else {
-			for (int typeNdx = 0; typeNdx < ore_types.length; typeNdx++) {
-				int range = ore_maxY[typeNdx] - ore_minY[typeNdx];
-				for (int iter = 0; iter < ore_iterations[typeNdx]; iter++) {
-					sprinkleOres_iterate(generator, chunk, random, random.nextInt(16), random.nextInt(range) + ore_minY[typeNdx], random.nextInt(16), ore_amountToDo[typeNdx], ore_types[typeNdx]);
-					if (ore_upper[typeNdx])
-						sprinkleOres_iterate(generator, chunk, random, random.nextInt(16), 
-								(generator.seaLevel + generator.landRange) - ore_minY[typeNdx] - random.nextInt(range), random.nextInt(16), ore_amountToDo[typeNdx], ore_types[typeNdx]);
-				}
-			}
-		}
-	}
-
-	private void sprinkleOres_iterate(WorldGenerator generator, RealChunk chunk, Random random, int originX, int originY, int originZ, int amountToDo, int typeId) {
-		int trysLeft = amountToDo * 2;
-		int oresDone = 0;
-		if (generator.findBlockY(chunk.getBlockX(originX), chunk.getBlockZ(originZ)) > originY + amountToDo / 4) {
-			while (oresDone < amountToDo && trysLeft > 0) {
-				
-				// ore or not?
-				if (typeId == waterTypeId) {
-					if (generator.settings.includeUndergroundFluids)
-						oresDone += sprinkleOres_placeFluid(generator, chunk, random, originX, originY, originZ);
-
-				} else {
-					
-					// shimmy
-					int x = originX + random.nextInt(Math.max(1, amountToDo / 2)) - amountToDo / 4;
-					int y = originY + random.nextInt(Math.max(1, amountToDo / 4)) - amountToDo / 8;
-					int z = originZ + random.nextInt(Math.max(1, amountToDo / 2)) - amountToDo / 4;
-					
-					// ore it is
-					oresDone += sprinkleOres_placeOre(generator, chunk, random, x, y, z, amountToDo - oresDone, typeId);
-				}
-				
-				// one less try to try
-				trysLeft--;
-			}
-		}
-	}
-	
-	private int sprinkleOres_placeOre(WorldGenerator generator, RealChunk chunk, Random random, int centerX, int centerY, int centerZ, int oresToDo, int typeId) {
-		int count = 0;
-		if (centerY > 0 && centerY < chunk.height) {
-			if (sprinkleOres_placeThing(chunk, random, centerX, centerY, centerZ, typeId, false)) {
-				count++;
-				if (count < oresToDo && centerX < 15 && sprinkleOres_placeThing(chunk, random, centerX + 1, centerY, centerZ, typeId, false))
-					count++;
-				if (count < oresToDo && centerX > 0 && sprinkleOres_placeThing(chunk, random, centerX - 1, centerY, centerZ, typeId, false))
-					count++;
-				if (count < oresToDo && centerZ < 15 && sprinkleOres_placeThing(chunk, random, centerX, centerY, centerZ + 1, typeId, false))
-					count++;
-				if (count < oresToDo && centerZ > 0 && sprinkleOres_placeThing(chunk, random, centerX, centerY, centerZ - 1, typeId, false))
-					count++;
-			}
-		}
-		return count;
-	}
-	
-	private static final int iceTypeId = Material.ICE.getId();
-	private static final int waterTypeId = Material.WATER.getId();
-	private static final int lavaTypeId = Material.LAVA.getId();
-	
-	private int sprinkleOres_placeFluid(WorldGenerator generator, RealChunk chunk, Random random, int centerX, int centerY, int centerZ) {
-		int count = 0;
-		if (centerY > 0 && centerY < chunk.height) {
-
-			// what type of fluid are we talking about?
-			int fluidId;
-			if (centerY < 24)
-				fluidId = lavaTypeId;
-			else if (centerY > generator.snowLevel)
-				fluidId = iceTypeId;
-			else
-				fluidId = waterTypeId;
-			
-			// odds are?
-			if (sprinkleOres_placeThing(chunk, random, centerX, centerY, centerZ, fluidId, true))
-				count++;
-		}
-		return count;
-	}
-	
-	private boolean sprinkleOres_placeThing(RealChunk chunk, Random random, int x, int y, int z, int typeId, boolean physics) {
-		if (random.nextDouble() < 0.35) {
-			Block block = chunk.getActualBlock(x, y, z);
-			if (block.getTypeId() == stoneId) {
-				if (typeId > 1000) {
-					int blockId = typeId/10;
-					byte dataVal = (byte) (typeId%10);
-					block.setTypeIdAndData(blockId, dataVal, physics);
-				} else {
-					block.setTypeId(typeId, physics);
-				}
-				return true;
-			}
-		}
-		return false;
-	}
-	
 	//TODO move this logic to SurroundingLots, add to it the ability to produce SurroundingHeights and SurroundingDepths
 	public PlatLot[][] getNeighborPlatLots(PlatMap platmap, int platX, int platZ, boolean onlyConnectedNeighbors) {
 		PlatLot[][] miniPlatMap = new PlatLot[3][3];
@@ -855,8 +647,11 @@ public abstract class PlatLot {
 						if (includeTrees && primary > 0.97 && x > 2 && x < 14 && z > 2 && z < 14) {
 							if (secondary > 0.90 && x > 5 && x < 11 && z > 5 && z < 11)
 								chunk.world.generateTree(chunk.getBlockLocation(x, y + 1, z), TreeType.BIG_TREE);
-							else if (secondary > 0.70 && generator.settings.tekkitServer)
-								chunk.setBlock(x, y + 1, z, 241,(byte) 0);
+							
+							//TODO this should be generalized to a FoliageProvider
+							else if (secondary > 0.70 && generator.settings.includeTekkitMaterials) //  (tekkit support by gunre)
+								chunk.setBlock(x, y + 1, z, TekkitMaterial.RUBBER_SAPLING, (byte) 0);
+							
 							else if (secondary > 0.50)
 								chunk.world.generateTree(chunk.getBlockLocation(x, y + 1, z), TreeType.BIRCH);
 							else 

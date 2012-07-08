@@ -21,8 +21,8 @@ public class SpawnProvider_Default extends SpawnProvider {
 				return EntityType.CREEPER;
 			case 2:
 				return EntityType.SPIDER;
-			case 3:
-				return EntityType.SILVERFISH;
+//			case 3:
+//				return EntityType.SILVERFISH;
 			default:
 				return EntityType.ZOMBIE;
 			}
@@ -32,8 +32,8 @@ public class SpawnProvider_Default extends SpawnProvider {
 				return EntityType.SKELETON;
 			case 2:
 				return EntityType.CAVE_SPIDER;
-			case 3:
-				return EntityType.SILVERFISH;
+//			case 3:
+//				return EntityType.SILVERFISH;
 			default:
 				return EntityType.ZOMBIE;
 			}

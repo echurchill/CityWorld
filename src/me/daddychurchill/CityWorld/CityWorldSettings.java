@@ -14,11 +14,11 @@ public class CityWorldSettings {
 	public boolean includePavedRoads = true;
 
 	public boolean includeCaves = true;
-	public boolean includeOres = true;
 	public boolean includeUndergroundFluids = true;
 	public boolean includeLavaFields = true;
 	public boolean includeSeas = true;
 	public boolean includeMountains = true;
+	public boolean includeOres = true;
 	
 	public boolean treasuresInSewers = true;
 	public boolean spawnersInSewers = true;
@@ -29,7 +29,7 @@ public class CityWorldSettings {
 	
 	public boolean workingLights = true;
 	
-	public boolean tekkitServer = false;
+	public boolean includeTekkitMaterials = false;
 	
 	private final static String tagIncludeSewers = "IncludeSewers";
 	private final static String tagIncludeCisterns = "IncludeCisterns";
@@ -40,11 +40,11 @@ public class CityWorldSettings {
 	private final static String tagIncludePavedRoads = "IncludePavedRoads";
 
 	private final static String tagIncludeCaves = "IncludeCaves";
-	private final static String tagIncludeOres = "IncludeOres";
 	private final static String tagIncludeUndergroundFluids = "IncludeUndergroundFluids";
 	private final static String tagIncludeLavaFields = "IncludeLavaFields";
 	private final static String tagIncludeSeas = "IncludeSeas";
 	private final static String tagIncludeMountains = "IncludeMountains";
+	private final static String tagIncludeOres = "IncludeOres";
 	
 	private final static String tagTreasuresInSewers = "TreasuresInSewers";
 	private final static String tagSpawnersInSewers = "SpawnersInSewers";
@@ -55,8 +55,8 @@ public class CityWorldSettings {
 	
 	private final static String tagWorkingLights = "WorkingLights";
 	
-	private final static String tagTekkitServer = "TekkitServer";
-	
+	private final static String tagIncludeTekkitMaterials = "IncludeTekkitMaterials";
+
 	public CityWorldSettings(CityWorld plugin, String worldname) {
 		super();
 		
@@ -84,11 +84,11 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludePavedRoads, includePavedRoads);
 			
 			section.addDefault(tagIncludeCaves, includeCaves);
-			section.addDefault(tagIncludeOres, includeOres);
 			section.addDefault(tagIncludeUndergroundFluids, includeUndergroundFluids);
 			section.addDefault(tagIncludeLavaFields, includeLavaFields);
 			section.addDefault(tagIncludeSeas, includeSeas);
 			section.addDefault(tagIncludeMountains, includeMountains);
+			section.addDefault(tagIncludeOres, includeOres);
 			
 			section.addDefault(tagTreasuresInSewers, treasuresInSewers);
 			section.addDefault(tagSpawnersInSewers, spawnersInSewers);
@@ -98,6 +98,8 @@ public class CityWorldSettings {
 			section.addDefault(tagSpawnersInBunkers, spawnersInBunkers);
 			
 			section.addDefault(tagWorkingLights, workingLights);
+			
+			section.addDefault(tagIncludeTekkitMaterials, includeTekkitMaterials);
 		}
 		
 		// did we get a section?
@@ -111,11 +113,11 @@ public class CityWorldSettings {
 			includePavedRoads = section.getBoolean(tagIncludePavedRoads);
 			
 			includeCaves = section.getBoolean(tagIncludeCaves);
-			includeOres = section.getBoolean(tagIncludeOres);
 			includeUndergroundFluids = section.getBoolean(tagIncludeUndergroundFluids);
 			includeLavaFields = section.getBoolean(tagIncludeLavaFields);
 			includeSeas = section.getBoolean(tagIncludeSeas);
 			includeMountains = section.getBoolean(tagIncludeMountains);
+			includeOres = section.getBoolean(tagIncludeOres);
 
 			treasuresInSewers = section.getBoolean(tagTreasuresInSewers);
 			spawnersInSewers = section.getBoolean(tagSpawnersInSewers);
@@ -125,8 +127,8 @@ public class CityWorldSettings {
 			spawnersInBunkers = section.getBoolean(tagSpawnersInBunkers);
 			
 			workingLights = section.getBoolean(tagWorkingLights);
-			
-			tekkitServer = section.getBoolean(tagTekkitServer);
+
+			includeTekkitMaterials = section.getBoolean(tagIncludeTekkitMaterials);
 		}
 		
 		// write it back out if needed

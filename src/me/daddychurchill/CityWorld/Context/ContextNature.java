@@ -84,7 +84,6 @@ public class ContextNature extends ContextRural {
 							// what type of height are we talking about?
 							switch (heights.state) {
 							case MIDLAND: 
-								//TODO Mine entrances
 								
 								// if not one of the innermost or the height isn't tall enough for bunkers
 								if (generator.settings.includeBuildings)

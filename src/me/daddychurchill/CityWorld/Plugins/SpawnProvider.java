@@ -18,7 +18,7 @@ public abstract class SpawnProvider {
 	
 	public abstract EntityType getEntity(WorldGenerator generator, String name);
 
-	public static SpawnProvider loadProvider() {
+	public static SpawnProvider loadProvider(WorldGenerator generator) {
 
 		SpawnProvider provider = null;
 		

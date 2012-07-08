@@ -16,6 +16,10 @@ The great outdoors is all good and fine but sometimes you just want to go to tow
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
 v1.04
+* Removed the silverfish from the sewers and mineshafts... yike!, that was a bad idea!
+* Oops, sometimes the vertical mineshafts go down beyond the bedrock... double yike!, that was even a worse idea!
+* Fixed a buggaboo that made the bunkers plots clear out too much rock and not generate caves correctly
+* Incorporated support for Tekkit material types base on initial work by gunre
 * If options are used, I put in some sanity checks to make sure all the plots are actually filled with something
 
 v1.03

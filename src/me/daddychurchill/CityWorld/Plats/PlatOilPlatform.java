@@ -8,6 +8,7 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Plugins.TekkitMaterial;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Ladder;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
@@ -28,7 +29,7 @@ public class PlatOilPlatform extends PlatIsolated {
 	private final static byte topperId = (byte) Material.NETHER_BRICK_STAIRS.getId();
 	
 	//tekkit materials
-	private final static byte oilId = (byte) 163;
+	private final static byte oilId = (byte) TekkitMaterial.STATIONARY_OIL;
 	
 	private final static int aboveSea = 6;
 
@@ -98,7 +99,7 @@ public class PlatOilPlatform extends PlatIsolated {
 		chunk.setBlocks(2, y3, y3 + 2, 13, supportId);
 		
 		// drill and extra drill bits
-		if (generator.settings.tekkitServer && minHeight > 20) { //place a blob of oil if it's a tekkit server
+		if (generator.settings.includeTekkitMaterials && minHeight > 20) { //place a blob of oil if it's a tekkit server (tekkit support by gunre)
 			Random rGen = new Random();
 			int oilBlobYFloor = rGen.nextInt(10)+2;
 			chunk.setBlocks(5, 11, oilBlobYFloor+1, oilBlobYFloor+7, 5, 11, oilId);
