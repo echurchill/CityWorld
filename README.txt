@@ -22,6 +22,12 @@ Terrain under the city
 Park benches and other furniture
 
 v1.04
+* Made the stairs in the mineshafts a little less rickety looking
+* Added alcoves to the mineshafts to make the spawners and chests less obvious
+* Removed the silverfish from the sewers and mineshafts... yike!, that was a bad idea!
+* Oops, sometimes the vertical mineshafts go down beyond the bedrock... double yike!, that was even a worse idea!
+* Fixed a buggaboo that made the bunkers plots clear out too much rock and not generate caves correctly
+* Incorporated support for Tekkit material types base on initial work by gunre
 * If options are used, I put in some sanity checks to make sure all the plots are actually filled with something
 
 v1.03

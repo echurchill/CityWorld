@@ -53,19 +53,20 @@ public class PlatMineEntrance extends PlatIsolated {
 //		chunk.setBlocks(0, 4, surfaceY + ContextData.FloorHeight, 0, 4, Material.COBBLESTONE);
 		
 		// core bits
-		Material coreMaterial = Material.AIR;
 		switch (chunkRandom.nextInt(6)) {
 		case 1:
-			coreMaterial = Material.IRON_FENCE;
+			chunk.setBlocks(1, 3, shaftY, surfaceY, 1, 3, Material.IRON_FENCE);
 			break;
 		case 2:
-			coreMaterial = Material.FENCE;
+			chunk.setBlocks(1, 3, shaftY, surfaceY, 1, 3, Material.FENCE);
 			break;
 		case 3:
-			coreMaterial = Material.COBBLESTONE;
+			chunk.setBlocks(1, 3, shaftY, surfaceY, 1, 3, Material.COBBLESTONE);
+			break;
+		default:
+			// else air will do
 			break;
 		}
-		chunk.setBlocks(1, 3, shaftY, surfaceY, 1, 3, coreMaterial);
 		
 		// connect to the minecraft
 		chunk.setBlocks(0, 4, shaftY - 1, 0, 4, Material.COBBLESTONE);
@@ -88,8 +89,8 @@ public class PlatMineEntrance extends PlatIsolated {
 			generateLanding(generator, chunk, 3, 3, Direction.Stair.SOUTHFLIP);
 		} while (shaftY <= surfaceY);
 		
-//		//TODO remove this flag!
-//		chunk.setBlocks(2, surfaceY + 5, maxHeight + 20, 1, Material.GLOWSTONE);
+		//TODO remove this flag!
+		chunk.setBlocks(2, surfaceY + 5, maxHeight + 20, 1, Material.GLOWSTONE);
 		
 		// place snow
 		generateSurface(generator, platmap, chunk, context, platX, platZ, false);

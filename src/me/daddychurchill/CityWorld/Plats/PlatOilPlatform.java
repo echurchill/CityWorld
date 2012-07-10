@@ -101,11 +101,11 @@ public class PlatOilPlatform extends PlatIsolated {
 		// drill and extra drill bits
 		if (generator.settings.includeTekkitMaterials && minHeight > 20) { //place a blob of oil if it's a tekkit server (tekkit support by gunre)
 			Random rGen = new Random();
-			int oilBlobYFloor = rGen.nextInt(10)+2;
-			chunk.setBlocks(5, 11, oilBlobYFloor+1, oilBlobYFloor+7, 5, 11, oilId);
-			chunk.setBlocks(6, 10, oilBlobYFloor, oilBlobYFloor+8, 6, 10, oilId);
-			chunk.setBlocks(6, 10, oilBlobYFloor+2, oilBlobYFloor+6, 4, 12, oilId);
-			chunk.setBlocks(4, 12, oilBlobYFloor+2, oilBlobYFloor+6, 6, 10, oilId);
+			int oilBlobYFloor = rGen.nextInt(10) + 2;
+			chunk.setBlocks(5, 11, oilBlobYFloor + 1, oilBlobYFloor + 7, 5, 11, oilId);
+			chunk.setBlocks(6, 10, oilBlobYFloor, oilBlobYFloor + 8, 6, 10, oilId);
+			chunk.setBlocks(6, 10, oilBlobYFloor + 2, oilBlobYFloor + 6, 4, 12, oilId);
+			chunk.setBlocks(4, 12, oilBlobYFloor + 2, oilBlobYFloor + 6, 6, 10, oilId);
 			chunk.setBlocks(8, oilBlobYFloor, minHeight, 8, oilId);
 			chunk.setBlocks(8, minHeight, y4 + 3, 8, drillId);
 		} else {
@@ -117,8 +117,6 @@ public class PlatOilPlatform extends PlatIsolated {
 		chunk.setBlocks(11, y2 + 1, y3 + 2, 1, drillId);
 		chunk.setBlocks(13, y4 + 4, y4 + 8, 2, drillId); // bit hanging from the crane
 	}
-	//protected abstract void setBlock(int x, int y, int z, byte materialId);
-	//protected abstract void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId);
 	
 	@Override
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {

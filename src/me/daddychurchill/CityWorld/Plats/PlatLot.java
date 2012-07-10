@@ -371,13 +371,13 @@ public abstract class PlatLot {
 				
 				// draw the going down bit
 				placeMineStairBase(chunk, 10, y1	, 15);
-				placeMineStairStep(chunk, 10, y1    , 14, Stair.SOUTH);
-				placeMineStairStep(chunk, 10, y1 - 1, 13, Stair.SOUTH);
-				placeMineStairStep(chunk, 10, y1 - 2, 12, Stair.SOUTH);
-				placeMineStairStep(chunk, 10, y1 - 3, 11, Stair.SOUTH);
-				placeMineStairStep(chunk, 10, y1 - 4, 10, Stair.SOUTH);
-				placeMineStairStep(chunk, 10, y1 - 5,  9, Stair.SOUTH);
-				placeMineStairStep(chunk, 10, y1 - 6,  8, Stair.SOUTH);
+				placeMineStairStep(chunk, 10, y1    , 14, Stair.SOUTH, Stair.NORTHFLIP);
+				placeMineStairStep(chunk, 10, y1 - 1, 13, Stair.SOUTH, Stair.NORTHFLIP);
+				placeMineStairStep(chunk, 10, y1 - 2, 12, Stair.SOUTH, Stair.NORTHFLIP);
+				placeMineStairStep(chunk, 10, y1 - 3, 11, Stair.SOUTH, Stair.NORTHFLIP);
+				placeMineStairStep(chunk, 10, y1 - 4, 10, Stair.SOUTH, Stair.NORTHFLIP);
+				placeMineStairStep(chunk, 10, y1 - 5,  9, Stair.SOUTH, Stair.NORTHFLIP);
+				placeMineStairStep(chunk, 10, y1 - 6,  8, Stair.SOUTH, Stair.NORTHFLIP);
 				stairsFound = true;
 			}
 			
@@ -387,13 +387,13 @@ public abstract class PlatLot {
 				
 				// draw the going down bit
 				placeMineStairBase(chunk, 15, y1	, 10);
-				placeMineStairStep(chunk, 14, y1    , 10, Stair.EAST);
-				placeMineStairStep(chunk, 13, y1 - 1, 10, Stair.EAST);
-				placeMineStairStep(chunk, 12, y1 - 2, 10, Stair.EAST);
-				placeMineStairStep(chunk, 11, y1 - 3, 10, Stair.EAST);
-				placeMineStairStep(chunk, 10, y1 - 4, 10, Stair.EAST);
-				placeMineStairStep(chunk,  9, y1 - 5, 10, Stair.EAST);
-				placeMineStairStep(chunk,  8, y1 - 6, 10, Stair.EAST);
+				placeMineStairStep(chunk, 14, y1    , 10, Stair.EAST, Stair.WESTFLIP);
+				placeMineStairStep(chunk, 13, y1 - 1, 10, Stair.EAST, Stair.WESTFLIP);
+				placeMineStairStep(chunk, 12, y1 - 2, 10, Stair.EAST, Stair.WESTFLIP);
+				placeMineStairStep(chunk, 11, y1 - 3, 10, Stair.EAST, Stair.WESTFLIP);
+				placeMineStairStep(chunk, 10, y1 - 4, 10, Stair.EAST, Stair.WESTFLIP);
+				placeMineStairStep(chunk,  9, y1 - 5, 10, Stair.EAST, Stair.WESTFLIP);
+				placeMineStairStep(chunk,  8, y1 - 6, 10, Stair.EAST, Stair.WESTFLIP);
 			}
 		}
 		
@@ -401,27 +401,27 @@ public abstract class PlatLot {
 		stairsFound = false;
 		
 		// going up?
-		if (isShaftableLevel(generator, context, y + 32)) {
+		if (isShaftableLevel(generator, context, y + 16)) {
 			if (generator.getHorizontalNSShaft(chunk.chunkX, y, chunk.chunkZ) &&
 				generator.getHorizontalNSShaft(chunk.chunkX, y + 16, chunk.chunkZ)) {
 					
 				// draw the going up bit
 				placeMineStairBase(chunk,  5, y1	, 15);
-				placeMineStairStep(chunk,  5, y1 + 1, 14, Stair.NORTH);
-				placeMineStairStep(chunk,  5, y1 + 2, 13, Stair.NORTH);
-				placeMineStairStep(chunk,  5, y1 + 3, 12, Stair.NORTH);
-				placeMineStairStep(chunk,  5, y1 + 4, 11, Stair.NORTH);
-				placeMineStairStep(chunk,  5, y1 + 5, 10, Stair.NORTH);
-				placeMineStairStep(chunk,  5, y1 + 6,  9, Stair.NORTH);
-				placeMineStairStep(chunk,  5, y1 + 7,  8, Stair.NORTH);
-				placeMineStairStep(chunk,  5, y1 + 8,  7, Stair.NORTH);
+				placeMineStairStep(chunk,  5, y1 + 1, 14, Stair.NORTH, Stair.SOUTHFLIP);
+				placeMineStairStep(chunk,  5, y1 + 2, 13, Stair.NORTH, Stair.SOUTHFLIP);
+				placeMineStairStep(chunk,  5, y1 + 3, 12, Stair.NORTH, Stair.SOUTHFLIP);
+				placeMineStairStep(chunk,  5, y1 + 4, 11, Stair.NORTH, Stair.SOUTHFLIP);
+				placeMineStairStep(chunk,  5, y1 + 5, 10, Stair.NORTH, Stair.SOUTHFLIP);
+				placeMineStairStep(chunk,  5, y1 + 6,  9, Stair.NORTH, Stair.SOUTHFLIP);
+				placeMineStairStep(chunk,  5, y1 + 7,  8, Stair.NORTH, Stair.SOUTHFLIP);
+				placeMineStairStep(chunk,  5, y1 + 8,  7, Stair.NORTH, Stair.SOUTHFLIP);
 				placeMineStairBase(chunk,  5, y1 + 8,  6);
 				placeMineStairBase(chunk,  6, y1 + 8,  6);
 				placeMineStairBase(chunk,  7, y1 + 8,  6);
 				placeMineStairBase(chunk,  8, y1 + 8,  6);
 				placeMineStairBase(chunk,  9, y1 + 8,  6);
 				placeMineStairBase(chunk, 10, y1 + 8,  6);
-				placeMineStairStep(chunk, 10, y1 + 9,  7, Stair.SOUTH);
+				placeMineStairStep(chunk, 10, y1 + 9,  7, Stair.SOUTH, Stair.NORTHFLIP);
 				
 				generateMineSupport(chunk, 6, y1 + 7, 7);
 				generateMineSupport(chunk, 9, y1 + 7, 7);
@@ -435,21 +435,21 @@ public abstract class PlatLot {
 				
 				// draw the going up bit
 				placeMineStairBase(chunk, 15, y1	,  5);
-				placeMineStairStep(chunk, 14, y1 + 1,  5, Stair.WEST);
-				placeMineStairStep(chunk, 13, y1 + 2,  5, Stair.WEST);
-				placeMineStairStep(chunk, 12, y1 + 3,  5, Stair.WEST);
-				placeMineStairStep(chunk, 11, y1 + 4,  5, Stair.WEST);
-				placeMineStairStep(chunk, 10, y1 + 5,  5, Stair.WEST);
-				placeMineStairStep(chunk,  9, y1 + 6,  5, Stair.WEST);
-				placeMineStairStep(chunk,  8, y1 + 7,  5, Stair.WEST);
-				placeMineStairStep(chunk,  7, y1 + 8,  5, Stair.WEST);
+				placeMineStairStep(chunk, 14, y1 + 1,  5, Stair.WEST, Stair.EASTFLIP);
+				placeMineStairStep(chunk, 13, y1 + 2,  5, Stair.WEST, Stair.EASTFLIP);
+				placeMineStairStep(chunk, 12, y1 + 3,  5, Stair.WEST, Stair.EASTFLIP);
+				placeMineStairStep(chunk, 11, y1 + 4,  5, Stair.WEST, Stair.EASTFLIP);
+				placeMineStairStep(chunk, 10, y1 + 5,  5, Stair.WEST, Stair.EASTFLIP);
+				placeMineStairStep(chunk,  9, y1 + 6,  5, Stair.WEST, Stair.EASTFLIP);
+				placeMineStairStep(chunk,  8, y1 + 7,  5, Stair.WEST, Stair.EASTFLIP);
+				placeMineStairStep(chunk,  7, y1 + 8,  5, Stair.WEST, Stair.EASTFLIP);
 				placeMineStairBase(chunk,  6, y1 + 8,  5);
 				placeMineStairBase(chunk,  6, y1 + 8,  6);
 				placeMineStairBase(chunk,  6, y1 + 8,  7);
 				placeMineStairBase(chunk,  6, y1 + 8,  8);
 				placeMineStairBase(chunk,  6, y1 + 8,  9);
 				placeMineStairBase(chunk,  6, y1 + 8, 10);
-				placeMineStairStep(chunk,  7, y1 + 9, 10, Stair.EAST);
+				placeMineStairStep(chunk,  7, y1 + 9, 10, Stair.EAST, Stair.WESTFLIP);
 				
 				generateMineSupport(chunk, 7, y1 + 7, 6);
 				generateMineSupport(chunk, 7, y1 + 7, 9);
@@ -459,26 +459,48 @@ public abstract class PlatLot {
 		// make the ceiling pretty
 		boolean pathFound = false;
 		if (generator.getHorizontalNSShaft(chunk.chunkX, y, chunk.chunkZ)) {
-			generateMineShaftSpace(chunk, 6, 10, y1 + 3, 0, 6);
-			generateMineShaftSpace(chunk, 6, 10, y1 + 3, 10, 16);
+			generateMineCeiling(chunk, 6, 10, y1 + 3, 0, 6);
+			generateMineCeiling(chunk, 6, 10, y1 + 3, 10, 16);
+			
+			generateMineAlcove(generator, context, chunk, 4, y1, 2, 4, 2);
+			generateMineAlcove(generator, context, chunk, 10, y1, 2, 11, 3);
+
 			pathFound = true;
 		}
 		if (generator.getHorizontalWEShaft(chunk.chunkX, y, chunk.chunkZ)) {
-			generateMineShaftSpace(chunk, 0, 6, y1 + 3, 6, 10);
-			generateMineShaftSpace(chunk, 10, 16, y1 + 3, 6, 10);
+			generateMineCeiling(chunk, 0, 6, y1 + 3, 6, 10);
+			generateMineCeiling(chunk, 10, 16, y1 + 3, 6, 10);
+
+			generateMineAlcove(generator, context, chunk, 2, y1, 4, 2, 4);
+			generateMineAlcove(generator, context, chunk, 2, y1, 10, 3, 11);
+			
 			pathFound = true;
 		}
 		
 		// draw the center bit
-		if (pathFound) {
-			generateMineShaftSpace(chunk, 6, 10, y1 + 3, 6, 10);
-			
-			generateMineTreat(generator, context, chunk, 6, y1 + 1, 6);
-			generateMineTrick(generator, context, chunk, 9, y1 + 1, 9);
+		if (pathFound)
+			generateMineCeiling(chunk, 6, 10, y1 + 3, 6, 10);
+	}
+	
+	private void generateMineAlcove(WorldGenerator generator, ContextData context, RealChunk chunk, int x, int y, int z, int prizeX, int prizeZ) {
+		if (chunkRandom.nextDouble() < 0.66) {
+			if (!chunk.isEmpty(x, y, z) &&
+				!chunk.isEmpty(x + 1, y, z) &&
+				!chunk.isEmpty(x, y, z + 1) &&
+				!chunk.isEmpty(x + 1, y, z + 1)) {
+				chunk.setBlocks(x, x + 2, y + 1, y + 4, z, z + 2, Material.AIR);
+				generateMineCeiling(chunk, x, x + 2, y + 3, z, z + 2);
+				if (chunkRandom.nextDouble() < 0.66) {
+					if (chunkRandom.nextDouble() < 0.33)
+						generateMineTreat(generator, context, chunk, prizeX, y + 1, prizeZ);
+					else
+						generateMineTrick(generator, context, chunk, prizeX, y + 1, prizeZ);
+				}
+			}
 		}
 	}
 	
-	private void generateMineShaftSpace(RealChunk chunk, int x1, int x2, int y, int z1, int z2) {
+	private void generateMineCeiling(RealChunk chunk, int x1, int x2, int y, int z1, int z2) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				if (chunkRandom.nextBoolean())
@@ -498,9 +520,11 @@ public abstract class PlatLot {
 		chunk.setEmptyBlock(x, y, z, Material.WOOD);
 	}
 	
-	private void placeMineStairStep(RealChunk chunk, int x, int y, int z, Stair direction) {
+	private void placeMineStairStep(RealChunk chunk, int x, int y, int z, Stair direction, Stair flipDirection) {
 		chunk.setBlocks(x, y + 1, y + 4, z, Material.AIR);
 		chunk.setStair(x, y, z, Material.WOOD_STAIRS, direction);
+		if (chunk.isEmpty(x, y - 1, z))
+			chunk.setStair(x, y - 1, z, Material.WOOD_STAIRS, flipDirection);
 	}
 	
 	private void generateMineTreat(WorldGenerator generator, ContextData context, RealChunk chunk, int x, int y, int z) {
