@@ -89,8 +89,8 @@ public class PlatMineEntrance extends PlatIsolated {
 			generateLanding(generator, chunk, 3, 3, Direction.Stair.SOUTHFLIP);
 		} while (shaftY <= surfaceY);
 		
-		//TODO remove this flag!
-		chunk.setBlocks(2, surfaceY + 5, maxHeight + 20, 1, Material.GLOWSTONE);
+//		//TODO remove this flag!
+//		chunk.setBlocks(2, surfaceY + 5, maxHeight + 20, 1, Material.GLOWSTONE);
 		
 		// place snow
 		generateSurface(generator, platmap, chunk, context, platX, platZ, false);

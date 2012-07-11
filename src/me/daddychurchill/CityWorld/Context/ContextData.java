@@ -79,7 +79,7 @@ public abstract class ContextData {
 		absoluteMaximumFloorsAbove = Math.max(Math.min((buildingMaximumY - generator.sidewalkLevel) / FloorHeight - FudgeFloorsAbove, absoluteAbsoluteMaximumFloorsAbove), absoluteMinimumFloorsAbove);
 		
 		// lights?
-		if (generator.settings.workingLights) {
+		if (generator.settings.includeWorkingLights) {
 			lightMat = Material.GLOWSTONE;
 			torchMat = Material.TORCH;
 		} else {

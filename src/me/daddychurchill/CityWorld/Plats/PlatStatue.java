@@ -123,7 +123,7 @@ public class PlatStatue extends PlatIsolated {
 			
 			// tree can be art too, you know!
 			if (chunkRandom.nextInt(context.oddsOfNaturalArt) == 0) {
-				platmap.world.generateTree(chunk.getBlockLocation(7, y1, 7), TreeType.BIG_TREE);
+				generateTree(generator, chunk, 7, y1, 7, TreeType.BIG_TREE);
 				somethingInTheCenter = false;
 			}
 			

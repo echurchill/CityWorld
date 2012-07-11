@@ -12,7 +12,6 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.Material;
 import org.bukkit.TreeType;
-import org.bukkit.World;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class PlatPark extends PlatConnected {
@@ -21,9 +20,6 @@ public class PlatPark extends PlatConnected {
 	protected final static int groundDepth = 2;
 	
 	protected final static byte cisternId = (byte) Material.CLAY.getId();
-	protected final static byte grassId = (byte) Material.GRASS.getId();
-	protected final static byte dirtId = (byte) Material.DIRT.getId();
-	protected final static byte waterId = (byte) Material.WATER.getId();
 	protected final static byte fenceId = (byte) Material.FENCE.getId();
 	protected final static byte columnId = (byte) Material.SMOOTH_BRICK.getId();
 	protected final static byte pathId = (byte) Material.SAND.getId();
@@ -92,7 +88,7 @@ public class PlatPark extends PlatConnected {
 			
 			// fill with water
 			lowestY++;
-			chunk.setBlocks(0, chunk.width, lowestY, lowestY + waterDepth, 0, chunk.width, waterId);
+			chunk.setBlocks(0, chunk.width, lowestY, lowestY + waterDepth, 0, chunk.width, stillWaterId);
 			
 			// clear out the rest
 			chunk.setBlocks(0, chunk.width, lowestY + waterDepth, highestY + 1, 0, chunk.width, airId);
@@ -222,17 +218,16 @@ public class PlatPark extends PlatConnected {
 		}
 		
 		// sprinkle some trees
-		World world = platmap.world;
 		if (circleSidewalk) {
-			world.generateTree(chunk.getBlockLocation(7, surfaceY, 7), TreeType.BIG_TREE);
+			generateTree(generator, chunk, 7, surfaceY, 7, TreeType.BIG_TREE);
 		
 		// four smaller trees
 		} else {
 			TreeType tree = chunkRandom.nextBoolean() ? TreeType.BIRCH : TreeType.TREE;
-			world.generateTree(chunk.getBlockLocation(3, surfaceY, 3), tree);
-			world.generateTree(chunk.getBlockLocation(12, surfaceY, 3), tree);
-			world.generateTree(chunk.getBlockLocation(3, surfaceY, 12), tree);
-			world.generateTree(chunk.getBlockLocation(12, surfaceY, 12), tree);
+			generateTree(generator, chunk, 3, surfaceY, 3, tree);
+			generateTree(generator, chunk, 12, surfaceY, 3, tree);
+			generateTree(generator, chunk, 3, surfaceY, 12, tree);
+			generateTree(generator, chunk, 12, surfaceY, 12, tree);
 		}
 	}
 }

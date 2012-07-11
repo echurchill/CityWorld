@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
+import org.bukkit.BlockChangeDelegate;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
 import org.bukkit.block.Biome;
@@ -43,18 +44,25 @@ public abstract class PlatLot {
 	public enum LotStyle {NATURE, STRUCTURE, ROAD, ROUNDABOUT};
 	public LotStyle style;
 	
+	protected byte grassId = (byte) Material.GRASS.getId();
+	protected byte dirtId = (byte) Material.DIRT.getId();
+	
 	public PlatLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super();
 		
 		initializeDice(platmap, chunkX, chunkZ);
 		
 		style = LotStyle.NATURE;
+
+		// desolation for this lot?
+		if (platmap.generator.settings.includeDesolation) {
+			grassId = sandId;
+			dirtId = sandId;
+		}
 	}
 	
 	protected final static byte airId = (byte) Material.AIR.getId();
 	protected final static byte snowId = (byte) Material.SNOW_BLOCK.getId();
-	protected final static byte grassId = (byte) Material.GRASS.getId();
-	protected final static byte dirtId = (byte) Material.DIRT.getId();
 	protected final static byte stoneId = (byte) Material.STONE.getId();
 	protected final static byte sandId = (byte) Material.SAND.getId();
 	protected final static byte sandstoneId = (byte) Material.SANDSTONE.getId();
@@ -154,7 +162,7 @@ public abstract class PlatLot {
 					maxHeightX = x;
 					maxHeightZ = z;
 				}
-
+				
 				// make the base
 				chunk.setBlock(x, 0, z, bedrockId);
 				chunk.setBlock(x, 1, z, stoneId);
@@ -179,7 +187,10 @@ public abstract class PlatLot {
 
 						// we are in the water!
 					} else if (y < generator.seaLevel) {
-						generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, generator.seaLevel, stillWaterId, false);
+						if (generator.settings.includeAbovegroundFluids)
+							generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, generator.seaLevel, stillWaterId, false);
+						else
+							generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, false);
 						biomes.setBiome(x, z, Biome.OCEAN);
 
 						// we are in the mountains
@@ -401,7 +412,7 @@ public abstract class PlatLot {
 		stairsFound = false;
 		
 		// going up?
-		if (isShaftableLevel(generator, context, y + 16)) {
+		if (isShaftableLevel(generator, context, y + 32)) {
 			if (generator.getHorizontalNSShaft(chunk.chunkX, y, chunk.chunkZ) &&
 				generator.getHorizontalNSShaft(chunk.chunkX, y + 16, chunk.chunkZ)) {
 					
@@ -670,16 +681,16 @@ public abstract class PlatLot {
 						// trees? but only if we are not too close to the edge
 						if (includeTrees && primary > 0.97 && x > 2 && x < 14 && z > 2 && z < 14) {
 							if (secondary > 0.90 && x > 5 && x < 11 && z > 5 && z < 11)
-								chunk.world.generateTree(chunk.getBlockLocation(x, y + 1, z), TreeType.BIG_TREE);
+								generateTree(generator, chunk, x, y + 1, z, TreeType.BIG_TREE);
 							
 							//TODO this should be generalized to a FoliageProvider
 							else if (secondary > 0.70 && generator.settings.includeTekkitMaterials) //  (tekkit support by gunre)
 								chunk.setBlock(x, y + 1, z, TekkitMaterial.RUBBER_SAPLING, (byte) 0);
 							
 							else if (secondary > 0.50)
-								chunk.world.generateTree(chunk.getBlockLocation(x, y + 1, z), TreeType.BIRCH);
+								generateTree(generator, chunk, x, y + 1, z, TreeType.BIRCH);
 							else 
-								chunk.world.generateTree(chunk.getBlockLocation(x, y + 1, z), TreeType.TREE);
+								generateTree(generator, chunk, x, y + 1, z, TreeType.TREE);
 						
 						// foliage?
 						} else if (primary > 0.75) {
@@ -701,9 +712,9 @@ public abstract class PlatLot {
 							
 							// range change?
 							if (secondary > ((double) (y - generator.treeLevel) / (double) deciduousRange))
-								chunk.world.generateTree(chunk.getBlockLocation(x, y + 1, z), TreeType.TREE);
+								generateTree(generator, chunk, x, y + 1, z, TreeType.TREE);
 							else
-								chunk.world.generateTree(chunk.getBlockLocation(x, y + 1, z), TreeType.REDWOOD);
+								generateTree(generator, chunk, x, y + 1, z, TreeType.REDWOOD);
 						
 						// foliage?
 						} else if (primary > 0.75) {
@@ -721,9 +732,9 @@ public abstract class PlatLot {
 						// trees? but only if we are not too close to the edge
 						if (includeTrees && primary > 0.90 && x > 2 && x < 14 && z > 2 && z < 14) {
 							if (secondary > 0.50)
-								chunk.world.generateTree(chunk.getBlockLocation(x, y + 1, z), TreeType.REDWOOD);
+								generateTree(generator, chunk, x, y + 1, z, TreeType.REDWOOD);
 							else
-								chunk.world.generateTree(chunk.getBlockLocation(x, y + 1, z), TreeType.TALL_REDWOOD);
+								generateTree(generator, chunk, x, y + 1, z, TreeType.TALL_REDWOOD);
 						
 						// foliage?
 						} else if (primary > 0.40) {
@@ -765,6 +776,68 @@ public abstract class PlatLot {
 					}
 				}
 			}
+		}
+	}
+	
+	protected void generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, TreeType treeType) {
+		if (generator.settings.includeDesolation) {
+			FilterDelegate delegate = new FilterDelegate(chunk, Material.LEAVES);
+			chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, delegate);
+		} else {
+			chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType);
+		}
+	}
+	
+	private class FilterDelegate implements BlockChangeDelegate {
+		private RealChunk chunk;
+		private int filterId;
+		
+		public FilterDelegate(RealChunk chunk, Material filter) {
+			this.chunk = chunk;
+			this.filterId = filter.getId();
+		}
+
+		@Override
+		public int getHeight() {
+			return chunk.height;
+		}
+
+		@Override
+		public int getTypeId(int x, int y, int z) {
+			return chunk.world.getBlockAt(x, y, z).getTypeId();
+		}
+
+		@Override
+		public boolean isEmpty(int x, int y, int z) {
+			return chunk.world.getBlockAt(x, y, z).isEmpty();
+		}
+
+		@Override
+		public boolean setRawTypeId(int x, int y, int z, int id) {
+			return setTypeIdAndData(x, y, z, id, 0, false);
+		}
+
+		@Override
+		public boolean setRawTypeIdAndData(int x, int y, int z, int id, int data) {
+			return setTypeIdAndData(x, y, z, id, data, false);
+		}
+
+		@Override
+		public boolean setTypeId(int x, int y, int z, int id) {
+			return setTypeIdAndData(x, y, z, id, 0, true);
+		}
+
+		@Override
+		public boolean setTypeIdAndData(int x, int y, int z, int id, int data) {
+			return setTypeIdAndData(x, y, z, id, data, true);
+		}
+		
+		private boolean setTypeIdAndData(int x, int y, int z, int id, int data, boolean update) {
+			Block block = chunk.world.getBlockAt(x, y, z);
+			if (id != filterId && block.getTypeId() != id && block.getData() != data)
+				return block.setTypeIdAndData(id, (byte) data, update);
+			else
+				return false;
 		}
 	}
 }
