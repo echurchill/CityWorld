@@ -1,5 +1,6 @@
 package me.daddychurchill.CityWorld;
 
+import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -11,6 +12,8 @@ public class CityWorldSettings {
 	public boolean includeMines = true;
 	public boolean includeBunkers = true;
 	public boolean includeBuildings = true;
+	public boolean includeHouses = true;
+	public boolean includeFarms = true;
 
 	public boolean includeCaves = true;
 	public boolean includeLavaFields = true;
@@ -26,18 +29,22 @@ public class CityWorldSettings {
 	public boolean spawnersInBunkers = true;
 	
 	public boolean includeUndergroundFluids = true;
-	public boolean includeAbovegroundFluids = false;
+	public boolean includeAbovegroundFluids = true;
 	public boolean includeWorkingLights = true;
 	public boolean includePavedRoads = true;
-	public boolean includeDesolation = true;
+	public boolean includeDecayedRoads = false;
 	public boolean includeTekkitMaterials = false;
 	
+	public World.Environment environment;
+
 	private final static String tagIncludeSewers = "IncludeSewers";
 	private final static String tagIncludeCisterns = "IncludeCisterns";
 	private final static String tagIncludeBasements = "IncludeBasements";
 	private final static String tagIncludeMines = "IncludeMines";
 	private final static String tagIncludeBunkers = "IncludeBunkers";
 	private final static String tagIncludeBuildings = "IncludeBuildings";
+	private final static String tagIncludeHouses = "IncludeHouses";
+	private final static String tagIncludeFarms = "IncludeFarms";
 
 	private final static String tagIncludeCaves = "IncludeCaves";
 	private final static String tagIncludeLavaFields = "IncludeLavaFields";
@@ -55,8 +62,8 @@ public class CityWorldSettings {
 	private final static String tagIncludeUndergroundFluids = "IncludeUndergroundFluids";
 	private final static String tagIncludeAbovegroundFluids = "IncludeAbovegroundFluids";
 	private final static String tagIncludeWorkingLights = "IncludeWorkingLights";
-	private final static String tagIncludeDesolation = "IncludeDesolation";
 	private final static String tagIncludePavedRoads = "IncludePavedRoads";
+	private final static String tagIncludeDecayedRoads = "IncludeDecayedRoads";
 	private final static String tagIncludeTekkitMaterials = "IncludeTekkitMaterials";
 	
 	public CityWorldSettings(CityWorld plugin, String worldname) {
@@ -83,6 +90,8 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeMines, includeMines);
 			section.addDefault(tagIncludeBunkers, includeBunkers);
 			section.addDefault(tagIncludeBuildings, includeBuildings);
+			section.addDefault(tagIncludeHouses, includeHouses);
+			section.addDefault(tagIncludeFarms, includeFarms);
 			
 			section.addDefault(tagIncludeCaves, includeCaves);
 			section.addDefault(tagIncludeLavaFields, includeLavaFields);
@@ -100,8 +109,8 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeUndergroundFluids, includeUndergroundFluids);
 			section.addDefault(tagIncludeAbovegroundFluids, includeAbovegroundFluids);
 			section.addDefault(tagIncludeWorkingLights, includeWorkingLights);
-			section.addDefault(tagIncludeDesolation, includeDesolation);
 			section.addDefault(tagIncludePavedRoads, includePavedRoads);
+			section.addDefault(tagIncludeDecayedRoads, includeDecayedRoads);
 			section.addDefault(tagIncludeTekkitMaterials, includeTekkitMaterials);
 		}
 		
@@ -113,6 +122,8 @@ public class CityWorldSettings {
 			includeMines = section.getBoolean(tagIncludeMines, includeMines);
 			includeBunkers = section.getBoolean(tagIncludeBunkers, includeBunkers);
 			includeBuildings = section.getBoolean(tagIncludeBuildings, includeBuildings);
+			includeHouses = section.getBoolean(tagIncludeHouses, includeHouses);
+			includeFarms = section.getBoolean(tagIncludeFarms, includeFarms);
 			
 			includeCaves = section.getBoolean(tagIncludeCaves, includeCaves);
 			includeLavaFields = section.getBoolean(tagIncludeLavaFields, includeLavaFields);
@@ -130,12 +141,35 @@ public class CityWorldSettings {
 			includeUndergroundFluids = section.getBoolean(tagIncludeUndergroundFluids, includeUndergroundFluids);
 			includeAbovegroundFluids = section.getBoolean(tagIncludeAbovegroundFluids, includeAbovegroundFluids);
 			includeWorkingLights = section.getBoolean(tagIncludeWorkingLights, includeWorkingLights);
-			includeDesolation = section.getBoolean(tagIncludeDesolation, includeDesolation);
 			includePavedRoads = section.getBoolean(tagIncludePavedRoads, includePavedRoads);
+			includeDecayedRoads = section.getBoolean(tagIncludeDecayedRoads, includeDecayedRoads);
 			includeTekkitMaterials = section.getBoolean(tagIncludeTekkitMaterials, includeTekkitMaterials);
 		}
 		
 		// write it back out if needed
 		plugin.saveConfig();
+	}
+	
+	public void setEnvironment(World.Environment aEnvironment) {
+		environment = aEnvironment;
+		switch (environment) {
+		case NORMAL:
+			break;
+		case NETHER:
+			includeAbovegroundFluids = false;
+			includeWorkingLights = false;
+			includeDecayedRoads = true;
+			break;
+		case THE_END:
+			includeMines = false;
+			includeBunkers = false;
+			includeHouses = false;
+			includeFarms = false;
+
+			includeLavaFields = false;
+//			includeSeas = false;
+//			includeMountains = false;
+			break;
+		}
 	}
 }

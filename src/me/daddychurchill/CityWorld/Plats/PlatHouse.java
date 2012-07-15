@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import org.bukkit.Material;
+import org.bukkit.World.Environment;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.PlatMap;
@@ -25,18 +25,24 @@ public class PlatHouse extends PlatIsolated {
 
 	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
-		// TODO Auto-generated method stub
 		
+		// ground please
+		if (generator.settings.environment == Environment.NETHER)
+			chunk.setLayer(generator.sidewalkLevel, sandId);
+		else
+			chunk.setLayer(generator.sidewalkLevel, grassId);
 	}
 	
 	@Override
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
 
-		// ground please
-		chunk.setLayer(generator.sidewalkLevel, Material.GRASS);
-		
 		// now make a house
-		HouseFactory.generateHouse(chunk, context, chunkRandom, generator.sidewalkLevel + 1, 2);
+		int floors = HouseFactory.generateHouse(chunk, context, chunkRandom, generator.sidewalkLevel + 1, 2);
+		
+		// not a happy place?
+		if (generator.settings.environment == Environment.NETHER) {
+			destroyLot(generator, chunk, generator.sidewalkLevel + 1, generator.sidewalkLevel + 1 + ContextData.FloorHeight * (floors + 1));
+		}
 	}
 
 }

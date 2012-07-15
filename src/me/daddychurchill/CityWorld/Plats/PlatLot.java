@@ -5,6 +5,7 @@ import java.util.Random;
 import org.bukkit.BlockChangeDelegate;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
+import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
@@ -23,6 +24,7 @@ import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
 public abstract class PlatLot {
 	
@@ -55,7 +57,7 @@ public abstract class PlatLot {
 		style = LotStyle.NATURE;
 
 		// desolation for this lot?
-		if (platmap.generator.settings.includeDesolation) {
+		if (platmap.generator.settings.environment == Environment.NETHER) {
 			grassId = sandId;
 			dirtId = sandId;
 		}
@@ -71,14 +73,25 @@ public abstract class PlatLot {
 	protected final static byte cobbleId = (byte) Material.COBBLESTONE.getId();
 	protected final static byte stillWaterId = (byte) Material.STATIONARY_WATER.getId();
 	protected final static byte stillLavaId = (byte) Material.STATIONARY_LAVA.getId();
+	protected final static byte waterId = (byte) Material.WATER.getId();
+	protected final static byte lavaId = (byte) Material.LAVA.getId();
+	protected final static byte leavesId = (byte) Material.LEAVES.getId();
+	protected final static byte glassId = (byte) Material.GLASS.getId();
+	protected final static byte paneId = (byte) Material.THIN_GLASS.getId();
+	protected final static byte logId = (byte) Material.LOG.getId();
+	protected final static byte glowId = (byte) Material.GLOWSTONE.getId();
+	protected final static byte stepId = (byte) Material.STEP.getId();
 
 	protected final static int snowMaterialId = Material.SNOW.getId();
 	protected final static int grassMaterialId = Material.LONG_GRASS.getId();
+	protected final static int dandelionMaterialId = Material.YELLOW_FLOWER.getId();
+	protected final static int roseMaterialId = Material.RED_ROSE.getId();
+	protected final static int redMushroomMaterialId = Material.RED_MUSHROOM.getId();
+	protected final static int brownMushroomMaterialId = Material.BROWN_MUSHROOM.getId();
+	protected final static int deadBushMaterialId = Material.DEAD_BUSH.getId();
 	protected final static Material snowMaterial = Material.SNOW;
 	protected final static Material airMaterial = Material.AIR;
 	protected final static Material stoneMaterial = Material.STONE;
-	protected final static Material dandelionMaterial = Material.YELLOW_FLOWER;
-	protected final static Material roseMaterial = Material.RED_ROSE;
 	protected final static Material rootMaterial = Material.GRASS;
 	
 	public abstract long getConnectedKey();
@@ -174,7 +187,7 @@ public abstract class PlatLot {
 					
 				// possibly buildable?
 				} else if (y == generator.sidewalkLevel) {
-					generateStratas(generator, chunk, x, z, stoneId, y - 3, dirtId, y, grassId, false);
+					generateStratas(generator, chunk, x, z, stoneId, y - 3, dirtId, y, grassId, generator.settings.environment == Environment.NETHER);
 					biomes.setBiome(x, z, chunkBiome);
 				
 				// won't likely have a building
@@ -182,7 +195,7 @@ public abstract class PlatLot {
 
 					// on the beach
 					if (y == generator.seaLevel) {
-						generateStratas(generator, chunk, x, z, stoneId, y - 2, sandId, y, sandId, false);
+						generateStratas(generator, chunk, x, z, stoneId, y - 2, sandId, y, sandId, generator.settings.environment == Environment.NETHER);
 						biomes.setBiome(x, z, Biome.BEACH);
 
 						// we are in the water!
@@ -190,7 +203,7 @@ public abstract class PlatLot {
 						if (generator.settings.includeAbovegroundFluids)
 							generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, generator.seaLevel, stillWaterId, false);
 						else
-							generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, false);
+							generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, generator.settings.environment == Environment.NETHER);
 						biomes.setBiome(x, z, Biome.OCEAN);
 
 						// we are in the mountains
@@ -198,7 +211,7 @@ public abstract class PlatLot {
 
 						// regular trees only
 						if (y < generator.treeLevel) {
-							generateStratas(generator, chunk, x, z, stoneId, y - 3, dirtId, y, grassId, false);
+							generateStratas(generator, chunk, x, z, stoneId, y - 3, dirtId, y, grassId, generator.settings.environment == Environment.NETHER);
 							biomes.setBiome(x, z, Biome.FOREST_HILLS);
 
 						// regular trees and some evergreen trees
@@ -617,7 +630,7 @@ public abstract class PlatLot {
 		
 		// shape the world
 		if (generator.settings.includeOres || generator.settings.includeUndergroundFluids)
-			generator.oreProvider.sprinkleOres(generator, chunk, OreProvider.oresInCrust);
+			generator.oreProvider.sprinkleOres(generator, chunk, chunkRandom, OreProvider.oresInCrust);
 	}
 
 	//TODO move this logic to SurroundingLots, add to it the ability to produce SurroundingHeights and SurroundingDepths
@@ -656,6 +669,18 @@ public abstract class PlatLot {
 		int deciduousRange = generator.evergreenLevel - generator.treeLevel;
 		int evergreenRange = generator.snowLevel - generator.evergreenLevel;
 		
+		// plantables
+		double thingOdds = 0.50;
+		int redThing = roseMaterialId;
+		int yellowThing = dandelionMaterialId;
+		int greenThing = grassMaterialId;
+		if (generator.settings.environment == Environment.NETHER) {
+			thingOdds = thingOdds * 1.80;
+			redThing = redMushroomMaterialId;
+			yellowThing = brownMushroomMaterialId;
+			greenThing = deadBushMaterialId;
+		}
+		
 		// plant grass or snow
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {
@@ -668,12 +693,14 @@ public abstract class PlatLot {
 				
 				// top of the world?
 				if (y >= generator.snowLevel) {
-					y = chunk.findLastEmptyBelow(x, y + 1, z);
-					if (chunk.isEmpty(x, y, z))
-						chunk.setBlock(x, y, z, snowMaterialId, (byte) NoiseGenerator.floor((perciseY - Math.floor(perciseY)) * 8.0));
+					if (generator.settings.environment != Environment.NETHER) {
+						y = chunk.findLastEmptyBelow(x, y + 1, z);
+						if (chunk.isEmpty(x, y, z))
+							chunk.setBlock(x, y, z, snowMaterialId, (byte) NoiseGenerator.floor((perciseY - Math.floor(perciseY)) * 8.0));
+					}
 				
 				// are on a plantable spot?
-				} else if (chunk.isPlantable(x, y, z)) {
+				} else if (isPlantable(generator, chunk, x, y, z)) {
 					
 					// regular trees, grass and flowers only
 					if (y < generator.treeLevel) {
@@ -693,15 +720,15 @@ public abstract class PlatLot {
 								generateTree(generator, chunk, x, y + 1, z, TreeType.TREE);
 						
 						// foliage?
-						} else if (primary > 0.75) {
+						} else if (primary > thingOdds) {
 							
 							// what to pepper about
 							if (secondary > 0.90)
-								chunk.setBlock(x, y + 1, z, roseMaterial);
+								chunk.setBlock(x, y + 1, z, redThing, (byte) 0);
 							else if (secondary > 0.80)
-								chunk.setBlock(x, y + 1, z, dandelionMaterial);
-							else
-								chunk.setBlock(x, y + 1, z, grassMaterialId, (byte) 1);
+								chunk.setBlock(x, y + 1, z, yellowThing, (byte) 0);
+							else 
+								chunk.setBlock(x, y + 1, z, greenThing, (byte) 1);
 						}
 						
 					// regular trees, grass and some evergreen trees... no flowers
@@ -717,13 +744,13 @@ public abstract class PlatLot {
 								generateTree(generator, chunk, x, y + 1, z, TreeType.REDWOOD);
 						
 						// foliage?
-						} else if (primary > 0.75) {
+						} else if (primary > thingOdds) {
 
 							// range change?
 							if (secondary > ((double) (y - generator.treeLevel) / (double) deciduousRange))
-								chunk.setBlock(x, y + 1, z, grassMaterialId, (byte) 1);
+								chunk.setBlock(x, y + 1, z, greenThing, (byte) 1);
 							else
-								chunk.setBlock(x, y + 1, z, grassMaterialId, (byte) 2);
+								chunk.setBlock(x, y + 1, z, greenThing, (byte) 2);
 						}
 						
 					// evergreen and some grass and fallen snow, no regular trees or flowers
@@ -737,14 +764,16 @@ public abstract class PlatLot {
 								generateTree(generator, chunk, x, y + 1, z, TreeType.TALL_REDWOOD);
 						
 						// foliage?
-						} else if (primary > 0.40) {
+						} else if (primary > thingOdds) {
 							
 							// range change?
 							if (secondary > ((double) (y - generator.evergreenLevel) / (double) evergreenRange)) {
-								if (chunkRandom.nextBoolean())
-									chunk.setBlock(x, y + 1, z, grassMaterialId, (byte) 2);
+								if (chunkRandom.nextDouble() < 0.40)
+									chunk.setBlock(x, y + 1, z, greenThing, (byte) 2);
 							} else {
-								chunk.setBlock(x, y + 1, z, snowMaterial);
+								if (generator.settings.environment == Environment.NORMAL) {
+									chunk.setBlock(x, y + 1, z, snowMaterial);
+								}
 							}
 						}
 					}
@@ -761,16 +790,18 @@ public abstract class PlatLot {
 					// evergreen and some grass and fallen snow, no regular trees or flowers
 					} else if (y < generator.snowLevel) {
 						
-						if (primary > 0.40) {
+						if (primary > thingOdds) {
 							
 							// range change?
 							if (secondary > ((double) (y - generator.evergreenLevel) / (double) evergreenRange)) {
-//								if (chunkRandom.nextBoolean())
-//									chunk.setBlock(x, y + 1, z, grassId, (byte) 2);
+								if (chunkRandom.nextDouble() < 0.10)
+									chunk.setBlock(x, y + 1, z, greenThing, (byte) 2);
 							} else {
-								y = chunk.findLastEmptyBelow(x, y + 1, z);
-								if (chunk.isEmpty(x, y, z))
-									chunk.setBlock(x, y, z, snowMaterial);
+								if (generator.settings.environment == Environment.NORMAL) {
+									y = chunk.findLastEmptyBelow(x, y + 1, z);
+									if (chunk.isEmpty(x, y, z))
+										chunk.setBlock(x, y, z, snowMaterial);
+								}
 							}
 						}
 					}
@@ -779,22 +810,38 @@ public abstract class PlatLot {
 		}
 	}
 	
+	private boolean isPlantable(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
+		if (generator.settings.environment == Environment.NETHER)
+			return !chunk.isEmpty(x, y, z);
+		else
+			return chunk.isPlantable(x, y, z);
+	}
+	
 	protected void generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, TreeType treeType) {
-		if (generator.settings.includeDesolation) {
-			FilterDelegate delegate = new FilterDelegate(chunk, Material.LEAVES);
-			chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, delegate);
-		} else {
+		switch (generator.settings.environment) {
+		case NORMAL:
 			chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType);
+			break;
+		case NETHER:
+			chunk.setBlock(x, y - 1, z, Material.DIRT, true);
+			chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, new TreeDelegate(chunk, TreeDelegateStyle.TRUNKONLY));
+			chunk.setBlock(x, y - 1, z, Material.SAND, false);
+			break;
+		case THE_END:
+			chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, new TreeDelegate(chunk, TreeDelegateStyle.CRYSTAL));
+			break;
 		}
 	}
 	
-	private class FilterDelegate implements BlockChangeDelegate {
+	protected enum TreeDelegateStyle {NORMAL, TRUNKONLY, CRYSTAL};
+	
+	private class TreeDelegate implements BlockChangeDelegate {
 		private RealChunk chunk;
-		private int filterId;
+		private TreeDelegateStyle style;
 		
-		public FilterDelegate(RealChunk chunk, Material filter) {
+		public TreeDelegate(RealChunk chunk, TreeDelegateStyle style) {
 			this.chunk = chunk;
-			this.filterId = filter.getId();
+			this.style = style;
 		}
 
 		@Override
@@ -834,10 +881,81 @@ public abstract class PlatLot {
 		
 		private boolean setTypeIdAndData(int x, int y, int z, int id, int data, boolean update) {
 			Block block = chunk.world.getBlockAt(x, y, z);
-			if (id != filterId && block.getTypeId() != id && block.getData() != data)
+			switch (style) {
+			case NORMAL:
 				return block.setTypeIdAndData(id, (byte) data, update);
-			else
+			case TRUNKONLY:
+				if (id == logId)
+					return block.setTypeIdAndData(id, (byte) data, update);
+				else
+					return false;
+			case CRYSTAL:
+				if (id == logId)
+					return block.setTypeId(glowId, update);
+				else if (id == leavesId)
+					if (chunkRandom.nextBoolean())
+						return block.setTypeId(glassId, update);
+					else
+						return block.setTypeId(paneId, update);
+				else
+					return false;
+			default:
 				return false;
+			}
+		}
+	}
+	
+	protected void destroyLot(WorldGenerator generator, RealChunk chunk, int y1, int y2) {
+		int count = Math.max(1, (y2 - y1) / ContextData.FloorHeight);
+		
+		// world centric 
+		WorldBlocks blocks = new WorldBlocks(generator);
+		int originX = chunk.getOriginX();
+		int originZ = chunk.getOriginZ();
+	
+		// now destroy it
+		while (count > 0) {
+			
+			// find a place
+			int cx = chunkRandom.nextInt(chunk.width);
+			int cz = chunkRandom.nextInt(chunk.width);
+			int cy = chunkRandom.nextInt(Math.max(1, y2 - y1)) + y1;
+			int radius = chunkRandom.nextInt(3) + 3;
+			
+			// what is here?
+			Block block = chunk.getActualBlock(cx, chunk.findLastEmptyBelow(cx, cy, cz) - 1, cz);
+			int typeId = block.getTypeId();
+			byte data = block.getData();
+			
+			// clear out the space
+//			chunk.setSphere(x, y, z, chunkRandom.nextInt(3) + 3, stoneId, true);
+			blocks.setSphere(originX + cx, cy, originZ + cz, radius, airId, true);
+			
+			// now sprinkle blocks around
+			sprinkleDebris(blocks, originX + cx, cy, originZ + cz, radius, typeId, data);
+			
+			// done with this round
+			count--;
+		}
+	}
+	
+	private void sprinkleDebris(WorldBlocks blocks, int cx, int cy, int cz, int radius, int typeId, byte data) {
+		//CityWorld.log.info("Type = " + typeId);
+		int r2 = radius * 2;
+		int r4 = r2 * 2;
+		int x1 = cx - r2;
+		int z1 = cz - r2;
+		int count = radius * radius;
+		while (count > 0) {
+			int x = x1 + chunkRandom.nextInt(r4);
+			int z = z1 + chunkRandom.nextInt(r4);
+			int y = blocks.findLastEmptyBelow(x, cy, z);
+			Block block = blocks.getActualBlock(x, y - 1, z);
+			if (block.getTypeId() == stepId)
+				block.setTypeIdAndData(typeId, data, false);
+			else
+				blocks.setBlock(x, y, z, typeId, data, false);
+			count--;
 		}
 	}
 }

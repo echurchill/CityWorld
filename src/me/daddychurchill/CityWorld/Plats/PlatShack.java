@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plats;
 
 import org.bukkit.Material;
+import org.bukkit.World.Environment;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.PlatMap;
@@ -19,8 +20,6 @@ public class PlatShack extends PlatIsolated {
 	}
 	
 	private final static byte retainingWallId = (byte) Material.SMOOTH_BRICK.getId();
-	private final static byte fillId = (byte) Material.DIRT.getId();
-	private final static byte surfaceId = (byte) Material.GRASS.getId();
 
 	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
@@ -44,8 +43,12 @@ public class PlatShack extends PlatIsolated {
 				
 				// backfill
 				} else {
-					chunk.setBlocks(x, y - 2, averageHeight, z, fillId);
-					chunk.setBlock(x, averageHeight, z, surfaceId);
+					if (generator.settings.environment == Environment.NETHER) {
+						chunk.setBlocks(x, y - 2, averageHeight + 1, z, sandId);
+					} else {
+						chunk.setBlocks(x, y - 2, averageHeight, z, dirtId);
+						chunk.setBlock(x, averageHeight, z, grassId); 
+					}
 					chunk.setBlocks(x, averageHeight + 1, maxHeight + 1, z, airId);
 				}
 			}

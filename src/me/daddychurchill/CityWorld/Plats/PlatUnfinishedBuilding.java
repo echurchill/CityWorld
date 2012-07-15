@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import java.util.Random;
-
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
@@ -131,7 +129,6 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 
 	@Override
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
-		Random random = chunk.random;
 		
 		// work on the basement stairs first
 		if (!unfinishedBasementOnly) {
@@ -169,11 +166,11 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 			}
 			
 			// plop a crane on top?
-			if (lastHorizontalGirder > 0 && random.nextInt(context.oddsOfCranes) == 0) {
-				if (random.nextBoolean())
-					chunk.drawCrane(context, inset + 2, lastHorizontalGirder + 1, inset);
+			if (lastHorizontalGirder > 0 && chunkRandom.nextInt(context.oddsOfCranes) == 0) {
+				if (chunkRandom.nextBoolean())
+					chunk.drawCrane(context, chunkRandom, inset + 2, lastHorizontalGirder + 1, inset);
 				else
-					chunk.drawCrane(context, inset + 2, lastHorizontalGirder + 1, chunk.width - inset - 1);
+					chunk.drawCrane(context, chunkRandom, inset + 2, lastHorizontalGirder + 1, chunk.width - inset - 1);
 			}
 		}
 	}
@@ -201,17 +198,16 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	}
 	
 	private void holeFence(ByteChunk chunk, int y1, SurroundingFloors neighbors) {
-		Random random = chunk.random;
 		
-		int i = random.nextInt(chunk.width / 2) + 4;
+		int i = chunkRandom.nextInt(chunk.width / 2) + 4;
 		int y2 = y1 + 2;
-		if (random.nextBoolean() && !neighbors.toWest())
+		if (chunkRandom.nextBoolean() && !neighbors.toWest())
 			chunk.setBlocks(0, y1, y2, i, airId);
-		if (random.nextBoolean() && !neighbors.toEast())
+		if (chunkRandom.nextBoolean() && !neighbors.toEast())
 			chunk.setBlocks(chunk.width - 1, y1, y2, i, airId);
-		if (random.nextBoolean() && !neighbors.toNorth())
+		if (chunkRandom.nextBoolean() && !neighbors.toNorth())
 			chunk.setBlocks(i, y1, y2, 0, airId);
-		if (random.nextBoolean() && !neighbors.toSouth())
+		if (chunkRandom.nextBoolean() && !neighbors.toSouth())
 			chunk.setBlocks(i, y1, y2, chunk.width - 1, airId);
 	}
 }

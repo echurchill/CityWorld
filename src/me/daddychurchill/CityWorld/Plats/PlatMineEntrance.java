@@ -7,6 +7,7 @@ import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import org.bukkit.Material;
+import org.bukkit.World.Environment;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class PlatMineEntrance extends PlatIsolated {
@@ -53,19 +54,21 @@ public class PlatMineEntrance extends PlatIsolated {
 //		chunk.setBlocks(0, 4, surfaceY + ContextData.FloorHeight, 0, 4, Material.COBBLESTONE);
 		
 		// core bits
-		switch (chunkRandom.nextInt(6)) {
-		case 1:
-			chunk.setBlocks(1, 3, shaftY, surfaceY, 1, 3, Material.IRON_FENCE);
-			break;
-		case 2:
-			chunk.setBlocks(1, 3, shaftY, surfaceY, 1, 3, Material.FENCE);
-			break;
-		case 3:
-			chunk.setBlocks(1, 3, shaftY, surfaceY, 1, 3, Material.COBBLESTONE);
-			break;
-		default:
-			// else air will do
-			break;
+		if (generator.settings.environment == Environment.NORMAL) {
+			switch (chunkRandom.nextInt(6)) {
+			case 1:
+				chunk.setBlocks(1, 3, shaftY, surfaceY, 1, 3, Material.IRON_FENCE);
+				break;
+			case 2:
+				chunk.setBlocks(1, 3, shaftY, surfaceY, 1, 3, Material.FENCE);
+				break;
+			case 3:
+				chunk.setBlocks(1, 3, shaftY, surfaceY, 1, 3, Material.COBBLESTONE);
+				break;
+			default:
+				// else air will do
+				break;
+			}
 		}
 		
 		// connect to the minecraft
@@ -99,9 +102,13 @@ public class PlatMineEntrance extends PlatIsolated {
 	private boolean generateStairs(WorldGenerator generator, RealChunk chunk, int x, int z, 
 			Direction.Stair direction, Direction.Stair underdirection) {
 		chunk.setBlocks(x, shaftY + 1, shaftY + 4, z, Material.AIR);
-		chunk.setStair(x, shaftY, z, Material.COBBLESTONE_STAIRS, direction);
-		if (chunk.isEmpty(x, shaftY - 1, z))
-			chunk.setStair(x, shaftY - 1, z, Material.COBBLESTONE_STAIRS, underdirection);
+		
+		// make a step... or not...
+		if (generator.settings.environment != Environment.NETHER || chunkRandom.nextDouble() < 0.70) {
+			chunk.setStair(x, shaftY, z, Material.COBBLESTONE_STAIRS, direction);
+			if (chunk.isEmpty(x, shaftY - 1, z))
+				chunk.setStair(x, shaftY - 1, z, Material.COBBLESTONE_STAIRS, underdirection);
+		}
 		
 		// moving on up
 		shaftY++;
@@ -113,8 +120,12 @@ public class PlatMineEntrance extends PlatIsolated {
 	private void generateLanding(WorldGenerator generator, RealChunk chunk, int x, int z, 
 			Direction.Stair underdirection) {
 		chunk.setBlocks(x, shaftY, shaftY + 3, z, Material.AIR);
-		chunk.setBlock(x, shaftY - 1, z, Material.COBBLESTONE);
-		if (chunk.isEmpty(x, shaftY - 2, z))
-			chunk.setStair(x, shaftY - 2, z, Material.COBBLESTONE_STAIRS, underdirection);
+		
+		// make a landing... or not...
+		if (generator.settings.environment != Environment.NETHER || chunkRandom.nextDouble() < 0.70) {
+			chunk.setBlock(x, shaftY - 1, z, Material.COBBLESTONE);
+			if (chunk.isEmpty(x, shaftY - 2, z))
+				chunk.setStair(x, shaftY - 2, z, Material.COBBLESTONE_STAIRS, underdirection);
+		}
 	}
 }

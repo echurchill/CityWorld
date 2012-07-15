@@ -21,11 +21,11 @@ public final class HouseFactory {
 		Material matRoof = Material.WOOD;
 		
 		//chunk.setWalls(2, 13, baseY, baseY + ContextData.FloorHeight, 2, 13, Material.WOOD);
-		generateColonial(chunk, context, baseY, matFloor, matWall, matCeiling, matRoof, 1, 5, 5, false);
+		generateColonial(chunk, context, random, baseY, matFloor, matWall, matCeiling, matRoof, 1, 5, 5, false);
 	}
 	
 	
-	public final static void generateHouse(RealChunk chunk, ContextData context, Random random, int baseY, int maxFloors) {
+	public final static int generateHouse(RealChunk chunk, ContextData context, Random random, int baseY, int maxFloors) {
 		
 		// what are we made of?
 		Material matWall = pickWallMaterial(random);
@@ -34,15 +34,14 @@ public final class HouseFactory {
 		Material matRoof = pickRoofMaterial(random);
 		int floors = random.nextInt(maxFloors) + 1;
 		
-		//TODO add doors
-		//TODO add stairs
 		//TODO add bed
 		//TODO add kitchen
 		//TODO add living room
 		//TODO add split level house style
 		
 		// draw the house
-		generateColonial(chunk, context, baseY, matFloor, matWall, matCeiling, matRoof, floors, MinSize, MaxSize, true);
+		generateColonial(chunk, context, random, baseY, matFloor, matWall, matCeiling, matRoof, floors, MinSize, MaxSize, true);
+		return floors;
 	}
 
 	private final static Material materialAir = Material.AIR;
@@ -202,7 +201,7 @@ public final class HouseFactory {
 			}
 		}
 
-		protected void DrawStyle(RealChunk chunk, ContextData context, int floor, int floors, 
+		protected void DrawStyle(RealChunk chunk, ContextData context, Random random, int floor, int floors, 
 				int x, int z, int roomOffsetX, int roomOffsetZ, int baseY) {
 			
 			// which door or halls do we do?
@@ -223,7 +222,7 @@ public final class HouseFactory {
 			case KITCHEN:
 				
 				// where is the door?
-				if (chunk.random.nextBoolean()) {
+				if (random.nextBoolean()) {
 					doorNorth = !roomSouth;
 					doorSouth = roomSouth;
 				} else {
@@ -242,7 +241,7 @@ public final class HouseFactory {
 				
 				// where is the door?
 				if (floor == 0) {
-					if (chunk.random.nextBoolean()) {
+					if (random.nextBoolean()) {
 						doorNorth = !roomSouth;
 						doorSouth = roomSouth;
 					} else {
@@ -448,10 +447,9 @@ public final class HouseFactory {
 		return random.nextInt(maxRoomWidth - minRoomWidth + 1) + minRoomWidth;
 	}
 	
-	private final static void generateColonial(RealChunk chunk, ContextData context, int baseY, 
+	private final static void generateColonial(RealChunk chunk, ContextData context, Random random, int baseY, 
 			Material matFloor, Material matWall, Material matCeiling, Material matRoof, 
 			int floors, int minRoomWidth, int maxRoomWidth, boolean allowMissingRooms) {
-		Random random = chunk.random;
 		
 		// what are the rooms like?
 		Room[][][] rooms = new Room[floors][2][2];
@@ -596,13 +594,13 @@ public final class HouseFactory {
 						entryX = x;
 						entryZ = z;
 					} else
-						drawRoom(chunk, context, rooms, f, floors, x, z, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
+						drawRoom(chunk, context, random, rooms, f, floors, x, z, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
 				}
 			}
 			
 			// found an entry
 			if (entryX != -1) {
-				drawRoom(chunk, context, rooms, f, floors, entryX, entryZ, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
+				drawRoom(chunk, context, random, rooms, f, floors, entryX, entryZ, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
 			}
 		}
 		
@@ -667,7 +665,7 @@ public final class HouseFactory {
 //		}
 	}
 	
-	private final static void drawRoom(RealChunk chunk, ContextData context, Room[][][] rooms, int floor, int floors, int x, int z, 
+	private final static void drawRoom(RealChunk chunk, ContextData context, Random random, Room[][][] rooms, int floor, int floors, int x, int z, 
 			int roomOffsetX, int roomOffsetZ, int baseY, 
 			Material matFloor, Material matWall, Material matCeiling, Material matRoof) {
 
@@ -699,7 +697,7 @@ public final class HouseFactory {
 			}
 			
 			// now the inner bits
-			room.DrawStyle(chunk, context, floor, floors, x, z, roomOffsetX, roomOffsetZ, baseY);
+			room.DrawStyle(chunk, context, random, floor, floors, x, z, roomOffsetX, roomOffsetZ, baseY);
 		} 
 	}
 	

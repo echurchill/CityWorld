@@ -9,22 +9,18 @@ import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
+import org.bukkit.World.Environment;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class PlatStatue extends PlatIsolated {
 
 	private enum StatueBase { WATER, GRASS, PEDESTAL };
 	
-	protected final static Material waterMaterial = Material.WATER;
-	protected final static Material stoneMaterial = Material.STONE;
-	protected final static Material glassBlockMaterial = Material.GLASS;
-	protected final static Material glassPaneMaterial = Material.THIN_GLASS;
-	protected final static Material woolBlockMaterial = Material.WOOL;
-	protected final static Material manholePlatformMaterial = Material.BEDROCK;
-	
 	protected final static byte curbId = (byte) Material.DOUBLE_STEP.getId();
 	protected final static byte goldId = (byte) Material.GOLD_ORE.getId();
 	protected final static byte brickId = (byte) Material.SMOOTH_BRICK.getId();
+	
+	protected final static byte netherrackId = (byte) Material.NETHERRACK.getId();
 	
 	protected StatueBase statueBase;
 	
@@ -63,7 +59,10 @@ public class PlatStatue extends PlatIsolated {
 			chunk.setCircle(8, 8, 6, y1, brickId, false);
 			
 			// fill with water
-			chunk.setCircle(8, 8, 5, y1, stillWaterId, true);
+			if (generator.settings.environment == Environment.NETHER)
+				chunk.setCircle(8, 8, 5, y1, stillLavaId, true);
+			else
+				chunk.setCircle(8, 8, 5, y1, stillWaterId, true);
 			break;
 		case GRASS:
 			
@@ -72,9 +71,15 @@ public class PlatStatue extends PlatIsolated {
 			chunk.setCircle(8, 8, 6, y1, brickId, false);
 			
 			// backfill with grass
-			chunk.setCircle(8, 8, 5, y1 - 1, grassId, false);
-			chunk.setBlocks(3, 13, y1 - 1, y1, 4, 12, grassId);
-			chunk.setBlocks(4, 12, y1 - 1, y1, 3, 13, grassId);
+			if (generator.settings.environment == Environment.NETHER) {
+				chunk.setCircle(8, 8, 5, y1 - 1, netherrackId, false);
+				chunk.setBlocks(3, 13, y1 - 1, y1, 4, 12, netherrackId);
+				chunk.setBlocks(4, 12, y1 - 1, y1, 3, 13, netherrackId);
+			} else {
+				chunk.setCircle(8, 8, 5, y1 - 1, grassId, false);
+				chunk.setBlocks(3, 13, y1 - 1, y1, 4, 12, grassId);
+				chunk.setBlocks(4, 12, y1 - 1, y1, 3, 13, grassId);
+			}
 			break;
 		case PEDESTAL:
 			
@@ -104,25 +109,42 @@ public class PlatStatue extends PlatIsolated {
 		switch (statueBase) {
 		case WATER:
 			
+			Material liquid = Material.WATER;
+			if (generator.settings.environment == Environment.NETHER)
+				liquid = Material.LAVA;
+			
 			// four little fountains?
 			if (chunkRandom.nextBoolean()) {
-				chunk.setBlock(5, y1 + chunkRandom.nextInt(3) + 1, 5, waterMaterial);
-				chunk.setBlock(5, y1 + chunkRandom.nextInt(3) + 1, 10, waterMaterial);
-				chunk.setBlock(10, y1 + chunkRandom.nextInt(3) + 1, 5, waterMaterial);
-				chunk.setBlock(10, y1 + chunkRandom.nextInt(3) + 1, 10, waterMaterial);
+				chunk.setBlocks(5, y1, y1 + chunkRandom.nextInt(3) + 1, 5, liquid);
+				chunk.setBlocks(5, y1, y1 + chunkRandom.nextInt(3) + 1, 10, liquid);
+				chunk.setBlocks(10, y1, y1 + chunkRandom.nextInt(3) + 1, 5, liquid);
+				chunk.setBlocks(10, y1, y1 + chunkRandom.nextInt(3) + 1, 10, liquid);
 			}
 			
 			// water can be art too, you know?
 			if (chunkRandom.nextInt(context.oddsOfNaturalArt) == 0) {
-				chunk.setBlocks(7, 9, y1, y1 + chunkRandom.nextInt(4) + 4, 7, 9, waterMaterial);
+				chunk.setBlocks(7, 9, y1, y1 + chunkRandom.nextInt(4) + 4, 7, 9, liquid);
 				somethingInTheCenter = false;
 			}
 			
 			break;
 		case GRASS:
 			
+			// backfill with grass
+			for (int x = 4; x < 12; x++) {
+				for (int z = 4; z < 12; z++) {
+					if (chunkRandom.nextDouble() < 0.40) {
+						if (generator.settings.environment == Environment.NETHER) {
+							chunk.setBlock(x, y1, z, Material.FIRE);
+						} else {
+							chunk.setBlock(x, y1, z, grassMaterialId, (byte) 1);
+						}
+					}
+				}
+			}
+			
 			// tree can be art too, you know!
-			if (chunkRandom.nextInt(context.oddsOfNaturalArt) == 0) {
+			if (generator.settings.environment != Environment.NETHER && chunkRandom.nextInt(context.oddsOfNaturalArt) == 0) {
 				generateTree(generator, chunk, 7, y1, 7, TreeType.BIG_TREE);
 				somethingInTheCenter = false;
 			}
@@ -147,18 +169,17 @@ public class PlatStatue extends PlatIsolated {
 				for (int y = y1 + 4; y < y1 + 8; y++) 
 					for (int z = 6; z < 10; z++) 
 						if (chunkRandom.nextBoolean())
-							chunk.setBlock(x, y, z, glassPaneMaterial);
+							chunk.setBlock(x, y, z, Material.THIN_GLASS);
 						else
 							if (crystalArt)
-								chunk.setBlock(x, y, z, glassBlockMaterial);
+								chunk.setBlock(x, y, z, Material.GLASS);
 							else
-								chunk.setBlock(x, y, z, woolBlockMaterial.getId(), 
+								chunk.setBlock(x, y, z, Material.WOOL.getId(), 
 											   singleArt ? solidColor : (byte) chunkRandom.nextInt(9));
 			
 			// now put the base in
 			chunk.setBlocks(7, 9, y1, y1 + 5, 7, 9, stoneMaterial);
 		}
-		
 	}
 	
 	private StatueBase randomBase(Random random) {

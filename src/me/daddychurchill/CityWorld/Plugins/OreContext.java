@@ -1,5 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import java.util.Random;
+
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -19,8 +21,8 @@ public class OreContext {
 		this.name = name;
 	}
 
-	public void sprinkleOres(RealChunk chunk) {
-		provider.sprinkleOres(generator, chunk, name);
+	public void sprinkleOres(RealChunk chunk, Random random) {
+		provider.sprinkleOres(generator, chunk, random, name);
 	}
 
 }

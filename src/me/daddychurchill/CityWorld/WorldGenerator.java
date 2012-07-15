@@ -58,7 +58,7 @@ public class WorldGenerator extends ChunkGenerator {
 	
 	public long connectedKeyForPavedRoads;
 	public long connectedKeyForParks;
-
+	
 	public WorldGenerator(CityWorld aPlugin, String aWorldname, String aWorldstyle) {
 		plugin = aPlugin;
 		worldname = aWorldname;
@@ -131,6 +131,7 @@ public class WorldGenerator extends ChunkGenerator {
 		// initialize the shaping logic
 		if (world == null) {
 			world = aWorld;
+			settings.setEnvironment(world.getEnvironment());
 			long seed = world.getSeed();
 			connectionKeyGen = new Random(seed + 1);
 			stashRandomGenerator = new Random(seed + 2);
@@ -188,11 +189,8 @@ public class WorldGenerator extends ChunkGenerator {
 	public byte[][] generateBlockSections(World aWorld, Random random, int chunkX, int chunkZ, BiomeGrid biomes) {
 		initializeWorldInfo(aWorld);
 		
-		// get the chunk specific random 
-		Random chunkRandom = getMicroRandomGeneratorAt(chunkX, chunkZ);
-
 		// place to work
-		ByteChunk byteChunk = new ByteChunk(this, chunkRandom, chunkX, chunkZ);
+		ByteChunk byteChunk = new ByteChunk(this, chunkX, chunkZ);
 		
 		// figure out what everything looks like
 		PlatMap platmap = getPlatMap(byteChunk, chunkX, chunkZ);
@@ -278,7 +276,7 @@ public class WorldGenerator extends ChunkGenerator {
 	private final static int microRandomGeneratorSlot = 0;
 	private final static int microRoundaboutSlot = 1; 
 	private final static int microIsolatedLotSlot = 3;
-	private final static int microCaveSlot = 2; 
+	private final static int microSurfaceCaveSlot = 2; 
 	
 	public Random getMicroRandomGeneratorAt(int x, int z) {
 		double noise = microShape.noise(x * microScale, z * microScale, microRandomGeneratorSlot);
@@ -299,7 +297,7 @@ public class WorldGenerator extends ChunkGenerator {
 	}
 	
 	public boolean isSurfaceCaveAt(double chunkX, double chunkZ) {
-		return microBooleanAt(chunkX, chunkZ, microCaveSlot);
+		return microBooleanAt(chunkX, chunkZ, microSurfaceCaveSlot);
 	}
 	
 	public boolean isIsolatedBuildingAt(double chunkX, double chunkZ) {
@@ -434,11 +432,8 @@ public class WorldGenerator extends ChunkGenerator {
 			int chunkX = chunk.getX();
 			int chunkZ = chunk.getZ();
 			
-			// replace random with our chunk specific random 
-			Random chunkRandom = getMicroRandomGeneratorAt(chunkX, chunkZ);
-
 			// place to work
-			RealChunk realChunk = new RealChunk(chunkGen, chunkRandom, chunk);
+			RealChunk realChunk = new RealChunk(chunkGen, chunk);
 
 			// figure out what everything looks like
 			PlatMap platmap = chunkGen.getPlatMap(realChunk, chunkX, chunkZ);

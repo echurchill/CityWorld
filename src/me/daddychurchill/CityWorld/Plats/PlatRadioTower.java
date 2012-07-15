@@ -13,9 +13,11 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class PlatRadioTower extends PlatIsolated {
 
+	private boolean building;
+	
 	public PlatRadioTower(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-
+		building = chunkRandom.nextBoolean();
 	}
 	
 	private final static int platformWidth = 8;
@@ -69,9 +71,11 @@ public class PlatRadioTower extends PlatIsolated {
 		}
 		
 		// building
-		chunk.setBlocks(originX + 2, originX + platformWidth - 2, platformY, platformY + 2, originZ + 2, originZ + platformWidth - 2, wallId);
-		chunk.setBlocks(originX + 3, originX + platformWidth - 4, platformY, platformY + 2, originZ + 3, originZ + platformWidth - 4, airId);
-		chunk.setBlocks(originX + 2, originX + platformWidth - 2, platformY + 2, platformY + 3, originZ + 2, originZ + platformWidth - 2, roofId);
+		if (building) {
+			chunk.setBlocks(originX + 2, originX + platformWidth - 2, platformY, platformY + 2, originZ + 2, originZ + platformWidth - 2, wallId);
+			chunk.setBlocks(originX + 3, originX + platformWidth - 4, platformY, platformY + 2, originZ + 3, originZ + platformWidth - 4, airId);
+			chunk.setBlocks(originX + 2, originX + platformWidth - 2, platformY + 2, platformY + 3, originZ + 2, originZ + platformWidth - 2, roofId);
+		}
 	}
 	
 	@Override
@@ -87,7 +91,8 @@ public class PlatRadioTower extends PlatIsolated {
 		generateSurface(generator, platmap, chunk, context, platX, platZ, false);
 		
 		// place a door
-		chunk.setWoodenDoor(originX + 2, platformY, originZ + 3, Door.WESTBYNORTHWEST);
+		if (building)
+			chunk.setWoodenDoor(originX + 2, platformY, originZ + 3, Door.WESTBYNORTHWEST);
 		
 		// place the ladder
 		int ladderBase = platformY - 2;

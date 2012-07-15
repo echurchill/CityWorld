@@ -11,6 +11,7 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
 
 import org.bukkit.Material;
+import org.bukkit.World.Environment;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class PlatOfficeBuilding extends PlatBuilding {
@@ -269,11 +270,33 @@ public class PlatOfficeBuilding extends PlatBuilding {
 			}
 		}
 		
-		// maybe draw a navlight?
-		drawNavLight(chunk, context);
+		// happy place?
+		if (generator.settings.environment != Environment.NETHER) {
+		
+			// maybe draw a navlight?
+			drawNavLight(chunk, context);
+			
+		// nope, let's destroy our work!
+		} else {
+			int y1 = generator.sidewalkLevel + 2;
+			int y2 = y1 + FloorHeight * height;
+			switch (roofStyle) {
+			case EDGED:
+			case FLATTOP:
+				if (roofFeature == RoofFeature.ANTENNAS)
+					y2 -= FloorHeight;
+				break;
+			case PEAK:
+			case TENTEW:
+			case TENTNS:
+				y2 += FloorHeight;
+				break;
+			}
+			destroyLot(generator, chunk, y1, y2);
+		}
 	}
 	
-	static protected Material pickWallMaterial(Random rand) {
+	protected static Material pickWallMaterial(Random rand) {
 		switch (rand.nextInt(15)) {
 		case 1:
 			return Material.COBBLESTONE;

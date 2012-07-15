@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plats;
 
 import org.bukkit.Material;
+import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import me.daddychurchill.CityWorld.PlatMap;
@@ -57,6 +58,10 @@ public class PlatRoad extends PlatConnected {
 	private final static byte bridgeSidewalk2Id = (byte) Material.DOUBLE_STEP.getId();
 	private final static byte bridgeEdgeId = (byte) Material.SMOOTH_BRICK.getId();
 	private final static byte bridgeRailId = (byte) Material.FENCE.getId();
+	
+	private final static Material pavementMat = Material.WOOL;
+	private final static byte pavementColor = 7;
+	private final static byte crosswalkColor = 8;
 	
 	public PlatRoad(PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey) {
 		super(platmap, chunkX, chunkZ);
@@ -723,8 +728,8 @@ public class PlatRoad extends PlatConnected {
 					HeightInfo.getHeightsFast(generator, originX + chunk.width, originZ).isSea()) {
 					
 					// lights please
-					generateLightPost(chunk, context, sidewalkLevel + 5, 7, 0);
-					generateLightPost(chunk, context, sidewalkLevel + 5, 8, 15);
+					generateLightPost(generator, chunk, context, sidewalkLevel + 5, 7, 0);
+					generateLightPost(generator, chunk, context, sidewalkLevel + 5, 8, 15);
 				}
 				
 			} else if (roads.toNorth() && roads.toSouth()) {
@@ -732,28 +737,68 @@ public class PlatRoad extends PlatConnected {
 					HeightInfo.getHeightsFast(generator, originX, originZ + chunk.width).isSea()) {
 					
 					// lights please
-					generateLightPost(chunk, context, sidewalkLevel + 5, 0, 7);
-					generateLightPost(chunk, context, sidewalkLevel + 5, 15, 8);
+					generateLightPost(generator, chunk, context, sidewalkLevel + 5, 0, 7);
+					generateLightPost(generator, chunk, context, sidewalkLevel + 5, 15, 8);
 				}
 			}
 		
+			// not a happy place?
+			if (generator.settings.environment == Environment.NETHER) {
+				destroyLot(generator, chunk, sidewalkLevel + 5, sidewalkLevel + 6);
+			}
+			
 		} else {
-			// repave a bit
+			int pavementLevel = sidewalkLevel - 1;
+			
+			// re-pave a bit
 			if (generator.settings.includePavedRoads) {
-				int pavementLevel = sidewalkLevel - 1;
 				
 				// center bit
-				chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, Material.WOOL, (byte) 15, false);
+				chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, pavementMat, pavementColor, false);
 				
 				// road to the whatever
 				if (roads.toNorth())
 					generateRoadNSBit(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth, roads.toWest() && roads.toEast());
 				if (roads.toSouth())
-					generateRoadNSBit(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width,  roads.toWest() && roads.toEast());
+					generateRoadNSBit(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width, roads.toWest() && roads.toEast());
 				if (roads.toWest())
-					generateRoadWEBit(chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth,  roads.toNorth() && roads.toSouth());
+					generateRoadWEBit(chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, roads.toNorth() && roads.toSouth());
 				if (roads.toEast())
-					generateRoadWEBit(chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth,  roads.toNorth() && roads.toSouth());
+					generateRoadWEBit(chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, roads.toNorth() && roads.toSouth());
+			}
+			
+			// decay please
+			if (generator.settings.includeDecayedRoads) {
+
+				// center bit
+				decayRoad(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth);
+				
+				// road to the whatever
+				if (roads.toNorth())
+					decayRoad(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth);
+				if (roads.toSouth())
+					decayRoad(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width);
+				if (roads.toWest())
+					decayRoad(chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth);
+				if (roads.toEast())
+					decayRoad(chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth);
+
+				// sidewalk corners
+				decaySidewalk(chunk, 0, sidewalkWidth, sidewalkLevel, 0, sidewalkWidth);
+				decaySidewalk(chunk, 0, sidewalkWidth, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width);
+				decaySidewalk(chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, 0, sidewalkWidth);
+				decaySidewalk(chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width);
+				
+				// sidewalk edges
+				if (!roads.toWest())
+					decaySidewalk(chunk, 0, sidewalkWidth, sidewalkLevel, sidewalkWidth, chunk.width - sidewalkWidth);
+				if (!roads.toEast())
+					decaySidewalk(chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkWidth, chunk.width - sidewalkWidth);
+				if (!roads.toNorth())
+					decaySidewalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, 0, sidewalkWidth);
+				if (!roads.toSouth())
+					decaySidewalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width);
+				
 			}
 			
 			// tunnel please
@@ -776,8 +821,8 @@ public class PlatRoad extends PlatConnected {
 			} else {
 				
 				// light posts
-				generateLightPost(chunk, context, sidewalkLevel, sidewalkWidth - 1, sidewalkWidth - 1);
-				generateLightPost(chunk, context, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
+				generateLightPost(generator, chunk, context, sidewalkLevel, sidewalkWidth - 1, sidewalkWidth - 1);
+				generateLightPost(generator, chunk, context, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
 			}
 		}
 		
@@ -831,21 +876,25 @@ public class PlatRoad extends PlatConnected {
 				centerEast = sewerCenterBit || (vaultNorthEast && vaultSouthEast);
 			}
 			
+			byte fluidId = waterId;
+			if (generator.settings.environment == Environment.NETHER)
+				fluidId = lavaId;
+			
 			// cardinal directions known walls and ditches
 			if (roads.toNorth()) {
-				chunk.setBlock(8, sewerY - 1, 3, Material.WATER);
+				chunk.setBlock(8, sewerY - 1, 3, fluidId);
 				generateEntryVines(chunk, base2Y - 1, Direction.Vine.NORTH, 6, 1, 7, 1, 8, 1, 9, 1);
 			}
 			if (roads.toSouth()) {
-				chunk.setBlock(7, sewerY - 1, 12, Material.WATER);
+				chunk.setBlock(7, sewerY - 1, 12, fluidId);
 				generateEntryVines(chunk, base2Y - 1, Direction.Vine.SOUTH, 6, 14, 7, 14, 8, 14, 9, 14);
 			}
 			if (roads.toWest()) {
-				chunk.setBlock(3, sewerY - 1, 7, Material.WATER);
+				chunk.setBlock(3, sewerY - 1, 7, fluidId);
 				generateEntryVines(chunk, base2Y - 1, Direction.Vine.WEST, 1, 6, 1, 7, 1, 8, 1, 9);
 			}
 			if (roads.toEast()) {
-				chunk.setBlock(12, sewerY - 1, 8, Material.WATER);
+				chunk.setBlock(12, sewerY - 1, 8, fluidId);
 				generateEntryVines(chunk, base2Y - 1, Direction.Vine.EAST, 14, 6, 14, 7, 14, 8, 14, 9);
 			}
 			
@@ -981,10 +1030,6 @@ public class PlatRoad extends PlatConnected {
 		}
 	}
 	
-	Material pavementMat = Material.WOOL;
-	Byte pavementColor = 15;
-	Byte crosswalkColor = 8;
-	
 	private void generateRoadNSBit(RealChunk chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
 		chunk.setBlocks(x1, x2, y, z1, z2, pavementMat, pavementColor, false);
 		if (crosswalk) {
@@ -1005,6 +1050,32 @@ public class PlatRoad extends PlatConnected {
 		}
 	}
 	
+	private void decayRoad(RealChunk chunk, int x1, int x2, int y, int z1, int z2) {
+		int amount = (x2 - x1) * (z2 - z1) / 10;
+		while (amount > 0) {
+			int x = chunkRandom.nextInt(x2 - x1) + x1;
+			int z = chunkRandom.nextInt(z2 - z1) + z1;
+			if (chunkRandom.nextBoolean())
+				chunk.setBlock(x, y, z, Material.COBBLESTONE);
+			else
+				chunk.setBlock(x, y, z, Material.STEP.getId(), (byte) 3);
+			amount--;
+		}
+	}
+	
+	private void decaySidewalk(RealChunk chunk, int x1, int x2, int y, int z1, int z2) {
+		int amount = (x2 - x1) * (z2 - z1) / 10;
+		while (amount > 0) {
+			int x = chunkRandom.nextInt(x2 - x1) + x1;
+			int z = chunkRandom.nextInt(z2 - z1) + z1;
+			if (chunkRandom.nextBoolean())
+				chunk.setBlock(x, y, z, airId);
+			else
+				chunk.setBlock(x, y, z, Material.STEP.getId(), (byte) 3);
+			amount--;
+		}
+	}
+	
 	private void generateEntryVines(RealChunk chunk, int y, Direction.Vine direction,
 			int x1, int z1, int x2, int z2, int x3, int z3, int x4, int z4) {
 		if (chunkRandom.nextBoolean())
@@ -1022,10 +1093,22 @@ public class PlatRoad extends PlatConnected {
 			chunk.setVine(x1, y, z1, direction);
 	}
 	
-	private void generateLightPost(RealChunk chunk, ContextData context, int sidewalkLevel, int x, int z) {
+	private void generateLightPost(WorldGenerator generator, RealChunk chunk, ContextData context, int sidewalkLevel, int x, int z) {
 		chunk.setBlock(x, sidewalkLevel, z, lightpostbaseMaterial);
-		chunk.setBlocks(x, sidewalkLevel + 1, sidewalkLevel + lightpostHeight + 1, z, lightpostMaterial);
-		chunk.setBlock(x, sidewalkLevel + lightpostHeight + 1, z, context.lightMat, true);
+		if (generator.settings.includeDecayedRoads) {
+			int y = sidewalkLevel + 1;
+			while (y < sidewalkLevel + lightpostHeight + 1) {
+				if (chunkRandom.nextDouble() > 0.75)
+					break;
+				chunk.setBlock(x, y, z, lightpostMaterial);
+				y++;
+			}
+			if (y > sidewalkLevel + lightpostHeight && chunkRandom.nextDouble() < 0.75)
+				chunk.setBlock(x, y, z, context.lightMat, true);
+		} else {
+			chunk.setBlocks(x, sidewalkLevel + 1, sidewalkLevel + lightpostHeight + 1, z, lightpostMaterial);
+			chunk.setBlock(x, sidewalkLevel + lightpostHeight + 1, z, context.lightMat, true);
+		}
 	}
 	
 	private void generateDoor(RealChunk chunk, int x, int y, int z, Direction.Door direction) {

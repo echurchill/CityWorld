@@ -95,7 +95,7 @@ public class PlatMap {
 			return new ContextLowrise(generator, this);
 		else if (naturalPlats < 80)
 			return new ContextNeighborhood(generator, this);
-		else if (naturalPlats < 90)
+		else if (naturalPlats < 90 && generator.settings.includeFarms)
 			return new ContextFarm(generator, this);
 		else if (naturalPlats < 100)
 			return new ContextNeighborhood(generator, this);

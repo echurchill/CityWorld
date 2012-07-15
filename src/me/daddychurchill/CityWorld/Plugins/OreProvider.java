@@ -6,6 +6,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.Material;
+import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 
 public abstract class OreProvider {
@@ -26,7 +27,7 @@ public abstract class OreProvider {
 	protected static final int waterTypeId = Material.WATER.getId();
 	protected static final int lavaTypeId = Material.LAVA.getId();
 	
-	public abstract void sprinkleOres(WorldGenerator generator, RealChunk chunk, String name);
+	public abstract void sprinkleOres(WorldGenerator generator, RealChunk chunk, Random random, String name);
 
 	protected void sprinkleOres_iterate(WorldGenerator generator, RealChunk chunk, Random random, int originX, int originY, int originZ, int amountToDo, int typeId) {
 		int trysLeft = amountToDo * 2;
@@ -80,7 +81,7 @@ public abstract class OreProvider {
 
 			// what type of fluid are we talking about?
 			int fluidId;
-			if (centerY < 24)
+			if (centerY < 24 || generator.settings.environment == Environment.NETHER)
 				fluidId = lavaTypeId;
 			else if (centerY > generator.snowLevel)
 				fluidId = iceTypeId;
@@ -116,8 +117,9 @@ public abstract class OreProvider {
 		// default to stock OreProvider
 		if (provider == null) {
 			
-			// tekkit is enabled?
-			if (generator.settings.includeTekkitMaterials)
+			if (generator.settings.environment == Environment.NETHER)
+				provider = new OreProvider_Nether();
+			else if (generator.settings.includeTekkitMaterials)
 				provider = new OreProvider_Tekkit();
 			else
 				provider = new OreProvider_Default();

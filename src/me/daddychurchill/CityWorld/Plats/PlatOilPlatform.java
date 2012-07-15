@@ -138,7 +138,7 @@ public class PlatOilPlatform extends PlatIsolated {
 		chunk.clearBlock(2, y4 - 1, 2);
 		chunk.clearBlock(2, y4 - 1, 3);
 		chunk.setStair(3, y4 - 1, 3, topperId, Stair.NORTH);
-		chunk.drawCrane(context, 3, y4, 2);
+		chunk.drawCrane(context, chunkRandom, 3, y4, 2);
 		
 		// bleed off
 		chunk.setBlocks(13, y4 + 3, y4 + 8, 13, Material.IRON_FENCE);

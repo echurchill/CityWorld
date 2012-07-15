@@ -25,17 +25,19 @@ public class ContextNeighborhood extends ContextRural {
 				PlatLot current = platmap.getLot(x, z);
 				if (current == null) {
 					
-					// check for roads?
-					if (checkForRoads) {
-						if (platmap.isExistingRoad(x - 1, z) || platmap.isExistingRoad(x + 1, z) || 
-							platmap.isExistingRoad(x, z - 1) || platmap.isExistingRoad(x, z + 1))
-							placeHouse(platmap, x, z);
-						else
-							platmap.recycleLot(x, z);
+					// make houses?
+					if (generator.settings.includeHouses) {
 						
-					// just do it then
-					} else
-						placeHouse(platmap, x, z);
+						// check for roads?
+						if (checkForRoads) {
+							if (platmap.isExistingRoad(x - 1, z) || platmap.isExistingRoad(x + 1, z) || 
+								platmap.isExistingRoad(x, z - 1) || platmap.isExistingRoad(x, z + 1))
+								placeHouse(platmap, x, z);
+							
+						// just do it then
+						} else
+							placeHouse(platmap, x, z);
+					}
 				}
 			}
 		}
