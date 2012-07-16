@@ -30,6 +30,7 @@ public abstract class SupportChunk {
 	public static final byte coalId = (byte) Material.COAL_ORE.getId();
 	public static final byte dirtId = (byte) Material.DIRT.getId();
 	public static final byte grassId = (byte) Material.GRASS.getId();
+	public static final byte stepId = (byte) Material.STEP.getId();
 	public static final byte iceId = (byte) Material.ICE.getId(); // the fluid type
 	public static final byte waterId = (byte) Material.WATER.getId(); // the fluid type
 	public static final byte lavaId = (byte) Material.LAVA.getId(); // the fluid type

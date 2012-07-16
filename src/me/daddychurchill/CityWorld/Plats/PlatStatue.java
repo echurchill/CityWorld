@@ -144,8 +144,8 @@ public class PlatStatue extends PlatIsolated {
 			}
 			
 			// tree can be art too, you know!
-			if (generator.settings.environment != Environment.NETHER && chunkRandom.nextInt(context.oddsOfNaturalArt) == 0) {
-				generateTree(generator, chunk, 7, y1, 7, TreeType.BIG_TREE);
+			if (chunkRandom.nextInt(context.oddsOfNaturalArt) == 0) {
+				generateTree(generator, chunk, 7, y1, 7, TreeType.BIG_TREE, true);
 				somethingInTheCenter = false;
 			}
 			

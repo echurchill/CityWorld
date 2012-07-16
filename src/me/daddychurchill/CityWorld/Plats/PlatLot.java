@@ -81,6 +81,8 @@ public abstract class PlatLot {
 	protected final static byte logId = (byte) Material.LOG.getId();
 	protected final static byte glowId = (byte) Material.GLOWSTONE.getId();
 	protected final static byte stepId = (byte) Material.STEP.getId();
+	protected final static byte clayId = (byte) Material.CLAY.getId();
+	protected final static byte ironFenceId = (byte) Material.IRON_FENCE.getId();
 
 	protected final static int snowMaterialId = Material.SNOW.getId();
 	protected final static int grassMaterialId = Material.LONG_GRASS.getId();
@@ -818,13 +820,20 @@ public abstract class PlatLot {
 	}
 	
 	protected void generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, TreeType treeType) {
+		generateTree(generator, chunk, x, y, z, treeType, false);
+	}
+	
+	protected void generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, TreeType treeType, boolean forceLeaves) {
 		switch (generator.settings.environment) {
 		case NORMAL:
 			chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType);
 			break;
 		case NETHER:
 			chunk.setBlock(x, y - 1, z, Material.DIRT, true);
-			chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, new TreeDelegate(chunk, TreeDelegateStyle.TRUNKONLY));
+			if (forceLeaves)
+				chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, new TreeDelegate(chunk, TreeDelegateStyle.METAL));
+			else
+				chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, new TreeDelegate(chunk, TreeDelegateStyle.TRUNKONLY));
 			chunk.setBlock(x, y - 1, z, Material.SAND, false);
 			break;
 		case THE_END:
@@ -833,7 +842,7 @@ public abstract class PlatLot {
 		}
 	}
 	
-	protected enum TreeDelegateStyle {NORMAL, TRUNKONLY, CRYSTAL};
+	protected enum TreeDelegateStyle {NORMAL, TRUNKONLY, CRYSTAL, METAL};
 	
 	private class TreeDelegate implements BlockChangeDelegate {
 		private RealChunk chunk;
@@ -899,6 +908,13 @@ public abstract class PlatLot {
 						return block.setTypeId(paneId, update);
 				else
 					return false;
+			case METAL:
+				if (id == logId)
+					return block.setTypeId(clayId, update);
+				else if (id == leavesId)
+					return block.setTypeId(ironFenceId, update);
+				else
+					return false;
 			default:
 				return false;
 			}
@@ -910,52 +926,22 @@ public abstract class PlatLot {
 		
 		// world centric 
 		WorldBlocks blocks = new WorldBlocks(generator);
-		int originX = chunk.getOriginX();
-		int originZ = chunk.getOriginZ();
 	
 		// now destroy it
 		while (count > 0) {
 			
 			// find a place
-			int cx = chunkRandom.nextInt(chunk.width);
-			int cz = chunkRandom.nextInt(chunk.width);
+			int cx = chunk.getBlockX(chunkRandom.nextInt(chunk.width));
+			int cz = chunk.getBlockZ(chunkRandom.nextInt(chunk.width));
 			int cy = chunkRandom.nextInt(Math.max(1, y2 - y1)) + y1;
 			int radius = chunkRandom.nextInt(3) + 3;
 			
-			// what is here?
-			Block block = chunk.getActualBlock(cx, chunk.findLastEmptyBelow(cx, cy, cz) - 1, cz);
-			int typeId = block.getTypeId();
-			byte data = block.getData();
-			
-			// clear out the space
-//			chunk.setSphere(x, y, z, chunkRandom.nextInt(3) + 3, stoneId, true);
-			blocks.setSphere(originX + cx, cy, originZ + cz, radius, airId, true);
-			
-			// now sprinkle blocks around
-			sprinkleDebris(blocks, originX + cx, cy, originZ + cz, radius, typeId, data);
+			// make it go away
+			blocks.desperseSphere(chunkRandom, cx, cy, cz, radius);
 			
 			// done with this round
 			count--;
 		}
 	}
 	
-	private void sprinkleDebris(WorldBlocks blocks, int cx, int cy, int cz, int radius, int typeId, byte data) {
-		//CityWorld.log.info("Type = " + typeId);
-		int r2 = radius * 2;
-		int r4 = r2 * 2;
-		int x1 = cx - r2;
-		int z1 = cz - r2;
-		int count = radius * radius;
-		while (count > 0) {
-			int x = x1 + chunkRandom.nextInt(r4);
-			int z = z1 + chunkRandom.nextInt(r4);
-			int y = blocks.findLastEmptyBelow(x, cy, z);
-			Block block = blocks.getActualBlock(x, y - 1, z);
-			if (block.getTypeId() == stepId)
-				block.setTypeIdAndData(typeId, data, false);
-			else
-				blocks.setBlock(x, y, z, typeId, data, false);
-			count--;
-		}
-	}
 }

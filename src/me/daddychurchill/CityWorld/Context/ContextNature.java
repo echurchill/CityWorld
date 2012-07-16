@@ -128,8 +128,13 @@ public class ContextNature extends ContextRural {
 			case DEEPSEA:
 				// Oil rigs
 				//CityWorld.log.info("Drilling platform at " + (platmap.originX + x) * 16 + ", " + (platmap.originZ + z) * 16);
-				if (generator.settings.includeBuildings)
+				//TODO: Do I want to fix this?
+				// SEED: -7145037513581384357 in v1.04
+				// POS: 1080, 80, 284
+				// Two platforms are created right next to two bridges
+				if (generator.settings.includeBuildings) {
 					platmap.setLot(x, z, new PlatOilPlatform(platmap, platmap.originX + x, platmap.originZ + z));
+				}
 				break;
 //			case SEA:
 //				break;
