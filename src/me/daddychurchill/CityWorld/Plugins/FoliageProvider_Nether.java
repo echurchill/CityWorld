@@ -28,10 +28,19 @@ public class FoliageProvider_Nether extends FoliageProvider {
 		int leavesId1 = airId;
 		int leavesId2 = airId;
 		switch (treeType) {
+		case TREE:
+			//leave trunkId alone
+			if (random.nextDouble() < 0.10) {
+				leavesId1 = ironId;
+				leavesId2 = ironId;
+				if (random.nextDouble() < 0.10) {
+					trunkId = glowId;
+				}
+			} 
+			break;
 		case BIRCH:
 			trunkId = clayId;
-		case TREE:
-			if (random.nextDouble() < 0.10) {
+			if (random.nextDouble() < 0.20) {
 				leavesId1 = ironId;
 				leavesId2 = ironId;
 				if (random.nextDouble() < 0.10) {
