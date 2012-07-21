@@ -202,7 +202,7 @@ public abstract class PlatLot {
 					} else if (y < generator.seaLevel) {
 						if (generator.settings.includeDecayedNature)
 							if (y < generator.deepseaLevel)
-								generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, generator.seaLevel, stillLavaId, false);
+								generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, generator.deepseaLevel, stillLavaId, false);
 							else
 								generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, true);
 						else 

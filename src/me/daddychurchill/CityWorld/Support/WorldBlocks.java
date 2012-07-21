@@ -340,13 +340,16 @@ public class WorldBlocks extends SupportChunk {
 			
 			// look out for half blocks
 			Block block = getActualBlock(x, y - 1, z);
-			if (block.getTypeId() == stepId)
+			int blockId = block.getTypeId();
+			if (blockId == stepId)
 				block.setTypeIdAndData(item.typeId, item.data, false);
+//			else if (blockId == waterId || blockId == stillWaterId) {
+//				dropBlockInWater
 			else
 				setBlock(x, y, z, item.typeId, item.data, false);
 		}
 	}
-	
+
 	public void desperseArea(Random random, int x, int y, int z, int radius) {
 		
 		// debris

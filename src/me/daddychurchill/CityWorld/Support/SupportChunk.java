@@ -34,6 +34,7 @@ public abstract class SupportChunk {
 	public static final byte iceId = (byte) Material.ICE.getId(); // the fluid type
 	public static final byte waterId = (byte) Material.WATER.getId(); // the fluid type
 	public static final byte lavaId = (byte) Material.LAVA.getId(); // the fluid type
+	public static final byte stillWaterId = (byte) Material.STATIONARY_WATER.getId(); // the fluid type
 	public static final byte stillLavaId = (byte) Material.STATIONARY_LAVA.getId(); // the fluid type
 	
 	public SupportChunk(WorldGenerator generator) {

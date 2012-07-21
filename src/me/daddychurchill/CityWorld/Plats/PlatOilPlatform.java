@@ -10,6 +10,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Plugins.TekkitMaterial;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.WorldBlocks;
 import me.daddychurchill.CityWorld.Support.Direction.Ladder;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -24,7 +25,7 @@ public class PlatOilPlatform extends PlatIsolated {
 	private final static byte platformId = (byte) Material.DOUBLE_STEP.getId();
 	private final static byte slabId = (byte) Material.STEP.getId();
 	private final static byte railingId = (byte) Material.IRON_FENCE.getId();
-	private final static byte drillId = (byte) Material.FENCE.getId();
+	private final static byte drillId = (byte) Material.NETHER_FENCE.getId();
 	private final static byte supportId = (byte) Material.NETHER_BRICK.getId();
 	private final static byte topperId = (byte) Material.NETHER_BRICK_STAIRS.getId();
 	
@@ -98,7 +99,7 @@ public class PlatOilPlatform extends PlatIsolated {
 		chunk.setBlocks(13, y3, y3 + 2, 2, supportId);
 		chunk.setBlocks(2, y3, y3 + 2, 13, supportId);
 		
-		// drill and extra drill bits
+		// drill down
 		if (generator.settings.includeTekkitMaterials && minHeight > 20) { //place a blob of oil if it's a tekkit server (tekkit support by gunre)
 			Random rGen = new Random();
 			int oilBlobYFloor = rGen.nextInt(10) + 2;
@@ -111,10 +112,12 @@ public class PlatOilPlatform extends PlatIsolated {
 		} else {
 			chunk.setBlocks(8, 1, y4 + 3, 8, drillId); 
 		}
-		chunk.setBlocks(5, y2 + 1, y3 + 2, 1, drillId);
-		chunk.setBlocks(7, y2 + 1, y3 + 2, 1, drillId);
-		//chunk.setBlocks(9, y2 + 1, y3 + 2, 1, drillId);
-		chunk.setBlocks(11, y2 + 1, y3 + 2, 1, drillId);
+		
+		// extra drill bits
+		chunk.setBlocks(5, y2 + 2, y3 + 2, 1, drillId);
+		chunk.setBlocks(7, y2 + 2, y3 + 2, 1, drillId);
+		//chunk.setBlocks(9, y2 + 2, y3 + 2, 1, drillId);
+		chunk.setBlocks(11, y2 + 2, y3 + 2, 1, drillId);
 		chunk.setBlocks(13, y4 + 4, y4 + 8, 2, drillId); // bit hanging from the crane
 	}
 	
@@ -148,6 +151,20 @@ public class PlatOilPlatform extends PlatIsolated {
 		// it looked so nice for a moment... but the moment has passed
 		if (generator.settings.includeDecayedBuildings) {
 
+			// world centric view of blocks
+			WorldBlocks blocks = new WorldBlocks(generator);
+			
+			// do we take out a bit of it?
+			decayEdge(blocks, chunk.getBlockX(7) + chunkRandom.nextInt(3) - 1, y1, chunk.getBlockZ(0));
+			decayEdge(blocks, chunk.getBlockX(7) + chunkRandom.nextInt(3) - 1, y2, chunk.getBlockZ(0));
+			decayEdge(blocks, chunk.getBlockX(8) + chunkRandom.nextInt(3) - 1, y1, chunk.getBlockZ(15));
+			decayEdge(blocks, chunk.getBlockX(8) + chunkRandom.nextInt(3) - 1, y2, chunk.getBlockZ(15));
+			decayEdge(blocks, chunk.getBlockX(0), y1, chunk.getBlockZ(7) + chunkRandom.nextInt(3) - 1);
+			decayEdge(blocks, chunk.getBlockX(0), y2, chunk.getBlockZ(7) + chunkRandom.nextInt(3) - 1);
+			decayEdge(blocks, chunk.getBlockX(15), y1, chunk.getBlockZ(8) + chunkRandom.nextInt(3) - 1);
+			decayEdge(blocks, chunk.getBlockX(15), y2, chunk.getBlockZ(8) + chunkRandom.nextInt(3) - 1);
+			decayEdge(blocks, chunk.getBlockX(7), y4, chunk.getBlockZ(12));
+		}
 //TODO destroy it a little bit
 //			// world centric view of blocks
 //			WorldBlocks blocks = new WorldBlocks(generator);
@@ -169,6 +186,16 @@ public class PlatOilPlatform extends PlatIsolated {
 //				decayEdge(blocks, chunk.getBlockX(inset), y, chunk.getBlockZ(7) + chunkRandom.nextInt(3) - 1);
 //				decayEdge(blocks, chunk.getBlockX(chunk.width - inset - 1), y, chunk.getBlockZ(8) + chunkRandom.nextInt(3) - 1);
 //			}
-		}
 	}
+
+	private final static double decayedEdgeOdds = 0.20;
+	
+	private void decayEdge(WorldBlocks blocks, int x, int y, int z) {
+		if (chunkRandom.nextDouble() < decayedEdgeOdds) {
+			
+			// make it go away
+			blocks.desperseArea(chunkRandom, x, y, z, chunkRandom.nextInt(2) + 2);
+		}	
+	}
+	
 }
