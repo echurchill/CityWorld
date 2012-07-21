@@ -9,22 +9,23 @@ import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
+import me.daddychurchill.CityWorld.Support.WorldBlocks;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
 
 public class PlatUnfinishedBuilding extends PlatBuilding {
 
-	protected final static int FloorHeight = ContextData.FloorHeight;
+	private final static int FloorHeight = ContextData.FloorHeight;
 	
-	protected final static byte girderId = (byte) Material.CLAY.getId();
+	private final static byte girderId = (byte) Material.CLAY.getId();
 	
-	protected final static Material dirtMaterial = Material.DIRT;
-	protected final static Material fenceMaterial = Material.IRON_FENCE;
-	protected final static Material stairMaterial = Material.WOOD_STAIRS;
-	protected final static Material wallMaterial = Material.SMOOTH_BRICK;
-	protected final static Material ceilingMaterial = Material.STONE;
+	private final static Material dirtMaterial = Material.DIRT;
+	private final static Material fenceMaterial = Material.IRON_FENCE;
+	private final static Material stairMaterial = Material.WOOD_STAIRS;
+	private final static Material wallMaterial = Material.SMOOTH_BRICK;
+	private final static Material ceilingMaterial = Material.STONE;
 	
-	protected final static int fenceHeight = 3;
-	protected final static int inset = 2;
+	private final static int fenceHeight = 3;
+	private final static int inset = 2;
 	
 	// our special bits
 	protected boolean unfinishedBasementOnly;
@@ -139,10 +140,6 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 					
 					// place the stairs and such
 					drawStairs(chunk, y, FloorHeight, inset, inset, StairWell.CENTER, stairMaterial);
-
-// unfinished buildings don't need walls on the stairs
-//					drawStairsWalls(chunk, y, FloorHeight, inset, inset, StairWell.CENTER, 
-//							wallMaterial, false, false);
 				}
 			}
 			
@@ -156,23 +153,55 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 						// more stairs and such
 						if (floor < height - 1)
 							drawStairs(chunk, y, FloorHeight, inset, inset, StairWell.CENTER, stairMaterial);
-						
-// unfinished buildings don't need walls on the stairs
-//						if (floor > 0 || (floor == 0 && (depth > 0 || height > 1)))
-//							drawStairsWalls(chunk, y, FloorHeight, inset, inset, StairWell.CENTER, 
-//									stairWallMaterial, false, false);
 					}
 				}
 			}
 			
 			// plop a crane on top?
+			boolean craned = false;
 			if (lastHorizontalGirder > 0 && chunkRandom.nextInt(context.oddsOfCranes) == 0) {
 				if (chunkRandom.nextBoolean())
 					chunk.drawCrane(context, chunkRandom, inset + 2, lastHorizontalGirder + 1, inset);
 				else
 					chunk.drawCrane(context, chunkRandom, inset + 2, lastHorizontalGirder + 1, chunk.width - inset - 1);
+				craned = true;
+			}
+			
+			// it looked so nice for a moment... but the moment has passed
+			if (generator.settings.includeDecayedBuildings) {
+
+				// world centric view of blocks
+				WorldBlocks blocks = new WorldBlocks(generator);
+				
+				// what is the top floor?
+				int floors = height;
+				if (craned)
+					floors--;
+				
+				// work our way up
+				for (int floor = 1; floor < floors; floor++) {
+					
+					// do only floors that aren't top one or do the top one if there isn't a crane
+					int y = generator.sidewalkLevel + FloorHeight * floor + 1;
+						
+					// do we take out a bit of it?
+					decayEdge(blocks, chunk.getBlockX(7) + chunkRandom.nextInt(3) - 1, y, chunk.getBlockZ(inset));
+					decayEdge(blocks, chunk.getBlockX(8) + chunkRandom.nextInt(3) - 1, y, chunk.getBlockZ(chunk.width - inset - 1));
+					decayEdge(blocks, chunk.getBlockX(inset), y, chunk.getBlockZ(7) + chunkRandom.nextInt(3) - 1);
+					decayEdge(blocks, chunk.getBlockX(chunk.width - inset - 1), y, chunk.getBlockZ(8) + chunkRandom.nextInt(3) - 1);
+				}
 			}
 		}
+	}
+	
+	private final static double decayedEdgeOdds = 0.20;
+	
+	private void decayEdge(WorldBlocks blocks, int x, int y, int z) {
+		if (chunkRandom.nextDouble() < decayedEdgeOdds) {
+			
+			// make it go away
+			blocks.desperseArea(chunkRandom, x, y, z, chunkRandom.nextInt(2) + 2);
+		}	
 	}
 	
 	private void drawVerticalGirders(ByteChunk chunk, int y1, int floorHeight) {

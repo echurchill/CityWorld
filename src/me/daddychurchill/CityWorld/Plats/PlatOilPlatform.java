@@ -144,5 +144,31 @@ public class PlatOilPlatform extends PlatIsolated {
 		chunk.setBlocks(13, y4 + 3, y4 + 8, 13, Material.IRON_FENCE);
 		chunk.setBlock(13, y4 + 8, 13, Material.NETHERRACK);
 		chunk.setBlock(13, y4 + 9, 13, Material.FIRE);
+
+		// it looked so nice for a moment... but the moment has passed
+		if (generator.settings.includeDecayedBuildings) {
+
+//TODO destroy it a little bit
+//			// world centric view of blocks
+//			WorldBlocks blocks = new WorldBlocks(generator);
+//			
+//			// what is the top floor?
+//			int floors = height;
+//			if (craned)
+//				floors--;
+//			
+//			// work our way up
+//			for (int floor = 1; floor < floors; floor++) {
+//				
+//				// do only floors that aren't top one or do the top one if there isn't a crane
+//				int y = generator.sidewalkLevel + FloorHeight * floor + 1;
+//					
+//				// do we take out a bit of it?
+//				decayEdge(blocks, chunk.getBlockX(7) + chunkRandom.nextInt(3) - 1, y, chunk.getBlockZ(inset));
+//				decayEdge(blocks, chunk.getBlockX(8) + chunkRandom.nextInt(3) - 1, y, chunk.getBlockZ(chunk.width - inset - 1));
+//				decayEdge(blocks, chunk.getBlockX(inset), y, chunk.getBlockZ(7) + chunkRandom.nextInt(3) - 1);
+//				decayEdge(blocks, chunk.getBlockX(chunk.width - inset - 1), y, chunk.getBlockZ(8) + chunkRandom.nextInt(3) - 1);
+//			}
+		}
 	}
 }

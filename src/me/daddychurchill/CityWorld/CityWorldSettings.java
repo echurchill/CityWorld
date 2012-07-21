@@ -1,11 +1,35 @@
 package me.daddychurchill.CityWorld;
 
 import org.bukkit.World;
+import org.bukkit.World.Environment;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class CityWorldSettings {
-
+	
+	/* BUGs
+	 * Houses can have ladders to nowhere
+	 * TODOs
+	 * If there isn't aboveground fluids then 
+	 *   Grow cactus where the ground is sand
+	 * Oil platforms
+	 *   Make them decayed
+	 *   Make their legs go down to stone
+	 * Add to bunkers
+	 *   Farms
+	 *   Floors and stairs where practical
+	 *   Rounded tanks
+	 *   Writing on the outside of buildings
+	 * Add to streets
+	 *   Street signs with optional street names
+	 * Add bounds to city growth
+	 *   Radius from 0,0 where cities are allowed, beyond that just have nature
+	 */
+	
+	public Environment environment;
+	public boolean darkEnvironment;
+	
+	public boolean includeRoads = true;
 	public boolean includeSewers = true;
 	public boolean includeCisterns = true;
 	public boolean includeBasements = true;
@@ -33,10 +57,16 @@ public class CityWorldSettings {
 	public boolean includeWorkingLights = true;
 	public boolean includePavedRoads = true;
 	public boolean includeDecayedRoads = false;
+	public boolean includeDecayedBuildings = false;
+	public boolean includeDecayedNature = false;
 	public boolean includeTekkitMaterials = false;
 	
-	public World.Environment environment;
-
+	public int roadRange = Integer.MAX_VALUE;
+	public boolean checkRoadRange = false;
+	public int cityRange = Integer.MAX_VALUE;
+	public boolean checkCityRange = false;
+	
+	private final static String tagIncludeRoads = "IncludeRoads";
 	private final static String tagIncludeSewers = "IncludeSewers";
 	private final static String tagIncludeCisterns = "IncludeCisterns";
 	private final static String tagIncludeBasements = "IncludeBasements";
@@ -64,10 +94,40 @@ public class CityWorldSettings {
 	private final static String tagIncludeWorkingLights = "IncludeWorkingLights";
 	private final static String tagIncludePavedRoads = "IncludePavedRoads";
 	private final static String tagIncludeDecayedRoads = "IncludeDecayedRoads";
+	private final static String tagIncludeDecayedBuildings = "IncludeDecayedBuildings";
+	private final static String tagIncludeDecayedNature = "IncludeDecayedNature";
 	private final static String tagIncludeTekkitMaterials = "IncludeTekkitMaterials";
 	
-	public CityWorldSettings(CityWorld plugin, String worldname) {
+	private final static String tagRoadRange = "RoadRange";
+	private final static String tagCityRange = "CityRange";
+	
+	public CityWorldSettings(CityWorld plugin, World world) {
 		super();
+		String worldname = world.getName();
+		environment = world.getEnvironment();
+		
+		// get the right defaults
+		switch (environment) {
+		case NORMAL:
+			darkEnvironment = false;
+			break;
+		case NETHER:
+			darkEnvironment = true;
+			includeAbovegroundFluids = false;
+			includeWorkingLights = false;
+			includeDecayedRoads = true;
+			includeDecayedBuildings = true;
+			includeDecayedNature = true;
+			break;
+		case THE_END:
+			darkEnvironment = true;
+			includeMines = false;
+			includeBunkers = false;
+			includeHouses = false;
+			includeFarms = false;
+			includeLavaFields = false;
+			break;
+		}
 		
 		// add/get the configuration
 		FileConfiguration config = plugin.getConfig();
@@ -84,6 +144,7 @@ public class CityWorldSettings {
 		// if not then create it
 		else {
 			section = config.createSection(worldname);
+			section.addDefault(tagIncludeRoads, includeRoads);
 			section.addDefault(tagIncludeSewers, includeSewers);
 			section.addDefault(tagIncludeCisterns, includeCisterns);
 			section.addDefault(tagIncludeBasements, includeBasements);
@@ -111,11 +172,17 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeWorkingLights, includeWorkingLights);
 			section.addDefault(tagIncludePavedRoads, includePavedRoads);
 			section.addDefault(tagIncludeDecayedRoads, includeDecayedRoads);
+			section.addDefault(tagIncludeDecayedBuildings, includeDecayedBuildings);
+			section.addDefault(tagIncludeDecayedNature, includeDecayedNature);
 			section.addDefault(tagIncludeTekkitMaterials, includeTekkitMaterials);
+			
+			section.addDefault(tagRoadRange, roadRange);
+			section.addDefault(tagCityRange, cityRange);
 		}
 		
 		// did we get a section?
 		if (section != null) {
+			includeRoads = section.getBoolean(tagIncludeRoads, includeRoads);
 			includeSewers = section.getBoolean(tagIncludeSewers, includeSewers);
 			includeCisterns = section.getBoolean(tagIncludeCisterns, includeCisterns);
 			includeBasements = section.getBoolean(tagIncludeBasements, includeBasements);
@@ -143,33 +210,31 @@ public class CityWorldSettings {
 			includeWorkingLights = section.getBoolean(tagIncludeWorkingLights, includeWorkingLights);
 			includePavedRoads = section.getBoolean(tagIncludePavedRoads, includePavedRoads);
 			includeDecayedRoads = section.getBoolean(tagIncludeDecayedRoads, includeDecayedRoads);
+			includeDecayedBuildings = section.getBoolean(tagIncludeDecayedBuildings, includeDecayedBuildings);
+			includeDecayedNature = section.getBoolean(tagIncludeDecayedNature, includeDecayedNature);
 			includeTekkitMaterials = section.getBoolean(tagIncludeTekkitMaterials, includeTekkitMaterials);
+			
+			roadRange = Math.min(Short.MAX_VALUE, Math.max(0, section.getInt(tagRoadRange, roadRange)));
+			checkRoadRange = roadRange > 0 && roadRange < Short.MAX_VALUE;
+			if (roadRange == 0) {
+				includeRoads = false;
+				includeSewers = false;
+			}
+
+			cityRange = Math.min(roadRange, Math.max(0, section.getInt(tagCityRange, cityRange)));
+			checkCityRange = cityRange > 0 && cityRange < Short.MAX_VALUE;
+			if (cityRange == 0) {
+				includeCisterns = false;
+				includeBasements = false;
+				includeMines = false;
+				includeBunkers = false;
+				includeBuildings = false;
+				includeHouses = false;
+				includeFarms = false;
+			}
 		}
 		
 		// write it back out if needed
 		plugin.saveConfig();
-	}
-	
-	public void setEnvironment(World.Environment aEnvironment) {
-		environment = aEnvironment;
-		switch (environment) {
-		case NORMAL:
-			break;
-		case NETHER:
-			includeAbovegroundFluids = false;
-			includeWorkingLights = false;
-			includeDecayedRoads = true;
-			break;
-		case THE_END:
-			includeMines = false;
-			includeBunkers = false;
-			includeHouses = false;
-			includeFarms = false;
-
-			includeLavaFields = false;
-//			includeSeas = false;
-//			includeMountains = false;
-			break;
-		}
 	}
 }

@@ -30,8 +30,8 @@ public class PlatFarm extends PlatConnected {
 		directionNorthSouth = chunkRandom.nextBoolean();
 		
 		// crop type please
-		if (platmap.generator.settings.environment == Environment.NETHER)
-			cropType = getNetherCrop();
+		if (platmap.generator.settings.includeDecayedNature)
+			cropType = getDecayedCrop();
 		else
 			cropType = getNormalCrop();
 	}
@@ -61,6 +61,7 @@ public class PlatFarm extends PlatConnected {
 	private final static Material matWater = Material.STATIONARY_WATER;
 	private final static Material matSoil = Material.SOIL;
 	private final static Material matSand = Material.SAND;
+	private final static Material matMycel = Material.MYCEL;
 	private final static Material matDirt = Material.DIRT;
 	private final static Material matSoul = Material.SOUL_SAND;
 	private final static Material matAir = Material.AIR;
@@ -94,10 +95,10 @@ public class PlatFarm extends PlatConnected {
 			groundId = sandId;
 		chunk.setLayer(generator.sidewalkLevel, groundId);
 		
-		// inbetween bits bits
+		// in-between bits bits
 		byte dividerId = isolationId;
 		byte cornerId = grassId;
-		if (generator.settings.environment == Environment.NETHER) {
+		if (generator.settings.includeDecayedNature) {
 			dividerId = isolationAltId;
 			cornerId = sandId;
 		}
@@ -154,19 +155,19 @@ public class PlatFarm extends PlatConnected {
 		int croplevel = generator.sidewalkLevel + 1;
 		
 		// where are we again?
-		if (generator.settings.environment == Environment.NETHER) {
+		if (generator.settings.includeDecayedNature) {
 			
 			// what type of crop do we plant?
 			if (cropType == cropGrass)
 				plowField(generator, chunk, chunkRandom, croplevel, matDirt, 0, matAir, cropType, 0, 1, 2, 1);
 			else if (cropType == cropBrownMushroom)
-				plowField(generator, chunk, chunkRandom, croplevel, matDirt, 0, matAir, cropType, 0, 1, 2, 1);
+				plowField(generator, chunk, chunkRandom, croplevel, matMycel, 0, matAir, cropType, 0, 1, 2, 1);
 			else if (cropType == cropRedMushroom)
-				plowField(generator, chunk, chunkRandom, croplevel, matDirt, 0, matAir, cropType, 0, 1, 2, 1);
-			else if (cropType == cropNetherwart)
+				plowField(generator, chunk, chunkRandom, croplevel, matMycel, 0, matAir, cropType, 0, 1, 2, 1);
+			else if (cropType == cropNetherwart && generator.settings.environment == Environment.NETHER)
 				plowField(generator, chunk, chunkRandom, croplevel, matSoul, 0, matAir, cropType, chunkRandom.nextInt(4), 1, 2, 1);
-			else if (cropType == cropPumpkin)
-				plowField(generator, chunk, chunkRandom, croplevel, matDirt, 0, matAir, cropType, chunkRandom.nextInt(6) + 2, 1, 3, 1);
+//			else if (cropType == cropPumpkin)
+//				plowField(generator, chunk, chunkRandom, croplevel, matDirt, 0, matAir, cropType, chunkRandom.nextInt(6) + 2, 1, 3, 1);
 //			else if (cropType == cropVine)
 //				buildVineyard(generator, chunk, chunkRandom, croplevel, matAir);
 			else if (cropType == cropDeadBush)
@@ -288,7 +289,7 @@ public class PlatFarm extends PlatConnected {
 		}
 	}
 
-	private Material getNetherCrop() {
+	private Material getDecayedCrop() {
 		switch (chunkRandom.nextInt(10)) {
 		case 1:
 			return cropBrownMushroom;
@@ -296,8 +297,8 @@ public class PlatFarm extends PlatConnected {
 			return cropRedMushroom;
 		case 3:
 			return cropNetherwart;
-		case 4:
-			return cropPumpkin;
+//		case 4:
+//			return cropPumpkin;
 		case 5:
 			return cropGrass;
 //		case 6:

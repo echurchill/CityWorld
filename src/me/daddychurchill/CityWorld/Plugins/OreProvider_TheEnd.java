@@ -2,12 +2,12 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import java.util.Random;
 
+import org.bukkit.Material;
+
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
-import org.bukkit.Material;
-
-public class OreProvider_Default extends OreProvider {
+public class OreProvider_TheEnd extends OreProvider {
 
 	/**
 	 * Populates the world with ores.
@@ -19,20 +19,15 @@ public class OreProvider_Default extends OreProvider {
 	 */
 	
 	private static final int[] ore_types = new int[] {Material.WATER.getId(),
-		  											  Material.GRAVEL.getId(), 
-													  Material.COAL_ORE.getId(),
-													  Material.IRON_ORE.getId(), 
-													  Material.GOLD_ORE.getId(), 
-													  Material.LAPIS_ORE.getId(),
-													  Material.REDSTONE_ORE.getId(),
 													  Material.DIAMOND_ORE.getId()}; 
-	//                                                         WATER   GRAV   COAL   IRON   GOLD  LAPIS  REDST   DIAM  
-	private static final int[] ore_iterations = new int[]    {     4,    40,    35,    12,     4,     3,     6,     2};
-	private static final int[] ore_amountToDo = new int[]    {     1,     8,     8,     8,     3,     2,     4,     2};
-	private static final int[] ore_maxY = new int[]          {   128,    96,   128,    68,    34,    30,    17,    16};
-	private static final int[] ore_minY = new int[]          {     8,    40,    16,    16,     5,     5,     8,     1};
-	private static final boolean[] ore_upper = new boolean[] {  true, false,  true,  true,  true,  true,  true, false};
 	
+	//                                                         WATER   DIAM
+	private static final int[] ore_iterations = new int[]    {     8,     4};
+	private static final int[] ore_amountToDo = new int[]    {     1,     2};
+	private static final int[] ore_maxY = new int[]          {   128,   128};
+	private static final int[] ore_minY = new int[]          {     8,     8};
+	private static final boolean[] ore_upper = new boolean[] {  true, false};
+
 	@Override
 	public void sprinkleOres(WorldGenerator generator, RealChunk chunk, Random random, OreLocation location) {
 		

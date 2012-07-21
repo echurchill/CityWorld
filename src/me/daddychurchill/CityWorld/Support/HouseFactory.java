@@ -12,7 +12,13 @@ import org.bukkit.Material;
 
 public final class HouseFactory {
 	
-	public final static void generateShack(RealChunk chunk, ContextData context, Random random, int baseY) {
+	/*TODO Alex's bug
+	 * 1st 2nd
+	 * RS  RS
+	 * RR  Re  makes so the stairs won't lead to empty attic, empty room should be diagonal to stairs
+	 */
+	
+	public final static int generateShack(RealChunk chunk, ContextData context, Random random, int baseY) {
 		
 		// what are we made of?
 		Material matWall = Material.WOOD;
@@ -22,6 +28,7 @@ public final class HouseFactory {
 		
 		//chunk.setWalls(2, 13, baseY, baseY + ContextData.FloorHeight, 2, 13, Material.WOOD);
 		generateColonial(chunk, context, random, baseY, matFloor, matWall, matCeiling, matRoof, 1, 5, 5, false);
+		return 1;
 	}
 	
 	

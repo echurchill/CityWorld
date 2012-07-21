@@ -11,7 +11,6 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
 
 import org.bukkit.Material;
-import org.bukkit.World.Environment;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class PlatOfficeBuilding extends PlatBuilding {
@@ -271,7 +270,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		}
 		
 		// happy place?
-		if (generator.settings.environment != Environment.NETHER) {
+		if (!generator.settings.includeDecayedBuildings) {
 		
 			// maybe draw a navlight?
 			drawNavLight(chunk, context);

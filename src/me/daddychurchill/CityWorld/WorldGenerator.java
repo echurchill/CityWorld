@@ -5,6 +5,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.Plugins.FoliageProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.OreProvider;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
@@ -28,10 +29,10 @@ public class WorldGenerator extends ChunkGenerator {
 	private String worldname;
 	private String worldstyle;
 	private Random connectionKeyGen;
-	private Random stashRandomGenerator;
 	public LootProvider lootProvider;
 	public SpawnProvider spawnProvider;
 	public OreProvider oreProvider;
+	public FoliageProvider foliageProvider;
 
 	public CityWorldSettings settings;
 
@@ -51,6 +52,8 @@ public class WorldGenerator extends ChunkGenerator {
 	public int sidewalkLevel;
 	public int treeLevel;
 	public int evergreenLevel;
+	public int deciduousRange;
+	public int evergreenRange;
 	public int height;
 	public int snowLevel;
 	public int landRange;
@@ -63,7 +66,6 @@ public class WorldGenerator extends ChunkGenerator {
 		plugin = aPlugin;
 		worldname = aWorldname;
 		worldstyle = aWorldstyle;
-		settings = new CityWorldSettings(plugin, worldname);
 	}
 
 	public CityWorld getPlugin() {
@@ -131,13 +133,13 @@ public class WorldGenerator extends ChunkGenerator {
 		// initialize the shaping logic
 		if (world == null) {
 			world = aWorld;
-			settings.setEnvironment(world.getEnvironment());
+			settings = new CityWorldSettings(plugin, world);
 			long seed = world.getSeed();
 			connectionKeyGen = new Random(seed + 1);
-			stashRandomGenerator = new Random(seed + 2);
 			lootProvider = LootProvider.loadProvider(this);
 			spawnProvider = SpawnProvider.loadProvider(this);
 			oreProvider = OreProvider.loadProvider(this);
+			foliageProvider = FoliageProvider.loadProvider(this, new Random(seed + 2));
 
 			landShape1 = new SimplexOctaveGenerator(seed, 4);
 			landShape1.setScale(landHorizontalScale1);
@@ -168,6 +170,9 @@ public class WorldGenerator extends ChunkGenerator {
 			snowLevel = seaLevel + (landRange / 4 * 3);
 			evergreenLevel = seaLevel + (landRange / 4 * 2);
 			treeLevel = seaLevel + (landRange / 4);
+			deciduousRange = evergreenLevel - treeLevel;
+			evergreenRange = snowLevel - evergreenLevel;
+			
 			
 //			// seabed = 35 deepsea = 50 sea = 64 sidewalk = 65 tree = 110 evergreen = 156 snow = 202 top = 249
 //			CityWorld.log.info("seabed = " + (seaLevel - seaRange) + 
@@ -203,10 +208,6 @@ public class WorldGenerator extends ChunkGenerator {
 	
 	public long getConnectionKey() {
 		return connectionKeyGen.nextLong();
-	}
-	
-	public Random getStashRandomGenerator() {
-		return stashRandomGenerator;
 	}
 	
 	public double findPerciseY(int blockX, int blockZ) {

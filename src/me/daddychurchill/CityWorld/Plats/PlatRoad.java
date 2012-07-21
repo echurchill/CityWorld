@@ -1,14 +1,13 @@
 package me.daddychurchill.CityWorld.Plats;
 
 import org.bukkit.Material;
-import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
-import me.daddychurchill.CityWorld.Plugins.LootProvider;
-import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
+import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
+import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
@@ -19,7 +18,6 @@ import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
 
 public class PlatRoad extends PlatConnected {
 	
-	//TODO Asphalt the road
 	//TODO Lines on the road
 	
 	public static final int PlatMapRoadInset = 3;
@@ -743,7 +741,7 @@ public class PlatRoad extends PlatConnected {
 			}
 		
 			// not a happy place?
-			if (generator.settings.environment == Environment.NETHER) {
+			if (generator.settings.includeDecayedRoads) {
 				destroyLot(generator, chunk, sidewalkLevel + 5, sidewalkLevel + 6);
 			}
 			
@@ -877,7 +875,7 @@ public class PlatRoad extends PlatConnected {
 			}
 			
 			byte fluidId = waterId;
-			if (generator.settings.environment == Environment.NETHER)
+			if (generator.settings.includeDecayedNature)
 				fluidId = lavaId;
 			
 			// cardinal directions known walls and ditches
@@ -1151,7 +1149,7 @@ public class PlatRoad extends PlatConnected {
 		
 		// cool stuff?
 		if (generator.settings.treasuresInSewers && chunkRandom.nextDouble() <= context.oddsOfTreasureInSewers) {
-			 chunk.setChest(x, y, z, Direction.Chest.NORTH, generator.lootProvider.getItems(generator, LootProvider.chestInSewers));
+			 chunk.setChest(x, y, z, Direction.Chest.NORTH, generator.lootProvider.getItems(generator, chunkRandom, LootLocation.SEWER));
 		}
 	}
 
@@ -1159,7 +1157,7 @@ public class PlatRoad extends PlatConnected {
 		
 		// not so cool stuff?
 		if (generator.settings.spawnersInSewers && chunkRandom.nextDouble() <= context.oddsOfSpawnerInSewers) {
-			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, SpawnProvider.spawnerInSewers));
+			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, chunkRandom, SpawnerLocation.SEWER));
 		}
 	}
 }

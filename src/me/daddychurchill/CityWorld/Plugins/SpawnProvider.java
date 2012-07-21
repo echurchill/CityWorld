@@ -1,5 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import java.util.Random;
+
 import me.daddychurchill.CityWorld.WorldGenerator;
 
 import org.bukkit.entity.EntityType;
@@ -8,22 +10,16 @@ public abstract class SpawnProvider {
 
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	
-	public final static String spawnerInSewers = "CityWorld_Spawner_Sewer";
-	public final static String spawnerInMines = "CityWorld_Spawner_Mine";
-	public final static String spawnerInBunkers = "CityWorld_Spawner_Bunker";
+	public enum SpawnerLocation {SEWER, MINE, BUNKER};
 	
-	protected SpawnProvider() {
-		// who's your daddy?
-	}
-	
-	public abstract EntityType getEntity(WorldGenerator generator, String name);
+	public abstract EntityType getEntity(WorldGenerator generator, Random random, SpawnerLocation location);
 
 	public static SpawnProvider loadProvider(WorldGenerator generator) {
 
 		SpawnProvider provider = null;
 		
-//		// try PhatLoots
-//		provider = LootProvider_PhatLoots.loadPhatLoots();
+//		We need something like PhatLoot but for spawners
+//		provider = SpawnProvider_PhatSpawn.loadPhatSpawn();
 		
 		// default to stock SpawnProvider
 		if (provider == null) {

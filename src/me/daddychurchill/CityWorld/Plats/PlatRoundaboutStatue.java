@@ -5,14 +5,14 @@ import java.util.Random;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Plugins.FoliageProvider.FloraType;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
-import org.bukkit.World.Environment;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-public class PlatStatue extends PlatIsolated {
+public class PlatRoundaboutStatue extends PlatIsolated {
 
 	private enum StatueBase { WATER, GRASS, PEDESTAL };
 	
@@ -24,7 +24,7 @@ public class PlatStatue extends PlatIsolated {
 	
 	protected StatueBase statueBase;
 	
-	public PlatStatue(PlatMap platmap, int chunkX, int chunkZ) {
+	public PlatRoundaboutStatue(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
 		style = LotStyle.ROUNDABOUT;
@@ -59,7 +59,7 @@ public class PlatStatue extends PlatIsolated {
 			chunk.setCircle(8, 8, 6, y1, brickId, false);
 			
 			// fill with water
-			if (generator.settings.environment == Environment.NETHER)
+			if (generator.settings.includeDecayedNature)
 				chunk.setCircle(8, 8, 5, y1, stillLavaId, true);
 			else
 				chunk.setCircle(8, 8, 5, y1, stillWaterId, true);
@@ -71,7 +71,7 @@ public class PlatStatue extends PlatIsolated {
 			chunk.setCircle(8, 8, 6, y1, brickId, false);
 			
 			// backfill with grass
-			if (generator.settings.environment == Environment.NETHER) {
+			if (generator.settings.includeDecayedNature) {
 				chunk.setCircle(8, 8, 5, y1 - 1, netherrackId, false);
 				chunk.setBlocks(3, 13, y1 - 1, y1, 4, 12, netherrackId);
 				chunk.setBlocks(4, 12, y1 - 1, y1, 3, 13, netherrackId);
@@ -110,7 +110,7 @@ public class PlatStatue extends PlatIsolated {
 		case WATER:
 			
 			Material liquid = Material.WATER;
-			if (generator.settings.environment == Environment.NETHER)
+			if (generator.settings.includeDecayedNature)
 				liquid = Material.LAVA;
 			
 			// four little fountains?
@@ -134,10 +134,11 @@ public class PlatStatue extends PlatIsolated {
 			for (int x = 4; x < 12; x++) {
 				for (int z = 4; z < 12; z++) {
 					if (chunkRandom.nextDouble() < 0.40) {
-						if (generator.settings.environment == Environment.NETHER) {
+						if (generator.settings.includeDecayedNature) {
 							chunk.setBlock(x, y1, z, Material.FIRE);
 						} else {
-							chunk.setBlock(x, y1, z, grassMaterialId, (byte) 1);
+							generator.foliageProvider.generateFlora(generator, chunk, x, y1, z, FloraType.GRASS);
+							//chunk.setBlock(x, y1, z, grassMaterialId, (byte) 1);
 						}
 					}
 				}
@@ -145,7 +146,7 @@ public class PlatStatue extends PlatIsolated {
 			
 			// tree can be art too, you know!
 			if (chunkRandom.nextInt(context.oddsOfNaturalArt) == 0) {
-				generateTree(generator, chunk, 7, y1, 7, TreeType.BIG_TREE, true);
+				generator.foliageProvider.generateTree(generator, chunk, 7, y1, 7, TreeType.BIG_TREE);
 				somethingInTheCenter = false;
 			}
 			

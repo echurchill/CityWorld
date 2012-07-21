@@ -4,12 +4,12 @@ import java.util.Random;
 
 public class InteriorWallFactory extends MaterialFactory {
 
-	public InteriorWallFactory(Random rand) {
-		super(rand);
+	public InteriorWallFactory(Random rand, boolean decay) {
+		super(rand, decay);
 	}
 
-	public InteriorWallFactory(Random rand, SkipStyles astyle) {
-		super(rand, astyle);
+	public InteriorWallFactory(MaterialFactory other) {
+		super(other);
 	}
 
 	@Override
@@ -50,6 +50,8 @@ public class InteriorWallFactory extends MaterialFactory {
 			}
 			break;
 		}
+		if (decayed)
+			decayMaterial(chunk, x, y1, y2, z);
 	}
 
 }

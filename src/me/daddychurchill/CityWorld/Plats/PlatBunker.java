@@ -6,8 +6,8 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
-import me.daddychurchill.CityWorld.Plugins.LootProvider;
-import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
+import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
+import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
 import me.daddychurchill.CityWorld.Plugins.TekkitMaterial;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
@@ -683,7 +683,7 @@ public class PlatBunker extends PlatIsolated {
 		
 		// cool stuff?
 		if (generator.settings.treasuresInBunkers && chunkRandom.nextDouble() <= context.oddsOfTreasureInBunkers) {
-			 chunk.setChest(x, y, z, Direction.Chest.NORTH, generator.lootProvider.getItems(generator, LootProvider.chestInBunkers));
+			 chunk.setChest(x, y, z, Direction.Chest.NORTH, generator.lootProvider.getItems(generator, chunkRandom, LootLocation.BUNKER));
 		}
 	}
 
@@ -691,7 +691,7 @@ public class PlatBunker extends PlatIsolated {
 
 		// not so cool stuff?
 		if (generator.settings.spawnersInBunkers && chunkRandom.nextDouble() <= context.oddsOfSpawnerInBunkers) {
-			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, SpawnProvider.spawnerInBunkers));
+			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, chunkRandom, SpawnerLocation.BUNKER));
 		}
 	}
 }

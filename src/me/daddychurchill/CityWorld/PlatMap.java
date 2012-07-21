@@ -16,7 +16,7 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Plats.PlatNature;
 import me.daddychurchill.CityWorld.Plats.PlatRoad;
-import me.daddychurchill.CityWorld.Plats.PlatStatue;
+import me.daddychurchill.CityWorld.Plats.PlatRoundaboutStatue;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -57,13 +57,17 @@ public class PlatMap {
 		context.populateMap(generator, this);
 		
 		// place and validate the roads
-		if (generator.settings.includeBuildings) {
+		if (generator.settings.includeRoads) {
 			populateRoads(typicalChunk);
 			validateRoads(typicalChunk);
 
-			// recalculate the context based on the "natural-ness" of the platmap
-			context = getContext();
-			context.populateMap(generator, this);
+			// place the buildings
+			if (generator.settings.includeBuildings) {
+	
+				// recalculate the context based on the "natural-ness" of the platmap
+				context = getContext();
+				context.populateMap(generator, this);
+			}
 		}
 		
 		// recycle all the remaining holes
@@ -245,7 +249,7 @@ public class PlatMap {
 					paveLot(x - 1, z + 1);
 					
 					paveLot(x    , z - 1);
-					platLots[x][z] = new PlatStatue(this, originX + x, originZ + z);
+					platLots[x][z] = new PlatRoundaboutStatue(this, originX + x, originZ + z);
 					paveLot(x    , z + 1);
 			
 					paveLot(x + 1, z - 1);

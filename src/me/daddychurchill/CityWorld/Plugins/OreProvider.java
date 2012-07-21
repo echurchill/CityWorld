@@ -20,14 +20,14 @@ public abstract class OreProvider {
 	 * wildly modified by daddychurchill
 	 */
 	
-	public final static String oresInCrust = "CityWorld_Ore_Crust";
-	
 	protected static final int stoneId = Material.STONE.getId();
 	protected static final int iceTypeId = Material.ICE.getId();
 	protected static final int waterTypeId = Material.WATER.getId();
 	protected static final int lavaTypeId = Material.LAVA.getId();
 	
-	public abstract void sprinkleOres(WorldGenerator generator, RealChunk chunk, Random random, String name);
+	public enum OreLocation {CRUST};
+	
+	public abstract void sprinkleOres(WorldGenerator generator, RealChunk chunk, Random random, OreLocation location);
 
 	protected void sprinkleOres_iterate(WorldGenerator generator, RealChunk chunk, Random random, int originX, int originY, int originZ, int amountToDo, int typeId) {
 		int trysLeft = amountToDo * 2;
@@ -81,7 +81,7 @@ public abstract class OreProvider {
 
 			// what type of fluid are we talking about?
 			int fluidId;
-			if (centerY < 24 || generator.settings.environment == Environment.NETHER)
+			if (centerY < 24 || generator.settings.includeDecayedNature)
 				fluidId = lavaTypeId;
 			else if (centerY > generator.snowLevel)
 				fluidId = iceTypeId;
@@ -117,10 +117,12 @@ public abstract class OreProvider {
 		// default to stock OreProvider
 		if (provider == null) {
 			
-			if (generator.settings.environment == Environment.NETHER)
-				provider = new OreProvider_Nether();
-			else if (generator.settings.includeTekkitMaterials)
+			if (generator.settings.includeTekkitMaterials)
 				provider = new OreProvider_Tekkit();
+			else if (generator.settings.environment == Environment.NETHER)
+				provider = new OreProvider_Nether();
+			else if (generator.settings.environment == Environment.THE_END)
+				provider = new OreProvider_TheEnd();
 			else
 				provider = new OreProvider_Default();
 		}

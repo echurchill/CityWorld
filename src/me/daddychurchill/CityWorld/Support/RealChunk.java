@@ -71,6 +71,10 @@ public class RealChunk extends SupportChunk {
 		chunk.getBlock(x, y, z).setTypeIdAndData(type, data, doPhysics);
 	}
 	
+	public void setBlock(int x, int y, int z, Material material, byte data) {
+		chunk.getBlock(x, y, z).setTypeIdAndData(material.getId(), data, doPhysics);
+	}
+
 	public void setBlock(int x, int y, int z, Material material, boolean aDoPhysics) {
 		chunk.getBlock(x, y, z).setTypeId(material.getId(), aDoPhysics);
 	}
@@ -79,6 +83,10 @@ public class RealChunk extends SupportChunk {
 		chunk.getBlock(x, y, z).setTypeIdAndData(type, data, aDoPhysics);
 	}
 	
+	public void setBlock(int x, int y, int z, Material material, byte data, boolean aDoPhysics) {
+		chunk.getBlock(x, y, z).setTypeIdAndData(material.getId(), data, aDoPhysics);
+	}
+
 	public void setBlocks(int x, int y1, int y2, int z, Material material) {
 		for (int y = y1; y < y2; y++)
 			chunk.getBlock(x, y, z).setType(material);
@@ -289,8 +297,19 @@ public class RealChunk extends SupportChunk {
 		return blocky + height;
 	}
 	
+	public boolean isType(int x, int y, int z, int type) {
+		return chunk.getBlock(x, y, z).getTypeId() == type;
+	}
+	
 	public boolean isEmpty(int x, int y, int z) {
 		return chunk.getBlock(x, y, z).isEmpty();
+	}
+	
+	public boolean isSurroundedByEmpty(int x, int y, int z) {
+		return chunk.getBlock(x - 1, y, z).isEmpty() &&
+			   chunk.getBlock(x + 1, y, z).isEmpty() &&
+			   chunk.getBlock(x, y, z - 1).isEmpty() &&
+			   chunk.getBlock(x, y, z + 1).isEmpty();
 	}
 	
 	public boolean isPlantable(int x, int y, int z) {

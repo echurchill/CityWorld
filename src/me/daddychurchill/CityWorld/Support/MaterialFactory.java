@@ -2,32 +2,34 @@ package me.daddychurchill.CityWorld.Support;
 
 import java.util.Random;
 
+import org.bukkit.Material;
+
 public abstract class MaterialFactory {
 
 	public enum SkipStyles {RANDOM, SINGLE, DOUBLE, RAISED_RANDOM, RAISED_SINGLE, RAISED_DOUBLE};
 	public SkipStyles style;
-	protected Random rand;
+	protected Boolean decayed;
+	protected Random random;
 	
-	public MaterialFactory() {
+	protected double decayOdds = 0.30;
+	protected byte airId = (byte) Material.AIR.getId();
+	
+	public MaterialFactory(Random rand, boolean decay) {
 		super();
-		rand = null;
-		style = SkipStyles.SINGLE;
-	}
-
-	public MaterialFactory(Random rand) {
-		super();
-		this.rand = rand;
+		random = rand;
+		decayed = decay;
 		style = pickSkipStyle();
 	}
 	
-	public MaterialFactory(Random rand, SkipStyles astyle) {
+	public MaterialFactory(MaterialFactory other) {
 		super();
-		this.rand = rand;
-		style = astyle;
+		random = other.random;
+		decayed = other.decayed;
+		style = other.style;
 	}
 	
 	protected SkipStyles pickSkipStyle() {
-		switch (rand.nextInt(6)) {
+		switch (random.nextInt(6)) {
 		case 1:
 			return SkipStyles.SINGLE;
 		case 2:
@@ -52,7 +54,14 @@ public abstract class MaterialFactory {
 		case RAISED_DOUBLE: 
 			return i % 3 == 0 ? primaryId : secondaryId;
 		default:	 
-			return rand.nextInt(2) == 0 ? primaryId : secondaryId;
+			return random.nextInt(2) == 0 ? primaryId : secondaryId;
+		}
+	}
+	
+	protected void decayMaterial(ByteChunk chunk, int x, int y1, int y2, int z) {
+		if (decayed && random.nextDouble() < decayOdds) {
+			int range = Math.max(1, y2 - y1);
+			chunk.setBlock(x, random.nextInt(range) + y1, z, airId);
 		}
 	}
 	

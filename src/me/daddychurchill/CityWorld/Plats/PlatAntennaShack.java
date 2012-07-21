@@ -1,7 +1,6 @@
 package me.daddychurchill.CityWorld.Plats;
 
 import org.bukkit.Material;
-import org.bukkit.World.Environment;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.PlatMap;
@@ -11,9 +10,9 @@ import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.HouseFactory;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
-public class PlatShack extends PlatIsolated {
+public class PlatAntennaShack extends PlatIsolated {
 
-	public PlatShack(PlatMap platmap, int chunkX, int chunkZ) {
+	public PlatAntennaShack(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
 		style = LotStyle.NATURE;
@@ -43,7 +42,7 @@ public class PlatShack extends PlatIsolated {
 				
 				// backfill
 				} else {
-					if (generator.settings.environment == Environment.NETHER) {
+					if (generator.settings.includeDecayedNature) {
 						chunk.setBlocks(x, y - 2, averageHeight + 1, z, sandId);
 					} else {
 						chunk.setBlocks(x, y - 2, averageHeight, z, dirtId);
@@ -59,6 +58,11 @@ public class PlatShack extends PlatIsolated {
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
 
 		// now make a shack
-		HouseFactory.generateShack(chunk, context, chunkRandom, averageHeight + 1);
+		int floors = HouseFactory.generateShack(chunk, context, chunkRandom, averageHeight + 1);
+		
+		// not a happy place?
+		if (generator.settings.includeDecayedBuildings) {
+			destroyBuilding(generator, chunk, generator.sidewalkLevel + 1, floors);
+		}
 	}
 }

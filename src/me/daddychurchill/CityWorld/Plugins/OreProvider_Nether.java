@@ -8,10 +8,6 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class OreProvider_Nether extends OreProvider {
 
-	public OreProvider_Nether() {
-		// TODO Auto-generated constructor stub
-	}
-
 	/**
 	 * Populates the world with ores.
 	 *
@@ -38,8 +34,7 @@ public class OreProvider_Nether extends OreProvider {
 	private static final boolean[] ore_upper = new boolean[] {  true,  true,  true,  true,  true,  true,  true,  true, false};
 	
 	@Override
-	public void sprinkleOres(WorldGenerator generator, RealChunk chunk, Random random, String name) {
-		// we could/should do a different ore distribution based on the string passed in... for now we just have this
+	public void sprinkleOres(WorldGenerator generator, RealChunk chunk, Random random, OreLocation location) {
 		
 		// do it!
 		for (int typeNdx = 0; typeNdx < ore_types.length; typeNdx++) {

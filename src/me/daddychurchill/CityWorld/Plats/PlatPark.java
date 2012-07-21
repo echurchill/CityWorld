@@ -12,7 +12,6 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.Material;
 import org.bukkit.TreeType;
-import org.bukkit.World.Environment;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class PlatPark extends PlatConnected {
@@ -89,7 +88,7 @@ public class PlatPark extends PlatConnected {
 			
 			// fill with water
 			lowestY++;
-			if (generator.settings.environment == Environment.NETHER)
+			if (generator.settings.includeDecayedNature)
 				chunk.setBlocks(0, chunk.width, lowestY, lowestY + waterDepth, 0, chunk.width, stillLavaId);
 			else
 				chunk.setBlocks(0, chunk.width, lowestY, lowestY + waterDepth, 0, chunk.width, stillWaterId);
@@ -223,15 +222,15 @@ public class PlatPark extends PlatConnected {
 		
 		// sprinkle some trees
 		if (circleSidewalk) {
-			generateTree(generator, chunk, 7, surfaceY, 7, TreeType.BIG_TREE);
+			generator.foliageProvider.generateTree(generator, chunk, 7, surfaceY, 7, TreeType.BIG_TREE);
 		
 		// four smaller trees
 		} else {
 			TreeType tree = chunkRandom.nextBoolean() ? TreeType.BIRCH : TreeType.TREE;
-			generateTree(generator, chunk, 3, surfaceY, 3, tree);
-			generateTree(generator, chunk, 12, surfaceY, 3, tree);
-			generateTree(generator, chunk, 3, surfaceY, 12, tree);
-			generateTree(generator, chunk, 12, surfaceY, 12, tree);
+			generator.foliageProvider.generateTree(generator, chunk, 3, surfaceY, 3, tree);
+			generator.foliageProvider.generateTree(generator, chunk, 12, surfaceY, 3, tree);
+			generator.foliageProvider.generateTree(generator, chunk, 3, surfaceY, 12, tree);
+			generator.foliageProvider.generateTree(generator, chunk, 12, surfaceY, 12, tree);
 		}
 	}
 }

@@ -9,7 +9,7 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatMineEntrance;
 import me.daddychurchill.CityWorld.Plats.PlatOilPlatform;
 import me.daddychurchill.CityWorld.Plats.PlatRoad;
-import me.daddychurchill.CityWorld.Plats.PlatShack;
+import me.daddychurchill.CityWorld.Plats.PlatAntennaShack;
 import me.daddychurchill.CityWorld.Plats.PlatRadioTower;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.HeightInfo.HeightState;
@@ -89,7 +89,7 @@ public class ContextNature extends ContextRural {
 								if (generator.settings.includeBuildings)
 									if (!innermost || minHeight < PlatBunker.calcBunkerMinHeight(generator)) {
 										if (heights.isSortaFlat() && generator.isIsolatedBuildingAt(originX + x, originZ + z))
-											current = new PlatShack(platmap, originX + x, originZ + z);
+											current = new PlatAntennaShack(platmap, originX + x, originZ + z);
 										break;
 									}
 							case HIGHLAND:
