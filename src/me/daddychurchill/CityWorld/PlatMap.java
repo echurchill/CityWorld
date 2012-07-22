@@ -182,22 +182,30 @@ public class PlatMap {
 		}
 	}
 	
-	public void paveLot(int x, int z) {
-		
-		// clear it please
-		emptyLot(x, z);
-		
-		// place the road
-		platLots[x][z] = new PlatRoad(this, originX + x, originZ + z, generator.connectedKeyForPavedRoads);
+	public boolean paveLot(int x, int z) {
+		boolean result = generator.settings.inRoadRange(originX + x, originZ + z);
+		if (result) {
+			
+			// clear it please
+			emptyLot(x, z);
+			
+			// place the lot
+			platLots[x][z] = new PlatRoad(this, originX + x, originZ + z, generator.connectedKeyForPavedRoads);
+		}
+		return result;
 	}
 	
-	public void setLot(int x, int z, PlatLot lot) {
-
-		// clear it please
-		emptyLot(x, z);
-		
-		// place the road
-		platLots[x][z] = lot;
+	public boolean setLot(int x, int z, PlatLot lot) {
+		boolean result = generator.settings.inCityRange(originX + x, originZ + z);
+		if (result) {
+			
+			// clear it please
+			emptyLot(x, z);
+			
+			// place the lot
+			platLots[x][z] = lot;
+		} 
+		return result;
 	}
 	
 	public void emptyLot(int x, int z) {
@@ -249,7 +257,7 @@ public class PlatMap {
 					paveLot(x - 1, z + 1);
 					
 					paveLot(x    , z - 1);
-					platLots[x][z] = new PlatRoundaboutStatue(this, originX + x, originZ + z);
+					setLot(x, z, new PlatRoundaboutStatue(this, originX + x, originZ + z));
 					paveLot(x    , z + 1);
 			
 					paveLot(x + 1, z - 1);

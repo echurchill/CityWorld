@@ -7,6 +7,7 @@ import java.util.Random;
 
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
+import me.daddychurchill.CityWorld.Plugins.OdonymProvider;
 import me.daddychurchill.CityWorld.Plugins.OreProvider;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
@@ -33,6 +34,7 @@ public class WorldGenerator extends ChunkGenerator {
 	public SpawnProvider spawnProvider;
 	public OreProvider oreProvider;
 	public FoliageProvider foliageProvider;
+	public OdonymProvider odonymProvider;
 
 	public CityWorldSettings settings;
 
@@ -126,7 +128,8 @@ public class WorldGenerator extends ChunkGenerator {
 	public double macroScale = 1.0 / 384.0;
 	public double microScale = 2.0;
 	
-	public double oddsIsolatedBuilding = 0.75;
+	public double oddsOfIsolatedBuilding = 0.75;
+	public double oddsOfRoundabouts = 0.30;
 	
 	private void initializeWorldInfo(World aWorld) {
 		
@@ -140,6 +143,7 @@ public class WorldGenerator extends ChunkGenerator {
 			spawnProvider = SpawnProvider.loadProvider(this);
 			oreProvider = OreProvider.loadProvider(this);
 			foliageProvider = FoliageProvider.loadProvider(this, new Random(seed + 2));
+			odonymProvider = OdonymProvider.loadProvider(this, new Random(seed + 3));
 
 			landShape1 = new SimplexOctaveGenerator(seed, 4);
 			landShape1.setScale(landHorizontalScale1);
@@ -294,7 +298,8 @@ public class WorldGenerator extends ChunkGenerator {
 	}
 
 	public boolean isRoundaboutAt(double chunkX, double chunkZ) {
-		return microBooleanAt(chunkX, chunkZ, microRoundaboutSlot);
+		return settings.includeRoundabouts && 
+			   microScaleAt(chunkX, chunkZ, microRoundaboutSlot) < oddsOfRoundabouts;
 	}
 	
 	public boolean isSurfaceCaveAt(double chunkX, double chunkZ) {
@@ -302,11 +307,11 @@ public class WorldGenerator extends ChunkGenerator {
 	}
 	
 	public boolean isIsolatedBuildingAt(double chunkX, double chunkZ) {
-		return isIsolatedLotAt(chunkX, chunkZ, oddsIsolatedBuilding);
+		return isIsolatedLotAt(chunkX, chunkZ, oddsOfIsolatedBuilding);
 	}
 	
 	public boolean isNotSoIsolatedBuildingAt(double chunkX, double chunkZ) {
-		return isIsolatedLotAt(chunkX, chunkZ, oddsIsolatedBuilding / 2);
+		return isIsolatedLotAt(chunkX, chunkZ, oddsOfIsolatedBuilding / 2);
 	}
 	
 	public boolean isIsolatedLotAt(double chunkX, double chunkZ, double odds) {

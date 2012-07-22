@@ -201,7 +201,7 @@ public abstract class PlatLot {
 					// we are in the water! ...or are we?
 					} else if (y < generator.seaLevel) {
 						if (generator.settings.includeDecayedNature)
-							if (y < generator.deepseaLevel)
+							if (generator.settings.includeAbovegroundFluids && y < generator.deepseaLevel)
 								generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, generator.deepseaLevel, stillLavaId, false);
 							else
 								generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, true);
@@ -665,7 +665,7 @@ public abstract class PlatLot {
 		return miniPlatMap;
 	}
 	
-	private final static double treeOdds = 0.80;
+	private final static double treeOdds = 0.85;
 	private final static double foliageOdds = 0.50;
 
 	protected void generateSurface(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ, boolean includeTrees) {
@@ -708,7 +708,7 @@ public abstract class PlatLot {
 					} else if (y < generator.treeLevel) {
 	
 						// trees? but only if we are not too close to the edge
-						if (includeTrees && primary > treeOdds && x > 2 && x < 14 && z > 2 && z < 14 && x % 2 == 0 && z % 2 == 0) {
+						if (includeTrees && primary > treeOdds /*&& x > 1 && x < 15 && z > 1 && z < 15*/ && x % 2 == 0 && z % 2 == 0) {
 							if (secondary > 0.90 && x > 5 && x < 11 && z > 5 && z < 11)
 								generator.foliageProvider.generateTree(generator, chunk, x, y + 1, z, TreeType.BIG_TREE);
 							else if (secondary > 0.50)
@@ -732,7 +732,7 @@ public abstract class PlatLot {
 					} else if (y < generator.evergreenLevel) {
 	
 						// trees? but only if we are not too close to the edge
-						if (includeTrees && primary > treeOdds && x > 2 && x < 14 && z > 2 && z < 14 && x % 2 == 0 && z % 2 == 0) {
+						if (includeTrees && primary > treeOdds /*&& x > 1 && x < 15 && z > 1 && z < 15*/ && x % 2 == 0 && z % 2 == 0) {
 							
 							// range change?
 							if (secondary > ((double) (y - generator.treeLevel) / (double) generator.deciduousRange))
@@ -754,7 +754,7 @@ public abstract class PlatLot {
 					} else if (y < generator.snowLevel) {
 						
 						// trees? but only if we are not too close to the edge
-						if (includeTrees && primary > treeOdds && x > 2 && x < 14 && z > 2 && z < 14 && x % 2 == 0 && z % 2 == 0) {
+						if (includeTrees && primary > treeOdds /*&& x > 1 && x < 15 && z > 1 && z < 15*/ && x % 2 == 0 && z % 2 == 0) {
 							if (secondary > 0.50)
 								generator.foliageProvider.generateTree(generator, chunk, x, y + 1, z, TreeType.REDWOOD);
 							else

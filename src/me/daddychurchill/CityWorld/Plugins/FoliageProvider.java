@@ -50,14 +50,14 @@ public abstract class FoliageProvider {
 	
 	public boolean isPlantable(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
 		
-		// only the the spot above is empty
+		// only if the spot above is empty
 		if (!chunk.isEmpty(x, y + 1, z))
 			return false;
 		
 		// depends on the block's type and what the world is like
 		if (generator.settings.includeDecayedNature)
 			return !chunk.isEmpty(x, y, z);
-		else if (!generator.settings.includeAbovegroundFluids && y <= generator.seaLevel && y > generator.deepseaLevel)
+		else if (!generator.settings.includeAbovegroundFluids && y <= generator.seaLevel)
 			return chunk.getBlock(x, y, z) == Material.SAND;
 		else
 			return chunk.isPlantable(x, y, z);

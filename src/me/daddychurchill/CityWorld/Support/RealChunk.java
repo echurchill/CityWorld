@@ -10,10 +10,10 @@ import me.daddychurchill.CityWorld.Support.Direction.Torch;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.TreeType;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.block.CreatureSpawner;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -377,7 +377,7 @@ public class RealChunk extends SupportChunk {
 		setBlock(x, y, z, Material.STEP.getId(), direction.getData());
 	}
 
-	//TODO change this to actual wood in 1.3
+	//TODO change this to actual wood in 1.3... maybe?
 	public void setWoodSlab(int x, int y, int z, Direction.WoodSlab direction) {
 		setBlock(x, y, z, Material.STEP.getId(), direction.getData());
 	}
@@ -428,24 +428,13 @@ public class RealChunk extends SupportChunk {
 		spawner.update(true);
 	}
 	
-	protected Material getRandomFlowerType(Random random) {
-		switch (random.nextInt(2)) {
-		case 1:
-			return Material.RED_ROSE;
-		default:
-			return Material.YELLOW_FLOWER;
-		}
-	}
-	
-	protected TreeType getRandomTreeType(Random random) {
-		switch (random.nextInt(3)) {
-		case 1:
-			return TreeType.BIRCH;
-		case 2:
-			return TreeType.REDWOOD;
-		default:
-			return TreeType.TREE;
-		}
+	public void setWallSign(int x, int y, int z, Direction.WallSign direction, String[] text) {
+		Block block = chunk.getBlock(x, y, z);
+		block.setTypeIdAndData(Material.WALL_SIGN.getId(), direction.getData(), false);
+		Sign sign = (Sign) block.getState();
+		for (int i = 0; i < text.length && i < 4; i++) 
+			sign.setLine(i, text[i]);
+		sign.update(true);
 	}
 	
 	public void drawCrane(ContextData context, Random random, int x, int y, int z) {

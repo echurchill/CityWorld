@@ -1,5 +1,6 @@
 package me.daddychurchill.CityWorld;
 
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.configuration.ConfigurationSection;
@@ -10,26 +11,20 @@ public class CityWorldSettings {
 	/* BUGs
 	 * Houses can have ladders to nowhere
 	 * TODOs
-	 * If there isn't aboveground fluids then 
-	 *   Grow cactus where the ground is sand
-	 * Oil platforms
-	 *   Make them decayed
-	 *   Make their legs go down to stone
 	 * Add to bunkers
 	 *   Farms
 	 *   Floors and stairs where practical
 	 *   Rounded tanks
 	 *   Writing on the outside of buildings
 	 * Add to streets
-	 *   Street signs with optional street names
-	 * Add bounds to city growth
-	 *   Radius from 0,0 where cities are allowed, beyond that just have nature
+	 *   Street signs with optional street names... We still generate WAY too many signs in roundabouts
 	 */
 	
 	public Environment environment;
 	public boolean darkEnvironment;
 	
 	public boolean includeRoads = true;
+	public boolean includeRoundabouts = true;
 	public boolean includeSewers = true;
 	public boolean includeCisterns = true;
 	public boolean includeBasements = true;
@@ -56,6 +51,7 @@ public class CityWorldSettings {
 	public boolean includeAbovegroundFluids = true;
 	public boolean includeWorkingLights = true;
 	public boolean includePavedRoads = true;
+	public boolean includeNamedRoads = true;
 	public boolean includeDecayedRoads = false;
 	public boolean includeDecayedBuildings = false;
 	public boolean includeDecayedNature = false;
@@ -67,6 +63,7 @@ public class CityWorldSettings {
 	public boolean checkCityRange = false;
 	
 	private final static String tagIncludeRoads = "IncludeRoads";
+	private final static String tagIncludeRoundabouts = "IncludeRoundabouts";
 	private final static String tagIncludeSewers = "IncludeSewers";
 	private final static String tagIncludeCisterns = "IncludeCisterns";
 	private final static String tagIncludeBasements = "IncludeBasements";
@@ -93,6 +90,7 @@ public class CityWorldSettings {
 	private final static String tagIncludeAbovegroundFluids = "IncludeAbovegroundFluids";
 	private final static String tagIncludeWorkingLights = "IncludeWorkingLights";
 	private final static String tagIncludePavedRoads = "IncludePavedRoads";
+	private final static String tagIncludeNamedRoads = "IncludeNamedRoads";
 	private final static String tagIncludeDecayedRoads = "IncludeDecayedRoads";
 	private final static String tagIncludeDecayedBuildings = "IncludeDecayedBuildings";
 	private final static String tagIncludeDecayedNature = "IncludeDecayedNature";
@@ -101,10 +99,13 @@ public class CityWorldSettings {
 	private final static String tagRoadRange = "RoadRange";
 	private final static String tagCityRange = "CityRange";
 	
+	Location center;
+	
 	public CityWorldSettings(CityWorld plugin, World world) {
 		super();
 		String worldname = world.getName();
 		environment = world.getEnvironment();
+		center = new Location(world, 0, 0, 0);
 		
 		// get the right defaults
 		switch (environment) {
@@ -113,7 +114,6 @@ public class CityWorldSettings {
 			break;
 		case NETHER:
 			darkEnvironment = true;
-			includeAbovegroundFluids = false;
 			includeWorkingLights = false;
 			includeDecayedRoads = true;
 			includeDecayedBuildings = true;
@@ -145,6 +145,7 @@ public class CityWorldSettings {
 		else {
 			section = config.createSection(worldname);
 			section.addDefault(tagIncludeRoads, includeRoads);
+			section.addDefault(tagIncludeRoundabouts, includeRoundabouts);
 			section.addDefault(tagIncludeSewers, includeSewers);
 			section.addDefault(tagIncludeCisterns, includeCisterns);
 			section.addDefault(tagIncludeBasements, includeBasements);
@@ -171,6 +172,7 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeAbovegroundFluids, includeAbovegroundFluids);
 			section.addDefault(tagIncludeWorkingLights, includeWorkingLights);
 			section.addDefault(tagIncludePavedRoads, includePavedRoads);
+			section.addDefault(tagIncludeNamedRoads, includeNamedRoads);
 			section.addDefault(tagIncludeDecayedRoads, includeDecayedRoads);
 			section.addDefault(tagIncludeDecayedBuildings, includeDecayedBuildings);
 			section.addDefault(tagIncludeDecayedNature, includeDecayedNature);
@@ -183,6 +185,7 @@ public class CityWorldSettings {
 		// did we get a section?
 		if (section != null) {
 			includeRoads = section.getBoolean(tagIncludeRoads, includeRoads);
+			includeRoundabouts = section.getBoolean(tagIncludeRoundabouts, includeRoundabouts);
 			includeSewers = section.getBoolean(tagIncludeSewers, includeSewers);
 			includeCisterns = section.getBoolean(tagIncludeCisterns, includeCisterns);
 			includeBasements = section.getBoolean(tagIncludeBasements, includeBasements);
@@ -209,6 +212,7 @@ public class CityWorldSettings {
 			includeAbovegroundFluids = section.getBoolean(tagIncludeAbovegroundFluids, includeAbovegroundFluids);
 			includeWorkingLights = section.getBoolean(tagIncludeWorkingLights, includeWorkingLights);
 			includePavedRoads = section.getBoolean(tagIncludePavedRoads, includePavedRoads);
+			includeNamedRoads = section.getBoolean(tagIncludeNamedRoads, includeNamedRoads);
 			includeDecayedRoads = section.getBoolean(tagIncludeDecayedRoads, includeDecayedRoads);
 			includeDecayedBuildings = section.getBoolean(tagIncludeDecayedBuildings, includeDecayedBuildings);
 			includeDecayedNature = section.getBoolean(tagIncludeDecayedNature, includeDecayedNature);
@@ -236,5 +240,13 @@ public class CityWorldSettings {
 		
 		// write it back out if needed
 		plugin.saveConfig();
+	}
+	
+	public boolean inRoadRange(int x, int z) {
+		return !checkRoadRange || center.distance(new Location(center.getWorld(), x, 0, z)) <= roadRange;
+	}
+	
+	public boolean inCityRange(int x, int z) {
+		return !checkCityRange || center.distance(new Location(center.getWorld(), x, 0, z)) <= cityRange;
 	}
 }

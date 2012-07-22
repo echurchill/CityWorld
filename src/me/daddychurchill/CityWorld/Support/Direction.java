@@ -126,6 +126,18 @@ public class Direction {
 		}
 	}
 	
+	public enum WallSign {
+		NORTH(2), SOUTH(3), WEST(4), EAST(5);
+		
+		private byte data;
+		private WallSign(int d) {
+			data = (byte) d;
+		}
+		public byte getData() {
+			return data;
+		}
+	}
+	
 	//TODO wool (0 to 15 colors)
 	//TODO double slab (0 to 6 material type)
 	//TODO stone (0 to 2 material type)

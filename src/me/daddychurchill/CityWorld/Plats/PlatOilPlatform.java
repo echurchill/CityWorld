@@ -89,13 +89,13 @@ public class PlatOilPlatform extends PlatIsolated {
 		chunk.setBlock(8, y4 + 3, 9, slabId);
 		chunk.setBlock(8, y4 + 3, 8, slabId);
 
-		// two big legs to hold up the various levels
-		chunk.setBlocks(2, 4, minHeight, y4, 2, 4, supportId);
-		chunk.setBlocks(12, 14, minHeight, y4 + 3, 12, 14, supportId);
+		// two big legs to hold up the various levels (a little bit deeper than needed, just to be safe)
+		chunk.setBlocks(2, 4, minHeight - 10, y4, 2, 4, supportId);
+		chunk.setBlocks(12, 14, minHeight - 10, y4 + 3, 12, 14, supportId);
 		
 		// two lesser legs to help the other two
-		chunk.setBlocks(2, 4, minHeight, y3, 12, 14, supportId);
-		chunk.setBlocks(12, 14, minHeight, y3, 2, 4, supportId);
+		chunk.setBlocks(2, 4, minHeight - 10, y3, 12, 14, supportId);
+		chunk.setBlocks(12, 14, minHeight - 10, y3, 2, 4, supportId);
 		chunk.setBlocks(13, y3, y3 + 2, 2, supportId);
 		chunk.setBlocks(2, y3, y3 + 2, 13, supportId);
 		
@@ -155,14 +155,14 @@ public class PlatOilPlatform extends PlatIsolated {
 			WorldBlocks blocks = new WorldBlocks(generator);
 			
 			// do we take out a bit of it?
-			decayEdge(blocks, chunk.getBlockX(7) + chunkRandom.nextInt(3) - 1, y1, chunk.getBlockZ(0));
-			decayEdge(blocks, chunk.getBlockX(7) + chunkRandom.nextInt(3) - 1, y2, chunk.getBlockZ(0));
-			decayEdge(blocks, chunk.getBlockX(8) + chunkRandom.nextInt(3) - 1, y1, chunk.getBlockZ(15));
-			decayEdge(blocks, chunk.getBlockX(8) + chunkRandom.nextInt(3) - 1, y2, chunk.getBlockZ(15));
-			decayEdge(blocks, chunk.getBlockX(0), y1, chunk.getBlockZ(7) + chunkRandom.nextInt(3) - 1);
-			decayEdge(blocks, chunk.getBlockX(0), y2, chunk.getBlockZ(7) + chunkRandom.nextInt(3) - 1);
-			decayEdge(blocks, chunk.getBlockX(15), y1, chunk.getBlockZ(8) + chunkRandom.nextInt(3) - 1);
-			decayEdge(blocks, chunk.getBlockX(15), y2, chunk.getBlockZ(8) + chunkRandom.nextInt(3) - 1);
+			decayEdge(blocks, chunk.getBlockX(7) + chunkRandom.nextInt(3) - 1, y1, chunk.getBlockZ(0) + chunkRandom.nextInt(2));
+			decayEdge(blocks, chunk.getBlockX(7) + chunkRandom.nextInt(3) - 1, y2, chunk.getBlockZ(0) + chunkRandom.nextInt(2));
+			decayEdge(blocks, chunk.getBlockX(8) + chunkRandom.nextInt(3) - 1, y1, chunk.getBlockZ(15) - chunkRandom.nextInt(2));
+			decayEdge(blocks, chunk.getBlockX(8) + chunkRandom.nextInt(3) - 1, y2, chunk.getBlockZ(15) - chunkRandom.nextInt(2));
+			decayEdge(blocks, chunk.getBlockX(0) + chunkRandom.nextInt(2), y1, chunk.getBlockZ(7) + chunkRandom.nextInt(3) - 1);
+			decayEdge(blocks, chunk.getBlockX(0) + chunkRandom.nextInt(2), y2, chunk.getBlockZ(7) + chunkRandom.nextInt(3) - 1);
+			decayEdge(blocks, chunk.getBlockX(15) - chunkRandom.nextInt(2), y1, chunk.getBlockZ(8) + chunkRandom.nextInt(3) - 1);
+			decayEdge(blocks, chunk.getBlockX(15) - chunkRandom.nextInt(2), y2, chunk.getBlockZ(8) + chunkRandom.nextInt(3) - 1);
 			decayEdge(blocks, chunk.getBlockX(7), y4, chunk.getBlockZ(12));
 		}
 //TODO destroy it a little bit
@@ -188,7 +188,7 @@ public class PlatOilPlatform extends PlatIsolated {
 //			}
 	}
 
-	private final static double decayedEdgeOdds = 0.20;
+	private final static double decayedEdgeOdds = 0.25;
 	
 	private void decayEdge(WorldBlocks blocks, int x, int y, int z) {
 		if (chunkRandom.nextDouble() < decayedEdgeOdds) {

@@ -72,8 +72,7 @@ public class ContextFarm extends ContextRural {
 					
 					// farm house here?
 					if (!housePlaced && platmapRandom.nextDouble() > oddsOfFarmHouse && generator.settings.includeHouses) {
-						platmap.setLot(x, z, new PlatHouse(platmap, platmap.originX + x, platmap.originZ + z)); 
-						housePlaced = true;
+						housePlaced = platmap.setLot(x, z, new PlatHouse(platmap, platmap.originX + x, platmap.originZ + z)); 
 					
 					// place the farm
 					} else {

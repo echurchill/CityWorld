@@ -61,11 +61,14 @@ public class PlatRoad extends PlatConnected {
 	private final static byte pavementColor = 7;
 	private final static byte crosswalkColor = 8;
 	
+	boolean cityRoad = false;
+	
 	public PlatRoad(PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey) {
 		super(platmap, chunkX, chunkZ);
 		
 		style = LotStyle.ROAD;
 		connectedkey = globalconnectionkey;
+		cityRoad = platmap.generator.settings.inCityRange(chunkX, chunkZ);
 	}
 	
 	@Override
@@ -109,7 +112,7 @@ public class PlatRoad extends PlatConnected {
 		int sewerY = base1Y + 1;
 		int base2Y = base1Y + ContextData.FloorHeight + 1;
 		int sidewalkLevel = generator.sidewalkLevel + 1;
-		boolean doSewer = generator.settings.includeSewers;
+		boolean doSewer = generator.settings.includeSewers && !cityRoad;
 		
 		// look around
 		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);
@@ -710,7 +713,7 @@ public class PlatRoad extends PlatConnected {
 		int sewerY = base1Y + 1;
 		int base2Y = base1Y + ContextData.FloorHeight + 1;
 		int sidewalkLevel = generator.sidewalkLevel + 1;
-		boolean doSewer = generator.settings.includeSewers;
+		boolean doSewer = generator.settings.includeSewers && cityRoad;
 		
 		// look around
 		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);
@@ -721,22 +724,24 @@ public class PlatRoad extends PlatConnected {
 
 			// draw a bridge bits
 			// bridge to the east/west
-			if (roads.toWest() && roads.toEast()) {
-				if (HeightInfo.getHeightsFast(generator, originX - chunk.width, originZ).isSea() &&
-					HeightInfo.getHeightsFast(generator, originX + chunk.width, originZ).isSea()) {
+			if (cityRoad) {
+				if (roads.toWest() && roads.toEast()) {
+					if (HeightInfo.getHeightsFast(generator, originX - chunk.width, originZ).isSea() &&
+						HeightInfo.getHeightsFast(generator, originX + chunk.width, originZ).isSea()) {
+						
+						// lights please
+						generateLightPost(generator, chunk, context, sidewalkLevel + 5, 7, 0);
+						generateLightPost(generator, chunk, context, sidewalkLevel + 5, 8, 15);
+					}
 					
-					// lights please
-					generateLightPost(generator, chunk, context, sidewalkLevel + 5, 7, 0);
-					generateLightPost(generator, chunk, context, sidewalkLevel + 5, 8, 15);
-				}
-				
-			} else if (roads.toNorth() && roads.toSouth()) {
-				if (HeightInfo.getHeightsFast(generator, originX, originZ - chunk.width).isSea() && 
-					HeightInfo.getHeightsFast(generator, originX, originZ + chunk.width).isSea()) {
-					
-					// lights please
-					generateLightPost(generator, chunk, context, sidewalkLevel + 5, 0, 7);
-					generateLightPost(generator, chunk, context, sidewalkLevel + 5, 15, 8);
+				} else if (roads.toNorth() && roads.toSouth()) {
+					if (HeightInfo.getHeightsFast(generator, originX, originZ - chunk.width).isSea() && 
+						HeightInfo.getHeightsFast(generator, originX, originZ + chunk.width).isSea()) {
+						
+						// lights please
+						generateLightPost(generator, chunk, context, sidewalkLevel + 5, 0, 7);
+						generateLightPost(generator, chunk, context, sidewalkLevel + 5, 15, 8);
+					}
 				}
 			}
 		
@@ -819,8 +824,19 @@ public class PlatRoad extends PlatConnected {
 			} else {
 				
 				// light posts
-				generateLightPost(generator, chunk, context, sidewalkLevel, sidewalkWidth - 1, sidewalkWidth - 1);
-				generateLightPost(generator, chunk, context, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
+				if (cityRoad) {
+					generateLightPost(generator, chunk, context, sidewalkLevel, sidewalkWidth - 1, sidewalkWidth - 1);
+					generateLightPost(generator, chunk, context, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
+					
+					// put signs up?
+					//TODO this still places way too many signs!
+					if (generator.settings.includeNamedRoads &&
+						!((roads.toNorth() && roads.toSouth() && !roads.toWest() && !roads.toEast()) ||
+						  (roads.toWest() && roads.toEast() && !roads.toNorth() && !roads.toSouth()))) {
+						generateStreetSign(generator, chunk, sidewalkLevel, sidewalkWidth - 1, sidewalkWidth - 1);
+						generateStreetSign(generator, chunk, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
+					}
+				}
 			}
 		}
 		
@@ -1030,7 +1046,7 @@ public class PlatRoad extends PlatConnected {
 	
 	private void generateRoadNSBit(RealChunk chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
 		chunk.setBlocks(x1, x2, y, z1, z2, pavementMat, pavementColor, false);
-		if (crosswalk) {
+		if (cityRoad && crosswalk) {
 			chunk.setBlocks(x1 + 1, x1 + 2, y, z1, z2, pavementMat, crosswalkColor, false);
 			chunk.setBlocks(x1 + 3, x1 + 4, y, z1, z2, pavementMat, crosswalkColor, false);
 			chunk.setBlocks(x2 - 2, x2 - 1, y, z1, z2, pavementMat, crosswalkColor, false);
@@ -1040,7 +1056,7 @@ public class PlatRoad extends PlatConnected {
 
 	private void generateRoadWEBit(RealChunk chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
 		chunk.setBlocks(x1, x2, y, z1, z2, pavementMat, pavementColor, false);
-		if (crosswalk) {
+		if (cityRoad && crosswalk) {
 			chunk.setBlocks(x1, x2, y, z1 + 1, z1 + 2, pavementMat, crosswalkColor, false);
 			chunk.setBlocks(x1, x2, y, z1 + 3, z1 + 4, pavementMat, crosswalkColor, false);
 			chunk.setBlocks(x1, x2, y, z2 - 2, z2 - 1, pavementMat, crosswalkColor, false);
@@ -1107,6 +1123,20 @@ public class PlatRoad extends PlatConnected {
 			chunk.setBlocks(x, sidewalkLevel + 1, sidewalkLevel + lightpostHeight + 1, z, lightpostMaterial);
 			chunk.setBlock(x, sidewalkLevel + lightpostHeight + 1, z, context.lightMat, true);
 		}
+	}
+	
+	private void generateStreetSign(WorldGenerator generator, RealChunk chunk, int sidewalkLevel, int x, int z) {
+		int cx = chunk.chunkX;
+		int cz = chunk.chunkZ;
+		int y = sidewalkLevel + lightpostHeight + 1;
+		
+		String[] odonymNorthSouth = generator.odonymProvider.generateNorthSouthOdonym(generator, cx, cz);
+		String[] odonymWestEast = generator.odonymProvider.generateWestEastOdonym(generator, cx, cz);
+		
+		chunk.setWallSign(x, y, z - 1, Direction.WallSign.NORTH, odonymNorthSouth);
+		chunk.setWallSign(x, y, z + 1, Direction.WallSign.SOUTH, odonymNorthSouth);
+		chunk.setWallSign(x - 1, y, z, Direction.WallSign.WEST, odonymWestEast);
+		chunk.setWallSign(x + 1, y, z, Direction.WallSign.EAST, odonymWestEast);
 	}
 	
 	private void generateDoor(RealChunk chunk, int x, int y, int z, Direction.Door direction) {
