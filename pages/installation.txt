@@ -1,0 +1,13 @@
+This is purely a world generator. If you need general purpose teleportation or world management support there are plenty of plugins that will do that for you. The Bukkit plugin ecosystem does not need more of those puppies. This is JUST A WORLD GENERATOR. :-)
+
+To install it you will need to do three things...
+# **Download the plugin and place it in Bukkit's plugin folder.** If you don't know where or what the Bukkit's plugin folder is, read [[http://wiki.bukkit.org/Setting_up_a_server|this]].
+# **Now start up Minecraft Server via Bukkit.** If you don't know how to do this, I recommend rereading [[http://wiki.bukkit.org/Setting_up_a_server|this]].
+# At this point, you may be asking yourself: **How do I get to the city?** 
+
+There are two options for getting to the city...
+* If you are the "OP" for your server: Press ##"T"##, type in ##"/CityWorld"## and press return (if you do this, remember that some plugins might not work with CityWorld until you modify bukkit's YML to include a reference to the world. For more info read [[http://wiki.bukkit.org/Bukkit.yml|this]]).
+* OR... you can use a world management plugin and use the CityWorld as the generator for one of your worlds. We have used [[http://dev.bukkit.org/server-mods/multiverse-core/|Multiverse]] and [[http://dev.bukkit.org/server-mods/multiworld-v-2-0/|Multiworld]].
+
+If you are still confused then rereread [[http://wiki.bukkit.org/Setting_up_a_server|this]]. :-)
+

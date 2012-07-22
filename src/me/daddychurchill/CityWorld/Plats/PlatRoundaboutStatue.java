@@ -59,10 +59,12 @@ public class PlatRoundaboutStatue extends PlatIsolated {
 			chunk.setCircle(8, 8, 6, y1, brickId, false);
 			
 			// fill with water
-			if (generator.settings.includeDecayedNature)
-				chunk.setCircle(8, 8, 5, y1, stillLavaId, true);
-			else
-				chunk.setCircle(8, 8, 5, y1, stillWaterId, true);
+			if (generator.settings.includeAbovegroundFluids) {
+				if (generator.settings.includeDecayedNature)
+					chunk.setCircle(8, 8, 5, y1, stillLavaId, true);
+				else
+					chunk.setCircle(8, 8, 5, y1, stillWaterId, true);
+			}
 			break;
 		case GRASS:
 			
@@ -109,22 +111,25 @@ public class PlatRoundaboutStatue extends PlatIsolated {
 		switch (statueBase) {
 		case WATER:
 			
-			Material liquid = Material.WATER;
-			if (generator.settings.includeDecayedNature)
-				liquid = Material.LAVA;
-			
-			// four little fountains?
-			if (chunkRandom.nextBoolean()) {
-				chunk.setBlocks(5, y1, y1 + chunkRandom.nextInt(3) + 1, 5, liquid);
-				chunk.setBlocks(5, y1, y1 + chunkRandom.nextInt(3) + 1, 10, liquid);
-				chunk.setBlocks(10, y1, y1 + chunkRandom.nextInt(3) + 1, 5, liquid);
-				chunk.setBlocks(10, y1, y1 + chunkRandom.nextInt(3) + 1, 10, liquid);
-			}
-			
-			// water can be art too, you know?
-			if (chunkRandom.nextInt(context.oddsOfNaturalArt) == 0) {
-				chunk.setBlocks(7, 9, y1, y1 + chunkRandom.nextInt(4) + 4, 7, 9, liquid);
-				somethingInTheCenter = false;
+			// add some water to the mix
+			if (generator.settings.includeAbovegroundFluids) {
+				Material liquid = Material.WATER;
+				if (generator.settings.includeDecayedNature)
+					liquid = Material.LAVA;
+				
+				// four little fountains?
+				if (chunkRandom.nextBoolean()) {
+					chunk.setBlocks(5, y1, y1 + chunkRandom.nextInt(3) + 1, 5, liquid);
+					chunk.setBlocks(5, y1, y1 + chunkRandom.nextInt(3) + 1, 10, liquid);
+					chunk.setBlocks(10, y1, y1 + chunkRandom.nextInt(3) + 1, 5, liquid);
+					chunk.setBlocks(10, y1, y1 + chunkRandom.nextInt(3) + 1, 10, liquid);
+				}
+				
+				// water can be art too, you know?
+				if (chunkRandom.nextInt(context.oddsOfNaturalArt) == 0) {
+					chunk.setBlocks(7, 9, y1, y1 + chunkRandom.nextInt(4) + 4, 7, 9, liquid);
+					somethingInTheCenter = false;
+				}
 			}
 			
 			break;

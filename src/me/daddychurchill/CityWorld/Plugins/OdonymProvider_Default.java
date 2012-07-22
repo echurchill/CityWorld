@@ -17,7 +17,7 @@ public class OdonymProvider_Default extends OdonymProvider {
 		result[0] = generateNumericPrefix(streetN, "North", "South");
 		result[1] = generateNumericName(streetN, "Main");
 		result[2] = "Street";
-		result[3] = "{" + x + ", " + z + "}";
+		result[3] = "";//"{" + x + ", " + z + "}";
 		return result;
 	}
 

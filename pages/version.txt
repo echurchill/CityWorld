@@ -1,26 +1,3 @@
-/***** CITYWORLD v1.04
-* City world generator for Minecraft/Bukkit
-* Copyright (C) 2011-2012 daddychurchill <http://www.virtualchurchill.com>
-*
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation, either version 3 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-Todo
-Add command to level a city block
-Subway/elevated rail roads
-Terrain under the city
-Park benches and other furniture
-
 v1.04
 * Made the stairs in the mineshafts a little less rickety looking
 * Added alcoves to the mineshafts to make the spawners and chests less obvious
@@ -51,29 +28,7 @@ v1.00
 v0.90
 * Bunkers and Mineshafts
 * Reworked the settings, you will need to wipe out your old CityWorld settings
-
-Permissions for CityWorld command
-* cityworld.command (defaults to op)
-
-Config option file is now generated when CityWorld runs. 
-These options only affect "new generation" and are not world specific (yet). 
-Changing them after a world has been generated will produce some odd results. 
-These all default to true and simply control the inclusion of a certain feature or not. 
-* IncludeSewers
-* IncludeCisterns
-* IncludeBasements
-* IncludeMines
-* IncludeBunkers
-* IncludeOres
-* IncludeCaves
-* IncludeBuildings
-* TreasuresInSewers
-* SpawnersInSewers
-* TreasuresInMines
-* SpawnersInMines
-* TreasuresInBunkers
-* SpawnersInBunkers
-* WorkingLights
+* Added command permissions and option file
 
 v0.80
 * Include working terrain generation
@@ -159,4 +114,3 @@ v0.20
 
 v0.10
 wow that is stark
-*/
