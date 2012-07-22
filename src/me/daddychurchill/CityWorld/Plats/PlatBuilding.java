@@ -8,7 +8,6 @@ import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
-import me.daddychurchill.CityWorld.Support.Direction.Torch;
 import me.daddychurchill.CityWorld.Support.MaterialFactory;
 import me.daddychurchill.CityWorld.Support.OutsideWEWallFactory;
 import me.daddychurchill.CityWorld.Support.OutsideNSWallFactory;
@@ -483,7 +482,7 @@ public abstract class PlatBuilding extends PlatConnected {
 	
 	protected void drawNavLight(RealChunk chunk, ContextData context) {
 		if (navLightY > 0)
-			chunk.setTorch(navLightX, navLightY, navLightZ, context.torchMat, Torch.FLOOR);
+			chunk.setTorch(navLightX, navLightY, navLightZ, context.torchMat, Direction.Torch.FLOOR);
 	}
 	
 	private void drawConditioner(ByteChunk chunk, int x, int y, int z) {

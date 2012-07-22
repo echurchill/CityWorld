@@ -15,7 +15,5 @@
         <javaElement handleIdentifier="=CityWorld/src"/>
         <file path="/CityWorld/plugin.yml"/>
         <file path="/CityWorld/.project"/>
-        <file path="/CityWorld/cityworld_description.txt"/>
-        <file path="/CityWorld/README.txt"/>
     </selectedElements>
 </jardesc>

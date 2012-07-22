@@ -54,7 +54,7 @@ public class ContextFarm extends ContextRural {
 					
 					// get rid of roundabouts
 					else if (current.style == LotStyle.ROUNDABOUT) {
-						platmap.paveLot(x, z);
+						platmap.paveLot(x, z, false);
 						platmap.emptyLot(x - 1, z - 1);
 						platmap.emptyLot(x - 1, z + 1);
 						platmap.emptyLot(x + 1, z - 1);

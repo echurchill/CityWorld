@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Plats;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
+
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
@@ -61,14 +62,16 @@ public class PlatRoad extends PlatConnected {
 	private final static byte pavementColor = 7;
 	private final static byte crosswalkColor = 8;
 	
-	boolean cityRoad = false;
+	boolean cityRoad;
+	boolean roundaboutRoad;
 	
-	public PlatRoad(PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey) {
+	public PlatRoad(PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey, boolean roundaboutPart) {
 		super(platmap, chunkX, chunkZ);
 		
 		style = LotStyle.ROAD;
 		connectedkey = globalconnectionkey;
 		cityRoad = platmap.generator.settings.inCityRange(chunkX, chunkZ);
+		roundaboutRoad = roundaboutPart;
 	}
 	
 	@Override
@@ -704,6 +707,12 @@ public class PlatRoad extends PlatConnected {
 		sewerSouthWestBias = chunkRandom.nextBoolean();
 		sewerSouthEastBias = chunkRandom.nextBoolean();
 		
+		// crosswalks?
+		boolean crosswalkNorth = false;
+		boolean crosswalkSouth = false;
+		boolean crosswalkWest = false;
+		boolean crosswalkEast = false;
+		
 		// compute offset to start of chunk
 		int originX = chunk.getOriginX();
 		int originZ = chunk.getOriginZ();
@@ -760,14 +769,35 @@ public class PlatRoad extends PlatConnected {
 				chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, pavementMat, pavementColor, false);
 				
 				// road to the whatever
-				if (roads.toNorth())
-					generateRoadNSBit(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth, roads.toWest() && roads.toEast());
-				if (roads.toSouth())
-					generateRoadNSBit(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width, roads.toWest() && roads.toEast());
-				if (roads.toWest())
-					generateRoadWEBit(chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, roads.toNorth() && roads.toSouth());
-				if (roads.toEast())
-					generateRoadWEBit(chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, roads.toNorth() && roads.toSouth());
+				if (roundaboutRoad) {
+					if (roads.toNorth())
+						crosswalkNorth = generateRoadNSBit(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth, roads.toWest() && roads.toEast());
+					if (roads.toSouth())
+						crosswalkSouth = generateRoadNSBit(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width, roads.toWest() && roads.toEast());
+					if (roads.toWest())
+						crosswalkWest = generateRoadWEBit(chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, roads.toNorth() && roads.toSouth());
+					if (roads.toEast())
+						crosswalkEast = generateRoadWEBit(chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, roads.toNorth() && roads.toSouth());
+				} else {
+					
+					// how many connecting roads are there?
+					int roadways = (roads.toNorth() ? 1 : 0) + (roads.toSouth() ? 1 : 0) + (roads.toWest() ? 1 : 0) + (roads.toEast() ? 1 : 0);
+					
+					// crosswalks for intersections and turns
+					boolean crosswalks = roadways == 4 || roadways == 3;
+					if (roadways == 2)
+						crosswalks = !((roads.toNorth() && roads.toSouth()) || (roads.toWest() && roads.toEast()));
+						
+					// finally draw the crosswalks
+					if (roads.toNorth())
+						crosswalkNorth = generateRoadNSBit(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth, crosswalks);
+					if (roads.toSouth())
+						crosswalkSouth = generateRoadNSBit(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width, crosswalks);
+					if (roads.toWest())
+						crosswalkWest = generateRoadWEBit(chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalks);
+					if (roads.toEast())
+						crosswalkEast = generateRoadWEBit(chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalks);
+				}
 			}
 			
 			// decay please
@@ -829,12 +859,11 @@ public class PlatRoad extends PlatConnected {
 					generateLightPost(generator, chunk, context, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
 					
 					// put signs up?
-					//TODO this still places way too many signs!
-					if (generator.settings.includeNamedRoads &&
-						!((roads.toNorth() && roads.toSouth() && !roads.toWest() && !roads.toEast()) ||
-						  (roads.toWest() && roads.toEast() && !roads.toNorth() && !roads.toSouth()))) {
-						generateStreetSign(generator, chunk, sidewalkLevel, sidewalkWidth - 1, sidewalkWidth - 1);
-						generateStreetSign(generator, chunk, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
+					if (generator.settings.includeNamedRoads) {
+						if (crosswalkNorth || crosswalkWest)
+							generateStreetSign(generator, chunk, sidewalkLevel, sidewalkWidth - 1, sidewalkWidth - 1);
+						if (crosswalkSouth || crosswalkEast)
+							generateStreetSign(generator, chunk, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
 					}
 				}
 			}
@@ -1044,24 +1073,28 @@ public class PlatRoad extends PlatConnected {
 		}
 	}
 	
-	private void generateRoadNSBit(RealChunk chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
+	private boolean generateRoadNSBit(RealChunk chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
 		chunk.setBlocks(x1, x2, y, z1, z2, pavementMat, pavementColor, false);
-		if (cityRoad && crosswalk) {
+		boolean result = cityRoad && crosswalk;
+		if (result) {
 			chunk.setBlocks(x1 + 1, x1 + 2, y, z1, z2, pavementMat, crosswalkColor, false);
 			chunk.setBlocks(x1 + 3, x1 + 4, y, z1, z2, pavementMat, crosswalkColor, false);
 			chunk.setBlocks(x2 - 2, x2 - 1, y, z1, z2, pavementMat, crosswalkColor, false);
 			chunk.setBlocks(x2 - 4, x2 - 3, y, z1, z2, pavementMat, crosswalkColor, false);
 		}
+		return result;
 	}
 
-	private void generateRoadWEBit(RealChunk chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
+	private boolean generateRoadWEBit(RealChunk chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
 		chunk.setBlocks(x1, x2, y, z1, z2, pavementMat, pavementColor, false);
-		if (cityRoad && crosswalk) {
+		boolean result = cityRoad && crosswalk;
+		if (result) {
 			chunk.setBlocks(x1, x2, y, z1 + 1, z1 + 2, pavementMat, crosswalkColor, false);
 			chunk.setBlocks(x1, x2, y, z1 + 3, z1 + 4, pavementMat, crosswalkColor, false);
 			chunk.setBlocks(x1, x2, y, z2 - 2, z2 - 1, pavementMat, crosswalkColor, false);
 			chunk.setBlocks(x1, x2, y, z2 - 4, z2 - 3, pavementMat, crosswalkColor, false);
 		}
+		return result;
 	}
 	
 	private void decayRoad(RealChunk chunk, int x1, int x2, int y, int z1, int z2) {
@@ -1128,7 +1161,7 @@ public class PlatRoad extends PlatConnected {
 	private void generateStreetSign(WorldGenerator generator, RealChunk chunk, int sidewalkLevel, int x, int z) {
 		int cx = chunk.chunkX;
 		int cz = chunk.chunkZ;
-		int y = sidewalkLevel + lightpostHeight + 1;
+		int y = sidewalkLevel + lightpostHeight;
 		
 		String[] odonymNorthSouth = generator.odonymProvider.generateNorthSouthOdonym(generator, cx, cz);
 		String[] odonymWestEast = generator.odonymProvider.generateWestEastOdonym(generator, cx, cz);

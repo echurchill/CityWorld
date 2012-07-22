@@ -182,15 +182,15 @@ public class PlatMap {
 		}
 	}
 	
-	public boolean paveLot(int x, int z) {
+	public boolean paveLot(int x, int z, boolean roundaboutPart) {
 		boolean result = generator.settings.inRoadRange(originX + x, originZ + z);
-		if (result) {
+		if (result && (platLots[x][z] == null || roundaboutPart || platLots[x][z].style != LotStyle.ROAD)) {
 			
 			// clear it please
 			emptyLot(x, z);
 			
 			// place the lot
-			platLots[x][z] = new PlatRoad(this, originX + x, originZ + z, generator.connectedKeyForPavedRoads);
+			platLots[x][z] = new PlatRoad(this, originX + x, originZ + z, generator.connectedKeyForPavedRoads, roundaboutPart);
 		}
 		return result;
 	}
@@ -252,17 +252,17 @@ public class PlatMap {
 					isEmptyLot(x, z - 1) &&	isEmptyLot(x, z + 1) &&
 					isEmptyLot(x + 1, z - 1) &&	isEmptyLot(x + 1, z) &&	isEmptyLot(x + 1, z + 1)) {
 					
-					paveLot(x - 1, z - 1);
-					paveLot(x - 1, z    );
-					paveLot(x - 1, z + 1);
+					paveLot(x - 1, z - 1, true);
+					paveLot(x - 1, z    , true);
+					paveLot(x - 1, z + 1, true);
 					
-					paveLot(x    , z - 1);
+					paveLot(x    , z - 1, true);
 					setLot(x, z, new PlatRoundaboutStatue(this, originX + x, originZ + z));
-					paveLot(x    , z + 1);
+					paveLot(x    , z + 1, true);
 			
-					paveLot(x + 1, z - 1);
-					paveLot(x + 1, z    );
-					paveLot(x + 1, z + 1);
+					paveLot(x + 1, z - 1, true);
+					paveLot(x + 1, z    , true);
+					paveLot(x + 1, z + 1, true);
 				
 				// place the intersection then
 				} else {
@@ -290,22 +290,22 @@ public class PlatMap {
 		
 		// now place any remaining roads we need
 		if (roadHere)
-			paveLot(x, z);
+			paveLot(x, z, false);
 		if (roadToNorth) {
-			paveLot(x, z - 1);
-			paveLot(x, z - 2);
+			paveLot(x, z - 1, false);
+			paveLot(x, z - 2, false);
 		}
 		if (roadToSouth) {
-			paveLot(x, z + 1);
-			paveLot(x, z + 2);
+			paveLot(x, z + 1, false);
+			paveLot(x, z + 2, false);
 		}
 		if (roadToEast) {
-			paveLot(x + 1, z);
-			paveLot(x + 2, z);
+			paveLot(x + 1, z, false);
+			paveLot(x + 2, z, false);
 		}
 		if (roadToWest) {
-			paveLot(x - 1, z);
-			paveLot(x - 2, z);
+			paveLot(x - 1, z, false);
+			paveLot(x - 2, z, false);
 		}
 	}
 	

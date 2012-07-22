@@ -7,8 +7,6 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
-import me.daddychurchill.CityWorld.Support.Direction.Door;
-import me.daddychurchill.CityWorld.Support.Direction.Torch;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class PlatRadioTower extends PlatIsolated {
@@ -17,7 +15,7 @@ public class PlatRadioTower extends PlatIsolated {
 	
 	public PlatRadioTower(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-		building = chunkRandom.nextBoolean();
+		building = chunkRandom.nextDouble() < 0.90;
 	}
 	
 	private final static int platformWidth = 8;
@@ -92,7 +90,7 @@ public class PlatRadioTower extends PlatIsolated {
 		
 		// place a door
 		if (building)
-			chunk.setWoodenDoor(originX + 2, platformY, originZ + 3, Door.WESTBYNORTHWEST);
+			chunk.setWoodenDoor(originX + 2, platformY, originZ + 3, Direction.Door.WESTBYNORTHWEST);
 		
 		// place the ladder
 		int ladderBase = platformY - 2;
@@ -143,7 +141,7 @@ public class PlatRadioTower extends PlatIsolated {
 			// top of the tallest one?
 			if (antennaHeight == heightTallest) {
 				chunk.setBlock(x, y + 2 + antennaHeight, z, capBigMat);
-				chunk.setTorch(x, y + 2 + antennaHeight + 1, z, context.torchMat, Torch.FLOOR);
+				chunk.setTorch(x, y + 2 + antennaHeight + 1, z, context.torchMat, Direction.Torch.FLOOR);
 			} else
 				chunk.setBlock(x, y + 2 + antennaHeight, z, capTinyMat);
 		}
