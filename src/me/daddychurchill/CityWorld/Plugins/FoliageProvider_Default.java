@@ -36,7 +36,7 @@ public class FoliageProvider_Default extends FoliageProvider {
 			break;
 		case CACTUS:
 			chunk.setBlock(x, y - 1, z, Material.SAND);
-			chunk.setBlocks(x, y, y + 3, z, Material.CACTUS);
+			chunk.setBlocks(x, y, y + random.nextInt(3) + 2, z, Material.CACTUS);
 			break;
 		}
 		return true;

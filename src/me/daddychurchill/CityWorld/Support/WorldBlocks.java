@@ -319,6 +319,8 @@ public class WorldBlocks extends SupportChunk {
 		disperseCircle(cx, cz, r, cy, debris);
 	}
 	
+	private final static double oddsOfDebris = 0.80;
+	
 	private void sprinkleDebris(Random random, int cx, int cy, int cz, int radius, Stack<debrisItem> debris) {
 
 		// calculate a few things
@@ -333,20 +335,33 @@ public class WorldBlocks extends SupportChunk {
 			// grab the next one
 			debrisItem item = debris.pop();
 			
-			// where do we drop it?
-			int x = x1 + random.nextInt(r4);
-			int z = z1 + random.nextInt(r4);
-			int y = findLastEmptyBelow(x, cy, z);
-			
-			// look out for half blocks
-			Block block = getActualBlock(x, y - 1, z);
-			int blockId = block.getTypeId();
-			if (blockId == stepId)
-				block.setTypeIdAndData(item.typeId, item.data, false);
-//			else if (blockId == waterId || blockId == stillWaterId) {
-//				dropBlockInWater
-			else
-				setBlock(x, y, z, item.typeId, item.data, false);
+			// do this one?
+			if (random.nextDouble() < oddsOfDebris) {
+				
+				// where do we drop it?
+				int x = x1 + random.nextInt(r4);
+				int z = z1 + random.nextInt(r4);
+				int y = findLastEmptyBelow(x, cy, z);
+				
+				// look out for half blocks
+				Block block = getActualBlock(x, y - 1, z);
+				int blockId = block.getTypeId();
+				if (blockId == stepId)
+					block.setTypeIdAndData(item.typeId, item.data, false);
+				else {
+	
+					// find the bottom of the pool
+					if (block.isLiquid()) {
+						do {
+							y--;
+							block = getActualBlock(x, y - 1, z);
+						} while (block.isLiquid());
+					}
+					
+					// place the block
+					setBlock(x, y, z, item.typeId, item.data, false);
+				}
+			}
 		}
 	}
 

@@ -20,6 +20,25 @@ public abstract class OdonymProvider {
 		return new Random((long) i * (long) Integer.MAX_VALUE + (long) baseSeed);
 	}
 	
+	public void decaySign(Random random, String[] text) {
+		for (int i = 0; i < text.length; i++) {
+			text[i] = decayLine(random, text[i]);
+		}
+	}
+	
+	private final static double oddsOfDecay = 0.80;
+	
+	public String decayLine(Random random, String line) {
+		String result = "";
+		for (int i = 0; i < line.length(); i++) {
+			if (random.nextDouble() < oddsOfDecay)
+				result = result + line.charAt(i);
+			else
+				result = result + " ";
+		}
+		return result;
+	}
+	
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	public static OdonymProvider loadProvider(WorldGenerator generator, Random random) {
 

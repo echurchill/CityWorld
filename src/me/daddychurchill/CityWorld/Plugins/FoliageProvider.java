@@ -68,7 +68,7 @@ public abstract class FoliageProvider {
 				random.nextDouble() < 0.30;
 	}
 
-	private int maxTries = 5;
+	private int maxTries = 3;
 
 	protected boolean generateTree(RealChunk chunk, Random random, int x, int y, int z, TreeType treeType, int trunkId, int leavesId1, int leavesId2) {
 		boolean result = false;

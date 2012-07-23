@@ -855,14 +855,14 @@ public class PlatRoad extends PlatConnected {
 				
 				// light posts
 				if (cityRoad) {
-					generateLightPost(generator, chunk, context, sidewalkLevel, sidewalkWidth - 1, sidewalkWidth - 1);
-					generateLightPost(generator, chunk, context, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
+					boolean lightPostNW = generateLightPost(generator, chunk, context, sidewalkLevel, sidewalkWidth - 1, sidewalkWidth - 1);
+					boolean lightPostSE = generateLightPost(generator, chunk, context, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
 					
 					// put signs up?
 					if (generator.settings.includeNamedRoads) {
-						if (crosswalkNorth || crosswalkWest)
+						if (lightPostNW && (crosswalkNorth || crosswalkWest))
 							generateStreetSign(generator, chunk, sidewalkLevel, sidewalkWidth - 1, sidewalkWidth - 1);
-						if (crosswalkSouth || crosswalkEast)
+						if (lightPostSE && (crosswalkSouth || crosswalkEast))
 							generateStreetSign(generator, chunk, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
 					}
 				}
@@ -1140,7 +1140,7 @@ public class PlatRoad extends PlatConnected {
 			chunk.setVine(x1, y, z1, direction);
 	}
 	
-	private void generateLightPost(WorldGenerator generator, RealChunk chunk, ContextData context, int sidewalkLevel, int x, int z) {
+	private boolean generateLightPost(WorldGenerator generator, RealChunk chunk, ContextData context, int sidewalkLevel, int x, int z) {
 		chunk.setBlock(x, sidewalkLevel, z, lightpostbaseMaterial);
 		if (generator.settings.includeDecayedRoads) {
 			int y = sidewalkLevel + 1;
@@ -1150,26 +1150,62 @@ public class PlatRoad extends PlatConnected {
 				chunk.setBlock(x, y, z, lightpostMaterial);
 				y++;
 			}
-			if (y > sidewalkLevel + lightpostHeight && chunkRandom.nextDouble() < 0.75)
-				chunk.setBlock(x, y, z, context.lightMat, true);
+			if (y > sidewalkLevel + lightpostHeight) {
+				if (chunkRandom.nextDouble() < 0.75)
+					chunk.setBlock(x, y, z, context.lightMat, true);
+				return true;
+			}
+			return false;
 		} else {
 			chunk.setBlocks(x, sidewalkLevel + 1, sidewalkLevel + lightpostHeight + 1, z, lightpostMaterial);
 			chunk.setBlock(x, sidewalkLevel + lightpostHeight + 1, z, context.lightMat, true);
+			return true;
 		}
 	}
+	
+	private final static double oddsOfDecayedSign = 0.80;
 	
 	private void generateStreetSign(WorldGenerator generator, RealChunk chunk, int sidewalkLevel, int x, int z) {
 		int cx = chunk.chunkX;
 		int cz = chunk.chunkZ;
 		int y = sidewalkLevel + lightpostHeight;
 		
-		String[] odonymNorthSouth = generator.odonymProvider.generateNorthSouthOdonym(generator, cx, cz);
-		String[] odonymWestEast = generator.odonymProvider.generateWestEastOdonym(generator, cx, cz);
-		
-		chunk.setWallSign(x, y, z - 1, Direction.WallSign.NORTH, odonymNorthSouth);
-		chunk.setWallSign(x, y, z + 1, Direction.WallSign.SOUTH, odonymNorthSouth);
-		chunk.setWallSign(x - 1, y, z, Direction.WallSign.WEST, odonymWestEast);
-		chunk.setWallSign(x + 1, y, z, Direction.WallSign.EAST, odonymWestEast);
+		// decay or not?
+		if (generator.settings.includeDecayedRoads) {
+			
+			// put the signs up
+			if (chunkRandom.nextDouble() < oddsOfDecayedSign) {
+				String[] odonym = generator.odonymProvider.generateNorthSouthOdonym(generator, cx, cz);
+				generator.odonymProvider.decaySign(chunkRandom, odonym);
+				chunk.setWallSign(x, y, z - 1, Direction.WallSign.NORTH, odonym);
+			}
+			if (chunkRandom.nextDouble() < oddsOfDecayedSign) {
+				String[] odonym = generator.odonymProvider.generateNorthSouthOdonym(generator, cx, cz);
+				generator.odonymProvider.decaySign(chunkRandom, odonym);
+				chunk.setWallSign(x, y, z + 1, Direction.WallSign.SOUTH, odonym);
+			}
+			if (chunkRandom.nextDouble() < oddsOfDecayedSign) {
+				String[] odonym = generator.odonymProvider.generateWestEastOdonym(generator, cx, cz);
+				generator.odonymProvider.decaySign(chunkRandom, odonym);
+				chunk.setWallSign(x - 1, y, z, Direction.WallSign.WEST, odonym);
+			}
+			if (chunkRandom.nextDouble() < oddsOfDecayedSign) {
+				String[] odonym = generator.odonymProvider.generateWestEastOdonym(generator, cx, cz);
+				generator.odonymProvider.decaySign(chunkRandom, odonym);
+				chunk.setWallSign(x + 1, y, z, Direction.WallSign.EAST, odonym);
+			}
+		} else {
+			
+			// compute the name for the roads
+			String[] odonymNorthSouth = generator.odonymProvider.generateNorthSouthOdonym(generator, cx, cz);
+			String[] odonymWestEast = generator.odonymProvider.generateWestEastOdonym(generator, cx, cz);
+			
+			// put the signs up
+			chunk.setWallSign(x, y, z - 1, Direction.WallSign.NORTH, odonymNorthSouth);
+			chunk.setWallSign(x, y, z + 1, Direction.WallSign.SOUTH, odonymNorthSouth);
+			chunk.setWallSign(x - 1, y, z, Direction.WallSign.WEST, odonymWestEast);
+			chunk.setWallSign(x + 1, y, z, Direction.WallSign.EAST, odonymWestEast);
+		}
 	}
 	
 	private void generateDoor(RealChunk chunk, int x, int y, int z, Direction.Door direction) {

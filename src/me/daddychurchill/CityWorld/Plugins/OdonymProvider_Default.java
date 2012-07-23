@@ -17,8 +17,18 @@ public class OdonymProvider_Default extends OdonymProvider {
 		result[0] = generateNumericPrefix(streetN, "North", "South");
 		result[1] = generateNumericName(streetN, "Main");
 		result[2] = "Street";
-		result[3] = "";//"{" + x + ", " + z + "}";
+		result[3] = generateBlockNumbers(x);
 		return result;
+	}
+	
+	protected String generateBlockNumbers(int i) {
+		//TODO need to work on orientation
+//		int streetN = generateStreetNumber(i);
+//		if (i < 0)
+//			return Math.abs(streetN * 100) + "<->" + Math.abs((streetN + 1) * 100);
+//		else
+//			return Math.abs((streetN - 1) * 100) + "<->" + Math.abs(streetN * 100);
+		return "";
 	}
 
 	protected int generateStreetNumber(int chunkN) {
@@ -72,7 +82,7 @@ public class OdonymProvider_Default extends OdonymProvider {
 		result[0] = generateNamedPrefix(random, streetN, "West", "East");
 		result[1] = generateNamedName(random, streetN, "Central");
 		result[2] = getSuffixPart(random, streetN);
-		result[3] = "";//"{" + x + ", " + z + "}";
+		result[3] = generateBlockNumbers(z);
 		return result;
 	}
 	
@@ -140,7 +150,9 @@ public class OdonymProvider_Default extends OdonymProvider {
 	
 	private final static String[] suffixes = new String[] 
 		{"Avenue", "Road", "Lane", "Street", "Way", "Pass", "Trail", "Court", "Route",
-		 "Boulevard", "Grade", "Ridge", "Parkway", "Promenade", "Bypass", "Quay", "Motorway"};
+		 "Boulevard", "Grade", "Ridge", "Parkway", "Promenade", "Bypass", "Quay", "Motorway", 
+		 "Vale", "Grove", "Gardens", "Fairway", "Bend", "Heights", "View", "Place", "Plaza", 
+		 "Hill", "Pike", "Alley", "Gate", "Knoll", "Mews", "Terrace", "Cove"};
 	
 	private String getSuffixPart(Random random, int streetN) {
 		if (streetN == 0)

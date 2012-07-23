@@ -200,17 +200,19 @@ public abstract class PlatLot {
 
 					// we are in the water! ...or are we?
 					} else if (y < generator.seaLevel) {
+						Biome seaBiome = Biome.DESERT;
 						if (generator.settings.includeDecayedNature)
 							if (generator.settings.includeAbovegroundFluids && y < generator.deepseaLevel)
 								generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, generator.deepseaLevel, stillLavaId, false);
 							else
 								generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, true);
 						else 
-							if (generator.settings.includeAbovegroundFluids)
+							if (generator.settings.includeAbovegroundFluids) {
 								generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, generator.seaLevel, stillWaterId, false);
-							else
+								seaBiome = Biome.OCEAN;
+							} else
 								generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, false);
-						biomes.setBiome(x, z, Biome.OCEAN);
+						biomes.setBiome(x, z, seaBiome);
 
 						// we are in the mountains
 					} else {
@@ -218,22 +220,22 @@ public abstract class PlatLot {
 						// regular trees only
 						if (y < generator.treeLevel) {
 							generateStratas(generator, chunk, x, z, stoneId, y - 3, dirtId, y, grassId, generator.settings.includeDecayedNature);
-							biomes.setBiome(x, z, Biome.FOREST_HILLS);
+							biomes.setBiome(x, z, Biome.FOREST);
 
 						// regular trees and some evergreen trees
 						} else if (y < generator.evergreenLevel) {
 							generateStratas(generator, chunk, x, z, stoneId, y - 2, dirtId, y, grassId, surfaceCaves);
-							biomes.setBiome(x, z, Biome.EXTREME_HILLS);
+							biomes.setBiome(x, z, Biome.FOREST_HILLS);
 
 						// evergreen and some of fallen snow
 						} else if (y < generator.snowLevel) {
 							generateStratas(generator, chunk, x, z, stoneId, y - 1, dirtId, y, grassId, surfaceCaves);
-							biomes.setBiome(x, z, Biome.ICE_MOUNTAINS);
+							biomes.setBiome(x, z, Biome.TAIGA_HILLS);
 							
 						// only snow up here!
 						} else {
 							generateStratas(generator, chunk, x, z, stoneId, y - 1, stoneId, y, snowId, surfaceCaves);
-							biomes.setBiome(x, z, Biome.ICE_PLAINS);
+							biomes.setBiome(x, z, Biome.ICE_MOUNTAINS);
 						}
 					}
 				}
@@ -708,7 +710,7 @@ public abstract class PlatLot {
 					} else if (y < generator.treeLevel) {
 	
 						// trees? but only if we are not too close to the edge
-						if (includeTrees && primary > treeOdds /*&& x > 1 && x < 15 && z > 1 && z < 15*/ && x % 2 == 0 && z % 2 == 0) {
+						if (includeTrees && primary > treeOdds && x % 2 == 0 && z % 2 == 0) {
 							if (secondary > 0.90 && x > 5 && x < 11 && z > 5 && z < 11)
 								generator.foliageProvider.generateTree(generator, chunk, x, y + 1, z, TreeType.BIG_TREE);
 							else if (secondary > 0.50)
@@ -732,7 +734,7 @@ public abstract class PlatLot {
 					} else if (y < generator.evergreenLevel) {
 	
 						// trees? but only if we are not too close to the edge
-						if (includeTrees && primary > treeOdds /*&& x > 1 && x < 15 && z > 1 && z < 15*/ && x % 2 == 0 && z % 2 == 0) {
+						if (includeTrees && primary > treeOdds && x % 2 == 0 && z % 2 == 0) {
 							
 							// range change?
 							if (secondary > ((double) (y - generator.treeLevel) / (double) generator.deciduousRange))
@@ -754,7 +756,7 @@ public abstract class PlatLot {
 					} else if (y < generator.snowLevel) {
 						
 						// trees? but only if we are not too close to the edge
-						if (includeTrees && primary > treeOdds /*&& x > 1 && x < 15 && z > 1 && z < 15*/ && x % 2 == 0 && z % 2 == 0) {
+						if (includeTrees && primary > treeOdds && x % 2 == 0 && z % 2 == 0) {
 							if (secondary > 0.50)
 								generator.foliageProvider.generateTree(generator, chunk, x, y + 1, z, TreeType.REDWOOD);
 							else
@@ -791,9 +793,8 @@ public abstract class PlatLot {
 							
 							// range change?
 							if (secondary > ((double) (y - generator.evergreenLevel) / (double) generator.evergreenRange)) {
-								if (chunkRandom.nextDouble() < 0.10)
+								if (chunkRandom.nextDouble() < 0.10 && generator.foliageProvider.isPlantable(generator, chunk, x, y, z))
 									generator.foliageProvider.generateFlora(generator, chunk, x, y + 1, z, FloraType.FERN);
-									//chunk.setBlock(x, y + 1, z, greenThing, (byte) 2);
 							} else {
 								if (!generator.settings.includeDecayedNature) {
 									y = chunk.findLastEmptyBelow(x, y + 1, z);
