@@ -65,3 +65,7 @@ Also some options are exclusive of other options, for example if you decide to n
 |RoadRange|How far, in chunks, from the center point (0,0) does the generation of roads happen|
 |CityRange|How far, in chunks, from the center point (0,0) does the generation of cities happen|
 **Note:** If the road range is larger than the city range, the roads generate without lights, lines, sewers, etc.
+
+{{http://dev.bukkit.org/media/images/43/502/server2439_City_normal_day.jpg|Radius}}
+In the above picture the inner circle represents the CityRange (10 chunk radius), the outer is the RoadRange (20 chunk radius). 
+Note: that the bridges and tunnels will stop when they hit the radius specified.

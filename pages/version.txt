@@ -1,10 +1,18 @@
 v1.04
+* Added World generated as Nether automagically makes everything destroyed
+* Still working on TheEnd based worlds... it will be cool trust me :-)
+* Added decayed options for buildings, roads and nature
+* Fixed the crosswalks so they appear when they should
+* Fixed the disappearing radio town shacks (still happens but rarer)
+* Added streetnames... no it isn't customizable right now but might be soon
+* Fixed the tree distribution, more randomness and trees
+* Added city and road radius for folks who want a single city surrounded by nature
 * Made the stairs in the mineshafts a little less rickety looking
 * Added alcoves to the mineshafts to make the spawners and chests less obvious
 * Removed the silverfish from the sewers and mineshafts... yike!, that was a bad idea!
 * Oops, sometimes the vertical mineshafts go down beyond the bedrock... double yike!, that was even a worse idea!
 * Fixed a buggaboo that made the bunkers plots clear out too much rock and not generate caves correctly
-* Incorporated support for Tekkit material types base on initial work by gunre
+* Incorporated support for Tekkit material types base on initial work by gunre/adept
 * If options are used, I put in some sanity checks to make sure all the plots are actually filled with something
 
 v1.03

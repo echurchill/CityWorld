@@ -1,0 +1,12 @@
+To perform a command just type the letter **"T"** and enter the following...
+* ##/CityWorld [Leave]##
+If you leave out the ##Leave## you will be transported to CityWorld. Adding the ##Leave## will transport you to Minecraft/Bukkit's default world.
+
+* ##/CityChunk [Regen] [Clean] [ChunkRadius]##
+**##Regen## will for the chunk to regenerate. 
+**##Clean## will remove any "floating" items. 
+**Providing ##ChunkRadius## will cause the operation to effect not just the current chunk but surrounding ones as well, this is an integer. For example, specifying 3 as ##ChunkRadius## will perform the operation on an area of 7x7 chunks centered on your current chunk.
+
+You can disable the commands via permissions, both default to OP (so make yourself an Op to maximize the fun)
+* cityworld.command
+* citychunk.command
