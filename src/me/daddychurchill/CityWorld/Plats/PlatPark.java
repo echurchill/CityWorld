@@ -49,11 +49,6 @@ public class PlatPark extends PlatConnected {
 	}
 
 	@Override
-	protected int getTopStrataY(WorldGenerator generator, int blockX, int blockZ) {
-		return generator.sidewalkLevel - cisternDepth - 2 - 16;
-	}
-
-	@Override
 	protected boolean isShaftableLevel(WorldGenerator generator, ContextData context, int y) {
 		return y >= 0 && y < generator.sidewalkLevel - cisternDepth - 2 - 16;	
 	}

@@ -18,11 +18,6 @@ public class PlatHouse extends PlatIsolated {
 	}
 
 	@Override
-	protected int getTopStrataY(WorldGenerator generator, int blockX, int blockZ) {
-		return generator.sidewalkLevel - 1;
-	}
-
-	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		
 		// ground please

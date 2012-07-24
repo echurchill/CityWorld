@@ -50,11 +50,6 @@ public class PlatFarm extends PlatConnected {
 		return result;
 	}
 
-	@Override
-	protected int getTopStrataY(WorldGenerator generator, int blockX, int blockZ) {
-		return generator.sidewalkLevel - 1;
-	}
-
 	private final static byte isolationId = (byte) Material.LOG.getId();
 	private final static byte isolationAltId = (byte) Material.NETHER_BRICK.getId();
 	

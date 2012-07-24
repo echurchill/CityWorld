@@ -625,10 +625,6 @@ public abstract class PlatLot {
 		return true;
 	}
 	
-	protected int getTopStrataY(WorldGenerator generator, int blockX, int blockZ) {
-		return generator.findBlockY(blockX, blockZ);
-	}
-
 	private void generateOres(WorldGenerator generator, RealChunk chunk) {
 		
 		// lava the bottom a bit

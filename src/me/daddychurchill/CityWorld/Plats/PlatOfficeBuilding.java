@@ -124,11 +124,6 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	}
 
 	@Override
-	protected int getTopStrataY(WorldGenerator generator, int blockX, int blockZ) {
-		return generator.sidewalkLevel - FloorHeight * (depth - 1) - 3;
-	}
-
-	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 
 		// check out the neighbors
