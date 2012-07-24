@@ -1,3 +1,7 @@
+v1.05
+* Fixed a sewer generation issue, it is amazing what an extra "!" will do
+* Fixed a bunker generation issue
+
 v1.04
 * Added World generated as Nether automagically makes everything destroyed
 * Still working on TheEnd based worlds... it will be cool trust me :-)

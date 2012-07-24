@@ -156,25 +156,35 @@ public abstract class PlatLot {
 		// surface caves?
 		boolean surfaceCaves = generator.isSurfaceCaveAt(chunk.chunkX, chunk.chunkZ);
 		
+		// calculate the Ys for this chunk
+		int[][] blocksY= new int[16][16];
+		for (int x = 0; x < chunk.width; x++) {
+			for (int z = 0; z < chunk.width; z++) {
+
+				// how high are we?
+				blocksY[x][z] = generator.findBlockY(originX + x, originZ + z);
+				
+				// keep the tally going
+				sumHeight += blocksY[x][z];
+				if (blocksY[x][z] < minHeight) {
+					minHeight = blocksY[x][z];
+					minHeightX = x;
+					minHeightZ = z;
+				}
+				if (blocksY[x][z] > maxHeight) {
+					maxHeight = blocksY[x][z];
+					maxHeightX = x;
+					maxHeightZ = z;
+				}
+			}
+		}
+		
 		// shape the world
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {
 
 				// how high are we?
-				int y = generator.findBlockY(originX + x, originZ + z);
-				
-				// keep the tally going
-				sumHeight += y;
-				if (y < minHeight) {
-					minHeight = y;
-					minHeightX = x;
-					minHeightZ = z;
-				}
-				if (y > maxHeight) {
-					maxHeight = y;
-					maxHeightX = x;
-					maxHeightZ = z;
-				}
+				int y = blocksY[x][z];
 				
 				// make the base
 				chunk.setBlock(x, 0, z, bedrockId);
@@ -618,7 +628,7 @@ public abstract class PlatLot {
 	protected int getTopStrataY(WorldGenerator generator, int blockX, int blockZ) {
 		return generator.findBlockY(blockX, blockZ);
 	}
-	
+
 	private void generateOres(WorldGenerator generator, RealChunk chunk) {
 		
 		// lava the bottom a bit

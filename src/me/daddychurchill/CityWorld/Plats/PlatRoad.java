@@ -115,7 +115,7 @@ public class PlatRoad extends PlatConnected {
 		int sewerY = base1Y + 1;
 		int base2Y = base1Y + ContextData.FloorHeight + 1;
 		int sidewalkLevel = generator.sidewalkLevel + 1;
-		boolean doSewer = generator.settings.includeSewers && !cityRoad;
+		boolean doSewer = generator.settings.includeSewers && cityRoad;
 		
 		// look around
 		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);

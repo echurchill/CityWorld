@@ -5,7 +5,7 @@ The great outdoors is all good and fine but sometimes you just want to go to tow
 
 ----
 
-===== //Version 1.04// ===== 
+===== //Version 1.05// ===== 
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, if the above version isn't available check back in an hour or so...)//,,
 
 ,,//(...or possibly look here: http://dev.bukkit.org/server-mods/cityworld/files/16-v1-04/
@@ -14,6 +14,10 @@ The great outdoors is all good and fine but sometimes you just want to go to tow
 {{http://dev.bukkit.org/media/images/42/720/2012-07-04_11.31.52.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
+
+v1.05
+* Fixed a sewer generation issue, it is amazing what an extra "!" will do
+* Fixed a bunker generation issue
 
 v1.04
 * Added World generated as [[http://dev.bukkit.org/media/images/43/501/2012-07-22_22.37.39.jpg|Nether]] automagically makes everything destroyed
