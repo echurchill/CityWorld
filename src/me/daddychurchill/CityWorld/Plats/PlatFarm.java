@@ -173,9 +173,14 @@ public class PlatFarm extends PlatConnected {
 				plowField(generator, chunk, chunkRandom, croplevel, matDirt, 0, matAir, cropType, 0, 1, 2, 1);
 			
 		} else {
+			boolean fallowField = cropType == cropFallow;
 			
 			// what type of crop do we plant?
-			if (generator.settings.includeAbovegroundFluids) {
+			if (cropType == cropCactus)
+				plowField(generator, chunk, chunkRandom, croplevel, matSand, 0, matSand, cropType, 0, 2, 2, 3);
+			else if (cropType == cropVine)
+				buildVineyard(generator, chunk, chunkRandom, croplevel, cropType);
+			else if (generator.settings.includeAbovegroundFluids) {
 				if (cropType == cropYellowFlower || cropType == cropRedFlower)
 					plowField(generator, chunk, chunkRandom, croplevel, matSoil, 8, matWater, cropType, 0, 1, 2, 1);
 				else if (cropType == cropGrass)
@@ -188,14 +193,12 @@ public class PlatFarm extends PlatConnected {
 					plowField(generator, chunk, chunkRandom, croplevel, matSand, 0, matWater, cropType, 0, 1, 2, 3);
 				else if (cropType == cropNone)
 					plowField(generator, chunk, chunkRandom, croplevel, matSoil, 8, matWater, matAir, 0, 1, 2, 1);
+				else
+					fallowField = true;
 			}
 			
-			// now the rest of the options
-			if (cropType == cropCactus)
-				plowField(generator, chunk, chunkRandom, croplevel, matSand, 0, matSand, cropType, 0, 2, 2, 3);
-			else if (cropType == cropVine)
-				buildVineyard(generator, chunk, chunkRandom, croplevel, cropType);
-			else // cropFallow
+			// just in case nothing happened
+			if (fallowField)
 				plowField(generator, chunk, chunkRandom, croplevel, matDirt, 0, matAir, cropType, 0, 1, 2, 1);
 		}
 	}
