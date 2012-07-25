@@ -1,5 +1,5 @@
 v1.06
-* 
+* Fixed a farming issue, the drought is over
 
 v1.05
 * Fixed a sewer generation issue, it is amazing what an extra "!" will do
