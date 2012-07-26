@@ -1163,7 +1163,7 @@ public class PlatRoad extends PlatConnected {
 		}
 	}
 	
-	private final static double oddsOfDecayedSign = 0.80;
+	private final static double oddsOfDecayedSign = 0.90;
 	
 	private void generateStreetSign(WorldGenerator generator, RealChunk chunk, int sidewalkLevel, int x, int z) {
 		int cx = chunk.chunkX;
