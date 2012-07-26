@@ -26,7 +26,7 @@ public abstract class OdonymProvider {
 		}
 	}
 	
-	private final static double oddsOfDecay = 0.80;
+	private final static double oddsOfDecay = 0.90;
 	
 	public String decayLine(Random random, String line) {
 		String result = "";

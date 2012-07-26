@@ -15,10 +15,9 @@ The great outdoors is all good and fine but sometimes you just want to go to tow
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
-v1.06
+v1.07 (and others fixes since v1.04)
+* Fixed a decayedNature vs. Normal world issue
 * Fixed a farming issue, the drought is over
-
-v1.05
 * Fixed a sewer generation issue, it is amazing what an extra "!" will do
 * Fixed a bunker generation issue
 

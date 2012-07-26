@@ -15,6 +15,8 @@ public abstract class FoliageProvider {
 	
 	public enum FloraType {FLOWER_RED, FLOWER_YELLOW, GRASS, FERN, CACTUS};
 	
+	protected final static double oddsOfDarkFlora = 0.50;
+	
 	public abstract boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, TreeType treeType);
 	public abstract boolean generateFlora(WorldGenerator generator, RealChunk chunk, int x, int y, int z, FloraType floraType);
 	
@@ -22,6 +24,10 @@ public abstract class FoliageProvider {
 	
 	public FoliageProvider(Random random) {
 		this.random = random;
+	}
+	
+	protected boolean likelyFlora(WorldGenerator generator, Random random) {
+		return !generator.settings.darkEnvironment || random.nextDouble() < oddsOfDarkFlora;
 	}
 	
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
@@ -37,12 +43,12 @@ public abstract class FoliageProvider {
 			
 			if (generator.settings.includeTekkitMaterials)
 				provider = new FoliageProvider_Tekkit(random);
-			else if (generator.settings.environment == Environment.NETHER)
-				provider = new FoliageProvider_Nether(random);
+			else if (generator.settings.includeDecayedNature)
+				provider = new FoliageProvider_Decayed(random);
 			else if (generator.settings.environment == Environment.THE_END)
 				provider = new FoliageProvider_TheEnd(random);
 			else
-				provider = new FoliageProvider_Default(random);
+				provider = new FoliageProvider_Normal(random);
 		}
 	
 		return provider;
@@ -63,11 +69,6 @@ public abstract class FoliageProvider {
 			return chunk.isPlantable(x, y, z);
 	}
 	
-	protected boolean likelyFlora(WorldGenerator generator, Random random) {
-		return !generator.settings.darkEnvironment ||
-				random.nextDouble() < 0.30;
-	}
-
 	private int maxTries = 3;
 
 	protected boolean generateTree(RealChunk chunk, Random random, int x, int y, int z, TreeType treeType, int trunkId, int leavesId1, int leavesId2) {

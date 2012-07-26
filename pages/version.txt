@@ -1,3 +1,6 @@
+v1.07
+* Fixed a decayedNature vs. Normal world issue
+
 v1.06
 * Fixed a farming issue, the drought is over
 
