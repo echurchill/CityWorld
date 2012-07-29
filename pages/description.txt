@@ -5,18 +5,23 @@ The great outdoors is all good and fine but sometimes you just want to go to tow
 
 ----
 
-===== //Version 1.07// ===== 
+===== //Version 1.10// ===== 
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, if the above version isn't available check back in an hour or so...)//,,
 
-,,//(...or possibly look here: http://dev.bukkit.org/server-mods/cityworld/files/19-v1-07/
+,,//(...or possibly look here: http://dev.bukkit.org/server-mods/cityworld/files/20-v1-10/
 )//,,
 
 {{http://dev.bukkit.org/media/images/42/720/2012-07-04_11.31.52.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
-v1.07 (and others fixes since v1.04)
-* Fixed a decayedNature vs. Normal world issue
+v1.10 (and others fixes since v1.04)
+* Refactored tons of code to simplify options combinations and get things ready for End generation
+* Painting crosswalks on roads even if wool isn't being used
+* Made wool roads something you have opt into
+* Fixed a bunch of bugs associated with farms related to nether and decayed nature
+* Made the nether more nether like... including FIRE!
+* Decayed nature now doesn't mean Nether, which makes Normal worlds much more normal* Fixed a decayedNature vs. Normal world issue
 * Made the decayed signs a bit less decayed
 * Fixed a farming issue, the drought is over
 * Fixed a sewer generation issue, it is amazing what an extra "!" will do

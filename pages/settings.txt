@@ -49,16 +49,18 @@ Also some options are exclusive of other options, for example if you decide to n
 |TreasuresInBunkers|If there are bunkers then include treasure chests in them|
 
 === Modifiers ===
-|=Option|=Description|
-|IncludeUndergroundFluids|If ores are generated, then generate water and lava as well|
-|IncludeAbovegroundFluids|If sea basins are generated, then generate water in them|
-|IncludeWorkingLights|Where lights are made, try to make sure the generate light|
-|IncludePavedRoads|If roads are generated, paint them to look like roads|
-|IncludeNamedRoads|If roads are generated, add road signs to the intersections|
-|IncludeDecayedRoads|If roads are generated, destroy them a little|
-|IncludeDecayedBuildings|If buildings are generated, destroy them a little|
-|IncludeDecayedNature|Where nature is generated, destroy it a little|
-|IncludeTekkitMaterials|When creating things use some extra materials from Tekkit|
+|=Option|=Description|=Default]
+|IncludeUndergroundFluids|If ores are generated, then generate water and lava as well|true|
+|IncludeAbovegroundFluids|If sea basins are generated, then generate water in them|true|
+|IncludeWorkingLights|Where lights are made, try to make sure the generate light|true|
+|IncludeWoolRoads|If roads are generated, use wool blocks|false|
+|IncludeNamedRoads|If roads are generated, add road signs to the intersections|true|
+|IncludeDecayedRoads|If roads are generated, destroy them a little|false|
+|IncludeDecayedBuildings|If buildings are generated, destroy them a little|false|
+|IncludeDecayedNature|Where nature is generated, destroy it a little|false|
+|IncludeTekkitMaterials|When creating things use some extra materials from Tekkit|false|
+
+Note: Some of the above options will default a different way in worlds generated in the Nether or The_End. 
 
 === Generation Range ===
 |=Option|=Description|
@@ -69,3 +71,7 @@ Also some options are exclusive of other options, for example if you decide to n
 {{http://dev.bukkit.org/media/images/43/502/server2439_City_normal_day.jpg|Radius}}
 In the above picture the inner circle represents the CityRange (10 chunk radius), the outer is the RoadRange (20 chunk radius). 
 Note: that the bridges and tunnels will stop when they hit the radius specified.
+
+=== Deprecated options ===
+|=Option|=Description|
+|IncludePavedRoads|Use IncludeWoolRoads if you want old style paved roads|

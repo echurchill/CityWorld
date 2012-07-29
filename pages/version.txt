@@ -1,3 +1,11 @@
+v1.10
+* Refactored tons of code to simplify options combinations and get things ready for End generation
+* Painting crosswalks on roads even if wool isn't being used
+* Made wool roads something you have opt into
+* Fixed a bunch of bugs associated with farms related to nether and decayed nature
+* Made the nether more nether like... including FIRE!
+* Decayed nature now doesn't mean Nether, which makes Normal worlds much more normal
+
 v1.07
 * Fixed a decayedNature vs. Normal world issue
 * Made the decayed signs a bit less decayed
