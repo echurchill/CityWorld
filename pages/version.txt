@@ -1,3 +1,6 @@
+v1.11
+* 
+
 v1.10
 * Refactored tons of code to simplify options combinations and get things ready for End generation
 * Painting crosswalks on roads even if wool isn't being used
