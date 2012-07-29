@@ -49,7 +49,7 @@ Also some options are exclusive of other options, for example if you decide to n
 |TreasuresInBunkers|If there are bunkers then include treasure chests in them|
 
 === Modifiers ===
-|=Option|=Description|=Default]
+|=Option|=Description|=Default|
 |IncludeUndergroundFluids|If ores are generated, then generate water and lava as well|true|
 |IncludeAbovegroundFluids|If sea basins are generated, then generate water in them|true|
 |IncludeWorkingLights|Where lights are made, try to make sure the generate light|true|
@@ -64,14 +64,16 @@ Note: Some of the above options will default a different way in worlds generated
 
 === Generation Range ===
 |=Option|=Description|
-|RoadRange|How far, in chunks, from the center point (0,0) does the generation of roads happen|
-|CityRange|How far, in chunks, from the center point (0,0) does the generation of cities happen|
+|RoadRange|How far do roads chunks generate, in chunks from the world's center point (0,0)|
+|CityRange|How far do cities chunks generate, in chunks from the world's center point (0,0)|
 **Note:** If the road range is larger than the city range, the roads generate without lights, lines, sewers, etc.
 
 {{http://dev.bukkit.org/media/images/43/502/server2439_City_normal_day.jpg|Radius}}
-In the above picture the inner circle represents the CityRange (10 chunk radius), the outer is the RoadRange (20 chunk radius). 
+
+In the above picture the inner circle, centered on world's 0,0, represents the CityRange (in this case, 10 chunk radius), the outer ring shows the RoadRange (20 chunk radius). 
+
 Note: that the bridges and tunnels will stop when they hit the radius specified.
 
 === Deprecated options ===
-|=Option|=Description|
+|=Option|=Workaround|
 |IncludePavedRoads|Use IncludeWoolRoads if you want old style paved roads|
