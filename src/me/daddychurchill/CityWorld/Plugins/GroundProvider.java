@@ -64,16 +64,16 @@ public abstract class GroundProvider {
 		
 		// stony bits
 		for (int y = 2; y < baseY; y++)
-			if (lot.isValidStrataY(generator, blockX, y, blockZ) && generator.notACave(blockX, y, blockZ))
+			if (lot.isValidStrataY(generator, blockX, y, blockZ) && generator.shapeProvider.notACave(generator, blockX, y, blockZ))
 				chunk.setBlock(x, y, z, baseId);
 
 		// aggregate bits
 		for (int y = baseY; y < substrateY - 1; y++)
-			if (!surfaceCaves || generator.notACave(blockX, y, blockZ))
+			if (!surfaceCaves || generator.shapeProvider.notACave(generator, blockX, y, blockZ))
 				chunk.setBlock(x, y, z, substrateId);
 
 		// icing for the cake
-		if (!surfaceCaves || generator.notACave(blockX, substrateY, blockZ)) {
+		if (!surfaceCaves || generator.shapeProvider.notACave(generator, blockX, substrateY, blockZ)) {
 			chunk.setBlock(x, substrateY - 1, z, substrateId);
 			chunk.setBlock(x, substrateY, z, surfaceId);
 		}

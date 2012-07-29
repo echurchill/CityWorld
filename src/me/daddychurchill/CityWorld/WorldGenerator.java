@@ -228,22 +228,6 @@ public class WorldGenerator extends ChunkGenerator {
 		return (shapeProvider.getMicroNoiseAt(chunkX, chunkZ, slot) + 1.0) / 2.0;
 	}
 	
-	public boolean getHorizontalNSShaft(int chunkX, int chunkY, int chunkZ) {
-		return shapeProvider.getHorizontalNSShaft(this, chunkX, chunkY, chunkZ);
-	}
-
-	public boolean getHorizontalWEShaft(int chunkX, int chunkY, int chunkZ) {
-		return shapeProvider.getHorizontalWEShaft(this, chunkX, chunkY, chunkZ);
-	}
-
-	public boolean getVerticalShaft(int chunkX, int chunkY, int chunkZ) {
-		return shapeProvider.getVerticalShaft(this, chunkX, chunkY, chunkZ);
-	}
-
-	public boolean notACave(int blockX, int blockY, int blockZ) {
-		return shapeProvider.notACave(this, blockX, blockY, blockZ);
-	}
-	
 	private final static int spawnRadius = 100;
 	
 	@Override

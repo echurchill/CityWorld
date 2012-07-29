@@ -157,27 +157,18 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	}
 	
 	@Override
-	public boolean getHorizontalNSShaft(WorldGenerator generator, int chunkX, int chunkY, int chunkZ) {
-		if (generator.settings.includeMines)
-			return mineShape.noise(chunkX * mineScale, chunkY * mineScale, chunkZ * mineScale + 0.5) > 0.0;
-		else 
-			return false;
+	public boolean isHorizontalNSShaft(int chunkX, int chunkY, int chunkZ) {
+		return mineShape.noise(chunkX * mineScale, chunkY * mineScale, chunkZ * mineScale + 0.5) > 0.0;
 	}
 
 	@Override
-	public boolean getHorizontalWEShaft(WorldGenerator generator, int chunkX, int chunkY, int chunkZ) {
-		if (generator.settings.includeMines)
-			return mineShape.noise(chunkX * mineScale + 0.5, chunkY * mineScale, chunkZ * mineScale) > 0.0;
-		else 
-			return false;
+	public boolean isHorizontalWEShaft(int chunkX, int chunkY, int chunkZ) {
+		return mineShape.noise(chunkX * mineScale + 0.5, chunkY * mineScale, chunkZ * mineScale) > 0.0;
 	}
 
 	@Override
-	public boolean getVerticalShaft(WorldGenerator generator, int chunkX, int chunkY, int chunkZ) {
-		if (generator.settings.includeMines)
-			return mineShape.noise(chunkX * mineScale, chunkY * mineScale + 0.5, chunkZ * mineScale) > 0.0;
-		else 
-			return false;
+	public boolean isVerticalShaft(int chunkX, int chunkY, int chunkZ) {
+		return mineShape.noise(chunkX * mineScale, chunkY * mineScale + 0.5, chunkZ * mineScale) > 0.0;
 	}
 
 	@Override

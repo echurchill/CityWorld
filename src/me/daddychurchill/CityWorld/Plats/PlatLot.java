@@ -194,7 +194,7 @@ public abstract class PlatLot {
 		
 		// keep going down until we find what we are looking for
 		for (int y = (minHeight / 16 - 1) * 16; y >= lowestMineSegment; y -= 16) {
-			if (isShaftableLevel(generator, context, y) && generator.getHorizontalWEShaft(chunk.chunkX, y, chunk.chunkZ))
+			if (isShaftableLevel(generator, context, y) && generator.shapeProvider.isHorizontalWEShaft(chunk.chunkX, y, chunk.chunkZ))
 				return y + 7;
 		}
 		
@@ -212,7 +212,7 @@ public abstract class PlatLot {
 		
 		// draw the shafts/walkways
 		boolean pathFound = false;
-		if (generator.getHorizontalNSShaft(chunk.chunkX, y, chunk.chunkZ)) {
+		if (generator.shapeProvider.isHorizontalNSShaft(chunk.chunkX, y, chunk.chunkZ)) {
 			generateMineShaftSpace(chunk, 6, 10, y1, y1 + 4, 0, 6);
 			generateMineNSSupport(chunk, 6, y2, 1);
 			generateMineNSSupport(chunk, 6, y2, 4);
@@ -221,7 +221,7 @@ public abstract class PlatLot {
 			generateMineNSSupport(chunk, 6, y2, 14);
 			pathFound = true;
 		}
-		if (generator.getHorizontalWEShaft(chunk.chunkX, y, chunk.chunkZ)) {
+		if (generator.shapeProvider.isHorizontalWEShaft(chunk.chunkX, y, chunk.chunkZ)) {
 			generateMineShaftSpace(chunk, 0, 6, y1, y1 + 4, 6, 10);
 			generateMineWESupport(chunk, 1, y2, 6);
 			generateMineWESupport(chunk, 4, y2, 6);
@@ -324,8 +324,8 @@ public abstract class PlatLot {
 		
 		// going down?
 		if (isShaftableLevel(generator, context, y - 16)) {
-			if (generator.getHorizontalNSShaft(chunk.chunkX, y, chunk.chunkZ) &&
-				generator.getHorizontalNSShaft(chunk.chunkX, y - 16, chunk.chunkZ)) {
+			if (generator.shapeProvider.isHorizontalNSShaft(chunk.chunkX, y, chunk.chunkZ) &&
+				generator.shapeProvider.isHorizontalNSShaft(chunk.chunkX, y - 16, chunk.chunkZ)) {
 				
 				// draw the going down bit
 				placeMineStairBase(chunk, 10, y1	, 15);
@@ -340,8 +340,8 @@ public abstract class PlatLot {
 			}
 			
 			if (!stairsFound &&
-				generator.getHorizontalWEShaft(chunk.chunkX, y, chunk.chunkZ) &&
-				generator.getHorizontalWEShaft(chunk.chunkX, y - 16, chunk.chunkZ)) {
+				generator.shapeProvider.isHorizontalWEShaft(chunk.chunkX, y, chunk.chunkZ) &&
+				generator.shapeProvider.isHorizontalWEShaft(chunk.chunkX, y - 16, chunk.chunkZ)) {
 				
 				// draw the going down bit
 				placeMineStairBase(chunk, 15, y1	, 10);
@@ -360,8 +360,8 @@ public abstract class PlatLot {
 		
 		// going up?
 		if (isShaftableLevel(generator, context, y + 32)) {
-			if (generator.getHorizontalNSShaft(chunk.chunkX, y, chunk.chunkZ) &&
-				generator.getHorizontalNSShaft(chunk.chunkX, y + 16, chunk.chunkZ)) {
+			if (generator.shapeProvider.isHorizontalNSShaft(chunk.chunkX, y, chunk.chunkZ) &&
+				generator.shapeProvider.isHorizontalNSShaft(chunk.chunkX, y + 16, chunk.chunkZ)) {
 					
 				// draw the going up bit
 				placeMineStairBase(chunk,  5, y1	, 15);
@@ -388,8 +388,8 @@ public abstract class PlatLot {
 			}
 			
 			if (!stairsFound &&
-				generator.getHorizontalWEShaft(chunk.chunkX, y, chunk.chunkZ) &&
-				generator.getHorizontalWEShaft(chunk.chunkX, y + 16, chunk.chunkZ)) {
+				generator.shapeProvider.isHorizontalWEShaft(chunk.chunkX, y, chunk.chunkZ) &&
+				generator.shapeProvider.isHorizontalWEShaft(chunk.chunkX, y + 16, chunk.chunkZ)) {
 				
 				// draw the going up bit
 				placeMineStairBase(chunk, 15, y1	,  5);
@@ -416,7 +416,7 @@ public abstract class PlatLot {
 		
 		// make the ceiling pretty
 		boolean pathFound = false;
-		if (generator.getHorizontalNSShaft(chunk.chunkX, y, chunk.chunkZ)) {
+		if (generator.shapeProvider.isHorizontalNSShaft(chunk.chunkX, y, chunk.chunkZ)) {
 			generateMineCeiling(chunk, 6, 10, y1 + 3, 0, 6);
 			generateMineCeiling(chunk, 6, 10, y1 + 3, 10, 16);
 			
@@ -425,7 +425,7 @@ public abstract class PlatLot {
 
 			pathFound = true;
 		}
-		if (generator.getHorizontalWEShaft(chunk.chunkX, y, chunk.chunkZ)) {
+		if (generator.shapeProvider.isHorizontalWEShaft(chunk.chunkX, y, chunk.chunkZ)) {
 			generateMineCeiling(chunk, 0, 6, y1 + 3, 6, 10);
 			generateMineCeiling(chunk, 10, 16, y1 + 3, 6, 10);
 

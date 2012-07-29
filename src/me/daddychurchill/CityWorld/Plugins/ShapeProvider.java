@@ -19,9 +19,9 @@ public abstract class ShapeProvider {
 
 	//TODO refactor these over to UndergroundProvider (which should include PlatLot's mines generator code)
 	//TODO rename these to ifSoAndSo
-	public abstract boolean getHorizontalNSShaft(WorldGenerator generator, int chunkX, int chunkY, int chunkZ);
-	public abstract boolean getHorizontalWEShaft(WorldGenerator generator, int chunkX, int chunkY, int chunkZ);
-	public abstract boolean getVerticalShaft(WorldGenerator generator, int chunkX, int chunkY, int chunkZ);
+	public abstract boolean isHorizontalNSShaft(int chunkX, int chunkY, int chunkZ);
+	public abstract boolean isHorizontalWEShaft(int chunkX, int chunkY, int chunkZ);
+	public abstract boolean isVerticalShaft(int chunkX, int chunkY, int chunkZ);
 	
 	//TODO refactor this so that it is a positive (maybe ifCave) instead of a negative
 	public abstract boolean notACave(WorldGenerator generator, int blockX, int blockY, int blockZ);
