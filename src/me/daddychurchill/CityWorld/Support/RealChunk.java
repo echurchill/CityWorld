@@ -301,6 +301,10 @@ public class RealChunk extends SupportChunk {
 		return chunk.getBlock(x, y, z).getTypeId() == type;
 	}
 	
+	public boolean isType(int x, int y, int z, Material material) {
+		return chunk.getBlock(x, y, z).getTypeId() == material.getId();
+	}
+	
 	public boolean isEmpty(int x, int y, int z) {
 		return chunk.getBlock(x, y, z).isEmpty();
 	}

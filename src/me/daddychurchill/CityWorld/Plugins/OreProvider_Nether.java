@@ -7,6 +7,11 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class OreProvider_Nether extends OreProvider {
+	
+	public OreProvider_Nether() {
+		super();
+		replaceableId = GroundProvider_Nether.netherrackId;
+	}
 
 	/**
 	 * Populates the world with ores.
@@ -20,18 +25,17 @@ public class OreProvider_Nether extends OreProvider {
 	private static final int[] ore_types = new int[] {Material.LAVA.getId(), // since we are not using water, this doesn't trigger the placeFluid code
 		  											  Material.GRAVEL.getId(), 
 		  											  Material.SOUL_SAND.getId(), 
-													  Material.COAL_ORE.getId(),
+		  											  Material.GLOWSTONE.getId(), 
 													  Material.IRON_ORE.getId(), 
 													  Material.GOLD_ORE.getId(), 
-													  Material.LAPIS_ORE.getId(),
 													  Material.REDSTONE_ORE.getId(),
 													  Material.DIAMOND_ORE.getId()}; 
-	//                                                          LAVA   GRAV   SOUL   COAL   IRON   GOLD  LAPIS  REDST   DIAM  
-	private static final int[] ore_iterations = new int[]    {     8,    40,    30,    20,    10,     4,     3,     6,     2};
-	private static final int[] ore_amountToDo = new int[]    {     2,    16,    19,     4,     8,     3,     2,     4,     2};
-	private static final int[] ore_maxY = new int[]          {   128,    96,   128,   128,    68,    34,    30,    17,    16};
-	private static final int[] ore_minY = new int[]          {     8,    40,    16,    16,    16,     5,     5,     8,     1};
-	private static final boolean[] ore_upper = new boolean[] {  true,  true,  true,  true,  true,  true,  true,  true, false};
+	//                                                          LAVA   GRAV   SOUL   GLOW   IRON   GOLD  REDST   DIAM  
+	private static final int[] ore_iterations = new int[]    {     8,    20,    30,    10,    10,     4,     6,     2};
+	private static final int[] ore_amountToDo = new int[]    {     2,    16,    16,     8,     8,     3,     4,     2};
+	private static final int[] ore_maxY = new int[]          {   128,    96,   128,   128,    68,    34,    17,    16};
+	private static final int[] ore_minY = new int[]          {     8,    40,    16,    16,    16,     5,     8,     1};
+	private static final boolean[] ore_upper = new boolean[] {  true,  true,  true,  true,  true,  true,  true, false};
 	
 	@Override
 	public void sprinkleOres(WorldGenerator generator, RealChunk chunk, Random random, OreLocation location) {

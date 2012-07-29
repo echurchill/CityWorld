@@ -44,10 +44,10 @@ public class PlatRoundaboutStatue extends PlatIsolated {
 		case WATER:
 			
 			// bottom of the fountain... any coins?
-			chunk.setCircle(8, 8, 5, y1, stoneId, false);
+			chunk.setCircle(8, 8, 5, y1, generator.groundProvider.substratumId, false);
 			for (int x = 0; x < 10; x++)
 				for (int z = 0; z < 10; z++)
-					chunk.setBlock(x + 3, y1, z + 3, stoneId);
+					chunk.setBlock(x + 3, y1, z + 3, generator.groundProvider.substratumId);
 			
 			//TODO the plain bit... later we will take care of the fancy bit
 			y1++;
@@ -68,25 +68,19 @@ public class PlatRoundaboutStatue extends PlatIsolated {
 			chunk.setCircle(8, 8, 6, y1, brickId, false);
 			
 			// backfill with grass
-			if (generator.settings.includeDecayedNature) {
-				chunk.setCircle(8, 8, 5, y1 - 1, netherrackId, false);
-				chunk.setBlocks(3, 13, y1 - 1, y1, 4, 12, netherrackId);
-				chunk.setBlocks(4, 12, y1 - 1, y1, 3, 13, netherrackId);
-			} else {
-				chunk.setCircle(8, 8, 5, y1 - 1, grassId, false);
-				chunk.setBlocks(3, 13, y1 - 1, y1, 4, 12, grassId);
-				chunk.setBlocks(4, 12, y1 - 1, y1, 3, 13, grassId);
-			}
+			chunk.setCircle(8, 8, 5, y1 - 1, generator.groundProvider.surfaceId, false);
+			chunk.setBlocks(3, 13, y1 - 1, y1, 4, 12, generator.groundProvider.surfaceId);
+			chunk.setBlocks(4, 12, y1 - 1, y1, 3, 13, generator.groundProvider.surfaceId);
 			break;
 		case PEDESTAL:
 			
 			// pedestal, imagine that!
 			y1++;
-			chunk.setCircle(8, 8, 4, y1, stoneId, false);
-			chunk.setCircle(8, 8, 3, y1, stoneId, false);
-			chunk.setCircle(8, 8, 3, y1 + 1, stoneId, false);
+			chunk.setCircle(8, 8, 4, y1, generator.groundProvider.substratumId, false);
+			chunk.setCircle(8, 8, 3, y1, generator.groundProvider.substratumId, false);
+			chunk.setCircle(8, 8, 3, y1 + 1, generator.groundProvider.substratumId, false);
 			chunk.setCircle(8, 8, 3, y1 + 2, fenceId, false);
-			chunk.setBlocks(5, 11, y1, y1 + 2, 5, 11, stoneId);
+			chunk.setBlocks(5, 11, y1, y1 + 2, 5, 11, generator.groundProvider.substratumId);
 			break;
 		}
 	}
@@ -134,12 +128,7 @@ public class PlatRoundaboutStatue extends PlatIsolated {
 			for (int x = 4; x < 12; x++) {
 				for (int z = 4; z < 12; z++) {
 					if (chunkRandom.nextDouble() < 0.40) {
-						if (generator.settings.includeDecayedNature) {
-							chunk.setBlock(x, y1, z, Material.FIRE);
-						} else {
-							generator.foliageProvider.generateFlora(generator, chunk, x, y1, z, FloraType.GRASS);
-							//chunk.setBlock(x, y1, z, grassMaterialId, (byte) 1);
-						}
+						generator.foliageProvider.generateFlora(generator, chunk, x, y1, z, FloraType.GRASS);
 					}
 				}
 			}

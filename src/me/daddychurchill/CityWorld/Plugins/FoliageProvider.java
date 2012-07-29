@@ -8,7 +8,6 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 import org.bukkit.BlockChangeDelegate;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
-import org.bukkit.World.Environment;
 import org.bukkit.block.Block;
 
 public abstract class FoliageProvider {
@@ -37,18 +36,26 @@ public abstract class FoliageProvider {
 		
 //		// need something like PhatLoot but for foliage
 //		provider = FoliageProvider_PhatFoliage.loadPhatFoliage();
-		
-		// default to stock OreProvider
 		if (provider == null) {
 			
 			if (generator.settings.includeTekkitMaterials)
 				provider = new FoliageProvider_Tekkit(random);
-			else if (generator.settings.includeDecayedNature)
-				provider = new FoliageProvider_Decayed(random);
-			else if (generator.settings.environment == Environment.THE_END)
-				provider = new FoliageProvider_TheEnd(random);
-			else
-				provider = new FoliageProvider_Normal(random);
+			else {
+				switch (generator.settings.environment) {
+				case NETHER:
+					provider = new FoliageProvider_Nether(random);
+					break;
+				case THE_END:
+					provider = new FoliageProvider_TheEnd(random);
+					break;
+				case NORMAL:
+					if (generator.settings.includeDecayedNature)
+						provider = new FoliageProvider_Decayed(random);
+					else
+						provider = new FoliageProvider_Normal(random);
+					break;
+				}
+			}
 		}
 	
 		return provider;

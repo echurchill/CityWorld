@@ -5,10 +5,12 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.Plugins.GroundProvider;
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.OdonymProvider;
 import me.daddychurchill.CityWorld.Plugins.OreProvider;
+import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -20,8 +22,6 @@ import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.util.noise.NoiseGenerator;
-import org.bukkit.util.noise.SimplexNoiseGenerator;
-import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 public class WorldGenerator extends ChunkGenerator {
 
@@ -30,25 +30,17 @@ public class WorldGenerator extends ChunkGenerator {
 	private String worldname;
 	private String worldstyle;
 	private Random connectionKeyGen;
+	
+	public ShapeProvider shapeProvider;
 	public LootProvider lootProvider;
 	public SpawnProvider spawnProvider;
 	public OreProvider oreProvider;
 	public FoliageProvider foliageProvider;
 	public OdonymProvider odonymProvider;
+	public GroundProvider groundProvider;
 
 	public CityWorldSettings settings;
 
-	public SimplexOctaveGenerator landShape1;
-	public SimplexOctaveGenerator landShape2;
-	public SimplexOctaveGenerator seaShape;
-	public SimplexOctaveGenerator noiseShape;
-	public SimplexOctaveGenerator featureShape;
-	public SimplexNoiseGenerator geologyShape;
-	public SimplexNoiseGenerator oreShape;
-	public SimplexNoiseGenerator mineShape;
-	public SimplexNoiseGenerator macroShape;
-	public SimplexNoiseGenerator microShape;
-	
 	public int deepseaLevel;
 	public int seaLevel;
 	public int sidewalkLevel;
@@ -91,43 +83,6 @@ public class WorldGenerator extends ChunkGenerator {
 		return Arrays.asList((BlockPopulator) new CityWorldBlockPopulator(this));
 	}
 	
-	public int landFlattening = 32;
-	public int seaFlattening = 4;
-
-	public int landFactor1to2 = 3;
-	public double landFrequency1 = 1.50;
-	public double landAmplitude1 = 20.0;
-	public double landHorizontalScale1 = 1.0 / 2048.0;
-	public double landFrequency2 = 1.0;
-	public double landAmplitude2 = landAmplitude1 / landFactor1to2;
-	public double landHorizontalScale2 = landHorizontalScale1 * landFactor1to2;
-
-	public double seaFrequency = 1.00;
-	public double seaAmplitude = 2.00;
-	public double seaHorizontalScale = 1.0 / 384.0;
-
-	public double noiseFrequency = 1.50;
-	public double noiseAmplitude = 0.70;
-	public double noiseHorizontalScale = 1.0 / 32.0;
-	public int noiseVerticalScale = 3;
-
-	public double featureFrequency = 1.50;
-	public double featureAmplitude = 0.75;
-	public double featureHorizontalScale = 1.0 / 64.0;
-	public int featureVerticalScale = 10;
-	
-	public int fudgeVerticalScale = noiseVerticalScale * landFactor1to2 + featureVerticalScale * landFactor1to2;
-
-	public double caveScale = 1.0 / 64.0;
-	public double caveScaleY = caveScale * 2;
-	public double caveThreshold = 0.75; // smaller the number the more larger the caves will be
-	
-	public double mineScale = 1.0 / 4.0;
-	public double mineScaleY = mineScale;
-
-	public double macroScale = 1.0 / 384.0;
-	public double microScale = 2.0;
-	
 	public double oddsOfIsolatedBuilding = 0.75;
 	public double oddsOfRoundabouts = 0.30;
 	
@@ -139,34 +94,19 @@ public class WorldGenerator extends ChunkGenerator {
 			settings = new CityWorldSettings(plugin, world);
 			long seed = world.getSeed();
 			connectionKeyGen = new Random(seed + 1);
+			shapeProvider = ShapeProvider.loadProvider(this);
 			lootProvider = LootProvider.loadProvider(this);
 			spawnProvider = SpawnProvider.loadProvider(this);
+			groundProvider = GroundProvider.loadProvider(this, new Random(seed + 2));
 			oreProvider = OreProvider.loadProvider(this);
-			foliageProvider = FoliageProvider.loadProvider(this, new Random(seed + 2));
-			odonymProvider = OdonymProvider.loadProvider(this, new Random(seed + 3));
-
-			landShape1 = new SimplexOctaveGenerator(seed, 4);
-			landShape1.setScale(landHorizontalScale1);
-			landShape2 = new SimplexOctaveGenerator(seed, 6);
-			landShape2.setScale(landHorizontalScale2);
-			seaShape = new SimplexOctaveGenerator(seed + 2, 8);
-			seaShape.setScale(seaHorizontalScale);
-			noiseShape = new SimplexOctaveGenerator(seed + 3, 16);
-			noiseShape.setScale(noiseHorizontalScale);
-			featureShape = new SimplexOctaveGenerator(seed + 4, 2);
-			featureShape.setScale(featureHorizontalScale);
-			
-			geologyShape = new SimplexNoiseGenerator(seed);
-			oreShape = new SimplexNoiseGenerator(seed + 1);
-			mineShape = new SimplexNoiseGenerator(seed + 2);
-			macroShape = new SimplexNoiseGenerator(seed + 3);
-			microShape = new SimplexNoiseGenerator(seed + 4);
+			foliageProvider = FoliageProvider.loadProvider(this, new Random(seed + 3));
+			odonymProvider = OdonymProvider.loadProvider(this, new Random(seed + 4));
 			
 			// get ranges
-			height = world.getMaxHeight();
-			seaLevel = world.getSeaLevel();
-			landRange = height - seaLevel - fudgeVerticalScale + landFlattening;
-			seaRange = seaLevel - fudgeVerticalScale + seaFlattening;
+			height = shapeProvider.getWorldHeight();
+			seaLevel = shapeProvider.getSeaLevel();
+			landRange = shapeProvider.getLandRange();
+			seaRange = shapeProvider.getSeaRange();
 
 			// now the other vertical points
 			deepseaLevel = seaLevel - seaRange / 3;
@@ -176,7 +116,6 @@ public class WorldGenerator extends ChunkGenerator {
 			treeLevel = seaLevel + (landRange / 4);
 			deciduousRange = evergreenLevel - treeLevel;
 			evergreenRange = snowLevel - evergreenLevel;
-			
 			
 //			// seabed = 35 deepsea = 50 sea = 64 sidewalk = 65 tree = 110 evergreen = 156 snow = 202 top = 249
 //			CityWorld.log.info("seabed = " + (seaLevel - seaRange) + 
@@ -215,58 +154,7 @@ public class WorldGenerator extends ChunkGenerator {
 	}
 	
 	public double findPerciseY(int blockX, int blockZ) {
-		double y = 0;
-		
-		// shape the noise
-		double noise = noiseShape.noise(blockX, blockZ, noiseFrequency, noiseAmplitude, true);
-		double feature = featureShape.noise(blockX, blockZ, featureFrequency, featureAmplitude, true);
-
-		double land1 = seaLevel + (landShape1.noise(blockX, blockZ, landFrequency1, landAmplitude1, true) * landRange) + 
-				(noise * noiseVerticalScale * landFactor1to2 + feature * featureVerticalScale * landFactor1to2) - landFlattening;
-		double land2 = seaLevel + (landShape2.noise(blockX, blockZ, landFrequency2, landAmplitude2, true) * (landRange / (double) landFactor1to2)) + 
-				(noise * noiseVerticalScale + feature * featureVerticalScale) - landFlattening;
-		
-		double landY = Math.max(land1, land2);
-		double sea = seaShape.noise(blockX, blockZ, seaFrequency, seaAmplitude, true);
-		
-		// calculate the Ys
-		double seaY = seaLevel + (sea * seaRange) + (noise * noiseVerticalScale) + seaFlattening;
-
-		// land is below the sea
-		if (landY <= seaLevel) {
-
-			// if seabed is too high... then we might be buildable
-			if (seaY >= seaLevel) {
-				y = seaLevel + 1;
-
-				// if we are too near the sea then we must be on the beach
-				if (seaY <= seaLevel + 1) {
-					y = seaLevel;
-				}
-
-			// if land is higher than the seabed use land to smooth
-			// out under water base of the mountains 
-			} else if (landY >= seaY) {
-				y = Math.min(seaLevel, landY + 1);
-
-			// otherwise just take the sea bed as is
-			} else {
-				y = Math.min(seaLevel, seaY);
-			}
-
-		// must be a mountain then
-		} else {
-			y = Math.max(seaLevel, landY + 1);
-		}
-		
-		// for real?
-		if (!settings.includeMountains)
-			y = Math.min(seaLevel + 1, y);
-		if (!settings.includeSeas)
-			y = Math.max(seaLevel + 1, y);
-
-		// range validation
-		return Math.min(height - 3, Math.max(y, 3));
+		return shapeProvider.findPerciseY(this, blockX, blockZ);
 	}
 	
 	public int findBlockY(int blockX, int blockZ) {
@@ -284,13 +172,11 @@ public class WorldGenerator extends ChunkGenerator {
 	private final static int microSurfaceCaveSlot = 2; 
 	
 	public Random getMicroRandomGeneratorAt(int x, int z) {
-		double noise = microShape.noise(x * microScale, z * microScale, microRandomGeneratorSlot);
-		return new Random((long) (noise * Long.MAX_VALUE));
+		return new Random((long) (shapeProvider.getMicroNoiseAt(x, z, microRandomGeneratorSlot) * Long.MAX_VALUE));
 	}
 	
 	public Random getMacroRandomGeneratorAt(int x, int z) {
-		double noise = macroShape.noise(x * macroScale, z * macroScale, macroRandomGeneratorSlot);
-		return new Random((long) (noise * Long.MAX_VALUE));
+		return new Random((long) (shapeProvider.getMacroNoiseAt(x, z, macroRandomGeneratorSlot) * Long.MAX_VALUE));
 	}
 	
 	public boolean getBridgePolarityAt(double chunkX, double chunkZ) {
@@ -319,11 +205,11 @@ public class WorldGenerator extends ChunkGenerator {
 	}
 	
 	protected boolean macroBooleanAt(double chunkX, double chunkZ, int slot) {
-		return macroShape.noise(chunkX * macroScale, chunkZ * macroScale, slot) >= 0.0;
+		return shapeProvider.getMacroNoiseAt(chunkX, chunkZ, slot) >= 0.0;
 	}
 	
 	protected boolean microBooleanAt(double chunkX, double chunkZ, int slot) {
-		return microShape.noise(chunkX * microScale, chunkZ * microScale, slot) >= 0.0;
+		return shapeProvider.getMicroNoiseAt(chunkX, chunkZ, slot) >= 0.0;
 	}
 	
 	protected int macroValueAt(double chunkX, double chunkZ, int slot, int scale) {
@@ -335,33 +221,27 @@ public class WorldGenerator extends ChunkGenerator {
 	}
 	
 	protected double macroScaleAt(double chunkX, double chunkZ, int slot) {
-		return (macroShape.noise(chunkX * macroScale, chunkZ * macroScale, slot) + 1.0) / 2.0;
+		return (shapeProvider.getMacroNoiseAt(chunkX, chunkZ, slot) + 1.0) / 2.0;
 	}
 
 	protected double microScaleAt(double chunkX, double chunkZ, int slot) {
-		return (microShape.noise(chunkX * microScale, chunkZ * microScale, slot) + 1.0) / 2.0;
+		return (shapeProvider.getMicroNoiseAt(chunkX, chunkZ, slot) + 1.0) / 2.0;
 	}
 	
 	public boolean getHorizontalNSShaft(int chunkX, int chunkY, int chunkZ) {
-		return mineShape.noise(chunkX * mineScale, chunkY * mineScale, chunkZ * mineScale + 0.5) > 0.0;
+		return shapeProvider.getHorizontalNSShaft(this, chunkX, chunkY, chunkZ);
 	}
 
 	public boolean getHorizontalWEShaft(int chunkX, int chunkY, int chunkZ) {
-		return mineShape.noise(chunkX * mineScale + 0.5, chunkY * mineScale, chunkZ * mineScale) > 0.0;
+		return shapeProvider.getHorizontalWEShaft(this, chunkX, chunkY, chunkZ);
 	}
 
 	public boolean getVerticalShaft(int chunkX, int chunkY, int chunkZ) {
-		return mineShape.noise(chunkX * mineScale, chunkY * mineScale + 0.5, chunkZ * mineScale) > 0.0;
+		return shapeProvider.getVerticalShaft(this, chunkX, chunkY, chunkZ);
 	}
 
 	public boolean notACave(int blockX, int blockY, int blockZ) {
-
-		// cave or not?
-		if (settings.includeCaves) {
-			double cave = geologyShape.noise(blockX * caveScale, blockY * caveScaleY, blockZ * caveScale);
-			return !(cave > caveThreshold || cave < -caveThreshold);
-		} else
-			return true;
+		return shapeProvider.notACave(this, blockX, blockY, blockZ);
 	}
 	
 	private final static int spawnRadius = 100;

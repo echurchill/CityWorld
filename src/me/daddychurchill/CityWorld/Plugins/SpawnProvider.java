@@ -23,7 +23,7 @@ public abstract class SpawnProvider {
 		
 		// default to stock SpawnProvider
 		if (provider == null) {
-			provider = new SpawnProvider_Default();
+			provider = new SpawnProvider_Normal();
 		}
 	
 		return provider;

@@ -70,7 +70,7 @@ public class OreProvider_Tekkit extends OreProvider {
 	protected boolean sprinkleOres_placeThing(RealChunk chunk, Random random, int x, int y, int z, int typeId, boolean physics) {
 		if (random.nextDouble() < 0.35) {
 			Block block = chunk.getActualBlock(x, y, z);
-			if (block.getTypeId() == stoneId) {
+			if (block.getTypeId() == replaceableId) {
 				
 				//TODO I like this idea, generalize it!
 				if (typeId > TekkitMaterial.typeScale) {

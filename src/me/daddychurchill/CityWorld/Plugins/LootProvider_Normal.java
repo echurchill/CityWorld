@@ -6,7 +6,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class LootProvider_Default extends LootProvider {
+public class LootProvider_Normal extends LootProvider {
 
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	

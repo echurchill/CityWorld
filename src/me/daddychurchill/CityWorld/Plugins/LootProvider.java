@@ -23,7 +23,7 @@ public abstract class LootProvider {
 		
 		// default to stock LootProvider
 		if (provider == null) {
-			provider = new LootProvider_Default();
+			provider = new LootProvider_Normal();
 		}
 	
 		return provider;

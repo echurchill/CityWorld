@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plats;
 
 import org.bukkit.Material;
+import org.bukkit.World.Environment;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
@@ -59,7 +60,7 @@ public class PlatRadioTower extends PlatIsolated {
 		chunk.setBlocks(originX, originX + platformWidth, platformY - 1, originZ, originZ + platformWidth, platformId);
 		
 		// base
-		if (minHeight > generator.evergreenLevel) {
+		if (generator.settings.environment != Environment.NETHER && minHeight > generator.evergreenLevel) {
 			for (int x = originX; x < originX + platformWidth; x++) {
 				for (int z = originZ; z < originZ + platformWidth; z++) {
 					if (chunkRandom.nextDouble() > 0.40)
@@ -71,7 +72,7 @@ public class PlatRadioTower extends PlatIsolated {
 		// building
 		if (building) {
 			chunk.setBlocks(originX + 2, originX + platformWidth - 2, platformY, platformY + 2, originZ + 2, originZ + platformWidth - 2, wallId);
-			chunk.setBlocks(originX + 3, originX + platformWidth - 4, platformY, platformY + 2, originZ + 3, originZ + platformWidth - 4, airId);
+			chunk.setBlocks(originX + 3, originX + platformWidth - 3, platformY, platformY + 2, originZ + 3, originZ + platformWidth - 3, airId);
 			chunk.setBlocks(originX + 2, originX + platformWidth - 2, platformY + 2, platformY + 3, originZ + 2, originZ + platformWidth - 2, roofId);
 		}
 	}
@@ -92,19 +93,26 @@ public class PlatRadioTower extends PlatIsolated {
 		if (building)
 			chunk.setWoodenDoor(originX + 2, platformY, originZ + 3, Direction.Door.WESTBYNORTHWEST);
 		
-		// place the ladder
-		int ladderBase = platformY - 2;
-		while (chunk.isEmpty(originX, ladderBase, originZ + 4)) {
-			ladderBase--;
+		// blow it all up?
+		if (generator.settings.includeDecayedBuildings) {
+			destroyWithin(generator, chunk, originX, originX + platformWidth, platformY - 2, platformY + 3, originZ, originZ + platformWidth);
+			
+		} else {
+			
+			// place the ladder
+			int ladderBase = platformY - 2;
+			while (chunk.isEmpty(originX, ladderBase, originZ + 4)) {
+				ladderBase--;
+			}
+			chunk.setLadder(originX, ladderBase, platformY, originZ + 4, Direction.Ladder.WEST);
+			chunk.setBlock(originX, platformY, originZ + 4, airMaterial);
+			
+			// place antennas
+			generateAntenna(chunk, context, originX + 1, platformY, originZ + 1, false);
+			generateAntenna(chunk, context, originX + 1, platformY, originZ + platformWidth - 2, false);
+			generateAntenna(chunk, context, originX + platformWidth - 2, platformY, originZ + 1, false);
+			generateAntenna(chunk, context, originX + platformWidth - 2, platformY, originZ + platformWidth - 2, true);
 		}
-		chunk.setLadder(originX, ladderBase, platformY, originZ + 4, Direction.Ladder.WEST);
-		chunk.setBlock(originX, platformY, originZ + 4, airMaterial);
-		
-		// place antennas
-		generateAntenna(chunk, context, originX + 1, platformY, originZ + 1, false);
-		generateAntenna(chunk, context, originX + 1, platformY, originZ + platformWidth - 2, false);
-		generateAntenna(chunk, context, originX + platformWidth - 2, platformY, originZ + 1, false);
-		generateAntenna(chunk, context, originX + platformWidth - 2, platformY, originZ + platformWidth - 2, true);
 	}
 	
 	private void generateAntenna(RealChunk chunk, ContextData context, int x, int y, int z, boolean lastChance) {

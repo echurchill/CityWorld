@@ -4,9 +4,9 @@ import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 
-public class OdonymProvider_Default extends OdonymProvider {
+public class OdonymProvider_Normal extends OdonymProvider {
 
-	public OdonymProvider_Default(int seed) {
+	public OdonymProvider_Normal(int seed) {
 		super(seed);
 	}
 
@@ -137,7 +137,7 @@ public class OdonymProvider_Default extends OdonymProvider {
 		 "stead", "beach", "opolis", "way", "caster", "park", "brook", "vale", "wich", 
 		 "ton", "dam", "line", "field", "mont", "more", "moore", "side", "bay", "ford", 
 		 "vania", "hunt", "crest", "palm", "shire", "worth", "croft", "lawn", "mill", 
-		 "burgh", "moor", "haven", "hart", "port", "dale", "ing", "willow", "vue", 
+		 "burgh", "moor", "haven", "hart", "port", "dale", "ing", "willow", "vue", "ill",
 		 "towne", "ridge", "meadow", "mead", "slade", "tree", "son", "lyn", "pool", "hattan"};
 
 	private String getEndingPart(Random random) {

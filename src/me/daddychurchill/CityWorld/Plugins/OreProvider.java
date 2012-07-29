@@ -11,6 +11,13 @@ import org.bukkit.block.Block;
 
 public abstract class OreProvider {
 
+	// desendents set to this to what their substrata is
+	protected int replaceableId;
+	
+	public OreProvider() {
+		replaceableId = GroundProvider.stoneId;
+	}
+	
 	/**
 	 * Populates the world with ores.
 	 *
@@ -20,7 +27,6 @@ public abstract class OreProvider {
 	 * wildly modified by daddychurchill
 	 */
 	
-	protected static final int stoneId = Material.STONE.getId();
 	protected static final int iceTypeId = Material.ICE.getId();
 	protected static final int waterTypeId = Material.WATER.getId();
 	protected static final int lavaTypeId = Material.LAVA.getId();
@@ -98,7 +104,7 @@ public abstract class OreProvider {
 	protected boolean sprinkleOres_placeThing(RealChunk chunk, Random random, int x, int y, int z, int typeId, boolean physics) {
 		if (random.nextDouble() < 0.35) {
 			Block block = chunk.getActualBlock(x, y, z);
-			if (block.getTypeId() == stoneId) {
+			if (block.getTypeId() == replaceableId) {
 				block.setTypeId(typeId, physics);
 				return true;
 			}
@@ -124,7 +130,7 @@ public abstract class OreProvider {
 			else if (generator.settings.environment == Environment.THE_END)
 				provider = new OreProvider_TheEnd();
 			else
-				provider = new OreProvider_Default();
+				provider = new OreProvider_Normal();
 		}
 	
 		return provider;

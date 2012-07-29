@@ -10,9 +10,9 @@ import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.HouseFactory;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
-public class PlatAntennaShack extends PlatIsolated {
+public class PlatMountainShack extends PlatIsolated {
 
-	public PlatAntennaShack(PlatMap platmap, int chunkX, int chunkZ) {
+	public PlatMountainShack(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
 		style = LotStyle.NATURE;
@@ -45,8 +45,8 @@ public class PlatAntennaShack extends PlatIsolated {
 					if (generator.settings.includeDecayedNature) {
 						chunk.setBlocks(x, y - 2, averageHeight + 1, z, sandId);
 					} else {
-						chunk.setBlocks(x, y - 2, averageHeight, z, dirtId);
-						chunk.setBlock(x, averageHeight, z, grassId); 
+						chunk.setBlocks(x, y - 2, averageHeight, z, generator.groundProvider.subsurfaceId);
+						chunk.setBlock(x, averageHeight, z, generator.groundProvider.surfaceId); 
 					}
 					chunk.setBlocks(x, averageHeight + 1, maxHeight + 1, z, airId);
 				}

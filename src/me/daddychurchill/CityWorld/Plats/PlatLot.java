@@ -3,17 +3,12 @@ package me.daddychurchill.CityWorld.Plats;
 import java.util.Random;
 
 import org.bukkit.Material;
-import org.bukkit.TreeType;
-import org.bukkit.World.Environment;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
-import org.bukkit.util.noise.NoiseGenerator;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.ContextData;
-import me.daddychurchill.CityWorld.Plugins.FoliageProvider.FloraType;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.OreProvider.OreLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
@@ -45,29 +40,17 @@ public abstract class PlatLot {
 	public enum LotStyle {NATURE, STRUCTURE, ROAD, ROUNDABOUT};
 	public LotStyle style;
 	
-	protected byte stoneId = (byte) Material.STONE.getId();
-	protected byte grassId = (byte) Material.GRASS.getId();
-	protected byte dirtId = (byte) Material.DIRT.getId();
-	
 	public PlatLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super();
-		
 		initializeDice(platmap, chunkX, chunkZ);
 		
 		style = LotStyle.NATURE;
-
-		// desolation for this lot?
-		if (platmap.generator.settings.includeDecayedNature) {
-			grassId = sandId;
-			dirtId = sandstoneId;
-		}
-		if (platmap.generator.settings.environment == Environment.THE_END) {
-			dirtId = endId;
-			stoneId = endId;
-		}
 	}
 	
 	protected final static byte airId = (byte) Material.AIR.getId();
+	protected final static byte stoneId = (byte) Material.STONE.getId();
+	protected final static byte dirtId = (byte) Material.DIRT.getId();
+	protected final static byte grassId = (byte) Material.GRASS.getId();
 	protected final static byte snowId = (byte) Material.SNOW_BLOCK.getId();
 	protected final static byte sandId = (byte) Material.SAND.getId();
 	protected final static byte sandstoneId = (byte) Material.SANDSTONE.getId();
@@ -87,6 +70,8 @@ public abstract class PlatLot {
 	protected final static byte clayId = (byte) Material.CLAY.getId();
 	protected final static byte ironFenceId = (byte) Material.IRON_FENCE.getId();
 	protected final static byte endId = (byte) Material.ENDER_STONE.getId();
+	protected final static byte netherrackId = (byte) Material.NETHERRACK.getId();
+	protected final static byte soulsandId = (byte) Material.SOUL_SAND.getId();
 
 	protected final static int snowMaterialId = Material.SNOW.getId();
 	protected final static Material snowMaterial = Material.SNOW;
@@ -102,7 +87,7 @@ public abstract class PlatLot {
 	protected abstract void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ);
 	protected abstract void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ);
 
-	protected Biome getChunkBiome() {
+	public Biome getChunkBiome() {
 		return Biome.PLAINS;
 	}
 	
@@ -143,9 +128,6 @@ public abstract class PlatLot {
 	
 	protected void generateCrust(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 
-		// biome for the chunk
-		Biome chunkBiome = getChunkBiome();
-		
 		// total height
 		int sumHeight = 0;
 		
@@ -182,73 +164,7 @@ public abstract class PlatLot {
 		// shape the world
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {
-
-				// how high are we?
-				int y = blocksY[x][z];
-				
-				// make the base
-				chunk.setBlock(x, 0, z, bedrockId);
-				chunk.setBlock(x, 1, z, stoneId);
-
-				// buildable?
-				if (style == LotStyle.STRUCTURE || style == LotStyle.ROUNDABOUT) {
-					generateStratas(generator, chunk, x, z, stoneId, generator.sidewalkLevel - 2, dirtId, generator.sidewalkLevel, dirtId, false);
-					biomes.setBiome(x, z, chunkBiome);
-					
-				// possibly buildable?
-				} else if (y == generator.sidewalkLevel) {
-					generateStratas(generator, chunk, x, z, stoneId, y - 3, dirtId, y, grassId, generator.settings.includeDecayedNature);
-					biomes.setBiome(x, z, chunkBiome);
-				
-				// won't likely have a building
-				} else {
-
-					// on the beach
-					if (y == generator.seaLevel) {
-						generateStratas(generator, chunk, x, z, stoneId, y - 2, sandId, y, sandId, generator.settings.includeDecayedNature);
-						biomes.setBiome(x, z, Biome.BEACH);
-
-					// we are in the water! ...or are we?
-					} else if (y < generator.seaLevel) {
-						Biome seaBiome = Biome.DESERT;
-						if (generator.settings.includeDecayedNature)
-							if (generator.settings.includeAbovegroundFluids && y < generator.deepseaLevel)
-								generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, generator.deepseaLevel, stillLavaId, false);
-							else
-								generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, true);
-						else 
-							if (generator.settings.includeAbovegroundFluids) {
-								generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, generator.seaLevel, stillWaterId, false);
-								seaBiome = Biome.OCEAN;
-							} else
-								generateStratas(generator, chunk, x, z, stoneId, y - 2, sandstoneId, y, sandId, false);
-						biomes.setBiome(x, z, seaBiome);
-
-						// we are in the mountains
-					} else {
-
-						// regular trees only
-						if (y < generator.treeLevel) {
-							generateStratas(generator, chunk, x, z, stoneId, y - 3, dirtId, y, grassId, generator.settings.includeDecayedNature);
-							biomes.setBiome(x, z, Biome.FOREST);
-
-						// regular trees and some evergreen trees
-						} else if (y < generator.evergreenLevel) {
-							generateStratas(generator, chunk, x, z, stoneId, y - 2, dirtId, y, grassId, surfaceCaves);
-							biomes.setBiome(x, z, Biome.FOREST_HILLS);
-
-						// evergreen and some of fallen snow
-						} else if (y < generator.snowLevel) {
-							generateStratas(generator, chunk, x, z, stoneId, y - 1, dirtId, y, grassId, surfaceCaves);
-							biomes.setBiome(x, z, Biome.TAIGA_HILLS);
-							
-						// only snow up here!
-						} else {
-							generateStratas(generator, chunk, x, z, stoneId, y - 1, stoneId, y, snowId, surfaceCaves);
-							biomes.setBiome(x, z, Biome.ICE_MOUNTAINS);
-						}
-					}
-				}
+				biomes.setBiome(x, z, generator.groundProvider.generateCrust(generator, this, chunk, x, blocksY[x][z], z, surfaceCaves));
 			}
 		}
 		
@@ -584,44 +500,7 @@ public abstract class PlatLot {
 		}
 	}
 
-	private void generateStratas(WorldGenerator generator, ByteChunk chunk, int x, int z, byte baseId,
-			int baseY, byte substrateId, int substrateY, byte surfaceId,
-			boolean surfaceCaves) {
-
-		// compute the world block coordinates
-		int blockX = chunk.chunkX * chunk.width + x;
-		int blockZ = chunk.chunkZ * chunk.width + z;
-		
-		// stony bits
-		for (int y = 2; y < baseY; y++)
-			if (isValidStrataY(generator, blockX, y, blockZ) && generator.notACave(blockX, y, blockZ))
-				chunk.setBlock(x, y, z, baseId);
-
-		// aggregate bits
-		for (int y = baseY; y < substrateY - 1; y++)
-			if (!surfaceCaves || generator.notACave(blockX, y, blockZ))
-				chunk.setBlock(x, y, z, substrateId);
-
-		// icing for the cake
-		if (!surfaceCaves || generator.notACave(blockX, substrateY, blockZ)) {
-			chunk.setBlock(x, substrateY - 1, z, substrateId);
-			chunk.setBlock(x, substrateY, z, surfaceId);
-		}
-	}
-
-	private void generateStratas(WorldGenerator generator, ByteChunk chunk, int x, int z, byte baseId,
-			int baseY, byte substrateId, int substrateY, byte surfaceId,
-			int coverY, byte coverId, boolean surfaceCaves) {
-
-		// a little crust please?
-		generateStratas(generator, chunk, x, z, baseId, baseY, substrateId, substrateY, surfaceId, surfaceCaves);
-
-		// cover it up
-		for (int y = substrateY + 1; y <= coverY; y++)
-			chunk.setBlock(x, y, z, coverId);
-	}
-	
-	protected boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
+	public boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
 		return true;
 	}
 	
@@ -673,9 +552,6 @@ public abstract class PlatLot {
 		return miniPlatMap;
 	}
 	
-	private final static double treeOdds = 0.85;
-	private final static double foliageOdds = 0.50;
-
 	protected void generateSurface(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ, boolean includeTrees) {
 		
 		// compute offset to start of chunk
@@ -685,132 +561,7 @@ public abstract class PlatLot {
 		// plant grass or snow
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {
-				double perciseY = generator.findPerciseY(blockX + x, blockZ + z);
-				int y = NoiseGenerator.floor(perciseY);
-					
-				// roll the dice
-				double primary = chunkRandom.nextDouble();
-				double secondary = chunkRandom.nextDouble();
-				
-				// top of the world?
-				if (y >= generator.snowLevel) {
-					if (!generator.settings.includeDecayedNature) {
-						y = chunk.findLastEmptyBelow(x, y + 1, z);
-						if (chunk.isEmpty(x, y, z))
-							chunk.setBlock(x, y, z, snowMaterialId, (byte) NoiseGenerator.floor((perciseY - Math.floor(perciseY)) * 8.0));
-					}
-				
-				// are on a plantable spot?
-				} else if (generator.foliageProvider.isPlantable(generator, chunk, x, y, z)) {
-					
-					// below sea level and plantable.. then cactus?
-					if (y <= generator.seaLevel) {
-						
-						// trees? but only if we are not too close to the edge
-						if (includeTrees && primary > 0.90 && x % 2 == 0 && z % 2 == 0) {
-							if (chunk.isSurroundedByEmpty(x, y + 1, z))
-								generator.foliageProvider.generateFlora(generator, chunk, x, y + 1, z, FloraType.CACTUS);
-						}
-						
-					// regular trees, grass and flowers only
-					} else if (y < generator.treeLevel) {
-	
-						// trees? but only if we are not too close to the edge
-						if (includeTrees && primary > treeOdds && x % 2 == 0 && z % 2 == 0) {
-							if (secondary > 0.90 && x > 5 && x < 11 && z > 5 && z < 11)
-								generator.foliageProvider.generateTree(generator, chunk, x, y + 1, z, TreeType.BIG_TREE);
-							else if (secondary > 0.50)
-								generator.foliageProvider.generateTree(generator, chunk, x, y + 1, z, TreeType.BIRCH);
-							else 
-								generator.foliageProvider.generateTree(generator, chunk, x, y + 1, z, TreeType.TREE);
-						
-						// foliage?
-						} else if (primary < foliageOdds) {
-							
-							// what to pepper about
-							if (secondary > 0.90)
-								generator.foliageProvider.generateFlora(generator, chunk, x, y + 1, z, FloraType.FLOWER_RED);
-							else if (secondary > 0.80)
-								generator.foliageProvider.generateFlora(generator, chunk, x, y + 1, z, FloraType.FLOWER_YELLOW);
-							else 
-								generator.foliageProvider.generateFlora(generator, chunk, x, y + 1, z, FloraType.GRASS);
-						}
-						
-					// regular trees, grass and some evergreen trees... no flowers
-					} else if (y < generator.evergreenLevel) {
-	
-						// trees? but only if we are not too close to the edge
-						if (includeTrees && primary > treeOdds && x % 2 == 0 && z % 2 == 0) {
-							
-							// range change?
-							if (secondary > ((double) (y - generator.treeLevel) / (double) generator.deciduousRange))
-								generator.foliageProvider.generateTree(generator, chunk, x, y + 1, z, TreeType.TREE);
-							else
-								generator.foliageProvider.generateTree(generator, chunk, x, y + 1, z, TreeType.REDWOOD);
-						
-						// foliage?
-						} else if (primary < foliageOdds) {
-
-							// range change?
-							if (secondary > ((double) (y - generator.treeLevel) / (double) generator.deciduousRange))
-								generator.foliageProvider.generateFlora(generator, chunk, x, y + 1, z, FloraType.GRASS);
-							else
-								generator.foliageProvider.generateFlora(generator, chunk, x, y + 1, z, FloraType.FERN);
-						}
-						
-					// evergreen and some grass and fallen snow, no regular trees or flowers
-					} else if (y < generator.snowLevel) {
-						
-						// trees? but only if we are not too close to the edge
-						if (includeTrees && primary > treeOdds && x % 2 == 0 && z % 2 == 0) {
-							if (secondary > 0.50)
-								generator.foliageProvider.generateTree(generator, chunk, x, y + 1, z, TreeType.REDWOOD);
-							else
-								generator.foliageProvider.generateTree(generator, chunk, x, y + 1, z, TreeType.TALL_REDWOOD);
-						
-						// foliage?
-						} else if (primary < foliageOdds) {
-							
-							// range change?
-							if (secondary > ((double) (y - generator.evergreenLevel) / (double) generator.evergreenRange)) {
-								if (chunkRandom.nextDouble() < 0.40)
-									generator.foliageProvider.generateFlora(generator, chunk, x, y + 1, z, FloraType.FERN);
-							} else {
-								if (!generator.settings.includeDecayedNature) {
-									chunk.setBlock(x, y + 1, z, snowMaterial);
-								}
-							}
-						}
-					}
-				
-				// can't plant, maybe there is something else I can do
-				} else {
-					
-					// regular trees, grass and flowers only
-					if (y < generator.treeLevel) {
-	
-					// regular trees, grass and some evergreen trees... no flowers
-					} else if (y < generator.evergreenLevel) {
-	
-					// evergreen and some grass and fallen snow, no regular trees or flowers
-					} else if (y < generator.snowLevel) {
-						
-						if (primary < foliageOdds) {
-							
-							// range change?
-							if (secondary > ((double) (y - generator.evergreenLevel) / (double) generator.evergreenRange)) {
-								if (chunkRandom.nextDouble() < 0.10 && generator.foliageProvider.isPlantable(generator, chunk, x, y, z))
-									generator.foliageProvider.generateFlora(generator, chunk, x, y + 1, z, FloraType.FERN);
-							} else {
-								if (!generator.settings.includeDecayedNature) {
-									y = chunk.findLastEmptyBelow(x, y + 1, z);
-									if (chunk.isEmpty(x, y, z))
-										chunk.setBlock(x, y, z, snowMaterial);
-								}
-							}
-						}
-					}
-				}
+				generator.groundProvider.generateSurface(generator, this, chunk, x, generator.findPerciseY(blockX + x, blockZ + z), z, includeTrees);
 			}
 		}
 	}
@@ -820,6 +571,10 @@ public abstract class PlatLot {
 	}
 	
 	protected void destroyLot(WorldGenerator generator, RealChunk chunk, int y1, int y2) {
+		destroyWithin(generator, chunk, 0, chunk.width, y1, y2, 0, chunk.width);
+	}
+	
+	protected void destroyWithin(WorldGenerator generator, RealChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2) {
 		int count = Math.max(1, (y2 - y1) / ContextData.FloorHeight);
 		
 		// world centric 
@@ -829,8 +584,8 @@ public abstract class PlatLot {
 		while (count > 0) {
 			
 			// find a place
-			int cx = chunk.getBlockX(chunkRandom.nextInt(chunk.width));
-			int cz = chunk.getBlockZ(chunkRandom.nextInt(chunk.width));
+			int cx = chunk.getBlockX(chunkRandom.nextInt(x2 - x1) + x1);
+			int cz = chunk.getBlockZ(chunkRandom.nextInt(z2 - z1) + z1);
 			int cy = chunkRandom.nextInt(Math.max(1, y2 - y1)) + y1;
 			int radius = chunkRandom.nextInt(3) + 3;
 			

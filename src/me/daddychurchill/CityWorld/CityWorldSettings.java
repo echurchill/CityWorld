@@ -50,7 +50,7 @@ public class CityWorldSettings {
 	public boolean includeUndergroundFluids = true;
 	public boolean includeAbovegroundFluids = true;
 	public boolean includeWorkingLights = true;
-	public boolean includePavedRoads = true;
+	public boolean includeWoolRoads = false;
 	public boolean includeNamedRoads = true;
 	public boolean includeDecayedRoads = false;
 	public boolean includeDecayedBuildings = false;
@@ -89,7 +89,7 @@ public class CityWorldSettings {
 	private final static String tagIncludeUndergroundFluids = "IncludeUndergroundFluids";
 	private final static String tagIncludeAbovegroundFluids = "IncludeAbovegroundFluids";
 	private final static String tagIncludeWorkingLights = "IncludeWorkingLights";
-	private final static String tagIncludePavedRoads = "IncludePavedRoads";
+	private final static String tagIncludeWoolRoads = "IncludeWoolRoads";
 	private final static String tagIncludeNamedRoads = "IncludeNamedRoads";
 	private final static String tagIncludeDecayedRoads = "IncludeDecayedRoads";
 	private final static String tagIncludeDecayedBuildings = "IncludeDecayedBuildings";
@@ -171,7 +171,7 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeUndergroundFluids, includeUndergroundFluids);
 			section.addDefault(tagIncludeAbovegroundFluids, includeAbovegroundFluids);
 			section.addDefault(tagIncludeWorkingLights, includeWorkingLights);
-			section.addDefault(tagIncludePavedRoads, includePavedRoads);
+			section.addDefault(tagIncludeWoolRoads, includeWoolRoads);
 			section.addDefault(tagIncludeNamedRoads, includeNamedRoads);
 			section.addDefault(tagIncludeDecayedRoads, includeDecayedRoads);
 			section.addDefault(tagIncludeDecayedBuildings, includeDecayedBuildings);
@@ -211,7 +211,7 @@ public class CityWorldSettings {
 			includeUndergroundFluids = section.getBoolean(tagIncludeUndergroundFluids, includeUndergroundFluids);
 			includeAbovegroundFluids = section.getBoolean(tagIncludeAbovegroundFluids, includeAbovegroundFluids);
 			includeWorkingLights = section.getBoolean(tagIncludeWorkingLights, includeWorkingLights);
-			includePavedRoads = section.getBoolean(tagIncludePavedRoads, includePavedRoads);
+			includeWoolRoads = section.getBoolean(tagIncludeWoolRoads, includeWoolRoads);
 			includeNamedRoads = section.getBoolean(tagIncludeNamedRoads, includeNamedRoads);
 			includeDecayedRoads = section.getBoolean(tagIncludeDecayedRoads, includeDecayedRoads);
 			includeDecayedBuildings = section.getBoolean(tagIncludeDecayedBuildings, includeDecayedBuildings);

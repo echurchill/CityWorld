@@ -132,12 +132,12 @@ public class PlatPark extends PlatConnected {
 		} else {
 			
 			// backfill with dirt
-			chunk.setLayer(lowestY, highestY + 2 - lowestY, dirtId);
+			chunk.setLayer(lowestY, highestY + 2 - lowestY, generator.groundProvider.subsurfaceId);
 		}
 		
 		// top it off
-		chunk.setLayer(highestY + 2, dirtId);
-		chunk.setLayer(highestY + 3, grassId);
+		chunk.setLayer(highestY + 2, generator.groundProvider.subsurfaceId);
+		chunk.setLayer(highestY + 3, generator.groundProvider.surfaceId);
 		
 		// surface features
 		int surfaceY = generator.sidewalkLevel + 1;

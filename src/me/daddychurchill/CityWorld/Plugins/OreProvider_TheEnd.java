@@ -8,6 +8,11 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class OreProvider_TheEnd extends OreProvider {
+	
+	public OreProvider_TheEnd() {
+		super();
+		replaceableId = GroundProvider_TheEnd.endStoneId;
+	}
 
 	/**
 	 * Populates the world with ores.

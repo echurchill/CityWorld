@@ -1,7 +1,6 @@
 package me.daddychurchill.CityWorld.Plats;
 
 import org.bukkit.Material;
-import org.bukkit.block.Biome;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.PlatMap;
@@ -40,6 +39,7 @@ public class PlatRoad extends PlatConnected {
 	private final static byte sewerWallId = (byte) sewerWallMaterial.getId();
 	private final static byte sewerCeilingId = sewerFloorId;
 	private final static byte pavementId = (byte) Material.STONE.getId();
+	private final static byte crosswalkId = (byte) Material.CLAY.getId();
 	private final static byte sidewalkId = (byte) Material.STEP.getId();
 	private final static Material sewerPlankMaterial = Material.STEP; //TODO should be Material.WOODSTEP (or whatever it is called)
 	private final static byte sewerPlankData = 2;
@@ -75,12 +75,7 @@ public class PlatRoad extends PlatConnected {
 	}
 	
 	@Override
-	protected Biome getChunkBiome() {
-		return Biome.SWAMPLAND;
-	}
-
-	@Override
-	protected boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
+	public boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
 		return blockY < generator.sidewalkLevel - 1 || blockY > generator.sidewalkLevel;
 	}
 
@@ -96,6 +91,41 @@ public class PlatRoad extends PlatConnected {
 	private boolean sewerSouthWestBias;
 	private boolean sewerSouthEastBias;
 
+	// where are they?
+	boolean crosswalkNorth = false;
+	boolean crosswalkSouth = false;
+	boolean crosswalkWest = false;
+	boolean crosswalkEast = false;
+	boolean crosswalksFound = false;
+	
+	// where are the crosswalks
+	protected void calculateCrosswalks(SurroundingRoads roads) {
+		if (!crosswalksFound) {
+			if (roundaboutRoad) {
+				crosswalkNorth = roads.toNorth() && roads.toWest() && roads.toEast();
+				crosswalkSouth = roads.toSouth() && roads.toWest() && roads.toEast();
+				crosswalkWest = roads.toWest() && roads.toNorth() && roads.toSouth();
+				crosswalkEast = roads.toEast() && roads.toNorth() && roads.toSouth();
+			} else {
+				
+				// how many connecting roads are there?
+				int roadways = (roads.toNorth() ? 1 : 0) + (roads.toSouth() ? 1 : 0) + (roads.toWest() ? 1 : 0) + (roads.toEast() ? 1 : 0);
+				
+				// crosswalks for intersections and turns
+				boolean crosswalks = roadways == 4 || roadways == 3;
+				if (roadways == 2)
+					crosswalks = !((roads.toNorth() && roads.toSouth()) || (roads.toWest() && roads.toEast()));
+					
+				// finally draw the crosswalks
+				crosswalkNorth = crosswalks && roads.toNorth();
+				crosswalkSouth = crosswalks && roads.toSouth();
+				crosswalkWest = crosswalks && roads.toWest();
+				crosswalkEast = crosswalks && roads.toEast();
+			}
+			crosswalksFound = true;
+		}
+	}
+	
 	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
 		
@@ -262,9 +292,10 @@ public class PlatRoad extends PlatConnected {
 			}
 			
 		} else {
+			int pavementLevel = sidewalkLevel - 1;
 			
 			// draw pavement and clear out a bit
-			chunk.setLayer(sidewalkLevel - 1, pavementId);
+			chunk.setLayer(pavementLevel, pavementId);
 			chunk.setLayer(sidewalkLevel, airId);
 			
 			// sidewalk corners
@@ -283,12 +314,27 @@ public class PlatRoad extends PlatConnected {
 			if (!roads.toSouth())
 				chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, chunk.width - sidewalkWidth, chunk.width, sidewalkId);
 			
+			// crosswalks?
+			if (cityRoad && !generator.settings.includeWoolRoads) {
+				calculateCrosswalks(roads);
+				
+				// draw the crosswalk bits
+				if (crosswalkNorth)
+					generateNSCrosswalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth);
+				if (crosswalkSouth)
+					generateNSCrosswalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width);
+				if (crosswalkWest)
+					generateWECrosswalk(chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth);
+				if (crosswalkEast)
+					generateWECrosswalk(chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth);
+			}
+			
 			// tunnel walls please
 			if (maxHeight > sidewalkLevel + tunnelHeight) {
 				doSewer = false;
 				
 				// draw pavement
-				chunk.setLayer(generator.sidewalkLevel - 2, 2, pavementId);
+				chunk.setLayer(pavementLevel - 1, 2, pavementId);
 				
 				// tunnel to the east/west
 				if (roads.toWest() && roads.toEast()) {
@@ -513,6 +559,20 @@ public class PlatRoad extends PlatConnected {
 		}
 	}
 	
+	private void generateNSCrosswalk(ByteChunk chunk, int x1, int x2, int y, int z1, int z2) {
+		chunk.setBlocks(x1 + 1, x1 + 2, y, z1, z2, crosswalkId);
+		chunk.setBlocks(x1 + 3, x1 + 4, y, z1, z2, crosswalkId);
+		chunk.setBlocks(x2 - 2, x2 - 1, y, z1, z2, crosswalkId);
+		chunk.setBlocks(x2 - 4, x2 - 3, y, z1, z2, crosswalkId);
+	}
+
+	private void generateWECrosswalk(ByteChunk chunk, int x1, int x2, int y, int z1, int z2) {
+		chunk.setBlocks(x1, x2, y, z1 + 1, z1 + 2, crosswalkId);
+		chunk.setBlocks(x1, x2, y, z1 + 3, z1 + 4, crosswalkId);
+		chunk.setBlocks(x1, x2, y, z2 - 2, z2 - 1, crosswalkId);
+		chunk.setBlocks(x1, x2, y, z2 - 4, z2 - 3, crosswalkId);
+	}
+	
 	private void placeEWBridgeCap(ByteChunk chunk, int x, int baseY, int topY) {
 		chunk.setBlocks(x, x + 2, baseY, topY, 0, 16, retainingWallId);
 	}
@@ -707,12 +767,6 @@ public class PlatRoad extends PlatConnected {
 		sewerSouthWestBias = chunkRandom.nextBoolean();
 		sewerSouthEastBias = chunkRandom.nextBoolean();
 		
-		// crosswalks?
-		boolean crosswalkNorth = false;
-		boolean crosswalkSouth = false;
-		boolean crosswalkWest = false;
-		boolean crosswalkEast = false;
-		
 		// compute offset to start of chunk
 		int originX = chunk.getOriginX();
 		int originZ = chunk.getOriginZ();
@@ -762,42 +816,18 @@ public class PlatRoad extends PlatConnected {
 		} else {
 			int pavementLevel = sidewalkLevel - 1;
 			
-			// re-pave a bit
-			if (generator.settings.includePavedRoads) {
+			// crosswalks?
+			if (generator.settings.includeWoolRoads) {
+				calculateCrosswalks(roads);
 				
 				// center bit
 				chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, pavementMat, pavementColor, false);
-				
-				// road to the whatever
-				if (roundaboutRoad) {
-					if (roads.toNorth())
-						crosswalkNorth = generateRoadNSBit(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth, roads.toWest() && roads.toEast());
-					if (roads.toSouth())
-						crosswalkSouth = generateRoadNSBit(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width, roads.toWest() && roads.toEast());
-					if (roads.toWest())
-						crosswalkWest = generateRoadWEBit(chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, roads.toNorth() && roads.toSouth());
-					if (roads.toEast())
-						crosswalkEast = generateRoadWEBit(chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, roads.toNorth() && roads.toSouth());
-				} else {
-					
-					// how many connecting roads are there?
-					int roadways = (roads.toNorth() ? 1 : 0) + (roads.toSouth() ? 1 : 0) + (roads.toWest() ? 1 : 0) + (roads.toEast() ? 1 : 0);
-					
-					// crosswalks for intersections and turns
-					boolean crosswalks = roadways == 4 || roadways == 3;
-					if (roadways == 2)
-						crosswalks = !((roads.toNorth() && roads.toSouth()) || (roads.toWest() && roads.toEast()));
-						
-					// finally draw the crosswalks
-					if (roads.toNorth())
-						crosswalkNorth = generateRoadNSBit(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth, crosswalks);
-					if (roads.toSouth())
-						crosswalkSouth = generateRoadNSBit(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width, crosswalks);
-					if (roads.toWest())
-						crosswalkWest = generateRoadWEBit(chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalks);
-					if (roads.toEast())
-						crosswalkEast = generateRoadWEBit(chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalks);
-				}
+			
+				// finally draw the crosswalks
+				generateNSCrosswalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth, crosswalkNorth);
+				generateNSCrosswalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width, crosswalkSouth);
+				generateWECrosswalk(chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalkWest);
+				generateWECrosswalk(chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalkEast);
 			}
 			
 			// decay please
@@ -860,6 +890,11 @@ public class PlatRoad extends PlatConnected {
 					
 					// put signs up?
 					if (generator.settings.includeNamedRoads) {
+						
+						// if we haven't calculated crosswalks yet do so
+						calculateCrosswalks(roads);
+						
+						// add the signs
 						if (lightPostNW && (crosswalkNorth || crosswalkWest))
 							generateStreetSign(generator, chunk, sidewalkLevel, sidewalkWidth - 1, sidewalkWidth - 1);
 						if (lightPostSE && (crosswalkSouth || crosswalkEast))
@@ -1073,28 +1108,24 @@ public class PlatRoad extends PlatConnected {
 		}
 	}
 	
-	private boolean generateRoadNSBit(RealChunk chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
+	private void generateNSCrosswalk(RealChunk chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
 		chunk.setBlocks(x1, x2, y, z1, z2, pavementMat, pavementColor, false);
-		boolean result = cityRoad && crosswalk;
-		if (result) {
+		if (cityRoad && crosswalk) {
 			chunk.setBlocks(x1 + 1, x1 + 2, y, z1, z2, pavementMat, crosswalkColor, false);
 			chunk.setBlocks(x1 + 3, x1 + 4, y, z1, z2, pavementMat, crosswalkColor, false);
 			chunk.setBlocks(x2 - 2, x2 - 1, y, z1, z2, pavementMat, crosswalkColor, false);
 			chunk.setBlocks(x2 - 4, x2 - 3, y, z1, z2, pavementMat, crosswalkColor, false);
 		}
-		return result;
 	}
 
-	private boolean generateRoadWEBit(RealChunk chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
+	private void generateWECrosswalk(RealChunk chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
 		chunk.setBlocks(x1, x2, y, z1, z2, pavementMat, pavementColor, false);
-		boolean result = cityRoad && crosswalk;
-		if (result) {
+		if (cityRoad && crosswalk) {
 			chunk.setBlocks(x1, x2, y, z1 + 1, z1 + 2, pavementMat, crosswalkColor, false);
 			chunk.setBlocks(x1, x2, y, z1 + 3, z1 + 4, pavementMat, crosswalkColor, false);
 			chunk.setBlocks(x1, x2, y, z2 - 2, z2 - 1, pavementMat, crosswalkColor, false);
 			chunk.setBlocks(x1, x2, y, z2 - 4, z2 - 3, pavementMat, crosswalkColor, false);
 		}
-		return result;
 	}
 	
 	private void decayRoad(RealChunk chunk, int x1, int x2, int y, int z1, int z2) {

@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.Material;
 
-public class OreProvider_Default extends OreProvider {
+public class OreProvider_Normal extends OreProvider {
 
 	/**
 	 * Populates the world with ores.

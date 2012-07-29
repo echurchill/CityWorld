@@ -55,7 +55,7 @@ public abstract class OdonymProvider {
 //			else if (generator.settings.environment == Environment.THE_END)
 //				provider = new NameProvider_TheEnd(random);
 //			else
-				provider = new OdonymProvider_Default(random.nextInt());
+				provider = new OdonymProvider_Normal(random.nextInt());
 		}
 	
 		return provider;

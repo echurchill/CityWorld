@@ -24,7 +24,7 @@ public class PlatHouse extends PlatIsolated {
 		if (generator.settings.includeDecayedNature)
 			chunk.setLayer(generator.sidewalkLevel, sandId);
 		else
-			chunk.setLayer(generator.sidewalkLevel, grassId);
+			chunk.setLayer(generator.sidewalkLevel, generator.groundProvider.surfaceId);
 	}
 	
 	@Override
