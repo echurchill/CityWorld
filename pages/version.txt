@@ -5,6 +5,7 @@ v1.10
 * Fixed a bunch of bugs associated with farms related to nether and decayed nature
 * Made the nether more nether like... including FIRE!
 * Decayed nature now doesn't mean Nether, which makes Normal worlds much more normal
+* Fixed an issue with 2 story houses where the attic stairs would sometimes lead to a block
 
 v1.07
 * Fixed a decayedNature vs. Normal world issue

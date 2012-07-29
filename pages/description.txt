@@ -21,7 +21,9 @@ v1.10 (and others fixes since v1.04)
 * Made wool roads something you have opt into
 * Fixed a bunch of bugs associated with farms related to nether and decayed nature
 * Made the nether more nether like... including FIRE!
-* Decayed nature now doesn't mean Nether, which makes Normal worlds much more normal* Fixed a decayedNature vs. Normal world issue
+* Decayed nature now doesn't mean Nether, which makes Normal worlds much more normal
+* Fixed an issue with 2 story houses where the attic stairs would lead to a block
+* Fixed a decayedNature vs. Normal world issue
 * Made the decayed signs a bit less decayed
 * Fixed a farming issue, the drought is over
 * Fixed a sewer generation issue, it is amazing what an extra "!" will do

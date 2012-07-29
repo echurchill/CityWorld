@@ -12,12 +12,6 @@ import org.bukkit.Material;
 
 public final class HouseFactory {
 	
-	/*TODO Alex's bug
-	 * 1st 2nd
-	 * RS  RS
-	 * RR  Re  makes so the stairs won't lead to empty attic, empty room should be diagonal to stairs
-	 */
-	
 	public final static int generateShack(RealChunk chunk, ContextData context, Random random, int baseY) {
 		
 		// what are we made of?
@@ -534,13 +528,26 @@ public final class HouseFactory {
 			rooms[f][roomX][roomZ].style = Room.Style.ENTRY;
 			rooms[f][roomX][roomZ].widthX = maxRoomWidth;
 			rooms[f][roomX][roomZ].widthZ = maxRoomWidth;
+			
+			// and on the second floor
+			if (f == 1) {
+				
+				// if one of the side rooms is missing, make it not missing and make the opposite one is
+				if (rooms[f][roomX][flip(roomZ)].missing) {
+					rooms[f][roomX][flip(roomZ)].missing = false;
+					rooms[f][flip(roomX)][flip(roomZ)].missing = true;
+				} else if (rooms[f][flip(roomX)][roomZ].missing) {
+					rooms[f][flip(roomX)][roomZ].missing = false;
+					rooms[f][flip(roomX)][flip(roomZ)].missing = true;
+				}
+			}
 		}
 		
 		// now the kitchen
-		roomZ = roomZ == 0 ? 1 : 0;
+		roomZ = flip(roomZ);
 		if (rooms[0][roomX][roomZ].missing) {
-			roomX = roomX == 0 ? 1 : 0;
-			roomZ = roomZ == 0 ? 1 : 0;
+			roomX = flip(roomX);
+			roomZ = flip(roomZ);
 		}
 		rooms[0][roomX][roomZ].style = Room.Style.KITCHEN;
 
@@ -548,13 +555,13 @@ public final class HouseFactory {
 		if (floors == 1) {
 
 			// next find the dining room
-			roomX = roomX == 0 ? 1 : 0;
+			roomX = flip(roomX);
 			if (!rooms[0][roomX][roomZ].missing) {
 				rooms[0][roomX][roomZ].style = Room.Style.DINING;
 			}
 			
 			// put the bed in the last spot
-			roomZ = roomZ == 0 ? 1 : 0;
+			roomZ = flip(roomZ);
 			rooms[0][roomX][roomZ].missing = false;
 			rooms[0][roomX][roomZ].style = Room.Style.BED;
 		
@@ -562,19 +569,19 @@ public final class HouseFactory {
 		} else {
 			
 			// next find the dining room
-			roomX = roomX == 0 ? 1 : 0;
+			roomX = flip(roomX);
 			if (!rooms[0][roomX][roomZ].missing) {
 				rooms[0][roomX][roomZ].style = Room.Style.DINING;
 				
 				// put the living room in the last spot if available
-				roomZ = roomZ == 0 ? 1 : 0;
+				roomZ = flip(roomZ);
 				if (!rooms[0][roomX][roomZ].missing) {
 					rooms[0][roomX][roomZ].style = Room.Style.LIVING;
 				}
 			
 			// only one room left, dining room please!
 			} else {
-				roomZ = roomZ == 0 ? 1 : 0;
+				roomZ = flip(roomZ);
 				if (!rooms[0][roomX][roomZ].missing) {
 					rooms[0][roomX][roomZ].style = Room.Style.DINING;
 				}
@@ -670,6 +677,10 @@ public final class HouseFactory {
 //			}
 
 //		}
+	}
+	
+	private final static int flip(int i) {
+		return i == 0 ? 1 : 0;
 	}
 	
 	private final static void drawRoom(RealChunk chunk, ContextData context, Random random, Room[][][] rooms, int floor, int floors, int x, int z, 

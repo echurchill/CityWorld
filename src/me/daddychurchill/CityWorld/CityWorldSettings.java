@@ -8,16 +8,12 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class CityWorldSettings {
 	
-	/* BUGs
-	 * Houses can have ladders to nowhere
-	 * TODOs
+	/* TODOs
 	 * Add to bunkers
 	 *   Farms
 	 *   Floors and stairs where practical
 	 *   Rounded tanks
 	 *   Writing on the outside of buildings
-	 * Add to streets
-	 *   Street signs with optional street names... We still generate WAY too many signs in roundabouts
 	 */
 	
 	public Environment environment;
