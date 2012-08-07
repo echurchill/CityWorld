@@ -1,8 +1,8 @@
 package me.daddychurchill.CityWorld.Support;
 
-import me.daddychurchill.CityWorld.PlatMap;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plats.PlatRoad;
+import me.daddychurchill.CityWorld.Plats.RoadLot;
 
 public class SurroundingRoads {
 
@@ -32,10 +32,10 @@ public class SurroundingRoads {
 
 				// beyond the edge
 				if (neighbor == null) {
-					roads[x][z] = platX == PlatRoad.PlatMapRoadInset - 1 ||
-								  platZ == PlatRoad.PlatMapRoadInset - 1 || 
-								  platX == PlatMap.Width - PlatRoad.PlatMapRoadInset ||
-								  platZ == PlatMap.Width - PlatRoad.PlatMapRoadInset; 
+					roads[x][z] = platX == RoadLot.PlatMapRoadInset - 1 ||
+								  platZ == RoadLot.PlatMapRoadInset - 1 || 
+								  platX == PlatMap.Width - RoadLot.PlatMapRoadInset ||
+								  platZ == PlatMap.Width - RoadLot.PlatMapRoadInset; 
 
 					// is connected in some way?
 				} else {

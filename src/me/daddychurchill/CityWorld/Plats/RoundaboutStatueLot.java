@@ -3,8 +3,8 @@ package me.daddychurchill.CityWorld.Plats;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider.FloraType;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -12,7 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.TreeType;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-public class PlatRoundaboutStatue extends PlatIsolated {
+public class RoundaboutStatueLot extends IsolatedLot {
 
 	private enum StatueBase { WATER, GRASS, PEDESTAL };
 	
@@ -24,14 +24,20 @@ public class PlatRoundaboutStatue extends PlatIsolated {
 	
 	protected StatueBase statueBase;
 	
-	public PlatRoundaboutStatue(PlatMap platmap, int chunkX, int chunkZ) {
+	public RoundaboutStatueLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
 		style = LotStyle.ROUNDABOUT;
 	}
 
 	@Override
+	public boolean isPlaceableAt(WorldGenerator generator, int chunkX, int chunkZ) {
+		return generator.settings.inRoadRange(chunkX, chunkZ);
+	}
+	
+	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+		
 		// what is it build on?
 		statueBase = randomBase(chunkRandom);
 
@@ -44,10 +50,10 @@ public class PlatRoundaboutStatue extends PlatIsolated {
 		case WATER:
 			
 			// bottom of the fountain... any coins?
-			chunk.setCircle(8, 8, 5, y1, generator.groundProvider.substratumId, false);
+			chunk.setCircle(8, 8, 5, y1, generator.oreProvider.substratumId, false);
 			for (int x = 0; x < 10; x++)
 				for (int z = 0; z < 10; z++)
-					chunk.setBlock(x + 3, y1, z + 3, generator.groundProvider.substratumId);
+					chunk.setBlock(x + 3, y1, z + 3, generator.oreProvider.substratumId);
 			
 			//TODO the plain bit... later we will take care of the fancy bit
 			y1++;
@@ -68,19 +74,19 @@ public class PlatRoundaboutStatue extends PlatIsolated {
 			chunk.setCircle(8, 8, 6, y1, brickId, false);
 			
 			// backfill with grass
-			chunk.setCircle(8, 8, 5, y1 - 1, generator.groundProvider.surfaceId, false);
-			chunk.setBlocks(3, 13, y1 - 1, y1, 4, 12, generator.groundProvider.surfaceId);
-			chunk.setBlocks(4, 12, y1 - 1, y1, 3, 13, generator.groundProvider.surfaceId);
+			chunk.setCircle(8, 8, 5, y1 - 1, generator.oreProvider.surfaceId, false);
+			chunk.setBlocks(3, 13, y1 - 1, y1, 4, 12, generator.oreProvider.surfaceId);
+			chunk.setBlocks(4, 12, y1 - 1, y1, 3, 13, generator.oreProvider.surfaceId);
 			break;
 		case PEDESTAL:
 			
 			// pedestal, imagine that!
 			y1++;
-			chunk.setCircle(8, 8, 4, y1, generator.groundProvider.substratumId, false);
-			chunk.setCircle(8, 8, 3, y1, generator.groundProvider.substratumId, false);
-			chunk.setCircle(8, 8, 3, y1 + 1, generator.groundProvider.substratumId, false);
+			chunk.setCircle(8, 8, 4, y1, generator.oreProvider.substratumId, false);
+			chunk.setCircle(8, 8, 3, y1, generator.oreProvider.substratumId, false);
+			chunk.setCircle(8, 8, 3, y1 + 1, generator.oreProvider.substratumId, false);
 			chunk.setCircle(8, 8, 3, y1 + 2, fenceId, false);
-			chunk.setBlocks(5, 11, y1, y1 + 2, 5, 11, generator.groundProvider.substratumId);
+			chunk.setBlocks(5, 11, y1, y1 + 2, 5, 11, generator.oreProvider.substratumId);
 			break;
 		}
 	}

@@ -2,13 +2,13 @@ package me.daddychurchill.CityWorld.Context;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plats.PlatNature;
-import me.daddychurchill.CityWorld.Plats.PlatOfficeBuilding;
-import me.daddychurchill.CityWorld.Plats.PlatPark;
-import me.daddychurchill.CityWorld.Plats.PlatUnfinishedBuilding;
+import me.daddychurchill.CityWorld.Plats.NatureLot;
+import me.daddychurchill.CityWorld.Plats.OfficeBuildingLot;
+import me.daddychurchill.CityWorld.Plats.ParkLot;
+import me.daddychurchill.CityWorld.Plats.UnfinishedBuildingLot;
 
 public abstract class ContextUrban extends ContextData {
 
@@ -33,13 +33,13 @@ public abstract class ContextUrban extends ContextData {
 
 						// what to build?
 						if (platmapRandom.nextInt(oddsOfParks) == 0)
-							current = new PlatPark(platmap, platmap.originX + x, platmap.originZ + z, generator.connectedKeyForParks);
+							current = new ParkLot(platmap, platmap.originX + x, platmap.originZ + z, generator.connectedKeyForParks);
 						else if (platmapRandom.nextInt(oddsOfUnfinishedBuildings) == 0)
-							current = new PlatUnfinishedBuilding(platmap, platmap.originX + x, platmap.originZ + z);
+							current = new UnfinishedBuildingLot(platmap, platmap.originX + x, platmap.originZ + z);
 						//TODO warehouses
 						//TODO government buildings
 						else
-							current = new PlatOfficeBuilding(platmap, platmap.originX + x, platmap.originZ + z);
+							current = new OfficeBuildingLot(platmap, platmap.originX + x, platmap.originZ + z);
 						
 						/* for each plot
 						 *   randomly pick a plattype
@@ -67,7 +67,7 @@ public abstract class ContextUrban extends ContextData {
 					
 					// no buildings? let's bring back nature
 					} else 
-						current = new PlatNature(platmap, platmap.originX + x, platmap.originZ + z);
+						current = new NatureLot(platmap, platmap.originX + x, platmap.originZ + z);
 
 					// remember what we did
 					platmap.setLot(x, z, current);

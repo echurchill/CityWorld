@@ -1,17 +1,17 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-public class PlatMineEntrance extends PlatIsolated {
+public class MineEntranceLot extends ConstructLot {
 
-	public PlatMineEntrance(PlatMap platmap, int chunkX, int chunkZ) {
+	public MineEntranceLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 
 	}

@@ -3,9 +3,9 @@ package me.daddychurchill.CityWorld.Plats;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
@@ -16,7 +16,7 @@ import me.daddychurchill.CityWorld.Support.SurroundingRoads;
 import me.daddychurchill.CityWorld.Support.Direction.Ladder;
 import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
 
-public class PlatRoad extends PlatConnected {
+public class RoadLot extends ConnectedLot {
 	
 	//TODO Lines on the road
 	
@@ -65,13 +65,18 @@ public class PlatRoad extends PlatConnected {
 	boolean cityRoad;
 	boolean roundaboutRoad;
 	
-	public PlatRoad(PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey, boolean roundaboutPart) {
+	public RoadLot(PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey, boolean roundaboutPart) {
 		super(platmap, chunkX, chunkZ);
 		
 		style = LotStyle.ROAD;
 		connectedkey = globalconnectionkey;
 		cityRoad = platmap.generator.settings.inCityRange(chunkX, chunkZ);
 		roundaboutRoad = roundaboutPart;
+	}
+	
+	@Override
+	public boolean isPlaceableAt(WorldGenerator generator, int chunkX, int chunkZ) {
+		return generator.settings.inRoadRange(chunkX, chunkZ);
 	}
 	
 	@Override

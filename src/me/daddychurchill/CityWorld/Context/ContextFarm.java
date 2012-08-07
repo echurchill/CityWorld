@@ -2,10 +2,10 @@ package me.daddychurchill.CityWorld.Context;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Plats.PlatFarm;
-import me.daddychurchill.CityWorld.Plats.PlatHouse;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
+import me.daddychurchill.CityWorld.Plats.FarmLot;
+import me.daddychurchill.CityWorld.Plats.HouseLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 
@@ -72,13 +72,13 @@ public class ContextFarm extends ContextRural {
 					
 					// farm house here?
 					if (!housePlaced && platmapRandom.nextDouble() > oddsOfFarmHouse && generator.settings.includeHouses) {
-						housePlaced = platmap.setLot(x, z, new PlatHouse(platmap, platmap.originX + x, platmap.originZ + z)); 
+						housePlaced = platmap.setLot(x, z, new HouseLot(platmap, platmap.originX + x, platmap.originZ + z)); 
 					
 					// place the farm
 					} else {
 						
 						// place the farm
-						current = new PlatFarm(platmap, originX + x, originZ + z);
+						current = new FarmLot(platmap, originX + x, originZ + z);
 						
 						// see if the previous chunk is the same type
 						PlatLot previous = null;
@@ -106,7 +106,7 @@ public class ContextFarm extends ContextRural {
 		
 		// did we miss out placing the farm house?
 		if (!housePlaced && platmap.isEmptyLot(lastX, lastZ) && generator.settings.includeHouses) {
-			platmap.setLot(lastX, lastZ, new PlatHouse(platmap, platmap.originX + lastX, platmap.originZ + lastZ)); 
+			platmap.setLot(lastX, lastZ, new HouseLot(platmap, platmap.originX + lastX, platmap.originZ + lastZ)); 
 		}
 	}
 }

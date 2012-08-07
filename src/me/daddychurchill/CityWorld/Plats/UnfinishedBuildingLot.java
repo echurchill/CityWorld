@@ -4,15 +4,15 @@ import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
 import me.daddychurchill.CityWorld.Support.WorldBlocks;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
 
-public class PlatUnfinishedBuilding extends PlatBuilding {
+public class UnfinishedBuildingLot extends BuildingLot {
 
 	private final static int FloorHeight = ContextData.FloorHeight;
 	
@@ -32,7 +32,7 @@ public class PlatUnfinishedBuilding extends PlatBuilding {
 	protected int floorsBuilt;
 	protected int lastHorizontalGirder;
 	
-	public PlatUnfinishedBuilding(PlatMap platmap, int chunkX, int chunkZ) {
+	public UnfinishedBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		ContextData context = platmap.context;
 		

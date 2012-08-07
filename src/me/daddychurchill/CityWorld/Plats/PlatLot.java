@@ -7,8 +7,8 @@ import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.OreProvider.OreLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
@@ -91,6 +91,10 @@ public abstract class PlatLot {
 		return Biome.PLAINS;
 	}
 	
+	public boolean isPlaceableAt(WorldGenerator generator, int chunkX, int chunkZ) {
+		return generator.settings.inCityRange(chunkX, chunkZ);
+	}
+	
 	private void initializeDice(PlatMap platmap, int chunkX, int chunkZ) {
 		
 		// reset and pick up the dice
@@ -164,7 +168,7 @@ public abstract class PlatLot {
 		// shape the world
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {
-				biomes.setBiome(x, z, generator.groundProvider.generateCrust(generator, this, chunk, x, blocksY[x][z], z, surfaceCaves));
+				biomes.setBiome(x, z, generator.shapeProvider.generateCrust(generator, this, chunk, x, blocksY[x][z], z, surfaceCaves));
 			}
 		}
 		
@@ -561,7 +565,7 @@ public abstract class PlatLot {
 		// plant grass or snow
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {
-				generator.groundProvider.generateSurface(generator, this, chunk, x, generator.findPerciseY(blockX + x, blockZ + z), z, includeTrees);
+				generator.foliageProvider.generateSurface(generator, this, chunk, x, generator.findPerciseY(blockX + x, blockZ + z), z, includeTrees);
 			}
 		}
 	}

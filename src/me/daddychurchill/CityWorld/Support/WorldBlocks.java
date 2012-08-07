@@ -30,12 +30,12 @@ public class WorldBlocks extends SupportChunk {
 	}
 
 	@Override
-	protected void setBlock(int x, int y, int z, byte materialId) {
+	public void setBlock(int x, int y, int z, byte materialId) {
 		world.getBlockAt(x, y, z).setTypeId(materialId);
 	}
 
 	@Override
-	protected void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId) {
+	public void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				world.getBlockAt(x, y, z).setTypeId(materialId);

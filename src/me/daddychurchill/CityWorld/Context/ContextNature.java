@@ -2,15 +2,15 @@ package me.daddychurchill.CityWorld.Context;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Plats.PlatBunker;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
+import me.daddychurchill.CityWorld.Plats.BunkerLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plats.PlatMineEntrance;
-import me.daddychurchill.CityWorld.Plats.PlatOilPlatform;
-import me.daddychurchill.CityWorld.Plats.PlatRoad;
-import me.daddychurchill.CityWorld.Plats.PlatMountainShack;
-import me.daddychurchill.CityWorld.Plats.PlatRadioTower;
+import me.daddychurchill.CityWorld.Plats.MineEntranceLot;
+import me.daddychurchill.CityWorld.Plats.OilPlatformLot;
+import me.daddychurchill.CityWorld.Plats.RoadLot;
+import me.daddychurchill.CityWorld.Plats.MountainShackLot;
+import me.daddychurchill.CityWorld.Plats.RadioTowerLot;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.HeightInfo.HeightState;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
@@ -78,8 +78,8 @@ public class ContextNature extends ContextRural {
 							}
 							
 							// innermost chunks?
-							boolean innermost = x >= PlatRoad.PlatMapRoadInset && x < PlatMap.Width - PlatRoad.PlatMapRoadInset && 
-												z >= PlatRoad.PlatMapRoadInset && z < PlatMap.Width - PlatRoad.PlatMapRoadInset;
+							boolean innermost = x >= RoadLot.PlatMapRoadInset && x < PlatMap.Width - RoadLot.PlatMapRoadInset && 
+												z >= RoadLot.PlatMapRoadInset && z < PlatMap.Width - RoadLot.PlatMapRoadInset;
 							
 							// what type of height are we talking about?
 							switch (heights.state) {
@@ -87,16 +87,16 @@ public class ContextNature extends ContextRural {
 								
 								// if not one of the innermost or the height isn't tall enough for bunkers
 								if (generator.settings.includeBuildings)
-									if (!innermost || minHeight < PlatBunker.calcBunkerMinHeight(generator)) {
+									if (!innermost || minHeight < BunkerLot.calcBunkerMinHeight(generator)) {
 										if (heights.isSortaFlat() && generator.isIsolatedBuildingAt(originX + x, originZ + z))
-											current = new PlatMountainShack(platmap, originX + x, originZ + z);
+											current = new MountainShackLot(platmap, originX + x, originZ + z);
 										break;
 									}
 							case HIGHLAND:
 							case PEAK:
 								if (generator.settings.includeBunkers)
 									if (doBunkers && innermost) {
-										current = new PlatBunker(platmap, originX + x, originZ + z);
+										current = new BunkerLot(platmap, originX + x, originZ + z);
 									}
 								break;
 							default:
@@ -133,7 +133,7 @@ public class ContextNature extends ContextRural {
 				// POS: 1080, 80, 284
 				// Two platforms are created right next to two bridges
 				if (generator.settings.includeBuildings) {
-					platmap.setLot(x, z, new PlatOilPlatform(platmap, platmap.originX + x, platmap.originZ + z));
+					platmap.setLot(x, z, new OilPlatformLot(platmap, platmap.originX + x, platmap.originZ + z));
 				}
 				break;
 //			case SEA:
@@ -146,12 +146,12 @@ public class ContextNature extends ContextRural {
 			case MIDLAND: 
 				// Mine entrance
 				if (generator.settings.includeMines)
-					platmap.setLot(x, z, new PlatMineEntrance(platmap, platmap.originX + x, platmap.originZ + z));
+					platmap.setLot(x, z, new MineEntranceLot(platmap, platmap.originX + x, platmap.originZ + z));
 				break;
 			case HIGHLAND: 
 				// Radio towers
 				if (generator.settings.includeBuildings)
-					platmap.setLot(x, z, new PlatRadioTower(platmap, platmap.originX + x, platmap.originZ + z));
+					platmap.setLot(x, z, new RadioTowerLot(platmap, platmap.originX + x, platmap.originZ + z));
 				break;
 //			case PEAK:
 //				// Observatories

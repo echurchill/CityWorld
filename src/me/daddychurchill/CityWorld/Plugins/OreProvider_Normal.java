@@ -4,11 +4,14 @@ import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-
 import org.bukkit.Material;
 
 public class OreProvider_Normal extends OreProvider {
 
+	public OreProvider_Normal(WorldGenerator generator) {
+		super(generator);
+	}
+	
 	/**
 	 * Populates the world with ores.
 	 *

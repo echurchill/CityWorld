@@ -2,16 +2,16 @@ package me.daddychurchill.CityWorld.Plats;
 
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.HouseFactory;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
-public class PlatHouse extends PlatIsolated {
+public class HouseLot extends IsolatedLot {
 
-	public PlatHouse(PlatMap platmap, int chunkX, int chunkZ) {
+	public HouseLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
 		style = LotStyle.STRUCTURE;
@@ -24,7 +24,7 @@ public class PlatHouse extends PlatIsolated {
 		if (generator.settings.includeDecayedNature)
 			chunk.setLayer(generator.sidewalkLevel, sandId);
 		else
-			chunk.setLayer(generator.sidewalkLevel, generator.groundProvider.surfaceId);
+			chunk.setLayer(generator.sidewalkLevel, generator.oreProvider.surfaceId);
 	}
 	
 	@Override

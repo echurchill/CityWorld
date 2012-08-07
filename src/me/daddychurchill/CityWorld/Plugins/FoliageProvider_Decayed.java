@@ -8,12 +8,24 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
 
-public class FoliageProvider_Decayed extends FoliageProvider {
+public class FoliageProvider_Decayed extends FoliageProvider_Normal {
 	
 	public FoliageProvider_Decayed(Random random) {
 		super(random);
 	}
 	
+	@Override
+	public boolean isPlantable(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
+		
+		// only if the spot above is empty
+		if (!chunk.isEmpty(x, y + 1, z))
+			return false;
+		else
+			return !chunk.isEmpty(x, y, z);
+	}
+
+
+
 	@Override
 	protected boolean likelyFlora(WorldGenerator generator, Random random) {
 		return random.nextDouble() < oddsOfDarkFlora;

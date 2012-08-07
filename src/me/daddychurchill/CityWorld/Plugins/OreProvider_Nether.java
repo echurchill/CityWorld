@@ -8,9 +8,21 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class OreProvider_Nether extends OreProvider {
 	
-	public OreProvider_Nether() {
-		super();
-		replaceableId = GroundProvider_Nether.netherrackId;
+	public final static byte stillLavaId = (byte) Material.STATIONARY_LAVA.getId();
+	public final static byte netherrackId = (byte) Material.NETHERRACK.getId();
+	
+	public OreProvider_Nether(WorldGenerator generator) {
+		super(generator);
+		
+		surfaceId = netherrackId;
+		subsurfaceId = netherrackId;
+		stratumId = netherrackId;
+		
+		fluidId = stillLavaId;
+		fluidSubsurfaceId = netherrackId;
+		fluidSurfaceId = netherrackId;
+		fluidFrozenId = stillLavaId;
+		fluidFrozenOdds = 0.05;
 	}
 
 	/**
@@ -53,5 +65,11 @@ public class OreProvider_Nether extends OreProvider {
 						ore_amountToDo[typeNdx], ore_types[typeNdx]);
 			}
 		}
+	}
+
+	@Override
+	public void dropSnow(WorldGenerator generator, RealChunk chunk, int x, int y, int z, byte level) {
+		
+		// do nothing
 	}
 }

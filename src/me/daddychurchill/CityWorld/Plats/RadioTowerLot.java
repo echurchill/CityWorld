@@ -1,20 +1,20 @@
 package me.daddychurchill.CityWorld.Plats;
 
 import org.bukkit.Material;
-import org.bukkit.World.Environment;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
-import me.daddychurchill.CityWorld.PlatMap;
+
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
-public class PlatRadioTower extends PlatIsolated {
+public class RadioTowerLot extends ConstructLot {
 
 	private boolean building;
 	
-	public PlatRadioTower(PlatMap platmap, int chunkX, int chunkZ) {
+	public RadioTowerLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		building = chunkRandom.nextDouble() < 0.90;
 	}
@@ -60,14 +60,8 @@ public class PlatRadioTower extends PlatIsolated {
 		chunk.setBlocks(originX, originX + platformWidth, platformY - 1, originZ, originZ + platformWidth, platformId);
 		
 		// base
-		if (generator.settings.environment != Environment.NETHER && minHeight > generator.evergreenLevel) {
-			for (int x = originX; x < originX + platformWidth; x++) {
-				for (int z = originZ; z < originZ + platformWidth; z++) {
-					if (chunkRandom.nextDouble() > 0.40)
-						chunk.setBlock(x, platformY, z, snowMaterial);
-				}
-			}
-		}
+		if (minHeight > generator.evergreenLevel)
+			generator.oreProvider.sprinkleSnow(generator, chunk, chunkRandom, originX, originX + platformWidth, platformY, originZ, originZ + platformWidth);
 		
 		// building
 		if (building) {

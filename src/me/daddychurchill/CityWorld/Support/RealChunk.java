@@ -409,36 +409,42 @@ public class RealChunk extends SupportChunk {
 		setBlock(x, y, z, material.getId(), direction.getData(), true);
 	}
 	
+	private final static int chestId = Material.CHEST.getId();
 	public void setChest(int x, int y, int z, Direction.Chest direction, ItemStack... items) {
 		Block block = chunk.getBlock(x, y, z);
-		block.setTypeIdAndData(Material.CHEST.getId(), direction.getData(), true);
+		block.setTypeIdAndData(chestId, direction.getData(), false);
 		if (items.length > 0) {
-//			Material material = block.getType();
-//			BlockState state = block.getState();
-//			CityWorld.log.info("BlockState = " + state);
-//			CityWorld.log.info("BlockMaterial = " + material);
-			Chest chest = (Chest) block.getState();
-			Inventory inv = chest.getInventory();
-			inv.clear();
-			inv.addItem(items);
+			if (block.getTypeId() == chestId) {
+				Chest chest = (Chest) block.getState();
+				Inventory inv = chest.getInventory();
+				inv.clear();
+				inv.addItem(items);
+				chest.update(true);
+			}
 		}
 	}
 
+	private final static int spawnerId = Material.MOB_SPAWNER.getId();
 	public void setSpawner(int x, int y, int z, EntityType aType) {
 		Block block = chunk.getBlock(x, y, z);
-		block.setType(Material.MOB_SPAWNER);
-		CreatureSpawner spawner = (CreatureSpawner) block.getState();
-		spawner.setSpawnedType(aType);
-		spawner.update(true);
+		block.setTypeId(spawnerId, false);
+		if (block.getTypeId() == spawnerId) {
+			CreatureSpawner spawner = (CreatureSpawner) block.getState();
+			spawner.setSpawnedType(aType);
+			spawner.update(true);
+		}
 	}
 	
+	private final static int signId = Material.WALL_SIGN.getId();
 	public void setWallSign(int x, int y, int z, Direction.WallSign direction, String[] text) {
 		Block block = chunk.getBlock(x, y, z);
-		block.setTypeIdAndData(Material.WALL_SIGN.getId(), direction.getData(), false);
-		Sign sign = (Sign) block.getState();
-		for (int i = 0; i < text.length && i < 4; i++) 
-			sign.setLine(i, text[i]);
-		sign.update(true);
+		block.setTypeIdAndData(signId, direction.getData(), false);
+		if (block.getTypeId() == signId) {
+			Sign sign = (Sign) block.getState();
+			for (int i = 0; i < text.length && i < 4; i++) 
+				sign.setLine(i, text[i]);
+			sign.update(true);
+		}
 	}
 	
 	public void drawCrane(ContextData context, Random random, int x, int y, int z) {

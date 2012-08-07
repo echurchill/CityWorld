@@ -1,10 +1,10 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import me.daddychurchill.CityWorld.PlatMap;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 
-public abstract class PlatIsolated extends PlatLot {
+public abstract class IsolatedLot extends PlatLot {
 
-	public PlatIsolated(PlatMap platmap, int chunkX, int chunkZ) {
+	public IsolatedLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
 		// TODO Auto-generated constructor stub

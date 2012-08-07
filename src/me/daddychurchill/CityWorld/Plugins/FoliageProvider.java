@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Plugins;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.BlockChangeDelegate;
@@ -15,7 +16,10 @@ public abstract class FoliageProvider {
 	public enum FloraType {FLOWER_RED, FLOWER_YELLOW, GRASS, FERN, CACTUS};
 	
 	protected final static double oddsOfDarkFlora = 0.50;
+	protected final static double treeOdds = 0.85;
+	protected final static double foliageOdds = 0.50;
 	
+	public abstract void generateSurface(WorldGenerator generator, PlatLot lot, RealChunk chunk, int x, double perciseY, int z, boolean includeTrees);
 	public abstract boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, TreeType treeType);
 	public abstract boolean generateFlora(WorldGenerator generator, RealChunk chunk, int x, int y, int z, FloraType floraType);
 	
@@ -41,7 +45,7 @@ public abstract class FoliageProvider {
 			if (generator.settings.includeTekkitMaterials)
 				provider = new FoliageProvider_Tekkit(random);
 			else {
-				switch (generator.settings.environment) {
+				switch (generator.settings.environmentStyle) {
 				case NETHER:
 					provider = new FoliageProvider_Nether(random);
 					break;
@@ -68,9 +72,7 @@ public abstract class FoliageProvider {
 			return false;
 		
 		// depends on the block's type and what the world is like
-		if (generator.settings.includeDecayedNature)
-			return !chunk.isEmpty(x, y, z);
-		else if (!generator.settings.includeAbovegroundFluids && y <= generator.seaLevel)
+		if (!generator.settings.includeAbovegroundFluids && y <= generator.seaLevel)
 			return chunk.getBlock(x, y, z) == Material.SAND;
 		else
 			return chunk.isPlantable(x, y, z);

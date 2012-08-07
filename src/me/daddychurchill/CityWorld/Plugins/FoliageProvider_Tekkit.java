@@ -8,7 +8,7 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
 
-public class FoliageProvider_Tekkit extends FoliageProvider {
+public class FoliageProvider_Tekkit extends FoliageProvider_Normal {
 
 	public FoliageProvider_Tekkit(Random random) {
 		super(random);
@@ -16,7 +16,7 @@ public class FoliageProvider_Tekkit extends FoliageProvider {
 	
 	@Override
 	public boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, TreeType treeType) {
-		if (treeType == TreeType.TREE && random.nextDouble() < 0.30) {
+		if (treeType == TreeType.TREE && random.nextDouble() < 0.01) {
 			//TODO what is a rubber tree made of? 
 			//return generateTree(chunk, random, x, y, z, treeType, trunkId, leavesId1, leavesId2);
 			chunk.setBlock(x, y - 1, z, Material.GRASS);

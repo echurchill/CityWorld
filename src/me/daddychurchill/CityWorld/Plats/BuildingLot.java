@@ -2,9 +2,9 @@ package me.daddychurchill.CityWorld.Plats;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
@@ -18,7 +18,7 @@ import me.daddychurchill.CityWorld.Support.Direction.Door;
 
 import org.bukkit.Material;
 
-public abstract class PlatBuilding extends PlatConnected {
+public abstract class BuildingLot extends ConnectedLot {
 	
 	protected boolean neighborsHaveIdenticalHeights;
 	protected int neighborsHaveSimilarHeightsOdds;
@@ -49,7 +49,7 @@ public abstract class PlatBuilding extends PlatConnected {
 	protected int navLightY = 0;
 	protected int navLightZ = 0;
 	
-	public PlatBuilding(PlatMap platmap, int chunkX, int chunkZ) {
+	public BuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		style = LotStyle.STRUCTURE;
 		
@@ -117,8 +117,8 @@ public abstract class PlatBuilding extends PlatConnected {
 		boolean result = super.makeConnected(relative);
 		
 		// other bits
-		if (result && relative instanceof PlatBuilding) {
-			PlatBuilding relativebuilding = (PlatBuilding) relative;
+		if (result && relative instanceof BuildingLot) {
+			BuildingLot relativebuilding = (BuildingLot) relative;
 
 			neighborsHaveIdenticalHeights = relativebuilding.neighborsHaveIdenticalHeights;
 			if (neighborsHaveIdenticalHeights || chunkRandom.nextInt(neighborsHaveSimilarHeightsOdds) != 0) {
@@ -156,7 +156,7 @@ public abstract class PlatBuilding extends PlatConnected {
 				} else {
 					
 					// in order for this building to be connected to our building they would have to be the same type
-					neighborBuildings.floors[x][z] = ((PlatBuilding) neighborChunks[x][z]).height;
+					neighborBuildings.floors[x][z] = ((BuildingLot) neighborChunks[x][z]).height;
 				}
 			}
 		}
@@ -176,7 +176,7 @@ public abstract class PlatBuilding extends PlatConnected {
 				} else {
 					
 					// in order for this building to be connected to our building they would have to be the same type
-					neighborBuildings.floors[x][z] = ((PlatBuilding) neighborChunks[x][z]).depth;
+					neighborBuildings.floors[x][z] = ((BuildingLot) neighborChunks[x][z]).depth;
 				}
 			}
 		}

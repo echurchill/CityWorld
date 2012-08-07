@@ -1,8 +1,8 @@
 package me.daddychurchill.CityWorld.Plats;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Ladder;
 import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
@@ -14,7 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.TreeType;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-public class PlatPark extends PlatConnected {
+public class ParkLot extends ConnectedLot {
 
 	protected final static int cisternDepth = ContextData.FloorHeight * 4;
 	protected final static int groundDepth = 2;
@@ -36,7 +36,7 @@ public class PlatPark extends PlatConnected {
 	private boolean circleSidewalk;
 	private int waterDepth;
 	
-	public PlatPark(PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey) {
+	public ParkLot(PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey) {
 		super(platmap, chunkX, chunkZ);
 		
 		// all parks are interconnected
@@ -58,8 +58,8 @@ public class PlatPark extends PlatConnected {
 		boolean result = super.makeConnected(relative);
 		
 		// other bits
-		if (result && relative instanceof PlatPark) {
-			PlatPark relativebuilding = (PlatPark) relative;
+		if (result && relative instanceof ParkLot) {
+			ParkLot relativebuilding = (ParkLot) relative;
 
 			// we don't card about circleSidewalk, that is supposed to be different
 			waterDepth = relativebuilding.waterDepth;
@@ -132,12 +132,12 @@ public class PlatPark extends PlatConnected {
 		} else {
 			
 			// backfill with dirt
-			chunk.setLayer(lowestY, highestY + 2 - lowestY, generator.groundProvider.subsurfaceId);
+			chunk.setLayer(lowestY, highestY + 2 - lowestY, generator.oreProvider.subsurfaceId);
 		}
 		
 		// top it off
-		chunk.setLayer(highestY + 2, generator.groundProvider.subsurfaceId);
-		chunk.setLayer(highestY + 3, generator.groundProvider.surfaceId);
+		chunk.setLayer(highestY + 2, generator.oreProvider.subsurfaceId);
+		chunk.setLayer(highestY + 3, generator.oreProvider.surfaceId);
 		
 		// surface features
 		int surfaceY = generator.sidewalkLevel + 1;

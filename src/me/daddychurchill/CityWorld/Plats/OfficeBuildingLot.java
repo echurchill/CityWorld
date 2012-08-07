@@ -3,8 +3,8 @@ package me.daddychurchill.CityWorld.Plats;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -13,7 +13,7 @@ import me.daddychurchill.CityWorld.Support.SurroundingFloors;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-public class PlatOfficeBuilding extends PlatBuilding {
+public class OfficeBuildingLot extends BuildingLot {
 
 	protected final static int FloorHeight = ContextData.FloorHeight;
 	
@@ -34,7 +34,7 @@ public class PlatOfficeBuilding extends PlatBuilding {
 	protected int insetInsetMidAt;
 	protected int insetInsetHighAt;
 
-	public PlatOfficeBuilding(PlatMap platmap, int chunkX, int chunkZ) {
+	public OfficeBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
 		ContextData context = platmap.context;
@@ -97,8 +97,8 @@ public class PlatOfficeBuilding extends PlatBuilding {
 		boolean result = super.makeConnected(relative);
 
 		// other bits
-		if (result && relative instanceof PlatOfficeBuilding) {
-			PlatOfficeBuilding relativebuilding = (PlatOfficeBuilding) relative;
+		if (result && relative instanceof OfficeBuildingLot) {
+			OfficeBuildingLot relativebuilding = (OfficeBuildingLot) relative;
 
 			// nudge in a bit
 			insetWallEW = relativebuilding.insetWallEW;

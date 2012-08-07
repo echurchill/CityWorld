@@ -1,22 +1,13 @@
-package me.daddychurchill.CityWorld;
+package me.daddychurchill.CityWorld.Maps;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.Context.ContextFarm;
-import me.daddychurchill.CityWorld.Context.ContextNature;
-import me.daddychurchill.CityWorld.Context.ContextNeighborhood;
-import me.daddychurchill.CityWorld.Context.ContextCityCenter;
-import me.daddychurchill.CityWorld.Context.ContextHighrise;
-import me.daddychurchill.CityWorld.Context.ContextLowrise;
-import me.daddychurchill.CityWorld.Context.ContextMall;
-import me.daddychurchill.CityWorld.Context.ContextMidrise;
-import me.daddychurchill.CityWorld.Context.ContextUnconstruction;
+import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
-import me.daddychurchill.CityWorld.Plats.PlatNature;
-import me.daddychurchill.CityWorld.Plats.PlatRoad;
-import me.daddychurchill.CityWorld.Plats.PlatRoundaboutStatue;
+import me.daddychurchill.CityWorld.Plats.RoadLot;
+import me.daddychurchill.CityWorld.Plats.RoundaboutStatueLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -25,10 +16,10 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 import org.bukkit.World;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-public class PlatMap {
+public abstract class PlatMap {
 	
 	// Class Constants
-	static final public int Width = 10;
+	public static final int Width = 10;
 	
 	// Instance data
 	public World world;
@@ -36,8 +27,8 @@ public class PlatMap {
 	public int originX;
 	public int originZ;
 	public ContextData context;
-	private PlatLot[][] platLots;
-	private int naturalPlats;
+	protected PlatLot[][] platLots;
+	protected int naturalPlats;
 
 	public PlatMap(WorldGenerator aGenerator, SupportChunk typicalChunk, int aOriginX, int aOriginZ) {
 		super();
@@ -52,62 +43,12 @@ public class PlatMap {
 		platLots = new PlatLot[Width][Width];
 		naturalPlats = 0;
 		
-		// assume everything is natural for the moment
-		context = new ContextNature(generator, this);
-		context.populateMap(generator, this);
-		
-		// place and validate the roads
-		if (generator.settings.includeRoads) {
-			populateRoads(typicalChunk);
-			validateRoads(typicalChunk);
-
-			// place the buildings
-			if (generator.settings.includeBuildings) {
+		populateLots(typicalChunk);
+	}
 	
-				// recalculate the context based on the "natural-ness" of the platmap
-				context = getContext();
-				context.populateMap(generator, this);
-			}
-		}
-		
-		// recycle all the remaining holes
-		for (int x = 0; x < Width; x++) {
-			for (int z = 0; z < Width; z++) {
-				if (isEmptyLot(x, z))
-					recycleLot(x, z);
-			}
-		}
-	}
-
-	private ContextData getContext() {
-		
-		// how natural is this platmap?
-		if (naturalPlats == 0) {
-//			if (typicalChunk.random.nextDouble() > oddsOfCentralPark)
-//				return new ContextCentralPark(generator, this);
-//			else
-				return new ContextHighrise(generator, this);
-		} else if (naturalPlats < 15)
-			return new ContextUnconstruction(generator, this);
-		else if (naturalPlats < 25)
-			return new ContextMidrise(generator, this);
-		else if (naturalPlats < 37)
-			return new ContextCityCenter(generator, this);
-		else if (naturalPlats < 50)
-			return new ContextMall(generator, this);
-		else if (naturalPlats < 65)
-			return new ContextLowrise(generator, this);
-		else if (naturalPlats < 80)
-			return new ContextNeighborhood(generator, this);
-		else if (naturalPlats < 90 && generator.settings.includeFarms)
-			return new ContextFarm(generator, this);
-		else if (naturalPlats < 100)
-			return new ContextNeighborhood(generator, this);
-		
-		// otherwise just keep what we have
-		else
-			return context;
-	}
+	protected abstract void populateLots(SupportChunk typicalChunk);
+	protected abstract PlatLot createNaturalLot(int chunkX, int chunkZ);
+	protected abstract PlatLot createRoadLot(int chunkX, int chunkZ, boolean roundaboutPart);
 
 	public Random getRandomGenerator() {
 		return generator.getMacroRandomGeneratorAt(originX, originZ);
@@ -177,7 +118,7 @@ public class PlatMap {
 		if (current == null || current.style != LotStyle.NATURE) {
 		
 			// place nature
-			platLots[x][z] = new PlatNature(this, originX + x, originZ + z);
+			platLots[x][z] = createNaturalLot(x, z);
 			naturalPlats++;
 		}
 	}
@@ -190,13 +131,13 @@ public class PlatMap {
 			emptyLot(x, z);
 			
 			// place the lot
-			platLots[x][z] = new PlatRoad(this, originX + x, originZ + z, generator.connectedKeyForPavedRoads, roundaboutPart);
+			platLots[x][z] = createRoadLot(x, z, roundaboutPart);
 		}
 		return result;
 	}
 	
 	public boolean setLot(int x, int z, PlatLot lot) {
-		boolean result = generator.settings.inCityRange(originX + x, originZ + z);
+		boolean result = lot.isPlaceableAt(generator, x, z);
 		if (result) {
 			
 			// clear it please
@@ -219,16 +160,44 @@ public class PlatMap {
 		platLots[x][z] = null;
 	}
 	
-	private void populateRoads(SupportChunk typicalChunk) {
+	protected void validateRoads(SupportChunk typicalChunk) {
 		
-		// place the big four
-		placeIntersection(typicalChunk, PlatRoad.PlatMapRoadInset - 1, PlatRoad.PlatMapRoadInset - 1);
-		placeIntersection(typicalChunk, PlatRoad.PlatMapRoadInset - 1, Width - PlatRoad.PlatMapRoadInset);
-		placeIntersection(typicalChunk, Width - PlatRoad.PlatMapRoadInset, PlatRoad.PlatMapRoadInset - 1);
-		placeIntersection(typicalChunk, Width - PlatRoad.PlatMapRoadInset, Width - PlatRoad.PlatMapRoadInset);
+		// any roads leading out?
+		if (!(isRoad(0, RoadLot.PlatMapRoadInset - 1) ||
+			  isRoad(0, Width - RoadLot.PlatMapRoadInset) ||
+			  isRoad(Width - 1, RoadLot.PlatMapRoadInset - 1) ||
+			  isRoad(Width - 1, Width - RoadLot.PlatMapRoadInset) ||
+			  isRoad(RoadLot.PlatMapRoadInset - 1, 0) ||
+			  isRoad(Width - RoadLot.PlatMapRoadInset, 0) ||
+			  isRoad(RoadLot.PlatMapRoadInset - 1, Width - 1) ||
+			  isRoad(Width - RoadLot.PlatMapRoadInset, Width - 1))) {
+			
+			// reclaim all of the silly roads
+			for (int x = 0; x < Width; x++) {
+				for (int z = 0; z < Width; z++) {
+					this.recycleLot(x, z);
+				}
+			}
+			
+		} else {
+			
+			//TODO any other validation?
+		}
 	}
 	
-	private void placeIntersection(SupportChunk typicalChunk, int x, int z) {
+	protected boolean isRoad(int x, int z) {
+		PlatLot current = platLots[x][z];
+		return current != null && (current.style == LotStyle.ROAD || current.style == LotStyle.ROUNDABOUT);
+	}
+	
+	public boolean isExistingRoad(int x, int z) {
+		if (x >= 0 && x < Width && z >= 0 && z < Width)
+			return isRoad(x, z);
+		else
+			return false;
+	}
+
+	protected void placeIntersection(SupportChunk typicalChunk, int x, int z) {
 		boolean roadToNorth = false, roadToSouth = false, 
 				roadToEast = false, roadToWest = false, 
 				roadHere = false;
@@ -257,7 +226,7 @@ public class PlatMap {
 					paveLot(x - 1, z + 1, true);
 					
 					paveLot(x    , z - 1, true);
-					setLot(x, z, new PlatRoundaboutStatue(this, originX + x, originZ + z));
+					setLot(x, z, new RoundaboutStatueLot(this, originX + x, originZ + z));
 					paveLot(x    , z + 1, true);
 			
 					paveLot(x + 1, z - 1, true);
@@ -379,42 +348,5 @@ public class PlatMap {
 		
 		// we have failed to find a real bridge/tunnel
 		return false;
-	}
-	
-	private void validateRoads(SupportChunk typicalChunk) {
-		
-		// any roads leading out?
-		if (!(isRoad(0, PlatRoad.PlatMapRoadInset - 1) ||
-			  isRoad(0, Width - PlatRoad.PlatMapRoadInset) ||
-			  isRoad(Width - 1, PlatRoad.PlatMapRoadInset - 1) ||
-			  isRoad(Width - 1, Width - PlatRoad.PlatMapRoadInset) ||
-			  isRoad(PlatRoad.PlatMapRoadInset - 1, 0) ||
-			  isRoad(Width - PlatRoad.PlatMapRoadInset, 0) ||
-			  isRoad(PlatRoad.PlatMapRoadInset - 1, Width - 1) ||
-			  isRoad(Width - PlatRoad.PlatMapRoadInset, Width - 1))) {
-			
-			// reclaim all of the silly roads
-			for (int x = 0; x < Width; x++) {
-				for (int z = 0; z < Width; z++) {
-					this.recycleLot(x, z);
-				}
-			}
-			
-		} else {
-			
-			//TODO any other validation?
-		}
-	}
-	
-	private boolean isRoad(int x, int z) {
-		PlatLot current = platLots[x][z];
-		return current != null && (current.style == LotStyle.ROAD || current.style == LotStyle.ROUNDABOUT);
-	}
-	
-	public boolean isExistingRoad(int x, int z) {
-		if (x >= 0 && x < Width && z >= 0 && z < Width)
-			return isRoad(x, z);
-		else
-			return false;
 	}
 }

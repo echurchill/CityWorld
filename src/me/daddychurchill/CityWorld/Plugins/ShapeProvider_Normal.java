@@ -1,8 +1,12 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
+import me.daddychurchill.CityWorld.Support.ByteChunk;
 
 import org.bukkit.World;
+import org.bukkit.block.Biome;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
@@ -16,7 +20,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	public SimplexNoiseGenerator caveShape;
 	public SimplexNoiseGenerator mineShape;
 
-	private int height;
+	protected int height;
 	private int seaLevel;
 	private int landRange;
 	private int seaRange;
@@ -81,8 +85,80 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	}
 	
 	@Override
+	public Biome generateCrust(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int y, int z, boolean surfaceCaves) {
+		Biome resultBiome = lot.getChunkBiome();
+		OreProvider ores = generator.oreProvider;
+		
+		// buildable?
+		if (lot.style == LotStyle.STRUCTURE || lot.style == LotStyle.ROUNDABOUT) {
+			generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, generator.sidewalkLevel - 2, ores.subsurfaceId, generator.sidewalkLevel, ores.subsurfaceId, false);
+			
+		// possibly buildable?
+		} else if (y == generator.sidewalkLevel) {
+			generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 3, ores.subsurfaceId, y, ores.surfaceId, generator.settings.includeDecayedNature);
+		
+		// won't likely have a building
+		} else {
+
+			// on the beach
+			if (y == generator.seaLevel) {
+				generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 2, ores.fluidSubsurfaceId, y, ores.fluidSurfaceId, generator.settings.includeDecayedNature);
+				resultBiome = Biome.BEACH;
+
+			// we are in the water! ...or are we?
+			} else if (y < generator.seaLevel) {
+				resultBiome = Biome.DESERT;
+				if (generator.settings.includeDecayedNature)
+					if (generator.settings.includeAbovegroundFluids && y < generator.deepseaLevel)
+						generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 2, ores.fluidSubsurfaceId, y, ores.fluidSurfaceId, generator.deepseaLevel, ores.fluidId, false);
+					else
+						generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 2, ores.fluidSubsurfaceId, y, ores.fluidSurfaceId, true);
+				else 
+					if (generator.settings.includeAbovegroundFluids) {
+						generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 2, ores.fluidSubsurfaceId, y, ores.fluidSurfaceId, generator.seaLevel, ores.fluidId, false);
+						resultBiome = Biome.OCEAN;
+					} else
+						generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 2, ores.fluidSubsurfaceId, y, ores.fluidSurfaceId, false);
+
+			// we are in the mountains
+			} else {
+
+				// regular trees only
+				if (y < generator.treeLevel) {
+					generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 3, ores.subsurfaceId, y, ores.surfaceId, generator.settings.includeDecayedNature);
+					resultBiome = Biome.FOREST;
+
+				// regular trees and some evergreen trees
+				} else if (y < generator.evergreenLevel) {
+					generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 2, ores.subsurfaceId, y, ores.surfaceId, surfaceCaves);
+					resultBiome = Biome.FOREST_HILLS;
+
+				// evergreen and some of fallen snow
+				} else if (y < generator.snowLevel) {
+					generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 1, ores.subsurfaceId, y, ores.surfaceId, surfaceCaves);
+					resultBiome = Biome.TAIGA_HILLS;
+					
+				// only snow up here!
+				} else {
+					if (generator.settings.includeAbovegroundFluids)
+						generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 1, ores.stratumId, y, ores.fluidFrozenId, surfaceCaves);
+					else
+						generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 1, ores.stratumId, y, ores.surfaceId, surfaceCaves);
+					resultBiome = Biome.ICE_MOUNTAINS;
+				}
+			}
+		}
+		return resultBiome;
+	}
+	
+	@Override
 	public int getWorldHeight() {
 		return height;
+	}
+
+	@Override
+	public int getStreetLevel() {
+		return seaLevel + 1;
 	}
 
 	@Override

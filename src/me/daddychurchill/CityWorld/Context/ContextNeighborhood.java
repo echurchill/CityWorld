@@ -1,8 +1,8 @@
 package me.daddychurchill.CityWorld.Context;
 
-import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Plats.PlatHouse;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
+import me.daddychurchill.CityWorld.Plats.HouseLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 
 public class ContextNeighborhood extends ContextRural {
@@ -10,7 +10,7 @@ public class ContextNeighborhood extends ContextRural {
 	public ContextNeighborhood(WorldGenerator generator, PlatMap platmap) {
 		super(generator, platmap);
 
-		//TODO anything else?
+		//TODO anything else? 
 	}
 
 	@Override
@@ -44,6 +44,6 @@ public class ContextNeighborhood extends ContextRural {
 	}
 	
 	private void placeHouse(PlatMap platmap, int x, int z) {
-		platmap.setLot(x, z, new PlatHouse(platmap, platmap.originX + x, platmap.originZ + z));
+		platmap.setLot(x, z, new HouseLot(platmap, platmap.originX + x, platmap.originZ + z));
 	}
 }

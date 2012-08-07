@@ -5,7 +5,8 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.Plugins.GroundProvider;
+import me.daddychurchill.CityWorld.Maps.NormalMap;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.OdonymProvider;
@@ -37,7 +38,6 @@ public class WorldGenerator extends ChunkGenerator {
 	public OreProvider oreProvider;
 	public FoliageProvider foliageProvider;
 	public OdonymProvider odonymProvider;
-	public GroundProvider groundProvider;
 
 	public CityWorldSettings settings;
 
@@ -97,7 +97,6 @@ public class WorldGenerator extends ChunkGenerator {
 			shapeProvider = ShapeProvider.loadProvider(this);
 			lootProvider = LootProvider.loadProvider(this);
 			spawnProvider = SpawnProvider.loadProvider(this);
-			groundProvider = GroundProvider.loadProvider(this, new Random(seed + 2));
 			oreProvider = OreProvider.loadProvider(this);
 			foliageProvider = FoliageProvider.loadProvider(this, new Random(seed + 3));
 			odonymProvider = OdonymProvider.loadProvider(this, new Random(seed + 4));
@@ -107,10 +106,10 @@ public class WorldGenerator extends ChunkGenerator {
 			seaLevel = shapeProvider.getSeaLevel();
 			landRange = shapeProvider.getLandRange();
 			seaRange = shapeProvider.getSeaRange();
+			sidewalkLevel = shapeProvider.getStreetLevel();
 
 			// now the other vertical points
 			deepseaLevel = seaLevel - seaRange / 3;
-			sidewalkLevel = seaLevel + 1;
 			snowLevel = seaLevel + (landRange / 4 * 3);
 			evergreenLevel = seaLevel + (landRange / 4 * 2);
 			treeLevel = seaLevel + (landRange / 4);
@@ -267,7 +266,7 @@ public class WorldGenerator extends ChunkGenerator {
 		if (platmap == null) {
 			
 			// what is the context for this one?
-			platmap = new PlatMap(this, cornerChunk, platX, platZ);
+			platmap = new NormalMap(this, cornerChunk, platX, platZ);
 			
 			// remember it for quicker look up
 			platmaps.put(platkey, platmap);

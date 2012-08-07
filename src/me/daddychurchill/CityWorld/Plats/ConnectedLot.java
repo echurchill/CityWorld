@@ -1,12 +1,12 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import me.daddychurchill.CityWorld.PlatMap;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 
-public abstract class PlatConnected extends PlatLot {
+public abstract class ConnectedLot extends PlatLot {
 
 	protected long connectedkey;
 	
-	public PlatConnected(PlatMap platmap, int chunkX, int chunkZ) {
+	public ConnectedLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
 		connectedkey = platmap.generator.getConnectionKey();

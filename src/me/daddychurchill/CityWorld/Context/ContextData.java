@@ -4,8 +4,8 @@ import java.util.Random;
 
 import org.bukkit.Material;
 
-import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 
 public abstract class ContextData {
 	public static int oddsNeverGoingToHappen = Integer.MAX_VALUE;

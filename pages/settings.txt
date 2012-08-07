@@ -64,16 +64,20 @@ Note: Some of the above options will default a different way in worlds generated
 
 === Generation Range ===
 |=Option|=Description|
-|RoadRange|How far do roads chunks generate, in chunks from the world's center point (0,0)|
-|CityRange|How far do cities chunks generate, in chunks from the world's center point (0,0)|
-**Note:** If the road range is larger than the city range, the roads generate without lights, lines, sewers, etc.
+|ConstructChunkRadius|How far do isolated construct chunks generate (oil platforms, radio towers, shacks, etc.), in chunks from the world's center point)|
+|RoadChunkRadius|How far do roads chunks generate, in chunks from the world's center point|
+|CityChunkRadius|How far do cities chunks generate, in chunks from the world's center point|
+|CenterPointOfChunkRadius|Where is the center point of the above three options, defaults to 0, 0|
+**Note:** If the road radius is larger than the city radius, the roads generate without lights, lines, sewers, etc.
 
 {{http://dev.bukkit.org/media/images/43/502/server2439_City_normal_day.jpg|Radius}}
 
-In the above picture the inner circle, centered on world's 0,0, represents the CityRange (in this case, 10 chunk radius), the outer ring shows the RoadRange (20 chunk radius). 
+In the above picture the inner circle, centered on world's 0,0, represents the CityChunkRadius (in this case 10 chunks), the outer ring shows the RoadChunkRadius (20 chunks). 
 
-Note: that the bridges and tunnels will stop when they hit the radius specified.
+Note: that the bridges and tunnels will stop abruptly when they hit the road radius specified.
 
 === Deprecated options ===
 |=Option|=Workaround|
 |IncludePavedRoads|Use IncludeWoolRoads if you want old style paved roads|
+|RoadRange|Replaced with RoadChunkRadius instead to make things clearer|
+|CityRange|Replaced with CityChunkRadius instead to make things clearer|

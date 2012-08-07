@@ -6,14 +6,14 @@ import org.bukkit.Material;
 import org.bukkit.World.Environment;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-import me.daddychurchill.CityWorld.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingFarms;
 
-public class PlatFarm extends PlatConnected {
+public class FarmLot extends ConnectedLot {
 
 	//TODO Tree farm?
 	//TODO Apple farm?
@@ -26,7 +26,7 @@ public class PlatFarm extends PlatConnected {
 	private Material cropType;
 	private double oddsOfCrop;
 
-	public PlatFarm(PlatMap platmap, int chunkX, int chunkZ) {
+	public FarmLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
 		style = LotStyle.STRUCTURE;
@@ -34,7 +34,7 @@ public class PlatFarm extends PlatConnected {
 		directionNorthSouth = chunkRandom.nextBoolean();
 		
 		// crop type please
-		if (platmap.generator.settings.environment == Environment.NETHER)
+		if (platmap.generator.settings.environmentStyle == Environment.NETHER)
 			if (platmap.generator.settings.includeDecayedNature)
 				cropType = getDecayedNetherCrop();
 			else
@@ -54,8 +54,8 @@ public class PlatFarm extends PlatConnected {
 		boolean result = super.makeConnected(relative);
 		
 		// other bits
-		if (result && relative instanceof PlatFarm) {
-			PlatFarm relativeFarm = (PlatFarm) relative;
+		if (result && relative instanceof FarmLot) {
+			FarmLot relativeFarm = (FarmLot) relative;
 			
 			directionNorthSouth = relativeFarm.directionNorthSouth;
 			cropType = relativeFarm.cropType;
@@ -99,15 +99,15 @@ public class PlatFarm extends PlatConnected {
 		SurroundingFarms farms = new SurroundingFarms(platmap, platX, platZ);
 		
 		// what type of ground do we have
-		byte surfaceId = generator.groundProvider.surfaceId;
-		byte groundId = generator.groundProvider.subsurfaceId;
+		byte surfaceId = generator.oreProvider.surfaceId;
+		byte groundId = generator.oreProvider.subsurfaceId;
 		if (cropType == cropSugarCane || cropType == cropCactus)
 			groundId = sandId;
 		chunk.setLayer(generator.sidewalkLevel, groundId);
 		
 		// in-between bits bits
 		byte dividerId = isolationNormalId;
-		if (generator.settings.environment == Environment.NETHER) {
+		if (generator.settings.environmentStyle == Environment.NETHER) {
 			dividerId = isolationNetherId;
 		}
 		

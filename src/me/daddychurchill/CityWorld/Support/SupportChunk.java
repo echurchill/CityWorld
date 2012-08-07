@@ -62,8 +62,8 @@ public abstract class SupportChunk {
 		return chunkZ * width;
 	}
 
-	protected abstract void setBlock(int x, int y, int z, byte materialId);
-	protected abstract void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId);
+	public abstract void setBlock(int x, int y, int z, byte materialId);
+	public abstract void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId);
 	
 	private void drawCircleBlocks(int cx, int cz, int x, int z, int y, byte materialId) {
 		// Ref: Notes/BCircle.PDF
