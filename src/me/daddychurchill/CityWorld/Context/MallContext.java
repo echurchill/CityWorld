@@ -5,21 +5,21 @@ import java.util.Random;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 
-public class ContextLowrise extends ContextUrban {
+public class MallContext extends UrbanContext {
 
-	public ContextLowrise(WorldGenerator generator, PlatMap platmap) {
+	public MallContext(WorldGenerator generator, PlatMap platmap) {
 		super(generator, platmap);
 		Random platmapRandom = platmap.getRandomGenerator();
 		
-		oddsOfParks = oddsLikely;
-		oddsOfIsolatedLots = oddsVeryLikely;
-		oddsOfIdenticalBuildingHeights = oddsExtremelyLikely;
+		oddsOfParks = oddsUnlikely;
+		oddsOfIsolatedLots = oddsVeryUnlikely;
+		oddsOfIdenticalBuildingHeights = oddsAlwaysGoingToHappen;
 		oddsOfSimilarBuildingHeights = oddsExtremelyLikely;
 		oddsOfSimilarBuildingRounding = oddsExtremelyLikely;
-		oddsOfUnfinishedBuildings = oddsVeryUnlikely;
+		oddsOfUnfinishedBuildings = oddsNeverGoingToHappen;
 		oddsOfOnlyUnfinishedBasements = oddsNeverGoingToHappen;
-		oddsOfMissingRoad = oddsLikely;
-		oddsOfRoundAbouts = oddsLikely;
+		oddsOfMissingRoad = oddsNeverGoingToHappen;
+		oddsOfRoundAbouts = oddsUnlikely;
 		 
 		oddsOfStairWallMaterialIsWallMaterial = oddsExtremelyLikely;
 		oddsOfBuildingWallInset = oddsExtremelyLikely;
@@ -27,7 +27,7 @@ public class ContextLowrise extends ContextUrban {
 		oddsOfSimilarInsetBuildings = oddsExtremelyLikely;
 		rangeOfWallInset = 2;
 
-		setFloorRange(platmapRandom, 3, 1);
+		setFloorRange(platmapRandom, 2, 1);
 	}
 
 }

@@ -5,9 +5,9 @@ import java.util.Random;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 
-public class ContextCityCenter extends ContextUrban {
+public class CityCenterContext extends UrbanContext {
 
-	public ContextCityCenter(WorldGenerator generator, PlatMap platmap) {
+	public CityCenterContext(WorldGenerator generator, PlatMap platmap) {
 		super(generator, platmap);
 		
 		Random platmapRandom = platmap.getRandomGenerator();

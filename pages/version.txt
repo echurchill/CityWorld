@@ -6,6 +6,7 @@ v1.20
 * Added concept of MapStyle, this only allows for NORMAL worlds right now
 * Reduced the likelihood of rubber saplings in Tekkit worlds
 * More refactoring
+* Worked around a strange Chest/Sign casting issue to rarely happens but when it does is bad
 
 v1.10
 * Refactored tons of code to simplify options combinations and get things ready for End generation

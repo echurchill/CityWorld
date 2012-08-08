@@ -1,6 +1,5 @@
 package me.daddychurchill.CityWorld;
 
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.configuration.ConfigurationSection;
@@ -17,7 +16,7 @@ public class CityWorldSettings {
 	 *   Writing on the outside of buildings
 	 */
 	
-	public enum MapStyle {NORMAL, FLOATING, FLOODED, LUNAR};
+	public enum MapStyle {NORMAL, FLOATING}; // FLOODED, LUNAR, UNDERGROUND
 	
 	public MapStyle mapStyle;
 	public Environment environmentStyle;
@@ -57,13 +56,22 @@ public class CityWorldSettings {
 	public boolean includeDecayedNature = false;
 	public boolean includeTekkitMaterials = false;
 	
-	public Location centerLocationOfChunkRadius;
+	public int centerPointOfChunkRadiusX = 0;
+	public int centerPointOfChunkRadiusZ = 0;
 	public int constructChunkRadius = Integer.MAX_VALUE;
 	public boolean checkConstructRange = false;
 	public int roadChunkRadius = Integer.MAX_VALUE;
 	public boolean checkRoadRange = false;
 	public int cityChunkRadius = Integer.MAX_VALUE;
 	public boolean checkCityRange = false;
+	
+	private final static String tagMapStyle = "MapStyle";
+	
+	private final static String tagCenterPointOfChunkRadiusX = "CenterPointOfChunkRadiusX";
+	private final static String tagCenterPointOfChunkRadiusZ = "CenterPointOfChunkRadiusZ";
+	private final static String tagConstructChunkRadius = "ConstructChunkRadius";
+	private final static String tagRoadChunkRadius = "RoadChunkRadius";
+	private final static String tagCityChunkRadius = "CityChunkRadius";
 	
 	private final static String tagIncludeRoads = "IncludeRoads";
 	private final static String tagIncludeRoundabouts = "IncludeRoundabouts";
@@ -98,13 +106,6 @@ public class CityWorldSettings {
 	private final static String tagIncludeDecayedBuildings = "IncludeDecayedBuildings";
 	private final static String tagIncludeDecayedNature = "IncludeDecayedNature";
 	private final static String tagIncludeTekkitMaterials = "IncludeTekkitMaterials";
-	
-	private final static String tagCenterPointOfChunkRadius = "CenterPointOfChunkRadius";
-	private final static String tagConstructChunkRadius = "ConstructChunkRadius";
-	private final static String tagRoadChunkRadius = "RoadChunkRadius";
-	private final static String tagCityChunkRadius = "CityChunkRadius";
-	
-	private final static String tagMapStyle = "MapStyle";
 	
 	public CityWorldSettings(CityWorld plugin, World world) {
 		super();
@@ -152,7 +153,8 @@ public class CityWorldSettings {
 			
 			section.addDefault(tagMapStyle, mapStyle.toString());
 
-			section.addDefault(tagCenterPointOfChunkRadius, new Vector(0, 0, 0));
+			section.addDefault(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
+			section.addDefault(tagCenterPointOfChunkRadiusZ, centerPointOfChunkRadiusZ);
 			section.addDefault(tagConstructChunkRadius, constructChunkRadius);
 			section.addDefault(tagRoadChunkRadius, roadChunkRadius);
 			section.addDefault(tagCityChunkRadius, cityChunkRadius);
@@ -230,25 +232,22 @@ public class CityWorldSettings {
 			includeDecayedNature = section.getBoolean(tagIncludeDecayedNature, includeDecayedNature);
 			includeTekkitMaterials = section.getBoolean(tagIncludeTekkitMaterials, includeTekkitMaterials);
 			
-			Vector centerVector = section.getVector(tagCenterPointOfChunkRadius);
-			if (centerVector == null) 
-				centerVector = new Vector(0, 0, 0);
-			else
-				centerVector.setY(0);
-			centerLocationOfChunkRadius = new Location(world, centerVector.getX(), centerVector.getY(), centerVector.getZ());
+			centerPointOfChunkRadiusX = section.getInt(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
+			centerPointOfChunkRadiusZ = section.getInt(tagCenterPointOfChunkRadiusZ, centerPointOfChunkRadiusZ);
+			centerPointOfChunkRadius = new Vector(centerPointOfChunkRadiusX, 0, centerPointOfChunkRadiusZ);
 			
-			constructChunkRadius = Math.min(Short.MAX_VALUE, Math.max(0, section.getInt(tagConstructChunkRadius, constructChunkRadius)));
-			checkConstructRange = constructChunkRadius > 0 && constructChunkRadius < Short.MAX_VALUE;
+			constructChunkRadius = Math.min(Integer.MAX_VALUE, Math.max(0, section.getInt(tagConstructChunkRadius, constructChunkRadius)));
+			checkConstructRange = constructChunkRadius > 0 && constructChunkRadius < Integer.MAX_VALUE;
 			
 			roadChunkRadius = Math.min(constructChunkRadius, Math.max(0, section.getInt(tagRoadChunkRadius, roadChunkRadius)));
-			checkRoadRange = roadChunkRadius > 0 && roadChunkRadius < Short.MAX_VALUE;
+			checkRoadRange = roadChunkRadius > 0 && roadChunkRadius < Integer.MAX_VALUE;
 			if (roadChunkRadius == 0) {
 				includeRoads = false;
 				includeSewers = false;
 			}
 
 			cityChunkRadius = Math.min(roadChunkRadius, Math.max(0, section.getInt(tagCityChunkRadius, cityChunkRadius)));
-			checkCityRange = cityChunkRadius > 0 && cityChunkRadius < Short.MAX_VALUE;
+			checkCityRange = cityChunkRadius > 0 && cityChunkRadius < Integer.MAX_VALUE;
 			if (cityChunkRadius == 0) {
 				includeCisterns = false;
 				includeBasements = false;
@@ -268,13 +267,11 @@ public class CityWorldSettings {
 				mapStyle = MapStyle.NORMAL;
 			} 
 
-			// hard code for now!
-			mapStyle = MapStyle.NORMAL;
-			
 			// write things back out with corrections
 			section.set(tagMapStyle, mapStyle.toString());
 
-			section.set(tagCenterPointOfChunkRadius, centerVector);
+			section.set(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
+			section.set(tagCenterPointOfChunkRadiusZ, centerPointOfChunkRadiusZ);
 			section.set(tagConstructChunkRadius, constructChunkRadius);
 			section.set(tagRoadChunkRadius, roadChunkRadius);
 			section.set(tagCityChunkRadius, cityChunkRadius);
@@ -318,15 +315,17 @@ public class CityWorldSettings {
 		}
 	}
 	
+	private Vector centerPointOfChunkRadius;
+	
 	public boolean inConstructRange(int x, int z) {
-		return !checkConstructRange || centerLocationOfChunkRadius.distance(new Location(centerLocationOfChunkRadius.getWorld(), x, 0, z)) <= constructChunkRadius;
+		return !checkConstructRange || centerPointOfChunkRadius.distance(new Vector(x, 0, z)) <= constructChunkRadius;
 	}
 	
 	public boolean inRoadRange(int x, int z) {
-		return !checkRoadRange || centerLocationOfChunkRadius.distance(new Location(centerLocationOfChunkRadius.getWorld(), x, 0, z)) <= roadChunkRadius;
+		return !checkRoadRange || centerPointOfChunkRadius.distance(new Vector(x, 0, z)) <= roadChunkRadius;
 	}
 	
 	public boolean inCityRange(int x, int z) {
-		return !checkCityRange || centerLocationOfChunkRadius.distance(new Location(centerLocationOfChunkRadius.getWorld(), x, 0, z)) <= cityChunkRadius;
+		return !checkCityRange || centerPointOfChunkRadius.distance(new Vector(x, 0, z)) <= cityChunkRadius;
 	}
 }

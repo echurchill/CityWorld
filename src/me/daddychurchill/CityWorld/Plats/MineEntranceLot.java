@@ -1,7 +1,7 @@
 package me.daddychurchill.CityWorld.Plats;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
@@ -17,7 +17,7 @@ public class MineEntranceLot extends ConstructLot {
 	}
 	
 	@Override
-	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 	}
 	
@@ -25,7 +25,7 @@ public class MineEntranceLot extends ConstructLot {
 	private int surfaceY = 0;
 	
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
+	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 
 		// find the bottom of the world
 		shaftY = findHighestShaftableLevel(generator, context, chunk);
@@ -45,7 +45,7 @@ public class MineEntranceLot extends ConstructLot {
 //		CityWorld.log.info("Bottom of the shaft = " + shaftY + ", top of the shaft = " + surfaceY);
 		
 		// drill down
-		chunk.setBlocks(0, 4, shaftY, surfaceY + ContextData.FloorHeight + 1, 0, 4, Material.AIR);
+		chunk.setBlocks(0, 4, shaftY, surfaceY + DataContext.FloorHeight + 1, 0, 4, Material.AIR);
 		
 		// make the surface bits
 		chunk.setBlocks(0, 4, surfaceY, 0, 4, Material.COBBLESTONE);

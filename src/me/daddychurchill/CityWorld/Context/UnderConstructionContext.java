@@ -5,9 +5,9 @@ import java.util.Random;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 
-public class ContextMidrise extends ContextUrban {
+public class UnderConstructionContext extends UrbanContext {
 
-	public ContextMidrise(WorldGenerator generator, PlatMap platmap) {
+	public UnderConstructionContext(WorldGenerator generator, PlatMap platmap) {
 		super(generator, platmap);
 		Random platmapRandom = platmap.getRandomGenerator();
 
@@ -16,19 +16,20 @@ public class ContextMidrise extends ContextUrban {
 		oddsOfIdenticalBuildingHeights = oddsExtremelyLikely;
 		oddsOfSimilarBuildingHeights = oddsExtremelyLikely;
 		oddsOfSimilarBuildingRounding = oddsExtremelyLikely;
-		oddsOfUnfinishedBuildings = oddsVeryUnlikely;
-		oddsOfOnlyUnfinishedBasements = oddsNeverGoingToHappen;
 		oddsOfMissingRoad = oddsLikely;
 		oddsOfRoundAbouts = oddsLikely;
 		 
+		oddsOfUnfinishedBuildings = oddsVeryLikely;
+		oddsOfOnlyUnfinishedBasements = oddsLikely;
+		oddsOfCranes = oddsExtremelyLikely;
+		
 		oddsOfStairWallMaterialIsWallMaterial = oddsExtremelyLikely;
 		oddsOfBuildingWallInset = oddsExtremelyLikely;
 		oddsOfFlatWalledBuildings = oddsExtremelyLikely;
 		oddsOfSimilarInsetBuildings = oddsExtremelyLikely;
 		rangeOfWallInset = 2;
-		
-		setFloorRange(platmapRandom, 7, 3);
-		
+
+		setFloorRange(platmapRandom, 9, 4);
 	}
 
 }

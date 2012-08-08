@@ -5,9 +5,9 @@ import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.HouseLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 
-public class ContextNeighborhood extends ContextRural {
+public class NeighborhoodContext extends RuralContext {
 
-	public ContextNeighborhood(WorldGenerator generator, PlatMap platmap) {
+	public NeighborhoodContext(WorldGenerator generator, PlatMap platmap) {
 		super(generator, platmap);
 
 		//TODO anything else? 

@@ -42,23 +42,21 @@ public abstract class FoliageProvider {
 //		provider = FoliageProvider_PhatFoliage.loadPhatFoliage();
 		if (provider == null) {
 			
-			if (generator.settings.includeTekkitMaterials)
-				provider = new FoliageProvider_Tekkit(random);
-			else {
-				switch (generator.settings.environmentStyle) {
-				case NETHER:
-					provider = new FoliageProvider_Nether(random);
-					break;
-				case THE_END:
-					provider = new FoliageProvider_TheEnd(random);
-					break;
-				case NORMAL:
-					if (generator.settings.includeDecayedNature)
-						provider = new FoliageProvider_Decayed(random);
-					else
-						provider = new FoliageProvider_Normal(random);
-					break;
-				}
+			switch (generator.settings.environmentStyle) {
+			case NETHER:
+				provider = new FoliageProvider_Nether(random);
+				break;
+			case THE_END:
+				provider = new FoliageProvider_TheEnd(random);
+				break;
+			case NORMAL:
+				if (generator.settings.includeDecayedNature)
+					provider = new FoliageProvider_Decayed(random);
+				else if (generator.settings.includeTekkitMaterials)
+					provider = new FoliageProvider_Tekkit(random);
+				else
+					provider = new FoliageProvider_Normal(random);
+				break;
 			}
 		}
 	

@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Maps;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
@@ -26,7 +26,7 @@ public abstract class PlatMap {
 	public WorldGenerator generator;
 	public int originX;
 	public int originZ;
-	public ContextData context;
+	public DataContext context;
 	protected PlatLot[][] platLots;
 	protected int naturalPlats;
 
@@ -322,7 +322,7 @@ public abstract class PlatMap {
 		boolean originPolarity = generator.getBridgePolarityAt(chunkX, chunkZ);
 		boolean currentPolarity = originPolarity;
 		
-		// short cut things a bit by looking for impossible things
+		// short cut things a bit by looking for impossible things (polarity doesn't match the delta values)
 		if (originPolarity) {
 			if (deltaX != 0)
 				return false;
@@ -337,6 +337,8 @@ public abstract class PlatMap {
 			// move it along a bit
 			chunkX += offsetX;
 			chunkZ += offsetZ;
+			
+			//TODO should test for a maximum length of bridge/tunnel
 			
 			// keep going as long it is the same polarity
 			currentPolarity = generator.getBridgePolarityAt(chunkX, chunkZ);

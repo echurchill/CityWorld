@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.HouseFactory;
@@ -21,7 +21,7 @@ public class MountainShackLot extends ConstructLot {
 	private final static byte retainingWallId = (byte) Material.SMOOTH_BRICK.getId();
 
 	@Override
-	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 		// compute offset to start of chunk
 		int blockX = chunk.chunkX * chunk.width;
@@ -55,7 +55,7 @@ public class MountainShackLot extends ConstructLot {
 	}
 	
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
+	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 
 		// now make a shack
 		int floors = HouseFactory.generateShack(chunk, context, chunkRandom, averageHeight + 1);

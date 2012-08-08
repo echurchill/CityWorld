@@ -10,9 +10,9 @@ import me.daddychurchill.CityWorld.Plats.OfficeBuildingLot;
 import me.daddychurchill.CityWorld.Plats.ParkLot;
 import me.daddychurchill.CityWorld.Plats.UnfinishedBuildingLot;
 
-public abstract class ContextUrban extends ContextData {
+public abstract class UrbanContext extends DataContext {
 
-	public ContextUrban(WorldGenerator generator, PlatMap platmap) {
+	public UrbanContext(WorldGenerator generator, PlatMap platmap) {
 		super(generator, platmap);
 
 		//TODO anything to generalized?

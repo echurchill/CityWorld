@@ -1,9 +1,12 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Maps.NormalMap;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 import org.bukkit.World;
 import org.bukkit.block.Biome;
@@ -84,6 +87,11 @@ public class ShapeProvider_Normal extends ShapeProvider {
 		seaRange = seaLevel - fudgeVerticalScale + seaFlattening;
 	}
 	
+	@Override
+	public PlatMap createPlatMap(WorldGenerator generator, SupportChunk cornerChunk, int platX, int platZ) {
+		return new NormalMap(generator, cornerChunk, platX, platZ);
+	}
+
 	@Override
 	public Biome generateCrust(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int y, int z, boolean surfaceCaves) {
 		Biome resultBiome = lot.getChunkBiome();

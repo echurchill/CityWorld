@@ -1,7 +1,7 @@
 package me.daddychurchill.CityWorld.Plats;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Ladder;
@@ -16,7 +16,7 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class ParkLot extends ConnectedLot {
 
-	protected final static int cisternDepth = ContextData.FloorHeight * 4;
+	protected final static int cisternDepth = DataContext.FloorHeight * 4;
 	protected final static int groundDepth = 2;
 	
 	protected final static byte cisternId = (byte) Material.CLAY.getId();
@@ -45,11 +45,11 @@ public class ParkLot extends ConnectedLot {
 		
 		// pick a style
 		circleSidewalk = chunkRandom.nextBoolean();
-		waterDepth = chunkRandom.nextInt(ContextData.FloorHeight * 2) + 1;
+		waterDepth = chunkRandom.nextInt(DataContext.FloorHeight * 2) + 1;
 	}
 
 	@Override
-	protected boolean isShaftableLevel(WorldGenerator generator, ContextData context, int y) {
+	protected boolean isShaftableLevel(WorldGenerator generator, DataContext context, int y) {
 		return y >= 0 && y < generator.sidewalkLevel - cisternDepth - 2 - 16;	
 	}
 
@@ -68,7 +68,7 @@ public class ParkLot extends ConnectedLot {
 	}
 
 	@Override
-	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 
 		// look around
 		SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
@@ -203,7 +203,7 @@ public class ParkLot extends ConnectedLot {
 	}
 	
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
+	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		int surfaceY = generator.sidewalkLevel + 1;
 		
 		// way down?

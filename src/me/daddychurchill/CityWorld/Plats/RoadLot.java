@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
@@ -85,8 +85,8 @@ public class RoadLot extends ConnectedLot {
 	}
 
 	@Override
-	protected boolean isShaftableLevel(WorldGenerator generator, ContextData context, int y) {
-		return (y < generator.sidewalkLevel - ContextData.FloorHeight * 2 - 16 || y >= generator.sidewalkLevel + tunnelHeight + 1 + 16 ) &&
+	protected boolean isShaftableLevel(WorldGenerator generator, DataContext context, int y) {
+		return (y < generator.sidewalkLevel - DataContext.FloorHeight * 2 - 16 || y >= generator.sidewalkLevel + tunnelHeight + 1 + 16 ) &&
 				super.isShaftableLevel(generator, context, y);	
 	}
 	
@@ -132,7 +132,7 @@ public class RoadLot extends ConnectedLot {
 	}
 	
 	@Override
-	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 		// random bits
 		sewerCenterBit = chunkRandom.nextBoolean();
@@ -146,9 +146,9 @@ public class RoadLot extends ConnectedLot {
 		int originZ = chunk.getOriginZ();
 		
 		// where do we start
-		int base1Y = generator.sidewalkLevel - ContextData.FloorHeight * 2 + 1;
+		int base1Y = generator.sidewalkLevel - DataContext.FloorHeight * 2 + 1;
 		int sewerY = base1Y + 1;
-		int base2Y = base1Y + ContextData.FloorHeight + 1;
+		int base2Y = base1Y + DataContext.FloorHeight + 1;
 		int sidewalkLevel = generator.sidewalkLevel + 1;
 		boolean doSewer = generator.settings.includeSewers && cityRoad;
 		
@@ -763,7 +763,7 @@ public class RoadLot extends ConnectedLot {
 	}
 	
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
+	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 
 		// random bits
 		sewerCenterBit = chunkRandom.nextBoolean();
@@ -777,9 +777,9 @@ public class RoadLot extends ConnectedLot {
 		int originZ = chunk.getOriginZ();
 		
 		// where do we start
-		int base1Y = generator.sidewalkLevel - ContextData.FloorHeight * 2 + 1;
+		int base1Y = generator.sidewalkLevel - DataContext.FloorHeight * 2 + 1;
 		int sewerY = base1Y + 1;
-		int base2Y = base1Y + ContextData.FloorHeight + 1;
+		int base2Y = base1Y + DataContext.FloorHeight + 1;
 		int sidewalkLevel = generator.sidewalkLevel + 1;
 		boolean doSewer = generator.settings.includeSewers && cityRoad;
 		
@@ -1176,7 +1176,7 @@ public class RoadLot extends ConnectedLot {
 			chunk.setVine(x1, y, z1, direction);
 	}
 	
-	private boolean generateLightPost(WorldGenerator generator, RealChunk chunk, ContextData context, int sidewalkLevel, int x, int z) {
+	private boolean generateLightPost(WorldGenerator generator, RealChunk chunk, DataContext context, int sidewalkLevel, int x, int z) {
 		chunk.setBlock(x, sidewalkLevel, z, lightpostbaseMaterial);
 		if (generator.settings.includeDecayedRoads) {
 			int y = sidewalkLevel + 1;
@@ -1264,7 +1264,7 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 	
-	private void generateRoundedOut(WorldGenerator generator, ContextData context, ByteChunk chunk, int x, int z, boolean toNorth, boolean toEast) {
+	private void generateRoundedOut(WorldGenerator generator, DataContext context, ByteChunk chunk, int x, int z, boolean toNorth, boolean toEast) {
 		int sidewalkLevel = generator.sidewalkLevel + 1;
 		
 		// long bits
@@ -1280,7 +1280,7 @@ public class RoadLot extends ConnectedLot {
 					   sidewalkId);
 	}
 	
-	private void generateTreat(WorldGenerator generator, ContextData context, RealChunk chunk, int x, int y, int z) {
+	private void generateTreat(WorldGenerator generator, DataContext context, RealChunk chunk, int x, int y, int z) {
 		
 		// cool stuff?
 		if (generator.settings.treasuresInSewers && chunkRandom.nextDouble() <= context.oddsOfTreasureInSewers) {
@@ -1288,7 +1288,7 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 
-	private void generateTrick(WorldGenerator generator, ContextData context, RealChunk chunk, int x, int y, int z) {
+	private void generateTrick(WorldGenerator generator, DataContext context, RealChunk chunk, int x, int y, int z) {
 		
 		// not so cool stuff?
 		if (generator.settings.spawnersInSewers && chunkRandom.nextDouble() <= context.oddsOfSpawnerInSewers) {

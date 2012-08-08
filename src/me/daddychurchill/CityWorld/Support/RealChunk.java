@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Support;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.Direction.Torch;
 
@@ -447,7 +447,7 @@ public class RealChunk extends SupportChunk {
 		}
 	}
 	
-	public void drawCrane(ContextData context, Random random, int x, int y, int z) {
+	public void drawCrane(DataContext context, Random random, int x, int y, int z) {
 		
 		// vertical bit
 		setBlocks(x, y, y + 8, z, Material.IRON_FENCE);

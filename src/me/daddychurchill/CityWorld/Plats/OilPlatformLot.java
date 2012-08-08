@@ -6,7 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plugins.TekkitMaterial;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
@@ -35,16 +35,16 @@ public class OilPlatformLot extends ConstructLot {
 	private final static int aboveSea = 6;
 
 	@Override
-	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 //		CityWorld.log.info("Platform @ " + (chunk.chunkX * chunk.width) + ", " + (chunk.chunkZ * chunk.width));
 		
 		// working levels
 		int y0 = generator.seaLevel;
 		int y1 = y0 + aboveSea;
-		int y2 = y1 + ContextData.FloorHeight;
-		int y3 = y2 + ContextData.FloorHeight;
-		int y4 = y3 + ContextData.FloorHeight;
+		int y2 = y1 + DataContext.FloorHeight;
+		int y3 = y2 + DataContext.FloorHeight;
+		int y4 = y3 + DataContext.FloorHeight;
 		
 		// access levels
 		chunk.setBlocks(2, 6, y0, y0 + 1, 2, 6, platformId);
@@ -122,14 +122,14 @@ public class OilPlatformLot extends ConstructLot {
 	}
 	
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
+	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 
 		// working levels
 		int y0 = generator.seaLevel;
 		int y1 = y0 + aboveSea;
-		int y2 = y1 + ContextData.FloorHeight;
-		int y3 = y2 + ContextData.FloorHeight;
-		int y4 = y3 + ContextData.FloorHeight;
+		int y2 = y1 + DataContext.FloorHeight;
+		int y3 = y2 + DataContext.FloorHeight;
+		int y4 = y3 + DataContext.FloorHeight;
 		
 		// ladder from access level to the balcony
 		chunk.setLadder(3, y0 + 1, y4 - 2, 4, Ladder.SOUTH);

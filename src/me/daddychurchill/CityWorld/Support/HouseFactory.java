@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Support;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.Direction.Door;
 import me.daddychurchill.CityWorld.Support.Direction.Ladder;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
@@ -12,7 +12,7 @@ import org.bukkit.Material;
 
 public final class HouseFactory {
 	
-	public final static int generateShack(RealChunk chunk, ContextData context, Random random, int baseY) {
+	public final static int generateShack(RealChunk chunk, DataContext context, Random random, int baseY) {
 		
 		// what are we made of?
 		Material matWall = Material.WOOD;
@@ -26,7 +26,7 @@ public final class HouseFactory {
 	}
 	
 	
-	public final static int generateHouse(RealChunk chunk, ContextData context, Random random, int baseY, int maxFloors) {
+	public final static int generateHouse(RealChunk chunk, DataContext context, Random random, int baseY, int maxFloors) {
 		
 		// what are we made of?
 		Material matWall = pickWallMaterial(random);
@@ -86,7 +86,7 @@ public final class HouseFactory {
 		int y1;
 		int y2;
 		
-		protected void Locate(ContextData context, int floor, int floors, 
+		protected void Locate(DataContext context, int floor, int floors, 
 				int x, int z, int roomOffsetX, int roomOffsetZ, int baseY) {
 			if (!located) {
 				located = true;
@@ -96,12 +96,12 @@ public final class HouseFactory {
 				x2 = roomOffsetX + (roomEast ? widthX : 0);
 				z1 = roomOffsetZ - (roomSouth ? 0 : widthZ);
 				z2 = roomOffsetZ + (roomSouth ? widthZ : 0);
-				y1 = baseY + floor * ContextData.FloorHeight;
-				y2 = y1 + ContextData.FloorHeight - 1;
+				y1 = baseY + floor * DataContext.FloorHeight;
+				y2 = y1 + DataContext.FloorHeight - 1;
 			}
 		}
 		
-		protected void DrawWalls(RealChunk chunk, ContextData context, int floor, int floors, 
+		protected void DrawWalls(RealChunk chunk, DataContext context, int floor, int floors, 
 				int x, int z, int roomOffsetX, int roomOffsetZ, int baseY, 
 				Material matWall) {
 			
@@ -149,7 +149,7 @@ public final class HouseFactory {
 			}
 		}
 		
-		protected void DrawFloor(RealChunk chunk, ContextData context, int floor, int floors, 
+		protected void DrawFloor(RealChunk chunk, DataContext context, int floor, int floors, 
 				int x, int z, int roomOffsetX, int roomOffsetZ, int baseY, 
 				Material matFloor) {
 			
@@ -160,7 +160,7 @@ public final class HouseFactory {
 			chunk.setBlocks(x1, x2 + 1, y1 - 1, y1, z1, z2 + 1, matFloor);
 		}
 		
-		protected void DrawCeiling(RealChunk chunk, ContextData context, int floor, int floors, 
+		protected void DrawCeiling(RealChunk chunk, DataContext context, int floor, int floors, 
 				int x, int z, int roomOffsetX, int roomOffsetZ, int baseY, 
 				Material matCeiling) {
 			
@@ -171,7 +171,7 @@ public final class HouseFactory {
 			chunk.setBlocks(x1, x2 + 1, y2, y2 + 1, z1, z2 + 1, matCeiling);
 		}
 		
-		protected void DrawRoof(RealChunk chunk, ContextData context, int floor, int floors, 
+		protected void DrawRoof(RealChunk chunk, DataContext context, int floor, int floors, 
 				int x, int z, int roomOffsetX, int roomOffsetZ, int baseY, 
 				Material matRoof) {
 			
@@ -202,7 +202,7 @@ public final class HouseFactory {
 			}
 		}
 
-		protected void DrawStyle(RealChunk chunk, ContextData context, Random random, int floor, int floors, 
+		protected void DrawStyle(RealChunk chunk, DataContext context, Random random, int floor, int floors, 
 				int x, int z, int roomOffsetX, int roomOffsetZ, int baseY) {
 			
 			// which door or halls do we do?
@@ -448,7 +448,7 @@ public final class HouseFactory {
 		return random.nextInt(maxRoomWidth - minRoomWidth + 1) + minRoomWidth;
 	}
 	
-	private final static void generateColonial(RealChunk chunk, ContextData context, Random random, int baseY, 
+	private final static void generateColonial(RealChunk chunk, DataContext context, Random random, int baseY, 
 			Material matFloor, Material matWall, Material matCeiling, Material matRoof, 
 			int floors, int minRoomWidth, int maxRoomWidth, boolean allowMissingRooms) {
 		
@@ -626,8 +626,8 @@ public final class HouseFactory {
 			//TODO NS stair roof
 			//TODO EW stair root
 			// extrude roof
-			int roofY = baseY + floors * ContextData.FloorHeight - 1;
-			for (int y = 0; y < ContextData.FloorHeight - 1; y++) {
+			int roofY = baseY + floors * DataContext.FloorHeight - 1;
+			for (int y = 0; y < DataContext.FloorHeight - 1; y++) {
 				for (int x = 1; x < chunk.width - 1; x++) {
 					for (int z = 1; z < chunk.width - 1; z++) {
 						int yAt = y + roofY;
@@ -640,7 +640,7 @@ public final class HouseFactory {
 			}
 			
 			// carve out the attic
-			for (int y = 1; y < ContextData.FloorHeight - 1; y++) {
+			for (int y = 1; y < DataContext.FloorHeight - 1; y++) {
 				for (int x = 1; x < chunk.width - 1; x++) {
 					for (int z = 1; z < chunk.width - 1; z++) {
 						int yAt = y + roofY;
@@ -683,7 +683,7 @@ public final class HouseFactory {
 		return i == 0 ? 1 : 0;
 	}
 	
-	private final static void drawRoom(RealChunk chunk, ContextData context, Random random, Room[][][] rooms, int floor, int floors, int x, int z, 
+	private final static void drawRoom(RealChunk chunk, DataContext context, Random random, Room[][][] rooms, int floor, int floors, int x, int z, 
 			int roomOffsetX, int roomOffsetZ, int baseY, 
 			Material matFloor, Material matWall, Material matCeiling, Material matRoof) {
 

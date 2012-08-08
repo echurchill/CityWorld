@@ -7,7 +7,7 @@ import org.bukkit.Material;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 
-public abstract class ContextData {
+public abstract class DataContext {
 	public static int oddsNeverGoingToHappen = Integer.MAX_VALUE;
 	public static int oddsExtremelyUnlikely = 80;
 	public static int oddsVeryUnlikely = 40;
@@ -68,7 +68,7 @@ public abstract class ContextData {
 	public Material torchMat;
 	public Byte torchId;
 	
-	public ContextData(WorldGenerator generator, PlatMap platmap) {
+	public DataContext(WorldGenerator generator, PlatMap platmap) {
 		super();
 		Random platmapRandom = platmap.getRandomGenerator();
 		

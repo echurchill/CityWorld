@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plats;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
@@ -53,7 +53,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		super(platmap, chunkX, chunkZ);
 		style = LotStyle.STRUCTURE;
 		
-		ContextData context = platmap.context;
+		DataContext context = platmap.context;
 		
 		neighborsHaveIdenticalHeights = chunkRandom.nextInt(context.oddsOfIdenticalBuildingHeights) == 0;
 		neighborsHaveSimilarHeightsOdds = context.oddsOfSimilarBuildingHeights;
@@ -73,8 +73,8 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 
 	@Override
-	protected boolean isShaftableLevel(WorldGenerator generator, ContextData context, int y) {
-		return y >= 0 && y < generator.sidewalkLevel - ContextData.FloorHeight * depth - 2 - 16;	
+	protected boolean isShaftableLevel(WorldGenerator generator, DataContext context, int y) {
+		return y >= 0 && y < generator.sidewalkLevel - DataContext.FloorHeight * depth - 2 - 16;	
 	}
 
 	static public RoofStyle pickRoofStyle(Random rand) {
@@ -184,7 +184,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		return neighborBuildings;
 	}
 	
-	protected void drawCeilings(ByteChunk byteChunk, ContextData context, int y1, int height, 
+	protected void drawCeilings(ByteChunk byteChunk, DataContext context, int y1, int height, 
 			int insetNS, int insetEW, boolean allowRounded, 
 			Material material, SurroundingFloors heights) {
 		
@@ -256,7 +256,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 	
-	protected void drawWalls(ByteChunk byteChunk, ContextData context, int y1, int height, 
+	protected void drawWalls(ByteChunk byteChunk, DataContext context, int y1, int height, 
 			int insetNS, int insetEW, boolean allowRounded, 
 			Material material, Material glass, SurroundingFloors heights) {
 		
@@ -390,14 +390,14 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 	
 	//TODO roof fixtures (peak, helipad, air conditioning, stairwells access, penthouse, castle trim, etc.
-	protected void drawRoof(ByteChunk chunk, ContextData context, int y1, 
+	protected void drawRoof(ByteChunk chunk, DataContext context, int y1, 
 			int insetEW, int insetNS, boolean allowRounded, 
 			Material material, SurroundingFloors heights) {
 		switch (roofStyle) {
 		case PEAK:
 			if (heights.getNeighborCount() == 0) { 
-				for (int i = 0; i < ContextData.FloorHeight; i++) {
-					if (i == ContextData.FloorHeight - 1)
+				for (int i = 0; i < DataContext.FloorHeight; i++) {
+					if (i == DataContext.FloorHeight - 1)
 						drawCeilings(chunk, context, y1 + i * roofScale, roofScale, insetEW + i, insetNS + i, allowRounded, material, heights);
 					else
 						drawWalls(chunk, context, y1 + i * roofScale, roofScale, insetEW + i, insetNS + i, allowRounded, material, material, heights);
@@ -407,8 +407,8 @@ public abstract class BuildingLot extends ConnectedLot {
 			break;
 		case TENTNS:
 			if (heights.getNeighborCount() == 0) { 
-				for (int i = 0; i < ContextData.FloorHeight; i++) {
-					if (i == ContextData.FloorHeight - 1)
+				for (int i = 0; i < DataContext.FloorHeight; i++) {
+					if (i == DataContext.FloorHeight - 1)
 						drawCeilings(chunk, context, y1 + i * roofScale, roofScale, insetEW + i, insetNS, allowRounded, material, heights);
 					else
 						drawWalls(chunk, context, y1 + i * roofScale, roofScale, insetEW + i, insetNS, allowRounded, material, material, heights);
@@ -418,8 +418,8 @@ public abstract class BuildingLot extends ConnectedLot {
 			break;
 		case TENTEW:
 			if (heights.getNeighborCount() == 0) { 
-				for (int i = 0; i < ContextData.FloorHeight; i++) {
-					if (i == ContextData.FloorHeight - 1)
+				for (int i = 0; i < DataContext.FloorHeight; i++) {
+					if (i == DataContext.FloorHeight - 1)
 						drawCeilings(chunk, context, y1 + i * roofScale, roofScale, insetEW, insetNS + i, allowRounded, material, heights);
 					else
 						drawWalls(chunk, context, y1 + i * roofScale, roofScale, insetEW, insetNS + i, allowRounded, material, material, heights);
@@ -436,7 +436,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 	
-	private void drawEdgedRoof(ByteChunk chunk, ContextData context, int y1, 
+	private void drawEdgedRoof(ByteChunk chunk, DataContext context, int y1, 
 			int insetEW, int insetNS, boolean allowRounded, 
 			Material material, boolean doEdge, SurroundingFloors heights) {
 		
@@ -480,7 +480,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 	
-	protected void drawNavLight(RealChunk chunk, ContextData context) {
+	protected void drawNavLight(RealChunk chunk, DataContext context) {
 		if (navLightY > 0)
 			chunk.setTorch(navLightX, navLightY, navLightZ, context.torchMat, Direction.Torch.FLOOR);
 	}

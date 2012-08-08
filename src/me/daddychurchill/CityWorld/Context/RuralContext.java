@@ -5,9 +5,9 @@ import java.util.Random;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 
-public abstract class ContextRural extends ContextData {
+public abstract class RuralContext extends DataContext {
 
-	public ContextRural(WorldGenerator generator, PlatMap platmap) {
+	public RuralContext(WorldGenerator generator, PlatMap platmap) {
 		super(generator, platmap);
 		
 		Random platmapRandom = platmap.getRandomGenerator();

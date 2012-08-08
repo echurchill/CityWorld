@@ -9,9 +9,9 @@ import me.daddychurchill.CityWorld.Plats.HouseLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 
-public class ContextFarm extends ContextRural {
+public class FarmContext extends RuralContext {
 
-	public ContextFarm(WorldGenerator generator, PlatMap platmap) {
+	public FarmContext(WorldGenerator generator, PlatMap platmap) {
 		super(generator, platmap);
 
 		oddsOfIsolatedLots = oddsVeryLikely;

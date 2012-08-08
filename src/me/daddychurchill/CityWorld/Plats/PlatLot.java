@@ -7,7 +7,7 @@ import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.ContextData;
+import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.OreProvider.OreLocation;
@@ -84,8 +84,8 @@ public abstract class PlatLot {
 	public abstract boolean isConnectable(PlatLot relative);
 	public abstract boolean isConnected(PlatLot relative);
 	
-	protected abstract void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ);
-	protected abstract void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ);
+	protected abstract void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ);
+	protected abstract void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ);
 
 	public Biome getChunkBiome() {
 		return Biome.PLAINS;
@@ -102,7 +102,7 @@ public abstract class PlatLot {
 		chunkRandom = platmap.getChunkRandomGenerator(chunkX, chunkZ);
 	}
 	
-	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		initializeDice(platmap, chunk.chunkX, chunk.chunkZ);
 		
 		// let there be dirt!
@@ -116,7 +116,7 @@ public abstract class PlatLot {
 			generateMines(generator, chunk, context);
 	}
 		
-	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ) {
+	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		initializeDice(platmap, chunk.chunkX, chunk.chunkZ);
 		
 		// let the specialized platlot do it's thing
@@ -130,7 +130,7 @@ public abstract class PlatLot {
 			generateMines(generator, chunk, context);
 	}
 	
-	protected void generateCrust(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, ContextData context, int platX, int platZ) {
+	protected void generateCrust(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 
 		// total height
 		int sumHeight = 0;
@@ -179,7 +179,7 @@ public abstract class PlatLot {
 	
 	private final static int lowestMineSegment = 16;
 	
-	protected void generateMines(WorldGenerator generator, ByteChunk chunk, ContextData context) {
+	protected void generateMines(WorldGenerator generator, ByteChunk chunk, DataContext context) {
 		
 		// make sure we have the facts
 		precomputeExtremes(generator, chunk);
@@ -191,7 +191,7 @@ public abstract class PlatLot {
 		}
 	}
 	
-	protected int findHighestShaftableLevel(WorldGenerator generator, ContextData context, SupportChunk chunk) {
+	protected int findHighestShaftableLevel(WorldGenerator generator, DataContext context, SupportChunk chunk) {
 
 		// make sure we have the facts
 		precomputeExtremes(generator, chunk);
@@ -206,11 +206,11 @@ public abstract class PlatLot {
 		return 0;
 	}
 	
-	protected boolean isShaftableLevel(WorldGenerator generator, ContextData context, int y) {
+	protected boolean isShaftableLevel(WorldGenerator generator, DataContext context, int y) {
 		return y >= lowestMineSegment && y < minHeight && minHeight > generator.seaLevel;
 	}
 
-	private void generateHorizontalMineLevel(WorldGenerator generator, ByteChunk chunk, ContextData context, int y) {
+	private void generateHorizontalMineLevel(WorldGenerator generator, ByteChunk chunk, DataContext context, int y) {
 		int y1 = y + 6;
 		int y2 = y1 + 1;
 		
@@ -310,7 +310,7 @@ public abstract class PlatLot {
 		}
 	}
 		
-	protected void generateMines(WorldGenerator generator, RealChunk chunk, ContextData context) {
+	protected void generateMines(WorldGenerator generator, RealChunk chunk, DataContext context) {
 		
 		// make sure we have the facts
 		precomputeExtremes(generator, chunk);
@@ -322,7 +322,7 @@ public abstract class PlatLot {
 		}
 	}
 	
-	private void generateVerticalMineLevel(WorldGenerator generator, RealChunk chunk, ContextData context, int y) {
+	private void generateVerticalMineLevel(WorldGenerator generator, RealChunk chunk, DataContext context, int y) {
 		int y1 = y + 6;
 		boolean stairsFound = false;
 		
@@ -444,7 +444,7 @@ public abstract class PlatLot {
 			generateMineCeiling(chunk, 6, 10, y1 + 3, 6, 10);
 	}
 	
-	private void generateMineAlcove(WorldGenerator generator, ContextData context, RealChunk chunk, int x, int y, int z, int prizeX, int prizeZ) {
+	private void generateMineAlcove(WorldGenerator generator, DataContext context, RealChunk chunk, int x, int y, int z, int prizeX, int prizeZ) {
 		if (chunkRandom.nextDouble() < 0.66) {
 			if (!chunk.isEmpty(x, y, z) &&
 				!chunk.isEmpty(x + 1, y, z) &&
@@ -489,7 +489,7 @@ public abstract class PlatLot {
 			chunk.setStair(x, y - 1, z, Material.WOOD_STAIRS, flipDirection);
 	}
 	
-	private void generateMineTreat(WorldGenerator generator, ContextData context, RealChunk chunk, int x, int y, int z) {
+	private void generateMineTreat(WorldGenerator generator, DataContext context, RealChunk chunk, int x, int y, int z) {
 
 		// cool stuff?
 		if (generator.settings.treasuresInMines && chunkRandom.nextDouble() <= context.oddsOfTreasureInMines) {
@@ -497,7 +497,7 @@ public abstract class PlatLot {
 		}
 	}
 
-	private void generateMineTrick(WorldGenerator generator, ContextData context, RealChunk chunk, int x, int y, int z) {
+	private void generateMineTrick(WorldGenerator generator, DataContext context, RealChunk chunk, int x, int y, int z) {
 		// not so cool stuff?
 		if (generator.settings.spawnersInMines && chunkRandom.nextDouble() <= context.oddsOfSpawnerInMines) {
 			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, chunkRandom, SpawnerLocation.MINE));
@@ -556,7 +556,7 @@ public abstract class PlatLot {
 		return miniPlatMap;
 	}
 	
-	protected void generateSurface(WorldGenerator generator, PlatMap platmap, RealChunk chunk, ContextData context, int platX, int platZ, boolean includeTrees) {
+	protected void generateSurface(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ, boolean includeTrees) {
 		
 		// compute offset to start of chunk
 		int blockX = chunk.chunkX * chunk.width;
@@ -571,7 +571,7 @@ public abstract class PlatLot {
 	}
 	
 	protected void destroyBuilding(WorldGenerator generator, RealChunk chunk, int y, int floors) {
-		destroyLot(generator, chunk, y, y + ContextData.FloorHeight * (floors + 1));
+		destroyLot(generator, chunk, y, y + DataContext.FloorHeight * (floors + 1));
 	}
 	
 	protected void destroyLot(WorldGenerator generator, RealChunk chunk, int y1, int y2) {
@@ -579,7 +579,7 @@ public abstract class PlatLot {
 	}
 	
 	protected void destroyWithin(WorldGenerator generator, RealChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2) {
-		int count = Math.max(1, (y2 - y1) / ContextData.FloorHeight);
+		int count = Math.max(1, (y2 - y1) / DataContext.FloorHeight);
 		
 		// world centric 
 		WorldBlocks blocks = new WorldBlocks(generator);

@@ -5,13 +5,12 @@ import org.bukkit.block.Biome;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public abstract class ShapeProvider {
-	
-	//TODO add a floating ground version for TheEnd
-	//TODO add a cave version for Nether
 	
 	public abstract int getWorldHeight();
 	public abstract int getStreetLevel();
@@ -57,29 +56,18 @@ public abstract class ShapeProvider {
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	public static ShapeProvider loadProvider(WorldGenerator generator) {
 
-		ShapeProvider provider = null;
-		
-//		// try need something like PhatLoot but for ores
-//		provider = ShapeProvider_PhatShape.loadPhatShapes();
-		
-		// default to stock ShapeProvider
-		if (provider == null) {
-			
-			switch (generator.settings.mapStyle) {
-			case FLOATING:
-				provider = new ShapeProvider_Floating(generator);
-				break;
-			case FLOODED:
-			case LUNAR:
-				//TODO: curved surface?
-			case NORMAL:
-				provider = new ShapeProvider_Normal(generator);
-				break;
-			}
+		switch (generator.settings.mapStyle) {
+		case FLOATING:
+			return new ShapeProvider_Floating(generator);
+		//case UNDERGROUND
+		//case FLOODED:
+		//case LUNAR: // curved surface?
+		default: // NORMAL
+			return new ShapeProvider_Normal(generator);
 		}
-	
-		return provider;
 	}
+	
+	public abstract PlatMap createPlatMap(WorldGenerator generator, SupportChunk cornerChunk, int platX, int platZ);
 
 	protected void generateStratas(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, byte substratumId, byte stratumId,
 			int stratumY, byte subsurfaceId, int subsurfaceY, byte surfaceId,

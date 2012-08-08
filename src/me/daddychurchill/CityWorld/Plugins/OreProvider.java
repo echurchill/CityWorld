@@ -152,23 +152,22 @@ public abstract class OreProvider {
 		
 		// default to stock OreProvider
 		if (provider == null) {
-			if (generator.settings.includeTekkitMaterials)
-				provider = new OreProvider_Tekkit(generator);
-			else
-				switch (generator.settings.environmentStyle) {
-				case NETHER:
-					provider = new OreProvider_Nether(generator);
-					break;
-				case THE_END:
-					provider = new OreProvider_TheEnd(generator);
-					break;
-				case NORMAL:
-					if (generator.settings.includeDecayedNature)
-						provider = new OreProvider_Decayed(generator);
-					else
-						provider = new OreProvider_Normal(generator);
-					break;
-				}
+			switch (generator.settings.environmentStyle) {
+			case NETHER:
+				provider = new OreProvider_Nether(generator);
+				break;
+			case THE_END:
+				provider = new OreProvider_TheEnd(generator);
+				break;
+			case NORMAL:
+				if (generator.settings.includeDecayedNature)
+					provider = new OreProvider_Decayed(generator);
+				else if (generator.settings.includeTekkitMaterials)
+					provider = new OreProvider_Tekkit(generator);
+				else
+					provider = new OreProvider_Normal(generator);
+				break;
+			}
 		}
 	
 		return provider;

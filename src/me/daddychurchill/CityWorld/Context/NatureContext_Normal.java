@@ -15,9 +15,9 @@ import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.HeightInfo.HeightState;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
-public class ContextNature extends ContextRural {
+public class NatureContext_Normal extends RuralContext {
 
-	public ContextNature(WorldGenerator generator, PlatMap platmap) {
+	public NatureContext_Normal(WorldGenerator generator, PlatMap platmap) {
 		super(generator, platmap);
 
 	}

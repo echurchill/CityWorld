@@ -6,9 +6,12 @@ import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Maps.FloatingMap;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class ShapeProvider_Floating extends ShapeProvider_Normal {
 
@@ -19,6 +22,11 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 		
 		terrainShape = new SimplexNoiseGenerator(seed + 100);
 		noiseShape = new SimplexNoiseGenerator(seed + 101);
+	}
+
+	@Override
+	public PlatMap createPlatMap(WorldGenerator generator, SupportChunk cornerChunk, int platX, int platZ) {
+		return new FloatingMap(generator, cornerChunk, platX, platZ);
 	}
 
 	private SimplexNoiseGenerator terrainShape;

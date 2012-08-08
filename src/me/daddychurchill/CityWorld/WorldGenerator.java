@@ -5,7 +5,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.Maps.NormalMap;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
@@ -266,7 +265,7 @@ public class WorldGenerator extends ChunkGenerator {
 		if (platmap == null) {
 			
 			// what is the context for this one?
-			platmap = new NormalMap(this, cornerChunk, platX, platZ);
+			platmap = shapeProvider.createPlatMap(this, cornerChunk, platX, platZ);
 			
 			// remember it for quicker look up
 			platmaps.put(platkey, platmap);

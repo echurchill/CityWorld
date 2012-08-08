@@ -1,16 +1,16 @@
 package me.daddychurchill.CityWorld.Maps;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.ContextCityCenter;
-import me.daddychurchill.CityWorld.Context.ContextData;
-import me.daddychurchill.CityWorld.Context.ContextFarm;
-import me.daddychurchill.CityWorld.Context.ContextHighrise;
-import me.daddychurchill.CityWorld.Context.ContextLowrise;
-import me.daddychurchill.CityWorld.Context.ContextMall;
-import me.daddychurchill.CityWorld.Context.ContextMidrise;
-import me.daddychurchill.CityWorld.Context.ContextNature;
-import me.daddychurchill.CityWorld.Context.ContextNeighborhood;
-import me.daddychurchill.CityWorld.Context.ContextUnconstruction;
+import me.daddychurchill.CityWorld.Context.CityCenterContext;
+import me.daddychurchill.CityWorld.Context.DataContext;
+import me.daddychurchill.CityWorld.Context.FarmContext;
+import me.daddychurchill.CityWorld.Context.HighriseContext;
+import me.daddychurchill.CityWorld.Context.LowriseContext;
+import me.daddychurchill.CityWorld.Context.MallContext;
+import me.daddychurchill.CityWorld.Context.MidriseContext;
+import me.daddychurchill.CityWorld.Context.NatureContext_Normal;
+import me.daddychurchill.CityWorld.Context.NeighborhoodContext;
+import me.daddychurchill.CityWorld.Context.UnderConstructionContext;
 import me.daddychurchill.CityWorld.Plats.NatureLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
@@ -37,7 +37,7 @@ public class NormalMap extends PlatMap {
 	protected void populateLots(SupportChunk typicalChunk) {
 
 		// assume everything is natural for the moment
-		context = new ContextNature(generator, this);
+		context = new NatureContext_Normal(generator, this);
 		context.populateMap(generator, this);
 		
 		// place and validate the roads
@@ -54,6 +54,8 @@ public class NormalMap extends PlatMap {
 			}
 		}
 		
+		//TODO: nature shouldn't place its special lots until this phase and then only if the lot is surrounded by nature
+		
 		// recycle all the remaining holes
 		for (int x = 0; x < Width; x++) {
 			for (int z = 0; z < Width; z++) {
@@ -63,30 +65,30 @@ public class NormalMap extends PlatMap {
 		}
 	}
 
-	protected ContextData getContext() {
+	protected DataContext getContext() {
 		
 		// how natural is this platmap?
 		if (naturalPlats == 0) {
 //			if (typicalChunk.random.nextDouble() > oddsOfCentralPark)
 //				return new ContextCentralPark(generator, this);
 //			else
-				return new ContextHighrise(generator, this);
+				return new HighriseContext(generator, this);
 		} else if (naturalPlats < 15)
-			return new ContextUnconstruction(generator, this);
+			return new UnderConstructionContext(generator, this);
 		else if (naturalPlats < 25)
-			return new ContextMidrise(generator, this);
+			return new MidriseContext(generator, this);
 		else if (naturalPlats < 37)
-			return new ContextCityCenter(generator, this);
+			return new CityCenterContext(generator, this);
 		else if (naturalPlats < 50)
-			return new ContextMall(generator, this);
+			return new MallContext(generator, this);
 		else if (naturalPlats < 65)
-			return new ContextLowrise(generator, this);
+			return new LowriseContext(generator, this);
 		else if (naturalPlats < 80)
-			return new ContextNeighborhood(generator, this);
+			return new NeighborhoodContext(generator, this);
 		else if (naturalPlats < 90 && generator.settings.includeFarms)
-			return new ContextFarm(generator, this);
+			return new FarmContext(generator, this);
 		else if (naturalPlats < 100)
-			return new ContextNeighborhood(generator, this);
+			return new NeighborhoodContext(generator, this);
 		
 		// otherwise just keep what we have
 		else
