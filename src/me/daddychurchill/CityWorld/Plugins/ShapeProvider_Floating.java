@@ -1,6 +1,5 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
@@ -17,8 +16,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 
 	public ShapeProvider_Floating(WorldGenerator generator) {
 		super(generator);
-		World world = generator.getWorld();
-		long seed = world.getSeed();
+		long seed = generator.getWorldSeed();
 		
 		terrainShape = new SimplexNoiseGenerator(seed + 100);
 		noiseShape = new SimplexNoiseGenerator(seed + 101);

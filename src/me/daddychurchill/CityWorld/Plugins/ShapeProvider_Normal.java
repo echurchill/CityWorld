@@ -64,7 +64,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	public ShapeProvider_Normal(WorldGenerator generator) {
 		super(generator);
 		World world = generator.getWorld();
-		long seed = world.getSeed();
+		long seed = generator.getWorldSeed();
 		
 		landShape1 = new SimplexOctaveGenerator(seed, 4);
 		landShape1.setScale(landHorizontalScale1);

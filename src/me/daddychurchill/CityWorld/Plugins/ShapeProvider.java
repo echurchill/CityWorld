@@ -1,6 +1,5 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
@@ -46,8 +45,7 @@ public abstract class ShapeProvider {
 	
 	public ShapeProvider(WorldGenerator generator) {
 		super();
-		World world = generator.getWorld();
-		long seed = world.getSeed();
+		long seed = generator.getWorldSeed();
 		
 		macroShape = new SimplexNoiseGenerator(seed + 2);
 		microShape = new SimplexNoiseGenerator(seed + 3);

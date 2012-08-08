@@ -27,8 +27,9 @@ public class WorldGenerator extends ChunkGenerator {
 
 	private CityWorld plugin;
 	private World world;
-	private String worldname;
-	private String worldstyle;
+	private String worldName;
+	private String worldStyle;
+	private Long worldSeed;
 	private Random connectionKeyGen;
 	
 	public ShapeProvider shapeProvider;
@@ -57,8 +58,8 @@ public class WorldGenerator extends ChunkGenerator {
 	
 	public WorldGenerator(CityWorld aPlugin, String aWorldname, String aWorldstyle) {
 		plugin = aPlugin;
-		worldname = aWorldname;
-		worldstyle = aWorldstyle;
+		worldName = aWorldname;
+		worldStyle = aWorldstyle;
 	}
 
 	public CityWorld getPlugin() {
@@ -69,12 +70,16 @@ public class WorldGenerator extends ChunkGenerator {
 		return world;
 	}
 
-	public String getWorldname() {
-		return worldname;
+	public String getWorldName() {
+		return worldName;
 	}
 
-	public String getWorldstyle() {
-		return worldstyle;
+	public String getWorldStyle() {
+		return worldStyle;
+	}
+	
+	public Long getWorldSeed() {
+		return worldSeed;
 	}
 
 	@Override
@@ -90,15 +95,15 @@ public class WorldGenerator extends ChunkGenerator {
 		// initialize the shaping logic
 		if (world == null) {
 			world = aWorld;
-			settings = new CityWorldSettings(plugin, world);
-			long seed = world.getSeed();
-			connectionKeyGen = new Random(seed + 1);
+			settings = new CityWorldSettings(this);
+			worldSeed = world.getSeed();
+			connectionKeyGen = new Random(worldSeed + 1);
 			shapeProvider = ShapeProvider.loadProvider(this);
 			lootProvider = LootProvider.loadProvider(this);
 			spawnProvider = SpawnProvider.loadProvider(this);
 			oreProvider = OreProvider.loadProvider(this);
-			foliageProvider = FoliageProvider.loadProvider(this, new Random(seed + 3));
-			odonymProvider = OdonymProvider.loadProvider(this, new Random(seed + 4));
+			foliageProvider = FoliageProvider.loadProvider(this, new Random(worldSeed + 3));
+			odonymProvider = OdonymProvider.loadProvider(this, new Random(worldSeed + 4));
 			
 			// get ranges
 			height = shapeProvider.getWorldHeight();

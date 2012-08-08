@@ -1,6 +1,5 @@
 package me.daddychurchill.CityWorld;
 
-import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -107,10 +106,10 @@ public class CityWorldSettings {
 	private final static String tagIncludeDecayedNature = "IncludeDecayedNature";
 	private final static String tagIncludeTekkitMaterials = "IncludeTekkitMaterials";
 	
-	public CityWorldSettings(CityWorld plugin, World world) {
+	public CityWorldSettings(WorldGenerator generator) {
 		super();
-		String worldname = world.getName();
-		environmentStyle = world.getEnvironment();
+		String worldname = generator.getWorldName();
+		environmentStyle = generator.getWorld().getEnvironment();
 		mapStyle = MapStyle.NORMAL;
 		
 		// get the right defaults
@@ -136,6 +135,7 @@ public class CityWorldSettings {
 		}
 		
 		// add/get the configuration
+		CityWorld plugin = generator.getPlugin();
 		FileConfiguration config = plugin.getConfig();
 		config.options().header("CityWorld Plugin Options");
 		config.options().copyDefaults(true);
