@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import org.bukkit.block.Biome;
+import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
@@ -10,6 +11,7 @@ import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class ShapeProvider_Floating extends ShapeProvider_Normal {
@@ -42,53 +44,69 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	private final static double terrainScale = 1.0 / 281.0;
 	private final static double noiseScale = 1.0 / 23.0;
 	
+	public final static int floatingMin = seaLevel + landRange + 16;
+	public final static int floatingRange = 256 - 32;
+	
 	@Override
-	public Biome generateCrust(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int y, int z, boolean surfaceCaves) {
+	public int findGroundY(WorldGenerator generator, int blockX, int blockZ) {
+		
+		// calculator the way down there bits
+		double terrainAt = terrainShape.noise(blockX * terrainScale, blockZ * terrainScale) * midRange;
+		double noiseAt = noiseShape.noise(blockX * noiseScale, blockZ * noiseScale) * noiseRange;
+		return NoiseGenerator.floor(terrainAt + noiseAt) + midPoint;
+	}
+	
+	@Override
+	public void generateCrust(WorldGenerator generator, PlatLot lot, ByteChunk chunk, BiomeGrid biomes, CachedYs blockYs) {
 		Biome resultBiome = lot.getChunkBiome();
 		OreProvider ores = generator.oreProvider;
 		
-		// make the base
-		chunk.setBlock(x, 0, z, ores.substratumId);
-		
-		// where are we?
-		int blockX = chunk.getBlockX(x);
-		int blockZ = chunk.getBlockZ(z);
-		
-		// place the way down there bits
-		double terrainAt = terrainShape.noise(blockX * terrainScale, blockZ * terrainScale) * midRange;
-		double noiseAt = noiseShape.noise(blockX * noiseScale, blockZ * noiseScale) * noiseRange;
-		int terrainY = NoiseGenerator.floor(terrainAt + noiseAt) + midPoint;
-		//CityWorld.log.info("TerrainAt = " + terrainAt + " NoiseAt = " + noiseAt + " TerrainY = " + terrainY);
-		chunk.setBlocks(x, 1, terrainY - 1, z, ores.stratumId);
-		
-		// seas?
-		if (terrainY < seaLevel) {
-			chunk.setBlock(x, terrainY - 1, z, ores.fluidSubsurfaceId);
-			chunk.setBlock(x, terrainY, z, ores.fluidSurfaceId);
-			chunk.setBlocks(x, terrainY + 1, seaLevel, z, ores.fluidId);
-		} else {
-			chunk.setBlock(x, terrainY - 1, z, ores.subsurfaceId);
-			chunk.setBlock(x, terrainY, z, ores.surfaceId);
+		// shape the world
+		for (int x = 0; x < chunk.width; x++) {
+			for (int z = 0; z < chunk.width; z++) {
+				int y = blockYs.getBlockY(x, z);
+				
+				// where is the ground?
+				int groundY = findGroundY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
+				
+				// make the base
+				chunk.setBlock(x, 0, z, ores.substratumId);
+				
+				// place the way down there bits
+				chunk.setBlocks(x, 1, groundY - 1, z, ores.stratumId);
+				
+				// seas?
+				if (groundY < seaLevel) {
+					chunk.setBlock(x, groundY - 1, z, ores.fluidSubsurfaceId);
+					chunk.setBlock(x, groundY, z, ores.fluidSurfaceId);
+					chunk.setBlocks(x, groundY + 1, seaLevel, z, ores.fluidId);
+				} else {
+					chunk.setBlock(x, groundY - 1, z, ores.subsurfaceId);
+					chunk.setBlock(x, groundY, z, ores.surfaceId);
+				}
+
+				// buildable?
+				if (lot.style == LotStyle.STRUCTURE || lot.style == LotStyle.ROUNDABOUT) {
+					chunk.setBlock(x, y, z, ores.subsurfaceId);
+					
+				// possibly buildable?
+				} else if (y == generator.sidewalkLevel) {
+					chunk.setBlock(x, y, z, ores.stratumId);
+				
+
+				// on the beach
+				} else if (y == generator.seaLevel) {
+					chunk.setBlock(x, y, z, ores.surfaceId);
+					//generateStratas(generator, lot, chunk, x, z, substratumId, y - 2, sandId, y, sandId, generator.settings.includeDecayedNature);
+					//generateStratas(generator, lot, chunk, x, z, substratumId, y - 2, sandId, y, stoneId, generator.settings.includeDecayedNature);
+					resultBiome = Biome.BEACH;
+				}
+
+				// set biome for block
+				biomes.setBiome(x, z, resultBiome);
+			}
 		}
-
-		// buildable?
-		if (lot.style == LotStyle.STRUCTURE || lot.style == LotStyle.ROUNDABOUT) {
-			chunk.setBlock(x, y, z, ores.subsurfaceId);
-			
-		// possibly buildable?
-		} else if (y == generator.sidewalkLevel) {
-			chunk.setBlock(x, y, z, ores.stratumId);
 		
-
-		// on the beach
-		} else if (y == generator.seaLevel) {
-			chunk.setBlock(x, y, z, ores.surfaceId);
-			//generateStratas(generator, lot, chunk, x, z, substratumId, y - 2, sandId, y, sandId, generator.settings.includeDecayedNature);
-			//generateStratas(generator, lot, chunk, x, z, substratumId, y - 2, sandId, y, stoneId, generator.settings.includeDecayedNature);
-			resultBiome = Biome.BEACH;
-		}
-
-		return resultBiome;
 	}
 	
 	@Override

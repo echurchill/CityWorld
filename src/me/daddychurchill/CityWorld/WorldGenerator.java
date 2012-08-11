@@ -21,7 +21,6 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
-import org.bukkit.util.noise.NoiseGenerator;
 
 public class WorldGenerator extends ChunkGenerator {
 
@@ -86,9 +85,6 @@ public class WorldGenerator extends ChunkGenerator {
 	public List<BlockPopulator> getDefaultPopulators(World world) {
 		return Arrays.asList((BlockPopulator) new CityWorldBlockPopulator(this));
 	}
-	
-	public double oddsOfIsolatedBuilding = 0.75;
-	public double oddsOfRoundabouts = 0.30;
 	
 	private void initializeWorldInfo(World aWorld) {
 		
@@ -156,79 +152,16 @@ public class WorldGenerator extends ChunkGenerator {
 		return connectionKeyGen.nextLong();
 	}
 	
-	public double findPerciseY(int blockX, int blockZ) {
-		return shapeProvider.findPerciseY(this, blockX, blockZ);
-	}
-	
-	public int findBlockY(int blockX, int blockZ) {
-		return NoiseGenerator.floor(findPerciseY(blockX, blockZ));
-	}
-	
-	// macro slots
-	private final static int macroRandomGeneratorSlot = 0;
-	private final static int macroNSBridgeSlot = 1; 
-	
-	// micro slots
-	private final static int microRandomGeneratorSlot = 0;
-	private final static int microRoundaboutSlot = 1; 
-	private final static int microIsolatedLotSlot = 3;
-	private final static int microSurfaceCaveSlot = 2; 
-	
-	public Random getMicroRandomGeneratorAt(int x, int z) {
-		return new Random((long) (shapeProvider.getMicroNoiseAt(x, z, microRandomGeneratorSlot) * Long.MAX_VALUE));
-	}
-	
-	public Random getMacroRandomGeneratorAt(int x, int z) {
-		return new Random((long) (shapeProvider.getMacroNoiseAt(x, z, macroRandomGeneratorSlot) * Long.MAX_VALUE));
-	}
-	
-	public boolean getBridgePolarityAt(double chunkX, double chunkZ) {
-		return macroBooleanAt(chunkX, chunkZ, macroNSBridgeSlot);
-	}
-
-	public boolean isRoundaboutAt(double chunkX, double chunkZ) {
-		return settings.includeRoundabouts && 
-			   microScaleAt(chunkX, chunkZ, microRoundaboutSlot) < oddsOfRoundabouts;
-	}
-	
-	public boolean isSurfaceCaveAt(double chunkX, double chunkZ) {
-		return microBooleanAt(chunkX, chunkZ, microSurfaceCaveSlot);
-	}
-	
-	public boolean isIsolatedBuildingAt(double chunkX, double chunkZ) {
-		return isIsolatedLotAt(chunkX, chunkZ, oddsOfIsolatedBuilding);
-	}
-	
-	public boolean isNotSoIsolatedBuildingAt(double chunkX, double chunkZ) {
-		return isIsolatedLotAt(chunkX, chunkZ, oddsOfIsolatedBuilding / 2);
-	}
-	
-	public boolean isIsolatedLotAt(double chunkX, double chunkZ, double odds) {
-		return microScaleAt(chunkX, chunkZ, microIsolatedLotSlot) > odds;
-	}
-	
-	protected boolean macroBooleanAt(double chunkX, double chunkZ, int slot) {
-		return shapeProvider.getMacroNoiseAt(chunkX, chunkZ, slot) >= 0.0;
-	}
-	
-	protected boolean microBooleanAt(double chunkX, double chunkZ, int slot) {
-		return shapeProvider.getMicroNoiseAt(chunkX, chunkZ, slot) >= 0.0;
-	}
-	
-	protected int macroValueAt(double chunkX, double chunkZ, int slot, int scale) {
-		return NoiseGenerator.floor(macroScaleAt(chunkX, chunkZ, slot) * scale);
-	}
-	
-	protected int microValueAt(double chunkX, double chunkZ, int slot, int scale) {
-		return NoiseGenerator.floor(microScaleAt(chunkX, chunkZ, slot) * scale);
-	}
-	
-	protected double macroScaleAt(double chunkX, double chunkZ, int slot) {
-		return (shapeProvider.getMacroNoiseAt(chunkX, chunkZ, slot) + 1.0) / 2.0;
-	}
-
-	protected double microScaleAt(double chunkX, double chunkZ, int slot) {
-		return (shapeProvider.getMicroNoiseAt(chunkX, chunkZ, slot) + 1.0) / 2.0;
+//	public double findPerciseY(int blockX, int blockZ) {
+//		return shapeProvider.findPerciseY(this, blockX, blockZ);
+//	}
+//	
+//	public int findBlockY(int blockX, int blockZ) {
+//		return shapeProvider.findBlockY(this, blockX, blockZ);
+//	}
+//	
+	public int getFarBlockY(int blockX, int blockZ) {
+		return shapeProvider.findBlockY(this, blockX, blockZ);
 	}
 	
 	private final static int spawnRadius = 100;

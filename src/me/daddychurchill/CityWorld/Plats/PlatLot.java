@@ -13,9 +13,9 @@ import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.OreProvider.OreLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
-import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 import me.daddychurchill.CityWorld.Support.WorldBlocks;
@@ -23,7 +23,7 @@ import me.daddychurchill.CityWorld.Support.WorldBlocks;
 public abstract class PlatLot {
 	
 	// extremes
-	private boolean extremeComputed = false;
+	private CachedYs blockYs;
 	protected int averageHeight;
 	protected int minHeight = Integer.MAX_VALUE;
 	protected int minHeightX = 0;
@@ -31,7 +31,6 @@ public abstract class PlatLot {
 	protected int maxHeight = Integer.MIN_VALUE;
 	protected int maxHeightX = 0;
 	protected int maxHeightZ = 0;
-	protected int oreTopY = -1; // use generator.findBlockY()
 	
 	protected Random platmapRandom;
 	protected Random chunkRandom;
@@ -102,8 +101,36 @@ public abstract class PlatLot {
 		chunkRandom = platmap.getChunkRandomGenerator(chunkX, chunkZ);
 	}
 	
+	private void initializeYs(WorldGenerator generator, SupportChunk chunk, int platX, int platZ) {
+		if (blockYs == null) {
+			blockYs = new CachedYs(generator, chunk, platX, platZ);
+		
+			// what was the average height
+			minHeight = blockYs.minHeight;
+			minHeightX = blockYs.minHeightX;
+			minHeightZ = blockYs.minHeightZ;
+			maxHeight = blockYs.maxHeight;
+			maxHeightX = blockYs.maxHeightX;
+			maxHeightZ = blockYs.maxHeightZ;
+			averageHeight = blockYs.averageHeight;
+		}
+	}
+	
+	private void deinitializeYs() {
+		blockYs = null;
+	}
+	
+	protected int getBlockY(int x, int z) {
+		return blockYs == null ? 0 : blockYs.getBlockY(x, z);
+	}
+	
+	protected double getPerciseY(int x, int z) {
+		return blockYs == null ? 0 : blockYs.getPerciseY(x, z);
+	}
+	
 	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		initializeDice(platmap, chunk.chunkX, chunk.chunkZ);
+		initializeYs(generator, chunk, platX, platZ);
 		
 		// let there be dirt!
 		generateCrust(generator, platmap, chunk, biomes, context, platX, platZ);
@@ -118,6 +145,7 @@ public abstract class PlatLot {
 		
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		initializeDice(platmap, chunk.chunkX, chunk.chunkZ);
+		initializeYs(generator, chunk, platX, platZ);
 		
 		// let the specialized platlot do it's thing
 		generateActualBlocks(generator, platmap, chunk, context, platX, platZ);
@@ -128,61 +156,20 @@ public abstract class PlatLot {
 		// do we do it or not?
 		if (generator.settings.includeMines)
 			generateMines(generator, chunk, context);
+		
+		// all done
+		deinitializeYs();
 	}
 	
 	protected void generateCrust(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 
-		// total height
-		int sumHeight = 0;
-		
-		// compute offset to start of chunk
-		int originX = chunk.getOriginX();
-		int originZ = chunk.getOriginZ();
-		
-		// surface caves?
-		boolean surfaceCaves = generator.isSurfaceCaveAt(chunk.chunkX, chunk.chunkZ);
-		
-		// calculate the Ys for this chunk
-		int[][] blocksY= new int[16][16];
-		for (int x = 0; x < chunk.width; x++) {
-			for (int z = 0; z < chunk.width; z++) {
-
-				// how high are we?
-				blocksY[x][z] = generator.findBlockY(originX + x, originZ + z);
-				
-				// keep the tally going
-				sumHeight += blocksY[x][z];
-				if (blocksY[x][z] < minHeight) {
-					minHeight = blocksY[x][z];
-					minHeightX = x;
-					minHeightZ = z;
-				}
-				if (blocksY[x][z] > maxHeight) {
-					maxHeight = blocksY[x][z];
-					maxHeightX = x;
-					maxHeightZ = z;
-				}
-			}
-		}
-		
-		// shape the world
-		for (int x = 0; x < chunk.width; x++) {
-			for (int z = 0; z < chunk.width; z++) {
-				biomes.setBiome(x, z, generator.shapeProvider.generateCrust(generator, this, chunk, x, blocksY[x][z], z, surfaceCaves));
-			}
-		}
-		
-		// what was the average height
-		averageHeight = sumHeight / (chunk.width * chunk.width);
-		extremeComputed = true;
+		// draw stuff
+		generator.shapeProvider.generateCrust(generator, this, chunk, biomes, blockYs);
 	}
 	
 	private final static int lowestMineSegment = 16;
 	
 	protected void generateMines(WorldGenerator generator, ByteChunk chunk, DataContext context) {
-		
-		// make sure we have the facts
-		precomputeExtremes(generator, chunk);
 		
 		// get shafted! (this builds down to keep the support poles happy)
 		for (int y = (minHeight / 16 - 1) * 16; y >= lowestMineSegment; y -= 16) {
@@ -193,9 +180,6 @@ public abstract class PlatLot {
 	
 	protected int findHighestShaftableLevel(WorldGenerator generator, DataContext context, SupportChunk chunk) {
 
-		// make sure we have the facts
-		precomputeExtremes(generator, chunk);
-		
 		// keep going down until we find what we are looking for
 		for (int y = (minHeight / 16 - 1) * 16; y >= lowestMineSegment; y -= 16) {
 			if (isShaftableLevel(generator, context, y) && generator.shapeProvider.isHorizontalWEShaft(chunk.chunkX, y, chunk.chunkZ))
@@ -294,27 +278,8 @@ public abstract class PlatLot {
 			chunk.setBlocks(x, y + 1, aboveSupport + 1, z, shaftSupportId);
 	}
 	
-	protected void precomputeExtremes(WorldGenerator generator, SupportChunk chunk) {
-
-		// have we done this yet?
-		if (!extremeComputed) {
-			HeightInfo heights = HeightInfo.getHeights(generator, chunk.worldX, chunk.worldZ);
-			averageHeight = heights.averageHeight;
-			minHeight = heights.minHeight;
-			minHeightX = heights.minHeightX;
-			minHeightZ = heights.minHeightZ;
-			maxHeight = heights.maxHeight;
-			maxHeightX = heights.maxHeightX;
-			maxHeightZ = heights.maxHeightZ;
-			extremeComputed = true;
-		}
-	}
-		
 	protected void generateMines(WorldGenerator generator, RealChunk chunk, DataContext context) {
 		
-		// make sure we have the facts
-		precomputeExtremes(generator, chunk);
-
 		// get shafted!
 		for (int y = 0; y + 16 < minHeight; y += 16) {
 			if (isShaftableLevel(generator, context, y))
@@ -527,7 +492,7 @@ public abstract class PlatLot {
 		
 		// shape the world
 		if (generator.settings.includeOres || generator.settings.includeUndergroundFluids)
-			generator.oreProvider.sprinkleOres(generator, chunk, chunkRandom, OreLocation.CRUST);
+			generator.oreProvider.sprinkleOres(generator, chunk, blockYs, chunkRandom, OreLocation.CRUST);
 	}
 
 	//TODO move this logic to SurroundingLots, add to it the ability to produce SurroundingHeights and SurroundingDepths
@@ -558,14 +523,10 @@ public abstract class PlatLot {
 	
 	protected void generateSurface(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ, boolean includeTrees) {
 		
-		// compute offset to start of chunk
-		int blockX = chunk.chunkX * chunk.width;
-		int blockZ = chunk.chunkZ * chunk.width;
-		
 		// plant grass or snow
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {
-				generator.foliageProvider.generateSurface(generator, this, chunk, x, generator.findPerciseY(blockX + x, blockZ + z), z, includeTrees);
+				generator.foliageProvider.generateSurface(generator, this, chunk, x, getPerciseY(x, z), z, includeTrees);
 			}
 		}
 	}

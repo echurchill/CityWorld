@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Plugins;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
@@ -19,6 +20,7 @@ public abstract class OreProvider {
 	protected final static byte stillWaterId = (byte) Material.STATIONARY_WATER.getId();
 	protected final static byte stillLavaId = (byte) Material.STATIONARY_LAVA.getId();
 	protected final static byte snowId = (byte) Material.SNOW.getId();
+	protected final static byte snowBlockId = (byte) Material.SNOW_BLOCK.getId();
 	protected final static byte bedrockId = (byte) Material.BEDROCK.getId();
 	
 	public byte surfaceId;
@@ -30,7 +32,6 @@ public abstract class OreProvider {
 	public byte fluidSurfaceId;
 	public byte fluidSubsurfaceId;
 	public byte fluidFrozenId;
-	protected double fluidFrozenOdds;
 	
 	public OreProvider(WorldGenerator generator) {
 		super();
@@ -43,8 +44,7 @@ public abstract class OreProvider {
 		fluidId = stillWaterId;
 		fluidSurfaceId = sandId;
 		fluidSubsurfaceId = sandstoneId;
-		fluidFrozenId = snowId;
-		fluidFrozenOdds = 0.40;
+		fluidFrozenId = snowBlockId;
 	}
 	
 	/**
@@ -63,12 +63,12 @@ public abstract class OreProvider {
 	
 	public enum OreLocation {CRUST};
 	
-	public abstract void sprinkleOres(WorldGenerator generator, RealChunk chunk, Random random, OreLocation location);
+	public abstract void sprinkleOres(WorldGenerator generator, RealChunk chunk, CachedYs blockYs, Random random, OreLocation location);
 
-	protected void sprinkleOres_iterate(WorldGenerator generator, RealChunk chunk, Random random, int originX, int originY, int originZ, int amountToDo, int typeId) {
+	protected void sprinkleOres_iterate(WorldGenerator generator, RealChunk chunk, CachedYs blockYs, Random random, int originX, int originY, int originZ, int amountToDo, int typeId) {
 		int trysLeft = amountToDo * 2;
 		int oresDone = 0;
-		if (generator.findBlockY(chunk.getBlockX(originX), chunk.getBlockZ(originZ)) > originY + amountToDo / 4) {
+		if (blockYs.getBlockY(originX, originZ) > originY + amountToDo / 4) {
 			while (oresDone < amountToDo && trysLeft > 0) {
 				
 				// ore or not?
@@ -173,11 +173,13 @@ public abstract class OreProvider {
 		return provider;
 	}
 
+	private final static double snowOdds = 0.40;
+	
 	public void sprinkleSnow(WorldGenerator generator, SupportChunk chunk, Random random, int x1, int x2, int y, int z1, int z2) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				if (random.nextDouble() > fluidFrozenOdds)
-					chunk.setBlock(x, y, z, fluidFrozenId);
+				if (random.nextDouble() > snowOdds)
+					chunk.setBlock(x, y, z, snowId);
 			}
 		}
 	}
@@ -189,6 +191,6 @@ public abstract class OreProvider {
 	public void dropSnow(WorldGenerator generator, RealChunk chunk, int x, int y, int z, byte level) {
 		y = chunk.findLastEmptyBelow(x, y + 1, z);
 		if (chunk.isEmpty(x, y, z))
-			chunk.setBlock(x, y, z, fluidFrozenId, level, false);
+			chunk.setBlock(x, y, z, snowId, level, false);
 	}
 }

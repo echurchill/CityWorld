@@ -9,6 +9,7 @@ import me.daddychurchill.CityWorld.Plats.NatureLot;
 import me.daddychurchill.CityWorld.Plats.OfficeBuildingLot;
 import me.daddychurchill.CityWorld.Plats.ParkLot;
 import me.daddychurchill.CityWorld.Plats.UnfinishedBuildingLot;
+import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 
 public abstract class UrbanContext extends DataContext {
 
@@ -21,6 +22,7 @@ public abstract class UrbanContext extends DataContext {
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
 		Random platmapRandom = platmap.getRandomGenerator();
+		ShapeProvider shapeProvider = generator.shapeProvider;
 		
 		// backfill with buildings and parks
 		for (int x = 0; x < PlatMap.Width; x++) {
@@ -61,7 +63,7 @@ public abstract class UrbanContext extends DataContext {
 						}
 						
 						// if there was a similar previous one then copy it... maybe
-						if (previous != null && !generator.isIsolatedLotAt(platmap.originX + x, platmap.originZ + z, oddsOfIsolatedLots)) {
+						if (previous != null && !shapeProvider.isIsolatedLotAt(platmap.originX + x, platmap.originZ + z, oddsOfIsolatedLots)) {
 							current.makeConnected(previous);
 						}
 					

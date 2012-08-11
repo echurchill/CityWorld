@@ -49,19 +49,6 @@ public final class HeightInfo {
 		return heights;
 	}
 	
-	public final static HeightInfo getHeights(WorldGenerator generator, int blockX, int blockZ) {
-		HeightInfo heights = new HeightInfo();
-		
-		for (int x = 0; x < SupportChunk.chunksBlockWidth; x++) {
-			for (int z = 0; z < SupportChunk.chunksBlockWidth; z++) {
-				heights.add(generator, blockX + x, blockZ + z);
-			}
-		}
-		
-		heights.calcState(generator);
-		return heights;
-	}
-	
 	public final static boolean isBuildableAt(WorldGenerator generator, int blockX, int blockZ) {
 		return getHeightsFaster(generator, blockX, blockZ).state == HeightState.BUILDING;
 	}
@@ -127,7 +114,8 @@ public final class HeightInfo {
 	}
 	
 	public final void add(WorldGenerator generator, int x, int z) {
-		int value = generator.findBlockY(x, z);
+		// we will need to get the Y the hard way
+		int value = generator.getFarBlockY(x, z);
 		count++;
 		sumHeight += value;
 		if (value < minHeight) {

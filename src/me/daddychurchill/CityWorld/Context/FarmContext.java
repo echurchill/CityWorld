@@ -8,6 +8,7 @@ import me.daddychurchill.CityWorld.Plats.FarmLot;
 import me.daddychurchill.CityWorld.Plats.HouseLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
+import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 
 public class FarmContext extends RuralContext {
 
@@ -22,6 +23,7 @@ public class FarmContext extends RuralContext {
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
 		Random platmapRandom = platmap.getRandomGenerator();
+		ShapeProvider shapeProvider = generator.shapeProvider;
 		boolean housePlaced = false;
 		int lastX = 0, lastZ = 0;
 		
@@ -89,7 +91,7 @@ public class FarmContext extends RuralContext {
 						}
 						
 						// if there was a similar previous one then copy it... maybe
-						if (previous != null && !generator.isIsolatedLotAt(platmap.originX + x, platmap.originZ + z, oddsOfIsolatedLots)) {
+						if (previous != null && !shapeProvider.isIsolatedLotAt(platmap.originX + x, platmap.originZ + z, oddsOfIsolatedLots)) {
 							current.makeConnected(previous);
 						}
 

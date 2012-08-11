@@ -88,7 +88,7 @@ public class NatureContext_Normal extends RuralContext {
 								// if not one of the innermost or the height isn't tall enough for bunkers
 								if (generator.settings.includeBuildings)
 									if (!innermost || minHeight < BunkerLot.calcBunkerMinHeight(generator)) {
-										if (heights.isSortaFlat() && generator.isIsolatedBuildingAt(originX + x, originZ + z))
+										if (heights.isSortaFlat() && generator.shapeProvider.isIsolatedBuildingAt(originX + x, originZ + z))
 											current = new MountainShackLot(platmap, originX + x, originZ + z);
 										break;
 									}
@@ -122,9 +122,11 @@ public class NatureContext_Normal extends RuralContext {
 	private void populateSpecial(WorldGenerator generator, PlatMap platmap, int x, int z, HeightState state) {
 
 		// what type of height are we talking about?
-		if (state != HeightState.BUILDING && generator.isNotSoIsolatedBuildingAt(platmap.originX + x, platmap.originZ + z)) {
+		if (state != HeightState.BUILDING && 
+			generator.shapeProvider.isNotSoIsolatedBuildingAt(platmap.originX + x, platmap.originZ + z)) {
+			
+			// what to make?
 			switch (state) {
-//			case SEA:
 			case DEEPSEA:
 				// Oil rigs
 				//CityWorld.log.info("Drilling platform at " + (platmap.originX + x) * 16 + ", " + (platmap.originZ + z) * 16);

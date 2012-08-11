@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Plugins;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import org.bukkit.Material;
 
@@ -37,19 +38,24 @@ public class OreProvider_Normal extends OreProvider {
 	private static final boolean[] ore_upper = new boolean[] {  true, false,  true,  true,  true,  true,  true, false};
 	
 	@Override
-	public void sprinkleOres(WorldGenerator generator, RealChunk chunk, Random random, OreLocation location) {
+	public void sprinkleOres(WorldGenerator generator, RealChunk chunk, CachedYs blockYs, Random random, OreLocation location) {
 		
 		// do it!
 		for (int typeNdx = 0; typeNdx < ore_types.length; typeNdx++) {
 			int range = ore_maxY[typeNdx] - ore_minY[typeNdx];
 			for (int iter = 0; iter < ore_iterations[typeNdx]; iter++) {
-				sprinkleOres_iterate(generator, chunk, random, 
-						random.nextInt(16), random.nextInt(range) + ore_minY[typeNdx], random.nextInt(16), 
-						ore_amountToDo[typeNdx], ore_types[typeNdx]);
-				if (ore_upper[typeNdx])
-					sprinkleOres_iterate(generator, chunk, random, 
-						random.nextInt(16), (generator.seaLevel + generator.landRange) - ore_minY[typeNdx] - random.nextInt(range), random.nextInt(16), 
-						ore_amountToDo[typeNdx], ore_types[typeNdx]);
+				int y = random.nextInt(range) + ore_minY[typeNdx];
+				if (y >= blockYs.minHeight && y <= blockYs.maxHeight)
+					sprinkleOres_iterate(generator, chunk, blockYs, random, 
+							random.nextInt(16), y, random.nextInt(16), 
+							ore_amountToDo[typeNdx], ore_types[typeNdx]);
+				if (ore_upper[typeNdx]) {
+					y = (generator.seaLevel + generator.landRange) - ore_minY[typeNdx] - random.nextInt(range);
+					if (y >= blockYs.minHeight && y <= blockYs.maxHeight)
+						sprinkleOres_iterate(generator, chunk, blockYs, random, 
+							random.nextInt(16), y, random.nextInt(16), 
+							ore_amountToDo[typeNdx], ore_types[typeNdx]);
+				}
 			}
 		}
 	}

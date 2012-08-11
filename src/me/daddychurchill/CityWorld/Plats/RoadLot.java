@@ -376,20 +376,20 @@ public class RoadLot extends ConnectedLot {
 					// carve out the tunnel
 					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + tunnelHeight + 1, 0, 16, airId);
 					
-					// walls please
+					// walls please, this will find the Y the hard way since we are looking at the next chunk over
 					for (int x = 0; x < chunk.width; x++) {
-						placeRetainingWall(chunk, x, 0, sidewalkLevel, generator.findBlockY(originX + x, originZ - 1));
-						placeRetainingWall(chunk, x, 15, sidewalkLevel, generator.findBlockY(originX + x, originZ + 16));
+						placeRetainingWall(chunk, x, 0, sidewalkLevel, generator.getFarBlockY(originX + x, originZ - 1));
+						placeRetainingWall(chunk, x, 15, sidewalkLevel, generator.getFarBlockY(originX + x, originZ + 16));
 					}
 				} else if (roads.toNorth() && roads.toSouth()) {
 
 					// carve out the tunnel
 					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + tunnelHeight + 1, 0, 16, airId);
 
-					// walls please
+					// walls please, this will find the Y the hard way since we are looking at the next chunk over
 					for (int z = 0; z < chunk.width; z++) {
-						placeRetainingWall(chunk, 0, z, sidewalkLevel, generator.findBlockY(originX - 1, originZ + z));
-						placeRetainingWall(chunk, 15, z, sidewalkLevel, generator.findBlockY(originX + 16, originZ + z));
+						placeRetainingWall(chunk, 0, z, sidewalkLevel, generator.getFarBlockY(originX - 1, originZ + z));
+						placeRetainingWall(chunk, 15, z, sidewalkLevel, generator.getFarBlockY(originX + 16, originZ + z));
 					}
 				}
 							

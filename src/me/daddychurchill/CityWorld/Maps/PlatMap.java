@@ -51,15 +51,15 @@ public abstract class PlatMap {
 	protected abstract PlatLot createRoadLot(int chunkX, int chunkZ, boolean roundaboutPart);
 
 	public Random getRandomGenerator() {
-		return generator.getMacroRandomGeneratorAt(originX, originZ);
+		return generator.shapeProvider.getMacroRandomGeneratorAt(originX, originZ);
 	}
 	
 	public Random getChunkRandomGenerator(SupportChunk chunk) {
-		return generator.getMicroRandomGeneratorAt(chunk.chunkX, chunk.chunkZ);
+		return generator.shapeProvider.getMicroRandomGeneratorAt(chunk.chunkX, chunk.chunkZ);
 	}
 	
 	public Random getChunkRandomGenerator(int chunkX, int chunkZ) {
-		return generator.getMicroRandomGeneratorAt(chunkX, chunkZ);
+		return generator.shapeProvider.getMicroRandomGeneratorAt(chunkX, chunkZ);
 	}
 	
 	public void generateChunk(ByteChunk chunk, BiomeGrid biomes) {
@@ -216,7 +216,8 @@ public abstract class PlatMap {
 			
 				// are the odds in favor of a roundabout? AND..
 				// are all the surrounding chunks empty (connecting roads shouldn't be there yet)
-				if (generator.isRoundaboutAt(originX + x, originZ + z) &&
+				if (generator.settings.includeRoundabouts && 
+					generator.shapeProvider.isRoundaboutAt(originX + x, originZ + z) &&
 					isEmptyLot(x - 1, z - 1) && isEmptyLot(x - 1, z) &&	isEmptyLot(x - 1, z + 1) &&
 					isEmptyLot(x, z - 1) &&	isEmptyLot(x, z + 1) &&
 					isEmptyLot(x + 1, z - 1) &&	isEmptyLot(x + 1, z) &&	isEmptyLot(x + 1, z + 1)) {
@@ -319,7 +320,7 @@ public abstract class PlatMap {
 		int chunkZ = (originZ + z) * typicalChunk.width;
 		
 		// what is the polarity of this spot
-		boolean originPolarity = generator.getBridgePolarityAt(chunkX, chunkZ);
+		boolean originPolarity = generator.shapeProvider.getBridgePolarityAt(chunkX, chunkZ);
 		boolean currentPolarity = originPolarity;
 		
 		// short cut things a bit by looking for impossible things (polarity doesn't match the delta values)
@@ -341,7 +342,7 @@ public abstract class PlatMap {
 			//TODO should test for a maximum length of bridge/tunnel
 			
 			// keep going as long it is the same polarity
-			currentPolarity = generator.getBridgePolarityAt(chunkX, chunkZ);
+			currentPolarity = generator.shapeProvider.getBridgePolarityAt(chunkX, chunkZ);
 			
 			// did we found a "real" spot and the polarity is still the same
 			if (currentPolarity == originPolarity && HeightInfo.isBuildableAt(generator, chunkX, chunkZ))

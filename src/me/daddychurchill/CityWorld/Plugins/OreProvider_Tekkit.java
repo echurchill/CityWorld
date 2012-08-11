@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Plugins;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.Material;
@@ -25,7 +26,7 @@ public class OreProvider_Tekkit extends OreProvider {
 	 * tekkit support by gunre
 	 */
 	
-	private static final int[] ore_types_tekkit = new int[] {Material.WATER.getId(),
+	private static final int[] ore_types = new int[] {Material.WATER.getId(),
 		  Material.GRAVEL.getId(), 
 		  Material.COAL_ORE.getId(),
 		  Material.IRON_ORE.getId(), 
@@ -46,31 +47,36 @@ public class OreProvider_Tekkit extends OreProvider {
 		  TekkitMaterial.URANIUM_ORE
 		  };
 	
-	//                                                   		      WATER   GRAV   COAL   IRON   GOLD  LAPIS  REDST   DIAM   RUBY   EMER   SAPP   SILV    TIN  COPPR   TUNG   NIKO   MARB   BASA   URAN  
-	private static final int[] ore_iterations_tekkit = new int[]    {     4,    20,    15,     6,     2,     2,     4,     1,     1,     1,     1,     3,     6,     6,     2,     2,    30,    20,     1};
-	private static final int[] ore_amountToDo_tekkit = new int[]    {     1,     6,     8,     6,     3,     2,     4,     2,     2,     2,     2,     4,     6,     6,     3,     8,    20,     8,     1};
-	private static final int[] ore_maxY_tekkit = new int[]          {   128,    96,   128,    68,    34,    30,    17,    16,    16,    16,    16,    34,    68,    96,    34,    68,   128,    10,    16};
-	private static final int[] ore_minY_tekkit = new int[]          {     8,    40,    16,    16,     5,     5,     8,     1,     2,     2,     2,     5,    16,    16,     2,     2,    40,     1,     2};
-	private static final boolean[] ore_upper_tekkit = new boolean[] {  true, false,  true,  true,  true,  true,  true, false, false, false, false,  true,  true,  true,  true,  true,  true, false, false};
+	//                                                   	   WATER   GRAV   COAL   IRON   GOLD  LAPIS  REDST   DIAM   RUBY   EMER   SAPP   SILV    TIN  COPPR   TUNG   NIKO   MARB   BASA   URAN  
+	private static final int[] ore_iterations = new int[]    {     4,    20,    15,     6,     2,     2,     4,     1,     1,     1,     1,     3,     6,     6,     2,     2,    30,    20,     1};
+	private static final int[] ore_amountToDo = new int[]    {     1,     6,     8,     6,     3,     2,     4,     2,     2,     2,     2,     4,     6,     6,     3,     8,    20,     8,     1};
+	private static final int[] ore_maxY = new int[]          {   128,    96,   128,    68,    34,    30,    17,    16,    16,    16,    16,    34,    68,    96,    34,    68,   128,    10,    16};
+	private static final int[] ore_minY = new int[]          {     8,    40,    16,    16,     5,     5,     8,     1,     2,     2,     2,     5,    16,    16,     2,     2,    40,     1,     2};
+	private static final boolean[] ore_upper = new boolean[] {  true, false,  true,  true,  true,  true,  true, false, false, false, false,  true,  true,  true,  true,  true,  true, false, false};
 
 	@Override
-	public void sprinkleOres(WorldGenerator generator, RealChunk chunk, Random random, OreLocation location) {
+	public void sprinkleOres(WorldGenerator generator, RealChunk chunk, CachedYs blockYs, Random random, OreLocation location) {
 		
 		// do it!
-		for (int typeNdx = 0; typeNdx < ore_types_tekkit.length; typeNdx++) {
-			int range = ore_maxY_tekkit[typeNdx] - ore_minY_tekkit[typeNdx];
-			for (int iter = 0; iter < ore_iterations_tekkit[typeNdx]; iter++) {
-				sprinkleOres_iterate(generator, chunk, random, 
-						random.nextInt(16), random.nextInt(range) + ore_minY_tekkit[typeNdx], random.nextInt(16), 
-						ore_amountToDo_tekkit[typeNdx], ore_types_tekkit[typeNdx]);
-				if (ore_upper_tekkit[typeNdx])
-					sprinkleOres_iterate(generator, chunk, random, 
-						random.nextInt(16), (generator.seaLevel + generator.landRange) - ore_minY_tekkit[typeNdx] - random.nextInt(range), random.nextInt(16), 
-						ore_amountToDo_tekkit[typeNdx], ore_types_tekkit[typeNdx]);
+		for (int typeNdx = 0; typeNdx < ore_types.length; typeNdx++) {
+			int range = ore_maxY[typeNdx] - ore_minY[typeNdx];
+			for (int iter = 0; iter < ore_iterations[typeNdx]; iter++) {
+				int y = random.nextInt(range) + ore_minY[typeNdx];
+				if (y >= blockYs.minHeight && y <= blockYs.maxHeight)
+					sprinkleOres_iterate(generator, chunk, blockYs, random, 
+							random.nextInt(16), y, random.nextInt(16), 
+							ore_amountToDo[typeNdx], ore_types[typeNdx]);
+				if (ore_upper[typeNdx]) {
+					y = (generator.seaLevel + generator.landRange) - ore_minY[typeNdx] - random.nextInt(range);
+					if (y >= blockYs.minHeight && y <= blockYs.maxHeight)
+						sprinkleOres_iterate(generator, chunk, blockYs, random, 
+							random.nextInt(16), y, random.nextInt(16), 
+							ore_amountToDo[typeNdx], ore_types[typeNdx]);
+				}
 			}
 		}
 	}
-	
+
 	@Override
 	protected boolean sprinkleOres_placeThing(RealChunk chunk, Random random, int x, int y, int z, int typeId, boolean physics) {
 		if (random.nextDouble() < 0.35) {

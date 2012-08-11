@@ -31,26 +31,16 @@ public class MineEntranceLot extends ConstructLot {
 		shaftY = findHighestShaftableLevel(generator, context, chunk);
 		shaftY = Math.max(2, shaftY); // make sure we don't go down too far
 		
-		// compute offset to start of chunk
-		int originX = chunk.getOriginX();
-		int originZ = chunk.getOriginZ();
-		
 		// where is the surface?
-		surfaceY = generator.findBlockY(originX - 1, originZ - 1);
-		surfaceY = Math.min(surfaceY, generator.findBlockY(originX + 4, originZ - 1));
-		surfaceY = Math.min(surfaceY, generator.findBlockY(originX - 1, originZ + 4));
-		surfaceY = Math.min(surfaceY, generator.findBlockY(originX + 4, originZ + 4));
-//		surfaceY--;
-//
-//		CityWorld.log.info("Bottom of the shaft = " + shaftY + ", top of the shaft = " + surfaceY);
+		surfaceY = Math.min(getBlockY(0, 0), getBlockY(3, 0));
+		surfaceY = Math.min(surfaceY, getBlockY(0, 3));
+		surfaceY = Math.min(surfaceY, getBlockY(3, 3));
 		
 		// drill down
 		chunk.setBlocks(0, 4, shaftY, surfaceY + DataContext.FloorHeight + 1, 0, 4, Material.AIR);
 		
 		// make the surface bits
-		chunk.setBlocks(0, 4, surfaceY, 0, 4, Material.COBBLESTONE);
-//		chunk.setBlocks(1, 3, surfaceY + 1, surfaceY + ContextData.FloorHeight + 2, 1, 3, Material.COBBLESTONE);
-//		chunk.setBlocks(0, 4, surfaceY + ContextData.FloorHeight, 0, 4, Material.COBBLESTONE);
+		chunk.setBlocks(0, 4, minHeight, surfaceY + 1, 0, 4, Material.COBBLESTONE);
 		
 		// core bits
 		if (generator.settings.includeDecayedBuildings) {

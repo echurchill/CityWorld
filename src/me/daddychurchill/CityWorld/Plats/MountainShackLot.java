@@ -23,14 +23,10 @@ public class MountainShackLot extends ConstructLot {
 	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
-		// compute offset to start of chunk
-		int blockX = chunk.chunkX * chunk.width;
-		int blockZ = chunk.chunkZ * chunk.width;
-		
 		// flatten things out a bit
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {
-				int y = generator.findBlockY(blockX + x, blockZ + z);
+				int y = getBlockY(x, z);
 				
 				// add the retaining walls
 				if (x == 0 || x == chunk.width - 1 || z == 0 || z == chunk.width - 1) {

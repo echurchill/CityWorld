@@ -1,12 +1,16 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import org.bukkit.block.Biome;
+import java.util.Random;
+
+import org.bukkit.generator.ChunkGenerator.BiomeGrid;
+import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public abstract class ShapeProvider {
@@ -18,31 +22,17 @@ public abstract class ShapeProvider {
 	public abstract int getSeaRange();
 	
 	public abstract double findPerciseY(WorldGenerator generator, int blockX, int blockZ);
-	public abstract Biome generateCrust(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int y, int z, boolean surfaceCaves);
+	
+	public int findBlockY(WorldGenerator generator, int blockX, int blockZ) {
+		return NoiseGenerator.floor(findPerciseY(generator, blockX, blockZ));
+	}
+	
+	public int findGroundY(WorldGenerator generator, int blockX, int blockZ) {
+		return findBlockY(generator, blockX, blockZ);
+	}
+	
+	public abstract void generateCrust(WorldGenerator generator, PlatLot lot, ByteChunk chunk, BiomeGrid biomes, CachedYs blockYs);
 
-	//TODO refactor these over to UndergroundProvider (which should include PlatLot's mines generator code)
-	//TODO rename these to ifSoAndSo
-	public abstract boolean isHorizontalNSShaft(int chunkX, int chunkY, int chunkZ);
-	public abstract boolean isHorizontalWEShaft(int chunkX, int chunkY, int chunkZ);
-	public abstract boolean isVerticalShaft(int chunkX, int chunkY, int chunkZ);
-	
-	//TODO refactor this so that it is a positive (maybe ifCave) instead of a negative
-	public abstract boolean notACave(WorldGenerator generator, int blockX, int blockY, int blockZ);
-	
-	private SimplexNoiseGenerator macroShape;
-	private SimplexNoiseGenerator microShape;
-	
-	private double macroScale = 1.0 / 384.0;
-	private double microScale = 2.0;
-	
-	public double getMicroNoiseAt(double x, double z, int a) {
-		return microShape.noise(x * microScale, z * microScale, a);
-	}
-	
-	public double getMacroNoiseAt(double x, double z, int a) {
-		return macroShape.noise(x * macroScale, z * macroScale, a);
-	}
-	
 	public ShapeProvider(WorldGenerator generator) {
 		super();
 		long seed = generator.getWorldSeed();
@@ -107,4 +97,92 @@ public abstract class ShapeProvider {
 		for (int y = subsurfaceY + 1; y <= coverY; y++)
 			chunk.setBlock(x, y, z, coverId);
 	}
+
+	//TODO refactor these over to UndergroundProvider (which should include PlatLot's mines generator code)
+	//TODO rename these to ifSoAndSo
+	public abstract boolean isHorizontalNSShaft(int chunkX, int chunkY, int chunkZ);
+	public abstract boolean isHorizontalWEShaft(int chunkX, int chunkY, int chunkZ);
+	public abstract boolean isVerticalShaft(int chunkX, int chunkY, int chunkZ);
+	
+	//TODO refactor this so that it is a positive (maybe ifCave) instead of a negative
+	public abstract boolean notACave(WorldGenerator generator, int blockX, int blockY, int blockZ);
+	
+	private SimplexNoiseGenerator macroShape;
+	private SimplexNoiseGenerator microShape;
+	
+	// macro slots
+	private final static int macroRandomGeneratorSlot = 0;
+	protected final static int macroNSBridgeSlot = 1; 
+	
+	// micro slots
+	private final static int microRandomGeneratorSlot = 0;
+	protected final static int microRoundaboutSlot = 1; 
+	protected final static int microSurfaceCaveSlot = 2; 
+	protected final static int microIsolatedLotSlot = 3;
+	
+	private double macroScale = 1.0 / 384.0;
+	private double microScale = 2.0;
+	
+	public double getMicroNoiseAt(double x, double z, int a) {
+		return microShape.noise(x * microScale, z * microScale, a);
+	}
+	
+	public double getMacroNoiseAt(double x, double z, int a) {
+		return macroShape.noise(x * macroScale, z * macroScale, a);
+	}
+	
+	public boolean macroBooleanAt(double chunkX, double chunkZ, int slot) {
+		return getMacroNoiseAt(chunkX, chunkZ, slot) >= 0.0;
+	}
+	
+	public boolean microBooleanAt(double chunkX, double chunkZ, int slot) {
+		return getMicroNoiseAt(chunkX, chunkZ, slot) >= 0.0;
+	}
+	
+	public Random getMicroRandomGeneratorAt(int x, int z) {
+		return new Random((long) (getMicroNoiseAt(x, z, microRandomGeneratorSlot) * Long.MAX_VALUE));
+	}
+	
+	public Random getMacroRandomGeneratorAt(int x, int z) {
+		return new Random((long) (getMacroNoiseAt(x, z, macroRandomGeneratorSlot) * Long.MAX_VALUE));
+	}
+	
+	public boolean getBridgePolarityAt(double chunkX, double chunkZ) {
+		return macroBooleanAt(chunkX, chunkZ, macroNSBridgeSlot);
+	}
+
+	public double oddsOfRoundabouts = 0.30;
+	public boolean isRoundaboutAt(double chunkX, double chunkZ) {
+		return microScaleAt(chunkX, chunkZ, microRoundaboutSlot) < oddsOfRoundabouts;
+	}
+	
+	public double oddsOfIsolatedBuilding = 0.75;
+	public boolean isIsolatedBuildingAt(double chunkX, double chunkZ) {
+		return isIsolatedLotAt(chunkX, chunkZ, oddsOfIsolatedBuilding);
+	}
+	
+	public boolean isNotSoIsolatedBuildingAt(double chunkX, double chunkZ) {
+		return isIsolatedLotAt(chunkX, chunkZ, oddsOfIsolatedBuilding / 2);
+	}
+	
+	public boolean isIsolatedLotAt(double chunkX, double chunkZ, double odds) {
+		return microScaleAt(chunkX, chunkZ, microIsolatedLotSlot) > odds;
+	}
+	
+	protected int macroValueAt(double chunkX, double chunkZ, int slot, int scale) {
+		return NoiseGenerator.floor(macroScaleAt(chunkX, chunkZ, slot) * scale);
+	}
+	
+	protected int microValueAt(double chunkX, double chunkZ, int slot, int scale) {
+		return NoiseGenerator.floor(microScaleAt(chunkX, chunkZ, slot) * scale);
+	}
+	
+	protected double macroScaleAt(double chunkX, double chunkZ, int slot) {
+		return (getMacroNoiseAt(chunkX, chunkZ, slot) + 1.0) / 2.0;
+	}
+
+	protected double microScaleAt(double chunkX, double chunkZ, int slot) {
+		return (getMicroNoiseAt(chunkX, chunkZ, slot) + 1.0) / 2.0;
+	}
+	
 }
