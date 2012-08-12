@@ -46,10 +46,13 @@ public class NatureContext_Floating extends RuralContext {
 						if (x > 0 && x < PlatMap.Width - 1 && z > 0 && z < PlatMap.Width - 1) {
 							
 							// floating building?
-							if (generator.settings.includeBuildings)
+							if (generator.settings.includeBuildings) {
+								
+								// only test every other chunk
 								if (shapeProvider.isIsolatedBuildingAt(originX + x, originZ + z))
 									current = new FloatingShackLot(platmap, originX + x, originZ + z, 
 											random.nextInt(ShapeProvider_Floating.floatingRange) + ShapeProvider_Floating.floatingMin);
+							}
 						}
 						
 						// did current get defined?

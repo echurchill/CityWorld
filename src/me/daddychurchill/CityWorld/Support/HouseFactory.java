@@ -12,6 +12,19 @@ import org.bukkit.Material;
 
 public final class HouseFactory {
 	
+	public final static int generateSmallShack(RealChunk chunk, DataContext context, Random random, int baseY) {
+		
+		// what are we made of?
+		Material matWall = Material.WOOD;
+		Material matFloor = Material.WOOD;
+		Material matCeiling = Material.WOOD;
+		Material matRoof = Material.WOOD;
+		
+		//chunk.setWalls(2, 13, baseY, baseY + ContextData.FloorHeight, 2, 13, Material.WOOD);
+		generateColonial(chunk, context, random, baseY, matFloor, matWall, matCeiling, matRoof, 1, 4, 4, false);
+		return 1;
+	}
+	
 	public final static int generateShack(RealChunk chunk, DataContext context, Random random, int baseY) {
 		
 		// what are we made of?
@@ -24,7 +37,6 @@ public final class HouseFactory {
 		generateColonial(chunk, context, random, baseY, matFloor, matWall, matCeiling, matRoof, 1, 5, 5, false);
 		return 1;
 	}
-	
 	
 	public final static int generateHouse(RealChunk chunk, DataContext context, Random random, int baseY, int maxFloors) {
 		

@@ -80,7 +80,7 @@ public class ShapeProvider_Floating extends ShapeProvider {
 	private final static double noiseScale = 1.0 / 23.0;
 	
 	public final static int floatingMin = seaLevel + landRange + 32;
-	public final static int floatingRange = 256 - 48; //TODO I really need to make this more dynamic
+	public final static int floatingRange = 256 - 32 - floatingMin; //TODO I really need to make this more dynamic
 	
 	@Override
 	public double findPerciseY(WorldGenerator generator, int blockX, int blockZ) {

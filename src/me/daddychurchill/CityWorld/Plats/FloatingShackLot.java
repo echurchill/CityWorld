@@ -20,6 +20,7 @@ public class FloatingShackLot extends ConstructLot {
 		
 		style = LotStyle.NATURE;
 		groundLevel = floatingAt;
+		//CityWorld.log.info("FloatingShackAt = " + floatingAt);
 	}
 
 	private final static byte platformId = (byte) Material.SMOOTH_BRICK.getId();
@@ -44,7 +45,7 @@ public class FloatingShackLot extends ConstructLot {
 			int platZ) {
 
 		// now make a shack
-		int floors = HouseFactory.generateShack(chunk, context, chunkRandom, groundLevel + 1);
+		int floors = HouseFactory.generateSmallShack(chunk, context, chunkRandom, groundLevel + 1);
 		
 		// not a happy place?
 		if (generator.settings.includeDecayedBuildings) {
@@ -52,10 +53,10 @@ public class FloatingShackLot extends ConstructLot {
 		}
 
 		// add balloons on the corners
-		attachBalloon(generator, chunk, 0, 0);
-		attachBalloon(generator, chunk, 0, 15);
-		attachBalloon(generator, chunk, 15, 0);
-		attachBalloon(generator, chunk, 15, 15);
+		attachBalloon(generator, chunk, 2, 2);
+		attachBalloon(generator, chunk, 2, 13);
+		attachBalloon(generator, chunk, 13, 2);
+		attachBalloon(generator, chunk, 13, 13);
 	}
 	
 	private void attachBalloon(WorldGenerator generator, RealChunk chunk, int x, int z) {

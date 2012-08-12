@@ -142,6 +142,7 @@ public class WorldGenerator extends ChunkGenerator {
 		// figure out what everything looks like
 		PlatMap platmap = getPlatMap(byteChunk, chunkX, chunkZ);
 		if (platmap != null) {
+			//CityWorld.log.info("generate X,Z = " + chunkX + "," + chunkZ);
 			platmap.generateChunk(byteChunk, biomes);
 		}
 
@@ -236,6 +237,7 @@ public class WorldGenerator extends ChunkGenerator {
 			// figure out what everything looks like
 			PlatMap platmap = chunkGen.getPlatMap(realChunk, chunkX, chunkZ);
 			if (platmap != null) {
+				//CityWorld.log.info("populate X,Z = " + chunkX + "," + chunkZ);
 				platmap.generateBlocks(realChunk);
 			}
 		}

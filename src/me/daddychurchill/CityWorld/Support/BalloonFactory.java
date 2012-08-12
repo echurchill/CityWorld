@@ -12,28 +12,27 @@ public class BalloonFactory {
 	//TODO need better strings
 	
 	public final static void generateBalloon(WorldGenerator generator, RealChunk chunk, int attachX, int attachY, int attachZ, Random random) {
-		int balloonX = chunk.getBlockX(attachX);
-		int balloonY = attachY + random.nextInt(5) + 5;
-		int balloonZ = chunk.getBlockZ(attachZ);
-		WorldBlocks blocks = new WorldBlocks(generator);
+		int balloonX = attachX;
+		int balloonY = attachY + random.nextInt(10) + 5;
+		int balloonZ = attachZ;
 		
 		// a little string
-		blocks.setBlocks(balloonX, attachY, balloonY, balloonZ, Material.FENCE);
+		chunk.setBlocks(balloonX, attachY, balloonY, balloonZ, Material.FENCE);
 		
 		// pick the colors
 		byte primaryColor = (byte) random.nextInt(7);
 		byte secondaryColor = (byte) (random.nextInt(8) + 7);
 		
 		// draw the balloon
-		blocks.setBlocks(balloonX, balloonY, balloonY + 2, balloonZ, Material.WOOL, primaryColor);
-		blocks.setBlocks(balloonX - 1, balloonX + 2, balloonY + 2, balloonY + 4, balloonZ - 1, balloonZ + 2, Material.WOOL, primaryColor);
-		blocks.setBlocks(balloonX - 2, balloonX + 3, balloonY + 4, balloonY + 5, balloonZ - 2, balloonZ + 3, Material.WOOL, primaryColor);
-		blocks.setBlocks(balloonX - 2, balloonX + 3, balloonY + 5, balloonY + 6, balloonZ - 2, balloonZ + 3, Material.WOOL, secondaryColor);
-		blocks.setBlocks(balloonX - 2, balloonX + 3, balloonY + 6, balloonY + 7, balloonZ - 2, balloonZ + 3, Material.WOOL, primaryColor);
-		blocks.setBlocks(balloonX - 1, balloonX + 2, balloonY + 7, balloonY + 8, balloonZ - 1, balloonZ + 2, Material.WOOL, primaryColor);
+		chunk.setBlocks(balloonX, balloonY, balloonY + 2, balloonZ, Material.WOOL, primaryColor);
+		chunk.setBlocks(balloonX - 1, balloonX + 2, balloonY + 2, balloonY + 4, balloonZ - 1, balloonZ + 2, Material.WOOL, primaryColor);
+		chunk.setBlocks(balloonX - 2, balloonX + 3, balloonY + 4, balloonY + 5, balloonZ - 2, balloonZ + 3, Material.WOOL, primaryColor);
+		chunk.setBlocks(balloonX - 2, balloonX + 3, balloonY + 5, balloonY + 6, balloonZ - 2, balloonZ + 3, Material.WOOL, secondaryColor);
+		chunk.setBlocks(balloonX - 2, balloonX + 3, balloonY + 6, balloonY + 7, balloonZ - 2, balloonZ + 3, Material.WOOL, primaryColor);
+		chunk.setBlocks(balloonX - 1, balloonX + 2, balloonY + 7, balloonY + 8, balloonZ - 1, balloonZ + 2, Material.WOOL, primaryColor);
 		
 		// candle in the middle
-		blocks.setBlock(balloonX, balloonY + 7, balloonZ, Material.AIR);
-		blocks.setBlock(balloonX, balloonY + 6, balloonZ, Material.GLOWSTONE, true);
+		chunk.setBlock(balloonX, balloonY + 7, balloonZ, Material.AIR);
+		chunk.setBlock(balloonX, balloonY + 6, balloonZ, Material.GLOWSTONE, true);
 	}
 }
