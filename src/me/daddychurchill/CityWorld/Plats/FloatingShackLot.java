@@ -45,7 +45,7 @@ public class FloatingShackLot extends ConstructLot {
 			int platZ) {
 
 		// now make a shack
-		int floors = HouseFactory.generateSmallShack(chunk, context, chunkRandom, groundLevel + 1);
+		int floors = HouseFactory.generateShack(chunk, context, chunkRandom, groundLevel + 1, 4);
 		
 		// not a happy place?
 		if (generator.settings.includeDecayedBuildings) {
