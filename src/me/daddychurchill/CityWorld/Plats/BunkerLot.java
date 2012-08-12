@@ -11,6 +11,7 @@ import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
 import me.daddychurchill.CityWorld.Plugins.TekkitMaterial;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -30,14 +31,25 @@ public class BunkerLot extends ConstructLot {
 	private final static int bunkerMinHeight = bunkerSegment * 2;
 	private final static int bunkerMaxHeight = bunkerSegment * 8;
 
+	private int bottomOfBunker;
+	private int topOfBunker;
+	
+	@Override
+	protected void initializeContext(WorldGenerator generator, SupportChunk chunk) {
+		super.initializeContext(generator, chunk);
+		
+		bottomOfBunker = calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet;
+		topOfBunker = calcBunkerCeiling(generator);
+	}
+	
 	@Override
 	public boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
-		return blockY < calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet || blockY >= calcBunkerCeiling(generator);
+		return blockY < bottomOfBunker || blockY >= topOfBunker;
 	}
 
 	@Override
 	protected boolean isShaftableLevel(WorldGenerator generator, DataContext context, int y) {
-		return (y < calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet - bunkerBuffer || y > calcBunkerCeiling(generator) - bunkerSegment - bunkerBuffer) &&
+		return (y < bottomOfBunker - bunkerBuffer || y > topOfBunker - bunkerSegment - bunkerBuffer) &&
 				super.isShaftableLevel(generator, context, y);
 //		
 //		return (y < calcSegmentOrigin(generator.sidewalkLevel) - bunkerMinHeight - bunkerBelowStreet || y > calcBunkerCeiling(generator) - bunkerMinHeight) &&
@@ -88,8 +100,8 @@ public class BunkerLot extends ConstructLot {
 		buildingType = chunkRandom.nextInt(7);
 		
 		// precalculate
-		int yBottom = calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet;
-		int yTop4 = calcBunkerCeiling(generator);
+		int yBottom = bottomOfBunker;//calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet;
+		int yTop4 = topOfBunker;//calcBunkerCeiling(generator);
 		int yTop3 = yTop4 - 2;
 		int yTop2 = yTop4 - bunkerSegment; 
 		int yTop1 = yTop2 - 2;
@@ -449,8 +461,8 @@ public class BunkerLot extends ConstructLot {
 		bilgeType = platmapRandom.nextInt(5);
 		buildingType = chunkRandom.nextInt(7);
 			
-		int yBottom = calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet;
-		int yTop4 = calcBunkerCeiling(generator);
+		int yBottom = bottomOfBunker;
+		int yTop4 = topOfBunker;
 //		int yTop3 = yTop4 - 2;
 		int yTop2 = yTop4 - bunkerSegment; 
 //		int yTop1 = yTop2 - 2;

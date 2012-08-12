@@ -13,7 +13,7 @@ public class ByteChunk extends SupportChunk {
 	
 	public static final int bytesPerSection = chunksBlockWidth * chunksBlockWidth * chunksBlockWidth;
 		
-	public ByteChunk (WorldGenerator aGenerator, int aChunkX, int aChunkZ) {
+	public ByteChunk(WorldGenerator aGenerator, int aChunkX, int aChunkZ) {
 		super(aGenerator);
 		
 		chunkX = aChunkX;

@@ -51,6 +51,11 @@ public class FoliageProvider_Decayed extends FoliageProvider_Normal {
 			case FERN:
 				chunk.setBlock(x, y, z, Material.DEAD_BUSH);
 				return true;
+			case CACTUS:
+			case FLOWER_RED:
+			case FLOWER_YELLOW:
+			default:
+				break;
 			}
 		}
 		return false;

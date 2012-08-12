@@ -4,7 +4,6 @@ import java.util.Random;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
-import org.bukkit.block.Block;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
@@ -101,9 +100,9 @@ public abstract class PlatLot {
 		chunkRandom = platmap.getChunkRandomGenerator(chunkX, chunkZ);
 	}
 	
-	private void initializeYs(WorldGenerator generator, SupportChunk chunk, int platX, int platZ) {
+	protected void initializeContext(WorldGenerator generator, SupportChunk chunk) {
 		if (blockYs == null) {
-			blockYs = new CachedYs(generator, chunk, platX, platZ);
+			blockYs = new CachedYs(generator, chunk);
 		
 			// what was the average height
 			minHeight = blockYs.minHeight;
@@ -116,7 +115,7 @@ public abstract class PlatLot {
 		}
 	}
 	
-	private void deinitializeYs() {
+	private void deinitializeContext() {
 		blockYs = null;
 	}
 	
@@ -130,7 +129,7 @@ public abstract class PlatLot {
 	
 	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		initializeDice(platmap, chunk.chunkX, chunk.chunkZ);
-		initializeYs(generator, chunk, platX, platZ);
+		initializeContext(generator, chunk);
 		
 		// let there be dirt!
 		generateCrust(generator, platmap, chunk, biomes, context, platX, platZ);
@@ -145,7 +144,7 @@ public abstract class PlatLot {
 		
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		initializeDice(platmap, chunk.chunkX, chunk.chunkZ);
-		initializeYs(generator, chunk, platX, platZ);
+		initializeContext(generator, chunk);
 		
 		// let the specialized platlot do it's thing
 		generateActualBlocks(generator, platmap, chunk, context, platX, platZ);
@@ -158,7 +157,7 @@ public abstract class PlatLot {
 			generateMines(generator, chunk, context);
 		
 		// all done
-		deinitializeYs();
+		deinitializeContext();
 	}
 	
 	protected void generateCrust(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
@@ -474,21 +473,6 @@ public abstract class PlatLot {
 	}
 	
 	private void generateOres(WorldGenerator generator, RealChunk chunk) {
-		
-		// lava the bottom a bit
-		if (generator.settings.includeLavaFields) {
-			for (int x = 0; x < chunk.width; x++) {
-				for (int z = 0; z < chunk.width; z++) {
-			
-					// stony bits
-					for (int y = 2; y < 8; y++) {
-						Block block = chunk.getActualBlock(x, y, z);
-						if (block.isEmpty())
-							block.setTypeId(SupportChunk.stillLavaId, false);
-					}
-				}
-			}
-		}
 		
 		// shape the world
 		if (generator.settings.includeOres || generator.settings.includeUndergroundFluids)

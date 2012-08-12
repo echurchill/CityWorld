@@ -12,6 +12,7 @@ import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingRoads;
 import me.daddychurchill.CityWorld.Support.Direction.Ladder;
 import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
@@ -74,6 +75,21 @@ public class RoadLot extends ConnectedLot {
 		roundaboutRoad = roundaboutPart;
 	}
 	
+	private int bottomOfRoad;
+	private int topOfRoad;
+	
+	@Override
+	protected void initializeContext(WorldGenerator generator, SupportChunk chunk) {
+		super.initializeContext(generator, chunk);
+		
+		bottomOfRoad = generator.sidewalkLevel;
+		if (generator.settings.includeSewers && cityRoad)
+			bottomOfRoad -= DataContext.FloorHeight * 2 + 1;
+		topOfRoad = generator.sidewalkLevel + 1;
+		if (maxHeight > topOfRoad + tunnelHeight)
+			topOfRoad += tunnelHeight;
+	}
+
 	@Override
 	public boolean isPlaceableAt(WorldGenerator generator, int chunkX, int chunkZ) {
 		return generator.settings.inRoadRange(chunkX, chunkZ);
@@ -81,13 +97,12 @@ public class RoadLot extends ConnectedLot {
 	
 	@Override
 	public boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
-		return blockY < generator.sidewalkLevel - 1 || blockY > generator.sidewalkLevel;
+		return blockY < bottomOfRoad || blockY > topOfRoad;
 	}
 
 	@Override
 	protected boolean isShaftableLevel(WorldGenerator generator, DataContext context, int y) {
-		return (y < generator.sidewalkLevel - DataContext.FloorHeight * 2 - 16 || y >= generator.sidewalkLevel + tunnelHeight + 1 + 16 ) &&
-				super.isShaftableLevel(generator, context, y);	
+		return (y < bottomOfRoad - 16 || y > topOfRoad + 16 ) && super.isShaftableLevel(generator, context, y);	
 	}
 	
 	private boolean sewerCenterBit;

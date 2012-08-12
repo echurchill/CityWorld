@@ -9,6 +9,7 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 import org.bukkit.BlockChangeDelegate;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 
 public abstract class FoliageProvider {
@@ -16,8 +17,8 @@ public abstract class FoliageProvider {
 	public enum FloraType {FLOWER_RED, FLOWER_YELLOW, GRASS, FERN, CACTUS};
 	
 	protected final static double oddsOfDarkFlora = 0.50;
-	protected final static double treeOdds = 0.85;
-	protected final static double foliageOdds = 0.50;
+	protected final static double treeOdds = 0.90;
+	protected final static double foliageOdds = 0.40;
 	
 	public abstract void generateSurface(WorldGenerator generator, PlatLot lot, RealChunk chunk, int x, double perciseY, int z, boolean includeTrees);
 	public abstract boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, TreeType treeType);
@@ -98,9 +99,9 @@ public abstract class FoliageProvider {
 				
 				// did we make a tree?
 				if (customTree)
-					result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, new TreeDelegate(chunk, random, trunkId, leavesId1, leavesId2));
+					result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, new TreeCustomDelegate(chunk, random, trunkId, leavesId1, leavesId2));
 				else
-					result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType);
+					result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, new TreeVanillaDelegate(chunk));
 				
 				// did it finally work?
 				if (result) {
@@ -135,15 +136,59 @@ public abstract class FoliageProvider {
 	protected final static int logId = Material.LOG.getId();
 	protected final static int leavesId = Material.LEAVES.getId();
 	
-	private class TreeDelegate implements BlockChangeDelegate {
-		private RealChunk chunk;
+	private class TreeVanillaDelegate implements BlockChangeDelegate {
+		protected World world;
+		protected RealChunk chunk;
+		
+		public TreeVanillaDelegate(RealChunk chunk) {
+			this.chunk = chunk;
+			this.world = chunk.world;
+		}
+
+		@Override
+		public int getHeight() {
+			return chunk.height;
+		}
+
+		@Override
+		public int getTypeId(int x, int y, int z) {
+			return world.getBlockAt(x, y, z).getTypeId();
+		}
+
+		@Override
+		public boolean isEmpty(int x, int y, int z) {
+			return world.getBlockAt(x, y, z).isEmpty();
+		}
+
+		@Override
+		public boolean setRawTypeId(int x, int y, int z, int id) {
+			return world.getBlockAt(x, y, z).setTypeIdAndData(id, (byte) 0, false);
+		}
+
+		@Override
+		public boolean setRawTypeIdAndData(int x, int y, int z, int id, int data) {
+			return world.getBlockAt(x, y, z).setTypeIdAndData(id, (byte) data, false);
+		}
+
+		@Override
+		public boolean setTypeId(int x, int y, int z, int id) {
+			return world.getBlockAt(x, y, z).setTypeIdAndData(id, (byte) 0, false);
+		}
+
+		@Override
+		public boolean setTypeIdAndData(int x, int y, int z, int id, int data) {
+			return world.getBlockAt(x, y, z).setTypeIdAndData(id, (byte) data, false);
+		}
+	}
+	
+	private class TreeCustomDelegate extends TreeVanillaDelegate {
 		private Random random;
 		private int trunkId;
 		private int leavesId1;
 		private int leavesId2;
 		
-		public TreeDelegate(RealChunk chunk, Random random, int trunkId, int leavesId1, int leavesId2) {
-			this.chunk = chunk;
+		public TreeCustomDelegate(RealChunk chunk, Random random, int trunkId, int leavesId1, int leavesId2) {
+			super(chunk);
 			this.random = random;
 			this.trunkId = trunkId;
 			this.leavesId1 = leavesId1;
@@ -157,12 +202,12 @@ public abstract class FoliageProvider {
 
 		@Override
 		public int getTypeId(int x, int y, int z) {
-			return chunk.world.getBlockAt(x, y, z).getTypeId();
+			return world.getBlockAt(x, y, z).getTypeId();
 		}
 
 		@Override
 		public boolean isEmpty(int x, int y, int z) {
-			return chunk.world.getBlockAt(x, y, z).isEmpty();
+			return world.getBlockAt(x, y, z).isEmpty();
 		}
 
 		@Override
@@ -177,16 +222,16 @@ public abstract class FoliageProvider {
 
 		@Override
 		public boolean setTypeId(int x, int y, int z, int id) {
-			return setTypeIdAndData(x, y, z, id, 0, true);
+			return setTypeIdAndData(x, y, z, id, 0, false);
 		}
 
 		@Override
 		public boolean setTypeIdAndData(int x, int y, int z, int id, int data) {
-			return setTypeIdAndData(x, y, z, id, data, true);
+			return setTypeIdAndData(x, y, z, id, data, false);
 		}
 		
 		private boolean setTypeIdAndData(int x, int y, int z, int id, int data, boolean update) {
-			Block block = chunk.world.getBlockAt(x, y, z);
+			Block block = world.getBlockAt(x, y, z);
 			if (id == logId)
 				if (trunkId == logId)
 					return block.setTypeIdAndData(logId, (byte) data, update);

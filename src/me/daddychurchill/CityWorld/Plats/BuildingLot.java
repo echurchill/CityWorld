@@ -282,6 +282,11 @@ public abstract class BuildingLot extends ConnectedLot {
 			case DOUBLE:
 				primaryId = secondaryId;
 				break;
+			case RAISED_DOUBLE:
+			case RAISED_RANDOM:
+			case RAISED_SINGLE:
+			default:
+				break;
 			}
 			
 			// do the sides

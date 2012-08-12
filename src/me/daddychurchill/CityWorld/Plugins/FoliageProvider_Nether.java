@@ -225,6 +225,9 @@ public class FoliageProvider_Nether extends FoliageProvider {
 						chunk.setBlock(x, y, z, Material.NETHER_WARTS, (byte) random.nextInt(4));
 				}
 				break;
+			case CACTUS:
+			default:
+				break;
 			}
 			return true;
 		}

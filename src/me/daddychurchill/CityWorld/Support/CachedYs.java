@@ -16,7 +16,7 @@ public class CachedYs {
 	public int maxHeightZ = 0;
 	private double[][] blockYs= new double[16][16];
 	
-	public CachedYs(WorldGenerator generator, SupportChunk chunk, int platX, int platZ) {
+	public CachedYs(WorldGenerator generator, SupportChunk chunk) {
 		
 		// total height
 		int sumHeight = 0;

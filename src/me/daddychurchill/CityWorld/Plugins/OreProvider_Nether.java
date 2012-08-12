@@ -33,41 +33,26 @@ public class OreProvider_Nether extends OreProvider {
 	 * wildly modified by daddychurchill
 	 */
 	
-	private static final int[] ore_types = new int[] {Material.LAVA.getId(), // since we are not using water, this doesn't trigger the placeFluid code
+	private static final int[] ore_types = new int[] {Material.LAVA.getId(), 
 		  											  Material.GRAVEL.getId(), 
 		  											  Material.SOUL_SAND.getId(), 
-		  											  Material.GLOWSTONE.getId(), 
-													  Material.IRON_ORE.getId(), 
-													  Material.GOLD_ORE.getId(), 
-													  Material.REDSTONE_ORE.getId(),
-													  Material.DIAMOND_ORE.getId()}; 
-	//                                                          LAVA   GRAV   SOUL   GLOW   IRON   GOLD  REDST   DIAM  
-	private static final int[] ore_iterations = new int[]    {     8,    20,    30,    10,    10,     4,     6,     2};
-	private static final int[] ore_amountToDo = new int[]    {     2,    16,    16,     8,     8,     3,     4,     2};
-	private static final int[] ore_maxY = new int[]          {   128,    96,   128,   128,    68,    34,    17,    16};
-	private static final int[] ore_minY = new int[]          {     8,    40,    16,    16,    16,     5,     8,     1};
-	private static final boolean[] ore_upper = new boolean[] {  true,  true,  true,  true,  true,  true,  true, false};
+		  											  Material.GLOWSTONE.getId()}; 
+	//                                                          LAVA   GRAV   SOUL   GLOW  
+	private static final int[] ore_iterations = new int[]    {    12,    20,    40,    20};
+	private static final int[] ore_amountToDo = new int[]    {     2,    16,    16,    10};
+	private static final int[] ore_maxY = new int[]          {   128,    96,   128,   128};
+	private static final int[] ore_minY = new int[]          {     8,    40,    16,    16};
+	private static final boolean[] ore_upper = new boolean[] {  true,  true,  true,  true};
+	private static final boolean[] ore_physics = new boolean[] {true, false, false, false};
 	
 	@Override
 	public void sprinkleOres(WorldGenerator generator, RealChunk chunk, CachedYs blockYs, Random random, OreLocation location) {
 		
-		// do it!
 		for (int typeNdx = 0; typeNdx < ore_types.length; typeNdx++) {
-			int range = ore_maxY[typeNdx] - ore_minY[typeNdx];
-			for (int iter = 0; iter < ore_iterations[typeNdx]; iter++) {
-				int y = random.nextInt(range) + ore_minY[typeNdx];
-				if (y >= blockYs.minHeight && y <= blockYs.maxHeight)
-					sprinkleOres_iterate(generator, chunk, blockYs, random, 
-							random.nextInt(16), y, random.nextInt(16), 
-							ore_amountToDo[typeNdx], ore_types[typeNdx]);
-				if (ore_upper[typeNdx]) {
-					y = (generator.seaLevel + generator.landRange) - ore_minY[typeNdx] - random.nextInt(range);
-					if (y >= blockYs.minHeight && y <= blockYs.maxHeight)
-						sprinkleOres_iterate(generator, chunk, blockYs, random, 
-							random.nextInt(16), y, random.nextInt(16), 
-							ore_amountToDo[typeNdx], ore_types[typeNdx]);
-				}
-			}
+			sprinkleOre(generator, chunk, blockYs, random,
+					ore_types[typeNdx], ore_maxY[typeNdx], ore_minY[typeNdx], 
+					ore_iterations[typeNdx], ore_amountToDo[typeNdx], 
+					ore_upper[typeNdx], ore_physics[typeNdx]);
 		}
 	}
 	
