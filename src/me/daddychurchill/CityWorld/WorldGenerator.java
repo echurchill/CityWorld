@@ -42,7 +42,7 @@ public class WorldGenerator extends ChunkGenerator {
 
 	public int deepseaLevel;
 	public int seaLevel;
-	public int sidewalkLevel;
+	public int streetLevel;
 	public int treeLevel;
 	public int evergreenLevel;
 	public int deciduousRange;
@@ -106,7 +106,7 @@ public class WorldGenerator extends ChunkGenerator {
 			seaLevel = shapeProvider.getSeaLevel();
 			landRange = shapeProvider.getLandRange();
 			seaRange = shapeProvider.getSeaRange();
-			sidewalkLevel = shapeProvider.getStreetLevel();
+			streetLevel = shapeProvider.getStreetLevel();
 
 			// now the other vertical points
 			deepseaLevel = seaLevel - seaRange / 3;
@@ -152,14 +152,6 @@ public class WorldGenerator extends ChunkGenerator {
 		return connectionKeyGen.nextLong();
 	}
 	
-//	public double findPerciseY(int blockX, int blockZ) {
-//		return shapeProvider.findPerciseY(this, blockX, blockZ);
-//	}
-//	
-//	public int findBlockY(int blockX, int blockZ) {
-//		return shapeProvider.findBlockY(this, blockX, blockZ);
-//	}
-//	
 	public int getFarBlockY(int blockX, int blockZ) {
 		return shapeProvider.findBlockY(this, blockX, blockZ);
 	}

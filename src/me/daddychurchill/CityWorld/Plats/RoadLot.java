@@ -82,10 +82,10 @@ public class RoadLot extends ConnectedLot {
 	protected void initializeContext(WorldGenerator generator, SupportChunk chunk) {
 		super.initializeContext(generator, chunk);
 		
-		bottomOfRoad = generator.sidewalkLevel;
+		bottomOfRoad = generator.streetLevel;
 		if (generator.settings.includeSewers && cityRoad)
 			bottomOfRoad -= DataContext.FloorHeight * 2 + 1;
-		topOfRoad = generator.sidewalkLevel + 1;
+		topOfRoad = generator.streetLevel + 1;
 		if (maxHeight > topOfRoad + tunnelHeight)
 			topOfRoad += tunnelHeight;
 	}
@@ -101,8 +101,8 @@ public class RoadLot extends ConnectedLot {
 	}
 
 	@Override
-	protected boolean isShaftableLevel(WorldGenerator generator, DataContext context, int y) {
-		return (y < bottomOfRoad - 16 || y > topOfRoad + 16 ) && super.isShaftableLevel(generator, context, y);	
+	protected boolean isShaftableLevel(WorldGenerator generator, int y) {
+		return (y < bottomOfRoad - 16 || y > topOfRoad + 16 ) && super.isShaftableLevel(generator, y);
 	}
 	
 	private boolean sewerCenterBit;
@@ -161,10 +161,11 @@ public class RoadLot extends ConnectedLot {
 		int originZ = chunk.getOriginZ();
 		
 		// where do we start
-		int base1Y = generator.sidewalkLevel - DataContext.FloorHeight * 2 + 1;
+		int base1Y = generator.streetLevel - DataContext.FloorHeight * 2 + 1;
 		int sewerY = base1Y + 1;
 		int base2Y = base1Y + DataContext.FloorHeight + 1;
-		int sidewalkLevel = generator.sidewalkLevel + 1;
+		int pavementLevel = generator.streetLevel;
+		int sidewalkLevel = pavementLevel + 1;
 		boolean doSewer = generator.settings.includeSewers && cityRoad;
 		
 		// look around
@@ -312,8 +313,6 @@ public class RoadLot extends ConnectedLot {
 			}
 			
 		} else {
-			int pavementLevel = sidewalkLevel - 1;
-			
 			// draw pavement and clear out a bit
 			chunk.setLayer(pavementLevel, pavementId);
 			chunk.setLayer(sidewalkLevel, airId);
@@ -792,10 +791,11 @@ public class RoadLot extends ConnectedLot {
 		int originZ = chunk.getOriginZ();
 		
 		// where do we start
-		int base1Y = generator.sidewalkLevel - DataContext.FloorHeight * 2 + 1;
+		int base1Y = generator.streetLevel - DataContext.FloorHeight * 2 + 1;
 		int sewerY = base1Y + 1;
 		int base2Y = base1Y + DataContext.FloorHeight + 1;
-		int sidewalkLevel = generator.sidewalkLevel + 1;
+		int pavementLevel = generator.streetLevel;
+		int sidewalkLevel = pavementLevel + 1;
 		boolean doSewer = generator.settings.includeSewers && cityRoad;
 		
 		// look around
@@ -834,7 +834,6 @@ public class RoadLot extends ConnectedLot {
 			}
 			
 		} else {
-			int pavementLevel = sidewalkLevel - 1;
 			
 			// crosswalks?
 			if (generator.settings.includeWoolRoads) {
@@ -1054,62 +1053,62 @@ public class RoadLot extends ConnectedLot {
 			// populate the vaults
 			if (vaultNorthWest) {
 				if (!(roads.toNorth() && roads.toWest())) // special case for manholes
-					generateTreat(generator, context, chunk, 2, sewerY, 2);
+					generateTreat(generator, chunk, 2, sewerY, 2);
 			}
 			if (vaultNorthEast) {
-				generateTreat(generator, context, chunk, 13, sewerY, 2);
+				generateTreat(generator, chunk, 13, sewerY, 2);
 			}
 			if (vaultSouthWest) {
-				generateTreat(generator, context, chunk, 2, sewerY, 13);
+				generateTreat(generator, chunk, 2, sewerY, 13);
 			}
 			if (vaultSouthEast) {
-				generateTreat(generator, context, chunk, 13, sewerY, 13);
+				generateTreat(generator, chunk, 13, sewerY, 13);
 			}
 			if (centerNorth && centerSouth && centerWest && centerEast) {
 				
 				// look carefully, these are actually different
 				switch(chunkRandom.nextInt(4)) {
 				case 1:
-					generateTreat(generator, context, chunk, 6, sewerY, 6);
-					generateTrick(generator, context, chunk, 9, sewerY, 9);
+					generateTreat(generator, chunk, 6, sewerY, 6);
+					generateTrick(generator, chunk, 9, sewerY, 9);
 					break;
 				case 2:
-					generateTreat(generator, context, chunk, 9, sewerY, 6);
-					generateTrick(generator, context, chunk, 6, sewerY, 9);
+					generateTreat(generator, chunk, 9, sewerY, 6);
+					generateTrick(generator, chunk, 6, sewerY, 9);
 					break;
 				case 3:
-					generateTreat(generator, context, chunk, 6, sewerY, 9);
-					generateTrick(generator, context, chunk, 9, sewerY, 6);
+					generateTreat(generator, chunk, 6, sewerY, 9);
+					generateTrick(generator, chunk, 9, sewerY, 6);
 					break;
 				default:
-					generateTreat(generator, context, chunk, 9, sewerY, 9);
-					generateTrick(generator, context, chunk, 6, sewerY, 6);
+					generateTreat(generator, chunk, 9, sewerY, 9);
+					generateTrick(generator, chunk, 6, sewerY, 6);
 					break;
 				}
 			} else {
 				if (centerNorth) {
 					if (vaultNorthWest && !vaultNorthEast)
-						generateTrick(generator, context, chunk, 6, sewerY, 2);
+						generateTrick(generator, chunk, 6, sewerY, 2);
 					else if (vaultNorthEast && !vaultNorthWest)
-						generateTrick(generator, context, chunk, 9, sewerY, 2);
+						generateTrick(generator, chunk, 9, sewerY, 2);
 				}
 				if (centerSouth) {
 					if (vaultSouthWest && !vaultSouthEast)
-						generateTrick(generator, context, chunk, 6, sewerY, 13);
+						generateTrick(generator, chunk, 6, sewerY, 13);
 					else if (vaultSouthEast && !vaultSouthWest)
-						generateTrick(generator, context, chunk, 9, sewerY, 13);
+						generateTrick(generator, chunk, 9, sewerY, 13);
 				}
 				if (centerWest) {
 					if (vaultNorthWest && !vaultSouthWest)
-						generateTrick(generator, context, chunk, 2, sewerY, 6);
+						generateTrick(generator, chunk, 2, sewerY, 6);
 					else if (vaultSouthWest && !vaultNorthWest)
-						generateTrick(generator, context, chunk, 2, sewerY, 9);
+						generateTrick(generator, chunk, 2, sewerY, 9);
 				}
 				if (centerEast) {
 					if (vaultNorthEast && !vaultSouthEast)
-						generateTrick(generator, context, chunk, 13, sewerY, 6);
+						generateTrick(generator, chunk, 13, sewerY, 6);
 					else if (vaultSouthEast && !vaultNorthEast)
-						generateTrick(generator, context, chunk, 13, sewerY, 9);
+						generateTrick(generator, chunk, 13, sewerY, 9);
 				}
 			}
 			
@@ -1280,7 +1279,7 @@ public class RoadLot extends ConnectedLot {
 	}
 	
 	private void generateRoundedOut(WorldGenerator generator, DataContext context, ByteChunk chunk, int x, int z, boolean toNorth, boolean toEast) {
-		int sidewalkLevel = generator.sidewalkLevel + 1;
+		int sidewalkLevel = generator.streetLevel + 1;
 		
 		// long bits
 		for (int i = 0; i < 4; i++) {
@@ -1295,18 +1294,18 @@ public class RoadLot extends ConnectedLot {
 					   sidewalkId);
 	}
 	
-	private void generateTreat(WorldGenerator generator, DataContext context, RealChunk chunk, int x, int y, int z) {
+	private void generateTreat(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
 		
 		// cool stuff?
-		if (generator.settings.treasuresInSewers && chunkRandom.nextDouble() <= context.oddsOfTreasureInSewers) {
+		if (generator.settings.treasuresInSewers && chunkRandom.nextDouble() <= generator.settings.oddsOfTreasureInSewers) {
 			 chunk.setChest(x, y, z, Direction.Chest.NORTH, generator.lootProvider.getItems(generator, chunkRandom, LootLocation.SEWER));
 		}
 	}
 
-	private void generateTrick(WorldGenerator generator, DataContext context, RealChunk chunk, int x, int y, int z) {
+	private void generateTrick(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
 		
 		// not so cool stuff?
-		if (generator.settings.spawnersInSewers && chunkRandom.nextDouble() <= context.oddsOfSpawnerInSewers) {
+		if (generator.settings.spawnersInSewers && chunkRandom.nextDouble() <= generator.settings.oddsOfSpawnerInSewers) {
 			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, chunkRandom, SpawnerLocation.SEWER));
 		}
 	}

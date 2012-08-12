@@ -131,57 +131,50 @@ public abstract class PlatLot {
 		initializeDice(platmap, chunk.chunkX, chunk.chunkZ);
 		initializeContext(generator, chunk);
 		
-		// let there be dirt!
-		generateCrust(generator, platmap, chunk, biomes, context, platX, platZ);
+		// what do we need to first?
+		generator.shapeProvider.preGenerateChunk(generator, this, chunk, biomes, blockYs);
 		
 		// let the specialized platlot do it's thing
 		generateActualChunk(generator, platmap, chunk, biomes, context, platX, platZ);
 		
-		// do we do it or not?
-		if (generator.settings.includeMines)
-			generateMines(generator, chunk, context);
+		// polish things off
+		generator.shapeProvider.postGenerateChunk(generator, this, chunk, blockYs);
 	}
 		
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		initializeDice(platmap, chunk.chunkX, chunk.chunkZ);
 		initializeContext(generator, chunk);
 		
+		// what do we need to first?
+		generator.shapeProvider.preGenerateBlocks(generator, this, chunk, blockYs);
+		
 		// let the specialized platlot do it's thing
 		generateActualBlocks(generator, platmap, chunk, context, platX, platZ);
 		
-		// put ores in?
-		generateOres(generator, chunk);
-
-		// do we do it or not?
-		if (generator.settings.includeMines)
-			generateMines(generator, chunk, context);
+		// polish things off
+		generator.shapeProvider.postGenerateBlocks(generator, this, chunk, blockYs);
 		
 		// all done
 		deinitializeContext();
 	}
 	
-	protected void generateCrust(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
-
-		// draw stuff
-		generator.shapeProvider.generateCrust(generator, this, chunk, biomes, blockYs);
-	}
-	
 	private final static int lowestMineSegment = 16;
 	
-	protected void generateMines(WorldGenerator generator, ByteChunk chunk, DataContext context) {
+	public void generateMines(WorldGenerator generator, ByteChunk chunk) {
 		
 		// get shafted! (this builds down to keep the support poles happy)
-		for (int y = (minHeight / 16 - 1) * 16; y >= lowestMineSegment; y -= 16) {
-			if (isShaftableLevel(generator, context, y))
-				generateHorizontalMineLevel(generator, chunk, context, y);
-		}
+		if (generator.settings.includeMines)
+			for (int y = (minHeight / 16 - 1) * 16; y >= lowestMineSegment; y -= 16) {
+				if (isShaftableLevel(generator, y))
+					generateHorizontalMineLevel(generator, chunk, y);
+			}
 	}
 	
 	protected int findHighestShaftableLevel(WorldGenerator generator, DataContext context, SupportChunk chunk) {
 
 		// keep going down until we find what we are looking for
 		for (int y = (minHeight / 16 - 1) * 16; y >= lowestMineSegment; y -= 16) {
-			if (isShaftableLevel(generator, context, y) && generator.shapeProvider.isHorizontalWEShaft(chunk.chunkX, y, chunk.chunkZ))
+			if (isShaftableLevel(generator, y) && generator.shapeProvider.isHorizontalWEShaft(chunk.chunkX, y, chunk.chunkZ))
 				return y + 7;
 		}
 		
@@ -189,11 +182,11 @@ public abstract class PlatLot {
 		return 0;
 	}
 	
-	protected boolean isShaftableLevel(WorldGenerator generator, DataContext context, int y) {
+	protected boolean isShaftableLevel(WorldGenerator generator, int y) {
 		return y >= lowestMineSegment && y < minHeight && minHeight > generator.seaLevel;
 	}
 
-	private void generateHorizontalMineLevel(WorldGenerator generator, ByteChunk chunk, DataContext context, int y) {
+	private void generateHorizontalMineLevel(WorldGenerator generator, ByteChunk chunk, int y) {
 		int y1 = y + 6;
 		int y2 = y1 + 1;
 		
@@ -277,21 +270,22 @@ public abstract class PlatLot {
 			chunk.setBlocks(x, y + 1, aboveSupport + 1, z, shaftSupportId);
 	}
 	
-	protected void generateMines(WorldGenerator generator, RealChunk chunk, DataContext context) {
+	public void generateMines(WorldGenerator generator, RealChunk chunk) {
 		
 		// get shafted!
-		for (int y = 0; y + 16 < minHeight; y += 16) {
-			if (isShaftableLevel(generator, context, y))
-				generateVerticalMineLevel(generator, chunk, context, y);
-		}
+		if (generator.settings.includeMines)
+			for (int y = 0; y + 16 < minHeight; y += 16) {
+				if (isShaftableLevel(generator, y))
+					generateVerticalMineLevel(generator, chunk, y);
+			}
 	}
 	
-	private void generateVerticalMineLevel(WorldGenerator generator, RealChunk chunk, DataContext context, int y) {
+	private void generateVerticalMineLevel(WorldGenerator generator, RealChunk chunk, int y) {
 		int y1 = y + 6;
 		boolean stairsFound = false;
 		
 		// going down?
-		if (isShaftableLevel(generator, context, y - 16)) {
+		if (isShaftableLevel(generator, y - 16)) {
 			if (generator.shapeProvider.isHorizontalNSShaft(chunk.chunkX, y, chunk.chunkZ) &&
 				generator.shapeProvider.isHorizontalNSShaft(chunk.chunkX, y - 16, chunk.chunkZ)) {
 				
@@ -327,7 +321,7 @@ public abstract class PlatLot {
 		stairsFound = false;
 		
 		// going up?
-		if (isShaftableLevel(generator, context, y + 32)) {
+		if (isShaftableLevel(generator, y + 32)) {
 			if (generator.shapeProvider.isHorizontalNSShaft(chunk.chunkX, y, chunk.chunkZ) &&
 				generator.shapeProvider.isHorizontalNSShaft(chunk.chunkX, y + 16, chunk.chunkZ)) {
 					
@@ -388,8 +382,8 @@ public abstract class PlatLot {
 			generateMineCeiling(chunk, 6, 10, y1 + 3, 0, 6);
 			generateMineCeiling(chunk, 6, 10, y1 + 3, 10, 16);
 			
-			generateMineAlcove(generator, context, chunk, 4, y1, 2, 4, 2);
-			generateMineAlcove(generator, context, chunk, 10, y1, 2, 11, 3);
+			generateMineAlcove(generator, chunk, 4, y1, 2, 4, 2);
+			generateMineAlcove(generator, chunk, 10, y1, 2, 11, 3);
 
 			pathFound = true;
 		}
@@ -397,8 +391,8 @@ public abstract class PlatLot {
 			generateMineCeiling(chunk, 0, 6, y1 + 3, 6, 10);
 			generateMineCeiling(chunk, 10, 16, y1 + 3, 6, 10);
 
-			generateMineAlcove(generator, context, chunk, 2, y1, 4, 2, 4);
-			generateMineAlcove(generator, context, chunk, 2, y1, 10, 3, 11);
+			generateMineAlcove(generator, chunk, 2, y1, 4, 2, 4);
+			generateMineAlcove(generator, chunk, 2, y1, 10, 3, 11);
 			
 			pathFound = true;
 		}
@@ -408,7 +402,7 @@ public abstract class PlatLot {
 			generateMineCeiling(chunk, 6, 10, y1 + 3, 6, 10);
 	}
 	
-	private void generateMineAlcove(WorldGenerator generator, DataContext context, RealChunk chunk, int x, int y, int z, int prizeX, int prizeZ) {
+	private void generateMineAlcove(WorldGenerator generator, RealChunk chunk, int x, int y, int z, int prizeX, int prizeZ) {
 		if (chunkRandom.nextDouble() < 0.66) {
 			if (!chunk.isEmpty(x, y, z) &&
 				!chunk.isEmpty(x + 1, y, z) &&
@@ -418,9 +412,9 @@ public abstract class PlatLot {
 				generateMineCeiling(chunk, x, x + 2, y + 3, z, z + 2);
 				if (chunkRandom.nextDouble() < 0.66) {
 					if (chunkRandom.nextDouble() < 0.33)
-						generateMineTreat(generator, context, chunk, prizeX, y + 1, prizeZ);
+						generateMineTreat(generator, chunk, prizeX, y + 1, prizeZ);
 					else
-						generateMineTrick(generator, context, chunk, prizeX, y + 1, prizeZ);
+						generateMineTrick(generator, chunk, prizeX, y + 1, prizeZ);
 				}
 			}
 		}
@@ -453,17 +447,17 @@ public abstract class PlatLot {
 			chunk.setStair(x, y - 1, z, Material.WOOD_STAIRS, flipDirection);
 	}
 	
-	private void generateMineTreat(WorldGenerator generator, DataContext context, RealChunk chunk, int x, int y, int z) {
+	private void generateMineTreat(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
 
 		// cool stuff?
-		if (generator.settings.treasuresInMines && chunkRandom.nextDouble() <= context.oddsOfTreasureInMines) {
+		if (generator.settings.treasuresInMines && chunkRandom.nextDouble() <= generator.settings.oddsOfTreasureInMines) {
 			 chunk.setChest(x, y, z, Direction.Chest.SOUTH, generator.lootProvider.getItems(generator, chunkRandom, LootLocation.MINE));
 		}
 	}
 
-	private void generateMineTrick(WorldGenerator generator, DataContext context, RealChunk chunk, int x, int y, int z) {
+	private void generateMineTrick(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
 		// not so cool stuff?
-		if (generator.settings.spawnersInMines && chunkRandom.nextDouble() <= context.oddsOfSpawnerInMines) {
+		if (generator.settings.spawnersInMines && chunkRandom.nextDouble() <= generator.settings.oddsOfSpawnerInMines) {
 			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, chunkRandom, SpawnerLocation.MINE));
 		}
 	}
@@ -472,7 +466,7 @@ public abstract class PlatLot {
 		return true;
 	}
 	
-	private void generateOres(WorldGenerator generator, RealChunk chunk) {
+	public void generateOres(WorldGenerator generator, RealChunk chunk) {
 		
 		// shape the world
 		if (generator.settings.includeOres || generator.settings.includeUndergroundFluids)
@@ -508,11 +502,7 @@ public abstract class PlatLot {
 	protected void generateSurface(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ, boolean includeTrees) {
 		
 		// plant grass or snow
-		for (int x = 0; x < chunk.width; x++) {
-			for (int z = 0; z < chunk.width; z++) {
-				generator.foliageProvider.generateSurface(generator, this, chunk, x, getPerciseY(x, z), z, includeTrees);
-			}
-		}
+		generator.foliageProvider.generateSurface(generator, this, chunk, blockYs, includeTrees);
 	}
 	
 	protected void destroyBuilding(WorldGenerator generator, RealChunk chunk, int y, int floors) {

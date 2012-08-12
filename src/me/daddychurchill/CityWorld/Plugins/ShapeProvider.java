@@ -11,6 +11,7 @@ import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public abstract class ShapeProvider {
@@ -22,6 +23,11 @@ public abstract class ShapeProvider {
 	public abstract int getSeaRange();
 	
 	public abstract double findPerciseY(WorldGenerator generator, int blockX, int blockZ);
+
+	public abstract void preGenerateChunk(WorldGenerator generator, PlatLot lot, ByteChunk chunk, BiomeGrid biomes, CachedYs blockYs);
+	public abstract void postGenerateChunk(WorldGenerator generator, PlatLot lot, ByteChunk chunk, CachedYs blockYs);
+	public abstract void preGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs);
+	public abstract void postGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs);
 	
 	public int findBlockY(WorldGenerator generator, int blockX, int blockZ) {
 		return NoiseGenerator.floor(findPerciseY(generator, blockX, blockZ));
@@ -30,8 +36,6 @@ public abstract class ShapeProvider {
 	public int findGroundY(WorldGenerator generator, int blockX, int blockZ) {
 		return findBlockY(generator, blockX, blockZ);
 	}
-	
-	public abstract void generateCrust(WorldGenerator generator, PlatLot lot, ByteChunk chunk, BiomeGrid biomes, CachedYs blockYs);
 
 	public ShapeProvider(WorldGenerator generator) {
 		super();

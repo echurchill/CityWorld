@@ -73,8 +73,8 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 
 	@Override
-	protected boolean isShaftableLevel(WorldGenerator generator, DataContext context, int y) {
-		return y >= 0 && y < generator.sidewalkLevel - DataContext.FloorHeight * depth - 2 - 16;	
+	protected boolean isShaftableLevel(WorldGenerator generator, int y) {
+		return y >= 0 && y < generator.streetLevel - DataContext.FloorHeight * depth - 2 - 16;	
 	}
 
 	static public RoofStyle pickRoofStyle(Random rand) {

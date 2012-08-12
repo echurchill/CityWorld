@@ -7,6 +7,7 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 import org.bukkit.World;
@@ -95,7 +96,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	}
 
 	@Override
-	public void generateCrust(WorldGenerator generator, PlatLot lot, ByteChunk chunk, BiomeGrid biomes, CachedYs blockYs) {
+	public void preGenerateChunk(WorldGenerator generator, PlatLot lot, ByteChunk chunk, BiomeGrid biomes, CachedYs blockYs) {
 		Biome resultBiome = lot.getChunkBiome();
 		OreProvider ores = generator.oreProvider;
 		boolean surfaceCaves = isSurfaceCaveAt(chunk.chunkX, chunk.chunkZ);
@@ -107,10 +108,10 @@ public class ShapeProvider_Normal extends ShapeProvider {
 				
 				// buildable?
 				if (lot.style == LotStyle.STRUCTURE || lot.style == LotStyle.ROUNDABOUT) {
-					generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, generator.sidewalkLevel - 2, ores.subsurfaceId, generator.sidewalkLevel, ores.subsurfaceId, false);
+					generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, generator.streetLevel - 2, ores.subsurfaceId, generator.streetLevel, ores.subsurfaceId, false);
 					
 				// possibly buildable?
-				} else if (y == generator.sidewalkLevel) {
+				} else if (y == generator.streetLevel) {
 					generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 3, ores.subsurfaceId, y, ores.surfaceId, generator.settings.includeDecayedNature);
 				
 				// won't likely have a building
@@ -168,10 +169,31 @@ public class ShapeProvider_Normal extends ShapeProvider {
 				// set biome for block
 				biomes.setBiome(x, z, resultBiome);
 			}
-		}
-		
+		}	
 	}
 	
+	@Override
+	public void postGenerateChunk(WorldGenerator generator, PlatLot lot, ByteChunk chunk, CachedYs blockYs) {
+		
+		// mines please
+		lot.generateMines(generator, chunk);
+	}
+
+	@Override
+	public void preGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
+		// nothing... yet
+	}
+
+	@Override
+	public void postGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
+		
+		// put ores in?
+		lot.generateOres(generator, chunk);
+
+		// do we do it or not?
+		lot.generateMines(generator, chunk);
+	}
+
 	@Override
 	public int getWorldHeight() {
 		return height;

@@ -42,14 +42,14 @@ public class RoundaboutStatueLot extends IsolatedLot {
 		statueBase = randomBase(chunkRandom);
 
 		// where to start?
-		int y1 = generator.sidewalkLevel + 1;
+		int y1 = generator.streetLevel + 1;
 		chunk.setLayer(y1, curbId);
 		
 		// what to build?
 		switch (statueBase) {
 		case WATER:
 			
-			// bottom of the fountain... any coins?
+			// bottom of the fountain... 
 			chunk.setCircle(8, 8, 5, y1, generator.oreProvider.substratumId, false);
 			for (int x = 0; x < 10; x++)
 				for (int z = 0; z < 10; z++)
@@ -100,7 +100,7 @@ public class RoundaboutStatueLot extends IsolatedLot {
 		boolean somethingInTheCenter = chunkRandom.nextInt(context.oddsOfMissingArt) != 0;
 		
 		// where to start?
-		int y1 = generator.sidewalkLevel + 2;
+		int y1 = generator.streetLevel + 2;
 		
 		// making a fountain?
 		switch (statueBase) {

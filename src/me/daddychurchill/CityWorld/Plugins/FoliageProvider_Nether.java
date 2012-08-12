@@ -30,7 +30,7 @@ public class FoliageProvider_Nether extends FoliageProvider {
 	private final static int ironId = Material.IRON_FENCE.getId();
 	
 	@Override
-	public void generateSurface(WorldGenerator generator, PlatLot lot, RealChunk chunk, int x, double perciseY, int z, boolean includeTrees) {
+	public void generateSurfacePoint(WorldGenerator generator, PlatLot lot, RealChunk chunk, int x, double perciseY, int z, boolean includeTrees) {
 		int y = NoiseGenerator.floor(perciseY);
 		
 		// roll the dice

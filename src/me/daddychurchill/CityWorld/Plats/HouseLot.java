@@ -22,20 +22,20 @@ public class HouseLot extends IsolatedLot {
 		
 		// ground please
 		if (generator.settings.includeDecayedNature)
-			chunk.setLayer(generator.sidewalkLevel, sandId);
+			chunk.setLayer(generator.streetLevel, sandId);
 		else
-			chunk.setLayer(generator.sidewalkLevel, generator.oreProvider.surfaceId);
+			chunk.setLayer(generator.streetLevel, generator.oreProvider.surfaceId);
 	}
 	
 	@Override
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 
 		// now make a house
-		int floors = HouseFactory.generateHouse(chunk, context, chunkRandom, generator.sidewalkLevel + 1, 2);
+		int floors = HouseFactory.generateHouse(chunk, context, chunkRandom, generator.streetLevel + 1, 2);
 		
 		// not a happy place?
 		if (generator.settings.includeDecayedBuildings) {
-			destroyBuilding(generator, chunk, generator.sidewalkLevel + 1, floors);
+			destroyBuilding(generator, chunk, generator.streetLevel + 1, floors);
 		}
 	}
 

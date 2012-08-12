@@ -328,4 +328,11 @@ public class CityWorldSettings {
 	public boolean inCityRange(int x, int z) {
 		return !checkCityRange || centerPointOfChunkRadius.distance(new Vector(x, 0, z)) <= cityChunkRadius;
 	}
+	
+	public double oddsOfTreasureInSewers = 0.50;
+	public double oddsOfTreasureInMines = 0.50;
+	public double oddsOfTreasureInBunkers = 0.50;
+	public double oddsOfSpawnerInSewers = 0.20;
+	public double oddsOfSpawnerInMines = 0.20;
+	public double oddsOfSpawnerInBunkers = 0.20;
 }

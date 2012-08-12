@@ -51,23 +51,23 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);
 
 		// starting with the bottom
-		int lowestY = generator.sidewalkLevel - FloorHeight * (depth - 1) - 3;
+		int lowestY = generator.streetLevel - FloorHeight * (depth - 1) - 3;
 		
 		// bottom most floor
 		drawCeilings(chunk, context, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);
 		
 		// below ground
 		for (int floor = 0; floor < depth; floor++) {
-			int floorAt = generator.sidewalkLevel - FloorHeight * floor - 2;
+			int floorAt = generator.streetLevel - FloorHeight * floor - 2;
 			
 			// clear it out
 			chunk.setLayer(floorAt, FloorHeight, airId);
 			
 			// at the first floor add a fence to prevent folks from falling in
 			if (floor == 0) {
-				drawWalls(chunk, context, generator.sidewalkLevel + 2, fenceHeight, 0, 0, false,
+				drawWalls(chunk, context, generator.streetLevel + 2, fenceHeight, 0, 0, false,
 						fenceMaterial, fenceMaterial, neighborBasements);
-				holeFence(chunk, generator.sidewalkLevel + 2, neighborBasements);
+				holeFence(chunk, generator.streetLevel + 2, neighborBasements);
 			}
 			
 			// one floor please
@@ -97,7 +97,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 
 			// above ground
 			for (int floor = 0; floor < height; floor++) {
-				int floorAt = generator.sidewalkLevel + FloorHeight * floor + 2;
+				int floorAt = generator.streetLevel + FloorHeight * floor + 2;
 				
 				// floor built yet?
 				if (floor <= floorsBuilt) {
@@ -131,7 +131,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 			
 			if (needStairsDown) {
 				for (int floor = 0; floor < depth; floor++) {
-					int y = generator.sidewalkLevel - FloorHeight * floor - 2;
+					int y = generator.streetLevel - FloorHeight * floor - 2;
 					
 					// place the stairs and such
 					drawStairs(chunk, y, FloorHeight, inset, inset, StairWell.CENTER, stairMaterial);
@@ -140,7 +140,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 			
 			if (needStairsUp) {
 				for (int floor = 0; floor < height; floor++) {
-					int y = generator.sidewalkLevel + FloorHeight * floor + 2;
+					int y = generator.streetLevel + FloorHeight * floor + 2;
 					
 					// floor built yet?
 					if (floor <= floorsBuilt) {
@@ -177,7 +177,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 				for (int floor = 1; floor < floors; floor++) {
 					
 					// do only floors that aren't top one or do the top one if there isn't a crane
-					int y = generator.sidewalkLevel + FloorHeight * floor + 1;
+					int y = generator.streetLevel + FloorHeight * floor + 1;
 						
 					// do we take out a bit of it?
 					decayEdge(blocks, chunk.getBlockX(7) + chunkRandom.nextInt(3) - 1, y, chunk.getBlockZ(inset));

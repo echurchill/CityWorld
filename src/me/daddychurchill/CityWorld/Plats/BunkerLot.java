@@ -8,10 +8,10 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
-import me.daddychurchill.CityWorld.Plugins.TekkitMaterial;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.TekkitMaterial;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -38,7 +38,7 @@ public class BunkerLot extends ConstructLot {
 	protected void initializeContext(WorldGenerator generator, SupportChunk chunk) {
 		super.initializeContext(generator, chunk);
 		
-		bottomOfBunker = calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet;
+		bottomOfBunker = calcSegmentOrigin(generator.streetLevel) - bunkerBelowStreet;
 		topOfBunker = calcBunkerCeiling(generator);
 	}
 	
@@ -48,9 +48,9 @@ public class BunkerLot extends ConstructLot {
 	}
 
 	@Override
-	protected boolean isShaftableLevel(WorldGenerator generator, DataContext context, int y) {
+	protected boolean isShaftableLevel(WorldGenerator generator, int y) {
 		return (y < bottomOfBunker - bunkerBuffer || y > topOfBunker - bunkerSegment - bunkerBuffer) &&
-				super.isShaftableLevel(generator, context, y);
+				super.isShaftableLevel(generator, y);
 //		
 //		return (y < calcSegmentOrigin(generator.sidewalkLevel) - bunkerMinHeight - bunkerBelowStreet || y > calcBunkerCeiling(generator) - bunkerMinHeight) &&
 //				super.isShaftableLevel(generator, context, y);	
@@ -78,11 +78,11 @@ public class BunkerLot extends ConstructLot {
 	}
 	
 	public static int calcBunkerMinHeight(WorldGenerator generator) {
-		return calcSegmentOrigin(generator.sidewalkLevel) + bunkerMinHeight - bunkerBelowStreet + bunkerBuffer;
+		return calcSegmentOrigin(generator.streetLevel) + bunkerMinHeight - bunkerBelowStreet + bunkerBuffer;
 	}
 	
 	public static int calcBunkerMaxHeight(WorldGenerator generator) {
-		return calcSegmentOrigin(generator.sidewalkLevel) + bunkerMaxHeight - bunkerBelowStreet + bunkerBuffer;
+		return calcSegmentOrigin(generator.streetLevel) + bunkerMaxHeight - bunkerBelowStreet + bunkerBuffer;
 	}
 	
 	private int calcBunkerCeiling(WorldGenerator generator) {
@@ -580,11 +580,11 @@ public class BunkerLot extends ConstructLot {
 	}
 
 	private void decorateRecallBuilding(WorldGenerator generator, DataContext context, RealChunk chunk, int y1, int y2) {
-		generateTreat(generator, context, chunk, 5, y1, 5);
-		generateTreat(generator, context, chunk, 10, y1, 10);
+		generateTreat(generator, chunk, 5, y1, 5);
+		generateTreat(generator, chunk, 10, y1, 10);
 		
-		generateTrick(generator, context, chunk, 10, y1, 5);
-		generateTrick(generator, context, chunk, 5, y1, 10);
+		generateTrick(generator, chunk, 10, y1, 5);
+		generateTrick(generator, chunk, 5, y1, 10);
 	}
 
 	private void decorateBallsyBuilding(WorldGenerator generator, DataContext context, RealChunk chunk, int y1, int y2) {
@@ -684,25 +684,25 @@ public class BunkerLot extends ConstructLot {
 	}
 
 	private void decoratePyramidBuilding(WorldGenerator generator, DataContext context, RealChunk chunk, int y1, int y2) {
-		generateTreat(generator, context, chunk, 3, y1, 3);
-		generateTreat(generator, context, chunk, 12, y1, 12);
+		generateTreat(generator, chunk, 3, y1, 3);
+		generateTreat(generator, chunk, 12, y1, 12);
 		
-		generateTrick(generator, context, chunk, 12, y1, 3);
-		generateTrick(generator, context, chunk, 3, y1, 12);
+		generateTrick(generator, chunk, 12, y1, 3);
+		generateTrick(generator, chunk, 3, y1, 12);
 	}
 	
-	private void generateTreat(WorldGenerator generator, DataContext context, RealChunk chunk, int x, int y, int z) {
+	private void generateTreat(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
 		
 		// cool stuff?
-		if (generator.settings.treasuresInBunkers && chunkRandom.nextDouble() <= context.oddsOfTreasureInBunkers) {
+		if (generator.settings.treasuresInBunkers && chunkRandom.nextDouble() <= generator.settings.oddsOfTreasureInBunkers) {
 			 chunk.setChest(x, y, z, Direction.Chest.NORTH, generator.lootProvider.getItems(generator, chunkRandom, LootLocation.BUNKER));
 		}
 	}
 
-	private void generateTrick(WorldGenerator generator, DataContext context, RealChunk chunk, int x, int y, int z) {
+	private void generateTrick(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
 
 		// not so cool stuff?
-		if (generator.settings.spawnersInBunkers && chunkRandom.nextDouble() <= context.oddsOfSpawnerInBunkers) {
+		if (generator.settings.spawnersInBunkers && chunkRandom.nextDouble() <= generator.settings.oddsOfSpawnerInBunkers) {
 			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, chunkRandom, SpawnerLocation.BUNKER));
 		}
 	}

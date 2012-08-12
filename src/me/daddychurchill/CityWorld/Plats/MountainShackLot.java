@@ -58,7 +58,7 @@ public class MountainShackLot extends ConstructLot {
 		
 		// not a happy place?
 		if (generator.settings.includeDecayedBuildings) {
-			destroyBuilding(generator, chunk, generator.sidewalkLevel + 1, floors);
+			destroyBuilding(generator, chunk, generator.streetLevel + 1, floors);
 		}
 	}
 }

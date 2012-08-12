@@ -5,6 +5,7 @@ import java.util.Random;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.TekkitMaterial;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -55,6 +56,7 @@ public class OreProvider_Tekkit extends OreProvider {
 	private static final int[] ore_minY = new int[]          {    32,     2,    40,    16,    16,     5,     5,     8,     1,     2,     2,     2,     5,    16,    16,     2,     2,    40,     1,     2};
 	private static final boolean[] ore_upper = new boolean[] {  true, false,  true,  true,  true,  true,  true, false, false, false, false,  true,  true,  true,  true,  true,  true, false, false, false};
 	private static final boolean[] ore_physics = new boolean[] {true,  true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
+	private static final boolean[] ore_liquid = new boolean[] { true,  true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
 
 	@Override
 	public void sprinkleOres(WorldGenerator generator, RealChunk chunk, CachedYs blockYs, Random random, OreLocation location) {
@@ -62,7 +64,7 @@ public class OreProvider_Tekkit extends OreProvider {
 			sprinkleOre(generator, chunk, blockYs, random,
 					ore_types[typeNdx], ore_maxY[typeNdx], ore_minY[typeNdx], 
 					ore_iterations[typeNdx], ore_amountToDo[typeNdx], 
-					ore_upper[typeNdx], ore_physics[typeNdx]);
+					ore_upper[typeNdx], ore_physics[typeNdx], ore_liquid[typeNdx]);
 		}
 	}
 

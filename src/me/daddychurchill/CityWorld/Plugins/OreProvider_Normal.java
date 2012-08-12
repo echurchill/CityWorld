@@ -31,7 +31,8 @@ public class OreProvider_Normal extends OreProvider {
 													  Material.LAPIS_ORE.getId(),
 													  Material.REDSTONE_ORE.getId(),
 													  Material.DIAMOND_ORE.getId(),
-													  Material.EMERALD_ORE.getId()}; 
+													  Material.EMERALD_ORE.getId()
+													  }; 
 	
 	//                                                         WATER   LAVA   GRAV   COAL   IRON   GOLD  LAPIS  REDST   DIAM   EMER  
 	private static final int[] ore_iterations = new int[]    {     8,     6,    40,    30,    12,     4,     2,     4,     2,    10};
@@ -40,6 +41,7 @@ public class OreProvider_Normal extends OreProvider {
 	private static final int[] ore_minY = new int[]          {    32,     2,    40,    16,    10,     8,     8,     6,     2,     2};
 	private static final boolean[] ore_upper = new boolean[] {  true, false, false,  true,  true,  true,  true,  true, false, false};
 	private static final boolean[] ore_physics = new boolean[] {true,  true, false, false, false, false, false, false, false, false};
+	private static final boolean[] ore_liquid = new boolean[] { true,  true, false, false, false, false, false, false, false, false};
 	
 	@Override
 	public void sprinkleOres(WorldGenerator generator, RealChunk chunk, CachedYs blockYs, Random random, OreLocation location) {
@@ -49,7 +51,7 @@ public class OreProvider_Normal extends OreProvider {
 			sprinkleOre(generator, chunk, blockYs, random,
 					ore_types[typeNdx], ore_maxY[typeNdx], ore_minY[typeNdx], 
 					ore_iterations[typeNdx], ore_amountToDo[typeNdx], 
-					ore_upper[typeNdx], ore_physics[typeNdx]);
+					ore_upper[typeNdx], ore_physics[typeNdx], ore_liquid[typeNdx]);
 		}
 	}
 }

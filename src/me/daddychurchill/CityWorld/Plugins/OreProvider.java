@@ -71,18 +71,25 @@ public abstract class OreProvider {
 	public abstract void sprinkleOres(WorldGenerator generator, RealChunk chunk, CachedYs blockYs, Random random, OreLocation location);
 
 	protected void sprinkleOre(WorldGenerator generator, RealChunk chunk, CachedYs blockYs, Random random,
-			int typeId, int maxY, int minY, int iterations, int amount, boolean mirror, boolean physics) {
-		int range = maxY - minY;
-		for (int iter = 0; iter < iterations; iter++) {
-			int x = random.nextInt(16);
-			int y = random.nextInt(range) + minY;
-			int z = random.nextInt(16);
-			if (y < blockYs.getBlockY(x, z))
-				growVein(generator, chunk, blockYs, random, x, y, z, amount, typeId, physics);
-			if (mirror) {
-				y = (generator.seaLevel + generator.landRange) - minY - random.nextInt(range);
+			int typeId, int maxY, int minY, int iterations, int amount, boolean mirror, boolean physics, boolean liquid) {
+		
+		// do we do this one?
+		if ((liquid && generator.settings.includeUndergroundFluids) ||
+			(!liquid && generator.settings.includeOres)) {
+			
+			// sprinkle it around!
+			int range = maxY - minY;
+			for (int iter = 0; iter < iterations; iter++) {
+				int x = random.nextInt(16);
+				int y = random.nextInt(range) + minY;
+				int z = random.nextInt(16);
 				if (y < blockYs.getBlockY(x, z))
 					growVein(generator, chunk, blockYs, random, x, y, z, amount, typeId, physics);
+				if (mirror) {
+					y = (generator.seaLevel + generator.landRange) - minY - random.nextInt(range);
+					if (y < blockYs.getBlockY(x, z))
+						growVein(generator, chunk, blockYs, random, x, y, z, amount, typeId, physics);
+				}
 			}
 		}
 	}

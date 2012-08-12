@@ -49,8 +49,8 @@ public class ParkLot extends ConnectedLot {
 	}
 
 	@Override
-	protected boolean isShaftableLevel(WorldGenerator generator, DataContext context, int y) {
-		return y >= 0 && y < generator.sidewalkLevel - cisternDepth - 2 - 16;	
+	protected boolean isShaftableLevel(WorldGenerator generator, int y) {
+		return y >= 0 && y < generator.streetLevel - cisternDepth - 2 - 16;
 	}
 
 	@Override
@@ -74,8 +74,8 @@ public class ParkLot extends ConnectedLot {
 		SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
 		
 		// starting with the bottom
-		int lowestY = generator.sidewalkLevel - cisternDepth + 1;
-		int highestY = generator.sidewalkLevel - groundDepth - 1;
+		int lowestY = generator.streetLevel - cisternDepth + 1;
+		int highestY = generator.streetLevel - groundDepth - 1;
 		
 		// cistern?
 		if (generator.settings.includeCisterns) {
@@ -140,7 +140,7 @@ public class ParkLot extends ConnectedLot {
 		chunk.setLayer(highestY + 3, generator.oreProvider.surfaceId);
 		
 		// surface features
-		int surfaceY = generator.sidewalkLevel + 1;
+		int surfaceY = generator.streetLevel + 1;
 		if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
 			chunk.setBlocks(0, 6, surfaceY, surfaceY + 1, 0, 1, columnId);
 			chunk.setBlocks(0, 6, surfaceY + 1, surfaceY + 2, 0, 1, fenceId);
@@ -204,13 +204,13 @@ public class ParkLot extends ConnectedLot {
 	
 	@Override
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
-		int surfaceY = generator.sidewalkLevel + 1;
+		int surfaceY = generator.streetLevel + 1;
 		
 		// way down?
 		if (generator.settings.includeCisterns) {
 			SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
 			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
-				int lowestY = generator.sidewalkLevel - cisternDepth + 1 + waterDepth;
+				int lowestY = generator.streetLevel - cisternDepth + 1 + waterDepth;
 				chunk.setBlocks(4, 7, lowestY, lowestY + 1, 1, 2, ledgeMaterial);
 				chunk.setLadder(5, lowestY + 1, surfaceY, 1, Ladder.SOUTH);
 				chunk.setTrapDoor(5, surfaceY, 1, TrapDoor.EAST);

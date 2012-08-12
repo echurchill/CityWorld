@@ -17,7 +17,7 @@ public class FoliageProvider_Normal extends FoliageProvider {
 	}
 	
 	@Override
-	public void generateSurface(WorldGenerator generator, PlatLot lot, RealChunk chunk, int x, double perciseY, int z, boolean includeTrees) {
+	public void generateSurfacePoint(WorldGenerator generator, PlatLot lot, RealChunk chunk, int x, double perciseY, int z, boolean includeTrees) {
 		OreProvider ores = generator.oreProvider;
 		int y = NoiseGenerator.floor(perciseY);
 		

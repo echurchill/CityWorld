@@ -47,8 +47,8 @@ public abstract class PlatMap {
 	}
 	
 	protected abstract void populateLots(SupportChunk typicalChunk);
-	protected abstract PlatLot createNaturalLot(int chunkX, int chunkZ);
-	protected abstract PlatLot createRoadLot(int chunkX, int chunkZ, boolean roundaboutPart);
+	protected abstract PlatLot createNaturalLot(int x, int z);
+	protected abstract PlatLot createRoadLot(int x, int z, boolean roundaboutPart);
 
 	public Random getRandomGenerator() {
 		return generator.shapeProvider.getMacroRandomGeneratorAt(originX, originZ);

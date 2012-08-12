@@ -131,7 +131,7 @@ public class OfficeBuildingLot extends BuildingLot {
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);
 
 		// starting with the bottom
-		int lowestY = generator.sidewalkLevel - FloorHeight * (depth - 1) - 3;
+		int lowestY = generator.streetLevel - FloorHeight * (depth - 1) - 3;
 		
 		// bottom most floor
 		drawCeilings(chunk, context, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);
@@ -139,7 +139,7 @@ public class OfficeBuildingLot extends BuildingLot {
 		
 		// below ground
 		for (int floor = 0; floor < depth; floor++) {
-			int floorAt = generator.sidewalkLevel - FloorHeight * floor - 2;
+			int floorAt = generator.streetLevel - FloorHeight * floor - 2;
 
 			// clear it out
 			chunk.setLayer(floorAt, FloorHeight, airId);
@@ -166,7 +166,7 @@ public class OfficeBuildingLot extends BuildingLot {
 
 		// above ground
 		for (int floor = 0; floor < height; floor++) {
-			int floorAt = generator.sidewalkLevel + FloorHeight * floor + 2;
+			int floorAt = generator.streetLevel + FloorHeight * floor + 2;
 			allowRounded = allowRounded && neighborFloors.isRoundable();
 
 			// breath in?
@@ -189,7 +189,7 @@ public class OfficeBuildingLot extends BuildingLot {
 			
 			// final floor is done... how about a roof then?
 			if (floor == height - 1)
-				drawRoof(chunk, context, generator.sidewalkLevel + FloorHeight * (floor + 1) + 2, localInsetWallEW, localInsetWallNS, allowRounded, roofMaterial, neighborFloors);
+				drawRoof(chunk, context, generator.streetLevel + FloorHeight * (floor + 1) + 2, localInsetWallEW, localInsetWallNS, allowRounded, roofMaterial, neighborFloors);
 
 			// one down, more to go
 			neighborFloors.decrement();
@@ -210,12 +210,12 @@ public class OfficeBuildingLot extends BuildingLot {
 		StairWell stairLocation = getStairWellLocation(allowRounded, neighborFloors);
 		
 		// bottom floor? 
-		drawDoors(chunk, generator.sidewalkLevel + 2, FloorHeight, insetWallEW, insetWallNS, 
+		drawDoors(chunk, generator.streetLevel + 2, FloorHeight, insetWallEW, insetWallNS, 
 				stairLocation, neighborFloors, wallMaterial);
 		
 		// work on the basement stairs first
 		for (int floor = 0; floor < depth; floor++) {
-			int y = generator.sidewalkLevel - FloorHeight * floor - 2;
+			int y = generator.streetLevel - FloorHeight * floor - 2;
 			
 			// stairs?
 			if (needStairsDown) {
@@ -250,7 +250,7 @@ public class OfficeBuildingLot extends BuildingLot {
 		// now the above ground floors
 		if (needStairsUp) {
 			for (int floor = 0; floor < height; floor++) {
-				int y = generator.sidewalkLevel + FloorHeight * floor + 2;
+				int y = generator.streetLevel + FloorHeight * floor + 2;
 				
 				// more stairs and such
 				if (floor < height - 1)
@@ -272,7 +272,7 @@ public class OfficeBuildingLot extends BuildingLot {
 			
 		// nope, let's destroy our work!
 		} else {
-			int y1 = generator.sidewalkLevel + 2;
+			int y1 = generator.streetLevel + 2;
 			int y2 = y1 + FloorHeight * height;
 			switch (roofStyle) {
 			case EDGED:

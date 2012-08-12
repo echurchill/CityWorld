@@ -46,13 +46,6 @@ public abstract class DataContext {
 	public int oddsOfMissingArt = oddsUnlikely; // art is missing 1/n of the time
 	public int oddsOfNaturalArt = oddsExtremelyLikely; // sometimes nature is art 1/n of the time 
 	
-	public double oddsOfTreasureInSewers = 0.50;
-	public double oddsOfTreasureInMines = 0.50;
-	public double oddsOfTreasureInBunkers = 0.50;
-	public double oddsOfSpawnerInSewers = 0.20;
-	public double oddsOfSpawnerInMines = 0.20;
-	public double oddsOfSpawnerInBunkers = 0.20;
-	
 	public static final int FloorHeight = 4;
 	public static final int FudgeFloorsBelow = 2;
 	public static final int FudgeFloorsAbove = 0;//3;
@@ -75,8 +68,8 @@ public abstract class DataContext {
 		buildingMaximumY = Math.min(126 + FudgeFloorsAbove * FloorHeight, generator.height);
 		
 		// where is the ground
-		absoluteMaximumFloorsBelow = Math.max(Math.min(generator.sidewalkLevel / FloorHeight - FudgeFloorsBelow, absoluteAbsoluteMaximumFloorsBelow), 0);
-		absoluteMaximumFloorsAbove = Math.max(Math.min((buildingMaximumY - generator.sidewalkLevel) / FloorHeight - FudgeFloorsAbove, absoluteAbsoluteMaximumFloorsAbove), absoluteMinimumFloorsAbove);
+		absoluteMaximumFloorsBelow = Math.max(Math.min(generator.streetLevel / FloorHeight - FudgeFloorsBelow, absoluteAbsoluteMaximumFloorsBelow), 0);
+		absoluteMaximumFloorsAbove = Math.max(Math.min((buildingMaximumY - generator.streetLevel) / FloorHeight - FudgeFloorsAbove, absoluteAbsoluteMaximumFloorsAbove), absoluteMinimumFloorsAbove);
 		
 		// lights?
 		if (generator.settings.includeWorkingLights) {

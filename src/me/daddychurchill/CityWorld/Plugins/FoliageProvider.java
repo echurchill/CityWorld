@@ -4,6 +4,7 @@ import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.BlockChangeDelegate;
@@ -20,7 +21,7 @@ public abstract class FoliageProvider {
 	protected final static double treeOdds = 0.90;
 	protected final static double foliageOdds = 0.40;
 	
-	public abstract void generateSurface(WorldGenerator generator, PlatLot lot, RealChunk chunk, int x, double perciseY, int z, boolean includeTrees);
+	public abstract void generateSurfacePoint(WorldGenerator generator, PlatLot lot, RealChunk chunk, int x, double perciseY, int z, boolean includeTrees);
 	public abstract boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, TreeType treeType);
 	public abstract boolean generateFlora(WorldGenerator generator, RealChunk chunk, int x, int y, int z, FloraType floraType);
 	
@@ -28,6 +29,14 @@ public abstract class FoliageProvider {
 	
 	public FoliageProvider(Random random) {
 		this.random = random;
+	}
+	
+	public void generateSurface(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs, boolean includeTrees) {
+		for (int x = 0; x < chunk.width; x++) {
+			for (int z = 0; z < chunk.width; z++) {
+				generateSurfacePoint(generator, lot, chunk, x, blockYs.getPerciseY(x, z), z, includeTrees);
+			}
+		}
 	}
 	
 	protected boolean likelyFlora(WorldGenerator generator, Random random) {
