@@ -111,6 +111,13 @@ public abstract class PlatMap {
 			return true;
 	}
 	
+	public boolean isNaturalLot(int x, int z) {
+		if (x >= 0 && x < Width && z >= 0 && z < Width)
+			return platLots[x][z] == null || platLots[x][z].style == LotStyle.NATURE;
+		else
+			return false;
+	}
+	
 	public void recycleLot(int x, int z) {
 
 		// if it is not natural, make it so

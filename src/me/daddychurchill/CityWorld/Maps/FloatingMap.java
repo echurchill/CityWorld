@@ -11,6 +11,7 @@ import me.daddychurchill.CityWorld.Context.MidriseContext;
 import me.daddychurchill.CityWorld.Context.NatureContext_Floating;
 import me.daddychurchill.CityWorld.Context.NeighborhoodContext;
 import me.daddychurchill.CityWorld.Context.UnderConstructionContext;
+import me.daddychurchill.CityWorld.Plats.FloatingBlimpLot;
 import me.daddychurchill.CityWorld.Plats.FloatingNothingLot;
 import me.daddychurchill.CityWorld.Plats.FloatingRoadLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -42,6 +43,16 @@ public class FloatingMap extends PlatMap {
 				// recalculate the context based on the "natural-ness" of the platmap
 				context = getContext();
 				context.populateMap(generator, this);
+				
+				//TODO need to remove isolated non-nature
+				
+				// find blimp moorings
+				for (int x = 0; x < Width; x++) {
+					for (int z = 0; z < Width; z++) {
+						if (needBlimpLot(x, z))
+							setLot(x, z, new FloatingBlimpLot(this, originX + x, originZ + z));
+					}
+				}
 			}
 		}
 		
@@ -54,6 +65,14 @@ public class FloatingMap extends PlatMap {
 					recycleLot(x, z);
 			}
 		}
+	}
+	
+	private boolean needBlimpLot(int x, int z) {
+//		if (isNaturalLot(x, z)) {
+//			return !isNaturalLot(x - 1, z) || !isNaturalLot(x + 1, z) ||
+//				   !isNaturalLot(x, z - 1) || !isNaturalLot(x, z + 1);
+//		} else
+			return false;
 	}
 
 	@Override

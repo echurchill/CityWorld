@@ -37,4 +37,11 @@ public class BalloonFactory {
 		chunk.setBlock(balloonX, balloonY + 7, balloonZ, Material.AIR);
 		chunk.setBlock(balloonX, balloonY + 6, balloonZ, context.lightMat, true);
 	}
+
+	public final static void generateBlimp(WorldGenerator generator, RealChunk chunk, DataContext context, 
+			int attachX, int attachY, int attachZ, Random random) {
+		
+		//TODO replace this with a bigger balloon! DAMMIT!
+		generateBalloon(generator, chunk, context, attachX, attachY, attachZ, random);
+	}
 }
