@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.bukkit.Material;
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Context.DataContext;
 
 public class BalloonFactory {
 	
@@ -11,7 +12,8 @@ public class BalloonFactory {
 	//TODO need better balloons
 	//TODO need better strings
 	
-	public final static void generateBalloon(WorldGenerator generator, RealChunk chunk, int attachX, int attachY, int attachZ, Random random) {
+	public final static void generateBalloon(WorldGenerator generator, RealChunk chunk, DataContext context, 
+			int attachX, int attachY, int attachZ, Random random) {
 		int balloonX = attachX;
 		int balloonY = attachY + random.nextInt(10) + 5;
 		int balloonZ = attachZ;
@@ -33,6 +35,6 @@ public class BalloonFactory {
 		
 		// candle in the middle
 		chunk.setBlock(balloonX, balloonY + 7, balloonZ, Material.AIR);
-		chunk.setBlock(balloonX, balloonY + 6, balloonZ, Material.GLOWSTONE, true);
+		chunk.setBlock(balloonX, balloonY + 6, balloonZ, context.lightMat, true);
 	}
 }

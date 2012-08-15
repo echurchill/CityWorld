@@ -11,7 +11,8 @@ import me.daddychurchill.CityWorld.Context.MidriseContext;
 import me.daddychurchill.CityWorld.Context.NatureContext_Floating;
 import me.daddychurchill.CityWorld.Context.NeighborhoodContext;
 import me.daddychurchill.CityWorld.Context.UnderConstructionContext;
-import me.daddychurchill.CityWorld.Plats.NonFloatingLot;
+import me.daddychurchill.CityWorld.Plats.FloatingNothingLot;
+import me.daddychurchill.CityWorld.Plats.FloatingRoadLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
@@ -30,19 +31,19 @@ public class FloatingMap extends PlatMap {
 		context = new NatureContext_Floating(generator, this);
 		context.populateMap(generator, this);
 		
-//		// place and validate the roads
-//		if (generator.settings.includeRoads) {
-//			populateRoads(typicalChunk);
-//			validateRoads(typicalChunk);
-//
-//			// place the buildings
-//			if (generator.settings.includeBuildings) {
-//	
-//				// recalculate the context based on the "natural-ness" of the platmap
-//				context = getContext();
-//				context.populateMap(generator, this);
-//			}
-//		}
+		// place and validate the roads
+		if (generator.settings.includeRoads) {
+			populateRoads(typicalChunk);
+			validateRoads(typicalChunk);
+
+			// place the buildings
+			if (generator.settings.includeBuildings) {
+	
+				// recalculate the context based on the "natural-ness" of the platmap
+				context = getContext();
+				context.populateMap(generator, this);
+			}
+		}
 		
 		//TODO: nature shouldn't place its special lots until this phase and then only if the lot is surrounded by nature
 		
@@ -57,12 +58,12 @@ public class FloatingMap extends PlatMap {
 
 	@Override
 	protected PlatLot createNaturalLot(int x, int z) {
-		return new NonFloatingLot(this, originX + x, originZ + z);
+		return new FloatingNothingLot(this, originX + x, originZ + z);
 	}
 
 	@Override
 	protected PlatLot createRoadLot(int x, int z, boolean roundaboutPart) {
-		return new RoadLot(this, originX + x, originZ + z, generator.connectedKeyForPavedRoads, roundaboutPart);
+		return new FloatingRoadLot(this, originX + x, originZ + z, generator.connectedKeyForPavedRoads, roundaboutPart);
 	}
 
 	protected DataContext getContext() {

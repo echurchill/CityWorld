@@ -53,22 +53,22 @@ public class FloatingShackLot extends ConstructLot {
 		}
 
 		// add balloons on the corners
-		attachBalloon(generator, chunk, 2, 2);
-		attachBalloon(generator, chunk, 2, 13);
-		attachBalloon(generator, chunk, 13, 2);
-		attachBalloon(generator, chunk, 13, 13);
+		attachBalloon(generator, chunk, context, 2, 2);
+		attachBalloon(generator, chunk, context, 2, 13);
+		attachBalloon(generator, chunk, context, 13, 2);
+		attachBalloon(generator, chunk, context, 13, 13);
 		
 		// add to the surface
-		generateSurface(generator, platmap, chunk, context, platX, platZ, true);
+		generateSurface(generator, chunk, true);
 		
 	}
 	
-	private void attachBalloon(WorldGenerator generator, RealChunk chunk, int x, int z) {
+	private void attachBalloon(WorldGenerator generator, RealChunk chunk, DataContext context, int x, int z) {
 		
 		// if the corner still exists
 		if (!chunk.isEmpty(x, groundLevel, z)) {
 			chunk.setBlock(x, groundLevel + 1, z, platformId);
-			BalloonFactory.generateBalloon(generator, chunk, x, groundLevel + 2, z, chunkRandom);
+			BalloonFactory.generateBalloon(generator, chunk, context, x, groundLevel + 2, z, chunkRandom);
 		}
 	}
 }

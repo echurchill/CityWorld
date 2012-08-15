@@ -85,7 +85,7 @@ public class MineEntranceLot extends ConstructLot {
 //		chunk.setBlocks(2, surfaceY + 5, maxHeight + 20, 1, Material.GLOWSTONE);
 		
 		// place snow
-		generateSurface(generator, platmap, chunk, context, platX, platZ, false);
+		generateSurface(generator, chunk, false);
 	}
 	
 	private boolean generateStairs(WorldGenerator generator, RealChunk chunk, int x, int z, 

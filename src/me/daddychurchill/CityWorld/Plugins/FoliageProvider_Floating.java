@@ -49,7 +49,7 @@ public class FoliageProvider_Floating extends FoliageProvider_Normal {
 					generateTree(generator, chunk, x, y + 1, z, TreeType.TREE);
 			
 			// foliage?
-			} else if (primary < foliageOdds) {
+			} else if (primary < foliageOdds && y <= ShapeProvider_Floating.snowPoint) {
 				
 				// what to pepper about
 				if (secondary > 0.90)
@@ -60,6 +60,10 @@ public class FoliageProvider_Floating extends FoliageProvider_Normal {
 					generateFlora(generator, chunk, x, y + 1, z, FloraType.GRASS);
 			}
 		}
+		
+		// snow?
+		if (y > ShapeProvider_Floating.snowPoint)
+			generator.oreProvider.dropSnow(generator, chunk, x, y + 5, z);
 	}
 	
 	@Override
@@ -71,12 +75,15 @@ public class FoliageProvider_Floating extends FoliageProvider_Normal {
 			case BIRCH:
 				treeHeight = 3;
 				treeData = 2;
+				break;
 			case REDWOOD:
 				treeHeight = 4;
 				treeData = 1;
+				break;
 			default:
 				treeHeight = 2;
 				treeData = 0;
+				break;
 			}
 			int trunkHeight = treeHeight - 1;
 			

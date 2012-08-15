@@ -23,48 +23,48 @@ public class RoadLot extends ConnectedLot {
 	
 	public static final int PlatMapRoadInset = 3;
 
-	private final static int sidewalkWidth = 3;
-	private final static int lightpostHeight = 3;
-	private final static int crossDitchEdge = 7;
-	private final static int tunnelHeight = 8;
-	private final static int fenceHeight = 2;
+	protected final static int sidewalkWidth = 3;
+	protected final static int lightpostHeight = 3;
+	protected final static int crossDitchEdge = 7;
+	protected final static int tunnelHeight = 8;
+	protected final static int fenceHeight = 2;
 	
-	private final static Material airMaterial = Material.AIR;
-	private final static Material lightpostbaseMaterial = Material.DOUBLE_STEP;
-	private final static Material lightpostMaterial = Material.FENCE;
-	private final static Material sewerWallMaterial = Material.MOSSY_COBBLESTONE;
-	//private final static Material vineMaterial = Material.VINE;
+	protected final static Material airMaterial = Material.AIR;
+	protected final static Material lightpostbaseMaterial = Material.DOUBLE_STEP;
+	protected final static Material lightpostMaterial = Material.FENCE;
+	protected final static Material sewerWallMaterial = Material.MOSSY_COBBLESTONE;
+	//protected final static Material vineMaterial = Material.VINE;
 
-	private final static byte airId = (byte) airMaterial.getId();
-	private final static byte sewerFloorId = (byte) Material.COBBLESTONE.getId();
-	private final static byte sewerWallId = (byte) sewerWallMaterial.getId();
-	private final static byte sewerCeilingId = sewerFloorId;
-	private final static byte pavementId = (byte) Material.STONE.getId();
-	private final static byte crosswalkId = (byte) Material.CLAY.getId();
-	private final static byte sidewalkId = (byte) Material.STEP.getId();
-	private final static Material sewerPlankMaterial = Material.STEP; //TODO should be Material.WOODSTEP (or whatever it is called)
-	private final static byte sewerPlankData = 2;
+	protected final static byte airId = (byte) airMaterial.getId();
+	protected final static byte sewerFloorId = (byte) Material.COBBLESTONE.getId();
+	protected final static byte sewerWallId = (byte) sewerWallMaterial.getId();
+	protected final static byte sewerCeilingId = sewerFloorId;
+	protected final static byte pavementId = (byte) Material.STONE.getId();
+	protected final static byte crosswalkId = (byte) Material.CLAY.getId();
+	protected final static byte sidewalkId = (byte) Material.STEP.getId();
+	protected final static Material sewerPlankMaterial = Material.STEP; //TODO should be Material.WOODSTEP (or whatever it is called)
+	protected final static byte sewerPlankData = 2;
 	
-	private final static byte retainingWallId = (byte) Material.SMOOTH_BRICK.getId();
-	private final static byte retainingFenceId = (byte) Material.IRON_FENCE.getId();
+	protected final static byte retainingWallId = (byte) Material.SMOOTH_BRICK.getId();
+	protected final static byte retainingFenceId = (byte) Material.IRON_FENCE.getId();
 
-	private final static byte tunnelWallId = (byte) Material.SMOOTH_BRICK.getId();
-	private final static byte tunnelTileId = (byte) Material.SANDSTONE.getId();
-	private final static byte tunnelCeilingId = (byte) Material.GLASS.getId();
+	protected final static byte tunnelWallId = (byte) Material.SMOOTH_BRICK.getId();
+	protected final static byte tunnelTileId = (byte) Material.SANDSTONE.getId();
+	protected final static byte tunnelCeilingId = (byte) Material.GLASS.getId();
 	
-	private final static byte bridgePavement1Id = (byte) Material.STEP.getId(); //TODO WOOD_STEP
-	private final static byte bridgePavement2Id = (byte) Material.DOUBLE_STEP.getId(); //TODO WOOD_DOUBLESTEP
-	private final static byte bridgeSidewalk1Id = (byte) Material.STEP.getId();
-	private final static byte bridgeSidewalk2Id = (byte) Material.DOUBLE_STEP.getId();
-	private final static byte bridgeEdgeId = (byte) Material.SMOOTH_BRICK.getId();
-	private final static byte bridgeRailId = (byte) Material.FENCE.getId();
+	protected final static byte bridgePavement1Id = (byte) Material.STEP.getId(); //TODO WOOD_STEP
+	protected final static byte bridgePavement2Id = (byte) Material.DOUBLE_STEP.getId(); //TODO WOOD_DOUBLESTEP
+	protected final static byte bridgeSidewalk1Id = (byte) Material.STEP.getId();
+	protected final static byte bridgeSidewalk2Id = (byte) Material.DOUBLE_STEP.getId();
+	protected final static byte bridgeEdgeId = (byte) Material.SMOOTH_BRICK.getId();
+	protected final static byte bridgeRailId = (byte) Material.FENCE.getId();
 	
-	private final static Material pavementMat = Material.WOOL;
-	private final static byte pavementColor = 7;
-	private final static byte crosswalkColor = 8;
+	protected final static Material pavementMat = Material.WOOL;
+	protected final static byte pavementColor = 7;
+	protected final static byte crosswalkColor = 8;
 	
-	boolean cityRoad;
-	boolean roundaboutRoad;
+	protected boolean cityRoad;
+	protected boolean roundaboutRoad;
 	
 	public RoadLot(PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey, boolean roundaboutPart) {
 		super(platmap, chunkX, chunkZ);
@@ -578,14 +578,14 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 	
-	private void generateNSCrosswalk(ByteChunk chunk, int x1, int x2, int y, int z1, int z2) {
+	protected void generateNSCrosswalk(ByteChunk chunk, int x1, int x2, int y, int z1, int z2) {
 		chunk.setBlocks(x1 + 1, x1 + 2, y, z1, z2, crosswalkId);
 		chunk.setBlocks(x1 + 3, x1 + 4, y, z1, z2, crosswalkId);
 		chunk.setBlocks(x2 - 2, x2 - 1, y, z1, z2, crosswalkId);
 		chunk.setBlocks(x2 - 4, x2 - 3, y, z1, z2, crosswalkId);
 	}
 
-	private void generateWECrosswalk(ByteChunk chunk, int x1, int x2, int y, int z1, int z2) {
+	protected void generateWECrosswalk(ByteChunk chunk, int x1, int x2, int y, int z1, int z2) {
 		chunk.setBlocks(x1, x2, y, z1 + 1, z1 + 2, crosswalkId);
 		chunk.setBlocks(x1, x2, y, z1 + 3, z1 + 4, crosswalkId);
 		chunk.setBlocks(x1, x2, y, z2 - 2, z2 - 1, crosswalkId);
@@ -897,7 +897,7 @@ public class RoadLot extends ConnectedLot {
 				}
 				
 				// add nature on top
-				generateSurface(generator, platmap, chunk, context, platX, platZ, true);
+				generateSurface(generator, chunk, true);
 				
 			// stuff that only can happen outside of tunnels and bridges
 			} else {
@@ -1127,7 +1127,7 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 	
-	private void generateNSCrosswalk(RealChunk chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
+	protected void generateNSCrosswalk(RealChunk chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
 		chunk.setBlocks(x1, x2, y, z1, z2, pavementMat, pavementColor, false);
 		if (cityRoad && crosswalk) {
 			chunk.setBlocks(x1 + 1, x1 + 2, y, z1, z2, pavementMat, crosswalkColor, false);
@@ -1137,7 +1137,7 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 
-	private void generateWECrosswalk(RealChunk chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
+	protected void generateWECrosswalk(RealChunk chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
 		chunk.setBlocks(x1, x2, y, z1, z2, pavementMat, pavementColor, false);
 		if (cityRoad && crosswalk) {
 			chunk.setBlocks(x1, x2, y, z1 + 1, z1 + 2, pavementMat, crosswalkColor, false);
@@ -1147,7 +1147,7 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 	
-	private void decayRoad(RealChunk chunk, int x1, int x2, int y, int z1, int z2) {
+	protected void decayRoad(RealChunk chunk, int x1, int x2, int y, int z1, int z2) {
 		int amount = (x2 - x1) * (z2 - z1) / 10;
 		while (amount > 0) {
 			int x = chunkRandom.nextInt(x2 - x1) + x1;
@@ -1160,7 +1160,7 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 	
-	private void decaySidewalk(RealChunk chunk, int x1, int x2, int y, int z1, int z2) {
+	protected void decaySidewalk(RealChunk chunk, int x1, int x2, int y, int z1, int z2) {
 		int amount = (x2 - x1) * (z2 - z1) / 10;
 		while (amount > 0) {
 			int x = chunkRandom.nextInt(x2 - x1) + x1;
@@ -1190,7 +1190,7 @@ public class RoadLot extends ConnectedLot {
 			chunk.setVine(x1, y, z1, direction);
 	}
 	
-	private boolean generateLightPost(WorldGenerator generator, RealChunk chunk, DataContext context, int sidewalkLevel, int x, int z) {
+	protected boolean generateLightPost(WorldGenerator generator, RealChunk chunk, DataContext context, int sidewalkLevel, int x, int z) {
 		chunk.setBlock(x, sidewalkLevel, z, lightpostbaseMaterial);
 		if (generator.settings.includeDecayedRoads) {
 			int y = sidewalkLevel + 1;
@@ -1215,7 +1215,7 @@ public class RoadLot extends ConnectedLot {
 	
 	private final static double oddsOfDecayedSign = 0.90;
 	
-	private void generateStreetSign(WorldGenerator generator, RealChunk chunk, int sidewalkLevel, int x, int z) {
+	protected void generateStreetSign(WorldGenerator generator, RealChunk chunk, int sidewalkLevel, int x, int z) {
 		int cx = chunk.chunkX;
 		int cz = chunk.chunkZ;
 		int y = sidewalkLevel + lightpostHeight;
@@ -1278,7 +1278,7 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 	
-	private void generateRoundedOut(WorldGenerator generator, DataContext context, ByteChunk chunk, int x, int z, boolean toNorth, boolean toEast) {
+	protected void generateRoundedOut(WorldGenerator generator, DataContext context, ByteChunk chunk, int x, int z, boolean toNorth, boolean toEast) {
 		int sidewalkLevel = generator.streetLevel + 1;
 		
 		// long bits

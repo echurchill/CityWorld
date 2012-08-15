@@ -500,7 +500,7 @@ public class BunkerLot extends ConstructLot {
 		}
 		
 		// add some surface
-		generateSurface(generator, platmap, chunk, context, platX, platZ, true);
+		generateSurface(generator, chunk, true);
 	}
 
 	private final static Material springMat = Material.SMOOTH_STAIRS;

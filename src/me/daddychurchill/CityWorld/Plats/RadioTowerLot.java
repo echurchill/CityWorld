@@ -81,7 +81,7 @@ public class RadioTowerLot extends ConstructLot {
 		int platformY = maxHeight + 2;
 		
 		// place snow
-		generateSurface(generator, platmap, chunk, context, platX, platZ, false);
+		generateSurface(generator, chunk, false);
 		
 		// place a door
 		if (building)
