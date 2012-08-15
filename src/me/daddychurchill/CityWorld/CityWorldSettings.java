@@ -15,7 +15,14 @@ public class CityWorldSettings {
 	 *   Writing on the outside of buildings
 	 */
 	
-	public enum MapStyle {NORMAL, FLOATING}; // FLOODED, LUNAR, UNDERGROUND
+	public enum MapStyle {
+		FLOATING,		// very low terrain with floating houses and cities
+		//FLOODED,		// traditional terrain and cities but with raised sea level
+		//UNDERWATER,	// traditional terrain with raised sea level with under water cities
+		//LUNAR,		// lunar landscape with lunar bases
+		//WESTERN,		// desert landscape with sparse western styled towns and ranches
+		//UNDERGROUND,	// elevated terrain with underground cities
+		NORMAL};   		// traditional terrain and cities
 	
 	public MapStyle mapStyle;
 	public Environment environmentStyle;

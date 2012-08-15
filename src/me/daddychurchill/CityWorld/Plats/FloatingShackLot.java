@@ -57,6 +57,10 @@ public class FloatingShackLot extends ConstructLot {
 		attachBalloon(generator, chunk, 2, 13);
 		attachBalloon(generator, chunk, 13, 2);
 		attachBalloon(generator, chunk, 13, 13);
+		
+		// add to the surface
+		generateSurface(generator, platmap, chunk, context, platX, platZ, true);
+		
 	}
 	
 	private void attachBalloon(WorldGenerator generator, RealChunk chunk, int x, int z) {

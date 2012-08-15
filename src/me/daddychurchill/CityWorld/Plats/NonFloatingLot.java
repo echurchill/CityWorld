@@ -27,8 +27,8 @@ public class NonFloatingLot extends IsolatedLot {
 	protected void generateActualBlocks(WorldGenerator generator,
 			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
 			int platZ) {
-		//generateSurface(generator, platmap, chunk, context, platX, platZ, true);
-
+		
+		generateSurface(generator, platmap, chunk, context, platX, platZ, true);
 	}
 
 }

@@ -15,6 +15,8 @@ import org.bukkit.block.Block;
 
 public abstract class FoliageProvider {
 	
+//	public enum LigneousType {SHRUB, SMALL_TREE, TREE};
+//	public enum HerbaceousType {FLOWER_RED, FLOWER_YELLOW, GRASS, FERN};
 	public enum FloraType {FLOWER_RED, FLOWER_YELLOW, GRASS, FERN, CACTUS};
 	
 	protected final static double oddsOfDarkFlora = 0.50;
@@ -52,20 +54,37 @@ public abstract class FoliageProvider {
 //		provider = FoliageProvider_PhatFoliage.loadPhatFoliage();
 		if (provider == null) {
 			
-			switch (generator.settings.environmentStyle) {
-			case NETHER:
-				provider = new FoliageProvider_Nether(random);
+			switch (generator.settings.mapStyle) {
+			case FLOATING:
+				switch (generator.settings.environmentStyle) {
+//				case NETHER:
+//					provider = new FoliageProvider_FloatingNether(random, );
+//					break;
+				default:
+//					if (generator.settings.includeDecayedNature)
+//						provider = new FoliageProvider_FloatingDecayed(random);
+//					else
+						provider = new FoliageProvider_Floating(random);
+//					break;
+				}
 				break;
-			case THE_END:
-				provider = new FoliageProvider_TheEnd(random);
-				break;
-			case NORMAL:
-				if (generator.settings.includeDecayedNature)
-					provider = new FoliageProvider_Decayed(random);
-				else if (generator.settings.includeTekkitMaterials)
-					provider = new FoliageProvider_Tekkit(random);
-				else
-					provider = new FoliageProvider_Normal(random);
+			default:
+				switch (generator.settings.environmentStyle) {
+				case NETHER:
+					provider = new FoliageProvider_Nether(random);
+					break;
+				case THE_END:
+					provider = new FoliageProvider_TheEnd(random);
+					break;
+				default:
+					if (generator.settings.includeDecayedNature)
+						provider = new FoliageProvider_Decayed(random);
+					else if (generator.settings.includeTekkitMaterials)
+						provider = new FoliageProvider_Tekkit(random);
+					else
+						provider = new FoliageProvider_Normal(random);
+					break;
+				}
 				break;
 			}
 		}

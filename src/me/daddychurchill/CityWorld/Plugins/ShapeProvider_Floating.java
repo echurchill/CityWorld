@@ -71,6 +71,7 @@ public class ShapeProvider_Floating extends ShapeProvider {
 	private final static int gapRange = 4;
 	private final static int landRange = 8;
 	private final static int seaLevel = seaBed + gapRange;
+	private final static int deepSeaLevel = seaLevel - gapRange / 2;
 	
 	private final static int noiseRange = seaBed / 2;
 	private final static int midRange = (gapRange + landRange) / 2;
@@ -159,7 +160,12 @@ public class ShapeProvider_Floating extends ShapeProvider {
 				if (groundY < seaLevel) {
 					chunk.setBlock(x, groundY - 1, z, ores.fluidSubsurfaceId);
 					chunk.setBlock(x, groundY, z, ores.fluidSurfaceId);
-					chunk.setBlocks(x, groundY + 1, seaLevel, z, ores.fluidId);
+					if (generator.settings.includeAbovegroundFluids) {
+						if (generator.settings.includeDecayedNature)
+							chunk.setBlocks(x, groundY + 1, deepSeaLevel, z, ores.fluidId);
+						else
+							chunk.setBlocks(x, groundY + 1,  seaLevel, z, ores.fluidId);
+					}
 				} else {
 					chunk.setBlock(x, groundY - 1, z, ores.subsurfaceId);
 					chunk.setBlock(x, groundY, z, ores.surfaceId);
