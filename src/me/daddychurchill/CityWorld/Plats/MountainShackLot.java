@@ -7,7 +7,6 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
-import me.daddychurchill.CityWorld.Support.HouseFactory;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class MountainShackLot extends ConstructLot {
@@ -54,7 +53,7 @@ public class MountainShackLot extends ConstructLot {
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 
 		// now make a shack
-		int floors = HouseFactory.generateShack(chunk, context, chunkRandom, averageHeight + 1, 5);
+		int floors = generator.houseProvider.generateShack(chunk, context, chunkRandom, averageHeight + 1, 5);
 		
 		// not a happy place?
 		if (generator.settings.includeDecayedBuildings) {

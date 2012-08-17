@@ -1,18 +1,30 @@
-package me.daddychurchill.CityWorld.Support;
+package me.daddychurchill.CityWorld.Plugins;
 
 import java.util.Random;
 
+import org.bukkit.Material;
+
+import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
+import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Door;
 import me.daddychurchill.CityWorld.Support.Direction.Ladder;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
 
-import org.bukkit.Material;
+public class HouseProvider {
 
-public final class HouseFactory {
+	public HouseProvider() {
+		// TODO Auto-generated constructor stub
+	}
+
 	
-	public final static int generateShack(RealChunk chunk, DataContext context, Random random, int baseY, int roomWidth) {
+	public final static HouseProvider loadProvider(WorldGenerator generator) {
+		// for now
+		return new HouseProvider();
+	}
+
+	public int generateShack(RealChunk chunk, DataContext context, Random random, int baseY, int roomWidth) {
 		
 		// what are we made of?
 		Material matWall = Material.WOOD;
@@ -26,7 +38,7 @@ public final class HouseFactory {
 		return floors;
 	}
 	
-	public final static int generateHouse(RealChunk chunk, DataContext context, Random random, int baseY, int maxFloors) {
+	public int generateHouse(RealChunk chunk, DataContext context, Random random, int baseY, int maxFloors) {
 		
 		// what are we made of?
 		Material matWall = pickWallMaterial(random);
@@ -51,9 +63,9 @@ public final class HouseFactory {
 	private final static Material materialStair = Material.WOOD_STAIRS;
 	private final static Material materialUnderStairs = Material.WOOD;
 	
-	private static final int MinSize = 4;
-	private static final int MaxSize = 6;
-	private static final int MissingRoomOdds = 5; // 1/n of the time a room is missing
+	private final static int MinSize = 4;
+	private final static int MaxSize = 6;
+	private final static int MissingRoomOdds = 5; // 1/n of the time a room is missing
 	
 	// the description of a single room
 	private final static class Room {
@@ -444,11 +456,11 @@ public final class HouseFactory {
 		}
 	}
 	
-	private final static int getRoomWidth(Random random, int minRoomWidth, int maxRoomWidth) {
+	private int getRoomWidth(Random random, int minRoomWidth, int maxRoomWidth) {
 		return random.nextInt(maxRoomWidth - minRoomWidth + 1) + minRoomWidth;
 	}
 	
-	private final static void generateColonial(RealChunk chunk, DataContext context, Random random, int baseY, 
+	private void generateColonial(RealChunk chunk, DataContext context, Random random, int baseY, 
 			Material matFloor, Material matWall, Material matCeiling, Material matRoof, 
 			int floors, int minRoomWidth, int maxRoomWidth, boolean allowMissingRooms) {
 		
@@ -679,11 +691,11 @@ public final class HouseFactory {
 //		}
 	}
 	
-	private final static int flip(int i) {
+	private int flip(int i) {
 		return i == 0 ? 1 : 0;
 	}
 	
-	private final static void drawRoom(RealChunk chunk, DataContext context, Random random, Room[][][] rooms, int floor, int floors, int x, int z, 
+	private void drawRoom(RealChunk chunk, DataContext context, Random random, Room[][][] rooms, int floor, int floors, int x, int z, 
 			int roomOffsetX, int roomOffsetZ, int baseY, 
 			Material matFloor, Material matWall, Material matCeiling, Material matRoof) {
 
@@ -719,7 +731,7 @@ public final class HouseFactory {
 		} 
 	}
 	
-	private final static Material pickWallMaterial(Random random) {
+	private Material pickWallMaterial(Random random) {
 		switch (random.nextInt(9)) {
 		case 1:
 			return Material.COBBLESTONE;
@@ -742,7 +754,7 @@ public final class HouseFactory {
 		}
 	}
 
-	private final static Material pickCeilingMaterial(Random random) {
+	private Material pickCeilingMaterial(Random random) {
 		switch (random.nextInt(5)) {
 		case 1:
 			return Material.COBBLESTONE;
@@ -757,7 +769,7 @@ public final class HouseFactory {
 		}
 	}
 
-	private final static Material pickFloorMaterial(Random random) {
+	private Material pickFloorMaterial(Random random) {
 		switch (random.nextInt(4)) {
 		case 1:
 			return Material.COBBLESTONE;
@@ -770,7 +782,7 @@ public final class HouseFactory {
 		}
 	}
 
-	private final static Material pickRoofMaterial(Random random) {
+	private Material pickRoofMaterial(Random random) {
 		switch (random.nextInt(6)) {
 		case 1:
 			return Material.COBBLESTONE;

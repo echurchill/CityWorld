@@ -297,6 +297,66 @@ public class RealChunk extends SupportChunk {
 		return blocky + height;
 	}
 	
+	private void drawCircleBlocks(int cx, int cz, int x, int z, int y, Material material, byte data) {
+		// Ref: Notes/BCircle.PDF
+		setBlock(cx + x, y, cz + z, material, data); // point in octant 1
+		setBlock(cx + z, y, cz + x, material, data); // point in octant 2
+		setBlock(cx - z - 1, y, cz + x, material, data); // point in octant 3
+		setBlock(cx - x - 1, y, cz + z, material, data); // point in octant 4
+		setBlock(cx - x - 1, y, cz - z - 1, material, data); // point in octant 5
+		setBlock(cx - z - 1, y, cz - x - 1, material, data); // point in octant 6
+		setBlock(cx + z, y, cz - x - 1, material, data); // point in octant 7
+		setBlock(cx + x, y, cz - z - 1, material, data); // point in octant 8
+	}
+	
+	private void drawCircleBlocks(int cx, int cz, int x, int z, int y1, int y2, Material material, byte data) {
+		for (int y = y1; y < y2; y++) {
+			drawCircleBlocks(cx, cz, x, z, y, material, data);
+		}
+	}
+	
+	private void fillCircleBlocks(int cx, int cz, int x, int z, int y, Material material, byte data) {
+		// Ref: Notes/BCircle.PDF
+		setBlocks(cx - x - 1, cx - x, y, cz - z - 1, cz + z + 1, material, data); // point in octant 5
+		setBlocks(cx - z - 1, cx - z, y, cz - x - 1, cz + x + 1, material, data); // point in octant 6
+		setBlocks(cx + z, cx + z + 1, y, cz - x - 1, cz + x + 1, material, data); // point in octant 7
+		setBlocks(cx + x, cx + x + 1, y, cz - z - 1, cz + z + 1, material, data); // point in octant 8
+	}
+	
+	private void fillCircleBlocks(int cx, int cz, int x, int z, int y1, int y2, Material material, byte data) {
+		for (int y = y1; y < y2; y++) {
+			fillCircleBlocks(cx, cz, x, z, y, material, data);
+		}
+	}
+	
+	public void setCircle(int cx, int cz, int r, int y, Material material, byte data, boolean fill) {
+		setCircle(cx, cz, r, y, y + 1, material, data, fill);
+	}
+	
+	public void setCircle(int cx, int cz, int r, int y1, int y2, Material material, byte data, boolean fill) {
+		// Ref: Notes/BCircle.PDF
+		int x = r;
+		int z = 0;
+		int xChange = 1 - 2 * r;
+		int zChange = 1;
+		int rError = 0;
+		
+		while (x >= z) {
+			if (fill)
+				fillCircleBlocks(cx, cz, x, z, y1, y2, material, data);
+			else
+				drawCircleBlocks(cx, cz, x, z, y1, y2, material, data);
+			z++;
+			rError += zChange;
+			zChange += 2;
+			if (2 * rError + xChange > 0) {
+				x--;
+				rError += xChange;
+				xChange += 2;
+			}
+		}
+	}
+	
 	public boolean isType(int x, int y, int z, int type) {
 		return chunk.getBlock(x, y, z).getTypeId() == type;
 	}

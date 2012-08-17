@@ -3,9 +3,7 @@ package me.daddychurchill.CityWorld.Plats;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
-import me.daddychurchill.CityWorld.Support.BalloonFactory;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
-import me.daddychurchill.CityWorld.Support.HouseFactory;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.Material;
@@ -45,7 +43,7 @@ public class FloatingShackLot extends ConstructLot {
 			int platZ) {
 
 		// now make a shack
-		int floors = HouseFactory.generateShack(chunk, context, chunkRandom, groundLevel + 1, 4);
+		int floors = generator.houseProvider.generateShack(chunk, context, chunkRandom, groundLevel + 1, 4);
 		
 		// not a happy place?
 		if (generator.settings.includeDecayedBuildings) {
@@ -68,7 +66,7 @@ public class FloatingShackLot extends ConstructLot {
 		// if the corner still exists
 		if (!chunk.isEmpty(x, groundLevel, z)) {
 			chunk.setBlock(x, groundLevel + 1, z, platformId);
-			BalloonFactory.generateBalloon(generator, chunk, context, x, groundLevel + 2, z, chunkRandom);
+			generator.balloonProvider.generateBalloon(generator, chunk, context, x, groundLevel + 2, z, chunkRandom);
 		}
 	}
 }

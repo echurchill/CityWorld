@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plats;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
-import me.daddychurchill.CityWorld.Support.BalloonFactory;
+import me.daddychurchill.CityWorld.Plugins.BalloonProvider;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -59,15 +59,16 @@ public class FloatingBlimpLot extends IsolatedLot {
 	protected void generateActualBlocks(WorldGenerator generator,
 			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
 			int platZ) {
+		BalloonProvider balloons = generator.balloonProvider;
 		
 		// what type of balloon?
 		if (manyBalloons) {
-			BalloonFactory.generateBalloon(generator, chunk, context, 7 + chunkRandom.nextInt(2), generator.streetLevel + 5, 4, chunkRandom);
-			BalloonFactory.generateBalloon(generator, chunk, context, 7 + chunkRandom.nextInt(2), generator.streetLevel + 5, 11, chunkRandom);
-			BalloonFactory.generateBalloon(generator, chunk, context, 4, generator.streetLevel + 5, 7 + chunkRandom.nextInt(2), chunkRandom);
-			BalloonFactory.generateBalloon(generator, chunk, context, 11, generator.streetLevel + 5, 7 + chunkRandom.nextInt(2), chunkRandom);
+			balloons.generateBalloon(generator, chunk, context, 7 + chunkRandom.nextInt(2), generator.streetLevel + 5, 4, chunkRandom);
+			balloons.generateBalloon(generator, chunk, context, 7 + chunkRandom.nextInt(2), generator.streetLevel + 5, 11, chunkRandom);
+			balloons.generateBalloon(generator, chunk, context, 4, generator.streetLevel + 5, 7 + chunkRandom.nextInt(2), chunkRandom);
+			balloons.generateBalloon(generator, chunk, context, 11, generator.streetLevel + 5, 7 + chunkRandom.nextInt(2), chunkRandom);
 		} else {
-			BalloonFactory.generateBlimp(generator, chunk, context, generator.streetLevel + 5, chunkRandom);
+			balloons.generateBlimp(generator, chunk, context, generator.streetLevel + 5, chunkRandom);
 		}
 	}
 

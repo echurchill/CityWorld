@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.Maps.PlatMap;
+import me.daddychurchill.CityWorld.Plugins.BalloonProvider;
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider;
+import me.daddychurchill.CityWorld.Plugins.HouseProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.OdonymProvider;
 import me.daddychurchill.CityWorld.Plugins.OreProvider;
@@ -37,6 +39,8 @@ public class WorldGenerator extends ChunkGenerator {
 	public OreProvider oreProvider;
 	public FoliageProvider foliageProvider;
 	public OdonymProvider odonymProvider;
+	public BalloonProvider balloonProvider;
+	public HouseProvider houseProvider;
 
 	public CityWorldSettings settings;
 
@@ -100,6 +104,8 @@ public class WorldGenerator extends ChunkGenerator {
 			oreProvider = OreProvider.loadProvider(this);
 			foliageProvider = FoliageProvider.loadProvider(this, new Random(worldSeed + 3));
 			odonymProvider = OdonymProvider.loadProvider(this, new Random(worldSeed + 4));
+			balloonProvider = BalloonProvider.loadProvider(this);
+			houseProvider = HouseProvider.loadProvider(this);
 			
 			// get ranges
 			height = shapeProvider.getWorldHeight();

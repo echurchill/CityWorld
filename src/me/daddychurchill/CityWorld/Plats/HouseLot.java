@@ -6,7 +6,6 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
-import me.daddychurchill.CityWorld.Support.HouseFactory;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class HouseLot extends IsolatedLot {
@@ -31,7 +30,7 @@ public class HouseLot extends IsolatedLot {
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 
 		// now make a house
-		int floors = HouseFactory.generateHouse(chunk, context, chunkRandom, generator.streetLevel + 1, 2);
+		int floors = generator.houseProvider.generateHouse(chunk, context, chunkRandom, generator.streetLevel + 1, 2);
 		
 		// not a happy place?
 		if (generator.settings.includeDecayedBuildings) {

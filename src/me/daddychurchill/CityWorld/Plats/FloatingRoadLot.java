@@ -5,7 +5,6 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
-import me.daddychurchill.CityWorld.Support.BalloonFactory;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingRoads;
@@ -167,7 +166,7 @@ public class FloatingRoadLot extends RoadLot {
 			RealChunk chunk, DataContext context, int sidewalkLevel, int x, int z) {
 		boolean result = super.generateLightPost(generator, chunk, context, sidewalkLevel, x, z);
 		if (result && chunkRandom.nextDouble() < balloonOdds)
-			BalloonFactory.generateBalloon(generator, chunk, context, x, sidewalkLevel + lightpostHeight + 1, z, chunkRandom);
+			generator.balloonProvider.generateBalloon(generator, chunk, context, x, sidewalkLevel + lightpostHeight + 3, z, chunkRandom);
 		return result;
 	}
 	
