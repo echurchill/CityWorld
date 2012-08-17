@@ -68,10 +68,10 @@ public class FloatingMap extends PlatMap {
 	}
 	
 	private boolean needBlimpLot(int x, int z) {
-//		if (isNaturalLot(x, z)) {
-//			return !isNaturalLot(x - 1, z) || !isNaturalLot(x + 1, z) ||
-//				   !isNaturalLot(x, z - 1) || !isNaturalLot(x, z + 1);
-//		} else
+		if (isNaturalLot(x, z)) {
+			return isStructureLot(x - 1, z) || isStructureLot(x + 1, z) ||
+				   isStructureLot(x, z - 1) || isStructureLot(x, z + 1);
+		} else
 			return false;
 	}
 

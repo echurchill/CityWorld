@@ -67,14 +67,6 @@ public abstract class SupportChunk {
 	
 	private void drawCircleBlocks(int cx, int cz, int x, int z, int y, byte materialId) {
 		// Ref: Notes/BCircle.PDF
-//		setBlock(cx + x, y, cz + z, coalId); // point in octant 1
-//		setBlock(cx + z, y, cz + x, ironId); // point in octant 2
-//		setBlock(cx - z - 1, y, cz + x, goldId); // point in octant 3
-//		setBlock(cx - x - 1, y, cz + z, lapisId); // point in octant 4
-//		setBlock(cx - x - 1, y, cz - z - 1, redstoneId); // point in octant 5
-//		setBlock(cx - z - 1, y, cz - x - 1, diamondId); // point in octant 6
-//		setBlock(cx + z, y, cz - x - 1, stoneId); // point in octant 7
-//		setBlock(cx + x, y, cz - z - 1, grassId); // point in octant 8
 		setBlock(cx + x, y, cz + z, materialId); // point in octant 1
 		setBlock(cx + z, y, cz + x, materialId); // point in octant 2
 		setBlock(cx - z - 1, y, cz + x, materialId); // point in octant 3
@@ -85,12 +77,24 @@ public abstract class SupportChunk {
 		setBlock(cx + x, y, cz - z - 1, materialId); // point in octant 8
 	}
 	
+	private void drawCircleBlocks(int cx, int cz, int x, int z, int y1, int y2, byte materialId) {
+		for (int y = y1; y < y2; y++) {
+			drawCircleBlocks(cx, cz, x, z, y, materialId);
+		}
+	}
+	
 	private void fillCircleBlocks(int cx, int cz, int x, int z, int y, byte materialId) {
 		// Ref: Notes/BCircle.PDF
 		setBlocks(cx - x - 1, cx - x, y, cz - z - 1, cz + z + 1, materialId); // point in octant 5
 		setBlocks(cx - z - 1, cx - z, y, cz - x - 1, cz + x + 1, materialId); // point in octant 6
 		setBlocks(cx + z, cx + z + 1, y, cz - x - 1, cz + x + 1, materialId); // point in octant 7
 		setBlocks(cx + x, cx + x + 1, y, cz - z - 1, cz + z + 1, materialId); // point in octant 8
+	}
+	
+	private void fillCircleBlocks(int cx, int cz, int x, int z, int y1, int y2, byte materialId) {
+		for (int y = y1; y < y2; y++) {
+			fillCircleBlocks(cx, cz, x, z, y, materialId);
+		}
 	}
 	
 	public void setCircle(int cx, int cz, int r, int y, byte materialId, boolean fill) {
@@ -106,6 +110,30 @@ public abstract class SupportChunk {
 				fillCircleBlocks(cx, cz, x, z, y, materialId);
 			else
 				drawCircleBlocks(cx, cz, x, z, y, materialId);
+			z++;
+			rError += zChange;
+			zChange += 2;
+			if (2 * rError + xChange > 0) {
+				x--;
+				rError += xChange;
+				xChange += 2;
+			}
+		}
+	}
+	
+	public void setCircle(int cx, int cz, int r, int y1, int y2, byte materialId, boolean fill) {
+		// Ref: Notes/BCircle.PDF
+		int x = r;
+		int z = 0;
+		int xChange = 1 - 2 * r;
+		int zChange = 1;
+		int rError = 0;
+		
+		while (x >= z) {
+			if (fill)
+				fillCircleBlocks(cx, cz, x, z, y1, y2, materialId);
+			else
+				drawCircleBlocks(cx, cz, x, z, y1, y2, materialId);
 			z++;
 			rError += zChange;
 			zChange += 2;

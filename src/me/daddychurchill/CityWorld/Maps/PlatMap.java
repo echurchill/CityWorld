@@ -115,6 +115,13 @@ public abstract class PlatMap {
 		if (x >= 0 && x < Width && z >= 0 && z < Width)
 			return platLots[x][z] == null || platLots[x][z].style == LotStyle.NATURE;
 		else
+			return true;
+	}
+	
+	public boolean isStructureLot(int x, int z) {
+		if (x >= 0 && x < Width && z >= 0 && z < Width)
+			return platLots[x][z] != null && platLots[x][z].style == LotStyle.STRUCTURE;
+		else
 			return false;
 	}
 	

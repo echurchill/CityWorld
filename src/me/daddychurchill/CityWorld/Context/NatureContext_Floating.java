@@ -15,7 +15,7 @@ public class NatureContext_Floating extends RuralContext {
 
 	public NatureContext_Floating(WorldGenerator generator, PlatMap platmap) {
 		super(generator, platmap);
-		// TODO Auto-generated constructor stub
+
 	}
 
 	@Override
