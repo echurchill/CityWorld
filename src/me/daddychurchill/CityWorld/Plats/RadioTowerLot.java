@@ -36,13 +36,18 @@ public class RadioTowerLot extends ConstructLot {
 	private final static Material capTinyMat = Material.STEP;
 	
 	@Override
+	public int getBottomY(WorldGenerator generator) {
+		return maxHeight + 2;
+	}
+	
+	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 		// compute offset to start of chunk
 		int platformOffset = platformWidth / 2;
 		int originX = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, maxHeightX));
 		int originZ = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, maxHeightZ));
-		int platformY = maxHeight + 2;
+		int platformY = getBottomY(generator);
 		
 		// base
 		for (int x = originX + 1; x < originX + platformWidth - 1; x++) {

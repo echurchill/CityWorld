@@ -1,5 +1,8 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import java.util.Random;
+
+import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import org.bukkit.util.noise.NoiseGenerator;
@@ -15,19 +18,24 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class ShapeProvider_Floating extends ShapeProvider_Normal {
 
-	public ShapeProvider_Floating(WorldGenerator generator) {
-		super(generator);
+	public ShapeProvider_Floating(WorldGenerator generator, Random random) {
+		super(generator, random);
 		long seed = generator.getWorldSeed();
 		
 		terrainShape = new SimplexNoiseGenerator(seed + 3);
 		noiseShape = new SimplexNoiseGenerator(seed + 4);
+		
+		//streetLevel = height / 8 * 3;
+		floatingMin = seaLevel + landRange + 32;
+		floatingRange = height - 32 - floatingMin; 
 	}
 
 	@Override
 	public PlatMap createPlatMap(WorldGenerator generator, SupportChunk cornerChunk, int platX, int platZ) {
 		return new FloatingMap(generator, cornerChunk, platX, platZ);
 	}
-
+	
+	//private int streetLevel;
 	private SimplexNoiseGenerator terrainShape;
 	private SimplexNoiseGenerator noiseShape;
 	
@@ -42,12 +50,17 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	public final static int midPoint = seaBed + midRange;
 	public final static int snowPoint = midPoint + midRange - 2;
 	
+	public static int floatingMin;
+	public static int floatingRange;
+	
 	private final static double terrainScale = 1.0 / 281.0;
 	private final static double noiseScale = 1.0 / 23.0;
 	
-	public final static int floatingMin = seaLevel + landRange + 32;
-	public final static int floatingRange = 256 - 32 - floatingMin; //TODO I really need to make this more dynamic
-	
+	@Override
+	public int getStreetLevel() {
+		return super.getStreetLevel();
+	}
+
 	@Override
 	public int findGroundY(WorldGenerator generator, int blockX, int blockZ) {
 		
@@ -89,7 +102,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 					chunk.setBlock(x, groundY - 1, z, ores.subsurfaceId);
 					chunk.setBlock(x, groundY, z, ores.surfaceId);
 				}
-
+				
 				// set biome for block
 				biomes.setBiome(x, z, resultBiome);
 			}
@@ -97,9 +110,25 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 		
 	}
 	
+	private final static byte stoneId = (byte) Material.STONE.getId();
+	
 	@Override
 	public void postGenerateChunk(WorldGenerator generator, PlatLot lot, ByteChunk chunk, CachedYs blockYs) {
-		
+		OreProvider ores = generator.oreProvider;
+		int lotBottomY = lot.getBottomY(generator);
+		if (lotBottomY != 0) {
+			
+			// shape the underworld
+			for (int x = 0; x < chunk.width; x++) {
+				for (int z = 0; z < chunk.width; z++) {
+					chunk.setBlocks(x, lotBottomY - random.nextInt(6), lotBottomY, z, ores.subsurfaceId);
+				}
+			}
+			
+			// cross beams
+			chunk.setBlocks(7, 9, lotBottomY - 2, lotBottomY, 0, 16, stoneId);
+			chunk.setBlocks(0, 16, lotBottomY - 2, lotBottomY, 7, 9, stoneId);
+		}
 	}
 
 	@Override

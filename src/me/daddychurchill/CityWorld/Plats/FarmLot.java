@@ -94,6 +94,11 @@ public class FarmLot extends ConnectedLot {
 	private final static Material cropNone = Material.DIRT;
 	
 	@Override
+	public int getBottomY(WorldGenerator generator) {
+		return generator.streetLevel;
+	}
+	
+	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		// look around
 		SurroundingFarms farms = new SurroundingFarms(platmap, platX, platZ);

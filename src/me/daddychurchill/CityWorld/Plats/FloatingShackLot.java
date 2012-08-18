@@ -26,6 +26,11 @@ public class FloatingShackLot extends ConstructLot {
 	private final static byte grassId = (byte) Material.GRASS.getId();
 
 	@Override
+	public int getBottomY(WorldGenerator generator) {
+		return groundLevel - 1;
+	}
+	
+	@Override
 	protected void generateActualChunk(WorldGenerator generator,
 			PlatMap platmap, ByteChunk chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {

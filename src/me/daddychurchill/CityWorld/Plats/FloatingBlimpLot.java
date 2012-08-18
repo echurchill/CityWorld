@@ -22,6 +22,11 @@ public class FloatingBlimpLot extends IsolatedLot {
 		
 		manyBalloons = chunkRandom.nextBoolean();
 	}
+	
+	@Override
+	public int getBottomY(WorldGenerator generator) {
+		return 0;
+	}
 
 	@Override
 	protected void generateActualChunk(WorldGenerator generator,
@@ -34,14 +39,22 @@ public class FloatingBlimpLot extends IsolatedLot {
 		boolean toEast = platmap.isStructureLot(platX + 1, platZ);
 		
 		chunk.setCircle(8, 8, 6, generator.streetLevel - 1, generator.streetLevel + 1, baseId, true);
-		if (toNorth)
+		if (toNorth) {
 			chunk.setBlocks(0, 16, generator.streetLevel - 1, generator.streetLevel + 1, 0, 7, baseId);
-		if (toSouth)
+			chunk.setBlocks(7, 9, generator.streetLevel - 3, generator.streetLevel - 1, 0, 13, stoneId);
+		}
+		if (toSouth) {
 			chunk.setBlocks(0, 16, generator.streetLevel - 1, generator.streetLevel + 1, 8, 16, baseId);
-		if (toWest)
+			chunk.setBlocks(7, 9, generator.streetLevel - 3, generator.streetLevel - 1, 3, 16, stoneId);
+		}
+		if (toWest) {
 			chunk.setBlocks(0, 7, generator.streetLevel - 1, generator.streetLevel + 1, 0, 16, baseId);
-		if (toEast)
+			chunk.setBlocks(0, 13, generator.streetLevel - 3, generator.streetLevel - 1, 7, 9, stoneId);
+		}
+		if (toEast) {
 			chunk.setBlocks(8, 16, generator.streetLevel - 1, generator.streetLevel + 1, 0, 16, baseId);
+			chunk.setBlocks(3, 16, generator.streetLevel - 3, generator.streetLevel - 1, 7, 9, stoneId);
+		}
 		
 		// what types of balloon?
 		if (manyBalloons) {

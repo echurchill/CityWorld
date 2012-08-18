@@ -25,6 +25,11 @@ public class MineEntranceLot extends ConstructLot {
 	private int surfaceY = 0;
 	
 	@Override
+	public int getBottomY(WorldGenerator generator) {
+		return 0;
+	}
+	
+	@Override
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 
 		// find the bottom of the world

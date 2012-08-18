@@ -44,6 +44,11 @@ public class UnfinishedBuildingLot extends BuildingLot {
 	}
 
 	@Override
+	public int getBottomY(WorldGenerator generator) {
+		return generator.streetLevel - FloorHeight * (depth - 1) - 3;
+	}
+	
+	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 
 		// check out the neighbors
@@ -51,7 +56,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);
 
 		// starting with the bottom
-		int lowestY = generator.streetLevel - FloorHeight * (depth - 1) - 3;
+		int lowestY = getBottomY(generator);
 		
 		// bottom most floor
 		drawCeilings(chunk, context, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);

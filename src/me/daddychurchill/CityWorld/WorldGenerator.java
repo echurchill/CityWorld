@@ -98,7 +98,7 @@ public class WorldGenerator extends ChunkGenerator {
 			settings = new CityWorldSettings(this);
 			worldSeed = world.getSeed();
 			connectionKeyGen = new Random(worldSeed + 1);
-			shapeProvider = ShapeProvider.loadProvider(this);
+			shapeProvider = ShapeProvider.loadProvider(this, new Random(worldSeed + 2));
 			lootProvider = LootProvider.loadProvider(this);
 			spawnProvider = SpawnProvider.loadProvider(this);
 			oreProvider = OreProvider.loadProvider(this);

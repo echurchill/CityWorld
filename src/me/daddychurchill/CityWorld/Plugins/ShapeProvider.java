@@ -37,8 +37,9 @@ public abstract class ShapeProvider {
 		return findBlockY(generator, blockX, blockZ);
 	}
 
-	public ShapeProvider(WorldGenerator generator) {
+	public ShapeProvider(WorldGenerator generator, Random random) {
 		super();
+		this.random = random;
 		long seed = generator.getWorldSeed();
 		
 		macroShape = new SimplexNoiseGenerator(seed + 2);
@@ -46,16 +47,16 @@ public abstract class ShapeProvider {
 	}
 
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
-	public static ShapeProvider loadProvider(WorldGenerator generator) {
+	public static ShapeProvider loadProvider(WorldGenerator generator, Random random) {
 
 		switch (generator.settings.mapStyle) {
 		case FLOATING:
-			return new ShapeProvider_Floating(generator);
+			return new ShapeProvider_Floating(generator, random);
 		//case UNDERGROUND
 		//case FLOODED:
 		//case LUNAR: // curved surface?
 		default: // NORMAL
-			return new ShapeProvider_Normal(generator);
+			return new ShapeProvider_Normal(generator, random);
 		}
 	}
 	
@@ -115,6 +116,7 @@ public abstract class ShapeProvider {
 	
 	private SimplexNoiseGenerator macroShape;
 	private SimplexNoiseGenerator microShape;
+	protected Random random;
 	
 	// macro slots
 	private final static int macroRandomGeneratorSlot = 0;

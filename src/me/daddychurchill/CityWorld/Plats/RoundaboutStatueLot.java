@@ -36,6 +36,11 @@ public class RoundaboutStatueLot extends IsolatedLot {
 	}
 	
 	@Override
+	public int getBottomY(WorldGenerator generator) {
+		return generator.streetLevel + 1;
+	}
+	
+	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 		// what is it build on?

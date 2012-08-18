@@ -35,6 +35,11 @@ public class OilPlatformLot extends ConstructLot {
 	private final static int aboveSea = 6;
 
 	@Override
+	public int getBottomY(WorldGenerator generator) {
+		return generator.seaLevel + aboveSea;
+	}
+	
+	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 //		CityWorld.log.info("Platform @ " + (chunk.chunkX * chunk.width) + ", " + (chunk.chunkZ * chunk.width));

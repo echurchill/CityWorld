@@ -20,6 +20,11 @@ public class MountainShackLot extends ConstructLot {
 	private final static byte retainingWallId = (byte) Material.SMOOTH_BRICK.getId();
 
 	@Override
+	public int getBottomY(WorldGenerator generator) {
+		return averageHeight + 1;
+	}
+	
+	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 		// flatten things out a bit

@@ -66,6 +66,11 @@ public class ParkLot extends ConnectedLot {
 		}
 		return result;
 	}
+	
+	@Override
+	public int getBottomY(WorldGenerator generator) {
+		return generator.streetLevel - cisternDepth + 1;
+	}
 
 	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
@@ -74,7 +79,7 @@ public class ParkLot extends ConnectedLot {
 		SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
 		
 		// starting with the bottom
-		int lowestY = generator.streetLevel - cisternDepth + 1;
+		int lowestY = getBottomY(generator);
 		int highestY = generator.streetLevel - groundDepth - 1;
 		
 		// cistern?

@@ -127,6 +127,8 @@ public abstract class PlatLot {
 		return blockYs == null ? 0 : blockYs.getPerciseY(x, z);
 	}
 	
+	public abstract int getBottomY(WorldGenerator generator);
+	
 	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		initializeDice(platmap, chunk.chunkX, chunk.chunkZ);
 		initializeContext(generator, chunk);

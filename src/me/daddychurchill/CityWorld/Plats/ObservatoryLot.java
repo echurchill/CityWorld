@@ -20,6 +20,11 @@ public class ObservatoryLot extends ConstructLot {
 	private final static byte supportId = (byte) Material.COBBLESTONE.getId();
 	
 	@Override
+	public int getBottomY(WorldGenerator generator) {
+		return maxHeight - 1;
+	}
+	
+	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 //		CityWorld.log.info("Observatory @ " + chunk.worldX + ", " + chunk.worldZ);

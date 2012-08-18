@@ -17,6 +17,11 @@ public class FloatingNothingLot extends IsolatedLot {
 	}
 
 	@Override
+	public int getBottomY(WorldGenerator generator) {
+		return 0;
+	}
+
+	@Override
 	protected void generateActualChunk(WorldGenerator generator,
 			PlatMap platmap, ByteChunk chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {

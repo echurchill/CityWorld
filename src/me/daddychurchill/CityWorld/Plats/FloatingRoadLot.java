@@ -17,6 +17,11 @@ public class FloatingRoadLot extends RoadLot {
 	}
 
 	@Override
+	public int getBottomY(WorldGenerator generator) {
+		return generator.streetLevel - 1;
+	}
+	
+	@Override
 	protected void generateActualChunk(WorldGenerator generator,
 			PlatMap platmap, ByteChunk chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
@@ -166,7 +171,7 @@ public class FloatingRoadLot extends RoadLot {
 			RealChunk chunk, DataContext context, int sidewalkLevel, int x, int z) {
 		boolean result = super.generateLightPost(generator, chunk, context, sidewalkLevel, x, z);
 		if (result && chunkRandom.nextDouble() < balloonOdds)
-			generator.balloonProvider.generateBalloon(generator, chunk, context, x, sidewalkLevel + lightpostHeight + 3, z, chunkRandom);
+			generator.balloonProvider.generateBalloon(generator, chunk, context, x, sidewalkLevel + lightpostHeight + 2, z, chunkRandom);
 		return result;
 	}
 	

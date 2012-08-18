@@ -93,6 +93,11 @@ public class BunkerLot extends ConstructLot {
 	private int buildingType;
 	
 	@Override
+	public int getBottomY(WorldGenerator generator) {
+		return bottomOfBunker;
+	}
+	
+	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 		// initial rolls
