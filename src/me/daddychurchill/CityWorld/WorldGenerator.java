@@ -14,6 +14,7 @@ import me.daddychurchill.CityWorld.Plugins.OdonymProvider;
 import me.daddychurchill.CityWorld.Plugins.OreProvider;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
+import me.daddychurchill.CityWorld.Plugins.SurfaceProvider;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
@@ -37,6 +38,7 @@ public class WorldGenerator extends ChunkGenerator {
 	public LootProvider lootProvider;
 	public SpawnProvider spawnProvider;
 	public OreProvider oreProvider;
+	public SurfaceProvider surfaceProvider;
 	public FoliageProvider foliageProvider;
 	public OdonymProvider odonymProvider;
 	public BalloonProvider balloonProvider;
@@ -44,9 +46,11 @@ public class WorldGenerator extends ChunkGenerator {
 
 	public CityWorldSettings settings;
 
+	public int streetLevel;
+	
 	public int deepseaLevel;
 	public int seaLevel;
-	public int streetLevel;
+	public int structureLevel;
 	public int treeLevel;
 	public int evergreenLevel;
 	public int deciduousRange;
@@ -104,6 +108,7 @@ public class WorldGenerator extends ChunkGenerator {
 			oreProvider = OreProvider.loadProvider(this);
 			foliageProvider = FoliageProvider.loadProvider(this, new Random(worldSeed + 3));
 			odonymProvider = OdonymProvider.loadProvider(this, new Random(worldSeed + 4));
+			surfaceProvider = SurfaceProvider.loadProvider(this, new Random(worldSeed + 5));
 			balloonProvider = BalloonProvider.loadProvider(this);
 			houseProvider = HouseProvider.loadProvider(this);
 			
@@ -112,6 +117,7 @@ public class WorldGenerator extends ChunkGenerator {
 			seaLevel = shapeProvider.getSeaLevel();
 			landRange = shapeProvider.getLandRange();
 			seaRange = shapeProvider.getSeaRange();
+			structureLevel = shapeProvider.getStructureLevel();
 			streetLevel = shapeProvider.getStreetLevel();
 
 			// now the other vertical points

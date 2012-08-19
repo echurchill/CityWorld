@@ -86,7 +86,7 @@ public class NatureContext_Normal extends RuralContext {
 							case MIDLAND: 
 								
 								// if not one of the innermost or the height isn't tall enough for bunkers
-								if (generator.settings.includeBuildings)
+								if (generator.settings.includeHouses)
 									if (!innermost || minHeight < BunkerLot.calcBunkerMinHeight(generator)) {
 										if (heights.isSortaFlat() && generator.shapeProvider.isIsolatedBuildingAt(originX + x, originZ + z))
 											current = new MountainShackLot(platmap, originX + x, originZ + z);

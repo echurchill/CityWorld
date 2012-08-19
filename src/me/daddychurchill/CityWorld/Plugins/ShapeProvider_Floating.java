@@ -11,6 +11,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Maps.FloatingMap;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -58,6 +59,11 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	
 	@Override
 	public int getStreetLevel() {
+		return super.getStreetLevel() / 2 * 3;
+	}
+
+	@Override
+	public int getStructureLevel() {
 		return super.getStreetLevel();
 	}
 
@@ -110,6 +116,8 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 		
 	}
 	
+	private final static double underworldOdds = 0.50;
+	private final static int underworldLength = 6;
 	private final static byte stoneId = (byte) Material.STONE.getId();
 	
 	@Override
@@ -119,9 +127,15 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 		if (lotBottomY != 0) {
 			
 			// shape the underworld
-			for (int x = 0; x < chunk.width; x++) {
-				for (int z = 0; z < chunk.width; z++) {
-					chunk.setBlocks(x, lotBottomY - random.nextInt(6), lotBottomY, z, ores.subsurfaceId);
+			if (lot.style == LotStyle.STRUCTURE) {
+				for (int x = 0; x < chunk.width; x++) {
+					for (int z = 0; z < chunk.width; z++) {
+						if (random.nextDouble() < underworldOdds) {
+							int y = lotBottomY - random.nextInt(underworldLength);
+							if (!chunk.isEmpty(x, lotBottomY, z))
+								chunk.setBlocks(x, y, lotBottomY, z, ores.subsurfaceId);
+						}
+					}
 				}
 			}
 			

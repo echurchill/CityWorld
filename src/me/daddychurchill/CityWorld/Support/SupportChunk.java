@@ -64,6 +64,17 @@ public abstract class SupportChunk {
 
 	public abstract void setBlock(int x, int y, int z, byte materialId);
 	public abstract void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId);
+	public abstract boolean isType(int x, int y, int z, int type);
+	public abstract boolean isEmpty(int x, int y, int z);
+	
+	public boolean isType(int x, int y, int z, Material material) {
+		return isType(x, y, z, material.getId());
+	}
+	
+	public boolean isSurroundedByEmpty(int x, int y, int z) {
+		return isEmpty(x - 1, y, z) && isEmpty(x + 1, y, z) &&
+			   isEmpty(x, y, z - 1) && isEmpty(x, y, z + 1);
+	}
 	
 	private void drawCircleBlocks(int cx, int cz, int x, int z, int y, byte materialId) {
 		// Ref: Notes/BCircle.PDF

@@ -38,7 +38,7 @@ public class HouseProvider {
 		return floors;
 	}
 	
-	public int generateHouse(RealChunk chunk, DataContext context, Random random, int baseY, int maxFloors) {
+	public int generateHouse(RealChunk chunk, DataContext context, Random random, int baseY, int maxFloors, int maxRoomWidth) {
 		
 		// what are we made of?
 		Material matWall = pickWallMaterial(random);
@@ -53,8 +53,12 @@ public class HouseProvider {
 		//TODO add split level house style
 		
 		// draw the house
-		generateColonial(chunk, context, random, baseY, matFloor, matWall, matCeiling, matRoof, floors, MinSize, MaxSize, true);
+		generateColonial(chunk, context, random, baseY, matFloor, matWall, matCeiling, matRoof, floors, MinSize, maxRoomWidth, true);
 		return floors;
+	}
+
+	public int generateHouse(RealChunk chunk, DataContext context, Random random, int baseY, int maxFloors) {
+		return generateHouse(chunk, context, random, baseY, maxFloors, MaxSize);
 	}
 
 	private final static Material materialAir = Material.AIR;

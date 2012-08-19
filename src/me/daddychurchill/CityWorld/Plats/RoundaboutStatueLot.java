@@ -5,11 +5,11 @@ import java.util.Random;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
-import me.daddychurchill.CityWorld.Plugins.FoliageProvider.FloraType;
+import me.daddychurchill.CityWorld.Plugins.FoliageProvider.HerbaceousType;
+import me.daddychurchill.CityWorld.Plugins.FoliageProvider.LigneousType;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import org.bukkit.Material;
-import org.bukkit.TreeType;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class RoundaboutStatueLot extends IsolatedLot {
@@ -139,14 +139,14 @@ public class RoundaboutStatueLot extends IsolatedLot {
 			for (int x = 4; x < 12; x++) {
 				for (int z = 4; z < 12; z++) {
 					if (chunkRandom.nextDouble() < 0.40) {
-						generator.foliageProvider.generateFlora(generator, chunk, x, y1, z, FloraType.GRASS);
+						generator.foliageProvider.generateFlora(generator, chunk, x, y1, z, HerbaceousType.GRASS);
 					}
 				}
 			}
 			
 			// tree can be art too, you know!
 			if (chunkRandom.nextInt(context.oddsOfNaturalArt) == 0) {
-				generator.foliageProvider.generateTree(generator, chunk, 7, y1, 7, TreeType.BIG_TREE);
+				generator.foliageProvider.generateTree(generator, chunk, 7, y1, 7, LigneousType.TALL_OAK);
 				somethingInTheCenter = false;
 			}
 			

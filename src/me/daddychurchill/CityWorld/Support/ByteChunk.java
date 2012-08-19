@@ -28,6 +28,16 @@ public class ByteChunk extends SupportChunk {
 		return blocks;
 	}
 	
+	@Override
+	public boolean isType(int x, int y, int z, int type) {
+		return getBlock(x, y, z) == type;
+	}
+	
+	@Override
+	public boolean isEmpty(int x, int y, int z) {
+		return getBlock(x, y, z) == airId;
+	}
+	
 	public int getBlockX(int x) {
 		return chunkX * width + x;
 	}

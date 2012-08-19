@@ -357,23 +357,14 @@ public class RealChunk extends SupportChunk {
 		}
 	}
 	
+	@Override
 	public boolean isType(int x, int y, int z, int type) {
 		return chunk.getBlock(x, y, z).getTypeId() == type;
 	}
 	
-	public boolean isType(int x, int y, int z, Material material) {
-		return chunk.getBlock(x, y, z).getTypeId() == material.getId();
-	}
-	
+	@Override
 	public boolean isEmpty(int x, int y, int z) {
 		return chunk.getBlock(x, y, z).isEmpty();
-	}
-	
-	public boolean isSurroundedByEmpty(int x, int y, int z) {
-		return chunk.getBlock(x - 1, y, z).isEmpty() &&
-			   chunk.getBlock(x + 1, y, z).isEmpty() &&
-			   chunk.getBlock(x, y, z - 1).isEmpty() &&
-			   chunk.getBlock(x, y, z + 1).isEmpty();
 	}
 	
 	public boolean isPlantable(int x, int y, int z) {

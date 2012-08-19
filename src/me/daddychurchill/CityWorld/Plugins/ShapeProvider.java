@@ -29,6 +29,10 @@ public abstract class ShapeProvider {
 	public abstract void preGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs);
 	public abstract void postGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs);
 	
+	public int getStructureLevel() {
+		return getStreetLevel();
+	}
+	
 	public int findBlockY(WorldGenerator generator, int blockX, int blockZ) {
 		return NoiseGenerator.floor(findPerciseY(generator, blockX, blockZ));
 	}

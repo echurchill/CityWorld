@@ -6,7 +6,6 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.Material;
-import org.bukkit.TreeType;
 
 public class FoliageProvider_TheEnd extends FoliageProvider_Normal {
 
@@ -14,16 +13,17 @@ public class FoliageProvider_TheEnd extends FoliageProvider_Normal {
 		super(random);
 	}
 	
-	private final static int glassId = Material.GLASS.getId();
-	private final static int paneId = Material.THIN_GLASS.getId();
-	
 	@Override
-	public boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, TreeType treeType) {
+	public boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, LigneousType ligneousType) {
 		if (likelyFlora(generator, random)) {
-			if (treeType == TreeType.BIG_TREE)
-				return generateTree(chunk, random, x, y, z, treeType, logId, paneId, glassId);
-			else
-				return generateTree(chunk, random, x, y, z, treeType, logId, leavesId, leavesId);
+			switch (ligneousType) {
+			case TALL_BIRCH:
+			case TALL_OAK:
+			case TALL_PINE:
+				return generateTree(chunk, random, x, y, z, ligneousType, log, Material.THIN_GLASS, Material.GLASS);
+			default:
+				return generateTree(chunk, random, x, y, z, ligneousType, log, leaves, leaves);
+			}
 		} else
 			return false;
 	}

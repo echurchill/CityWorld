@@ -28,7 +28,17 @@ public class WorldBlocks extends SupportChunk {
 	public Block getActualBlock(int x, int y, int z) {
 		return world.getBlockAt(x, y, z);
 	}
+	
+	@Override
+	public boolean isType(int x, int y, int z, int type) {
+		return world.getBlockAt(x, y, z).getTypeId() == type;
+	}
 
+	@Override
+	public boolean isEmpty(int x, int y, int z) {
+		return world.getBlockAt(x, y, z).isEmpty();
+	}
+	
 	@Override
 	public void setBlock(int x, int y, int z, byte materialId) {
 		world.getBlockAt(x, y, z).setTypeId(materialId);
@@ -249,10 +259,6 @@ public class WorldBlocks extends SupportChunk {
 	public int setLayer(int blocky, int height, int inset, Material material) {
 		setBlocks(inset, width - inset, blocky, blocky + height, inset, width - inset, material);
 		return blocky + height;
-	}
-	
-	public boolean isEmpty(int x, int y, int z) {
-		return world.getBlockAt(x, y, z).isEmpty();
 	}
 	
 	public boolean isPlantable(int x, int y, int z) {

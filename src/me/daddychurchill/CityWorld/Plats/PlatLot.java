@@ -504,7 +504,7 @@ public abstract class PlatLot {
 	public void generateSurface(WorldGenerator generator, RealChunk chunk, boolean includeTrees) {
 		
 		// plant grass or snow
-		generator.foliageProvider.generateSurface(generator, this, chunk, blockYs, includeTrees);
+		generator.surfaceProvider.generateSurface(generator, this, chunk, blockYs, includeTrees);
 	}
 	
 	protected void destroyBuilding(WorldGenerator generator, RealChunk chunk, int y, int floors) {

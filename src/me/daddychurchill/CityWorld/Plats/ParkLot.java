@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Plats;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
+import me.daddychurchill.CityWorld.Plugins.FoliageProvider.LigneousType;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Ladder;
 import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
@@ -11,7 +12,6 @@ import me.daddychurchill.CityWorld.Support.SurroundingParks;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.Material;
-import org.bukkit.TreeType;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class ParkLot extends ConnectedLot {
@@ -224,15 +224,15 @@ public class ParkLot extends ConnectedLot {
 		
 		// sprinkle some trees
 		if (circleSidewalk) {
-			generator.foliageProvider.generateTree(generator, chunk, 7, surfaceY, 7, TreeType.BIG_TREE);
+			generator.foliageProvider.generateTree(generator, chunk, 7, surfaceY, 7, LigneousType.TALL_OAK);
 		
 		// four smaller trees
 		} else {
-			TreeType tree = chunkRandom.nextBoolean() ? TreeType.BIRCH : TreeType.TREE;
-			generator.foliageProvider.generateTree(generator, chunk, 3, surfaceY, 3, tree);
-			generator.foliageProvider.generateTree(generator, chunk, 12, surfaceY, 3, tree);
-			generator.foliageProvider.generateTree(generator, chunk, 3, surfaceY, 12, tree);
-			generator.foliageProvider.generateTree(generator, chunk, 12, surfaceY, 12, tree);
+			LigneousType ligneousType = chunkRandom.nextBoolean() ? LigneousType.BIRCH : LigneousType.OAK;
+			generator.foliageProvider.generateTree(generator, chunk, 3, surfaceY, 3, ligneousType);
+			generator.foliageProvider.generateTree(generator, chunk, 12, surfaceY, 3, ligneousType);
+			generator.foliageProvider.generateTree(generator, chunk, 3, surfaceY, 12, ligneousType);
+			generator.foliageProvider.generateTree(generator, chunk, 12, surfaceY, 12, ligneousType);
 		}
 	}
 }

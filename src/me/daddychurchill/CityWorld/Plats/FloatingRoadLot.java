@@ -18,7 +18,7 @@ public class FloatingRoadLot extends RoadLot {
 
 	@Override
 	public int getBottomY(WorldGenerator generator) {
-		return generator.streetLevel - 1;
+		return generator.streetLevel;
 	}
 	
 	@Override

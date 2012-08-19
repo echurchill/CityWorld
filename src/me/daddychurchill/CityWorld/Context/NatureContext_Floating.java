@@ -4,7 +4,7 @@ import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
-import me.daddychurchill.CityWorld.Plats.FloatingShackLot;
+import me.daddychurchill.CityWorld.Plats.FloatingHouseLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider_Floating;
@@ -46,11 +46,9 @@ public class NatureContext_Floating extends RuralContext {
 						if (x > 0 && x < PlatMap.Width - 1 && z > 0 && z < PlatMap.Width - 1) {
 							
 							// floating building?
-							if (generator.settings.includeBuildings) {
-								
-								// only test every other chunk
+							if (generator.settings.includeHouses) {
 								if (shapeProvider.isIsolatedBuildingAt(originX + x, originZ + z))
-									current = new FloatingShackLot(platmap, originX + x, originZ + z, 
+									current = new FloatingHouseLot(platmap, originX + x, originZ + z, 
 											random.nextInt(ShapeProvider_Floating.floatingRange) + ShapeProvider_Floating.floatingMin);
 							}
 						}

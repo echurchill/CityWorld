@@ -75,7 +75,7 @@ public final class HeightInfo {
 			state = HeightState.DEEPSEA;
 		else if (maxHeight <= generator.seaLevel)
 			state = HeightState.SEA;
-		else if (maxHeight == generator.streetLevel && minHeight == generator.streetLevel)
+		else if (maxHeight == generator.structureLevel && minHeight == generator.structureLevel)
 			state = HeightState.BUILDING;
 		else {
 			if (averageHeight <= generator.treeLevel)

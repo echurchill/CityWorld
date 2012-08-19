@@ -3,8 +3,6 @@ package me.daddychurchill.CityWorld.Plugins;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.BlockChangeDelegate;
@@ -15,30 +13,20 @@ import org.bukkit.block.Block;
 
 public abstract class FoliageProvider {
 	
-//	public enum LigneousType {SHRUB, SMALL_TREE, TREE};
-//	public enum HerbaceousType {FLOWER_RED, FLOWER_YELLOW, GRASS, FERN};
-	public enum FloraType {FLOWER_RED, FLOWER_YELLOW, GRASS, FERN, CACTUS};
+    public enum LigneousType {SHORT_OAK, SHORT_PINE, SHORT_BIRCH, OAK, PINE, BIRCH, TALL_OAK, TALL_PINE, TALL_BIRCH};
+	public enum HerbaceousType {FLOWER_RED, FLOWER_YELLOW, GRASS, FERN, CACTUS, COVER};
 	
 	protected final static double oddsOfDarkFlora = 0.50;
 	protected final static double treeOdds = 0.90;
 	protected final static double foliageOdds = 0.40;
 	
-	public abstract void generateSurfacePoint(WorldGenerator generator, PlatLot lot, RealChunk chunk, int x, double perciseY, int z, boolean includeTrees);
-	public abstract boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, TreeType treeType);
-	public abstract boolean generateFlora(WorldGenerator generator, RealChunk chunk, int x, int y, int z, FloraType floraType);
+	public abstract boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, LigneousType treeType);
+	public abstract boolean generateFlora(WorldGenerator generator, RealChunk chunk, int x, int y, int z, HerbaceousType herbaceousType);
 	
 	protected Random random;
 	
 	public FoliageProvider(Random random) {
 		this.random = random;
-	}
-	
-	public void generateSurface(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs, boolean includeTrees) {
-		for (int x = 0; x < chunk.width; x++) {
-			for (int z = 0; z < chunk.width; z++) {
-				generateSurfacePoint(generator, lot, chunk, x, blockYs.getPerciseY(x, z), z, includeTrees);
-			}
-		}
 	}
 	
 	protected boolean likelyFlora(WorldGenerator generator, Random random) {
@@ -54,37 +42,20 @@ public abstract class FoliageProvider {
 //		provider = FoliageProvider_PhatFoliage.loadPhatFoliage();
 		if (provider == null) {
 			
-			switch (generator.settings.mapStyle) {
-			case FLOATING:
-				switch (generator.settings.environmentStyle) {
-//				case NETHER:
-//					provider = new FoliageProvider_FloatingNether(random, );
-//					break;
-				default:
-//					if (generator.settings.includeDecayedNature)
-//						provider = new FoliageProvider_FloatingDecayed(random);
-//					else
-						provider = new FoliageProvider_Floating(random);
-//					break;
-				}
+			switch (generator.settings.environmentStyle) {
+			case NETHER:
+				provider = new FoliageProvider_Nether(random);
+				break;
+			case THE_END:
+				provider = new FoliageProvider_TheEnd(random);
 				break;
 			default:
-				switch (generator.settings.environmentStyle) {
-				case NETHER:
-					provider = new FoliageProvider_Nether(random);
-					break;
-				case THE_END:
-					provider = new FoliageProvider_TheEnd(random);
-					break;
-				default:
-					if (generator.settings.includeDecayedNature)
-						provider = new FoliageProvider_Decayed(random);
-					else if (generator.settings.includeTekkitMaterials)
-						provider = new FoliageProvider_Tekkit(random);
-					else
-						provider = new FoliageProvider_Normal(random);
-					break;
-				}
+				if (generator.settings.includeDecayedNature)
+					provider = new FoliageProvider_Decayed(random);
+				else if (generator.settings.includeTekkitMaterials)
+					provider = new FoliageProvider_Tekkit(random);
+				else
+					provider = new FoliageProvider_Normal(random);
 				break;
 			}
 		}
@@ -107,9 +78,69 @@ public abstract class FoliageProvider {
 	
 	private int maxTries = 3;
 
-	protected boolean generateTree(RealChunk chunk, Random random, int x, int y, int z, TreeType treeType, int trunkId, int leavesId1, int leavesId2) {
+	protected boolean generateTree(RealChunk chunk, Random random, int x, int y, int z, LigneousType type, Material trunk, Material leaves1, Material leaves2) {
+		switch (type) {
+		case BIRCH:
+			return generateNormalTree(chunk, random, x, y, z, TreeType.BIRCH, trunk, leaves1, leaves2);
+		case PINE:
+			return generateNormalTree(chunk, random, x, y, z, TreeType.REDWOOD, trunk, leaves1, leaves2);
+		case OAK:
+			return generateNormalTree(chunk, random, x, y, z, TreeType.TREE, trunk, leaves1, leaves2);
+		case SHORT_BIRCH:
+			return generateSmallTree(chunk, random, x, y, z, TreeType.BIRCH, trunk, leaves1);
+		case SHORT_PINE:
+			return generateSmallTree(chunk, random, x, y, z, TreeType.REDWOOD, trunk, leaves1);
+		case SHORT_OAK:
+			return generateSmallTree(chunk, random, x, y, z, TreeType.TREE, trunk, leaves1);
+		case TALL_BIRCH:
+		case TALL_OAK:
+			return generateNormalTree(chunk, random, x, y, z, TreeType.BIG_TREE, trunk, leaves1, leaves2);
+		case TALL_PINE:
+			return generateNormalTree(chunk, random, x, y, z, TreeType.TALL_REDWOOD, trunk, leaves1, leaves2);
+		default:
+			return false;
+		}
+	}
+	
+	protected boolean generateSmallTree(RealChunk chunk, Random random, int x, int y, int z, 
+			TreeType treeType, Material trunk, Material leaves) {
+		int treeHeight;
+		byte treeData;
+		switch (treeType) {
+		case BIRCH:
+			treeHeight = 3;
+			treeData = 2;
+			break;
+		case REDWOOD:
+			treeHeight = 4;
+			treeData = 1;
+			break;
+		case TALL_REDWOOD:
+			treeHeight = 5;
+			treeData = 1;
+			break;
+		case BIG_TREE:
+		default:
+			treeHeight = 2;
+			treeData = 0;
+			break;
+		}
+
+		int trunkHeight = treeHeight - 1;
+		chunk.setBlocks(x, y, y + treeHeight, z, trunk, treeData);
+		chunk.setBlock(x - 1, y + trunkHeight, z, leaves, treeData);
+		chunk.setBlock(x + 1, y + trunkHeight, z, leaves, treeData);
+		chunk.setBlock(x, y + trunkHeight, z - 1, leaves, treeData);
+		chunk.setBlock(x, y + trunkHeight, z + 1, leaves, treeData);
+		chunk.setBlock(x, y + treeHeight, z, leaves, treeData);
+		
+		return true;
+	}
+	
+	protected boolean generateNormalTree(RealChunk chunk, Random random, int x, int y, int z, 
+			TreeType treeType, Material trunk, Material leaves1, Material leaves2) {
 		boolean result = false;
-		boolean customTree = trunkId != logId || leavesId1 != leavesId || leavesId2 != leavesId;
+		boolean customTree = trunk != log || leaves1 != leaves || leaves2 != leaves;
 		
 		// where do we start?
 		int bottomY = y;
@@ -127,9 +158,11 @@ public abstract class FoliageProvider {
 				
 				// did we make a tree?
 				if (customTree)
-					result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, new TreeCustomDelegate(chunk, random, trunkId, leavesId1, leavesId2));
+					result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, 
+							new TreeCustomDelegate(chunk, random, trunk.getId(), leaves.getId(), leaves.getId()));
 				else
-					result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, new TreeVanillaDelegate(chunk));
+					result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, 
+							new TreeVanillaDelegate(chunk));
 				
 				// did it finally work?
 				if (result) {
@@ -161,8 +194,10 @@ public abstract class FoliageProvider {
 		return result;
 	}
 	
-	protected final static int logId = Material.LOG.getId();
-	protected final static int leavesId = Material.LEAVES.getId();
+	protected final static Material log = Material.LOG;
+	protected final static int logId = log.getId();
+	protected final static Material leaves = Material.LEAVES;
+	protected final static int leavesId = leaves.getId();
 	
 	private class TreeVanillaDelegate implements BlockChangeDelegate {
 		protected World world;

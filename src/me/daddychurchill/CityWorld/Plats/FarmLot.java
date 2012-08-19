@@ -108,7 +108,7 @@ public class FarmLot extends ConnectedLot {
 		byte groundId = generator.oreProvider.subsurfaceId;
 		if (cropType == cropSugarCane || cropType == cropCactus)
 			groundId = sandId;
-		chunk.setLayer(generator.streetLevel, groundId);
+		chunk.setLayer(generator.streetLevel - 1, 2, groundId);
 		
 		// in-between bits bits
 		byte dividerId = isolationNormalId;

@@ -9,16 +9,15 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-public class FloatingShackLot extends ConstructLot {
+public class FloatingHouseLot extends ConstructLot {
 
 	private int groundLevel;
 	
-	public FloatingShackLot(PlatMap platmap, int chunkX, int chunkZ, int floatingAt) {
+	public FloatingHouseLot(PlatMap platmap, int chunkX, int chunkZ, int floatingAt) {
 		super(platmap, chunkX, chunkZ);
 		
 		style = LotStyle.NATURE;
 		groundLevel = floatingAt;
-		//CityWorld.log.info("FloatingShackAt = " + floatingAt);
 	}
 
 	private final static byte platformId = (byte) Material.SMOOTH_BRICK.getId();
@@ -40,6 +39,12 @@ public class FloatingShackLot extends ConstructLot {
 		chunk.setWalls(0, 16, groundLevel - 1, groundLevel + 1, 0, 16, platformId);
 		chunk.setBlocks(1, 15, groundLevel - 1, groundLevel, 1, 15, dirtId);
 		chunk.setBlocks(1, 15, groundLevel, groundLevel + 1, 1, 15, grassId);
+		
+		// supports for the balloons
+		chunk.setBlock(2, groundLevel + 1, 2, platformId);
+		chunk.setBlock(2, groundLevel + 1, 13, platformId);
+		chunk.setBlock(13, groundLevel + 1, 2, platformId);
+		chunk.setBlock(13, groundLevel + 1, 13, platformId);
 	}
 
 	@Override
@@ -47,31 +52,21 @@ public class FloatingShackLot extends ConstructLot {
 			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
 			int platZ) {
 
-		// now make a shack
-		int floors = generator.houseProvider.generateShack(chunk, context, chunkRandom, groundLevel + 1, 4);
+		// now make a house
+		int floors = generator.houseProvider.generateHouse(chunk, context, chunkRandom, groundLevel + 1, 1, 4);
 		
 		// not a happy place?
-		if (generator.settings.includeDecayedBuildings) {
+		if (generator.settings.includeDecayedBuildings)
 			destroyBuilding(generator, chunk, groundLevel + 1, floors);
-		}
 
 		// add balloons on the corners
-		attachBalloon(generator, chunk, context, 2, 2);
-		attachBalloon(generator, chunk, context, 2, 13);
-		attachBalloon(generator, chunk, context, 13, 2);
-		attachBalloon(generator, chunk, context, 13, 13);
+		generator.balloonProvider.generateBalloon(generator, chunk, context, 2, groundLevel + 2, 2, chunkRandom);
+		generator.balloonProvider.generateBalloon(generator, chunk, context, 2, groundLevel + 2, 13, chunkRandom);
+		generator.balloonProvider.generateBalloon(generator, chunk, context, 13, groundLevel + 2, 2, chunkRandom);
+		generator.balloonProvider.generateBalloon(generator, chunk, context, 13, groundLevel + 2, 13, chunkRandom);
 		
 		// add to the surface
 		generateSurface(generator, chunk, true);
 		
-	}
-	
-	private void attachBalloon(WorldGenerator generator, RealChunk chunk, DataContext context, int x, int z) {
-		
-		// if the corner still exists
-		if (!chunk.isEmpty(x, groundLevel, z)) {
-			chunk.setBlock(x, groundLevel + 1, z, platformId);
-			generator.balloonProvider.generateBalloon(generator, chunk, context, x, groundLevel + 2, z, chunkRandom);
-		}
 	}
 }
