@@ -42,7 +42,7 @@ public abstract class FoliageProvider {
 //		provider = FoliageProvider_PhatFoliage.loadPhatFoliage();
 		if (provider == null) {
 			
-			switch (generator.settings.environmentStyle) {
+			switch (generator.worldEnvironment) {
 			case NETHER:
 				provider = new FoliageProvider_Nether(random);
 				break;
@@ -159,7 +159,7 @@ public abstract class FoliageProvider {
 				// did we make a tree?
 				if (customTree)
 					result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, 
-							new TreeCustomDelegate(chunk, random, trunk.getId(), leaves.getId(), leaves.getId()));
+							new TreeCustomDelegate(chunk, random, trunk.getId(), leaves1.getId(), leaves2.getId()));
 				else
 					result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, 
 							new TreeVanillaDelegate(chunk));

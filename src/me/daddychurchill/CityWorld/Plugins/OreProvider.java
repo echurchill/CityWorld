@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Plugins;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
@@ -68,10 +69,10 @@ public abstract class OreProvider {
 	
 	public enum OreLocation {CRUST};
 	
-	public abstract void sprinkleOres(WorldGenerator generator, RealChunk chunk, CachedYs blockYs, Random random, OreLocation location);
+	public abstract void sprinkleOres(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs, Random random, OreLocation location);
 
-	protected void sprinkleOre(WorldGenerator generator, RealChunk chunk, CachedYs blockYs, Random random,
-			int typeId, int maxY, int minY, int iterations, int amount, boolean mirror, boolean physics, boolean liquid) {
+	protected void sprinkleOre(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs,
+			Random random, int typeId, int maxY, int minY, int iterations, int amount, boolean mirror, boolean physics, boolean liquid) {
 		
 		// do we do this one?
 		if ((liquid && generator.settings.includeUndergroundFluids) ||
@@ -84,21 +85,22 @@ public abstract class OreProvider {
 				int y = random.nextInt(range) + minY;
 				int z = random.nextInt(16);
 				if (y < blockYs.getBlockY(x, z))
-					growVein(generator, chunk, blockYs, random, x, y, z, amount, typeId, physics);
+					growVein(generator, lot, chunk, blockYs, random, x, y, z, amount, typeId, physics);
 				if (mirror) {
 					y = (generator.seaLevel + generator.landRange) - minY - random.nextInt(range);
 					if (y < blockYs.getBlockY(x, z))
-						growVein(generator, chunk, blockYs, random, x, y, z, amount, typeId, physics);
+						growVein(generator, lot, chunk, blockYs, random, x, y, z, amount, typeId, physics);
 				}
 			}
 		}
 	}
 	
-	private void growVein(WorldGenerator generator, RealChunk chunk, CachedYs blockYs, Random random, 
-			int originX, int originY, int originZ, int amountToDo, int typeId, boolean physics) {
+	private void growVein(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs, 
+			Random random, int originX, int originY, int originZ, int amountToDo, int typeId, boolean physics) {
 		int trysLeft = amountToDo * 2;
 		int oresDone = 0;
-		if (blockYs.getBlockY(originX, originZ) > originY + amountToDo / 4) {
+		if (lot.isValidStrataY(generator, originX, originY, originZ) && 
+			blockYs.getBlockY(originX, originZ) > originY + amountToDo / 4) {
 			while (oresDone < amountToDo && trysLeft > 0) {
 				
 				// shimmy
@@ -155,7 +157,7 @@ public abstract class OreProvider {
 		
 		// default to stock OreProvider
 		if (provider == null) {
-			switch (generator.settings.environmentStyle) {
+			switch (generator.worldEnvironment) {
 			case NETHER:
 				provider = new OreProvider_Nether(generator);
 				break;

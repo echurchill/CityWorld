@@ -45,7 +45,7 @@ public abstract class SurfaceProvider {
 //		provider = FoliageProvider_PhatFoliage.loadPhatFoliage();
 		if (provider == null) {
 			
-			switch (generator.settings.mapStyle) {
+			switch (generator.worldStyle) {
 			case FLOATING:
 				provider = new SurfaceProvider_Floating(random);
 				break;

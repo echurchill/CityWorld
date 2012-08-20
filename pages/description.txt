@@ -5,46 +5,26 @@ The great outdoors is all good and fine but sometimes you just want to go to tow
 
 ----
 
-===== //Version 1.10// ===== 
+===== //Version 1.20// ===== 
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, if the above version isn't available check back in an hour or so...)//,,
 
-,,//(...or possibly look here: http://dev.bukkit.org/server-mods/cityworld/files/20-v1-10/
+,,//(...or possibly look here: http://dev.bukkit.org/server-mods/cityworld/files/21-v1-20/
 )//,,
 
 {{http://dev.bukkit.org/media/images/42/720/2012-07-04_11.31.52.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
-v1.10 (and others fixes since v1.04)
-* Refactored tons of code to simplify options combinations and get things ready for End generation
-* Painting crosswalks on roads even if wool isn't being used
-* Made wool roads something you have opt into
-* Fixed a bunch of bugs associated with farms related to nether and decayed nature
-* Made the nether more nether like... including FIRE!
-* Decayed nature now doesn't mean Nether, which makes Normal worlds much more normal
-* Fixed an issue with 2 story houses where the attic stairs would lead to a block
-* Fixed a decayedNature vs. Normal world issue
-* Made the decayed signs a bit less decayed
-* Fixed a farming issue, the drought is over
-* Fixed a sewer generation issue, it is amazing what an extra "!" will do
-* Fixed a bunker generation issue
-
-v1.04
-* Added World generated as [[http://dev.bukkit.org/media/images/43/501/2012-07-22_22.37.39.jpg|Nether]] automagically makes everything destroyed
-* Still working on TheEnd based worlds... it will be cool trust me :-)
-* Added decayed options for buildings, roads and nature
-* Fixed the crosswalks so they appear when they should
-* Fixed the disappearing radio town shacks (still happens but rarer)
-* Added streetnames... no it isn't customizable right now but might be soon
-* Fixed the tree distribution, more randomness and trees
-* Added city and road radius for folks who want a single city surrounded by nature
-* Made the stairs in the mineshafts a little less rickety looking
-* Added alcoves to the mineshafts to make the spawners and chests less obvious
-* Removed the silverfish from the sewers and mineshafts... yike!, that was a bad idea!
-* Oops, sometimes the vertical mineshafts go down beyond the bedrock... double yike!, that was even a worse idea!
-* Fixed a buggaboo that made the bunkers plots clear out too much rock and not generate caves correctly
-* Incorporated support for Tekkit material types base on initial work by gunre/adept
-* If options are used, I put in some sanity checks to make sure all the plots are actually filled with something
+v1.20
+* Initial pass of 1.3.* happiness
+* Added concept of MapStyle, this only allows for NORMAL and FLOATING worlds right now
+* Replaced RoadRange and CityRange with RoadChunkRadius and CityChunkRadius to make things more understandable
+* Added CenterPointOfChunkRadius to allow for more flexibility 
+* Added ConstructChunkRadius to allow for isolated constructs, like oil platforms and mountain shacks, to be outside of road radius
+* Reduced the likelihood of rubber saplings in Tekkit worlds
+* Reworked the CityWorld command permissions to separate permissions for traveling to CityWorld vs. creating a CityWorld
+* Worked around a strange Chest/Sign casting issue to rarely happens but when it does is bad
+* More refactoring
 
 ...for more version info see [[http://dev.bukkit.org/server-mods/cityworld/pages/version-history/|History...]]
 

@@ -82,9 +82,9 @@ public class RoadLot extends ConnectedLot {
 	protected void initializeContext(WorldGenerator generator, SupportChunk chunk) {
 		super.initializeContext(generator, chunk);
 		
-		bottomOfRoad = generator.streetLevel;
-		if (generator.settings.includeSewers && cityRoad)
-			bottomOfRoad -= DataContext.FloorHeight * 2 + 1;
+		bottomOfRoad = generator.streetLevel - 1;
+//		if (generator.settings.includeSewers && cityRoad)
+//			bottomOfRoad -= DataContext.FloorHeight * 2 + 1;
 		topOfRoad = generator.streetLevel + 1;
 		if (maxHeight > topOfRoad + tunnelHeight)
 			topOfRoad += tunnelHeight;
@@ -102,7 +102,7 @@ public class RoadLot extends ConnectedLot {
 
 	@Override
 	protected boolean isShaftableLevel(WorldGenerator generator, int y) {
-		return (y < bottomOfRoad - 16 || y > topOfRoad + 16 ) && super.isShaftableLevel(generator, y);
+		return (y < bottomOfRoad - 32 || y > topOfRoad + 16 ) && super.isShaftableLevel(generator, y);
 	}
 	
 	private boolean sewerCenterBit;

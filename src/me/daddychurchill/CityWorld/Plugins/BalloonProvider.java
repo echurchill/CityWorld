@@ -121,7 +121,7 @@ public class BalloonProvider {
 	}
 	
 	private byte getPrimaryColor(WorldGenerator generator, Random random) {
-		if (generator.settings.environmentStyle == Environment.NETHER)
+		if (generator.worldEnvironment == Environment.NETHER)
 			return getSecondaryColor(generator, random);
 		else
 			return (byte) random.nextInt(7);

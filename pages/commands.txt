@@ -1,5 +1,5 @@
 To perform a command just type the letter **"T"** and enter the following...
-* ##/CityWorld [Leave]##
+* ##/CityWorld [Leave] [Normal | Nether | The_End] [Floating]##
 If you leave out the ##Leave## you will be transported to CityWorld. Adding the ##Leave## will transport you to Minecraft/Bukkit's default world.
 
 * ##/CityChunk [Regen] [Clean] [ChunkRadius]##
@@ -9,4 +9,5 @@ If you leave out the ##Leave## you will be transported to CityWorld. Adding the 
 
 You can disable the commands via permissions, both default to OP (so make yourself an Op to maximize the fun)
 * cityworld.command
+* cityworld.create
 * citychunk.command

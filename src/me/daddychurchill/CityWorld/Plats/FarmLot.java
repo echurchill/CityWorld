@@ -34,7 +34,7 @@ public class FarmLot extends ConnectedLot {
 		directionNorthSouth = chunkRandom.nextBoolean();
 		
 		// crop type please
-		if (platmap.generator.settings.environmentStyle == Environment.NETHER)
+		if (platmap.generator.worldEnvironment == Environment.NETHER)
 			if (platmap.generator.settings.includeDecayedNature)
 				cropType = getDecayedNetherCrop();
 			else
@@ -112,7 +112,7 @@ public class FarmLot extends ConnectedLot {
 		
 		// in-between bits bits
 		byte dividerId = isolationNormalId;
-		if (generator.settings.environmentStyle == Environment.NETHER) {
+		if (generator.worldEnvironment == Environment.NETHER) {
 			dividerId = isolationNetherId;
 		}
 		

@@ -53,7 +53,7 @@ public abstract class ShapeProvider {
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	public static ShapeProvider loadProvider(WorldGenerator generator, Random random) {
 
-		switch (generator.settings.mapStyle) {
+		switch (generator.worldStyle) {
 		case FLOATING:
 			return new ShapeProvider_Floating(generator, random);
 		//case UNDERGROUND

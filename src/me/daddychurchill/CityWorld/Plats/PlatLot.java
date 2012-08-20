@@ -472,7 +472,7 @@ public abstract class PlatLot {
 		
 		// shape the world
 		if (generator.settings.includeOres || generator.settings.includeUndergroundFluids)
-			generator.oreProvider.sprinkleOres(generator, chunk, blockYs, chunkRandom, OreLocation.CRUST);
+			generator.oreProvider.sprinkleOres(generator, this, chunk, blockYs, chunkRandom, OreLocation.CRUST);
 	}
 
 	//TODO move this logic to SurroundingLots, add to it the ability to produce SurroundingHeights and SurroundingDepths

@@ -6,8 +6,23 @@ author: DaddyChurchill
 commands:
   cityworld:
     description: Teleports you to/from the default CityWorld
-    usage: /cityworld [leave]
+    usage: /cityworld [leave] [normal|nether|the_end] [floating]
   citychunk:
     description: Performs specific maintenance on chunks of CityWorld
     usage: /citychunk regen | clean [chunkradius]
-    
+permissions:
+  cityworld.*:
+    description: Gives access to all CityWorld commands
+    children:
+      cityworld.command: true
+      cityworld.create: true
+      citychunk.command: true
+  cityworld.command:
+    description: Allows users to enter and exit the default CityWorld
+    default: true
+  cityworld.create:
+    description: Allows users to create the default CityWorld if it doesn't exist when the user enters it
+    default: op
+  citychunk.command:
+    description: Allows users to regenerate or cleanup world chunks
+    default: op

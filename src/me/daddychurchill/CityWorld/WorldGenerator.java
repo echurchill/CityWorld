@@ -22,6 +22,7 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.World.Environment;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 
@@ -29,10 +30,12 @@ public class WorldGenerator extends ChunkGenerator {
 
 	private CityWorld plugin;
 	private World world;
-	private String worldName;
-	private String worldStyle;
 	private Long worldSeed;
 	private Random connectionKeyGen;
+	
+	public String worldName;
+	public WorldStyle worldStyle;
+	public Environment worldEnvironment;
 	
 	public ShapeProvider shapeProvider;
 	public LootProvider lootProvider;
@@ -63,10 +66,27 @@ public class WorldGenerator extends ChunkGenerator {
 	public long connectedKeyForPavedRoads;
 	public long connectedKeyForParks;
 	
-	public WorldGenerator(CityWorld aPlugin, String aWorldname, String aWorldstyle) {
-		plugin = aPlugin;
-		worldName = aWorldname;
-		worldStyle = aWorldstyle;
+	public enum WorldStyle {
+		FLOATING,		// very low terrain with floating houses and cities
+		//LUNAR,		// lunar landscape with lunar bases
+		//FLOODED,		// traditional terrain and cities but with raised sea level
+		//UNDERWATER,	// traditional terrain with raised sea level with under water cities
+		//WESTERN,		// desert landscape with sparse western styled towns and ranches
+		//UNDERGROUND,	// elevated terrain with underground cities
+		NORMAL};   		// traditional terrain and cities
+	
+	public WorldGenerator(CityWorld plugin, String worldName, String worldStyle) {
+		this.plugin = plugin;
+		this.worldName = worldName;
+		
+		// parse the style string
+		try {
+			this.worldStyle = WorldStyle.valueOf(worldStyle);
+		} catch (IllegalArgumentException e) {
+			this.worldStyle = WorldStyle.NORMAL;
+		} catch (NullPointerException e) {
+			this.worldStyle = WorldStyle.NORMAL;
+		} 
 	}
 
 	public CityWorld getPlugin() {
@@ -77,14 +97,6 @@ public class WorldGenerator extends ChunkGenerator {
 		return world;
 	}
 
-	public String getWorldName() {
-		return worldName;
-	}
-
-	public String getWorldStyle() {
-		return worldStyle;
-	}
-	
 	public Long getWorldSeed() {
 		return worldSeed;
 	}

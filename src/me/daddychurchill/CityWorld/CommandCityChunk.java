@@ -30,10 +30,10 @@ public class CommandCityChunk implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] split) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
+
 			if (player.hasPermission("citychunk.command")) {
 				boolean cleaning = false;
 				boolean regening = false;
-//				boolean refreshing = false;
 				boolean error = false;
 				int radius = 0;
 				
@@ -43,9 +43,6 @@ public class CommandCityChunk implements CommandExecutor {
 						cleaning = true;
 					else if (split[n].compareToIgnoreCase("REGEN") == 0 && !regening)
 						regening = true;
-//					else if (split[n].compareToIgnoreCase("REFRESH") == 0 && !refreshing)
-//						refreshing = true;
-//					else if (cleaning || regening || refreshing) {
 					else if (cleaning || regening) {
 						try {
 							radius = Integer.parseInt(split[n]);
@@ -61,7 +58,6 @@ public class CommandCityChunk implements CommandExecutor {
 				}
 				
 				// that isn't an option we support or no option was given
-//				if (error || !(cleaning || regening || refreshing)) {
 				if (error || !(cleaning || regening)) {
 					sender.sendMessage("Syntax error");
 					return false;
@@ -107,16 +103,6 @@ public class CommandCityChunk implements CommandExecutor {
 							}
 						}
 					}
-
-//					// refresh the chunks
-//					if (refreshing) {
-//						for (int x = chunkX - radius; x <= chunkX + radius; x++) {
-//							for (int z = chunkZ - radius; z <= chunkZ + radius; z++) {
-//								player.sendMessage("Refreshing chunk[" + x + ", " + z + "]");
-//								world.refreshChunk(x, z);
-//							}
-//						}
-//					}
 					
 					// all done
 					player.sendMessage("Finished chunk operation");

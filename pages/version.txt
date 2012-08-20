@@ -1,12 +1,13 @@
 v1.20
 * Initial pass of 1.3.* happiness
+* Added concept of MapStyle, this only allows for NORMAL and FLOATING worlds right now
 * Replaced RoadRange and CityRange with RoadChunkRadius and CityChunkRadius to make things more understandable
 * Added CenterPointOfChunkRadius to allow for more flexibility 
 * Added ConstructChunkRadius to allow for isolated constructs, like oil platforms and mountain shacks, to be outside of road radius
-* Added concept of MapStyle, this only allows for NORMAL and FLOATING worlds right now
 * Reduced the likelihood of rubber saplings in Tekkit worlds
-* More refactoring
+* Reworked the CityWorld command permissions to separate permissions for traveling to CityWorld vs. creating a CityWorld
 * Worked around a strange Chest/Sign casting issue to rarely happens but when it does is bad
+* More refactoring
 
 v1.10
 * Refactored tons of code to simplify options combinations and get things ready for End generation

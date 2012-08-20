@@ -1,6 +1,5 @@
 package me.daddychurchill.CityWorld;
 
-import org.bukkit.World.Environment;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.Vector;
@@ -13,19 +12,9 @@ public class CityWorldSettings {
 	 *   Floors and stairs where practical
 	 *   Rounded tanks
 	 *   Writing on the outside of buildings
+	 * Add GenerationChunkRange to limit the extent of world generation
 	 */
 	
-	public enum MapStyle {
-		FLOATING,		// very low terrain with floating houses and cities
-		//FLOODED,		// traditional terrain and cities but with raised sea level
-		//UNDERWATER,	// traditional terrain with raised sea level with under water cities
-		//LUNAR,		// lunar landscape with lunar bases
-		//WESTERN,		// desert landscape with sparse western styled towns and ranches
-		//UNDERGROUND,	// elevated terrain with underground cities
-		NORMAL};   		// traditional terrain and cities
-	
-	public MapStyle mapStyle;
-	public Environment environmentStyle;
 	public boolean darkEnvironment;
 	
 	public boolean includeRoads = true;
@@ -71,8 +60,6 @@ public class CityWorldSettings {
 	public int cityChunkRadius = Integer.MAX_VALUE;
 	public boolean checkCityRange = false;
 	
-	private final static String tagMapStyle = "MapStyle";
-	
 	private final static String tagCenterPointOfChunkRadiusX = "CenterPointOfChunkRadiusX";
 	private final static String tagCenterPointOfChunkRadiusZ = "CenterPointOfChunkRadiusZ";
 	private final static String tagConstructChunkRadius = "ConstructChunkRadius";
@@ -115,12 +102,11 @@ public class CityWorldSettings {
 	
 	public CityWorldSettings(WorldGenerator generator) {
 		super();
-		String worldname = generator.getWorldName();
-		environmentStyle = generator.getWorld().getEnvironment();
-		mapStyle = MapStyle.NORMAL;
+		String worldname = generator.worldName;
+		generator.worldEnvironment = generator.getWorld().getEnvironment();
 		
 		// get the right defaults
-		switch (environmentStyle) {
+		switch (generator.worldEnvironment) {
 		case NORMAL:
 			darkEnvironment = false;
 			break;
@@ -133,11 +119,6 @@ public class CityWorldSettings {
 			break;
 		case THE_END:
 			darkEnvironment = true;
-			includeMines = false;
-			includeBunkers = false;
-			includeHouses = false;
-			includeFarms = false;
-			includeLavaFields = false;
 			break;
 		}
 		
@@ -158,8 +139,6 @@ public class CityWorldSettings {
 		else {
 			section = config.createSection(worldname);
 			
-			section.addDefault(tagMapStyle, mapStyle.toString());
-
 			section.addDefault(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
 			section.addDefault(tagCenterPointOfChunkRadiusZ, centerPointOfChunkRadiusZ);
 			section.addDefault(tagConstructChunkRadius, constructChunkRadius);
@@ -265,18 +244,7 @@ public class CityWorldSettings {
 				includeFarms = false;
 			}
 			
-			String generatorString = section.getString(tagMapStyle, mapStyle.toString());
-			try {
-				mapStyle = MapStyle.valueOf(generatorString);
-			} catch (IllegalArgumentException e) {
-				mapStyle = MapStyle.NORMAL;
-			} catch (NullPointerException e) {
-				mapStyle = MapStyle.NORMAL;
-			} 
-
 			// write things back out with corrections
-			section.set(tagMapStyle, mapStyle.toString());
-
 			section.set(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
 			section.set(tagCenterPointOfChunkRadiusZ, centerPointOfChunkRadiusZ);
 			section.set(tagConstructChunkRadius, constructChunkRadius);
