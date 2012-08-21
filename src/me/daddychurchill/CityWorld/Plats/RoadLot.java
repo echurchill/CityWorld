@@ -438,7 +438,7 @@ public class RoadLot extends ConnectedLot {
 			chunk.setLayer(base1Y, base2Y - base1Y, airId);
 					
 			// draw the floor of the sewer
-			chunk.setLayer(sewerY - 2, 2, sewerFloorId);
+			chunk.setLayer(sewerY - 1, 1, sewerFloorId);
 			chunk.setBlocks(crossDitchEdge, chunk.width - crossDitchEdge, 
 							sewerY - 1, sewerY, 
 							crossDitchEdge, chunk.width - crossDitchEdge, airId);

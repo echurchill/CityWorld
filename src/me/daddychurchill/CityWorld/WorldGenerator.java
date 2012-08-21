@@ -87,6 +87,9 @@ public class WorldGenerator extends ChunkGenerator {
 		} catch (NullPointerException e) {
 			this.worldStyle = WorldStyle.NORMAL;
 		} 
+		CityWorld.log.info("New WorldGenerator");
+		CityWorld.log.info("Name = " + this.worldName);
+		CityWorld.log.info("Style = " + this.worldStyle + " (from " + worldStyle + ")");
 	}
 
 	public CityWorld getPlugin() {
