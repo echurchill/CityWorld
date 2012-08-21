@@ -18,9 +18,9 @@ public class CityWorld extends JavaPlugin{
     
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(String name, String style){
-		CityWorld.log.info("getDefaultWorldGenerator");
-		CityWorld.log.info("Name = " + name);
-		CityWorld.log.info("Style = " + style);
+//		CityWorld.log.info("getDefaultWorldGenerator");
+//		CityWorld.log.info("Name = " + name);
+//		CityWorld.log.info("Style = " + style);
 		return new WorldGenerator(this, name, style.trim().toUpperCase());
 	}
 	
