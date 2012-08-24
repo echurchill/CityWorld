@@ -2,12 +2,50 @@ This is purely a world generator. If you need general purpose teleportation or w
 
 To install it you will need to do three things...
 # **Download the plugin and place it in Bukkit's plugin folder.** If you don't know where or what the Bukkit's plugin folder is, read [[http://wiki.bukkit.org/Setting_up_a_server|this]].
+# **Make sure you have a multi-world manager installed.** Without it you experience will be less than fulfilling.
 # **Now start up Minecraft Server via Bukkit.** If you don't know how to do this, I recommend rereading [[http://wiki.bukkit.org/Setting_up_a_server|this]].
-# At this point, you may be asking yourself: **How do I get to the city?** 
+# At this point, you may be asking yourself: **How do I get to the city?** Well that depends on what multi-world manager plugin you are using:
 
-There are two options for getting to the city...
-* If you are the "OP" for your server: Press ##"T"##, type in ##"/CityWorld"## and press return (if you do this, remember that some plugins might not work with CityWorld until you modify bukkit's YML to include a reference to the world. For more info read [[http://wiki.bukkit.org/Bukkit.yml|this]]).
-* OR... you can use a world management plugin and use the CityWorld as the generator for one of your worlds. We have used [[http://dev.bukkit.org/server-mods/multiverse-core/|Multiverse]] and [[http://dev.bukkit.org/server-mods/multiworld-v-2-0/|Multiworld]].
+Here are some of the more popular multi-world plugins...
+=== [[http://dev.bukkit.org/server-mods/multiverse-core/|Multiverse]]
+[[http://dev.bukkit.org/server-mods/multiverse-core/|(for more info)]]
 
+To teleport to a world...
+* ##/mv tp //cityname//##
+
+To create a normal world...
+* ##/mv create //cityname// normal -g CityWorld##
+[[https://github.com/Multiverse/Multiverse-Core/wiki/Custom-Generator-Plugins|(for more info on creation)]]
+
+To create a floating world
+* ##/mv create //cityname// normal -g CityWorld:Floating##
+
+=== [[http://dev.bukkit.org/server-mods/multiworld-v-2-0/|Multiworld]]
+[[http://dev.bukkit.org/server-mods/multiworld-v-2-0/|(for more info)]]
+
+To teleport to a world...
+* ##/mw goto //cityname//##
+
+To create a normal world...
+* ##/mw create ///cityname// plugin:CityWorld##
+[[http://dev.bukkit.org/server-mods/multiworld-v-2-0/pages/worldgenerators/plugin/|(for more info on creation)]]
+
+To create a floating world
+* ##/mw create ///cityname// plugin:CityWorld:Floating##
+
+=== [[http://dev.bukkit.org/server-mods/dimensiondoor/|DimensionDoor]]
+[[http://dev.bukkit.org/server-mods/dimensiondoor/|(for more info)]]
+
+To teleport to a world...
+* ##/dd teleport //cityname//##
+
+To create a world...
+* ##/dd create //cityname// e:NORMAL g:CityWorld##
+[[https://github.com/grandwazir/DimensionDoor/wiki/instructions|(for more info on creation)]]
+
+To create a floating world
+* ##/dd create //cityname// e:NORMAL g:CityWorld:Floating##
+
+----
 If you are still confused then rereread [[http://wiki.bukkit.org/Setting_up_a_server|this]]. :-)
 

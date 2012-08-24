@@ -1,6 +1,3 @@
-== Config.yml ==
-
-=== General comments ===
 A Config.yml file is generated when CityWorld first runs and each time it is told to create a new world. 
 These options only affect "new generation", changing them after a world has been generated will produce some odd results. 
 
@@ -8,9 +5,11 @@ I have tried to ensure these options all work together but the number of permuta
 Also some options are exclusive of other options, for example if you decide to not include buildings then asking for the buildings, that you have excluded, to be decayed doesn't make much sense.
 
 ** Note: ** Here is what I normally do when creating a new world. It is a little awkward but it works for me.
-# Startup your server and create the new world (via whatever technique you like), this will make CityWorld generate the associated configuration section in **plugin/config.yml**.
+# Startup your server and create the new world (via whatever technique you like), remember to read the [[http://dev.bukkit.org/server-mods/cityworld/pages/installation-instructions/|Installation]] instructions, this will make CityWorld generate the associated configuration section in **plugins/CityWorld/config.yml**.
 # Next I shut down the server go change those newly created settings to what I really want the world to be like. 
 # Then I delete the previously created world and restart my server. If all goes well the newly created world should be regenerated but now using those new options I picked.
+
+If you are wanting to create a particular [[http://dev.bukkit.org/server-mods/cityworld/pages/styles/|world style]], like floating, take a look at the [[http://dev.bukkit.org/server-mods/cityworld/pages/installation-instructions/|Installation]] instructions.
 
 ** Observations: **
 * If you regenerate the world using the same version, options and seed (how you set this depends on your multiverse manager works), you should get a nearly identical world, where only foliage might change. Keep in mind when there is a CityWorld version change, all bets are off though. Similar seeds might/will generated wholly new worlds.
@@ -28,7 +27,7 @@ Also some options are exclusive of other options, for example if you decide to n
 |IncludeHouses|Generate houses|
 |IncludeFarms|Generate farms|
 |IncludeCisterns|if buildings are generated, then generate cisterns under the parks|
-|IncludeMines|Generate maze of mineshafts underground|
+|IncludeMines|Generate maze of mine shafts underground|
 |IncludeBunkers|Generate something somewhere... It is a secret|
 
 === Natural features ===
@@ -37,7 +36,7 @@ Also some options are exclusive of other options, for example if you decide to n
 |IncludeMountains|Generate mountainous bumps between the seas and cities|
 |IncludeLavaFields|Include lava pools way down below|
 |IncludeCaves|Hollow out caves in the ground|
-|IncludeOres|Pepper ore in the ground|
+|IncludeOres|Randomly place ores underground|
 
 === Trick or Treat ===
 |=Option|=Description|
@@ -69,14 +68,14 @@ This will likely change in the future but for now, it is what it is.
 |ConstructChunkRadius|How far do isolated construct chunks generate (oil platforms, radio towers, shacks, etc.), in chunks from the world's center point)|
 |RoadChunkRadius|How far do roads chunks generate, in chunks from the world's center point|
 |CityChunkRadius|How far do cities chunks generate, in chunks from the world's center point|
-|CenterPointOfChunkRadiusX|Where is the center point of the above three options, defaults to 0|
-|CenterPointOfChunkRadiusZ|Where is the center point of the above three options, defaults to 0|
+|CenterPointOfChunkRadiusX|Where is the center point of the above options, defaults to 0|
+|CenterPointOfChunkRadiusZ|Where is the center point of the above options, defaults to 0|
 **Note:** If the road radius is larger than the city radius, the roads generate without lights, lines, sewers, etc.
 
 {{http://dev.bukkit.org/media/images/43/502/server2439_City_normal_day.jpg|Radius}}
 In the above picture the inner circle, centered on world's 0,0, represents the CityChunkRadius (in this case 10 chunks), the outer ring shows the RoadChunkRadius (20 chunks). 
 
-Note: that the bridges and tunnels will stop abruptly when they hit the road radius specified.
+Note: that the bridges and tunnels stop abruptly when they hit the road radius specified.
 
 === Deprecated options ===
 |=Option|=Workaround|

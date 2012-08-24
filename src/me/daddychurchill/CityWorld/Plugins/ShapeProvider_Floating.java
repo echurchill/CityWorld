@@ -27,8 +27,8 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 		noiseShape = new SimplexNoiseGenerator(seed + 4);
 		
 		//streetLevel = height / 8 * 3;
-		floatingMin = seaLevel + landRange + 32;
-		floatingRange = height - 32 - floatingMin; 
+		constructMin = seaLevel + landRange + 32;
+		constructRange = height - 32 - constructMin; 
 	}
 
 	@Override
@@ -50,9 +50,6 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	public final static int midRange = (gapRange + landRange) / 2;
 	public final static int midPoint = seaBed + midRange;
 	public final static int snowPoint = midPoint + midRange - 2;
-	
-	public static int floatingMin;
-	public static int floatingRange;
 	
 	private final static double terrainScale = 1.0 / 281.0;
 	private final static double noiseScale = 1.0 / 23.0;

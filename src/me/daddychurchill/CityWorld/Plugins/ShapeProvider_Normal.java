@@ -29,9 +29,11 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	public SimplexNoiseGenerator mineShape;
 
 	protected int height;
-	private int seaLevel;
-	private int landRange;
-	private int seaRange;
+	protected int seaLevel;
+	protected int landRange;
+	protected int seaRange;
+	protected int constructMin;
+	protected int constructRange;
 	
 	public final static int landFlattening = 32;
 	public final static int seaFlattening = 4;
@@ -90,6 +92,8 @@ public class ShapeProvider_Normal extends ShapeProvider {
 		seaLevel = world.getSeaLevel();
 		landRange = height - seaLevel - fudgeVerticalScale + landFlattening;
 		seaRange = seaLevel - fudgeVerticalScale + seaFlattening;
+		constructMin = seaLevel;
+		constructRange = height - constructMin;
 	}
 	
 	@Override
@@ -222,6 +226,16 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	}
 
 	@Override
+	public int getConstuctMin() {
+		return constructMin;
+	}
+
+	@Override
+	public int getConstuctRange() {
+		return constructRange;
+	}
+	
+	@Override
 	public double findPerciseY(WorldGenerator generator, int blockX, int blockZ) {
 		double y = 0;
 		
@@ -304,5 +318,5 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	public boolean isSurfaceCaveAt(double chunkX, double chunkZ) {
 		return microBooleanAt(chunkX, chunkZ, microSurfaceCaveSlot);
 	}
-	
+
 }

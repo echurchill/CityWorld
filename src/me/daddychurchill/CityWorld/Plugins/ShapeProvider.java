@@ -21,6 +21,8 @@ public abstract class ShapeProvider {
 	public abstract int getSeaLevel();
 	public abstract int getLandRange();
 	public abstract int getSeaRange();
+	public abstract int getConstuctMin();
+	public abstract int getConstuctRange();
 	
 	public abstract double findPerciseY(WorldGenerator generator, int blockX, int blockZ);
 

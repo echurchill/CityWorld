@@ -7,7 +7,6 @@ import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.FloatingHouseLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
-import me.daddychurchill.CityWorld.Plugins.ShapeProvider_Floating;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
@@ -49,7 +48,7 @@ public class NatureContext_Floating extends RuralContext {
 							if (generator.settings.includeHouses) {
 								if (shapeProvider.isIsolatedBuildingAt(originX + x, originZ + z))
 									current = new FloatingHouseLot(platmap, originX + x, originZ + z, 
-											random.nextInt(ShapeProvider_Floating.floatingRange) + ShapeProvider_Floating.floatingMin);
+											random.nextInt(shapeProvider.getConstuctRange()) + shapeProvider.getConstuctMin());
 							}
 						}
 						

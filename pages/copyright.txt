@@ -1,4 +1,4 @@
-**City world generator for Minecraft/Bukkit**
+**CityWorld generator for Minecraft/Bukkit**
 
 Copyright (C) 2011-2012 daddychurchill <http://www.virtualchurchill.com>
 

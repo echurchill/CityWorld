@@ -5,7 +5,7 @@ The great outdoors is all good and fine but sometimes you just want to go to tow
 
 ----
 
-===== //Version 1.20// ===== 
+===== //Version 1.30// ===== 
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, if the above version isn't available check back in an hour or so...)//,,
 
 ,,//(...or possibly look here: http://dev.bukkit.org/server-mods/cityworld/files/21-v1-20/
@@ -15,18 +15,18 @@ The great outdoors is all good and fine but sometimes you just want to go to tow
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
-v1.20
+v1.30
 * Initial pass of 1.3.* happiness
-* Added concept of MapStyle, this only allows for NORMAL and FLOATING worlds right now
+* Added concept of Generator Styles, this only allows for NORMAL and FLOATING worlds right now
 * Replaced RoadRange and CityRange with RoadChunkRadius and CityChunkRadius to make things more understandable
 * Added CenterPointOfChunkRadius to allow for more flexibility 
 * Added ConstructChunkRadius to allow for isolated constructs, like oil platforms and mountain shacks, to be outside of road radius
 * Reduced the likelihood of rubber saplings in Tekkit worlds
 * Reworked the CityWorld command permissions to separate permissions for traveling to CityWorld vs. creating a CityWorld
 * Worked around a strange Chest/Sign casting issue to rarely happens but when it does is bad
-* More refactoring
+* More refactoring and optimization via [[http://dev.bukkit.org/server-mods/cityworld/pages/tools/|YourKit]]
 
-...for more version info see [[http://dev.bukkit.org/server-mods/cityworld/pages/version-history/|History...]]
+...for more version info see [[http://dev.bukkit.org/server-mods/cityworld/pages/version/|version history...]]
 
 ----
 === Heads up! ===
@@ -35,7 +35,9 @@ This plugin really "tests" MineCraft/Bukkit when it comes to complex worlds. In 
 
 ----
 === Other info ===
-* [[http://dev.bukkit.org/server-mods/cityworld/pages/installation-instructions/|Installation...]]
-* [[http://dev.bukkit.org/server-mods/cityworld/pages/commands/|Commands...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/installation/|Installation...]] Start Here!
 * [[http://dev.bukkit.org/server-mods/cityworld/pages/options/|Options...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/styles/|Styles...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/commands/|Commands...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/tools/|Tools I used to make this...]]
 * [[http://dev.bukkit.org/server-mods/cityworld/pages/copyright/|Copyright...]]

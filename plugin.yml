@@ -1,6 +1,6 @@
 name: CityWorld
 main: me.daddychurchill.CityWorld.CityWorld
-version: 1.20
+version: 1.30
 load: startup
 author: DaddyChurchill
 commands:
@@ -19,7 +19,7 @@ permissions:
       citychunk.command: true
   cityworld.command:
     description: Allows users to enter and exit the default CityWorld
-    default: true
+    default: op
   cityworld.create:
     description: Allows users to create the default CityWorld if it doesn't exist when the user enters it
     default: op
