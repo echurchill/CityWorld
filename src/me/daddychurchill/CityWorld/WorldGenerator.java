@@ -78,18 +78,17 @@ public class WorldGenerator extends ChunkGenerator {
 	public WorldGenerator(CityWorld plugin, String worldName, String worldStyle) {
 		this.plugin = plugin;
 		this.worldName = worldName;
+		this.worldStyle = WorldStyle.NORMAL;
 		
 		// parse the style string
-		try {
-			this.worldStyle = WorldStyle.valueOf(worldStyle);
-		} catch (IllegalArgumentException e) {
-			this.worldStyle = WorldStyle.NORMAL;
-		} catch (NullPointerException e) {
-			this.worldStyle = WorldStyle.NORMAL;
-		} 
-//		CityWorld.log.info("New WorldGenerator");
-//		CityWorld.log.info("Name = " + this.worldName);
-//		CityWorld.log.info("Style = " + this.worldStyle + " (from " + worldStyle + ")");
+		if (worldStyle != null) {
+			try {
+				this.worldStyle = WorldStyle.valueOf(worldStyle.trim().toUpperCase());
+			} catch (IllegalArgumentException e) {
+				CityWorld.log.info(plugin.getName() + ": Unknown world style [" + worldStyle + "], switching to NORMAL");
+				this.worldStyle = WorldStyle.NORMAL;
+			}
+		}
 	}
 
 	public CityWorld getPlugin() {

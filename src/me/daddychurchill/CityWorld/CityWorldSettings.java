@@ -138,7 +138,12 @@ public class CityWorldSettings {
 		// if not then create it
 		else {
 			section = config.createSection(worldname);
+		}
+		
+		// did we get a section?
+		if (section != null) {
 			
+			// set up the defaults if needed
 			section.addDefault(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
 			section.addDefault(tagCenterPointOfChunkRadiusZ, centerPointOfChunkRadiusZ);
 			section.addDefault(tagConstructChunkRadius, constructChunkRadius);
@@ -179,11 +184,7 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeDecayedNature, includeDecayedNature);
 			section.addDefault(tagIncludeTekkitMaterials, includeTekkitMaterials);
 			
-		}
-		
-		// did we get a section?
-		if (section != null) {
-			
+			// now read the bits
 			includeRoads = section.getBoolean(tagIncludeRoads, includeRoads);
 			includeRoundabouts = section.getBoolean(tagIncludeRoundabouts, includeRoundabouts);
 			includeSewers = section.getBoolean(tagIncludeSewers, includeSewers);
@@ -285,9 +286,19 @@ public class CityWorldSettings {
 			section.set(tagIncludeDecayedNature, includeDecayedNature);
 			section.set(tagIncludeTekkitMaterials, includeTekkitMaterials);
 			
+			// note the depreciations
+			deprecateOption(section, "IncludePavedRoads", "DEPRECATED: use IncludeWoolRoads if you want the old style paved roads");
+			deprecateOption(section, "RoadRange", "DEPRECATED: Use RoadChunkRadius instead");
+			deprecateOption(section, "CityRange", "DEPRECATED: Use CityChunkRadius instead");
+			
 			// write it back out 
 			plugin.saveConfig();
 		}
+	}
+	
+	private void deprecateOption(ConfigurationSection section, String oldOption, String message) {
+		if (section.contains(oldOption))
+			section.set(oldOption, message);
 	}
 	
 	private Vector centerPointOfChunkRadius;
