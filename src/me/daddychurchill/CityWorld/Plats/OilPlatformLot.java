@@ -9,10 +9,8 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.TekkitMaterial;
-import me.daddychurchill.CityWorld.Support.WorldBlocks;
-import me.daddychurchill.CityWorld.Support.Direction.Ladder;
-import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class OilPlatformLot extends ConstructLot {
@@ -137,15 +135,15 @@ public class OilPlatformLot extends ConstructLot {
 		int y4 = y3 + DataContext.FloorHeight;
 		
 		// ladder from access level to the balcony
-		chunk.setLadder(3, y0 + 1, y4 - 2, 4, Ladder.SOUTH);
-		chunk.setLadder(12, y0 + 1, y4 + 2, 11, Ladder.NORTH);
+		chunk.setLadder(3, y0 + 1, y4 - 2, 4, Direction.General.SOUTH);
+		chunk.setLadder(12, y0 + 1, y4 + 2, 11, Direction.General.NORTH);
 		
 		// now draw the crane
-		chunk.setStair(2, y4 - 2, 2, topperId, Stair.EAST);
-		chunk.setStair(2, y4 - 2, 3, topperId, Stair.EAST);
+		chunk.setStair(2, y4 - 2, 2, topperId, Direction.Stair.EAST);
+		chunk.setStair(2, y4 - 2, 3, topperId, Direction.Stair.EAST);
 		chunk.clearBlock(2, y4 - 1, 2);
 		chunk.clearBlock(2, y4 - 1, 3);
-		chunk.setStair(3, y4 - 1, 3, topperId, Stair.NORTH);
+		chunk.setStair(3, y4 - 1, 3, topperId, Direction.Stair.NORTH);
 		chunk.drawCrane(context, chunkRandom, 3, y4, 2);
 		
 		// bleed off
@@ -156,19 +154,16 @@ public class OilPlatformLot extends ConstructLot {
 		// it looked so nice for a moment... but the moment has passed
 		if (generator.settings.includeDecayedBuildings) {
 
-			// world centric view of blocks
-			WorldBlocks blocks = new WorldBlocks(generator);
-			
 			// do we take out a bit of it?
-			decayEdge(blocks, chunk.getBlockX(7) + chunkRandom.nextInt(3) - 1, y1, chunk.getBlockZ(0) + chunkRandom.nextInt(2));
-			decayEdge(blocks, chunk.getBlockX(7) + chunkRandom.nextInt(3) - 1, y2, chunk.getBlockZ(0) + chunkRandom.nextInt(2));
-			decayEdge(blocks, chunk.getBlockX(8) + chunkRandom.nextInt(3) - 1, y1, chunk.getBlockZ(15) - chunkRandom.nextInt(2));
-			decayEdge(blocks, chunk.getBlockX(8) + chunkRandom.nextInt(3) - 1, y2, chunk.getBlockZ(15) - chunkRandom.nextInt(2));
-			decayEdge(blocks, chunk.getBlockX(0) + chunkRandom.nextInt(2), y1, chunk.getBlockZ(7) + chunkRandom.nextInt(3) - 1);
-			decayEdge(blocks, chunk.getBlockX(0) + chunkRandom.nextInt(2), y2, chunk.getBlockZ(7) + chunkRandom.nextInt(3) - 1);
-			decayEdge(blocks, chunk.getBlockX(15) - chunkRandom.nextInt(2), y1, chunk.getBlockZ(8) + chunkRandom.nextInt(3) - 1);
-			decayEdge(blocks, chunk.getBlockX(15) - chunkRandom.nextInt(2), y2, chunk.getBlockZ(8) + chunkRandom.nextInt(3) - 1);
-			decayEdge(blocks, chunk.getBlockX(7), y4, chunk.getBlockZ(12));
+			decayEdge(generator, chunk.getBlockX(7) + chunkRandom.nextInt(3) - 1, y1, chunk.getBlockZ(0) + chunkRandom.nextInt(2));
+			decayEdge(generator, chunk.getBlockX(7) + chunkRandom.nextInt(3) - 1, y2, chunk.getBlockZ(0) + chunkRandom.nextInt(2));
+			decayEdge(generator, chunk.getBlockX(8) + chunkRandom.nextInt(3) - 1, y1, chunk.getBlockZ(15) - chunkRandom.nextInt(2));
+			decayEdge(generator, chunk.getBlockX(8) + chunkRandom.nextInt(3) - 1, y2, chunk.getBlockZ(15) - chunkRandom.nextInt(2));
+			decayEdge(generator, chunk.getBlockX(0) + chunkRandom.nextInt(2), y1, chunk.getBlockZ(7) + chunkRandom.nextInt(3) - 1);
+			decayEdge(generator, chunk.getBlockX(0) + chunkRandom.nextInt(2), y2, chunk.getBlockZ(7) + chunkRandom.nextInt(3) - 1);
+			decayEdge(generator, chunk.getBlockX(15) - chunkRandom.nextInt(2), y1, chunk.getBlockZ(8) + chunkRandom.nextInt(3) - 1);
+			decayEdge(generator, chunk.getBlockX(15) - chunkRandom.nextInt(2), y2, chunk.getBlockZ(8) + chunkRandom.nextInt(3) - 1);
+			decayEdge(generator, chunk.getBlockX(7), y4, chunk.getBlockZ(12));
 		}
 //TODO destroy it a little bit
 //			// world centric view of blocks
@@ -195,12 +190,10 @@ public class OilPlatformLot extends ConstructLot {
 
 	private final static double decayedEdgeOdds = 0.25;
 	
-	private void decayEdge(WorldBlocks blocks, int x, int y, int z) {
-		if (chunkRandom.nextDouble() < decayedEdgeOdds) {
+	private void decayEdge(WorldGenerator generator, int x, int y, int z) {
+		if (chunkRandom.nextDouble() < decayedEdgeOdds)
 			
 			// make it go away
-			blocks.desperseArea(chunkRandom, x, y, z, chunkRandom.nextInt(2) + 2);
-		}	
+			generator.decayBlocks.desperseArea(x, y, z, chunkRandom.nextInt(2) + 2);
 	}
-	
 }

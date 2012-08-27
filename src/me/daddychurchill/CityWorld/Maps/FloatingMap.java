@@ -6,7 +6,7 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Context.FarmContext;
 import me.daddychurchill.CityWorld.Context.HighriseContext;
 import me.daddychurchill.CityWorld.Context.LowriseContext;
-import me.daddychurchill.CityWorld.Context.MallContext;
+import me.daddychurchill.CityWorld.Context.IndustrialContext;
 import me.daddychurchill.CityWorld.Context.MidriseContext;
 import me.daddychurchill.CityWorld.Context.NatureContext_Floating;
 import me.daddychurchill.CityWorld.Context.NeighborhoodContext;
@@ -100,7 +100,7 @@ public class FloatingMap extends PlatMap {
 		else if (naturalPlats < 37)
 			return new CityCenterContext(generator, this);
 		else if (naturalPlats < 50)
-			return new MallContext(generator, this);
+			return new IndustrialContext(generator, this);
 		else if (naturalPlats < 65)
 			return new LowriseContext(generator, this);
 		else if (naturalPlats < 80)

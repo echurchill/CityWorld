@@ -9,6 +9,7 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 
 public abstract class OreProvider {
@@ -176,6 +177,10 @@ public abstract class OreProvider {
 		}
 	
 		return provider;
+	}
+	
+	public Biome remapBiome(Biome biome) {
+		return biome;
 	}
 
 	public void sprinkleSnow(WorldGenerator generator, SupportChunk chunk, Random random, int x1, int x2, int y, int z1, int z2) {

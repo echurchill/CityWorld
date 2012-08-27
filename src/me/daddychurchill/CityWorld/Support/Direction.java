@@ -78,18 +78,6 @@ public class Direction {
 		}
 	};
 	
-	public enum Ladder {
-		NORTH(2), SOUTH(3), WEST(4), EAST(5);
-		
-		private byte data;
-		private Ladder(int d) {
-			data = (byte) d;
-		}
-		public byte getData() {
-			return data;
-		}
-	};
-	
 	public enum Torch {
 		EAST(1), WEST(2), SOUTH(3), NORTH(4), FLOOR(5);
 		
@@ -114,23 +102,11 @@ public class Direction {
 		}
 	};
 	
-	public enum Chest {
+	public enum General {
 		NORTH(2), SOUTH(3), WEST(4), EAST(5);
 		
 		private byte data;
-		private Chest(int d) {
-			data = (byte) d;
-		}
-		public byte getData() {
-			return data;
-		}
-	}
-	
-	public enum WallSign {
-		NORTH(2), SOUTH(3), WEST(4), EAST(5);
-		
-		private byte data;
-		private WallSign(int d) {
+		private General(int d) {
 			data = (byte) d;
 		}
 		public byte getData() {

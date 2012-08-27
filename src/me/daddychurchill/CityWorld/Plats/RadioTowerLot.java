@@ -94,7 +94,7 @@ public class RadioTowerLot extends ConstructLot {
 		
 		// blow it all up?
 		if (generator.settings.includeDecayedBuildings) {
-			destroyWithin(generator, chunk, originX, originX + platformWidth, platformY - 2, platformY + 3, originZ, originZ + platformWidth);
+			generator.decayBlocks.destroyWithin(originX, originX + platformWidth, platformY - 2, platformY + 3, originZ, originZ + platformWidth);
 			
 		} else {
 			
@@ -103,7 +103,7 @@ public class RadioTowerLot extends ConstructLot {
 			while (chunk.isEmpty(originX, ladderBase, originZ + 4)) {
 				ladderBase--;
 			}
-			chunk.setLadder(originX, ladderBase, platformY, originZ + 4, Direction.Ladder.WEST);
+			chunk.setLadder(originX, ladderBase, platformY, originZ + 4, Direction.General.WEST);
 			chunk.setBlock(originX, platformY, originZ + 4, airMaterial);
 			
 			// place antennas

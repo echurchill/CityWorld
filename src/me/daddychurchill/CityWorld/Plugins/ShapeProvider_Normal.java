@@ -173,7 +173,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 				}
 				
 				// set biome for block
-				biomes.setBiome(x, z, resultBiome);
+				biomes.setBiome(x, z, generator.oreProvider.remapBiome(resultBiome));
 			}
 		}	
 	}

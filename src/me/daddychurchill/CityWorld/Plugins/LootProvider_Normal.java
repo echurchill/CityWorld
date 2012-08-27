@@ -18,26 +18,13 @@ public class LootProvider_Normal extends LootProvider {
 		case BUNKER:
 			return createTreasures(generator, random, Material.IRON_SWORD, Material.GOLD_BOOTS, 2, 1);
 		case MINE:
-			return createTreasures(generator, random, Material.FLINT, Material.ROTTEN_FLESH, 5, 1);
-		default: //case SEWER:
-			return createTreasures(generator, random, Material.IRON_SPADE, Material.COAL, 5, 2);
+			return createTreasures(generator, random, Material.FLINT, Material.ROTTEN_FLESH, 3, 1);
+		case SEWER:
+			return createTreasures(generator, random, Material.IRON_SPADE, Material.COAL, 3, 2);
+		case STORAGESHED:
+			return createTreasures(generator, random, Material.IRON_SPADE, Material.IRON_AXE, 2, 1);
+		default:
+			return createTreasures(generator, random, Material.IRON_SPADE, Material.IRON_SPADE, 0, 0);
 		}
-	}
-	
-	private ItemStack[] createTreasures(WorldGenerator generator, Random random, Material minTreasure, Material maxTreasure, int maxCount, int maxStack) {
-		int minId = minTreasure.getId();
-		int maxId = maxTreasure.getId();
-		int range = maxId - minId;
-		int count = random.nextInt(maxCount) + 1;
-		
-		// make room
-		ItemStack[] items = new ItemStack[count];
-		
-		// populate
-		for (int i = 0; i < count; i++)
-			items[i] = new ItemStack(random.nextInt(range) + minId, random.nextInt(maxStack) + 1);
-		
-		// all done
-		return items;
 	}
 }

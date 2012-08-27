@@ -3,6 +3,8 @@ package me.daddychurchill.CityWorld.Plugins;
 import java.util.Random;
 
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
+
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
@@ -23,6 +25,11 @@ public class OreProvider_Nether extends OreProvider {
 		fluidId = stillLavaId;
 		fluidSubsurfaceId = netherrackId;
 		fluidSurfaceId = netherrackId;
+	}
+
+	@Override
+	public Biome remapBiome(Biome biome) {
+		return Biome.HELL;
 	}
 
 	/**

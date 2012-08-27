@@ -1,3 +1,6 @@
+v1.32
+* Now compiled for 1.6 again
+
 v1.31
 * Fixed an issue with MultiVerse (my fault, not theirs)
 * Tried to make config.yml a bit more bulletproof

@@ -9,7 +9,7 @@ import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
-import me.daddychurchill.CityWorld.Support.WorldBlocks;
+import me.daddychurchill.CityWorld.Support.Surroundings;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
 
 public class UnfinishedBuildingLot extends BuildingLot {
@@ -19,12 +19,10 @@ public class UnfinishedBuildingLot extends BuildingLot {
 	private final static byte girderId = (byte) Material.CLAY.getId();
 	
 	private final static Material dirtMaterial = Material.DIRT;
-	private final static Material fenceMaterial = Material.IRON_FENCE;
 	private final static Material stairMaterial = Material.WOOD_STAIRS;
 	private final static Material wallMaterial = Material.SMOOTH_BRICK;
 	private final static Material ceilingMaterial = Material.STONE;
 	
-	private final static int fenceHeight = 3;
 	private final static int inset = 2;
 	
 	// our special bits
@@ -69,11 +67,8 @@ public class UnfinishedBuildingLot extends BuildingLot {
 			chunk.setLayer(floorAt, FloorHeight, airId);
 			
 			// at the first floor add a fence to prevent folks from falling in
-			if (floor == 0) {
-				drawWalls(chunk, context, generator.streetLevel + 2, fenceHeight, 0, 0, false,
-						fenceMaterial, fenceMaterial, neighborBasements);
-				holeFence(chunk, generator.streetLevel + 2, neighborBasements);
-			}
+			if (floor == 0)
+				drawFence(generator, chunk, context, 0, generator.streetLevel + 1, neighborBasements);
 			
 			// one floor please
 			drawWalls(chunk, context, floorAt, FloorHeight, 0, 0, false,
@@ -170,9 +165,6 @@ public class UnfinishedBuildingLot extends BuildingLot {
 			// it looked so nice for a moment... but the moment has passed
 			if (generator.settings.includeDecayedBuildings) {
 
-				// world centric view of blocks
-				WorldBlocks blocks = new WorldBlocks(generator);
-				
 				// what is the top floor?
 				int floors = height;
 				if (craned)
@@ -185,10 +177,10 @@ public class UnfinishedBuildingLot extends BuildingLot {
 					int y = generator.streetLevel + FloorHeight * floor + 1;
 						
 					// do we take out a bit of it?
-					decayEdge(blocks, chunk.getBlockX(7) + chunkRandom.nextInt(3) - 1, y, chunk.getBlockZ(inset));
-					decayEdge(blocks, chunk.getBlockX(8) + chunkRandom.nextInt(3) - 1, y, chunk.getBlockZ(chunk.width - inset - 1));
-					decayEdge(blocks, chunk.getBlockX(inset), y, chunk.getBlockZ(7) + chunkRandom.nextInt(3) - 1);
-					decayEdge(blocks, chunk.getBlockX(chunk.width - inset - 1), y, chunk.getBlockZ(8) + chunkRandom.nextInt(3) - 1);
+					decayEdge(generator, chunk.getBlockX(7) + chunkRandom.nextInt(3) - 1, y, chunk.getBlockZ(inset));
+					decayEdge(generator, chunk.getBlockX(8) + chunkRandom.nextInt(3) - 1, y, chunk.getBlockZ(chunk.width - inset - 1));
+					decayEdge(generator, chunk.getBlockX(inset), y, chunk.getBlockZ(7) + chunkRandom.nextInt(3) - 1);
+					decayEdge(generator, chunk.getBlockX(chunk.width - inset - 1), y, chunk.getBlockZ(8) + chunkRandom.nextInt(3) - 1);
 				}
 			}
 		}
@@ -196,11 +188,11 @@ public class UnfinishedBuildingLot extends BuildingLot {
 	
 	private final static double decayedEdgeOdds = 0.20;
 	
-	private void decayEdge(WorldBlocks blocks, int x, int y, int z) {
+	private void decayEdge(WorldGenerator generator, int x, int y, int z) {
 		if (chunkRandom.nextDouble() < decayedEdgeOdds) {
 			
 			// make it go away
-			blocks.desperseArea(chunkRandom, x, y, z, chunkRandom.nextInt(2) + 2);
+			generator.decayBlocks.desperseArea(x, y, z, chunkRandom.nextInt(2) + 2);
 		}	
 	}
 	
@@ -212,7 +204,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		chunk.setBlocks(chunk.width - inset - 1, y1, y2, chunk.width - inset - 1, girderId);
 	}
 
-	private void drawHorizontalGirders(ByteChunk chunk, int y1, SurroundingFloors neighbors) {
+	private void drawHorizontalGirders(ByteChunk chunk, int y1, Surroundings neighbors) {
 		int x1 = neighbors.toWest() ? 0 : inset;
 		int x2 = neighbors.toEast() ? chunk.width - 1 : chunk.width - inset - 1;
 		int z1 = neighbors.toNorth() ? 0 : inset;
@@ -226,17 +218,4 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		chunk.setBlocks(i2, i2 + 1, y1, y1 + 1, z1, z2 + 1, girderId);
 	}
 	
-	private void holeFence(ByteChunk chunk, int y1, SurroundingFloors neighbors) {
-		
-		int i = chunkRandom.nextInt(chunk.width / 2) + 4;
-		int y2 = y1 + 2;
-		if (chunkRandom.nextBoolean() && !neighbors.toWest())
-			chunk.setBlocks(0, y1, y2, i, airId);
-		if (chunkRandom.nextBoolean() && !neighbors.toEast())
-			chunk.setBlocks(chunk.width - 1, y1, y2, i, airId);
-		if (chunkRandom.nextBoolean() && !neighbors.toNorth())
-			chunk.setBlocks(i, y1, y2, 0, airId);
-		if (chunkRandom.nextBoolean() && !neighbors.toSouth())
-			chunk.setBlocks(i, y1, y2, chunk.width - 1, airId);
-	}
 }

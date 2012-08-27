@@ -6,15 +6,21 @@ import java.util.Stack;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Context.DataContext;
+import me.daddychurchill.CityWorld.Plats.PlatLot;
 
 public class WorldBlocks extends SupportChunk {
 
 	private boolean doPhysics;
+	WorldGenerator generator;
+	Random random;
 	
-	public WorldBlocks(WorldGenerator generator) {
+	public WorldBlocks(WorldGenerator generator, Random random) {
 		super(generator);
 		
 		doPhysics = false;
+		this.generator = generator;
+		this.random = random;
 	}
 
 	public boolean getDoPhysics() {
@@ -265,6 +271,37 @@ public class WorldBlocks extends SupportChunk {
 		return world.getBlockAt(x, y, z).getTypeId() == grassId;
 	}
 	
+	public void decayLot(PlatLot lot) {
+		
+	}
+	
+	public void destroyBuilding(int y, int floors) {
+		destroyLot(y, y + DataContext.FloorHeight * (floors + 1));
+	}
+	
+	public void destroyLot(int y1, int y2) {
+		destroyWithin(0, width, y1, y2, 0, width);
+	}
+	
+	public void destroyWithin(int x1, int x2, int y1, int y2, int z1, int z2) {
+		int count = Math.max(1, (y2 - y1) / DataContext.FloorHeight);
+		
+		// now destroy it
+		while (count > 0) {
+			
+			// find a place
+			int cx = getBlockX(random.nextInt(x2 - x1) + x1);
+			int cz = getBlockZ(random.nextInt(z2 - z1) + z1);
+			int cy = random.nextInt(Math.max(1, y2 - y1)) + y1;
+			int radius = random.nextInt(3) + 3;
+			
+			// make it go away
+			desperseArea(cx, cy, cz, radius);
+			
+			// done with this round
+			count--;
+		}
+	}
 	
 	private class debrisItem {
 		int typeId;
@@ -327,7 +364,7 @@ public class WorldBlocks extends SupportChunk {
 	
 	private final static double oddsOfDebris = 0.80;
 	
-	private void sprinkleDebris(Random random, int cx, int cy, int cz, int radius, Stack<debrisItem> debris) {
+	private void sprinkleDebris(int cx, int cy, int cz, int radius, Stack<debrisItem> debris) {
 
 		// calculate a few things
 		int r2 = radius * 2;
@@ -371,7 +408,7 @@ public class WorldBlocks extends SupportChunk {
 		}
 	}
 
-	public void desperseArea(Random random, int x, int y, int z, int radius) {
+	public void desperseArea(int x, int y, int z, int radius) {
 		
 		// debris
 		Stack<debrisItem> debris = new Stack<debrisItem>();
@@ -380,7 +417,7 @@ public class WorldBlocks extends SupportChunk {
 		desperseSphere(x, y, z, radius, debris);
 		
 		// now sprinkle blocks around
-		sprinkleDebris(random, x, y, z, radius, debris);
+		sprinkleDebris(x, y, z, radius, debris);
 	}
 
 }

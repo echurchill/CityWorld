@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Plugins;
 import java.util.Random;
 
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -18,6 +19,11 @@ public class OreProvider_TheEnd extends OreProvider {
 
 		subsurfaceId = endStoneId;
 		stratumId = endStoneId;
+	}
+
+	@Override
+	public Biome remapBiome(Biome biome) {
+		return Biome.SKY;
 	}
 
 	@Override

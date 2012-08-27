@@ -17,7 +17,6 @@ import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
-import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
 public abstract class PlatLot {
 	
@@ -453,7 +452,7 @@ public abstract class PlatLot {
 
 		// cool stuff?
 		if (generator.settings.treasuresInMines && chunkRandom.nextDouble() <= generator.settings.oddsOfTreasureInMines) {
-			 chunk.setChest(x, y, z, Direction.Chest.SOUTH, generator.lootProvider.getItems(generator, chunkRandom, LootLocation.MINE));
+			 chunk.setChest(x, y, z, Direction.General.SOUTH, generator.lootProvider.getItems(generator, chunkRandom, LootLocation.MINE));
 		}
 	}
 
@@ -505,37 +504,6 @@ public abstract class PlatLot {
 		
 		// plant grass or snow
 		generator.surfaceProvider.generateSurface(generator, this, chunk, blockYs, includeTrees);
-	}
-	
-	protected void destroyBuilding(WorldGenerator generator, RealChunk chunk, int y, int floors) {
-		destroyLot(generator, chunk, y, y + DataContext.FloorHeight * (floors + 1));
-	}
-	
-	protected void destroyLot(WorldGenerator generator, RealChunk chunk, int y1, int y2) {
-		destroyWithin(generator, chunk, 0, chunk.width, y1, y2, 0, chunk.width);
-	}
-	
-	protected void destroyWithin(WorldGenerator generator, RealChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2) {
-		int count = Math.max(1, (y2 - y1) / DataContext.FloorHeight);
-		
-		// world centric 
-		WorldBlocks blocks = new WorldBlocks(generator);
-	
-		// now destroy it
-		while (count > 0) {
-			
-			// find a place
-			int cx = chunk.getBlockX(chunkRandom.nextInt(x2 - x1) + x1);
-			int cz = chunk.getBlockZ(chunkRandom.nextInt(z2 - z1) + z1);
-			int cy = chunkRandom.nextInt(Math.max(1, y2 - y1)) + y1;
-			int radius = chunkRandom.nextInt(3) + 3;
-			
-			// make it go away
-			blocks.desperseArea(chunkRandom, cx, cy, cz, radius);
-			
-			// done with this round
-			count--;
-		}
 	}
 	
 }

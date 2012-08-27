@@ -700,7 +700,7 @@ public class BunkerLot extends ConstructLot {
 		
 		// cool stuff?
 		if (generator.settings.treasuresInBunkers && chunkRandom.nextDouble() <= generator.settings.oddsOfTreasureInBunkers) {
-			 chunk.setChest(x, y, z, Direction.Chest.NORTH, generator.lootProvider.getItems(generator, chunkRandom, LootLocation.BUNKER));
+			 chunk.setChest(x, y, z, Direction.General.NORTH, generator.lootProvider.getItems(generator, chunkRandom, LootLocation.BUNKER));
 		}
 	}
 

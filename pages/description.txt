@@ -5,17 +5,18 @@ The great outdoors is all good and fine but sometimes you just want to go to tow
 
 ----
 
-===== //Version 1.31// ===== 
+===== //Version 1.32// ===== 
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, if the above version isn't available check back in an hour or so...)//,,
 
-,,//(...or possibly look here: http://dev.bukkit.org/server-mods/cityworld/files/22-v1-31/
+,,//(...or possibly look here: http://dev.bukkit.org/server-mods/cityworld/files/23-v1-32/
 )//,,
 
 {{http://dev.bukkit.org/media/images/42/720/2012-07-04_11.31.52.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
-v1.31
+v1.32
+* Now compiled for 1.6 again
 * Fixed an issue with MultiVerse (my fault, not theirs)
 * Tried to make config.yml a bit more bulletproof
 * Initial pass of 1.3.* happiness

@@ -18,6 +18,7 @@ import me.daddychurchill.CityWorld.Plugins.SurfaceProvider;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -46,6 +47,8 @@ public class WorldGenerator extends ChunkGenerator {
 	public OdonymProvider odonymProvider;
 	public BalloonProvider balloonProvider;
 	public HouseProvider houseProvider;
+	
+	public WorldBlocks decayBlocks;
 
 	public CityWorldSettings settings;
 
@@ -125,6 +128,7 @@ public class WorldGenerator extends ChunkGenerator {
 			surfaceProvider = SurfaceProvider.loadProvider(this, new Random(worldSeed + 5));
 			balloonProvider = BalloonProvider.loadProvider(this);
 			houseProvider = HouseProvider.loadProvider(this);
+			decayBlocks = new WorldBlocks(this, new Random(worldSeed + 6));
 			
 			// get ranges
 			height = shapeProvider.getWorldHeight();

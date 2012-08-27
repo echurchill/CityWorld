@@ -4,8 +4,8 @@ import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
-import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.OfficeBuildingLot;
+import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.ParkLot;
 import me.daddychurchill.CityWorld.Plats.UnfinishedBuildingLot;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
@@ -15,9 +15,9 @@ public abstract class UrbanContext extends DataContext {
 	public UrbanContext(WorldGenerator generator, PlatMap platmap) {
 		super(generator, platmap);
 
-		//TODO anything to generalized?
+		//TODO: Generalization?
 	}
-
+	
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
 		Random platmapRandom = platmap.getRandomGenerator();
@@ -34,13 +34,12 @@ public abstract class UrbanContext extends DataContext {
 
 						// what to build?
 						if (platmapRandom.nextInt(oddsOfParks) == 0)
-							current = new ParkLot(platmap, platmap.originX + x, platmap.originZ + z, generator.connectedKeyForParks);
+							current = getPark(generator, platmap, platmapRandom, platmap.originX + x, platmap.originZ + z);
 						else if (platmapRandom.nextInt(oddsOfUnfinishedBuildings) == 0)
-							current = new UnfinishedBuildingLot(platmap, platmap.originX + x, platmap.originZ + z);
-						//TODO warehouses
+							current = getUnfinishedBuilding(generator, platmap, platmapRandom, platmap.originX + x, platmap.originZ + z);
 						//TODO government buildings
-						else
-							current = new OfficeBuildingLot(platmap, platmap.originX + x, platmap.originZ + z);
+						else 
+							current = getFinishedBuilding(generator, platmap, platmapRandom, platmap.originX + x, platmap.originZ + z);
 						
 						// see if the previous chunk is the same type
 						PlatLot previous = null;
@@ -62,5 +61,17 @@ public abstract class UrbanContext extends DataContext {
 				}
 			}
 		}
+	}
+	
+	protected PlatLot getPark(WorldGenerator generator, PlatMap platmap, Random random, int chunkX, int chunkZ) {
+		return new ParkLot(platmap, chunkX, chunkZ, generator.connectedKeyForParks);
+	}
+	
+	protected PlatLot getFinishedBuilding(WorldGenerator generator, PlatMap platmap, Random random, int chunkX, int chunkZ) {
+		return new OfficeBuildingLot(platmap, chunkX, chunkZ);
+	}
+	
+	protected PlatLot getUnfinishedBuilding(WorldGenerator generator, PlatMap platmap, Random random, int chunkX, int chunkZ) {
+		return new UnfinishedBuildingLot(platmap, chunkX, chunkZ);
 	}
 }

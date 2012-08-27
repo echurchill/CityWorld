@@ -437,7 +437,7 @@ public class RealChunk extends SupportChunk {
 		setBlock(x, y, z, Material.STEP.getId(), direction.getData());
 	}
 
-	public void setLadder(int x, int y1, int y2, int z, Direction.Ladder direction) {
+	public void setLadder(int x, int y1, int y2, int z, Direction.General direction) {
 		int ladderId = Material.LADDER.getId();
 		byte data = direction.getData();
 		for (int y = y1; y < y2; y++)
@@ -460,11 +460,15 @@ public class RealChunk extends SupportChunk {
 		setBlock(x, y, z, material.getId(), direction.getData(), true);
 	}
 	
+	public void setFurnace(int x, int y, int z, Direction.General direction) {
+		setBlock(x, y, z, Material.FURNACE.getId(), direction.getData());
+	}
+
 	private final static int chestId = Material.CHEST.getId();
-	public void setChest(int x, int y, int z, Direction.Chest direction, ItemStack... items) {
+	public void setChest(int x, int y, int z, Direction.General direction, ItemStack... items) {
 		Block block = chunk.getBlock(x, y, z);
 		block.setTypeIdAndData(chestId, direction.getData(), false);
-		if (items.length > 0) {
+		if (items != null && items.length > 0) {
 			if (block.getTypeId() == chestId) {
 				Chest chest = (Chest) block.getState();
 				Inventory inv = chest.getInventory();
@@ -487,7 +491,7 @@ public class RealChunk extends SupportChunk {
 	}
 	
 	private final static int signId = Material.WALL_SIGN.getId();
-	public void setWallSign(int x, int y, int z, Direction.WallSign direction, String[] text) {
+	public void setWallSign(int x, int y, int z, Direction.General direction, String[] text) {
 		Block block = chunk.getBlock(x, y, z);
 		block.setTypeIdAndData(signId, direction.getData(), false);
 		if (block.getTypeId() == signId) {

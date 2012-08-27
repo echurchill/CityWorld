@@ -4,15 +4,10 @@ import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
 
-public class SurroundingRoads {
+public class SurroundingRoads extends Surroundings {
 
 	private boolean[][] roads;
 
-	public SurroundingRoads() {
-		super();
-		roads = new boolean[3][3];
-	}
-	
 	public SurroundingRoads(PlatMap platmap, int platX, int platZ) {
 		super();
 		roads = new boolean[3][3];
@@ -47,41 +42,50 @@ public class SurroundingRoads {
 	
 	// adjacent roads?
 	public boolean adjacentRoads() {
-		return toEast() || toWest() || toNorth() || toSouth();
+		return adjacentNeighbors();
 	}
 
+	@Override
 	public boolean toCenter() {
 		return true;
 	}
 	
+	@Override
 	public boolean toNorth() {
 		return roads[1][0];
 	}
 	
+	@Override
 	public boolean toSouth() {
 		return roads[1][2];
 	}
 
+	@Override
 	public boolean toWest() {
 		return roads[0][1];
 	}
 
+	@Override
 	public boolean toEast() {
 		return roads[2][1];
 	}
 
+	@Override
 	public boolean toNorthWest() {
 		return true;
 	}
 
+	@Override
 	public boolean toNorthEast() {
 		return true;
 	}
 	
+	@Override
 	public boolean toSouthWest() {
 		return true;
 	}
 
+	@Override
 	public boolean toSouthEast() {
 		return true;
 	}

@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Support;
 
-public class SurroundingFloors {
+public class SurroundingFloors extends Surroundings {
 	
 	//TODO refactor this to SurroundingLevels and SurroundingHeights & SurroundingDepths
 	//TODO optimize the lookup logic to use an array of booleans after taking the SurroundingLots
@@ -40,19 +40,6 @@ public class SurroundingFloors {
 //		return neighbors;
 //	}
 	
-	public int getNeighborCount() {
-		int result = 0;
-		if (floors[0][1] > 0)
-			result++;
-		if (floors[1][0] > 0)
-			result++;
-		if (floors[2][1] > 0)
-			result++;
-		if (floors[1][2] > 0)
-			result++;
-		return result;
-	}
-	
 	public boolean isRoundable() {
 		if (toSouth()) {
 			if (toWest()) {
@@ -90,38 +77,47 @@ public class SurroundingFloors {
 		return floors[1][2];
 	}
 	
+	@Override
 	public boolean toNorthEast() {
 		return floors[2][0] > 0 && toEast() && toNorth();
 	}
 
+	@Override
 	public boolean toEast() {
 		return floors[2][1] > 0;
 	}
 
+	@Override
 	public boolean toSouthEast() {
 		return floors[2][2] > 0 && toEast() && toSouth();
 	}
 	
+	@Override
 	public boolean toNorth() {
 		return floors[1][0] > 0;
 	}
 	
+	@Override
 	public boolean toCenter() {
 		return true;
 	}
 	
+	@Override
 	public boolean toSouth() {
 		return floors[1][2] > 0;
 	}
 
+	@Override
 	public boolean toNorthWest() {
 		return floors[0][0] > 0 && toWest() && toNorth();
 	}
 
+	@Override
 	public boolean toWest() {
 		return floors[0][1] > 0;
 	}
 
+	@Override
 	public boolean toSouthWest() {
 		return floors[0][2] > 0 && toWest() && toSouth();
 	}

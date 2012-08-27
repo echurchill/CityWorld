@@ -35,12 +35,11 @@ public class HouseLot extends IsolatedLot {
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 
 		// now make a house
-		int floors = generator.houseProvider.generateHouse(chunk, context, chunkRandom, generator.streetLevel + 1, 2);
+		int floors = generator.houseProvider.generateHouse(generator, chunk, context, chunkRandom, generator.streetLevel + 1, 2);
 		
 		// not a happy place?
-		if (generator.settings.includeDecayedBuildings) {
-			destroyBuilding(generator, chunk, generator.streetLevel + 1, floors);
-		}
+		if (generator.settings.includeDecayedBuildings)
+			generator.decayBlocks.destroyBuilding(generator.streetLevel + 1, floors);
 	}
 
 }

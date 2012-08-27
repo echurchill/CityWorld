@@ -14,8 +14,7 @@ import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingRoads;
-import me.daddychurchill.CityWorld.Support.Direction.Ladder;
-import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
+import me.daddychurchill.CityWorld.Support.Surroundings;
 
 public class RoadLot extends ConnectedLot {
 	
@@ -119,7 +118,7 @@ public class RoadLot extends ConnectedLot {
 	boolean crosswalksFound = false;
 	
 	// where are the crosswalks
-	protected void calculateCrosswalks(SurroundingRoads roads) {
+	protected void calculateCrosswalks(Surroundings roads) {
 		if (!crosswalksFound) {
 			if (roundaboutRoad) {
 				crosswalkNorth = roads.toNorth() && roads.toWest() && roads.toEast();
@@ -834,9 +833,8 @@ public class RoadLot extends ConnectedLot {
 			}
 		
 			// not a happy place?
-			if (generator.settings.includeDecayedRoads) {
-				destroyLot(generator, chunk, sidewalkLevel + 5, sidewalkLevel + 6);
-			}
+			if (generator.settings.includeDecayedRoads)
+				generator.decayBlocks.destroyLot(sidewalkLevel + 5, sidewalkLevel + 6);
 			
 		} else {
 			
@@ -964,10 +962,10 @@ public class RoadLot extends ConnectedLot {
 				vaultNorthWest = true;
 				
 				// place the manhole
-				chunk.setTrapDoor(3, sidewalkLevel, 2, TrapDoor.WEST);
+				chunk.setTrapDoor(3, sidewalkLevel, 2, Direction.TrapDoor.WEST);
 				
 				// ladder
-				chunk.setLadder(3, sewerY, sidewalkLevel, 2, Ladder.WEST);
+				chunk.setLadder(3, sewerY, sidewalkLevel, 2, Direction.General.WEST);
 			}
 			
 			// figure out the center
@@ -1232,22 +1230,22 @@ public class RoadLot extends ConnectedLot {
 			if (chunkRandom.nextDouble() < oddsOfDecayedSign) {
 				String[] odonym = generator.odonymProvider.generateNorthSouthOdonym(generator, cx, cz);
 				generator.odonymProvider.decaySign(chunkRandom, odonym);
-				chunk.setWallSign(x, y, z - 1, Direction.WallSign.NORTH, odonym);
+				chunk.setWallSign(x, y, z - 1, Direction.General.NORTH, odonym);
 			}
 			if (chunkRandom.nextDouble() < oddsOfDecayedSign) {
 				String[] odonym = generator.odonymProvider.generateNorthSouthOdonym(generator, cx, cz);
 				generator.odonymProvider.decaySign(chunkRandom, odonym);
-				chunk.setWallSign(x, y, z + 1, Direction.WallSign.SOUTH, odonym);
+				chunk.setWallSign(x, y, z + 1, Direction.General.SOUTH, odonym);
 			}
 			if (chunkRandom.nextDouble() < oddsOfDecayedSign) {
 				String[] odonym = generator.odonymProvider.generateWestEastOdonym(generator, cx, cz);
 				generator.odonymProvider.decaySign(chunkRandom, odonym);
-				chunk.setWallSign(x - 1, y, z, Direction.WallSign.WEST, odonym);
+				chunk.setWallSign(x - 1, y, z, Direction.General.WEST, odonym);
 			}
 			if (chunkRandom.nextDouble() < oddsOfDecayedSign) {
 				String[] odonym = generator.odonymProvider.generateWestEastOdonym(generator, cx, cz);
 				generator.odonymProvider.decaySign(chunkRandom, odonym);
-				chunk.setWallSign(x + 1, y, z, Direction.WallSign.EAST, odonym);
+				chunk.setWallSign(x + 1, y, z, Direction.General.EAST, odonym);
 			}
 		} else {
 			
@@ -1256,10 +1254,10 @@ public class RoadLot extends ConnectedLot {
 			String[] odonymWestEast = generator.odonymProvider.generateWestEastOdonym(generator, cx, cz);
 			
 			// put the signs up
-			chunk.setWallSign(x, y, z - 1, Direction.WallSign.NORTH, odonymNorthSouth);
-			chunk.setWallSign(x, y, z + 1, Direction.WallSign.SOUTH, odonymNorthSouth);
-			chunk.setWallSign(x - 1, y, z, Direction.WallSign.WEST, odonymWestEast);
-			chunk.setWallSign(x + 1, y, z, Direction.WallSign.EAST, odonymWestEast);
+			chunk.setWallSign(x, y, z - 1, Direction.General.NORTH, odonymNorthSouth);
+			chunk.setWallSign(x, y, z + 1, Direction.General.SOUTH, odonymNorthSouth);
+			chunk.setWallSign(x - 1, y, z, Direction.General.WEST, odonymWestEast);
+			chunk.setWallSign(x + 1, y, z, Direction.General.EAST, odonymWestEast);
 		}
 	}
 	
@@ -1274,9 +1272,9 @@ public class RoadLot extends ConnectedLot {
 		case 3:
 			chunk.setBlocks(x, y, y + 2, z, Material.AIR);
 			break;
-		case 4:
-			chunk.setIronDoor(x, y, z, direction);
-			break;
+//		case 4:
+//			chunk.setIronDoor(x, y, z, direction);
+//			break;
 		default:
 			chunk.setWoodenDoor(x, y, z, direction);
 			break;
@@ -1303,7 +1301,7 @@ public class RoadLot extends ConnectedLot {
 		
 		// cool stuff?
 		if (generator.settings.treasuresInSewers && chunkRandom.nextDouble() <= generator.settings.oddsOfTreasureInSewers) {
-			 chunk.setChest(x, y, z, Direction.Chest.NORTH, generator.lootProvider.getItems(generator, chunkRandom, LootLocation.SEWER));
+			 chunk.setChest(x, y, z, Direction.General.NORTH, generator.lootProvider.getItems(generator, chunkRandom, LootLocation.SEWER));
 		}
 	}
 

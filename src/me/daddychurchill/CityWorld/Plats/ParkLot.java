@@ -5,10 +5,10 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider.LigneousType;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
-import me.daddychurchill.CityWorld.Support.Direction.Ladder;
 import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
+import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
-import me.daddychurchill.CityWorld.Support.SurroundingParks;
+import me.daddychurchill.CityWorld.Support.SurroundingLots;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.Material;
@@ -76,7 +76,7 @@ public class ParkLot extends ConnectedLot {
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 
 		// look around
-		SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
+		SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
 		
 		// starting with the bottom
 		int lowestY = getBottomY(generator);
@@ -213,11 +213,11 @@ public class ParkLot extends ConnectedLot {
 		
 		// way down?
 		if (generator.settings.includeCisterns) {
-			SurroundingParks neighbors = new SurroundingParks(platmap, platX, platZ);
+			SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
 			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
 				int lowestY = generator.streetLevel - cisternDepth + 1 + waterDepth;
 				chunk.setBlocks(4, 7, lowestY, lowestY + 1, 1, 2, ledgeMaterial);
-				chunk.setLadder(5, lowestY + 1, surfaceY, 1, Ladder.SOUTH);
+				chunk.setLadder(5, lowestY + 1, surfaceY, 1, Direction.General.SOUTH);
 				chunk.setTrapDoor(5, surfaceY, 1, TrapDoor.EAST);
 			}
 		}

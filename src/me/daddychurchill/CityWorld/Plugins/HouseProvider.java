@@ -6,9 +6,10 @@ import org.bukkit.Material;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
+import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
+import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Door;
-import me.daddychurchill.CityWorld.Support.Direction.Ladder;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
 
@@ -23,8 +24,88 @@ public class HouseProvider {
 		// for now
 		return new HouseProvider();
 	}
+	
+	private final static double oddsOfFurnace = 0.25;
+	private final static double oddsOfCraftingTable = 0.25;
+	
+	public void generateShed(WorldGenerator generator, RealChunk chunk, DataContext context, Random random, int x, int y, int z, int radius) {
+		int x1 = x - radius;
+		int x2 = x + radius + 1;
+		int z1 = z - radius;
+		int z2 = z + radius + 1;
+		int y1 = y;
+		int y2 = y + DataContext.FloorHeight - 1;
+		int xR = x2 - x1 - 2;
+		int zR = z2 - z1 - 2;
+		
+		byte roofData = (byte) random.nextInt(6);
+		Material wallMat = pickShedWall(roofData);
+		
+		chunk.setWalls(x1, x2, y1, y2, z1, z2, wallMat);
+		chunk.setBlocks(x1 + 1, x2 - 1, y2, z1 + 1, z2 - 1, Material.STEP, roofData);
+		
+		switch (random.nextInt(4)) {
+		case 0: // north
+			chunk.setWoodenDoor(x1 + random.nextInt(xR) + 1, y1, z1, Direction.Door.NORTHBYNORTHEAST);
+			chunk.setBlock(x1 + random.nextInt(xR) + 1, y1 + 1, z2 - 1, materialGlass);
+			placeShedTable(generator, chunk, random, x1 + random.nextInt(xR) + 1, y1, z2 - 2, Direction.General.SOUTH);
+			placeShedChest(generator, chunk, random, x1 - 1, y1, z1 + random.nextInt(zR) + 1, Direction.General.WEST);
+			placeShedChest(generator, chunk, random, x2, y1, z1 + random.nextInt(zR) + 1, Direction.General.EAST);
+			break;
+		case 1: // south
+			chunk.setWoodenDoor(x1 + random.nextInt(xR) + 1, y1, z2 - 1, Direction.Door.SOUTHBYSOUTHWEST);
+			chunk.setBlock(x1 + random.nextInt(xR) + 1, y1 + 1, z1, materialGlass);
+			placeShedTable(generator, chunk, random, x1 + random.nextInt(xR) + 1, y1, z1 + 1, Direction.General.NORTH);
+			placeShedChest(generator, chunk, random, x1 - 1, y1, z1 + random.nextInt(zR) + 1, Direction.General.WEST);
+			placeShedChest(generator, chunk, random, x2, y1, z1 + random.nextInt(zR) + 1, Direction.General.EAST);
+			break;
+		case 2: // west
+			chunk.setWoodenDoor(x1, y1, z1 + random.nextInt(zR) + 1, Direction.Door.WESTBYNORTHWEST);
+			chunk.setBlock(x2 - 1, y1 + 1, z1 + random.nextInt(zR) + 1, materialGlass);
+			placeShedTable(generator, chunk, random, x2 - 2, y1, z1 + random.nextInt(zR) + 1, Direction.General.EAST);
+			placeShedChest(generator, chunk, random, x1 + random.nextInt(xR) + 1, y1, z1 - 1, Direction.General.NORTH);
+			placeShedChest(generator, chunk, random, x1 + random.nextInt(xR) + 1, y1, z2, Direction.General.SOUTH);
+			break;
+		default: // east
+			chunk.setWoodenDoor(x1, y1, z1 + random.nextInt(zR) + 1, Direction.Door.EASTBYSOUTHEAST);
+			chunk.setBlock(x2 - 1, y1 + 1, z1 + random.nextInt(zR) + 1, materialGlass);
+			placeShedTable(generator, chunk, random, x1 + 1, y1, z1 + random.nextInt(zR) + 1, Direction.General.WEST);
+			placeShedChest(generator, chunk, random, x1 + random.nextInt(xR) + 1, y1, z1 - 1, Direction.General.NORTH);
+			placeShedChest(generator, chunk, random, x1 + random.nextInt(xR) + 1, y1, z2, Direction.General.SOUTH);
+			break;
+		}
+	}
+	
+	private void placeShedTable(WorldGenerator generator, RealChunk chunk, Random random, int x, int y, int z, Direction.General direction) {
+		if (random.nextDouble() < oddsOfFurnace)
+			chunk.setFurnace(x, y, z, direction);
+		else if (random.nextDouble() < oddsOfCraftingTable)
+			chunk.setBlock(x, y, z, Material.WORKBENCH);
+		else {
+			chunk.setBlock(x, y, z, Material.FENCE);
+			chunk.setBlock(x, y + 1, z, Material.WOOD_PLATE);
+		}
+	}
+	
+	private void placeShedChest(WorldGenerator generator, RealChunk chunk, Random random, int x, int y, int z, Direction.General direction) {
+		chunk.setChest(x, y, z, direction, generator.lootProvider.getItems(generator, random, LootLocation.STORAGESHED));
+		switch (direction) {
+		case NORTH:
+			chunk.setChest(x + 1, y, z, direction);
+			break;
+		case SOUTH:
+			chunk.setChest(x - 1, y, z, direction);
+			break;
+		case WEST:
+			chunk.setChest(x, y, z + 1, direction);
+			break;
+		case EAST:
+			chunk.setChest(x, y, z - 1, direction);
+			break;
+		}
+	}
 
-	public int generateShack(RealChunk chunk, DataContext context, Random random, int baseY, int roomWidth) {
+	public int generateShack(WorldGenerator generator, RealChunk chunk, DataContext context, Random random, int baseY, int roomWidth) {
 		
 		// what are we made of?
 		Material matWall = Material.WOOD;
@@ -38,7 +119,7 @@ public class HouseProvider {
 		return floors;
 	}
 	
-	public int generateHouse(RealChunk chunk, DataContext context, Random random, int baseY, int maxFloors, int maxRoomWidth) {
+	public int generateHouse(WorldGenerator generator, RealChunk chunk, DataContext context, Random random, int baseY, int maxFloors, int maxRoomWidth) {
 		
 		// what are we made of?
 		Material matWall = pickWallMaterial(random);
@@ -57,8 +138,8 @@ public class HouseProvider {
 		return floors;
 	}
 
-	public int generateHouse(RealChunk chunk, DataContext context, Random random, int baseY, int maxFloors) {
-		return generateHouse(chunk, context, random, baseY, maxFloors, MaxSize);
+	public int generateHouse(WorldGenerator generator, RealChunk chunk, DataContext context, Random random, int baseY, int maxFloors) {
+		return generateHouse(generator, chunk, context, random, baseY, maxFloors, MaxSize);
 	}
 
 	private final static Material materialAir = Material.AIR;
@@ -377,21 +458,21 @@ public class HouseProvider {
 				if (floor == floors - 1) {
 					if (roomEast) {
 						if (roomSouth) {
-							chunk.setLadder(x1 + 1, y1, y1 + 3, z1 + 1, Ladder.SOUTH);
+							chunk.setLadder(x1 + 1, y1, y1 + 3, z1 + 1, Direction.General.SOUTH);
 							chunk.setTrapDoor(x1 + 1, y2, z1 + 1, TrapDoor.SOUTH);
 							
 						} else {
-							chunk.setLadder(x1 + 1, y1, y1 + 3, z2 - 1, Ladder.EAST);
+							chunk.setLadder(x1 + 1, y1, y1 + 3, z2 - 1, Direction.General.EAST);
 							chunk.setTrapDoor(x1 + 1, y2, z2 - 1, TrapDoor.EAST);
 
 						}
 					} else {
 						if (roomSouth) {
-							chunk.setLadder(x2 - 1, y1, y1 + 3, z1 + 1, Ladder.WEST);
+							chunk.setLadder(x2 - 1, y1, y1 + 3, z1 + 1, Direction.General.WEST);
 							chunk.setTrapDoor(x2 - 1, y2, z1 + 1, TrapDoor.WEST);
 	
 						} else {
-							chunk.setLadder(x2 - 1, y1, y1 + 3, z2 - 1, Ladder.NORTH);
+							chunk.setLadder(x2 - 1, y1, y1 + 3, z2 - 1, Direction.General.NORTH);
 							chunk.setTrapDoor(x2 - 1, y2, z2 - 1, TrapDoor.NORTH);
 						
 						}
@@ -800,6 +881,23 @@ public class HouseProvider {
 			return Material.SANDSTONE;
 		default:
 			return Material.WOOD;
+		}
+	}
+	
+	private Material pickShedWall(int i) {
+		switch (i) {
+		case 0:
+			return Material.STONE;
+		case 1:
+			return Material.SANDSTONE;
+		case 2:
+			return Material.WOOD;
+		case 3:
+			return Material.COBBLESTONE;
+		case 4:
+			return Material.BRICK;
+		default:
+			return Material.SMOOTH_BRICK;
 		}
 	}
 }

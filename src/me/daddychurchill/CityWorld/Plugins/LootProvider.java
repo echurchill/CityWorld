@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import java.util.Random;
 
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
@@ -10,7 +11,7 @@ public abstract class LootProvider {
 
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	
-	public enum LootLocation {SEWER, MINE, BUNKER};
+	public enum LootLocation {SEWER, MINE, BUNKER, STORAGESHED};
 	
 	public abstract ItemStack[] getItems(WorldGenerator generator, Random random, LootLocation lootLocation);
 
@@ -27,5 +28,22 @@ public abstract class LootProvider {
 		}
 	
 		return provider;
+	}
+
+	protected ItemStack[] createTreasures(WorldGenerator generator, Random random, Material minTreasure, Material maxTreasure, int maxCount, int maxStack) {
+		int minId = minTreasure.getId();
+		int maxId = maxTreasure.getId();
+		int range = maxId - minId;
+		int count = maxCount > 0 ? random.nextInt(maxCount) + 1 : 0;
+		
+		// make room
+		ItemStack[] items = new ItemStack[count];
+		
+		// populate
+		for (int i = 0; i < count; i++)
+			items[i] = new ItemStack(random.nextInt(range) + minId, random.nextInt(maxStack) + 1);
+		
+		// all done
+		return items;
 	}
 }

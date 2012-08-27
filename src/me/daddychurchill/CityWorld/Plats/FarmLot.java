@@ -11,7 +11,7 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.SurroundingFarms;
+import me.daddychurchill.CityWorld.Support.SurroundingLots;
 
 public class FarmLot extends ConnectedLot {
 
@@ -101,7 +101,7 @@ public class FarmLot extends ConnectedLot {
 	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		// look around
-		SurroundingFarms farms = new SurroundingFarms(platmap, platX, platZ);
+		SurroundingLots farms = new SurroundingLots(platmap, platX, platZ);
 		
 		// what type of ground do we have
 		byte surfaceId = generator.oreProvider.surfaceId;
