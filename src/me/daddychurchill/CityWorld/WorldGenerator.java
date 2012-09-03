@@ -12,6 +12,7 @@ import me.daddychurchill.CityWorld.Plugins.HouseProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.OdonymProvider;
 import me.daddychurchill.CityWorld.Plugins.OreProvider;
+import me.daddychurchill.CityWorld.Plugins.PasteProvider;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider;
@@ -39,6 +40,7 @@ public class WorldGenerator extends ChunkGenerator {
 	public Environment worldEnvironment;
 	
 	public ShapeProvider shapeProvider;
+	public PasteProvider pasteProvider;
 	public LootProvider lootProvider;
 	public SpawnProvider spawnProvider;
 	public OreProvider oreProvider;
@@ -120,6 +122,7 @@ public class WorldGenerator extends ChunkGenerator {
 			worldSeed = world.getSeed();
 			connectionKeyGen = new Random(worldSeed + 1);
 			shapeProvider = ShapeProvider.loadProvider(this, new Random(worldSeed + 2));
+			pasteProvider = PasteProvider.loadProvider(this);
 			lootProvider = LootProvider.loadProvider(this);
 			spawnProvider = SpawnProvider.loadProvider(this);
 			oreProvider = OreProvider.loadProvider(this);

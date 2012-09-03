@@ -11,7 +11,7 @@ public abstract class LootProvider {
 
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	
-	public enum LootLocation {SEWER, MINE, BUNKER, STORAGESHED};
+	public enum LootLocation {SEWER, MINE, BUNKER, STORAGESHED, BANKVAULT};
 	
 	public abstract ItemStack[] getItems(WorldGenerator generator, Random random, LootLocation lootLocation);
 
@@ -33,7 +33,7 @@ public abstract class LootProvider {
 	protected ItemStack[] createTreasures(WorldGenerator generator, Random random, Material minTreasure, Material maxTreasure, int maxCount, int maxStack) {
 		int minId = minTreasure.getId();
 		int maxId = maxTreasure.getId();
-		int range = maxId - minId;
+		int rangeId = maxId - minId + 1;
 		int count = maxCount > 0 ? random.nextInt(maxCount) + 1 : 0;
 		
 		// make room
@@ -41,7 +41,7 @@ public abstract class LootProvider {
 		
 		// populate
 		for (int i = 0; i < count; i++)
-			items[i] = new ItemStack(random.nextInt(range) + minId, random.nextInt(maxStack) + 1);
+			items[i] = new ItemStack(random.nextInt(rangeId) + minId, random.nextInt(maxStack) + 1);
 		
 		// all done
 		return items;

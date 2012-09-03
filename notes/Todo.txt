@@ -1,0 +1,7 @@
+FloatingRoundaboutStatueLot
+
+PasteProvider
+
+Warehouse interior
+
+OfficeBuilding interior

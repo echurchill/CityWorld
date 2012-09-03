@@ -25,6 +25,19 @@ public abstract class Surroundings {
 		return result;
 	}
 
+	public int getCompleteNeighborCount() {
+		int result = getNeighborCount();
+		if (toNorthWest())
+			result++;
+		if (toNorthEast())
+			result++;
+		if (toSouthWest())
+			result++;
+		if (toSouthEast())
+			result++;
+		return result;
+	}
+
 	public boolean adjacentNeighbors() {
 		return toEast() || toWest() || toNorth() || toSouth();
 	}

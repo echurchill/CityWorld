@@ -7,7 +7,6 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
-import me.daddychurchill.CityWorld.Plats.RoundaboutStatueLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -49,6 +48,7 @@ public abstract class PlatMap {
 	protected abstract void populateLots(SupportChunk typicalChunk);
 	protected abstract PlatLot createNaturalLot(int x, int z);
 	protected abstract PlatLot createRoadLot(int x, int z, boolean roundaboutPart);
+	protected abstract PlatLot createRoundaboutStatueLot(int x, int z);
 
 	public Random getRandomGenerator() {
 		return generator.shapeProvider.getMacroRandomGeneratorAt(originX, originZ);
@@ -241,7 +241,7 @@ public abstract class PlatMap {
 					paveLot(x - 1, z + 1, true);
 					
 					paveLot(x    , z - 1, true);
-					setLot(x, z, new RoundaboutStatueLot(this, originX + x, originZ + z));
+					setLot(x, z, createRoundaboutStatueLot(originX + x, originZ + z));
 					paveLot(x    , z + 1, true);
 			
 					paveLot(x + 1, z - 1, true);

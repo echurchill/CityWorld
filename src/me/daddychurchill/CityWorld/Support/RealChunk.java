@@ -521,5 +521,18 @@ public class RealChunk extends SupportChunk {
 		setStair(x - 3, y + 9, z, Material.SMOOTH_STAIRS, Stair.EAST);
 		setBlocks(x - 3, x - 1, y + 7, y + 9, z, z + 1, Material.WOOL, (byte) random.nextInt(16));
 	}
+
+	public void setTable(int x1, int x2, int y, int z1, int z2, Material tableTop) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				setTable(x, y, z, tableTop);
+			}
+		}
+	}
+	
+	public void setTable(int x, int y, int z, Material tableTop) {
+		setBlock(x, y, z, Material.FENCE);
+		setBlock(x, y + 1, z, tableTop);
+	}
 	
 }

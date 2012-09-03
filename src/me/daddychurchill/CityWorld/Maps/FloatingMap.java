@@ -16,6 +16,7 @@ import me.daddychurchill.CityWorld.Plats.FloatingNothingLot;
 import me.daddychurchill.CityWorld.Plats.FloatingRoadLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
+import me.daddychurchill.CityWorld.Plats.RoundaboutStatueLot;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class FloatingMap extends PlatMap {
@@ -83,6 +84,12 @@ public class FloatingMap extends PlatMap {
 	@Override
 	protected PlatLot createRoadLot(int x, int z, boolean roundaboutPart) {
 		return new FloatingRoadLot(this, originX + x, originZ + z, generator.connectedKeyForPavedRoads, roundaboutPart);
+	}
+
+	@Override
+	protected PlatLot createRoundaboutStatueLot(int x, int z) {
+		return new RoundaboutStatueLot(this, originX + x, originZ + z);
+		//return new FloatingRoundaboutCenterLot(this, originX + x, originZ + z);
 	}
 
 	protected DataContext getContext() {

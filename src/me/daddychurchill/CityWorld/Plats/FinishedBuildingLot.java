@@ -31,6 +31,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	protected boolean insetInsetted;
 	protected int insetInsetMidAt;
 	protected int insetInsetHighAt;
+	
+	protected int firstFloorHeight;
+	protected int otherFloorHeight;
 
 	public FinishedBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
@@ -65,6 +68,10 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 					chunkRandom.nextInt(context.buildingWallInsettedMinLowPoint));
 			insetInsetHighAt = Math.max(insetInsetMidAt + 1, chunkRandom.nextInt(context.buildingWallInsettedMinLowPoint));
 		}
+		
+		// floorheight
+		firstFloorHeight = aboveFloorHeight;
+		otherFloorHeight = aboveFloorHeight;
 		
 		// what is it made of?
 		wallMaterial = pickWallMaterial(chunkRandom);
@@ -175,6 +182,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		int localInsetCeilingNS = insetCeilingNS;
 
 		// above ground
+		aboveFloorHeight = firstFloorHeight;
 		for (int floor = 0; floor < height; floor++) {
 			int floorAt = generator.streetLevel + aboveFloorHeight * floor + 2;
 			allowRounded = allowRounded && neighborFloors.isRoundable();
@@ -203,6 +211,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 
 			// one down, more to go
 			neighborFloors.decrement();
+			aboveFloorHeight = otherFloorHeight;
 		}
 	}
 	
@@ -259,6 +268,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		
 		// now the above ground floors
 		if (needStairsUp) {
+			aboveFloorHeight = firstFloorHeight;
 			for (int floor = 0; floor < height; floor++) {
 				int y = generator.streetLevel + aboveFloorHeight * floor + 2;
 				
@@ -271,6 +281,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				if (floor > 0 || (floor == 0 && (depth > 0 || height > 1)))
 					drawStairsWalls(chunk, y, aboveFloorHeight, insetWallEW, insetWallNS, 
 							stairLocation, stairWallMaterial, floor == height - 1, floor == 0 && depth == 0);
+				aboveFloorHeight = otherFloorHeight;
 			}
 		}
 		

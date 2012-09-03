@@ -16,13 +16,10 @@ public class RoundaboutStatueLot extends IsolatedLot {
 
 	private enum StatueBase { WATER, GRASS, PEDESTAL };
 	
-	protected final static byte curbId = (byte) Material.DOUBLE_STEP.getId();
-	protected final static byte goldId = (byte) Material.GOLD_ORE.getId();
-	protected final static byte brickId = (byte) Material.SMOOTH_BRICK.getId();
+	private final static byte curbId = (byte) Material.DOUBLE_STEP.getId();
+	private final static byte brickId = (byte) Material.SMOOTH_BRICK.getId();
 	
-	protected final static byte netherrackId = (byte) Material.NETHERRACK.getId();
-	
-	protected StatueBase statueBase;
+	private StatueBase statueBase;
 	
 	public RoundaboutStatueLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
