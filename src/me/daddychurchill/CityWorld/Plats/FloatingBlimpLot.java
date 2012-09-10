@@ -73,7 +73,7 @@ public class FloatingBlimpLot extends IsolatedLot {
 			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
 			int platZ) {
 		if (generator.settings.includeDecayedBuildings)
-			generator.decayBlocks.destroyLot(generator.streetLevel - 1, generator.streetLevel + 3);
+			destroyLot(generator, generator.streetLevel - 1, generator.streetLevel + 3);
 		
 		// what type of balloon?
 		BalloonProvider balloons = generator.balloonProvider;

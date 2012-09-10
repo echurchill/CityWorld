@@ -57,7 +57,7 @@ public class FloatingHouseLot extends ConstructLot {
 		
 		// not a happy place?
 		if (generator.settings.includeDecayedBuildings)
-			generator.decayBlocks.destroyBuilding(groundLevel + 1, floors);
+			destroyBuilding(generator, groundLevel + 1, floors);
 
 		// add balloons on the corners
 		generator.balloonProvider.generateBalloon(generator, chunk, context, 2, groundLevel + 2, 2, chunkRandom);

@@ -307,7 +307,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				y2 += aboveFloorHeight;
 				break;
 			}
-			generator.decayBlocks.destroyLot(y1, y2);
+			destroyLot(generator, y1, y2);
 		}
 	}
 	

@@ -50,7 +50,7 @@ public class StorageLot extends BuildingLot {
 
 		// it looked so nice for a moment... but the moment has passed
 		if (generator.settings.includeDecayedBuildings)
-			generator.decayBlocks.destroyLot(groundY, groundY + 4);
+			destroyLot(generator, groundY, groundY + 4);
 	}
 
 	@Override

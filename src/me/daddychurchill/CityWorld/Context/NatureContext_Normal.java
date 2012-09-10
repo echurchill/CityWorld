@@ -5,6 +5,7 @@ import java.util.Random;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.BunkerLot;
+import me.daddychurchill.CityWorld.Plats.OldCastleLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.MineEntranceLot;
 import me.daddychurchill.CityWorld.Plats.OilPlatformLot;
@@ -154,10 +155,10 @@ public class NatureContext_Normal extends RuralContext {
 				if (generator.settings.includeBuildings)
 					platmap.setLot(x, z, new RadioTowerLot(platmap, platmap.originX + x, platmap.originZ + z));
 				break;
-//			case PEAK:
-//				// Observatories
-//				platmap.setLot(x, z, new PlatObservatory(random, platmap));
-//				break;
+			case PEAK:
+				// Old castle
+				platmap.setLot(x, z, new OldCastleLot(platmap, platmap.originX + x, platmap.originZ + z));
+				break;
 			default:
 				break;
 			}

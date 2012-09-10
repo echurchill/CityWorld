@@ -22,6 +22,8 @@ public abstract class PlatLot {
 	
 	// extremes
 	private CachedYs blockYs;
+	private int chunkX;
+	private int chunkZ;
 	protected int averageHeight;
 	protected int minHeight = Integer.MAX_VALUE;
 	protected int minHeightX = 0;
@@ -39,9 +41,11 @@ public abstract class PlatLot {
 	
 	public PlatLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super();
-		initializeDice(platmap, chunkX, chunkZ);
+		this.chunkX = chunkX;
+		this.chunkZ = chunkZ;
+		this.style = LotStyle.NATURE;
 		
-		style = LotStyle.NATURE;
+		initializeDice(platmap, chunkX, chunkZ);
 	}
 	
 	protected final static byte airId = (byte) Material.AIR.getId();
@@ -157,6 +161,16 @@ public abstract class PlatLot {
 		
 		// all done
 		deinitializeContext();
+	}
+	
+	protected void destroyLot(WorldGenerator generator, int y1, int y2) {
+		int x1 = chunkX * SupportChunk.chunksBlockWidth;
+		int z1 = chunkZ * SupportChunk.chunksBlockWidth;
+		generator.decayBlocks.destroyWithin(x1, x1 + SupportChunk.chunksBlockWidth, y1, y2, z1, z1 + SupportChunk.chunksBlockWidth);
+	}
+	
+	public void destroyBuilding(WorldGenerator generator, int y, int floors) {
+		destroyLot(generator, y, y + DataContext.FloorHeight * (floors + 1));
 	}
 	
 	private final static int lowestMineSegment = 16;

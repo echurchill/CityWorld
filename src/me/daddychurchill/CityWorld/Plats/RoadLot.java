@@ -834,7 +834,7 @@ public class RoadLot extends ConnectedLot {
 		
 			// not a happy place?
 			if (generator.settings.includeDecayedRoads)
-				generator.decayBlocks.destroyLot(sidewalkLevel + 5, sidewalkLevel + 6);
+				destroyLot(generator, sidewalkLevel + 5, sidewalkLevel + 6);
 			
 		} else {
 			
@@ -901,6 +901,8 @@ public class RoadLot extends ConnectedLot {
 				
 				// add nature on top
 				generateSurface(generator, chunk, true);
+				
+				//TODO decay tunnels please!
 				
 			// stuff that only can happen outside of tunnels and bridges
 			} else {

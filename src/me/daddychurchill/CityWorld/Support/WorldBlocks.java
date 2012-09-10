@@ -7,7 +7,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Plats.PlatLot;
 
 public class WorldBlocks extends SupportChunk {
 
@@ -271,18 +270,6 @@ public class WorldBlocks extends SupportChunk {
 		return world.getBlockAt(x, y, z).getTypeId() == grassId;
 	}
 	
-	public void decayLot(PlatLot lot) {
-		
-	}
-	
-	public void destroyBuilding(int y, int floors) {
-		destroyLot(y, y + DataContext.FloorHeight * (floors + 1));
-	}
-	
-	public void destroyLot(int y1, int y2) {
-		destroyWithin(0, width, y1, y2, 0, width);
-	}
-	
 	public void destroyWithin(int x1, int x2, int y1, int y2, int z1, int z2) {
 		int count = Math.max(1, (y2 - y1) / DataContext.FloorHeight);
 		
@@ -389,10 +376,14 @@ public class WorldBlocks extends SupportChunk {
 				// look out for half blocks
 				Block block = getActualBlock(x, y - 1, z);
 				int blockId = block.getTypeId();
-				if (blockId == stepId)
+				
+				// partial blocks
+				if (blockId == stepId || blockId == snowId)
 					block.setTypeIdAndData(item.typeId, item.data, false);
+				
+				// other blocks?
 				else {
-	
+					
 					// find the bottom of the pool
 					if (block.isLiquid()) {
 						do {

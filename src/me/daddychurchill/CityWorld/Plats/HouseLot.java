@@ -39,7 +39,7 @@ public class HouseLot extends IsolatedLot {
 		
 		// not a happy place?
 		if (generator.settings.includeDecayedBuildings)
-			generator.decayBlocks.destroyBuilding(generator.streetLevel + 1, floors);
+			destroyBuilding(generator, generator.streetLevel + 1, floors);
 	}
 
 }
