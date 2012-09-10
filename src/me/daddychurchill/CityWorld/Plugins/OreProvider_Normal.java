@@ -14,6 +14,11 @@ public class OreProvider_Normal extends OreProvider {
 		super(generator);
 	}
 	
+	@Override
+	public String getCollectionName() {
+		return "Normal";
+	}
+
 	/**
 	 * Populates the world with ores.
 	 *

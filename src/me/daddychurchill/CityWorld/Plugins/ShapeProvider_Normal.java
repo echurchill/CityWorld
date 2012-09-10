@@ -100,6 +100,11 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	public PlatMap createPlatMap(WorldGenerator generator, SupportChunk cornerChunk, int platX, int platZ) {
 		return new NormalMap(generator, cornerChunk, platX, platZ);
 	}
+	
+	@Override
+	public String getCollectionName() {
+		return "Normal";
+	}
 
 	@Override
 	public void preGenerateChunk(WorldGenerator generator, PlatLot lot, ByteChunk chunk, BiomeGrid biomes, CachedYs blockYs) {

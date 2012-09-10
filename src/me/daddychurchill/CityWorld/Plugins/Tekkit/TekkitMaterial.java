@@ -1,4 +1,4 @@
-package me.daddychurchill.CityWorld.Support;
+package me.daddychurchill.CityWorld.Plugins.Tekkit;
 
 // tekkit support by gunre
 // reworked a bit by daddychurchill

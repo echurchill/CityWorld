@@ -34,6 +34,7 @@ public class CityWorld extends JavaPlugin{
 	public void onEnable() {
 		addCommand("cityworld", new CommandCityWorld(this));
 		addCommand("citychunk", new CommandCityChunk(this));
+		addCommand("citylines", new CommandCityLines(this));
 
 		// configFile can be retrieved via getConfig()
 		log.info(getDescription().getFullName() + " is enabled" );
@@ -46,6 +47,15 @@ public class CityWorld extends JavaPlugin{
 		} else {
 			cmd.setExecutor(exec);
 		}
+	}
+	
+	public static void reportMessage(String message) {
+		log.info("[CityWorld]" + message);
+	}
+
+	public static void reportException(String message, Exception e) {
+		reportMessage(message);
+		log.info("Exception: " + e.getMessage());
 	}
 }
 

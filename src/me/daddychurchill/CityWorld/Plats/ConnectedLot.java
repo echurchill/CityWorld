@@ -38,4 +38,5 @@ public abstract class ConnectedLot extends PlatLot {
 			return false;
 		return connectedkey == relative.getConnectedKey();
 	}
+
 }

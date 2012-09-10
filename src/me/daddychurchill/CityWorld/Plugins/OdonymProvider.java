@@ -4,7 +4,7 @@ import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 
-public abstract class OdonymProvider {
+public abstract class OdonymProvider extends Provider {
 
 	public abstract String[] generateNorthSouthOdonym(WorldGenerator generator, int x, int z);
 	public abstract String[] generateWestEastOdonym(WorldGenerator generator, int x, int z);
@@ -13,6 +13,7 @@ public abstract class OdonymProvider {
 	int baseSeed;
 	
 	public OdonymProvider(int baseSeed) {
+		super();
 		this.baseSeed = baseSeed;
 	}
 	

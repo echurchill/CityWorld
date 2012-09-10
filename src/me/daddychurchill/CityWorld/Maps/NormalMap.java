@@ -14,7 +14,7 @@ import me.daddychurchill.CityWorld.Context.UnderConstructionContext;
 import me.daddychurchill.CityWorld.Plats.NatureLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
-import me.daddychurchill.CityWorld.Plats.SchematicTestLot;
+import me.daddychurchill.CityWorld.Plats.RoundaboutStatueLot;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class NormalMap extends PlatMap {
@@ -36,8 +36,8 @@ public class NormalMap extends PlatMap {
 
 	@Override
 	protected PlatLot createRoundaboutStatueLot(int x, int z) {
-		return new SchematicTestLot(this, originX + x, originZ + z);
-		//return new RoundaboutStatueLot(this, originX + x, originZ + z);
+		//return new SchematicTestLot(this, originX + x, originZ + z);
+		return new RoundaboutStatueLot(this, originX + x, originZ + z);
 	}
 
 	@Override

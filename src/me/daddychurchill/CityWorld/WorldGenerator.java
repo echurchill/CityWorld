@@ -5,6 +5,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.Clipboard.PasteProvider;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plugins.BalloonProvider;
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider;
@@ -12,7 +13,6 @@ import me.daddychurchill.CityWorld.Plugins.HouseProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.OdonymProvider;
 import me.daddychurchill.CityWorld.Plugins.OreProvider;
-import me.daddychurchill.CityWorld.Plugins.PasteProvider;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider;
@@ -90,7 +90,7 @@ public class WorldGenerator extends ChunkGenerator {
 			try {
 				this.worldStyle = WorldStyle.valueOf(worldStyle.trim().toUpperCase());
 			} catch (IllegalArgumentException e) {
-				CityWorld.log.info(plugin.getName() + ": Unknown world style [" + worldStyle + "], switching to NORMAL");
+				CityWorld.reportMessage("[Generator] Unknown world style " + worldStyle + ", switching to NORMAL");
 				this.worldStyle = WorldStyle.NORMAL;
 			}
 		}
@@ -122,7 +122,6 @@ public class WorldGenerator extends ChunkGenerator {
 			worldSeed = world.getSeed();
 			connectionKeyGen = new Random(worldSeed + 1);
 			shapeProvider = ShapeProvider.loadProvider(this, new Random(worldSeed + 2));
-			pasteProvider = PasteProvider.loadProvider(this);
 			lootProvider = LootProvider.loadProvider(this);
 			spawnProvider = SpawnProvider.loadProvider(this);
 			oreProvider = OreProvider.loadProvider(this);
@@ -132,6 +131,7 @@ public class WorldGenerator extends ChunkGenerator {
 			balloonProvider = BalloonProvider.loadProvider(this);
 			houseProvider = HouseProvider.loadProvider(this);
 			decayBlocks = new WorldBlocks(this, new Random(worldSeed + 6));
+			pasteProvider = PasteProvider.loadProvider(this);
 			
 			// get ranges
 			height = shapeProvider.getWorldHeight();
@@ -150,14 +150,14 @@ public class WorldGenerator extends ChunkGenerator {
 			evergreenRange = snowLevel - evergreenLevel;
 			
 //			// seabed = 35 deepsea = 50 sea = 64 sidewalk = 65 tree = 110 evergreen = 156 snow = 202 top = 249
-//			CityWorld.log.info("seabed = " + (seaLevel - seaRange) + 
-//							   " deepsea = " + deepseaLevel + 
-//							   " sea = " + seaLevel + 
-//							   " sidewalk = " + sidewalkLevel + 
-//							   " tree = " + treeLevel + 
-//							   " evergreen = " + evergreenLevel + 
-//							   " snow = " + snowLevel + 
-//							   " top = " + (seaLevel + landRange));
+//			CityWorld.reportMessage("seabed = " + (seaLevel - seaRange) + 
+//							        " deepsea = " + deepseaLevel + 
+//							        " sea = " + seaLevel + 
+//							        " sidewalk = " + sidewalkLevel + 
+//							        " tree = " + treeLevel + 
+//							        " evergreen = " + evergreenLevel + 
+//							        " snow = " + snowLevel + 
+//							        " top = " + (seaLevel + landRange));
 			
 			// get the connectionKeys
 			connectedKeyForPavedRoads = connectionKeyGen.nextLong();
@@ -175,7 +175,7 @@ public class WorldGenerator extends ChunkGenerator {
 		// figure out what everything looks like
 		PlatMap platmap = getPlatMap(byteChunk, chunkX, chunkZ);
 		if (platmap != null) {
-			//CityWorld.log.info("generate X,Z = " + chunkX + "," + chunkZ);
+			//CityWorld.reportMessage("generate X,Z = " + chunkX + "," + chunkZ);
 			platmap.generateChunk(byteChunk, biomes);
 		}
 
@@ -270,7 +270,7 @@ public class WorldGenerator extends ChunkGenerator {
 			// figure out what everything looks like
 			PlatMap platmap = chunkGen.getPlatMap(realChunk, chunkX, chunkZ);
 			if (platmap != null) {
-				//CityWorld.log.info("populate X,Z = " + chunkX + "," + chunkZ);
+				//CityWorld.reportMessage("populate X,Z = " + chunkX + "," + chunkZ);
 				platmap.generateBlocks(realChunk);
 			}
 		}

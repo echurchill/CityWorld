@@ -6,7 +6,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 
 import org.bukkit.entity.EntityType;
 
-public abstract class SpawnProvider {
+public abstract class SpawnProvider extends Provider {
 
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	

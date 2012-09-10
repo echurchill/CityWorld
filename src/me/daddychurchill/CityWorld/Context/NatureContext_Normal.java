@@ -129,7 +129,6 @@ public class NatureContext_Normal extends RuralContext {
 			switch (state) {
 			case DEEPSEA:
 				// Oil rigs
-				//CityWorld.log.info("Drilling platform at " + (platmap.originX + x) * 16 + ", " + (platmap.originZ + z) * 16);
 				//TODO: Do I want to fix this?
 				// SEED: -7145037513581384357 in v1.04
 				// POS: 1080, 80, 284

@@ -22,6 +22,11 @@ public class OreProvider_TheEnd extends OreProvider {
 	}
 
 	@Override
+	public String getCollectionName() {
+		return "TheEnd";
+	}
+
+	@Override
 	public Biome remapBiome(Biome biome) {
 		return Biome.SKY;
 	}

@@ -7,9 +7,10 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
-public abstract class SurfaceProvider {
+public abstract class SurfaceProvider extends Provider {
 
 	public SurfaceProvider(Random random) {
+		super();
 		this.random = random;
 	}
 

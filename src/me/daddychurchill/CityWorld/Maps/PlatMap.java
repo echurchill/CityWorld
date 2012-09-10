@@ -151,7 +151,7 @@ public abstract class PlatMap {
 	}
 	
 	public boolean setLot(int x, int z, PlatLot lot) {
-		boolean result = lot.isPlaceableAt(generator, x, z);
+		boolean result = lot.isPlaceableAt(generator, originX + x, originZ + z);
 		if (result) {
 			
 			// clear it please
@@ -293,6 +293,7 @@ public abstract class PlatMap {
 		}
 	}
 	
+	//TODO Why is this code using typicalChunk.width??????
 	private boolean isRoadTowards(SupportChunk typicalChunk, int x, int z, int deltaX, int deltaZ) {
 		
 		// is this a "real" spot?
@@ -323,6 +324,7 @@ public abstract class PlatMap {
 		return isBridgeTowards(typicalChunk, x, z, 5, 0);
 	}
 	
+	//TODO Why is this code using typicalChunk.width??????
 	private boolean isBridgeTowards(SupportChunk typicalChunk, int x, int z, int deltaX, int deltaZ) {
 		
 		// how far do we go?

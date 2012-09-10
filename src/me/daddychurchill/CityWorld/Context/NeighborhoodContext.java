@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Context;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Clipboard.PasteProvider.AreaTypes;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.HouseLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -10,7 +11,7 @@ public class NeighborhoodContext extends RuralContext {
 	public NeighborhoodContext(WorldGenerator generator, PlatMap platmap) {
 		super(generator, platmap);
 
-		//TODO anything else? 
+		areaType = AreaTypes.NEIGHBORHOOD;
 	}
 
 	@Override

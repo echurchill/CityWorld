@@ -1,10 +1,12 @@
 package me.daddychurchill.CityWorld.Plats;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Clipboard.Clipboard;
+import me.daddychurchill.CityWorld.Clipboard.PasteProvider.PlatTypes;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
-import me.daddychurchill.CityWorld.Support.ConstructClipboard;
+import me.daddychurchill.CityWorld.Support.Direction.Facing;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.Material;
@@ -47,9 +49,9 @@ public class SchematicTestLot extends IsolatedLot {
 		int blockY = generator.streetLevel + 2;
 		
 		// try to paste it
-		ConstructClipboard clip = generator.pasteProvider.findConstruct(generator, chunkRandom, 16, 16, "");
+		Clipboard clip = generator.pasteProvider.findConstruct(generator, chunkRandom, context.areaType, PlatTypes.ART, 16, 16);
 		if (clip != null) {
-			clip.Paste(generator, chunk, blockX, blockY, blockZ);
+			clip.paste(generator, chunk, Facing.EAST, blockX, blockY, blockZ);
 		}
 	}
 }

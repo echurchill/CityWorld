@@ -32,6 +32,11 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	}
 
 	@Override
+	public String getCollectionName() {
+		return "Floating";
+	}
+
+	@Override
 	public PlatMap createPlatMap(WorldGenerator generator, SupportChunk cornerChunk, int platX, int platZ) {
 		return new FloatingMap(generator, cornerChunk, platX, platZ);
 	}

@@ -5,6 +5,7 @@ import java.util.Random;
 import org.bukkit.Material;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Clipboard.PasteProvider.AreaTypes;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 
 public abstract class DataContext {
@@ -60,6 +61,8 @@ public abstract class DataContext {
 	public Byte lightId;
 	public Material torchMat;
 	public Byte torchId;
+	
+	public AreaTypes areaType = AreaTypes.NATURE;
 	
 	public DataContext(WorldGenerator generator, PlatMap platmap) {
 		super();

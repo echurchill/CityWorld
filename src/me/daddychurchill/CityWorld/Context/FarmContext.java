@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Context;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Clipboard.PasteProvider.AreaTypes;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.FarmLot;
 import me.daddychurchill.CityWorld.Plats.HouseLot;
@@ -16,6 +17,8 @@ public class FarmContext extends RuralContext {
 		super(generator, platmap);
 
 		oddsOfIsolatedLots = oddsVeryLikely;
+		
+		areaType = AreaTypes.FARM;
 	}
 	
 	private final static double oddsOfFarmHouse = 0.25;

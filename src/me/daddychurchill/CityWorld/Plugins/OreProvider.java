@@ -4,6 +4,7 @@ import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plugins.Tekkit.OreProvider_Tekkit;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
@@ -12,7 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 
-public abstract class OreProvider {
+public abstract class OreProvider extends Provider {
 
 	public final static byte stoneId = (byte) Material.STONE.getId();
 	public final static byte dirtId = (byte) Material.DIRT.getId();
@@ -71,6 +72,7 @@ public abstract class OreProvider {
 	public enum OreLocation {CRUST};
 	
 	public abstract void sprinkleOres(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs, Random random, OreLocation location);
+	public abstract String getCollectionName();
 
 	protected void sprinkleOre(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs,
 			Random random, int typeId, int maxY, int minY, int iterations, int amount, boolean mirror, boolean physics, boolean liquid) {

@@ -1,12 +1,12 @@
-package me.daddychurchill.CityWorld.Plugins;
+package me.daddychurchill.CityWorld.Plugins.Tekkit;
 
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plugins.OreProvider;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.TekkitMaterial;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -16,6 +16,11 @@ public class OreProvider_Tekkit extends OreProvider {
 	public OreProvider_Tekkit(WorldGenerator generator) {
 		super(generator);
 		
+	}
+
+	@Override
+	public String getCollectionName() {
+		return "Tekkit";
 	}
 
 	/**

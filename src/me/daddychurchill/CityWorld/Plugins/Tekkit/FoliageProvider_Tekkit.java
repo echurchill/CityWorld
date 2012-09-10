@@ -1,10 +1,10 @@
-package me.daddychurchill.CityWorld.Plugins;
+package me.daddychurchill.CityWorld.Plugins.Tekkit;
 
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Plugins.FoliageProvider_Normal;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.TekkitMaterial;
 
 import org.bukkit.Material;
 

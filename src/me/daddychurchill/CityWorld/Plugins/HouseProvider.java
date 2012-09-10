@@ -13,9 +13,10 @@ import me.daddychurchill.CityWorld.Support.Direction.Door;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
 
-public class HouseProvider {
+public class HouseProvider extends Provider {
 
 	public HouseProvider() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 

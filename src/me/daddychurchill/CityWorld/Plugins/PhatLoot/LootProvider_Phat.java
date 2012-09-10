@@ -1,9 +1,9 @@
-package me.daddychurchill.CityWorld.Plugins;
+package me.daddychurchill.CityWorld.Plugins.PhatLoot;
 
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-
+import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import org.bukkit.inventory.ItemStack;
 
 public class LootProvider_Phat extends LootProvider {
@@ -57,28 +57,27 @@ public class LootProvider_Phat extends LootProvider {
 //
 //		try {
 //			phatLoots = (PhatLoots) pm.getPlugin(name);
-//		} catch (Exception ex) {
-//			CityWorld.log.info(String.format("[CityWorld][LootProvider] Bad Version %s.", name));
+//		} catch (Exception e) {
+//			CityWorld.reportException(String.format("[LootProvider] Bad Version %s.", name), e);
 //		}
 //
 //		if (phatLoots == null)
 			return null;
 //
-//		CityWorld.log.info(String.format("[CityWorld][LootProvider] Found %s.", name));
+//		CityWorld.(String.format("[LootProvider] Found %s.", name));
 //		
 //		try {
 //
 //			if (!pm.isPluginEnabled(phatLoots)) {
-//				CityWorld.log.info(String.format("[CityWorld][LootProvider] Enabling %s.", name));
+//				CityWorld.reportMessage(String.format("[LootProvider] Enabling %s.", name));
 //				pm.enablePlugin(phatLoots);
 //			}
-//			CityWorld.log.info(String.format("[CityWorld][LootProvider] %s Enabled.", name));
+//			CityWorld.reportMessage(String.format("[LootProvider] %s Enabled.", name));
 //			
 //			return new LootProvider_PhatLoots();
 //			
-//		} catch (Exception ex) {
-//			CityWorld.log.info(String.format("[CityWorld][LootProvider] Failed to enable %s.", name));
-//			CityWorld.log.info(ex.getStackTrace().toString());
+//		} catch (Exception e) {
+//			CityWorld.reportException(String.format("[LootProvider] Failed to enable %s.", name), e);
 //			return null;
 //		}
 	}

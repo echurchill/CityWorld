@@ -9,9 +9,10 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 import org.bukkit.Material;
 import org.bukkit.World.Environment;
 
-public class BalloonProvider {
+public class BalloonProvider extends Provider {
 
 	public BalloonProvider() {
+		super();
 		// TODO Auto-generated constructor stub
 	}
 	

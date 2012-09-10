@@ -28,6 +28,11 @@ public class OreProvider_Nether extends OreProvider {
 	}
 
 	@Override
+	public String getCollectionName() {
+		return "Nether";
+	}
+
+	@Override
 	public Biome remapBiome(Biome biome) {
 		return Biome.HELL;
 	}

@@ -1,9 +1,8 @@
-package me.daddychurchill.CityWorld.Plugins;
+package me.daddychurchill.CityWorld.Clipboard;
 
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Support.ConstructClipboard;
 
 public class PasteProvider_Normal extends PasteProvider {
 
@@ -12,7 +11,7 @@ public class PasteProvider_Normal extends PasteProvider {
 	}
 
 	@Override
-	public ConstructClipboard findConstruct(WorldGenerator generator, Random random, int sizeX, int sizeZ, String prefix) {
+	public Clipboard findConstruct(WorldGenerator generator, Random random, AreaTypes area, PlatTypes plat, int sizeX, int sizeZ) {
 		return null;
 	}
 

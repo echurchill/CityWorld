@@ -27,8 +27,6 @@ public class ObservatoryLot extends ConstructLot {
 	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
-//		CityWorld.log.info("Observatory @ " + chunk.worldX + ", " + chunk.worldZ);
-		
 		// legs
 		chunk.setBlocks(2, 4, minHeight, maxHeight - 1, 2, 4, supportId);
 		chunk.setBlocks(2, 4, minHeight, maxHeight - 1, 7, 9, supportId);

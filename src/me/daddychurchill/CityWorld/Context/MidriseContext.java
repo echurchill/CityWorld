@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Context;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Clipboard.PasteProvider.AreaTypes;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.BankBuildingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -28,6 +29,8 @@ public class MidriseContext extends UrbanContext {
 		oddsOfFlatWalledBuildings = oddsExtremelyLikely;
 		oddsOfSimilarInsetBuildings = oddsExtremelyLikely;
 		rangeOfWallInset = 2;
+		
+		areaType = AreaTypes.MIDRISE;
 		
 		setFloorRange(platmapRandom, 7, 3);
 		

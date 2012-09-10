@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Plugins;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Plugins.Tekkit.FoliageProvider_Tekkit;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.BlockChangeDelegate;
@@ -11,7 +12,7 @@ import org.bukkit.TreeType;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
-public abstract class FoliageProvider {
+public abstract class FoliageProvider extends Provider {
 	
     public enum LigneousType {SHORT_OAK, SHORT_PINE, SHORT_BIRCH, OAK, PINE, BIRCH, TALL_OAK, TALL_PINE, TALL_BIRCH};
 	public enum HerbaceousType {FLOWER_RED, FLOWER_YELLOW, GRASS, FERN, CACTUS, COVER};
@@ -26,6 +27,7 @@ public abstract class FoliageProvider {
 	protected Random random;
 	
 	public FoliageProvider(Random random) {
+		super();
 		this.random = random;
 	}
 	
