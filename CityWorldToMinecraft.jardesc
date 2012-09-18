@@ -4,7 +4,13 @@
     <options buildIfNeeded="true" compress="true" descriptionLocation="/CityWorld/CityWorldToMinecraft.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
-    <selectedElements exportClassFiles="false" exportJavaFiles="true" exportOutputFolder="false">
+    <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
         <file path="/CityWorld/.classpath"/>
         <javaElement handleIdentifier="=CityWorld/src"/>
         <file path="/CityWorld/plugin.yml"/>

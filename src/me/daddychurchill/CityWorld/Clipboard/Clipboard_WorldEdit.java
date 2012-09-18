@@ -25,8 +25,8 @@ public class Clipboard_WorldEdit extends Clipboard {
 
 	private BaseBlock[][][][] blocks;
 	private int facingCount;
-	private boolean flipableX = true;
-	private boolean flipableZ = true;
+	private boolean flipableX = false;
+	private boolean flipableZ = false;
 //  private boolean Rotatable = false;
 //	private boolean ScalableXZ = false;
 //	private boolean ScalableY = false;
@@ -78,7 +78,7 @@ public class Clipboard_WorldEdit extends Clipboard {
 		try {
 			metaYaml.save(metaFile);
 		} catch (IOException e) {
-			CityWorld.reportException("[Clipboard] Could not resave " + metaFile.getAbsolutePath(), e);
+			CityWorld.reportException("[WorldEdit] Could not resave " + metaFile.getAbsolutePath(), e);
 		}
 		
 		// load the actual blocks
@@ -89,10 +89,10 @@ public class Clipboard_WorldEdit extends Clipboard {
 		
 		// allocate the blocks
 		facingCount = 1;
-//		if (flipableX)
-//			facingCount *= 2;
-//		if (flipableZ)
-//			facingCount *= 2;
+		if (flipableX)
+			facingCount *= 2;
+		if (flipableZ)
+			facingCount *= 2;
 		
 		//TODO we should allocate only facing count, then allocate the size based on what comes out of the rotation.. once I do rotation
 		// allocate room
@@ -100,23 +100,23 @@ public class Clipboard_WorldEdit extends Clipboard {
 		
 		// copy the cubes for each direction
 		copyCuboid(cuboid, 0); // normal one
-//		if (flipableX) {
-//			cuboid.flip(FlipDirection.WEST_EAST);
-//			copyCuboid(cuboid, 1);
-//			
-//			// z too? if so then make two more copies
-//			if (flipableZ) {
-//				cuboid.flip(FlipDirection.NORTH_SOUTH);
-//				copyCuboid(cuboid, 3);
-//				cuboid.flip(FlipDirection.WEST_EAST);
-//				copyCuboid(cuboid, 2);
-//			}
-//		
-//		// just z
-//		} else if (flipableZ) {
-//			cuboid.flip(FlipDirection.NORTH_SOUTH);
-//			copyCuboid(cuboid, 1);
-//		}
+		if (flipableX) {
+			cuboid.flip(FlipDirection.WEST_EAST);
+			copyCuboid(cuboid, 1);
+			
+			// z too? if so then make two more copies
+			if (flipableZ) {
+				cuboid.flip(FlipDirection.NORTH_SOUTH);
+				copyCuboid(cuboid, 3);
+				cuboid.flip(FlipDirection.WEST_EAST);
+				copyCuboid(cuboid, 2);
+			}
+		
+		// just z
+		} else if (flipableZ) {
+			cuboid.flip(FlipDirection.NORTH_SOUTH);
+			copyCuboid(cuboid, 1);
+		}
 	}
 	
 	private void copyCuboid(CuboidClipboard cuboid, int facing) {
@@ -131,17 +131,22 @@ public class Clipboard_WorldEdit extends Clipboard {
 	}
 	
 	private int getFacingIndex(Direction.Facing facing) {
-		return 0;
-//		switch (facing) {
-//		case NORTH:
-//			return 0;
-//		case SOUTH:
-//			return Math.min(facingCount, 1);
-//		case WEST:
-//			return Math.min(facingCount, 2);
-//		default: // case EAST:
-//			return Math.min(facingCount, 3);
-//		}
+		int result = 0;
+		switch (facing) {
+		case SOUTH:
+			result = 0;
+			break;
+		case WEST:
+			result = 1;
+			break;
+		case NORTH:
+			result = 2;
+			break;
+		default: // case EAST:
+			result = 2;
+			break;
+		}
+		return Math.min(facingCount - 1, result);
 	}
 	
 	@Override
@@ -157,56 +162,64 @@ public class Clipboard_WorldEdit extends Clipboard {
 	}
 
 	
-	@Override
-	public void paste(WorldGenerator generator, RealChunk chunk, Direction.Facing facing, 
-			int blockX, int blockY, int blockZ,
-			int x1, int x2, int y1, int y2, int z1, int z2) {
-		
-//		CityWorld.reportMessage("Partial paste: origin = " + at + " min = " + min + " max = " + max);
-		
-		try {
-			int iFacing = getFacingIndex(facing);
-			EditSession editSession = getEditSession(generator);
-			//editSession.setFastMode(true);
-			for (int x = x1; x < x2; x++)
-				for (int y = y1; y < y2; y++)
-					for (int z = z1; z < z2; z++) {
-//						CityWorld.reportMessage("facing = " + iFacing + 
-//								" x = " + x +
-//								" y = " + y + 
-//								" z = " + z);
-						if (blocks[iFacing][x][y][z].isAir()) {
-							continue;
-						}
-						editSession.setBlock(new Vector(x, y, z).add(blockX, blockY, blockZ), 
-								blocks[iFacing][x][y][z]);
-					}
-		} catch (Exception e) {
-			e.printStackTrace();
-			CityWorld.reportException("[WorldEdit] Partial place schematic " + name + " failed", e);
-		}
-	}
-
-	
 //	@Override
 //	public void paste(WorldGenerator generator, RealChunk chunk, Direction.Facing facing, 
 //			int blockX, int blockY, int blockZ,
 //			int x1, int x2, int y1, int y2, int z1, int z2) {
-//		Vector at = new Vector(blockX, blockY, blockZ);
-//		Vector min = new Vector(x1, y1, z1);
-//		Vector max = new Vector(x2, y2, z2);
 //		
-//		CityWorld.reportMessage("Partial paste: origin = " + at + " min = " + min + " max = " + max);
+////		CityWorld.reportMessage("Partial paste: origin = " + at + " min = " + min + " max = " + max);
 //		
 //		try {
+//			int iFacing = getFacingIndex(facing);
 //			EditSession editSession = getEditSession(generator);
 //			//editSession.setFastMode(true);
-//			place(editSession, getFacingIndex(facing), at, true, min, max);
+//			for (int x = x1; x < x2; x++)
+//				for (int y = y1; y < y2; y++)
+//					for (int z = z1; z < z2; z++) {
+////						CityWorld.reportMessage("facing = " + iFacing + 
+////								" x = " + x +
+////								" y = " + y + 
+////								" z = " + z);
+//						if (blocks[iFacing][x][y][z].isAir()) {
+//							continue;
+//						}
+//						editSession.setBlock(new Vector(x, y, z).add(blockX, blockY, blockZ), 
+//								blocks[iFacing][x][y][z]);
+//					}
 //		} catch (Exception e) {
-//			CityWorld.reportException("[WorldEdit] Partial place schematic " + name + " at " + at + " failed", e);
+//			e.printStackTrace();
+//			CityWorld.reportException("[WorldEdit] Partial place schematic " + name + " failed", e);
 //		}
 //	}
-//
+
+	
+	@Override
+	public void paste(WorldGenerator generator, RealChunk chunk, Direction.Facing facing, 
+			int blockX, int blockY, int blockZ,
+			int x1, int x2, int y1, int y2, int z1, int z2) {
+		Vector at = new Vector(blockX, blockY, blockZ);
+//		Vector min = new Vector(x1, y1, z1);
+//		Vector max = new Vector(x2, y2, z2);
+//		CityWorld.reportMessage("Partial paste: origin = " + at + " min = " + min + " max = " + max);
+
+		try {
+			EditSession editSession = getEditSession(generator);
+			//editSession.setFastMode(true);
+			place(editSession, getFacingIndex(facing), at, true, x1, x2, y1, y2, z1, z2);
+		} catch (Exception e) {
+			CityWorld.reportException("[WorldEdit] Partial place schematic " + name + " at " + at + " failed", e);
+			CityWorld.reportMessage("Info: " + 
+									" facing = " + facing + 
+									" size = " + sizeX + ", " + sizeZ + 
+									" chunk = " + chunkX + ", " + chunkZ + 
+//									" origin = "+ blockX + ", " + blockY + ", " + blockZ + 
+									" min = " + x1 + ", "+ y1 + ", "+ z1 + 
+									" max = " + x2 + ", "+ y2 + ", "+ z2);
+
+			e.printStackTrace();
+		}
+	}
+
 	//TODO Pilfered from WorldEdit's CuboidClipboard... I need to remove this once the other Place function is used
 	private void place(EditSession editSession, int facing, Vector pos, boolean noAir)
 			throws MaxChangedBlocksException {
@@ -223,13 +236,13 @@ public class Clipboard_WorldEdit extends Clipboard {
 
 	//TODO if WorldEdit ever gets this functionality I need to remove the modified code
 	private void place(EditSession editSession, int facing, Vector pos, boolean noAir,
-			Vector min, Vector max) throws MaxChangedBlocksException {
-		int x1 = Math.max(min.getBlockX(), 0);
-		int x2 = Math.min(max.getBlockX(), sizeX);
-		int y1 = Math.max(min.getBlockY(), 0);
-		int y2 = Math.min(max.getBlockY(), sizeY);
-		int z1 = Math.max(min.getBlockZ(), 0);
-		int z2 = Math.min(max.getBlockZ(), sizeZ);
+			int x1, int x2, int y1, int y2, int z1, int z2) throws MaxChangedBlocksException {
+		x1 = Math.max(x1, 0);
+		x2 = Math.min(x2, sizeX);
+		y1 = Math.max(y1, 0);
+		y2 = Math.min(y2, sizeY);
+		z1 = Math.max(z1, 0);
+		z2 = Math.min(z2, sizeZ);
 		for (int x = x1; x < x2; x++)
 			for (int y = y1; y < y2; y++)
 				for (int z = z1; z < z2; z++) {

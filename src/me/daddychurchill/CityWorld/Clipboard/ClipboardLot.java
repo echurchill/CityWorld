@@ -106,8 +106,6 @@ public class ClipboardLot extends IsolatedLot {
 		} else {
 			x1 = lotX * chunk.width - clip.insetWest;
 			x2 = x1 + chunk.width;
-			if (x2 > clip.sizeX)
-				x2 = clip.sizeX;
 		}
 		if (lotZ == 0) {
 			z1 = 0;
@@ -115,9 +113,13 @@ public class ClipboardLot extends IsolatedLot {
 		} else {
 			z1 = lotZ * chunk.width - clip.insetNorth;
 			z2 = z1 + chunk.width;
-			if (z2 > clip.sizeZ)
-				z2 = clip.sizeZ;
 		}
+		
+		// don't go too far
+		if (x2 > clip.sizeX)
+			x2 = clip.sizeX;
+		if (z2 > clip.sizeZ)
+			z2 = clip.sizeZ;
 		
 		// paste it
 		clip.paste(generator, chunk, facing, originX, originY, originZ, x1, x2, 0, clip.sizeY, z1, z2);

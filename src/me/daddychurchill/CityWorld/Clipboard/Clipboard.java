@@ -46,7 +46,7 @@ public abstract class Clipboard {
 		
 		chunkX = (sizeX + SupportChunk.chunksBlockWidth) / SupportChunk.chunksBlockWidth;
 		chunkZ = (sizeZ + SupportChunk.chunksBlockWidth) / SupportChunk.chunksBlockWidth;
-		CityWorld.reportMessage("Loaded: name = " + name + " chunk = " + chunkX + ", " + chunkZ);
+		CityWorld.reportMessage("Loaded: name = " + name + " chunk = " + chunkX + ", " + chunkZ + ", size = " + sizeX + ", " + sizeZ);
 		
 		int leftoverX = chunkX * SupportChunk.chunksBlockWidth - sizeX;
 		int leftoverZ = chunkZ * SupportChunk.chunksBlockWidth - sizeZ;
@@ -121,11 +121,11 @@ public abstract class Clipboard {
 	public Direction.Facing randomFacing(Random random) {
 		switch (random.nextInt(4)) {
 		case 0:
-			return Direction.Facing.NORTH;
-		case 1:
 			return Direction.Facing.SOUTH;
-		case 2:
+		case 1:
 			return Direction.Facing.WEST;
+		case 2:
+			return Direction.Facing.NORTH;
 		default:
 			return Direction.Facing.EAST;
 		}
