@@ -3,11 +3,14 @@ package me.daddychurchill.CityWorld.Maps;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Clipboard.Clipboard;
+import me.daddychurchill.CityWorld.Clipboard.ClipboardLot;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
@@ -366,6 +369,52 @@ public abstract class PlatMap {
 		};
 		
 		// we have failed to find a real bridge/tunnel
+		return false;
+	}
+
+	private final static int maxPlaceTries = 16;
+	public boolean placeSpecificClip(WorldGenerator generator, Random random, Clipboard clip) {
+		int chunksX = clip.chunkX;
+		int chunksZ = clip.chunkZ;
+		
+		// find a lot that fits into the current platmap
+		for (int attempt = 0; attempt < maxPlaceTries; attempt++) {
+			int placeX = random.nextInt(PlatMap.Width - chunksX);
+			int placeZ = random.nextInt(PlatMap.Width - chunksZ);
+			
+			// is this space completely empty?
+			boolean empty = true;
+			for (int x = placeX; x < placeX + chunksX; x++) {
+				for (int z = placeZ; z < placeZ + chunksZ; z++) {
+					empty = platLots[x][z] == null;
+					if (!empty)
+						break;
+				}
+				if (!empty)
+					break;
+			}
+				
+			// found one?
+			if (empty) {
+				
+				// what way are we facing?
+				Direction.Facing facing = clip.randomFacing(random);
+				
+				// calculate the various template plats
+				for (int x = 0; x < chunksX; x++) {
+					for (int z = 0; z < chunksZ; z++) {
+						setLot(placeX + x, placeZ + z, new ClipboardLot(this, 
+																		originX + placeX, originZ + placeZ, 
+																		clip, facing, x, z));
+					}
+				}
+				
+				// all done
+				return true;
+			}
+		}
+		
+		// I guess we failed
 		return false;
 	}
 }

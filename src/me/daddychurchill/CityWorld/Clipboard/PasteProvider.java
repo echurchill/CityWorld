@@ -1,25 +1,21 @@
 package me.daddychurchill.CityWorld.Clipboard;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plugins.Provider;
 
 public abstract class PasteProvider extends Provider {
 
-	public enum AreaTypes {HIGHRISE, MIDRISE, LOWRISE, INDUSTRIAL, CITYCENTER, CONSTRUCTION, NEIGHBORHOOD, FARM, NATURE};
-	public enum PlatTypes {UNFINISHED, BUILDING, HOUSE, NATURE, ART};
+	public enum SchematicFamily {ART, HIGHRISE, MIDRISE, LOWRISE, INDUSTRIAL, CITYCENTER, CONSTRUCTION, NEIGHBORHOOD, FARM, NATURE};
 	
 	public PasteProvider() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	// Loosely based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
+	public abstract ClipboardList getFamilyClips(WorldGenerator generator, SchematicFamily family);
 	
-	public abstract Clipboard findConstruct(WorldGenerator generator, Random random, AreaTypes area, PlatTypes plat, int sizeX, int sizeZ);
-
+	// Loosely based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	public static PasteProvider loadProvider(WorldGenerator generator) {
 
 		PasteProvider provider = null;

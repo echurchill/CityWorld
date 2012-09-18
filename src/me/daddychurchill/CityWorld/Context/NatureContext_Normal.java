@@ -25,6 +25,9 @@ public class NatureContext_Normal extends RuralContext {
 
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
+
+		// let the user add their stuff first, then plug any remaining holes with our stuff
+		populateWithSchematics(generator, platmap);
 		
 		// random stuff?
 		Random platmapRandom = platmap.getRandomGenerator();

@@ -2,8 +2,6 @@ package me.daddychurchill.CityWorld.Clipboard;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import org.bukkit.Bukkit;
@@ -13,64 +11,80 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
 public class PasteProvider_WorldEdit extends PasteProvider {
 
-	private ClipboardList clips;
-	private File collectionFolder;
+	private SchematicFamilyList families;
 	
-	public PasteProvider_WorldEdit(WorldGenerator generator) {
+	public PasteProvider_WorldEdit(WorldGenerator generator) throws Exception {
 		super();
-		clips = new ClipboardList();
+		int schematicsLoaded = 0;
 		
 		// find the files
 		File pluginFolder = generator.getPlugin().getDataFolder();
 		if (pluginFolder.isDirectory()) {
 			
-			// shape folder
-			File shapeFolder = new File(pluginFolder, generator.shapeProvider.getCollectionName());
-			if (!shapeFolder.isDirectory())
-				pluginFolder.mkdir();
+			// shape folder (normal, floating, etc.)
+			File shapeFolder = findFolder(pluginFolder, generator.shapeProvider.getCollectionName());
 			
-			// finally ores are used to figure out the collection folder 
-			collectionFolder = new File(shapeFolder, generator.oreProvider.getCollectionName());
-			if (!collectionFolder.isDirectory())
-				collectionFolder.mkdir();
+			// finally ores are used to figure out the collection folder (normal, nether, theend, etc.)
+			File environmentFolder = findFolder(shapeFolder, generator.oreProvider.getCollectionName());
 			
-			// 
-			File schematicFolder = new File(pluginFolder, "schematics");
-			if (schematicFolder.isDirectory()) {
-				File[] schematicFiles = schematicFolder.listFiles(matchSchematics());
+			// make room for context types
+			families = new SchematicFamilyList();
+			
+			// now for each of the context styles
+			for (SchematicFamily family: SchematicFamily.values()) {
+				File contextFolder = findFolder(environmentFolder, family.toString());
+				
+				// make room for clips
+				ClipboardList clips = families.add(family, new ClipboardList());
+				
+				// now load those schematic files
+				File[] schematicFiles = contextFolder.listFiles(matchSchematics());
 				for (File schematicFile: schematicFiles) {
 					try {
 						
 						// create a copy of the clipboard
 						clips.put(new Clipboard_WorldEdit(generator, schematicFile));
+						schematicsLoaded++;
 						
-						CityWorld.reportMessage("[WorldEdit] Schematic " + schematicFile.getName() + " loaded");
+//						CityWorld.reportMessage("[WorldEdit] Schematic " + schematicFile.getName() + " loaded");
 					} catch (Exception e) {
 						CityWorld.reportException("WorldEdit] Schematic " + schematicFile.getName() + " could NOT be loaded", e);
 					}
 				}
 			}
+			
+			// final report
+			CityWorld.reportMessage("[WorldEdit] Loaded " + schematicsLoaded + " schematic(s)");
 		}
+	}
+	
+	private File findFolder(File parent, String name) throws Exception {
+		name = toCamelCase(name);
+		File result = new File(parent, name);
+		if (!result.isDirectory())
+			if (!result.mkdir())
+				throw new UnsupportedOperationException("[WorldEdit] Could not create/find the folder: " + parent.getAbsolutePath() + File.separator + name);
+		return result;
 	}
 	
 	private FilenameFilter matchSchematics() {
 		return new FilenameFilter() {
 			public boolean accept(File dir, String name) {
-				return !name.endsWith(".schematics");
+				return name.endsWith(".schematic");
 			}
 		};
 	}
-
-	@Override
-	public Clipboard findConstruct(WorldGenerator generator, Random random, AreaTypes area, PlatTypes plat, int sizeX, int sizeZ) {
-		if (!clips.isEmpty())
-			return clips.getHack();
-		else
-			return null;
+	
+	private String toCamelCase(String text) {
+		return text.substring(0, 1).toUpperCase() + text.substring(1, text.length()).toLowerCase();
 	}
 
-	// Loosely based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
+	@Override
+	public ClipboardList getFamilyClips(WorldGenerator generator, SchematicFamily family) {
+		return families.get(family);
+	}
 	
+	// Loosely based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	private static String name = "WorldEdit";
 	private static String minVersion = "5.4.2";
 	public static PasteProvider loadWorldEdit(WorldGenerator generator) {
@@ -89,9 +103,10 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 			// make sure it is enabled
 			if (!pm.isPluginEnabled(worldEditPlugin))
 				pm.enablePlugin(worldEditPlugin);
-			
+
 			// woot!
-			CityWorld.reportMessage("[PasteProvider] Found " + name + ", schematics enabled");
+			CityWorld.reportMessage("[PasteProvider] Found " + name + ", loading its schematics");
+			
 			return new PasteProvider_WorldEdit(generator);
 			
 		} catch (Exception e) {

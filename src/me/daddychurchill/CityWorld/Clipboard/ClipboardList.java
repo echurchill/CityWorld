@@ -1,12 +1,11 @@
 package me.daddychurchill.CityWorld.Clipboard;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 
-public class ClipboardList {
+public class ClipboardList implements Iterable<Clipboard> {
 
-	private String hack;
-	
 	public ClipboardList() {
 		super();
 		
@@ -23,13 +22,14 @@ public class ClipboardList {
 		return list.get(key);
 	}
 	
-	public Clipboard getHack() {
-		return list.get(hack);
-	}
-	
-	public void put(Clipboard value) {
-		hack = value.name;
+	public Clipboard put(Clipboard value) {
 		list.put(value.name, value);
+		return value;
+	}
+
+	@Override
+	public Iterator<Clipboard> iterator() {
+		return list.values().iterator();
 	}
 	
 }

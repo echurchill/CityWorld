@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Context;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Clipboard.PasteProvider.AreaTypes;
+import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.FarmLot;
 import me.daddychurchill.CityWorld.Plats.HouseLot;
@@ -18,13 +18,18 @@ public class FarmContext extends RuralContext {
 
 		oddsOfIsolatedLots = oddsVeryLikely;
 		
-		areaType = AreaTypes.FARM;
+		schematicFamily = SchematicFamily.FARM;
 	}
 	
 	private final static double oddsOfFarmHouse = 0.25;
 	
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
+		
+		// let the user add their stuff first
+		populateWithSchematics(generator, platmap);
+		
+		// now add our stuff
 		Random platmapRandom = platmap.getRandomGenerator();
 		ShapeProvider shapeProvider = generator.shapeProvider;
 		boolean housePlaced = false;

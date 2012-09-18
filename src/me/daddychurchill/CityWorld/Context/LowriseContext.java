@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Context;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Clipboard.PasteProvider.AreaTypes;
+import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 
 public class LowriseContext extends UrbanContext {
@@ -28,7 +28,7 @@ public class LowriseContext extends UrbanContext {
 		oddsOfSimilarInsetBuildings = oddsExtremelyLikely;
 		rangeOfWallInset = 2;
 		
-		areaType = AreaTypes.LOWRISE;
+		schematicFamily = SchematicFamily.LOWRISE;
 
 		setFloorRange(platmapRandom, 3, 1);
 	}

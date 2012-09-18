@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Clipboard;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 
 public class PasteProvider_Normal extends PasteProvider {
@@ -11,7 +9,8 @@ public class PasteProvider_Normal extends PasteProvider {
 	}
 
 	@Override
-	public Clipboard findConstruct(WorldGenerator generator, Random random, AreaTypes area, PlatTypes plat, int sizeX, int sizeZ) {
+	public ClipboardList getFamilyClips(WorldGenerator generator, SchematicFamily family) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

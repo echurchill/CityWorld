@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Context;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Clipboard.PasteProvider.AreaTypes;
+import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.StorageLot;
@@ -31,7 +31,7 @@ public class IndustrialContext extends UrbanContext {
 		oddsOfSimilarInsetBuildings = oddsExtremelyLikely;
 		rangeOfWallInset = 2;
 		
-		areaType = AreaTypes.INDUSTRIAL;
+		schematicFamily = SchematicFamily.INDUSTRIAL;
 
 		setFloorRange(platmapRandom, 2, 1);
 	}

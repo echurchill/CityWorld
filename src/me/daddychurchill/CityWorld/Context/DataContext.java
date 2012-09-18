@@ -5,7 +5,9 @@ import java.util.Random;
 import org.bukkit.Material;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Clipboard.PasteProvider.AreaTypes;
+import me.daddychurchill.CityWorld.Clipboard.Clipboard;
+import me.daddychurchill.CityWorld.Clipboard.ClipboardList;
+import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 
 public abstract class DataContext {
@@ -62,7 +64,7 @@ public abstract class DataContext {
 	public Material torchMat;
 	public Byte torchId;
 	
-	public AreaTypes areaType = AreaTypes.NATURE;
+	public SchematicFamily schematicFamily = SchematicFamily.NATURE;
 	
 	public DataContext(WorldGenerator generator, PlatMap platmap) {
 		super();
@@ -89,8 +91,6 @@ public abstract class DataContext {
 		setFloorRange(platmapRandom, 2, 2);
 	}
 	
-	public abstract void populateMap(WorldGenerator generator, PlatMap platmap);
-	
 	protected void setFloorRange(Random random, int aboveRange, int belowRange) {
 		// calculate the extremes for this plat
 		maximumFloorsAbove = Math.min((random.nextInt(aboveRange) + 1) * 2, absoluteMaximumFloorsAbove);
@@ -101,4 +101,28 @@ public abstract class DataContext {
 		buildingWallInsettedMinMidPoint = floorsFourth * 2;
 		buildingWallInsettedMinHighPoint = floorsFourth * 3;
 	}
+	
+	public abstract void populateMap(WorldGenerator generator, PlatMap platmap);
+	
+	protected void populateWithSchematics(WorldGenerator generator, PlatMap platmap) {
+
+		// grab platmap's random
+		Random random = platmap.getRandomGenerator();
+		
+		// for each schematic
+		ClipboardList clips = generator.pasteProvider.getFamilyClips(generator, schematicFamily);
+		for (Clipboard clip: clips) {
+
+			// that succeeds the OddsOfAppearance
+			if (random.nextDouble() < clip.oddsOfAppearance) {
+				platmap.placeSpecificClip(generator, random, clip);
+			}
+		}
+	}
+
+	public void pasteFamilyClips(WorldGenerator generator, PlatMap platmap, SchematicFamily family) {
+		
+	}
+	
+	
 }

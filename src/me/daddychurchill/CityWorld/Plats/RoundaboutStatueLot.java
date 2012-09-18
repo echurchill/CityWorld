@@ -52,10 +52,10 @@ public class RoundaboutStatueLot extends IsolatedLot {
 		case WATER:
 			
 			// bottom of the fountain... 
-			chunk.setCircle(8, 8, 5, y1, generator.oreProvider.substratumId, false);
+			chunk.setCircle(8, 8, 5, y1, brickId, false);
 			for (int x = 0; x < 10; x++)
 				for (int z = 0; z < 10; z++)
-					chunk.setBlock(x + 3, y1, z + 3, generator.oreProvider.substratumId);
+					chunk.setBlock(x + 3, y1, z + 3, brickId);
 			
 			//TODO the plain bit... later we will take care of the fancy bit
 			y1++;
@@ -84,11 +84,11 @@ public class RoundaboutStatueLot extends IsolatedLot {
 			
 			// pedestal, imagine that!
 			y1++;
-			chunk.setCircle(8, 8, 4, y1, generator.oreProvider.substratumId, false);
-			chunk.setCircle(8, 8, 3, y1, generator.oreProvider.substratumId, false);
-			chunk.setCircle(8, 8, 3, y1 + 1, generator.oreProvider.substratumId, false);
+			chunk.setCircle(8, 8, 4, y1, brickId, false);
+			chunk.setCircle(8, 8, 3, y1, brickId, false);
+			chunk.setCircle(8, 8, 3, y1 + 1, brickId, false);
 			chunk.setCircle(8, 8, 3, y1 + 2, fenceId, false);
-			chunk.setBlocks(5, 11, y1, y1 + 2, 5, 11, generator.oreProvider.substratumId);
+			chunk.setBlocks(5, 11, y1, y1 + 2, 5, 11, brickId);
 			break;
 		}
 	}

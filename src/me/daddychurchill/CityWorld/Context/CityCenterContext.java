@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Context;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Clipboard.PasteProvider.AreaTypes;
+import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 
 public class CityCenterContext extends UrbanContext {
@@ -29,7 +29,7 @@ public class CityCenterContext extends UrbanContext {
 		oddsOfBuildingWallInset = oddsVeryLikely;
 		rangeOfWallInset = 1;
 		
-		areaType = AreaTypes.CITYCENTER;
+		schematicFamily = SchematicFamily.CITYCENTER;
 
 		setFloorRange(platmapRandom, 5, 2);
 	}

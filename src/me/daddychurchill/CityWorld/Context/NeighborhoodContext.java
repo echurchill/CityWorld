@@ -1,7 +1,7 @@
 package me.daddychurchill.CityWorld.Context;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Clipboard.PasteProvider.AreaTypes;
+import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.HouseLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -11,13 +11,16 @@ public class NeighborhoodContext extends RuralContext {
 	public NeighborhoodContext(WorldGenerator generator, PlatMap platmap) {
 		super(generator, platmap);
 
-		areaType = AreaTypes.NEIGHBORHOOD;
+		schematicFamily = SchematicFamily.NEIGHBORHOOD;
 	}
 
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
 		
-		// do we check for roads?
+		// let the user add their stuff first, then plug any remaining holes with our stuff
+		populateWithSchematics(generator, platmap);
+		
+		/// do we check for roads?
 		boolean checkForRoads = platmap.getNumberOfRoads() > 0;
 		
 		// backfill with buildings and parks
