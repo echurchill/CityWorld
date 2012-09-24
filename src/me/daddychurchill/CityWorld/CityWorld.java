@@ -9,8 +9,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class CityWorld extends JavaPlugin{
 	
-	public static final Logger log = Logger.getLogger("Minecraft.CityWorld");
-   	
+	public final static Logger log = Logger.getLogger("Minecraft.CityWorld");
+	public final static String pluginName = "[CityWorld]";
+	
     public CityWorld() {
 		super();
 		
@@ -27,7 +28,7 @@ public class CityWorld extends JavaPlugin{
 		saveConfig();
 		
 		// tell the world we are out of here
-		log.info(getDescription().getFullName() + " has been disabled" );
+		//reportMessage("Disabled");
 	}
 
 	@Override
@@ -37,25 +38,32 @@ public class CityWorld extends JavaPlugin{
 		addCommand("citylines", new CommandCityLines(this));
 
 		// configFile can be retrieved via getConfig()
-		log.info(getDescription().getFullName() + " is enabled" );
+		//reportMessage("Enabled" );
 	}
 	
 	private void addCommand(String keyword, CommandExecutor exec) {
 		PluginCommand cmd = getCommand(keyword);
 		if (cmd == null || exec == null) {
-			log.info("Cannot create command for " + keyword);
+			reportMessage("[Lexicon] Cannot create command for " + keyword);
 		} else {
 			cmd.setExecutor(exec);
 		}
 	}
 	
-	public static void reportMessage(String message) {
-		log.info("[CityWorld]" + message);
+	private String getPluginName() {
+		return "[" + getDescription().getName() + "]";
+	}
+	
+	public void reportMessage(String message) {
+		if (!message.startsWith("["))
+			message = " " + message;
+		log.info(getPluginName() + message);
 	}
 
-	public static void reportException(String message, Exception e) {
+	public void reportException(String message, Exception e) {
 		reportMessage(message);
-		log.info("Exception: " + e.getMessage());
+		log.info(" \\__Exception: " + e.getMessage());
+		e.printStackTrace();
 	}
 }
 

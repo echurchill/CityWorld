@@ -32,4 +32,8 @@ public class ClipboardList implements Iterable<Clipboard> {
 		return list.values().iterator();
 	}
 	
+	public int count() {
+		return list.size();
+	}
+	
 }

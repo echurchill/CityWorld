@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
@@ -9,6 +7,7 @@ import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
 import me.daddychurchill.CityWorld.Support.MaterialFactory;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.OutsideWEWallFactory;
 import me.daddychurchill.CityWorld.Support.OutsideNSWallFactory;
 import me.daddychurchill.CityWorld.Support.InteriorWallFactory;
@@ -22,8 +21,8 @@ import org.bukkit.Material;
 public abstract class BuildingLot extends ConnectedLot {
 	
 	protected boolean neighborsHaveIdenticalHeights;
-	protected int neighborsHaveSimilarHeightsOdds;
-	protected int neighborsHaveSimilarRoundedOdds;
+	protected double neighborsHaveSimilarHeightsOdds;
+	protected double neighborsHaveSimilarRoundedOdds;
 	protected int height; // floors up
 	protected int depth; // floors down
 	protected boolean needStairsUp;
@@ -62,24 +61,24 @@ public abstract class BuildingLot extends ConnectedLot {
 		
 		DataContext context = platmap.context;
 		
-		neighborsHaveIdenticalHeights = chunkRandom.nextInt(context.oddsOfIdenticalBuildingHeights) == 0;
+		neighborsHaveIdenticalHeights = chunkOdds.playOdds(context.oddsOfIdenticalBuildingHeights);
 		neighborsHaveSimilarHeightsOdds = context.oddsOfSimilarBuildingHeights;
 		neighborsHaveSimilarRoundedOdds = context.oddsOfSimilarBuildingRounding;
 		aboveFloorHeight = DataContext.FloorHeight;
 		basementFloorHeight = DataContext.FloorHeight;
-		height = chunkRandom.nextInt(context.maximumFloorsAbove) + 1;
+		height = 1 + chunkOdds.getRandomInt(context.maximumFloorsAbove);
 		depth = 0;
 		if (platmap.generator.settings.includeBasements)
-			depth = chunkRandom.nextInt(context.maximumFloorsBelow) + 1;
+			depth = 1 + chunkOdds.getRandomInt(context.maximumFloorsBelow);
 		needStairsDown = true;
 		needStairsUp = true;
-		rounded = chunkRandom.nextInt(context.oddsOfSimilarBuildingRounding) == 0;
-		roofStyle = pickRoofStyle(chunkRandom);
-		roofFeature = pickRoofFeature(chunkRandom);
-		roofScale = chunkRandom.nextInt(2) + 1;
-		windowsWE = new OutsideWEWallFactory(chunkRandom, platmap.generator.settings.includeDecayedBuildings);
+		rounded = chunkOdds.playOdds(context.oddsOfSimilarBuildingRounding);
+		roofStyle = pickRoofStyle(chunkOdds);
+		roofFeature = pickRoofFeature(chunkOdds);
+		roofScale = 1 + chunkOdds.getRandomInt(2);
+		windowsWE = new OutsideWEWallFactory(chunkOdds, platmap.generator.settings.includeDecayedBuildings);
 		windowsNS = new OutsideNSWallFactory(windowsWE);
-		interiorWalls = new InteriorWallFactory(chunkRandom, platmap.generator.settings.includeDecayedBuildings);
+		interiorWalls = new InteriorWallFactory(chunkOdds, platmap.generator.settings.includeDecayedBuildings);
 	}
 
 	@Override
@@ -87,8 +86,8 @@ public abstract class BuildingLot extends ConnectedLot {
 		return y >= 0 && y < generator.streetLevel - basementFloorHeight * depth - 2 - 16;	
 	}
 
-	static public RoofStyle pickRoofStyle(Random rand) {
-		switch (rand.nextInt(5)) {
+	static public RoofStyle pickRoofStyle(Odds odds) {
+		switch (odds.getRandomInt(5)) {
 		case 1:
 			return RoofStyle.EDGED;
 		case 2:
@@ -102,8 +101,8 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 	
-	static public RoofFeature pickRoofFeature(Random rand) {
-		switch (rand.nextInt(3)) {
+	static public RoofFeature pickRoofFeature(Odds odds) {
+		switch (odds.getRandomInt(3)) {
 		case 1:
 			return RoofFeature.ANTENNAS;
 		case 2:
@@ -113,8 +112,8 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 	
-	static public Material pickGlassMaterial(Random rand) {
-		switch (rand.nextInt(2)) {
+	static public Material pickGlassMaterial(Odds odds) {
+		switch (odds.getRandomInt(2)) {
 		case 1:
 			return Material.THIN_GLASS;
 		default:
@@ -131,12 +130,12 @@ public abstract class BuildingLot extends ConnectedLot {
 			BuildingLot relativebuilding = (BuildingLot) relative;
 
 			neighborsHaveIdenticalHeights = relativebuilding.neighborsHaveIdenticalHeights;
-			if (neighborsHaveIdenticalHeights || chunkRandom.nextInt(neighborsHaveSimilarHeightsOdds) != 0) {
+			if (neighborsHaveIdenticalHeights || chunkOdds.playOdds(neighborsHaveSimilarHeightsOdds)) {
 				height = relativebuilding.height;
 				depth = relativebuilding.depth;
 			}
 			
-			if (chunkRandom.nextInt(neighborsHaveSimilarRoundedOdds) == 0)
+			if (chunkOdds.playOdds(neighborsHaveSimilarRoundedOdds))
 				rounded = relativebuilding.rounded;
 			
 			// any other bits
@@ -483,8 +482,8 @@ public abstract class BuildingLot extends ConnectedLot {
 	
 	private void drawAntenna(ByteChunk chunk, int x, int y, int z) {
 		
-		if (chunkRandom.nextBoolean()) {
-			int y2 = y + chunkRandom.nextInt(8) + 8;
+		if (chunkOdds.flipCoin()) {
+			int y2 = y + 8 + chunkOdds.getRandomInt(8);
 			chunk.setBlocks(x, y, y + 3, z, antennaBaseId);
 			chunk.setBlocks(x, y + 2, y2, z, antennaId);
 			if (y2 >= navLightY) {
@@ -502,22 +501,22 @@ public abstract class BuildingLot extends ConnectedLot {
 	
 	private void drawConditioner(ByteChunk chunk, int x, int y, int z) {
 		
-		if (chunkRandom.nextBoolean()) {
+		if (chunkOdds.flipCoin()) {
 			chunk.setBlock(x, y, z, conditionerId);
 			chunk.setBlock(x, y + 1, z, conditionerTrimId);
-			if (chunkRandom.nextBoolean()) {
+			if (chunkOdds.flipCoin()) {
 				chunk.setBlockIfAir(x - 1, y, z, ductId);
 				chunk.setBlockIfAir(x - 2, y, z, ductId);
 			}
-			if (chunkRandom.nextBoolean()) {
+			if (chunkOdds.flipCoin()) {
 				chunk.setBlockIfAir(x + 1, y, z, ductId);
 				chunk.setBlockIfAir(x + 2, y, z, ductId);
 			}
-			if (chunkRandom.nextBoolean()) {
+			if (chunkOdds.flipCoin()) {
 				chunk.setBlockIfAir(x, y, z - 1, ductId);
 				chunk.setBlockIfAir(x, y, z - 2, ductId);
 			}
-			if (chunkRandom.nextBoolean()) {
+			if (chunkOdds.flipCoin()) {
 				chunk.setBlockIfAir(x, y, z + 1, ductId);
 				chunk.setBlockIfAir(x, y, z + 2, ductId);
 			}
@@ -553,57 +552,57 @@ public abstract class BuildingLot extends ConnectedLot {
 		case CENTER:
 			int center = chunk.width / 2;
 			
-			if (!heights.toWest() && chunkRandom.nextBoolean())
+			if (!heights.toWest() && chunkOdds.flipCoin())
 				drawDoor(chunk, x1, x1, x1, 
 						y1, y2, 
 						center - 1, center, center + 1, 
 						Door.WESTBYNORTHWEST, wallMaterial);
-			if (!heights.toEast() && chunkRandom.nextBoolean())
+			if (!heights.toEast() && chunkOdds.flipCoin())
 				drawDoor(chunk, x2, x2, x2, 
 						y1, y2, 
 						center - 1, center, center + 1, 
 						Door.EASTBYSOUTHEAST, wallMaterial);
-			if (!heights.toNorth() && chunkRandom.nextBoolean())
+			if (!heights.toNorth() && chunkOdds.flipCoin())
 				drawDoor(chunk, center - 1, center, center + 1, 
 						y1, y2, 
 						z1, z1, z1, 
 						Door.NORTHBYNORTHEAST, wallMaterial);
-			if (!heights.toSouth() && chunkRandom.nextBoolean())
+			if (!heights.toSouth() && chunkOdds.flipCoin())
 				drawDoor(chunk, center - 1, center, center + 1, 
 						y1, y2, 
 						z2, z2, z2, 
 						Door.SOUTHBYSOUTHWEST, wallMaterial);
 			break;
 		case SOUTHWEST:
-			if (chunkRandom.nextBoolean())
+			if (chunkOdds.flipCoin())
 				drawDoor(chunk, x2, x2, x2, y1, y2, 0, 1, 2, Door.EASTBYNORTHEAST, wallMaterial); 
-			if (chunkRandom.nextBoolean())
+			if (chunkOdds.flipCoin())
 				drawDoor(chunk, 0, 1, 2, y1, y2, z2, z2, z2, Door.SOUTHBYSOUTHWEST, wallMaterial); 
 			break;
 		case SOUTHEAST:
-			if (chunkRandom.nextBoolean())
+			if (chunkOdds.flipCoin())
 				drawDoor(chunk, 0, 1, 2, y1, y2, z1, z1, z1, Door.NORTHBYNORTHWEST, wallMaterial); 
-			if (chunkRandom.nextBoolean())
+			if (chunkOdds.flipCoin())
 				drawDoor(chunk, x2, x2, x2, y1, y2, w1, w2, w3, Door.EASTBYSOUTHEAST, wallMaterial); 
 			break;
 		case NORTHWEST:
-			if (chunkRandom.nextBoolean())
+			if (chunkOdds.flipCoin())
 				drawDoor(chunk, x1, x1, x1, y1, y2, 0, 1, 2, Door.WESTBYNORTHWEST, wallMaterial); 
-			if (chunkRandom.nextBoolean())
+			if (chunkOdds.flipCoin())
 				drawDoor(chunk, w1, w2, w3, y1, y2, z2, z2, z2, Door.SOUTHBYSOUTHEAST, wallMaterial); 
 			break;
 		case NORTHEAST:
-			if (chunkRandom.nextBoolean())
+			if (chunkOdds.flipCoin())
 				drawDoor(chunk, w1, w2, w3, y1, y2, z1, z1, z1, Door.NORTHBYNORTHEAST, wallMaterial); 
-			if (chunkRandom.nextBoolean())
+			if (chunkOdds.flipCoin())
 				drawDoor(chunk, x1, x1, x1, y1, y2, w1, w2, w3, Door.WESTBYSOUTHWEST, wallMaterial); 
 			break;
 		}
 	}
 
-	protected boolean stairsHere(Surroundings neighbors, double throwOfDice) {
-		return (throwOfDice < 1.0 - ((double) neighbors.getNeighborCount() / 4.0));
-	}
+//	protected boolean stairsHere(Surroundings neighbors, double throwOfDice) {
+//		return (throwOfDice < 1.0 - ((double) neighbors.getNeighborCount() / 4.0));
+//	}
 	
 	//TODO These might go too far by one
 	static class StairAt {
@@ -697,15 +696,15 @@ public abstract class BuildingLot extends ConnectedLot {
 				fenceMaterial, fenceMaterial, neighbors);
 		
 		// holes in fence
-		int i = chunkRandom.nextInt(chunk.width / 2) + 4;
+		int i = 4 + chunkOdds.getRandomInt(chunk.width / 2);
 		int y2 = y1 + fenceHeight;
-		if (chunkRandom.nextBoolean() && !neighbors.toWest())
+		if (chunkOdds.flipCoin() && !neighbors.toWest())
 			chunk.setBlocks(inset, y1, y2, i, airId);
-		if (chunkRandom.nextBoolean() && !neighbors.toEast())
+		if (chunkOdds.flipCoin() && !neighbors.toEast())
 			chunk.setBlocks(chunk.width - 1 - inset, y1, y2, i, airId);
-		if (chunkRandom.nextBoolean() && !neighbors.toNorth())
+		if (chunkOdds.flipCoin() && !neighbors.toNorth())
 			chunk.setBlocks(i, y1, y2, inset, airId);
-		if (chunkRandom.nextBoolean() && !neighbors.toSouth())
+		if (chunkOdds.flipCoin() && !neighbors.toSouth())
 			chunk.setBlocks(i, y1, y2, chunk.width - 1 - inset, airId);
 	}
 }

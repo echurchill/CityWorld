@@ -164,14 +164,14 @@ public class FloatingRoadLot extends RoadLot {
 		}
 	}
 	
-	private final static double balloonOdds = 0.40;
+	private final static double oddsOfballoons = 0.40;
 
 	@Override
 	protected boolean generateLightPost(WorldGenerator generator,
 			RealChunk chunk, DataContext context, int sidewalkLevel, int x, int z) {
 		boolean result = super.generateLightPost(generator, chunk, context, sidewalkLevel, x, z);
-		if (result && chunkRandom.nextDouble() < balloonOdds)
-			generator.balloonProvider.generateBalloon(generator, chunk, context, x, sidewalkLevel + lightpostHeight + 2, z, chunkRandom);
+		if (result && chunkOdds.playOdds(oddsOfballoons))
+			generator.balloonProvider.generateBalloon(generator, chunk, context, x, sidewalkLevel + lightpostHeight + 2, z, chunkOdds);
 		return result;
 	}
 	

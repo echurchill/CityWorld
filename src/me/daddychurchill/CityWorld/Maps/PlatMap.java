@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Maps;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.Clipboard;
 import me.daddychurchill.CityWorld.Clipboard.ClipboardLot;
@@ -12,6 +10,7 @@ import me.daddychurchill.CityWorld.Plats.RoadLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
@@ -32,14 +31,14 @@ public abstract class PlatMap {
 	protected PlatLot[][] platLots;
 	protected int naturalPlats;
 
-	public PlatMap(WorldGenerator aGenerator, SupportChunk typicalChunk, int aOriginX, int aOriginZ) {
+	public PlatMap(WorldGenerator generator, SupportChunk typicalChunk, int originX, int originZ) {
 		super();
 		
 		// populate the instance data
-		world = typicalChunk.world;
-		generator = aGenerator;
-		originX = aOriginX;
-		originZ = aOriginZ;
+		this.world = typicalChunk.world;
+		this.generator = generator;
+		this.originX = originX;
+		this.originZ = originZ;
 
 		// make room for plat data
 		platLots = new PlatLot[Width][Width];
@@ -53,16 +52,16 @@ public abstract class PlatMap {
 	protected abstract PlatLot createRoadLot(int x, int z, boolean roundaboutPart);
 	protected abstract PlatLot createRoundaboutStatueLot(int x, int z);
 
-	public Random getRandomGenerator() {
-		return generator.shapeProvider.getMacroRandomGeneratorAt(originX, originZ);
+	public Odds getOddsGenerator() {
+		return generator.shapeProvider.getMacroOddsGeneratorAt(originX, originZ);
 	}
 	
-	public Random getChunkRandomGenerator(SupportChunk chunk) {
-		return generator.shapeProvider.getMicroRandomGeneratorAt(chunk.chunkX, chunk.chunkZ);
+	public Odds getChunkOddsGenerator(SupportChunk chunk) {
+		return generator.shapeProvider.getMicroOddsGeneratorAt(chunk.chunkX, chunk.chunkZ);
 	}
 	
-	public Random getChunkRandomGenerator(int chunkX, int chunkZ) {
-		return generator.shapeProvider.getMicroRandomGeneratorAt(chunkX, chunkZ);
+	public Odds getChunkOddsGenerator(int chunkX, int chunkZ) {
+		return generator.shapeProvider.getMicroOddsGeneratorAt(chunkX, chunkZ);
 	}
 	
 	public void generateChunk(ByteChunk chunk, BiomeGrid biomes) {
@@ -92,6 +91,38 @@ public abstract class PlatMap {
 		}
 	}
 	
+	
+	private final static double oddsOfCentralPark = 0.15;
+	protected DataContext getContext() {
+		
+		// how natural is this platmap?
+		if (naturalPlats == 0) {
+			if (getOddsGenerator().playOdds(oddsOfCentralPark))
+				return generator.parkContext;
+			else
+				return generator.highriseContext;
+		} else if (naturalPlats < 15)
+			return generator.constructionContext;
+		else if (naturalPlats < 25)
+			return generator.midriseContext;
+		else if (naturalPlats < 37)
+			return generator.municipalContext;
+		else if (naturalPlats < 50)
+			return generator.industrialContext;
+		else if (naturalPlats < 65)
+			return generator.lowriseContext;
+		else if (naturalPlats < 80)
+			return generator.neighborhoodContext;
+		else if (naturalPlats < 90 && generator.settings.includeFarms)
+			return generator.farmContext;
+		else if (naturalPlats < 100)
+			return generator.neighborhoodContext;
+		
+		// otherwise just keep what we have
+		else
+			return context;
+	}
+
 	public int getNumberOfRoads() {
 		int result = 0;
 		for (int x = 0; x < Width; x++) {
@@ -223,10 +254,10 @@ public abstract class PlatMap {
 		if (isEmptyLot(x, z)) {
 		
 			// are there roads from here?
-			roadToNorth = isRoadTowards(typicalChunk, x, z, 0, -5);
-			roadToSouth = isRoadTowards(typicalChunk, x, z, 0, 5);
-			roadToEast = isRoadTowards(typicalChunk, x, z, 5, 0);
-			roadToWest = isRoadTowards(typicalChunk, x, z, -5, 0);
+			roadToNorth = isRoadTowards(x, z, 0, -5);
+			roadToSouth = isRoadTowards(x, z, 0, 5);
+			roadToEast = isRoadTowards(x, z, 5, 0);
+			roadToWest = isRoadTowards(x, z, -5, 0);
 			
 			// is there a need for this intersection?
 			if (roadToNorth || roadToSouth || roadToEast || roadToWest) {
@@ -234,7 +265,7 @@ public abstract class PlatMap {
 				// are the odds in favor of a roundabout? AND..
 				// are all the surrounding chunks empty (connecting roads shouldn't be there yet)
 				if (generator.settings.includeRoundabouts && 
-					generator.shapeProvider.isRoundaboutAt(originX + x, originZ + z) &&
+					generator.shapeProvider.isRoundaboutAt(originX + x, originZ + z, context.oddsOfRoundAbouts) &&
 					isEmptyLot(x - 1, z - 1) && isEmptyLot(x - 1, z) &&	isEmptyLot(x - 1, z + 1) &&
 					isEmptyLot(x, z - 1) &&	isEmptyLot(x, z + 1) &&
 					isEmptyLot(x + 1, z - 1) &&	isEmptyLot(x + 1, z) &&	isEmptyLot(x + 1, z + 1)) {
@@ -261,14 +292,14 @@ public abstract class PlatMap {
 		} else {
 			
 			// are there roads from here?
-			if (isBridgeTowardsNorth(typicalChunk, x, z) &&
-				isBridgeTowardsSouth(typicalChunk, x, z)) {
+			if (isBridgeTowardsNorth(x, z) &&
+				isBridgeTowardsSouth(x, z)) {
 				roadToNorth = true;
 				roadToSouth = true;
 				roadHere = true;
 				
-			} else if (isBridgeTowardsEast(typicalChunk, x, z) && 
-					   isBridgeTowardsWest(typicalChunk, x, z)) {
+			} else if (isBridgeTowardsEast(x, z) && 
+					   isBridgeTowardsWest(x, z)) {
 				roadToEast = true;
 				roadToWest = true;
 				roadHere = true;
@@ -296,47 +327,45 @@ public abstract class PlatMap {
 		}
 	}
 	
-	//TODO Why is this code using typicalChunk.width??????
-	private boolean isRoadTowards(SupportChunk typicalChunk, int x, int z, int deltaX, int deltaZ) {
+	private boolean isRoadTowards(int x, int z, int deltaX, int deltaZ) {
 		
 		// is this a "real" spot?
-		boolean result = HeightInfo.isBuildableAt(generator, (originX + x + deltaX) * typicalChunk.width,
-									   			 			 (originZ + z + deltaZ) * typicalChunk.width);
+		boolean result = HeightInfo.isBuildableAt(generator, (originX + x + deltaX) * SupportChunk.chunksBlockWidth,
+									   			 			 (originZ + z + deltaZ) * SupportChunk.chunksBlockWidth);
 		
 		// if this isn't a buildable spot, is there a bridge or tunnel that gets us there?
 		if (!result)
-			result = isBridgeTowards(typicalChunk, x, z, deltaX, deltaZ);
+			result = isBridgeTowards(x, z, deltaX, deltaZ);
 		
 		// report back
 		return result;
 	}
 	
-	public boolean isBridgeTowardsNorth(SupportChunk typicalChunk, int x, int z) {
-		return isBridgeTowards(typicalChunk, x, z, 0, -5);
+	public boolean isBridgeTowardsNorth(int x, int z) {
+		return isBridgeTowards(x, z, 0, -5);
 	}
 	
-	public boolean isBridgeTowardsSouth(SupportChunk typicalChunk, int x, int z) {
-		return isBridgeTowards(typicalChunk, x, z, 0, 5);
+	public boolean isBridgeTowardsSouth(int x, int z) {
+		return isBridgeTowards(x, z, 0, 5);
 	}
 	
-	public boolean isBridgeTowardsWest(SupportChunk typicalChunk, int x, int z) {
-		return isBridgeTowards(typicalChunk, x, z, -5, 0);
+	public boolean isBridgeTowardsWest(int x, int z) {
+		return isBridgeTowards(x, z, -5, 0);
 	}
 	
-	public boolean isBridgeTowardsEast(SupportChunk typicalChunk, int x, int z) {
-		return isBridgeTowards(typicalChunk, x, z, 5, 0);
+	public boolean isBridgeTowardsEast(int x, int z) {
+		return isBridgeTowards(x, z, 5, 0);
 	}
 	
-	//TODO Why is this code using typicalChunk.width??????
-	private boolean isBridgeTowards(SupportChunk typicalChunk, int x, int z, int deltaX, int deltaZ) {
+	private boolean isBridgeTowards(int x, int z, int deltaX, int deltaZ) {
 		
 		// how far do we go?
-		int offsetX = deltaX * typicalChunk.width;
-		int offsetZ = deltaZ * typicalChunk.width;
+		int offsetX = deltaX * SupportChunk.chunksBlockWidth;
+		int offsetZ = deltaZ * SupportChunk.chunksBlockWidth;
 		
 		// where do we test?
-		int chunkX = (originX + x) * typicalChunk.width;
-		int chunkZ = (originZ + z) * typicalChunk.width;
+		int chunkX = (originX + x) * SupportChunk.chunksBlockWidth;
+		int chunkZ = (originZ + z) * SupportChunk.chunksBlockWidth;
 		
 		// what is the polarity of this spot
 		boolean originPolarity = generator.shapeProvider.getBridgePolarityAt(chunkX, chunkZ);
@@ -373,14 +402,14 @@ public abstract class PlatMap {
 	}
 
 	private final static int maxPlaceTries = 16;
-	public boolean placeSpecificClip(WorldGenerator generator, Random random, Clipboard clip) {
+	public boolean placeSpecificClip(WorldGenerator generator, Odds odds, Clipboard clip) {
 		int chunksX = clip.chunkX;
 		int chunksZ = clip.chunkZ;
 		
 		// find a lot that fits into the current platmap
 		for (int attempt = 0; attempt < maxPlaceTries; attempt++) {
-			int placeX = random.nextInt(PlatMap.Width - chunksX);
-			int placeZ = random.nextInt(PlatMap.Width - chunksZ);
+			int placeX = odds.getRandomInt(PlatMap.Width - chunksX);
+			int placeZ = odds.getRandomInt(PlatMap.Width - chunksZ);
 			
 			// is this space completely empty?
 			boolean empty = true;
@@ -398,7 +427,7 @@ public abstract class PlatMap {
 			if (empty) {
 				
 				// what way are we facing?
-				Direction.Facing facing = clip.randomFacing(random);
+				Direction.Facing facing = odds.getFacing();
 				
 				// calculate the various template plats
 				for (int x = 0; x < chunksX; x++) {

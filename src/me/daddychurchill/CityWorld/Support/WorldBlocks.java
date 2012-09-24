@@ -1,6 +1,5 @@
 package me.daddychurchill.CityWorld.Support;
 
-import java.util.Random;
 import java.util.Stack;
 
 import org.bukkit.Material;
@@ -12,14 +11,14 @@ public class WorldBlocks extends SupportChunk {
 
 	private boolean doPhysics;
 	WorldGenerator generator;
-	Random random;
+	Odds odds;
 	
-	public WorldBlocks(WorldGenerator generator, Random random) {
+	public WorldBlocks(WorldGenerator generator, Odds odds) {
 		super(generator);
 		
 		doPhysics = false;
 		this.generator = generator;
-		this.random = random;
+		this.odds = odds;
 	}
 
 	public boolean getDoPhysics() {
@@ -277,10 +276,10 @@ public class WorldBlocks extends SupportChunk {
 		while (count > 0) {
 			
 			// find a place
-			int cx = getBlockX(random.nextInt(x2 - x1) + x1);
-			int cz = getBlockZ(random.nextInt(z2 - z1) + z1);
-			int cy = random.nextInt(Math.max(1, y2 - y1)) + y1;
-			int radius = random.nextInt(3) + 3;
+			int cx = getBlockX(odds.getRandomInt(x2 - x1) + x1);
+			int cz = getBlockZ(odds.getRandomInt(z2 - z1) + z1);
+			int cy = odds.getRandomInt(Math.max(1, y2 - y1)) + y1;
+			int radius = odds.getRandomInt(3) + 3;
 			
 			// make it go away
 			desperseArea(cx, cy, cz, radius);
@@ -366,11 +365,11 @@ public class WorldBlocks extends SupportChunk {
 			debrisItem item = debris.pop();
 			
 			// do this one?
-			if (random.nextDouble() < oddsOfDebris) {
+			if (odds.playOdds(oddsOfDebris)) {
 				
 				// where do we drop it?
-				int x = x1 + random.nextInt(r4);
-				int z = z1 + random.nextInt(r4);
+				int x = x1 + odds.getRandomInt(r4);
+				int z = z1 + odds.getRandomInt(r4);
 				int y = findLastEmptyBelow(x, cy, z);
 				
 				// look out for half blocks

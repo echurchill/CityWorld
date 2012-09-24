@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Support;
 
-import java.util.Random;
-
 import org.bukkit.Material;
 
 public abstract class MaterialFactory {
@@ -9,27 +7,27 @@ public abstract class MaterialFactory {
 	public enum SkipStyles {RANDOM, SINGLE, DOUBLE, RAISED_RANDOM, RAISED_SINGLE, RAISED_DOUBLE};
 	public SkipStyles style;
 	protected Boolean decayed;
-	protected Random random;
+	protected Odds odds;
 	
-	protected double decayOdds = 0.30;
+	protected double oddsOfDecay = 0.30;
 	protected byte airId = (byte) Material.AIR.getId();
 	
-	public MaterialFactory(Random rand, boolean decay) {
+	public MaterialFactory(Odds odds, boolean decayed) {
 		super();
-		random = rand;
-		decayed = decay;
+		this.odds = odds;
+		this.decayed = decayed;
 		style = pickSkipStyle();
 	}
 	
 	public MaterialFactory(MaterialFactory other) {
 		super();
-		random = other.random;
+		odds = other.odds;
 		decayed = other.decayed;
 		style = other.style;
 	}
 	
 	protected SkipStyles pickSkipStyle() {
-		switch (random.nextInt(6)) {
+		switch (odds.getRandomInt(6)) {
 		case 1:
 			return SkipStyles.SINGLE;
 		case 2:
@@ -54,14 +52,14 @@ public abstract class MaterialFactory {
 		case RAISED_DOUBLE: 
 			return i % 3 == 0 ? primaryId : secondaryId;
 		default:	 
-			return random.nextInt(2) == 0 ? primaryId : secondaryId;
+			return odds.flipCoin() ? primaryId : secondaryId;
 		}
 	}
 	
 	protected void decayMaterial(ByteChunk chunk, int x, int y1, int y2, int z) {
-		if (decayed && random.nextDouble() < decayOdds) {
+		if (decayed && odds.playOdds(oddsOfDecay)) {
 			int range = Math.max(1, y2 - y1);
-			chunk.setBlock(x, random.nextInt(range) + y1, z, airId);
+			chunk.setBlock(x, y1 + odds.getRandomInt(range), z, airId);
 		}
 	}
 	

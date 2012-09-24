@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import java.util.Random;
-
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
@@ -11,6 +9,7 @@ import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
@@ -31,6 +30,10 @@ public abstract class ShapeProvider extends Provider {
 	public abstract void preGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs);
 	public abstract void postGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs);
 	
+	private SimplexNoiseGenerator macroShape;
+	private SimplexNoiseGenerator microShape;
+	protected Odds odds;
+	
 	public int getStructureLevel() {
 		return getStreetLevel();
 	}
@@ -43,9 +46,9 @@ public abstract class ShapeProvider extends Provider {
 		return findBlockY(generator, blockX, blockZ);
 	}
 
-	public ShapeProvider(WorldGenerator generator, Random random) {
+	public ShapeProvider(WorldGenerator generator, Odds odds) {
 		super();
-		this.random = random;
+		this.odds = odds;
 		long seed = generator.getWorldSeed();
 		
 		macroShape = new SimplexNoiseGenerator(seed + 2);
@@ -53,16 +56,16 @@ public abstract class ShapeProvider extends Provider {
 	}
 
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
-	public static ShapeProvider loadProvider(WorldGenerator generator, Random random) {
+	public static ShapeProvider loadProvider(WorldGenerator generator, Odds odds) {
 
 		switch (generator.worldStyle) {
 		case FLOATING:
-			return new ShapeProvider_Floating(generator, random);
+			return new ShapeProvider_Floating(generator, odds);
 		//case UNDERGROUND
 		//case FLOODED:
 		//case LUNAR: // curved surface?
 		default: // NORMAL
-			return new ShapeProvider_Normal(generator, random);
+			return new ShapeProvider_Normal(generator, odds);
 		}
 	}
 	
@@ -121,10 +124,6 @@ public abstract class ShapeProvider extends Provider {
 	//TODO refactor this so that it is a positive (maybe ifCave) instead of a negative
 	public abstract boolean notACave(WorldGenerator generator, int blockX, int blockY, int blockZ);
 	
-	private SimplexNoiseGenerator macroShape;
-	private SimplexNoiseGenerator microShape;
-	protected Random random;
-	
 	// macro slots
 	private final static int macroRandomGeneratorSlot = 0;
 	protected final static int macroNSBridgeSlot = 1; 
@@ -154,20 +153,19 @@ public abstract class ShapeProvider extends Provider {
 		return getMicroNoiseAt(chunkX, chunkZ, slot) >= 0.0;
 	}
 	
-	public Random getMicroRandomGeneratorAt(int x, int z) {
-		return new Random((long) (getMicroNoiseAt(x, z, microRandomGeneratorSlot) * Long.MAX_VALUE));
+	public Odds getMicroOddsGeneratorAt(int x, int z) {
+		return new Odds((long) (getMicroNoiseAt(x, z, microRandomGeneratorSlot) * Long.MAX_VALUE));
 	}
 	
-	public Random getMacroRandomGeneratorAt(int x, int z) {
-		return new Random((long) (getMacroNoiseAt(x, z, macroRandomGeneratorSlot) * Long.MAX_VALUE));
+	public Odds getMacroOddsGeneratorAt(int x, int z) {
+		return new Odds((long) (getMacroNoiseAt(x, z, macroRandomGeneratorSlot) * Long.MAX_VALUE));
 	}
 	
 	public boolean getBridgePolarityAt(double chunkX, double chunkZ) {
 		return macroBooleanAt(chunkX, chunkZ, macroNSBridgeSlot);
 	}
 
-	public double oddsOfRoundabouts = 0.30;
-	public boolean isRoundaboutAt(double chunkX, double chunkZ) {
+	public boolean isRoundaboutAt(double chunkX, double chunkZ, double oddsOfRoundabouts) {
 		return microScaleAt(chunkX, chunkZ, microRoundaboutSlot) < oddsOfRoundabouts;
 	}
 	
@@ -180,8 +178,8 @@ public abstract class ShapeProvider extends Provider {
 		return isIsolatedLotAt(chunkX, chunkZ, oddsOfIsolatedBuilding / 2);
 	}
 	
-	public boolean isIsolatedLotAt(double chunkX, double chunkZ, double odds) {
-		return microScaleAt(chunkX, chunkZ, microIsolatedLotSlot) > odds;
+	public boolean isIsolatedLotAt(double chunkX, double chunkZ, double oddsOfIsolatedLots) {
+		return microScaleAt(chunkX, chunkZ, microIsolatedLotSlot) < oddsOfIsolatedLots;
 	}
 	
 	protected int macroValueAt(double chunkX, double chunkZ, int slot, int scale) {

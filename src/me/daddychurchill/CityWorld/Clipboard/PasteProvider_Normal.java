@@ -9,7 +9,7 @@ public class PasteProvider_Normal extends PasteProvider {
 	}
 
 	@Override
-	public ClipboardList getFamilyClips(WorldGenerator generator, SchematicFamily family) {
+	protected ClipboardList loadClips(WorldGenerator generator, SchematicFamily family, int maxX, int maxZ) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

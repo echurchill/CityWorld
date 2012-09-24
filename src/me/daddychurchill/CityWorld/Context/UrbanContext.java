@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Context;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.OfficeBuildingLot;
@@ -9,11 +7,12 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.ParkLot;
 import me.daddychurchill.CityWorld.Plats.UnfinishedBuildingLot;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
+import me.daddychurchill.CityWorld.Support.Odds;
 
 public abstract class UrbanContext extends DataContext {
 
-	public UrbanContext(WorldGenerator generator, PlatMap platmap) {
-		super(generator, platmap);
+	public UrbanContext(WorldGenerator generator) {
+		super(generator);
 
 		//TODO: Generalization?
 	}
@@ -25,7 +24,7 @@ public abstract class UrbanContext extends DataContext {
 		populateWithSchematics(generator, platmap);
 		
 		// random fluff!
-		Random platmapRandom = platmap.getRandomGenerator();
+		Odds platmapOdds = platmap.getOddsGenerator();
 		ShapeProvider shapeProvider = generator.shapeProvider;
 		
 		// backfill with buildings and parks
@@ -38,13 +37,13 @@ public abstract class UrbanContext extends DataContext {
 					if (generator.settings.includeBuildings) {
 
 						// what to build?
-						if (platmapRandom.nextInt(oddsOfParks) == 0)
-							current = getPark(generator, platmap, platmapRandom, platmap.originX + x, platmap.originZ + z);
-						else if (platmapRandom.nextInt(oddsOfUnfinishedBuildings) == 0)
-							current = getUnfinishedBuilding(generator, platmap, platmapRandom, platmap.originX + x, platmap.originZ + z);
+						if (platmapOdds.playOdds(oddsOfParks))
+							current = getPark(generator, platmap, platmapOdds, platmap.originX + x, platmap.originZ + z);
+						else if (platmapOdds.playOdds(oddsOfUnfinishedBuildings))
+							current = getUnfinishedBuilding(generator, platmap, platmapOdds, platmap.originX + x, platmap.originZ + z);
 						//TODO government buildings
 						else 
-							current = getFinishedBuilding(generator, platmap, platmapRandom, platmap.originX + x, platmap.originZ + z);
+							current = getFinishedBuilding(generator, platmap, platmapOdds, platmap.originX + x, platmap.originZ + z);
 						
 						// see if the previous chunk is the same type
 						PlatLot previous = null;
@@ -68,15 +67,15 @@ public abstract class UrbanContext extends DataContext {
 		}
 	}
 	
-	protected PlatLot getPark(WorldGenerator generator, PlatMap platmap, Random random, int chunkX, int chunkZ) {
+	protected PlatLot getPark(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new ParkLot(platmap, chunkX, chunkZ, generator.connectedKeyForParks);
 	}
 	
-	protected PlatLot getFinishedBuilding(WorldGenerator generator, PlatMap platmap, Random random, int chunkX, int chunkZ) {
+	protected PlatLot getFinishedBuilding(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new OfficeBuildingLot(platmap, chunkX, chunkZ);
 	}
 	
-	protected PlatLot getUnfinishedBuilding(WorldGenerator generator, PlatMap platmap, Random random, int chunkX, int chunkZ) {
+	protected PlatLot getUnfinishedBuilding(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new UnfinishedBuildingLot(platmap, chunkX, chunkZ);
 	}
 }

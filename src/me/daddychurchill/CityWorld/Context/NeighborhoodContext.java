@@ -8,8 +8,12 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 
 public class NeighborhoodContext extends RuralContext {
 
-	public NeighborhoodContext(WorldGenerator generator, PlatMap platmap) {
-		super(generator, platmap);
+	public NeighborhoodContext(WorldGenerator generator) {
+		super(generator);
+	}
+	
+	@Override
+	protected void initialize() {
 
 		schematicFamily = SchematicFamily.NEIGHBORHOOD;
 	}

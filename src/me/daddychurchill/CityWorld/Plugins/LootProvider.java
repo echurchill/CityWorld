@@ -1,12 +1,11 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import java.util.Random;
-
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plugins.PhatLoot.LootProvider_Phat;
+import me.daddychurchill.CityWorld.Support.Odds;
 
 public abstract class LootProvider extends Provider {
 
@@ -14,7 +13,7 @@ public abstract class LootProvider extends Provider {
 	
 	public enum LootLocation {SEWER, MINE, BUNKER, STORAGESHED, BANKVAULT};
 	
-	public abstract ItemStack[] getItems(WorldGenerator generator, Random random, LootLocation lootLocation);
+	public abstract ItemStack[] getItems(WorldGenerator generator, Odds odds, LootLocation lootLocation);
 
 	public static LootProvider loadProvider(WorldGenerator generator) {
 
@@ -31,18 +30,18 @@ public abstract class LootProvider extends Provider {
 		return provider;
 	}
 
-	protected ItemStack[] createTreasures(WorldGenerator generator, Random random, Material minTreasure, Material maxTreasure, int maxCount, int maxStack) {
+	protected ItemStack[] createTreasures(WorldGenerator generator, Odds odds, Material minTreasure, Material maxTreasure, int maxCount, int maxStack) {
 		int minId = minTreasure.getId();
 		int maxId = maxTreasure.getId();
 		int rangeId = maxId - minId + 1;
-		int count = maxCount > 0 ? random.nextInt(maxCount) + 1 : 0;
+		int count = maxCount > 0 ? odds.getRandomInt(maxCount) + 1 : 0;
 		
 		// make room
 		ItemStack[] items = new ItemStack[count];
 		
 		// populate
 		for (int i = 0; i < count; i++)
-			items[i] = new ItemStack(random.nextInt(rangeId) + minId, random.nextInt(maxStack) + 1);
+			items[i] = new ItemStack(odds.getRandomInt(rangeId) + minId, odds.getRandomInt(maxStack) + 1);
 		
 		// all done
 		return items;

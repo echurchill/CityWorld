@@ -2,8 +2,9 @@ package me.daddychurchill.CityWorld.Clipboard;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
 
@@ -11,11 +12,10 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
 public class PasteProvider_WorldEdit extends PasteProvider {
 
-	private SchematicFamilyList families;
+	private File schematicsFolder;
 	
 	public PasteProvider_WorldEdit(WorldGenerator generator) throws Exception {
 		super();
-		int schematicsLoaded = 0;
 		
 		// find the files
 		File pluginFolder = generator.getPlugin().getDataFolder();
@@ -25,36 +25,7 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 			File shapeFolder = findFolder(pluginFolder, generator.shapeProvider.getCollectionName());
 			
 			// finally ores are used to figure out the collection folder (normal, nether, theend, etc.)
-			File environmentFolder = findFolder(shapeFolder, generator.oreProvider.getCollectionName());
-			
-			// make room for context types
-			families = new SchematicFamilyList();
-			
-			// now for each of the context styles
-			for (SchematicFamily family: SchematicFamily.values()) {
-				File contextFolder = findFolder(environmentFolder, family.toString());
-				
-				// make room for clips
-				ClipboardList clips = families.add(family, new ClipboardList());
-				
-				// now load those schematic files
-				File[] schematicFiles = contextFolder.listFiles(matchSchematics());
-				for (File schematicFile: schematicFiles) {
-					try {
-						
-						// create a copy of the clipboard
-						clips.put(new Clipboard_WorldEdit(generator, schematicFile));
-						schematicsLoaded++;
-						
-//						CityWorld.reportMessage("[WorldEdit] Schematic " + schematicFile.getName() + " loaded");
-					} catch (Exception e) {
-						CityWorld.reportException("WorldEdit] Schematic " + schematicFile.getName() + " could NOT be loaded", e);
-					}
-				}
-			}
-			
-			// final report
-			CityWorld.reportMessage("[WorldEdit] Loaded " + schematicsLoaded + " schematic(s)");
+			schematicsFolder = findFolder(shapeFolder, generator.oreProvider.getCollectionName());
 		}
 	}
 	
@@ -80,8 +51,43 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 	}
 
 	@Override
-	public ClipboardList getFamilyClips(WorldGenerator generator, SchematicFamily family) {
-		return families.get(family);
+	public ClipboardList loadClips(WorldGenerator generator, SchematicFamily family, int maxX, int maxZ) throws Exception {
+		
+		// things aren't happy
+		if (schematicsFolder == null)
+			return null;
+		
+		// now for each of the context styles
+		File contextFolder = findFolder(schematicsFolder, family.toString());
+		
+		// make room for clips
+		ClipboardList clips = new ClipboardList();
+		
+		// now load those schematic files
+		File[] schematicFiles = contextFolder.listFiles(matchSchematics());
+		for (File schematicFile: schematicFiles) {
+			try {
+				
+				// load a clipboard
+				Clipboard clip = new Clipboard_WorldEdit(generator, schematicFile);
+				
+				// too big?
+				if (clip.chunkX > maxX || clip.chunkZ > maxZ) 
+					throw new Exception("Schematic too large, max size = " + 
+							maxX * SupportChunk.chunksBlockWidth + " by " + 
+							maxZ * SupportChunk.chunksBlockWidth);
+				
+				// add the clip to the result
+				clips.put(clip);
+				
+//				generator.reportMessage("[WorldEdit] Schematic " + schematicFile.getName() + " loaded");
+			} catch (Exception e) {
+				generator.reportException("[WorldEdit] Schematic " + schematicFile.getName() + " could NOT be loaded", e);
+			}
+		}
+		
+		// final report
+		return clips;
 	}
 	
 	// Loosely based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
@@ -105,12 +111,12 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 				pm.enablePlugin(worldEditPlugin);
 
 			// woot!
-			CityWorld.reportMessage("[PasteProvider] Found " + name + ", loading its schematics");
+			generator.reportMessage("[PasteProvider] Found " + name + ", loading its schematics");
 			
 			return new PasteProvider_WorldEdit(generator);
 			
 		} catch (Exception e) {
-			CityWorld.reportException("[PasteProvider] Problem with WorldEdit", e);
+			generator.reportException("[PasteProvider] Problem with WorldEdit", e);
 			return null;
 		}
 	}

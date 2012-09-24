@@ -1,6 +1,5 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import java.util.Random;
 import org.bukkit.Material;
 
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
@@ -102,8 +101,7 @@ public class OilPlatformLot extends ConstructLot {
 		
 		// drill down
 		if (generator.settings.includeTekkitMaterials && minHeight > 20) { //place a blob of oil if it's a tekkit server (tekkit support by gunre)
-			Random rGen = new Random();
-			int oilBlobYFloor = rGen.nextInt(10) + 2;
+			int oilBlobYFloor = chunkOdds.getRandomInt(10) + 2;
 			chunk.setBlocks(5, 11, oilBlobYFloor + 1, oilBlobYFloor + 7, 5, 11, oilId);
 			chunk.setBlocks(6, 10, oilBlobYFloor, oilBlobYFloor + 8, 6, 10, oilId);
 			chunk.setBlocks(6, 10, oilBlobYFloor + 2, oilBlobYFloor + 6, 4, 12, oilId);
@@ -142,7 +140,7 @@ public class OilPlatformLot extends ConstructLot {
 		chunk.clearBlock(2, y4 - 1, 2);
 		chunk.clearBlock(2, y4 - 1, 3);
 		chunk.setStair(3, y4 - 1, 3, topperId, Direction.Stair.NORTH);
-		chunk.drawCrane(context, chunkRandom, 3, y4, 2);
+		chunk.drawCrane(context, chunkOdds, 3, y4, 2);
 		
 		// bleed off
 		chunk.setBlocks(13, y4 + 3, y4 + 8, 13, Material.IRON_FENCE);
@@ -153,14 +151,14 @@ public class OilPlatformLot extends ConstructLot {
 		if (generator.settings.includeDecayedBuildings) {
 
 			// do we take out a bit of it?
-			decayEdge(generator, chunk.getBlockX(7) + chunkRandom.nextInt(3) - 1, y1, chunk.getBlockZ(0) + chunkRandom.nextInt(2));
-			decayEdge(generator, chunk.getBlockX(7) + chunkRandom.nextInt(3) - 1, y2, chunk.getBlockZ(0) + chunkRandom.nextInt(2));
-			decayEdge(generator, chunk.getBlockX(8) + chunkRandom.nextInt(3) - 1, y1, chunk.getBlockZ(15) - chunkRandom.nextInt(2));
-			decayEdge(generator, chunk.getBlockX(8) + chunkRandom.nextInt(3) - 1, y2, chunk.getBlockZ(15) - chunkRandom.nextInt(2));
-			decayEdge(generator, chunk.getBlockX(0) + chunkRandom.nextInt(2), y1, chunk.getBlockZ(7) + chunkRandom.nextInt(3) - 1);
-			decayEdge(generator, chunk.getBlockX(0) + chunkRandom.nextInt(2), y2, chunk.getBlockZ(7) + chunkRandom.nextInt(3) - 1);
-			decayEdge(generator, chunk.getBlockX(15) - chunkRandom.nextInt(2), y1, chunk.getBlockZ(8) + chunkRandom.nextInt(3) - 1);
-			decayEdge(generator, chunk.getBlockX(15) - chunkRandom.nextInt(2), y2, chunk.getBlockZ(8) + chunkRandom.nextInt(3) - 1);
+			decayEdge(generator, chunk.getBlockX(7) + chunkOdds.getRandomInt(3) - 1, y1, chunk.getBlockZ(0) + chunkOdds.getRandomInt(2));
+			decayEdge(generator, chunk.getBlockX(7) + chunkOdds.getRandomInt(3) - 1, y2, chunk.getBlockZ(0) + chunkOdds.getRandomInt(2));
+			decayEdge(generator, chunk.getBlockX(8) + chunkOdds.getRandomInt(3) - 1, y1, chunk.getBlockZ(15) - chunkOdds.getRandomInt(2));
+			decayEdge(generator, chunk.getBlockX(8) + chunkOdds.getRandomInt(3) - 1, y2, chunk.getBlockZ(15) - chunkOdds.getRandomInt(2));
+			decayEdge(generator, chunk.getBlockX(0) + chunkOdds.getRandomInt(2), y1, chunk.getBlockZ(7) + chunkOdds.getRandomInt(3) - 1);
+			decayEdge(generator, chunk.getBlockX(0) + chunkOdds.getRandomInt(2), y2, chunk.getBlockZ(7) + chunkOdds.getRandomInt(3) - 1);
+			decayEdge(generator, chunk.getBlockX(15) - chunkOdds.getRandomInt(2), y1, chunk.getBlockZ(8) + chunkOdds.getRandomInt(3) - 1);
+			decayEdge(generator, chunk.getBlockX(15) - chunkOdds.getRandomInt(2), y2, chunk.getBlockZ(8) + chunkOdds.getRandomInt(3) - 1);
 			decayEdge(generator, chunk.getBlockX(7), y4, chunk.getBlockZ(12));
 		}
 //TODO destroy it a little bit
@@ -189,9 +187,9 @@ public class OilPlatformLot extends ConstructLot {
 	private final static double decayedEdgeOdds = 0.25;
 	
 	private void decayEdge(WorldGenerator generator, int x, int y, int z) {
-		if (chunkRandom.nextDouble() < decayedEdgeOdds)
+		if (chunkOdds.playOdds(decayedEdgeOdds))
 			
 			// make it go away
-			generator.decayBlocks.desperseArea(x, y, z, chunkRandom.nextInt(2) + 2);
+			generator.decayBlocks.desperseArea(x, y, z, chunkOdds.getRandomInt(2) + 2);
 	}
 }

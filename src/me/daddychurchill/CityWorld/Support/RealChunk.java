@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Support;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
@@ -502,7 +500,7 @@ public class RealChunk extends SupportChunk {
 		}
 	}
 	
-	public void drawCrane(DataContext context, Random random, int x, int y, int z) {
+	public void drawCrane(DataContext context, Odds odds, int x, int y, int z) {
 		
 		// vertical bit
 		setBlocks(x, y, y + 8, z, Material.IRON_FENCE);
@@ -519,7 +517,7 @@ public class RealChunk extends SupportChunk {
 		// counter weight
 		setBlock(x - 2, y + 9, z, Material.STEP);
 		setStair(x - 3, y + 9, z, Material.SMOOTH_STAIRS, Stair.EAST);
-		setBlocks(x - 3, x - 1, y + 7, y + 9, z, z + 1, Material.WOOL, (byte) random.nextInt(16));
+		setBlocks(x - 3, x - 1, y + 7, y + 9, z, z + 1, Material.WOOL, odds.getRandomByte(16));
 	}
 
 	public void setTable(int x1, int x2, int y, int z1, int z2, Material tableTop) {

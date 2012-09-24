@@ -6,6 +6,18 @@ import java.util.List;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider;
+import me.daddychurchill.CityWorld.Context.MunicipalContext;
+import me.daddychurchill.CityWorld.Context.DataContext;
+import me.daddychurchill.CityWorld.Context.FarmContext;
+import me.daddychurchill.CityWorld.Context.HighriseContext;
+import me.daddychurchill.CityWorld.Context.IndustrialContext;
+import me.daddychurchill.CityWorld.Context.LowriseContext;
+import me.daddychurchill.CityWorld.Context.MidriseContext;
+import me.daddychurchill.CityWorld.Context.NatureContext_Floating;
+import me.daddychurchill.CityWorld.Context.NatureContext_Normal;
+import me.daddychurchill.CityWorld.Context.NeighborhoodContext;
+import me.daddychurchill.CityWorld.Context.ConstructionContext;
+import me.daddychurchill.CityWorld.Context.ParkContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plugins.BalloonProvider;
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider;
@@ -17,6 +29,7 @@ import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 import me.daddychurchill.CityWorld.Support.WorldBlocks;
@@ -33,7 +46,7 @@ public class WorldGenerator extends ChunkGenerator {
 	private CityWorld plugin;
 	private World world;
 	private Long worldSeed;
-	private Random connectionKeyGen;
+	private Odds connectionKeyGen;
 	
 	public String worldName;
 	public WorldStyle worldStyle;
@@ -51,6 +64,18 @@ public class WorldGenerator extends ChunkGenerator {
 	public HouseProvider houseProvider;
 	
 	public WorldBlocks decayBlocks;
+	
+	public DataContext normalContext;
+	public DataContext floatingContext;
+	public DataContext parkContext;
+	public DataContext highriseContext;
+	public DataContext constructionContext;
+	public DataContext midriseContext;
+	public DataContext municipalContext;
+	public DataContext industrialContext;
+	public DataContext lowriseContext;
+	public DataContext neighborhoodContext;
+	public DataContext farmContext;
 
 	public CityWorldSettings settings;
 
@@ -90,7 +115,7 @@ public class WorldGenerator extends ChunkGenerator {
 			try {
 				this.worldStyle = WorldStyle.valueOf(worldStyle.trim().toUpperCase());
 			} catch (IllegalArgumentException e) {
-				CityWorld.reportMessage("[Generator] Unknown world style " + worldStyle + ", switching to NORMAL");
+				reportMessage("[Generator] Unknown world style " + worldStyle + ", switching to NORMAL");
 				this.worldStyle = WorldStyle.NORMAL;
 			}
 		}
@@ -120,17 +145,17 @@ public class WorldGenerator extends ChunkGenerator {
 			world = aWorld;
 			settings = new CityWorldSettings(this);
 			worldSeed = world.getSeed();
-			connectionKeyGen = new Random(worldSeed + 1);
-			shapeProvider = ShapeProvider.loadProvider(this, new Random(worldSeed + 2));
+			connectionKeyGen = new Odds(worldSeed + 1);
+			shapeProvider = ShapeProvider.loadProvider(this, new Odds(worldSeed + 2));
 			lootProvider = LootProvider.loadProvider(this);
 			spawnProvider = SpawnProvider.loadProvider(this);
 			oreProvider = OreProvider.loadProvider(this);
-			foliageProvider = FoliageProvider.loadProvider(this, new Random(worldSeed + 3));
-			odonymProvider = OdonymProvider.loadProvider(this, new Random(worldSeed + 4));
-			surfaceProvider = SurfaceProvider.loadProvider(this, new Random(worldSeed + 5));
+			foliageProvider = FoliageProvider.loadProvider(this, new Odds(worldSeed + 3));
+			odonymProvider = OdonymProvider.loadProvider(this, new Odds(worldSeed + 4));
+			surfaceProvider = SurfaceProvider.loadProvider(this, new Odds(worldSeed + 5));
 			balloonProvider = BalloonProvider.loadProvider(this);
 			houseProvider = HouseProvider.loadProvider(this);
-			decayBlocks = new WorldBlocks(this, new Random(worldSeed + 6));
+			decayBlocks = new WorldBlocks(this, new Odds(worldSeed + 6));
 			pasteProvider = PasteProvider.loadProvider(this);
 			
 			// get ranges
@@ -140,6 +165,22 @@ public class WorldGenerator extends ChunkGenerator {
 			seaRange = shapeProvider.getSeaRange();
 			structureLevel = shapeProvider.getStructureLevel();
 			streetLevel = shapeProvider.getStreetLevel();
+
+			// various contexts
+			normalContext = new NatureContext_Normal(this);
+			floatingContext = new NatureContext_Floating(this);
+			parkContext = new ParkContext(this);
+			highriseContext = new HighriseContext(this);
+			constructionContext = new ConstructionContext(this);
+			midriseContext = new MidriseContext(this);
+			municipalContext = new MunicipalContext(this);
+			industrialContext = new IndustrialContext(this);
+			lowriseContext = new LowriseContext(this);
+			neighborhoodContext = new NeighborhoodContext(this);
+			farmContext = new FarmContext(this);
+			
+			// did we load any schematics?
+			pasteProvider.reportStatus(this);
 
 			// now the other vertical points
 			deepseaLevel = seaLevel - seaRange / 3;
@@ -160,8 +201,8 @@ public class WorldGenerator extends ChunkGenerator {
 //							        " top = " + (seaLevel + landRange));
 			
 			// get the connectionKeys
-			connectedKeyForPavedRoads = connectionKeyGen.nextLong();
-			connectedKeyForParks = connectionKeyGen.nextLong();
+			connectedKeyForPavedRoads = connectionKeyGen.getRandomLong();
+			connectedKeyForParks = connectionKeyGen.getRandomLong();
 		}
 	}
 	
@@ -183,7 +224,7 @@ public class WorldGenerator extends ChunkGenerator {
 	}
 	
 	public long getConnectionKey() {
-		return connectionKeyGen.nextLong();
+		return connectionKeyGen.getRandomLong();
 	}
 	
 	public int getFarBlockY(int blockX, int blockZ) {
@@ -247,6 +288,15 @@ public class WorldGenerator extends ChunkGenerator {
 			return -((Math.abs(i + 1) / PlatMap.Width * PlatMap.Width) + PlatMap.Width);
 		}
 	}
+	
+	public void reportMessage(String message) {
+		plugin.reportMessage(message);
+	}
+
+	public void reportException(String message, Exception e) {
+		plugin.reportException(message, e);
+	}
+	
 
 	private class CityWorldBlockPopulator extends BlockPopulator {
 

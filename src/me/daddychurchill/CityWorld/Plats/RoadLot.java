@@ -154,11 +154,11 @@ public class RoadLot extends ConnectedLot {
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 		// random bits
-		sewerCenterBit = chunkRandom.nextBoolean();
-		sewerNorthWestBias = chunkRandom.nextBoolean();
-		sewerNorthEastBias = chunkRandom.nextBoolean();
-		sewerSouthWestBias = chunkRandom.nextBoolean();
-		sewerSouthEastBias = chunkRandom.nextBoolean();
+		sewerCenterBit = chunkOdds.flipCoin();
+		sewerNorthWestBias = chunkOdds.flipCoin();
+		sewerNorthEastBias = chunkOdds.flipCoin();
+		sewerSouthWestBias = chunkOdds.flipCoin();
+		sewerSouthEastBias = chunkOdds.flipCoin();
 		
 		// compute offset to start of chunk
 		int originX = chunk.getOriginX();
@@ -784,11 +784,11 @@ public class RoadLot extends ConnectedLot {
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 
 		// random bits
-		sewerCenterBit = chunkRandom.nextBoolean();
-		sewerNorthWestBias = chunkRandom.nextBoolean();
-		sewerNorthEastBias = chunkRandom.nextBoolean();
-		sewerSouthWestBias = chunkRandom.nextBoolean();
-		sewerSouthEastBias = chunkRandom.nextBoolean();
+		sewerCenterBit = chunkOdds.flipCoin();
+		sewerNorthWestBias = chunkOdds.flipCoin();
+		sewerNorthEastBias = chunkOdds.flipCoin();
+		sewerSouthWestBias = chunkOdds.flipCoin();
+		sewerSouthEastBias = chunkOdds.flipCoin();
 		
 		// compute offset to start of chunk
 		int originX = chunk.getOriginX();
@@ -1026,7 +1026,7 @@ public class RoadLot extends ConnectedLot {
 				generateDoor(chunk, 10, sewerY, 4, Direction.Door.NORTHBYNORTHEAST);
 				chunk.setStoneSlab(7, sewerY, 4, Direction.StoneSlab.COBBLESTONEFLIP);
 				chunk.setStoneSlab(8, sewerY, 4, Direction.StoneSlab.COBBLESTONEFLIP);
-			} else if (!placedPlank && roads.toNorth() && chunkRandom.nextBoolean()) {
+			} else if (!placedPlank && roads.toNorth() && chunkOdds.flipCoin()) {
 				placedPlank = true;
 				chunk.setBlocks(6, 10, sewerY, 5, 6, sewerPlankMaterial, sewerPlankData); 
 			}
@@ -1034,7 +1034,7 @@ public class RoadLot extends ConnectedLot {
 				generateDoor(chunk, 5, sewerY, 11, Direction.Door.SOUTHBYSOUTHWEST);
 				chunk.setStoneSlab(7, sewerY, 11, Direction.StoneSlab.COBBLESTONEFLIP);
 				chunk.setStoneSlab(8, sewerY, 11, Direction.StoneSlab.COBBLESTONEFLIP);
-			} else if (!placedPlank && roads.toSouth() && chunkRandom.nextBoolean()) {
+			} else if (!placedPlank && roads.toSouth() && chunkOdds.flipCoin()) {
 				placedPlank = true;
 				chunk.setBlocks(6, 10, sewerY, 10, 11, sewerPlankMaterial, sewerPlankData);
 			} 
@@ -1042,7 +1042,7 @@ public class RoadLot extends ConnectedLot {
 				generateDoor(chunk, 4, sewerY, 5, Direction.Door.WESTBYNORTHWEST);
 				chunk.setStoneSlab(4, sewerY, 7, Direction.StoneSlab.COBBLESTONEFLIP);
 				chunk.setStoneSlab(4, sewerY, 8, Direction.StoneSlab.COBBLESTONEFLIP);
-			} else if (!placedPlank && roads.toWest() && chunkRandom.nextBoolean()) {
+			} else if (!placedPlank && roads.toWest() && chunkOdds.flipCoin()) {
 				placedPlank = true;
 				chunk.setBlocks(5, 6, sewerY, 6, 10, sewerPlankMaterial, sewerPlankData);
 			}
@@ -1050,7 +1050,7 @@ public class RoadLot extends ConnectedLot {
 				generateDoor(chunk, 11, sewerY, 10, Direction.Door.EASTBYSOUTHEAST);
 				chunk.setStoneSlab(11, sewerY, 7, Direction.StoneSlab.COBBLESTONEFLIP);
 				chunk.setStoneSlab(11, sewerY, 8, Direction.StoneSlab.COBBLESTONEFLIP);
-			} else if (!placedPlank && roads.toEast() && chunkRandom.nextBoolean()) {
+			} else if (!placedPlank && roads.toEast() && chunkOdds.flipCoin()) {
 				placedPlank = true;
 				chunk.setBlocks(10, 11, sewerY, 6, 10, sewerPlankMaterial, sewerPlankData);
 			}
@@ -1072,7 +1072,7 @@ public class RoadLot extends ConnectedLot {
 			if (centerNorth && centerSouth && centerWest && centerEast) {
 				
 				// look carefully, these are actually different
-				switch(chunkRandom.nextInt(4)) {
+				switch(chunkOdds.getRandomInt(4)) {
 				case 1:
 					generateTreat(generator, chunk, 6, sewerY, 6);
 					generateTrick(generator, chunk, 9, sewerY, 9);
@@ -1155,9 +1155,9 @@ public class RoadLot extends ConnectedLot {
 	protected void decayRoad(RealChunk chunk, int x1, int x2, int y, int z1, int z2) {
 		int amount = (x2 - x1) * (z2 - z1) / 10;
 		while (amount > 0) {
-			int x = chunkRandom.nextInt(x2 - x1) + x1;
-			int z = chunkRandom.nextInt(z2 - z1) + z1;
-			if (chunkRandom.nextBoolean())
+			int x = x1 + chunkOdds.getRandomInt(x2 - x1);
+			int z = z1 + chunkOdds.getRandomInt(z2 - z1);
+			if (chunkOdds.flipCoin())
 				chunk.setBlock(x, y, z, Material.COBBLESTONE);
 			else
 				chunk.setBlock(x, y, z, Material.STEP.getId(), (byte) 3);
@@ -1168,9 +1168,9 @@ public class RoadLot extends ConnectedLot {
 	protected void decaySidewalk(RealChunk chunk, int x1, int x2, int y, int z1, int z2) {
 		int amount = (x2 - x1) * (z2 - z1) / 10;
 		while (amount > 0) {
-			int x = chunkRandom.nextInt(x2 - x1) + x1;
-			int z = chunkRandom.nextInt(z2 - z1) + z1;
-			if (chunkRandom.nextBoolean())
+			int x = x1 + chunkOdds.getRandomInt(x2 - x1);
+			int z = z1 + chunkOdds.getRandomInt(z2 - z1);
+			if (chunkOdds.flipCoin())
 				chunk.setBlock(x, y, z, airId);
 			else
 				chunk.setBlock(x, y, z, Material.STEP.getId(), (byte) 3);
@@ -1180,18 +1180,18 @@ public class RoadLot extends ConnectedLot {
 	
 	private void generateEntryVines(RealChunk chunk, int y, Direction.Vine direction,
 			int x1, int z1, int x2, int z2, int x3, int z3, int x4, int z4) {
-		if (chunkRandom.nextBoolean())
+		if (chunkOdds.flipCoin())
 			chunk.setVine(x1, y, z1, direction);
-		if (chunkRandom.nextBoolean())
+		if (chunkOdds.flipCoin())
 			chunk.setVine(x2, y, z2, direction);
-		if (chunkRandom.nextBoolean())
+		if (chunkOdds.flipCoin())
 			chunk.setVine(x3, y, z3, direction);
-		if (chunkRandom.nextBoolean())
+		if (chunkOdds.flipCoin())
 			chunk.setVine(x4, y, z4, direction);
 	}
 	
 	private void generateHangingVine(RealChunk chunk, int y, Direction.Vine direction, int x1, int z1, int x2, int z2) {
-		if (chunkRandom.nextBoolean() && chunk.isEmpty(x1, y, z1) && !chunk.isEmpty(x2, y, z2))
+		if (chunkOdds.flipCoin() && chunk.isEmpty(x1, y, z1) && !chunk.isEmpty(x2, y, z2))
 			chunk.setVine(x1, y, z1, direction);
 	}
 	
@@ -1200,13 +1200,13 @@ public class RoadLot extends ConnectedLot {
 		if (generator.settings.includeDecayedRoads) {
 			int y = sidewalkLevel + 1;
 			while (y < sidewalkLevel + lightpostHeight + 1) {
-				if (chunkRandom.nextDouble() > 0.75)
+				if (chunkOdds.playOdds(0.25))
 					break;
 				chunk.setBlock(x, y, z, lightpostMaterial);
 				y++;
 			}
 			if (y > sidewalkLevel + lightpostHeight) {
-				if (chunkRandom.nextDouble() < 0.75)
+				if (chunkOdds.playOdds(0.75))
 					chunk.setBlock(x, y, z, context.lightMat, true);
 				return true;
 			}
@@ -1219,7 +1219,6 @@ public class RoadLot extends ConnectedLot {
 	}
 	
 	private final static double oddsOfDecayedSign = 0.90;
-	
 	protected void generateStreetSign(WorldGenerator generator, RealChunk chunk, int sidewalkLevel, int x, int z) {
 		int cx = chunk.chunkX;
 		int cz = chunk.chunkZ;
@@ -1229,24 +1228,24 @@ public class RoadLot extends ConnectedLot {
 		if (generator.settings.includeDecayedRoads) {
 			
 			// put the signs up
-			if (chunkRandom.nextDouble() < oddsOfDecayedSign) {
+			if (chunkOdds.playOdds(oddsOfDecayedSign)) {
 				String[] odonym = generator.odonymProvider.generateNorthSouthOdonym(generator, cx, cz);
-				generator.odonymProvider.decaySign(chunkRandom, odonym);
+				generator.odonymProvider.decaySign(chunkOdds, odonym);
 				chunk.setWallSign(x, y, z - 1, Direction.General.NORTH, odonym);
 			}
-			if (chunkRandom.nextDouble() < oddsOfDecayedSign) {
+			if (chunkOdds.playOdds(oddsOfDecayedSign)) {
 				String[] odonym = generator.odonymProvider.generateNorthSouthOdonym(generator, cx, cz);
-				generator.odonymProvider.decaySign(chunkRandom, odonym);
+				generator.odonymProvider.decaySign(chunkOdds, odonym);
 				chunk.setWallSign(x, y, z + 1, Direction.General.SOUTH, odonym);
 			}
-			if (chunkRandom.nextDouble() < oddsOfDecayedSign) {
+			if (chunkOdds.playOdds(oddsOfDecayedSign)) {
 				String[] odonym = generator.odonymProvider.generateWestEastOdonym(generator, cx, cz);
-				generator.odonymProvider.decaySign(chunkRandom, odonym);
+				generator.odonymProvider.decaySign(chunkOdds, odonym);
 				chunk.setWallSign(x - 1, y, z, Direction.General.WEST, odonym);
 			}
-			if (chunkRandom.nextDouble() < oddsOfDecayedSign) {
+			if (chunkOdds.playOdds(oddsOfDecayedSign)) {
 				String[] odonym = generator.odonymProvider.generateWestEastOdonym(generator, cx, cz);
-				generator.odonymProvider.decaySign(chunkRandom, odonym);
+				generator.odonymProvider.decaySign(chunkOdds, odonym);
 				chunk.setWallSign(x + 1, y, z, Direction.General.EAST, odonym);
 			}
 		} else {
@@ -1264,7 +1263,7 @@ public class RoadLot extends ConnectedLot {
 	}
 	
 	private void generateDoor(RealChunk chunk, int x, int y, int z, Direction.Door direction) {
-		switch (chunkRandom.nextInt(5)) {
+		switch (chunkOdds.getRandomInt(5)) {
 		case 1:
 			chunk.setBlocks(x, y, y + 2, z, Material.BRICK);
 			break;
@@ -1302,16 +1301,16 @@ public class RoadLot extends ConnectedLot {
 	private void generateTreat(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
 		
 		// cool stuff?
-		if (generator.settings.treasuresInSewers && chunkRandom.nextDouble() <= generator.settings.oddsOfTreasureInSewers) {
-			 chunk.setChest(x, y, z, Direction.General.NORTH, generator.lootProvider.getItems(generator, chunkRandom, LootLocation.SEWER));
+		if (generator.settings.treasuresInSewers && chunkOdds.playOdds(generator.settings.oddsOfTreasureInSewers)) {
+			 chunk.setChest(x, y, z, Direction.General.NORTH, generator.lootProvider.getItems(generator, chunkOdds, LootLocation.SEWER));
 		}
 	}
 
 	private void generateTrick(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
 		
 		// not so cool stuff?
-		if (generator.settings.spawnersInSewers && chunkRandom.nextDouble() <= generator.settings.oddsOfSpawnerInSewers) {
-			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, chunkRandom, SpawnerLocation.SEWER));
+		if (generator.settings.spawnersInSewers && chunkOdds.playOdds(generator.settings.oddsOfSpawnerInSewers)) {
+			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, chunkOdds, SpawnerLocation.SEWER));
 		}
 	}
 }

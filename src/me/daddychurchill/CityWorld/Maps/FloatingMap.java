@@ -1,16 +1,6 @@
 package me.daddychurchill.CityWorld.Maps;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.CityCenterContext;
-import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Context.FarmContext;
-import me.daddychurchill.CityWorld.Context.HighriseContext;
-import me.daddychurchill.CityWorld.Context.LowriseContext;
-import me.daddychurchill.CityWorld.Context.IndustrialContext;
-import me.daddychurchill.CityWorld.Context.MidriseContext;
-import me.daddychurchill.CityWorld.Context.NatureContext_Floating;
-import me.daddychurchill.CityWorld.Context.NeighborhoodContext;
-import me.daddychurchill.CityWorld.Context.UnderConstructionContext;
 import me.daddychurchill.CityWorld.Plats.FloatingBlimpLot;
 import me.daddychurchill.CityWorld.Plats.FloatingNothingLot;
 import me.daddychurchill.CityWorld.Plats.FloatingRoadLot;
@@ -30,7 +20,7 @@ public class FloatingMap extends PlatMap {
 	protected void populateLots(SupportChunk typicalChunk) {
 
 		// assume everything is natural for the moment
-		context = new NatureContext_Floating(generator, this);
+		context = generator.floatingContext;
 		context.populateMap(generator, this);
 		
 		// place and validate the roads
@@ -90,36 +80,6 @@ public class FloatingMap extends PlatMap {
 	protected PlatLot createRoundaboutStatueLot(int x, int z) {
 		return new RoundaboutStatueLot(this, originX + x, originZ + z);
 		//return new FloatingRoundaboutCenterLot(this, originX + x, originZ + z);
-	}
-
-	protected DataContext getContext() {
-		
-		// how natural is this platmap?
-		if (naturalPlats == 0) {
-//			if (typicalChunk.random.nextDouble() > oddsOfCentralPark)
-//				return new ContextCentralPark(generator, this);
-//			else
-				return new HighriseContext(generator, this);
-		} else if (naturalPlats < 15)
-			return new UnderConstructionContext(generator, this);
-		else if (naturalPlats < 25)
-			return new MidriseContext(generator, this);
-		else if (naturalPlats < 37)
-			return new CityCenterContext(generator, this);
-		else if (naturalPlats < 50)
-			return new IndustrialContext(generator, this);
-		else if (naturalPlats < 65)
-			return new LowriseContext(generator, this);
-		else if (naturalPlats < 80)
-			return new NeighborhoodContext(generator, this);
-		else if (naturalPlats < 90 && generator.settings.includeFarms)
-			return new FarmContext(generator, this);
-		else if (naturalPlats < 100)
-			return new NeighborhoodContext(generator, this);
-		
-		// otherwise just keep what we have
-		else
-			return context;
 	}
 
 	protected void populateRoads(SupportChunk typicalChunk) {

@@ -1,11 +1,9 @@
 package me.daddychurchill.CityWorld.Support;
 
-import java.util.Random;
-
 public class OutsideNSWallFactory extends MaterialFactory {
 
-	public OutsideNSWallFactory(Random rand, boolean decay) {
-		super(rand, decay);
+	public OutsideNSWallFactory(Odds odds, boolean decayed) {
+		super(odds, decayed);
 	}
 
 	public OutsideNSWallFactory(MaterialFactory other) {

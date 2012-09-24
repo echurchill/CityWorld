@@ -1,17 +1,17 @@
 package me.daddychurchill.CityWorld.Context;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
-import me.daddychurchill.CityWorld.Maps.PlatMap;
 
 public class LowriseContext extends UrbanContext {
 
-	public LowriseContext(WorldGenerator generator, PlatMap platmap) {
-		super(generator, platmap);
-		Random platmapRandom = platmap.getRandomGenerator();
-		
+	public LowriseContext(WorldGenerator generator) {
+		super(generator);
+	}
+	
+	@Override
+	protected void initialize() {
+
 		oddsOfParks = oddsLikely;
 		oddsOfIsolatedLots = oddsVeryLikely;
 		oddsOfIdenticalBuildingHeights = oddsExtremelyLikely;
@@ -30,7 +30,8 @@ public class LowriseContext extends UrbanContext {
 		
 		schematicFamily = SchematicFamily.LOWRISE;
 
-		setFloorRange(platmapRandom, 3, 1);
+		maximumFloorsAbove = 3;
+		maximumFloorsBelow = 1;
 	}
 
 }

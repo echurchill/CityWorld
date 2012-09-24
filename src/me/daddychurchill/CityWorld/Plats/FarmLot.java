@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import java.util.Random;
-
 import org.bukkit.Material;
 import org.bukkit.World.Environment;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
@@ -10,6 +8,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingLots;
 
@@ -31,7 +30,7 @@ public class FarmLot extends ConnectedLot {
 		
 		style = LotStyle.STRUCTURE;
 		
-		directionNorthSouth = chunkRandom.nextBoolean();
+		directionNorthSouth = chunkOdds.flipCoin();
 		
 		// crop type please
 		if (platmap.generator.worldEnvironment == Environment.NETHER)
@@ -171,40 +170,40 @@ public class FarmLot extends ConnectedLot {
 		
 		// waterless crops
 		if (cropType == cropCactus)
-			plowField(generator, chunk, chunkRandom, croplevel, matSand, 0, matSand, cropType, 0, 2, 2, 3);
+			plowField(generator, chunk, chunkOdds, croplevel, matSand, 0, matSand, cropType, 0, 2, 2, 3);
 		else if (cropType == cropVine)
-			buildVineyard(generator, chunk, chunkRandom, croplevel, cropType);
+			buildVineyard(generator, chunk, chunkOdds, croplevel, cropType);
 		else if (cropType == cropTrellis)
-			buildVineyard(generator, chunk, chunkRandom, croplevel, cropType);
+			buildVineyard(generator, chunk, chunkOdds, croplevel, cropType);
 		else if (cropType == cropBrownMushroom)
-			plowField(generator, chunk, chunkRandom, croplevel, matMycel, 0, matAir, cropType, 0, 1, 2, 1);
+			plowField(generator, chunk, chunkOdds, croplevel, matMycel, 0, matAir, cropType, 0, 1, 2, 1);
 		else if (cropType == cropRedMushroom)
-			plowField(generator, chunk, chunkRandom, croplevel, matMycel, 0, matAir, cropType, 0, 1, 2, 1);
+			plowField(generator, chunk, chunkOdds, croplevel, matMycel, 0, matAir, cropType, 0, 1, 2, 1);
 		else if (cropType == cropNetherwart)
-			plowField(generator, chunk, chunkRandom, croplevel, matSoul, 0, matAir, cropType, chunkRandom.nextInt(4), 1, 2, 1);
+			plowField(generator, chunk, chunkOdds, croplevel, matSoul, 0, matAir, cropType, chunkOdds.getRandomInt(4), 1, 2, 1);
 		else if (cropType == cropDeadBush)
-			plowField(generator, chunk, chunkRandom, croplevel, matDirt, 0, matAir, cropType, 0, 1, 2, 1);
+			plowField(generator, chunk, chunkOdds, croplevel, matDirt, 0, matAir, cropType, 0, 1, 2, 1);
 		else {
 			
 			// watered crops
 			if (generator.settings.includeAbovegroundFluids) {
 				if (cropType == cropYellowFlower || cropType == cropRedFlower)
-					plowField(generator, chunk, chunkRandom, croplevel, matSoil, 8, matWater, cropType, 0, 1, 2, 1);
+					plowField(generator, chunk, chunkOdds, croplevel, matSoil, 8, matWater, cropType, 0, 1, 2, 1);
 				else if (cropType == cropGrass)
-					plowField(generator, chunk, chunkRandom, croplevel, matSoil, 8, matWater, cropType, 1, 1, 2, 1);
+					plowField(generator, chunk, chunkOdds, croplevel, matSoil, 8, matWater, cropType, 1, 1, 2, 1);
 				else if (cropType == cropWheat)
-					plowField(generator, chunk, chunkRandom, croplevel, matSoil, 8, matWater, cropType, chunkRandom.nextInt(6) + 2, 1, 2, 1);
+					plowField(generator, chunk, chunkOdds, croplevel, matSoil, 8, matWater, cropType, 2 + chunkOdds.getRandomInt(6), 1, 2, 1);
 				else if (cropType == cropPumpkin || cropType == cropMelon)
-					plowField(generator, chunk, chunkRandom, croplevel, matSoil, 8, matWater, cropType, chunkRandom.nextInt(6) + 2, 1, 3, 1);
+					plowField(generator, chunk, chunkOdds, croplevel, matSoil, 8, matWater, cropType, 2 + chunkOdds.getRandomInt(6), 1, 3, 1);
 				else if (cropType == cropSugarCane)
-					plowField(generator, chunk, chunkRandom, croplevel, matSand, 0, matWater, cropType, 0, 1, 2, 3);
+					plowField(generator, chunk, chunkOdds, croplevel, matSand, 0, matWater, cropType, 0, 1, 2, 3);
 				else if (cropType == cropNone)
-					plowField(generator, chunk, chunkRandom, croplevel, matSoil, 8, matWater, matAir, 0, 1, 2, 1);
+					plowField(generator, chunk, chunkOdds, croplevel, matSoil, 8, matWater, matAir, 0, 1, 2, 1);
 				else
 					fallowField = true;
 			} else {
 				if (cropType == cropNone)
-					plowField(generator, chunk, chunkRandom, croplevel, matDirt, 0, matAir, matAir, 0, 1, 2, 1);
+					plowField(generator, chunk, chunkOdds, croplevel, matDirt, 0, matAir, matAir, 0, 1, 2, 1);
 				else
 					fallowField = true;
 			}
@@ -212,10 +211,10 @@ public class FarmLot extends ConnectedLot {
 		
 		// just in case nothing happened
 		if (fallowField)
-			plowField(generator, chunk, chunkRandom, croplevel, matDirt, 0, matAir, cropType, 0, 1, 2, 1);
+			plowField(generator, chunk, chunkOdds, croplevel, matDirt, 0, matAir, cropType, 0, 1, 2, 1);
 	}
 
-	private void plowField(WorldGenerator generator, RealChunk chunk, Random random, int croplevel, 
+	private void plowField(WorldGenerator generator, RealChunk chunk, Odds odds, int croplevel, 
 			Material matRidge, int datRidge, Material matFurrow, 
 			Material matCrop, int datCrop,
 			int stepRow, int stepCol, int maxHeight) {
@@ -232,8 +231,8 @@ public class FarmLot extends ConnectedLot {
 				if (stepCol > 1)
 					chunk.setBlocks(x + 1, x + 2, croplevel - 1, croplevel, 1, 15, matFurrow, byteFurrow, false);
 				for (int z = 1; z < 15; z += stepRow)
-					if (chunkRandom.nextDouble() < oddsOfCrop)
-						chunk.setBlocks(x, croplevel, croplevel + random.nextInt(maxHeight) + 1, z, matCrop, byteCrop, false);
+					if (chunkOdds.playOdds(oddsOfCrop))
+						chunk.setBlocks(x, croplevel, croplevel + 1 + odds.getRandomInt(maxHeight), z, matCrop, byteCrop, false);
 			}
 		} else {
 			for (int z = 1; z < 15; z += stepCol) {
@@ -241,13 +240,13 @@ public class FarmLot extends ConnectedLot {
 				if (stepCol > 1)
 					chunk.setBlocks(1, 15, croplevel - 1, croplevel, z + 1, z + 2, matFurrow, byteFurrow, false);
 				for (int x = 1; x < 15; x += stepRow)
-					if (chunkRandom.nextDouble() < oddsOfCrop)
-						chunk.setBlocks(x, croplevel, croplevel + random.nextInt(maxHeight) + 1, z, matCrop, byteCrop, false);
+					if (chunkOdds.playOdds(oddsOfCrop))
+						chunk.setBlocks(x, croplevel, croplevel + 1 + odds.getRandomInt(maxHeight), z, matCrop, byteCrop, false);
 			}
 		}
 	}
 	
-	private void buildVineyard(WorldGenerator generator, RealChunk chunk, Random random, int cropLevel, Material matCrop) {
+	private void buildVineyard(WorldGenerator generator, RealChunk chunk, Odds odds, int cropLevel, Material matCrop) {
 		int stepCol = 3;
 		if (directionNorthSouth) {
 			for (int x = 1; x < 15; x += stepCol) {
@@ -255,10 +254,10 @@ public class FarmLot extends ConnectedLot {
 				chunk.setBlocks(x, cropLevel, cropLevel + 4, 14, matPole);
 				chunk.setBlocks(x, x + 1, cropLevel + 3, cropLevel + 4, 2, 14, matTrellis);
 				if (matCrop != cropTrellis) {
-					if (chunkRandom.nextDouble() < oddsOfCrop) {
+					if (chunkOdds.playOdds(oddsOfCrop)) {
 						for (int z = 2; z < 14; z++) {
-							chunk.setBlocks(x - 1, x, cropLevel + 1 + random.nextInt(3), cropLevel + 4, z, z + 1, matCrop, (byte) 8);
-							chunk.setBlocks(x + 1, x + 2, cropLevel + 1 + random.nextInt(3), cropLevel + 4, z, z + 1, matCrop, (byte) 2);
+							chunk.setBlocks(x - 1, x, cropLevel + 1 + odds.getRandomInt(3), cropLevel + 4, z, z + 1, matCrop, (byte) 8);
+							chunk.setBlocks(x + 1, x + 2, cropLevel + 1 + odds.getRandomInt(3), cropLevel + 4, z, z + 1, matCrop, (byte) 2);
 						}
 					}
 				}
@@ -269,10 +268,10 @@ public class FarmLot extends ConnectedLot {
 				chunk.setBlocks(14, cropLevel, cropLevel + 4, z, matPole);
 				chunk.setBlocks(2, 14, cropLevel + 3, cropLevel + 4, z, z + 1, matTrellis);
 				if (matCrop != cropTrellis) {
-					if (chunkRandom.nextDouble() < oddsOfCrop) {
+					if (chunkOdds.playOdds(oddsOfCrop)) {
 						for (int x = 2; x < 14; x++) {
-							chunk.setBlocks(x, x + 1, cropLevel + 1 + random.nextInt(3), cropLevel + 4, z - 1, z, matCrop, (byte) 1);
-							chunk.setBlocks(x, x + 1, cropLevel + 1 + random.nextInt(3), cropLevel + 4, z + 1, z + 2, matCrop, (byte) 4);
+							chunk.setBlocks(x, x + 1, cropLevel + 1 + odds.getRandomInt(3), cropLevel + 4, z - 1, z, matCrop, (byte) 1);
+							chunk.setBlocks(x, x + 1, cropLevel + 1 + odds.getRandomInt(3), cropLevel + 4, z + 1, z + 2, matCrop, (byte) 4);
 						}
 					}
 				}
@@ -281,7 +280,7 @@ public class FarmLot extends ConnectedLot {
 	}
 	
 	private Material getNormalCrop() {
-		switch (chunkRandom.nextInt(12)) {
+		switch (chunkOdds.getRandomInt(12)) {
 		case 1:
 			return cropYellowFlower;
 		case 2:
@@ -308,7 +307,7 @@ public class FarmLot extends ConnectedLot {
 	}
 
 	private Material getDecayedNormalCrop() {
-		switch (chunkRandom.nextInt(5)) {
+		switch (chunkOdds.getRandomInt(5)) {
 		case 1:
 			return cropTrellis;
 		case 2:
@@ -321,7 +320,7 @@ public class FarmLot extends ConnectedLot {
 	}
 
 	private Material getNetherCrop() {
-		switch (chunkRandom.nextInt(6)) {
+		switch (chunkOdds.getRandomInt(6)) {
 		case 1:
 			return cropBrownMushroom;
 		case 2:
@@ -336,7 +335,7 @@ public class FarmLot extends ConnectedLot {
 	}
 
 	private Material getDecayedNetherCrop() {
-		switch (chunkRandom.nextInt(10)) {
+		switch (chunkOdds.getRandomInt(10)) {
 		case 1:
 			return cropBrownMushroom;
 		case 2:

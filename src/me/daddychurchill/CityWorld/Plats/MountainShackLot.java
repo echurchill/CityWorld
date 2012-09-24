@@ -58,7 +58,7 @@ public class MountainShackLot extends ConstructLot {
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 
 		// now make a shack
-		int floors = generator.houseProvider.generateShack(generator, chunk, context, chunkRandom, averageHeight + 1, 5);
+		int floors = generator.houseProvider.generateShack(generator, chunk, context, chunkOdds, averageHeight + 1, 5);
 		
 		// not a happy place?
 		if (generator.settings.includeDecayedBuildings)

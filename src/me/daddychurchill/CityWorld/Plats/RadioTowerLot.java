@@ -14,9 +14,10 @@ public class RadioTowerLot extends ConstructLot {
 
 	private boolean building;
 	
+	private final static double oddsOfBuilding = 0.90;
 	public RadioTowerLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-		building = chunkRandom.nextDouble() < 0.90;
+		building = chunkOdds.playOdds(oddsOfBuilding);
 	}
 	
 	private final static int platformWidth = 8;
@@ -66,7 +67,7 @@ public class RadioTowerLot extends ConstructLot {
 		
 		// base
 		if (minHeight > generator.evergreenLevel)
-			generator.oreProvider.sprinkleSnow(generator, chunk, chunkRandom, originX, originX + platformWidth, platformY, originZ, originZ + platformWidth);
+			generator.oreProvider.sprinkleSnow(generator, chunk, chunkOdds, originX, originX + platformWidth, platformY, originZ, originZ + platformWidth);
 		
 		// building
 		if (building) {
@@ -117,29 +118,29 @@ public class RadioTowerLot extends ConstructLot {
 	private void generateAntenna(RealChunk chunk, DataContext context, int x, int y, int z, boolean lastChance) {
 		
 		// build an antenna?
-		if ((lastChance && !antennaBuilt) || chunkRandom.nextBoolean()) {
+		if ((lastChance && !antennaBuilt) || chunkOdds.flipCoin()) {
 			chunk.setBlocks(x, y, y + 2, z, baseMat);
 			
 			// how tall?
 			int antennaHeight = heightShortest;
-			if (!tallestBuilt && (lastChance || chunkRandom.nextBoolean())) {
+			if (!tallestBuilt && (lastChance || chunkOdds.flipCoin())) {
 				antennaHeight = heightTallest;
 				tallestBuilt = true;
 			} else
-				antennaHeight += chunkRandom.nextInt(heightRange);
+				antennaHeight += chunkOdds.getRandomInt(heightRange);
 			
 			// actually build the antenna
 			chunk.setBlocks(x, y + 2, y + 2 + antennaHeight, z, antennaMat);
 			
 			// do a fancy middle?
-			if (chunkRandom.nextBoolean()) {
+			if (chunkOdds.flipCoin()) {
 				int yPoint = y + 2 + antennaHeight - 5;
 				chunk.setBlocks(x - 2, x + 3, yPoint, yPoint + 1, z, z + 1, antennaMat);
 				chunk.setBlocks(x, x + 1, yPoint, yPoint + 1, z - 2, z + 3, antennaMat);
 			}
 			
 			// do a fancy top?
-			if (chunkRandom.nextBoolean()) {
+			if (chunkOdds.flipCoin()) {
 				int yPoint = y + 2 + antennaHeight - 1;
 				chunk.setBlocks(x - 2, x + 3, yPoint, yPoint + 1, z, z + 1, antennaMat);
 				chunk.setBlocks(x, x + 1, yPoint, yPoint + 1, z - 2, z + 3, antennaMat);

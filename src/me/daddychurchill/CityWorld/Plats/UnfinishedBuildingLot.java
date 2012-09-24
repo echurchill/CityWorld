@@ -35,10 +35,10 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		DataContext context = platmap.context;
 		
 		// basement only?
-		unfinishedBasementOnly = chunkRandom.nextInt(context.oddsOfOnlyUnfinishedBasements) == 0;
+		unfinishedBasementOnly = chunkOdds.playOdds(context.oddsOfOnlyUnfinishedBasements);
 		
 		// how many floors are finished?
-		floorsBuilt = chunkRandom.nextInt(height);
+		floorsBuilt = chunkOdds.getRandomInt(height);
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 				} else {
 					
 					// sometimes the top most girders aren't there quite yet
-					if (floor < height - 1 || chunkRandom.nextBoolean()) {
+					if (floor < height - 1 || chunkOdds.flipCoin()) {
 						drawHorizontalGirders(chunk, floorAt + FloorHeight - 1, neighborFloors);
 						lastHorizontalGirder = floorAt + FloorHeight - 1;
 					}
@@ -154,11 +154,11 @@ public class UnfinishedBuildingLot extends BuildingLot {
 			
 			// plop a crane on top?
 			boolean craned = false;
-			if (lastHorizontalGirder > 0 && chunkRandom.nextInt(context.oddsOfCranes) == 0) {
-				if (chunkRandom.nextBoolean())
-					chunk.drawCrane(context, chunkRandom, inset + 2, lastHorizontalGirder + 1, inset);
+			if (lastHorizontalGirder > 0 && chunkOdds.playOdds(context.oddsOfCranes)) {
+				if (chunkOdds.flipCoin())
+					chunk.drawCrane(context, chunkOdds, inset + 2, lastHorizontalGirder + 1, inset);
 				else
-					chunk.drawCrane(context, chunkRandom, inset + 2, lastHorizontalGirder + 1, chunk.width - inset - 1);
+					chunk.drawCrane(context, chunkOdds, inset + 2, lastHorizontalGirder + 1, chunk.width - inset - 1);
 				craned = true;
 			}
 			
@@ -177,10 +177,10 @@ public class UnfinishedBuildingLot extends BuildingLot {
 					int y = generator.streetLevel + FloorHeight * floor + 1;
 						
 					// do we take out a bit of it?
-					decayEdge(generator, chunk.getBlockX(7) + chunkRandom.nextInt(3) - 1, y, chunk.getBlockZ(inset));
-					decayEdge(generator, chunk.getBlockX(8) + chunkRandom.nextInt(3) - 1, y, chunk.getBlockZ(chunk.width - inset - 1));
-					decayEdge(generator, chunk.getBlockX(inset), y, chunk.getBlockZ(7) + chunkRandom.nextInt(3) - 1);
-					decayEdge(generator, chunk.getBlockX(chunk.width - inset - 1), y, chunk.getBlockZ(8) + chunkRandom.nextInt(3) - 1);
+					decayEdge(generator, chunk.getBlockX(7) + chunkOdds.getRandomInt(3) - 1, y, chunk.getBlockZ(inset));
+					decayEdge(generator, chunk.getBlockX(8) + chunkOdds.getRandomInt(3) - 1, y, chunk.getBlockZ(chunk.width - inset - 1));
+					decayEdge(generator, chunk.getBlockX(inset), y, chunk.getBlockZ(7) + chunkOdds.getRandomInt(3) - 1);
+					decayEdge(generator, chunk.getBlockX(chunk.width - inset - 1), y, chunk.getBlockZ(8) + chunkOdds.getRandomInt(3) - 1);
 				}
 			}
 		}
@@ -189,10 +189,10 @@ public class UnfinishedBuildingLot extends BuildingLot {
 	private final static double decayedEdgeOdds = 0.20;
 	
 	private void decayEdge(WorldGenerator generator, int x, int y, int z) {
-		if (chunkRandom.nextDouble() < decayedEdgeOdds) {
+		if (chunkOdds.playOdds(decayedEdgeOdds)) {
 			
 			// make it go away
-			generator.decayBlocks.desperseArea(x, y, z, chunkRandom.nextInt(2) + 2);
+			generator.decayBlocks.desperseArea(x, y, z, 2 + chunkOdds.getRandomInt(2));
 		}	
 	}
 	

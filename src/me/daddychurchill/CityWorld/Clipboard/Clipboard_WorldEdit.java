@@ -3,10 +3,9 @@ package me.daddychurchill.CityWorld.Clipboard;
 import java.io.File;
 import java.io.IOException;
 
-import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -18,7 +17,6 @@ import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.blocks.BaseBlock;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
-import com.sk89q.worldedit.data.DataException;
 import com.sk89q.worldedit.schematic.SchematicFormat;
 
 public class Clipboard_WorldEdit extends Clipboard {
@@ -42,8 +40,12 @@ public class Clipboard_WorldEdit extends Clipboard {
 //	private final static String tagFloorHeightY = "FloorHeightY";
 	private final static String tagOddsOfAppearance = "OddsOfAppearance";
 	
-	public Clipboard_WorldEdit(WorldGenerator generator, File file) throws IOException, DataException, InvalidConfigurationException {
-		super(generator, file.getName());
+	public Clipboard_WorldEdit(WorldGenerator generator, File file) throws Exception {
+		super(generator, file);
+	}
+	
+	@Override
+	protected void load(WorldGenerator generator, File file) throws Exception {
 		
 		// prepare to read the meta data
 		YamlConfiguration metaYaml = new YamlConfiguration();
@@ -74,18 +76,31 @@ public class Clipboard_WorldEdit extends Clipboard {
 			oddsOfAppearance = Math.max(0.0, Math.min(1.0, metaYaml.getDouble(tagOddsOfAppearance, oddsOfAppearance)));
 		}
 		
-		// try and save the meta data if we can
-		try {
-			metaYaml.save(metaFile);
-		} catch (IOException e) {
-			CityWorld.reportException("[WorldEdit] Could not resave " + metaFile.getAbsolutePath(), e);
-		}
-		
 		// load the actual blocks
 		CuboidClipboard cuboid = SchematicFormat.getFormat(file).load(file);
 		
 		// how big is it?
-		setSizes(cuboid.getWidth(), cuboid.getHeight(), cuboid.getLength());
+		sizeX = cuboid.getWidth();
+		sizeZ = cuboid.getLength();
+		sizeY = cuboid.getHeight();
+		
+		//TODO Validate the size
+		
+		// try and save the meta data if we can
+		try {
+			metaYaml.save(metaFile);
+		} catch (IOException e) {
+			
+			// we can recover from this... so eat it!
+			generator.reportException("[WorldEdit] Could not resave " + metaFile.getAbsolutePath(), e);
+		}
+		
+		// grab the edge block
+		BaseBlock edge = cuboid.getPoint(new Vector(0, groundLevelY, 0));
+		edgeType = Material.getMaterial(edge.getType());
+		edgeData = (byte) edge.getData(); //TODO I think that data can be integers... one of these days
+		//edgeData = (byte)((edge.getData() & 0x000000ff)); // this would make overflows not error out but let's not do that
+		edgeRise = generator.oreProvider.surfaceId == edgeType.getId() ? 0 : 1;
 		
 		// allocate the blocks
 		facingCount = 1;
@@ -157,7 +172,7 @@ public class Clipboard_WorldEdit extends Clipboard {
 			//editSession.setFastMode(true);
 			place(editSession, getFacingIndex(facing), at, true);
 		} catch (Exception e) {
-			CityWorld.reportException("[WorldEdit] Place schematic " + name + " at " + at + " failed", e);
+			generator.reportException("[WorldEdit] Place schematic " + name + " at " + at + " failed", e);
 		}
 	}
 
@@ -167,7 +182,7 @@ public class Clipboard_WorldEdit extends Clipboard {
 //			int blockX, int blockY, int blockZ,
 //			int x1, int x2, int y1, int y2, int z1, int z2) {
 //		
-////		CityWorld.reportMessage("Partial paste: origin = " + at + " min = " + min + " max = " + max);
+////		generator.reportMessage("Partial paste: origin = " + at + " min = " + min + " max = " + max);
 //		
 //		try {
 //			int iFacing = getFacingIndex(facing);
@@ -176,7 +191,7 @@ public class Clipboard_WorldEdit extends Clipboard {
 //			for (int x = x1; x < x2; x++)
 //				for (int y = y1; y < y2; y++)
 //					for (int z = z1; z < z2; z++) {
-////						CityWorld.reportMessage("facing = " + iFacing + 
+////						generator.reportMessage("facing = " + iFacing + 
 ////								" x = " + x +
 ////								" y = " + y + 
 ////								" z = " + z);
@@ -188,11 +203,11 @@ public class Clipboard_WorldEdit extends Clipboard {
 //					}
 //		} catch (Exception e) {
 //			e.printStackTrace();
-//			CityWorld.reportException("[WorldEdit] Partial place schematic " + name + " failed", e);
+//			generator.reportException("[WorldEdit] Partial place schematic " + name + " failed", e);
 //		}
 //	}
 
-	
+	//TODO remove the editSession need by directly setting the blocks in the chunk
 	@Override
 	public void paste(WorldGenerator generator, RealChunk chunk, Direction.Facing facing, 
 			int blockX, int blockY, int blockZ,
@@ -200,15 +215,15 @@ public class Clipboard_WorldEdit extends Clipboard {
 		Vector at = new Vector(blockX, blockY, blockZ);
 //		Vector min = new Vector(x1, y1, z1);
 //		Vector max = new Vector(x2, y2, z2);
-//		CityWorld.reportMessage("Partial paste: origin = " + at + " min = " + min + " max = " + max);
+//		generator.reportMessage("Partial paste: origin = " + at + " min = " + min + " max = " + max);
 
 		try {
 			EditSession editSession = getEditSession(generator);
 			//editSession.setFastMode(true);
 			place(editSession, getFacingIndex(facing), at, true, x1, x2, y1, y2, z1, z2);
 		} catch (Exception e) {
-			CityWorld.reportException("[WorldEdit] Partial place schematic " + name + " at " + at + " failed", e);
-			CityWorld.reportMessage("Info: " + 
+			generator.reportException("[WorldEdit] Partial place schematic " + name + " at " + at + " failed", e);
+			generator.reportMessage("Info: " + 
 									" facing = " + facing + 
 									" size = " + sizeX + ", " + sizeZ + 
 									" chunk = " + chunkX + ", " + chunkZ + 

@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import java.util.Random;
-
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
@@ -14,13 +12,14 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class ShapeProvider_Floating extends ShapeProvider_Normal {
 
-	public ShapeProvider_Floating(WorldGenerator generator, Random random) {
-		super(generator, random);
+	public ShapeProvider_Floating(WorldGenerator generator, Odds odds) {
+		super(generator, odds);
 		long seed = generator.getWorldSeed();
 		
 		terrainShape = new SimplexNoiseGenerator(seed + 3);
@@ -132,8 +131,8 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 			if (lot.style == LotStyle.STRUCTURE) {
 				for (int x = 0; x < chunk.width; x++) {
 					for (int z = 0; z < chunk.width; z++) {
-						if (random.nextDouble() < underworldOdds) {
-							int y = lotBottomY - random.nextInt(underworldLength);
+						if (odds.playOdds(underworldOdds)) {
+							int y = lotBottomY - odds.getRandomInt(underworldLength);
 							if (!chunk.isEmpty(x, lotBottomY, z))
 								chunk.setBlocks(x, y, lotBottomY, z, ores.subsurfaceId);
 						}

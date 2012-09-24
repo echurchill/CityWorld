@@ -1,8 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Support.Odds;
 
 import org.bukkit.entity.EntityType;
 
@@ -12,7 +11,7 @@ public abstract class SpawnProvider extends Provider {
 	
 	public enum SpawnerLocation {SEWER, MINE, BUNKER};
 	
-	public abstract EntityType getEntity(WorldGenerator generator, Random random, SpawnerLocation location);
+	public abstract EntityType getEntity(WorldGenerator generator, Odds odds, SpawnerLocation location);
 
 	public static SpawnProvider loadProvider(WorldGenerator generator) {
 

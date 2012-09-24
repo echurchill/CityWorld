@@ -1,34 +1,35 @@
 package me.daddychurchill.CityWorld.Context;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 
-public abstract class RuralContext extends DataContext {
-
-	public RuralContext(WorldGenerator generator) {
+public class ParkContext extends UrbanContext {
+	
+	public ParkContext(WorldGenerator generator) {
 		super(generator);
 	}
 	
 	@Override
 	protected void initialize() {
 
-		oddsOfParks = oddsNeverGoingToHappen;
-		oddsOfIsolatedLots = oddsNeverGoingToHappen;
+		oddsOfParks = oddsAlwaysGoingToHappen;
+		oddsOfIsolatedLots = oddsAlwaysGoingToHappen;
 		oddsOfIdenticalBuildingHeights = oddsNeverGoingToHappen;
 		oddsOfSimilarBuildingHeights = oddsNeverGoingToHappen;
 		oddsOfSimilarBuildingRounding = oddsNeverGoingToHappen;
 		oddsOfUnfinishedBuildings = oddsNeverGoingToHappen;
 		oddsOfOnlyUnfinishedBasements = oddsNeverGoingToHappen;
 		oddsOfMissingRoad = oddsNeverGoingToHappen;
-		oddsOfRoundAbouts = oddsVeryUnlikely;
+		oddsOfRoundAbouts = oddsNeverGoingToHappen;
 		 
 		oddsOfStairWallMaterialIsWallMaterial = oddsNeverGoingToHappen;
 		oddsOfBuildingWallInset = oddsNeverGoingToHappen;
 		oddsOfFlatWalledBuildings = oddsNeverGoingToHappen;
 		oddsOfSimilarInsetBuildings = oddsNeverGoingToHappen;
-		rangeOfWallInset = 2;
+		rangeOfWallInset = 1;
+		
+		schematicFamily = SchematicFamily.PARK;
 
-		maximumFloorsAbove = 1;
-		maximumFloorsBelow = 1;
 	}
 
 }

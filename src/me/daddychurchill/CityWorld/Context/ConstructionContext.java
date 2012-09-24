@@ -1,16 +1,16 @@
 package me.daddychurchill.CityWorld.Context;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
-import me.daddychurchill.CityWorld.Maps.PlatMap;
 
-public class UnderConstructionContext extends UrbanContext {
+public class ConstructionContext extends UrbanContext {
 
-	public UnderConstructionContext(WorldGenerator generator, PlatMap platmap) {
-		super(generator, platmap);
-		Random platmapRandom = platmap.getRandomGenerator();
+	public ConstructionContext(WorldGenerator generator) {
+		super(generator);
+	}
+	
+	@Override
+	protected void initialize() {
 
 		oddsOfParks = oddsUnlikely;
 		oddsOfIsolatedLots = oddsLikely;
@@ -32,7 +32,7 @@ public class UnderConstructionContext extends UrbanContext {
 		
 		schematicFamily = SchematicFamily.CONSTRUCTION;
 
-		setFloorRange(platmapRandom, 9, 4);
+		maximumFloorsAbove = absoluteMaximumFloorsAbove;
 	}
 
 }

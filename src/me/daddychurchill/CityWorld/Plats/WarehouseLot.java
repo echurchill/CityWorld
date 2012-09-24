@@ -10,7 +10,7 @@ public class WarehouseLot extends FinishedBuildingLot {
 		firstFloorHeight = firstFloorHeight * 2;
 		height = 1;
 //		depth = 0;
-		roofStyle = platmapRandom.nextBoolean() ? RoofStyle.EDGED : RoofStyle.FLATTOP;
+		roofStyle = platmapOdds.flipCoin() ? RoofStyle.EDGED : RoofStyle.FLATTOP;
 		roofFeature = roofFeature == RoofFeature.ANTENNAS ? RoofFeature.CONDITIONERS : roofFeature;
 	}
 }

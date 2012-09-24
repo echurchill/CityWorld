@@ -1,16 +1,15 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.Material;
 
 public class FoliageProvider_Nether extends FoliageProvider_Decayed {
 
-	public FoliageProvider_Nether(Random random) {
-		super(random);
+	public FoliageProvider_Nether(Odds odds) {
+		super(odds);
 	}
 	
 	private final static Material air = Material.AIR;
@@ -23,7 +22,7 @@ public class FoliageProvider_Nether extends FoliageProvider_Decayed {
 	
 	@Override
 	public boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, LigneousType ligneousType) {
-		if (likelyFlora(generator, random)) {
+		if (likelyFlora(generator, odds)) {
 			Material trunk = log;
 			Material leaves1 = air;
 			Material leaves2 = air;
@@ -32,10 +31,10 @@ public class FoliageProvider_Nether extends FoliageProvider_Decayed {
 			case SHORT_OAK:
 			case TALL_OAK:
 				//leave trunk alone
-				if (!generator.settings.includeDecayedNature && random.nextDouble() < 0.10) {
+				if (!generator.settings.includeDecayedNature && odds.playOdds(0.10)) {
 					leaves1 = iron;
 					leaves2 = iron;
-					if (random.nextDouble() < 0.10) {
+					if (odds.playOdds(0.10)) {
 						trunk = glow;
 					}
 				} 
@@ -44,10 +43,10 @@ public class FoliageProvider_Nether extends FoliageProvider_Decayed {
 			case SHORT_BIRCH:
 			case TALL_BIRCH:
 				trunk = clay;
-				if (!generator.settings.includeDecayedNature && random.nextDouble() < 0.20) {
+				if (!generator.settings.includeDecayedNature && odds.playOdds(0.20)) {
 					leaves1 = iron;
 					leaves2 = iron;
-					if (random.nextDouble() < 0.10) {
+					if (odds.playOdds(0.10)) {
 						trunk = glow;
 					}
 				} 
@@ -56,9 +55,9 @@ public class FoliageProvider_Nether extends FoliageProvider_Decayed {
 			case SHORT_PINE:
 			case TALL_PINE:
 				trunk = obsidian;
-				if (!generator.settings.includeDecayedNature && random.nextDouble() < 0.10) {
+				if (!generator.settings.includeDecayedNature && odds.playOdds(0.10)) {
 					leaves1 = pane;
-					if (random.nextDouble() < 0.10)
+					if (odds.playOdds(0.10))
 						leaves2 = glow;
 					else
 						leaves2 = glass;
@@ -67,14 +66,14 @@ public class FoliageProvider_Nether extends FoliageProvider_Decayed {
 			default:
 				break;
 			}
-			return generateTree(chunk, random, x, y, z, ligneousType, trunk, leaves1, leaves2);
+			return generateTree(chunk, odds, x, y, z, ligneousType, trunk, leaves1, leaves2);
 		} else
 			return false;
 	}
 
 	@Override
 	public boolean generateFlora(WorldGenerator generator, RealChunk chunk, int x, int y, int z, HerbaceousType herbaceousType) {
-		if (likelyFlora(generator, random)) {
+		if (likelyFlora(generator, odds)) {
 				
 			// icky things in the nether
 			switch (herbaceousType) {
@@ -86,13 +85,13 @@ public class FoliageProvider_Nether extends FoliageProvider_Decayed {
 				break;
 			case GRASS:
 			case FERN:
-				if (random.nextDouble() < 0.05) {
+				if (odds.playOdds(0.05)) {
 					chunk.setBlock(x, y - 1, z, Material.NETHERRACK);
 					chunk.setBlock(x, y, z, Material.FIRE);
 				} else {
 					chunk.setBlock(x, y - 1, z, Material.SOUL_SAND);
-					if (random.nextDouble() < 0.05)
-						chunk.setBlock(x, y, z, Material.NETHER_WARTS, (byte) random.nextInt(4));
+					if (odds.playOdds(0.05))
+						chunk.setBlock(x, y, z, Material.NETHER_WARTS, odds.getRandomByte(4));
 				}
 				break;
 			case COVER:

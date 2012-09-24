@@ -5,13 +5,14 @@ import java.util.Random;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public abstract class SurfaceProvider extends Provider {
 
-	public SurfaceProvider(Random random) {
+	public SurfaceProvider(Odds odds) {
 		super();
-		this.random = random;
+		this.odds = odds;
 	}
 
 	
@@ -19,7 +20,7 @@ public abstract class SurfaceProvider extends Provider {
 	protected final static double treeOdds = 0.90;
 	protected final static double foliageOdds = 0.40;
 	
-	protected Random random;
+	protected Odds odds;
 	
 	public abstract void generateSurfacePoint(WorldGenerator generator, PlatLot lot, RealChunk chunk, FoliageProvider foliage, 
 			int x, double perciseY, int z, boolean includeTrees);
@@ -38,7 +39,7 @@ public abstract class SurfaceProvider extends Provider {
 	}
 	
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
-	public static SurfaceProvider loadProvider(WorldGenerator generator, Random random) {
+	public static SurfaceProvider loadProvider(WorldGenerator generator, Odds odds) {
 
 		SurfaceProvider provider = null;
 		
@@ -48,10 +49,10 @@ public abstract class SurfaceProvider extends Provider {
 			
 			switch (generator.worldStyle) {
 			case FLOATING:
-				provider = new SurfaceProvider_Floating(random);
+				provider = new SurfaceProvider_Floating(odds);
 				break;
 			default:
-				provider = new SurfaceProvider_Normal(random);
+				provider = new SurfaceProvider_Normal(odds);
 				break;
 			}
 		}

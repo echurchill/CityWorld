@@ -1,19 +1,42 @@
 package me.daddychurchill.CityWorld.Clipboard;
 
-import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plugins.Provider;
 
 public abstract class PasteProvider extends Provider {
 
-	public enum SchematicFamily {ART, HIGHRISE, MIDRISE, LOWRISE, INDUSTRIAL, CITYCENTER, CONSTRUCTION, NEIGHBORHOOD, FARM, NATURE};
+	public enum SchematicFamily {ART, PARK, HIGHRISE, MIDRISE, LOWRISE, INDUSTRIAL, MUNICIPAL, CONSTRUCTION, NEIGHBORHOOD, FARM, NATURE};
+	private int schematicsLoaded = 0;
 	
 	public PasteProvider() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public abstract ClipboardList getFamilyClips(WorldGenerator generator, SchematicFamily family);
+	public ClipboardList getFamilyClips(WorldGenerator generator, SchematicFamily family, int maxChunkX, int maxChunkZ) {
+		try {
+			
+			// try and load
+			ClipboardList clips = loadClips(generator, family, maxChunkX, maxChunkZ);
+			if (clips != null) {
+				schematicsLoaded += clips.count();
+				return clips;
+			}
+			
+		} catch (Exception e) {
+			generator.reportException("[PasteProvider] " + family.toString() + " could NOT be loaded", e);
+		}
+		
+		// assume failure
+		return null;
+	}
+	
+	protected abstract ClipboardList loadClips(WorldGenerator generator, SchematicFamily family, int maxX, int maxZ) throws Exception;
+	
+	public void reportStatus(WorldGenerator generator) {
+		if (schematicsLoaded > 0)
+			generator.reportMessage("[PasteProvider] Loaded " + schematicsLoaded + " schematic(s)");
+	}
 	
 	// Loosely based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	public static PasteProvider loadProvider(WorldGenerator generator) {
@@ -25,7 +48,7 @@ public abstract class PasteProvider extends Provider {
 		
 		// default to stock PasteProvider
 		if (provider == null) {
-			CityWorld.reportMessage("[PasteProvider] WorldEdit not found, schematics disabled");
+			generator.reportMessage("[PasteProvider] WorldEdit not found, schematics disabled");
 			provider = new PasteProvider_Normal(generator);
 		}
 	

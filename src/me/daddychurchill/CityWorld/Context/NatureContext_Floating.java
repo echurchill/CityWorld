@@ -1,19 +1,22 @@
 package me.daddychurchill.CityWorld.Context;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.FloatingHouseLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class NatureContext_Floating extends RuralContext {
 
-	public NatureContext_Floating(WorldGenerator generator, PlatMap platmap) {
-		super(generator, platmap);
+	public NatureContext_Floating(WorldGenerator generator) {
+		super(generator);
+	}
+	
+	@Override
+	protected void initialize() {
 
 	}
 
@@ -24,7 +27,7 @@ public class NatureContext_Floating extends RuralContext {
 		populateWithSchematics(generator, platmap);
 		
 		// random fluff
-		Random random = platmap.getRandomGenerator();
+		Odds odds = platmap.getOddsGenerator();
 		ShapeProvider shapeProvider = generator.shapeProvider;
 		
 		// where it all begins
@@ -53,7 +56,7 @@ public class NatureContext_Floating extends RuralContext {
 							if (generator.settings.includeHouses) {
 								if (shapeProvider.isIsolatedBuildingAt(originX + x, originZ + z))
 									current = new FloatingHouseLot(platmap, originX + x, originZ + z, 
-											random.nextInt(shapeProvider.getConstuctRange()) + shapeProvider.getConstuctMin());
+											shapeProvider.getConstuctMin() + odds.getRandomInt(shapeProvider.getConstuctRange()));
 							}
 						}
 						

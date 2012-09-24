@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Plugins;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Support.Odds;
 
 public abstract class OdonymProvider extends Provider {
 
@@ -21,18 +22,18 @@ public abstract class OdonymProvider extends Provider {
 		return new Random((long) i * (long) Integer.MAX_VALUE + (long) baseSeed);
 	}
 	
-	public void decaySign(Random random, String[] text) {
+	public void decaySign(Odds odds, String[] text) {
 		for (int i = 0; i < text.length; i++) {
-			text[i] = decayLine(random, text[i]);
+			text[i] = decayLine(odds, text[i]);
 		}
 	}
 	
 	private final static double oddsOfDecay = 0.90;
 	
-	public String decayLine(Random random, String line) {
+	public String decayLine(Odds odds, String line) {
 		String result = "";
 		for (int i = 0; i < line.length(); i++) {
-			if (random.nextDouble() < oddsOfDecay)
+			if (odds.playOdds(oddsOfDecay))
 				result = result + line.charAt(i);
 			else
 				result = result + " ";
@@ -41,7 +42,7 @@ public abstract class OdonymProvider extends Provider {
 	}
 	
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
-	public static OdonymProvider loadProvider(WorldGenerator generator, Random random) {
+	public static OdonymProvider loadProvider(WorldGenerator generator, Odds odds) {
 
 		OdonymProvider provider = null;
 		
@@ -56,7 +57,7 @@ public abstract class OdonymProvider extends Provider {
 //			else if (generator.settings.environment == Environment.THE_END)
 //				provider = new NameProvider_TheEnd(random);
 //			else
-				provider = new OdonymProvider_Normal(random.nextInt());
+				provider = new OdonymProvider_Normal(odds.getRandomInt());
 		}
 	
 		return provider;

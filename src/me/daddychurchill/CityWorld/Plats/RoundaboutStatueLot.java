@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
@@ -41,7 +39,7 @@ public class RoundaboutStatueLot extends IsolatedLot {
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 		// what is it build on?
-		statueBase = randomBase(chunkRandom);
+		statueBase = randomBase();
 
 		// where to start?
 		int y1 = generator.streetLevel + 1;
@@ -96,10 +94,10 @@ public class RoundaboutStatueLot extends IsolatedLot {
 	@Override
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		// what is it build on?
-		statueBase = randomBase(chunkRandom);
+		statueBase = randomBase();
 		
 		// something got stolen?
-		boolean somethingInTheCenter = chunkRandom.nextInt(context.oddsOfMissingArt) != 0;
+		boolean somethingInTheCenter = chunkOdds.playOdds(context.oddsOfMissingArt);
 		
 		// where to start?
 		int y1 = generator.streetLevel + 2;
@@ -115,16 +113,16 @@ public class RoundaboutStatueLot extends IsolatedLot {
 					liquid = Material.LAVA;
 				
 				// four little fountains?
-				if (chunkRandom.nextBoolean()) {
-					chunk.setBlocks(5, y1, y1 + chunkRandom.nextInt(3) + 1, 5, liquid);
-					chunk.setBlocks(5, y1, y1 + chunkRandom.nextInt(3) + 1, 10, liquid);
-					chunk.setBlocks(10, y1, y1 + chunkRandom.nextInt(3) + 1, 5, liquid);
-					chunk.setBlocks(10, y1, y1 + chunkRandom.nextInt(3) + 1, 10, liquid);
+				if (chunkOdds.flipCoin()) {
+					chunk.setBlocks(5, y1, y1 + 1 + chunkOdds.getRandomInt(3), 5, liquid);
+					chunk.setBlocks(5, y1, y1 + 1 + chunkOdds.getRandomInt(3), 10, liquid);
+					chunk.setBlocks(10, y1, y1 + 1 + chunkOdds.getRandomInt(3), 5, liquid);
+					chunk.setBlocks(10, y1, y1 + 1 + chunkOdds.getRandomInt(3), 10, liquid);
 				}
 				
 				// water can be art too, you know?
-				if (chunkRandom.nextInt(context.oddsOfNaturalArt) == 0) {
-					chunk.setBlocks(7, 9, y1, y1 + chunkRandom.nextInt(4) + 4, 7, 9, liquid);
+				if (chunkOdds.playOdds(context.oddsOfNaturalArt)) {
+					chunk.setBlocks(7, 9, y1, y1 + 4 + chunkOdds.getRandomInt(4), 7, 9, liquid);
 					somethingInTheCenter = false;
 				}
 			}
@@ -135,14 +133,14 @@ public class RoundaboutStatueLot extends IsolatedLot {
 			// backfill with grass
 			for (int x = 4; x < 12; x++) {
 				for (int z = 4; z < 12; z++) {
-					if (chunkRandom.nextDouble() < 0.40) {
+					if (chunkOdds.playOdds(0.40)) {
 						generator.foliageProvider.generateFlora(generator, chunk, x, y1, z, HerbaceousType.GRASS);
 					}
 				}
 			}
 			
 			// tree can be art too, you know!
-			if (chunkRandom.nextInt(context.oddsOfNaturalArt) == 0) {
+			if (chunkOdds.playOdds(context.oddsOfNaturalArt)) {
 				generator.foliageProvider.generateTree(generator, chunk, 7, y1, 7, LigneousType.TALL_OAK);
 				somethingInTheCenter = false;
 			}
@@ -158,30 +156,30 @@ public class RoundaboutStatueLot extends IsolatedLot {
 		if (somethingInTheCenter) {
 			
 			// simple glass or colored blocks?
-			boolean crystalArt = chunkRandom.nextBoolean();
-			byte solidColor = (byte) chunkRandom.nextInt(17);
+			boolean crystalArt = chunkOdds.flipCoin();
+			byte solidColor = chunkOdds.getRandomByte(17); // yep, I meant to put 17 here... see the next line
 			boolean singleArt = solidColor != 16; // Whoops, 16 is too large, let's go random
 			
 			// now the "art"
 			for (int x = 6; x < 10; x++) 
 				for (int y = y1 + 4; y < y1 + 8; y++) 
 					for (int z = 6; z < 10; z++) 
-						if (chunkRandom.nextBoolean())
+						if (chunkOdds.flipCoin())
 							chunk.setBlock(x, y, z, Material.THIN_GLASS);
 						else
 							if (crystalArt)
 								chunk.setBlock(x, y, z, Material.GLASS);
 							else
 								chunk.setBlock(x, y, z, Material.WOOL.getId(), 
-											   singleArt ? solidColor : (byte) chunkRandom.nextInt(9));
+											   singleArt ? solidColor : chunkOdds.getRandomByte(9));
 			
 			// now put the base in
 			chunk.setBlocks(7, 9, y1, y1 + 5, 7, 9, stoneMaterial);
 		}
 	}
 	
-	private StatueBase randomBase(Random random) {
-		switch (random.nextInt(StatueBase.values().length)) {
+	private StatueBase randomBase() {
+		switch (chunkOdds.getRandomInt(StatueBase.values().length)) {
 		case 0:
 			return StatueBase.WATER;
 		case 1:

@@ -45,8 +45,8 @@ public class StorageLot extends BuildingLot {
 		SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
 		
 		// shed please
-		if (chunkRandom.nextInt(neighbors.getNeighborCount() + 2) == 0)
-			generator.houseProvider.generateShed(generator, chunk, context, chunkRandom, 7, groundY + 2, 7, chunkRandom.nextInt(2) + 2);
+		if (chunkOdds.getRandomInt(neighbors.getNeighborCount() + 2) == 0)
+			generator.houseProvider.generateShed(generator, chunk, context, chunkOdds, 7, groundY + 2, 7, 2 + chunkOdds.getRandomInt(2));
 
 		// it looked so nice for a moment... but the moment has passed
 		if (generator.settings.includeDecayedBuildings)

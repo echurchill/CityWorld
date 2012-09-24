@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import java.util.Random;
-
 import org.bukkit.util.noise.NoiseGenerator;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
@@ -9,12 +7,13 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider.HerbaceousType;
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider.LigneousType;
 import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class SurfaceProvider_Floating extends SurfaceProvider {
 
-	public SurfaceProvider_Floating(Random random) {
-		super(random);
+	public SurfaceProvider_Floating(Odds odds) {
+		super(odds);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -34,8 +33,8 @@ public class SurfaceProvider_Floating extends SurfaceProvider {
 		int y = NoiseGenerator.floor(perciseY);
 		
 		// roll the dice
-		double primary = random.nextDouble();
-		double secondary = random.nextDouble();
+		double primary = odds.getRandomDouble();
+		double secondary = odds.getRandomDouble();
 		
 		// are on a plantable spot?
 		if (foliage.isPlantable(generator, chunk, x, y, z)) {

@@ -1,9 +1,9 @@
 package me.daddychurchill.CityWorld.Plugins.PhatLoot;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
+import me.daddychurchill.CityWorld.Support.Odds;
+
 import org.bukkit.inventory.ItemStack;
 
 public class LootProvider_Phat extends LootProvider {
@@ -15,7 +15,7 @@ public class LootProvider_Phat extends LootProvider {
 	public final static String chestInStorageShed = "CityWorld_Chest_StorageShed";
 	
 	@Override
-	public ItemStack[] getItems(WorldGenerator generator, Random random, LootLocation lootLocation) {
+	public ItemStack[] getItems(WorldGenerator generator, Odds odds, LootLocation lootLocation) {
 		
 		// which mix?
 		switch (lootLocation) {

@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Maps.NormalMap;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
@@ -9,6 +7,7 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
@@ -68,8 +67,8 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	public final static double mineScale = 1.0 / 4.0;
 	public final static double mineScaleY = mineScale;
 
-	public ShapeProvider_Normal(WorldGenerator generator, Random random) {
-		super(generator, random);
+	public ShapeProvider_Normal(WorldGenerator generator, Odds odds) {
+		super(generator, odds);
 		World world = generator.getWorld();
 		long seed = generator.getWorldSeed();
 		

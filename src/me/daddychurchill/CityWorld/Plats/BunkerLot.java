@@ -101,8 +101,8 @@ public class BunkerLot extends ConstructLot {
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 		// initial rolls
-		bilgeType = platmapRandom.nextInt(5);
-		buildingType = chunkRandom.nextInt(7);
+		bilgeType = platmapOdds.getRandomInt(5);
+		buildingType = chunkOdds.getRandomInt(7);
 		
 		// precalculate
 		int yBottom = bottomOfBunker;//calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet;
@@ -337,7 +337,7 @@ public class BunkerLot extends ConstructLot {
 	}
 	
 	private void generateBallsyBuildingBall(ByteChunk chunk, int x, int y, int z) {
-		if (chunkRandom.nextDouble() > 0.25) {
+		if (chunkOdds.playOdds(0.25)) {
 			
 			// bottom
 			chunk.setBlocks(x + 1, x + 4, y, y + 1, z + 1, z + 4, buildingId);
@@ -360,10 +360,10 @@ public class BunkerLot extends ConstructLot {
 		int yBase = y1 + ySegment;
 		
 		// four towers
-		chunk.setBlocks(x1, x1 + 5, y1, yBase + chunkRandom.nextInt(yRange), z1, z1 + 5, buildingId);
-		chunk.setBlocks(x1, x1 + 5, y1, yBase + chunkRandom.nextInt(yRange), z2 - 5, z2, buildingId);
-		chunk.setBlocks(x2 - 5, x2, y1, yBase + chunkRandom.nextInt(yRange), z1, z1 + 5, buildingId);
-		chunk.setBlocks(x2 - 5, x2, y1, yBase + chunkRandom.nextInt(yRange), z2 - 5, z2, buildingId);
+		chunk.setBlocks(x1, x1 + 5, y1, yBase + chunkOdds.getRandomInt(yRange), z1, z1 + 5, buildingId);
+		chunk.setBlocks(x1, x1 + 5, y1, yBase + chunkOdds.getRandomInt(yRange), z2 - 5, z2, buildingId);
+		chunk.setBlocks(x2 - 5, x2, y1, yBase + chunkOdds.getRandomInt(yRange), z1, z1 + 5, buildingId);
+		chunk.setBlocks(x2 - 5, x2, y1, yBase + chunkOdds.getRandomInt(yRange), z2 - 5, z2, buildingId);
 		
 		//TODO make them hollow
 		//TODO vertical windows
@@ -407,7 +407,7 @@ public class BunkerLot extends ConstructLot {
 		
 		// fill it
 		byte fillId;
-		switch (chunkRandom.nextInt(6)) {
+		switch (chunkOdds.getRandomInt(6)) {
 		case 1:
 			fillId = lavaId;
 			break;
@@ -463,8 +463,8 @@ public class BunkerLot extends ConstructLot {
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		
 		// initial rolls
-		bilgeType = platmapRandom.nextInt(5);
-		buildingType = chunkRandom.nextInt(7);
+		bilgeType = platmapOdds.getRandomInt(5);
+		buildingType = chunkOdds.getRandomInt(7);
 			
 		int yBottom = bottomOfBunker;
 		int yTop4 = topOfBunker;
@@ -699,16 +699,16 @@ public class BunkerLot extends ConstructLot {
 	private void generateTreat(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
 		
 		// cool stuff?
-		if (generator.settings.treasuresInBunkers && chunkRandom.nextDouble() <= generator.settings.oddsOfTreasureInBunkers) {
-			 chunk.setChest(x, y, z, Direction.General.NORTH, generator.lootProvider.getItems(generator, chunkRandom, LootLocation.BUNKER));
+		if (generator.settings.treasuresInBunkers && chunkOdds.playOdds(generator.settings.oddsOfTreasureInBunkers)) {
+			 chunk.setChest(x, y, z, Direction.General.NORTH, generator.lootProvider.getItems(generator, chunkOdds, LootLocation.BUNKER));
 		}
 	}
 
 	private void generateTrick(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
 
 		// not so cool stuff?
-		if (generator.settings.spawnersInBunkers && chunkRandom.nextDouble() <= generator.settings.oddsOfSpawnerInBunkers) {
-			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, chunkRandom, SpawnerLocation.BUNKER));
+		if (generator.settings.spawnersInBunkers && chunkOdds.playOdds(generator.settings.oddsOfSpawnerInBunkers)) {
+			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, chunkOdds, SpawnerLocation.BUNKER));
 		}
 	}
 }

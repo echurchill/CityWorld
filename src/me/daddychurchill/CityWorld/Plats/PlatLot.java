@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import java.util.Random;
-
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
@@ -15,6 +13,7 @@ import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
@@ -32,8 +31,8 @@ public abstract class PlatLot {
 	protected int maxHeightX = 0;
 	protected int maxHeightZ = 0;
 	
-	protected Random platmapRandom;
-	protected Random chunkRandom;
+	protected Odds platmapOdds;
+	protected Odds chunkOdds;
 	
 	// styling!
 	public enum LotStyle {NATURE, STRUCTURE, ROAD, ROUNDABOUT};
@@ -99,8 +98,8 @@ public abstract class PlatLot {
 	private void initializeDice(PlatMap platmap, int chunkX, int chunkZ) {
 		
 		// reset and pick up the dice
-		platmapRandom = platmap.getRandomGenerator();
-		chunkRandom = platmap.getChunkRandomGenerator(chunkX, chunkZ);
+		platmapOdds = platmap.getOddsGenerator();
+		chunkOdds = platmap.getChunkOddsGenerator(chunkX, chunkZ);
 	}
 	
 	protected void initializeContext(WorldGenerator generator, SupportChunk chunk) {
@@ -417,20 +416,19 @@ public abstract class PlatLot {
 			generateMineCeiling(chunk, 6, 10, y1 + 3, 6, 10);
 	}
 	
+	
 	private void generateMineAlcove(WorldGenerator generator, RealChunk chunk, int x, int y, int z, int prizeX, int prizeZ) {
-		if (chunkRandom.nextDouble() < 0.66) {
+		if (chunkOdds.playOdds(generator.settings.oddsOfAlcoveInMines)) {
 			if (!chunk.isEmpty(x, y, z) &&
 				!chunk.isEmpty(x + 1, y, z) &&
 				!chunk.isEmpty(x, y, z + 1) &&
 				!chunk.isEmpty(x + 1, y, z + 1)) {
 				chunk.setBlocks(x, x + 2, y + 1, y + 4, z, z + 2, Material.AIR);
 				generateMineCeiling(chunk, x, x + 2, y + 3, z, z + 2);
-				if (chunkRandom.nextDouble() < 0.66) {
-					if (chunkRandom.nextDouble() < 0.33)
-						generateMineTreat(generator, chunk, prizeX, y + 1, prizeZ);
-					else
-						generateMineTrick(generator, chunk, prizeX, y + 1, prizeZ);
-				}
+				if (chunkOdds.playOdds(generator.settings.oddsOfSpawnerInMineAlcove))
+					generateMineTrick(generator, chunk, prizeX, y + 1, prizeZ);
+				else if (chunkOdds.playOdds(generator.settings.oddsOfTreasureInMineAlcove)) 
+					generateMineTreat(generator, chunk, prizeX, y + 1, prizeZ);
 			}
 		}
 	}
@@ -438,7 +436,7 @@ public abstract class PlatLot {
 	private void generateMineCeiling(RealChunk chunk, int x1, int x2, int y, int z1, int z2) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				if (chunkRandom.nextBoolean())
+				if (chunkOdds.flipCoin())
 					if (!chunk.isEmpty(x, y + 1, z) && chunk.isEmpty(x, y, z))
 						chunk.setStoneSlab(x, y, z, Direction.StoneSlab.COBBLESTONEFLIP);
 			}
@@ -465,15 +463,15 @@ public abstract class PlatLot {
 	private void generateMineTreat(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
 
 		// cool stuff?
-		if (generator.settings.treasuresInMines && chunkRandom.nextDouble() <= generator.settings.oddsOfTreasureInMines) {
-			 chunk.setChest(x, y, z, Direction.General.SOUTH, generator.lootProvider.getItems(generator, chunkRandom, LootLocation.MINE));
+		if (generator.settings.treasuresInMines && chunkOdds.playOdds(generator.settings.oddsOfTreasureInMines)) {
+			 chunk.setChest(x, y, z, Direction.General.SOUTH, generator.lootProvider.getItems(generator, chunkOdds, LootLocation.MINE));
 		}
 	}
 
 	private void generateMineTrick(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
 		// not so cool stuff?
-		if (generator.settings.spawnersInMines && chunkRandom.nextDouble() <= generator.settings.oddsOfSpawnerInMines) {
-			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, chunkRandom, SpawnerLocation.MINE));
+		if (generator.settings.spawnersInMines && chunkOdds.playOdds(generator.settings.oddsOfSpawnerInMines)) {
+			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, chunkOdds, SpawnerLocation.MINE));
 		}
 	}
 
@@ -485,7 +483,7 @@ public abstract class PlatLot {
 		
 		// shape the world
 		if (generator.settings.includeOres || generator.settings.includeUndergroundFluids)
-			generator.oreProvider.sprinkleOres(generator, this, chunk, blockYs, chunkRandom, OreLocation.CRUST);
+			generator.oreProvider.sprinkleOres(generator, this, chunk, blockYs, chunkOdds, OreLocation.CRUST);
 	}
 
 	//TODO move this logic to SurroundingLots, add to it the ability to produce SurroundingHeights and SurroundingDepths

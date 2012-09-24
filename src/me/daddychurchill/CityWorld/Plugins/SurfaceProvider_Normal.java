@@ -1,19 +1,18 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import java.util.Random;
-
 import org.bukkit.util.noise.NoiseGenerator;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider.HerbaceousType;
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider.LigneousType;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class SurfaceProvider_Normal extends SurfaceProvider {
 
-	public SurfaceProvider_Normal(Random random) {
-		super(random);
+	public SurfaceProvider_Normal(Odds odds) {
+		super(odds);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -24,8 +23,8 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 		int y = NoiseGenerator.floor(perciseY);
 		
 		// roll the dice
-		double primary = random.nextDouble();
-		double secondary = random.nextDouble();
+		double primary = odds.getRandomDouble();
+		double secondary = odds.getRandomDouble();
 		
 		// top of the world?
 		if (y >= generator.snowLevel) {
@@ -104,7 +103,7 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 					
 					// range change?
 					if (secondary > ((double) (y - generator.evergreenLevel) / (double) generator.evergreenRange)) {
-						if (random.nextDouble() < 0.40)
+						if (odds.playOdds(0.40))
 							foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.FERN);
 					} else {
 						foliage.generateFlora(generator, chunk, x, y, z, HerbaceousType.COVER);
@@ -128,7 +127,7 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 					
 					// range change?
 					if (secondary > ((double) (y - generator.evergreenLevel) / (double) generator.evergreenRange)) {
-						if (random.nextDouble() < 0.10 && foliage.isPlantable(generator, chunk, x, y, z))
+						if (odds.playOdds(0.10) && foliage.isPlantable(generator, chunk, x, y, z))
 							foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.FERN);
 					} else {
 						ores.dropSnow(generator, chunk, x, y, z);

@@ -1,16 +1,16 @@
 package me.daddychurchill.CityWorld.Context;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
-import me.daddychurchill.CityWorld.Maps.PlatMap;
 
 public class MidriseContext extends UrbanContext {
 
-	public MidriseContext(WorldGenerator generator, PlatMap platmap) {
-		super(generator, platmap);
-		Random platmapRandom = platmap.getRandomGenerator();
+	public MidriseContext(WorldGenerator generator) {
+		super(generator);
+	}
+	
+	@Override
+	protected void initialize() {
 
 		oddsOfParks = oddsUnlikely;
 		oddsOfIsolatedLots = oddsLikely;
@@ -30,7 +30,8 @@ public class MidriseContext extends UrbanContext {
 		
 		schematicFamily = SchematicFamily.MIDRISE;
 		
-		setFloorRange(platmapRandom, 7, 3);
+		maximumFloorsAbove = absoluteMaximumFloorsAbove / 2;
+		maximumFloorsBelow = 3;
 		
 	}
 }

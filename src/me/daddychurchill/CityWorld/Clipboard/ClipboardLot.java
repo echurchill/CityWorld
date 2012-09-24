@@ -1,6 +1,5 @@
 package me.daddychurchill.CityWorld.Clipboard;
 
-import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
@@ -8,14 +7,19 @@ import me.daddychurchill.CityWorld.Plats.IsolatedLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
+
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class ClipboardLot extends IsolatedLot {
 
-	Clipboard clip;
-	Direction.Facing facing;
-	int lotX, lotZ;
+	private Clipboard clip;
+	private Direction.Facing facing;
+	private int lotX, lotZ;
 	
+	// a place for our bits
+	private boolean edgesCalculated = false;
+	private int edgeX1, edgeX2, edgeY1, edgeY2, edgeZ1, edgeZ2;
 	
 	public ClipboardLot(PlatMap platmap, int chunkX, int chunkZ, 
 			Clipboard clip, Direction.Facing facing, 
@@ -42,51 +46,14 @@ public class ClipboardLot extends IsolatedLot {
 	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
-		// something to do?
+		// put a hole in the ground?
 		if (clip.groundLevelY > 0) {
 
-			// a place for our bits
-			int x1, x2, y1, y2, z1, z2;
-			
-			// bounding box for this operation
-			y1 = generator.streetLevel - clip.groundLevelY + 1;
-			y2 = y1 + clip.groundLevelY;
-			
-			// north side
-			if (lotZ == 0) {
-				z1 = clip.insetNorth;
-				z2 = chunk.width;
-				
-			// south side
-			} else if (lotZ == clip.chunkZ - 1) {
-				z1 = 0;
-				z2 = chunk.width - clip.insetSouth;
-				
-			// one of the middle bits
-			} else {
-				z1 = 0;
-				z2 = chunk.width;
-			}
-	
-			// west side
-			if (lotX == 0) {
-				x1 = clip.insetWest;
-				x2 = chunk.width;
-				
-			// east side
-			} else if (lotX == clip.chunkX - 1) {
-				x1 = 0;
-				x2 = chunk.width - clip.insetEast;
-				
-			// one of the middle bits
-			} else {
-				x1 = 0;
-				x2 = chunk.width;
-			}
+			// figure out the edges
+			calculateEdges(generator);
 			
 			// empty things out
-			CityWorld.reportMessage("Empty: " + x1 + "-" + x2 + ", " + y1 + "-" + y2 + ", " + z1 + "-" + z2);
-			chunk.setBlocks(x1, x2, y1, y2, z1, z2, airId);
+			chunk.setBlocks(edgeX1, edgeX2, edgeY1, edgeY2, edgeZ1, edgeZ2, airId);
 		}
 	}
 	
@@ -96,33 +63,42 @@ public class ClipboardLot extends IsolatedLot {
 		// where do we start?
 		int originX = chunk.getOriginX() - lotX * chunk.width + clip.insetWest;
 		int originZ = chunk.getOriginZ() - lotZ * chunk.width + clip.insetNorth;
-		int originY = generator.streetLevel - clip.groundLevelY;
+		int originY = generator.streetLevel - clip.groundLevelY + clip.edgeRise;
 		
 		// sub region calculation
-		int x1, x2, z1, z2;
+		int subX1, subX2, subZ1, subZ2;
 		if (lotX == 0) {
-			x1 = 0;
-			x2 = chunk.width - clip.insetWest;
+			subX1 = 0;
+			subX2 = chunk.width - clip.insetWest;
 		} else {
-			x1 = lotX * chunk.width - clip.insetWest;
-			x2 = x1 + chunk.width;
+			subX1 = lotX * chunk.width - clip.insetWest;
+			subX2 = subX1 + chunk.width;
 		}
 		if (lotZ == 0) {
-			z1 = 0;
-			z2 = chunk.width - clip.insetNorth;
+			subZ1 = 0;
+			subZ2 = chunk.width - clip.insetNorth;
 		} else {
-			z1 = lotZ * chunk.width - clip.insetNorth;
-			z2 = z1 + chunk.width;
+			subZ1 = lotZ * chunk.width - clip.insetNorth;
+			subZ2 = subZ1 + chunk.width;
 		}
 		
 		// don't go too far
-		if (x2 > clip.sizeX)
-			x2 = clip.sizeX;
-		if (z2 > clip.sizeZ)
-			z2 = clip.sizeZ;
+		if (subX2 > clip.sizeX)
+			subX2 = clip.sizeX;
+		if (subZ2 > clip.sizeZ)
+			subZ2 = clip.sizeZ;
 		
 		// paste it
-		clip.paste(generator, chunk, facing, originX, originY, originZ, x1, x2, 0, clip.sizeY, z1, z2);
+		clip.paste(generator, chunk, facing, originX, originY, originZ, subX1, subX2, 0, clip.sizeY, subZ1, subZ2);
+
+		// calculate the edges
+		calculateEdges(generator);
+			
+		// draw the edges
+		chunk.setBlocks(0, edgeX1, edgeY2, 0, 16, clip.edgeType, clip.edgeData);
+		chunk.setBlocks(edgeX2, 16, edgeY2, 0, 16, clip.edgeType, clip.edgeData);
+		chunk.setBlocks(edgeX1, edgeX2, edgeY2, 0, edgeZ1, clip.edgeType, clip.edgeData);
+		chunk.setBlocks(edgeX1, edgeX2, edgeY2, edgeZ2, 16, clip.edgeType, clip.edgeData);
 		
 		// paste clip or at least part of it
 		//clip.paste(generator, chunk, facing, blockX, blockY, blockZ, x1, x2, y1, y2, z1, z2);
@@ -135,5 +111,49 @@ public class ClipboardLot extends IsolatedLot {
 //		chunk.setBlocks(x1, x2, y1, y2, z1, z2, Material.STONE);
 		
 //		chunk.setBlocks(0, generator.streetLevel, generator.height / 2, 0, Material.BEDROCK);
+	}
+	
+	private void calculateEdges(WorldGenerator generator) {
+		if (!edgesCalculated) {
+			
+			// bounding box for this operation
+			edgeY1 = generator.streetLevel - clip.groundLevelY + 1 + clip.edgeRise;
+			edgeY2 = edgeY1 + clip.groundLevelY - 1;
+			
+			// north side
+			if (lotZ == 0) {
+				edgeZ1 = clip.insetNorth;
+				edgeZ2 = SupportChunk.chunksBlockWidth;
+				
+			// south side
+			} else if (lotZ == clip.chunkZ - 1) {
+				edgeZ1 = 0;
+				edgeZ2 = SupportChunk.chunksBlockWidth - clip.insetSouth;
+				
+			// one of the middle bits
+			} else {
+				edgeZ1 = 0;
+				edgeZ2 = SupportChunk.chunksBlockWidth;
+			}
+	
+			// west side
+			if (lotX == 0) {
+				edgeX1 = clip.insetWest;
+				edgeX2 = SupportChunk.chunksBlockWidth;
+				
+			// east side
+			} else if (lotX == clip.chunkX - 1) {
+				edgeX1 = 0;
+				edgeX2 = SupportChunk.chunksBlockWidth - clip.insetEast;
+				
+			// one of the middle bits
+			} else {
+				edgeX1 = 0;
+				edgeX2 = SupportChunk.chunksBlockWidth;
+			}
+			
+			// all done
+			edgesCalculated = true;
+		}
 	}
 }

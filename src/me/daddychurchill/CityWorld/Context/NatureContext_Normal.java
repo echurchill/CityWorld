@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Context;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.BunkerLot;
@@ -14,14 +12,21 @@ import me.daddychurchill.CityWorld.Plats.MountainShackLot;
 import me.daddychurchill.CityWorld.Plats.RadioTowerLot;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.HeightInfo.HeightState;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class NatureContext_Normal extends RuralContext {
 
-	public NatureContext_Normal(WorldGenerator generator, PlatMap platmap) {
-		super(generator, platmap);
+	public NatureContext_Normal(WorldGenerator generator) {
+		super(generator);
+	}
+	
+	@Override
+	protected void initialize() {
 
 	}
+	
+	private final static double oddsOfBunkers = 0.50;
 
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
@@ -30,8 +35,8 @@ public class NatureContext_Normal extends RuralContext {
 		populateWithSchematics(generator, platmap);
 		
 		// random stuff?
-		Random platmapRandom = platmap.getRandomGenerator();
-		boolean doBunkers = platmapRandom.nextBoolean();
+		Odds platmapOdds = platmap.getOddsGenerator();
+		boolean doBunkers = platmapOdds.playOdds(oddsOfBunkers);
 		
 		// where it all begins
 		int originX = platmap.originX;

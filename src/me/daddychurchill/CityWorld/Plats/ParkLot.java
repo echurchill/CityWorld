@@ -44,8 +44,8 @@ public class ParkLot extends ConnectedLot {
 		style = LotStyle.STRUCTURE;
 		
 		// pick a style
-		circleSidewalk = chunkRandom.nextBoolean();
-		waterDepth = chunkRandom.nextInt(DataContext.FloorHeight * 2) + 1;
+		circleSidewalk = chunkOdds.flipCoin();
+		waterDepth = 1 + chunkOdds.getRandomInt(DataContext.FloorHeight * 2);
 	}
 
 	@Override
@@ -228,7 +228,7 @@ public class ParkLot extends ConnectedLot {
 		
 		// four smaller trees
 		} else {
-			LigneousType ligneousType = chunkRandom.nextBoolean() ? LigneousType.BIRCH : LigneousType.OAK;
+			LigneousType ligneousType = chunkOdds.flipCoin() ? LigneousType.BIRCH : LigneousType.OAK;
 			generator.foliageProvider.generateTree(generator, chunk, 3, surfaceY, 3, ligneousType);
 			generator.foliageProvider.generateTree(generator, chunk, 12, surfaceY, 3, ligneousType);
 			generator.foliageProvider.generateTree(generator, chunk, 3, surfaceY, 12, ligneousType);

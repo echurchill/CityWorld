@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Context;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
@@ -10,12 +8,16 @@ import me.daddychurchill.CityWorld.Plats.HouseLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
+import me.daddychurchill.CityWorld.Support.Odds;
 
 public class FarmContext extends RuralContext {
 
-	public FarmContext(WorldGenerator generator, PlatMap platmap) {
-		super(generator, platmap);
-
+	public FarmContext(WorldGenerator generator) {
+		super(generator);
+	}
+	
+	@Override
+	protected void initialize() {
 		oddsOfIsolatedLots = oddsVeryLikely;
 		
 		schematicFamily = SchematicFamily.FARM;
@@ -30,7 +32,7 @@ public class FarmContext extends RuralContext {
 		populateWithSchematics(generator, platmap);
 		
 		// now add our stuff
-		Random platmapRandom = platmap.getRandomGenerator();
+		Odds platmapOdds = platmap.getOddsGenerator();
 		ShapeProvider shapeProvider = generator.shapeProvider;
 		boolean housePlaced = false;
 		int lastX = 0, lastZ = 0;
@@ -81,7 +83,7 @@ public class FarmContext extends RuralContext {
 				if (current == null) {
 					
 					// farm house here?
-					if (!housePlaced && platmapRandom.nextDouble() > oddsOfFarmHouse && generator.settings.includeHouses) {
+					if (!housePlaced && platmapOdds.playOdds(oddsOfFarmHouse) && generator.settings.includeHouses) {
 						housePlaced = platmap.setLot(x, z, new HouseLot(platmap, platmap.originX + x, platmap.originZ + z)); 
 					
 					// place the farm

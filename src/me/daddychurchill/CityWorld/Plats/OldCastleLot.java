@@ -37,10 +37,10 @@ public class OldCastleLot extends ConstructLot {
 		int originZ = chunk.getOriginZ();
 		
 		// random bits
-		int secondX1 = 2 + chunkRandom.nextInt(3);
-		int secondZ1 = 2 + chunkRandom.nextInt(3);
-		int thirdX1 = chunkRandom.nextBoolean() ? secondX1 : secondX1 + 4;
-		int thirdZ1 = chunkRandom.nextBoolean() ? secondZ1 : secondZ1 + 4;
+		int secondX1 = 2 + chunkOdds.getRandomInt(3);
+		int secondZ1 = 2 + chunkOdds.getRandomInt(3);
+		int thirdX1 = chunkOdds.flipCoin() ? secondX1 : secondX1 + 4;
+		int thirdZ1 = chunkOdds.flipCoin() ? secondZ1 : secondZ1 + 4;
 		
 		// legs
 //		chunk.setBlocks(2, 4, minHeight, maxHeight - 1, 2, 4, supportId);
@@ -138,17 +138,17 @@ public class OldCastleLot extends ConstructLot {
 	}
 	
 	private void punchOutWindow(ByteChunk chunk, int x, int y, int z) {
-		if (chunkRandom.nextBoolean())
-			chunk.setBlocks(x, y, y + 1 + chunkRandom.nextInt(2), z, airId);
+		if (chunkOdds.flipCoin())
+			chunk.setBlocks(x, y, y + 1 + chunkOdds.getRandomInt(2), z, airId);
 	}
 	
 	private void punchOutNSDoor(ByteChunk chunk, int x, int y, int z) {
-		if (chunkRandom.nextBoolean())
+		if (chunkOdds.flipCoin())
 			chunk.setBlocks(x, x + 1, y, y + 3, z, z + 2, airId);
 	}
 	
 	private void punchOutWEDoor(ByteChunk chunk, int x, int y, int z) {
-		if (chunkRandom.nextBoolean())
+		if (chunkOdds.flipCoin())
 			chunk.setBlocks(x, x + 2, y, y + 3, z, z + 1, airId);
 	}
 	

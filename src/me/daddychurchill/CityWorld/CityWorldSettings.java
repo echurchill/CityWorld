@@ -316,9 +316,12 @@ public class CityWorldSettings {
 	}
 	
 	public double oddsOfTreasureInSewers = 0.50;
-	public double oddsOfTreasureInMines = 0.50;
 	public double oddsOfTreasureInBunkers = 0.50;
+	public double oddsOfTreasureInMines = 0.50;
+	public double oddsOfTreasureInMineAlcove = 0.33;
 	public double oddsOfSpawnerInSewers = 0.20;
-	public double oddsOfSpawnerInMines = 0.20;
 	public double oddsOfSpawnerInBunkers = 0.20;
+	public double oddsOfSpawnerInMines = 0.20;
+	public double oddsOfSpawnerInMineAlcove = 0.33;
+	public double oddsOfAlcoveInMines = 0.66;
 }

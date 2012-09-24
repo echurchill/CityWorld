@@ -1,11 +1,10 @@
 package me.daddychurchill.CityWorld.Plugins.Tekkit;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.OreProvider;
 import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.Material;
@@ -65,18 +64,18 @@ public class OreProvider_Tekkit extends OreProvider {
 	private static final boolean[] ore_liquid = new boolean[] { true,  true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
 
 	@Override
-	public void sprinkleOres(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs, Random random, OreLocation location) {
+	public void sprinkleOres(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs, Odds odds, OreLocation location) {
 		for (int typeNdx = 0; typeNdx < ore_types.length; typeNdx++) {
 			sprinkleOre(generator, lot, chunk, blockYs,
-					random, ore_types[typeNdx], ore_maxY[typeNdx], 
+					odds, ore_types[typeNdx], ore_maxY[typeNdx], 
 					ore_minY[typeNdx], ore_iterations[typeNdx], 
 					ore_amountToDo[typeNdx], ore_upper[typeNdx], ore_physics[typeNdx], ore_liquid[typeNdx]);
 		}
 	}
 
 	@Override
-	protected boolean placeBlock(RealChunk chunk, Random random, int x, int y, int z, int typeId, boolean physics) {
-		if (random.nextDouble() < oreSprinkleOdds) {
+	protected boolean placeBlock(RealChunk chunk, me.daddychurchill.CityWorld.Support.Odds odds, int x, int y, int z, int typeId, boolean physics) {
+		if (odds.playOdds(oreSprinkleOdds)) {
 			Block block = chunk.getActualBlock(x, y, z);
 			if (block.getTypeId() == stratumId) {
 				

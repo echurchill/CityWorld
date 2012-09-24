@@ -1,12 +1,11 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
 
@@ -41,20 +40,20 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		DataContext context = platmap.context;
 
 		// how do the walls inset?
-		insetWallEW = chunkRandom.nextInt(context.rangeOfWallInset) + 1; // 1 or 2
-		insetWallNS = chunkRandom.nextInt(context.rangeOfWallInset) + 1;
+		insetWallEW = chunkOdds.getRandomInt(context.rangeOfWallInset) + 1; // 1 or 2
+		insetWallNS = chunkOdds.getRandomInt(context.rangeOfWallInset) + 1;
 		
 		// what about the ceiling?
-		if (chunkRandom.nextInt(context.oddsOfFlatWalledBuildings) == 0) {
+		if (chunkOdds.playOdds(context.oddsOfFlatWalledBuildings)) {
 			insetCeilingEW = insetWallEW;
 			insetCeilingNS = insetWallNS;
 		} else {
-			insetCeilingEW = insetWallEW + chunkRandom.nextInt(3) - 1; // -1, 0 or 1 -> 0, 1, 2
-			insetCeilingNS = insetWallNS + chunkRandom.nextInt(3) - 1;
+			insetCeilingEW = insetWallEW + chunkOdds.getRandomInt(3) - 1; // -1, 0 or 1 -> 0, 1, 2
+			insetCeilingNS = insetWallNS + chunkOdds.getRandomInt(3) - 1;
 		}
 		
 		// make the buildings have a better chance at being round
-		if (chunkRandom.nextInt(context.oddsOfSimilarInsetBuildings) == 0) {
+		if (chunkOdds.playOdds(context.oddsOfSimilarInsetBuildings)) {
 			insetWallNS = insetWallEW;
 			insetCeilingNS = insetCeilingEW;
 		}
@@ -62,11 +61,11 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		// nudge in a bit more as we go up
 		insetInsetMidAt = 1;
 		insetInsetHighAt = 1;
-		insetInsetted = height >= context.buildingWallInsettedMinLowPoint && chunkRandom.nextInt(context.oddsOfBuildingWallInset) == 0;
+		insetInsetted = height >= context.buildingWallInsettedMinLowPoint && chunkOdds.playOdds(context.oddsOfBuildingWallInset);
 		if (insetInsetted) {
 			insetInsetMidAt = Math.max(context.buildingWallInsettedMinMidPoint, 
-					chunkRandom.nextInt(context.buildingWallInsettedMinLowPoint));
-			insetInsetHighAt = Math.max(insetInsetMidAt + 1, chunkRandom.nextInt(context.buildingWallInsettedMinLowPoint));
+					chunkOdds.getRandomInt(context.buildingWallInsettedMinLowPoint));
+			insetInsetHighAt = Math.max(insetInsetMidAt + 1, chunkOdds.getRandomInt(context.buildingWallInsettedMinLowPoint));
 		}
 		
 		// floorheight
@@ -74,15 +73,15 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		otherFloorHeight = aboveFloorHeight;
 		
 		// what is it made of?
-		wallMaterial = pickWallMaterial(chunkRandom);
-		ceilingMaterial = pickCeilingMaterial(chunkRandom);
-		glassMaterial = pickGlassMaterial(chunkRandom);
+		wallMaterial = pickWallMaterial(chunkOdds);
+		ceilingMaterial = pickCeilingMaterial(chunkOdds);
+		glassMaterial = pickGlassMaterial(chunkOdds);
 		stairMaterial = pickStairMaterial(wallMaterial);
 		doorMaterial = Material.WOOD_DOOR;
-		roofMaterial = pickRoofMaterial(chunkRandom);
+		roofMaterial = pickRoofMaterial(chunkOdds);
 		
 		// what are the walls of the stairs made of?
-		if (chunkRandom.nextInt(context.oddsOfStairWallMaterialIsWallMaterial) == 0)
+		if (chunkOdds.playOdds(context.oddsOfStairWallMaterialIsWallMaterial))
 			stairWallMaterial = wallMaterial;
 		else
 			stairWallMaterial = pickStairWallMaterial(wallMaterial);
@@ -311,8 +310,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 	}
 	
-	protected static Material pickWallMaterial(Random rand) {
-		switch (rand.nextInt(15)) {
+	protected static Material pickWallMaterial(Odds odds) {
+		switch (odds.getRandomInt(15)) {
 		case 1:
 			return Material.COBBLESTONE;
 		case 2:
@@ -348,8 +347,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 	}
 
-	static protected Material pickRoofMaterial(Random rand) {
-		switch (rand.nextInt(12)) {
+	static protected Material pickRoofMaterial(Odds odds) {
+		switch (odds.getRandomInt(12)) {
 		case 1:
 			return Material.COBBLESTONE;
 		case 2:
@@ -428,8 +427,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 	}
 
-	static protected Material pickCeilingMaterial(Random rand) {
-		switch (rand.nextInt(12)) {
+	static protected Material pickCeilingMaterial(Odds odds) {
+		switch (odds.getRandomInt(12)) {
 		case 1:
 			return Material.COBBLESTONE;
 		case 2:

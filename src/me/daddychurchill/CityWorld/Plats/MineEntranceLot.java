@@ -49,7 +49,7 @@ public class MineEntranceLot extends ConstructLot {
 		
 		// core bits
 		if (generator.settings.includeDecayedBuildings) {
-			switch (chunkRandom.nextInt(6)) {
+			switch (chunkOdds.getRandomInt(6)) {
 			case 1:
 				chunk.setBlocks(1, 3, shaftY, surfaceY, 1, 3, Material.IRON_FENCE);
 				break;
@@ -93,12 +93,15 @@ public class MineEntranceLot extends ConstructLot {
 		generateSurface(generator, chunk, false);
 	}
 	
+	private final static double oddsOfStairs = 0.70;
+	private final static double oddsOfLanding = 0.70;
+	
 	private boolean generateStairs(WorldGenerator generator, RealChunk chunk, int x, int z, 
 			Direction.Stair direction, Direction.Stair underdirection) {
 		chunk.setBlocks(x, shaftY + 1, shaftY + 4, z, Material.AIR);
 		
 		// make a step... or not...
-		if (!generator.settings.includeDecayedBuildings || chunkRandom.nextDouble() < 0.70) {
+		if (!generator.settings.includeDecayedBuildings || chunkOdds.playOdds(oddsOfStairs)) {
 			chunk.setStair(x, shaftY, z, Material.COBBLESTONE_STAIRS, direction);
 			if (chunk.isEmpty(x, shaftY - 1, z))
 				chunk.setStair(x, shaftY - 1, z, Material.COBBLESTONE_STAIRS, underdirection);
@@ -116,7 +119,7 @@ public class MineEntranceLot extends ConstructLot {
 		chunk.setBlocks(x, shaftY, shaftY + 3, z, Material.AIR);
 		
 		// make a landing... or not...
-		if (!generator.settings.includeDecayedBuildings || chunkRandom.nextDouble() < 0.70) {
+		if (!generator.settings.includeDecayedBuildings || chunkOdds.playOdds(oddsOfLanding)) {
 			chunk.setBlock(x, shaftY - 1, z, Material.COBBLESTONE);
 			if (chunk.isEmpty(x, shaftY - 2, z))
 				chunk.setStair(x, shaftY - 2, z, Material.COBBLESTONE_STAIRS, underdirection);

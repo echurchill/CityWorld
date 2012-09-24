@@ -1,9 +1,8 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.Material;
@@ -26,19 +25,19 @@ public class BalloonProvider extends Provider {
 	//TODO need better strings
 	
 	public void generateBalloon(WorldGenerator generator, RealChunk chunk, DataContext context, 
-			int attachX, int attachY, int attachZ, Random random) {
+			int attachX, int attachY, int attachZ, Odds odds) {
 		// where is the balloon
 		int balloonX = attachX;
-		int balloonY1 = attachY + random.nextInt(10) + 5;
-		int balloonY2 = balloonY1 + random.nextInt(3) + 8;
+		int balloonY1 = attachY + 5 + odds.getRandomInt(10);
+		int balloonY2 = balloonY1 + 8 + odds.getRandomInt(3);
 		int balloonZ = attachZ;
 		
 		// string please
 		if (attachString(chunk, balloonX, attachY, balloonY1, balloonZ)) {
 			
 			// pick the colors
-			byte primaryColor = getPrimaryColor(generator, random);
-			byte secondaryColor = getSecondaryColor(generator, random);
+			byte primaryColor = getPrimaryColor(generator, odds);
+			byte secondaryColor = getSecondaryColor(generator, odds);
 			
 			// draw the balloon
 			chunk.setBlocks(balloonX, balloonY1, balloonY1 + 2, balloonZ, Material.WOOL, primaryColor);
@@ -67,22 +66,22 @@ public class BalloonProvider extends Provider {
 	}
 
 	public void generateBlimp(WorldGenerator generator, RealChunk chunk, DataContext context, 
-			int attachY, Random random) {
-		int balloonY1 = attachY + random.nextInt(4) + 4;
-		int balloonY2 = balloonY1 + random.nextInt(15) + 15;
+			int attachY, Odds odds) {
+		int balloonY1 = attachY + 4 + odds.getRandomInt(4);
+		int balloonY2 = balloonY1 + 15 + odds.getRandomInt(15);
 		
 		// draw the strings
-		boolean strung = attachString(chunk, 7 + random.nextInt(2), attachY, balloonY1 + 5, 2);
-		strung = attachString(chunk, 7 + random.nextInt(2), attachY, balloonY1 + 5, 13) || strung;
-		strung = attachString(chunk, 2, attachY, balloonY1 + 5, 7 + random.nextInt(2)) || strung;
-		strung = attachString(chunk, 13, attachY, balloonY1 + 5, 7 + random.nextInt(2)) || strung;
+		boolean strung = attachString(chunk, 7 + odds.getRandomInt(2), attachY, balloonY1 + 5, 2);
+		strung = attachString(chunk, 7 + odds.getRandomInt(2), attachY, balloonY1 + 5, 13) || strung;
+		strung = attachString(chunk, 2, attachY, balloonY1 + 5, 7 + odds.getRandomInt(2)) || strung;
+		strung = attachString(chunk, 13, attachY, balloonY1 + 5, 7 + odds.getRandomInt(2)) || strung;
 		
 		// are we attached?
 		if (strung) {
 			
 			// pick the colors
-			byte primaryColor = getPrimaryColor(generator, random);
-			byte secondaryColor = getSecondaryColor(generator, random);
+			byte primaryColor = getPrimaryColor(generator, odds);
+			byte secondaryColor = getSecondaryColor(generator, odds);
 			
 			// draw the bottom of the blimp
 			chunk.setCircle(8, 8, 3, balloonY1 - 1, Material.WOOL, primaryColor, true);
@@ -91,7 +90,7 @@ public class BalloonProvider extends Provider {
 			chunk.setCircle(8, 8, 6, balloonY1 + 7, Material.WOOL, primaryColor, true);
 			
 			// middle of the blimp
-			int step = random.nextInt(4) + 2;
+			int step = 2 + odds.getRandomInt(4);
 			int y = balloonY1 + 8;
 			do {
 				byte color = primaryColor;
@@ -121,15 +120,15 @@ public class BalloonProvider extends Provider {
 		return result;
 	}
 	
-	private byte getPrimaryColor(WorldGenerator generator, Random random) {
+	private byte getPrimaryColor(WorldGenerator generator, Odds odds) {
 		if (generator.worldEnvironment == Environment.NETHER)
-			return getSecondaryColor(generator, random);
+			return getSecondaryColor(generator, odds);
 		else
-			return (byte) random.nextInt(7);
+			return odds.getRandomByte(7);
 	}
 
-	private byte getSecondaryColor(WorldGenerator generator, Random random) {
-		return (byte) (random.nextInt(9) + 7);
+	private byte getSecondaryColor(WorldGenerator generator, Odds odds) {
+		return odds.getRandomByte(7, 9);
 	}
 	
 	private void addLight(RealChunk chunk, DataContext context, int x, int y, int z) {

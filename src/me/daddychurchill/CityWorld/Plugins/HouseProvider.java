@@ -1,13 +1,12 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import java.util.Random;
-
 import org.bukkit.Material;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Support.Direction;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Door;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
@@ -29,7 +28,7 @@ public class HouseProvider extends Provider {
 	private final static double oddsOfFurnace = 0.25;
 	private final static double oddsOfCraftingTable = 0.25;
 	
-	public void generateShed(WorldGenerator generator, RealChunk chunk, DataContext context, Random random, int x, int y, int z, int radius) {
+	public void generateShed(WorldGenerator generator, RealChunk chunk, DataContext context, Odds odds, int x, int y, int z, int radius) {
 		int x1 = x - radius;
 		int x2 = x + radius + 1;
 		int z1 = z - radius;
@@ -39,48 +38,48 @@ public class HouseProvider extends Provider {
 		int xR = x2 - x1 - 2;
 		int zR = z2 - z1 - 2;
 		
-		byte roofData = (byte) random.nextInt(6);
+		byte roofData = (byte) odds.getRandomInt(6);
 		Material wallMat = pickShedWall(roofData);
 		
 		chunk.setWalls(x1, x2, y1, y2, z1, z2, wallMat);
 		chunk.setBlocks(x1 + 1, x2 - 1, y2, z1 + 1, z2 - 1, Material.STEP, roofData);
 		
-		switch (random.nextInt(4)) {
+		switch (odds.getRandomInt(4)) {
 		case 0: // north
-			chunk.setWoodenDoor(x1 + random.nextInt(xR) + 1, y1, z1, Direction.Door.NORTHBYNORTHEAST);
-			chunk.setBlock(x1 + random.nextInt(xR) + 1, y1 + 1, z2 - 1, materialGlass);
-			placeShedTable(generator, chunk, random, x1 + random.nextInt(xR) + 1, y1, z2 - 2, Direction.General.SOUTH);
-			placeShedChest(generator, chunk, random, x1 - 1, y1, z1 + random.nextInt(zR) + 1, Direction.General.WEST);
-			placeShedChest(generator, chunk, random, x2, y1, z1 + random.nextInt(zR) + 1, Direction.General.EAST);
+			chunk.setWoodenDoor(x1 + odds.getRandomInt(xR) + 1, y1, z1, Direction.Door.NORTHBYNORTHEAST);
+			chunk.setBlock(x1 + odds.getRandomInt(xR) + 1, y1 + 1, z2 - 1, materialGlass);
+			placeShedTable(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z2 - 2, Direction.General.SOUTH);
+			placeShedChest(generator, chunk, odds, x1 - 1, y1, z1 + odds.getRandomInt(zR) + 1, Direction.General.WEST);
+			placeShedChest(generator, chunk, odds, x2, y1, z1 + odds.getRandomInt(zR) + 1, Direction.General.EAST);
 			break;
 		case 1: // south
-			chunk.setWoodenDoor(x1 + random.nextInt(xR) + 1, y1, z2 - 1, Direction.Door.SOUTHBYSOUTHWEST);
-			chunk.setBlock(x1 + random.nextInt(xR) + 1, y1 + 1, z1, materialGlass);
-			placeShedTable(generator, chunk, random, x1 + random.nextInt(xR) + 1, y1, z1 + 1, Direction.General.NORTH);
-			placeShedChest(generator, chunk, random, x1 - 1, y1, z1 + random.nextInt(zR) + 1, Direction.General.WEST);
-			placeShedChest(generator, chunk, random, x2, y1, z1 + random.nextInt(zR) + 1, Direction.General.EAST);
+			chunk.setWoodenDoor(x1 + odds.getRandomInt(xR) + 1, y1, z2 - 1, Direction.Door.SOUTHBYSOUTHWEST);
+			chunk.setBlock(x1 + odds.getRandomInt(xR) + 1, y1 + 1, z1, materialGlass);
+			placeShedTable(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z1 + 1, Direction.General.NORTH);
+			placeShedChest(generator, chunk, odds, x1 - 1, y1, z1 + odds.getRandomInt(zR) + 1, Direction.General.WEST);
+			placeShedChest(generator, chunk, odds, x2, y1, z1 + odds.getRandomInt(zR) + 1, Direction.General.EAST);
 			break;
 		case 2: // west
-			chunk.setWoodenDoor(x1, y1, z1 + random.nextInt(zR) + 1, Direction.Door.WESTBYNORTHWEST);
-			chunk.setBlock(x2 - 1, y1 + 1, z1 + random.nextInt(zR) + 1, materialGlass);
-			placeShedTable(generator, chunk, random, x2 - 2, y1, z1 + random.nextInt(zR) + 1, Direction.General.EAST);
-			placeShedChest(generator, chunk, random, x1 + random.nextInt(xR) + 1, y1, z1 - 1, Direction.General.NORTH);
-			placeShedChest(generator, chunk, random, x1 + random.nextInt(xR) + 1, y1, z2, Direction.General.SOUTH);
+			chunk.setWoodenDoor(x1, y1, z1 + odds.getRandomInt(zR) + 1, Direction.Door.WESTBYNORTHWEST);
+			chunk.setBlock(x2 - 1, y1 + 1, z1 + odds.getRandomInt(zR) + 1, materialGlass);
+			placeShedTable(generator, chunk, odds, x2 - 2, y1, z1 + odds.getRandomInt(zR) + 1, Direction.General.EAST);
+			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z1 - 1, Direction.General.NORTH);
+			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z2, Direction.General.SOUTH);
 			break;
 		default: // east
-			chunk.setWoodenDoor(x1, y1, z1 + random.nextInt(zR) + 1, Direction.Door.EASTBYSOUTHEAST);
-			chunk.setBlock(x2 - 1, y1 + 1, z1 + random.nextInt(zR) + 1, materialGlass);
-			placeShedTable(generator, chunk, random, x1 + 1, y1, z1 + random.nextInt(zR) + 1, Direction.General.WEST);
-			placeShedChest(generator, chunk, random, x1 + random.nextInt(xR) + 1, y1, z1 - 1, Direction.General.NORTH);
-			placeShedChest(generator, chunk, random, x1 + random.nextInt(xR) + 1, y1, z2, Direction.General.SOUTH);
+			chunk.setWoodenDoor(x1, y1, z1 + odds.getRandomInt(zR) + 1, Direction.Door.EASTBYSOUTHEAST);
+			chunk.setBlock(x2 - 1, y1 + 1, z1 + odds.getRandomInt(zR) + 1, materialGlass);
+			placeShedTable(generator, chunk, odds, x1 + 1, y1, z1 + odds.getRandomInt(zR) + 1, Direction.General.WEST);
+			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z1 - 1, Direction.General.NORTH);
+			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z2, Direction.General.SOUTH);
 			break;
 		}
 	}
 	
-	private void placeShedTable(WorldGenerator generator, RealChunk chunk, Random random, int x, int y, int z, Direction.General direction) {
-		if (random.nextDouble() < oddsOfFurnace)
+	private void placeShedTable(WorldGenerator generator, RealChunk chunk, Odds odds, int x, int y, int z, Direction.General direction) {
+		if (odds.playOdds(oddsOfFurnace))
 			chunk.setFurnace(x, y, z, direction);
-		else if (random.nextDouble() < oddsOfCraftingTable)
+		else if (odds.playOdds(oddsOfCraftingTable))
 			chunk.setBlock(x, y, z, Material.WORKBENCH);
 		else {
 			chunk.setBlock(x, y, z, Material.FENCE);
@@ -88,8 +87,8 @@ public class HouseProvider extends Provider {
 		}
 	}
 	
-	private void placeShedChest(WorldGenerator generator, RealChunk chunk, Random random, int x, int y, int z, Direction.General direction) {
-		chunk.setChest(x, y, z, direction, generator.lootProvider.getItems(generator, random, LootLocation.STORAGESHED));
+	private void placeShedChest(WorldGenerator generator, RealChunk chunk, Odds odds, int x, int y, int z, Direction.General direction) {
+		chunk.setChest(x, y, z, direction, generator.lootProvider.getItems(generator, odds, LootLocation.STORAGESHED));
 		switch (direction) {
 		case NORTH:
 			chunk.setChest(x + 1, y, z, direction);
@@ -106,7 +105,7 @@ public class HouseProvider extends Provider {
 		}
 	}
 
-	public int generateShack(WorldGenerator generator, RealChunk chunk, DataContext context, Random random, int baseY, int roomWidth) {
+	public int generateShack(WorldGenerator generator, RealChunk chunk, DataContext context, Odds odds, int baseY, int roomWidth) {
 		
 		// what are we made of?
 		Material matWall = Material.WOOD;
@@ -116,18 +115,18 @@ public class HouseProvider extends Provider {
 		int floors = 1;
 		
 		//chunk.setWalls(2, 13, baseY, baseY + ContextData.FloorHeight, 2, 13, Material.WOOD);
-		generateColonial(chunk, context, random, baseY, matFloor, matWall, matCeiling, matRoof, floors, roomWidth, roomWidth, false);
+		generateColonial(chunk, context, odds, baseY, matFloor, matWall, matCeiling, matRoof, floors, roomWidth, roomWidth, false);
 		return floors;
 	}
 	
-	public int generateHouse(WorldGenerator generator, RealChunk chunk, DataContext context, Random random, int baseY, int maxFloors, int maxRoomWidth) {
+	public int generateHouse(WorldGenerator generator, RealChunk chunk, DataContext context, Odds odds, int baseY, int maxFloors, int maxRoomWidth) {
 		
 		// what are we made of?
-		Material matWall = pickWallMaterial(random);
-		Material matFloor = pickFloorMaterial(random);
-		Material matCeiling = pickCeilingMaterial(random);
-		Material matRoof = pickRoofMaterial(random);
-		int floors = random.nextInt(maxFloors) + 1;
+		Material matWall = pickWallMaterial(odds);
+		Material matFloor = pickFloorMaterial(odds);
+		Material matCeiling = pickCeilingMaterial(odds);
+		Material matRoof = pickRoofMaterial(odds);
+		int floors = odds.getRandomInt(maxFloors) + 1;
 		
 		//TODO add bed
 		//TODO add kitchen
@@ -135,12 +134,12 @@ public class HouseProvider extends Provider {
 		//TODO add split level house style
 		
 		// draw the house
-		generateColonial(chunk, context, random, baseY, matFloor, matWall, matCeiling, matRoof, floors, MinSize, maxRoomWidth, true);
+		generateColonial(chunk, context, odds, baseY, matFloor, matWall, matCeiling, matRoof, floors, MinSize, maxRoomWidth, true);
 		return floors;
 	}
 
-	public int generateHouse(WorldGenerator generator, RealChunk chunk, DataContext context, Random random, int baseY, int maxFloors) {
-		return generateHouse(generator, chunk, context, random, baseY, maxFloors, MaxSize);
+	public int generateHouse(WorldGenerator generator, RealChunk chunk, DataContext context, Odds odds, int baseY, int maxFloors) {
+		return generateHouse(generator, chunk, context, odds, baseY, maxFloors, MaxSize);
 	}
 
 	private final static Material materialAir = Material.AIR;
@@ -300,7 +299,7 @@ public class HouseProvider extends Provider {
 			}
 		}
 
-		protected void DrawStyle(RealChunk chunk, DataContext context, Random random, int floor, int floors, 
+		protected void DrawStyle(RealChunk chunk, DataContext context, Odds odds, int floor, int floors, 
 				int x, int z, int roomOffsetX, int roomOffsetZ, int baseY) {
 			
 			// which door or halls do we do?
@@ -321,7 +320,7 @@ public class HouseProvider extends Provider {
 			case KITCHEN:
 				
 				// where is the door?
-				if (random.nextBoolean()) {
+				if (odds.flipCoin()) {
 					doorNorth = !roomSouth;
 					doorSouth = roomSouth;
 				} else {
@@ -340,7 +339,7 @@ public class HouseProvider extends Provider {
 				
 				// where is the door?
 				if (floor == 0) {
-					if (random.nextBoolean()) {
+					if (odds.flipCoin()) {
 						doorNorth = !roomSouth;
 						doorSouth = roomSouth;
 					} else {
@@ -542,11 +541,11 @@ public class HouseProvider extends Provider {
 		}
 	}
 	
-	private int getRoomWidth(Random random, int minRoomWidth, int maxRoomWidth) {
-		return random.nextInt(maxRoomWidth - minRoomWidth + 1) + minRoomWidth;
+	private int getRoomWidth(Odds odds, int minRoomWidth, int maxRoomWidth) {
+		return odds.getRandomInt(maxRoomWidth - minRoomWidth + 1) + minRoomWidth;
 	}
 	
-	private void generateColonial(RealChunk chunk, DataContext context, Random random, int baseY, 
+	private void generateColonial(RealChunk chunk, DataContext context, Odds odds, int baseY, 
 			Material matFloor, Material matWall, Material matCeiling, Material matRoof, 
 			int floors, int minRoomWidth, int maxRoomWidth, boolean allowMissingRooms) {
 		
@@ -560,12 +559,12 @@ public class HouseProvider extends Provider {
 					// missing rooms?
 					boolean thisRoomMissing = false;
 					if (allowMissingRooms && floors > 1) {
-						thisRoomMissing = random.nextInt(MissingRoomOdds) == 0;
+						thisRoomMissing = odds.getRandomInt(MissingRoomOdds) == 0;
 					}
 					
 					// what does the room "look" like?
-					int thisRoomWidthZ = getRoomWidth(random, minRoomWidth, maxRoomWidth);
-					int thisRoomWidthX = getRoomWidth(random, minRoomWidth, maxRoomWidth);
+					int thisRoomWidthZ = getRoomWidth(odds, minRoomWidth, maxRoomWidth);
+					int thisRoomWidthX = getRoomWidth(odds, minRoomWidth, maxRoomWidth);
 					boolean thisRoomHasWalls = true;
 					Room.Style thisRoomStyle = Room.Style.BED;
 					
@@ -611,11 +610,11 @@ public class HouseProvider extends Provider {
 		}
 		
 		// find a non-missing room on the first floor
-		int roomX = random.nextInt(2);
-		int roomZ = random.nextInt(2);
+		int roomX = odds.getRandomInt(2);
+		int roomZ = odds.getRandomInt(2);
 		while (rooms[0][roomX][roomZ].missing) {
-			roomX = random.nextInt(2);
-			roomZ = random.nextInt(2);
+			roomX = odds.getRandomInt(2);
+			roomZ = odds.getRandomInt(2);
 		}
 		
 		// pick the entry room
@@ -687,8 +686,8 @@ public class HouseProvider extends Provider {
 		}
 		
 		// where is the center of the house?
-		int roomOffsetX = chunk.width / 2 + random.nextInt(2) - 1;
-		int roomOffsetZ = chunk.width / 2 + random.nextInt(2) - 1;
+		int roomOffsetX = chunk.width / 2 + odds.getRandomInt(2) - 1;
+		int roomOffsetZ = chunk.width / 2 + odds.getRandomInt(2) - 1;
 		
 		// draw the individual rooms
 		for (int f = 0; f < floors; f++) {
@@ -706,18 +705,18 @@ public class HouseProvider extends Provider {
 						entryX = x;
 						entryZ = z;
 					} else
-						drawRoom(chunk, context, random, rooms, f, floors, x, z, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
+						drawRoom(chunk, context, odds, rooms, f, floors, x, z, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
 				}
 			}
 			
 			// found an entry
 			if (entryX != -1) {
-				drawRoom(chunk, context, random, rooms, f, floors, entryX, entryZ, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
+				drawRoom(chunk, context, odds, rooms, f, floors, entryX, entryZ, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
 			}
 		}
 		
 //		// flat roof?
-//		if (random.nextDouble() < 0.95) {
+//		if (odds.nextDouble() < 0.95) {
 			
 			//TODO simple blocks
 			//TODO flat roofs
@@ -781,7 +780,7 @@ public class HouseProvider extends Provider {
 		return i == 0 ? 1 : 0;
 	}
 	
-	private void drawRoom(RealChunk chunk, DataContext context, Random random, Room[][][] rooms, int floor, int floors, int x, int z, 
+	private void drawRoom(RealChunk chunk, DataContext context, Odds odds, Room[][][] rooms, int floor, int floors, int x, int z, 
 			int roomOffsetX, int roomOffsetZ, int baseY, 
 			Material matFloor, Material matWall, Material matCeiling, Material matRoof) {
 
@@ -813,12 +812,12 @@ public class HouseProvider extends Provider {
 			}
 			
 			// now the inner bits
-			room.DrawStyle(chunk, context, random, floor, floors, x, z, roomOffsetX, roomOffsetZ, baseY);
+			room.DrawStyle(chunk, context, odds, floor, floors, x, z, roomOffsetX, roomOffsetZ, baseY);
 		} 
 	}
 	
-	private Material pickWallMaterial(Random random) {
-		switch (random.nextInt(9)) {
+	private Material pickWallMaterial(Odds odds) {
+		switch (odds.getRandomInt(9)) {
 		case 1:
 			return Material.COBBLESTONE;
 		case 2:
@@ -840,8 +839,8 @@ public class HouseProvider extends Provider {
 		}
 	}
 
-	private Material pickCeilingMaterial(Random random) {
-		switch (random.nextInt(5)) {
+	private Material pickCeilingMaterial(Odds odds) {
+		switch (odds.getRandomInt(5)) {
 		case 1:
 			return Material.COBBLESTONE;
 		case 2:
@@ -855,8 +854,8 @@ public class HouseProvider extends Provider {
 		}
 	}
 
-	private Material pickFloorMaterial(Random random) {
-		switch (random.nextInt(4)) {
+	private Material pickFloorMaterial(Odds odds) {
+		switch (odds.getRandomInt(4)) {
 		case 1:
 			return Material.COBBLESTONE;
 		case 2:
@@ -868,8 +867,8 @@ public class HouseProvider extends Provider {
 		}
 	}
 
-	private Material pickRoofMaterial(Random random) {
-		switch (random.nextInt(6)) {
+	private Material pickRoofMaterial(Odds odds) {
+		switch (odds.getRandomInt(6)) {
 		case 1:
 			return Material.COBBLESTONE;
 		case 2:

@@ -20,7 +20,7 @@ public class FloatingBlimpLot extends IsolatedLot {
 	public FloatingBlimpLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
-		manyBalloons = chunkRandom.nextBoolean();
+		manyBalloons = chunkOdds.flipCoin();
 	}
 	
 	@Override
@@ -78,12 +78,12 @@ public class FloatingBlimpLot extends IsolatedLot {
 		// what type of balloon?
 		BalloonProvider balloons = generator.balloonProvider;
 		if (manyBalloons) {
-			balloons.generateBalloon(generator, chunk, context, 7 + chunkRandom.nextInt(2), generator.streetLevel + 5, 3, chunkRandom);
-			balloons.generateBalloon(generator, chunk, context, 7 + chunkRandom.nextInt(2), generator.streetLevel + 5, 12, chunkRandom);
-			balloons.generateBalloon(generator, chunk, context, 3, generator.streetLevel + 5, 7 + chunkRandom.nextInt(2), chunkRandom);
-			balloons.generateBalloon(generator, chunk, context, 12, generator.streetLevel + 5, 7 + chunkRandom.nextInt(2), chunkRandom);
+			balloons.generateBalloon(generator, chunk, context, 7 + chunkOdds.getRandomInt(2), generator.streetLevel + 5, 3, chunkOdds);
+			balloons.generateBalloon(generator, chunk, context, 7 + chunkOdds.getRandomInt(2), generator.streetLevel + 5, 12, chunkOdds);
+			balloons.generateBalloon(generator, chunk, context, 3, generator.streetLevel + 5, 7 + chunkOdds.getRandomInt(2), chunkOdds);
+			balloons.generateBalloon(generator, chunk, context, 12, generator.streetLevel + 5, 7 + chunkOdds.getRandomInt(2), chunkOdds);
 		} else {
-			balloons.generateBlimp(generator, chunk, context, generator.streetLevel + 5, chunkRandom);
+			balloons.generateBlimp(generator, chunk, context, generator.streetLevel + 5, chunkOdds);
 		}
 	}
 

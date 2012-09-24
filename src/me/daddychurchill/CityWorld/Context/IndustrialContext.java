@@ -1,20 +1,22 @@
 package me.daddychurchill.CityWorld.Context;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.StorageLot;
 import me.daddychurchill.CityWorld.Plats.WarehouseLot;
+import me.daddychurchill.CityWorld.Support.Odds;
 
 public class IndustrialContext extends UrbanContext {
 
-	public IndustrialContext(WorldGenerator generator, PlatMap platmap) {
-		super(generator, platmap);
-		Random platmapRandom = platmap.getRandomGenerator();
-		
+	public IndustrialContext(WorldGenerator generator) {
+		super(generator);
+	}
+	
+	@Override
+	protected void initialize() {
+
 		oddsOfParks = oddsUnlikely;
 		oddsOfIsolatedLots = oddsVeryUnlikely;
 		oddsOfIdenticalBuildingHeights = oddsAlwaysGoingToHappen;
@@ -33,25 +35,26 @@ public class IndustrialContext extends UrbanContext {
 		
 		schematicFamily = SchematicFamily.INDUSTRIAL;
 
-		setFloorRange(platmapRandom, 2, 1);
+		maximumFloorsAbove = 2;
+		maximumFloorsBelow = 1;
 	}
 	
-	private final static double oddsOfPowerStation = 0.90;
+	private final static double oddsOfStorageLot = 0.90;
 	private final static double oddsOfWarehouse = 0.75;
 	
 	@Override
-	protected PlatLot getPark(WorldGenerator generator, PlatMap platmap, Random random, int chunkX, int chunkZ) {
-		if (random.nextDouble() < oddsOfPowerStation)
+	protected PlatLot getPark(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+		if (odds.playOdds(oddsOfStorageLot))
 			return new StorageLot(platmap, chunkX, chunkZ);
 		else
-			return super.getPark(generator, platmap, random, chunkX, chunkZ);
+			return super.getPark(generator, platmap, odds, chunkX, chunkZ);
 	}
 	
 	@Override
-	protected PlatLot getFinishedBuilding(WorldGenerator generator, PlatMap platmap, Random random, int chunkX, int chunkZ) {
-		if (random.nextDouble() < oddsOfWarehouse)
+	protected PlatLot getFinishedBuilding(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+		if (odds.playOdds(oddsOfWarehouse))
 			return new WarehouseLot(platmap, chunkX, chunkZ);
 		else
-			return super.getFinishedBuilding(generator, platmap, random, chunkX, chunkZ);
+			return super.getFinishedBuilding(generator, platmap, odds, chunkX, chunkZ);
 	}
 }
