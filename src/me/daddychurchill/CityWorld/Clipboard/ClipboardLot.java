@@ -87,7 +87,7 @@ public class ClipboardLot extends IsolatedLot {
 			subX2 = clip.sizeX;
 		if (subZ2 > clip.sizeZ)
 			subZ2 = clip.sizeZ;
-		
+				
 		// paste it
 		clip.paste(generator, chunk, facing, originX, originY, originZ, subX1, subX2, 0, clip.sizeY, subZ1, subZ2);
 
@@ -100,17 +100,10 @@ public class ClipboardLot extends IsolatedLot {
 		chunk.setBlocks(edgeX1, edgeX2, edgeY2, 0, edgeZ1, clip.edgeType, clip.edgeData);
 		chunk.setBlocks(edgeX1, edgeX2, edgeY2, edgeZ2, 16, clip.edgeType, clip.edgeData);
 		
-		// paste clip or at least part of it
-		//clip.paste(generator, chunk, facing, blockX, blockY, blockZ, x1, x2, y1, y2, z1, z2);
-//		CityWorld.reportMessage("Setting: clip = " + clip.name +
-//				" size = " + clip.sizeX + ", " + clip.sizeZ + 
-//				" lot = " + lotX + ", " + lotZ);
-//				" origin = "+ blockX + ", " + blockY + ", " + blockZ + 
-//				" min = " + x1 + ", "+ y1 + ", "+ z1 + 
-//				" max = " + x2 + ", "+ y2 + ", "+ z2);
-//		chunk.setBlocks(x1, x2, y1, y2, z1, z2, Material.STONE);
-		
-//		chunk.setBlocks(0, generator.streetLevel, generator.height / 2, 0, Material.BEDROCK);
+		// mr. creeper says: that is a nice building you have there, too bad something bad has to happen to it
+		if (generator.settings.includeDecayedBuildings)
+			destroyLot(generator, originY, originY + clip.sizeY);
+		//TODO this seems to be only destroying a particular corner of the schematics... why?
 	}
 	
 	private void calculateEdges(WorldGenerator generator) {
