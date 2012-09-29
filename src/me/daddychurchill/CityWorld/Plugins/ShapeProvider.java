@@ -133,6 +133,7 @@ public abstract class ShapeProvider extends Provider {
 	protected final static int microRoundaboutSlot = 1; 
 	protected final static int microSurfaceCaveSlot = 2; 
 	protected final static int microIsolatedLotSlot = 3;
+	protected final static int microIsolatedConstructSlot = 4;
 	
 	private double macroScale = 1.0 / 384.0;
 	private double microScale = 2.0;
@@ -169,13 +170,8 @@ public abstract class ShapeProvider extends Provider {
 		return microScaleAt(chunkX, chunkZ, microRoundaboutSlot) < oddsOfRoundabouts;
 	}
 	
-	public double oddsOfIsolatedBuilding = 0.75;
-	public boolean isIsolatedBuildingAt(double chunkX, double chunkZ) {
-		return isIsolatedLotAt(chunkX, chunkZ, oddsOfIsolatedBuilding);
-	}
-	
-	public boolean isNotSoIsolatedBuildingAt(double chunkX, double chunkZ) {
-		return isIsolatedLotAt(chunkX, chunkZ, oddsOfIsolatedBuilding / 2);
+	public boolean isIsolatedConstructAt(double chunkX, double chunkZ, double oddsOfIsolatedConstruct) {
+		return microScaleAt(chunkX, chunkZ, microIsolatedConstructSlot) < oddsOfIsolatedConstruct;
 	}
 	
 	public boolean isIsolatedLotAt(double chunkX, double chunkZ, double oddsOfIsolatedLots) {

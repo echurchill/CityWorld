@@ -6,7 +6,6 @@ import me.daddychurchill.CityWorld.Plugins.Provider;
 public abstract class PasteProvider extends Provider {
 
 	public enum SchematicFamily {ART, PARK, HIGHRISE, MIDRISE, LOWRISE, INDUSTRIAL, MUNICIPAL, CONSTRUCTION, NEIGHBORHOOD, FARM, NATURE};
-	private int schematicsLoaded = 0;
 	
 	public PasteProvider() {
 		super();
@@ -32,11 +31,9 @@ public abstract class PasteProvider extends Provider {
 	}
 	
 	protected abstract ClipboardList loadClips(WorldGenerator generator, SchematicFamily family, int maxX, int maxZ) throws Exception;
-	
-	public void reportStatus(WorldGenerator generator) {
-		if (schematicsLoaded > 0)
-			generator.reportMessage("[PasteProvider] Loaded " + schematicsLoaded + " schematic(s)");
-	}
+
+	protected int schematicsLoaded = 0;
+	public abstract void reportStatus(WorldGenerator generator);
 	
 	// Loosely based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	public static PasteProvider loadProvider(WorldGenerator generator) {

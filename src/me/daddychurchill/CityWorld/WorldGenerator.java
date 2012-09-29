@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider;
+import me.daddychurchill.CityWorld.Context.FloatingRoadContext;
 import me.daddychurchill.CityWorld.Context.MunicipalContext;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Context.FarmContext;
@@ -13,11 +14,12 @@ import me.daddychurchill.CityWorld.Context.HighriseContext;
 import me.daddychurchill.CityWorld.Context.IndustrialContext;
 import me.daddychurchill.CityWorld.Context.LowriseContext;
 import me.daddychurchill.CityWorld.Context.MidriseContext;
-import me.daddychurchill.CityWorld.Context.NatureContext_Floating;
-import me.daddychurchill.CityWorld.Context.NatureContext_Normal;
+import me.daddychurchill.CityWorld.Context.FloatingNatureContext;
+import me.daddychurchill.CityWorld.Context.NatureContext;
 import me.daddychurchill.CityWorld.Context.NeighborhoodContext;
 import me.daddychurchill.CityWorld.Context.ConstructionContext;
 import me.daddychurchill.CityWorld.Context.ParkContext;
+import me.daddychurchill.CityWorld.Context.RoadContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plugins.BalloonProvider;
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider;
@@ -65,8 +67,9 @@ public class WorldGenerator extends ChunkGenerator {
 	
 	public WorldBlocks decayBlocks;
 	
-	public DataContext normalContext;
-	public DataContext floatingContext;
+	public NatureContext natureContext;
+	public RoadContext roadContext;
+	
 	public DataContext parkContext;
 	public DataContext highriseContext;
 	public DataContext constructionContext;
@@ -166,9 +169,19 @@ public class WorldGenerator extends ChunkGenerator {
 			structureLevel = shapeProvider.getStructureLevel();
 			streetLevel = shapeProvider.getStreetLevel();
 
+			// world style please
+			switch (worldStyle) {
+			case FLOATING:
+				natureContext = new FloatingNatureContext(this);
+				roadContext = new FloatingRoadContext(this);
+				break;
+			case NORMAL:
+				natureContext = new NatureContext(this);
+				roadContext = new RoadContext(this);
+				break;
+			}
+			
 			// various contexts
-			normalContext = new NatureContext_Normal(this);
-			floatingContext = new NatureContext_Floating(this);
 			parkContext = new ParkContext(this);
 			highriseContext = new HighriseContext(this);
 			constructionContext = new ConstructionContext(this);

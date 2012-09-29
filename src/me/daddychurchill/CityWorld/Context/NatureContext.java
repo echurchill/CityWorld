@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Context;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.BunkerLot;
+import me.daddychurchill.CityWorld.Plats.NatureLot;
 import me.daddychurchill.CityWorld.Plats.OldCastleLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.MineEntranceLot;
@@ -15,15 +16,19 @@ import me.daddychurchill.CityWorld.Support.HeightInfo.HeightState;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
-public class NatureContext_Normal extends RuralContext {
+public class NatureContext extends RuralContext {
 
-	public NatureContext_Normal(WorldGenerator generator) {
+	public NatureContext(WorldGenerator generator) {
 		super(generator);
 	}
 	
 	@Override
 	protected void initialize() {
 
+	}
+	
+	public PlatLot createNaturalLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
+		return new NatureLot(platmap, platmap.originX + x, platmap.originZ + z);
 	}
 	
 	private final static double oddsOfBunkers = 0.50;
@@ -97,7 +102,7 @@ public class NatureContext_Normal extends RuralContext {
 								// if not one of the innermost or the height isn't tall enough for bunkers
 								if (generator.settings.includeHouses)
 									if (!innermost || minHeight < BunkerLot.calcBunkerMinHeight(generator)) {
-										if (heights.isSortaFlat() && generator.shapeProvider.isIsolatedBuildingAt(originX + x, originZ + z))
+										if (heights.isSortaFlat() && generator.shapeProvider.isIsolatedConstructAt(originX + x, originZ + z, oddsOfIsolatedConstructs))
 											current = new MountainShackLot(platmap, originX + x, originZ + z);
 										break;
 									}
@@ -132,7 +137,7 @@ public class NatureContext_Normal extends RuralContext {
 
 		// what type of height are we talking about?
 		if (state != HeightState.BUILDING && 
-			generator.shapeProvider.isNotSoIsolatedBuildingAt(platmap.originX + x, platmap.originZ + z)) {
+			generator.shapeProvider.isIsolatedConstructAt(platmap.originX + x, platmap.originZ + z, oddsOfIsolatedConstructs / 2)) {
 			
 			// what to make?
 			switch (state) {
@@ -165,7 +170,8 @@ public class NatureContext_Normal extends RuralContext {
 				break;
 			case PEAK:
 				// Old castle
-				platmap.setLot(x, z, new OldCastleLot(platmap, platmap.originX + x, platmap.originZ + z));
+				if (generator.settings.includeBuildings)
+					platmap.setLot(x, z, new OldCastleLot(platmap, platmap.originX + x, platmap.originZ + z));
 				break;
 			default:
 				break;

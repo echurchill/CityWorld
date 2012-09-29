@@ -48,9 +48,6 @@ public abstract class PlatMap {
 	}
 	
 	protected abstract void populateLots(SupportChunk typicalChunk);
-	protected abstract PlatLot createNaturalLot(int x, int z);
-	protected abstract PlatLot createRoadLot(int x, int z, boolean roundaboutPart);
-	protected abstract PlatLot createRoundaboutStatueLot(int x, int z);
 
 	public Odds getOddsGenerator() {
 		return generator.shapeProvider.getMacroOddsGeneratorAt(originX, originZ);
@@ -166,7 +163,7 @@ public abstract class PlatMap {
 		if (current == null || current.style != LotStyle.NATURE) {
 		
 			// place nature
-			platLots[x][z] = createNaturalLot(x, z);
+			platLots[x][z] = generator.natureContext.createNaturalLot(generator, this, x, z);
 			naturalPlats++;
 		}
 	}
@@ -179,7 +176,7 @@ public abstract class PlatMap {
 			emptyLot(x, z);
 			
 			// place the lot
-			platLots[x][z] = createRoadLot(x, z, roundaboutPart);
+			platLots[x][z] = generator.roadContext.createRoadLot(generator, this, x, z, roundaboutPart);
 		}
 		return result;
 	}
@@ -206,6 +203,15 @@ public abstract class PlatMap {
 		
 		// empty this one out
 		platLots[x][z] = null;
+	}
+	
+	protected void populateRoads(SupportChunk typicalChunk) {
+		
+		// place the big four
+		placeIntersection(typicalChunk, RoadLot.PlatMapRoadInset - 1, RoadLot.PlatMapRoadInset - 1);
+		placeIntersection(typicalChunk, RoadLot.PlatMapRoadInset - 1, Width - RoadLot.PlatMapRoadInset);
+		placeIntersection(typicalChunk, Width - RoadLot.PlatMapRoadInset, RoadLot.PlatMapRoadInset - 1);
+		placeIntersection(typicalChunk, Width - RoadLot.PlatMapRoadInset, Width - RoadLot.PlatMapRoadInset);
 	}
 	
 	protected void validateRoads(SupportChunk typicalChunk) {
@@ -275,7 +281,7 @@ public abstract class PlatMap {
 					paveLot(x - 1, z + 1, true);
 					
 					paveLot(x    , z - 1, true);
-					setLot(x, z, createRoundaboutStatueLot(originX + x, originZ + z));
+					setLot(x, z, generator.roadContext.createRoundaboutStatueLot(generator, this, originX + x, originZ + z));
 					paveLot(x    , z + 1, true);
 			
 					paveLot(x + 1, z - 1, true);
@@ -402,7 +408,7 @@ public abstract class PlatMap {
 	}
 
 	private final static int maxPlaceTries = 16;
-	public boolean placeSpecificClip(WorldGenerator generator, Odds odds, Clipboard clip) {
+	public void placeSpecificClip(WorldGenerator generator, Odds odds, Clipboard clip) {
 		int chunksX = clip.chunkX;
 		int chunksZ = clip.chunkZ;
 		
@@ -426,24 +432,26 @@ public abstract class PlatMap {
 			// found one?
 			if (empty) {
 				
-				// what way are we facing?
-				Direction.Facing facing = odds.getFacing();
-				
-				// calculate the various template plats
-				for (int x = 0; x < chunksX; x++) {
-					for (int z = 0; z < chunksZ; z++) {
-						setLot(placeX + x, placeZ + z, new ClipboardLot(this, 
-																		originX + placeX, originZ + placeZ, 
-																		clip, facing, x, z));
-					}
-				}
-				
-				// all done
-				return true;
+				// put it there
+				placeSpecificClip(generator, odds, clip, placeX, placeZ);
 			}
 		}
+	}
+
+	public void placeSpecificClip(WorldGenerator generator, Odds odds, Clipboard clip, int placeX, int placeZ) {
+		int chunksX = clip.chunkX;
+		int chunksZ = clip.chunkZ;
 		
-		// I guess we failed
-		return false;
+		// what way are we facing?
+		Direction.Facing facing = odds.getFacing();
+		
+		// calculate the various template plats
+		for (int x = 0; x < chunksX; x++) {
+			for (int z = 0; z < chunksZ; z++) {
+				setLot(placeX + x, placeZ + z, new ClipboardLot(this, 
+																originX + placeX, originZ + placeZ, 
+																clip, facing, x, z));
+			}
+		}
 	}
 }

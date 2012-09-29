@@ -14,6 +14,11 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 
 	private File schematicsFolder;
 	
+	@Override
+	public void reportStatus(WorldGenerator generator) {
+		generator.reportMessage("[WorldEdit] Loaded " + schematicsLoaded + " schematic(s) for world " + generator.worldName);
+	}
+	
 	public PasteProvider_WorldEdit(WorldGenerator generator) throws Exception {
 		super();
 		

@@ -2,11 +2,6 @@ package me.daddychurchill.CityWorld.Maps;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.FloatingBlimpLot;
-import me.daddychurchill.CityWorld.Plats.FloatingNothingLot;
-import me.daddychurchill.CityWorld.Plats.FloatingRoadLot;
-import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plats.RoadLot;
-import me.daddychurchill.CityWorld.Plats.RoundaboutStatueLot;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class FloatingMap extends PlatMap {
@@ -20,7 +15,7 @@ public class FloatingMap extends PlatMap {
 	protected void populateLots(SupportChunk typicalChunk) {
 
 		// assume everything is natural for the moment
-		context = generator.floatingContext;
+		context = generator.natureContext;
 		context.populateMap(generator, this);
 		
 		// place and validate the roads
@@ -66,28 +61,4 @@ public class FloatingMap extends PlatMap {
 			return false;
 	}
 
-	@Override
-	protected PlatLot createNaturalLot(int x, int z) {
-		return new FloatingNothingLot(this, originX + x, originZ + z);
-	}
-
-	@Override
-	protected PlatLot createRoadLot(int x, int z, boolean roundaboutPart) {
-		return new FloatingRoadLot(this, originX + x, originZ + z, generator.connectedKeyForPavedRoads, roundaboutPart);
-	}
-
-	@Override
-	protected PlatLot createRoundaboutStatueLot(int x, int z) {
-		return new RoundaboutStatueLot(this, originX + x, originZ + z);
-		//return new FloatingRoundaboutCenterLot(this, originX + x, originZ + z);
-	}
-
-	protected void populateRoads(SupportChunk typicalChunk) {
-		
-		// place the big four
-		placeIntersection(typicalChunk, RoadLot.PlatMapRoadInset - 1, RoadLot.PlatMapRoadInset - 1);
-		placeIntersection(typicalChunk, RoadLot.PlatMapRoadInset - 1, Width - RoadLot.PlatMapRoadInset);
-		placeIntersection(typicalChunk, Width - RoadLot.PlatMapRoadInset, RoadLot.PlatMapRoadInset - 1);
-		placeIntersection(typicalChunk, Width - RoadLot.PlatMapRoadInset, Width - RoadLot.PlatMapRoadInset);
-	}
 }

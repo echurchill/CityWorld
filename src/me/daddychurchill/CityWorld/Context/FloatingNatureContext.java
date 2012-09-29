@@ -3,21 +3,27 @@ package me.daddychurchill.CityWorld.Context;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.FloatingHouseLot;
+import me.daddychurchill.CityWorld.Plats.FloatingNothingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
-public class NatureContext_Floating extends RuralContext {
+public class FloatingNatureContext extends NatureContext {
 
-	public NatureContext_Floating(WorldGenerator generator) {
+	public FloatingNatureContext(WorldGenerator generator) {
 		super(generator);
 	}
 	
 	@Override
 	protected void initialize() {
 
+	}
+
+	@Override
+	public PlatLot createNaturalLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
+		return new FloatingNothingLot(platmap, platmap.originX + x, platmap.originZ + z);
 	}
 
 	@Override
@@ -54,7 +60,7 @@ public class NatureContext_Floating extends RuralContext {
 							
 							// floating building?
 							if (generator.settings.includeHouses) {
-								if (shapeProvider.isIsolatedBuildingAt(originX + x, originZ + z))
+								if (shapeProvider.isIsolatedConstructAt(originX + x, originZ + z, oddsOfIsolatedConstructs))
 									current = new FloatingHouseLot(platmap, originX + x, originZ + z, 
 											shapeProvider.getConstuctMin() + odds.getRandomInt(shapeProvider.getConstuctRange()));
 							}

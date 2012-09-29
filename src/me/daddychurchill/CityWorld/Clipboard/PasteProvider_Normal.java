@@ -14,4 +14,9 @@ public class PasteProvider_Normal extends PasteProvider {
 		return null;
 	}
 
+	@Override
+	public void reportStatus(WorldGenerator generator) {
+
+	}
+	
 }

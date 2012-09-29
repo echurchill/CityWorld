@@ -28,6 +28,7 @@ public abstract class DataContext {
 	public static double oddsAlwaysGoingToHappen = 	1.0; // happens always
 	
 	public double oddsOfIsolatedLots = oddsExtremelyLikely; // isolated buildings 1/n of the time
+	public double oddsOfIsolatedConstructs = oddsSomewhatLikely;
 	
 	public double oddsOfParks = oddsVeryLikely; // parks show up 1/n of the time
 	
@@ -135,5 +136,19 @@ public abstract class DataContext {
 				platmap.placeSpecificClip(generator, odds, clip);
 			}
 		}
+	}
+
+	protected Clipboard getSingleSchematicLot(WorldGenerator generator, PlatMap platmap, Odds odds, int placeX, int placeZ) {
+
+		// for each schematic
+		for (Clipboard clip: clips) {
+
+			// that succeeds the OddsOfAppearance
+			if (clip.chunkX == 1 && clip.chunkZ == 1 && odds.playOdds(clip.oddsOfAppearance))
+				return clip;
+		}
+		
+		// assume failure then
+		return null;
 	}
 }

@@ -26,7 +26,7 @@ public class ClipboardLot extends IsolatedLot {
 			int lotX, int lotZ) {
 		super(platmap, chunkX, chunkZ);
 		
-		style = LotStyle.ROUNDABOUT;
+		style = LotStyle.STRUCTURE;
 		this.clip = clip;
 		this.facing = facing;
 		this.lotX = lotX;
@@ -35,7 +35,7 @@ public class ClipboardLot extends IsolatedLot {
 
 	@Override
 	public boolean isPlaceableAt(WorldGenerator generator, int chunkX, int chunkZ) {
-		return generator.settings.inRoadRange(chunkX, chunkZ);
+		return generator.settings.inCityRange(chunkX, chunkZ);
 	}
 	
 	@Override
