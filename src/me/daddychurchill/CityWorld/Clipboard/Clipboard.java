@@ -42,8 +42,8 @@ public abstract class Clipboard {
 		// finish figuring things out
 		blockCount = sizeX * sizeY * sizeZ;
 		
-		chunkX = (sizeX + SupportChunk.chunksBlockWidth) / SupportChunk.chunksBlockWidth;
-		chunkZ = (sizeZ + SupportChunk.chunksBlockWidth) / SupportChunk.chunksBlockWidth;
+		chunkX = (sizeX + SupportChunk.chunksBlockWidth - 1) / SupportChunk.chunksBlockWidth;
+		chunkZ = (sizeZ + SupportChunk.chunksBlockWidth - 1) / SupportChunk.chunksBlockWidth;
 		
 		int leftoverX = chunkX * SupportChunk.chunksBlockWidth - sizeX;
 		int leftoverZ = chunkZ * SupportChunk.chunksBlockWidth - sizeZ;

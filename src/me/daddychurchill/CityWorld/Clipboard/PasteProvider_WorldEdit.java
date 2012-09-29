@@ -77,13 +77,18 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 				Clipboard clip = new Clipboard_WorldEdit(generator, schematicFile);
 				
 				// too big?
-				if (clip.chunkX > maxX || clip.chunkZ > maxZ) 
-					throw new Exception("Schematic too large, max size = " + 
+				if (clip.chunkX > maxX || clip.chunkZ > maxZ) {
+					generator.reportMessage("[WorldEdit] Schematic " + schematicFile.getName() + 
+							" too large, max size = " + 
 							maxX * SupportChunk.chunksBlockWidth + " by " + 
-							maxZ * SupportChunk.chunksBlockWidth);
+							maxZ * SupportChunk.chunksBlockWidth + " it is = " + 
+							clip.sizeX + " by " + clip.sizeZ + ", skipped");
+					
+				} else {
 				
-				// add the clip to the result
-				clips.put(clip);
+					// add the clip to the result
+					clips.put(clip);
+				}
 				
 //				generator.reportMessage("[WorldEdit] Schematic " + schematicFile.getName() + " loaded");
 			} catch (Exception e) {
