@@ -14,7 +14,7 @@ public class RadioTowerLot extends ConstructLot {
 
 	private boolean building;
 	
-	private final static double oddsOfBuilding = 0.90;
+	private final static double oddsOfBuilding = DataContext.oddsExtremelyLikely;
 	public RadioTowerLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		building = chunkOdds.playOdds(oddsOfBuilding);

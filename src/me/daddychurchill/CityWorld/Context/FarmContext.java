@@ -23,7 +23,7 @@ public class FarmContext extends RuralContext {
 		schematicFamily = SchematicFamily.FARM;
 	}
 	
-	private final static double oddsOfFarmHouse = 0.25;
+	private final static double oddsOfFarmHouse = DataContext.oddsSomewhatUnlikely;
 	
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {

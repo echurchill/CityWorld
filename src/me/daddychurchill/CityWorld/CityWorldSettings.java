@@ -1,5 +1,7 @@
 package me.daddychurchill.CityWorld;
 
+import me.daddychurchill.CityWorld.Context.DataContext;
+
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.Vector;
@@ -315,13 +317,13 @@ public class CityWorldSettings {
 		return !checkCityRange || centerPointOfChunkRadius.distance(new Vector(x, 0, z)) <= cityChunkRadius;
 	}
 	
-	public double oddsOfTreasureInSewers = 0.50;
-	public double oddsOfTreasureInBunkers = 0.50;
-	public double oddsOfTreasureInMines = 0.50;
-	public double oddsOfTreasureInMineAlcove = 0.33;
-	public double oddsOfSpawnerInSewers = 0.20;
-	public double oddsOfSpawnerInBunkers = 0.20;
-	public double oddsOfSpawnerInMines = 0.20;
-	public double oddsOfSpawnerInMineAlcove = 0.33;
-	public double oddsOfAlcoveInMines = 0.66;
+	public double oddsOfTreasureInSewers = DataContext.oddsLikely;
+	public double oddsOfTreasureInBunkers = DataContext.oddsLikely;
+	public double oddsOfTreasureInMines = DataContext.oddsLikely;
+	public double oddsOfTreasureInMineAlcove = DataContext.oddsSomewhatLikely;
+	public double oddsOfSpawnerInSewers = DataContext.oddsSomewhatUnlikely;
+	public double oddsOfSpawnerInBunkers = DataContext.oddsSomewhatUnlikely;
+	public double oddsOfSpawnerInMines = DataContext.oddsSomewhatUnlikely;
+	public double oddsOfSpawnerInMineAlcove = DataContext.oddsSomewhatLikely;
+	public double oddsOfAlcoveInMines = DataContext.oddsVeryLikely;
 }

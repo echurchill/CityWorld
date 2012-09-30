@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins.Tekkit;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider_Normal;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -13,7 +14,7 @@ public class FoliageProvider_Tekkit extends FoliageProvider_Normal {
 		super(odds);
 	}
 	
-	private final static double oddsOfRubberSapling = 0.01;
+	private final static double oddsOfRubberSapling = DataContext.oddsNearlyNeverHappens;
 	
 	@Override
 	public boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, LigneousType ligneousType) {

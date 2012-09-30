@@ -348,7 +348,7 @@ public class WorldBlocks extends SupportChunk {
 		disperseCircle(cx, cz, r, cy, debris);
 	}
 	
-	private final static double oddsOfDebris = 0.80;
+	private final static double oddsOfDebris = DataContext.oddsPrettyLikely;
 	
 	private void sprinkleDebris(int cx, int cy, int cz, int radius, Stack<debrisItem> debris) {
 

@@ -25,8 +25,8 @@ public class HouseProvider extends Provider {
 		return new HouseProvider();
 	}
 	
-	private final static double oddsOfFurnace = 0.25;
-	private final static double oddsOfCraftingTable = 0.25;
+	private final static double oddsOfFurnace = DataContext.oddsSomewhatUnlikely;
+	private final static double oddsOfCraftingTable = DataContext.oddsSomewhatUnlikely;
 	
 	public void generateShed(WorldGenerator generator, RealChunk chunk, DataContext context, Odds odds, int x, int y, int z, int radius) {
 		int x1 = x - radius;

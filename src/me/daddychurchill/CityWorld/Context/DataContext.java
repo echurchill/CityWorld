@@ -12,20 +12,22 @@ import me.daddychurchill.CityWorld.Support.Odds;
 public abstract class DataContext {
 	
 	// see PlatMaps.xlsx for more info on this Fibonacci variant
-	public static double oddsNeverGoingToHappen = 	0.0; // happens never
-	public static double oddsEffinUnlikely = 		1.0 / 89.00;
-	public static double oddsExtremelyUnlikely =	1.0 / 55.00;
-	public static double oddsVeryUnlikely = 		1.0 / 34.00;
-	public static double oddsPrettyUnlikely = 		1.0 / 21.00;
-	public static double oddsUnlikely = 			1.0 / 13.00;
-	public static double oddsSomewhatUnlikely = 	1.0 /  8.00; 
-	public static double oddsSomewhatLikely = 		1.0 /  5.00; 
-	public static double oddsLikely = 				1.0 /  3.00;
-	public static double oddsVeryLikely = 			1.0 /  2.00;
-	public static double oddsPrettyLikely = 		2.0 /  3.00;
-	public static double oddsExtremelyLikely = 		3.0 /  4.00;
-	public static double oddsEffinLikely = 			5.0 /  6.00;
-	public static double oddsAlwaysGoingToHappen = 	1.0; // happens always
+	public static double oddsNeverGoingToHappen = 	 0.0; 		  //   0.00%
+	public static double oddsNearlyNeverHappens =	 1.0 / 89.00; //   1.12%
+	public static double oddsEffinUnlikely = 		 1.0 / 55.00; //   1.82%
+	public static double oddsExtremelyUnlikely =	 1.0 / 34.00; //   2.94%
+	public static double oddsVeryUnlikely = 		 1.0 / 21.00; //   4.76%
+	public static double oddsPrettyUnlikely = 		 1.0 / 13.00; //   7.69%
+	public static double oddsUnlikely = 			 1.0 /  8.00; //  12.50%
+	public static double oddsSomewhatUnlikely =		 1.0 /  5.00; //  20.00%
+	public static double oddsSomewhatLikely = 		 1.0 /  3.00; //  33.33%
+	public static double oddsLikely = 				 1.0 /  2.00; //  50.00%
+	public static double oddsVeryLikely = 			 2.0 /  3.00; //  66.67%
+	public static double oddsPrettyLikely = 		 4.0 /  5.00; //  80.00%
+	public static double oddsExtremelyLikely = 		 7.0 /  8.00; //  87.50%
+	public static double oddsEffinLikely = 			12.0 / 13.00; //  92.31%
+	public static double oddsNearlyAlwaysHappens = 	20.0 / 21.00; //  95.24%
+	public static double oddsAlwaysGoingToHappen = 	 1.0;         // 100.00%
 	
 	public double oddsOfIsolatedLots = oddsExtremelyLikely; // isolated buildings 1/n of the time
 	public double oddsOfIsolatedConstructs = oddsSomewhatLikely;
@@ -124,6 +126,8 @@ public abstract class DataContext {
 	public abstract void populateMap(WorldGenerator generator, PlatMap platmap);
 	
 	protected void populateWithSchematics(WorldGenerator generator, PlatMap platmap) {
+//		generator.reportMessage("Populating " + this + " at " + platmap.originX * SupportChunk.chunksBlockWidth + ", " +
+//																platmap.originZ * SupportChunk.chunksBlockWidth);
 
 		// grab platmap's random
 		Odds odds = platmap.getOddsGenerator();

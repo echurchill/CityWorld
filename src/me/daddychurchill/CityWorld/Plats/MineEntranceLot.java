@@ -93,8 +93,8 @@ public class MineEntranceLot extends ConstructLot {
 		generateSurface(generator, chunk, false);
 	}
 	
-	private final static double oddsOfStairs = 0.70;
-	private final static double oddsOfLanding = 0.70;
+	private final static double oddsOfStairs = DataContext.oddsVeryLikely;
+	private final static double oddsOfLanding = DataContext.oddsVeryLikely;
 	
 	private boolean generateStairs(WorldGenerator generator, RealChunk chunk, int x, int z, 
 			Direction.Stair direction, Direction.Stair underdirection) {

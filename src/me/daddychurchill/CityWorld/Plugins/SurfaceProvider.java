@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
@@ -16,7 +14,6 @@ public abstract class SurfaceProvider extends Provider {
 	}
 
 	
-	protected final static double oddsOfDarkFlora = 0.50;
 	protected final static double treeOdds = 0.90;
 	protected final static double foliageOdds = 0.40;
 	
@@ -32,10 +29,6 @@ public abstract class SurfaceProvider extends Provider {
 				generateSurfacePoint(generator, lot, chunk, foliage, x, blockYs.getPerciseY(x, z), z, includeTrees);
 			}
 		}
-	}
-	
-	protected boolean likelyFlora(WorldGenerator generator, Random random) {
-		return !generator.settings.darkEnvironment || random.nextDouble() < oddsOfDarkFlora;
 	}
 	
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)

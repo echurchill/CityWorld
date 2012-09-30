@@ -39,8 +39,8 @@ public class IndustrialContext extends UrbanContext {
 		maximumFloorsBelow = 1;
 	}
 	
-	private final static double oddsOfStorageLot = 0.90;
-	private final static double oddsOfWarehouse = 0.75;
+	private final static double oddsOfStorageLot = DataContext.oddsExtremelyLikely;
+	private final static double oddsOfWarehouse = DataContext.oddsVeryLikely;
 	
 	@Override
 	protected PlatLot getPark(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {

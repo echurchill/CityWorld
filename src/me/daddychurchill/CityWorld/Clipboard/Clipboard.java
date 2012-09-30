@@ -5,6 +5,7 @@ import java.io.File;
 import org.bukkit.Material;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
@@ -12,7 +13,7 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 public abstract class Clipboard {
 
 	public String name;
-	public double oddsOfAppearance = 1.0;//TODO 0.10;
+	public double oddsOfAppearance = DataContext.oddsSomewhatUnlikely;
 	public int groundLevelY = 0;
 
 	public int sizeX;

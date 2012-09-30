@@ -1,5 +1,7 @@
 package me.daddychurchill.CityWorld.Support;
 
+import me.daddychurchill.CityWorld.Context.DataContext;
+
 import org.bukkit.Material;
 
 public abstract class MaterialFactory {
@@ -9,7 +11,7 @@ public abstract class MaterialFactory {
 	protected Boolean decayed;
 	protected Odds odds;
 	
-	protected double oddsOfDecay = 0.30;
+	protected double oddsOfDecay = DataContext.oddsSomewhatLikely;
 	protected byte airId = (byte) Material.AIR.getId();
 	
 	public MaterialFactory(Odds odds, boolean decayed) {

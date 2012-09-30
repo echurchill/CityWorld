@@ -164,7 +164,7 @@ public class FloatingRoadLot extends RoadLot {
 		}
 	}
 	
-	private final static double oddsOfballoons = 0.40;
+	private final static double oddsOfballoons = DataContext.oddsSomewhatLikely;
 
 	@Override
 	protected boolean generateLightPost(WorldGenerator generator,

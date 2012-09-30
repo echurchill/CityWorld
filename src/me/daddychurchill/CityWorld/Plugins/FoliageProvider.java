@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.Tekkit.FoliageProvider_Tekkit;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -16,9 +17,7 @@ public abstract class FoliageProvider extends Provider {
     public enum LigneousType {SHORT_OAK, SHORT_PINE, SHORT_BIRCH, OAK, PINE, BIRCH, TALL_OAK, TALL_PINE, TALL_BIRCH};
 	public enum HerbaceousType {FLOWER_RED, FLOWER_YELLOW, GRASS, FERN, CACTUS, COVER};
 	
-	protected final static double oddsOfDarkFlora = 0.50;
-	protected final static double treeOdds = 0.90;
-	protected final static double foliageOdds = 0.40;
+	protected final static double oddsOfDarkFlora = DataContext.oddsLikely;
 	
 	public abstract boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, LigneousType treeType);
 	public abstract boolean generateFlora(WorldGenerator generator, RealChunk chunk, int x, int y, int z, HerbaceousType herbaceousType);

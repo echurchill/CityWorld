@@ -89,7 +89,7 @@ public abstract class PlatMap {
 	}
 	
 	
-	private final static double oddsOfCentralPark = 0.15;
+	private final static double oddsOfCentralPark = DataContext.oddsUnlikely;
 	protected DataContext getContext() {
 		
 		// how natural is this platmap?
@@ -432,8 +432,16 @@ public abstract class PlatMap {
 			// found one?
 			if (empty) {
 				
+//				generator.reportMessage("Placed " + clip.name + " at " + 
+//						((placeX + originX) * SupportChunk.chunksBlockWidth) + 
+//						", " + 
+//						((placeZ + originZ) * SupportChunk.chunksBlockWidth));
+
 				// put it there
 				placeSpecificClip(generator, odds, clip, placeX, placeZ);
+				
+				// all done
+				return;
 			}
 		}
 	}
@@ -449,7 +457,7 @@ public abstract class PlatMap {
 		for (int x = 0; x < chunksX; x++) {
 			for (int z = 0; z < chunksZ; z++) {
 				setLot(placeX + x, placeZ + z, new ClipboardLot(this, 
-																originX + placeX, originZ + placeZ, 
+																originX + placeX + x, originZ + placeZ + z, 
 																clip, facing, x, z));
 			}
 		}

@@ -31,7 +31,7 @@ public class NatureContext extends RuralContext {
 		return new NatureLot(platmap, platmap.originX + x, platmap.originZ + z);
 	}
 	
-	private final static double oddsOfBunkers = 0.50;
+	private final static double oddsOfBunkers = DataContext.oddsLikely;
 
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {

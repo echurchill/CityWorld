@@ -23,7 +23,7 @@ public class FarmLot extends ConnectedLot {
 	
 	private boolean directionNorthSouth;
 	private Material cropType;
-	private double oddsOfCrop;
+	private double oddsOfCrop = DataContext.oddsExtremelyLikely;
 
 	public FarmLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
@@ -45,7 +45,8 @@ public class FarmLot extends ConnectedLot {
 				cropType = getNormalCrop();
 
 		// decayed world?
-		oddsOfCrop = platmap.generator.settings.includeDecayedNature ? 0.20 : 0.90;
+		if (platmap.generator.settings.includeDecayedNature)
+			oddsOfCrop = DataContext.oddsSomewhatUnlikely;
 	}
 
 	@Override

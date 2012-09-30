@@ -1218,7 +1218,7 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 	
-	private final static double oddsOfDecayedSign = 0.90;
+	private final static double oddsOfDecayedSign = DataContext.oddsExtremelyLikely;
 	protected void generateStreetSign(WorldGenerator generator, RealChunk chunk, int sidewalkLevel, int x, int z) {
 		int cx = chunk.chunkX;
 		int cz = chunk.chunkZ;
