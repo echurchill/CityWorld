@@ -1,9 +1,14 @@
 package me.daddychurchill.CityWorld;
 
-import me.daddychurchill.CityWorld.Context.DataContext;
+import java.util.HashMap;
 
+import me.daddychurchill.CityWorld.Context.DataContext;
+import me.daddychurchill.CityWorld.Support.Odds;
+
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 public class CityWorldSettings {
@@ -61,6 +66,16 @@ public class CityWorldSettings {
 	public boolean checkRoadRange = false;
 	public int cityChunkRadius = Integer.MAX_VALUE;
 	public boolean checkCityRange = false;
+	
+	public double oddsOfTreasureInSewers = DataContext.oddsLikely;
+	public double oddsOfTreasureInBunkers = DataContext.oddsLikely;
+	public double oddsOfTreasureInMines = DataContext.oddsLikely;
+	public double oddsOfTreasureInMineAlcove = DataContext.oddsSomewhatLikely;
+	public double oddsOfSpawnerInSewers = DataContext.oddsSomewhatUnlikely;
+	public double oddsOfSpawnerInBunkers = DataContext.oddsSomewhatUnlikely;
+	public double oddsOfSpawnerInMines = DataContext.oddsSomewhatUnlikely;
+	public double oddsOfSpawnerInMineAlcove = DataContext.oddsSomewhatLikely;
+	public double oddsOfAlcoveInMines = DataContext.oddsVeryLikely;
 	
 	private final static String tagCenterPointOfChunkRadiusX = "CenterPointOfChunkRadiusX";
 	private final static String tagCenterPointOfChunkRadiusZ = "CenterPointOfChunkRadiusZ";
@@ -144,6 +159,8 @@ public class CityWorldSettings {
 		
 		// did we get a section?
 		if (section != null) {
+			
+			// create items stacks
 			
 			// set up the defaults if needed
 			section.addDefault(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
@@ -317,13 +334,40 @@ public class CityWorldSettings {
 		return !checkCityRange || centerPointOfChunkRadius.distance(new Vector(x, 0, z)) <= cityChunkRadius;
 	}
 	
-	public double oddsOfTreasureInSewers = DataContext.oddsLikely;
-	public double oddsOfTreasureInBunkers = DataContext.oddsLikely;
-	public double oddsOfTreasureInMines = DataContext.oddsLikely;
-	public double oddsOfTreasureInMineAlcove = DataContext.oddsSomewhatLikely;
-	public double oddsOfSpawnerInSewers = DataContext.oddsSomewhatUnlikely;
-	public double oddsOfSpawnerInBunkers = DataContext.oddsSomewhatUnlikely;
-	public double oddsOfSpawnerInMines = DataContext.oddsSomewhatUnlikely;
-	public double oddsOfSpawnerInMineAlcove = DataContext.oddsSomewhatLikely;
-	public double oddsOfAlcoveInMines = DataContext.oddsVeryLikely;
+	private HashMap<String, ItemStack[]> materials;
+	
+	public void addMaterials(String name, Material low, Material high) {
+		
+		// build the collection
+		int base = low.getId();
+		int count = high.getId() - base;
+		ItemStack[] collection = new ItemStack[count];
+		for (int i = 0; i < count; i++) 
+			collection[i] = new ItemStack(base + i);
+		
+		// remember it
+		materials.put(name, collection);
+	}
+	
+	public void addMaterials(String name, Material ... items) {
+		
+		// build the collection
+		int count = items.length;
+		ItemStack[] collection = new ItemStack[count];
+		for (int i = 0; i < count; i++) 
+			collection[i] = new ItemStack(items[i]);
+		
+		// remember it
+		materials.put(name, collection);
+	}
+	
+	public Material getRandomMaterial(String name, Odds odds) {
+		ItemStack[] collection = materials.get(name);
+		return collection == null ? Material.AIR : collection[odds.getRandomInt(collection.length)].getType();
+	}
+
+	public Byte getRandomTypeId(String name, Odds odds) {
+		ItemStack[] collection = materials.get(name);
+		return (byte) ((collection == null ? Material.AIR : collection[odds.getRandomInt(collection.length)].getType()).getId());
+	}
 }

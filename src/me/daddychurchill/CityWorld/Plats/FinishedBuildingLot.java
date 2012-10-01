@@ -310,6 +310,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 	}
 	
+	//TODO make the material settable by users
 	protected static Material pickWallMaterial(Odds odds) {
 		switch (odds.getRandomInt(15)) {
 		case 1:

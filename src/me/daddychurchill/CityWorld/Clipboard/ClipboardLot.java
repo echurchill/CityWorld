@@ -99,6 +99,10 @@ public class ClipboardLot extends IsolatedLot {
 		chunk.setBlocks(edgeX2, 16, edgeY2, 0, 16, clip.edgeType, clip.edgeData);
 		chunk.setBlocks(edgeX1, edgeX2, edgeY2, 0, edgeZ1, clip.edgeType, clip.edgeData);
 		chunk.setBlocks(edgeX1, edgeX2, edgeY2, edgeZ2, 16, clip.edgeType, clip.edgeData);
+//		chunk.setBlocks(0, edgeX1, edgeY2, 0, 16, Material.IRON_BLOCK);
+//		chunk.setBlocks(edgeX2, 16, edgeY2 + 2, 0, 16, Material.GOLD_BLOCK);
+//		chunk.setBlocks(edgeX1, edgeX2, edgeY2 + 4, 0, edgeZ1, Material.LAPIS_BLOCK);
+//		chunk.setBlocks(edgeX1, edgeX2, edgeY2 + 6, edgeZ2, 16, Material.EMERALD_BLOCK);
 		
 		// mr. creeper says: that is a nice building you have there, too bad something bad has to happen to it
 		if (generator.settings.includeDecayedBuildings)
@@ -114,7 +118,11 @@ public class ClipboardLot extends IsolatedLot {
 			edgeY2 = edgeY1 + clip.groundLevelY - 1;
 			
 			// north side
-			if (lotZ == 0) {
+			if (clip.chunkZ == 1) {
+				edgeZ1 = clip.insetNorth;
+				edgeZ2 = SupportChunk.chunksBlockWidth - clip.insetSouth;
+
+			} else if (lotZ == 0) {
 				edgeZ1 = clip.insetNorth;
 				edgeZ2 = SupportChunk.chunksBlockWidth;
 				
@@ -130,7 +138,11 @@ public class ClipboardLot extends IsolatedLot {
 			}
 	
 			// west side
-			if (lotX == 0) {
+			if (clip.chunkX == 1) {
+				edgeX1 = clip.insetWest;
+				edgeX2 = SupportChunk.chunksBlockWidth - clip.insetEast;
+
+			} else if (lotX == 0) {
 				edgeX1 = clip.insetWest;
 				edgeX2 = SupportChunk.chunksBlockWidth;
 				

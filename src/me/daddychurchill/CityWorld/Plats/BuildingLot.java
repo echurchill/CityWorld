@@ -357,7 +357,7 @@ public abstract class BuildingLot extends ConnectedLot {
 			if (!heights.toSouth())
 				byteChunk.setBlocks(insetNS + 1, byteChunk.width - insetNS - 1, y1, y2, byteChunk.width - insetEW - 1, byteChunk.width - insetEW, materialId, glassId, windowsWE);
 			
-//			// interior walls
+//TODO		// interior walls
 //			if (!heights.toWest()) {
 //				byteChunk.setBlocks(insetNS,  insetNS + 1, y1, y2, insetEW + 1, byteChunk.width - insetEW - 1, materialId, glassId, windowsNS);
 //			}
@@ -600,10 +600,6 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 
-//	protected boolean stairsHere(Surroundings neighbors, double throwOfDice) {
-//		return (throwOfDice < 1.0 - ((double) neighbors.getNeighborCount() / 4.0));
-//	}
-	
 	//TODO These might go too far by one
 	static class StairAt {
 		public int X = 0;
