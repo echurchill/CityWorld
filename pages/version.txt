@@ -1,3 +1,17 @@
+=== Index of useful info ===
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/installation/|Installation...]] Start Here!
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/options/|Options...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/styles/|Styles...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/schematics/|Schematics...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/commands/|Commands...]]
+* Version info... (you are here)
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/tools/|Tools I used to make this...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/copyright/|Copyright...]]
+
+----
+v2.00
+
+
 v1.32
 * Now compiled for 1.6 again
 

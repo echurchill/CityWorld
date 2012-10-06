@@ -1,16 +1,34 @@
+**CityWorld generator for Minecraft/Bukkit**
+
+=== Index of useful info ===
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/installation/|Installation...]] Start Here!
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/options/|Options...]]
+* Styles... (you are here)
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/schematics/|Schematics...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/commands/|Commands...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/version/|Version info...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/tools/|Tools I used to make this...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/copyright/|Copyright...]]
+
+----
 == World Styles
 
-The CityWorld plugin supports multiple city generation styles. Unlike most configuration options, which are defined in CityWorld's config.yml, generation styles are defined at the creation time of the world. For more information on how to do this please refer to the [[http://dev.bukkit.org/server-mods/cityworld/pages/installation/|installation]] instructions.
+The CityWorld plugin supports multiple city generation styles. 
+Unlike most configuration options, which are defined in CityWorld's config.yml, generation styles are defined at the creation time of the world. 
+For more information on how to do this please refer to the [[http://dev.bukkit.org/server-mods/cityworld/pages/installation/|installation]] instructions.
 
 * Normal (if you don't give a style this is what you get)
 
 {{http://dev.bukkit.org/media/images/42/720/2012-07-04_11.31.52.jpg|CityWorld}}
 
-A world of mountains and cities. Tons of ores underground along with abandoned mine shafts and underground wonders.
+A world of mountains and cities. 
+Tons of ores underground along with abandoned mine shafts and underground wonders.
 
 * ##**Floating**##
 
 {{http://dev.bukkit.org/media/images/44/623/2012-08-18_11.10.43.jpg|Floating}}
 
-Flying high above nature, you need to be very careful where you step. Its a long way down. But really you don't want to go down there anyway as there isn't any ore or fun things to do except run from monsters.
+Flying high above nature, you need to be very careful where you step. 
+Its a long way down. 
+But really you don't want to go down there anyway as there isn't any ore or fun things to do except run from monsters.
 

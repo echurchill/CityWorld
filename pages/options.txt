@@ -1,3 +1,18 @@
+**CityWorld generator for Minecraft/Bukkit**
+
+=== Index of useful info ===
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/installation/|Installation...]] Start Here!
+* Options... (you are here)
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/styles/|Styles...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/schematics/|Schematics...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/commands/|Commands...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/version/|Version info...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/tools/|Tools I used to make this...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/copyright/|Copyright...]]
+
+----
+== Options
+
 A Config.yml file is generated when CityWorld first runs and each time it is told to create a new world. 
 These options only affect "new generation", changing them after a world has been generated will produce some odd results. 
 

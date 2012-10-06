@@ -1,5 +1,22 @@
+**CityWorld generator for Minecraft/Bukkit**
+
+=== Index of useful info ===
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/installation/|Installation...]] Start Here!
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/options/|Options...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/styles/|Styles...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/schematics/|Schematics...]]
+* Commands... (you are here)
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/version/|Version info...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/tools/|Tools I used to make this...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/copyright/|Copyright...]]
+
+----
+== Commands
+
 <<color red>>**Please note:**<</color>>
-For the best experience with CityWorld, I **STRONGLY** recommend you use a multi-world manager plugin instead of using the following commands. For more information about multi-world managers plugins: check out the [[http://dev.bukkit.org/server-mods/cityworld/pages/installation-instructions/|installation notes.]]
+For the best experience with CityWorld, I **STRONGLY** recommend you use a multi-world manager plugin instead of using the following commands. 
+There are a number of world creation/management gotchas that are not handled by CityWorld and that is what the various multi-world plugins are for. 
+For more information about multi-world managers plugins: check out the [[http://dev.bukkit.org/server-mods/cityworld/pages/installation-instructions/|installation notes.]]
 
 ----
 If you just want to explore CityWorld and don't have a multi-world manager plugin installed then I have included a few commands for server operators.
@@ -7,14 +24,16 @@ If you just want to explore CityWorld and don't have a multi-world manager plugi
 To perform a command just type the letter **"T"** and enter the following...
 
 ##**/CityWorld** [Leave] [Normal | Nether | The_End] [Floating]##
-If you leave out the ##Leave## you will be transported to CityWorld. Adding the ##Leave## will transport you to Minecraft/Bukkit's default world, which is normally the world called "world".
+If you leave out the ##Leave## you will be transported to CityWorld. 
+Adding the ##Leave## will transport you to Minecraft/Bukkit's default world, which is normally the world called "world".
 
 ##**/CityChunk** [Regen] [Clean] [ChunkRadius]##
 *##Regen## will force the chunk to regenerate. 
 *##Clean## will remove any "floating" items. 
 *Providing ##ChunkRadius## will cause the operation to effect not just the current chunk but surrounding ones as well, this is an integer. For example, specifying 3 as ##ChunkRadius## will perform the operation on an area of 7x7 chunks centered on your current chunk.
 
-You can disable the commands via permissions. Remember they all default to ##op##, so if you want to play with the commands you will need to make sure you have added yourself to the ##ops.txt## file.
+You can disable the commands via permissions. 
+Remember they all default to ##op##, so if you want to play with the commands you will need to make sure you have added yourself to the ##ops.txt## file.
 |=Permissions|=Description|=Default|
 |cityworld.command|allows users to enter and leave the default CityWorld|op|
 |cityworld.create|allows users to create the default CityWorld|op|

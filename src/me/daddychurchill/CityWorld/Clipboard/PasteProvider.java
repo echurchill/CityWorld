@@ -5,7 +5,7 @@ import me.daddychurchill.CityWorld.Plugins.Provider;
 
 public abstract class PasteProvider extends Provider {
 
-	public enum SchematicFamily {ART, PARK, HIGHRISE, MIDRISE, LOWRISE, INDUSTRIAL, MUNICIPAL, CONSTRUCTION, NEIGHBORHOOD, FARM, NATURE};
+	public enum SchematicFamily {ROUNDABOUT, PARK, HIGHRISE, MIDRISE, LOWRISE, INDUSTRIAL, MUNICIPAL, CONSTRUCTION, NEIGHBORHOOD, FARM, NATURE};
 	
 	public PasteProvider() {
 		super();

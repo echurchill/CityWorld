@@ -1,3 +1,18 @@
+**CityWorld generator for Minecraft/Bukkit**
+
+=== Index of useful info ===
+* Installation... (you are here)
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/options/|Options...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/styles/|Styles...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/schematics/|Schematics...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/commands/|Commands...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/version/|Version info...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/tools/|Tools I used to make this...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/copyright/|Copyright...]]
+
+----
+== Installation
+
 This is purely a world generator. If you need general purpose teleportation or world management support there are plenty of plugins that will do that for you. The Bukkit plugin ecosystem does not need more of those puppies. This is JUST A WORLD GENERATOR. :-)
 
 To install it you will need to do three things...
@@ -39,12 +54,11 @@ To create a floating world
 To teleport to a world...
 * ##/dd teleport //cityname//##
 
-To create a world...
-* ##/dd create //cityname// e:NORMAL g:CityWorld##
-[[https://github.com/grandwazir/DimensionDoor/wiki/instructions|(for more info on creation)]]
-
-To create a floating world
-* ##/dd create //cityname// e:NORMAL g:CityWorld:Floating##
+Creating worlds with DimensionDoor is more like a conversation than simply typing arguments on the command line.
+To start the conversation simply type the following into the command console...
+* ##/dd create##
+You will then be prompted for each piece of information needed. 
+Some of the answers are tricky and there are a number of tutorials out there to help new users to DimensionDoor.
 
 ----
 If you are still confused then rereread [[http://wiki.bukkit.org/Setting_up_a_server|this]]. :-)

@@ -21,7 +21,7 @@ public class RoadContext extends DataContext {
 
 	@Override
 	protected void initialize() {
-		schematicFamily = SchematicFamily.ART;
+		schematicFamily = SchematicFamily.ROUNDABOUT;
 		schematicMaxX = 1;
 		schematicMaxZ = 1;
 	}
