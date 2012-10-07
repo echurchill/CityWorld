@@ -10,7 +10,8 @@
 
 ----
 v2.00
-
+* Added support for WorldEdit schematics
+* Almost every file has changed, very scary. I am pretty sure some new bugs have been created while fixing other ones. :-(
 
 v1.32
 * Now compiled for 1.6 again

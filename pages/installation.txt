@@ -1,5 +1,3 @@
-**CityWorld generator for Minecraft/Bukkit**
-
 === Index of useful info ===
 * Installation... (you are here)
 * [[http://dev.bukkit.org/server-mods/cityworld/pages/options/|Options...]]

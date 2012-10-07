@@ -1,5 +1,3 @@
-**CityWorld generator for Minecraft/Bukkit**
-
 === Index of useful info ===
 * [[http://dev.bukkit.org/server-mods/cityworld/pages/installation/|Installation...]] Start Here!
 * [[http://dev.bukkit.org/server-mods/cityworld/pages/options/|Options...]]
@@ -11,7 +9,7 @@
 * Copyright... (you are here)
 
 ----
-==Copyright (C) 2011-2012 daddychurchill <http://www.virtualchurchill.com>
+== Copyright (C) 2011-2012 daddychurchill <http://www.virtualchurchill.com>
 
 Repository <https://github.com/echurchill/CityWorld>
 
