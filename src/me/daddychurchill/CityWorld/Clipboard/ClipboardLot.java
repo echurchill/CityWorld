@@ -65,6 +65,10 @@ public class ClipboardLot extends IsolatedLot {
 		int originZ = chunk.getOriginZ() - lotZ * chunk.width + clip.insetNorth;
 		int originY = generator.streetLevel - clip.groundLevelY + clip.edgeRise;
 		
+		// echo the location?
+		if (clip.broadcastLocation && lotX == 0 && lotZ == 0)
+			generator.reportMessage("[WorldEdit] " + clip.name + " placed at " + originX + ", " + originZ);
+		
 		// sub region calculation
 		int subX1, subX2, subZ1, subZ2;
 		if (lotX == 0) {

@@ -12,6 +12,8 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
 public class PasteProvider_WorldEdit extends PasteProvider {
 
+	private static String name = "WorldEdit";
+	private static String minVersion = "5.4.2";
 	private File schematicsFolder;
 	
 	@Override
@@ -100,9 +102,7 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 		return clips;
 	}
 	
-	// Loosely based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
-	private static String name = "WorldEdit";
-	private static String minVersion = "5.4.2";
+	// VERY Loosely based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	public static PasteProvider loadWorldEdit(WorldGenerator generator) {
 		WorldEditPlugin worldEditPlugin = null;
 

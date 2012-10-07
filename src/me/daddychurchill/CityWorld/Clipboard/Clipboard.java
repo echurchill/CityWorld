@@ -15,6 +15,7 @@ public abstract class Clipboard {
 	public String name;
 	public double oddsOfAppearance = DataContext.oddsSomewhatUnlikely;
 	public int groundLevelY = 0;
+	public boolean broadcastLocation = false;
 
 	public int sizeX;
 	public int sizeY;

@@ -39,6 +39,7 @@ public class Clipboard_WorldEdit extends Clipboard {
 //	private final static String tagScalableY = "ScalableY";
 //	private final static String tagFloorHeightY = "FloorHeightY";
 	private final static String tagOddsOfAppearance = "OddsOfAppearance";
+	private final static String tagBroadcastLocation = "BroadcastLocation";
 	
 	public Clipboard_WorldEdit(WorldGenerator generator, File file) throws Exception {
 		super(generator, file);
@@ -61,6 +62,7 @@ public class Clipboard_WorldEdit extends Clipboard {
 //		metaYaml.addDefault(tagScalableY, ScalableY);
 //		metaYaml.addDefault(tagFloorHeightY, FloorHeightY);
 		metaYaml.addDefault(tagOddsOfAppearance, oddsOfAppearance);
+		metaYaml.addDefault(tagBroadcastLocation, broadcastLocation);
 		
 		// start reading it
 		File metaFile = new File(file.getAbsolutePath() + metaExtension);
@@ -74,6 +76,7 @@ public class Clipboard_WorldEdit extends Clipboard {
 //			ScalableY = metaYaml.getBoolean(tagScalableY, ScalableY);
 //			FloorHeightY = Math.max(2, Math.min(16, metaYaml.getInt(tagFloorHeightY, FloorHeightY)));
 			oddsOfAppearance = Math.max(0.0, Math.min(1.0, metaYaml.getDouble(tagOddsOfAppearance, oddsOfAppearance)));
+			broadcastLocation = metaYaml.getBoolean(tagBroadcastLocation, broadcastLocation);
 		}
 		
 		// load the actual blocks
