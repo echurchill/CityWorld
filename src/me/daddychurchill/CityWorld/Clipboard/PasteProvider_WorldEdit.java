@@ -107,18 +107,21 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 	
 	// VERY Loosely based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	public static PasteProvider loadWorldEdit(WorldGenerator generator) {
+//		return null;
 		WorldEditPlugin worldEditPlugin = null;
 
 		try {
 			PluginManager pm = Bukkit.getServer().getPluginManager();
 			worldEditPlugin = (WorldEditPlugin) pm.getPlugin(name);
-			if (!isPlugInVersionOrBetter(worldEditPlugin, minVersion))
-				throw new UnsupportedOperationException("CityWorld requires WorldEdit v" + minVersion + " or better");
 			
 			// not there? darn
 			if (worldEditPlugin == null)
 				return null;
 
+			// got the right version?
+			if (!isPlugInVersionOrBetter(worldEditPlugin, minVersion))
+				throw new UnsupportedOperationException("CityWorld requires WorldEdit v" + minVersion + " or better");
+			
 			// make sure it is enabled
 			if (!pm.isPluginEnabled(worldEditPlugin))
 				pm.enablePlugin(worldEditPlugin);

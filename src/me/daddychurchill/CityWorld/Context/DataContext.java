@@ -126,30 +126,35 @@ public abstract class DataContext {
 	public abstract void populateMap(WorldGenerator generator, PlatMap platmap);
 	
 	protected void populateWithSchematics(WorldGenerator generator, PlatMap platmap) {
-//		generator.reportMessage("Populating " + this + " at " + platmap.originX * SupportChunk.chunksBlockWidth + ", " +
-//																platmap.originZ * SupportChunk.chunksBlockWidth);
+		// any clips to do?
+		if (clips != null) {
 
-		// grab platmap's random
-		Odds odds = platmap.getOddsGenerator();
-		
-		// for each schematic
-		for (Clipboard clip: clips) {
-
-			// that succeeds the OddsOfAppearance
-			if (odds.playOdds(clip.oddsOfAppearance)) {
-				platmap.placeSpecificClip(generator, odds, clip);
+			// grab platmap's random
+			Odds odds = platmap.getOddsGenerator();
+			
+			// for each schematic
+			for (Clipboard clip: clips) {
+	
+				// that succeeds the OddsOfAppearance
+				if (odds.playOdds(clip.oddsOfAppearance)) {
+					platmap.placeSpecificClip(generator, odds, clip);
+				}
 			}
 		}
 	}
 
 	protected Clipboard getSingleSchematicLot(WorldGenerator generator, PlatMap platmap, Odds odds, int placeX, int placeZ) {
+		// any clips to do?
+		if (clips != null) {
 
-		// for each schematic
-		for (Clipboard clip: clips) {
-
-			// that succeeds the OddsOfAppearance
-			if (clip.chunkX == 1 && clip.chunkZ == 1 && odds.playOdds(clip.oddsOfAppearance))
-				return clip;
+	
+			// for each schematic
+			for (Clipboard clip: clips) {
+	
+				// that succeeds the OddsOfAppearance
+				if (clip.chunkX == 1 && clip.chunkZ == 1 && odds.playOdds(clip.oddsOfAppearance))
+					return clip;
+			}
 		}
 		
 		// assume failure then
