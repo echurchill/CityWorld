@@ -23,9 +23,9 @@ Specifically they are prebuilt structures that CityWorld will use instead of its
 * [[https://github.com/mcedit/mcedit#readme|MCEdit]]
 
 When CityWorld needs to generate a new area it will look in a series of folders to find the schematics that make sense for the new area. 
-The first folder that CityWorld looks for is the **Shape** of the world, currently that will either be **Normal** or **Floating**.
-Within that folder CityWorld will look for a folder based on the **Style** of the world, this might be **Normal**, **Nether**, **Decayed**, etc.
-Finally within that folder CityWorld will look for a folder that based on the type area being generated, some of these include **HighRise**, **Park**, **Farm**, **Neighborhood**, etc. 
+The first folder that CityWorld looks for is one called "Schematics for " + the world name.
+So if your world is called "The City" then CityWorld will look for "Schematics for The City".
+Within that folder CityWorld will look for a folder that based on the type area being generated, some of these include **HighRise**, **Park**, **Farm**, **Neighborhood**, etc. 
 Now that CityWorld has found the collection of schematics that will be used to augment the procedural based constructs, it loads/caches all of the schematics.
 
 If the schematics hasn't been seen by CityWorld it will automatically generate a **YML** file for the schematic.
@@ -44,9 +44,12 @@ Overly simplified steps for setting up your world
 # Start up the MineCraft client and log into your server
 # Create your new world with your favorite multi-world manager plugin (CityWorld will auto-create all those folders mentioned above)
 # Exit MineCraft and shut down your server
-# Copy over your schematics to the right Plugin/CityWorld sub-folders (see above description as to what folder you want to copy into, I have also listed the potential folders below along with why they exists)
+# Copy over your schematics to the right Plugin/CityWorld sub-folders 
+(see above description as to what folder you want to copy into, I have also listed the potential folders below along with why they exists)
 # Delete the world data files (all the ones in the world folder itself)
-# Restart your server, if everything goes ok your multi-world manager should auto-recreate the world but now with your schematics. While it is doing this those YML files will be generated along side your schematics. (keep an eye on the server console for hints, warnings and errors from CityWorld)
+# Restart your server, if everything goes ok your multi-world manager should auto-recreate the world but now with your schematics. 
+While it is doing this those YML files will be generated along side your schematics. 
+(keep an eye on the server console for hints, warnings and errors from CityWorld)
 # Explore your world, if you notice issues like schematics that are up to high or too low you may need to adjust those schematics' YML files. 
 
 Note: Remember if you add new schematics or adjust existing schematics' YML files, you will likely need to delete the world and have it regenerated.
@@ -104,7 +107,8 @@ How do I tell where my schematics will show up?
 You can use the BroadcastLocation option in the schematic YML to have it's location echoed to the server console.
 
 Why can't I place my schematic at...
-* Right now CityWorld can't replace roads, tunnels, bridges, underground mines, bunkers, mountain shacks, mountain castles, radio towers, drilling platforms, floating houses, etc.
+* Right now CityWorld can't replace roads, tunnels, bridges, underground mines, bunkers, mountain shacks, mountain castles, 
+radio towers, drilling platforms, floating houses, etc.
 Sorry maybe next time. :-)
 
 My really tall schematic doesn't seem to work, how can I fix it?
@@ -113,9 +117,6 @@ In a normal world the ground is near 64 y-wise.
 That give you room for buildings that are 190 or so blocks high.
 Floating worlds place their buildings a little higher so your schematics will need to be accordingly shorter.
 
-All of my CityWorld based worlds are picking up the same schematics, why can't I have a schematic only be used by a single world?
-* I am considering changing the folder structure to support that but didn't want to hold up the initially release until then.
-
 I don't see my question here, why not?
 * I can't answer questions I haven't seen or thought of. Sorry :-(
 
@@ -123,32 +124,29 @@ I don't see my question here, why not?
 == YML options
 
 Each schematic will have a YML file associated with it. 
+You don't have to create these files, they are auto-generated when CityWorld sees an unaccompanied schematic.
 This file tells CityWorld details that aren't contained in the schematic file.
 Remember, if you change a YML file you will likely need to regenerate the world that uses it.
 
-* ##GroundLevelY## - vertical position of schematic's ground level. If your "basement" is 10 blocks high, then set this to 10. Defaults to 0
-* ##FlipableX## - schematic can be flipped along it's X axis. Defaults to false.
-* ##FlipableZ## - schematic can be flipped along it's Z axis. Defaults to false.
-* ##OddsOfAppearance## - schematic's odds of showing up in a single 10x10 chunk area. Setting this to 1.0 will make the schematics show up once per 10x10 chunk area. Defaults to 0.20 (20% of the time)
-* ##BroadcastLocation## - when the schematic is placed in the world, its location will be echoed to the server console. Defaults to false.
+* ##**GroundLevelY**## - vertical position of schematic's ground level. 
+If your "basement" is 10 blocks high, then set this to 10. 
+Defaults to 0.
+* ##**FlipableX**## - schematic can be flipped along it's X axis. 
+Defaults to false.
+* ##**FlipableZ**## - schematic can be flipped along it's Z axis. 
+Defaults to false.
+* ##**OddsOfAppearance**## - schematic's odds of showing up in a single 10x10 chunk area. 
+Setting this to 1.0 will make the schematics show up once per 10x10 chunk area. 
+Defaults to 0.20 (20% of the time)
+* ##**BroadcastLocation**## - when the schematic is placed in the world, its location will be echoed to the server console. 
+Defaults to false.
 
 ----
 == Folders used
 
 Within the Plugins/CityWorld folder a number of folders will be created when a world is generated by CityWorld. 
-Your schematics should be placed within the Area Type folders (they are the lowest level).
-If you world is a normal one, those Area Type folders will be in the Plugins/CityWorld/Normal/Normal folder.
-
-=== World shapes
-* Normal - traditional world
-* Floating - floating constructs (houses, buildings, etc.) world
-
-=== Styles
-* Decayed - normal but decayed styled worlds
-* Nether - nether styled worlds
-* Normal - traditional styled worlds
-* TheEnd - TheEnd styled worlds
-* Tekkit - traditional style worlds but with Tekkit materials
+Your schematics should be placed within the Area Type folders.
+If you world is called "DoomLand", the Area Type folders will be in the "Plugins/CityWorld/Schematics for DoomLand" folder.
 
 === Area types
 * Construction - this area tends to show up between highrise/parks and midrise areas
@@ -161,6 +159,7 @@ If you world is a normal one, those Area Type folders will be in the Plugins/Cit
 * Municipal - this area tends to show up between midrise and industrial areas
 * Neighborhood - this area tends to show up near farm and lowrise areas
 * Park - there is a 12% chance of this area showing up instead of highrise
-* Roundabout - these schematics show up in the center of road roundabouts. Unlike the other areas, these schematics are limited to a single chunk (16 by 16 blocks).
+* Roundabout - these schematics show up in the center of road roundabouts. 
+Unlike the other areas, these schematics are limited to a single chunk (16 by 16 blocks).
 
 

@@ -9,9 +9,23 @@
 * Copyright... (you are here)
 
 ----
-== Copyright (C) 2011-2012 daddychurchill <http://www.virtualchurchill.com>
+== Copyright (C) 2011-2012 
 
-Repository <https://github.com/echurchill/CityWorld>
+**Written by** DaddyChurchill 
+
+**Website** <http://www.virtualchurchill.com>
+
+**Repository** <https://github.com/echurchill/CityWorld>
+
+Contains (sometimes literally copied, sometimes loosely based on) ideas and code from 
+* **keenerb** (various code bits and idea support.. I still need to enable his Forge support)
+* **drew-bahrue** (initial plugin support.. I still need to enable his PhatLoot support)
+* **gunre** (initial tekkit ore support)
+* **Nightgunner5** (initial ore populator idea)
+* **Markus Persson** (who modified Nightgunner5's idea)
+* **simplex** (who modified Markus's modification to Nightgunner5's idea)
+* I am sure there are others I have borrowed ideas/code from. 
+If so, raise your hand and I will be happy to add you name here. :-)
 
 ----
 

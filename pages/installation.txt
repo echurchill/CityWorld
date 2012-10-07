@@ -11,13 +11,22 @@
 ----
 == Installation
 
-This is purely a world generator. If you need general purpose teleportation or world management support there are plenty of plugins that will do that for you. The Bukkit plugin ecosystem does not need more of those puppies. This is JUST A WORLD GENERATOR. :-)
+This is purely a world generator. 
+If you need general purpose teleportation or world management support there are plenty of plugins that will do that for you. 
+The Bukkit plugin ecosystem does not need more of those puppies. 
+This is JUST A WORLD GENERATOR. :-)
 
 To install it you will need to do three things...
-# **Download the plugin and place it in Bukkit's plugin folder.** If you don't know where or what the Bukkit's plugin folder is, read [[http://wiki.bukkit.org/Setting_up_a_server|this]].
-# **Make sure you have a multi-world manager installed.** Without it you experience will be less than fulfilling.
-# **Now start up Minecraft Server via Bukkit.** If you don't know how to do this, I recommend rereading [[http://wiki.bukkit.org/Setting_up_a_server|this]].
-# At this point, you may be asking yourself: **How do I get to the city?** Well that depends on what multi-world manager plugin you are using:
+# **Download the plugin and place it in Bukkit's plugin folder.** 
+If you don't know where or what the Bukkit's plugin folder is, read [[http://wiki.bukkit.org/Setting_up_a_server|this]].
+# **Make sure you have a multi-world manager installed.** 
+Without it you experience will be less than fulfilling.
+# **Make sure you have [[http://dev.bukkit.org/server-mods/worldedit/|WorldEdit]] installed.**
+if you want to enable the [[http://dev.bukkit.org/server-mods/cityworld/pages/schematics/|schematics]] support.
+# **Now start up Minecraft Server via Bukkit.** 
+If you don't know how to do this, I recommend rereading [[http://wiki.bukkit.org/Setting_up_a_server|this]].
+# At this point, you may be asking yourself: **How do I get to the city?** 
+Well that depends on what multi-world manager plugin you are using:
 
 Here are some of the more popular multi-world plugins...
 === [[http://dev.bukkit.org/server-mods/multiverse-core/|Multiverse]]
@@ -57,7 +66,4 @@ To start the conversation simply type the following into the command console...
 * ##/dd create##
 You will then be prompted for each piece of information needed. 
 Some of the answers are tricky and there are a number of tutorials out there to help new users to DimensionDoor.
-
-----
-If you are still confused then rereread [[http://wiki.bukkit.org/Setting_up_a_server|this]]. :-)
 

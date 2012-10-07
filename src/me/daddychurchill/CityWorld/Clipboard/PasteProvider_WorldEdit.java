@@ -28,11 +28,14 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 		File pluginFolder = generator.getPlugin().getDataFolder();
 		if (pluginFolder.isDirectory()) {
 			
-			// shape folder (normal, floating, etc.)
-			File shapeFolder = findFolder(pluginFolder, generator.shapeProvider.getCollectionName());
+			// forget all those shape and ore type and just go for the world name
+			schematicsFolder = findFolder(pluginFolder, "Schematics for " + generator.worldName);
 			
-			// finally ores are used to figure out the collection folder (normal, nether, theend, etc.)
-			schematicsFolder = findFolder(shapeFolder, generator.oreProvider.getCollectionName());
+//			// shape folder (normal, floating, etc.)
+//			File shapeFolder = findFolder(pluginFolder, generator.shapeProvider.getCollectionName());
+//			
+//			// finally ores are used to figure out the collection folder (normal, nether, theend, etc.)
+//			schematicsFolder = findFolder(shapeFolder, generator.oreProvider.getCollectionName());
 		}
 	}
 	
