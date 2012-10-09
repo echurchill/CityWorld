@@ -165,4 +165,8 @@ public class ClipboardLot extends IsolatedLot {
 			edgesCalculated = true;
 		}
 	}
+
+	public Clipboard getClip() {
+		return clip;
+	}
 }

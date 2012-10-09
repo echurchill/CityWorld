@@ -462,4 +462,8 @@ public abstract class PlatMap {
 			}
 		}
 	}
+
+	public PlatLot[][] getPlatLots() {
+		return platLots;
+	}
 }

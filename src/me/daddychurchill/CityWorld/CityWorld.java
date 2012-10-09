@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CityWorld extends JavaPlugin{
@@ -36,7 +37,7 @@ public class CityWorld extends JavaPlugin{
 		addCommand("cityworld", new CommandCityWorld(this));
 		addCommand("citychunk", new CommandCityChunk(this));
 		addCommand("citylines", new CommandCityLines(this));
-
+		addCommand("cityinfo", new CommandCityInfo(this));
 		// configFile can be retrieved via getConfig()
 		//reportMessage("Enabled" );
 	}
@@ -64,6 +65,11 @@ public class CityWorld extends JavaPlugin{
 		reportMessage(message);
 		log.info(" \\__Exception: " + e.getMessage());
 		e.printStackTrace();
+	}
+	
+	public CityWorldAPI getAPI(Plugin p) {
+		return new CityWorldAPI(p);
+
 	}
 }
 
