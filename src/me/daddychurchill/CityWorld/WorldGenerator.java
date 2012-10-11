@@ -141,7 +141,7 @@ public class WorldGenerator extends ChunkGenerator {
 		return Arrays.asList((BlockPopulator) new CityWorldBlockPopulator(this));
 	}
 	
-	private void initializeWorldInfo(World aWorld) {
+	public void initializeWorldInfo(World aWorld) {
 		
 		// initialize the shaping logic
 		if (world == null) {
@@ -263,7 +263,7 @@ public class WorldGenerator extends ChunkGenerator {
 
 	// manager for handling the city plat maps collection
 	private Hashtable<Long, PlatMap> platmaps;
-	private PlatMap getPlatMap(SupportChunk cornerChunk, int chunkX, int chunkZ) {
+	PlatMap getPlatMap(SupportChunk cornerChunk, int chunkX, int chunkZ) {
 
 		// get the plat map collection
 		if (platmaps == null)

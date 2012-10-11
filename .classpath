@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Eddie/Desktop/Minecraft/craftbukkit.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Eddie/Desktop/Minecraft/plugins/WorldEdit.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sable/zarp/Minecraft/craftbukkit-1.3.1-R2.1-20120822.002250-6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sable/workspace/WorldEdit.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

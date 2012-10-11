@@ -13,6 +13,9 @@ commands:
   citylines:
     description: Draws plot lines for use with WorldEdit
     usage: /citylines [chunksWide [chunksLength [floorsUp [floorsDown]]]]
+  cityinfo:
+    description: Describes the current chunk
+    usage: /cityinfo
 permissions:
   cityworld.*:
     description: Gives access to all CityWorld commands
@@ -20,6 +23,7 @@ permissions:
       cityworld.command: true
       cityworld.create: true
       citychunk.command: true
+      cityinfo.command: true
   cityworld.command:
     description: Allows users to enter and exit the default CityWorld
     default: op
@@ -31,4 +35,7 @@ permissions:
     default: op
   citylines.command:
     description: Allows users to create plot lines for use with WorldEdit
+    default: op
+  cityinfo.command:
+    description: Allows users to get chunk info
     default: op
