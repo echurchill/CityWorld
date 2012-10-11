@@ -263,7 +263,7 @@ public class WorldGenerator extends ChunkGenerator {
 
 	// manager for handling the city plat maps collection
 	private Hashtable<Long, PlatMap> platmaps;
-	PlatMap getPlatMap(SupportChunk cornerChunk, int chunkX, int chunkZ) {
+	public PlatMap getPlatMap(SupportChunk cornerChunk, int chunkX, int chunkZ) {
 
 		// get the plat map collection
 		if (platmaps == null)

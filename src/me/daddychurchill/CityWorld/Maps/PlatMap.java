@@ -463,6 +463,8 @@ public abstract class PlatMap {
 		}
 	}
 
+	// Added by Sablednah
+	// https://github.com/echurchill/CityWorld/pull/4
 	public PlatLot[][] getPlatLots() {
 		return platLots;
 	}

@@ -166,6 +166,8 @@ public class ClipboardLot extends IsolatedLot {
 		}
 	}
 
+	// Added by Sablednah
+	// https://github.com/echurchill/CityWorld/pull/4
 	public Clipboard getClip() {
 		return clip;
 	}

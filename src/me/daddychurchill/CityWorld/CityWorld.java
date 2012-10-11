@@ -37,7 +37,7 @@ public class CityWorld extends JavaPlugin{
 		addCommand("cityworld", new CommandCityWorld(this));
 		addCommand("citychunk", new CommandCityChunk(this));
 		addCommand("citylines", new CommandCityLines(this));
-		addCommand("cityinfo", new CommandCityInfo(this));
+		addCommand("cityinfo", new CommandCityInfo(this)); // added by Sablednah (see below)
 		// configFile can be retrieved via getConfig()
 		//reportMessage("Enabled" );
 	}
@@ -67,6 +67,8 @@ public class CityWorld extends JavaPlugin{
 		e.printStackTrace();
 	}
 	
+	// Added by Sablednah
+	// https://github.com/echurchill/CityWorld/pull/4
 	public CityWorldAPI getAPI(Plugin p) {
 		return new CityWorldAPI(p);
 

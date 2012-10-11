@@ -14,7 +14,10 @@ import org.bukkit.Chunk;
 import org.bukkit.plugin.Plugin;
 
 public class CityWorldAPI {
-	private CityWorld	plugin;
+	// This class was created by Sablednah
+	// https://github.com/echurchill/CityWorld/pull/4
+	
+	private CityWorld plugin;
 
 	public CityWorldAPI(Plugin p) {
 		this.plugin = (CityWorld) p;
