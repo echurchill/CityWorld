@@ -11,6 +11,10 @@
 ----
 == Versions
 
+v2.02
+* Incorporated CityInfo command by Sablednah (https://github.com/echurchill/CityWorld/pull/4)
+* Added Decayable option to schematics
+
 v2.01
 * Fixed a silly glitch that made CityWorld fail if WorldEdit wasn't installed. 
 

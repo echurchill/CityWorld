@@ -109,9 +109,8 @@ public class ClipboardLot extends IsolatedLot {
 //		chunk.setBlocks(edgeX1, edgeX2, edgeY2 + 6, edgeZ2, 16, Material.EMERALD_BLOCK);
 		
 		// mr. creeper says: that is a nice building you have there, too bad something bad has to happen to it
-		if (generator.settings.includeDecayedBuildings)
+		if (clip.decayable && generator.settings.includeDecayedBuildings)
 			destroyLot(generator, originY, originY + clip.sizeY);
-		//TODO this seems to be only destroying a particular corner of the schematics... why?
 	}
 	
 	private void calculateEdges(WorldGenerator generator) {
