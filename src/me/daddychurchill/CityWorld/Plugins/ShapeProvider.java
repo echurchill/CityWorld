@@ -11,7 +11,6 @@ import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public abstract class ShapeProvider extends Provider {
 	
@@ -69,7 +68,7 @@ public abstract class ShapeProvider extends Provider {
 		}
 	}
 	
-	public abstract PlatMap createPlatMap(WorldGenerator generator, SupportChunk cornerChunk, int platX, int platZ);
+	public abstract PlatMap createPlatMap(WorldGenerator generator, int platX, int platZ);
 	public abstract String getCollectionName();
 
 	protected void generateStratas(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, byte substratumId, byte stratumId,

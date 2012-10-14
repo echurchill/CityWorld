@@ -33,7 +33,6 @@ import me.daddychurchill.CityWorld.Plugins.SurfaceProvider;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
 import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
 import org.bukkit.Chunk;
@@ -227,7 +226,7 @@ public class WorldGenerator extends ChunkGenerator {
 		ByteChunk byteChunk = new ByteChunk(this, chunkX, chunkZ);
 		
 		// figure out what everything looks like
-		PlatMap platmap = getPlatMap(byteChunk, chunkX, chunkZ);
+		PlatMap platmap = getPlatMap(chunkX, chunkZ);
 		if (platmap != null) {
 			//CityWorld.reportMessage("generate X,Z = " + chunkX + "," + chunkZ);
 			platmap.generateChunk(byteChunk, biomes);
@@ -263,7 +262,7 @@ public class WorldGenerator extends ChunkGenerator {
 
 	// manager for handling the city plat maps collection
 	private Hashtable<Long, PlatMap> platmaps;
-	public PlatMap getPlatMap(SupportChunk cornerChunk, int chunkX, int chunkZ) {
+	public PlatMap getPlatMap(int chunkX, int chunkZ) {
 
 		// get the plat map collection
 		if (platmaps == null)
@@ -283,7 +282,7 @@ public class WorldGenerator extends ChunkGenerator {
 		if (platmap == null) {
 			
 			// what is the context for this one?
-			platmap = shapeProvider.createPlatMap(this, cornerChunk, platX, platZ);
+			platmap = shapeProvider.createPlatMap(this, platX, platZ);
 			
 			// remember it for quicker look up
 			platmaps.put(platkey, platmap);
@@ -331,7 +330,7 @@ public class WorldGenerator extends ChunkGenerator {
 			RealChunk realChunk = new RealChunk(chunkGen, chunk);
 
 			// figure out what everything looks like
-			PlatMap platmap = chunkGen.getPlatMap(realChunk, chunkX, chunkZ);
+			PlatMap platmap = chunkGen.getPlatMap(chunkX, chunkZ);
 			if (platmap != null) {
 				//CityWorld.reportMessage("populate X,Z = " + chunkX + "," + chunkZ);
 				platmap.generateBlocks(realChunk);

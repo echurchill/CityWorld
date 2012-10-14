@@ -14,7 +14,6 @@ import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class ShapeProvider_Floating extends ShapeProvider_Normal {
 
@@ -36,8 +35,8 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	}
 
 	@Override
-	public PlatMap createPlatMap(WorldGenerator generator, SupportChunk cornerChunk, int platX, int platZ) {
-		return new FloatingMap(generator, cornerChunk, platX, platZ);
+	public PlatMap createPlatMap(WorldGenerator generator, int platX, int platZ) {
+		return new FloatingMap(generator, platX, platZ);
 	}
 	
 	//private int streetLevel;
