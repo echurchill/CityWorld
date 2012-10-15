@@ -11,24 +11,30 @@ public class NormalMap extends PlatMap {
 	
 	@Override
 	protected void populateLots() {
-
-		// assume everything is natural for the moment
-		context = generator.natureContext;
-		context.populateMap(generator, this);
 		
-		// place and validate the roads
-		if (generator.settings.includeRoads) {
-			populateRoads();
-			validateRoads();
+		try {
 
-			// place the buildings
-			if (generator.settings.includeBuildings) {
+			// assume everything is natural for the moment
+			context = generator.natureContext;
+			context.populateMap(generator, this);
+			
+			// place and validate the roads
+			if (generator.settings.includeRoads) {
+				populateRoads();
+				validateRoads();
 	
-				// recalculate the context based on the "natural-ness" of the platmap
-				context = getContext();
-				context.populateMap(generator, this);
+				// place the buildings
+				if (generator.settings.includeBuildings) {
+		
+					// recalculate the context based on the "natural-ness" of the platmap
+					context = getContext();
+					context.populateMap(generator, this);
+				}
 			}
-		}
+		} catch (Exception e) {
+			generator.reportException("[3AARRRGGGG]", e);
+
+		} 
 		
 		//TODO: nature shouldn't place its special lots until this phase and then only if the lot is surrounded by nature
 		

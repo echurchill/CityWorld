@@ -1,9 +1,16 @@
 package me.daddychurchill.CityWorld.Plugins.Tekkit;
 
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
+
 // tekkit support by gunre
 // reworked a bit by daddychurchill
 
 public class TekkitMaterial {
+	public final static String pluginName = "mod_MinecraftForge";
+	public final static String pluginMinVersion = "?.?";
+	
 	public final static int typeScale = 1000;
 	
 	public final static int INDIGO_FLOWER = 139 * typeScale + 0; // RPFLOWER
@@ -157,4 +164,10 @@ public class TekkitMaterial {
 	public final static int URANIUM_ORE = 247;
 	public final static int TIN_ORE = 248;
 	public final static int COPPER_ORE = 249;
+	
+	public static final boolean isTekkitForgeEnabled() {
+		PluginManager pm = Bukkit.getServer().getPluginManager();
+		Plugin pluginTekkitForge = pm.getPlugin(pluginName);
+		return pluginTekkitForge != null && pluginTekkitForge.isEnabled();
+	}
 }

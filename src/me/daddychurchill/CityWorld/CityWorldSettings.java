@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld;
 import java.util.HashMap;
 
 import me.daddychurchill.CityWorld.Context.DataContext;
+import me.daddychurchill.CityWorld.Plugins.Tekkit.TekkitMaterial;
 import me.daddychurchill.CityWorld.Support.Odds;
 
 import org.bukkit.Material;
@@ -115,7 +116,6 @@ public class CityWorldSettings {
 	private final static String tagIncludeDecayedRoads = "IncludeDecayedRoads";
 	private final static String tagIncludeDecayedBuildings = "IncludeDecayedBuildings";
 	private final static String tagIncludeDecayedNature = "IncludeDecayedNature";
-	private final static String tagIncludeTekkitMaterials = "IncludeTekkitMaterials";
 	
 	public CityWorldSettings(WorldGenerator generator) {
 		super();
@@ -138,6 +138,9 @@ public class CityWorldSettings {
 			darkEnvironment = true;
 			break;
 		}
+		
+		// what about tekkit?
+		includeTekkitMaterials = TekkitMaterial.isTekkitForgeEnabled();
 		
 		// add/get the configuration
 		CityWorld plugin = generator.getPlugin();
@@ -201,7 +204,6 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeDecayedRoads, includeDecayedRoads);
 			section.addDefault(tagIncludeDecayedBuildings, includeDecayedBuildings);
 			section.addDefault(tagIncludeDecayedNature, includeDecayedNature);
-			section.addDefault(tagIncludeTekkitMaterials, includeTekkitMaterials);
 			
 			// now read the bits
 			includeRoads = section.getBoolean(tagIncludeRoads, includeRoads);
@@ -236,7 +238,6 @@ public class CityWorldSettings {
 			includeDecayedRoads = section.getBoolean(tagIncludeDecayedRoads, includeDecayedRoads);
 			includeDecayedBuildings = section.getBoolean(tagIncludeDecayedBuildings, includeDecayedBuildings);
 			includeDecayedNature = section.getBoolean(tagIncludeDecayedNature, includeDecayedNature);
-			includeTekkitMaterials = section.getBoolean(tagIncludeTekkitMaterials, includeTekkitMaterials);
 			
 			centerPointOfChunkRadiusX = section.getInt(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
 			centerPointOfChunkRadiusZ = section.getInt(tagCenterPointOfChunkRadiusZ, centerPointOfChunkRadiusZ);
@@ -303,12 +304,12 @@ public class CityWorldSettings {
 			section.set(tagIncludeDecayedRoads, includeDecayedRoads);
 			section.set(tagIncludeDecayedBuildings, includeDecayedBuildings);
 			section.set(tagIncludeDecayedNature, includeDecayedNature);
-			section.set(tagIncludeTekkitMaterials, includeTekkitMaterials);
 			
 			// note the depreciations
-			deprecateOption(section, "IncludePavedRoads", "DEPRECATED: use IncludeWoolRoads if you want the old style paved roads");
+			deprecateOption(section, "IncludePavedRoads", "DEPRECATED: Use IncludeWoolRoads if you want the old style paved roads");
 			deprecateOption(section, "RoadRange", "DEPRECATED: Use RoadChunkRadius instead");
 			deprecateOption(section, "CityRange", "DEPRECATED: Use CityChunkRadius instead");
+			deprecateOption(section, "IncludeTekkitMaterials", "DEPRECATED: ForgeTekkit is auto-recognized");
 			
 			// write it back out 
 			plugin.saveConfig();

@@ -1,8 +1,11 @@
-package me.daddychurchill.CityWorld.Clipboard;
+package me.daddychurchill.CityWorld.Plugins.WorldEdit;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Clipboard.Clipboard;
+import me.daddychurchill.CityWorld.Clipboard.ClipboardList;
+import me.daddychurchill.CityWorld.Clipboard.PasteProvider;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 import org.bukkit.Bukkit;
@@ -12,8 +15,8 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 
 public class PasteProvider_WorldEdit extends PasteProvider {
 
-	private static String name = "WorldEdit";
-	private static String minVersion = "5.4.2";
+	private static String pluginName = "WorldEdit";
+	private static String pluginMinVersion = "5.4.2";
 	private File schematicsFolder;
 	
 	@Override
@@ -61,48 +64,42 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 	}
 
 	@Override
-	public ClipboardList loadClips(WorldGenerator generator, SchematicFamily family, int maxX, int maxZ) throws Exception {
+	public void loadClips(WorldGenerator generator, SchematicFamily family, ClipboardList clips, int maxX, int maxZ) throws Exception {
 		
 		// things aren't happy
-		if (schematicsFolder == null)
-			return null;
-		
-		// now for each of the context styles
-		File contextFolder = findFolder(schematicsFolder, family.toString());
-		
-		// make room for clips
-		ClipboardList clips = new ClipboardList();
-		
-		// now load those schematic files
-		File[] schematicFiles = contextFolder.listFiles(matchSchematics());
-		for (File schematicFile: schematicFiles) {
-			try {
-				
-				// load a clipboard
-				Clipboard clip = new Clipboard_WorldEdit(generator, schematicFile);
-				
-				// too big?
-				if (clip.chunkX > maxX || clip.chunkZ > maxZ) {
-					generator.reportMessage("[WorldEdit] Schematic " + schematicFile.getName() + 
-							" too large, max size = " + 
-							maxX * SupportChunk.chunksBlockWidth + " by " + 
-							maxZ * SupportChunk.chunksBlockWidth + " it is = " + 
-							clip.sizeX + " by " + clip.sizeZ + ", skipped");
+		if (schematicsFolder != null) {
+			
+			// now for each of the context styles
+			File contextFolder = findFolder(schematicsFolder, family.toString());
+			
+			// now load those schematic files
+			File[] schematicFiles = contextFolder.listFiles(matchSchematics());
+			for (File schematicFile: schematicFiles) {
+				try {
 					
-				} else {
-				
-					// add the clip to the result
-					clips.put(clip);
+					// load a clipboard
+					Clipboard clip = new Clipboard_WorldEdit(generator, schematicFile);
+					
+					// too big?
+					if (clip.chunkX > maxX || clip.chunkZ > maxZ) {
+						generator.reportMessage("[WorldEdit] Schematic " + schematicFile.getName() + 
+								" too large, max size = " + 
+								maxX * SupportChunk.chunksBlockWidth + " by " + 
+								maxZ * SupportChunk.chunksBlockWidth + " it is = " + 
+								clip.sizeX + " by " + clip.sizeZ + ", skipped");
+						
+					} else {
+					
+						// add the clip to the result
+						clips.put(clip);
+					}
+					
+//					generator.reportMessage("[WorldEdit] Schematic " + schematicFile.getName() + " loaded");
+				} catch (Exception e) {
+					generator.reportException("[WorldEdit] Schematic " + schematicFile.getName() + " could NOT be loaded", e);
 				}
-				
-//				generator.reportMessage("[WorldEdit] Schematic " + schematicFile.getName() + " loaded");
-			} catch (Exception e) {
-				generator.reportException("[WorldEdit] Schematic " + schematicFile.getName() + " could NOT be loaded", e);
 			}
 		}
-		
-		// final report
-		return clips;
 	}
 	
 	// VERY Loosely based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
@@ -112,22 +109,22 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 
 		try {
 			PluginManager pm = Bukkit.getServer().getPluginManager();
-			worldEditPlugin = (WorldEditPlugin) pm.getPlugin(name);
+			worldEditPlugin = (WorldEditPlugin) pm.getPlugin(pluginName);
 			
 			// not there? darn
 			if (worldEditPlugin == null)
 				return null;
 
 			// got the right version?
-			if (!isPlugInVersionOrBetter(worldEditPlugin, minVersion))
-				throw new UnsupportedOperationException("CityWorld requires WorldEdit v" + minVersion + " or better");
+			if (!isPlugInVersionOrBetter(worldEditPlugin, pluginMinVersion))
+				throw new UnsupportedOperationException("CityWorld requires WorldEdit v" + pluginMinVersion + " or better");
 			
 			// make sure it is enabled
 			if (!pm.isPluginEnabled(worldEditPlugin))
 				pm.enablePlugin(worldEditPlugin);
 
 			// woot!
-			generator.reportMessage("[PasteProvider] Found " + name + ", loading its schematics");
+			generator.reportMessage("[PasteProvider] Found WorldEdit, enabling its schematics");
 			
 			return new PasteProvider_WorldEdit(generator);
 			

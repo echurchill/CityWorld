@@ -5,11 +5,12 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.Tekkit.FoliageProvider_Tekkit;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.TreeCustomDelegate;
+import me.daddychurchill.CityWorld.Support.TreeVanillaDelegate;
 
 import org.bukkit.BlockChangeDelegate;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 
 public abstract class FoliageProvider extends Provider {
@@ -42,21 +43,27 @@ public abstract class FoliageProvider extends Provider {
 //		provider = FoliageProvider_PhatFoliage.loadPhatFoliage();
 		if (provider == null) {
 			
-			switch (generator.worldEnvironment) {
-			case NETHER:
-				provider = new FoliageProvider_Nether(odds);
-				break;
-			case THE_END:
-				provider = new FoliageProvider_TheEnd(odds);
-				break;
-			default:
-				if (generator.settings.includeDecayedNature)
-					provider = new FoliageProvider_Decayed(odds);
-				else if (generator.settings.includeTekkitMaterials)
-					provider = new FoliageProvider_Tekkit(odds);
-				else
-					provider = new FoliageProvider_Normal(odds);
-				break;
+			if (generator.settings.includeTekkitMaterials) {
+				generator.reportMessage("[FoliageProvider] Found ForgeTekkit, enabling its foliage");
+
+				//TODO provide nether, theend and decayed variants of Tekkit
+				provider = new FoliageProvider_Tekkit(odds);
+			} else {
+				
+				switch (generator.worldEnvironment) {
+				case NETHER:
+					provider = new FoliageProvider_Nether(odds);
+					break;
+				case THE_END:
+					provider = new FoliageProvider_TheEnd(odds);
+					break;
+				default:
+					if (generator.settings.includeDecayedNature)
+						provider = new FoliageProvider_Decayed(odds);
+					else
+						provider = new FoliageProvider_Normal(odds);
+					break;
+				}
 			}
 		}
 	
@@ -159,10 +166,10 @@ public abstract class FoliageProvider extends Provider {
 				// did we make a tree?
 				if (customTree)
 					result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, 
-							new TreeCustomDelegate(chunk, odds, trunk.getId(), leaves1.getId(), leaves2.getId()));
+							getCustomTreeDelegate(chunk, odds, trunk.getId(), leaves1.getId(), leaves2.getId()));
 				else
 					result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, 
-							new TreeVanillaDelegate(chunk));
+							getVanillaTreeDelegate(chunk));
 				
 				// did it finally work?
 				if (result) {
@@ -194,120 +201,16 @@ public abstract class FoliageProvider extends Provider {
 		return result;
 	}
 	
-	protected final static Material log = Material.LOG;
-	protected final static int logId = log.getId();
-	protected final static Material leaves = Material.LEAVES;
-	protected final static int leavesId = leaves.getId();
+	public final static Material log = Material.LOG;
+	public final static int logId = log.getId();
+	public final static Material leaves = Material.LEAVES;
+	public final static int leavesId = leaves.getId();
 	
-	private class TreeVanillaDelegate implements BlockChangeDelegate {
-		protected World world;
-		protected RealChunk chunk;
-		
-		public TreeVanillaDelegate(RealChunk chunk) {
-			this.chunk = chunk;
-			this.world = chunk.world;
-		}
-
-		@Override
-		public int getHeight() {
-			return chunk.height;
-		}
-
-		@Override
-		public int getTypeId(int x, int y, int z) {
-			return world.getBlockAt(x, y, z).getTypeId();
-		}
-
-		@Override
-		public boolean isEmpty(int x, int y, int z) {
-			return world.getBlockAt(x, y, z).isEmpty();
-		}
-
-		@Override
-		public boolean setRawTypeId(int x, int y, int z, int id) {
-			return world.getBlockAt(x, y, z).setTypeIdAndData(id, (byte) 0, false);
-		}
-
-		@Override
-		public boolean setRawTypeIdAndData(int x, int y, int z, int id, int data) {
-			return world.getBlockAt(x, y, z).setTypeIdAndData(id, (byte) data, false);
-		}
-
-		@Override
-		public boolean setTypeId(int x, int y, int z, int id) {
-			return world.getBlockAt(x, y, z).setTypeIdAndData(id, (byte) 0, false);
-		}
-
-		@Override
-		public boolean setTypeIdAndData(int x, int y, int z, int id, int data) {
-			return world.getBlockAt(x, y, z).setTypeIdAndData(id, (byte) data, false);
-		}
+	protected BlockChangeDelegate getCustomTreeDelegate(RealChunk chunk, Odds odds, int trunkId, int leavesId1, int leavesId2) {
+		return new TreeCustomDelegate(chunk, odds, trunkId, leavesId1, leavesId2);
 	}
 	
-	private class TreeCustomDelegate extends TreeVanillaDelegate {
-		private Odds odds;
-		private int trunkId;
-		private int leavesId1;
-		private int leavesId2;
-		
-		public TreeCustomDelegate(RealChunk chunk, Odds odds, int trunkId, int leavesId1, int leavesId2) {
-			super(chunk);
-			this.odds = odds;
-			this.trunkId = trunkId;
-			this.leavesId1 = leavesId1;
-			this.leavesId2 = leavesId2;
-		}
-
-		@Override
-		public int getHeight() {
-			return chunk.height;
-		}
-
-		@Override
-		public int getTypeId(int x, int y, int z) {
-			return world.getBlockAt(x, y, z).getTypeId();
-		}
-
-		@Override
-		public boolean isEmpty(int x, int y, int z) {
-			return world.getBlockAt(x, y, z).isEmpty();
-		}
-
-		@Override
-		public boolean setRawTypeId(int x, int y, int z, int id) {
-			return setTypeIdAndData(x, y, z, id, 0, false);
-		}
-
-		@Override
-		public boolean setRawTypeIdAndData(int x, int y, int z, int id, int data) {
-			return setTypeIdAndData(x, y, z, id, data, false);
-		}
-
-		@Override
-		public boolean setTypeId(int x, int y, int z, int id) {
-			return setTypeIdAndData(x, y, z, id, 0, false);
-		}
-
-		@Override
-		public boolean setTypeIdAndData(int x, int y, int z, int id, int data) {
-			return setTypeIdAndData(x, y, z, id, data, false);
-		}
-		
-		private boolean setTypeIdAndData(int x, int y, int z, int id, int data, boolean update) {
-			Block block = world.getBlockAt(x, y, z);
-			if (id == logId)
-				if (trunkId == logId)
-					return block.setTypeIdAndData(logId, (byte) data, update);
-				else
-					return block.setTypeId(trunkId, update);
-			
-			else if (id == leavesId)
-				if (odds.flipCoin())
-					return block.setTypeId(leavesId1, update);
-				else
-					return block.setTypeId(leavesId2, update);
-			else
-				return false;
-		}
+	protected BlockChangeDelegate getVanillaTreeDelegate(RealChunk chunk) {
+		return new TreeVanillaDelegate(chunk);
 	}
 }

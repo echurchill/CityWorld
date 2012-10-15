@@ -12,6 +12,7 @@
 == Versions
 
 v2.02
+* Incorporated Forge/Tekkit block delegate support by brikeener (http://code.google.com/p/cityworld-tekkit/source)
 * Incorporated CityInfo command by Sablednah (https://github.com/echurchill/CityWorld/pull/4)
 * Added Decayable option to schematics
 

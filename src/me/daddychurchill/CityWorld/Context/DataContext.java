@@ -3,11 +3,9 @@ package me.daddychurchill.CityWorld.Context;
 import org.bukkit.Material;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Clipboard.Clipboard;
 import me.daddychurchill.CityWorld.Clipboard.ClipboardList;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
-import me.daddychurchill.CityWorld.Support.Odds;
 
 public abstract class DataContext {
 	
@@ -75,10 +73,10 @@ public abstract class DataContext {
 	public Material torchMat;
 	public Byte torchId;
 	
+	protected ClipboardList mapsSchematics;
 	public SchematicFamily schematicFamily = SchematicFamily.NATURE;
 	public int schematicMaxX = 4;
 	public int schematicMaxZ = 4;
-	private ClipboardList clips;
 	
 	public DataContext(WorldGenerator generator) {
 		super();
@@ -113,51 +111,15 @@ public abstract class DataContext {
 		buildingWallInsettedMinHighPoint = floorsFourth * 3;
 		
 		// finally load any schematics if they exists
-		clips = generator.pasteProvider.getFamilyClips(generator, schematicFamily, schematicMaxX, schematicMaxZ);
+		mapsSchematics = generator.pasteProvider.getFamilyClips(generator, schematicFamily, schematicMaxX, schematicMaxZ);
 	}
 	
 	protected abstract void initialize();
+	public abstract void populateMap(WorldGenerator generator, PlatMap platmap);
 	
 	protected void setSchematicMaxSize(int maxX, int maxZ) {
 		schematicMaxX = maxX;
 		schematicMaxZ = maxZ;
 	}
 	
-	public abstract void populateMap(WorldGenerator generator, PlatMap platmap);
-	
-	protected void populateWithSchematics(WorldGenerator generator, PlatMap platmap) {
-		// any clips to do?
-		if (clips != null) {
-
-			// grab platmap's random
-			Odds odds = platmap.getOddsGenerator();
-			
-			// for each schematic
-			for (Clipboard clip: clips) {
-	
-				// that succeeds the OddsOfAppearance
-				if (odds.playOdds(clip.oddsOfAppearance)) {
-					platmap.placeSpecificClip(generator, odds, clip);
-				}
-			}
-		}
-	}
-
-	protected Clipboard getSingleSchematicLot(WorldGenerator generator, PlatMap platmap, Odds odds, int placeX, int placeZ) {
-		// any clips to do?
-		if (clips != null) {
-
-	
-			// for each schematic
-			for (Clipboard clip: clips) {
-	
-				// that succeeds the OddsOfAppearance
-				if (clip.chunkX == 1 && clip.chunkZ == 1 && odds.playOdds(clip.oddsOfAppearance))
-					return clip;
-			}
-		}
-		
-		// assume failure then
-		return null;
-	}
 }

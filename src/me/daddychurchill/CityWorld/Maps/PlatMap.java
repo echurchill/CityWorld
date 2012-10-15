@@ -156,6 +156,18 @@ public abstract class PlatMap {
 			return false;
 	}
 	
+	public boolean isExistingRoad(int x, int z) {
+		if (x >= 0 && x < Width && z >= 0 && z < Width)
+			return isRoad(x, z);
+		else
+			return false;
+	}
+
+	protected boolean isRoad(int x, int z) {
+		PlatLot current = platLots[x][z];
+		return current != null && (current.style == LotStyle.ROAD || current.style == LotStyle.ROUNDABOUT);
+	}
+	
 	public void recycleLot(int x, int z) {
 
 		// if it is not natural, make it so
@@ -239,18 +251,6 @@ public abstract class PlatMap {
 		}
 	}
 	
-	protected boolean isRoad(int x, int z) {
-		PlatLot current = platLots[x][z];
-		return current != null && (current.style == LotStyle.ROAD || current.style == LotStyle.ROUNDABOUT);
-	}
-	
-	public boolean isExistingRoad(int x, int z) {
-		if (x >= 0 && x < Width && z >= 0 && z < Width)
-			return isRoad(x, z);
-		else
-			return false;
-	}
-
 	protected void placeIntersection(int x, int z) {
 		boolean roadToNorth = false, roadToSouth = false, 
 				roadToEast = false, roadToWest = false, 

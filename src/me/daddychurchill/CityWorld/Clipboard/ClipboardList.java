@@ -3,6 +3,10 @@ package me.daddychurchill.CityWorld.Clipboard;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
+import me.daddychurchill.CityWorld.Support.Odds;
+
 
 public class ClipboardList implements Iterable<Clipboard> {
 
@@ -36,4 +40,32 @@ public class ClipboardList implements Iterable<Clipboard> {
 		return list.size();
 	}
 	
+	public void populate(WorldGenerator generator, PlatMap platmap) {
+
+		// grab platmap's random
+		Odds odds = platmap.getOddsGenerator();
+		
+		// for each schematic
+		for (Clipboard clip: this) {
+
+			// that succeeds the OddsOfAppearance
+			if (odds.playOdds(clip.oddsOfAppearance)) {
+				platmap.placeSpecificClip(generator, odds, clip);
+			}
+		}
+	}
+
+	public Clipboard getSingleLot(WorldGenerator generator, PlatMap platmap, Odds odds, int placeX, int placeZ) {
+
+		// for each schematic
+		for (Clipboard clip: this) {
+
+			// that succeeds the OddsOfAppearance
+			if (clip.chunkX == 1 && clip.chunkZ == 1 && odds.playOdds(clip.oddsOfAppearance))
+				return clip;
+		}
+		
+		// assume failure then
+		return null;
+	}
 }

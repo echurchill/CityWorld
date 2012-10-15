@@ -18,7 +18,7 @@
 **Repository** <https://github.com/echurchill/CityWorld>
 
 Contains (sometimes literally copied, sometimes loosely based on) ideas and code from 
-* **keenerb** (various code bits and idea support.. I still need to enable his Forge support)
+* **keenerb** (various code bits, ideas and Forge/Tekkit support)
 * **drew-bahrue** (initial plugin support.. I still need to enable his PhatLoot support)
 * **gunre** (initial tekkit ore support)
 * **Nightgunner5** (initial ore populator idea)
