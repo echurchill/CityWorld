@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -14,8 +15,16 @@ public abstract class SurfaceProvider extends Provider {
 	}
 
 	
-	protected final static double treeOdds = 0.90;
-	protected final static double foliageOdds = 0.40;
+	protected final static double treeOdds = DataContext.oddsPrettyUnlikely;
+	protected final static double treeTallOdds = DataContext.oddsLikely;
+	protected final static double treeAltOdds = DataContext.oddsLikely;
+	protected final static double treeAltTallOdds = DataContext.oddsPrettyUnlikely;
+	protected final static double foliageOdds = DataContext.oddsSomewhatLikely;
+	protected final static double cactusOdds = DataContext.oddsVeryUnlikely;
+	protected final static double reedOdds = DataContext.oddsPrettyUnlikely;
+	protected final static double flowerRedOdds = DataContext.oddsPrettyUnlikely;
+	protected final static double flowerYellowOdds = DataContext.oddsExtremelyUnlikely;
+	protected final static double flowerFernOdds = DataContext.oddsSomewhatLikely;
 	
 	protected Odds odds;
 	

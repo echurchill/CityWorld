@@ -157,7 +157,7 @@ If you world is called "DoomLand", the Area Type folders will be in the "Plugins
 === Area types
 * Construction - this area tends to show up between highrise/parks and midrise areas
 * Farm - this area tends to show up out at the edges of cities
-* Nature - this area shows up where ever constructs don't show up
+* Nature - this area shows up where ever constructs don't show up (sorry, as of v2.02 this area type does not insert schematics) 
 * Highrise - this area tends to show up in the center of cities
 * Industrial - this areas tends to show up between municipal and lowrise areas
 * Lowrise - this area tends to show up outside of industrial areas

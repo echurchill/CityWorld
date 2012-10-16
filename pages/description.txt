@@ -7,16 +7,17 @@ There is an entire world to explore, have fun!
 ==== <<color green>>If you like CityWorld, please consider donating via the **Donate** button in the upper right corner.<</color>> ====
 
 ----
-===== //Version 2.02// ===== 
+===== //Version 2.03// ===== 
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, 
 if the above version isn't available check back in an hour or so... 
-...or possibly look [[http://dev.bukkit.org/server-mods/cityworld/files/25-v2-02/|here]]))//,,
+...or possibly look [[http://dev.bukkit.org/server-mods/cityworld/files/26-v2-03/|here]]))//,,
 
 {{http://dev.bukkit.org/media/images/42/720/2012-07-04_11.31.52.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
-v2.02
+v2.03
+* Now with Reeds!
 * Incorporated Forge/Tekkit block delegate support by brikeener (http://code.google.com/p/cityworld-tekkit/source)
 * Incorporated CityInfo command by Sablednah (https://github.com/echurchill/CityWorld/pull/4)
 * Added Decayable option to schematics

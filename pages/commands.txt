@@ -12,7 +12,7 @@
 == Commands
 
 <<color red>>**Please note:**<</color>>
-For the best experience with CityWorld, I **STRONGLY** recommend you use a multi-world manager plugin instead of using the following commands. 
+For the best experience with CityWorld, I **STRONGLY** recommend you use a multi-world manager plugin instead of using the **CityWorld** command. 
 There are a number of world creation/management gotchas that are not handled by CityWorld and that is what the various multi-world plugins are for. 
 For more information about multi-world managers plugins: check out the [[http://dev.bukkit.org/server-mods/cityworld/pages/installation-instructions/|installation notes.]]
 
@@ -22,13 +22,30 @@ If you just want to explore CityWorld and don't have a multi-world manager plugi
 To perform a command just type the letter **"T"** and enter the following...
 
 ##**/CityWorld** [Leave] [Normal | Nether | The_End] [Floating]##
+
 If you leave out the ##Leave## you will be transported to CityWorld. 
 Adding the ##Leave## will transport you to Minecraft/Bukkit's default world, which is normally the world called "world".
+Please read the <<color red>>**note**<</color>> above.
 
 ##**/CityChunk** [Regen] [Clean] [ChunkRadius]##
+
 *##Regen## will force the chunk to regenerate. 
 *##Clean## will remove any "floating" items. 
-*Providing ##ChunkRadius## will cause the operation to effect not just the current chunk but surrounding ones as well, this is an integer. For example, specifying 3 as ##ChunkRadius## will perform the operation on an area of 7x7 chunks centered on your current chunk.
+*Providing ##ChunkRadius## will cause the operation to effect not just the current chunk but surrounding ones as well, this is an integer. 
+For example, specifying 3 as ##ChunkRadius## will perform the operation on an area of 7x7 chunks centered on your current chunk.
+
+##**/CityInfo**##
+
+This command will give you basic information about the current chunk you are in.
+It returns the Context name and class name (e.g. HI_RISE, MUNICIPAL, INDUSTRIAL. etc) and the Lot name and class name.  
+E.g. Nature, Farm, Structure, Road Roundabout and Clipboard.  
+If the chunk contains a schematic then the file name of the schematic will also be displayed.
+Information appears in chat and server logs.
+The classnames can be used with the API for "instanceof" checks.
+*//(CityInfo description and code contributed by **Sablednah**)//
+
+----
+== Permissions
 
 You can disable the commands via permissions. 
 Remember they all default to ##op##, so if you want to play with the commands you will need to make sure you have added yourself to the ##ops.txt## file.
@@ -36,3 +53,4 @@ Remember they all default to ##op##, so if you want to play with the commands yo
 |cityworld.command|allows users to enter and leave the default CityWorld|op|
 |cityworld.create|allows users to create the default CityWorld|op|
 |citychunk.command|allows users to perform chunk maintenance|op|
+|cityinfo.command|allows users to get information about the current chunk|op|

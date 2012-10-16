@@ -16,7 +16,7 @@ import org.bukkit.block.Block;
 public abstract class FoliageProvider extends Provider {
 	
     public enum LigneousType {SHORT_OAK, SHORT_PINE, SHORT_BIRCH, OAK, PINE, BIRCH, TALL_OAK, TALL_PINE, TALL_BIRCH};
-	public enum HerbaceousType {FLOWER_RED, FLOWER_YELLOW, GRASS, FERN, CACTUS, COVER};
+	public enum HerbaceousType {FLOWER_RED, FLOWER_YELLOW, GRASS, FERN, CACTUS, REED, COVER};
 	
 	protected final static double oddsOfDarkFlora = DataContext.oddsLikely;
 	

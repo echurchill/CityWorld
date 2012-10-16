@@ -73,8 +73,23 @@ public abstract class SupportChunk {
 	}
 	
 	public boolean isSurroundedByEmpty(int x, int y, int z) {
-		return isEmpty(x - 1, y, z) && isEmpty(x + 1, y, z) &&
-			   isEmpty(x, y, z - 1) && isEmpty(x, y, z + 1);
+		return (x > 0 && x < 15 && z > 0 && z < 15) && 
+			   (isEmpty(x - 1, y, z) && 
+				isEmpty(x + 1, y, z) &&
+				isEmpty(x, y, z - 1) && 
+				isEmpty(x, y, z + 1));
+	}
+	
+	public boolean isSurroundedByWater(int x, int y, int z) {
+		return (x > 0 && x < 15 && z > 0 && z < 15) && 
+			   (isType(x - 1, y, z, stillWaterId) || 
+				isType(x + 1, y, z, stillWaterId) ||
+				isType(x, y, z - 1, stillWaterId) || 
+				isType(x, y, z + 1, stillWaterId) ||
+				isType(x - 1, y, z, waterId) || 
+				isType(x + 1, y, z, waterId) ||
+				isType(x, y, z - 1, waterId) || 
+				isType(x, y, z + 1, waterId));
 	}
 	
 	private void drawCircleBlocks(int cx, int cz, int x, int z, int y, byte materialId) {
