@@ -54,7 +54,7 @@ public class OreProvider_Tekkit extends OreProvider {
 													  TekkitMaterial.URANIUM_ORE
 													  };
 	
-	//                                                   	   WATER   LAVA   GRAV   COAL   IRON   GOLD  LAPIS  REDST   DIAM   RUBY   EMER   SAPP   SILV    TIN  COPPR   TUNG   NIKO   MARB   BASA   URAN  
+	//                                                   	   WATER   LAVA   GRAV   COAL   IRON   GOLD  LAPIS  REDST   DIAM   RUBY  TEMER   SAPP   SILV    TIN  COPPR   TUNG   NIKO   MARB   BASA   URAN  
 	private static final int[] ore_iterations = new int[]    {     8,     4,    15,    15,     6,     2,     2,     4,     1,     1,     1,     1,     3,     6,     6,     2,     2,    20,    20,     1};
 	private static final int[] ore_amountToDo = new int[]    {     1,     1,     6,     8,     6,     3,     2,     4,     2,     2,     2,     2,     4,     6,     6,     3,     8,    10,     8,     1};
 	private static final int[] ore_maxY = new int[]          {   128,    32,    96,   128,    68,    34,    30,    17,    16,    16,    16,    16,    34,    68,    96,    34,    68,   128,    10,    16};

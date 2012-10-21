@@ -1,5 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import org.bukkit.Material;
 import org.bukkit.util.noise.NoiseGenerator;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
@@ -37,19 +38,25 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 			if (y <= generator.seaLevel) {
 				
 				// trees? but only if we are not too close to the edge
-				if (!generator.settings.includeAbovegroundFluids && includeTrees && primary > 0.95 && x % 2 == 0 && z % 2 != 0) {
-					if (chunk.isSurroundedByEmpty(x, y + 1, z))
-						foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.CACTUS);
+				if (includeTrees) {
+					if (generator.settings.includeAbovegroundFluids) {
+
+					} else {
+						if (primary < cactusOdds && x % 2 == 0 && z % 2 != 0) {
+							if (chunk.isSurroundedByEmpty(x, y + 1, z))
+								foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.CACTUS);
+						}
+					}
 				}
 				
 			// regular trees, grass and flowers only
 			} else if (y < generator.treeLevel) {
 
-				// trees? but only if we are not too close to the edge
-				if (includeTrees && primary > treeOdds && x > 0 && x < 15 && z > 0 && z < 15 && x % 2 == 0 && z % 2 != 0) {
-					if (secondary > 0.90 && x > 5 && x < 11 && z > 5 && z < 11)
+				// trees? but only if we are not too close to the edge of the chunk
+				if (includeTrees && primary < treeOdds && x > 0 && x < 15 && z > 0 && z < 15 && x % 2 == 0 && z % 2 != 0) {
+					if (secondary < treeAltTallOdds && x > 5 && x < 11 && z > 5 && z < 11)
 						foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.TALL_OAK);
-					else if (secondary > 0.50)
+					else if (secondary < treeAltOdds)
 						foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.BIRCH);
 					else 
 						foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.OAK);
@@ -58,9 +65,9 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 				} else if (primary < foliageOdds) {
 					
 					// what to pepper about
-					if (secondary > 0.90)
+					if (secondary < flowerRedOdds)
 						foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.FLOWER_RED);
-					else if (secondary > 0.80)
+					else if (secondary < flowerYellowOdds)
 						foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.FLOWER_YELLOW);
 					else 
 						foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.GRASS);
@@ -69,7 +76,7 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 			// regular trees, grass and some evergreen trees... no flowers
 			} else if (y < generator.evergreenLevel) {
 
-				// trees? but only if we are not too close to the edge
+				// trees? 
 				if (includeTrees && primary > treeOdds && x % 2 == 0 && z % 2 != 0) {
 					
 					// range change?
@@ -91,9 +98,9 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 			// evergreen and some grass and fallen snow, no regular trees or flowers
 			} else if (y < generator.snowLevel) {
 				
-				// trees? but only if we are not too close to the edge
-				if (includeTrees && primary > treeOdds && x % 2 == 0 && z % 2 != 0) {
-					if (secondary > 0.50)
+				// trees? 
+				if (includeTrees && primary < treeOdds && x % 2 == 0 && z % 2 != 0) {
+					if (secondary < treeTallOdds)
 						foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.PINE);
 					else
 						foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.TALL_PINE);
@@ -103,7 +110,7 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 					
 					// range change?
 					if (secondary > ((double) (y - generator.evergreenLevel) / (double) generator.evergreenRange)) {
-						if (odds.playOdds(0.40))
+						if (odds.playOdds(flowerFernOdds))
 							foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.FERN);
 					} else {
 						foliage.generateFlora(generator, chunk, x, y, z, HerbaceousType.COVER);
@@ -114,8 +121,27 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 		// can't plant, maybe there is something else I can do
 		} else {
 			
+			// below sea level?
+			if (y < generator.seaLevel) {
+				
+			// at sea level?	
+			} else if (y == generator.seaLevel) {
+				
+				// trees? but only if we are not too close to the edge
+				if (includeTrees) {
+					if (generator.settings.includeAbovegroundFluids) {
+						if (primary < reedOdds)
+							if (chunk.isType(x, y, z, Material.SAND))
+								if (chunk.isSurroundedByWater(x, y, z))
+									foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.REED);
+//								chunk.setBlock(x, y + 1, z, Material.BOOKSHELF);
+					} else {
+						
+					}
+				}
+				
 			// regular trees, grass and flowers only
-			if (y < generator.treeLevel) {
+			} else if (y < generator.treeLevel) {
 
 			// regular trees, grass and some evergreen trees... no flowers
 			} else if (y < generator.evergreenLevel) {
@@ -135,7 +161,5 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 				}
 			}
 		}
-		
 	}
-
 }

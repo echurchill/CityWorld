@@ -14,6 +14,9 @@ public class FarmContext extends RuralContext {
 
 	public FarmContext(WorldGenerator generator) {
 		super(generator);
+		
+//		// finally load any schematics if they exists
+//		buildingSchematics = generator.pasteProvider.getFamilyClips(generator, SchematicFamily.FARMCONSTRUCT, 2, 2);
 	}
 	
 	@Override
@@ -27,9 +30,6 @@ public class FarmContext extends RuralContext {
 	
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
-		
-		// let the user add their stuff first
-		populateWithSchematics(generator, platmap);
 		
 		// now add our stuff
 		Odds platmapOdds = platmap.getOddsGenerator();
@@ -75,6 +75,12 @@ public class FarmContext extends RuralContext {
 				}
 			}
 		}
+		
+		// let the user add their stuff first
+		mapsSchematics.populate(generator, platmap);
+		
+//		// let the user add more stuff then
+//		buildingSchematics.populate(generator, platmap);
 		
 		// backfill with farms and a single house
 		for (int x = 0; x < PlatMap.Width; x++) {

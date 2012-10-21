@@ -2,17 +2,16 @@ package me.daddychurchill.CityWorld.Maps;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.FloatingBlimpLot;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class FloatingMap extends PlatMap {
 
-	public FloatingMap(WorldGenerator aGenerator, SupportChunk typicalChunk, int aOriginX, int aOriginZ) {
-		super(aGenerator, typicalChunk, aOriginX, aOriginZ);
+	public FloatingMap(WorldGenerator aGenerator, int aOriginX, int aOriginZ) {
+		super(aGenerator, aOriginX, aOriginZ);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	protected void populateLots(SupportChunk typicalChunk) {
+	protected void populateLots() {
 
 		// assume everything is natural for the moment
 		context = generator.natureContext;
@@ -20,8 +19,8 @@ public class FloatingMap extends PlatMap {
 		
 		// place and validate the roads
 		if (generator.settings.includeRoads) {
-			populateRoads(typicalChunk);
-			validateRoads(typicalChunk);
+			populateRoads();
+			validateRoads();
 
 			// place the buildings
 			if (generator.settings.includeBuildings) {

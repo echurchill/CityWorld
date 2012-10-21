@@ -100,6 +100,7 @@ public class FoliageProvider_Nether extends FoliageProvider_Decayed {
 					chunk.setBlock(x, y, z, Material.FIRE);
 				break;
 			case CACTUS:
+			case REED:
 			default:
 				break;
 			}

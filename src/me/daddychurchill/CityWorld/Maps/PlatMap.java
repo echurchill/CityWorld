@@ -31,11 +31,11 @@ public abstract class PlatMap {
 	protected PlatLot[][] platLots;
 	protected int naturalPlats;
 
-	public PlatMap(WorldGenerator generator, SupportChunk typicalChunk, int originX, int originZ) {
+	public PlatMap(WorldGenerator generator, int originX, int originZ) {
 		super();
 		
 		// populate the instance data
-		this.world = typicalChunk.world;
+		this.world = generator.getWorld();
 		this.generator = generator;
 		this.originX = originX;
 		this.originZ = originZ;
@@ -44,10 +44,10 @@ public abstract class PlatMap {
 		platLots = new PlatLot[Width][Width];
 		naturalPlats = 0;
 		
-		populateLots(typicalChunk);
+		populateLots();
 	}
 	
-	protected abstract void populateLots(SupportChunk typicalChunk);
+	protected abstract void populateLots();
 
 	public Odds getOddsGenerator() {
 		return generator.shapeProvider.getMacroOddsGeneratorAt(originX, originZ);
@@ -156,6 +156,18 @@ public abstract class PlatMap {
 			return false;
 	}
 	
+	public boolean isExistingRoad(int x, int z) {
+		if (x >= 0 && x < Width && z >= 0 && z < Width)
+			return isRoad(x, z);
+		else
+			return false;
+	}
+
+	protected boolean isRoad(int x, int z) {
+		PlatLot current = platLots[x][z];
+		return current != null && (current.style == LotStyle.ROAD || current.style == LotStyle.ROUNDABOUT);
+	}
+	
 	public void recycleLot(int x, int z) {
 
 		// if it is not natural, make it so
@@ -205,16 +217,16 @@ public abstract class PlatMap {
 		platLots[x][z] = null;
 	}
 	
-	protected void populateRoads(SupportChunk typicalChunk) {
+	protected void populateRoads() {
 		
 		// place the big four
-		placeIntersection(typicalChunk, RoadLot.PlatMapRoadInset - 1, RoadLot.PlatMapRoadInset - 1);
-		placeIntersection(typicalChunk, RoadLot.PlatMapRoadInset - 1, Width - RoadLot.PlatMapRoadInset);
-		placeIntersection(typicalChunk, Width - RoadLot.PlatMapRoadInset, RoadLot.PlatMapRoadInset - 1);
-		placeIntersection(typicalChunk, Width - RoadLot.PlatMapRoadInset, Width - RoadLot.PlatMapRoadInset);
+		placeIntersection(RoadLot.PlatMapRoadInset - 1, RoadLot.PlatMapRoadInset - 1);
+		placeIntersection(RoadLot.PlatMapRoadInset - 1, Width - RoadLot.PlatMapRoadInset);
+		placeIntersection(Width - RoadLot.PlatMapRoadInset, RoadLot.PlatMapRoadInset - 1);
+		placeIntersection(Width - RoadLot.PlatMapRoadInset, Width - RoadLot.PlatMapRoadInset);
 	}
 	
-	protected void validateRoads(SupportChunk typicalChunk) {
+	protected void validateRoads() {
 		
 		// any roads leading out?
 		if (!(isRoad(0, RoadLot.PlatMapRoadInset - 1) ||
@@ -239,19 +251,7 @@ public abstract class PlatMap {
 		}
 	}
 	
-	protected boolean isRoad(int x, int z) {
-		PlatLot current = platLots[x][z];
-		return current != null && (current.style == LotStyle.ROAD || current.style == LotStyle.ROUNDABOUT);
-	}
-	
-	public boolean isExistingRoad(int x, int z) {
-		if (x >= 0 && x < Width && z >= 0 && z < Width)
-			return isRoad(x, z);
-		else
-			return false;
-	}
-
-	protected void placeIntersection(SupportChunk typicalChunk, int x, int z) {
+	protected void placeIntersection(int x, int z) {
 		boolean roadToNorth = false, roadToSouth = false, 
 				roadToEast = false, roadToWest = false, 
 				roadHere = false;

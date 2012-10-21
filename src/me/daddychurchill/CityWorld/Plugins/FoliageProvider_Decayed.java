@@ -32,6 +32,7 @@ public class FoliageProvider_Decayed extends FoliageProvider {
 				return true;
 			case COVER:
 			case CACTUS:
+			case REED:
 			case FLOWER_RED:
 			case FLOWER_YELLOW:
 			default:

@@ -21,7 +21,7 @@ public abstract class UrbanContext extends DataContext {
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
 		
 		// let the user add their stuff first, then plug any remaining holes with our stuff
-		populateWithSchematics(generator, platmap);
+		mapsSchematics.populate(generator, platmap);
 		
 		// random fluff!
 		Odds platmapOdds = platmap.getOddsGenerator();

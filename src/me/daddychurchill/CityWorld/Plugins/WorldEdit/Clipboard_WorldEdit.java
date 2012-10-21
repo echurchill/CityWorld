@@ -1,4 +1,4 @@
-package me.daddychurchill.CityWorld.Clipboard;
+package me.daddychurchill.CityWorld.Plugins.WorldEdit;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,6 +7,7 @@ import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Clipboard.Clipboard;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -64,6 +65,7 @@ public class Clipboard_WorldEdit extends Clipboard {
 //		metaYaml.addDefault(tagFloorHeightY, FloorHeightY);
 		metaYaml.addDefault(tagOddsOfAppearance, oddsOfAppearance);
 		metaYaml.addDefault(tagBroadcastLocation, broadcastLocation);
+		metaYaml.addDefault(tagDecayable, decayable);
 		
 		// start reading it
 		File metaFile = new File(file.getAbsolutePath() + metaExtension);

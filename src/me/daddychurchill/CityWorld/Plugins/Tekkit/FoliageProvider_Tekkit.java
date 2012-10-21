@@ -5,7 +5,7 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider_Normal;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-
+import org.bukkit.BlockChangeDelegate;
 import org.bukkit.Material;
 
 public class FoliageProvider_Tekkit extends FoliageProvider_Normal {
@@ -28,5 +28,15 @@ public class FoliageProvider_Tekkit extends FoliageProvider_Normal {
 			return true;
 		} else
 			return super.generateTree(generator, chunk, x, y, z, ligneousType);
+	}
+	
+	@Override
+	protected BlockChangeDelegate getCustomTreeDelegate(RealChunk chunk, Odds odds, int trunkId, int leavesId1, int leavesId2) {
+		return new TreeCustomDelegate_Tekkit(chunk, odds, trunkId, leavesId1, leavesId2);
+	}
+	
+	@Override
+	protected BlockChangeDelegate getVanillaTreeDelegate(RealChunk chunk) {
+		return new TreeVanillaDelegate_Tekkit(chunk);
 	}
 }

@@ -7,7 +7,6 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
-import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.WorldGenerator;
 
 import org.bukkit.Chunk;
@@ -32,13 +31,12 @@ public class CityWorldAPI {
 		WorldGenerator gen = (WorldGenerator) c.getWorld().getGenerator();
 		int chunkX = c.getX();
 		int chunkZ = c.getZ();
-		ByteChunk byteChunk = new ByteChunk(gen, chunkX, chunkZ);
 
 		// Setup info - seams to require this to prevent NPE's when server is restarted.
 		gen.initializeWorldInfo(c.getWorld());
 
 		// figure out what everything looks like. Again :/
-		PlatMap platmap = gen.getPlatMap(byteChunk, chunkX, chunkZ);
+		PlatMap platmap = gen.getPlatMap(chunkX, chunkZ);
 
 		// add context type to returned hashmap
 		info.put("context", platmap.context.schematicFamily.toString());
@@ -77,13 +75,12 @@ public class CityWorldAPI {
 		WorldGenerator gen = (WorldGenerator) c.getWorld().getGenerator();
 		int chunkX = c.getX();
 		int chunkZ = c.getZ();
-		ByteChunk byteChunk = new ByteChunk(gen, chunkX, chunkZ);
 
 		// Setup info - seams to require this to prevent NPE's when server is restarted.
 		gen.initializeWorldInfo(c.getWorld());
 
 		// figure out what everything looks like. Again :/
-		PlatMap platmap = gen.getPlatMap(byteChunk, chunkX, chunkZ);
+		PlatMap platmap = gen.getPlatMap(chunkX, chunkZ);
 
 		return platmap.getNumberOfRoads();
 	}
@@ -92,13 +89,12 @@ public class CityWorldAPI {
 		WorldGenerator gen = (WorldGenerator) c.getWorld().getGenerator();
 		int chunkX = c.getX();
 		int chunkZ = c.getZ();
-		ByteChunk byteChunk = new ByteChunk(gen, chunkX, chunkZ);
 
 		// Setup info - seams to require this to prevent NPE's when server is restarted.
 		gen.initializeWorldInfo(c.getWorld());
 
 		// figure out what everything looks like. Again :/
-		PlatMap platmap = gen.getPlatMap(byteChunk, chunkX, chunkZ);
+		PlatMap platmap = gen.getPlatMap(chunkX, chunkZ);
 
 		return platmap.context.schematicFamily.toString();
 	}
@@ -108,13 +104,12 @@ public class CityWorldAPI {
 		WorldGenerator gen = (WorldGenerator) c.getWorld().getGenerator();
 		int chunkX = c.getX();
 		int chunkZ = c.getZ();
-		ByteChunk byteChunk = new ByteChunk(gen, chunkX, chunkZ);
 
 		// Setup info - seams to require this to prevent NPE's when server is restarted.
 		gen.initializeWorldInfo(c.getWorld());
 
 		// figure out what everything looks like. Again :/
-		PlatMap platmap = gen.getPlatMap(byteChunk, chunkX, chunkZ);
+		PlatMap platmap = gen.getPlatMap(chunkX, chunkZ);
 
 		return platmap.context;
 	}
@@ -124,13 +119,12 @@ public class CityWorldAPI {
 		WorldGenerator gen = (WorldGenerator) c.getWorld().getGenerator();
 		int chunkX = c.getX();
 		int chunkZ = c.getZ();
-		ByteChunk byteChunk = new ByteChunk(gen, chunkX, chunkZ);
 
 		// Setup info - seams to require this to prevent NPE's when server is restarted.
 		gen.initializeWorldInfo(c.getWorld());
 
 		// figure out what everything looks like. Again :/
-		PlatMap platmap = gen.getPlatMap(byteChunk, chunkX, chunkZ);
+		PlatMap platmap = gen.getPlatMap(chunkX, chunkZ);
 
 		// Now time to get the lot info
 		int platX = chunkX - platmap.originX;
@@ -147,13 +141,12 @@ public class CityWorldAPI {
 		WorldGenerator gen = (WorldGenerator) c.getWorld().getGenerator();
 		int chunkX = c.getX();
 		int chunkZ = c.getZ();
-		ByteChunk byteChunk = new ByteChunk(gen, chunkX, chunkZ);
 
 		// Setup info - seams to require this to prevent NPE's when server is restarted.
 		gen.initializeWorldInfo(c.getWorld());
 
 		// figure out what everything looks like. Again :/
-		PlatMap platmap = gen.getPlatMap(byteChunk, chunkX, chunkZ);
+		PlatMap platmap = gen.getPlatMap(chunkX, chunkZ);
 
 		// Now time to get the lot info
 		int platX = chunkX - platmap.originX;
@@ -170,13 +163,12 @@ public class CityWorldAPI {
 		WorldGenerator gen = (WorldGenerator) c.getWorld().getGenerator();
 		int chunkX = c.getX();
 		int chunkZ = c.getZ();
-		ByteChunk byteChunk = new ByteChunk(gen, chunkX, chunkZ);
 
 		// Setup info - seams to require this to prevent NPE's when server is restarted.
 		gen.initializeWorldInfo(c.getWorld());
 
 		// figure out what everything looks like. Again :/
-		PlatMap platmap = gen.getPlatMap(byteChunk, chunkX, chunkZ);
+		PlatMap platmap = gen.getPlatMap(chunkX, chunkZ);
 
 		// Now time to get the lot info
 		int platX = chunkX - platmap.originX;

@@ -22,7 +22,7 @@ public class NeighborhoodContext extends RuralContext {
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
 		
 		// let the user add their stuff first, then plug any remaining holes with our stuff
-		populateWithSchematics(generator, platmap);
+		mapsSchematics.populate(generator, platmap);
 		
 		/// do we check for roads?
 		boolean checkForRoads = platmap.getNumberOfRoads() > 0;
@@ -33,7 +33,7 @@ public class NeighborhoodContext extends RuralContext {
 				PlatLot current = platmap.getLot(x, z);
 				if (current == null) {
 					
-					// make houses?
+					// make houses? but only if they are right beside a road
 					if (generator.settings.includeHouses) {
 						
 						// check for roads?

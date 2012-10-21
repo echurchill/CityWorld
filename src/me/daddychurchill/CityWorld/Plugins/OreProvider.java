@@ -159,21 +159,28 @@ public abstract class OreProvider extends Provider {
 		
 		// default to stock OreProvider
 		if (provider == null) {
-			switch (generator.worldEnvironment) {
-			case NETHER:
-				provider = new OreProvider_Nether(generator);
-				break;
-			case THE_END:
-				provider = new OreProvider_TheEnd(generator);
-				break;
-			case NORMAL:
-				if (generator.settings.includeDecayedNature)
-					provider = new OreProvider_Decayed(generator);
-				else if (generator.settings.includeTekkitMaterials)
-					provider = new OreProvider_Tekkit(generator);
-				else
-					provider = new OreProvider_Normal(generator);
-				break;
+
+			if (generator.settings.includeTekkitMaterials) {
+				generator.reportMessage("[OreProvider] Found ForgeTekkit, enabling its ores");
+				
+				//TODO provide nether, theend and decayed variants of Tekkit
+				provider = new OreProvider_Tekkit(generator);
+			} else {
+				
+				switch (generator.worldEnvironment) {
+				case NETHER:
+					provider = new OreProvider_Nether(generator);
+					break;
+				case THE_END:
+					provider = new OreProvider_TheEnd(generator);
+					break;
+				case NORMAL:
+					if (generator.settings.includeDecayedNature)
+						provider = new OreProvider_Decayed(generator);
+					else
+						provider = new OreProvider_Normal(generator);
+					break;
+				}
 			}
 		}
 	

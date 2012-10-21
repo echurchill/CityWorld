@@ -2,10 +2,12 @@ package me.daddychurchill.CityWorld.Clipboard;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plugins.Provider;
+import me.daddychurchill.CityWorld.Plugins.WorldEdit.PasteProvider_WorldEdit;
 
 public abstract class PasteProvider extends Provider {
 
-	public enum SchematicFamily {ROUNDABOUT, PARK, HIGHRISE, MIDRISE, LOWRISE, INDUSTRIAL, MUNICIPAL, CONSTRUCTION, NEIGHBORHOOD, FARM, NATURE};
+	public enum SchematicFamily {ROUNDABOUT, PARK, HIGHRISE, MIDRISE, LOWRISE, INDUSTRIAL, MUNICIPAL, CONSTRUCTION, 
+		NEIGHBORHOOD, FARM, NATURE};
 	
 	public PasteProvider() {
 		super();
@@ -13,24 +15,23 @@ public abstract class PasteProvider extends Provider {
 	}
 
 	public ClipboardList getFamilyClips(WorldGenerator generator, SchematicFamily family, int maxChunkX, int maxChunkZ) {
+		ClipboardList clips = new ClipboardList();
 		try {
 			
 			// try and load
-			ClipboardList clips = loadClips(generator, family, maxChunkX, maxChunkZ);
-			if (clips != null) {
-				schematicsLoaded += clips.count();
-				return clips;
-			}
+			loadClips(generator, family, clips, maxChunkX, maxChunkZ);
 			
 		} catch (Exception e) {
 			generator.reportException("[PasteProvider] " + family.toString() + " could NOT be loaded", e);
-		}
-		
-		// assume failure
-		return null;
+
+		} 
+			
+		// return the clips
+		schematicsLoaded += clips.count();
+		return clips;
 	}
 	
-	protected abstract ClipboardList loadClips(WorldGenerator generator, SchematicFamily family, int maxX, int maxZ) throws Exception;
+	protected abstract void loadClips(WorldGenerator generator, SchematicFamily family, ClipboardList clips, int maxX, int maxZ) throws Exception;
 
 	protected int schematicsLoaded = 0;
 	public abstract void reportStatus(WorldGenerator generator);

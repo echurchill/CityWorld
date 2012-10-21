@@ -39,7 +39,7 @@ public class IndustrialContext extends UrbanContext {
 		maximumFloorsBelow = 1;
 	}
 	
-	private final static double oddsOfStorageLot = DataContext.oddsExtremelyLikely;
+	private final static double oddsOfStorageLot = DataContext.oddsVeryLikely;
 	private final static double oddsOfWarehouse = DataContext.oddsVeryLikely;
 	
 	@Override

@@ -45,7 +45,7 @@ public class RoadContext extends DataContext {
 		Direction.Facing facing = odds.getFacing();
 		
 		// see if there is a schematic out there that fits
-		Clipboard clip = getSingleSchematicLot(generator, platmap, odds, x, z);
+		Clipboard clip = mapsSchematics.getSingleLot(generator, platmap, odds, x, z);
 		if (clip != null) {
 			
 			// create it then

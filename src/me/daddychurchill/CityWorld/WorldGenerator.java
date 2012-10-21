@@ -33,7 +33,6 @@ import me.daddychurchill.CityWorld.Plugins.SurfaceProvider;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
 import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
 import org.bukkit.Chunk;
@@ -216,23 +215,44 @@ public class WorldGenerator extends ChunkGenerator {
 			// get the connectionKeys
 			connectedKeyForPavedRoads = connectionKeyGen.getRandomLong();
 			connectedKeyForParks = connectionKeyGen.getRandomLong();
+			
+//			reportMessage("Plugins...");
+//			PluginManager pm = Bukkit.getServer().getPluginManager();
+//			Plugin[] plugins = pm.getPlugins();
+//			for (Plugin plugin: plugins) {
+//				reportMessage("Plugin = " + plugin.getName());
+//			}
 		}
 	}
 	
 	@Override
 	public byte[][] generateBlockSections(World aWorld, Random random, int chunkX, int chunkZ, BiomeGrid biomes) {
-		initializeWorldInfo(aWorld);
+		try {
+
+			initializeWorldInfo(aWorld);
+
+		} catch (Exception e) {
+			reportException("[1AARRRGGGG]", e);
+
+		} 
 		
 		// place to work
 		ByteChunk byteChunk = new ByteChunk(this, chunkX, chunkZ);
 		
-		// figure out what everything looks like
-		PlatMap platmap = getPlatMap(byteChunk, chunkX, chunkZ);
-		if (platmap != null) {
-			//CityWorld.reportMessage("generate X,Z = " + chunkX + "," + chunkZ);
-			platmap.generateChunk(byteChunk, biomes);
-		}
+		try {
 
+			// figure out what everything looks like
+			PlatMap platmap = getPlatMap(chunkX, chunkZ);
+			if (platmap != null) {
+				//CityWorld.reportMessage("generate X,Z = " + chunkX + "," + chunkZ);
+				platmap.generateChunk(byteChunk, biomes);
+			}
+
+		} catch (Exception e) {
+			reportException("[2AARRRGGGG]", e);
+
+		} 
+		
 		return byteChunk.blocks;
 	}
 	
@@ -263,7 +283,7 @@ public class WorldGenerator extends ChunkGenerator {
 
 	// manager for handling the city plat maps collection
 	private Hashtable<Long, PlatMap> platmaps;
-	public PlatMap getPlatMap(SupportChunk cornerChunk, int chunkX, int chunkZ) {
+	public PlatMap getPlatMap(int chunkX, int chunkZ) {
 
 		// get the plat map collection
 		if (platmaps == null)
@@ -283,7 +303,7 @@ public class WorldGenerator extends ChunkGenerator {
 		if (platmap == null) {
 			
 			// what is the context for this one?
-			platmap = shapeProvider.createPlatMap(this, cornerChunk, platX, platZ);
+			platmap = shapeProvider.createPlatMap(this, platX, platZ);
 			
 			// remember it for quicker look up
 			platmaps.put(platkey, platmap);
@@ -321,21 +341,27 @@ public class WorldGenerator extends ChunkGenerator {
 
 		@Override
 		public void populate(World aWorld, Random random, Chunk chunk) {
-			chunkGen.initializeWorldInfo(aWorld);
-			
-			// where are we?
-			int chunkX = chunk.getX();
-			int chunkZ = chunk.getZ();
-			
-			// place to work
-			RealChunk realChunk = new RealChunk(chunkGen, chunk);
+			try {
 
-			// figure out what everything looks like
-			PlatMap platmap = chunkGen.getPlatMap(realChunk, chunkX, chunkZ);
-			if (platmap != null) {
-				//CityWorld.reportMessage("populate X,Z = " + chunkX + "," + chunkZ);
-				platmap.generateBlocks(realChunk);
-			}
+				chunkGen.initializeWorldInfo(aWorld);
+				
+				// where are we?
+				int chunkX = chunk.getX();
+				int chunkZ = chunk.getZ();
+				
+				// place to work
+				RealChunk realChunk = new RealChunk(chunkGen, chunk);
+
+				// figure out what everything looks like
+				PlatMap platmap = chunkGen.getPlatMap(chunkX, chunkZ);
+				if (platmap != null) {
+					//CityWorld.reportMessage("populate X,Z = " + chunkX + "," + chunkZ);
+					platmap.generateBlocks(realChunk);
+				}
+			} catch (Exception e) {
+				reportException("[4AARRRGGGG]", e);
+
+			} 
 		}
 	}
 }
