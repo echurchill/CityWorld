@@ -35,6 +35,7 @@ import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -247,7 +248,10 @@ public class WorldGenerator extends ChunkGenerator {
 				//CityWorld.reportMessage("generate X,Z = " + chunkX + "," + chunkZ);
 				platmap.generateChunk(byteChunk, biomes);
 			}
-
+			
+			CityWorldEvent event = new CityWorldEvent(chunkX, chunkZ, platmap.context, platmap.getPlatLots()[chunkX - platmap.originX][chunkZ - platmap.originZ]);
+			Bukkit.getServer().getPluginManager().callEvent(event);
+			
 		} catch (Exception e) {
 			reportException("[2AARRRGGGG]", e);
 

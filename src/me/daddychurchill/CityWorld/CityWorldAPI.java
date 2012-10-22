@@ -16,6 +16,7 @@ public class CityWorldAPI {
 	// This class was created by Sablednah
 	// https://github.com/echurchill/CityWorld/pull/4
 	
+	@SuppressWarnings("unused")
 	private CityWorld plugin;
 
 	public CityWorldAPI(Plugin p) {
@@ -23,7 +24,8 @@ public class CityWorldAPI {
 	}
 
 	public HashMap<String, String> getFullInfo(Chunk c) {
-		plugin.reportMessage(CityWorld.pluginName + " API Full info called");
+		//Unneeded debug info
+		//plugin.reportMessage(CityWorld.pluginName + " API Full info called");
 
 		HashMap<String, String> info = new HashMap<String, String>();
 		String classname;
