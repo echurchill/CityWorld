@@ -14,6 +14,7 @@ public class OldCastleLot extends ConstructLot {
 	public OldCastleLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 
+		//platmap.generator.reportMessage("CASTLE AT " + (chunkX * 16) + ", " + (chunkZ * 16));
 	}
 	
 	private final static byte platformId = (byte) Material.SMOOTH_BRICK.getId();

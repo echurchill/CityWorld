@@ -22,6 +22,7 @@ public class BunkerLot extends ConstructLot {
 	public BunkerLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 
+		//platmap.generator.reportMessage("BUNKER AT " + (chunkX * 16) + ", " + (chunkZ * 16));
 	}
 	
 	// these MUST be given in chunk segment units (currently 16) 

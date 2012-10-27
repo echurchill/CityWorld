@@ -23,8 +23,6 @@ public class LootProvider_Normal extends LootProvider {
 			return createTreasures(generator, odds, Material.IRON_SPADE, Material.COAL, 3, 2);
 		case STORAGESHED:
 			return createTreasures(generator, odds, Material.IRON_SPADE, Material.IRON_AXE, 2, 1);
-		case BANKVAULT:
-			return createTreasures(generator, odds, Material.DIAMOND, Material.GOLD_INGOT, 2, 10);
 		default:
 			return createTreasures(generator, odds, Material.IRON_SPADE, Material.IRON_SPADE, 0, 0);
 		}

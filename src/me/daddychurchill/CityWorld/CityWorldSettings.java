@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.Tekkit.TekkitMaterial;
+import me.daddychurchill.CityWorld.Support.MaterialStack;
 import me.daddychurchill.CityWorld.Support.Odds;
 
 import org.bukkit.Material;
@@ -78,6 +79,10 @@ public class CityWorldSettings {
 	public double oddsOfSpawnerInMineAlcove = DataContext.oddsSomewhatLikely;
 	public double oddsOfAlcoveInMines = DataContext.oddsVeryLikely;
 	
+	public MaterialStack itemsTreasureInSewers;
+	public MaterialStack itemsTreasureInBunkers;
+	public MaterialStack itemsTreasureInMines;
+	
 	private final static String tagCenterPointOfChunkRadiusX = "CenterPointOfChunkRadiusX";
 	private final static String tagCenterPointOfChunkRadiusZ = "CenterPointOfChunkRadiusZ";
 	private final static String tagConstructChunkRadius = "ConstructChunkRadius";
@@ -141,6 +146,11 @@ public class CityWorldSettings {
 		
 		// what about tekkit?
 		includeTekkitMaterials = TekkitMaterial.isTekkitForgeEnabled();
+		
+		// stacks of materials
+		itemsTreasureInSewers = new MaterialStack("Treasure_In_Sewers");
+		itemsTreasureInBunkers = new MaterialStack("Treasure_In_Bunkers");
+		itemsTreasureInMines = new MaterialStack("Treasure_In_Mines");
 		
 		// add/get the configuration
 		CityWorld plugin = generator.getPlugin();

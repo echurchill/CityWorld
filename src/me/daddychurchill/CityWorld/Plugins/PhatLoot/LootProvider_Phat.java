@@ -11,7 +11,6 @@ public class LootProvider_Phat extends LootProvider {
 	public final static String chestInSewers = "CityWorld_Chest_Sewer";
 	public final static String chestInMines = "CityWorld_Chest_Mine";
 	public final static String chestInBunkers = "CityWorld_Chest_Bunker";
-	public final static String chestInBankVault = "CityWorld_Chest_BankVault";
 	public final static String chestInStorageShed = "CityWorld_Chest_StorageShed";
 	
 	@Override
@@ -23,8 +22,6 @@ public class LootProvider_Phat extends LootProvider {
 			return getItemsByName(generator, chestInBunkers);
 		case MINE:
 			return getItemsByName(generator, chestInMines);
-		case BANKVAULT:
-			return getItemsByName(generator, chestInBankVault);
 		case STORAGESHED:
 			return getItemsByName(generator, chestInStorageShed);
 		default: //case SEWER:

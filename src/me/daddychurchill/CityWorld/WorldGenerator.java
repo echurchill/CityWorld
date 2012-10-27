@@ -231,16 +231,9 @@ public class WorldGenerator extends ChunkGenerator {
 
 			initializeWorldInfo(aWorld);
 
-		} catch (Exception e) {
-			reportException("[1AARRRGGGG]", e);
-
-		} 
+			// place to work
+			ByteChunk byteChunk = new ByteChunk(this, chunkX, chunkZ);
 		
-		// place to work
-		ByteChunk byteChunk = new ByteChunk(this, chunkX, chunkZ);
-		
-		try {
-
 			// figure out what everything looks like
 			PlatMap platmap = getPlatMap(chunkX, chunkZ);
 			if (platmap != null) {
@@ -248,12 +241,12 @@ public class WorldGenerator extends ChunkGenerator {
 				platmap.generateChunk(byteChunk, biomes);
 			}
 
+			return byteChunk.blocks;
+			
 		} catch (Exception e) {
-			reportException("[2AARRRGGGG]", e);
-
+			reportException("ChunkPopulator FAILED", e);
+			return null;
 		} 
-		
-		return byteChunk.blocks;
 	}
 	
 	public long getConnectionKey() {
@@ -359,7 +352,7 @@ public class WorldGenerator extends ChunkGenerator {
 					platmap.generateBlocks(realChunk);
 				}
 			} catch (Exception e) {
-				reportException("[4AARRRGGGG]", e);
+				reportException("BlockPopulator FAILED", e);
 
 			} 
 		}

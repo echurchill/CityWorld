@@ -77,7 +77,7 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 			} else if (y < generator.evergreenLevel) {
 
 				// trees? 
-				if (includeTrees && primary > treeOdds && x % 2 == 0 && z % 2 != 0) {
+				if (includeTrees && primary < treeOdds && x % 2 == 0 && z % 2 != 0) {
 					
 					// range change?
 					if (secondary > ((double) (y - generator.treeLevel) / (double) generator.deciduousRange))

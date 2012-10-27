@@ -32,7 +32,7 @@ public class NormalMap extends PlatMap {
 				}
 			}
 		} catch (Exception e) {
-			generator.reportException("[3AARRRGGGG]", e);
+			generator.reportException("NormalMap.populateLots FAILED", e);
 
 		} 
 		

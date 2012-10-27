@@ -10,20 +10,26 @@ import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.WorldGenerator;
 
 import org.bukkit.Chunk;
-import org.bukkit.plugin.Plugin;
 
 public class CityWorldAPI {
 	// This class was created by Sablednah
 	// https://github.com/echurchill/CityWorld/pull/4
+	// https://github.com/echurchill/CityWorld/pull/5
+	// Modified by DaddyChurchill to better match the rest of the commands
 	
 	private CityWorld plugin;
 
-	public CityWorldAPI(Plugin p) {
-		this.plugin = (CityWorld) p;
+	public CityWorldAPI(CityWorld plugin) {
+		this.plugin = plugin;
 	}
 
+	public CityWorld getWorld() {
+		return plugin;
+	}
+	
 	public HashMap<String, String> getFullInfo(Chunk c) {
-		plugin.reportMessage(CityWorld.pluginName + " API Full info called");
+		//Unneeded debug info		
+		//plugin.reportMessage(CityWorld.pluginName + " API Full info called");
 
 		HashMap<String, String> info = new HashMap<String, String>();
 		String classname;

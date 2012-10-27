@@ -1,21 +1,27 @@
 name: CityWorld
 main: me.daddychurchill.CityWorld.CityWorld
-version: 2.03
+version: 2.04
 load: startup
 author: DaddyChurchill
+website: http://dev.bukkit.org/server-mods/cityworld/
+description: The great outdoors is all good and fine but sometimes you just want to go to town.
+softdepend: [WorldEdit]
+loadbefore: [Multiverse-Core, dimension-door, multiworld]
+database: false
+prefix: CityWorld
 commands:
   cityworld:
     description: Teleports you to/from the default CityWorld
     usage: /cityworld [leave] [normal|nether|the_end] [floating]
+    permission: cityworld.command
   citychunk:
     description: Performs specific maintenance on chunks of CityWorld
     usage: /citychunk regen | clean [chunkradius]
-  citylines:
-    description: Draws plot lines for use with WorldEdit
-    usage: /citylines [chunksWide [chunksLength [floorsUp [floorsDown]]]]
+    permission: citychunk.command
   cityinfo:
     description: Describes the current chunk
     usage: /cityinfo
+    permission: cityinfo.command
 permissions:
   cityworld.*:
     description: Gives access to all CityWorld commands
@@ -32,9 +38,6 @@ permissions:
     default: op
   citychunk.command:
     description: Allows users to regenerate or cleanup world chunks
-    default: op
-  citylines.command:
-    description: Allows users to create plot lines for use with WorldEdit
     default: op
   cityinfo.command:
     description: Allows users to get chunk info

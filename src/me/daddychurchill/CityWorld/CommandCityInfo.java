@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 public class CommandCityInfo implements CommandExecutor {
 	// This class was created by Sablednah
 	// https://github.com/echurchill/CityWorld/pull/4
+	// Modified a bit by DaddyChurchill
 	
 	private final CityWorld	plugin;
 
@@ -43,9 +44,9 @@ public class CommandCityInfo implements CommandExecutor {
 				HashMap<String, String> info = api.getFullInfo(chunk);
 				// wite a message to player for each line
 				for (Entry<String, String> entry : info.entrySet()) {
-					String key = entry.getKey();
-					String value = entry.getValue();
-					player.sendMessage(key + ": " + value);
+					String message = entry.getKey() + ": " + entry.getValue();
+					player.sendMessage(message);
+					CityWorld.log.info(message); // tweaked to match the docs
 				}
 
 				// all done

@@ -13,34 +13,41 @@ public class FloatingMap extends PlatMap {
 	@Override
 	protected void populateLots() {
 
-		// assume everything is natural for the moment
-		context = generator.natureContext;
-		context.populateMap(generator, this);
-		
-		// place and validate the roads
-		if (generator.settings.includeRoads) {
-			populateRoads();
-			validateRoads();
+		try {
 
-			// place the buildings
-			if (generator.settings.includeBuildings) {
+			// assume everything is natural for the moment
+			context = generator.natureContext;
+			context.populateMap(generator, this);
+			
+			// place and validate the roads
+			if (generator.settings.includeRoads) {
+				populateRoads();
+				validateRoads();
 	
-				// recalculate the context based on the "natural-ness" of the platmap
-				context = getContext();
-				context.populateMap(generator, this);
-				
-				//TODO need to remove isolated non-nature
-				
-				// find blimp moorings
-				for (int x = 0; x < Width; x++) {
-					for (int z = 0; z < Width; z++) {
-						if (needBlimpLot(x, z))
-							setLot(x, z, new FloatingBlimpLot(this, originX + x, originZ + z));
+				// place the buildings
+				if (generator.settings.includeBuildings) {
+		
+					// recalculate the context based on the "natural-ness" of the platmap
+					context = getContext();
+					context.populateMap(generator, this);
+					
+					//TODO need to remove isolated non-nature
+					
+					// find blimp moorings
+					for (int x = 0; x < Width; x++) {
+						for (int z = 0; z < Width; z++) {
+							if (needBlimpLot(x, z))
+								setLot(x, z, new FloatingBlimpLot(this, originX + x, originZ + z));
+						}
 					}
 				}
 			}
-		}
-		
+			
+		} catch (Exception e) {
+			generator.reportException("FloatingMap.populateLots FAILED", e);
+	
+		} 
+	
 		//TODO: nature shouldn't place its special lots until this phase and then only if the lot is surrounded by nature
 		
 		// recycle all the remaining holes
