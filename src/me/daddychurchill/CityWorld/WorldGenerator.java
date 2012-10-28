@@ -244,8 +244,9 @@ public class WorldGenerator extends ChunkGenerator {
 			
 			// This was added by Sablednah
 			// https://github.com/echurchill/CityWorld/pull/5
-			CityWorldEvent event = new CityWorldEvent(chunkX, chunkZ, platmap.context, platmap.getPlatLots()[chunkX - platmap.originX][chunkZ - platmap.originZ]);
-			Bukkit.getServer().getPluginManager().callEvent(event);
+			// MOVED to the chunk populator by DaddyChurchill 10/27/12
+			//CityWorldEvent event = new CityWorldEvent(chunkX, chunkZ, platmap.context, platmap.getPlatLots()[chunkX - platmap.originX][chunkZ - platmap.originZ]);
+			//Bukkit.getServer().getPluginManager().callEvent(event);
 			
 			return byteChunk.blocks;
 			
@@ -328,7 +329,6 @@ public class WorldGenerator extends ChunkGenerator {
 	public void reportException(String message, Exception e) {
 		plugin.reportException(message, e);
 	}
-	
 
 	private class CityWorldBlockPopulator extends BlockPopulator {
 
@@ -354,12 +354,15 @@ public class WorldGenerator extends ChunkGenerator {
 				// figure out what everything looks like
 				PlatMap platmap = chunkGen.getPlatMap(chunkX, chunkZ);
 				if (platmap != null) {
-					//CityWorld.reportMessage("populate X,Z = " + chunkX + "," + chunkZ);
 					platmap.generateBlocks(realChunk);
+					
+					// Originally by Sablednah
+					// Moved and modified a bit by DaddyChurchill
+					CityWorldEvent event = new CityWorldEvent(chunk, platmap, platmap.getMapLot(chunkX, chunkZ));
+					Bukkit.getServer().getPluginManager().callEvent(event);
 				}
 			} catch (Exception e) {
 				reportException("BlockPopulator FAILED", e);
-
 			} 
 		}
 	}

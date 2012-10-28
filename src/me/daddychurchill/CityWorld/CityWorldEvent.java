@@ -2,25 +2,27 @@ package me.daddychurchill.CityWorld;
 
 import me.daddychurchill.CityWorld.Clipboard.ClipboardLot;
 import me.daddychurchill.CityWorld.Context.DataContext;
+import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 
+import org.bukkit.Chunk;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
 public class CityWorldEvent extends Event {
-	private static final HandlerList	handlers	= new HandlerList();
-	private int							chunkX;
-	private int							chunkZ;
-	private DataContext					context;
-	private PlatLot						platlot;
+	private Chunk chunk;
+	private PlatMap platmap;
+	private PlatLot platlot;
 
-	public CityWorldEvent(int x, int z, DataContext c, PlatLot p) {
-		this.chunkX = x;
-		this.chunkZ = z;
-		this.context = c;
-		this.platlot = p;
+	public CityWorldEvent(Chunk chunk, PlatMap platmap, PlatLot platlot) {
+		super();
+		this.chunk = chunk;
+		this.platmap = platmap;
+		this.platlot = platlot;
 	}
 
+	private static final HandlerList handlers = new HandlerList();
+	
 	public HandlerList getHandlers() {
 		return handlers;
 	}
@@ -30,35 +32,64 @@ public class CityWorldEvent extends Event {
 	}
 
 	/**
-	 * @return the chunkX
+	 * @return the chunk's X
 	 */
 	public int getChunkX() {
-		return chunkX;
+		return chunk.getX();
 	}
 
 	/**
-	 * @return the chunkZ
+	 * @return the chunk's Z
 	 */
 	public int getChunkZ() {
-		return chunkZ;
+		return chunk.getZ();
+	}
+	
+	/**
+	 * @return the chunk reference
+	 */
+	public Chunk getChunk() {
+		return chunk;
 	}
 
+	/**
+	 * @return the chunk's CityWorld PlatMap
+	 */
+	public PlatMap getPlatMap() {
+		return platmap;
+	}
+
+	/**
+	 * @return the chunk's CityWorld DataContext
+	 */
 	public DataContext getContext() {
-		return context;
+		return platmap.context;
 	}
 
+	/**
+	 * @return the chunk's CityWorld platlot
+	 */
 	public PlatLot getPlatlot() {
 		return platlot;
 	}
 
+	/**
+	 * @return the chunk's CityWorld general schematic family name
+	 */
 	public String getContextName() {
-		return context.schematicFamily.toString();
+		return platmap.context.schematicFamily.toString();
 	}
 
+	/**
+	 * @return the true if Chunk's CityWorld platlot uses a schematic
+	 */
 	public boolean hasSchematic() {
 		return platlot instanceof ClipboardLot;
 	}
 
+	/**
+	 * @return the Chunk's CityWorld platLot schematic if it uses one
+	 */
 	public String getSchematicName() {
 		if (hasSchematic()) {
 			ClipboardLot clot = (ClipboardLot) platlot;

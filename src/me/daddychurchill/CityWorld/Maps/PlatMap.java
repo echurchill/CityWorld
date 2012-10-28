@@ -135,6 +135,17 @@ public abstract class PlatMap {
 		return platLots[x][z];
 	}
 	
+	public PlatLot getMapLot(int chunkX, int chunkZ) throws IndexOutOfBoundsException {
+		int platX = chunkX - originX;
+		int platZ = chunkZ - originZ;
+		
+		// range check
+		if (platX >= 0 && platX < Width && platZ >= 0 && platZ < Width)
+			return platLots[platX][platZ];
+		else
+			throw new IndexOutOfBoundsException("Location specified is not in this PlatMap");
+	}
+	
 	public boolean isEmptyLot(int x, int z) {
 		if (x >= 0 && x < Width && z >= 0 && z < Width)
 			return platLots[x][z] == null;
@@ -463,9 +474,9 @@ public abstract class PlatMap {
 		}
 	}
 
-	// Added by Sablednah
-	// https://github.com/echurchill/CityWorld/pull/4
-	public PlatLot[][] getPlatLots() {
-		return platLots;
-	}
+//	// Added by Sablednah
+//	// https://github.com/echurchill/CityWorld/pull/4
+//	public PlatLot[][] getPlatLots() {
+//		return platLots;
+//	}
 }

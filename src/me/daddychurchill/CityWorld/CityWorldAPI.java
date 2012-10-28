@@ -10,20 +10,23 @@ import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.WorldGenerator;
 
 import org.bukkit.Chunk;
-import org.bukkit.plugin.Plugin;
 
 public class CityWorldAPI {
 	// This class was created by Sablednah
 	// https://github.com/echurchill/CityWorld/pull/4
+	// https://github.com/echurchill/CityWorld/pull/5 (but with some changes)
 	
-	@SuppressWarnings("unused")
 	private CityWorld plugin;
 
-	public CityWorldAPI(Plugin p) {
-		this.plugin = (CityWorld) p;
+	public CityWorldAPI(CityWorld plugin) {
+		this.plugin = plugin;
+	}
+	
+	public CityWorld getWorld() {
+		return plugin;
 	}
 
-	public HashMap<String, String> getFullInfo(Chunk c) {
+	public HashMap<String, String> getFullInfo(Chunk c) throws IllegalArgumentException, IndexOutOfBoundsException {
 		//Unneeded debug info
 		//plugin.reportMessage(CityWorld.pluginName + " API Full info called");
 
@@ -39,6 +42,11 @@ public class CityWorldAPI {
 
 		// figure out what everything looks like. Again :/
 		PlatMap platmap = gen.getPlatMap(chunkX, chunkZ);
+		if (platmap == null)
+			throw new IllegalArgumentException("PlatMap not found for specified chunk");
+		
+		// figure out the lot
+		PlatLot lot = platmap.getMapLot(chunkX, chunkZ);
 
 		// add context type to returned hashmap
 		info.put("context", platmap.context.schematicFamily.toString());
@@ -47,13 +55,6 @@ public class CityWorldAPI {
 		classname = platmap.context.getClass().getName();
 		classname = classname.substring(classname.lastIndexOf(".") + 1);
 		info.put("contextclass", classname);
-
-		// Now time to get the lot info
-		int platX = chunkX - platmap.originX;
-		int platZ = chunkZ - platmap.originZ;
-
-		PlatLot[][] lots = platmap.getPlatLots();
-		PlatLot lot = lots[platX][platZ];
 
 		// add lot style to hashmap
 		info.put("lot", lot.style.toString());
@@ -72,7 +73,7 @@ public class CityWorldAPI {
 		return info;
 	}
 
-	public int getRoadCount(Chunk c) {
+	public int getRoadCount(Chunk c) throws IllegalArgumentException {
 
 		WorldGenerator gen = (WorldGenerator) c.getWorld().getGenerator();
 		int chunkX = c.getX();
@@ -83,11 +84,13 @@ public class CityWorldAPI {
 
 		// figure out what everything looks like. Again :/
 		PlatMap platmap = gen.getPlatMap(chunkX, chunkZ);
-
+		if (platmap == null)
+			throw new IllegalArgumentException("PlatMap not found for specified chunk");
+		
 		return platmap.getNumberOfRoads();
 	}
 
-	public String getContextName(Chunk c) {
+	public String getContextName(Chunk c) throws IllegalArgumentException {
 		WorldGenerator gen = (WorldGenerator) c.getWorld().getGenerator();
 		int chunkX = c.getX();
 		int chunkZ = c.getZ();
@@ -97,11 +100,13 @@ public class CityWorldAPI {
 
 		// figure out what everything looks like. Again :/
 		PlatMap platmap = gen.getPlatMap(chunkX, chunkZ);
+		if (platmap == null)
+			throw new IllegalArgumentException("PlatMap not found for specified chunk");
 
 		return platmap.context.schematicFamily.toString();
 	}
 
-	public DataContext getContext(Chunk c) {
+	public DataContext getContext(Chunk c) throws IllegalArgumentException {
 
 		WorldGenerator gen = (WorldGenerator) c.getWorld().getGenerator();
 		int chunkX = c.getX();
@@ -112,11 +117,13 @@ public class CityWorldAPI {
 
 		// figure out what everything looks like. Again :/
 		PlatMap platmap = gen.getPlatMap(chunkX, chunkZ);
-
+		if (platmap == null)
+			throw new IllegalArgumentException("PlatMap not found for specified chunk");
+		
 		return platmap.context;
 	}
 
-	public String getLotStyleName(Chunk c) {
+	public String getLotStyleName(Chunk c) throws IllegalArgumentException, IndexOutOfBoundsException {
 
 		WorldGenerator gen = (WorldGenerator) c.getWorld().getGenerator();
 		int chunkX = c.getX();
@@ -127,18 +134,15 @@ public class CityWorldAPI {
 
 		// figure out what everything looks like. Again :/
 		PlatMap platmap = gen.getPlatMap(chunkX, chunkZ);
-
-		// Now time to get the lot info
-		int platX = chunkX - platmap.originX;
-		int platZ = chunkZ - platmap.originZ;
-
-		PlatLot[][] lots = platmap.getPlatLots();
-		PlatLot lot = lots[platX][platZ];
-
+		if (platmap == null)
+			throw new IllegalArgumentException("PlatMap not found for specified chunk");
+		
+		// figure out the lot
+		PlatLot lot = platmap.getMapLot(chunkX, chunkZ);
 		return lot.style.toString();
 	}
 
-	public LotStyle getLotStyle(Chunk c) {
+	public LotStyle getLotStyle(Chunk c) throws IllegalArgumentException, IndexOutOfBoundsException {
 
 		WorldGenerator gen = (WorldGenerator) c.getWorld().getGenerator();
 		int chunkX = c.getX();
@@ -149,18 +153,16 @@ public class CityWorldAPI {
 
 		// figure out what everything looks like. Again :/
 		PlatMap platmap = gen.getPlatMap(chunkX, chunkZ);
-
-		// Now time to get the lot info
-		int platX = chunkX - platmap.originX;
-		int platZ = chunkZ - platmap.originZ;
-
-		PlatLot[][] lots = platmap.getPlatLots();
-		PlatLot lot = lots[platX][platZ];
-
+		if (platmap == null)
+			throw new IllegalArgumentException("PlatMap not found for specified chunk");
+		
+		// figure out the lot
+		PlatLot lot = platmap.getMapLot(chunkX, chunkZ);
 		return lot.style;
 	}
 
-	public String getSchematicName(Chunk c) {
+	public String getSchematicName(Chunk c) throws IllegalArgumentException, IndexOutOfBoundsException {
+		String name = null;
 
 		WorldGenerator gen = (WorldGenerator) c.getWorld().getGenerator();
 		int chunkX = c.getX();
@@ -171,15 +173,12 @@ public class CityWorldAPI {
 
 		// figure out what everything looks like. Again :/
 		PlatMap platmap = gen.getPlatMap(chunkX, chunkZ);
-
-		// Now time to get the lot info
-		int platX = chunkX - platmap.originX;
-		int platZ = chunkZ - platmap.originZ;
-
-		PlatLot[][] lots = platmap.getPlatLots();
-		PlatLot lot = lots[platX][platZ];
-
-		String name = null;
+		if (platmap == null)
+			throw new IllegalArgumentException("PlatMap not found for specified chunk");
+		
+		// figure out the lot
+		PlatLot lot = platmap.getMapLot(chunkX, chunkZ);
+		
 		// Now check if lot is a clipboardlot to get schematic name
 		if (lot instanceof ClipboardLot) {
 			ClipboardLot clot = (ClipboardLot) lot;
