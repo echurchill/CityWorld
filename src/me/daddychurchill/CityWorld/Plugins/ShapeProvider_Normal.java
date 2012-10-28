@@ -165,10 +165,10 @@ public class ShapeProvider_Normal extends ShapeProvider {
 							
 						// only snow up here!
 						} else {
-							if (generator.settings.includeAbovegroundFluids)
+							if (generator.settings.includeAbovegroundFluids && y > generator.snowLevel + 2)
 								generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 1, ores.stratumId, y, ores.fluidFrozenId, surfaceCaves);
 							else
-								generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 1, ores.stratumId, y, ores.surfaceId, surfaceCaves);
+								generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 1, ores.stratumId, y, ores.stratumId, surfaceCaves);
 							resultBiome = Biome.ICE_MOUNTAINS;
 						}
 					}

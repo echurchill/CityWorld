@@ -134,7 +134,6 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 							if (chunk.isType(x, y, z, Material.SAND))
 								if (chunk.isSurroundedByWater(x, y, z))
 									foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.REED);
-//								chunk.setBlock(x, y + 1, z, Material.BOOKSHELF);
 					} else {
 						
 					}
