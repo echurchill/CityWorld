@@ -31,7 +31,7 @@ public class OldCastleLot extends ConstructLot {
 		
 		// main bits
 		int floorHeight = DataContext.FloorHeight;
-		int y1 = minHeight + ((maxHeight - minHeight) / 2);
+		int y1 = minHeight + ((maxHeight - minHeight) / 3 * 2);
 		int y2 = y1 + floorHeight;
 		int y3 = y2 + floorHeight;
 		int originX = chunk.getOriginX();
@@ -158,7 +158,7 @@ public class OldCastleLot extends ConstructLot {
 		
 		// main bits
 		int floorHeight = DataContext.FloorHeight;
-		int y1 = minHeight + ((maxHeight - minHeight) / 2);
+		int y1 = minHeight + ((maxHeight - minHeight) / 3 * 2);
 		int y2 = y1 + floorHeight;
 		int y3 = y2 + floorHeight;
 		int originX = chunk.getOriginX();

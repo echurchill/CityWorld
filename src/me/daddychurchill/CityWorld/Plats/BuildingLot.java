@@ -39,6 +39,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	protected final static byte antennaId = (byte) Material.FENCE.getId();
 	protected final static byte conditionerId = (byte) Material.DOUBLE_STEP.getId();
 	protected final static byte conditionerTrimId = (byte) Material.STONE_PLATE.getId();
+	protected final static byte conditionerGrillId = (byte) Material.RAILS.getId();
 	protected final static byte ductId = (byte) Material.STEP.getId();
 	protected final static Material tileMaterial = Material.STEP;
 	
@@ -267,7 +268,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	
 	protected void drawWalls(ByteChunk byteChunk, DataContext context, int y1, int height, 
 			int insetNS, int insetEW, boolean allowRounded, 
-			Material material, Material glass, Surroundings heights) {
+			Material material, Material glass, Surroundings heights, boolean drawInterior) {
 		
 		// precalculate
 		byte materialId = (byte) material.getId();
@@ -357,19 +358,28 @@ public abstract class BuildingLot extends ConnectedLot {
 			if (!heights.toSouth())
 				byteChunk.setBlocks(insetNS + 1, byteChunk.width - insetNS - 1, y1, y2, byteChunk.width - insetEW - 1, byteChunk.width - insetEW, materialId, glassId, windowsWE);
 			
-//TODO		// interior walls
-//			if (!heights.toWest()) {
-//				byteChunk.setBlocks(insetNS,  insetNS + 1, y1, y2, insetEW + 1, byteChunk.width - insetEW - 1, materialId, glassId, windowsNS);
-//			}
-//			if (!heights.toEast()) {
-//				byteChunk.setBlocks(byteChunk.width - insetNS - 1,  byteChunk.width - insetNS, y1, y2, insetEW + 1, byteChunk.width - insetEW - 1, materialId, glassId, windowsNS);
-//			}
-//			if (!heights.toNorth()) {
-//				byteChunk.setBlocks(insetNS + 1, byteChunk.width - insetNS - 1, y1, y2, insetEW, insetEW + 1, materialId, glassId, windowsEW);
-//			}
-//			if (!heights.toSouth()) {
-//				byteChunk.setBlocks(insetNS + 1, byteChunk.width - insetNS - 1, y1, y2, byteChunk.width - insetEW - 1, byteChunk.width - insetEW, materialId, glassId, windowsEW);
-//			}
+			//TODO inner corners are drawing walls (NW, NE, SW, SE shouldn't draw interior walls 
+			//TODO random "rooms within" these rooms
+			
+			// interior walls
+			if (drawInterior) {
+//				int x1 = heights.toWest() ? 0 : insetNS + 1;
+//				int x2 = byteChunk.width - (heights.toEast() ? 0 : (insetNS + 1));
+//				int z1 = heights.toNorth() ? 0 : insetEW + 1;
+//				int z2 = byteChunk.width - (heights.toSouth() ? 0 : (insetEW + 1));
+//				if (heights.toWest()) {
+//					byteChunk.setBlocks(3, 4, y1, y2 + 4, z1, z2, Material.GOLD_BLOCK);
+//				}
+//				if (heights.toEast()) {
+//					byteChunk.setBlocks(12, 13, y1, y2 + 4, z1, z2, Material.DIAMOND_BLOCK);
+//				}
+//				if (heights.toNorth()) {
+//					byteChunk.setBlocks(x1, x2, y1, y2 + 4, 3, 4, Material.LAPIS_BLOCK);
+//				}
+//				if (heights.toSouth()) {
+//					byteChunk.setBlocks(x1, x2, y1, y2 + 4, 12, 13, Material.EMERALD_BLOCK);
+//				}
+			}
 		}
 			
 		// only if there are insets
@@ -414,7 +424,7 @@ public abstract class BuildingLot extends ConnectedLot {
 					if (i == aboveFloorHeight - 1)
 						drawCeilings(chunk, context, y1 + i * roofScale, roofScale, insetEW + i, insetNS + i, allowRounded, material, heights);
 					else
-						drawWalls(chunk, context, y1 + i * roofScale, roofScale, insetEW + i, insetNS + i, allowRounded, material, material, heights);
+						drawWalls(chunk, context, y1 + i * roofScale, roofScale, insetEW + i, insetNS + i, allowRounded, material, material, heights, false);
 				}
 			} else
 				drawEdgedRoof(chunk, context, y1, insetEW, insetNS, allowRounded, material, true, heights);
@@ -425,7 +435,7 @@ public abstract class BuildingLot extends ConnectedLot {
 					if (i == aboveFloorHeight - 1)
 						drawCeilings(chunk, context, y1 + i * roofScale, roofScale, insetEW + i, insetNS, allowRounded, material, heights);
 					else
-						drawWalls(chunk, context, y1 + i * roofScale, roofScale, insetEW + i, insetNS, allowRounded, material, material, heights);
+						drawWalls(chunk, context, y1 + i * roofScale, roofScale, insetEW + i, insetNS, allowRounded, material, material, heights, false);
 				}
 			} else
 				drawEdgedRoof(chunk, context, y1, insetEW, insetNS, allowRounded, material, true, heights);
@@ -436,7 +446,7 @@ public abstract class BuildingLot extends ConnectedLot {
 					if (i == aboveFloorHeight - 1)
 						drawCeilings(chunk, context, y1 + i * roofScale, roofScale, insetEW, insetNS + i, allowRounded, material, heights);
 					else
-						drawWalls(chunk, context, y1 + i * roofScale, roofScale, insetEW, insetNS + i, allowRounded, material, material, heights);
+						drawWalls(chunk, context, y1 + i * roofScale, roofScale, insetEW, insetNS + i, allowRounded, material, material, heights, false);
 				}
 			} else
 				drawEdgedRoof(chunk, context, y1, insetEW, insetNS, allowRounded, material, true, heights);
@@ -456,7 +466,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		
 		// a little bit of edge 
 		if (doEdge)
-			drawWalls(chunk, context, y1, 1, insetEW, insetNS, allowRounded, material, material, heights);
+			drawWalls(chunk, context, y1, 1, insetEW, insetNS, allowRounded, material, material, heights, false);
 		
 		// add the special features
 		switch (roofFeature) {
@@ -467,7 +477,7 @@ public abstract class BuildingLot extends ConnectedLot {
 				drawAntenna(chunk, 9, y1, 6);
 				drawAntenna(chunk, 9, y1, 9);
 				break;
-			} // else go for the conditioners
+			} // else fall into the conditioners block
 		case CONDITIONERS:
 			drawConditioner(chunk, 6, y1, 6);
 			drawConditioner(chunk, 6, y1, 9);
@@ -501,6 +511,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	
 	private void drawConditioner(ByteChunk chunk, int x, int y, int z) {
 		
+		//TODO air conditioner tracks are not round
 		if (chunkOdds.flipCoin()) {
 			chunk.setBlock(x, y, z, conditionerId);
 			chunk.setBlock(x, y + 1, z, conditionerTrimId);
@@ -519,6 +530,13 @@ public abstract class BuildingLot extends ConnectedLot {
 			if (chunkOdds.flipCoin()) {
 				chunk.setBlockIfAir(x, y, z + 1, ductId);
 				chunk.setBlockIfAir(x, y, z + 2, ductId);
+			}
+			if (chunkOdds.flipCoin()) {
+				chunk.setBlock(x, y, z, conditionerId);
+				chunk.setBlock(x, y + 1, z, conditionerTrimId);
+//			} else {
+//				chunk.setBlocks(x, x + 2, y, z, z + 2, conditionerId);
+//				chunk.setBlocks(x, x + 2, y + 1, z, z + 2, conditionerGrillId);
 			}
 		}
 	}
@@ -689,7 +707,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		
 		// actual fence
 		drawWalls(chunk, context, y1, fenceHeight, inset, inset, false,
-				fenceMaterial, fenceMaterial, neighbors);
+				fenceMaterial, fenceMaterial, neighbors, false);
 		
 		// holes in fence
 		int i = 4 + chunkOdds.getRandomInt(chunk.width / 2);

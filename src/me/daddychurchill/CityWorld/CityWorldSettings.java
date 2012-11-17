@@ -21,6 +21,9 @@ public class CityWorldSettings {
 	 *   Floors and stairs where practical
 	 *   Rounded tanks
 	 *   Writing on the outside of buildings
+	 * Parks
+	 *   Unfinished cisterns
+	 *   Different cistern ceilings (arches)
 	 * Add GenerationChunkRange to limit the extent of world generation
 	 */
 	
@@ -169,6 +172,17 @@ public class CityWorldSettings {
 		else {
 			section = config.createSection(worldname);
 		}
+		
+		/* Create a config in the world's folder
+		 * Find the generation section
+		 * Does the global config contain a world section?
+		 *   Load from that world section
+		 *   Copy that world section over to the generation section of the world's config
+		 *   Delete the world section in the global config
+		 *   Save the global config
+		 * Read from the generation section
+		 * Save the generation section
+		 */
 		
 		// did we get a section?
 		if (section != null) {

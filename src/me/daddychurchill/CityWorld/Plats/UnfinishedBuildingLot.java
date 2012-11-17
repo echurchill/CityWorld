@@ -72,9 +72,9 @@ public class UnfinishedBuildingLot extends BuildingLot {
 			
 			// one floor please
 			drawWalls(chunk, context, floorAt, FloorHeight, 0, 0, false,
-					dirtMaterial, dirtMaterial, neighborBasements);
+					dirtMaterial, dirtMaterial, neighborBasements, false);
 			drawWalls(chunk, context, floorAt, FloorHeight, 1, 1, false,
-					wallMaterial, wallMaterial, neighborBasements);
+					wallMaterial, wallMaterial, neighborBasements, false);
 			
 			// ceilings if needed
 			if (!unfinishedBasementOnly) {

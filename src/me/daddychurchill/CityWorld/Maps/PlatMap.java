@@ -19,6 +19,16 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public abstract class PlatMap {
 	
+	//TODO Other map styles
+	// Flooded, buildings sticking out (constant water level)
+	// Sand storm, buildings sticking out of sand dunes (variable sand level)
+	// Snow storm, buildings sticking out of snow and ice (variable snow level)
+	// Lava field, buildings sticking out of lava field and mountains turned into volcanos (constant lava level)
+	// Ancient, buildings sticking out of terrain
+	// Underwater, flooded but with buildings designed to be underwater (constant water level)
+	// Moon, moon terrain with craters and buildings styled correctly
+	// Wells, aka WellWorld, with all those generators and MaxiWorld
+	
 	// Class Constants
 	public static final int Width = 10;
 	
