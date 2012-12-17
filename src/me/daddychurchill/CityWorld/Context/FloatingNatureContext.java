@@ -18,6 +18,7 @@ public class FloatingNatureContext extends NatureContext {
 	
 	@Override
 	protected void initialize() {
+		super.initialize();
 
 	}
 

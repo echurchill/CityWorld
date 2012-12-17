@@ -16,15 +16,10 @@ import me.daddychurchill.CityWorld.Support.HeightInfo.HeightState;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
-public class NatureContext extends RuralContext {
+public class NatureContext extends UncivilizedContext {
 
 	public NatureContext(WorldGenerator generator) {
 		super(generator);
-	}
-	
-	@Override
-	protected void initialize() {
-
 	}
 	
 	public PlatLot createNaturalLot(WorldGenerator generator, PlatMap platmap, int x, int z) {

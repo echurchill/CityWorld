@@ -127,7 +127,8 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 		if (lotBottomY != 0) {
 			
 			// shape the underworld
-			if (lot.style == LotStyle.STRUCTURE) {
+			if (lot.style == LotStyle.STRUCTURE ||
+				lot.style == LotStyle.ROAD) {
 				for (int x = 0; x < chunk.width; x++) {
 					for (int z = 0; z < chunk.width; z++) {
 						if (odds.playOdds(underworldOdds)) {

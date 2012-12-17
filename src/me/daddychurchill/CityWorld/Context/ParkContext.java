@@ -11,6 +11,7 @@ public class ParkContext extends UrbanContext {
 	
 	@Override
 	protected void initialize() {
+		super.initialize();
 
 		oddsOfParks = oddsAlwaysGoingToHappen;
 		oddsOfIsolatedLots = oddsAlwaysGoingToHappen;

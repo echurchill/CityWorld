@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Context;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 
-public abstract class RuralContext extends DataContext {
+public abstract class RuralContext extends CivilizedContext {
 
 	public RuralContext(WorldGenerator generator) {
 		super(generator);
@@ -10,23 +10,8 @@ public abstract class RuralContext extends DataContext {
 	
 	@Override
 	protected void initialize() {
-
-		oddsOfParks = oddsNeverGoingToHappen;
-		oddsOfIsolatedLots = oddsNeverGoingToHappen;
-		oddsOfIdenticalBuildingHeights = oddsNeverGoingToHappen;
-		oddsOfSimilarBuildingHeights = oddsNeverGoingToHappen;
-		oddsOfSimilarBuildingRounding = oddsNeverGoingToHappen;
-		oddsOfUnfinishedBuildings = oddsNeverGoingToHappen;
-		oddsOfOnlyUnfinishedBasements = oddsNeverGoingToHappen;
-		oddsOfMissingRoad = oddsNeverGoingToHappen;
-		oddsOfRoundAbouts = oddsVeryUnlikely;
-		 
-		oddsOfStairWallMaterialIsWallMaterial = oddsNeverGoingToHappen;
-		oddsOfBuildingWallInset = oddsNeverGoingToHappen;
-		oddsOfFlatWalledBuildings = oddsNeverGoingToHappen;
-		oddsOfSimilarInsetBuildings = oddsNeverGoingToHappen;
-		rangeOfWallInset = 2;
-
+		super.initialize();
+		
 		maximumFloorsAbove = 1;
 		maximumFloorsBelow = 1;
 	}

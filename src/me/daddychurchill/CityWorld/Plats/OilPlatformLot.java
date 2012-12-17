@@ -17,6 +17,7 @@ public class OilPlatformLot extends ConstructLot {
 	public OilPlatformLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 
+		trulyIsolated = true;
 	}
 
 	private final static byte platformId = (byte) Material.DOUBLE_STEP.getId();

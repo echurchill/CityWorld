@@ -11,6 +11,8 @@ public class HighriseContext extends UrbanContext {
 	
 	@Override
 	protected void initialize() {
+		super.initialize();
+
 		oddsOfParks = oddsNeverGoingToHappen;
 		oddsOfIsolatedLots = oddsLikely;
 		oddsOfIdenticalBuildingHeights = oddsExtremelyLikely;

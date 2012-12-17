@@ -12,21 +12,21 @@ import me.daddychurchill.CityWorld.Support.Odds;
 
 public class FarmContext extends RuralContext {
 
+	protected final static double oddsOfFarmHouse = DataContext.oddsSomewhatUnlikely;
+	
 	public FarmContext(WorldGenerator generator) {
 		super(generator);
 		
-//		// finally load any schematics if they exists
-//		buildingSchematics = generator.pasteProvider.getFamilyClips(generator, SchematicFamily.FARMCONSTRUCT, 2, 2);
 	}
 	
 	@Override
 	protected void initialize() {
+		super.initialize();
+
 		oddsOfIsolatedLots = oddsVeryLikely;
 		
 		schematicFamily = SchematicFamily.FARM;
 	}
-	
-	private final static double oddsOfFarmHouse = DataContext.oddsSomewhatUnlikely;
 	
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
@@ -79,14 +79,13 @@ public class FarmContext extends RuralContext {
 		// let the user add their stuff first
 		mapsSchematics.populate(generator, platmap);
 		
-//		// let the user add more stuff then
-//		buildingSchematics.populate(generator, platmap);
-		
 		// backfill with farms and a single house
 		for (int x = 0; x < PlatMap.Width; x++) {
 			for (int z = 0; z < PlatMap.Width; z++) {
 				PlatLot current = platmap.getLot(x, z);
 				if (current == null) {
+					
+					//TODO Barns and Wells
 					
 					// farm house here?
 					if (!housePlaced && platmapOdds.playOdds(oddsOfFarmHouse) && generator.settings.includeHouses) {
@@ -126,5 +125,10 @@ public class FarmContext extends RuralContext {
 		if (!housePlaced && platmap.isEmptyLot(lastX, lastZ) && generator.settings.includeHouses) {
 			platmap.setLot(lastX, lastZ, new HouseLot(platmap, platmap.originX + lastX, platmap.originZ + lastZ)); 
 		}
+	}
+	
+	@Override
+	protected PlatLot getBackfillLot(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+		return new FarmLot(platmap, chunkX, chunkZ);
 	}
 }

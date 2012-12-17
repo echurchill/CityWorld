@@ -5,6 +5,7 @@ import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.HouseLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Support.Odds;
 
 public class NeighborhoodContext extends RuralContext {
 
@@ -14,6 +15,7 @@ public class NeighborhoodContext extends RuralContext {
 	
 	@Override
 	protected void initialize() {
+		super.initialize();
 
 		schematicFamily = SchematicFamily.NEIGHBORHOOD;
 	}
@@ -53,5 +55,10 @@ public class NeighborhoodContext extends RuralContext {
 	
 	private void placeHouse(PlatMap platmap, int x, int z) {
 		platmap.setLot(x, z, new HouseLot(platmap, platmap.originX + x, platmap.originZ + z));
+	}
+	
+	@Override
+	protected PlatLot getBackfillLot(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+		return null;
 	}
 }

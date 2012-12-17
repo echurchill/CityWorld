@@ -9,7 +9,7 @@ import me.daddychurchill.CityWorld.Plats.UnfinishedBuildingLot;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Support.Odds;
 
-public abstract class UrbanContext extends DataContext {
+public abstract class UrbanContext extends CivilizedContext {
 
 	public UrbanContext(WorldGenerator generator) {
 		super(generator);
@@ -17,6 +17,14 @@ public abstract class UrbanContext extends DataContext {
 		//TODO: Generalization?
 	}
 	
+	@Override
+	protected void initialize() {
+		super.initialize();
+		
+		maximumFloorsAbove = 2;
+		maximumFloorsBelow = 2;
+	}
+
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
 		
@@ -41,7 +49,6 @@ public abstract class UrbanContext extends DataContext {
 							current = getPark(generator, platmap, platmapOdds, platmap.originX + x, platmap.originZ + z);
 						else if (platmapOdds.playOdds(oddsOfUnfinishedBuildings))
 							current = getUnfinishedBuilding(generator, platmap, platmapOdds, platmap.originX + x, platmap.originZ + z);
-						//TODO government buildings
 						else 
 							current = getFinishedBuilding(generator, platmap, platmapOdds, platmap.originX + x, platmap.originZ + z);
 						
@@ -65,6 +72,11 @@ public abstract class UrbanContext extends DataContext {
 				}
 			}
 		}
+	}
+	
+	@Override
+	protected PlatLot getBackfillLot(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+		return getFinishedBuilding(generator, platmap, odds, chunkX, chunkZ);
 	}
 	
 	protected PlatLot getPark(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {

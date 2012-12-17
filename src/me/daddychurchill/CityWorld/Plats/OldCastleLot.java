@@ -13,6 +13,8 @@ public class OldCastleLot extends ConstructLot {
 
 	public OldCastleLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
+		
+		trulyIsolated = true;
 
 		//platmap.generator.reportMessage("CASTLE AT " + (chunkX * 16) + ", " + (chunkZ * 16));
 	}

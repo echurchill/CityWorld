@@ -16,6 +16,7 @@ public class StorageLot extends BuildingLot {
 
 		height = 1;
 		depth = 0;
+		trulyIsolated = true;
 	}
 	
 	@Override

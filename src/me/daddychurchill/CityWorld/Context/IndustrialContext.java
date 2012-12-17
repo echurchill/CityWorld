@@ -16,6 +16,7 @@ public class IndustrialContext extends UrbanContext {
 	
 	@Override
 	protected void initialize() {
+		super.initialize();
 
 		oddsOfParks = oddsUnlikely;
 		oddsOfIsolatedLots = oddsVeryUnlikely;

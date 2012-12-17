@@ -55,6 +55,14 @@ public abstract class PlatMap {
 		naturalPlats = 0;
 		
 		populateLots();
+		
+		// recycle all the remaining holes
+		for (int x = 0; x < Width; x++) {
+			for (int z = 0; z < Width; z++) {
+				if (isEmptyLot(x, z))
+					recycleLot(x, z);
+			}
+		}
 	}
 	
 	protected abstract void populateLots();
@@ -142,7 +150,10 @@ public abstract class PlatMap {
 	}
 	
 	public PlatLot getLot(int x, int z) {
-		return platLots[x][z];
+		if (x >= 0 && x < Width && z >= 0 && z < Width)
+			return platLots[x][z];
+		else
+			return null;
 	}
 	
 	public PlatLot getMapLot(int chunkX, int chunkZ) throws IndexOutOfBoundsException {
@@ -236,6 +247,23 @@ public abstract class PlatMap {
 		
 		// empty this one out
 		platLots[x][z] = null;
+	}
+	
+	public boolean isTrulyIsolatedLot(int x, int z) {
+			
+		// check each neighbor to see if it is also trulyIsolated
+		for (int lotX = x - 1; lotX < x + 2; lotX++) {
+			for (int lotZ = z - 1; lotZ < z + 2; lotZ++) {
+				if (lotX != x && lotZ != z) {
+					PlatLot neighbor = getLot(lotX, lotZ);
+					if (neighbor != null && neighbor.trulyIsolated)
+						return false;
+				}
+			}
+		}
+			
+		// all done
+		return true;
 	}
 	
 	protected void populateRoads() {

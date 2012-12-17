@@ -37,12 +37,14 @@ public abstract class PlatLot {
 	// styling!
 	public enum LotStyle {NATURE, STRUCTURE, ROAD, ROUNDABOUT};
 	public LotStyle style;
+	public boolean trulyIsolated;
 	
 	public PlatLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super();
 		this.chunkX = chunkX;
 		this.chunkZ = chunkZ;
 		this.style = LotStyle.NATURE;
+		this.trulyIsolated = false;
 		
 		initializeDice(platmap, chunkX, chunkZ);
 	}

@@ -17,6 +17,7 @@ public class RadioTowerLot extends ConstructLot {
 	private final static double oddsOfBuilding = DataContext.oddsExtremelyLikely;
 	public RadioTowerLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
+		trulyIsolated = true;
 		building = chunkOdds.playOdds(oddsOfBuilding);
 	}
 	

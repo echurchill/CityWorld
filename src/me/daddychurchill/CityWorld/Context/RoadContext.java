@@ -11,7 +11,7 @@ import me.daddychurchill.CityWorld.Plats.RoundaboutStatueLot;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Odds;
 
-public class RoadContext extends DataContext {
+public class RoadContext extends UrbanContext {
 
 	public RoadContext(WorldGenerator generator) {
 		super(generator);
@@ -21,6 +21,8 @@ public class RoadContext extends DataContext {
 
 	@Override
 	protected void initialize() {
+		super.initialize();
+
 		schematicFamily = SchematicFamily.ROUNDABOUT;
 		schematicMaxX = 1;
 		schematicMaxZ = 1;
@@ -30,6 +32,12 @@ public class RoadContext extends DataContext {
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void validateMap(WorldGenerator generator, PlatMap platmap) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	public PlatLot createRoadLot(WorldGenerator generator, PlatMap platmap, int x, int z, boolean roundaboutPart) {

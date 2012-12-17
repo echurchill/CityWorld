@@ -1,16 +1,10 @@
 package me.daddychurchill.CityWorld;
 
-import java.util.HashMap;
-
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.Tekkit.TekkitMaterial;
 import me.daddychurchill.CityWorld.Support.MaterialStack;
-import me.daddychurchill.CityWorld.Support.Odds;
-
-import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 public class CityWorldSettings {
@@ -154,6 +148,15 @@ public class CityWorldSettings {
 		itemsTreasureInSewers = new MaterialStack("Treasure_In_Sewers");
 		itemsTreasureInBunkers = new MaterialStack("Treasure_In_Bunkers");
 		itemsTreasureInMines = new MaterialStack("Treasure_In_Mines");
+		
+		// see if the new configuration is out there?
+//		// find the files
+//		File pluginFolder = generator.getPlugin().getDataFolder();
+//		if (pluginFolder.isDirectory()) {
+//			
+//			// forget all those shape and ore type and just go for the world name
+//			schematicsFolder = findFolder(pluginFolder, "Schematics for " + generator.worldName);
+			
 		
 		// add/get the configuration
 		CityWorld plugin = generator.getPlugin();
@@ -340,6 +343,19 @@ public class CityWorldSettings {
 		}
 	}
 	
+//	private File findFolder(File parent, String name) throws Exception {
+//		name = toCamelCase(name);
+//		File result = new File(parent, name);
+//		if (!result.isDirectory())
+//			if (!result.mkdir())
+//				throw new UnsupportedOperationException("[WorldEdit] Could not create/find the folder: " + parent.getAbsolutePath() + File.separator + name);
+//		return result;
+//	}
+//	
+//	private String toCamelCase(String text) {
+//		return text.substring(0, 1).toUpperCase() + text.substring(1, text.length()).toLowerCase();
+//	}
+
 	private void deprecateOption(ConfigurationSection section, String oldOption, String message) {
 		if (section.contains(oldOption))
 			section.set(oldOption, message);
@@ -359,40 +375,40 @@ public class CityWorldSettings {
 		return !checkCityRange || centerPointOfChunkRadius.distance(new Vector(x, 0, z)) <= cityChunkRadius;
 	}
 	
-	private HashMap<String, ItemStack[]> materials;
-	
-	public void addMaterials(String name, Material low, Material high) {
-		
-		// build the collection
-		int base = low.getId();
-		int count = high.getId() - base;
-		ItemStack[] collection = new ItemStack[count];
-		for (int i = 0; i < count; i++) 
-			collection[i] = new ItemStack(base + i);
-		
-		// remember it
-		materials.put(name, collection);
-	}
-	
-	public void addMaterials(String name, Material ... items) {
-		
-		// build the collection
-		int count = items.length;
-		ItemStack[] collection = new ItemStack[count];
-		for (int i = 0; i < count; i++) 
-			collection[i] = new ItemStack(items[i]);
-		
-		// remember it
-		materials.put(name, collection);
-	}
-	
-	public Material getRandomMaterial(String name, Odds odds) {
-		ItemStack[] collection = materials.get(name);
-		return collection == null ? Material.AIR : collection[odds.getRandomInt(collection.length)].getType();
-	}
-
-	public Byte getRandomTypeId(String name, Odds odds) {
-		ItemStack[] collection = materials.get(name);
-		return (byte) ((collection == null ? Material.AIR : collection[odds.getRandomInt(collection.length)].getType()).getId());
-	}
+//	private HashMap<String, ItemStack[]> materials;
+//	
+//	public void addMaterials(String name, Material low, Material high) {
+//		
+//		// build the collection
+//		int base = low.getId();
+//		int count = high.getId() - base;
+//		ItemStack[] collection = new ItemStack[count];
+//		for (int i = 0; i < count; i++) 
+//			collection[i] = new ItemStack(base + i);
+//		
+//		// remember it
+//		materials.put(name, collection);
+//	}
+//	
+//	public void addMaterials(String name, Material ... items) {
+//		
+//		// build the collection
+//		int count = items.length;
+//		ItemStack[] collection = new ItemStack[count];
+//		for (int i = 0; i < count; i++) 
+//			collection[i] = new ItemStack(items[i]);
+//		
+//		// remember it
+//		materials.put(name, collection);
+//	}
+//	
+//	public Material getRandomMaterial(String name, Odds odds) {
+//		ItemStack[] collection = materials.get(name);
+//		return collection == null ? Material.AIR : collection[odds.getRandomInt(collection.length)].getType();
+//	}
+//
+//	public Byte getRandomTypeId(String name, Odds odds) {
+//		ItemStack[] collection = materials.get(name);
+//		return (byte) ((collection == null ? Material.AIR : collection[odds.getRandomInt(collection.length)].getType()).getId());
+//	}
 }

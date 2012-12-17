@@ -16,7 +16,7 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 public class PasteProvider_WorldEdit extends PasteProvider {
 
 	private static String pluginName = "WorldEdit";
-	private static String pluginMinVersion = "5.4.2";
+	private static String pluginMinVersion = "5.4.5";
 	private File schematicsFolder;
 	
 	@Override

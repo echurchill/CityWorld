@@ -21,6 +21,7 @@ public class FloatingBlimpLot extends IsolatedLot {
 		super(platmap, chunkX, chunkZ);
 		
 		manyBalloons = chunkOdds.flipCoin();
+		this.style = LotStyle.NATURE;
 	}
 	
 	@Override

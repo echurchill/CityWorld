@@ -17,6 +17,7 @@ public class FloatingHouseLot extends ConstructLot {
 		super(platmap, chunkX, chunkZ);
 		
 		style = LotStyle.NATURE;
+		trulyIsolated = true;
 		groundLevel = floatingAt;
 	}
 

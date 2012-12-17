@@ -27,34 +27,36 @@ public abstract class DataContext {
 	public static double oddsNearlyAlwaysHappens = 	20.0 / 21.00; //  95.24%
 	public static double oddsAlwaysGoingToHappen = 	 1.0;         // 100.00%
 	
-	public double oddsOfIsolatedLots = oddsExtremelyLikely; // isolated buildings 1/n of the time
-	public double oddsOfIsolatedConstructs = oddsSomewhatLikely;
+	// While these are initialized here, the real defaults live in CivilizedContext and UncivilizedContext
 	
-	public double oddsOfParks = oddsVeryLikely; // parks show up 1/n of the time
+	public double oddsOfIsolatedLots = oddsNeverGoingToHappen; // isolated buildings 1/n of the time
+	public double oddsOfIsolatedConstructs = oddsNeverGoingToHappen;
 	
-	public double oddsOfIdenticalBuildingHeights = oddsExtremelyLikely; // similar height 1/n of the time
-	public double oddsOfSimilarBuildingHeights = oddsExtremelyLikely; // identical height 1/n of the time
-	public double oddsOfSimilarBuildingRounding = oddsExtremelyLikely; // like rounding 1/n of the time
-	public double oddsOfStairWallMaterialIsWallMaterial = oddsExtremelyLikely; // stair walls are the same as walls 1/n of the time
+	public double oddsOfParks = oddsNeverGoingToHappen; // parks show up 1/n of the time
+	
+	public double oddsOfIdenticalBuildingHeights = oddsNeverGoingToHappen; // similar height 1/n of the time
+	public double oddsOfSimilarBuildingHeights = oddsNeverGoingToHappen; // identical height 1/n of the time
+	public double oddsOfSimilarBuildingRounding = oddsNeverGoingToHappen; // like rounding 1/n of the time
+	public double oddsOfStairWallMaterialIsWallMaterial = oddsNeverGoingToHappen; // stair walls are the same as walls 1/n of the time
 	public int buildingWallInsettedMinLowPoint; // minimum building height before insetting is allowed
 	public int buildingWallInsettedMinMidPoint; // lowest point of inset
 	public int buildingWallInsettedMinHighPoint; // lowest highest point of inset
 	public int rangeOfWallInset = 2; // 1 or 2 in... but not zero
 	
-	public double oddsOfUnfinishedBuildings = oddsLikely; // buildings are unfinished 1/n of the time
-	public double oddsOfOnlyUnfinishedBasements = oddsVeryLikely; // unfinished buildings only have basements 1/n of the time
+	public double oddsOfUnfinishedBuildings = oddsNeverGoingToHappen; // buildings are unfinished 1/n of the time
+	public double oddsOfOnlyUnfinishedBasements = oddsNeverGoingToHappen; // unfinished buildings only have basements 1/n of the time
 	public double oddsOfCranes = oddsVeryLikely; // plop a crane on top of the last horizontal girder 1/n of the time
 	
-	public double oddsOfBuildingWallInset = oddsExtremelyLikely; // building walls inset as they go up 1/n of the time
-	public double oddsOfSimilarInsetBuildings = oddsExtremelyLikely; // the east/west inset is used for north/south inset 1/n of the time
-	public double oddsOfFlatWalledBuildings = oddsExtremelyLikely; // the ceilings are inset like the walls 1/n of the time
+	public double oddsOfBuildingWallInset = oddsNeverGoingToHappen; // building walls inset as they go up 1/n of the time
+	public double oddsOfSimilarInsetBuildings = oddsNeverGoingToHappen; // the east/west inset is used for north/south inset 1/n of the time
+	public double oddsOfFlatWalledBuildings = oddsNeverGoingToHappen; // the ceilings are inset like the walls 1/n of the time
 	
 	//TODO oddsOfMissingRoad is current not used... I need to fix this
-	public double oddsOfMissingRoad = oddsLikely; // roads are missing 1/n of the time
-	public double oddsOfRoundAbouts = oddsLikely; // roundabouts are created 1/n of the time
+	public double oddsOfMissingRoad = oddsNeverGoingToHappen; // roads are missing 1/n of the time
+	public double oddsOfRoundAbouts = oddsNeverGoingToHappen; // roundabouts are created 1/n of the time
 	
-	public double oddsOfMissingArt = oddsUnlikely; // art is missing 1/n of the time
-	public double oddsOfNaturalArt = oddsExtremelyLikely; // sometimes nature is art 1/n of the time 
+	public double oddsOfMissingArt = oddsNeverGoingToHappen; // art is missing 1/n of the time
+	public double oddsOfNaturalArt = oddsNeverGoingToHappen; // sometimes nature is art 1/n of the time 
 	
 	public static final int FloorHeight = 4;
 	public static final int FudgeFloorsBelow = 2;
@@ -116,6 +118,7 @@ public abstract class DataContext {
 	
 	protected abstract void initialize();
 	public abstract void populateMap(WorldGenerator generator, PlatMap platmap);
+	public abstract void validateMap(WorldGenerator generator, PlatMap platmap);
 	
 	protected void setSchematicMaxSize(int maxX, int maxZ) {
 		schematicMaxX = maxX;

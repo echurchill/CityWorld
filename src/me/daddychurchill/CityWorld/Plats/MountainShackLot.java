@@ -15,6 +15,7 @@ public class MountainShackLot extends ConstructLot {
 		super(platmap, chunkX, chunkZ);
 		
 		style = LotStyle.NATURE;
+		trulyIsolated = true;
 	}
 	
 	private final static byte retainingWallId = (byte) Material.SMOOTH_BRICK.getId();
