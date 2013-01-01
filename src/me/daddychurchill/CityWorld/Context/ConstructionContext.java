@@ -34,6 +34,7 @@ public class ConstructionContext extends UrbanContext {
 		schematicFamily = SchematicFamily.CONSTRUCTION;
 
 		maximumFloorsAbove = absoluteMaximumFloorsAbove;
+		maximumFloorsBelow = 3;
 	}
 
 }

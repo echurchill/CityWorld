@@ -11,7 +11,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class CityWorld extends JavaPlugin{
 	
 	public final static Logger log = Logger.getLogger("Minecraft.CityWorld");
-	public final static String pluginName = "[CityWorld]";
 	
     public CityWorld() {
 		super();
@@ -51,19 +50,27 @@ public class CityWorld extends JavaPlugin{
 		}
 	}
 	
-	private String getPluginName() {
-		return "[" + getDescription().getName() + "]";
+	public String getPluginName() {
+		return getDescription().getName();
+	}
+	
+	private String getQuotedPluginName() {
+		return "[" + getPluginName() + "]";
 	}
 	
 	public void reportMessage(String message) {
 		if (!message.startsWith("["))
 			message = " " + message;
-		log.info(getPluginName() + message);
+		log.info(getQuotedPluginName() + message);
+	}
+
+	public void reportMessage(String message1, String message2) {
+		reportMessage(message1);
+		log.info(" \\__" + message2);
 	}
 
 	public void reportException(String message, Exception e) {
-		reportMessage(message);
-		log.info(" \\__Exception: " + e.getMessage());
+		reportMessage(message, "Exception: " + e.getMessage());
 		e.printStackTrace();
 	}
 	

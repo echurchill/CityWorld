@@ -6,8 +6,10 @@ import org.bukkit.Material;
 
 public abstract class MaterialFactory {
 
-	public enum SkipStyles {RANDOM, SINGLE, DOUBLE, RAISED_RANDOM, RAISED_SINGLE, RAISED_DOUBLE};
-	public SkipStyles style;
+	public enum VerticalStyle {ONLY_GLASS, RAISED_GLASS, INSET_GLASS, ONLY_WALL};
+	public enum HorizontalStyle {SINGLE, DOUBLE, TRIPLE, RANDOM, SOLID};
+	public VerticalStyle verticalStyle;
+	public HorizontalStyle horizontalStyle;
 	protected Boolean decayed;
 	protected Odds odds;
 	
@@ -18,41 +20,54 @@ public abstract class MaterialFactory {
 		super();
 		this.odds = odds;
 		this.decayed = decayed;
-		style = pickSkipStyle();
+		verticalStyle = pickVerticalStyle();
+		horizontalStyle = pickHorizontalStyle();
 	}
 	
 	public MaterialFactory(MaterialFactory other) {
 		super();
 		odds = other.odds;
 		decayed = other.decayed;
-		style = other.style;
+		verticalStyle = other.verticalStyle;
+		horizontalStyle = other.horizontalStyle;
 	}
 	
-	protected SkipStyles pickSkipStyle() {
-		switch (odds.getRandomInt(6)) {
+	protected VerticalStyle pickVerticalStyle() {
+		switch (odds.getRandomInt(3)) {
 		case 1:
-			return SkipStyles.SINGLE;
+			return VerticalStyle.INSET_GLASS;
 		case 2:
-			return SkipStyles.DOUBLE;
-		case 3:
-			return SkipStyles.RAISED_RANDOM;
-		case 4:
-			return SkipStyles.RAISED_SINGLE;
-		case 5:
-			return SkipStyles.RAISED_DOUBLE;
+			return VerticalStyle.RAISED_GLASS;
+//		case 3:
+//			return VerticalStyle.ONLY_WALL;
 		default:
-			return SkipStyles.RANDOM;
+			return VerticalStyle.ONLY_GLASS;
+		}		
+	}
+	
+	protected HorizontalStyle pickHorizontalStyle() {
+		switch (odds.getRandomInt(5)) {
+		case 1:
+			return HorizontalStyle.SINGLE;
+		case 2:
+			return HorizontalStyle.DOUBLE;
+		case 3:
+			return HorizontalStyle.TRIPLE;
+		case 4:
+			return HorizontalStyle.SOLID;
+		default:
+			return HorizontalStyle.RANDOM;
 		}		
 	}
 	
 	protected byte pickMaterial(byte primaryId, byte secondaryId, int i) {
-		switch (style) {
+		switch (horizontalStyle) {
 		case SINGLE: 
-		case RAISED_SINGLE: 
 			return i % 2 == 0 ? primaryId : secondaryId;
 		case DOUBLE: 
-		case RAISED_DOUBLE: 
 			return i % 3 == 0 ? primaryId : secondaryId;
+		case TRIPLE: 
+			return i % 4 == 0 ? primaryId : secondaryId;
 		default:	 
 			return odds.flipCoin() ? primaryId : secondaryId;
 		}
@@ -66,4 +81,30 @@ public abstract class MaterialFactory {
 	}
 	
 	public abstract void placeMaterial(ByteChunk chunk, byte primaryId, byte secondaryId, int x, int y1, int y2, int z);
+	
+	protected void placeMaterial(ByteChunk chunk, byte primaryId, byte secondaryId, byte glassId, int x, int y1, int y2, int z) {
+		switch (verticalStyle) {
+		case RAISED_GLASS:
+			chunk.setBlocks(x, y1, y1 + 1, z, primaryId);
+			chunk.setBlocks(x, y1 + 1, y2, z, glassId);
+			if (glassId == secondaryId)
+				decayMaterial(chunk, x, y1 + 1, y2, z);
+			break;
+		case INSET_GLASS:
+			chunk.setBlocks(x, y1, y1 + 1, z, primaryId);
+			chunk.setBlocks(x, y1 + 1, y2 - 1, z, glassId);
+			chunk.setBlocks(x, y2 - 1, y2, z, primaryId);
+			if (glassId == secondaryId)
+				decayMaterial(chunk, x, y1 + 1, y2 - 1, z);
+			break;
+		case ONLY_GLASS:
+			chunk.setBlocks(x, y1, y2, z, glassId);
+			if (glassId == secondaryId)
+				decayMaterial(chunk, x, y1, y2, z);
+			break;
+		case ONLY_WALL:
+			chunk.setBlocks(x, y1, y2, z, primaryId);
+			break;
+		}
+	}
 }

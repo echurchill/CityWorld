@@ -92,6 +92,8 @@ public class FarmLot extends ConnectedLot {
 	private final static Material cropNetherwart = Material.NETHER_WARTS;
 	private final static Material cropDeadBush = Material.DEAD_BUSH; 
 	private final static Material cropNone = Material.DIRT;
+	private final static Material cropCarrot = Material.CARROT;
+	private final static Material cropPotato = Material.POTATO;
 	
 	@Override
 	public int getBottomY(WorldGenerator generator) {
@@ -192,7 +194,7 @@ public class FarmLot extends ConnectedLot {
 					plowField(generator, chunk, chunkOdds, croplevel, matSoil, 8, matWater, cropType, 0, 1, 2, 1);
 				else if (cropType == cropGrass)
 					plowField(generator, chunk, chunkOdds, croplevel, matSoil, 8, matWater, cropType, 1, 1, 2, 1);
-				else if (cropType == cropWheat)
+				else if (cropType == cropWheat || cropType == cropCarrot || cropType == cropPotato)
 					plowField(generator, chunk, chunkOdds, croplevel, matSoil, 8, matWater, cropType, 2 + chunkOdds.getRandomInt(6), 1, 2, 1);
 				else if (cropType == cropPumpkin || cropType == cropMelon)
 					plowField(generator, chunk, chunkOdds, croplevel, matSoil, 8, matWater, cropType, 2 + chunkOdds.getRandomInt(6), 1, 3, 1);
@@ -281,7 +283,7 @@ public class FarmLot extends ConnectedLot {
 	}
 	
 	private Material getNormalCrop() {
-		switch (chunkOdds.getRandomInt(12)) {
+		switch (chunkOdds.getRandomInt(14)) {
 		case 1:
 			return cropYellowFlower;
 		case 2:
@@ -301,6 +303,10 @@ public class FarmLot extends ConnectedLot {
 		case 9:
 			return cropFallow;
 		case 10:
+			return cropCarrot;
+		case 11:
+			return cropPotato;
+		case 12:
 			return cropNone;
 		default:
 			return cropWheat;

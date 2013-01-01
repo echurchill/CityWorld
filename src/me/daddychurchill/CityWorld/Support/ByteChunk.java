@@ -223,6 +223,10 @@ public class ByteChunk extends SupportChunk {
 		replaceBlocks((byte) fromMaterial.getId(), (byte) toMaterial.getId());
 	}
 	
+	public void setBlocks(int x, int y1, int y2, int z, byte primaryId, byte secondaryId, MaterialFactory maker) {
+		setBlocks(x, x + 1, y1, y2, z, z + 1, primaryId, secondaryId, maker);
+	}
+	
 	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte primaryId, byte secondaryId, MaterialFactory maker) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
@@ -247,10 +251,38 @@ public class ByteChunk extends SupportChunk {
 	}
 	
 	public void setArcNorthWest(int inset, int y1, int y2, byte materialId, boolean fill) {
-		setArcNorthWest(inset, y1, y2, materialId, materialId, fill);
+		setArcNorthWest(inset, y1, y2, materialId, materialId, null, fill);
 	}
 
-	public void setArcNorthWest(int inset, int y1, int y2, byte materialId, byte glassId, boolean fill) {
+	public void setArcSouthWest(int inset, int y1, int y2, byte materialId, boolean fill) {
+		setArcSouthWest(inset, y1, y2, materialId, materialId, null, fill);
+	}
+
+	public void setArcNorthEast(int inset, int y1, int y2, byte materialId, boolean fill) {
+		setArcNorthEast(inset, y1, y2, materialId, materialId, null, fill);
+	}
+	
+	public void setArcSouthEast(int inset, int y1, int y2, byte materialId, boolean fill) {
+		setArcSouthEast(inset, y1, y2, materialId, materialId, null, fill);
+	}
+
+	public void setArcNorthWest(int inset, int y1, int y2, byte materialId, byte glassId, MaterialFactory maker) {
+		setArcNorthWest(inset, y1, y2, materialId, glassId, maker, false);
+	}
+	
+	public void setArcSouthWest(int inset, int y1, int y2, byte materialId, byte glassId, MaterialFactory maker) {
+		setArcSouthWest(inset, y1, y2, materialId, glassId, maker, false);
+	}
+	
+	public void setArcNorthEast(int inset, int y1, int y2, byte materialId, byte glassId, MaterialFactory maker) {
+		setArcNorthEast(inset, y1, y2, materialId, glassId, maker, false);
+	}
+	
+	public void setArcSouthEast(int inset, int y1, int y2, byte materialId, byte glassId, MaterialFactory maker) {
+		setArcSouthEast(inset, y1, y2, materialId, glassId, maker, false);
+	}
+	
+	protected void setArcNorthWest(int inset, int y1, int y2, byte materialId, byte glassId, MaterialFactory maker, boolean fill) {
 		// Ref: Notes/BCircle.PDF
 		int cx = inset;
 		int cz = inset;
@@ -265,6 +297,9 @@ public class ByteChunk extends SupportChunk {
 			if (fill) {
 				setBlocks(cx, cx + x + 1, y1, y2, cz + z, cz + z + 1, materialId); // point in octant 1 ENE
 				setBlocks(cx, cx + z + 1, y1, y2, cz + x, cz + x + 1, materialId); // point in octant 2 NNE
+			} else if (maker != null) {
+				maker.placeMaterial(this, materialId, glassId, cx + x, y1, y2, cz + z); // point in octant 1 ENE
+				maker.placeMaterial(this, materialId, glassId, cx + z, y1, y2, cz + x); // point in octant 2 NNE
 			} else {
 				setBlock(cx + x, y1, cz + z, materialId); // point in octant 1 ENE
 				setBlocks(cx + x, y1 + 1, y2, cz + z, glassId); // point in octant 1 ENE
@@ -283,11 +318,7 @@ public class ByteChunk extends SupportChunk {
 		}
 	}
 	
-	public void setArcSouthWest(int inset, int y1, int y2, byte materialId, boolean fill) {
-		setArcSouthWest(inset, y1, y2, materialId, materialId, fill);
-	}
-
-	public void setArcSouthWest(int inset, int y1, int y2, byte materialId, byte glassId, boolean fill) {
+	protected void setArcSouthWest(int inset, int y1, int y2, byte materialId, byte glassId, MaterialFactory maker, boolean fill) {
 		// Ref: Notes/BCircle.PDF
 		int cx = inset;
 		int cz = width - inset;
@@ -302,6 +333,9 @@ public class ByteChunk extends SupportChunk {
 			if (fill) {
 				setBlocks(cx, cx + z + 1, y1, y2, cz - x - 1, cz - x, materialId); // point in octant 7 WNW
 				setBlocks(cx, cx + x + 1, y1, y2, cz - z - 1, cz - z, materialId); // point in octant 8 NNW
+			} else if (maker != null) {
+				maker.placeMaterial(this, materialId, glassId, cx + z, y1, y2, cz - x - 1); // point in octant 7 WNW
+				maker.placeMaterial(this, materialId, glassId, cx + x, y1, y2, cz - z - 1); // point in octant 8 NNW
 			} else {
 				setBlock(cx + z, y1, cz - x - 1, materialId); // point in octant 7 WNW
 				setBlocks(cx + z, y1 + 1, y2, cz - x - 1, glassId); // point in octant 7 WNW
@@ -320,11 +354,7 @@ public class ByteChunk extends SupportChunk {
 		}
 	}
 	
-	public void setArcNorthEast(int inset, int y1, int y2, byte materialId, boolean fill) {
-		setArcNorthEast(inset, y1, y2, materialId, materialId, fill);
-	}
-	
-	public void setArcNorthEast(int inset, int y1, int y2, byte materialId, byte glassId, boolean fill) {
+	protected void setArcNorthEast(int inset, int y1, int y2, byte materialId, byte glassId, MaterialFactory maker, boolean fill) {
 		// Ref: Notes/BCircle.PDF
 		int cx = width - inset;
 		int cz = inset;
@@ -339,6 +369,9 @@ public class ByteChunk extends SupportChunk {
 			if (fill) {
 				setBlocks(cx - z - 1, cx, y1, y2, cz + x, cz + x + 1, materialId); // point in octant 3 ESE
 				setBlocks(cx - x - 1, cx, y1, y2, cz + z, cz + z + 1, materialId); // point in octant 4 SSE
+			} else if (maker != null) {
+				maker.placeMaterial(this, materialId, glassId, cx - z - 1, y1, y2, cz + x); // point in octant 3 ESE
+				maker.placeMaterial(this, materialId, glassId, cx - x - 1, y1, y2, cz + z); // point in octant 4 SSE
 			} else {
 				setBlock(cx - z - 1, y1, cz + x, materialId); // point in octant 3 ESE
 				setBlocks(cx - z - 1, y1 + 1, y2, cz + x, glassId); // point in octant 3 ESE
@@ -357,11 +390,7 @@ public class ByteChunk extends SupportChunk {
 		}
 	}
 	
-	public void setArcSouthEast(int inset, int y1, int y2, byte materialId, boolean fill) {
-		setArcSouthEast(inset, y1, y2, materialId, materialId, fill);
-	}
-
-	public void setArcSouthEast(int inset, int y1, int y2, byte materialId, byte glassId, boolean fill) {
+	protected void setArcSouthEast(int inset, int y1, int y2, byte materialId, byte glassId, MaterialFactory maker, boolean fill) {
 		// Ref: Notes/BCircle.PDF
 		int cx = width - inset;
 		int cz = width - inset;
@@ -376,6 +405,9 @@ public class ByteChunk extends SupportChunk {
 			if (fill) {
 				setBlocks(cx - x - 1, cx, y1, y2, cz - z - 1, cz - z, materialId); // point in octant 5 SSW
 				setBlocks(cx - z - 1, cx, y1, y2, cz - x - 1, cz - x, materialId); // point in octant 6 WSW
+			} else if (maker != null) {
+				maker.placeMaterial(this, materialId, glassId, cx - x - 1, y1, y2, cz - z - 1); // point in octant 5 SSW
+				maker.placeMaterial(this, materialId, glassId, cx - z - 1, y1, y2, cz - x - 1); // point in octant 6 WSW
 			} else {
 				setBlock(cx - x - 1, y1, cz - z - 1, materialId); // point in octant 5 SSW
 				setBlocks(cx - x - 1, y1 + 1, y2, cz - z - 1, glassId); // point in octant 5 SSW

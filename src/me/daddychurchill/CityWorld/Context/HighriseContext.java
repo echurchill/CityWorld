@@ -32,7 +32,7 @@ public class HighriseContext extends UrbanContext {
 		schematicFamily = SchematicFamily.HIGHRISE;
 
 		maximumFloorsAbove = absoluteMaximumFloorsAbove;
-		
+		maximumFloorsBelow = 3;
 	}
 
 }

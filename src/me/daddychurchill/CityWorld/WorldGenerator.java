@@ -127,7 +127,11 @@ public class WorldGenerator extends ChunkGenerator {
 	public CityWorld getPlugin() {
 		return plugin;
 	}
-
+	
+	public String getPluginName() {
+		return plugin.getPluginName();
+	}
+	
 	public World getWorld() {
 		return world;
 	}
@@ -324,6 +328,10 @@ public class WorldGenerator extends ChunkGenerator {
 	
 	public void reportMessage(String message) {
 		plugin.reportMessage(message);
+	}
+
+	public void reportMessage(String message1, String message2) {
+		plugin.reportMessage(message1, message2);
 	}
 
 	public void reportException(String message, Exception e) {

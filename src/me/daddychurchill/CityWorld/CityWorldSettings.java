@@ -57,6 +57,8 @@ public class CityWorldSettings {
 	public boolean includeDecayedNature = false;
 	public boolean includeTekkitMaterials = false;
 	
+	public boolean forceLoadWorldEdit = false;
+	
 	public int centerPointOfChunkRadiusX = 0;
 	public int centerPointOfChunkRadiusZ = 0;
 	public int constructChunkRadius = Integer.MAX_VALUE;
@@ -80,44 +82,46 @@ public class CityWorldSettings {
 	public MaterialStack itemsTreasureInBunkers;
 	public MaterialStack itemsTreasureInMines;
 	
-	private final static String tagCenterPointOfChunkRadiusX = "CenterPointOfChunkRadiusX";
-	private final static String tagCenterPointOfChunkRadiusZ = "CenterPointOfChunkRadiusZ";
-	private final static String tagConstructChunkRadius = "ConstructChunkRadius";
-	private final static String tagRoadChunkRadius = "RoadChunkRadius";
-	private final static String tagCityChunkRadius = "CityChunkRadius";
+	public final static String tagCenterPointOfChunkRadiusX = "CenterPointOfChunkRadiusX";
+	public final static String tagCenterPointOfChunkRadiusZ = "CenterPointOfChunkRadiusZ";
+	public final static String tagConstructChunkRadius = "ConstructChunkRadius";
+	public final static String tagRoadChunkRadius = "RoadChunkRadius";
+	public final static String tagCityChunkRadius = "CityChunkRadius";
 	
-	private final static String tagIncludeRoads = "IncludeRoads";
-	private final static String tagIncludeRoundabouts = "IncludeRoundabouts";
-	private final static String tagIncludeSewers = "IncludeSewers";
-	private final static String tagIncludeCisterns = "IncludeCisterns";
-	private final static String tagIncludeBasements = "IncludeBasements";
-	private final static String tagIncludeMines = "IncludeMines";
-	private final static String tagIncludeBunkers = "IncludeBunkers";
-	private final static String tagIncludeBuildings = "IncludeBuildings";
-	private final static String tagIncludeHouses = "IncludeHouses";
-	private final static String tagIncludeFarms = "IncludeFarms";
+	public final static String tagIncludeRoads = "IncludeRoads";
+	public final static String tagIncludeRoundabouts = "IncludeRoundabouts";
+	public final static String tagIncludeSewers = "IncludeSewers";
+	public final static String tagIncludeCisterns = "IncludeCisterns";
+	public final static String tagIncludeBasements = "IncludeBasements";
+	public final static String tagIncludeMines = "IncludeMines";
+	public final static String tagIncludeBunkers = "IncludeBunkers";
+	public final static String tagIncludeBuildings = "IncludeBuildings";
+	public final static String tagIncludeHouses = "IncludeHouses";
+	public final static String tagIncludeFarms = "IncludeFarms";
 
-	private final static String tagIncludeCaves = "IncludeCaves";
-	private final static String tagIncludeLavaFields = "IncludeLavaFields";
-	private final static String tagIncludeSeas = "IncludeSeas";
-	private final static String tagIncludeMountains = "IncludeMountains";
-	private final static String tagIncludeOres = "IncludeOres";
+	public final static String tagIncludeCaves = "IncludeCaves";
+	public final static String tagIncludeLavaFields = "IncludeLavaFields";
+	public final static String tagIncludeSeas = "IncludeSeas";
+	public final static String tagIncludeMountains = "IncludeMountains";
+	public final static String tagIncludeOres = "IncludeOres";
 	
-	private final static String tagTreasuresInSewers = "TreasuresInSewers";
-	private final static String tagSpawnersInSewers = "SpawnersInSewers";
-	private final static String tagTreasuresInMines = "TreasuresInMines";
-	private final static String tagSpawnersInMines = "SpawnersInMines";
-	private final static String tagTreasuresInBunkers = "TreasuresInBunkers";
-	private final static String tagSpawnersInBunkers = "SpawnersInBunkers";
+	public final static String tagTreasuresInSewers = "TreasuresInSewers";
+	public final static String tagSpawnersInSewers = "SpawnersInSewers";
+	public final static String tagTreasuresInMines = "TreasuresInMines";
+	public final static String tagSpawnersInMines = "SpawnersInMines";
+	public final static String tagTreasuresInBunkers = "TreasuresInBunkers";
+	public final static String tagSpawnersInBunkers = "SpawnersInBunkers";
 	
-	private final static String tagIncludeUndergroundFluids = "IncludeUndergroundFluids";
-	private final static String tagIncludeAbovegroundFluids = "IncludeAbovegroundFluids";
-	private final static String tagIncludeWorkingLights = "IncludeWorkingLights";
-	private final static String tagIncludeWoolRoads = "IncludeWoolRoads";
-	private final static String tagIncludeNamedRoads = "IncludeNamedRoads";
-	private final static String tagIncludeDecayedRoads = "IncludeDecayedRoads";
-	private final static String tagIncludeDecayedBuildings = "IncludeDecayedBuildings";
-	private final static String tagIncludeDecayedNature = "IncludeDecayedNature";
+	public final static String tagIncludeUndergroundFluids = "IncludeUndergroundFluids";
+	public final static String tagIncludeAbovegroundFluids = "IncludeAbovegroundFluids";
+	public final static String tagIncludeWorkingLights = "IncludeWorkingLights";
+	public final static String tagIncludeWoolRoads = "IncludeWoolRoads";
+	public final static String tagIncludeNamedRoads = "IncludeNamedRoads";
+	public final static String tagIncludeDecayedRoads = "IncludeDecayedRoads";
+	public final static String tagIncludeDecayedBuildings = "IncludeDecayedBuildings";
+	public final static String tagIncludeDecayedNature = "IncludeDecayedNature";
+	
+	public final static String tagForceLoadWorldEdit = "ForceLoadWorldEdit";
 	
 	public CityWorldSettings(WorldGenerator generator) {
 		super();
@@ -232,6 +236,8 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeDecayedBuildings, includeDecayedBuildings);
 			section.addDefault(tagIncludeDecayedNature, includeDecayedNature);
 			
+			section.addDefault(tagForceLoadWorldEdit, forceLoadWorldEdit);
+			
 			// now read the bits
 			includeRoads = section.getBoolean(tagIncludeRoads, includeRoads);
 			includeRoundabouts = section.getBoolean(tagIncludeRoundabouts, includeRoundabouts);
@@ -265,6 +271,8 @@ public class CityWorldSettings {
 			includeDecayedRoads = section.getBoolean(tagIncludeDecayedRoads, includeDecayedRoads);
 			includeDecayedBuildings = section.getBoolean(tagIncludeDecayedBuildings, includeDecayedBuildings);
 			includeDecayedNature = section.getBoolean(tagIncludeDecayedNature, includeDecayedNature);
+			
+			forceLoadWorldEdit = section.getBoolean(tagForceLoadWorldEdit, forceLoadWorldEdit);
 			
 			centerPointOfChunkRadiusX = section.getInt(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
 			centerPointOfChunkRadiusZ = section.getInt(tagCenterPointOfChunkRadiusZ, centerPointOfChunkRadiusZ);
@@ -331,6 +339,8 @@ public class CityWorldSettings {
 			section.set(tagIncludeDecayedRoads, includeDecayedRoads);
 			section.set(tagIncludeDecayedBuildings, includeDecayedBuildings);
 			section.set(tagIncludeDecayedNature, includeDecayedNature);
+			
+			section.set(tagForceLoadWorldEdit, forceLoadWorldEdit);
 			
 			// note the depreciations
 			deprecateOption(section, "IncludePavedRoads", "DEPRECATED: Use IncludeWoolRoads if you want the old style paved roads");

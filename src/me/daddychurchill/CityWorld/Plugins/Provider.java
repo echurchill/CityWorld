@@ -1,5 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import me.daddychurchill.CityWorld.WorldGenerator;
+
 import org.bukkit.plugin.Plugin;
 
 public abstract class Provider {
@@ -8,14 +10,23 @@ public abstract class Provider {
 		// TODO Auto-generated constructor stub
 	}
 	
-	protected static boolean isPlugInVersionOrBetter(Plugin plugin, String version) {
+	protected static boolean isPlugInVersionOrBetter(WorldGenerator generator, Plugin plugin, String minVersion) {
 		// doesn't exist?
 		if (plugin == null)
 			return false;
 		
 		// if it exists, what is it's version?
-		String text = plugin.getDescription().getVersion();
-		return text.compareToIgnoreCase(version) >= 0;
+		String pluginVersion = plugin.getDescription().getVersion();
+		
+		// wrong or odd version?
+		if (pluginVersion.compareToIgnoreCase(minVersion) < 0) {
+			generator.reportMessage("WARNING: Found " + plugin.getName() + " version (" + pluginVersion + "), alas " + 
+									generator.getPluginName() + " was tested against version (" + minVersion + ").",
+									plugin.getName() + " is either out of date or is a VERY non-standard build.");
+
+			return false;
+		} else
+			return true;
 	}
 
 }

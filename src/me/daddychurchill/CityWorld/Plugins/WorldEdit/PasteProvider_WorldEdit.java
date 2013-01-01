@@ -2,6 +2,8 @@ package me.daddychurchill.CityWorld.Plugins.WorldEdit;
 
 import java.io.File;
 import java.io.FilenameFilter;
+
+import me.daddychurchill.CityWorld.CityWorldSettings;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.Clipboard;
 import me.daddychurchill.CityWorld.Clipboard.ClipboardList;
@@ -116,8 +118,18 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 				return null;
 
 			// got the right version?
-			if (!isPlugInVersionOrBetter(worldEditPlugin, pluginMinVersion))
-				throw new UnsupportedOperationException("CityWorld requires WorldEdit v" + pluginMinVersion + " or better");
+			if (!isPlugInVersionOrBetter(generator, worldEditPlugin, pluginMinVersion))
+				
+				// Use it anyway?
+				if (generator.settings.forceLoadWorldEdit) {
+					generator.reportMessage("'" + CityWorldSettings.tagForceLoadWorldEdit + "' setting enabled!");
+					
+				// Well that didn't work... let's tell the user about a potential workaround
+				} else {
+					generator.reportMessage("[PasteProvider] Cannot use the installed WorldEdit. ", 
+											"See the '" + CityWorldSettings.tagForceLoadWorldEdit + "' setting for possible workaround.");
+					return null;
+				}
 			
 			// make sure it is enabled
 			if (!pm.isPluginEnabled(worldEditPlugin))
