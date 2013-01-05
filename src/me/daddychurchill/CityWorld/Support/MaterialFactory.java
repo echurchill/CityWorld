@@ -6,8 +6,8 @@ import org.bukkit.Material;
 
 public abstract class MaterialFactory {
 
-	public enum VerticalStyle {ONLY_GLASS, RAISED_GLASS, INSET_GLASS, ONLY_WALL};
-	public enum HorizontalStyle {SINGLE, DOUBLE, TRIPLE, RANDOM, SOLID};
+	public enum VerticalStyle {GGGG, WGGG, WGGW, WWWW};
+	public enum HorizontalStyle {WG, WGG, WGGG, WWG, WWGG, GGGG, RANDOM};
 	public VerticalStyle verticalStyle;
 	public HorizontalStyle horizontalStyle;
 	protected Boolean decayed;
@@ -34,41 +34,51 @@ public abstract class MaterialFactory {
 	
 	protected VerticalStyle pickVerticalStyle() {
 		switch (odds.getRandomInt(3)) {
-		case 1:
-			return VerticalStyle.INSET_GLASS;
-		case 2:
-			return VerticalStyle.RAISED_GLASS;
-//		case 3:
-//			return VerticalStyle.ONLY_WALL;
 		default:
-			return VerticalStyle.ONLY_GLASS;
+			return VerticalStyle.GGGG;
+		case 1:
+			return VerticalStyle.WGGW;
+		case 2:
+			return VerticalStyle.WGGG;
+//		case 3:
+//			return VerticalStyle.WWWW;
 		}		
 	}
 	
 	protected HorizontalStyle pickHorizontalStyle() {
-		switch (odds.getRandomInt(5)) {
-		case 1:
-			return HorizontalStyle.SINGLE;
-		case 2:
-			return HorizontalStyle.DOUBLE;
-		case 3:
-			return HorizontalStyle.TRIPLE;
-		case 4:
-			return HorizontalStyle.SOLID;
+		switch (odds.getRandomInt(7)) {
 		default:
 			return HorizontalStyle.RANDOM;
+		case 1:
+			return HorizontalStyle.WG;
+		case 2:
+			return HorizontalStyle.WGG;
+		case 3:
+			return HorizontalStyle.WGGG;
+		case 4:
+			return HorizontalStyle.WWG;
+		case 5:
+			return HorizontalStyle.WWGG;
+		case 6:
+			return HorizontalStyle.GGGG;
 		}		
 	}
 	
 	protected byte pickMaterial(byte primaryId, byte secondaryId, int i) {
 		switch (horizontalStyle) {
-		case SINGLE: 
+		case WG: 
 			return i % 2 == 0 ? primaryId : secondaryId;
-		case DOUBLE: 
+		case WGG: 
 			return i % 3 == 0 ? primaryId : secondaryId;
-		case TRIPLE: 
+		case WGGG: 
 			return i % 4 == 0 ? primaryId : secondaryId;
-		default:	 
+		case WWG: 
+			return ((i % 3 == 0) || (i % 3 == 1)) ? primaryId : secondaryId;
+		case WWGG: 
+			return ((i % 4 == 0) || (i % 4 == 1)) ? primaryId : secondaryId;
+		case GGGG:
+			return secondaryId;
+		default: //case RANDOM:
 			return odds.flipCoin() ? primaryId : secondaryId;
 		}
 	}
@@ -84,25 +94,25 @@ public abstract class MaterialFactory {
 	
 	protected void placeMaterial(ByteChunk chunk, byte primaryId, byte secondaryId, byte glassId, int x, int y1, int y2, int z) {
 		switch (verticalStyle) {
-		case RAISED_GLASS:
+		case WGGG:
 			chunk.setBlocks(x, y1, y1 + 1, z, primaryId);
 			chunk.setBlocks(x, y1 + 1, y2, z, glassId);
 			if (glassId == secondaryId)
 				decayMaterial(chunk, x, y1 + 1, y2, z);
 			break;
-		case INSET_GLASS:
+		case WGGW:
 			chunk.setBlocks(x, y1, y1 + 1, z, primaryId);
 			chunk.setBlocks(x, y1 + 1, y2 - 1, z, glassId);
 			chunk.setBlocks(x, y2 - 1, y2, z, primaryId);
 			if (glassId == secondaryId)
 				decayMaterial(chunk, x, y1 + 1, y2 - 1, z);
 			break;
-		case ONLY_GLASS:
+		case GGGG:
 			chunk.setBlocks(x, y1, y2, z, glassId);
 			if (glassId == secondaryId)
 				decayMaterial(chunk, x, y1, y2, z);
 			break;
-		case ONLY_WALL:
+		case WWWW:
 			chunk.setBlocks(x, y1, y2, z, primaryId);
 			break;
 		}

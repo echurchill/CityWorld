@@ -159,7 +159,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	
 				// one floor please
 				drawWalls(chunk, context, floorAt, basementFloorHeight - 1, 0, 0, false,
-						wallMaterial, wallMaterial, neighborBasements, false);
+						wallMaterial, wallMaterial, neighborBasements);
 				drawCeilings(chunk, context, floorAt + basementFloorHeight - 1, 1, 0, 0, false,
 						ceilingMaterial, neighborBasements);
 				
@@ -199,7 +199,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			// one floor please
 			drawWalls(chunk, context, floorAt, aboveFloorHeight - 1, 
 					localInsetWallEW, localInsetWallNS, 
-					allowRounded, wallMaterial, glassMaterial, neighborFloors, true);
+					allowRounded, wallMaterial, glassMaterial, stairWallMaterial, 
+					neighborFloors);
 			drawCeilings(chunk, context, floorAt + aboveFloorHeight - 1, 1, 
 					localInsetCeilingEW, localInsetCeilingNS, 
 					allowRounded, ceilingMaterial, neighborFloors);

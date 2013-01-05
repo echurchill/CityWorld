@@ -13,20 +13,20 @@ public class InteriorWallFactory extends MaterialFactory {
 	@Override
 	protected VerticalStyle pickVerticalStyle() {
 		switch (odds.getRandomInt(4)) {
-		case 1:
-			return VerticalStyle.INSET_GLASS;
-		case 2:
-			return VerticalStyle.RAISED_GLASS;
-		case 3:
-			return VerticalStyle.ONLY_WALL;
 		default:
-			return VerticalStyle.ONLY_GLASS;
+			return VerticalStyle.GGGG;
+		case 1:
+			return VerticalStyle.WGGW;
+		case 2:
+			return VerticalStyle.WGGG;
+		case 3:
+			return VerticalStyle.WWWW;
 		}		
 	}
 	
 	@Override
 	protected HorizontalStyle pickHorizontalStyle() {
-		return HorizontalStyle.SOLID;
+		return HorizontalStyle.GGGG;
 	}
 	
 	@Override
