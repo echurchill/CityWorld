@@ -90,10 +90,11 @@ public class RealChunk extends SupportChunk {
 			chunk.getBlock(x, y, z).setType(material);
 	}
 
-//	public void setBlocks(int x, int y1, int y2, int z, int type, byte data) {
-//		for (int y = y1; y < y2; y++)
-//			chunk.getBlock(x, y, z).setTypeIdAndData(type, data, doPhysics);
-//	}
+	@Override
+	public void setBlocks(int x, int y1, int y2, int z, byte type) {
+		for (int y = y1; y < y2; y++)
+			chunk.getBlock(x, y, z).setTypeIdAndData(type, (byte) 0, doPhysics);
+	}
 
 	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
 		for (int x = x1; x < x2; x++) {

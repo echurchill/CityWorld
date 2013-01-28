@@ -142,6 +142,10 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);
 
+		// is rounding allowed?
+		boolean allowRounded = rounded && 
+				insetWallEW == insetWallNS && insetCeilingEW == insetCeilingNS;
+		
 		// starting with the bottom
 		int lowestY = getBottomY(generator);
 		
@@ -158,7 +162,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				chunk.setLayer(floorAt, basementFloorHeight, airId);
 	
 				// one floor please
-				drawWalls(chunk, context, floorAt, basementFloorHeight - 1, 0, 0, false,
+				drawExteriorWalls(chunk, context, floorAt, basementFloorHeight - 1, 0, 0, false,
 						wallMaterial, wallMaterial, neighborBasements);
 				drawCeilings(chunk, context, floorAt + basementFloorHeight - 1, 1, 0, 0, false,
 						ceilingMaterial, neighborBasements);
@@ -170,10 +174,6 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			chunk.setLayer(lowestY + 1, (byte) ceilingMaterial.getId());
 		}
 
-		// is rounding allowed?
-		boolean allowRounded = rounded && 
-				insetWallEW == insetWallNS && insetCeilingEW == insetCeilingNS;
-		
 		// insetting the inset
 		int localInsetWallEW = insetWallEW;
 		int localInsetWallNS = insetWallNS;
@@ -197,9 +197,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			}
 			
 			// one floor please
-			drawWalls(chunk, context, floorAt, aboveFloorHeight - 1, 
+			drawExteriorWalls(chunk, context, floorAt, aboveFloorHeight - 1, 
 					localInsetWallEW, localInsetWallNS, 
-					allowRounded, wallMaterial, glassMaterial, stairWallMaterial, 
+					allowRounded, wallMaterial, glassMaterial, 
 					neighborFloors);
 			drawCeilings(chunk, context, floorAt + aboveFloorHeight - 1, 1, 
 					localInsetCeilingEW, localInsetCeilingNS, 
@@ -224,8 +224,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		
 		// is rounding allowed and where are the stairs
 		boolean allowRounded = rounded && 
-				insetWallEW == insetWallNS && insetCeilingEW == insetCeilingNS && 
-				neighborFloors.isRoundable();
+				insetWallEW == insetWallNS && insetCeilingEW == insetCeilingNS;
+		allowRounded = allowRounded && neighborFloors.isRoundable();
 		StairWell stairLocation = getStairWellLocation(allowRounded, neighborFloors);
 		
 		// bottom floor? 
@@ -234,55 +234,80 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		
 		// work on the basement stairs first
 		for (int floor = 0; floor < depth; floor++) {
-			int y = generator.streetLevel - basementFloorHeight * floor - 2;
+			int floorAt = generator.streetLevel - basementFloorHeight * floor - 2;
 			
 			// stairs?
 			if (needStairsDown) {
 				
 				// top is special... but only if there are no stairs up
 				if (floor == 0 && !needStairsUp) {
-					drawStairsWalls(chunk, y, basementFloorHeight, insetWallEW, insetWallNS, 
+					drawStairsWalls(chunk, floorAt, basementFloorHeight, insetWallEW, insetWallNS, 
 							stairLocation, stairWallMaterial, true, false);
 				
 				// all the rest of those lovely stairs
 				} else {
 					// place the stairs and such
-					drawStairs(chunk, y, basementFloorHeight, insetWallEW, insetWallNS, 
+					drawStairs(chunk, floorAt, basementFloorHeight, insetWallEW, insetWallNS, 
 							stairLocation, stairMaterial);
 						
 					// plain walls please
-					drawStairsWalls(chunk, y, basementFloorHeight, insetWallEW, insetWallNS, 
+					drawStairsWalls(chunk, floorAt, basementFloorHeight, insetWallEW, insetWallNS, 
 							stairLocation, wallMaterial, false, floor == depth - 1);
 
 					// pillars if no stairs here
-					drawOtherPillars(chunk, y, basementFloorHeight, 
+					drawOtherPillars(chunk, floorAt, basementFloorHeight, 
 							stairLocation, wallMaterial);
 				}
 			
 			// if no stairs then
 			} else {
-				drawOtherPillars(chunk, y, basementFloorHeight, 
+				drawOtherPillars(chunk, floorAt, basementFloorHeight, 
 						StairWell.CENTER, wallMaterial);
 			}
 		}
 		
+		// insetting the inset
+		int localInsetWallEW = insetWallEW;
+		int localInsetWallNS = insetWallNS;
+
 		// now the above ground floors
-		if (needStairsUp) {
-			aboveFloorHeight = firstFloorHeight;
-			for (int floor = 0; floor < height; floor++) {
-				int y = generator.streetLevel + aboveFloorHeight * floor + 2;
+		aboveFloorHeight = firstFloorHeight;
+		for (int floor = 0; floor < height; floor++) {
+			int floorAt = generator.streetLevel + aboveFloorHeight * floor + 2;
+			allowRounded = allowRounded && neighborFloors.isRoundable();
+			stairLocation = getStairWellLocation(allowRounded, neighborFloors);
+			
+			// stairs?
+			if (needStairsUp) {
 				
 				// more stairs and such
 				if (floor < height - 1)
-					drawStairs(chunk, y, aboveFloorHeight, insetWallEW, insetWallNS, 
+					drawStairs(chunk, floorAt, aboveFloorHeight, insetWallEW, insetWallNS, 
 							stairLocation, stairMaterial);
 				
 				// fancy walls... maybe
 				if (floor > 0 || (floor == 0 && (depth > 0 || height > 1)))
-					drawStairsWalls(chunk, y, aboveFloorHeight, insetWallEW, insetWallNS, 
+					drawStairsWalls(chunk, floorAt, aboveFloorHeight, insetWallEW, insetWallNS, 
 							stairLocation, stairWallMaterial, floor == height - 1, floor == 0 && depth == 0);
-				aboveFloorHeight = otherFloorHeight;
 			}
+			
+			// inside walls
+			drawInteriorWalls(chunk, context, floorAt, aboveFloorHeight - 1, 
+					localInsetWallEW, localInsetWallNS, 
+					wallMaterial, glassMaterial, 
+					stairLocation, neighborFloors);
+				
+			// breath in?
+			if (insetInsetted) {
+				if (floor == insetInsetMidAt || floor == insetInsetHighAt) {
+					localInsetWallEW++;
+					localInsetWallNS++;
+				}
+			}
+			
+			// one down, more to go
+			neighborFloors.decrement();
+			aboveFloorHeight = otherFloorHeight;
 		}
 		
 		// happy place?

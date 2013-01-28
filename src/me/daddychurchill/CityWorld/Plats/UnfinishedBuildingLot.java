@@ -71,9 +71,9 @@ public class UnfinishedBuildingLot extends BuildingLot {
 				drawFence(generator, chunk, context, 0, generator.streetLevel + 1, neighborBasements);
 			
 			// one floor please
-			drawWalls(chunk, context, floorAt, FloorHeight, 0, 0, false,
+			drawExteriorWalls(chunk, context, floorAt, FloorHeight, 0, 0, false,
 					dirtMaterial, dirtMaterial, neighborBasements);
-			drawWalls(chunk, context, floorAt, FloorHeight, 1, 1, false,
+			drawExteriorWalls(chunk, context, floorAt, FloorHeight, 1, 1, false,
 					wallMaterial, wallMaterial, neighborBasements);
 			
 			// ceilings if needed

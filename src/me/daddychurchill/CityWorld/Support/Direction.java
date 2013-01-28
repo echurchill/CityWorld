@@ -16,7 +16,7 @@ public class Direction {
 	};
 
 	public enum StairWell {
-		CENTER, NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEAST
+		CENTER, NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEAST, NORTH, SOUTH, WEST, EAST
 	};
 
 	public enum Stair {

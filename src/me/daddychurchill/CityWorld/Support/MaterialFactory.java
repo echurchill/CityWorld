@@ -83,16 +83,16 @@ public abstract class MaterialFactory {
 		}
 	}
 	
-	protected void decayMaterial(ByteChunk chunk, int x, int y1, int y2, int z) {
+	protected void decayMaterial(SupportChunk chunk, int x, int y1, int y2, int z) {
 		if (decayed && odds.playOdds(oddsOfDecay)) {
 			int range = Math.max(1, y2 - y1);
 			chunk.setBlock(x, y1 + odds.getRandomInt(range), z, airId);
 		}
 	}
 	
-	public abstract void placeMaterial(ByteChunk chunk, byte primaryId, byte secondaryId, int x, int y1, int y2, int z);
+	public abstract void placeMaterial(SupportChunk chunk, byte primaryId, byte secondaryId, int x, int y1, int y2, int z);
 	
-	protected void placeMaterial(ByteChunk chunk, byte primaryId, byte secondaryId, byte glassId, int x, int y1, int y2, int z) {
+	protected void placeMaterial(SupportChunk chunk, byte primaryId, byte secondaryId, byte glassId, int x, int y1, int y2, int z) {
 		switch (verticalStyle) {
 		case WGGG:
 			chunk.setBlocks(x, y1, y1 + 1, z, primaryId);

@@ -11,7 +11,7 @@ public class OutsideWEWallFactory extends MaterialFactory {
 	}
 
 	@Override
-	public void placeMaterial(ByteChunk chunk, byte primaryId, byte secondaryId, int x, int y1, int y2, int z) {
+	public void placeMaterial(SupportChunk chunk, byte primaryId, byte secondaryId, int x, int y1, int y2, int z) {
 		super.placeMaterial(chunk, primaryId, secondaryId, pickMaterial(primaryId, secondaryId, x), x, y1, y2, z);
 	}
 }

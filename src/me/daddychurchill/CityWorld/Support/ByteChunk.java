@@ -223,18 +223,6 @@ public class ByteChunk extends SupportChunk {
 		replaceBlocks((byte) fromMaterial.getId(), (byte) toMaterial.getId());
 	}
 	
-	public void setBlocks(int x, int y1, int y2, int z, byte primaryId, byte secondaryId, MaterialFactory maker) {
-		setBlocks(x, x + 1, y1, y2, z, z + 1, primaryId, secondaryId, maker);
-	}
-	
-	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte primaryId, byte secondaryId, MaterialFactory maker) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				maker.placeMaterial(this, primaryId, secondaryId, x, y1, y2, z);
-			}
-		}
-	}
-	
 	public int setLayer(int blocky, byte materialId) {
 		setBlocks(0, width, blocky, blocky + 1, 0, width, materialId);
 		return blocky + 1;

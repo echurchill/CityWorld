@@ -45,18 +45,24 @@ public class WorldBlocks extends SupportChunk {
 	
 	@Override
 	public void setBlock(int x, int y, int z, byte materialId) {
-		world.getBlockAt(x, y, z).setTypeId(materialId);
+		world.getBlockAt(x, y, z).setTypeIdAndData(materialId, (byte) 0, doPhysics);
 	}
 
 	@Override
 	public void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				world.getBlockAt(x, y, z).setTypeId(materialId);
+				world.getBlockAt(x, y, z).setTypeIdAndData(materialId, (byte) 0, doPhysics);
 			}
 		}
 	}
 	
+	@Override
+	public void setBlocks(int x, int y1, int y2, int z, byte type) {
+		for (int y = y1; y < y2; y++)
+			world.getBlockAt(x, y, z).setTypeIdAndData(type, (byte) 0, doPhysics);
+	}
+
 	public void setBlock(int x, int y, int z, Material material) {
 		world.getBlockAt(chunkX + x, y, chunkZ + z).setTypeId(material.getId(), doPhysics);
 	}
@@ -409,5 +415,4 @@ public class WorldBlocks extends SupportChunk {
 		// now sprinkle blocks around
 		sprinkleDebris(x, y, z, radius, debris);
 	}
-
 }

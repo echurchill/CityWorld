@@ -65,6 +65,8 @@ public abstract class SupportChunk {
 
 	public abstract void setBlock(int x, int y, int z, byte materialId);
 	public abstract void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId);
+	public abstract void setBlocks(int x, int y1, int y2, int z, byte materialId);
+	
 	public abstract boolean isType(int x, int y, int z, int type);
 	public abstract boolean isEmpty(int x, int y, int z);
 	
@@ -90,6 +92,18 @@ public abstract class SupportChunk {
 				isType(x + 1, y, z, waterId) ||
 				isType(x, y, z - 1, waterId) || 
 				isType(x, y, z + 1, waterId));
+	}
+	
+	public void setBlocks(int x, int y1, int y2, int z, byte primaryId, byte secondaryId, MaterialFactory maker) {
+		setBlocks(x, x + 1, y1, y2, z, z + 1, primaryId, secondaryId, maker);
+	}
+	
+	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte primaryId, byte secondaryId, MaterialFactory maker) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				maker.placeMaterial(this, primaryId, secondaryId, x, y1, y2, z);
+			}
+		}
 	}
 	
 	private void drawCircleBlocks(int cx, int cz, int x, int z, int y, byte materialId) {

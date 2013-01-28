@@ -6,10 +6,12 @@ public class SurroundingFloors extends Surroundings {
 	//TODO optimize the lookup logic to use an array of booleans after taking the SurroundingLots
 	
 	public int[][] floors;
+	public boolean[][] neighbors;
 	
 	public SurroundingFloors() {
 		super();
 		floors = new int[3][3];
+		neighbors = new boolean[3][3];
 	}
 
 	public void decrement() {
@@ -18,27 +20,24 @@ public class SurroundingFloors extends Surroundings {
 				floors[x][z]--;
 			}
 		}
+		update();
 	}
 	
-//	private boolean[][] findNeighbors() {
-//		boolean[][] neighbors = new boolean[3][3];
-//
-//		// copy the natural values
-//		for (int x = 0; x < 3; x++) {
-//			for (int z = 0; z < 3; z++) {
-//				neighbors[x][z] = heights[x][z] > 0;
-//			}
-//		}
-//		
-//		// correct the corners
-//		neighbors[2][0] = neighbors[2][0] && neighbors[1][0] && neighbors[2][1]; 
-//		neighbors[2][2] = neighbors[2][2] && neighbors[1][2] && neighbors[2][1]; 
-//		neighbors[0][0] = neighbors[0][0] && neighbors[1][0] && neighbors[0][1]; 
-//		neighbors[0][2] = neighbors[0][2] && neighbors[0][1] && neighbors[1][2]; 
-//		
-//		// send it back up the line
-//		return neighbors;
-//	}
+	public void update() {
+
+		// copy the natural values
+		for (int x = 0; x < 3; x++) {
+			for (int z = 0; z < 3; z++) {
+				neighbors[x][z] = floors[x][z] > 0;
+			}
+		}
+		
+		// correct the corners
+		neighbors[2][0] = neighbors[2][0] && neighbors[1][0] && neighbors[2][1]; 
+		neighbors[2][2] = neighbors[2][2] && neighbors[1][2] && neighbors[2][1]; 
+		neighbors[0][0] = neighbors[0][0] && neighbors[1][0] && neighbors[0][1]; 
+		neighbors[0][2] = neighbors[0][2] && neighbors[0][1] && neighbors[1][2]; 
+	}
 	
 	public boolean isRoundable() {
 		if (toSouth()) {
@@ -79,22 +78,22 @@ public class SurroundingFloors extends Surroundings {
 	
 	@Override
 	public boolean toNorthEast() {
-		return floors[2][0] > 0 && toEast() && toNorth();
+		return neighbors[2][0] && toEast() && toNorth();
 	}
 
 	@Override
 	public boolean toEast() {
-		return floors[2][1] > 0;
+		return neighbors[2][1];
 	}
 
 	@Override
 	public boolean toSouthEast() {
-		return floors[2][2] > 0 && toEast() && toSouth();
+		return neighbors[2][2] && toEast() && toSouth();
 	}
 	
 	@Override
 	public boolean toNorth() {
-		return floors[1][0] > 0;
+		return neighbors[1][0];
 	}
 	
 	@Override
@@ -104,21 +103,21 @@ public class SurroundingFloors extends Surroundings {
 	
 	@Override
 	public boolean toSouth() {
-		return floors[1][2] > 0;
+		return neighbors[1][2];
 	}
 
 	@Override
 	public boolean toNorthWest() {
-		return floors[0][0] > 0 && toWest() && toNorth();
+		return neighbors[0][0] && toWest() && toNorth();
 	}
 
 	@Override
 	public boolean toWest() {
-		return floors[0][1] > 0;
+		return neighbors[0][1];
 	}
 
 	@Override
 	public boolean toSouthWest() {
-		return floors[0][2] > 0 && toWest() && toSouth();
+		return neighbors[0][2] && toWest() && toSouth();
 	}
 }
