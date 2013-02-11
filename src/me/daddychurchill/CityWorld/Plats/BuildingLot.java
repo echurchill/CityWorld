@@ -119,6 +119,11 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 
 	@Override
+	public boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
+		return blockY < generator.streetLevel - basementFloorHeight * depth + 1;
+	}
+
+	@Override
 	protected boolean isShaftableLevel(WorldGenerator generator, int y) {
 		return y >= 0 && y < generator.streetLevel - basementFloorHeight * depth - 2 - 16;	
 	}

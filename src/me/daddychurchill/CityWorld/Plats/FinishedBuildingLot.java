@@ -121,6 +121,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			wallMaterial = relativebuilding.wallMaterial;
 			ceilingMaterial = relativebuilding.ceilingMaterial;
 			glassMaterial = relativebuilding.glassMaterial;
+			//stairStyle can be different for each chunk
 			stairMaterial = relativebuilding.stairMaterial;
 			stairWallMaterial = relativebuilding.stairWallMaterial;
 			stairPlatformMaterial = relativebuilding.stairPlatformMaterial;
