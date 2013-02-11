@@ -18,6 +18,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	protected Material ceilingMaterial;
 	protected Material glassMaterial;
 	protected Material stairMaterial;
+	protected Material stairPlatformMaterial;
 	protected Material stairWallMaterial;
 	protected Material doorMaterial;
 	protected Material roofMaterial;
@@ -77,6 +78,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		ceilingMaterial = pickCeilingMaterial(chunkOdds);
 		glassMaterial = pickGlassMaterial(chunkOdds);
 		stairMaterial = pickStairMaterial(wallMaterial);
+		stairPlatformMaterial = pickStairPlatformMaterial(stairMaterial);
 		doorMaterial = Material.WOOD_DOOR;
 		roofMaterial = pickRoofMaterial(chunkOdds);
 		
@@ -121,6 +123,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			glassMaterial = relativebuilding.glassMaterial;
 			stairMaterial = relativebuilding.stairMaterial;
 			stairWallMaterial = relativebuilding.stairWallMaterial;
+			stairPlatformMaterial = relativebuilding.stairPlatformMaterial;
 			doorMaterial = relativebuilding.doorMaterial;
 			roofMaterial = relativebuilding.roofMaterial;
 		}
@@ -246,14 +249,15 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				
 				// all the rest of those lovely stairs
 				} else {
-					// place the stairs and such
-					drawStairs(chunk, floorAt, basementFloorHeight, insetWallEW, insetWallNS, 
-							stairLocation, stairMaterial);
-						
+
 					// plain walls please
 					drawStairsWalls(chunk, floorAt, basementFloorHeight, insetWallEW, insetWallNS, 
 							stairLocation, wallMaterial, false, floor == depth - 1);
 
+					// place the stairs and such
+					drawStairs(chunk, floorAt, basementFloorHeight, insetWallEW, insetWallNS, 
+							stairLocation, stairMaterial, stairPlatformMaterial);
+						
 					// pillars if no stairs here
 					drawOtherPillars(chunk, floorAt, basementFloorHeight, 
 							stairLocation, wallMaterial);
@@ -277,26 +281,26 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			allowRounded = allowRounded && neighborFloors.isRoundable();
 			stairLocation = getStairWellLocation(allowRounded, neighborFloors);
 			
-			// stairs?
-			if (needStairsUp) {
-				
-				// more stairs and such
-				if (floor < height - 1)
-					drawStairs(chunk, floorAt, aboveFloorHeight, insetWallEW, insetWallNS, 
-							stairLocation, stairMaterial);
-				
-				// fancy walls... maybe
-				if (floor > 0 || (floor == 0 && (depth > 0 || height > 1)))
-					drawStairsWalls(chunk, floorAt, aboveFloorHeight, insetWallEW, insetWallNS, 
-							stairLocation, stairWallMaterial, floor == height - 1, floor == 0 && depth == 0);
-			}
-			
 			// inside walls
 			drawInteriorWalls(chunk, context, floorAt, aboveFloorHeight - 1, 
 					localInsetWallEW, localInsetWallNS, 
 					wallMaterial, glassMaterial, 
 					stairLocation, neighborFloors);
 				
+			// stairs?
+			if (needStairsUp) {
+				
+				// fancy walls... maybe
+				if (floor > 0 || (floor == 0 && (depth > 0 || height > 1)))
+					drawStairsWalls(chunk, floorAt, aboveFloorHeight, insetWallEW, insetWallNS, 
+							stairLocation, stairWallMaterial, floor == height - 1, floor == 0 && depth == 0);
+				
+				// more stairs and such
+				if (floor < height - 1)
+					drawStairs(chunk, floorAt, aboveFloorHeight, insetWallEW, insetWallNS, 
+							stairLocation, stairMaterial, stairPlatformMaterial);
+			}
+			
 			// breath in?
 			if (insetInsetted) {
 				if (floor == insetInsetMidAt || floor == insetInsetHighAt) {
@@ -425,12 +429,33 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		case NETHERRACK:
 		case NETHER_BRICK:
 			return Material.NETHER_BRICK_STAIRS;
+			
+		case SANDSTONE:
+		case SAND:
+			return Material.SANDSTONE_STAIRS;
 		
-		default: // SANDSTONE, WOOD, SAND
+		default: // WOOD
 			return Material.WOOD_STAIRS;
 		}
 	}
 
+	private Material pickStairPlatformMaterial(Material wall) {
+		switch (wall) {
+		case COBBLESTONE_STAIRS:
+			return Material.COBBLESTONE;
+		case SMOOTH_STAIRS:
+			return Material.SMOOTH_BRICK;
+		case BRICK_STAIRS:
+			return Material.BRICK;
+		case NETHER_BRICK_STAIRS:
+			return Material.NETHER_BRICK;
+		case SANDSTONE_STAIRS:
+			return Material.SANDSTONE;
+		default:
+			return Material.WOOD;
+		}
+	}
+	
 	static protected Material pickStairWallMaterial(Material wall) {
 		switch (wall) {
 		case COBBLESTONE:

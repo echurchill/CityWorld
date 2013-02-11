@@ -20,6 +20,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 	
 	private final static Material dirtMaterial = Material.DIRT;
 	private final static Material stairMaterial = Material.WOOD_STAIRS;
+	private final static Material stairPlatformMaterial = Material.WOOD;
 	private final static Material wallMaterial = Material.SMOOTH_BRICK;
 	private final static Material ceilingMaterial = Material.STONE;
 	
@@ -131,23 +132,32 @@ public class UnfinishedBuildingLot extends BuildingLot {
 			
 			if (needStairsDown) {
 				for (int floor = 0; floor < depth; floor++) {
-					int y = generator.streetLevel - FloorHeight * floor - 2;
+					int floorAt = generator.streetLevel - FloorHeight * floor - 2;
 					
+					// plain walls please
+					drawStairsWalls(chunk, floorAt, basementFloorHeight, inset, inset, 
+							StairWell.CENTER, Material.AIR, false, floor == depth - 1);
+
 					// place the stairs and such
-					drawStairs(chunk, y, FloorHeight, inset, inset, StairWell.CENTER, stairMaterial);
+					drawStairs(chunk, floorAt, FloorHeight, inset, inset, StairWell.CENTER, stairMaterial, stairPlatformMaterial);
 				}
 			}
 			
 			if (needStairsUp) {
 				for (int floor = 0; floor < height; floor++) {
-					int y = generator.streetLevel + FloorHeight * floor + 2;
+					int floorAt = generator.streetLevel + FloorHeight * floor + 2;
 					
 					// floor built yet?
 					if (floor <= floorsBuilt) {
 						
+						// fancy walls... maybe
+						if (floor > 0 || (floor == 0 && (depth > 0 || height > 1)))
+							drawStairsWalls(chunk, floorAt, aboveFloorHeight, inset, inset, 
+									StairWell.CENTER, Material.AIR, floor == height - 1, floor == 0 && depth == 0);
+						
 						// more stairs and such
 						if (floor < height - 1)
-							drawStairs(chunk, y, FloorHeight, inset, inset, StairWell.CENTER, stairMaterial);
+							drawStairs(chunk, floorAt, FloorHeight, inset, inset, StairWell.CENTER, stairMaterial, stairPlatformMaterial);
 					}
 				}
 			}
