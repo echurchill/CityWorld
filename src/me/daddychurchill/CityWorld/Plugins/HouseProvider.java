@@ -88,19 +88,18 @@ public class HouseProvider extends Provider {
 	}
 	
 	private void placeShedChest(WorldGenerator generator, RealChunk chunk, Odds odds, int x, int y, int z, Direction.General direction) {
-		chunk.setChest(x, y, z, direction, generator.lootProvider.getItems(generator, odds, LootLocation.STORAGESHED));
 		switch (direction) {
 		case NORTH:
-			chunk.setChest(x + 1, y, z, direction);
+			chunk.setChest(x + 1, y, z, direction, odds, generator.lootProvider, LootLocation.STORAGESHED);
 			break;
 		case SOUTH:
-			chunk.setChest(x - 1, y, z, direction);
+			chunk.setChest(x - 1, y, z, direction, odds, generator.lootProvider, LootLocation.STORAGESHED);
 			break;
 		case WEST:
-			chunk.setChest(x, y, z + 1, direction);
+			chunk.setChest(x, y, z + 1, direction, odds, generator.lootProvider, LootLocation.STORAGESHED);
 			break;
 		case EAST:
-			chunk.setChest(x, y, z - 1, direction);
+			chunk.setChest(x, y, z - 1, direction, odds, generator.lootProvider, LootLocation.STORAGESHED);
 			break;
 		}
 	}

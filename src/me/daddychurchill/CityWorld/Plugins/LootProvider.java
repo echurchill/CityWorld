@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
@@ -13,7 +14,7 @@ public abstract class LootProvider extends Provider {
 	
 	public enum LootLocation {SEWER, MINE, BUNKER, STORAGESHED};
 	
-	public abstract ItemStack[] getItems(WorldGenerator generator, Odds odds, LootLocation lootLocation);
+	public void setLoot(Odds odds, LootLocation chestLocation, Block block) {}
 
 	public static LootProvider loadProvider(WorldGenerator generator) {
 
@@ -30,7 +31,7 @@ public abstract class LootProvider extends Provider {
 		return provider;
 	}
 
-	protected ItemStack[] createTreasures(WorldGenerator generator, Odds odds, Material minTreasure, Material maxTreasure, int maxCount, int maxStack) {
+	protected ItemStack[] createTreasures(Odds odds, Material minTreasure, Material maxTreasure, int maxCount, int maxStack) {
 		int minId = minTreasure.getId();
 		int maxId = maxTreasure.getId();
 		int rangeId = maxId - minId + 1;
