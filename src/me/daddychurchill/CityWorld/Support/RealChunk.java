@@ -2,6 +2,8 @@ package me.daddychurchill.CityWorld.Support;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
+import me.daddychurchill.CityWorld.Plugins.LootProvider;
+import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.Direction.Torch;
 
@@ -464,17 +466,11 @@ public class RealChunk extends SupportChunk {
 	}
 
 	private final static int chestId = Material.CHEST.getId();
-	public void setChest(int x, int y, int z, Direction.General direction, ItemStack... items) {
+	public void setChest(int x, int y, int z, Direction.General direction, Odds odds, LootProvider lootProvider, LootLocation lootLocation) {
 		Block block = chunk.getBlock(x, y, z);
 		block.setTypeIdAndData(chestId, direction.getData(), false);
-		if (items != null && items.length > 0) {
-			if (block.getTypeId() == chestId) {
-				Chest chest = (Chest) block.getState();
-				Inventory inv = chest.getInventory();
-				inv.clear();
-				inv.addItem(items);
-				chest.update(true);
-			}
+		if (block.getTypeId() == chestId) {
+			lootProvider.setLoot(odds, lootLocation, block);
 		}
 	}
 
