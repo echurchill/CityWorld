@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="C:/Users/Eddie/Desktop/Minecraft/craftbukkit.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Eddie/Desktop/Minecraft/plugins/WorldEdit.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Eddie/Desktop/Tekkit_Server/Tekkit.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Eddie/Desktop/Minecraft/plugins/PhatLoots.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

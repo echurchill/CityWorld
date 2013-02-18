@@ -11,12 +11,9 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.Chest;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.EntityType;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 
 public class RealChunk extends SupportChunk {
 	private Chunk chunk;
