@@ -16,7 +16,7 @@ public class Direction {
 	};
 
 	public enum StairWell {
-		CENTER, NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEAST, NORTH, SOUTH, WEST, EAST
+		NONE, CENTER, NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEAST, NORTH, SOUTH, WEST, EAST
 	};
 
 	public enum Stair {
@@ -37,10 +37,17 @@ public class Direction {
 	};
 
 	public enum TrapDoor {
-		SOUTH, NORTH, EAST, WEST;
+		SOUTH(0), NORTH(1), EAST(2), WEST(3),
+		SOUTH_UP(4 + 0), NORTH_UP(4 + 1), EAST_UP(4 + 2), WEST_UP(4 + 3),
+		TOP_SOUTH(8 + 0), TOP_NORTH(8 + 1), TOP_EAST(8 + 2), TOP_WEST(8 + 3),
+		TOP_SOUTH_DOWN(8 + 4 + 0), TOP_NORTH_DOWN(8 + 4 + 1), TOP_EAST_DOWN(8 + 4 + 2), TOP_WEST_DOWN(8 + 4 + 3);
 		
+		private byte data;
+		private TrapDoor(int d) {
+			data = (byte) d;
+		}
 		public byte getData() {
-			return (byte) ordinal();
+			return data;
 		}
 	};
 	

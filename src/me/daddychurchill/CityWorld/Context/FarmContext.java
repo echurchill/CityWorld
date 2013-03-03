@@ -56,7 +56,7 @@ public class FarmContext extends RuralContext {
 				}
 				
 				// look for singleton nature and roundabouts
-				else if (current != null) {
+				else {
 					
 					// if a single natural thing is here but surrounded by four "things"
 					if (current.style == LotStyle.NATURE &&

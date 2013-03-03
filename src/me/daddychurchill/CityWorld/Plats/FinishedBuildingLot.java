@@ -77,6 +77,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		wallMaterial = pickWallMaterial(chunkOdds);
 		ceilingMaterial = pickCeilingMaterial(chunkOdds);
 		glassMaterial = pickGlassMaterial(chunkOdds);
+		columnMaterial = pickColumnMaterial(wallMaterial);
 		stairMaterial = pickStairMaterial(wallMaterial);
 		stairPlatformMaterial = pickStairPlatformMaterial(stairMaterial);
 		doorMaterial = Material.WOOD_DOOR;
@@ -281,10 +282,20 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			int floorAt = generator.streetLevel + aboveFloorHeight * floor + 2;
 			allowRounded = allowRounded && neighborFloors.isRoundable();
 			stairLocation = getStairWellLocation(allowRounded, neighborFloors);
+			if (!needStairsUp)
+				stairLocation = StairWell.NONE;
+			
+			// breath in?
+			if (insetInsetted) {
+				if (floor == insetInsetMidAt || floor == insetInsetHighAt) {
+					localInsetWallEW++;
+					localInsetWallNS++;
+				}
+			}
 			
 			// inside walls
 			drawInteriorWalls(chunk, context, floorAt, aboveFloorHeight - 1, 
-					localInsetWallEW, localInsetWallNS, 
+					localInsetWallEW, localInsetWallNS, allowRounded, 
 					wallMaterial, glassMaterial, 
 					stairLocation, neighborFloors);
 				
@@ -293,21 +304,13 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				
 				// fancy walls... maybe
 				if (floor > 0 || (floor == 0 && (depth > 0 || height > 1)))
-					drawStairsWalls(chunk, floorAt, aboveFloorHeight, insetWallEW, insetWallNS, 
+					drawStairsWalls(chunk, floorAt, aboveFloorHeight, localInsetWallEW, localInsetWallNS, 
 							stairLocation, stairWallMaterial, floor == height - 1, floor == 0 && depth == 0);
 				
 				// more stairs and such
 				if (floor < height - 1)
-					drawStairs(chunk, floorAt, aboveFloorHeight, insetWallEW, insetWallNS, 
+					drawStairs(chunk, floorAt, aboveFloorHeight, localInsetWallEW, localInsetWallNS, 
 							stairLocation, stairMaterial, stairPlatformMaterial);
-			}
-			
-			// breath in?
-			if (insetInsetted) {
-				if (floor == insetInsetMidAt || floor == insetInsetHighAt) {
-					localInsetWallEW++;
-					localInsetWallNS++;
-				}
 			}
 			
 			// one down, more to go
@@ -407,6 +410,29 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 //			return Material.IRON_BLOCK;
 		default:
 			return Material.STONE;
+		}
+	}
+
+	static protected Material pickColumnMaterial(Material wall) {
+		switch (wall) {
+		case COBBLESTONE:
+		case MOSSY_COBBLESTONE:
+		case WOOL:
+			return Material.COBBLE_WALL;
+
+		case NETHERRACK:
+		case NETHER_BRICK:
+			return Material.NETHER_FENCE;
+			
+		case SANDSTONE:
+		case SAND:
+		case CLAY:
+		case WOOD:
+		case BRICK:
+			return Material.FENCE;
+		
+		default: 
+			return wall;
 		}
 	}
 
