@@ -514,16 +514,32 @@ public class RealChunk extends SupportChunk {
 		setBlocks(x - 3, x - 1, y + 7, y + 9, z, z + 1, Material.WOOL, odds.getRandomByte(16));
 	}
 
+	public void setTable(int x1, int x2, int y, int z1, int z2) {
+		setTable(x1, x2, y, z1, z2, Material.STONE_PLATE);
+	}
+	
+	public void setTable(int x, int y, int z) {
+		setTable(x, y, z, Material.STONE_PLATE);
+	}
+	
 	public void setTable(int x1, int x2, int y, int z1, int z2, Material tableTop) {
+		setTable(x1, x2, y, z1, z2, Material.FENCE, tableTop);
+	}
+	
+	public void setTable(int x, int y, int z, Material tableTop) {
+		setTable(x, y, z, Material.FENCE, tableTop);
+	}
+	
+	public void setTable(int x1, int x2, int y, int z1, int z2, Material tableLeg, Material tableTop) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				setTable(x, y, z, tableTop);
+				setTable(x, y, z, tableLeg, tableTop);
 			}
 		}
 	}
 	
-	public void setTable(int x, int y, int z, Material tableTop) {
-		setBlock(x, y, z, Material.FENCE);
+	public void setTable(int x, int y, int z, Material tableLeg, Material tableTop) {
+		setBlock(x, y, z, tableLeg);
 		setBlock(x, y + 1, z, tableTop);
 	}
 	

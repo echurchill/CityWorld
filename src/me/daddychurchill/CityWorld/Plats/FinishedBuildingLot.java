@@ -24,9 +24,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	protected Material roofMaterial;
 	
 	//TODO columns height
-	protected int insetWallEW;
+	protected int insetWallWE;
 	protected int insetWallNS;
-	protected int insetCeilingEW;
+	protected int insetCeilingWE;
 	protected int insetCeilingNS;
 	protected boolean insetInsetted;
 	protected int insetInsetMidAt;
@@ -41,22 +41,22 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		DataContext context = platmap.context;
 
 		// how do the walls inset?
-		insetWallEW = chunkOdds.getRandomInt(context.rangeOfWallInset) + 1; // 1 or 2
+		insetWallWE = chunkOdds.getRandomInt(context.rangeOfWallInset) + 1; // 1 or 2
 		insetWallNS = chunkOdds.getRandomInt(context.rangeOfWallInset) + 1;
 		
 		// what about the ceiling?
 		if (chunkOdds.playOdds(context.oddsOfFlatWalledBuildings)) {
-			insetCeilingEW = insetWallEW;
+			insetCeilingWE = insetWallWE;
 			insetCeilingNS = insetWallNS;
 		} else {
-			insetCeilingEW = insetWallEW + chunkOdds.getRandomInt(3) - 1; // -1, 0 or 1 -> 0, 1, 2
+			insetCeilingWE = insetWallWE + chunkOdds.getRandomInt(3) - 1; // -1, 0 or 1 -> 0, 1, 2
 			insetCeilingNS = insetWallNS + chunkOdds.getRandomInt(3) - 1;
 		}
 		
 		// make the buildings have a better chance at being round
 		if (chunkOdds.playOdds(context.oddsOfSimilarInsetBuildings)) {
-			insetWallNS = insetWallEW;
-			insetCeilingNS = insetCeilingEW;
+			insetWallNS = insetWallWE;
+			insetCeilingNS = insetCeilingWE;
 		}
 		
 		// nudge in a bit more as we go up
@@ -93,7 +93,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		// thin glass should not be used with ceiling inset, it looks goofy
 		// thin glass should not be used with double-step walls, the glass does not align correctly
 		if (glassMaterial == Material.THIN_GLASS) {
-			insetCeilingEW = Math.min(insetCeilingEW, insetWallEW);
+			insetCeilingWE = Math.min(insetCeilingWE, insetWallWE);
 			insetCeilingNS = Math.min(insetCeilingNS, insetWallNS);
 			if (wallMaterial == Material.DOUBLE_STEP)
 				glassMaterial = Material.GLASS;
@@ -108,9 +108,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			FinishedBuildingLot relativebuilding = (FinishedBuildingLot) relative;
 
 			// nudge in a bit
-			insetWallEW = relativebuilding.insetWallEW;
+			insetWallWE = relativebuilding.insetWallWE;
 			insetWallNS = relativebuilding.insetWallNS;
-			insetCeilingEW = relativebuilding.insetCeilingEW;
+			insetCeilingWE = relativebuilding.insetCeilingWE;
 			insetCeilingNS = relativebuilding.insetCeilingNS;
 			
 			// nudge in a bit more as we go up
@@ -149,7 +149,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 
 		// is rounding allowed?
 		boolean allowRounded = rounded && 
-				insetWallEW == insetWallNS && insetCeilingEW == insetCeilingNS;
+				insetWallWE == insetWallNS && insetCeilingWE == insetCeilingNS;
 		
 		// starting with the bottom
 		int lowestY = getBottomY(generator);
@@ -180,9 +180,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 
 		// insetting the inset
-		int localInsetWallEW = insetWallEW;
+		int localInsetWallWE = insetWallWE;
 		int localInsetWallNS = insetWallNS;
-		int localInsetCeilingEW = insetCeilingEW;
+		int localInsetCeilingWE = insetCeilingWE;
 		int localInsetCeilingNS = insetCeilingNS;
 
 		// above ground
@@ -194,25 +194,25 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			// breath in?
 			if (insetInsetted) {
 				if (floor == insetInsetMidAt || floor == insetInsetHighAt) {
-					localInsetWallEW++;
+					localInsetWallWE++;
 					localInsetWallNS++;
-					localInsetCeilingEW++;
+					localInsetCeilingWE++;
 					localInsetCeilingNS++;
 				}
 			}
 			
 			// one floor please
 			drawExteriorWalls(chunk, context, floorAt, aboveFloorHeight - 1, 
-					localInsetWallEW, localInsetWallNS, 
+					localInsetWallNS, localInsetWallWE,  
 					allowRounded, wallMaterial, glassMaterial, 
 					neighborFloors);
 			drawCeilings(chunk, context, floorAt + aboveFloorHeight - 1, 1, 
-					localInsetCeilingEW, localInsetCeilingNS, 
+					localInsetCeilingNS, localInsetCeilingWE, 
 					allowRounded, ceilingMaterial, neighborFloors);
 			
 			// final floor is done... how about a roof then?
 			if (floor == height - 1)
-				drawRoof(chunk, context, generator.streetLevel + aboveFloorHeight * (floor + 1) + 2, localInsetWallEW, localInsetWallNS, allowRounded, roofMaterial, neighborFloors);
+				drawRoof(chunk, context, generator.streetLevel + aboveFloorHeight * (floor + 1) + 2, localInsetWallNS, localInsetWallWE, allowRounded, roofMaterial, neighborFloors);
 
 			// one down, more to go
 			neighborFloors.decrement();
@@ -229,12 +229,12 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		
 		// is rounding allowed and where are the stairs
 		boolean allowRounded = rounded && 
-				insetWallEW == insetWallNS && insetCeilingEW == insetCeilingNS;
+				insetWallWE == insetWallNS && insetCeilingWE == insetCeilingNS;
 		allowRounded = allowRounded && neighborFloors.isRoundable();
 		StairWell stairLocation = getStairWellLocation(allowRounded, neighborFloors);
 		
 		// bottom floor? 
-		drawDoors(chunk, generator.streetLevel + 2, aboveFloorHeight, insetWallEW, insetWallNS, 
+		drawDoors(chunk, generator.streetLevel + 2, aboveFloorHeight, insetWallNS, insetWallWE,
 				stairLocation, neighborFloors, wallMaterial);
 		
 		// work on the basement stairs first
@@ -246,18 +246,18 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				
 				// top is special... but only if there are no stairs up
 				if (floor == 0 && !needStairsUp) {
-					drawStairsWalls(chunk, floorAt, basementFloorHeight, insetWallEW, insetWallNS, 
+					drawStairsWalls(chunk, floorAt, basementFloorHeight, insetWallNS, insetWallWE, 
 							stairLocation, stairWallMaterial, true, false);
 				
 				// all the rest of those lovely stairs
 				} else {
 
 					// plain walls please
-					drawStairsWalls(chunk, floorAt, basementFloorHeight, insetWallEW, insetWallNS, 
+					drawStairsWalls(chunk, floorAt, basementFloorHeight, insetWallNS, insetWallWE,
 							stairLocation, wallMaterial, false, floor == depth - 1);
 
 					// place the stairs and such
-					drawStairs(chunk, floorAt, basementFloorHeight, insetWallEW, insetWallNS, 
+					drawStairs(chunk, floorAt, basementFloorHeight, insetWallNS, insetWallWE,
 							stairLocation, stairMaterial, stairPlatformMaterial);
 						
 					// pillars if no stairs here
@@ -273,7 +273,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 		
 		// insetting the inset
-		int localInsetWallEW = insetWallEW;
+		int localInsetWallWE = insetWallWE;
 		int localInsetWallNS = insetWallNS;
 
 		// now the above ground floors
@@ -288,14 +288,14 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			// breath in?
 			if (insetInsetted) {
 				if (floor == insetInsetMidAt || floor == insetInsetHighAt) {
-					localInsetWallEW++;
+					localInsetWallWE++;
 					localInsetWallNS++;
 				}
 			}
 			
 			// inside walls
-			drawInteriorWalls(chunk, context, floorAt, aboveFloorHeight - 1, 
-					localInsetWallEW, localInsetWallNS, allowRounded, 
+			drawInteriorWalls(generator, chunk, context, floorAt, aboveFloorHeight - 1, 
+					localInsetWallNS, localInsetWallWE, allowRounded, 
 					wallMaterial, glassMaterial, 
 					stairLocation, neighborFloors);
 				
@@ -304,12 +304,12 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				
 				// fancy walls... maybe
 				if (floor > 0 || (floor == 0 && (depth > 0 || height > 1)))
-					drawStairsWalls(chunk, floorAt, aboveFloorHeight, localInsetWallEW, localInsetWallNS, 
+					drawStairsWalls(chunk, floorAt, aboveFloorHeight, localInsetWallNS, localInsetWallWE,
 							stairLocation, stairWallMaterial, floor == height - 1, floor == 0 && depth == 0);
 				
 				// more stairs and such
 				if (floor < height - 1)
-					drawStairs(chunk, floorAt, aboveFloorHeight, localInsetWallEW, localInsetWallNS, 
+					drawStairs(chunk, floorAt, aboveFloorHeight, localInsetWallNS, localInsetWallWE,
 							stairLocation, stairMaterial, stairPlatformMaterial);
 			}
 			

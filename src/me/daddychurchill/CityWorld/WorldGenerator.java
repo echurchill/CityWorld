@@ -27,6 +27,7 @@ import me.daddychurchill.CityWorld.Plugins.HouseProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.OdonymProvider;
 import me.daddychurchill.CityWorld.Plugins.OreProvider;
+import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider;
@@ -64,6 +65,7 @@ public class WorldGenerator extends ChunkGenerator {
 	public OdonymProvider odonymProvider;
 	public BalloonProvider balloonProvider;
 	public HouseProvider houseProvider;
+	public RoomProvider roomProvider_Office;
 	
 	public WorldBlocks decayBlocks;
 	
@@ -164,6 +166,7 @@ public class WorldGenerator extends ChunkGenerator {
 			houseProvider = HouseProvider.loadProvider(this);
 			decayBlocks = new WorldBlocks(this, new Odds(worldSeed + 6));
 			pasteProvider = PasteProvider.loadProvider(this);
+			roomProvider_Office = RoomProvider.loadProvider(this);
 			
 			// get ranges
 			height = shapeProvider.getWorldHeight();
