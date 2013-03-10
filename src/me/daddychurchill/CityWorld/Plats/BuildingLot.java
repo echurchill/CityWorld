@@ -839,8 +839,9 @@ public abstract class BuildingLot extends ConnectedLot {
 	private void drawOffice(WorldGenerator generator, RealChunk chunk, int x, int y, int z, 
 			int height, Facing sideWithWall, byte wallId, byte glassId) {
 		
-		//chunk.setBlocks(x, x + 3, y, y + 1, z, z + 3, Material.EMERALD_BLOCK);
-		generator.roomProvider_Office.Draw(chunk, chunkOdds, x, y, z, 3, height, 3, sideWithWall, wallId, glassId);
+//		generator.roomProvider_Office.Draw(chunk, chunkOdds, x, y, z, 3, height, 3, sideWithWall, wallId, glassId);
+//		generator.roomProvider_Library.Draw(chunk, chunkOdds, x, y, z, 3, height, 3, sideWithWall, wallId, glassId);
+		generator.roomProvider_Cafe.Draw(chunk, chunkOdds, x, y, z, 3, height, 3, sideWithWall, wallId, glassId);
 	}
 	
 	private void drawInteriorNSWall(RealChunk chunk, int x, int y1, int y2, int z, byte wallId, byte glassId) {

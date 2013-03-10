@@ -13,13 +13,7 @@ import me.daddychurchill.CityWorld.Rooms.EmptyRoom;
 import me.daddychurchill.CityWorld.Rooms.LoungeTVRoom;
 import me.daddychurchill.CityWorld.Rooms.MeetingForSixRoom;
 import me.daddychurchill.CityWorld.Rooms.MeetingForFourRoom;
-import me.daddychurchill.CityWorld.Rooms.LibraryDoubleRoom;
-import me.daddychurchill.CityWorld.Rooms.LibrarySingleRoom;
-import me.daddychurchill.CityWorld.Rooms.LibraryStudyRoom;
-import me.daddychurchill.CityWorld.Rooms.LoungeChairsRoom;
 import me.daddychurchill.CityWorld.Rooms.LoungeCouchRoom;
-import me.daddychurchill.CityWorld.Rooms.LoungeEllCouchRoom;
-import me.daddychurchill.CityWorld.Rooms.LoungeGameRoom;
 import me.daddychurchill.CityWorld.Rooms.LoungeTableRoom;
 
 public class RoomProvider_Office extends RoomProvider {
@@ -36,14 +30,7 @@ public class RoomProvider_Office extends RoomProvider {
 		roomTypes.add(new DividedSingleRoom());
 		roomTypes.add(new DividedEllRoom());
 		
-		roomTypes.add(new LibrarySingleRoom());
-		roomTypes.add(new LibraryDoubleRoom());
-		roomTypes.add(new LibraryStudyRoom());
-		
 		roomTypes.add(new LoungeCouchRoom());
-		roomTypes.add(new LoungeEllCouchRoom());
-		roomTypes.add(new LoungeChairsRoom());
-		roomTypes.add(new LoungeGameRoom());
 		roomTypes.add(new LoungeTableRoom());
 		roomTypes.add(new LoungeTVRoom());
 
@@ -55,16 +42,13 @@ public class RoomProvider_Office extends RoomProvider {
 		roomTypes.add(new DeskExecutiveRoom());
 		roomTypes.add(new DeskAdminRoom());
 		roomTypes.add(new DeskCornerRoom());
+		roomTypes.add(new DeskCornerRoom());
+		roomTypes.add(new DeskInternsRoom());
 		roomTypes.add(new DeskInternsRoom());
 		
 		
-		// cubby (L-wall with a table)
 		// kitchette
-		// three wide table with a chair
 		// two wide table with chair and a book stand (with possible flower pot)
-		// two single wide table with chairs
-		// conference table (three long with a row of chairs on both sides)
-		// conference table (three long with a two chairs on each side)
 	}
 
 }

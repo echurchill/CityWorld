@@ -114,7 +114,7 @@ public class HouseProvider extends Provider {
 		int floors = 1;
 		
 		//chunk.setWalls(2, 13, baseY, baseY + ContextData.FloorHeight, 2, 13, Material.WOOD);
-		generateColonial(chunk, context, odds, baseY, matFloor, matWall, matCeiling, matRoof, floors, roomWidth, roomWidth, false);
+		generateColonial(generator, chunk, context, odds, baseY, matFloor, matWall, matCeiling, matRoof, floors, roomWidth, roomWidth, false);
 		return floors;
 	}
 	
@@ -133,7 +133,7 @@ public class HouseProvider extends Provider {
 		//TODO add split level house style
 		
 		// draw the house
-		generateColonial(chunk, context, odds, baseY, matFloor, matWall, matCeiling, matRoof, floors, MinSize, maxRoomWidth, true);
+		generateColonial(generator, chunk, context, odds, baseY, matFloor, matWall, matCeiling, matRoof, floors, MinSize, maxRoomWidth, true);
 		return floors;
 	}
 
@@ -298,7 +298,8 @@ public class HouseProvider extends Provider {
 			}
 		}
 
-		protected void DrawStyle(RealChunk chunk, DataContext context, Odds odds, int floor, int floors, 
+		protected void DrawStyle(WorldGenerator generator, RealChunk chunk, DataContext context, 
+				Odds odds, int floor, int floors, 
 				int x, int z, int roomOffsetX, int roomOffsetZ, int baseY) {
 			
 			// which door or halls do we do?
@@ -544,7 +545,8 @@ public class HouseProvider extends Provider {
 		return odds.getRandomInt(maxRoomWidth - minRoomWidth + 1) + minRoomWidth;
 	}
 	
-	private void generateColonial(RealChunk chunk, DataContext context, Odds odds, int baseY, 
+	private void generateColonial(WorldGenerator generator, RealChunk chunk, DataContext context, 
+			Odds odds, int baseY,
 			Material matFloor, Material matWall, Material matCeiling, Material matRoof, 
 			int floors, int minRoomWidth, int maxRoomWidth, boolean allowMissingRooms) {
 		
@@ -704,13 +706,13 @@ public class HouseProvider extends Provider {
 						entryX = x;
 						entryZ = z;
 					} else
-						drawRoom(chunk, context, odds, rooms, f, floors, x, z, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
+						drawRoom(generator, chunk, context, odds, rooms, f, floors, x, z, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
 				}
 			}
 			
 			// found an entry
 			if (entryX != -1) {
-				drawRoom(chunk, context, odds, rooms, f, floors, entryX, entryZ, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
+				drawRoom(generator, chunk, context, odds, rooms, f, floors, entryX, entryZ, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
 			}
 		}
 		
@@ -779,7 +781,8 @@ public class HouseProvider extends Provider {
 		return i == 0 ? 1 : 0;
 	}
 	
-	private void drawRoom(RealChunk chunk, DataContext context, Odds odds, Room[][][] rooms, int floor, int floors, int x, int z, 
+	private void drawRoom(WorldGenerator generator, RealChunk chunk, DataContext context, 
+			Odds odds, Room[][][] rooms, int floor, int floors, int x, int z, 
 			int roomOffsetX, int roomOffsetZ, int baseY, 
 			Material matFloor, Material matWall, Material matCeiling, Material matRoof) {
 
@@ -811,7 +814,7 @@ public class HouseProvider extends Provider {
 			}
 			
 			// now the inner bits
-			room.DrawStyle(chunk, context, odds, floor, floors, x, z, roomOffsetX, roomOffsetZ, baseY);
+			room.DrawStyle(generator, chunk, context, odds, floor, floors, x, z, roomOffsetX, roomOffsetZ, baseY);
 		} 
 	}
 	
