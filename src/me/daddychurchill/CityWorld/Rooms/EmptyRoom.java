@@ -13,8 +13,8 @@ public class EmptyRoom extends PlatRoom {
 
 	@Override
 	public void Draw(RealChunk chunk, Odds odds, 
-			int x, int y, int z, int width, int height, int depth, 
-			Facing sideWithWall, byte wallId, byte glassId) {
+			int floor, int x, int y, int z, int width, int height, 
+			int depth, Facing sideWithWall, byte wallId, byte glassId) {
 
 		// nothing to do in this case
 		

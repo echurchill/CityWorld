@@ -11,6 +11,6 @@ public abstract class PlatRoom {
 	}
 
 	public abstract void Draw(RealChunk chunk, Odds odds, 
-			int x, int y, int z, int width, int height, int depth, 
-			Facing sideWithWall, byte wallId, byte glassId);
+			int floor, int x, int y, int z, int width, int height, 
+			int depth, Facing sideWithWall, byte wallId, byte glassId);
 }

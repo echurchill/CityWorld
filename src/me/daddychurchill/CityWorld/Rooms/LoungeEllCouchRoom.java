@@ -14,12 +14,12 @@ public class LoungeEllCouchRoom extends LoungeCouchRoom {
 	}
 
 	@Override
-	public void Draw(RealChunk chunk, Odds odds, int x, int y, int z,
-			int width, int height, int depth, Facing sideWithWall, byte wallId,
-			byte glassId) {
+	public void Draw(RealChunk chunk, Odds odds, int floor, int x, int y,
+			int z, int width, int height, int depth, Facing sideWithWall,
+			byte wallId, byte glassId) {
 
-		super.Draw(chunk, odds, x, y, z, width, height, depth, sideWithWall, wallId,
-				glassId);
+		super.Draw(chunk, odds, floor, x, y, z, width, height, depth, sideWithWall,
+				wallId, glassId);
 		
 		switch (sideWithWall) {
 		case NORTH:

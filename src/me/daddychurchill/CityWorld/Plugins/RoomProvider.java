@@ -23,11 +23,11 @@ public abstract class RoomProvider extends Provider {
 	}
 
 	public void Draw(RealChunk chunk, Odds odds, 
-			int x, int y, int z, int width, int height, int depth,
-			Facing sideWithWall, byte wallId, byte glassId) {
+			int floor, int x, int y, int z, int width, int height,
+			int depth, Facing sideWithWall, byte wallId, byte glassId) {
 		
 		PlatRoom roomGen = getRandomRoomGenerator(odds);
 		if (roomGen != null)
-			roomGen.Draw(chunk, odds, x, y, z, width, height, depth, sideWithWall, wallId, glassId);
+			roomGen.Draw(chunk, odds, floor, x, y, z, width, height, depth, sideWithWall, wallId, glassId);
 	}
 }

@@ -14,9 +14,9 @@ public class LibraryStudyRoom extends LibraryRoom {
 	}
 
 	@Override
-	public void Draw(RealChunk chunk, Odds odds, int x, int y, int z,
-			int width, int height, int depth, Facing sideWithWall, byte wallId,
-			byte glassId) {
+	public void Draw(RealChunk chunk, Odds odds, int floor, int x, int y,
+			int z, int width, int height, int depth, Facing sideWithWall,
+			byte wallId, byte glassId) {
 		switch (sideWithWall) {
 		case NORTH:
 			chunk.setBlocks(x, x + width, y, y + height, z, z + 1, Material.BOOKSHELF);

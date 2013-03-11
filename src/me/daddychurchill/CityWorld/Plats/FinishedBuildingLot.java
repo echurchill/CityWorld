@@ -294,7 +294,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			}
 			
 			// inside walls
-			drawInteriorWalls(generator, chunk, context, floorAt, aboveFloorHeight - 1, 
+			drawInteriorWalls(generator, chunk, context, floor, floorAt, aboveFloorHeight - 1, 
 					localInsetWallNS, localInsetWallWE, allowRounded, 
 					wallMaterial, glassMaterial, 
 					stairLocation, neighborFloors);
@@ -335,8 +335,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 					y2 -= aboveFloorHeight;
 				break;
 			case PEAK:
-			case TENTEW:
-			case TENTNS:
+			case TENT_WESTEAST:
+			case TENT_NORTHSOUTH:
 				y2 += aboveFloorHeight;
 				break;
 			}
