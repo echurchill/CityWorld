@@ -59,10 +59,6 @@ public abstract class PlatLot {
 	protected final static byte bedrockId = (byte) Material.BEDROCK.getId();
 	protected final static byte fenceId = (byte) Material.FENCE.getId();
 	protected final static byte cobbleId = (byte) Material.COBBLESTONE.getId();
-	protected final static byte stillWaterId = (byte) Material.STATIONARY_WATER.getId();
-	protected final static byte stillLavaId = (byte) Material.STATIONARY_LAVA.getId();
-	protected final static byte waterId = (byte) Material.WATER.getId();
-	protected final static byte lavaId = (byte) Material.LAVA.getId();
 	protected final static byte leavesId = (byte) Material.LEAVES.getId();
 	protected final static byte glassId = (byte) Material.GLASS.getId();
 	protected final static byte paneId = (byte) Material.THIN_GLASS.getId();

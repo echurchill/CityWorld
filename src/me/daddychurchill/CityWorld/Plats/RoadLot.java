@@ -978,9 +978,7 @@ public class RoadLot extends ConnectedLot {
 				centerEast = sewerCenterBit || (vaultNorthEast && vaultSouthEast);
 			}
 			
-			byte fluidId = waterId;
-			if (generator.settings.includeDecayedNature)
-				fluidId = lavaId;
+			byte fluidId = generator.oreProvider.fluidSubsurfaceId;
 			
 			// cardinal directions known walls and ditches
 			if (roads.toNorth()) {

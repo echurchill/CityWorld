@@ -16,6 +16,8 @@ public class ClipboardLot extends IsolatedLot {
 	private Clipboard clip;
 	private Direction.Facing facing;
 	private int lotX, lotZ;
+	private int depth;
+	private int height;
 	
 	// a place for our bits
 	private boolean edgesCalculated = false;
@@ -31,6 +33,8 @@ public class ClipboardLot extends IsolatedLot {
 		this.facing = facing;
 		this.lotX = lotX;
 		this.lotZ = lotZ;
+		this.depth = platmap.generator.streetLevel - clip.groundLevelY;
+		this.height = this.depth + clip.sizeY;
 	}
 
 	@Override
@@ -40,7 +44,17 @@ public class ClipboardLot extends IsolatedLot {
 	
 	@Override
 	public int getBottomY(WorldGenerator generator) {
-		return generator.streetLevel + 1;
+		return depth;
+	}
+	
+	@Override
+	public boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
+		return blockY < depth || blockY > height;
+	}
+
+	@Override
+	protected boolean isShaftableLevel(WorldGenerator generator, int y) {
+		return (y < depth - 32 || y > height + 16) && super.isShaftableLevel(generator, y);
 	}
 	
 	@Override

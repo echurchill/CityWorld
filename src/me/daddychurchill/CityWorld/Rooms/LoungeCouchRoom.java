@@ -16,7 +16,7 @@ public class LoungeCouchRoom extends LoungeRoom {
 	@Override
 	public void Draw(RealChunk chunk, Odds odds, int floor, int x, int y,
 			int z, int width, int height, int depth, Facing sideWithWall,
-			byte wallId, byte glassId) {
+			Material materialWall, Material materialGlass) {
 		switch (sideWithWall) {
 		case NORTH:
 			for (int x1 = x; x1 < x + width; x1++)

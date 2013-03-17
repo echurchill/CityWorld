@@ -16,7 +16,7 @@ public class DeskInternsRoom extends DeskRoom {
 	@Override
 	public void Draw(RealChunk chunk, Odds odds, int floor, int x, int y,
 			int z, int width, int height, int depth, Facing sideWithWall,
-			byte wallId, byte glassId) {
+			Material materialWall, Material materialGlass) {
 		switch (sideWithWall) {
 		case NORTH:
 			chunk.setTable(x, y, z, Material.WOOD_PLATE);

@@ -1,5 +1,7 @@
 package me.daddychurchill.CityWorld.Rooms;
 
+import org.bukkit.Material;
+
 import me.daddychurchill.CityWorld.Support.Direction.Facing;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -13,10 +15,10 @@ public class LoungeGameRoom extends LoungeChairsRoom {
 	@Override
 	public void Draw(RealChunk chunk, Odds odds, int floor, int x, int y,
 			int z, int width, int height, int depth, Facing sideWithWall,
-			byte wallId, byte glassId) {
+			Material materialWall, Material materialGlass) {
 
 		super.Draw(chunk, odds, floor, x, y, z, width, height, depth, sideWithWall,
-				wallId, glassId);
+				materialWall, materialGlass);
 		
 		switch (sideWithWall) {
 		case NORTH:

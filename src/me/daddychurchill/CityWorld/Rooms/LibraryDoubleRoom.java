@@ -15,7 +15,7 @@ public class LibraryDoubleRoom extends LibraryRoom {
 	@Override
 	public void Draw(RealChunk chunk, Odds odds, int floor, int x, int y,
 			int z, int width, int height, int depth, Facing sideWithWall,
-			byte wallId, byte glassId) {
+			Material materialWall, Material materialGlass) {
 
 		int stand = 0;
 		switch (sideWithWall) {

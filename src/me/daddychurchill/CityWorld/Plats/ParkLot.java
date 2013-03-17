@@ -88,12 +88,8 @@ public class ParkLot extends ConnectedLot {
 			
 			// fill with water
 			lowestY++;
-			if (generator.settings.includeAbovegroundFluids) {
-				if (generator.settings.includeDecayedNature)
-					chunk.setBlocks(0, chunk.width, lowestY, lowestY + waterDepth, 0, chunk.width, stillLavaId);
-				else
-					chunk.setBlocks(0, chunk.width, lowestY, lowestY + waterDepth, 0, chunk.width, stillWaterId);
-			}
+			if (generator.settings.includeAbovegroundFluids)
+				chunk.setBlocks(0, chunk.width, lowestY, lowestY + waterDepth, 0, chunk.width, generator.oreProvider.fluidSurfaceId);
 			
 			// clear out the rest
 			chunk.setBlocks(0, chunk.width, lowestY + waterDepth, highestY + 1, 0, chunk.width, airId);

@@ -60,12 +60,8 @@ public class RoundaboutStatueLot extends IsolatedLot {
 			chunk.setCircle(8, 8, 6, y1, brickId, false);
 			
 			// fill with water
-			if (generator.settings.includeAbovegroundFluids) {
-				if (generator.settings.includeDecayedNature)
-					chunk.setCircle(8, 8, 5, y1, stillLavaId, true);
-				else
-					chunk.setCircle(8, 8, 5, y1, stillWaterId, true);
-			}
+			if (generator.settings.includeAbovegroundFluids)
+				chunk.setCircle(8, 8, 5, y1, generator.oreProvider.fluidSurfaceId, true);
 			break;
 		case GRASS:
 			
