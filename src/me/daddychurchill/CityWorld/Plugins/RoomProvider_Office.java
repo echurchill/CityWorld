@@ -10,8 +10,10 @@ import me.daddychurchill.CityWorld.Rooms.DeskInternsRoom;
 import me.daddychurchill.CityWorld.Rooms.DividedEllRoom;
 import me.daddychurchill.CityWorld.Rooms.DividedSingleRoom;
 import me.daddychurchill.CityWorld.Rooms.EmptyRoom;
+import me.daddychurchill.CityWorld.Rooms.LoungeKitchenetteRoom;
 import me.daddychurchill.CityWorld.Rooms.LoungeQuadRoom;
 import me.daddychurchill.CityWorld.Rooms.LoungeTVRoom;
+import me.daddychurchill.CityWorld.Rooms.LoungeTrioRoom;
 import me.daddychurchill.CityWorld.Rooms.MeetingForSixRoom;
 import me.daddychurchill.CityWorld.Rooms.MeetingForFourRoom;
 import me.daddychurchill.CityWorld.Rooms.LoungeCouchRoom;
@@ -35,6 +37,8 @@ public class RoomProvider_Office extends RoomProvider {
 		roomTypes.add(new LoungeTableRoom());
 		roomTypes.add(new LoungeTVRoom());
 		roomTypes.add(new LoungeQuadRoom());
+		roomTypes.add(new LoungeTrioRoom());
+		roomTypes.add(new LoungeKitchenetteRoom());
 
 		roomTypes.add(new MeetingForSixRoom());
 		roomTypes.add(new MeetingForFourRoom());
@@ -49,7 +53,6 @@ public class RoomProvider_Office extends RoomProvider {
 		roomTypes.add(new DeskInternsRoom());
 		
 		
-		// kitchette
 		// two wide table with chair and a book stand (with possible flower pot)
 	}
 

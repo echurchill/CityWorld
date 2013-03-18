@@ -11,7 +11,7 @@ import me.daddychurchill.CityWorld.Rooms.LoungeCouchRoom;
 import me.daddychurchill.CityWorld.Rooms.LoungeEllCouchRoom;
 import me.daddychurchill.CityWorld.Rooms.LoungeGameRoom;
 import me.daddychurchill.CityWorld.Rooms.LoungeQuadRoom;
-import me.daddychurchill.CityWorld.Rooms.LoungeTableRoom;
+import me.daddychurchill.CityWorld.Rooms.LoungeTrioRoom;
 
 public class RoomProvider_Library extends RoomProvider {
 
@@ -33,6 +33,7 @@ public class RoomProvider_Library extends RoomProvider {
 		roomTypes.add(new LibraryStudyRoom());
 		
 		roomTypes.add(new LoungeEllCouchRoom());
+		roomTypes.add(new LoungeTrioRoom());
 		roomTypes.add(new LoungeQuadRoom());
 		roomTypes.add(new LoungeChairsRoom());
 		roomTypes.add(new LoungeGameRoom());

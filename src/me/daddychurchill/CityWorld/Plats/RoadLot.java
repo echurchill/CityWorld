@@ -96,7 +96,7 @@ public class RoadLot extends ConnectedLot {
 	
 	@Override
 	public boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
-		return blockY < bottomOfRoad || blockY > topOfRoad;
+		return blockY < bottomOfRoad || blockY > topOfRoad - 5;
 	}
 
 	@Override

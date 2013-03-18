@@ -2,6 +2,8 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.Rooms.LoungeGameRoom;
 import me.daddychurchill.CityWorld.Rooms.LoungeKitchenetteRoom;
+import me.daddychurchill.CityWorld.Rooms.LoungeQuadRoom;
+import me.daddychurchill.CityWorld.Rooms.LoungeTrioRoom;
 import me.daddychurchill.CityWorld.Rooms.MeetingForSixRoom;
 
 public class RoomProvider_Cafe extends RoomProvider {
@@ -10,8 +12,8 @@ public class RoomProvider_Cafe extends RoomProvider {
 
 		roomTypes.add(new LoungeGameRoom());
 		roomTypes.add(new LoungeGameRoom());
-		roomTypes.add(new LoungeGameRoom());
-		roomTypes.add(new LoungeGameRoom());
+		roomTypes.add(new LoungeQuadRoom());
+		roomTypes.add(new LoungeTrioRoom());
 
 		roomTypes.add(new MeetingForSixRoom());
 		roomTypes.add(new MeetingForSixRoom());

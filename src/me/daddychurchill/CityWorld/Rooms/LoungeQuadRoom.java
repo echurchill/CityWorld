@@ -23,7 +23,7 @@ public class LoungeQuadRoom extends LoungeRoom {
 		chunk.setStair(x, y, z + 1, Material.WOOD_STAIRS, Stair.WEST);
 		chunk.setStair(x + 2, y, z + 1, Material.WOOD_STAIRS, Stair.EAST);
 
-		chunk.setTable(x + 1, x + 1, y, z + 1, z + 1);
+		chunk.setTable(x + 1, y, z + 1);
 	}
 
 }
