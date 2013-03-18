@@ -18,7 +18,7 @@ public class ConstructionContext extends UrbanContext {
 		oddsOfIdenticalBuildingHeights = oddsExtremelyLikely;
 		oddsOfSimilarBuildingHeights = oddsExtremelyLikely;
 		oddsOfSimilarBuildingRounding = oddsExtremelyLikely;
-		oddsOfMissingRoad = oddsLikely;
+		//oddsOfMissingRoad = oddsLikely;
 		oddsOfRoundAbouts = oddsLikely;
 		 
 		oddsOfUnfinishedBuildings = oddsVeryLikely;

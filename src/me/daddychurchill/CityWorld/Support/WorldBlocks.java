@@ -10,14 +10,14 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 public class WorldBlocks extends SupportChunk {
 
 	private boolean doPhysics;
-	WorldGenerator generator;
+//	WorldGenerator generator;
 	Odds odds;
 	
 	public WorldBlocks(WorldGenerator generator, Odds odds) {
 		super(generator);
 		
 		doPhysics = false;
-		this.generator = generator;
+//		this.generator = generator;
 		this.odds = odds;
 	}
 
@@ -134,10 +134,28 @@ public class WorldBlocks extends SupportChunk {
 		}
 	}
 	
+	@Override
 	public void clearBlock(int x, int y, int z) {
 		world.getBlockAt(x, y, z).setType(Material.AIR);
 	}
 
+	@Override
+	public void clearBlocks(int x, int y1, int y2, int z) {
+		for (int y = y1; y < y2; y++) {
+			world.getBlockAt(x, y, z).setTypeIdAndData(airId, (byte) 0, doPhysics);
+		}
+	}
+
+	@Override
+	public void clearBlocks(int x1, int x2, int y1, int y2, int z1, int z2) {
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
+				for (int z = z1; z < z2; z++) {
+					world.getBlockAt(x, y, z).setTypeIdAndData(airId, (byte) 0, doPhysics);
+				}
+			}
+		}
+	}
 	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {

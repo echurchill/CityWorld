@@ -51,8 +51,26 @@ public class RealChunk extends SupportChunk {
 		return chunk.getBlock(x, y, z);
 	}
 
+	@Override
 	public void clearBlock(int x, int y, int z) {
 		chunk.getBlock(x, y, z).setType(Material.AIR);
+	}
+
+	@Override
+	public void clearBlocks(int x, int y1, int y2, int z) {
+		for (int y = y1; y < y2; y++)
+			chunk.getBlock(x, y, z).setTypeIdAndData(airId, (byte) 0, doPhysics);
+	}
+
+	@Override
+	public void clearBlocks(int x1, int x2, int y1, int y2, int z1, int z2) {
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
+				for (int z = z1; z < z2; z++) {
+					chunk.getBlock(x, y, z).setTypeIdAndData(airId, (byte) 0, doPhysics);
+				}
+			}
+		}
 	}
 
 	@Override
@@ -430,9 +448,8 @@ public class RealChunk extends SupportChunk {
 		setBlock(x, y, z, Material.STEP.getId(), direction.getData());
 	}
 
-	//TODO change this to actual wood in 1.3... maybe?
 	public void setWoodSlab(int x, int y, int z, Direction.WoodSlab direction) {
-		setBlock(x, y, z, Material.STEP.getId(), direction.getData());
+		setBlock(x, y, z, Material.WOOD_STEP.getId(), direction.getData());
 	}
 
 	public void setLadder(int x, int y1, int y2, int z, Direction.General direction) {

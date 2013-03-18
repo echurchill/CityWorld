@@ -92,13 +92,15 @@ public abstract class ShapeProvider extends Provider {
 
 		// aggregate bits
 		for (int y = stratumY; y < subsurfaceY - 1; y++)
-			if (!surfaceCaves || generator.shapeProvider.notACave(generator, blockX, y, blockZ))
+			if (lot.isValidStrataY(generator, blockX, y, blockZ) && (!surfaceCaves || generator.shapeProvider.notACave(generator, blockX, y, blockZ)))
 				chunk.setBlock(x, y, z, subsurfaceId);
 
 		// icing for the cake
 		if (!surfaceCaves || generator.shapeProvider.notACave(generator, blockX, subsurfaceY, blockZ)) {
-			chunk.setBlock(x, subsurfaceY - 1, z, subsurfaceId);
-			chunk.setBlock(x, subsurfaceY, z, surfaceId);
+			if (lot.isValidStrataY(generator, blockX, subsurfaceY - 1, blockZ)) 
+				chunk.setBlock(x, subsurfaceY - 1, z, subsurfaceId);
+			if (lot.isValidStrataY(generator, blockX, subsurfaceY, blockZ)) 
+				chunk.setBlock(x, subsurfaceY, z, surfaceId);
 		}
 	}
 

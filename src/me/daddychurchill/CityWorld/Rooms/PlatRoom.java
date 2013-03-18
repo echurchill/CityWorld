@@ -12,7 +12,7 @@ public abstract class PlatRoom {
 		// TODO Auto-generated constructor stub
 	}
 
-	public abstract void Draw(RealChunk chunk, Odds odds, 
+	public abstract void draw(RealChunk chunk, Odds odds, 
 			int floor, int x, int y, int z, int width, int height, 
 			int depth, Facing sideWithWall, Material materialWall, Material materialGlass);
 }

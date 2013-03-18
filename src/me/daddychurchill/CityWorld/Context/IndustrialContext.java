@@ -25,7 +25,7 @@ public class IndustrialContext extends UrbanContext {
 		oddsOfSimilarBuildingRounding = oddsNeverGoingToHappen;
 		oddsOfUnfinishedBuildings = oddsNeverGoingToHappen;
 		oddsOfOnlyUnfinishedBasements = oddsNeverGoingToHappen;
-		oddsOfMissingRoad = oddsNeverGoingToHappen;
+		//oddsOfMissingRoad = oddsNeverGoingToHappen;
 		oddsOfRoundAbouts = oddsUnlikely;
 		 
 		oddsOfStairWallMaterialIsWallMaterial = oddsExtremelyLikely;

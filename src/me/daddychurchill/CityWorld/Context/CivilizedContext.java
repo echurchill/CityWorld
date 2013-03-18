@@ -33,7 +33,7 @@ public abstract class CivilizedContext extends DataContext {
 		oddsOfFlatWalledBuildings = oddsExtremelyLikely; 
 		
 		//TODO oddsOfMissingRoad is current not used... I need to fix this
-		oddsOfMissingRoad = oddsLikely; 
+		//oddsOfMissingRoad = oddsLikely; 
 		oddsOfRoundAbouts = oddsLikely; 
 		
 		oddsOfMissingArt = oddsUnlikely; 

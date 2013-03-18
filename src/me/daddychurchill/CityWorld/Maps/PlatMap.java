@@ -14,7 +14,6 @@ import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
-import org.bukkit.World;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public abstract class PlatMap {
@@ -33,7 +32,7 @@ public abstract class PlatMap {
 	public static final int Width = 10;
 	
 	// Instance data
-	public World world;
+//	public World world;
 	public WorldGenerator generator;
 	public int originX;
 	public int originZ;
@@ -45,7 +44,7 @@ public abstract class PlatMap {
 		super();
 		
 		// populate the instance data
-		this.world = generator.getWorld();
+//		this.world = generator.getWorld();
 		this.generator = generator;
 		this.originX = originX;
 		this.originZ = originZ;

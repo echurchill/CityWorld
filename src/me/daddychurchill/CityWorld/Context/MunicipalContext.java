@@ -20,7 +20,7 @@ public class MunicipalContext extends UrbanContext {
 		oddsOfSimilarBuildingRounding = oddsAlwaysGoingToHappen;
 		oddsOfUnfinishedBuildings = oddsNeverGoingToHappen;
 		oddsOfOnlyUnfinishedBasements = oddsLikely;
-		oddsOfMissingRoad = oddsNeverGoingToHappen;
+		//oddsOfMissingRoad = oddsNeverGoingToHappen;
 		oddsOfRoundAbouts = oddsVeryLikely;
 		 
 		oddsOfStairWallMaterialIsWallMaterial = oddsAlwaysGoingToHappen;

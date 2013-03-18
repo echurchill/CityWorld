@@ -20,7 +20,7 @@ public class MidriseContext extends UrbanContext {
 		oddsOfSimilarBuildingRounding = oddsExtremelyLikely;
 		oddsOfUnfinishedBuildings = oddsVeryUnlikely;
 		oddsOfOnlyUnfinishedBasements = oddsNeverGoingToHappen;
-		oddsOfMissingRoad = oddsLikely;
+		//oddsOfMissingRoad = oddsLikely;
 		oddsOfRoundAbouts = oddsLikely;
 		 
 		oddsOfStairWallMaterialIsWallMaterial = oddsExtremelyLikely;

@@ -49,9 +49,9 @@ public class BunkerLot extends ConstructLot {
 	}
 
 	@Override
-	protected boolean isShaftableLevel(WorldGenerator generator, int y) {
-		return (y < bottomOfBunker - bunkerBuffer || y > topOfBunker - bunkerSegment - bunkerBuffer) &&
-				super.isShaftableLevel(generator, y);
+	protected boolean isShaftableLevel(WorldGenerator generator, int blockY) {
+		return (blockY < bottomOfBunker - bunkerBuffer || blockY > topOfBunker - bunkerSegment - bunkerBuffer) &&
+				super.isShaftableLevel(generator, blockY);
 //		
 //		return (y < calcSegmentOrigin(generator.sidewalkLevel) - bunkerMinHeight - bunkerBelowStreet || y > calcBunkerCeiling(generator) - bunkerMinHeight) &&
 //				super.isShaftableLevel(generator, context, y);	

@@ -19,6 +19,8 @@ public abstract class OreProvider extends Provider {
 	public final static byte grassId = (byte) Material.GRASS.getId();
 	public final static byte sandId = (byte) Material.SAND.getId();
 	public final static byte sandstoneId = (byte) Material.SANDSTONE.getId();
+	public final static byte fluidWaterId = (byte) Material.WATER.getId();
+	public final static byte fluidLavaId = (byte) Material.LAVA.getId();
 	public final static byte stillWaterId = (byte) Material.STATIONARY_WATER.getId();
 	public final static byte stillLavaId = (byte) Material.STATIONARY_LAVA.getId();
 	public final static byte snowId = (byte) Material.SNOW.getId();
@@ -36,6 +38,7 @@ public abstract class OreProvider extends Provider {
 	public byte substratumId;
 	
 	public byte fluidId;
+	public byte fluidFluidId;
 	public byte fluidSurfaceId;
 	public byte fluidSubsurfaceId;
 	public byte fluidFrozenId;
@@ -49,6 +52,7 @@ public abstract class OreProvider extends Provider {
 		substratumId = bedrockId;
 		
 		fluidId = stillWaterId;
+		fluidFluidId = fluidWaterId;
 		fluidSurfaceId = sandId;
 		fluidSubsurfaceId = sandstoneId;
 		fluidFrozenId = snowBlockId;

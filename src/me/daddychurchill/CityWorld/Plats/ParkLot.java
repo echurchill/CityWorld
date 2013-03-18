@@ -49,8 +49,8 @@ public class ParkLot extends ConnectedLot {
 	}
 
 	@Override
-	protected boolean isShaftableLevel(WorldGenerator generator, int y) {
-		return y >= 0 && y < generator.streetLevel - cisternDepth - 2 - 16;
+	protected boolean isShaftableLevel(WorldGenerator generator, int blockY) {
+		return blockY >= 0 && blockY < generator.streetLevel - cisternDepth - 2 - 16;
 	}
 
 	@Override

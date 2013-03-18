@@ -47,6 +47,14 @@ public abstract class SupportChunk {
 		height = generator.height;
 	}
 	
+	public static int getBlockX(int chunkX, int x) {
+		return chunkX * chunksBlockWidth + x;
+	}
+	
+	public static int getBlockZ(int chunkZ, int z) {
+		return chunkZ * chunksBlockWidth + z;
+	}
+	
 	public int getBlockX(int x) {
 		return getOriginX() + x;
 	}
@@ -66,6 +74,10 @@ public abstract class SupportChunk {
 	public abstract void setBlock(int x, int y, int z, byte materialId);
 	public abstract void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId);
 	public abstract void setBlocks(int x, int y1, int y2, int z, byte materialId);
+	
+	public abstract void clearBlock(int x, int y, int z);
+	public abstract void clearBlocks(int x, int y1, int y2, int z);
+	public abstract void clearBlocks(int x1, int x2, int y1, int y2, int z1, int z2);
 	
 	public abstract boolean isType(int x, int y, int z, int type);
 	public abstract boolean isEmpty(int x, int y, int z);

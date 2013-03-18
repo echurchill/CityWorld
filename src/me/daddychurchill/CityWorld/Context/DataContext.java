@@ -10,23 +10,23 @@ import me.daddychurchill.CityWorld.Maps.PlatMap;
 public abstract class DataContext {
 	
 	// see PlatMaps.xlsx for more info on this Fibonacci variant
-	public static double oddsNeverGoingToHappen =    0.0;          //   0.00%
-	public static double oddsRarelyHappens =         1.0 / 144.00; //   0.69%
-	public static double oddsNearlyNeverHappens =    1.0 /  89.00; //   1.12%
-	public static double oddsEffinUnlikely =         1.0 /  55.00; //   1.82%
-	public static double oddsExtremelyUnlikely =     1.0 /  34.00; //   2.94%
-	public static double oddsVeryUnlikely =          1.0 /  21.00; //   4.76%
-	public static double oddsPrettyUnlikely =        1.0 /  13.00; //   7.69%
-	public static double oddsUnlikely =              1.0 /   8.00; //  12.50%
-	public static double oddsSomewhatUnlikely =      1.0 /   5.00; //  20.00%
-	public static double oddsSomewhatLikely =        1.0 /   3.00; //  33.33%
-	public static double oddsLikely =                1.0 /   2.00; //  50.00%
-	public static double oddsVeryLikely =            2.0 /   3.00; //  66.67%
-	public static double oddsPrettyLikely =          4.0 /   5.00; //  80.00%
-	public static double oddsExtremelyLikely = 	     7.0 /   8.00; //  87.50%
-	public static double oddsEffinLikely =          12.0 /  13.00; //  92.31%
-	public static double oddsNearlyAlwaysHappens =  20.0 /  21.00; //  95.24%
-	public static double oddsAlwaysGoingToHappen =   1.0;          // 100.00%
+	public final static double oddsNeverGoingToHappen =    0.0;          //   0.00%
+	public final static double oddsRarelyHappens =         1.0 / 144.00; //   0.69%
+	public final static double oddsNearlyNeverHappens =    1.0 /  89.00; //   1.12%
+	public final static double oddsEffinUnlikely =         1.0 /  55.00; //   1.82%
+	public final static double oddsExtremelyUnlikely =     1.0 /  34.00; //   2.94%
+	public final static double oddsVeryUnlikely =          1.0 /  21.00; //   4.76%
+	public final static double oddsPrettyUnlikely =        1.0 /  13.00; //   7.69%
+	public final static double oddsUnlikely =              1.0 /   8.00; //  12.50%
+	public final static double oddsSomewhatUnlikely =      1.0 /   5.00; //  20.00%
+	public final static double oddsSomewhatLikely =        1.0 /   3.00; //  33.33%
+	public final static double oddsLikely =                1.0 /   2.00; //  50.00%
+	public final static double oddsVeryLikely =            2.0 /   3.00; //  66.67%
+	public final static double oddsPrettyLikely =          4.0 /   5.00; //  80.00%
+	public final static double oddsExtremelyLikely = 	   7.0 /   8.00; //  87.50%
+	public final static double oddsEffinLikely =          12.0 /  13.00; //  92.31%
+	public final static double oddsNearlyAlwaysHappens =  20.0 /  21.00; //  95.24%
+	public final static double oddsAlwaysGoingToHappen =   1.0;          // 100.00%
 	
 	// While these are initialized here, the real defaults live in CivilizedContext and UncivilizedContext
 	
@@ -41,7 +41,7 @@ public abstract class DataContext {
 	public double oddsOfStairWallMaterialIsWallMaterial = oddsNeverGoingToHappen; // stair walls are the same as walls 1/n of the time
 	public int buildingWallInsettedMinLowPoint; // minimum building height before insetting is allowed
 	public int buildingWallInsettedMinMidPoint; // lowest point of inset
-	public int buildingWallInsettedMinHighPoint; // lowest highest point of inset
+//	public int buildingWallInsettedMinHighPoint; // lowest highest point of inset
 	public int rangeOfWallInset = 2; // 1 or 2 in... but not zero
 	
 	public double oddsOfUnfinishedBuildings = oddsNeverGoingToHappen; // buildings are unfinished 1/n of the time
@@ -53,7 +53,7 @@ public abstract class DataContext {
 	public double oddsOfFlatWalledBuildings = oddsNeverGoingToHappen; // the ceilings are inset like the walls 1/n of the time
 	
 	//TODO oddsOfMissingRoad is current not used... I need to fix this
-	public double oddsOfMissingRoad = oddsNeverGoingToHappen; // roads are missing 1/n of the time
+	//public double oddsOfMissingRoad = oddsNeverGoingToHappen; // roads are missing 1/n of the time
 	public double oddsOfRoundAbouts = oddsNeverGoingToHappen; // roundabouts are created 1/n of the time
 	
 	public double oddsOfMissingArt = oddsNeverGoingToHappen; // art is missing 1/n of the time
@@ -72,9 +72,9 @@ public abstract class DataContext {
 	public int absoluteMaximumFloorsAbove; 
 	
 	public Material lightMat;
-	public Byte lightId;
 	public Material torchMat;
-	public Byte torchId;
+//	public Byte lightId;
+//	public Byte torchId;
 	
 	protected ClipboardList mapsSchematics;
 	public SchematicFamily schematicFamily = SchematicFamily.NATURE;
@@ -98,8 +98,8 @@ public abstract class DataContext {
 			lightMat = Material.REDSTONE_LAMP_OFF;
 			torchMat = Material.REDSTONE_TORCH_OFF;
 		}
-		lightId = (byte) lightMat.getId();
-		torchId = (byte) torchMat.getId();
+//		lightId = (byte) lightMat.getId();
+//		torchId = (byte) torchMat.getId();
 
 		// let the other guy do it
 		initialize();
@@ -111,7 +111,7 @@ public abstract class DataContext {
 		int floorsFourth = Math.max((maximumFloorsAbove) / 4, 1);
 		buildingWallInsettedMinLowPoint = floorsFourth;
 		buildingWallInsettedMinMidPoint = floorsFourth * 2;
-		buildingWallInsettedMinHighPoint = floorsFourth * 3;
+//		buildingWallInsettedMinHighPoint = floorsFourth * 3;
 		
 		// finally load any schematics if they exists
 		mapsSchematics = generator.pasteProvider.getFamilyClips(generator, schematicFamily, schematicMaxX, schematicMaxZ);

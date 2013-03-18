@@ -37,7 +37,7 @@ public abstract class OdonymProvider extends Provider {
 			if (odds.playOdds(oddsOfDecay))
 				result = result + line.charAt(i);
 			else
-				result = result + " ";
+				result = result + ' ';
 		}
 		return result;
 	}

@@ -194,8 +194,8 @@ public abstract class PlatLot {
 		return 0;
 	}
 	
-	protected boolean isShaftableLevel(WorldGenerator generator, int y) {
-		return y >= lowestMineSegment && y < minHeight && minHeight > generator.seaLevel;
+	protected boolean isShaftableLevel(WorldGenerator generator, int blockY) {
+		return blockY >= lowestMineSegment && blockY < minHeight && minHeight > generator.seaLevel;
 	}
 
 	private void generateHorizontalMineLevel(WorldGenerator generator, ByteChunk chunk, int y) {

@@ -20,7 +20,7 @@ public class ParkContext extends UrbanContext {
 		oddsOfSimilarBuildingRounding = oddsNeverGoingToHappen;
 		oddsOfUnfinishedBuildings = oddsNeverGoingToHappen;
 		oddsOfOnlyUnfinishedBasements = oddsNeverGoingToHappen;
-		oddsOfMissingRoad = oddsNeverGoingToHappen;
+		//oddsOfMissingRoad = oddsNeverGoingToHappen;
 		oddsOfRoundAbouts = oddsNeverGoingToHappen;
 		 
 		oddsOfStairWallMaterialIsWallMaterial = oddsNeverGoingToHappen;

@@ -105,6 +105,28 @@ public class ByteChunk extends SupportChunk {
 		setBlocks(x1, x2, y, z1, z2, (byte) material.getId());
 	}
 	
+	@Override
+	public void clearBlock(int x, int y, int z) {
+        if (blocks[y >> 4] != null) {
+        	blocks[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = airId;
+        }
+	}
+
+	@Override
+	public void clearBlocks(int x, int y1, int y2, int z) {
+		for (int y = y1; y < y2; y++)
+			clearBlock(x, y, z);
+	}
+
+	@Override
+	public void clearBlocks(int x1, int x2, int y1, int y2, int z1, int z2) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				for (int y = y1; y < y2; y++)
+					clearBlock(x, y, z);
+			}
+		}
+	}
 	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, byte materialId) {
 		setBlocks(x1, x2, y1, y2, z1, z1 + 1, materialId);
 		setBlocks(x1, x2, y1, y2, z2 - 1, z2, materialId);

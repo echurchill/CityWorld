@@ -13,31 +13,39 @@ public class LibraryDoubleRoom extends LibraryRoom {
 	}
 
 	@Override
-	public void Draw(RealChunk chunk, Odds odds, int floor, int x, int y,
+	public void draw(RealChunk chunk, Odds odds, int floor, int x, int y,
 			int z, int width, int height, int depth, Facing sideWithWall,
 			Material materialWall, Material materialGlass) {
 
-		int stand = 0;
 		switch (sideWithWall) {
 		case SOUTH:
-			stand = depth - 1;
+			drawNSBookshelves(chunk, x, y, z, width, height, depth, depth - 1);
+			break;
 		case NORTH:
-			for (int offset = 0; offset < width; offset += 2) {
-				chunk.setBlocks(x + offset, x + 1 + offset, y, y + height, z, z + depth, Material.BOOKSHELF);
-				if (offset < width - 1)
-					chunk.setBlock(x + offset + 1, y, z + stand, Material.ENCHANTMENT_TABLE);
-			}
+			drawNSBookshelves(chunk, x, y, z, width, height, depth, 0);
 			break;
 		case EAST:
-			stand = width - 1; 
+			drawWEBookshelves(chunk, x, y, z, width, height, depth, width - 1);
+			break;
 		case WEST:
-			for (int offset = 0; offset < depth; offset += 2) {
-				chunk.setBlocks(x, x + width, y, y + height, z + offset, z + 1 + offset, Material.BOOKSHELF);
-				if (offset < depth - 1)
-					chunk.setBlock(x + stand, y, z + offset + 1, Material.ENCHANTMENT_TABLE);
-			}
+			drawWEBookshelves(chunk, x, y, z, width, height, depth, 0);
 			break;
 		}
 	}
-
+	
+	public void drawNSBookshelves(RealChunk chunk, int x, int y, int z, int width, int height, int depth, int i) {
+		for (int offset = 0; offset < width; offset += 2) {
+			chunk.setBlocks(x + offset, x + 1 + offset, y, y + height, z, z + depth, Material.BOOKSHELF);
+			if (offset < width - 1)
+				chunk.setBlock(x + offset + 1, y, z + i, Material.ENCHANTMENT_TABLE);
+		}
+	}
+	
+	public void drawWEBookshelves(RealChunk chunk, int x, int y, int z, int width, int height, int depth, int i) {
+		for (int offset = 0; offset < depth; offset += 2) {
+			chunk.setBlocks(x, x + width, y, y + height, z + offset, z + 1 + offset, Material.BOOKSHELF);
+			if (offset < depth - 1)
+				chunk.setBlock(x + i, y, z + offset + 1, Material.ENCHANTMENT_TABLE);
+		}
+	}
 }

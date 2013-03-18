@@ -10,6 +10,7 @@ import me.daddychurchill.CityWorld.Rooms.DeskInternsRoom;
 import me.daddychurchill.CityWorld.Rooms.DividedEllRoom;
 import me.daddychurchill.CityWorld.Rooms.DividedSingleRoom;
 import me.daddychurchill.CityWorld.Rooms.EmptyRoom;
+import me.daddychurchill.CityWorld.Rooms.LoungeQuadRoom;
 import me.daddychurchill.CityWorld.Rooms.LoungeTVRoom;
 import me.daddychurchill.CityWorld.Rooms.MeetingForSixRoom;
 import me.daddychurchill.CityWorld.Rooms.MeetingForFourRoom;
@@ -33,6 +34,7 @@ public class RoomProvider_Office extends RoomProvider {
 		roomTypes.add(new LoungeCouchRoom());
 		roomTypes.add(new LoungeTableRoom());
 		roomTypes.add(new LoungeTVRoom());
+		roomTypes.add(new LoungeQuadRoom());
 
 		roomTypes.add(new MeetingForSixRoom());
 		roomTypes.add(new MeetingForFourRoom());

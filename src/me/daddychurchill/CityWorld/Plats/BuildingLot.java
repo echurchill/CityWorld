@@ -153,8 +153,8 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 
 	@Override
-	protected boolean isShaftableLevel(WorldGenerator generator, int y) {
-		return y >= 0 && y < generator.streetLevel - basementFloorHeight * depth - 2 - 16;	
+	protected boolean isShaftableLevel(WorldGenerator generator, int blockY) {
+		return blockY >= 0 && blockY < generator.streetLevel - basementFloorHeight * depth - 2 - 16;	
 	}
 
 	static public RoofStyle pickRoofStyle(Odds chunkOdds) {
@@ -956,7 +956,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	private void drawOffice(WorldGenerator generator, RealChunk chunk, int floor, int x, int y, 
 			int z, int height, Facing sideWithWall, Material materialWall, Material materialGlass) {
 		
-		generator.roomProvider_Office.Draw(chunk, chunkOdds, floor, x, y, z, 3, height, 3, sideWithWall, materialWall, materialGlass);
+		generator.roomProvider_Office.draw(chunk, chunkOdds, floor, x, y, z, 3, height, 3, sideWithWall, materialWall, materialGlass);
 //		generator.roomProvider_Library.Draw(chunk, chunkOdds, x, y, z, 3, height, 3, sideWithWall, materialWall, materialGlass);
 //		generator.roomProvider_Cafe.Draw(chunk, chunkOdds, x, y, z, 3, height, 3, sideWithWall, materialWall, materialGlass);
 	}
