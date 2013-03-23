@@ -4,6 +4,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.IsolatedLot;
+import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -77,6 +78,16 @@ public class ClipboardLot extends IsolatedLot {
 			edgeX1 = 0;
 			edgeX2 = SupportChunk.chunksBlockWidth;
 		}
+	}
+
+	@Override
+	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
+		return new ClipboardLot(platmap, chunkX, chunkZ, clip, facing, lotX, lotZ);
+	}
+
+	@Override
+	public void validateLot() {
+		//TODO what needs to be done here?
 	}
 
 	@Override

@@ -48,7 +48,7 @@ public abstract class PlatLot {
 		
 		initializeDice(platmap, chunkX, chunkZ);
 	}
-	
+
 	protected final static byte airId = (byte) Material.AIR.getId();
 	protected final static byte stoneId = (byte) Material.STONE.getId();
 	protected final static byte dirtId = (byte) Material.DIRT.getId();
@@ -82,6 +82,9 @@ public abstract class PlatLot {
 	public abstract boolean isConnectable(PlatLot relative);
 	public abstract boolean isConnected(PlatLot relative);
 	
+	public abstract PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ);
+	public abstract void validateLot();
+
 	protected abstract void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ);
 	protected abstract void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ);
 

@@ -6,6 +6,7 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
+import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
@@ -40,6 +41,21 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		
 		// how many floors are finished?
 		floorsBuilt = chunkOdds.getRandomInt(height);
+	}
+
+	@Override
+	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
+		return new UnfinishedBuildingLot(platmap, chunkX, chunkZ);
+	}
+
+	@Override
+	public void validateLot() {
+		//TODO what needs to be done here?
+	}
+
+	@Override
+	public RoomProvider roomProviderForFloor(WorldGenerator generator, int floor) {
+		return generator.roomProvider_Storage;
 	}
 
 	@Override

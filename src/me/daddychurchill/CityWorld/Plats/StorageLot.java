@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Plats;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
+import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingLots;
@@ -18,7 +19,22 @@ public class StorageLot extends BuildingLot {
 		depth = 0;
 		trulyIsolated = true;
 	}
-	
+
+	@Override
+	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
+		return new StorageLot(platmap, chunkX, chunkZ);
+	}
+
+	@Override
+	public void validateLot() {
+		//TODO what needs to be done here?
+	}
+
+	@Override
+	public RoomProvider roomProviderForFloor(WorldGenerator generator, int floor) {
+		return generator.roomProvider_Storage;
+	}
+
 	@Override
 	protected void generateActualChunk(WorldGenerator generator,
 			PlatMap platmap, ByteChunk chunk, BiomeGrid biomes,

@@ -45,12 +45,11 @@ public abstract class UrbanContext extends CivilizedContext {
 					if (generator.settings.includeBuildings) {
 
 						// what to build?
-						if (platmapOdds.playOdds(oddsOfParks))
+						boolean buildBuilding = !platmapOdds.playOdds(oddsOfParks);
+						if (buildBuilding)
+							current = getBuilding(generator, platmap, platmapOdds, platmap.originX + x, platmap.originZ + z);
+						else
 							current = getPark(generator, platmap, platmapOdds, platmap.originX + x, platmap.originZ + z);
-						else if (platmapOdds.playOdds(oddsOfUnfinishedBuildings))
-							current = getUnfinishedBuilding(generator, platmap, platmapOdds, platmap.originX + x, platmap.originZ + z);
-						else 
-							current = getFinishedBuilding(generator, platmap, platmapOdds, platmap.originX + x, platmap.originZ + z);
 						
 						// see if the previous chunk is the same type
 						PlatLot previous = null;
@@ -63,6 +62,27 @@ public abstract class UrbanContext extends CivilizedContext {
 						// if there was a similar previous one then copy it... maybe
 						if (previous != null && !shapeProvider.isIsolatedLotAt(platmap.originX + x, platmap.originZ + z, oddsOfIsolatedLots)) {
 							current.makeConnected(previous);
+							
+						// 2 by 2 at a minimum if at all possible
+						} else if (buildBuilding && x < PlatMap.Width - 1 && z < PlatMap.Width - 1) {
+							
+							// is there room?
+							PlatLot toEast = platmap.getLot(x + 1, z);
+							PlatLot toSouth = platmap.getLot(x, z + 1);
+							PlatLot toSouthEast = platmap.getLot(x + 1, z + 1);
+							if (toEast == null && toSouth == null && toSouthEast == null) {
+								toEast = current.newLike(platmap, platmap.originX + x + 1, platmap.originZ + z);
+								toEast.makeConnected(current);
+								platmap.setLot(x + 1, z, toEast);
+
+								toSouth = current.newLike(platmap, platmap.originX + x, platmap.originZ + z + 1);
+								toSouth.makeConnected(current);
+								platmap.setLot(x, z + 1, toSouth);
+
+								toSouthEast = current.newLike(platmap, platmap.originX + x + 1, platmap.originZ + z + 1);
+								toSouthEast.makeConnected(current);
+								platmap.setLot(x + 1, z + 1, toSouthEast);
+							}
 						}
 					}
 
@@ -72,22 +92,33 @@ public abstract class UrbanContext extends CivilizedContext {
 				}
 			}
 		}
+
+		// validate each lot
+		for (int x = 0; x < PlatMap.Width; x++) {
+			for (int z = 0; z < PlatMap.Width; z++) {
+				PlatLot current = platmap.getLot(x, z);
+				if (current != null) {
+					current.validateLot();
+				}
+			}
+		}
 	}
 	
 	@Override
 	protected PlatLot getBackfillLot(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
-		return getFinishedBuilding(generator, platmap, odds, chunkX, chunkZ);
+		return new OfficeBuildingLot(platmap, chunkX, chunkZ);
 	}
 	
 	protected PlatLot getPark(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new ParkLot(platmap, chunkX, chunkZ, generator.connectedKeyForParks);
 	}
 	
-	protected PlatLot getFinishedBuilding(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
-		return new OfficeBuildingLot(platmap, chunkX, chunkZ);
-	}
-	
-	protected PlatLot getUnfinishedBuilding(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
-		return new UnfinishedBuildingLot(platmap, chunkX, chunkZ);
+	protected PlatLot getBuilding(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+		switch (odds.getRandomInt(2)) {
+		case 1:
+			return new OfficeBuildingLot(platmap, chunkX, chunkZ);
+		default:
+			return new UnfinishedBuildingLot(platmap, chunkX, chunkZ);
+		}
 	}
 }

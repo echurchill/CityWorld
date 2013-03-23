@@ -52,10 +52,10 @@ public class IndustrialContext extends UrbanContext {
 	}
 	
 	@Override
-	protected PlatLot getFinishedBuilding(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	protected PlatLot getBuilding(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		if (odds.playOdds(oddsOfWarehouse))
 			return new WarehouseLot(platmap, chunkX, chunkZ);
 		else
-			return super.getFinishedBuilding(generator, platmap, odds, chunkX, chunkZ);
+			return super.getBuilding(generator, platmap, odds, chunkX, chunkZ);
 	}
 }

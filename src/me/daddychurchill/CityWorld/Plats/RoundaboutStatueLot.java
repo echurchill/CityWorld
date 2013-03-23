@@ -26,6 +26,16 @@ public class RoundaboutStatueLot extends IsolatedLot {
 	}
 
 	@Override
+	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
+		return new RoundaboutStatueLot(platmap, chunkX, chunkZ);
+	}
+
+	@Override
+	public void validateLot() {
+		//TODO what needs to be done here?
+	}
+
+	@Override
 	public boolean isPlaceableAt(WorldGenerator generator, int chunkX, int chunkZ) {
 		return generator.settings.inRoadRange(chunkX, chunkZ);
 	}

@@ -28,9 +28,14 @@ import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.OdonymProvider;
 import me.daddychurchill.CityWorld.Plugins.OreProvider;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
+import me.daddychurchill.CityWorld.Plugins.RoomProvider_Apartment;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider_Cafe;
+import me.daddychurchill.CityWorld.Plugins.RoomProvider_House;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider_Library;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider_Office;
+import me.daddychurchill.CityWorld.Plugins.RoomProvider_Storage;
+import me.daddychurchill.CityWorld.Plugins.RoomProvider_Store;
+import me.daddychurchill.CityWorld.Plugins.RoomProvider_Warehouse;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider;
@@ -69,9 +74,14 @@ public class WorldGenerator extends ChunkGenerator {
 	public BalloonProvider balloonProvider;
 	public HouseProvider houseProvider;
 	
+	public RoomProvider roomProvider_House;
+	public RoomProvider roomProvider_Apartment;
+	public RoomProvider roomProvider_Storage;
+	public RoomProvider roomProvider_Warehouse;
 	public RoomProvider roomProvider_Office;
 	public RoomProvider roomProvider_Library;
 	public RoomProvider roomProvider_Cafe;
+	public RoomProvider roomProvider_Store;
 	
 	public WorldBlocks decayBlocks;
 	
@@ -174,9 +184,14 @@ public class WorldGenerator extends ChunkGenerator {
 			pasteProvider = PasteProvider.loadProvider(this);
 			
 			// room populators
+			roomProvider_Storage = new RoomProvider_Storage();
+			roomProvider_House = new RoomProvider_House();
+			roomProvider_Apartment = new RoomProvider_Apartment();
+			roomProvider_Warehouse = new RoomProvider_Warehouse();
 			roomProvider_Office = new RoomProvider_Office();
 			roomProvider_Library = new RoomProvider_Library();
 			roomProvider_Cafe = new RoomProvider_Cafe();
+			roomProvider_Store = new RoomProvider_Store();
 			
 			// get ranges
 			height = shapeProvider.getWorldHeight();

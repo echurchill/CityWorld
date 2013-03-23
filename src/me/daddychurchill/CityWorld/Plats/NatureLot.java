@@ -16,6 +16,16 @@ public class NatureLot extends IsolatedLot {
 	}
 
 	@Override
+	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
+		return new NatureLot(platmap, chunkX, chunkZ);
+	}
+
+	@Override
+	public void validateLot() {
+		// assume all is swell
+	}
+
+	@Override
 	public int getBottomY(WorldGenerator generator) {
 		return 0;
 	}
@@ -30,5 +40,5 @@ public class NatureLot extends IsolatedLot {
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		generateSurface(generator, chunk, true);
 	}
-	
+
 }

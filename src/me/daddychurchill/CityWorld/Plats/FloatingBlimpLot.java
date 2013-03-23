@@ -25,6 +25,16 @@ public class FloatingBlimpLot extends IsolatedLot {
 	}
 	
 	@Override
+	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
+		return new FloatingBlimpLot(platmap, chunkX, chunkZ);
+	}
+
+	@Override
+	public void validateLot() {
+		// assume all is swell
+	}
+
+	@Override
 	public int getBottomY(WorldGenerator generator) {
 		return 0;
 	}

@@ -49,6 +49,16 @@ public class ParkLot extends ConnectedLot {
 	}
 
 	@Override
+	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
+		return new ParkLot(platmap, chunkX, chunkZ, connectedkey);
+	}
+
+	@Override
+	public void validateLot() {
+		//TODO what needs to be done here?
+	}
+
+	@Override
 	protected boolean isShaftableLevel(WorldGenerator generator, int blockY) {
 		return blockY >= 0 && blockY < generator.streetLevel - cisternDepth - 2 - 16;
 	}

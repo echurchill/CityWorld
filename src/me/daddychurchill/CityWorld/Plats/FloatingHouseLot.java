@@ -21,6 +21,16 @@ public class FloatingHouseLot extends ConstructLot {
 		groundLevel = floatingAt;
 	}
 
+	@Override
+	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
+		return new FloatingHouseLot(platmap, chunkX, chunkZ, groundLevel);
+	}
+
+	@Override
+	public void validateLot() {
+		// assume all is swell
+	}
+
 	private final static byte platformId = (byte) Material.SMOOTH_BRICK.getId();
 	private final static byte dirtId = (byte) Material.DIRT.getId();
 	private final static byte grassId = (byte) Material.GRASS.getId();

@@ -17,6 +17,16 @@ public class FloatingNothingLot extends IsolatedLot {
 	}
 
 	@Override
+	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
+		return new FloatingNothingLot(platmap, chunkX, chunkZ);
+	}
+
+	@Override
+	public void validateLot() {
+		//TODO what needs to be done here?
+	}
+
+	@Override
 	public int getBottomY(WorldGenerator generator) {
 		return 0;
 	}

@@ -20,6 +20,16 @@ public class OilPlatformLot extends ConstructLot {
 		trulyIsolated = true;
 	}
 
+	@Override
+	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
+		return new OilPlatformLot(platmap, chunkX, chunkZ);
+	}
+
+	@Override
+	public void validateLot() {
+		//TODO what needs to be done here?
+	}
+
 	private final static byte platformId = (byte) Material.DOUBLE_STEP.getId();
 	private final static byte slabId = (byte) Material.STEP.getId();
 	private final static byte railingId = (byte) Material.IRON_FENCE.getId();

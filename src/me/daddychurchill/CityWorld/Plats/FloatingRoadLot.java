@@ -17,6 +17,11 @@ public class FloatingRoadLot extends RoadLot {
 	}
 
 	@Override
+	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
+		return new FloatingRoadLot(platmap, chunkX, chunkZ, connectedkey, roundaboutRoad);
+	}
+
+	@Override
 	public int getBottomY(WorldGenerator generator) {
 		return generator.streetLevel;
 	}

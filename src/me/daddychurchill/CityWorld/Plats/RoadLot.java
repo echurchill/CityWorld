@@ -74,6 +74,16 @@ public class RoadLot extends ConnectedLot {
 		roundaboutRoad = roundaboutPart;
 	}
 	
+	@Override
+	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
+		return new RoadLot(platmap, chunkX, chunkZ, connectedkey, roundaboutRoad);
+	}
+
+	@Override
+	public void validateLot() {
+		//TODO what needs to be done here?
+	}
+
 	private int bottomOfRoad;
 	private int topOfRoad;
 	

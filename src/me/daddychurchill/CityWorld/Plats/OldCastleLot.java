@@ -19,6 +19,16 @@ public class OldCastleLot extends ConstructLot {
 		//platmap.generator.reportMessage("CASTLE AT " + (chunkX * 16) + ", " + (chunkZ * 16));
 	}
 	
+	@Override
+	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
+		return new OldCastleLot(platmap, chunkX, chunkZ);
+	}
+
+	@Override
+	public void validateLot() {
+		//TODO what needs to be done here?
+	}
+	
 	private final static byte platformId = (byte) Material.SMOOTH_BRICK.getId();
 	private final static byte supportId = (byte) Material.COBBLESTONE.getId();
 	private final static byte wallId = platformId;

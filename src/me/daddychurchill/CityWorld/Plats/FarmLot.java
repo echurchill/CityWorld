@@ -50,6 +50,16 @@ public class FarmLot extends ConnectedLot {
 	}
 
 	@Override
+	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
+		return new FarmLot(platmap, chunkX, chunkZ);
+	}
+
+	@Override
+	public void validateLot() {
+		// assume all is swell
+	}
+
+	@Override
 	public boolean makeConnected(PlatLot relative) {
 		boolean result = super.makeConnected(relative);
 		

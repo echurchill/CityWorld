@@ -35,6 +35,14 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	protected int firstFloorHeight;
 	protected int otherFloorHeight;
 
+	@Override
+	public void validateLot() {
+		// get connected lots
+		// if 
+		// if nothing to north/south or west/east then no insets for us
+		// else if 
+	}
+
 	public FinishedBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
