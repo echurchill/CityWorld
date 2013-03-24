@@ -9,6 +9,7 @@ public class OfficeBuildingLot extends FinishedBuildingLot {
 	public OfficeBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 
+		rounded = false;
 	}
 
 	@Override

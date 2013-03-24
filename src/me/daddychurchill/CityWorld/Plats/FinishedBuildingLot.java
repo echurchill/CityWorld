@@ -37,6 +37,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 
 	@Override
 	public void validateLot() {
+		
 		// get connected lots
 		// if 
 		// if nothing to north/south or west/east then no insets for us
@@ -302,10 +303,10 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			}
 			
 			// inside walls
-			drawInteriorWalls(generator, chunk, context, floor, floorAt, aboveFloorHeight - 1, 
-					localInsetWallNS, localInsetWallWE, allowRounded, 
-					wallMaterial, glassMaterial, 
-					stairLocation, neighborFloors);
+			drawInteriorWalls(generator, chunk, context, 
+					roomProviderForFloor(generator, floor), floor, floorAt, 
+					aboveFloorHeight - 1, localInsetWallNS, localInsetWallWE, 
+					allowRounded, wallMaterial, glassMaterial, stairLocation, neighborFloors);
 				
 			// stairs?
 			if (needStairsUp) {

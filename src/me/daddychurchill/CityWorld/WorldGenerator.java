@@ -32,6 +32,7 @@ import me.daddychurchill.CityWorld.Plugins.RoomProvider_Apartment;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider_Cafe;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider_House;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider_Library;
+import me.daddychurchill.CityWorld.Plugins.RoomProvider_Machines;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider_Office;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider_Storage;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider_Store;
@@ -80,6 +81,7 @@ public class WorldGenerator extends ChunkGenerator {
 	public RoomProvider roomProvider_Warehouse;
 	public RoomProvider roomProvider_Office;
 	public RoomProvider roomProvider_Library;
+	public RoomProvider roomProvider_Machines;
 	public RoomProvider roomProvider_Cafe;
 	public RoomProvider roomProvider_Store;
 	
@@ -190,6 +192,7 @@ public class WorldGenerator extends ChunkGenerator {
 			roomProvider_Warehouse = new RoomProvider_Warehouse();
 			roomProvider_Office = new RoomProvider_Office();
 			roomProvider_Library = new RoomProvider_Library();
+			roomProvider_Machines = new RoomProvider_Machines();
 			roomProvider_Cafe = new RoomProvider_Cafe();
 			roomProvider_Store = new RoomProvider_Store();
 			

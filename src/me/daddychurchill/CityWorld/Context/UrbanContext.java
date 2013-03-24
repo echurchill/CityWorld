@@ -2,9 +2,15 @@ package me.daddychurchill.CityWorld.Context;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
+import me.daddychurchill.CityWorld.Plats.ApartmentBuildingLot;
+import me.daddychurchill.CityWorld.Plats.FactoryLot;
+import me.daddychurchill.CityWorld.Plats.LaboratoryLot;
+import me.daddychurchill.CityWorld.Plats.LibraryLot;
+import me.daddychurchill.CityWorld.Plats.MixedUseLot;
 import me.daddychurchill.CityWorld.Plats.OfficeBuildingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.ParkLot;
+import me.daddychurchill.CityWorld.Plats.StoreLot;
 import me.daddychurchill.CityWorld.Plats.UnfinishedBuildingLot;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -114,9 +120,23 @@ public abstract class UrbanContext extends CivilizedContext {
 	}
 	
 	protected PlatLot getBuilding(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
-		switch (odds.getRandomInt(2)) {
+		switch (odds.getRandomInt(5)) {
 		case 1:
 			return new OfficeBuildingLot(platmap, chunkX, chunkZ);
+		case 2:
+			return new StoreLot(platmap, chunkX, chunkZ);
+		case 3:
+			return new ApartmentBuildingLot(platmap, chunkX, chunkZ);
+		case 4:
+			return new MixedUseLot(platmap, chunkX, chunkZ);
+		case 5:
+			return new StoreLot(platmap, chunkX, chunkZ);
+		case 6:
+			return new FactoryLot(platmap, chunkX, chunkZ);
+		case 7:
+			return new LaboratoryLot(platmap, chunkX, chunkZ);
+		case 8:
+			return new LibraryLot(platmap, chunkX, chunkZ);
 		default:
 			return new UnfinishedBuildingLot(platmap, chunkX, chunkZ);
 		}
