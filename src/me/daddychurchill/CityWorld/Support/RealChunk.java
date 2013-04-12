@@ -75,7 +75,7 @@ public class RealChunk extends SupportChunk {
 
 	@Override
 	public void setBlock(int x, int y, int z, byte materialId) {
-		chunk.getBlock(x, y, z).setTypeId(materialId, doPhysics);
+		chunk.getBlock(x, y, z).setTypeId(materialId & 0xFF, doPhysics);
 	}
 
 	public void setBlock(int x, int y, int z, Material material) {
@@ -110,7 +110,7 @@ public class RealChunk extends SupportChunk {
 	@Override
 	public void setBlocks(int x, int y1, int y2, int z, byte type) {
 		for (int y = y1; y < y2; y++)
-			chunk.getBlock(x, y, z).setTypeIdAndData(type, (byte) 0, doPhysics);
+			chunk.getBlock(x, y, z).setTypeIdAndData(type & 0xFF, (byte) 0, doPhysics);
 	}
 
 	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
@@ -167,7 +167,7 @@ public class RealChunk extends SupportChunk {
 	public void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				chunk.getBlock(x, y, z).setTypeId(materialId, doPhysics);
+				chunk.getBlock(x, y, z).setTypeId(materialId & 0xFF, doPhysics);
 			}
 		}
 	}

@@ -676,9 +676,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		
 			// NW corner
 			if (heights.toNorthWest()) {
-//				wallId = (byte) Material.DIRT.getId();
 //				wallId = (byte) Material.QUARTZ_ORE.getId();
-//				wallId = (byte) Material.EMERALD_BLOCK.getId();
 				if (heights.toNorth())
 					drawInteriorNSWall(chunk, 4, y1, y2, 0, wallId, glassId);
 				if (heights.toWest()) {

@@ -292,12 +292,35 @@ public class WorldGenerator extends ChunkGenerator {
 	}
 	
 //	@Override
-//	public short[][] generateExtBlockSections(World world, Random random,
-//			int x, int z, BiomeGrid biomes) {
-//		// TODO Auto-generated method stub
-//		return super.generateExtBlockSections(world, random, x, z, biomes);
-//	}
+//	public short[][] generateExtBlockSections(World world, Random random, int chunkX, int chunkZ, BiomeGrid biomes) {
+//		try {
 //
+//			initializeWorldInfo(world);
+//
+//			// place to work
+//			ShortChunk shortChunk = new ShortChunk(this, chunkX, chunkZ);
+//		
+//			// figure out what everything looks like
+//			PlatMap platmap = getPlatMap(chunkX, chunkZ);
+//			if (platmap != null) {
+//				//CityWorld.reportMessage("generate X,Z = " + chunkX + "," + chunkZ);
+//				platmap.generateChunk(shortChunk, biomes);
+//			}
+//			
+//			// This was added by Sablednah
+//			// https://github.com/echurchill/CityWorld/pull/5
+//			// MOVED to the chunk populator by DaddyChurchill 10/27/12
+//			//CityWorldEvent event = new CityWorldEvent(chunkX, chunkZ, platmap.context, platmap.getPlatLots()[chunkX - platmap.originX][chunkZ - platmap.originZ]);
+//			//Bukkit.getServer().getPluginManager().callEvent(event);
+//			
+//			return shortChunk.blocks;
+//			
+//		} catch (Exception e) {
+//			reportException("ChunkPopulator FAILED", e);
+//			return null;
+//		} 
+//	}
+
 	public long getConnectionKey() {
 		return connectionKeyGen.getRandomLong();
 	}
