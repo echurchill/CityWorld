@@ -1,7 +1,9 @@
-package me.daddychurchill.CityWorld.Plats;
+package me.daddychurchill.CityWorld.Plats.Buildings;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
+import me.daddychurchill.CityWorld.Plats.FinishedBuildingLot;
+import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 
 public class ApartmentBuildingLot extends FinishedBuildingLot {

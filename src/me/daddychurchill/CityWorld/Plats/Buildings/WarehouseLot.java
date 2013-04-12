@@ -1,7 +1,10 @@
-package me.daddychurchill.CityWorld.Plats;
+package me.daddychurchill.CityWorld.Plats.Buildings;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
+import me.daddychurchill.CityWorld.Plats.FinishedBuildingLot;
+import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 
 public class WarehouseLot extends FinishedBuildingLot {
@@ -26,4 +29,20 @@ public class WarehouseLot extends FinishedBuildingLot {
 		return generator.roomProvider_Warehouse;
 	}
 	
+	@Override
+	protected void calculateOptions(DataContext context) {
+		
+		// how do the walls inset?
+		insetWallWE = 1;
+		insetWallNS = 1;
+		
+		// what about the ceiling?
+		insetCeilingWE = insetWallWE;
+		insetCeilingNS = insetWallNS;
+		
+		// nudge in a bit more as we go up
+		insetInsetMidAt = 1;
+		insetInsetHighAt = 1;
+		insetInsetted = false;
+	}
 }

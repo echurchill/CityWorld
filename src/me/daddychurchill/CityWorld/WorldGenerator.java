@@ -291,6 +291,13 @@ public class WorldGenerator extends ChunkGenerator {
 		} 
 	}
 	
+//	@Override
+//	public short[][] generateExtBlockSections(World world, Random random,
+//			int x, int z, BiomeGrid biomes) {
+//		// TODO Auto-generated method stub
+//		return super.generateExtBlockSections(world, random, x, z, biomes);
+//	}
+//
 	public long getConnectionKey() {
 		return connectionKeyGen.getRandomLong();
 	}

@@ -24,10 +24,6 @@ public class ByteChunk extends SupportChunk {
 		blocks = new byte[sectionsPerChunk][];
 	}
 	
-	public byte[][] getActualBlocks() {
-		return blocks;
-	}
-	
 	@Override
 	public boolean isType(int x, int y, int z, int type) {
 		return getBlock(x, y, z) == type;

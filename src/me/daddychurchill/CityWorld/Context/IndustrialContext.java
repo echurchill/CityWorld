@@ -5,7 +5,7 @@ import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.StorageLot;
-import me.daddychurchill.CityWorld.Plats.WarehouseLot;
+import me.daddychurchill.CityWorld.Plats.Buildings.WarehouseLot;
 import me.daddychurchill.CityWorld.Support.Odds;
 
 public class IndustrialContext extends UrbanContext {

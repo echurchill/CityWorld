@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
+import me.daddychurchill.CityWorld.Plats.Buildings.ApartmentBuildingLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 
 public class MixedUseLot extends ApartmentBuildingLot {

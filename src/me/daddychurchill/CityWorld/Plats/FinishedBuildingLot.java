@@ -49,6 +49,35 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		
 		DataContext context = platmap.context;
 
+		// calculate the defaults
+		calculateOptions(context);
+		
+		// floorheight
+		firstFloorHeight = aboveFloorHeight;
+		otherFloorHeight = aboveFloorHeight;
+		
+		// what is it made of?
+		wallMaterial = pickWallMaterial(chunkOdds);
+		ceilingMaterial = pickCeilingMaterial(chunkOdds);
+		glassMaterial = pickGlassMaterial(chunkOdds);
+		columnMaterial = pickColumnMaterial(wallMaterial);
+		stairMaterial = pickStairMaterial(wallMaterial);
+		stairPlatformMaterial = pickStairPlatformMaterial(stairMaterial);
+		doorMaterial = Material.WOOD_DOOR;
+		roofMaterial = pickRoofMaterial(chunkOdds);
+		
+		// what are the walls of the stairs made of?
+		if (chunkOdds.playOdds(context.oddsOfStairWallMaterialIsWallMaterial))
+			stairWallMaterial = wallMaterial;
+		else
+			stairWallMaterial = pickStairWallMaterial(wallMaterial);
+
+		// final validation
+		validateOptions();
+	}
+	
+	protected void calculateOptions(DataContext context) {
+		
 		// how do the walls inset?
 		insetWallWE = chunkOdds.getRandomInt(context.rangeOfWallInset) + 1; // 1 or 2
 		insetWallNS = chunkOdds.getRandomInt(context.rangeOfWallInset) + 1;
@@ -77,27 +106,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 					chunkOdds.getRandomInt(context.buildingWallInsettedMinLowPoint));
 			insetInsetHighAt = Math.max(insetInsetMidAt + 1, chunkOdds.getRandomInt(context.buildingWallInsettedMinLowPoint));
 		}
-		
-		// floorheight
-		firstFloorHeight = aboveFloorHeight;
-		otherFloorHeight = aboveFloorHeight;
-		
-		// what is it made of?
-		wallMaterial = pickWallMaterial(chunkOdds);
-		ceilingMaterial = pickCeilingMaterial(chunkOdds);
-		glassMaterial = pickGlassMaterial(chunkOdds);
-		columnMaterial = pickColumnMaterial(wallMaterial);
-		stairMaterial = pickStairMaterial(wallMaterial);
-		stairPlatformMaterial = pickStairPlatformMaterial(stairMaterial);
-		doorMaterial = Material.WOOD_DOOR;
-		roofMaterial = pickRoofMaterial(chunkOdds);
-		
-		// what are the walls of the stairs made of?
-		if (chunkOdds.playOdds(context.oddsOfStairWallMaterialIsWallMaterial))
-			stairWallMaterial = wallMaterial;
-		else
-			stairWallMaterial = pickStairWallMaterial(wallMaterial);
-
+	}
+	
+	protected void validateOptions() {
 		// Fix up any material issues
 		// thin glass should not be used with ceiling inset, it looks goofy
 		// thin glass should not be used with double-step walls, the glass does not align correctly
@@ -242,9 +253,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		allowRounded = allowRounded && neighborFloors.isRoundable();
 		StairWell stairLocation = getStairWellLocation(allowRounded, neighborFloors);
 		
-		// bottom floor? 
-		drawDoors(chunk, generator.streetLevel + 2, aboveFloorHeight, insetWallNS, insetWallWE,
-				stairLocation, neighborFloors, wallMaterial);
+//		// bottom floor? 
+//		drawDoors(chunk, generator.streetLevel + 2, aboveFloorHeight, insetWallNS, insetWallWE,
+//				stairLocation, neighborFloors, wallMaterial);
 		
 		// work on the basement stairs first
 		for (int floor = 0; floor < depth; floor++) {
@@ -384,8 +395,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			return Material.SMOOTH_BRICK;
 		case 14:
 			return Material.NETHER_BRICK;
-//			case 15:
-//			return Material.IRON_BLOCK;
+		case 15:
+			return Material.QUARTZ_BLOCK;
 		default:
 			return Material.STONE;
 		}
@@ -415,8 +426,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			return Material.SMOOTH_BRICK;
 		case 11:
 			return Material.NETHER_BRICK;
-//			case 15:
-//			return Material.IRON_BLOCK;
+		case 15:
+			return Material.QUARTZ_BLOCK;
 		default:
 			return Material.STONE;
 		}
@@ -430,14 +441,14 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			return Material.COBBLE_WALL;
 
 		case NETHERRACK:
-		case NETHER_BRICK:
+//		case NETHER_BRICK:
 			return Material.NETHER_FENCE;
 			
-		case SANDSTONE:
+//		case SANDSTONE:
 		case SAND:
-		case CLAY:
+//		case CLAY:
 		case WOOD:
-		case BRICK:
+//		case BRICK:
 			return Material.FENCE;
 		
 		default: 
@@ -469,6 +480,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		case SANDSTONE:
 		case SAND:
 			return Material.SANDSTONE_STAIRS;
+			
+		case QUARTZ_BLOCK:
+			return Material.QUARTZ_STAIRS;
 		
 		default: // WOOD
 			return Material.WOOD_STAIRS;
@@ -487,6 +501,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			return Material.NETHER_BRICK;
 		case SANDSTONE_STAIRS:
 			return Material.SANDSTONE;
+		case QUARTZ_STAIRS:
+			return Material.QUARTZ_BLOCK;
 		default:
 			return Material.WOOD;
 		}
@@ -539,8 +555,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			return Material.SMOOTH_BRICK;
 		case 11:
 			return Material.NETHER_BRICK;
-//			case 15:
-//			return Material.IRON_BLOCK;
+		case 15:
+			return Material.QUARTZ_BLOCK;
 		default:
 			return Material.STONE;
 		}

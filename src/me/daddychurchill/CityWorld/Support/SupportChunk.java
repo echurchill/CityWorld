@@ -1,5 +1,6 @@
 package me.daddychurchill.CityWorld.Support;
 
+import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.WorldGenerator;
 
 import org.bukkit.Material;
@@ -106,30 +107,18 @@ public abstract class SupportChunk {
 				isType(x, y, z + 1, waterId));
 	}
 	
-	public boolean setBlocks(int x, int y1, int y2, int z, byte primaryId, byte secondaryId, MaterialFactory maker, boolean forcePlace) {
-		boolean placedIt = forcePlace || isEmpty(x, y1, z);
-		if (placedIt)
-			maker.placeMaterial(this, primaryId, secondaryId, x, y1, y2, z);
-		return placedIt;
-	}
-	
-	public boolean setBlocks(int x, int y1, int y2, int z, byte primaryId, byte secondaryId, MaterialFactory maker) {
-		return setBlocks(x, y1, y2, z, primaryId, secondaryId, maker, true);
-	}
-	
-	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte primaryId, byte secondaryId, MaterialFactory maker, boolean forcePlace) {
-		forcePlace = true;
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				boolean placedIt = setBlocks(x, y1, y2, z, primaryId, secondaryId, maker, forcePlace);
-				if (!forcePlace && !placedIt)
-					return;
-			}
-		}
+	public void setBlocks(int x, int y1, int y2, int z, byte primaryId, byte secondaryId, MaterialFactory maker) {
+		maker.placeMaterial(this, primaryId, secondaryId, x, y1, y2, z);
 	}
 	
 	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte primaryId, byte secondaryId, MaterialFactory maker) {
-		setBlocks(x1, x2, y1, y2, z1, z2, primaryId, secondaryId, maker, true);
+		if (primaryId < 0)
+			CityWorld.log.info("x1, x2, y1, y2, z1, z2, wall, glass = " + x1 + ", " + x2 + ", " + y1 + ", " + y2 + ", " + z1 + ", " + z2 + ", " + primaryId + ", " + secondaryId);
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				setBlocks(x, y1, y2, z, primaryId, secondaryId, maker);
+			}
+		}
 	}
 	
 	private void drawCircleBlocks(int cx, int cz, int x, int z, int y, byte materialId) {
