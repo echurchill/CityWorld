@@ -3,9 +3,9 @@ package me.daddychurchill.CityWorld.Buildings.Populators;
 import me.daddychurchill.CityWorld.Buildings.Rooms.EmptyRoom;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 
-public class RoomProvider_Machines extends RoomProvider {
+public class BusinessWithManufacturing extends RoomProvider {
 
-	public RoomProvider_Machines() {
+	public BusinessWithManufacturing() {
 		roomTypes.add(new EmptyRoom());
 
 		// laboratory

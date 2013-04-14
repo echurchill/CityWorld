@@ -3,9 +3,9 @@ package me.daddychurchill.CityWorld.Buildings.Populators;
 import me.daddychurchill.CityWorld.Buildings.Rooms.EmptyRoom;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 
-public class RoomProvider_Apartment extends RoomProvider {
+public class ResidentialApartments extends RoomProvider {
 
-	public RoomProvider_Apartment() {
+	public ResidentialApartments() {
 		roomTypes.add(new EmptyRoom());
 
 

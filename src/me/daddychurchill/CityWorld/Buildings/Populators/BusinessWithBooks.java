@@ -14,9 +14,9 @@ import me.daddychurchill.CityWorld.Buildings.Rooms.LoungeQuadRoom;
 import me.daddychurchill.CityWorld.Buildings.Rooms.LoungeTrioRoom;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 
-public class RoomProvider_Library extends RoomProvider {
+public class BusinessWithBooks extends RoomProvider {
 
-	public RoomProvider_Library() {
+	public BusinessWithBooks() {
 		
 		roomTypes.add(new EmptyRoom());
 

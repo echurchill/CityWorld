@@ -3,9 +3,9 @@ package me.daddychurchill.CityWorld.Buildings.Populators;
 import me.daddychurchill.CityWorld.Buildings.Rooms.EmptyRoom;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 
-public class RoomProvider_Storage extends RoomProvider {
+public class BusinessWithCubicles extends RoomProvider {
 
-	public RoomProvider_Storage() {
+	public BusinessWithCubicles() {
 //		roomTypes.add(new DebugRoom());
 		
 		roomTypes.add(new EmptyRoom());

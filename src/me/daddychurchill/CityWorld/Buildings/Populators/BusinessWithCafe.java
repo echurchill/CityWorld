@@ -7,9 +7,9 @@ import me.daddychurchill.CityWorld.Buildings.Rooms.LoungeTrioRoom;
 import me.daddychurchill.CityWorld.Buildings.Rooms.MeetingForSixRoom;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 
-public class RoomProvider_Cafe extends RoomProvider {
+public class BusinessWithCafe extends RoomProvider {
 
-	public RoomProvider_Cafe() {
+	public BusinessWithCafe() {
 
 		roomTypes.add(new LoungeGameRoom());
 		roomTypes.add(new LoungeGameRoom());

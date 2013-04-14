@@ -20,9 +20,9 @@ import me.daddychurchill.CityWorld.Buildings.Rooms.MeetingForFourRoom;
 import me.daddychurchill.CityWorld.Buildings.Rooms.MeetingForSixRoom;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 
-public class RoomProvider_Office extends RoomProvider {
+public class BusinessWithOffices extends RoomProvider {
 
-	public RoomProvider_Office() {
+	public BusinessWithOffices() {
 		super();
 
 //		roomTypes.add(new DebugRoom());

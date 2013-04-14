@@ -5,14 +5,14 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.Buildings.Populators.RoomProvider_Apartment;
-import me.daddychurchill.CityWorld.Buildings.Populators.RoomProvider_Cafe;
-import me.daddychurchill.CityWorld.Buildings.Populators.RoomProvider_House;
-import me.daddychurchill.CityWorld.Buildings.Populators.RoomProvider_Library;
-import me.daddychurchill.CityWorld.Buildings.Populators.RoomProvider_Machines;
-import me.daddychurchill.CityWorld.Buildings.Populators.RoomProvider_Office;
-import me.daddychurchill.CityWorld.Buildings.Populators.RoomProvider_Storage;
-import me.daddychurchill.CityWorld.Buildings.Populators.RoomProvider_Store;
+import me.daddychurchill.CityWorld.Buildings.Populators.ResidentialApartments;
+import me.daddychurchill.CityWorld.Buildings.Populators.BusinessWithCafe;
+import me.daddychurchill.CityWorld.Buildings.Populators.ResidentialHouses;
+import me.daddychurchill.CityWorld.Buildings.Populators.BusinessWithBooks;
+import me.daddychurchill.CityWorld.Buildings.Populators.BusinessWithManufacturing;
+import me.daddychurchill.CityWorld.Buildings.Populators.BusinessWithOffices;
+import me.daddychurchill.CityWorld.Buildings.Populators.BusinessWithCubicles;
+import me.daddychurchill.CityWorld.Buildings.Populators.BusinessWithStock;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider;
 import me.daddychurchill.CityWorld.Context.FloatingRoadContext;
 import me.daddychurchill.CityWorld.Context.MunicipalContext;
@@ -184,14 +184,14 @@ public class WorldGenerator extends ChunkGenerator {
 			pasteProvider = PasteProvider.loadProvider(this);
 			
 			// room populators
-			roomProvider_Storage = new RoomProvider_Storage();
-			roomProvider_House = new RoomProvider_House();
-			roomProvider_Apartment = new RoomProvider_Apartment();
-			roomProvider_Office = new RoomProvider_Office();
-			roomProvider_Library = new RoomProvider_Library();
-			roomProvider_Machines = new RoomProvider_Machines();
-			roomProvider_Cafe = new RoomProvider_Cafe();
-			roomProvider_Store = new RoomProvider_Store();
+			roomProvider_Storage = new BusinessWithCubicles();
+			roomProvider_House = new ResidentialHouses();
+			roomProvider_Apartment = new ResidentialApartments();
+			roomProvider_Office = new BusinessWithOffices();
+			roomProvider_Library = new BusinessWithBooks();
+			roomProvider_Machines = new BusinessWithManufacturing();
+			roomProvider_Cafe = new BusinessWithCafe();
+			roomProvider_Store = new BusinessWithStock();
 			
 			// get ranges
 			height = shapeProvider.getWorldHeight();
