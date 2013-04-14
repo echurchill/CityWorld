@@ -1,28 +1,31 @@
-package me.daddychurchill.CityWorld.Plats;
+package me.daddychurchill.CityWorld.Buildings;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Buildings.ApartmentBuildingLot;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
+import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 
-public class MixedUseLot extends ApartmentBuildingLot {
+public class LaboratoryLot extends LibraryLot {
 
-	public MixedUseLot(PlatMap platmap, int chunkX, int chunkZ) {
+	public LaboratoryLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public RoomProvider roomProviderForFloor(WorldGenerator generator, int floor) {
-		if (floor > height / 3)
-			return super.roomProviderForFloor(generator, floor);
-		else
+		switch (floor % 3) {
+		case 1:
+			return generator.roomProvider_Library;
+		case 2:
+			return generator.roomProvider_Machines;
+		default:
 			return generator.roomProvider_Office;
+		}
 	}
 
 	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
-		return new MixedUseLot(platmap, chunkX, chunkZ);
+		return new LaboratoryLot(platmap, chunkX, chunkZ);
 	}
-
 }

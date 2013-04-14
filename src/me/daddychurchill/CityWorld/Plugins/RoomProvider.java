@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import me.daddychurchill.CityWorld.Rooms.PlatRoom;
+import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Buildings.Rooms.PlatRoom;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Facing;
@@ -24,12 +25,12 @@ public abstract class RoomProvider extends Provider {
 		return roomTypes.get(index);
 	}
 
-	public void draw(RealChunk chunk, Odds odds, 
-			int floor, int x, int y, int z, int width, int height,
-			int depth, Facing sideWithWall, Material materialWall, Material materialGlass) {
+	public void drawFixtures(WorldGenerator generator, RealChunk chunk, 
+			Odds odds, int floor, int x, int y, int z, int width,
+			int height, int depth, Facing sideWithWall, Material materialWall, Material materialGlass) {
 		
 		PlatRoom roomGen = getRandomRoomGenerator(odds);
 		if (roomGen != null)
-			roomGen.draw(chunk, odds, floor, x, y, z, width, height, depth, sideWithWall, materialWall, materialGlass);
+			roomGen.drawFixture(generator, chunk, odds, floor, x, y, z, width, height, depth, sideWithWall, materialWall, materialGlass);
 	}
 }

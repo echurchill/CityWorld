@@ -1,17 +1,17 @@
 package me.daddychurchill.CityWorld.Context;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Buildings.ApartmentBuildingLot;
+import me.daddychurchill.CityWorld.Buildings.FactoryLot;
+import me.daddychurchill.CityWorld.Buildings.LaboratoryLot;
+import me.daddychurchill.CityWorld.Buildings.LibraryLot;
+import me.daddychurchill.CityWorld.Buildings.OfficeBuildingLot;
+import me.daddychurchill.CityWorld.Buildings.StoreLot;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.MixedUseLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.ParkLot;
 import me.daddychurchill.CityWorld.Plats.UnfinishedBuildingLot;
-import me.daddychurchill.CityWorld.Plats.Buildings.ApartmentBuildingLot;
-import me.daddychurchill.CityWorld.Plats.Buildings.FactoryLot;
-import me.daddychurchill.CityWorld.Plats.Buildings.LaboratoryLot;
-import me.daddychurchill.CityWorld.Plats.Buildings.LibraryLot;
-import me.daddychurchill.CityWorld.Plats.Buildings.OfficeBuildingLot;
-import me.daddychurchill.CityWorld.Plats.Buildings.StoreLot;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Support.Odds;
 

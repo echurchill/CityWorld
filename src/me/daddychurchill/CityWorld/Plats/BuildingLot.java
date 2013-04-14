@@ -12,7 +12,6 @@ import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
 import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
 import me.daddychurchill.CityWorld.Support.MaterialFactory;
-import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.OutsideWEWallFactory;
 import me.daddychurchill.CityWorld.Support.OutsideNSWallFactory;
 import me.daddychurchill.CityWorld.Support.InteriorWallFactory;
@@ -61,7 +60,8 @@ public abstract class BuildingLot extends ConnectedLot {
 	
 	public enum InteriorStyle {COLUMNS_ONLY, WALLS_ONLY, COLUMNS_OFFICES, WALLS_OFFICES, RANDOM};
 	protected InteriorStyle interiorStyle;
-	protected double oddsOfAnInteriorDoor = DataContext.oddsExtremelyLikely;
+	protected double oddsOfAnInteriorDoor = DataContext.oddsAlwaysGoingToHappen;//oddsExtremelyLikely;
+	protected double oddsOfAnExteriorDoor = DataContext.oddsAlwaysGoingToHappen;//oddsSomewhatLikely;
 	protected Material columnMaterial;
 	
 	protected int navLightX = 0;
@@ -91,12 +91,12 @@ public abstract class BuildingLot extends ConnectedLot {
 		needStairsDown = true;
 		needStairsUp = true;
 		rounded = chunkOdds.playOdds(context.oddsOfSimilarBuildingRounding);
-		roofStyle = pickRoofStyle(chunkOdds);
-		roofFeature = pickRoofFeature(chunkOdds);
+		roofStyle = pickRoofStyle();
+		roofFeature = pickRoofFeature();
 		roofScale = 1 + chunkOdds.getRandomInt(2);
-		stairStyle = pickStairStyle(chunkOdds);
-		stairDirection = pickStairDirection(chunkOdds);
-		interiorStyle = pickInteriorStyle(chunkOdds);
+		stairStyle = pickStairStyle();
+		stairDirection = pickStairDirection();
+		interiorStyle = pickInteriorStyle();
 		columnMaterial = Material.COBBLE_WALL;
 		wallsWE = new OutsideWEWallFactory(chunkOdds, platmap.generator.settings.includeDecayedBuildings);
 		wallsNS = new OutsideNSWallFactory(wallsWE);
@@ -104,7 +104,52 @@ public abstract class BuildingLot extends ConnectedLot {
 		wallsInterior = new InteriorWallFactory(chunkOdds, platmap.generator.settings.includeDecayedBuildings);
 	}
 
-	static public Facing pickStairDirection(Odds chunkOdds) {
+	@Override
+	public boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
+		return blockY < generator.streetLevel - basementFloorHeight * depth + 1;
+	}
+
+	@Override
+	protected boolean isShaftableLevel(WorldGenerator generator, int blockY) {
+		return blockY >= 0 && blockY < generator.streetLevel - basementFloorHeight * depth - 2 - 16;	
+	}
+
+	protected RoofStyle pickRoofStyle() {
+		switch (chunkOdds.getRandomInt(5)) {
+		case 1:
+			return RoofStyle.EDGED;
+		case 2:
+			return RoofStyle.PEAK;
+		case 3:
+			return RoofStyle.TENT_NORTHSOUTH;
+		case 4:
+			return RoofStyle.TENT_WESTEAST;
+		default:
+			return RoofStyle.FLATTOP;
+		}
+	}
+	
+	protected RoofFeature pickRoofFeature() {
+		switch (chunkOdds.getRandomInt(3)) {
+		case 1:
+			return RoofFeature.ANTENNAS;
+		case 2:
+			return RoofFeature.CONDITIONERS;
+		default:
+			return RoofFeature.TILE;
+		}
+	}
+	
+	protected Material pickGlassMaterial() {
+		switch (chunkOdds.getRandomInt(2)) {
+		case 1:
+			return Material.THIN_GLASS;
+		default:
+			return Material.GLASS;
+		}
+	}
+	
+	protected Facing pickStairDirection() {
 		switch (chunkOdds.getRandomInt(4)) {
 		case 1:
 			return Direction.Facing.NORTH;
@@ -117,7 +162,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 
-	static public StairStyle pickStairStyle(Odds chunkOdds) {
+	protected StairStyle pickStairStyle() {
 		switch (chunkOdds.getRandomInt(4)) {
 		case 1:
 			return StairStyle.CORNER;
@@ -130,7 +175,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 
-	static public InteriorStyle pickInteriorStyle(Odds chunkOdds) {
+	protected InteriorStyle pickInteriorStyle() {
 		switch (chunkOdds.getRandomInt(10)) {
 		case 1:
 			return InteriorStyle.RANDOM;
@@ -150,51 +195,6 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 
-	@Override
-	public boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
-		return blockY < generator.streetLevel - basementFloorHeight * depth + 1;
-	}
-
-	@Override
-	protected boolean isShaftableLevel(WorldGenerator generator, int blockY) {
-		return blockY >= 0 && blockY < generator.streetLevel - basementFloorHeight * depth - 2 - 16;	
-	}
-
-	static public RoofStyle pickRoofStyle(Odds chunkOdds) {
-		switch (chunkOdds.getRandomInt(5)) {
-		case 1:
-			return RoofStyle.EDGED;
-		case 2:
-			return RoofStyle.PEAK;
-		case 3:
-			return RoofStyle.TENT_NORTHSOUTH;
-		case 4:
-			return RoofStyle.TENT_WESTEAST;
-		default:
-			return RoofStyle.FLATTOP;
-		}
-	}
-	
-	static public RoofFeature pickRoofFeature(Odds chunkOdds) {
-		switch (chunkOdds.getRandomInt(3)) {
-		case 1:
-			return RoofFeature.ANTENNAS;
-		case 2:
-			return RoofFeature.CONDITIONERS;
-		default:
-			return RoofFeature.TILE;
-		}
-	}
-	
-	static public Material pickGlassMaterial(Odds chunkOdds) {
-		switch (chunkOdds.getRandomInt(2)) {
-		case 1:
-			return Material.THIN_GLASS;
-		default:
-			return Material.GLASS;
-		}
-	}
-	
 	@Override
 	public boolean makeConnected(PlatLot relative) {
 		boolean result = super.makeConnected(relative);
@@ -346,7 +346,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 	
-	protected void drawExteriorWalls(ByteChunk byteChunk, DataContext context, int y1, int height, 
+	protected void drawExteriorParts(ByteChunk byteChunk, DataContext context, int y1, int height, 
 			int insetNS, int insetWE, boolean allowRounded, 
 			Material materialWall, Material materialGlass, Surroundings heights) {
 		
@@ -452,19 +452,19 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 	
-	protected void drawInteriorWalls(WorldGenerator generator, RealChunk chunk, 
+	protected void drawInteriorParts(WorldGenerator generator, RealChunk chunk, 
 			DataContext context, RoomProvider rooms,
 			int floor, int y1, int height, 
 			int insetNS, int insetWE, boolean allowRounded,
 			Material materialWall, Material materialGlass, 
 			StairWell where, Surroundings heights) {
 		
-		drawInteriorWalls(generator, chunk, context, interiorStyle, 
+		drawInteriorParts(generator, chunk, context, interiorStyle, 
 				rooms, floor, y1, height, insetNS, insetWE, 
 				allowRounded, materialWall, materialGlass, where, heights);
 	}
 	
-	private void drawInteriorWalls(WorldGenerator generator, RealChunk chunk, 
+	private void drawInteriorParts(WorldGenerator generator, RealChunk chunk, 
 			DataContext context, InteriorStyle style, RoomProvider rooms, 
 			int floor, int y1, int height, 
 			int insetNS, int insetWE, boolean allowRounded,
@@ -472,38 +472,38 @@ public abstract class BuildingLot extends ConnectedLot {
 			StairWell where, Surroundings heights) {
 		switch (style) {
 		case COLUMNS_ONLY:
-			drawActualInteriorColumns(generator, chunk, context, 
+			drawInteriorColumns(generator, chunk, context, 
 					floor, y1, height, insetNS, insetWE, 
 					allowRounded, materialWall, materialGlass, where, heights);
 			break;
 		case COLUMNS_OFFICES:
-			drawActualInteriorColumns(generator, chunk, context, 
+			drawInteriorColumns(generator, chunk, context, 
 					floor, y1, height, insetNS, insetWE, 
 					allowRounded, materialWall, materialGlass, where, heights);
-			drawActualInteriorOffice(generator, chunk, context, 
+			drawInteriorRooms(generator, chunk, context, 
 					rooms, floor, y1, height, insetNS, insetWE, 
 					allowRounded, materialWall, materialGlass, where, heights);
 			break;
 		case WALLS_ONLY:
-			drawActualInteriorWalls(generator, chunk, context, 
+			drawInteriorWalls(generator, chunk, context, 
 					floor, y1, height, insetNS, insetWE, 
 					allowRounded, materialWall, materialGlass, where, heights);
 			break;
 		case WALLS_OFFICES:
-			drawActualInteriorWalls(generator, chunk, context, 
+			drawInteriorWalls(generator, chunk, context, 
 					floor, y1, height, insetNS, insetWE, 
 					allowRounded, materialWall, materialGlass, where, heights);
-			drawActualInteriorOffice(generator, chunk, context, 
+			drawInteriorRooms(generator, chunk, context, 
 					rooms, floor, y1, height, insetNS, insetWE, 
 					allowRounded, materialWall, materialGlass, where, heights);
 			break;
 		case RANDOM:
 			if (chunkOdds.flipCoin())
-				drawInteriorWalls(generator, chunk, context, 
+				drawInteriorParts(generator, chunk, context, 
 						InteriorStyle.COLUMNS_OFFICES, rooms, floor, y1, height, insetNS, insetWE, 
 						allowRounded, materialWall, materialGlass, where, heights);
 			else
-				drawInteriorWalls(generator, chunk, context, 
+				drawInteriorParts(generator, chunk, context, 
 						InteriorStyle.WALLS_OFFICES, rooms, floor, y1, height, insetNS, insetWE, 
 						allowRounded, materialWall, materialGlass, where, heights);
 			break;
@@ -511,12 +511,12 @@ public abstract class BuildingLot extends ConnectedLot {
 		
 		// outside bits
 		if (floor == 0)
-			drawActualExteriorDoors(generator, chunk, context, 
+			drawExteriorDoors(generator, chunk, context, 
 					floor, y1, height, insetNS, insetWE, 
 					allowRounded, materialWall, materialGlass, where, heights);
 	}
 		
-	protected void drawActualInteriorColumns(WorldGenerator generator, RealChunk chunk, DataContext context, 
+	private void drawInteriorColumns(WorldGenerator generator, RealChunk chunk, DataContext context, 
 			int floor, int y1, int height, 
 			int insetNS, int insetWE, boolean allowRounded, 
 			Material materialWall, Material materialGlass, 
@@ -543,7 +543,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 	
-	protected void drawActualInteriorWalls(WorldGenerator generator, RealChunk chunk, DataContext context, 
+	private void drawInteriorWalls(WorldGenerator generator, RealChunk chunk, DataContext context, 
 			int floor, int y1, int height, 
 			int insetNS, int insetWE, boolean allowRounded,
 			Material materialWall, Material materialGlass, 
@@ -677,15 +677,17 @@ public abstract class BuildingLot extends ConnectedLot {
 			// NW corner
 			if (heights.toNorthWest()) {
 //				wallId = (byte) Material.QUARTZ_ORE.getId();
-				if (heights.toNorth())
+				if (heights.toNorth()) {
 					drawInteriorNSWall(chunk, 4, y1, y2, 0, wallId, glassId);
+					drawInteriorNSDoor(chunk, 4, y1, y2, 5, materialWall);
+				}
 				if (heights.toWest()) {
 					drawInteriorWEWall(chunk, 0, y1, y2, 4, wallId, glassId);
 					if (where == StairWell.NORTHWEST) {
 						drawInteriorNSDoor(chunk, 4, y1, y2, 2, materialWall);
 						drawInteriorWEDoor(chunk, 2, y1, y2, 4, materialWall);
 					} else {
-						drawInteriorWEDoors(chunk, 2, y1, y2, 4, materialWall);
+						drawInteriorWEDoors(chunk, 2, y1, y2, 4, Material.QUARTZ_ORE);
 					}
 				}
 				
@@ -706,15 +708,17 @@ public abstract class BuildingLot extends ConnectedLot {
 			// NE corner
 			if (heights.toNorthEast()) {
 //				wallId = (byte) Material.CLAY.getId();
-				if (heights.toEast())
+				if (heights.toEast()) {
 					drawInteriorWEWall(chunk, 8, y1, y2, 4, wallId, glassId);
+					drawInteriorWEDoor(chunk, 8, y1, y2, 4, materialWall);
+				}
 				if (heights.toNorth()) {
 					drawInteriorNSWall(chunk, 11, y1, y2, 0, wallId, glassId);
 					if (where == StairWell.NORTHEAST) {
 						drawInteriorNSDoor(chunk, 11, y1, y2, 2, materialWall);
 						drawInteriorWEDoor(chunk, 11, y1, y2, 4, materialWall);
 					} else {
-						drawInteriorNSDoors(chunk, 11, y1, y2, 2, materialWall);
+						drawInteriorNSDoors(chunk, 11, y1, y2, 2, Material.CLAY);
 					}
 				}
 				
@@ -735,15 +739,17 @@ public abstract class BuildingLot extends ConnectedLot {
 			// SW corner
 			if (heights.toSouthWest()) {
 //				wallId = (byte) Material.IRON_BLOCK.getId();
-				if (heights.toWest())
+				if (heights.toWest()) {
 					drawInteriorWEWall(chunk, 0, y1, y2, 11, wallId, glassId);
+					drawInteriorWEDoor(chunk, 5, y1, y2, 11, materialWall);
+				}
 				if (heights.toSouth()) {
 					drawInteriorNSWall(chunk, 4, y1, y2, 8, wallId, glassId);
 					if (where == StairWell.SOUTHWEST) {
 						drawInteriorNSDoor(chunk, 4, y1, y2, 11, materialWall);
 						drawInteriorWEDoor(chunk, 2, y1, y2, 11, materialWall);
 					} else {
-						drawInteriorNSDoors(chunk, 4, y1, y2, 9, materialWall);
+						drawInteriorNSDoors(chunk, 4, y1, y2, 9, Material.IRON_BLOCK);
 					}
 				}
 				
@@ -764,15 +770,17 @@ public abstract class BuildingLot extends ConnectedLot {
 			// SE corner
 			if (heights.toSouthEast()) {
 //				wallId = (byte) Material.DIAMOND_BLOCK.getId();
-				if (heights.toSouth()) 
+				if (heights.toSouth()) {
 					drawInteriorNSWall(chunk, 11, y1, y2, 8, wallId, glassId);
+					drawInteriorNSDoor(chunk, 11, y1, y2, 8, materialWall);
+				}
 				if (heights.toEast()) {
 					drawInteriorWEWall(chunk, 8, y1, y2, 11, wallId, glassId);
 					if (where == StairWell.SOUTHEAST) {
 						drawInteriorNSDoor(chunk, 11, y1, y2, 11, materialWall);
 						drawInteriorWEDoor(chunk, 11, y1, y2, 11, materialWall);
 					} else {
-						drawInteriorWEDoors(chunk, 9, y1, y2, 11, materialWall);
+						drawInteriorWEDoors(chunk, 9, y1, y2, 11, Material.DIAMOND_BLOCK);
 					}
 				}
 			} else {
@@ -802,7 +810,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	
 	}
 	
-	protected void drawActualExteriorDoors(WorldGenerator generator, RealChunk chunk, DataContext context, 
+	private void drawExteriorDoors(WorldGenerator generator, RealChunk chunk, DataContext context, 
 			int floor, int y1, int height, 
 			int insetNS, int insetWE, boolean allowRounded,
 			Material materialWall, Material materialGlass, 
@@ -837,216 +845,191 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 
-	protected void drawActualInteriorOffice(WorldGenerator generator, RealChunk chunk, DataContext context, 
+	private void drawInteriorRooms(WorldGenerator generator, RealChunk chunk, DataContext context, 
 			RoomProvider rooms, int floor, int y1, int height, 
 			int insetNS, int insetWE, boolean allowRounded,
 			Material materialWall, Material materialGlass, 
 			StairWell where, Surroundings heights) {
-		
-		// precalculate
-		int x1 = heights.toWest() ? 0 : insetWE + 1;
-		int x2 = chunk.width - (heights.toEast() ? 0 : (insetWE + 1));
-		int z1 = heights.toNorth() ? 0 : insetNS + 1;
-		int z2 = chunk.width - (heights.toSouth() ? 0 : (insetNS + 1));
 		
 		// first try the narrow logic (single wall in the middle)
 		if (!heights.toNorthWest() && !heights.toNorthEast() && 
 				!heights.toSouthWest() && !heights.toSouthEast()) {
 			
 			// Northward
-			if (heights.toNorth()) {
-
-				// draw wall offices
-				drawOffice(generator, chunk, rooms, floor, 3, y1, 1, height, 
-						Facing.NORTH, materialWall, materialGlass);
-				drawOffice(generator, chunk, rooms, floor, 8, y1, 1, height, 
-						Facing.WEST, materialWall, materialGlass);
-				
-			} else if (where == StairWell.NONE && !allowRounded) {
-				
-				if (!heights.toWest()) {
-					
-					// draw corner office
-					drawOffice(generator, chunk, rooms, floor, x1, y1, z1, height, 
-							Facing.SOUTH, materialWall, materialGlass);
-				}
-			}
+			if (heights.toNorth())
+				drawInteriorRoom(generator, chunk, rooms, floor, 3, y1, 1, height, 
+						Facing.NORTH, materialWall, materialGlass); //1
+			if (insetNS < 2)
+				drawInteriorRoom(generator, chunk, rooms, floor, 8, y1, 2, height, 
+						Facing.WEST, materialWall, materialGlass); //2
 				
 			// Eastward
-			if (heights.toEast()) {
-				
-				// draw wall offices
-				drawOffice(generator, chunk, rooms, floor, 12, y1, 3, height, 
-						Facing.EAST, materialWall, materialGlass);
-				drawOffice(generator, chunk, rooms, floor, 12, y1, 8, height, 
-						Facing.NORTH, materialWall, materialGlass);
-				
-			} else if (where == StairWell.NONE && !allowRounded) {
-				
-				if (!heights.toNorth()) {
-					
-					// draw corner office
-					drawOffice(generator, chunk, rooms, floor, x2 - 3, y1, z1, height, 
-							Facing.WEST, materialWall, materialGlass);
-				}
-			}
-			
-			// Westward
-			if (heights.toWest()) {
-				
-				// draw wall offices
-				drawOffice(generator, chunk, rooms, floor, 1, y1, 5, height, 
-						Facing.SOUTH, materialWall, materialGlass);
-				drawOffice(generator, chunk, rooms, floor, 1, y1, 10, height, 
-						Facing.WEST, materialWall, materialGlass);
-				
-			} else if (where == StairWell.NONE && !allowRounded) {
-				
-				if (!heights.toSouth()) {
-					
-					// draw corner office
-					drawOffice(generator, chunk, rooms, floor, x1, y1, z2 - 3, height, 
-							Facing.EAST, materialWall, materialGlass);
-				}
-			}
+			if (heights.toEast())
+				drawInteriorRoom(generator, chunk, rooms, floor, 12, y1, 3, height, 
+						Facing.EAST, materialWall, materialGlass); //3
+			if (insetWE < 2)
+				drawInteriorRoom(generator, chunk, rooms, floor, 11, y1, 8, height, 
+						Facing.NORTH, materialWall, materialGlass); //4
 			
 			// Southward
-			if (heights.toSouth()) {
-
-				// draw wall offices
-				drawOffice(generator, chunk, rooms, floor, 5, y1, 12, height, 
-						Facing.EAST, materialWall, materialGlass);
-				drawOffice(generator, chunk, rooms, floor, 10, y1, 12, height, 
-						Facing.SOUTH, materialWall, materialGlass);
-				
-			} else if (where == StairWell.NONE && !allowRounded) {
-				
-				if (!heights.toEast()) {
-					
-					// draw corner office
-					drawOffice(generator, chunk, rooms, floor, x2 - 3, y1, z2 - 3, height, 
-							Facing.NORTH, materialWall, materialGlass);
-				}
-			}
+			if (heights.toSouth())
+				drawInteriorRoom(generator, chunk, rooms, floor, 11, y1, 12, height, 
+						Facing.SOUTH, materialWall, materialGlass); //5
+			if (insetNS < 2)
+				drawInteriorRoom(generator, chunk, rooms, floor, 5, y1, 11, height, 
+						Facing.EAST, materialWall, materialGlass); //6
+			
+			// Westward
+			if (heights.toWest())
+				drawInteriorRoom(generator, chunk, rooms, floor, 1, y1, 10, height, 
+						Facing.WEST, materialWall, materialGlass); //7
+			if (insetWE < 2)
+				drawInteriorRoom(generator, chunk, rooms, floor, 2, y1, 5, height, 
+						Facing.SOUTH, materialWall, materialGlass); //8
 			
 		// if the narrow logic doesn't handle it, try to use the wide logic (two walls in the middle)
 		} else {
 		
 			// NW corner
 			if (heights.toNorthWest()) {
-				
-				// randomly drawn
-				drawOffice(generator, chunk, rooms, floor, 1, y1, 0, height, 
-						Facing.EAST, materialWall, materialGlass);
-				drawOffice(generator, chunk, rooms, floor, 5, y1, 0, height, 
-						Facing.WEST, materialWall, materialGlass);
+				if (heights.toNorth() & heights.toWest()) {
+					drawInteriorRoom(generator, chunk, rooms, floor, 1, y1, 0, height, 
+							Facing.EAST, materialWall, materialGlass); //1
+					drawInteriorRoom(generator, chunk, rooms, floor, 5, y1, 0, height, 
+							Facing.WEST, materialWall, materialGlass); //2
+				}
 			} else {
-				
-				// offices
 				if (!allowRounded) {
-					if (!heights.toNorth() && !heights.toWest()) {
-						drawOffice(generator, chunk, rooms, floor, x1, y1, z1, height, 
-								Facing.NORTH, materialWall, materialGlass);
-						
-					} else if (heights.toNorth() && !heights.toWest()) {
-						drawOffice(generator, chunk, rooms, floor, x1, y1, 1, height, 
-								Facing.SOUTH, materialWall, materialGlass);
-						drawOffice(generator, chunk, rooms, floor, x1, y1, 5, height, 
-								Facing.NORTH, materialWall, materialGlass);
-						
-					} else if (heights.toWest() && !heights.toNorth()) {
-						drawOffice(generator, chunk, rooms, floor, 1, y1, z1, height, 
-								Facing.EAST, materialWall, materialGlass);
-						drawOffice(generator, chunk, rooms, floor, 5, y1, z1, height, 
-								Facing.WEST, materialWall, materialGlass);
+					if (heights.toNorth()) {
+						if (heights.toWest()) {
+							//none
+						} else {
+							//n & m
+							drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 1, height, 
+									Facing.SOUTH, materialWall, materialGlass);
+							drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 5, height, 
+									Facing.NORTH, materialWall, materialGlass);
+						}
+					} else {
+						if (heights.toWest()) {
+							//c & d
+							drawInteriorRoom(generator, chunk, rooms, floor, 1, y1, 4, height, 
+									Facing.EAST, materialWall, materialGlass);
+							drawInteriorRoom(generator, chunk, rooms, floor, 5, y1, 4, height, 
+									Facing.WEST, materialWall, materialGlass);
+						} else {
+							//q
+							drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 4, height, 
+									Facing.EAST, materialWall, materialGlass);
+						}
 					}
 				}
 			}
 			
 			// NE corner
 			if (heights.toNorthEast()) {
-				
-				// randomly drawn
-				drawOffice(generator, chunk, rooms, floor, 13, y1, 1, height, 
-						Facing.SOUTH, materialWall, materialGlass);
-				drawOffice(generator, chunk, rooms, floor, 13, y1, 5, height, 
-						Facing.NORTH, materialWall, materialGlass);
-
+				if (heights.toNorth() & heights.toEast()) {
+					drawInteriorRoom(generator, chunk, rooms, floor, 13, y1, 1, height, 
+							Facing.SOUTH, materialWall, materialGlass); //3
+					drawInteriorRoom(generator, chunk, rooms, floor, 13, y1, 5, height, 
+							Facing.NORTH, materialWall, materialGlass); //4
+				}
 			} else {
-				
-				// offices
 				if (!allowRounded) {
-					if (!heights.toNorth() && !heights.toEast()) {
-						drawOffice(generator, chunk, rooms, floor, x2 - 3, y1, z1, height, 
-								Facing.EAST, materialWall, materialGlass);
-					} else if (heights.toNorth() && !heights.toEast()) {
-						drawOffice(generator, chunk, rooms, floor, x2 - 3, y1, 1, height, 
-								Facing.SOUTH, materialWall, materialGlass);
-						drawOffice(generator, chunk, rooms, floor, x2 - 3, y1, 5, height, 
-								Facing.NORTH, materialWall, materialGlass);
-					} else if (heights.toEast() && !heights.toNorth()) {
-						drawOffice(generator, chunk, rooms, floor, 8, y1, z1, height, 
-								Facing.EAST, materialWall, materialGlass);
-						drawOffice(generator, chunk, rooms, floor, 12, y1, z1, height, 
-								Facing.WEST, materialWall, materialGlass);
+					if (heights.toNorth()) {
+						if (heights.toEast()) {
+							//none
+						} else {
+							//g & h
+							drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 1, height, 
+									Facing.SOUTH, materialWall, materialGlass);
+							drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 5, height, 
+									Facing.NORTH, materialWall, materialGlass);
+						}
+					} else {
+						if (heights.toEast()) {
+							//a & b
+							drawInteriorRoom(generator, chunk, rooms, floor, 8, y1, 4, height, 
+									Facing.EAST, materialWall, materialGlass);
+							drawInteriorRoom(generator, chunk, rooms, floor, 12, y1, 4, height, 
+									Facing.WEST, materialWall, materialGlass);
+						} else {
+							//r
+							drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 4, height, 
+									Facing.SOUTH, materialWall, materialGlass);
+						}
 					}
 				}
 			}
 			
 			// SW corner
 			if (heights.toSouthWest()) {
-				
-				// randomly drawn
-				drawOffice(generator, chunk, rooms, floor, 0, y1, 8, height, 
-						Facing.SOUTH, materialWall, materialGlass);
-				drawOffice(generator, chunk, rooms, floor, 0, y1, 12, height, 
-						Facing.NORTH, materialWall, materialGlass);
+				if (heights.toSouth() & heights.toWest()) {
+					drawInteriorRoom(generator, chunk, rooms, floor, 0, y1, 12, height, 
+							Facing.NORTH, materialWall, materialGlass); //5
+					drawInteriorRoom(generator, chunk, rooms, floor, 0, y1, 8, height, 
+							Facing.SOUTH, materialWall, materialGlass); //6
+				}
 			} else {
-				
-				// offices
 				if (!allowRounded) {
-					if (!heights.toSouth() && !heights.toWest()) {
-						drawOffice(generator, chunk, rooms, floor, x1, y1, z2 - 3, height, 
-								Facing.WEST, materialWall, materialGlass);
-					} else if (heights.toSouth() && !heights.toWest()) {
-						drawOffice(generator, chunk, rooms, floor, x1, y1, 8, height, 
-								Facing.SOUTH, materialWall, materialGlass);
-						drawOffice(generator, chunk, rooms, floor, x1, y1, 12, height, 
-								Facing.NORTH, materialWall, materialGlass);
-					} else if (heights.toWest() && !heights.toSouth()) {
-						drawOffice(generator, chunk, rooms, floor, 1, y1, z2 - 3, height, 
-								Facing.EAST, materialWall, materialGlass);
-						drawOffice(generator, chunk, rooms, floor, 5, y1, z2 - 3, height, 
-								Facing.WEST, materialWall, materialGlass);
+					if (heights.toSouth()) {
+						if (heights.toWest()) {
+							//none
+						} else {
+							//p & o
+							drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 8, height, 
+									Facing.SOUTH, materialWall, materialGlass);
+							drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 12, height, 
+									Facing.NORTH, materialWall, materialGlass);
+						}
+					} else {
+						if (heights.toWest()) {
+							//j & i
+							drawInteriorRoom(generator, chunk, rooms, floor, 1, y1, 9, height, 
+									Facing.EAST, materialWall, materialGlass);
+							drawInteriorRoom(generator, chunk, rooms, floor, 5, y1, 9, height, 
+									Facing.WEST, materialWall, materialGlass);
+						} else {
+							//s
+							drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 9, height, 
+									Facing.WEST, materialWall, materialGlass);
+						}
 					}
 				}
 			}
 			
 			// SE corner
 			if (heights.toSouthEast()) {
-				
-				// randomly drawn
-				drawOffice(generator, chunk, rooms, floor, 8, y1, 13, height, 
-						Facing.EAST, materialWall, materialGlass);
-				drawOffice(generator, chunk, rooms, floor, 12, y1, 13, height, 
-						Facing.WEST, materialWall, materialGlass);
+				if (heights.toSouth() & heights.toEast()) {
+					drawInteriorRoom(generator, chunk, rooms, floor, 12, y1, 13, height, 
+							Facing.WEST, materialWall, materialGlass); //7
+					drawInteriorRoom(generator, chunk, rooms, floor, 8, y1, 13, height, 
+							Facing.EAST, materialWall, materialGlass); //8
+				}
 			} else {
-				
-				// offices
 				if (!allowRounded) {
-					if (!heights.toSouth() && !heights.toEast()) {
-						drawOffice(generator, chunk, rooms, floor, x2 - 3, y1, z2 - 3, height, 
-								Facing.SOUTH, materialWall, materialGlass);
-					} else if (heights.toSouth() && !heights.toEast()) {
-						drawOffice(generator, chunk, rooms, floor, x2 - 3, y1, 8, height, 
-								Facing.SOUTH, materialWall, materialGlass);
-						drawOffice(generator, chunk, rooms, floor, x2 - 3, y1, 12, height, 
-								Facing.NORTH, materialWall, materialGlass);
-					} else if (heights.toEast() && !heights.toSouth()) {
-						drawOffice(generator, chunk, rooms, floor, 8, y1, z2 - 3, height, 
-								Facing.EAST, materialWall, materialGlass);
-						drawOffice(generator, chunk, rooms, floor, 12, y1, z2 - 3, height, 
-								Facing.WEST, materialWall, materialGlass);
+					if (heights.toSouth()) {
+						if (heights.toEast()) {
+							//none
+						} else {
+							//e & f
+							drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 8, height, 
+									Facing.SOUTH, materialWall, materialGlass);
+							drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 12, height, 
+									Facing.NORTH, materialWall, materialGlass);
+						}
+					} else {
+						if (heights.toEast()) {
+							//l & k
+							drawInteriorRoom(generator, chunk, rooms, floor, 8, y1, 9, height, 
+									Facing.EAST, materialWall, materialGlass);
+							drawInteriorRoom(generator, chunk, rooms, floor, 12, y1, 9, height, 
+									Facing.WEST, materialWall, materialGlass);
+						} else {
+							//t
+							drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 9, height, 
+									Facing.NORTH, materialWall, materialGlass);
+						}
 					}
 				}
 			}
@@ -1057,11 +1040,12 @@ public abstract class BuildingLot extends ConnectedLot {
 	private static int roomWidth = 3;
 	private static int roomDepth = 3;
 	
-	private void drawOffice(WorldGenerator generator, RealChunk chunk, 
+	private void drawInteriorRoom(WorldGenerator generator, RealChunk chunk, 
 			RoomProvider rooms, int floor, int x, int y, int z, int height, 
 			Facing sideWithWall, Material materialWall, Material materialGlass) {
-		
-		rooms.draw(chunk, chunkOdds, floor, x, y, z, roomWidth, height, roomDepth, sideWithWall, materialWall, materialGlass);
+
+		rooms.drawFixtures(generator, chunk, chunkOdds, floor, x, y, z, 
+				roomWidth, height, roomDepth, sideWithWall, materialWall, materialGlass);
 	}
 	
 	private void drawInteriorNSWall(RealChunk chunk, int x, int y1, int y2, int z, byte wallId, byte glassId) {
@@ -1105,22 +1089,22 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 	
 	private void drawExteriorNSDoor(RealChunk chunk, int x, int y1, int y2, int z, Material wall) {
-		if (chunkOdds.playOdds(oddsOfAnInteriorDoor))
+		if (chunkOdds.playOdds(oddsOfAnExteriorDoor))
 			drawDoor(chunk, x, x, x, y1, y2, z, z + 1, z + 2, Door.WESTBYNORTHWEST, wall);
 	}
 	
 	private void drawExteriorSNDoor(RealChunk chunk, int x, int y1, int y2, int z, Material wall) {
-		if (chunkOdds.playOdds(oddsOfAnInteriorDoor))
+		if (chunkOdds.playOdds(oddsOfAnExteriorDoor))
 			drawDoor(chunk, x, x, x, y1, y2, z, z + 1, z + 2, Door.EASTBYNORTHEAST, wall);
 	}
 
 	private void drawExteriorWEDoor(RealChunk chunk, int x, int y1, int y2, int z, Material wall) {
-		if (chunkOdds.playOdds(oddsOfAnInteriorDoor))
+		if (chunkOdds.playOdds(oddsOfAnExteriorDoor))
 			drawDoor(chunk, x, x + 1, x + 2, y1, y2, z, z, z, Door.NORTHBYNORTHWEST, wall);
 	}
 	
 	private void drawExteriorEWDoor(RealChunk chunk, int x, int y1, int y2, int z, Material wall) {
-		if (chunkOdds.playOdds(oddsOfAnInteriorDoor))
+		if (chunkOdds.playOdds(oddsOfAnExteriorDoor))
 			drawDoor(chunk, x, x + 1, x + 2, y1, y2, z, z, z, Door.SOUTHBYSOUTHEAST, wall);
 	}
 	
@@ -1135,7 +1119,7 @@ public abstract class BuildingLot extends ConnectedLot {
 					if (i == aboveFloorHeight - 1)
 						drawCeilings(chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE + i, allowRounded, material, heights);
 					else
-						drawExteriorWalls(chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE + i, allowRounded, material, material, heights);
+						drawExteriorParts(chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE + i, allowRounded, material, material, heights);
 				}
 			} else
 				drawEdgedRoof(chunk, context, y1, insetNS, insetWE, allowRounded, material, true, heights);
@@ -1146,7 +1130,7 @@ public abstract class BuildingLot extends ConnectedLot {
 					if (i == aboveFloorHeight - 1)
 						drawCeilings(chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE, allowRounded, material, heights);
 					else
-						drawExteriorWalls(chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE, allowRounded, material, material, heights);
+						drawExteriorParts(chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE, allowRounded, material, material, heights);
 				}
 			} else
 				drawEdgedRoof(chunk, context, y1, insetNS, insetWE, allowRounded, material, true, heights);
@@ -1157,7 +1141,7 @@ public abstract class BuildingLot extends ConnectedLot {
 					if (i == aboveFloorHeight - 1)
 						drawCeilings(chunk, context, y1 + i * roofScale, roofScale, insetNS, insetWE + i, allowRounded, material, heights);
 					else
-						drawExteriorWalls(chunk, context, y1 + i * roofScale, roofScale, insetNS, insetWE + i, allowRounded, material, material, heights);
+						drawExteriorParts(chunk, context, y1 + i * roofScale, roofScale, insetNS, insetWE + i, allowRounded, material, material, heights);
 				}
 			} else
 				drawEdgedRoof(chunk, context, y1, insetNS, insetWE, allowRounded, material, true, heights);
@@ -1177,7 +1161,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		
 		// a little bit of edge 
 		if (doEdge)
-			drawExteriorWalls(chunk, context, y1, 1, insetNS, insetWE, allowRounded, material, material, heights);
+			drawExteriorParts(chunk, context, y1, 1, insetNS, insetWE, allowRounded, material, material, heights);
 		
 		// add the special features
 		switch (roofFeature) {
@@ -1264,101 +1248,6 @@ public abstract class BuildingLot extends ConnectedLot {
 		chunk.setWoodenDoor(x2, y1, z2, direction);
 	}
 	
-//	protected void drawDoors(RealChunk chunk, int y1, int floorHeight, 
-//			int insetNS, int insetWE, StairWell where, 
-//			Surroundings heights, Material wallMaterial) {
-//		
-//		int center = chunk.width / 2;
-//		int w1 = chunk.width - 1;
-//		int w2 = chunk.width - 2;
-//		int w3 = chunk.width - 3;
-//		int x1 = insetWE;
-//		int x2 = w1 - insetWE;
-//		int z1 = insetNS;
-//		int z2 = w1 - insetNS;
-//		int y2 = y1 + floorHeight - 1;
-//		
-//		wallMaterial = Material.LAPIS_ORE;
-//		
-//		switch (where) {
-//		case NORTHWEST:
-//			if (chunkOdds.flipCoin())
-//				drawDoor(chunk, x1, x1, x1, y1, y2, 0, 1, 2, Door.WESTBYNORTHWEST, wallMaterial); 
-//			if (chunkOdds.flipCoin())
-//				drawDoor(chunk, w1, w2, w3, y1, y2, z2, z2, z2, Door.SOUTHBYSOUTHEAST, wallMaterial); 
-//			break;
-//		case NORTH:	
-//			if (!heights.toNorth() && chunkOdds.flipCoin())
-//				drawDoor(chunk, center - 1, center, center + 1, 
-//						y1, y2, 
-//						z1, z1, z1, 
-//						Door.NORTHBYNORTHEAST, wallMaterial);
-//			break;
-//		case NORTHEAST:
-//			if (chunkOdds.flipCoin())
-//				drawDoor(chunk, w1, w2, w3, y1, y2, z1, z1, z1, Door.NORTHBYNORTHEAST, wallMaterial); 
-//			if (chunkOdds.flipCoin())
-//				drawDoor(chunk, x1, x1, x1, y1, y2, w1, w2, w3, Door.WESTBYSOUTHWEST, wallMaterial); 
-//			break;
-//		case EAST:
-//			if (!heights.toEast() && chunkOdds.flipCoin())
-//				drawDoor(chunk, x2, x2, x2, 
-//						y1, y2, 
-//						center - 1, center, center + 1, 
-//						Door.EASTBYSOUTHEAST, wallMaterial);
-//			break;
-//		case SOUTHEAST:
-//			if (chunkOdds.flipCoin())
-//				drawDoor(chunk, 0, 1, 2, y1, y2, z1, z1, z1, Door.NORTHBYNORTHWEST, wallMaterial); 
-//			if (chunkOdds.flipCoin())
-//				drawDoor(chunk, x2, x2, x2, y1, y2, w1, w2, w3, Door.EASTBYSOUTHEAST, wallMaterial); 
-//			break;
-//		case SOUTH:
-//			if (!heights.toSouth() && chunkOdds.flipCoin())
-//				drawDoor(chunk, center - 1, center, center + 1, 
-//						y1, y2, 
-//						z2, z2, z2, 
-//						Door.SOUTHBYSOUTHWEST, wallMaterial);
-//			break;
-//		case SOUTHWEST:
-//			if (chunkOdds.flipCoin())
-//				drawDoor(chunk, x2, x2, x2, y1, y2, 0, 1, 2, Door.EASTBYNORTHEAST, wallMaterial); 
-//			if (chunkOdds.flipCoin())
-//				drawDoor(chunk, 0, 1, 2, y1, y2, z2, z2, z2, Door.SOUTHBYSOUTHWEST, wallMaterial); 
-//			break;
-//		case WEST:
-//			if (!heights.toWest() && chunkOdds.flipCoin())
-//				drawDoor(chunk, x1, x1, x1, 
-//						y1, y2, 
-//						center - 1, center, center + 1, 
-//						Door.WESTBYNORTHWEST, wallMaterial);
-//			break;
-//		case CENTER:
-//		case NONE:
-//			if (!heights.toWest() && chunkOdds.flipCoin())
-//				drawDoor(chunk, x1, x1, x1, 
-//						y1, y2, 
-//						center - 1, center, center + 1, 
-//						Door.WESTBYNORTHWEST, wallMaterial);
-//			if (!heights.toEast() && chunkOdds.flipCoin())
-//				drawDoor(chunk, x2, x2, x2, 
-//						y1, y2, 
-//						center - 1, center, center + 1, 
-//						Door.EASTBYSOUTHEAST, wallMaterial);
-//			if (!heights.toNorth() && chunkOdds.flipCoin())
-//				drawDoor(chunk, center - 1, center, center + 1, 
-//						y1, y2, 
-//						z1, z1, z1, 
-//						Door.NORTHBYNORTHEAST, wallMaterial);
-//			if (!heights.toSouth() && chunkOdds.flipCoin())
-//				drawDoor(chunk, center - 1, center, center + 1, 
-//						y1, y2, 
-//						z2, z2, z2, 
-//						Door.SOUTHBYSOUTHWEST, wallMaterial);
-//			break;
-//		}
-//	}
-
 	static class StairAt {
 		public int X = 0;
 		public int Z = 0;
@@ -1794,7 +1683,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	protected void drawFence(WorldGenerator generator, ByteChunk chunk, DataContext context, int inset, int y1, Surroundings neighbors) {
 		
 		// actual fence
-		drawExteriorWalls(chunk, context, y1, fenceHeight, inset, inset, false,
+		drawExteriorParts(chunk, context, y1, fenceHeight, inset, inset, false,
 				fenceMaterial, fenceMaterial, neighbors);
 		
 		// holes in fence

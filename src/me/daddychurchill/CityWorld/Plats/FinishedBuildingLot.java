@@ -5,7 +5,6 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
-import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
 
@@ -57,14 +56,14 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		otherFloorHeight = aboveFloorHeight;
 		
 		// what is it made of?
-		wallMaterial = pickWallMaterial(chunkOdds);
-		ceilingMaterial = pickCeilingMaterial(chunkOdds);
-		glassMaterial = pickGlassMaterial(chunkOdds);
+		wallMaterial = pickWallMaterial();
+		ceilingMaterial = pickCeilingMaterial();
+		glassMaterial = pickGlassMaterial();
 		columnMaterial = pickColumnMaterial(wallMaterial);
 		stairMaterial = pickStairMaterial(wallMaterial);
 		stairPlatformMaterial = pickStairPlatformMaterial(stairMaterial);
 		doorMaterial = Material.WOOD_DOOR;
-		roofMaterial = pickRoofMaterial(chunkOdds);
+		roofMaterial = pickRoofMaterial();
 		
 		// what are the walls of the stairs made of?
 		if (chunkOdds.playOdds(context.oddsOfStairWallMaterialIsWallMaterial))
@@ -187,7 +186,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				chunk.setLayer(floorAt, basementFloorHeight, airId);
 	
 				// one floor please
-				drawExteriorWalls(chunk, context, floorAt, basementFloorHeight - 1, 0, 0, false,
+				drawExteriorParts(chunk, context, floorAt, basementFloorHeight - 1, 0, 0, false,
 						wallMaterial, wallMaterial, neighborBasements);
 				drawCeilings(chunk, context, floorAt + basementFloorHeight - 1, 1, 0, 0, false,
 						ceilingMaterial, neighborBasements);
@@ -222,7 +221,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			}
 			
 			// one floor please
-			drawExteriorWalls(chunk, context, floorAt, aboveFloorHeight - 1, 
+			drawExteriorParts(chunk, context, floorAt, aboveFloorHeight - 1, 
 					localInsetWallNS, localInsetWallWE,  
 					allowRounded, wallMaterial, glassMaterial, 
 					neighborFloors);
@@ -302,7 +301,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			int floorAt = generator.streetLevel + aboveFloorHeight * floor + 2;
 			allowRounded = allowRounded && neighborFloors.isRoundable();
 			stairLocation = getStairWellLocation(allowRounded, neighborFloors);
-			if (!needStairsUp)
+			if (!needStairsUp || floor == height - 1)
 				stairLocation = StairWell.NONE;
 			
 			// breath in?
@@ -314,7 +313,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			}
 			
 			// inside walls
-			drawInteriorWalls(generator, chunk, context, 
+			drawInteriorParts(generator, chunk, context, 
 					roomProviderForFloor(generator, floor), floor, floorAt, 
 					aboveFloorHeight - 1, localInsetWallNS, localInsetWallWE, 
 					allowRounded, wallMaterial, glassMaterial, stairLocation, neighborFloors);
@@ -365,8 +364,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	}
 	
 	//TODO make the material settable by users
-	protected static Material pickWallMaterial(Odds odds) {
-		switch (odds.getRandomInt(15)) {
+	protected Material pickWallMaterial() {
+		switch (chunkOdds.getRandomInt(16)) {
 		case 1:
 			return Material.COBBLESTONE;
 		case 2:
@@ -402,8 +401,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 	}
 
-	static protected Material pickRoofMaterial(Odds odds) {
-		switch (odds.getRandomInt(12)) {
+	protected Material pickRoofMaterial() {
+		switch (chunkOdds.getRandomInt(13)) {
 		case 1:
 			return Material.COBBLESTONE;
 		case 2:
@@ -426,14 +425,14 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			return Material.SMOOTH_BRICK;
 		case 11:
 			return Material.NETHER_BRICK;
-		case 15:
+		case 12:
 			return Material.QUARTZ_BLOCK;
 		default:
 			return Material.STONE;
 		}
 	}
 
-	static protected Material pickColumnMaterial(Material wall) {
+	protected Material pickColumnMaterial(Material wall) {
 		switch (wall) {
 		case COBBLESTONE:
 		case MOSSY_COBBLESTONE:
@@ -456,7 +455,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 	}
 
-	static protected Material pickStairMaterial(Material wall) {
+	protected Material pickStairMaterial(Material wall) {
 		switch (wall) {
 		case COBBLESTONE:
 		case MOSSY_COBBLESTONE:
@@ -508,7 +507,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 	}
 	
-	static protected Material pickStairWallMaterial(Material wall) {
+	protected Material pickStairWallMaterial(Material wall) {
 		switch (wall) {
 		case COBBLESTONE:
 		case MOSSY_COBBLESTONE:
@@ -531,8 +530,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 	}
 
-	static protected Material pickCeilingMaterial(Odds odds) {
-		switch (odds.getRandomInt(12)) {
+	protected Material pickCeilingMaterial() {
+		switch (chunkOdds.getRandomInt(13)) {
 		case 1:
 			return Material.COBBLESTONE;
 		case 2:
@@ -555,7 +554,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			return Material.SMOOTH_BRICK;
 		case 11:
 			return Material.NETHER_BRICK;
-		case 15:
+		case 12:
 			return Material.QUARTZ_BLOCK;
 		default:
 			return Material.STONE;
