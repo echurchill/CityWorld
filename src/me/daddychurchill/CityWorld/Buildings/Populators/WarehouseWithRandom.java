@@ -8,6 +8,8 @@ import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 public class WarehouseWithRandom extends RoomProvider {
 
 	public WarehouseWithRandom() {
+		super();
+
 		roomTypes.add(new StorageDoubleShelvesRoom());
 		roomTypes.add(new StorageDoubleBooksRoom());
 		roomTypes.add(new StorageFilledChestsRoom());

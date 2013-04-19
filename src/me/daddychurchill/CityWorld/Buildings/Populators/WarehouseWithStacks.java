@@ -6,6 +6,8 @@ import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 public class WarehouseWithStacks extends RoomProvider {
 
 	public WarehouseWithStacks() {
+		super();
+
 		roomTypes.add(new StorageStacksRoom());
 	}
 

@@ -6,6 +6,8 @@ import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 public class ResidentialHouses extends RoomProvider {
 
 	public ResidentialHouses() {
+		super();
+
 		roomTypes.add(new EmptyRoom());
 
 		// kitchen

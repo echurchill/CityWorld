@@ -6,6 +6,8 @@ import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 public class BusinessWithStock extends RoomProvider {
 
 	public BusinessWithStock() {
+		super();
+		
 		roomTypes.add(new EmptyRoom());
 
 		// shelves

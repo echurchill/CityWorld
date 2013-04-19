@@ -17,7 +17,7 @@ public class DebugRoom extends PlatRoom {
 	public void drawFixture(WorldGenerator generator, RealChunk chunk, Odds odds, int floor, int x,
 			int y, int z, int width, int height, int depth,
 			Facing sideWithWall, Material materialWall, Material materialGlass) {
-		chunk.setBlocks(x, x + width, y, y + 1, z, z + depth, Material.QUARTZ_BLOCK);
+		chunk.setBlocks(x, x + width, y, y + 1, z, z + depth, materialWall);
 		switch (sideWithWall) {
 		case NORTH:
 			chunk.setBlocks(x, x + width, y + 1, y + height, z, z + 1, Material.EMERALD_BLOCK);

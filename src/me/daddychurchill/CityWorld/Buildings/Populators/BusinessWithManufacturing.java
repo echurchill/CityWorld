@@ -6,6 +6,8 @@ import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 public class BusinessWithManufacturing extends RoomProvider {
 
 	public BusinessWithManufacturing() {
+		super();
+
 		roomTypes.add(new EmptyRoom());
 
 		// laboratory

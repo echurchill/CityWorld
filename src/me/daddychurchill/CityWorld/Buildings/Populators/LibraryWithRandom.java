@@ -1,8 +1,5 @@
 package me.daddychurchill.CityWorld.Buildings.Populators;
 
-import me.daddychurchill.CityWorld.Buildings.Rooms.DividedEllRoom;
-import me.daddychurchill.CityWorld.Buildings.Rooms.DividedSingleRoom;
-import me.daddychurchill.CityWorld.Buildings.Rooms.EmptyRoom;
 import me.daddychurchill.CityWorld.Buildings.Rooms.LibraryDoubleRoom;
 import me.daddychurchill.CityWorld.Buildings.Rooms.LibrarySingleRoom;
 import me.daddychurchill.CityWorld.Buildings.Rooms.LibraryStudyRoom;
@@ -14,24 +11,13 @@ import me.daddychurchill.CityWorld.Buildings.Rooms.LoungeQuadRoom;
 import me.daddychurchill.CityWorld.Buildings.Rooms.LoungeTrioRoom;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 
-public class BusinessWithBooks extends RoomProvider {
+public class LibraryWithRandom extends RoomProvider {
 
-	public BusinessWithBooks() {
+	public LibraryWithRandom() {
 		super();
 		
-		roomTypes.add(new EmptyRoom());
-
-		roomTypes.add(new DividedSingleRoom());
-		roomTypes.add(new DividedEllRoom());
-		
-		roomTypes.add(new LibrarySingleRoom());
-		roomTypes.add(new LibrarySingleRoom());
 		roomTypes.add(new LibrarySingleRoom());
 		roomTypes.add(new LibraryDoubleRoom());
-		roomTypes.add(new LibraryDoubleRoom());
-		roomTypes.add(new LibraryDoubleRoom());
-		roomTypes.add(new LibraryStudyRoom());
-		roomTypes.add(new LibraryStudyRoom());
 		roomTypes.add(new LibraryStudyRoom());
 		
 		roomTypes.add(new LoungeEllCouchRoom());

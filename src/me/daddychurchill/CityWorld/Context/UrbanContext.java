@@ -136,9 +136,9 @@ public abstract class UrbanContext extends CivilizedContext {
 //		case 7:
 //			return new LaboratoryLot(platmap, chunkX, chunkZ);
 //		case 8:
-//			return new LibraryLot(platmap, chunkX, chunkZ);
+			return new LibraryLot(platmap, chunkX, chunkZ);
 //		default:
-			return new UnfinishedBuildingLot(platmap, chunkX, chunkZ);
+//			return new UnfinishedBuildingLot(platmap, chunkX, chunkZ);
 //		}
 	}
 }

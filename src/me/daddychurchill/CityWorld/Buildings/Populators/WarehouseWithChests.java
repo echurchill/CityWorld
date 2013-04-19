@@ -7,6 +7,8 @@ import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 public class WarehouseWithChests extends RoomProvider {
 
 	public WarehouseWithChests() {
+		super();
+
 		roomTypes.add(new StorageFilledChestsRoom());
 		roomTypes.add(new StorageEmptyChestsRoom());
 	}

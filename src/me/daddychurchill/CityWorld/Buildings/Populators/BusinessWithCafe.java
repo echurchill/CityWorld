@@ -10,6 +10,7 @@ import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 public class BusinessWithCafe extends RoomProvider {
 
 	public BusinessWithCafe() {
+		super();
 
 		roomTypes.add(new LoungeGameRoom());
 		roomTypes.add(new LoungeGameRoom());
