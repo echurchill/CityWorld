@@ -106,7 +106,7 @@ public abstract class BuildingLot extends ConnectedLot {
 
 	@Override
 	public boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
-		return blockY < generator.streetLevel - basementFloorHeight * depth + 1;
+		return blockY < generator.streetLevel - basementFloorHeight * depth;
 	}
 
 	@Override
@@ -692,7 +692,7 @@ public abstract class BuildingLot extends ConnectedLot {
 						drawInteriorNSDoor(chunk, 4, y1, y2, 2, materialWall);
 						drawInteriorWEDoor(chunk, 2, y1, y2, 4, materialWall);
 					} else {
-						drawInteriorWEDoors(chunk, 2, y1, y2, 4, Material.QUARTZ_ORE);
+						drawInteriorWEDoors(chunk, 2, y1, y2, 4, materialWall);
 					}
 				}
 				
@@ -723,7 +723,7 @@ public abstract class BuildingLot extends ConnectedLot {
 						drawInteriorNSDoor(chunk, 11, y1, y2, 2, materialWall);
 						drawInteriorWEDoor(chunk, 11, y1, y2, 4, materialWall);
 					} else {
-						drawInteriorNSDoors(chunk, 11, y1, y2, 2, Material.CLAY);
+						drawInteriorNSDoors(chunk, 11, y1, y2, 2, materialWall);
 					}
 				}
 				
@@ -754,7 +754,7 @@ public abstract class BuildingLot extends ConnectedLot {
 						drawInteriorNSDoor(chunk, 4, y1, y2, 11, materialWall);
 						drawInteriorWEDoor(chunk, 2, y1, y2, 11, materialWall);
 					} else {
-						drawInteriorNSDoors(chunk, 4, y1, y2, 9, Material.IRON_BLOCK);
+						drawInteriorNSDoors(chunk, 4, y1, y2, 9, materialWall);
 					}
 				}
 				
@@ -785,7 +785,7 @@ public abstract class BuildingLot extends ConnectedLot {
 						drawInteriorNSDoor(chunk, 11, y1, y2, 11, materialWall);
 						drawInteriorWEDoor(chunk, 11, y1, y2, 11, materialWall);
 					} else {
-						drawInteriorWEDoors(chunk, 9, y1, y2, 11, Material.DIAMOND_BLOCK);
+						drawInteriorWEDoors(chunk, 9, y1, y2, 11, materialWall);
 					}
 				}
 			} else {
@@ -850,11 +850,15 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 
+	private static int maxInsetForRooms = 2;
+	
 	private void drawInteriorRooms(WorldGenerator generator, RealChunk chunk, DataContext context, 
 			RoomProvider rooms, int floor, int y1, int height, 
 			int insetNS, int insetWE, boolean allowRounded,
 			Material materialWall, Material materialGlass, 
 			StairWell where, Surroundings heights) {
+		
+		boolean includeOuterRooms = insetNS <= maxInsetForRooms || insetWE <= maxInsetForRooms;
 		
 		// first try the narrow logic (single wall in the middle)
 		if (!heights.toNorthWest() && !heights.toNorthEast() && 
@@ -904,30 +908,28 @@ public abstract class BuildingLot extends ConnectedLot {
 					drawInteriorRoom(generator, chunk, rooms, floor, 5, y1, 0, height, 
 							Facing.WEST, materialWall, materialGlass);
 				}
-			} else {
-				if (!allowRounded) {
-					if (heights.toNorth()) {
-						if (heights.toWest()) {
-							//none
-						} else {
-							//n & m
-							drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 1, height, 
-									Facing.SOUTH, materialWall, materialGlass);
-							drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 5, height, 
-									Facing.NORTH, materialWall, materialGlass);
-						}
+			} else if (includeOuterRooms) {
+				if (heights.toNorth()) {
+					if (heights.toWest()) {
+						//none
 					} else {
-						if (heights.toWest()) {
-							//c & d
-							drawInteriorRoom(generator, chunk, rooms, floor, 1, y1, 4, height, 
-									Facing.EAST, materialWall, materialGlass);
-							drawInteriorRoom(generator, chunk, rooms, floor, 5, y1, 4, height, 
-									Facing.WEST, materialWall, materialGlass);
-						} else {
-							//q
-							drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 4, height, 
-									Facing.EAST, materialWall, materialGlass);
-						}
+						//n & m
+						drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 1, height, 
+								Facing.SOUTH, materialWall, materialGlass);
+						drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 5, height, 
+								Facing.NORTH, materialWall, materialGlass);
+					}
+				} else {
+					if (heights.toWest()) {
+						//c & d
+						drawInteriorRoom(generator, chunk, rooms, floor, 1, y1, 4, height, 
+								Facing.EAST, materialWall, materialGlass);
+						drawInteriorRoom(generator, chunk, rooms, floor, 5, y1, 4, height, 
+								Facing.WEST, materialWall, materialGlass);
+					} else if (!allowRounded) {
+						//q
+						drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 4, height, 
+								Facing.EAST, materialWall, materialGlass);
 					}
 				}
 			}
@@ -941,30 +943,28 @@ public abstract class BuildingLot extends ConnectedLot {
 					drawInteriorRoom(generator, chunk, rooms, floor, 13, y1, 5, height, 
 							Facing.NORTH, materialWall, materialGlass);
 				}
-			} else {
-				if (!allowRounded) {
-					if (heights.toNorth()) {
-						if (heights.toEast()) {
-							//none
-						} else {
-							//g & h
-							drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 1, height, 
-									Facing.SOUTH, materialWall, materialGlass);
-							drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 5, height, 
-									Facing.NORTH, materialWall, materialGlass);
-						}
+			} else if (includeOuterRooms) {
+				if (heights.toNorth()) {
+					if (heights.toEast()) {
+						//none
 					} else {
-						if (heights.toEast()) {
-							//a & b
-							drawInteriorRoom(generator, chunk, rooms, floor, 8, y1, 4, height, 
-									Facing.EAST, materialWall, materialGlass);
-							drawInteriorRoom(generator, chunk, rooms, floor, 12, y1, 4, height, 
-									Facing.WEST, materialWall, materialGlass);
-						} else {
-							//r
-							drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 4, height, 
-									Facing.SOUTH, materialWall, materialGlass);
-						}
+						//g & h
+						drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 1, height, 
+								Facing.SOUTH, materialWall, materialGlass);
+						drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 5, height, 
+								Facing.NORTH, materialWall, materialGlass);
+					}
+				} else {
+					if (heights.toEast()) {
+						//a & b
+						drawInteriorRoom(generator, chunk, rooms, floor, 8, y1, 4, height, 
+								Facing.EAST, materialWall, materialGlass);
+						drawInteriorRoom(generator, chunk, rooms, floor, 12, y1, 4, height, 
+								Facing.WEST, materialWall, materialGlass);
+					} else if (!allowRounded) {
+						//r
+						drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 4, height, 
+								Facing.SOUTH, materialWall, materialGlass);
 					}
 				}
 			}
@@ -978,30 +978,28 @@ public abstract class BuildingLot extends ConnectedLot {
 					drawInteriorRoom(generator, chunk, rooms, floor, 0, y1, 8, height, 
 							Facing.SOUTH, materialWall, materialGlass);
 				}
-			} else {
-				if (!allowRounded) {
-					if (heights.toSouth()) {
-						if (heights.toWest()) {
-							//none
-						} else {
-							//p & o
-							drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 8, height, 
-									Facing.SOUTH, materialWall, materialGlass);
-							drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 12, height, 
-									Facing.NORTH, materialWall, materialGlass);
-						}
+			} else if (includeOuterRooms) {
+				if (heights.toSouth()) {
+					if (heights.toWest()) {
+						//none
 					} else {
-						if (heights.toWest()) {
-							//j & i
-							drawInteriorRoom(generator, chunk, rooms, floor, 1, y1, 9, height, 
-									Facing.EAST, materialWall, materialGlass);
-							drawInteriorRoom(generator, chunk, rooms, floor, 5, y1, 9, height, 
-									Facing.WEST, materialWall, materialGlass);
-						} else {
-							//t
-							drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 9, height, 
-									Facing.NORTH, materialWall, materialGlass);
-						}
+						//p & o
+						drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 8, height, 
+								Facing.SOUTH, materialWall, materialGlass);
+						drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 12, height, 
+								Facing.NORTH, materialWall, materialGlass);
+					}
+				} else {
+					if (heights.toWest()) {
+						//j & i
+						drawInteriorRoom(generator, chunk, rooms, floor, 1, y1, 9, height, 
+								Facing.EAST, materialWall, materialGlass);
+						drawInteriorRoom(generator, chunk, rooms, floor, 5, y1, 9, height, 
+								Facing.WEST, materialWall, materialGlass);
+					} else if (!allowRounded) {
+						//t
+						drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 9, height, 
+								Facing.NORTH, materialWall, materialGlass);
 					}
 				}
 			}
@@ -1015,30 +1013,28 @@ public abstract class BuildingLot extends ConnectedLot {
 					drawInteriorRoom(generator, chunk, rooms, floor, 8, y1, 13, height, 
 							Facing.EAST, materialWall, materialGlass);
 				}
-			} else {
-				if (!allowRounded) {
-					if (heights.toSouth()) {
-						if (heights.toEast()) {
-							//none
-						} else {
-							//e & f
-							drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 8, height, 
-									Facing.SOUTH, materialWall, materialGlass);
-							drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 12, height, 
-									Facing.NORTH, materialWall, materialGlass);
-						}
+			} else if (includeOuterRooms) {
+				if (heights.toSouth()) {
+					if (heights.toEast()) {
+						//none
 					} else {
-						if (heights.toEast()) {
-							//l & k
-							drawInteriorRoom(generator, chunk, rooms, floor, 8, y1, 9, height, 
-									Facing.EAST, materialWall, materialGlass);
-							drawInteriorRoom(generator, chunk, rooms, floor, 12, y1, 9, height, 
-									Facing.WEST, materialWall, materialGlass);
-						} else {
-							//s
-							drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 9, height, 
-									Facing.WEST, materialWall, materialGlass);
-						}
+						//e & f
+						drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 8, height, 
+								Facing.SOUTH, materialWall, materialGlass);
+						drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 12, height, 
+								Facing.NORTH, materialWall, materialGlass);
+					}
+				} else {
+					if (heights.toEast()) {
+						//l & k
+						drawInteriorRoom(generator, chunk, rooms, floor, 8, y1, 9, height, 
+								Facing.EAST, materialWall, materialGlass);
+						drawInteriorRoom(generator, chunk, rooms, floor, 12, y1, 9, height, 
+								Facing.WEST, materialWall, materialGlass);
+					} else if (!allowRounded) {
+						//s
+						drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 9, height, 
+								Facing.WEST, materialWall, materialGlass);
 					}
 				}
 			}
@@ -1265,7 +1261,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		private static final int centerX = 8;
 		private static final int centerZ = 8;
 		
-		public StairAt(RealChunk chunk, int stairLength, int insetNS, int insetWE, StairWell where) {
+		public StairAt(RealChunk chunk, int stairLength, StairWell where) {
 			switch (where) {
 			case NORTHWEST:
 				X = centerX - stairLength;
@@ -1330,9 +1326,8 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 	
 	protected void drawStairs(RealChunk chunk, int y1, int floorHeight, 
-			int insetNS, int insetWE, StairWell where, 
-			Material stairMaterial, Material platformMaterial) {
-		StairAt at = new StairAt(chunk, floorHeight, insetNS, insetWE, where);
+			StairWell where, Material stairMaterial, Material platformMaterial) {
+		StairAt at = new StairAt(chunk, floorHeight, where);
 		switch (stairStyle) {
 		case CROSSED:
 			if (floorHeight == 4) {
@@ -1484,9 +1479,8 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 
 	protected void drawStairsWalls(RealChunk chunk, int y1, int floorHeight, 
-			int insetNS, int insetWE, StairWell where, 
-			Material wallMaterial, boolean isTopFloor, boolean isBottomFloor) {
-		StairAt at = new StairAt(chunk, floorHeight, insetNS, insetWE, where);
+			StairWell where, Material wallMaterial, boolean isTopFloor, boolean isBottomFloor) {
+		StairAt at = new StairAt(chunk, floorHeight, where);
 		int y2 = y1 + floorHeight - 1;
 		int yClear = y2 + (isTopFloor ? 0 : 1);
 		switch (stairStyle) {

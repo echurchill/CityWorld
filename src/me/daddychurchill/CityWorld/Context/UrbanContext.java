@@ -122,7 +122,7 @@ public abstract class UrbanContext extends CivilizedContext {
 	protected PlatLot getBuilding(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 //		switch (odds.getRandomInt(9)) {
 //		case 1:
-//			return new OfficeBuildingLot(platmap, chunkX, chunkZ);
+			return new OfficeBuildingLot(platmap, chunkX, chunkZ);
 //		case 2:
 //			return new StoreLot(platmap, chunkX, chunkZ);
 //		case 3:
@@ -136,7 +136,7 @@ public abstract class UrbanContext extends CivilizedContext {
 //		case 7:
 //			return new LaboratoryLot(platmap, chunkX, chunkZ);
 //		case 8:
-			return new LibraryLot(platmap, chunkX, chunkZ);
+//			return new LibraryLot(platmap, chunkX, chunkZ);
 //		default:
 //			return new UnfinishedBuildingLot(platmap, chunkX, chunkZ);
 //		}

@@ -252,10 +252,6 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		allowRounded = allowRounded && neighborFloors.isRoundable();
 		StairWell stairLocation = getStairWellLocation(allowRounded, neighborFloors);
 		
-//		// bottom floor? 
-//		drawDoors(chunk, generator.streetLevel + 2, aboveFloorHeight, insetWallNS, insetWallWE,
-//				stairLocation, neighborFloors, wallMaterial);
-		
 		// work on the basement stairs first
 		for (int floor = 0; floor < depth; floor++) {
 			int floorAt = generator.streetLevel - basementFloorHeight * floor - 2;
@@ -265,19 +261,19 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				
 				// top is special... but only if there are no stairs up
 				if (floor == 0 && !needStairsUp) {
-					drawStairsWalls(chunk, floorAt, basementFloorHeight, insetWallNS, insetWallWE, 
+					drawStairsWalls(chunk, floorAt, basementFloorHeight, 
 							stairLocation, stairWallMaterial, true, false);
 				
 				// all the rest of those lovely stairs
 				} else {
 
 					// plain walls please
-					drawStairsWalls(chunk, floorAt, basementFloorHeight, insetWallNS, insetWallWE,
-							stairLocation, wallMaterial, false, floor == depth - 1);
+					drawStairsWalls(chunk, floorAt, basementFloorHeight, stairLocation, 
+							wallMaterial, false, floor == depth - 1);
 
 					// place the stairs and such
-					drawStairs(chunk, floorAt, basementFloorHeight, insetWallNS, insetWallWE,
-							stairLocation, stairMaterial, stairPlatformMaterial);
+					drawStairs(chunk, floorAt, basementFloorHeight, stairLocation, 
+							stairMaterial, stairPlatformMaterial);
 						
 					// pillars if no stairs here
 					drawOtherPillars(chunk, floorAt, basementFloorHeight, 
@@ -299,9 +295,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		aboveFloorHeight = firstFloorHeight;
 		for (int floor = 0; floor < height; floor++) {
 			int floorAt = generator.streetLevel + aboveFloorHeight * floor + 2;
-			allowRounded = allowRounded && neighborFloors.isRoundable();
-			stairLocation = getStairWellLocation(allowRounded, neighborFloors);
-			if (!needStairsUp || floor == height - 1)
+//			allowRounded = allowRounded && neighborFloors.isRoundable();
+//			stairLocation = getStairWellLocation(allowRounded, neighborFloors);
+			if (!needStairsUp && floor == height - 1)
 				stairLocation = StairWell.NONE;
 			
 			// breath in?
@@ -322,14 +318,15 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			if (needStairsUp) {
 				
 				// fancy walls... maybe
-				if (floor > 0 || (floor == 0 && (depth > 0 || height > 1)))
-					drawStairsWalls(chunk, floorAt, aboveFloorHeight, localInsetWallNS, localInsetWallWE,
-							stairLocation, stairWallMaterial, floor == height - 1, floor == 0 && depth == 0);
+				if (floor > 0 || (floor == 0 && (depth > 0 || height > 1))) {
+					drawStairsWalls(chunk, floorAt, aboveFloorHeight, stairLocation, 
+							stairWallMaterial, floor == height - 1, floor == 0 && depth == 0);
+				}
 				
 				// more stairs and such
 				if (floor < height - 1)
-					drawStairs(chunk, floorAt, aboveFloorHeight, localInsetWallNS, localInsetWallWE,
-							stairLocation, stairMaterial, stairPlatformMaterial);
+					drawStairs(chunk, floorAt, aboveFloorHeight, stairLocation, 
+							stairMaterial, stairPlatformMaterial);
 			}
 			
 			// one down, more to go

@@ -10,8 +10,8 @@ import me.daddychurchill.CityWorld.Buildings.Populators.BusinessWithCafe;
 import me.daddychurchill.CityWorld.Buildings.Populators.ResidentialHouses;
 import me.daddychurchill.CityWorld.Buildings.Populators.BusinessWithBooks;
 import me.daddychurchill.CityWorld.Buildings.Populators.BusinessWithManufacturing;
-import me.daddychurchill.CityWorld.Buildings.Populators.BusinessWithOffices;
-import me.daddychurchill.CityWorld.Buildings.Populators.BusinessWithCubicles;
+import me.daddychurchill.CityWorld.Buildings.Populators.OfficeWithRooms;
+import me.daddychurchill.CityWorld.Buildings.Populators.OfficeWithCubicles;
 import me.daddychurchill.CityWorld.Buildings.Populators.BusinessWithStock;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider;
 import me.daddychurchill.CityWorld.Context.FloatingRoadContext;
@@ -184,10 +184,10 @@ public class WorldGenerator extends ChunkGenerator {
 			pasteProvider = PasteProvider.loadProvider(this);
 			
 			// room populators
-			roomProvider_Storage = new BusinessWithCubicles();
+			roomProvider_Storage = new OfficeWithCubicles();
 			roomProvider_House = new ResidentialHouses();
 			roomProvider_Apartment = new ResidentialApartments();
-			roomProvider_Office = new BusinessWithOffices();
+			roomProvider_Office = new OfficeWithRooms();
 			roomProvider_Library = new BusinessWithBooks();
 			roomProvider_Machines = new BusinessWithManufacturing();
 			roomProvider_Cafe = new BusinessWithCafe();

@@ -20,9 +20,9 @@ import me.daddychurchill.CityWorld.Buildings.Rooms.MeetingForFourRoom;
 import me.daddychurchill.CityWorld.Buildings.Rooms.MeetingForSixRoom;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 
-public class BusinessWithOffices extends RoomProvider {
+public class OfficeWithRandom extends RoomProvider {
 
-	public BusinessWithOffices() {
+	public OfficeWithRandom() {
 		super();
 
 //		roomTypes.add(new DebugRoom());
@@ -52,9 +52,6 @@ public class BusinessWithOffices extends RoomProvider {
 		roomTypes.add(new DeskCornerRoom());
 		roomTypes.add(new DeskInternsRoom());
 		roomTypes.add(new DeskInternsRoom());
-		
-		
-		// two wide table with chair and a book stand (with possible flower pot)
 	}
 
 }
