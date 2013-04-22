@@ -26,11 +26,6 @@ public class RadioTowerLot extends ConstructLot {
 		return new RadioTowerLot(platmap, chunkX, chunkZ);
 	}
 
-	@Override
-	public void validateLot() {
-		//TODO what needs to be done here?
-	}
-
 	private final static int platformWidth = 8;
 	private final static int heightRange = 15;
 	private final static int heightShortest = 10;

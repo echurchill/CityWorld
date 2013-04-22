@@ -7,9 +7,10 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.Material;
 
-public class StorageSingleBooksRoom extends StorageRoom {
+public class StorageSingleRowRoom extends StorageTypeRoom {
 
-	public StorageSingleBooksRoom() {
+	public StorageSingleRowRoom(Material type) {
+		super(type);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -25,14 +26,14 @@ public class StorageSingleBooksRoom extends StorageRoom {
 			offset = odds.getRandomInt(width);
 			drawNSEmptyShelve(chunk, x + offset, y, z, 1, depth);
 			for (int run = 0; run < depth; run++)
-				chunk.setBlocks(x + offset, y + 1, y + 1 + Math.max(minheight, odds.getRandomInt(height - 1)), z + run, Material.BOOKSHELF);
+				chunk.setBlocks(x + offset, y + 1, y + 1 + Math.max(minheight, odds.getRandomInt(height - 1)), z + run, materialType, materialData);
 			break;
 		case WEST:
 		case EAST:
 			offset = odds.getRandomInt(depth);
 			drawWEEmptyShelve(chunk, x, y, z + offset, 1, width);
 			for (int run = 0; run < depth; run++)
-				chunk.setBlocks(x + run, y + 1, y + 1 + Math.max(minheight, odds.getRandomInt(height - 1)), z + offset, Material.BOOKSHELF);
+				chunk.setBlocks(x + run, y + 1, y + 1 + Math.max(minheight, odds.getRandomInt(height - 1)), z + offset, materialType, materialData);
 			break;
 		}
 	}

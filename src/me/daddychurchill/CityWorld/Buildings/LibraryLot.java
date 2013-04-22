@@ -62,11 +62,11 @@ public class LibraryLot extends FinishedBuildingLot {
 		case 5:
 		case 6:
 		case 7:
-			return InteriorStyle.COLUMNS_ONLY;
 		case 8:
+			return InteriorStyle.COLUMNS_OFFICES;
 		case 9:
 		default:
-			return InteriorStyle.COLUMNS_OFFICES;
+			return InteriorStyle.COLUMNS_ONLY;
 		}
 	}
 

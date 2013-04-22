@@ -22,11 +22,6 @@ public class MineEntranceLot extends ConstructLot {
 	}
 
 	@Override
-	public void validateLot() {
-		//TODO what needs to be done here?
-	}
-
-	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 	}

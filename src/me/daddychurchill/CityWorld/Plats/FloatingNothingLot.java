@@ -22,11 +22,6 @@ public class FloatingNothingLot extends IsolatedLot {
 	}
 
 	@Override
-	public void validateLot() {
-		//TODO what needs to be done here?
-	}
-
-	@Override
 	public int getBottomY(WorldGenerator generator) {
 		return 0;
 	}

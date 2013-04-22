@@ -21,11 +21,6 @@ public class NatureLot extends IsolatedLot {
 	}
 
 	@Override
-	public void validateLot() {
-		// assume all is swell
-	}
-
-	@Override
 	public int getBottomY(WorldGenerator generator) {
 		return 0;
 	}

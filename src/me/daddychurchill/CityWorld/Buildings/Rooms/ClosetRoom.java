@@ -21,31 +21,52 @@ public class ClosetRoom extends FilledRoom {
 		
 		switch (sideWithWall) {
 		case NORTH:
-			chunk.setBlocks(x, x + 1, y, y + height, z, z + depth, materialWall);
-			chunk.setBlocks(x + width - 1, x + width, y, y + height, z, z + depth, materialWall);
-			chunk.setBlocks(x + 1, x + width - 1, y, y + height, z + depth - 1, z + depth, materialWall);
+			drawShelves(chunk, odds, x, y, z, width, height, depth, materialWall);
 			chunk.setWoodenDoor(x + 1, y, z + depth - 1, Door.SOUTHBYSOUTHEAST);
-			
-			//TODO add a chest from time to time
 			break;
 		case SOUTH:
-			chunk.setBlocks(x, x + 1, y, y + height, z, z + depth, materialWall);
-			chunk.setBlocks(x + width - 1, x + width, y, y + height, z, z + depth, materialWall);
-			chunk.setBlocks(x + 1, x + width - 1, y, y + height, z, z + 1, materialWall);
+			drawShelves(chunk, odds, x, y, z, width, height, depth, materialWall);
 			chunk.setWoodenDoor(x + 1, y, z, Door.NORTHBYNORTHWEST);
 			break;
 		case WEST:
-			chunk.setBlocks(x, x + width, y, y + height, z, z + 1, materialWall);
-			chunk.setBlocks(x, x + width, y, y + height, z + depth - 1, z + depth, materialWall);
-			chunk.setBlocks(x + width - 1, x + width, y, y + height, z + 1, z + depth - 1, materialWall);
+			drawShelves(chunk, odds, x, y, z, width, height, depth, materialWall);
 			chunk.setWoodenDoor(x + width - 1, y, z + 1, Door.EASTBYNORTHEAST);
 			break;
 		case EAST:
-			chunk.setBlocks(x, x + width, y, y + height, z, z + 1, materialWall);
-			chunk.setBlocks(x, x + width, y, y + height, z + depth - 1, z + depth, materialWall);
-			chunk.setBlocks(x, x + 1, y, y + height, z + 1, z + depth - 1, materialWall);
+			drawShelves(chunk, odds, x, y, z, width, height, depth, materialWall);
 			chunk.setWoodenDoor(x, y, z + 1, Door.WESTBYNORTHWEST);
 			break;
+		}
+	}
+	
+	private void drawShelves(RealChunk chunk, Odds odds, int x, int y, int z, 
+			int width, int height, int depth, Material materialWall) {
+		
+		// walls and room
+		chunk.setBlocks(x, x + width, y, y + height, z, z + depth, materialWall);
+		chunk.setBlocks(x + 1, y, y + height, z + 1, Material.AIR);
+		
+		// now the shelves
+		Material shelveMaterial = getShelveMaterial(materialWall);
+		drawShelve(chunk, odds, x + 1, y, z + 1, shelveMaterial);
+		drawShelve(chunk, odds, x + 1, y + 1, z + 1, shelveMaterial);
+	}
+	
+	private void drawShelve(RealChunk chunk, Odds odds, int x, int y, int z,
+			Material shelveMaterial) {
+		if (odds.flipCoin())
+			chunk.setBlock(x, y, z, shelveMaterial, (byte)0);
+		else
+			chunk.setBlock(x, y, z, Material.BOOKSHELF);
+	}
+	
+	private Material getShelveMaterial(Material wall) {
+		switch (wall) {
+		case QUARTZ_BLOCK:
+			return Material.STEP;
+		
+		default: // WOOD
+			return Material.WOOD_STEP;
 		}
 	}
 

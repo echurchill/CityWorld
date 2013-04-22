@@ -55,11 +55,6 @@ public class FarmLot extends ConnectedLot {
 	}
 
 	@Override
-	public void validateLot() {
-		// assume all is swell
-	}
-
-	@Override
 	public boolean makeConnected(PlatLot relative) {
 		boolean result = super.makeConnected(relative);
 		

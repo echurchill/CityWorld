@@ -23,11 +23,6 @@ public class OldCastleLot extends ConstructLot {
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
 		return new OldCastleLot(platmap, chunkX, chunkZ);
 	}
-
-	@Override
-	public void validateLot() {
-		//TODO what needs to be done here?
-	}
 	
 	private final static byte platformId = (byte) Material.SMOOTH_BRICK.getId();
 	private final static byte supportId = (byte) Material.COBBLESTONE.getId();

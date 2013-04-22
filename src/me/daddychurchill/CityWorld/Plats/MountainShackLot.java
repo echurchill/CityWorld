@@ -23,11 +23,6 @@ public class MountainShackLot extends ConstructLot {
 		return new MountainShackLot(platmap, chunkX, chunkZ);
 	}
 
-	@Override
-	public void validateLot() {
-		//TODO what needs to be done here?
-	}
-
 	private final static byte retainingWallId = (byte) Material.SMOOTH_BRICK.getId();
 
 	@Override

@@ -13,4 +13,9 @@ public abstract class ConstructLot extends IsolatedLot {
 	public boolean isPlaceableAt(WorldGenerator generator, int chunkX, int chunkZ) {
 		return generator.settings.inConstructRange(chunkX, chunkZ);
 	}
+	
+	@Override
+	public PlatLot validateLot(PlatMap platmap, int platX, int platZ) {
+		return null;
+	}
 }

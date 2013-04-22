@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Buildings;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Buildings.Populators.WarehouseWithBooks;
+import me.daddychurchill.CityWorld.Buildings.Populators.WarehouseWithBoxes;
 import me.daddychurchill.CityWorld.Buildings.Populators.WarehouseWithNothing;
 import me.daddychurchill.CityWorld.Buildings.Populators.WarehouseWithRandom;
 import me.daddychurchill.CityWorld.Buildings.Populators.WarehouseWithStacks;
@@ -15,11 +16,12 @@ public class WarehouseLot extends FinishedBuildingLot {
 	
 	private static RoomProvider contentsRandom = new WarehouseWithRandom();
 	private static RoomProvider contentsBooks = new WarehouseWithBooks();
+	private static RoomProvider contentsBoxes = new WarehouseWithBoxes();
 	private static RoomProvider contentsEmpty = new WarehouseWithNothing();
 //	private static RoomProvider contentsChests = new WarehouseWithChests();
 	private static RoomProvider contentsStacks = new WarehouseWithStacks();
 	
-	public enum ContentStyle {RANDOM, BOOKS, EMPTY, CHESTS, STACKS};
+	public enum ContentStyle {RANDOM, BOOKS, BOXES, EMPTY, STACKS}; // CHESTS
 	private ContentStyle contentStyle;
 
 	public WarehouseLot(PlatMap platmap, int chunkX, int chunkZ) {
@@ -39,7 +41,7 @@ public class WarehouseLot extends FinishedBuildingLot {
 		case 1:
 			return ContentStyle.BOOKS;
 		case 2:
-//			return ContentStyle.CHESTS;
+			return ContentStyle.BOXES;
 		case 3:
 			return ContentStyle.STACKS;
 		case 4:
@@ -74,8 +76,8 @@ public class WarehouseLot extends FinishedBuildingLot {
 		switch (contentStyle) {
 		case BOOKS:
 			return contentsBooks;
-		case CHESTS:
-//			return contentsChests;
+		case BOXES:
+			return contentsBoxes;
 		case STACKS:
 			return contentsStacks;
 		case RANDOM:

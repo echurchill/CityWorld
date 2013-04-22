@@ -79,11 +79,6 @@ public class RoadLot extends ConnectedLot {
 		return new RoadLot(platmap, chunkX, chunkZ, connectedkey, roundaboutRoad);
 	}
 
-	@Override
-	public void validateLot() {
-		//TODO what needs to be done here?
-	}
-
 	private int bottomOfRoad;
 	private int topOfRoad;
 	

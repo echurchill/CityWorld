@@ -49,11 +49,6 @@ public class UnfinishedBuildingLot extends BuildingLot {
 	}
 
 	@Override
-	public void validateLot() {
-		//TODO what needs to be done here?
-	}
-
-	@Override
 	public RoomProvider roomProviderForFloor(WorldGenerator generator, int floor) {
 		return generator.roomProvider_Storage;
 	}

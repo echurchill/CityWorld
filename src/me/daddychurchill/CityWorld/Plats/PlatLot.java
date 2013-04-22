@@ -83,7 +83,6 @@ public abstract class PlatLot {
 	public abstract boolean isConnected(PlatLot relative);
 	
 	public abstract PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ);
-	public abstract void validateLot();
 
 	protected abstract void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ);
 	protected abstract void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ);
@@ -94,6 +93,10 @@ public abstract class PlatLot {
 	
 	public boolean isPlaceableAt(WorldGenerator generator, int chunkX, int chunkZ) {
 		return generator.settings.inCityRange(chunkX, chunkZ);
+	}
+	
+	public PlatLot validateLot(PlatMap platmap, int platX, int platZ) {
+		return null; // assume that we don't do anything
 	}
 	
 	private void initializeDice(PlatMap platmap, int chunkX, int chunkZ) {

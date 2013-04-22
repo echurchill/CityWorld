@@ -86,11 +86,6 @@ public class ClipboardLot extends IsolatedLot {
 	}
 
 	@Override
-	public void validateLot() {
-		//TODO what needs to be done here?
-	}
-
-	@Override
 	public boolean isPlaceableAt(WorldGenerator generator, int chunkX, int chunkZ) {
 		return generator.settings.inCityRange(chunkX, chunkZ);
 	}

@@ -211,9 +211,9 @@ public abstract class PlatMap {
 		}
 	}
 	
-	public boolean paveLot(int x, int z, boolean roundaboutPart) {
-		boolean result = generator.settings.inRoadRange(originX + x, originZ + z);
-		if (result && (platLots[x][z] == null || roundaboutPart || platLots[x][z].style != LotStyle.ROAD)) {
+	public void paveLot(int x, int z, boolean roundaboutPart) {
+		if (generator.settings.inRoadRange(originX + x, originZ + z) && 
+			(platLots[x][z] == null || roundaboutPart || platLots[x][z].style != LotStyle.ROAD)) {
 			
 			// clear it please
 			emptyLot(x, z);
@@ -221,20 +221,24 @@ public abstract class PlatMap {
 			// place the lot
 			platLots[x][z] = generator.roadContext.createRoadLot(generator, this, x, z, roundaboutPart);
 		}
-		return result;
 	}
 	
 	public boolean setLot(int x, int z, PlatLot lot) {
-		boolean result = lot.isPlaceableAt(generator, originX + x, originZ + z);
-		if (result) {
-			
-			// clear it please
+		if (lot == null) {
 			emptyLot(x, z);
-			
-			// place the lot
-			platLots[x][z] = lot;
-		} 
-		return result;
+			return true;
+		} else {
+			boolean result = lot.isPlaceableAt(generator, originX + x, originZ + z);
+			if (result) {
+				
+				// clear it please
+				emptyLot(x, z);
+				
+				// place the lot
+				platLots[x][z] = lot;
+			} 
+			return result;
+		}
 	}
 	
 	public void emptyLot(int x, int z) {

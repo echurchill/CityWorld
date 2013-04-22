@@ -30,11 +30,6 @@ public class BunkerLot extends ConstructLot {
 		return new BunkerLot(platmap, chunkX, chunkZ);
 	}
 
-	@Override
-	public void validateLot() {
-		//TODO what needs to be done here?
-	}
-
 	// these MUST be given in chunk segment units (currently 16) 
 	private final static int bunkerSegment = 16;
 	private final static int bunkerBuffer = bunkerSegment;

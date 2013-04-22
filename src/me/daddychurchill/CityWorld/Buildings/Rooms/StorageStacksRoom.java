@@ -7,9 +7,10 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 
 import org.bukkit.Material;
 
-public class StorageStacksRoom extends StorageRoom {
+public class StorageStacksRoom extends StorageTypeRoom {
 
-	public StorageStacksRoom() {
+	public StorageStacksRoom(Material type) {
+		super(type);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -22,7 +23,7 @@ public class StorageStacksRoom extends StorageRoom {
 		int minheight = odds.getRandomInt(height / 2);
 		for (int x1 = x; x1 < x + width; x1++) {
 			for (int z1 = z; z1 < z + depth; z1++) {
-				chunk.setBlocks(x1, y, y + Math.max(minheight, odds.getRandomInt(height - 1)), z1, Material.BOOKSHELF);
+				chunk.setBlocks(x1, y, y + Math.max(minheight, odds.getRandomInt(height - 1)), z1, materialType, materialData);
 			}
 		}
 	}

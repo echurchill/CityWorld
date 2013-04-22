@@ -38,5 +38,10 @@ public abstract class ConnectedLot extends PlatLot {
 			return false;
 		return connectedkey == relative.getConnectedKey();
 	}
+	
+	@Override
+	public PlatLot validateLot(PlatMap platmap, int platX, int platZ) {
+		return null;
+	}
 
 }

@@ -35,12 +35,28 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	protected int otherFloorHeight;
 
 	@Override
-	public void validateLot() {
+	public PlatLot validateLot(PlatMap platmap, int platX, int platZ) {
 		
 		// get connected lots
-		// if 
+		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);
+		
+		if (!neighborFloors.toNorth() && !neighborFloors.toSouth() && 
+			!neighborFloors.toWest() && !neighborFloors.toEast() &&
+			height > 1) {
+			
+			// make sure we don't have needle buildings
+			platmap.generator.reportMessage("Found a skinny tall building");
+			return new ConcreteLot(platmap, platmap.originX + platX, platmap.originZ + platZ);
+			
 		// if nothing to north/south or west/east then no insets for us
-		// else if 
+		} else if ((!neighborFloors.toNorth() && !neighborFloors.toSouth()) ||
+				   (!neighborFloors.toWest() && !neighborFloors.toEast())) {
+
+			// clear insets
+			insetInsetted = false;
+		}
+		
+		return null;
 	}
 
 	public FinishedBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
@@ -251,6 +267,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				insetWallWE == insetWallNS && insetCeilingWE == insetCeilingNS;
 		allowRounded = allowRounded && neighborFloors.isRoundable();
 		StairWell stairLocation = getStairWellLocation(allowRounded, neighborFloors);
+		if (!needStairsUp)
+			stairLocation = StairWell.NONE;
 		
 		// work on the basement stairs first
 		for (int floor = 0; floor < depth; floor++) {
@@ -297,8 +315,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			int floorAt = generator.streetLevel + aboveFloorHeight * floor + 2;
 //			allowRounded = allowRounded && neighborFloors.isRoundable();
 //			stairLocation = getStairWellLocation(allowRounded, neighborFloors);
-			if (!needStairsUp && floor == height - 1)
-				stairLocation = StairWell.NONE;
+//			if (!needStairsUp || floor == height - 1)
+//				stairLocation = StairWell.NONE;
 			
 			// breath in?
 			if (insetInsetted) {
@@ -312,22 +330,27 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			drawInteriorParts(generator, chunk, context, 
 					roomProviderForFloor(generator, floor), floor, floorAt, 
 					aboveFloorHeight - 1, localInsetWallNS, localInsetWallWE, 
-					allowRounded, wallMaterial, glassMaterial, stairLocation, neighborFloors);
+					allowRounded, wallMaterial, glassMaterial, 
+					stairLocation, stairMaterial, stairWallMaterial, stairPlatformMaterial,
+					needStairsUp && (floor > 0 || (floor == 0 && (depth > 0 || height > 1))), 
+					needStairsUp && (floor < height - 1), 
+					floor == height - 1, floor == 0 && depth == 0,
+					neighborFloors);
 				
-			// stairs?
-			if (needStairsUp) {
-				
-				// fancy walls... maybe
-				if (floor > 0 || (floor == 0 && (depth > 0 || height > 1))) {
-					drawStairsWalls(chunk, floorAt, aboveFloorHeight, stairLocation, 
-							stairWallMaterial, floor == height - 1, floor == 0 && depth == 0);
-				}
-				
-				// more stairs and such
-				if (floor < height - 1)
-					drawStairs(chunk, floorAt, aboveFloorHeight, stairLocation, 
-							stairMaterial, stairPlatformMaterial);
-			}
+//			// stairs?
+//			if (needStairsUp) {
+//				
+//				// fancy walls... maybe
+//				if (floor > 0 || (floor == 0 && (depth > 0 || height > 1))) {
+//					drawStairsWalls(chunk, floorAt, aboveFloorHeight, stairLocation, 
+//							stairWallMaterial, floor == height - 1, floor == 0 && depth == 0);
+//				}
+//				
+//				// more stairs and such
+//				if (floor < height - 1)
+//					drawStairs(chunk, floorAt, aboveFloorHeight, stairLocation, 
+//							stairMaterial, stairPlatformMaterial);
+//			}
 			
 			// one down, more to go
 			neighborFloors.decrement();

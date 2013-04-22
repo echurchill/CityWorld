@@ -1,6 +1,8 @@
 package me.daddychurchill.CityWorld.Buildings.Populators;
 
-import me.daddychurchill.CityWorld.Buildings.Rooms.StorageDoubleBooksRoom;
+import org.bukkit.Material;
+
+import me.daddychurchill.CityWorld.Buildings.Rooms.StorageDoubleRowRoom;
 import me.daddychurchill.CityWorld.Buildings.Rooms.StorageDoubleShelvesRoom;
 import me.daddychurchill.CityWorld.Buildings.Rooms.StorageFilledChestsRoom;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
@@ -11,7 +13,9 @@ public class WarehouseWithRandom extends RoomProvider {
 		super();
 
 		roomTypes.add(new StorageDoubleShelvesRoom());
-		roomTypes.add(new StorageDoubleBooksRoom());
+		roomTypes.add(new StorageDoubleRowRoom(Material.BOOKSHELF));
+		roomTypes.add(new StorageDoubleRowRoom(Material.PISTON_BASE));
+		roomTypes.add(new StorageDoubleRowRoom(Material.WORKBENCH));
 		roomTypes.add(new StorageFilledChestsRoom());
 		// shelves (some with chests)
 		// tables

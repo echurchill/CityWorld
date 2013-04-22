@@ -1,14 +1,9 @@
 package me.daddychurchill.CityWorld.Context;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Buildings.ApartmentBuildingLot;
-import me.daddychurchill.CityWorld.Buildings.FactoryLot;
-import me.daddychurchill.CityWorld.Buildings.LaboratoryLot;
 import me.daddychurchill.CityWorld.Buildings.LibraryLot;
 import me.daddychurchill.CityWorld.Buildings.OfficeBuildingLot;
-import me.daddychurchill.CityWorld.Buildings.StoreLot;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
-import me.daddychurchill.CityWorld.Plats.MixedUseLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.ParkLot;
 import me.daddychurchill.CityWorld.Plats.UnfinishedBuildingLot;
@@ -104,7 +99,9 @@ public abstract class UrbanContext extends CivilizedContext {
 			for (int z = 0; z < PlatMap.Width; z++) {
 				PlatLot current = platmap.getLot(x, z);
 				if (current != null) {
-					current.validateLot();
+					PlatLot replacement = current.validateLot(platmap, x, z);
+					if (replacement != null)
+						platmap.setLot(x, z, replacement);
 				}
 			}
 		}
@@ -122,7 +119,7 @@ public abstract class UrbanContext extends CivilizedContext {
 	protected PlatLot getBuilding(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 //		switch (odds.getRandomInt(9)) {
 //		case 1:
-			return new OfficeBuildingLot(platmap, chunkX, chunkZ);
+//			return new OfficeBuildingLot(platmap, chunkX, chunkZ);
 //		case 2:
 //			return new StoreLot(platmap, chunkX, chunkZ);
 //		case 3:
@@ -140,5 +137,13 @@ public abstract class UrbanContext extends CivilizedContext {
 //		default:
 //			return new UnfinishedBuildingLot(platmap, chunkX, chunkZ);
 //		}
+		switch (odds.getRandomInt(10)) {
+		case 1:
+			return new UnfinishedBuildingLot(platmap, chunkX, chunkZ);
+		case 2:
+			return new LibraryLot(platmap, chunkX, chunkZ);
+		default:
+			return new OfficeBuildingLot(platmap, chunkX, chunkZ);
+		}
 	}
 }
