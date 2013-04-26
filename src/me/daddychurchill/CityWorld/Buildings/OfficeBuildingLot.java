@@ -1,7 +1,7 @@
 package me.daddychurchill.CityWorld.Buildings;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Buildings.Populators.BuildingWithNothing;
+import me.daddychurchill.CityWorld.Buildings.Populators.OfficeWithNothing;
 import me.daddychurchill.CityWorld.Buildings.Populators.OfficeWithCubicles;
 import me.daddychurchill.CityWorld.Buildings.Populators.OfficeWithLounges;
 import me.daddychurchill.CityWorld.Buildings.Populators.OfficeWithRandom;
@@ -13,7 +13,7 @@ import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 
 public class OfficeBuildingLot extends FinishedBuildingLot {
 
-	private static RoomProvider contentsEmpty = new BuildingWithNothing();
+	private static RoomProvider contentsEmpty = new OfficeWithNothing();
 	private static RoomProvider contentsRandom = new OfficeWithRandom();
 	private static RoomProvider contentsCubes = new OfficeWithCubicles();
 	private static RoomProvider contentsRooms = new OfficeWithRooms();

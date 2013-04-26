@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plats;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Buildings.Populators.EmptyWithNothing;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
@@ -23,6 +24,8 @@ import me.daddychurchill.CityWorld.Support.Surroundings;
 import org.bukkit.Material;
 
 public abstract class BuildingLot extends ConnectedLot {
+	
+	private static RoomProvider contentsNothing = new EmptyWithNothing();
 	
 	protected boolean neighborsHaveIdenticalHeights;
 	protected double neighborsHaveSimilarHeightsOdds;
@@ -71,7 +74,9 @@ public abstract class BuildingLot extends ConnectedLot {
 	private final static Material fenceMaterial = Material.IRON_FENCE;
 	private final static int fenceHeight = 3;
 	
-	public abstract RoomProvider roomProviderForFloor(WorldGenerator generator, int floor);
+	public RoomProvider roomProviderForFloor(WorldGenerator generator, int floor) {
+		return contentsNothing;
+	}
 	
 	public BuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);

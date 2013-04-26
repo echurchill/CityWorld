@@ -1,7 +1,7 @@
 package me.daddychurchill.CityWorld.Context;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Buildings.WarehouseLot;
+import me.daddychurchill.CityWorld.Buildings.WarehouseBuildingLot;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -54,7 +54,7 @@ public class IndustrialContext extends UrbanContext {
 	@Override
 	protected PlatLot getBuilding(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		if (odds.playOdds(oddsOfWarehouse))
-			return new WarehouseLot(platmap, chunkX, chunkZ);
+			return new WarehouseBuildingLot(platmap, chunkX, chunkZ);
 		else
 			return super.getBuilding(generator, platmap, odds, chunkX, chunkZ);
 	}

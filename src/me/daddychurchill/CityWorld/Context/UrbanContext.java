@@ -1,8 +1,10 @@
 package me.daddychurchill.CityWorld.Context;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Buildings.LibraryLot;
+import me.daddychurchill.CityWorld.Buildings.EmptyBuildingLot;
+import me.daddychurchill.CityWorld.Buildings.LibraryBuildingLot;
 import me.daddychurchill.CityWorld.Buildings.OfficeBuildingLot;
+import me.daddychurchill.CityWorld.Buildings.StoreBuildingLot;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.ParkLot;
@@ -117,33 +119,21 @@ public abstract class UrbanContext extends CivilizedContext {
 	}
 	
 	protected PlatLot getBuilding(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
-//		switch (odds.getRandomInt(9)) {
-//		case 1:
-//			return new OfficeBuildingLot(platmap, chunkX, chunkZ);
-//		case 2:
-//			return new StoreLot(platmap, chunkX, chunkZ);
-//		case 3:
-//			return new ApartmentBuildingLot(platmap, chunkX, chunkZ);
-//		case 4:
-//			return new MixedUseLot(platmap, chunkX, chunkZ);
-//		case 5:
-//			return new StoreLot(platmap, chunkX, chunkZ);
-//		case 6:
-//			return new FactoryLot(platmap, chunkX, chunkZ);
-//		case 7:
-//			return new LaboratoryLot(platmap, chunkX, chunkZ);
-//		case 8:
-//			return new LibraryLot(platmap, chunkX, chunkZ);
-//		default:
-//			return new UnfinishedBuildingLot(platmap, chunkX, chunkZ);
-//		}
-		switch (odds.getRandomInt(10)) {
+		switch (odds.getRandomInt(8)) {
 		case 1:
-			return new UnfinishedBuildingLot(platmap, chunkX, chunkZ);
 		case 2:
-			return new LibraryLot(platmap, chunkX, chunkZ);
-		default:
+		case 3:
 			return new OfficeBuildingLot(platmap, chunkX, chunkZ);
+		case 4:
+//			return new ApartmentBuildingLot(platmap, chunkX, chunkZ);
+		case 5:
+			return new EmptyBuildingLot(platmap, chunkX, chunkZ);
+		case 6:
+			return new StoreBuildingLot(platmap, chunkX, chunkZ);
+		case 7:
+			return new LibraryBuildingLot(platmap, chunkX, chunkZ);
+		default:
+			return new UnfinishedBuildingLot(platmap, chunkX, chunkZ);
 		}
 	}
 }

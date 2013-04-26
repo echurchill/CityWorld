@@ -1,8 +1,8 @@
 package me.daddychurchill.CityWorld.Buildings.Rooms;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Support.Direction.Door;
 import me.daddychurchill.CityWorld.Support.Direction.Facing;
+import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -21,28 +21,32 @@ public class RegisterRoom extends FilledRoom {
 			Material materialGlass) {
 		switch (sideWithWall) {
 		case NORTH:
-			chunk.setBlocks(x, x + 1, y, y + height, z, z + depth, materialWall);
-			chunk.setBlocks(x + width - 1, x + width, y, y + height, z, z + depth, materialWall);
-			chunk.setBlocks(x + 1, x + width - 1, y, y + height, z + depth - 1, z + depth, materialWall);
-			chunk.setWoodenDoor(x + 1, y, z + depth - 1, Door.SOUTHBYSOUTHEAST);
+			chunk.setBlocks(x, x + 1, y, y + 2, z, z + 3, materialWall);
+			chunk.setBlocks(x, x + 1, y + 2, y + 3, z, z + 3, Material.THIN_GLASS);
+			chunk.setBlocks(x + 1, x + 2, y, y + 1, z, z + 1, materialWall);
+			chunk.setStair(x + 1, y + 1, z, Material.QUARTZ_STAIRS, Stair.NORTH);
+			chunk.setBlocks(x + 2, x + 3, y, y + 1, z, z + 3, Material.PISTON_BASE, (byte) 1);
 			break;
 		case SOUTH:
-			chunk.setBlocks(x, x + 1, y, y + height, z, z + depth, materialWall);
-			chunk.setBlocks(x + width - 1, x + width, y, y + height, z, z + depth, materialWall);
-			chunk.setBlocks(x + 1, x + width - 1, y, y + height, z, z + 1, materialWall);
-			chunk.setWoodenDoor(x + 1, y, z, Door.NORTHBYNORTHWEST);
+			chunk.setBlocks(x, x + 1, y, y + 2, z, z + 3, materialWall);
+			chunk.setBlocks(x, x + 1, y + 2, y + 3, z, z + 3, Material.THIN_GLASS);
+			chunk.setBlocks(x + 1, x + 2, y, y + 1, z + 2, z + 3, materialWall);
+			chunk.setStair(x + 1, y + 1, z + 2, Material.QUARTZ_STAIRS, Stair.SOUTH);
+			chunk.setBlocks(x + 2, x + 3, y, y + 1, z, z + 3, Material.PISTON_BASE, (byte) 1);
 			break;
 		case WEST:
-			chunk.setBlocks(x, x + width, y, y + height, z, z + 1, materialWall);
-			chunk.setBlocks(x, x + width, y, y + height, z + depth - 1, z + depth, materialWall);
-			chunk.setBlocks(x + width - 1, x + width, y, y + height, z + 1, z + depth - 1, materialWall);
-			chunk.setWoodenDoor(x + width - 1, y, z + 1, Door.EASTBYNORTHEAST);
+			chunk.setBlocks(x, x + 3, y, y + 2, z, z + 1, materialWall);
+			chunk.setBlocks(x, x + 3, y + 2, y + 3, z, z + 1, Material.THIN_GLASS);
+			chunk.setBlocks(x, x + 1, y, y + 1, z + 1, z + 2, materialWall);
+			chunk.setStair(x, y + 1, z + 1, Material.QUARTZ_STAIRS, Stair.WEST);
+			chunk.setBlocks(x, x + 3, y, y + 1, z + 2, z + 3, Material.PISTON_BASE, (byte) 1);
 			break;
 		case EAST:
-			chunk.setBlocks(x, x + width, y, y + height, z, z + 1, materialWall);
-			chunk.setBlocks(x, x + width, y, y + height, z + depth - 1, z + depth, materialWall);
-			chunk.setBlocks(x, x + 1, y, y + height, z + 1, z + depth - 1, materialWall);
-			chunk.setWoodenDoor(x, y, z + 1, Door.WESTBYNORTHWEST);
+			chunk.setBlocks(x, x + 3, y, y + 2, z, z + 1, materialWall);
+			chunk.setBlocks(x, x + 3, y + 2, y + 3, z, z + 1, Material.THIN_GLASS);
+			chunk.setBlocks(x + 2, x + 3, y, y + 1, z + 1, z + 2, materialWall);
+			chunk.setStair(x + 2, y + 1, z + 1, Material.QUARTZ_STAIRS, Stair.EAST);
+			chunk.setBlocks(x, x + 3, y, y + 1, z + 2, z + 3, Material.PISTON_BASE, (byte) 1);
 			break;
 		}
 	}

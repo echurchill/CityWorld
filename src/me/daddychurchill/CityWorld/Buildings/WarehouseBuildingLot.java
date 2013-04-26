@@ -12,7 +12,7 @@ import me.daddychurchill.CityWorld.Plats.FinishedBuildingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 
-public class WarehouseLot extends FinishedBuildingLot {
+public class WarehouseBuildingLot extends FinishedBuildingLot {
 	
 	private static RoomProvider contentsRandom = new WarehouseWithRandom();
 	private static RoomProvider contentsBooks = new WarehouseWithBooks();
@@ -24,7 +24,7 @@ public class WarehouseLot extends FinishedBuildingLot {
 	public enum ContentStyle {RANDOM, BOOKS, BOXES, EMPTY, STACKS}; // CHESTS
 	private ContentStyle contentStyle;
 
-	public WarehouseLot(PlatMap platmap, int chunkX, int chunkZ) {
+	public WarehouseBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
 		firstFloorHeight = firstFloorHeight * 2;
@@ -56,8 +56,8 @@ public class WarehouseLot extends FinishedBuildingLot {
 		boolean result = super.makeConnected(relative);
 		
 		// other bits
-		if (result && relative instanceof WarehouseLot) {
-			WarehouseLot relativebuilding = (WarehouseLot) relative;
+		if (result && relative instanceof WarehouseBuildingLot) {
+			WarehouseBuildingLot relativebuilding = (WarehouseBuildingLot) relative;
 
 			// any other bits
 			contentStyle = relativebuilding.contentStyle;
@@ -68,7 +68,7 @@ public class WarehouseLot extends FinishedBuildingLot {
 
 	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
-		return new WarehouseLot(platmap, chunkX, chunkZ);
+		return new WarehouseBuildingLot(platmap, chunkX, chunkZ);
 	}
 
 	@Override

@@ -12,7 +12,7 @@ import me.daddychurchill.CityWorld.Plats.FinishedBuildingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 
-public class LibraryLot extends FinishedBuildingLot {
+public class LibraryBuildingLot extends FinishedBuildingLot {
 
 	private static RoomProvider contentsRandom = new LibraryWithRandom();
 	private static RoomProvider contentsNoBooks = new LibraryWithNoBooks();
@@ -21,7 +21,7 @@ public class LibraryLot extends FinishedBuildingLot {
 	private static RoomProvider contentsAllBooks = new LibraryWithAllBooks();
 	private static RoomProvider contentsLounges = new LibraryWithLounges();
 	
-	public LibraryLot(PlatMap platmap, int chunkX, int chunkZ) {
+	public LibraryBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		// TODO Auto-generated constructor stub
 	}
@@ -72,7 +72,7 @@ public class LibraryLot extends FinishedBuildingLot {
 
 	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
-		return new LibraryLot(platmap, chunkX, chunkZ);
+		return new LibraryBuildingLot(platmap, chunkX, chunkZ);
 	}
 
 }

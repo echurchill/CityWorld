@@ -5,14 +5,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.Buildings.Populators.ResidentialApartments;
-import me.daddychurchill.CityWorld.Buildings.Populators.BusinessWithCafe;
-import me.daddychurchill.CityWorld.Buildings.Populators.ResidentialHouses;
-import me.daddychurchill.CityWorld.Buildings.Populators.BusinessWithBooks;
-import me.daddychurchill.CityWorld.Buildings.Populators.BusinessWithManufacturing;
-import me.daddychurchill.CityWorld.Buildings.Populators.OfficeWithRooms;
-import me.daddychurchill.CityWorld.Buildings.Populators.OfficeWithCubicles;
-import me.daddychurchill.CityWorld.Buildings.Populators.BusinessWithStock;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider;
 import me.daddychurchill.CityWorld.Context.FloatingRoadContext;
 import me.daddychurchill.CityWorld.Context.MunicipalContext;
@@ -35,7 +27,6 @@ import me.daddychurchill.CityWorld.Plugins.HouseProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.OdonymProvider;
 import me.daddychurchill.CityWorld.Plugins.OreProvider;
-import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider;
@@ -73,15 +64,6 @@ public class WorldGenerator extends ChunkGenerator {
 	public OdonymProvider odonymProvider;
 	public BalloonProvider balloonProvider;
 	public HouseProvider houseProvider;
-	
-	public RoomProvider roomProvider_House;
-	public RoomProvider roomProvider_Apartment;
-	public RoomProvider roomProvider_Storage;
-	public RoomProvider roomProvider_Office;
-	public RoomProvider roomProvider_Library;
-	public RoomProvider roomProvider_Machines;
-	public RoomProvider roomProvider_Cafe;
-	public RoomProvider roomProvider_Store;
 	
 	public WorldBlocks decayBlocks;
 	
@@ -182,16 +164,6 @@ public class WorldGenerator extends ChunkGenerator {
 			houseProvider = HouseProvider.loadProvider(this);
 			decayBlocks = new WorldBlocks(this, new Odds(worldSeed + 6));
 			pasteProvider = PasteProvider.loadProvider(this);
-			
-			// room populators
-			roomProvider_Storage = new OfficeWithCubicles();
-			roomProvider_House = new ResidentialHouses();
-			roomProvider_Apartment = new ResidentialApartments();
-			roomProvider_Office = new OfficeWithRooms();
-			roomProvider_Library = new BusinessWithBooks();
-			roomProvider_Machines = new BusinessWithManufacturing();
-			roomProvider_Cafe = new BusinessWithCafe();
-			roomProvider_Store = new BusinessWithStock();
 			
 			// get ranges
 			height = shapeProvider.getWorldHeight();
