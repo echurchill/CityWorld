@@ -40,9 +40,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		// get connected lots
 		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);
 		
-		if (!neighborFloors.toNorth() && !neighborFloors.toSouth() && 
-			!neighborFloors.toWest() && !neighborFloors.toEast() &&
-			height > 1) {
+		if (!neighborFloors.adjacentNeighbors() && height > 1) {
 			
 			// make sure we don't have needle buildings
 			platmap.generator.reportMessage("Found a skinny tall building");
@@ -53,7 +51,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				   (!neighborFloors.toWest() && !neighborFloors.toEast())) {
 
 			// clear insets
-			insetInsetted = false;
+//			insetInsetted = false;
 		}
 		
 		return null;
@@ -184,7 +182,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 
 		// is rounding allowed?
 		boolean allowRounded = rounded && 
-				insetWallWE == insetWallNS && insetCeilingWE == insetCeilingNS;
+							   insetWallWE == insetWallNS && 
+							   insetCeilingWE == insetCeilingNS &&
+							   neighborFloors.isRoundable();
 		
 		// starting with the bottom
 		int lowestY = getBottomY(generator);
@@ -264,8 +264,10 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		
 		// is rounding allowed and where are the stairs
 		boolean allowRounded = rounded && 
-				insetWallWE == insetWallNS && insetCeilingWE == insetCeilingNS;
-		allowRounded = allowRounded && neighborFloors.isRoundable();
+				insetWallWE == insetWallNS && 
+				insetCeilingWE == insetCeilingNS &&
+				neighborFloors.isRoundable();
+		
 		StairWell stairLocation = getStairWellLocation(allowRounded, neighborFloors);
 		if (!needStairsUp)
 			stairLocation = StairWell.NONE;

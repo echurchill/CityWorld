@@ -55,8 +55,9 @@ public class CityWorldSettings {
 	public boolean includeDecayedRoads = false;
 	public boolean includeDecayedBuildings = false;
 	public boolean includeDecayedNature = false;
+	public boolean includeBuildingInteriors = true;
+
 	public boolean includeTekkitMaterials = false;
-	
 	public boolean forceLoadWorldEdit = false;
 	
 	public int centerPointOfChunkRadiusX = 0;
@@ -120,6 +121,7 @@ public class CityWorldSettings {
 	public final static String tagIncludeDecayedRoads = "IncludeDecayedRoads";
 	public final static String tagIncludeDecayedBuildings = "IncludeDecayedBuildings";
 	public final static String tagIncludeDecayedNature = "IncludeDecayedNature";
+	public final static String tagIncludeBuildingInteriors = "IncludeBuildingInteriors";
 	
 	public final static String tagForceLoadWorldEdit = "ForceLoadWorldEdit";
 	
@@ -235,6 +237,7 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeDecayedRoads, includeDecayedRoads);
 			section.addDefault(tagIncludeDecayedBuildings, includeDecayedBuildings);
 			section.addDefault(tagIncludeDecayedNature, includeDecayedNature);
+			section.addDefault(tagIncludeBuildingInteriors, includeBuildingInteriors);
 			
 			section.addDefault(tagForceLoadWorldEdit, forceLoadWorldEdit);
 			
@@ -271,6 +274,7 @@ public class CityWorldSettings {
 			includeDecayedRoads = section.getBoolean(tagIncludeDecayedRoads, includeDecayedRoads);
 			includeDecayedBuildings = section.getBoolean(tagIncludeDecayedBuildings, includeDecayedBuildings);
 			includeDecayedNature = section.getBoolean(tagIncludeDecayedNature, includeDecayedNature);
+			includeBuildingInteriors = section.getBoolean(tagIncludeBuildingInteriors, includeBuildingInteriors);
 			
 			forceLoadWorldEdit = section.getBoolean(tagForceLoadWorldEdit, forceLoadWorldEdit);
 			
@@ -339,6 +343,7 @@ public class CityWorldSettings {
 			section.set(tagIncludeDecayedRoads, includeDecayedRoads);
 			section.set(tagIncludeDecayedBuildings, includeDecayedBuildings);
 			section.set(tagIncludeDecayedNature, includeDecayedNature);
+			section.set(tagIncludeBuildingInteriors, includeBuildingInteriors);
 			
 			section.set(tagForceLoadWorldEdit, forceLoadWorldEdit);
 			

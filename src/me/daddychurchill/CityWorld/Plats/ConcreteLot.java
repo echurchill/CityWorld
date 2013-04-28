@@ -30,7 +30,7 @@ public class ConcreteLot extends BuildingLot {
 
 		// top it off
 		chunk.setLayer(groundY, generator.oreProvider.subsurfaceId);
-		chunk.setLayer(groundY + 1, RoundaboutStatueLot.curbId);
+		chunk.setLayer(groundY + 1, RoadLot.sidewalkId);
 	}
 
 	@Override
