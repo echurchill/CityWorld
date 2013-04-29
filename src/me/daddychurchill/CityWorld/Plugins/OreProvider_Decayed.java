@@ -7,7 +7,10 @@ public class OreProvider_Decayed extends OreProvider_Normal {
 	public OreProvider_Decayed(WorldGenerator generator) {
 		super(generator);
 
-		fluidId = stillLavaId;
+		if (generator.settings.includeLavaFields) {
+			fluidId = stillLavaId;
+			fluidFluidId = fluidLavaId;
+		}
 		surfaceId = sandId;
 		subsurfaceId = sandstoneId;
 	}

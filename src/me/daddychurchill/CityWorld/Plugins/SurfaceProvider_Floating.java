@@ -20,11 +20,13 @@ public class SurfaceProvider_Floating extends SurfaceProvider {
 	
 	@Override
 	public void generateSurface(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs, boolean includeTrees) {
-		ShapeProvider shape = generator.shapeProvider;
-		FoliageProvider foliage = generator.foliageProvider;
-		for (int x = 0; x < chunk.width; x++) {
-			for (int z = 0; z < chunk.width; z++) {
-				generateSurfacePoint(generator, lot, chunk, foliage, x, shape.findGroundY(generator, chunk.getBlockX(x), chunk.getBlockZ(z)), z, includeTrees);
+		if (generator.settings.includeFloatingSubsurface) {
+			ShapeProvider shape = generator.shapeProvider;
+			FoliageProvider foliage = generator.foliageProvider;
+			for (int x = 0; x < chunk.width; x++) {
+				for (int z = 0; z < chunk.width; z++) {
+					generateSurfacePoint(generator, lot, chunk, foliage, x, shape.findGroundY(generator, chunk.getBlockX(x), chunk.getBlockZ(z)), z, includeTrees);
+				}
 			}
 		}
 	}

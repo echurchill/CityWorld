@@ -84,36 +84,37 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 		// shape the world
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {
-				
-				// where is the ground?
-				int groundY = findGroundY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
-				
-				// make the base
-				chunk.setBlock(x, 0, z, ores.substratumId);
-				
-				// place the way down there bits
-				chunk.setBlocks(x, 1, groundY - 1, z, ores.stratumId);
-				
-				// seas?
-				if (groundY < seaLevel) {
-					chunk.setBlock(x, groundY - 1, z, ores.fluidSubsurfaceId);
-					chunk.setBlock(x, groundY, z, ores.fluidSurfaceId);
-					if (generator.settings.includeAbovegroundFluids) {
-						if (generator.settings.includeDecayedNature)
-							chunk.setBlocks(x, groundY + 1, deepSeaLevel, z, ores.fluidId);
-						else
-							chunk.setBlocks(x, groundY + 1,  seaLevel, z, ores.fluidId);
+				if (generator.settings.includeFloatingSubsurface) {
+					
+					// where is the ground?
+					int groundY = findGroundY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
+					
+					// make the base
+					chunk.setBlock(x, 0, z, ores.substratumId);
+					
+					// place the way down there bits
+					chunk.setBlocks(x, 1, groundY - 1, z, ores.stratumId);
+					
+					// seas?
+					if (groundY < seaLevel) {
+						chunk.setBlock(x, groundY - 1, z, ores.fluidSubsurfaceId);
+						chunk.setBlock(x, groundY, z, ores.fluidSurfaceId);
+						if (generator.settings.includeAbovegroundFluids) {
+							if (generator.settings.includeDecayedNature)
+								chunk.setBlocks(x, groundY + 1, deepSeaLevel, z, ores.fluidId);
+							else
+								chunk.setBlocks(x, groundY + 1,  seaLevel, z, ores.fluidId);
+						}
+					} else {
+						chunk.setBlock(x, groundY - 1, z, ores.subsurfaceId);
+						chunk.setBlock(x, groundY, z, ores.surfaceId);
 					}
-				} else {
-					chunk.setBlock(x, groundY - 1, z, ores.subsurfaceId);
-					chunk.setBlock(x, groundY, z, ores.surfaceId);
 				}
-				
+					
 				// set biome for block
 				biomes.setBiome(x, z, generator.oreProvider.remapBiome(resultBiome));
 			}
 		}
-		
 	}
 	
 	private final static double underworldOdds = 0.50;

@@ -1,14 +1,21 @@
 ToDo
+	
 --------------------
 Noise generator based city/region distribution
 Better terrain generation
 Better cave generation
+Better mine shaft generation
+GenerationChunkRange to limit the extent of world generation
 
 New building styles
 --------------------
 Column facade
 More roof styles
 Underwater bases
+Bunker farms
+Bunker round tanks
+Bunker building ids markings
+Parks with unfinished construction
 
 Furniture!
 --------------------
@@ -18,6 +25,7 @@ Bank buildings
 Bunker interiors
 Factory buildings
 Apartment buildings
+Bunker floors and stairs
 
 Modified terrain generations...
 --------------------
