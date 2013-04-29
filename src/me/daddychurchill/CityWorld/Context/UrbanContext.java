@@ -126,6 +126,10 @@ public abstract class UrbanContext extends CivilizedContext {
 			return new OfficeBuildingLot(platmap, chunkX, chunkZ);
 		case 4:
 //			return new ApartmentBuildingLot(platmap, chunkX, chunkZ);
+//			return new BankBuildingLot(platmap, chunkX, chunkZ);
+//			return new FactoryBuildingLot(platmap, chunkX, chunkZ);
+//			return new XBuildingLot(platmap, chunkX, chunkZ);
+//			return new YBuildingLot(platmap, chunkX, chunkZ);
 		case 5:
 			return new EmptyBuildingLot(platmap, chunkX, chunkZ);
 		case 6:

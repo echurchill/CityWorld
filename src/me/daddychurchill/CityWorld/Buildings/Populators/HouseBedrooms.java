@@ -3,21 +3,13 @@ package me.daddychurchill.CityWorld.Buildings.Populators;
 import me.daddychurchill.CityWorld.Buildings.Rooms.EmptyRoom;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 
-public class ResidentialHouses extends RoomProvider {
+public class HouseBedrooms extends RoomProvider {
 
-	public ResidentialHouses() {
+	public HouseBedrooms() {
 		super();
 
 		roomTypes.add(new EmptyRoom());
 
-		// kitchen
-		// living room
-		// dining room
-		// bedroom
-		// study
-
 	}
-	
-	// need to have a specific room request
 
 }

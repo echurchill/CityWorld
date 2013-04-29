@@ -7,30 +7,27 @@ There is an entire world to explore, have fun!
 ==== <<color green>>If you like CityWorld, please consider donating via the **Donate** button in the upper right corner.<</color>> ====
 
 ----
-===== //Version 2.03// ===== 
+===== //Version 2.9// ===== 
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, 
 if the above version isn't available check back in an hour or so... 
-...or possibly look [[http://dev.bukkit.org/server-mods/cityworld/files/26-v2-03/|here]]))//,,
+...or possibly look [[http://dev.bukkit.org/media/files/697/938/CityWorld.jar|here]])//,,
 
 {{http://dev.bukkit.org/media/images/42/720/2012-07-04_11.31.52.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
-v2.03
-* Now with Reeds!
-* Incorporated Forge/Tekkit block delegate support by brikeener (http://code.google.com/p/cityworld-tekkit/source)
-* Incorporated CityInfo command by Sablednah (https://github.com/echurchill/CityWorld/pull/4)
-* Added Decayable option to schematics
-* Added support for WorldEdit [[http://dev.bukkit.org/server-mods/cityworld/pages/schematics/|schematics]].
-If you want to use this feature, you will need to make sure you have WorldEdit 5.4.2 installed.
-* Almost every file has changed, I am pretty sure some new bugs have been created while fixing 
-other ones but I hope the features now out number the bugs
-* Fixed a silly glitch that made CityWorld fail if WorldEdit wasn't installed. 
-* Bukkit 1.3.2 happiness
-* Added a ruined castle up in the mountains
-* Added warehouses (double high single story buildings) in the industrial zone
-* Added storage lots (like radio tower bases but with "stuff") in the industrial zone
-* Still no procedural interiors, sorry but I think the schematics feature makes up for it for now :-)
+v2.9
+* Tested against Bukkit 1.5.1-R0.2
+* BETA version of the furniture generators... a lot more to do but here ya go :-)
+* Added interior building furnishings
+* Added interior building walls
+* Added a lot of new stair styles
+* Still no furniture in the Houses, Bunkers or Sheds
+* Added latest Minecraft materials
+* Added **ForceLoadWorldEdit** for those of you who are using beta versions of WorldEdit, set it to true to skip version testing
+* Incorporated PhatLoots fixes by SpaceRibs (https://github.com/echurchill/CityWorld/commit/dad7faeb0712243e24be4fac0e73318d4dee2655)
+* Fixed some WorldEdit pasting issues
+* Fixed loads of other bugs
 
 ----
 ** Personal note **

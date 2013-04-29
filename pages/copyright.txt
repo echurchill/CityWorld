@@ -25,6 +25,7 @@ Contains (sometimes literally copied, sometimes loosely based on) ideas and code
 * **Nightgunner5** (initial ore populator idea)
 * **Markus Persson** (who modified Nightgunner5's idea)
 * **simplex** (who modified Markus's modification to Nightgunner5's idea)
+* **SpaceRibs** (who got PhatLoots to work again)
 * I am sure there are others I have borrowed ideas/code from. 
 If so, raise your hand and I will be happy to add you name here. :-)
 

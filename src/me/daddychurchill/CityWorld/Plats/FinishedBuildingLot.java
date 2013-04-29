@@ -43,7 +43,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		if (!neighborFloors.adjacentNeighbors() && height > 1) {
 			
 			// make sure we don't have needle buildings
-			platmap.generator.reportMessage("Found a skinny tall building");
+			//platmap.generator.reportMessage("Found a skinny tall building");
 			return new ConcreteLot(platmap, platmap.originX + platX, platmap.originZ + platZ);
 			
 		// if nothing to north/south or west/east then no insets for us

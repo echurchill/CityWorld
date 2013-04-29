@@ -11,6 +11,19 @@
 ----
 == Versions
 
+v2.9
+* Tested against Bukkit 1.5.1-R0.2
+* BETA version of the furniture generators... a lot more to do but here ya go :-)
+* Added interior building furnishings
+* Added interior building walls
+* Added a lot of new stair styles
+* Still no furniture in the Houses, Bunkers or Sheds
+* Added latest Minecraft materials
+* Added **ForceLoadWorldEdit** for those of you who are using beta versions of WorldEdit, set it to true to skip version testing
+* Incorporated PhatLoots fixes by SpaceRibs (https://github.com/echurchill/CityWorld/commit/dad7faeb0712243e24be4fac0e73318d4dee2655)
+* Fixed some WorldEdit pasting issues
+* Fixed loads of other bugs
+
 v2.03
 * Now with Reeds!
 

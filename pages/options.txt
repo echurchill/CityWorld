@@ -70,6 +70,8 @@ If you are wanting to create a particular [[http://dev.bukkit.org/server-mods/ci
 |IncludeDecayedRoads|If roads are generated, destroy them a little|false|
 |IncludeDecayedBuildings|If buildings are generated, destroy them a little|false|
 |IncludeDecayedNature|Where nature is generated, destroy it a little|false|
+|IncludeBuildingInteriors|Put stuff inside of buildings|true|
+|ForceLoadWorldEdit|Ignores WorldEdit version numbers|false|
 ** Note: ** Some of the above options will default a different way in worlds generated in the Nether or The_End. 
 
 === Generation Range ===

@@ -3,6 +3,10 @@ package me.daddychurchill.CityWorld.Plugins;
 import org.bukkit.Material;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Buildings.Populators.HouseBedrooms;
+import me.daddychurchill.CityWorld.Buildings.Populators.HouseDiningRooms;
+import me.daddychurchill.CityWorld.Buildings.Populators.HouseKitchens;
+import me.daddychurchill.CityWorld.Buildings.Populators.HouseLivingRooms;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Support.Direction;
@@ -14,11 +18,15 @@ import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
 
 public class HouseProvider extends Provider {
 
+	private static RoomProvider contentsKitchen = new HouseKitchens();
+	private static RoomProvider contentsBedroom = new HouseBedrooms();
+	private static RoomProvider contentsDiningRoom = new HouseDiningRooms();
+	private static RoomProvider contentsLivingRoom = new HouseLivingRooms();
+	
 	public HouseProvider() {
 		super();
-		// TODO Auto-generated constructor stub
-	}
 
+	}
 	
 	public final static HouseProvider loadProvider(WorldGenerator generator) {
 		// for now
@@ -147,7 +155,7 @@ public class HouseProvider extends Provider {
 	private final static Material materialStair = Material.WOOD_STAIRS;
 	private final static Material materialUnderStairs = Material.WOOD;
 	
-	private final static int MinSize = 4;
+	private final static int MinSize = 5;//4;
 	private final static int MaxSize = 6;
 	private final static int MissingRoomOdds = 5; // 1/n of the time a room is missing
 	
