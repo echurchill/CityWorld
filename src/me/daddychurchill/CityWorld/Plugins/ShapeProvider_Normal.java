@@ -1,7 +1,18 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Maps.NormalMap;
+import me.daddychurchill.CityWorld.Context.ConstructionContext;
+import me.daddychurchill.CityWorld.Context.DataContext;
+import me.daddychurchill.CityWorld.Context.FarmContext;
+import me.daddychurchill.CityWorld.Context.HighriseContext;
+import me.daddychurchill.CityWorld.Context.IndustrialContext;
+import me.daddychurchill.CityWorld.Context.LowriseContext;
+import me.daddychurchill.CityWorld.Context.MidriseContext;
+import me.daddychurchill.CityWorld.Context.MunicipalContext;
+import me.daddychurchill.CityWorld.Context.NatureContext;
+import me.daddychurchill.CityWorld.Context.NeighborhoodContext;
+import me.daddychurchill.CityWorld.Context.ParkContext;
+import me.daddychurchill.CityWorld.Context.RoadContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
@@ -17,6 +28,16 @@ import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 public class ShapeProvider_Normal extends ShapeProvider {
 
+	public DataContext parkContext;
+	public DataContext highriseContext;
+	public DataContext constructionContext;
+	public DataContext midriseContext;
+	public DataContext municipalContext;
+	public DataContext industrialContext;
+	public DataContext lowriseContext;
+	public DataContext neighborhoodContext;
+	public DataContext farmContext;
+	
 	public SimplexOctaveGenerator landShape1;
 	public SimplexOctaveGenerator landShape2;
 	public SimplexOctaveGenerator seaShape;
@@ -94,10 +115,96 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	}
 	
 	@Override
-	public PlatMap createPlatMap(WorldGenerator generator, int platX, int platZ) {
-		return new NormalMap(generator, platX, platZ);
+	public void populateLots(WorldGenerator generator, PlatMap platmap) {
+		try {
+			allocateContexts(generator);
+
+			// assume everything is natural for the moment
+			platmap.context = natureContext;
+			natureContext.populateMap(generator, platmap);
+			natureContext.validateMap(generator, platmap);
+			
+			// place and validate the roads
+			if (generator.settings.includeRoads) {
+				platmap.populateRoads();
+				platmap.validateRoads();
+	
+				// place the buildings
+				if (generator.settings.includeBuildings) {
+		
+					// recalculate the context based on the "natural-ness" of the platmap
+					platmap.context = getContext(platmap);
+					platmap.context.populateMap(generator, platmap);
+					platmap.context.validateMap(generator, platmap);
+				}
+				
+				// one last check
+				validateLots(generator, platmap);
+			}
+		} catch (Exception e) {
+			generator.reportException("NormalMap.populateLots FAILED", e);
+
+		} 
 	}
 	
+	@Override
+	protected void validateLots(WorldGenerator generator, PlatMap platmap) {
+		// nothing to do in this one
+	}
+	
+	@Override
+	protected void allocateContexts(WorldGenerator generator) {
+		if (!contextInitialized) {
+			natureContext = new NatureContext(generator);
+			roadContext = new RoadContext(generator);
+			
+			parkContext = new ParkContext(generator);
+			highriseContext = new HighriseContext(generator);
+			constructionContext = new ConstructionContext(generator);
+			midriseContext = new MidriseContext(generator);
+			municipalContext = new MunicipalContext(generator);
+			industrialContext = new IndustrialContext(generator);
+			lowriseContext = new LowriseContext(generator);
+			neighborhoodContext = new NeighborhoodContext(generator);
+			farmContext = new FarmContext(generator);
+			
+			contextInitialized = true;
+		}
+	}
+	
+	private final static double oddsOfCentralPark = DataContext.oddsUnlikely;
+	protected DataContext getContext(PlatMap platmap) {
+		
+		// how natural is this platmap?
+		float nature = platmap.getNaturePercent();
+		if (nature == 0.0) {
+			if (platmap.getOddsGenerator().playOdds(oddsOfCentralPark))
+				return parkContext;
+			else
+				return highriseContext;
+		}
+		else if (nature < 0.15)
+			return constructionContext;
+		else if (nature < 0.25)
+			return midriseContext;
+		else if (nature < 0.37)
+			return municipalContext;
+		else if (nature < 0.50)
+			return industrialContext;
+		else if (nature < 0.65)
+			return lowriseContext;
+		else if (nature < 0.75)
+			return neighborhoodContext;
+		else if (nature < 0.90 && platmap.generator.settings.includeFarms)
+			return farmContext;
+		else if (nature < 1.0)
+			return neighborhoodContext;
+		
+		// otherwise just keep what we have
+		else
+			return natureContext;
+	}
+
 	@Override
 	public String getCollectionName() {
 		return "Normal";

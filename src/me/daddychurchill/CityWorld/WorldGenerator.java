@@ -6,20 +6,6 @@ import java.util.List;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider;
-import me.daddychurchill.CityWorld.Context.FloatingRoadContext;
-import me.daddychurchill.CityWorld.Context.MunicipalContext;
-import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Context.FarmContext;
-import me.daddychurchill.CityWorld.Context.HighriseContext;
-import me.daddychurchill.CityWorld.Context.IndustrialContext;
-import me.daddychurchill.CityWorld.Context.LowriseContext;
-import me.daddychurchill.CityWorld.Context.MidriseContext;
-import me.daddychurchill.CityWorld.Context.FloatingNatureContext;
-import me.daddychurchill.CityWorld.Context.NatureContext;
-import me.daddychurchill.CityWorld.Context.NeighborhoodContext;
-import me.daddychurchill.CityWorld.Context.ConstructionContext;
-import me.daddychurchill.CityWorld.Context.ParkContext;
-import me.daddychurchill.CityWorld.Context.RoadContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plugins.BalloonProvider;
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider;
@@ -67,19 +53,6 @@ public class WorldGenerator extends ChunkGenerator {
 	
 	public WorldBlocks decayBlocks;
 	
-	public NatureContext natureContext;
-	public RoadContext roadContext;
-	
-	public DataContext parkContext;
-	public DataContext highriseContext;
-	public DataContext constructionContext;
-	public DataContext midriseContext;
-	public DataContext municipalContext;
-	public DataContext industrialContext;
-	public DataContext lowriseContext;
-	public DataContext neighborhoodContext;
-	public DataContext farmContext;
-
 	public CityWorldSettings settings;
 
 	public int streetLevel;
@@ -101,11 +74,13 @@ public class WorldGenerator extends ChunkGenerator {
 	
 	public enum WorldStyle {
 		FLOATING,		// very low terrain with floating houses and cities
-		//LUNAR,		// lunar landscape with lunar bases
-		//FLOODED,		// traditional terrain and cities but with raised sea level
+		FLOODED,		// traditional terrain and cities but with raised sea level
+		SNOWDUNES,		// traditional terrain and cities but covered with snow dunes
+		SANDDUNES,		// traditional terrain and cities but covered with sand dunes
 		//UNDERWATER,	// traditional terrain with raised sea level with under water cities
 		//WESTERN,		// desert landscape with sparse western styled towns and ranches
 		//UNDERGROUND,	// elevated terrain with underground cities
+		//LUNAR,		// lunar landscape with lunar bases
 		NORMAL};   		// traditional terrain and cities
 	
 	public WorldGenerator(CityWorld plugin, String worldName, String worldStyle) {
@@ -153,6 +128,7 @@ public class WorldGenerator extends ChunkGenerator {
 			settings = new CityWorldSettings(this);
 			worldSeed = world.getSeed();
 			connectionKeyGen = new Odds(worldSeed + 1);
+
 			shapeProvider = ShapeProvider.loadProvider(this, new Odds(worldSeed + 2));
 			lootProvider = LootProvider.loadProvider(this);
 			spawnProvider = SpawnProvider.loadProvider(this);
@@ -165,36 +141,13 @@ public class WorldGenerator extends ChunkGenerator {
 			decayBlocks = new WorldBlocks(this, new Odds(worldSeed + 6));
 			pasteProvider = PasteProvider.loadProvider(this);
 			
-			// get ranges
+			// get ranges and contexts
 			height = shapeProvider.getWorldHeight();
 			seaLevel = shapeProvider.getSeaLevel();
 			landRange = shapeProvider.getLandRange();
 			seaRange = shapeProvider.getSeaRange();
 			structureLevel = shapeProvider.getStructureLevel();
 			streetLevel = shapeProvider.getStreetLevel();
-
-			// world style please
-			switch (worldStyle) {
-			case FLOATING:
-				natureContext = new FloatingNatureContext(this);
-				roadContext = new FloatingRoadContext(this);
-				break;
-			case NORMAL:
-				natureContext = new NatureContext(this);
-				roadContext = new RoadContext(this);
-				break;
-			}
-			
-			// various contexts
-			parkContext = new ParkContext(this);
-			highriseContext = new HighriseContext(this);
-			constructionContext = new ConstructionContext(this);
-			midriseContext = new MidriseContext(this);
-			municipalContext = new MunicipalContext(this);
-			industrialContext = new IndustrialContext(this);
-			lowriseContext = new LowriseContext(this);
-			neighborhoodContext = new NeighborhoodContext(this);
-			farmContext = new FarmContext(this);
 			
 			// did we load any schematics?
 			pasteProvider.reportStatus(this);
@@ -337,7 +290,7 @@ public class WorldGenerator extends ChunkGenerator {
 		if (platmap == null) {
 			
 			// what is the context for this one?
-			platmap = shapeProvider.createPlatMap(this, platX, platZ);
+			platmap = new PlatMap(this, shapeProvider, platX, platZ);
 			
 			// remember it for quicker look up
 			platmaps.put(platkey, platmap);

@@ -7,6 +7,7 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
+import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
@@ -16,7 +17,7 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-public abstract class PlatMap {
+public class PlatMap {
 	
 	// Class Constants
 	public static final int Width = 10;
@@ -28,9 +29,9 @@ public abstract class PlatMap {
 	public int originZ;
 	public DataContext context;
 	protected PlatLot[][] platLots;
-	protected int naturalPlats;
+	private int naturalPlats;
 
-	public PlatMap(WorldGenerator generator, int originX, int originZ) {
+	public PlatMap(WorldGenerator generator, ShapeProvider shapeProvider, int originX, int originZ) {
 		super();
 		
 		// populate the instance data
@@ -43,7 +44,8 @@ public abstract class PlatMap {
 		platLots = new PlatLot[Width][Width];
 		naturalPlats = 0;
 		
-		populateLots();
+		// do the deed
+		shapeProvider.populateLots(generator, this);
 		
 		// recycle all the remaining holes
 		for (int x = 0; x < Width; x++) {
@@ -54,8 +56,10 @@ public abstract class PlatMap {
 		}
 	}
 	
-	protected abstract void populateLots();
-
+	public float getNaturePercent() {
+		return naturalPlats / (Width * Width);
+	}
+	
 	public Odds getOddsGenerator() {
 		return generator.shapeProvider.getMacroOddsGeneratorAt(originX, originZ);
 	}
@@ -96,37 +100,6 @@ public abstract class PlatMap {
 	}
 	
 	
-	private final static double oddsOfCentralPark = DataContext.oddsUnlikely;
-	protected DataContext getContext() {
-		
-		// how natural is this platmap?
-		if (naturalPlats == 0) {
-			if (getOddsGenerator().playOdds(oddsOfCentralPark))
-				return generator.parkContext;
-			else
-				return generator.highriseContext;
-		} else if (naturalPlats < 15)
-			return generator.constructionContext;
-		else if (naturalPlats < 25)
-			return generator.midriseContext;
-		else if (naturalPlats < 37)
-			return generator.municipalContext;
-		else if (naturalPlats < 50)
-			return generator.industrialContext;
-		else if (naturalPlats < 65)
-			return generator.lowriseContext;
-		else if (naturalPlats < 75)
-			return generator.neighborhoodContext;
-		else if (naturalPlats < 90 && generator.settings.includeFarms)
-			return generator.farmContext;
-		else if (naturalPlats < 100)
-			return generator.neighborhoodContext;
-		
-		// otherwise just keep what we have
-		else
-			return context;
-	}
-
 	public int getNumberOfRoads() {
 		int result = 0;
 		for (int x = 0; x < Width; x++) {
@@ -196,7 +169,7 @@ public abstract class PlatMap {
 		if (current == null || current.style != LotStyle.NATURE) {
 		
 			// place nature
-			platLots[x][z] = generator.natureContext.createNaturalLot(generator, this, x, z);
+			platLots[x][z] = generator.shapeProvider.createNaturalLot(generator, this, x, z);
 			naturalPlats++;
 		}
 	}
@@ -209,7 +182,7 @@ public abstract class PlatMap {
 			emptyLot(x, z);
 			
 			// place the lot
-			platLots[x][z] = generator.roadContext.createRoadLot(generator, this, x, z, roundaboutPart);
+			platLots[x][z] = generator.shapeProvider.createRoadLot(generator, this, x, z, roundaboutPart);
 		}
 	}
 	
@@ -259,7 +232,7 @@ public abstract class PlatMap {
 		return true;
 	}
 	
-	protected void populateRoads() {
+	public void populateRoads() {
 		
 		// place the big four
 		placeIntersection(RoadLot.PlatMapRoadInset - 1, RoadLot.PlatMapRoadInset - 1);
@@ -268,7 +241,7 @@ public abstract class PlatMap {
 		placeIntersection(Width - RoadLot.PlatMapRoadInset, Width - RoadLot.PlatMapRoadInset);
 	}
 	
-	protected void validateRoads() {
+	public void validateRoads() {
 		
 		// any roads leading out?
 		if (!(isRoad(0, RoadLot.PlatMapRoadInset - 1) ||
@@ -323,7 +296,7 @@ public abstract class PlatMap {
 					paveLot(x - 1, z + 1, true);
 					
 					paveLot(x    , z - 1, true);
-					setLot(x, z, generator.roadContext.createRoundaboutStatueLot(generator, this, originX + x, originZ + z));
+					setLot(x, z, generator.shapeProvider.createRoundaboutStatueLot(generator, this, originX + x, originZ + z));
 					paveLot(x    , z + 1, true);
 			
 					paveLot(x + 1, z - 1, true);

@@ -5,6 +5,9 @@ import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Context.DataContext;
+import me.daddychurchill.CityWorld.Context.NatureContext;
+import me.daddychurchill.CityWorld.Context.RoadContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
@@ -29,6 +32,17 @@ public abstract class ShapeProvider extends Provider {
 	public abstract void preGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs);
 	public abstract void postGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs);
 	
+	protected abstract DataContext getContext(PlatMap platmap);
+	protected abstract void allocateContexts(WorldGenerator generator);
+	public abstract String getCollectionName();
+	
+	public abstract void populateLots(WorldGenerator generator, PlatMap platmap);
+	protected abstract void validateLots(WorldGenerator generator, PlatMap platmap);
+
+	protected boolean contextInitialized = false;
+	public NatureContext natureContext;
+	public RoadContext roadContext;
+
 	private SimplexNoiseGenerator macroShape;
 	private SimplexNoiseGenerator microShape;
 	protected Odds odds;
@@ -44,6 +58,18 @@ public abstract class ShapeProvider extends Provider {
 	public int findGroundY(WorldGenerator generator, int blockX, int blockZ) {
 		return findBlockY(generator, blockX, blockZ);
 	}
+	
+	public PlatLot createNaturalLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
+		return natureContext.createNaturalLot(generator, platmap, x, z);
+	}
+	
+	public PlatLot createRoadLot(WorldGenerator generator, PlatMap platmap, int x, int z, boolean roundaboutPart)  {
+		return roadContext.createRoadLot(generator, platmap, x, z, roundaboutPart);
+	}
+
+	public PlatLot createRoundaboutStatueLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
+		return roadContext.createRoundaboutStatueLot(generator, platmap, x, z);
+	}
 
 	public ShapeProvider(WorldGenerator generator, Odds odds) {
 		super();
@@ -52,6 +78,7 @@ public abstract class ShapeProvider extends Provider {
 		
 		macroShape = new SimplexNoiseGenerator(seed + 2);
 		microShape = new SimplexNoiseGenerator(seed + 3);
+		
 	}
 
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
@@ -60,17 +87,19 @@ public abstract class ShapeProvider extends Provider {
 		switch (generator.worldStyle) {
 		case FLOATING:
 			return new ShapeProvider_Floating(generator, odds);
+		case FLOODED:
+			return new ShapeProvider_Flooded(generator, odds);
+		case SANDDUNES:
+			return new ShapeProvider_Sanddunes(generator, odds);
+		case SNOWDUNES:
+			return new ShapeProvider_Snowdunes(generator, odds);
 		//case UNDERGROUND
-		//case FLOODED:
 		//case LUNAR: // curved surface?
 		default: // NORMAL
 			return new ShapeProvider_Normal(generator, odds);
 		}
 	}
 	
-	public abstract PlatMap createPlatMap(WorldGenerator generator, int platX, int platZ);
-	public abstract String getCollectionName();
-
 	protected void generateStratas(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, byte substratumId, byte stratumId,
 			int stratumY, byte subsurfaceId, int subsurfaceY, byte surfaceId,
 			boolean surfaceCaves) {

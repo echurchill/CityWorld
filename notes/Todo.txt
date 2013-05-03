@@ -35,6 +35,8 @@ FloatingRoundaboutStatueLot
 
 New terrain generations...
 --------------------
+Pure schematic pasting mode
+Mostly underground, say put the surface at 200 or so
 Flooded, buildings sticking out (constant water level)
 Sand storm, buildings sticking out of sand dunes (variable sand level)
 Snow storm, buildings sticking out of snow and ice (variable snow level)

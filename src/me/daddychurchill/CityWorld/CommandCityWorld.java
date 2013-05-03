@@ -40,9 +40,18 @@ public class CommandCityWorld implements CommandExecutor {
 					else if (split[n].compareToIgnoreCase("THE_END") == 0)
 						environment = Environment.THE_END;
 					
-					else if (split[n].compareToIgnoreCase("FLOATING") == 0)
-						style = WorldStyle.FLOATING;
-					
+//					else if (split[n].compareToIgnoreCase("FLOATING") == 0)
+//						style = WorldStyle.FLOATING;
+//					
+//					else if (split[n].compareToIgnoreCase("FLOODED") == 0)
+//						style = WorldStyle.FLOODED;
+//					
+//					else if (split[n].compareToIgnoreCase("SANDDUNES") == 0)
+//						style = WorldStyle.SANDDUNES;
+//					
+//					else if (split[n].compareToIgnoreCase("SNOWDUNES") == 0)
+//						style = WorldStyle.SNOWDUNES;
+//					
 					else if (split[n].compareToIgnoreCase("NORMAL") == 0) {
 						environment = Environment.NORMAL;
 						style = WorldStyle.NORMAL;

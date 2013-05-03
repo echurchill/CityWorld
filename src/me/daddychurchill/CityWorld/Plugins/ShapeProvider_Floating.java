@@ -6,8 +6,19 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Maps.FloatingMap;
+import me.daddychurchill.CityWorld.Context.ConstructionContext;
+import me.daddychurchill.CityWorld.Context.FarmContext;
+import me.daddychurchill.CityWorld.Context.FloatingNatureContext;
+import me.daddychurchill.CityWorld.Context.FloatingRoadContext;
+import me.daddychurchill.CityWorld.Context.HighriseContext;
+import me.daddychurchill.CityWorld.Context.IndustrialContext;
+import me.daddychurchill.CityWorld.Context.LowriseContext;
+import me.daddychurchill.CityWorld.Context.MidriseContext;
+import me.daddychurchill.CityWorld.Context.MunicipalContext;
+import me.daddychurchill.CityWorld.Context.NeighborhoodContext;
+import me.daddychurchill.CityWorld.Context.ParkContext;
 import me.daddychurchill.CityWorld.Maps.PlatMap;
+import me.daddychurchill.CityWorld.Plats.FloatingBlimpLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
@@ -30,13 +41,47 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	}
 
 	@Override
+	protected void allocateContexts(WorldGenerator generator) {
+		if (!contextInitialized) {
+			natureContext = new FloatingNatureContext(generator);
+			roadContext = new FloatingRoadContext(generator);
+			
+			parkContext = new ParkContext(generator);
+			highriseContext = new HighriseContext(generator);
+			constructionContext = new ConstructionContext(generator);
+			midriseContext = new MidriseContext(generator);
+			municipalContext = new MunicipalContext(generator);
+			industrialContext = new IndustrialContext(generator);
+			lowriseContext = new LowriseContext(generator);
+			neighborhoodContext = new NeighborhoodContext(generator);
+			farmContext = new FarmContext(generator);
+			
+			contextInitialized = true;
+		}
+	}
+	
+	@Override
 	public String getCollectionName() {
 		return "Floating";
 	}
 
 	@Override
-	public PlatMap createPlatMap(WorldGenerator generator, int platX, int platZ) {
-		return new FloatingMap(generator, platX, platZ);
+	protected void validateLots(WorldGenerator generator, PlatMap platmap) {
+		// find blimp moorings
+		for (int x = 0; x < PlatMap.Width; x++) {
+			for (int z = 0; z < PlatMap.Width; z++) {
+				if (needBlimpLot(platmap, x, z))
+					platmap.setLot(x, z, new FloatingBlimpLot(platmap, platmap.originX + x, platmap.originZ + z));
+			}
+		}
+	}
+	
+	private boolean needBlimpLot(PlatMap platmap, int x, int z) {
+		if (platmap.isNaturalLot(x, z)) {
+			return platmap.isStructureLot(x - 1, z) || platmap.isStructureLot(x + 1, z) ||
+				   platmap.isStructureLot(x, z - 1) || platmap.isStructureLot(x, z + 1);
+		} else
+			return false;
 	}
 	
 	//private int streetLevel;

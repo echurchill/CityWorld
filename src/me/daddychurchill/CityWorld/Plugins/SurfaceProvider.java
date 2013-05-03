@@ -43,23 +43,18 @@ public abstract class SurfaceProvider extends Provider {
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	public static SurfaceProvider loadProvider(WorldGenerator generator, Odds odds) {
 
-		SurfaceProvider provider = null;
-		
-//		// need something like PhatLoot but for foliage
-//		provider = FoliageProvider_PhatFoliage.loadPhatFoliage();
-		if (provider == null) {
-			
-			switch (generator.worldStyle) {
-			case FLOATING:
-				provider = new SurfaceProvider_Floating(odds);
-				break;
-			default:
-				provider = new SurfaceProvider_Normal(odds);
-				break;
-			}
+		switch (generator.worldStyle) {
+		case FLOATING:
+			return new SurfaceProvider_Floating(odds);
+		case FLOODED:
+			return new SurfaceProvider_Flooded(odds);
+		case SANDDUNES:
+			return new SurfaceProvider_Sanddunes(odds);
+		case SNOWDUNES:
+			return new SurfaceProvider_Snowdunes(odds);
+		default:
+			return new SurfaceProvider_Normal(odds);
 		}
-	
-		return provider;
 	}
 	
 }
