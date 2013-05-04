@@ -1,9 +1,9 @@
 package me.daddychurchill.CityWorld.Plats;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Buildings.Populators.EmptyWithNothing;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
+import me.daddychurchill.CityWorld.Rooms.Populators.EmptyWithNothing;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.CurvedWallFactory;
 import me.daddychurchill.CityWorld.Support.Direction;

@@ -1,9 +1,9 @@
 package me.daddychurchill.CityWorld.Context;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Plats.FloatingHouseLot;
-import me.daddychurchill.CityWorld.Plats.FloatingNothingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plats.Floating.FloatingHouseLot;
+import me.daddychurchill.CityWorld.Plats.Floating.FloatingNothingLot;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.Odds;

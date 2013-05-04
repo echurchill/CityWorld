@@ -1,7 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Buildings.Rooms.PlatRoom;
+import me.daddychurchill.CityWorld.Rooms.PlatRoom;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Facing;

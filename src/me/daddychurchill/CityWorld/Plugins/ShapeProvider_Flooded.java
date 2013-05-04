@@ -1,18 +1,9 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.ConstructionContext;
-import me.daddychurchill.CityWorld.Context.FarmContext;
-import me.daddychurchill.CityWorld.Context.HighriseContext;
-import me.daddychurchill.CityWorld.Context.IndustrialContext;
-import me.daddychurchill.CityWorld.Context.LowriseContext;
-import me.daddychurchill.CityWorld.Context.MidriseContext;
-import me.daddychurchill.CityWorld.Context.MunicipalContext;
-import me.daddychurchill.CityWorld.Context.NatureContext;
-import me.daddychurchill.CityWorld.Context.NeighborhoodContext;
-import me.daddychurchill.CityWorld.Context.ParkContext;
-import me.daddychurchill.CityWorld.Context.RoadContext;
+import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.Odds;
+import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 
@@ -23,17 +14,49 @@ public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 
 	@Override
 	public void allocateContexts(WorldGenerator generator) {
-		natureContext = new NatureContext(generator);
-		roadContext = new RoadContext(generator);
-		
-		parkContext = new ParkContext(generator);
-		highriseContext = new HighriseContext(generator);
-		constructionContext = new ConstructionContext(generator);
-		midriseContext = new MidriseContext(generator);
-		municipalContext = new MunicipalContext(generator);
-		industrialContext = new IndustrialContext(generator);
-		lowriseContext = new LowriseContext(generator);
-		neighborhoodContext = new NeighborhoodContext(generator);
-		farmContext = new FarmContext(generator);
+		if (!contextInitialized) {
+//			natureContext = new FloodedNatureContext(generator);
+//			roadContext = new FloodedRoadContext(generator);
+//			
+//			parkContext = new FloodedParkContext(generator);
+//			highriseContext = new FloodedHighriseContext(generator);
+//			constructionContext = new FloodedConstructionContext(generator);
+//			midriseContext = new FloodedMidriseContext(generator);
+//			lowriseContext = new FloodedLowriseContext(generator);
+//			neighborhoodContext = new FloodedNeighborhoodContext(generator);
+//			farmContext = new FloodedFarmContext(generator);
+			
+			contextInitialized = true;
+		}
 	}
+	
+	protected DataContext getContext(PlatMap platmap) {
+		
+		// how natural is this platmap?
+		float nature = platmap.getNaturePercent();
+		if (nature == 0.0)
+			return highriseContext;
+		else if (nature < 0.15)
+			return constructionContext;
+		else if (nature < 0.25)
+			return midriseContext;
+		else if (nature < 0.65)
+			return lowriseContext;
+		else if (nature < 0.75)
+			return neighborhoodContext;
+		else if (nature < 0.90 && platmap.generator.settings.includeFarms)
+			return farmContext;
+		else if (nature < 1.0)
+			return neighborhoodContext;
+		
+		// otherwise just keep what we have
+		else
+			return natureContext;
+	}
+
+	@Override
+	public String getCollectionName() {
+		return "Flooded";
+	}
+
 }

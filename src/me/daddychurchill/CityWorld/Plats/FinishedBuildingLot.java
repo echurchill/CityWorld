@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
+import me.daddychurchill.CityWorld.Plats.Urban.ConcreteLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
 import me.daddychurchill.CityWorld.Support.PlatMap;

@@ -71,6 +71,10 @@ public abstract class PlatLot {
 	protected final static byte netherrackId = (byte) Material.NETHERRACK.getId();
 	protected final static byte soulsandId = (byte) Material.SOUL_SAND.getId();
 
+	protected final static byte pavementId = (byte) Material.STONE.getId();
+	protected final static byte crosswalkId = (byte) Material.CLAY.getId();
+	protected final static byte sidewalkId = (byte) Material.STEP.getId();
+	
 	protected final static int snowMaterialId = Material.SNOW.getId();
 	protected final static Material snowMaterial = Material.SNOW;
 	protected final static Material airMaterial = Material.AIR;
