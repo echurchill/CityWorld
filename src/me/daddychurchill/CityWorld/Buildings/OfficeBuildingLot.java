@@ -6,10 +6,10 @@ import me.daddychurchill.CityWorld.Buildings.Populators.OfficeWithCubicles;
 import me.daddychurchill.CityWorld.Buildings.Populators.OfficeWithLounges;
 import me.daddychurchill.CityWorld.Buildings.Populators.OfficeWithRandom;
 import me.daddychurchill.CityWorld.Buildings.Populators.OfficeWithRooms;
-import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.FinishedBuildingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
+import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class OfficeBuildingLot extends FinishedBuildingLot {
 

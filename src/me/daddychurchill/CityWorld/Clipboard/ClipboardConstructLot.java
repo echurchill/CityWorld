@@ -1,7 +1,7 @@
 package me.daddychurchill.CityWorld.Clipboard;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Maps.PlatMap;
+import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.Direction.Facing;
 
 public class ClipboardConstructLot extends ClipboardLot {

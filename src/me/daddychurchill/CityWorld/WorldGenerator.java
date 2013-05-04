@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider;
-import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plugins.BalloonProvider;
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider;
 import me.daddychurchill.CityWorld.Plugins.HouseProvider;
@@ -18,6 +17,7 @@ import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Odds;
+import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.WorldBlocks;
 

@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.ClipboardList;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
-import me.daddychurchill.CityWorld.Maps.PlatMap;
+import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public abstract class DataContext {
 	

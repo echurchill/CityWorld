@@ -2,9 +2,9 @@ package me.daddychurchill.CityWorld.Buildings;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Buildings.Populators.EmptyWithRooms;
-import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
+import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class EmptyBuildingLot extends LibraryBuildingLot {
 

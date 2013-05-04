@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Support.Odds;
+import me.daddychurchill.CityWorld.Support.PlatMap;
 
 
 public class ClipboardList implements Iterable<Clipboard> {

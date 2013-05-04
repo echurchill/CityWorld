@@ -7,10 +7,10 @@ import me.daddychurchill.CityWorld.Buildings.Populators.LibraryWithLounges;
 import me.daddychurchill.CityWorld.Buildings.Populators.LibraryWithNoBooks;
 import me.daddychurchill.CityWorld.Buildings.Populators.LibraryWithRandom;
 import me.daddychurchill.CityWorld.Buildings.Populators.LibraryWithSomeBooks;
-import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.FinishedBuildingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
+import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class LibraryBuildingLot extends FinishedBuildingLot {
 

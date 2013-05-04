@@ -4,9 +4,9 @@ import java.util.HashMap;
 
 import me.daddychurchill.CityWorld.Clipboard.ClipboardLot;
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
+import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.WorldGenerator;
 
 import org.bukkit.Chunk;

@@ -7,10 +7,10 @@ import me.daddychurchill.CityWorld.Buildings.Populators.WarehouseWithNothing;
 import me.daddychurchill.CityWorld.Buildings.Populators.WarehouseWithRandom;
 import me.daddychurchill.CityWorld.Buildings.Populators.WarehouseWithStacks;
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.FinishedBuildingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
+import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class WarehouseBuildingLot extends FinishedBuildingLot {
 	

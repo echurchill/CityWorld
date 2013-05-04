@@ -5,10 +5,10 @@ import me.daddychurchill.CityWorld.Buildings.Populators.StoreWithBooks;
 import me.daddychurchill.CityWorld.Buildings.Populators.StoreWithNothing;
 import me.daddychurchill.CityWorld.Buildings.Populators.StoreWithRandom;
 import me.daddychurchill.CityWorld.Buildings.Populators.StoreWithRegisters;
-import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.FinishedBuildingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
+import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class StoreBuildingLot extends FinishedBuildingLot {
 

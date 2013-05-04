@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import me.daddychurchill.CityWorld.Maps.PlatMap;
+import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public abstract class ConnectedLot extends PlatLot {
 

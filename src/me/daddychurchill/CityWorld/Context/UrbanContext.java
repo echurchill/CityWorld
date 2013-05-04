@@ -5,12 +5,12 @@ import me.daddychurchill.CityWorld.Buildings.EmptyBuildingLot;
 import me.daddychurchill.CityWorld.Buildings.LibraryBuildingLot;
 import me.daddychurchill.CityWorld.Buildings.OfficeBuildingLot;
 import me.daddychurchill.CityWorld.Buildings.StoreBuildingLot;
-import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.ParkLot;
 import me.daddychurchill.CityWorld.Plats.UnfinishedBuildingLot;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Support.Odds;
+import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public abstract class UrbanContext extends CivilizedContext {
 

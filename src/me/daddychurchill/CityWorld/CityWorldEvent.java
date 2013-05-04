@@ -2,8 +2,8 @@ package me.daddychurchill.CityWorld;
 
 import me.daddychurchill.CityWorld.Clipboard.ClipboardLot;
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Maps.PlatMap;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Support.PlatMap;
 
 import org.bukkit.Chunk;
 import org.bukkit.event.Event;

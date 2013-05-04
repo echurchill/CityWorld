@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Clipboard;
 
-import me.daddychurchill.CityWorld.Maps.PlatMap;
+import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.Direction.Facing;
 
 public class ClipboardRoundaboutLot extends ClipboardRoadLot {
