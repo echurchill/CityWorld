@@ -528,7 +528,7 @@ public class RealChunk extends SupportChunk {
 		// counter weight
 		setBlock(x - 2, y + 9, z, Material.STEP);
 		setStair(x - 3, y + 9, z, Material.SMOOTH_STAIRS, Stair.EAST);
-		setBlocks(x - 3, x - 1, y + 7, y + 9, z, z + 1, Material.WOOL, odds.getRandomByte(16));
+		setBlocks(x - 3, x - 1, y + 7, y + 9, z, z + 1, Material.WOOL, odds.getRandomColor());
 	}
 
 	public void setTable(int x1, int x2, int y, int z1, int z2) {

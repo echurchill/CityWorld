@@ -124,11 +124,11 @@ public class BalloonProvider extends Provider {
 		if (generator.worldEnvironment == Environment.NETHER)
 			return getSecondaryColor(generator, odds);
 		else
-			return odds.getRandomByte(7);
+			return odds.getRandomLightColor();
 	}
 
 	private byte getSecondaryColor(WorldGenerator generator, Odds odds) {
-		return odds.getRandomByte(7, 9);
+		return odds.getRandomDarkColor();
 	}
 	
 	private void addLight(RealChunk chunk, DataContext context, int x, int y, int z) {

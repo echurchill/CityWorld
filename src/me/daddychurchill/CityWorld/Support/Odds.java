@@ -47,12 +47,32 @@ public class Odds {
 		return (byte) random.nextInt();
 	}
 	
-	public byte getRandomByte(int range) {
+	public byte getRandomByte(byte range) {
 		return (byte) random.nextInt(range);
 	}
 	
-	public byte getRandomByte(int min, int range) {
+	public byte getRandomByte(byte min, byte range) {
 		return (byte) (min + random.nextInt(range));
+	}
+	
+	public byte getRandomColor() {
+		return getRandomByte((byte)16);
+	}
+	
+	public byte getRandomLightColor() {
+		return getRandomByte((byte)7);
+	}
+	
+	public byte getRandomDarkColor() {
+		return getRandomByte((byte)7, (byte)9);
+	}
+	
+	public byte getRandomCauldronLevel() {
+		return getRandomByte((byte)4);
+	}
+	
+	public byte getRandomNetherWartGrowth() {
+		return getRandomByte((byte)4);
 	}
 	
 	public long getRandomLong() {

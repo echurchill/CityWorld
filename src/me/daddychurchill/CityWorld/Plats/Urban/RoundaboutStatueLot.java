@@ -160,8 +160,8 @@ public class RoundaboutStatueLot extends IsolatedLot {
 			
 			// simple glass or colored blocks?
 			boolean crystalArt = chunkOdds.flipCoin();
-			byte solidColor = chunkOdds.getRandomByte(17); // yep, I meant to put 17 here... see the next line
-			boolean singleArt = solidColor != 16; // Whoops, 16 is too large, let's go random
+			byte solidColor = chunkOdds.getRandomColor();
+			boolean singleArt = chunkOdds.playOdds(DataContext.oddsUnlikely);
 			
 			// now the "art"
 			for (int x = 6; x < 10; x++) 
@@ -174,7 +174,7 @@ public class RoundaboutStatueLot extends IsolatedLot {
 								chunk.setBlock(x, y, z, Material.GLASS);
 							else
 								chunk.setBlock(x, y, z, Material.WOOL.getId(), 
-											   singleArt ? solidColor : chunkOdds.getRandomByte(9));
+											   singleArt ? solidColor : chunkOdds.getRandomColor());
 			
 			// now put the base in
 			chunk.setBlocks(7, 9, y1, y1 + 5, 7, 9, stoneMaterial);

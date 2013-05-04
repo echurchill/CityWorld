@@ -91,7 +91,7 @@ public class FoliageProvider_Nether extends FoliageProvider_Decayed {
 				} else {
 					chunk.setBlock(x, y - 1, z, Material.SOUL_SAND);
 					if (odds.playOdds(0.05))
-						chunk.setBlock(x, y, z, Material.NETHER_WARTS, odds.getRandomByte(4));
+						chunk.setBlock(x, y, z, Material.NETHER_WARTS, odds.getRandomNetherWartGrowth());
 				}
 				break;
 			case COVER:

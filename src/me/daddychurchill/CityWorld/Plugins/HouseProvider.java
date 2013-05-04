@@ -108,6 +108,20 @@ public class HouseProvider extends Provider {
 		}
 	}
 
+	public int generateTent(WorldGenerator generator, RealChunk chunk, DataContext context, Odds odds, int baseY, int roomWidth) {
+		
+		// what are we made of?
+		Material matTent = Material.WOOL;
+		byte matColor = odds.getRandomLightColor();
+		int floors = 1;
+		
+//		for (int x = )
+		
+		//chunk.setWalls(2, 13, baseY, baseY + ContextData.FloorHeight, 2, 13, Material.WOOD);
+//		generateColonial(generator, chunk, context, odds, baseY, matFloor, matWall, matCeiling, matRoof, floors, roomWidth, roomWidth, false);
+		return floors;
+	}
+	
 	public int generateShack(WorldGenerator generator, RealChunk chunk, DataContext context, Odds odds, int baseY, int roomWidth) {
 		
 		// what are we made of?
