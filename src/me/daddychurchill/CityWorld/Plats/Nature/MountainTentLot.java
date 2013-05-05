@@ -1,6 +1,5 @@
 package me.daddychurchill.CityWorld.Plats.Nature;
 
-import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
@@ -31,8 +30,6 @@ public class MountainTentLot extends MountainFlatLot {
 
 	@Override
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
-		
-		chunk.setBlocks(0, averageHeight + 1, 255, 0, Material.GLOWSTONE);
 		
 		// now make a tent
 		generator.houseProvider.generateCampground(generator, chunk, context, chunkOdds, averageHeight + 1);

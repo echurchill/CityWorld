@@ -48,6 +48,7 @@ Wells, aka WellWorld, with all those generators, MaxiWorld and varied Cityworlds
 
 ==================================
 Done
+Tents
 PasteProvider
 Warehouse interior
 OfficeBuilding interior

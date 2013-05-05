@@ -639,7 +639,7 @@ public class HouseProvider extends Provider {
 	private final static Material materialStair = Material.WOOD_STAIRS;
 	private final static Material materialUnderStairs = Material.WOOD;
 	
-	private final static int MinSize = 5;//4;
+	private final static int MinSize = 4;
 	private final static int MaxSize = 6;
 	private final static int MissingRoomOdds = 5; // 1/n of the time a room is missing
 	

@@ -14,7 +14,7 @@ public abstract class UncivilizedContext extends DataContext {
 	@Override
 	protected void initialize() {
 		oddsOfIsolatedLots = oddsNeverGoingToHappen; 
-		oddsOfIsolatedConstructs = oddsNeverGoingToHappen;
+		oddsOfIsolatedConstructs = oddsUnlikely;
 		
 		oddsOfParks = oddsNeverGoingToHappen; 
 		
