@@ -1,17 +1,20 @@
 package me.daddychurchill.CityWorld.Plats.Nature;
 
+import org.bukkit.Material;
+import org.bukkit.generator.ChunkGenerator.BiomeGrid;
+
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
-public class MountainTentLot extends MountainBuildingLot {
+public class MountainTentLot extends MountainFlatLot {
 
 	public MountainTentLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
-		retainingWalls = false;
 	}
 	
 	@Override
@@ -20,15 +23,19 @@ public class MountainTentLot extends MountainBuildingLot {
 	}
 
 	@Override
+	protected void generateActualChunk(WorldGenerator generator,
+			PlatMap platmap, ByteChunk chunk, BiomeGrid biomes,
+			DataContext context, int platX, int platZ) {
+		generateSmoothedLot(generator, chunk, context);
+	}
+
+	@Override
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		
-		//TODO: I need to add a tent generator
-
-//		// now make a shack
-//		int floors = generator.houseProvider.generateShack(generator, chunk, context, chunkOdds, averageHeight + 1, 5);
-//		
-//		// not a happy place?
-//		if (generator.settings.includeDecayedBuildings)
-//			destroyBuilding(generator, generator.streetLevel + 1, floors);
+		chunk.setBlocks(0, averageHeight + 1, 255, 0, Material.GLOWSTONE);
+		
+		// now make a tent
+		generator.houseProvider.generateCampground(generator, chunk, context, chunkOdds, averageHeight + 1);
 	}
+
 }

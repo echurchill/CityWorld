@@ -9,8 +9,10 @@ import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Door;
+import me.daddychurchill.CityWorld.Support.Direction.Facing;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
+import me.daddychurchill.CityWorld.Support.RealChunk.Color;
 
 public class HouseProvider extends Provider {
 
@@ -108,18 +110,129 @@ public class HouseProvider extends Provider {
 		}
 	}
 
-	public int generateTent(WorldGenerator generator, RealChunk chunk, DataContext context, Odds odds, int baseY, int roomWidth) {
+	private final static Material matWindow = Material.THIN_GLASS;
+	private final static Material matPole = Material.FENCE;
+	private final static Material matFire = Material.FIRE;
+	private final static Material matFireBase = Material.NETHERRACK;
+	private final static Material matFireRing = Material.COBBLESTONE_STAIRS;
+	private final static Material matLog = Material.LOG;
+	
+	public void generateCampground(WorldGenerator generator, RealChunk chunk, DataContext context, Odds odds, int baseY) {
 		
 		// what are we made of?
-		Material matTent = Material.WOOL;
-		byte matColor = odds.getRandomLightColor();
-		int floors = 1;
+		Color matColor = odds.getRandomColor();
+		boolean matCamo = odds.playOdds(DataContext.oddsSomewhatUnlikely);
 		
-//		for (int x = )
+		// direction? 
+		if (odds.flipCoin()) {
+			
+			// north/south tent first
+			for (int z = 3; z < 9; z++) {
+				chunk.setWool(3, baseY, z, getTentColor(odds, matColor, matCamo));
+				chunk.setWool(4, baseY + 1, z, getTentColor(odds, matColor, matCamo));
+				chunk.setWool(5, baseY + 2, z, getTentColor(odds, matColor, matCamo));
+				chunk.setWool(6, baseY + 3, z, getTentColor(odds, matColor, matCamo));
+				chunk.setWool(7, baseY + 2, z, getTentColor(odds, matColor, matCamo));
+				chunk.setWool(8, baseY + 1, z, getTentColor(odds, matColor, matCamo));
+				chunk.setWool(9, baseY, z, getTentColor(odds, matColor, matCamo));
+			}
+			
+			// back wall
+			chunk.setWool(4, baseY, 3, getTentColor(odds, matColor, matCamo));
+			chunk.setWool(5, baseY, 3, getTentColor(odds, matColor, matCamo));
+			chunk.setWool(5, baseY + 1, 3, getTentColor(odds, matColor, matCamo));
+			chunk.setWool(6, baseY, 3, getTentColor(odds, matColor, matCamo));
+			chunk.setBlock(6, baseY + 1, 3, matWindow);
+			chunk.setWool(6, baseY + 2, 3, getTentColor(odds, matColor, matCamo));
+			chunk.setWool(7, baseY + 1, 3, getTentColor(odds, matColor, matCamo));
+			chunk.setWool(7, baseY, 3, getTentColor(odds, matColor, matCamo));
+			chunk.setWool(8, baseY, 3, getTentColor(odds, matColor, matCamo));
+					
+			// post
+			chunk.setBlocks(6, baseY, baseY + 3, 8, matPole);
+			
+			// beds
+			chunk.setBed(5, baseY, 4, Facing.SOUTH);
+			chunk.setBed(7, baseY, 4, Facing.SOUTH);
+		} else {
+			// north/south tent first
+			for (int x = 3; x < 9; x++) {
+				chunk.setWool(x, baseY, 3, getTentColor(odds, matColor, matCamo));
+				chunk.setWool(x, baseY + 1, 4, getTentColor(odds, matColor, matCamo));
+				chunk.setWool(x, baseY + 2, 5, getTentColor(odds, matColor, matCamo));
+				chunk.setWool(x, baseY + 3, 6, getTentColor(odds, matColor, matCamo));
+				chunk.setWool(x, baseY + 2, 7, getTentColor(odds, matColor, matCamo));
+				chunk.setWool(x, baseY + 1, 8, getTentColor(odds, matColor, matCamo));
+				chunk.setWool(x, baseY, 9, getTentColor(odds, matColor, matCamo));
+			}
+			
+			// back wall
+			chunk.setWool(3, baseY, 4, getTentColor(odds, matColor, matCamo));
+			chunk.setWool(3, baseY, 5, getTentColor(odds, matColor, matCamo));
+			chunk.setWool(3, baseY + 1, 5, getTentColor(odds, matColor, matCamo));
+			chunk.setWool(3, baseY, 6, getTentColor(odds, matColor, matCamo));
+			chunk.setBlock(3, baseY + 1, 6, matWindow);
+			chunk.setWool(3, baseY + 2, 6, getTentColor(odds, matColor, matCamo));
+			chunk.setWool(3, baseY + 1, 7, getTentColor(odds, matColor, matCamo));
+			chunk.setWool(3, baseY, 7, getTentColor(odds, matColor, matCamo));
+			chunk.setWool(3, baseY, 8, getTentColor(odds, matColor, matCamo));
+					
+			// post
+			chunk.setBlocks(8, baseY, baseY + 3, 6, matPole);
+			
+			// beds
+			chunk.setBed(4, baseY, 5, Facing.EAST);
+			chunk.setBed(4, baseY, 7, Facing.EAST);
+		}
 		
-		//chunk.setWalls(2, 13, baseY, baseY + ContextData.FloorHeight, 2, 13, Material.WOOD);
-//		generateColonial(generator, chunk, context, odds, baseY, matFloor, matWall, matCeiling, matRoof, floors, roomWidth, roomWidth, false);
-		return floors;
+		// now the fire pit
+		chunk.setStair(11, baseY - 1, 10, matFireRing, Stair.SOUTH);
+		chunk.setStair(12, baseY - 1, 11, matFireRing, Stair.WEST);
+		chunk.setStair(11, baseY - 1, 12, matFireRing, Stair.NORTH);
+		chunk.setStair(10, baseY - 1, 11, matFireRing, Stair.EAST);
+		chunk.setStair(10, baseY - 1, 10, matFireRing, Stair.SOUTH);
+		chunk.setStair(12, baseY - 1, 10, matFireRing, Stair.WEST);
+		chunk.setStair(12, baseY - 1, 12, matFireRing, Stair.NORTH);
+		chunk.setStair(10, baseY - 1, 12, matFireRing, Stair.EAST);
+
+		// and the fire itself
+		chunk.setBlock(11, baseY - 1, 11, matFireBase);
+		chunk.setBlock(11, baseY, 11, matFire);
+		
+		// and the logs
+		byte logType = odds.getRandomWoodType();
+		chunk.setBlock(11, baseY, 8, matLog, (byte)(logType + logWestEast));
+		chunk.setBlock(12, baseY, 8, matLog, (byte)(logType + logWestEast));
+		chunk.setBlock(8, baseY, 11, matLog, (byte)(logType + logNorthSouth));
+		chunk.setBlock(8, baseY, 12, matLog, (byte)(logType + logNorthSouth));
+	}
+	
+	private byte logWestEast = 0x4;
+	private byte logNorthSouth = 0x8;
+	
+	private Color getTentColor(Odds odds, Color baseColor, boolean camoMode) {
+		if (camoMode) {
+			if (baseColor == Color.PINK) {
+				switch (odds.getRandomInt(3)) {
+				case 1:
+					return Color.PINK;
+				case 2:
+					return Color.LIGHTGRAY;
+				default:
+					return Color.RED;
+				}
+			} else {
+				switch (odds.getRandomInt(3)) {
+				case 1:
+					return Color.BROWN;
+				case 2:
+					return Color.GRAY;
+				default:
+					return Color.GREEN;
+				}
+			}
+		} else
+			return baseColor;
 	}
 	
 	public int generateShack(WorldGenerator generator, RealChunk chunk, DataContext context, Odds odds, int baseY, int roomWidth) {
@@ -159,6 +272,367 @@ public class HouseProvider extends Provider {
 		return generateHouse(generator, chunk, context, odds, baseY, maxFloors, MaxSize);
 	}
 
+	private void generateColonial(WorldGenerator generator, RealChunk chunk, DataContext context, 
+			Odds odds, int baseY,
+			Material matFloor, Material matWall, Material matCeiling, Material matRoof, 
+			int floors, int minRoomWidth, int maxRoomWidth, boolean allowMissingRooms) {
+		
+		// what are the rooms like?
+		Room[][][] rooms = new Room[floors][2][2];
+		for (int f = 0; f < floors; f++) {
+			boolean missingRoom = false;
+			for (int x = 0; x < 2; x++) {
+				for (int z = 0; z < 2; z++) {
+					
+					// missing rooms?
+					boolean thisRoomMissing = false;
+					if (allowMissingRooms && floors > 1) {
+						thisRoomMissing = odds.getRandomInt(MissingRoomOdds) == 0;
+					}
+					
+					// what does the room "look" like?
+					int thisRoomWidthZ = getRoomWidth(odds, minRoomWidth, maxRoomWidth);
+					int thisRoomWidthX = getRoomWidth(odds, minRoomWidth, maxRoomWidth);
+					boolean thisRoomHasWalls = true;
+					Room.Style thisRoomStyle = Room.Style.BED;
+					
+					// create the room
+					rooms[f][x][z] = new Room(thisRoomMissing,
+											  thisRoomWidthZ, thisRoomWidthX,
+											  thisRoomHasWalls, thisRoomStyle);
+					
+					// single floor is a little different
+					if (floors == 1) {
+						if (rooms[f][x][z].missing) {
+							if (!missingRoom)
+								missingRoom = true;
+							else
+								rooms[f][x][z].missing = false;
+						}
+					} else {
+						
+						// first floor must be complete
+						if (f == 0)
+							rooms[f][x][z].missing = false;
+						
+						// each additional floors must include any missing rooms from below
+						else if (rooms[f - 1][x][z].missing)
+							rooms[f][x][z].missing = true;
+						
+						// only one new missing room per floor
+						else if (rooms[f][x][z].missing) {
+							if (!missingRoom)
+								missingRoom = true;
+							else
+								rooms[f][x][z].missing = false;
+						}
+						
+						// all rooms must be the same size (or smaller) than the one below it
+						if (f > 0) {
+							rooms[f][x][z].widthX = Math.min(rooms[f][x][z].widthX, rooms[f - 1][x][z].widthX);
+							rooms[f][x][z].widthZ = Math.min(rooms[f][x][z].widthZ, rooms[f - 1][x][z].widthZ);
+						}
+					}
+				}
+			}
+		}
+		
+		// find a non-missing room on the first floor
+		int roomX = odds.getRandomInt(2);
+		int roomZ = odds.getRandomInt(2);
+		while (rooms[0][roomX][roomZ].missing) {
+			roomX = odds.getRandomInt(2);
+			roomZ = odds.getRandomInt(2);
+		}
+		
+		// pick the entry room
+		for (int f = 0; f < floors; f++) {
+				
+			// set the style and make sure there is room for stairs
+			rooms[f][roomX][roomZ].missing = false;
+			rooms[f][roomX][roomZ].style = Room.Style.ENTRY;
+			rooms[f][roomX][roomZ].widthX = maxRoomWidth;
+			rooms[f][roomX][roomZ].widthZ = maxRoomWidth;
+			
+			// and on the second floor
+			if (f == 1) {
+				
+				// if one of the side rooms is missing, make it not missing and make the opposite one is
+				if (rooms[f][roomX][flip(roomZ)].missing) {
+					rooms[f][roomX][flip(roomZ)].missing = false;
+					rooms[f][flip(roomX)][flip(roomZ)].missing = true;
+				} else if (rooms[f][flip(roomX)][roomZ].missing) {
+					rooms[f][flip(roomX)][roomZ].missing = false;
+					rooms[f][flip(roomX)][flip(roomZ)].missing = true;
+				}
+			}
+		}
+		
+		// now the kitchen
+		roomZ = flip(roomZ);
+		if (rooms[0][roomX][roomZ].missing) {
+			roomX = flip(roomX);
+			roomZ = flip(roomZ);
+		}
+		rooms[0][roomX][roomZ].style = Room.Style.KITCHEN;
+
+		// is this a single story house?
+		if (floors == 1) {
+
+			// next find the dining room
+			roomX = flip(roomX);
+			if (!rooms[0][roomX][roomZ].missing) {
+				rooms[0][roomX][roomZ].style = Room.Style.DINING;
+			}
+			
+			// put the bed in the last spot
+			roomZ = flip(roomZ);
+			rooms[0][roomX][roomZ].missing = false;
+			rooms[0][roomX][roomZ].style = Room.Style.BED;
+		
+		// got more floors!
+		} else {
+			
+			// next find the dining room
+			roomX = flip(roomX);
+			if (!rooms[0][roomX][roomZ].missing) {
+				rooms[0][roomX][roomZ].style = Room.Style.DINING;
+				
+				// put the living room in the last spot if available
+				roomZ = flip(roomZ);
+				if (!rooms[0][roomX][roomZ].missing) {
+					rooms[0][roomX][roomZ].style = Room.Style.LIVING;
+				}
+			
+			// only one room left, dining room please!
+			} else {
+				roomZ = flip(roomZ);
+				if (!rooms[0][roomX][roomZ].missing) {
+					rooms[0][roomX][roomZ].style = Room.Style.DINING;
+				}
+			}
+		}
+		
+		// where is the center of the house?
+		int roomOffsetX = chunk.width / 2 + odds.getRandomInt(2) - 1;
+		int roomOffsetZ = chunk.width / 2 + odds.getRandomInt(2) - 1;
+		
+		// draw the individual rooms
+		for (int f = 0; f < floors; f++) {
+			
+			// just in case we come across an entry way
+			int entryX = -1;
+			int entryZ = -1;
+			
+			// do the rooms
+			for (int x = 0; x < 2; x++) {
+				for (int z = 0; z < 2; z++) {
+					
+					// do entry ways later
+					if (rooms[f][x][z].style == Room.Style.ENTRY) {
+						entryX = x;
+						entryZ = z;
+					} else
+						drawRoom(generator, chunk, context, odds, rooms, f, floors, x, z, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
+				}
+			}
+			
+			// found an entry
+			if (entryX != -1) {
+				drawRoom(generator, chunk, context, odds, rooms, f, floors, entryX, entryZ, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
+			}
+		}
+		
+//		// flat roof?
+//		if (odds.nextDouble() < 0.95) {
+			
+			//TODO simple blocks
+			//TODO flat roofs
+			//TODO NS stair roof
+			//TODO EW stair root
+			// extrude roof
+			int roofY = baseY + floors * DataContext.FloorHeight - 1;
+			for (int y = 0; y < DataContext.FloorHeight - 1; y++) {
+				for (int x = 1; x < chunk.width - 1; x++) {
+					for (int z = 1; z < chunk.width - 1; z++) {
+						int yAt = y + roofY;
+						if (chunk.getBlock(x - 1, yAt, z) != materialAir && chunk.getBlock(x + 1, yAt, z) != materialAir &&
+							chunk.getBlock(x, yAt, z - 1) != materialAir && chunk.getBlock(x, yAt, z + 1) != materialAir) {
+							chunk.setBlock(x, yAt + 1, z, matRoof);
+						}
+					}
+				}
+			}
+			
+			// carve out the attic
+			for (int y = 1; y < DataContext.FloorHeight - 1; y++) {
+				for (int x = 1; x < chunk.width - 1; x++) {
+					for (int z = 1; z < chunk.width - 1; z++) {
+						int yAt = y + roofY;
+						if (chunk.getBlock(x, yAt + 1, z) != materialAir) {
+							chunk.setBlock(x, yAt, z, materialAir);
+						}
+					}
+				}
+			}
+
+//			// extrude roof
+//			int roofY = baseY + floors * ContextData.FloorHeight - 1;
+//			for (int y = 0; y < ContextData.FloorHeight - 1; y++) {
+//				for (int x = 1; x < chunk.width - 1; x++) {
+//					for (int z = 1; z < chunk.width - 1; z++) {
+//						int yAt = y + roofY;
+//						if (chunk.getBlock(x, yAt, z - 1) != materialAir && chunk.getBlock(x, yAt, z + 1) != materialAir) {
+//							chunk.setBlock(x, yAt + 1, z, matRoof);
+//						}
+//					}
+//				}
+//			}
+//			
+//			// carve out the attic
+//			for (int y = 1; y < ContextData.FloorHeight - 1; y++) {
+//				for (int x = 1; x < chunk.width - 1; x++) {
+//					for (int z = 1; z < chunk.width - 1; z++) {
+//						int yAt = y + roofY;
+//						if (chunk.getBlock(x, yAt + 1, z) != materialAir) {
+//							chunk.setBlock(x, yAt, z, materialAir);
+//						}
+//					}
+//				}
+//			}
+
+//		}
+	}
+	
+	private int flip(int i) {
+		return i == 0 ? 1 : 0;
+	}
+	
+	private void drawRoom(WorldGenerator generator, RealChunk chunk, DataContext context, 
+			Odds odds, Room[][][] rooms, int floor, int floors, int x, int z, 
+			int roomOffsetX, int roomOffsetZ, int baseY, 
+			Material matFloor, Material matWall, Material matCeiling, Material matRoof) {
+
+		// which room?
+		Room room = rooms[floor][x][z];
+		
+		// missing?
+		if (room.missing) {
+			
+			// is there a floor below?
+			if (floor > 0 && !rooms[floor - 1][x][z].missing)
+				rooms[floor - 1][x][z].DrawRailing(chunk);
+		} else {
+
+			// draw bottom bits
+			if (floor == 0) {
+				room.DrawFloor(chunk, context, floor, floors, x, z, roomOffsetX, roomOffsetZ, baseY, matFloor);
+			}
+	
+			// draw outside bits
+			room.DrawWalls(chunk, context, floor, floors, x, z, roomOffsetX, roomOffsetZ, baseY, matWall);
+	
+			// top floor's top
+			if (floor == floors - 1) {
+				room.DrawRoof(chunk, context, floor, floors, x, z, roomOffsetX, roomOffsetZ, baseY, matRoof);
+			
+			} else {
+				room.DrawCeiling(chunk, context, floor, floors, x, z, roomOffsetX, roomOffsetZ, baseY, matCeiling);
+			}
+			
+			// now the inner bits
+			room.DrawStyle(generator, chunk, context, odds, floor, floors, x, z, roomOffsetX, roomOffsetZ, baseY);
+		} 
+	}
+	
+	private int getRoomWidth(Odds odds, int minRoomWidth, int maxRoomWidth) {
+		return odds.getRandomInt(maxRoomWidth - minRoomWidth + 1) + minRoomWidth;
+	}
+	
+	private Material pickWallMaterial(Odds odds) {
+		switch (odds.getRandomInt(9)) {
+		case 1:
+			return Material.COBBLESTONE;
+		case 2:
+			return Material.MOSSY_COBBLESTONE;
+		case 3:
+			return Material.STONE;
+		case 4:
+			return Material.SMOOTH_BRICK;
+		case 5:
+			return Material.SANDSTONE;
+		case 6:
+			return Material.NETHER_BRICK;
+		case 7:
+			return Material.BRICK;
+		case 8:
+			return Material.CLAY;
+		default:
+			return Material.WOOD;
+		}
+	}
+
+	private Material pickCeilingMaterial(Odds odds) {
+		switch (odds.getRandomInt(5)) {
+		case 1:
+			return Material.COBBLESTONE;
+		case 2:
+			return Material.STONE;
+		case 3:
+			return Material.SMOOTH_BRICK;
+		case 4:
+			return Material.SANDSTONE;
+		default:
+			return Material.WOOD;
+		}
+	}
+
+	private Material pickFloorMaterial(Odds odds) {
+		switch (odds.getRandomInt(4)) {
+		case 1:
+			return Material.COBBLESTONE;
+		case 2:
+			return Material.STONE;
+		case 3:
+			return Material.WOOL;
+		default:
+			return Material.WOOD;
+		}
+	}
+
+	private Material pickRoofMaterial(Odds odds) {
+		switch (odds.getRandomInt(6)) {
+		case 1:
+			return Material.COBBLESTONE;
+		case 2:
+			return Material.MOSSY_COBBLESTONE;
+		case 3:
+			return Material.STONE;
+		case 4:
+			return Material.SMOOTH_BRICK;
+		case 5:
+			return Material.SANDSTONE;
+		default:
+			return Material.WOOD;
+		}
+	}
+	
+	private Material pickShedWall(int i) {
+		switch (i) {
+		case 0:
+			return Material.STONE;
+		case 1:
+			return Material.SANDSTONE;
+		case 2:
+			return Material.WOOD;
+		case 3:
+			return Material.COBBLESTONE;
+		case 4:
+			return Material.BRICK;
+		default:
+			return Material.SMOOTH_BRICK;
+		}
+	}
 	private final static Material materialAir = Material.AIR;
 	private final static Material materialGlass = Material.GLASS;
 	private final static Material materialFence = Material.FENCE;
@@ -556,368 +1030,6 @@ public class HouseProvider extends Provider {
 						chunk.setWoodenDoor(x2, y1, z2 - 2, Door.EASTBYSOUTHEAST); 
 				}
 			}
-		}
-	}
-	
-	private int getRoomWidth(Odds odds, int minRoomWidth, int maxRoomWidth) {
-		return odds.getRandomInt(maxRoomWidth - minRoomWidth + 1) + minRoomWidth;
-	}
-	
-	private void generateColonial(WorldGenerator generator, RealChunk chunk, DataContext context, 
-			Odds odds, int baseY,
-			Material matFloor, Material matWall, Material matCeiling, Material matRoof, 
-			int floors, int minRoomWidth, int maxRoomWidth, boolean allowMissingRooms) {
-		
-		// what are the rooms like?
-		Room[][][] rooms = new Room[floors][2][2];
-		for (int f = 0; f < floors; f++) {
-			boolean missingRoom = false;
-			for (int x = 0; x < 2; x++) {
-				for (int z = 0; z < 2; z++) {
-					
-					// missing rooms?
-					boolean thisRoomMissing = false;
-					if (allowMissingRooms && floors > 1) {
-						thisRoomMissing = odds.getRandomInt(MissingRoomOdds) == 0;
-					}
-					
-					// what does the room "look" like?
-					int thisRoomWidthZ = getRoomWidth(odds, minRoomWidth, maxRoomWidth);
-					int thisRoomWidthX = getRoomWidth(odds, minRoomWidth, maxRoomWidth);
-					boolean thisRoomHasWalls = true;
-					Room.Style thisRoomStyle = Room.Style.BED;
-					
-					// create the room
-					rooms[f][x][z] = new Room(thisRoomMissing,
-											  thisRoomWidthZ, thisRoomWidthX,
-											  thisRoomHasWalls, thisRoomStyle);
-					
-					// single floor is a little different
-					if (floors == 1) {
-						if (rooms[f][x][z].missing) {
-							if (!missingRoom)
-								missingRoom = true;
-							else
-								rooms[f][x][z].missing = false;
-						}
-					} else {
-						
-						// first floor must be complete
-						if (f == 0)
-							rooms[f][x][z].missing = false;
-						
-						// each additional floors must include any missing rooms from below
-						else if (rooms[f - 1][x][z].missing)
-							rooms[f][x][z].missing = true;
-						
-						// only one new missing room per floor
-						else if (rooms[f][x][z].missing) {
-							if (!missingRoom)
-								missingRoom = true;
-							else
-								rooms[f][x][z].missing = false;
-						}
-						
-						// all rooms must be the same size (or smaller) than the one below it
-						if (f > 0) {
-							rooms[f][x][z].widthX = Math.min(rooms[f][x][z].widthX, rooms[f - 1][x][z].widthX);
-							rooms[f][x][z].widthZ = Math.min(rooms[f][x][z].widthZ, rooms[f - 1][x][z].widthZ);
-						}
-					}
-				}
-			}
-		}
-		
-		// find a non-missing room on the first floor
-		int roomX = odds.getRandomInt(2);
-		int roomZ = odds.getRandomInt(2);
-		while (rooms[0][roomX][roomZ].missing) {
-			roomX = odds.getRandomInt(2);
-			roomZ = odds.getRandomInt(2);
-		}
-		
-		// pick the entry room
-		for (int f = 0; f < floors; f++) {
-				
-			// set the style and make sure there is room for stairs
-			rooms[f][roomX][roomZ].missing = false;
-			rooms[f][roomX][roomZ].style = Room.Style.ENTRY;
-			rooms[f][roomX][roomZ].widthX = maxRoomWidth;
-			rooms[f][roomX][roomZ].widthZ = maxRoomWidth;
-			
-			// and on the second floor
-			if (f == 1) {
-				
-				// if one of the side rooms is missing, make it not missing and make the opposite one is
-				if (rooms[f][roomX][flip(roomZ)].missing) {
-					rooms[f][roomX][flip(roomZ)].missing = false;
-					rooms[f][flip(roomX)][flip(roomZ)].missing = true;
-				} else if (rooms[f][flip(roomX)][roomZ].missing) {
-					rooms[f][flip(roomX)][roomZ].missing = false;
-					rooms[f][flip(roomX)][flip(roomZ)].missing = true;
-				}
-			}
-		}
-		
-		// now the kitchen
-		roomZ = flip(roomZ);
-		if (rooms[0][roomX][roomZ].missing) {
-			roomX = flip(roomX);
-			roomZ = flip(roomZ);
-		}
-		rooms[0][roomX][roomZ].style = Room.Style.KITCHEN;
-
-		// is this a single story house?
-		if (floors == 1) {
-
-			// next find the dining room
-			roomX = flip(roomX);
-			if (!rooms[0][roomX][roomZ].missing) {
-				rooms[0][roomX][roomZ].style = Room.Style.DINING;
-			}
-			
-			// put the bed in the last spot
-			roomZ = flip(roomZ);
-			rooms[0][roomX][roomZ].missing = false;
-			rooms[0][roomX][roomZ].style = Room.Style.BED;
-		
-		// got more floors!
-		} else {
-			
-			// next find the dining room
-			roomX = flip(roomX);
-			if (!rooms[0][roomX][roomZ].missing) {
-				rooms[0][roomX][roomZ].style = Room.Style.DINING;
-				
-				// put the living room in the last spot if available
-				roomZ = flip(roomZ);
-				if (!rooms[0][roomX][roomZ].missing) {
-					rooms[0][roomX][roomZ].style = Room.Style.LIVING;
-				}
-			
-			// only one room left, dining room please!
-			} else {
-				roomZ = flip(roomZ);
-				if (!rooms[0][roomX][roomZ].missing) {
-					rooms[0][roomX][roomZ].style = Room.Style.DINING;
-				}
-			}
-		}
-		
-		// where is the center of the house?
-		int roomOffsetX = chunk.width / 2 + odds.getRandomInt(2) - 1;
-		int roomOffsetZ = chunk.width / 2 + odds.getRandomInt(2) - 1;
-		
-		// draw the individual rooms
-		for (int f = 0; f < floors; f++) {
-			
-			// just in case we come across an entry way
-			int entryX = -1;
-			int entryZ = -1;
-			
-			// do the rooms
-			for (int x = 0; x < 2; x++) {
-				for (int z = 0; z < 2; z++) {
-					
-					// do entry ways later
-					if (rooms[f][x][z].style == Room.Style.ENTRY) {
-						entryX = x;
-						entryZ = z;
-					} else
-						drawRoom(generator, chunk, context, odds, rooms, f, floors, x, z, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
-				}
-			}
-			
-			// found an entry
-			if (entryX != -1) {
-				drawRoom(generator, chunk, context, odds, rooms, f, floors, entryX, entryZ, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
-			}
-		}
-		
-//		// flat roof?
-//		if (odds.nextDouble() < 0.95) {
-			
-			//TODO simple blocks
-			//TODO flat roofs
-			//TODO NS stair roof
-			//TODO EW stair root
-			// extrude roof
-			int roofY = baseY + floors * DataContext.FloorHeight - 1;
-			for (int y = 0; y < DataContext.FloorHeight - 1; y++) {
-				for (int x = 1; x < chunk.width - 1; x++) {
-					for (int z = 1; z < chunk.width - 1; z++) {
-						int yAt = y + roofY;
-						if (chunk.getBlock(x - 1, yAt, z) != materialAir && chunk.getBlock(x + 1, yAt, z) != materialAir &&
-							chunk.getBlock(x, yAt, z - 1) != materialAir && chunk.getBlock(x, yAt, z + 1) != materialAir) {
-							chunk.setBlock(x, yAt + 1, z, matRoof);
-						}
-					}
-				}
-			}
-			
-			// carve out the attic
-			for (int y = 1; y < DataContext.FloorHeight - 1; y++) {
-				for (int x = 1; x < chunk.width - 1; x++) {
-					for (int z = 1; z < chunk.width - 1; z++) {
-						int yAt = y + roofY;
-						if (chunk.getBlock(x, yAt + 1, z) != materialAir) {
-							chunk.setBlock(x, yAt, z, materialAir);
-						}
-					}
-				}
-			}
-
-//			// extrude roof
-//			int roofY = baseY + floors * ContextData.FloorHeight - 1;
-//			for (int y = 0; y < ContextData.FloorHeight - 1; y++) {
-//				for (int x = 1; x < chunk.width - 1; x++) {
-//					for (int z = 1; z < chunk.width - 1; z++) {
-//						int yAt = y + roofY;
-//						if (chunk.getBlock(x, yAt, z - 1) != materialAir && chunk.getBlock(x, yAt, z + 1) != materialAir) {
-//							chunk.setBlock(x, yAt + 1, z, matRoof);
-//						}
-//					}
-//				}
-//			}
-//			
-//			// carve out the attic
-//			for (int y = 1; y < ContextData.FloorHeight - 1; y++) {
-//				for (int x = 1; x < chunk.width - 1; x++) {
-//					for (int z = 1; z < chunk.width - 1; z++) {
-//						int yAt = y + roofY;
-//						if (chunk.getBlock(x, yAt + 1, z) != materialAir) {
-//							chunk.setBlock(x, yAt, z, materialAir);
-//						}
-//					}
-//				}
-//			}
-
-//		}
-	}
-	
-	private int flip(int i) {
-		return i == 0 ? 1 : 0;
-	}
-	
-	private void drawRoom(WorldGenerator generator, RealChunk chunk, DataContext context, 
-			Odds odds, Room[][][] rooms, int floor, int floors, int x, int z, 
-			int roomOffsetX, int roomOffsetZ, int baseY, 
-			Material matFloor, Material matWall, Material matCeiling, Material matRoof) {
-
-		// which room?
-		Room room = rooms[floor][x][z];
-		
-		// missing?
-		if (room.missing) {
-			
-			// is there a floor below?
-			if (floor > 0 && !rooms[floor - 1][x][z].missing)
-				rooms[floor - 1][x][z].DrawRailing(chunk);
-		} else {
-
-			// draw bottom bits
-			if (floor == 0) {
-				room.DrawFloor(chunk, context, floor, floors, x, z, roomOffsetX, roomOffsetZ, baseY, matFloor);
-			}
-	
-			// draw outside bits
-			room.DrawWalls(chunk, context, floor, floors, x, z, roomOffsetX, roomOffsetZ, baseY, matWall);
-	
-			// top floor's top
-			if (floor == floors - 1) {
-				room.DrawRoof(chunk, context, floor, floors, x, z, roomOffsetX, roomOffsetZ, baseY, matRoof);
-			
-			} else {
-				room.DrawCeiling(chunk, context, floor, floors, x, z, roomOffsetX, roomOffsetZ, baseY, matCeiling);
-			}
-			
-			// now the inner bits
-			room.DrawStyle(generator, chunk, context, odds, floor, floors, x, z, roomOffsetX, roomOffsetZ, baseY);
-		} 
-	}
-	
-	private Material pickWallMaterial(Odds odds) {
-		switch (odds.getRandomInt(9)) {
-		case 1:
-			return Material.COBBLESTONE;
-		case 2:
-			return Material.MOSSY_COBBLESTONE;
-		case 3:
-			return Material.STONE;
-		case 4:
-			return Material.SMOOTH_BRICK;
-		case 5:
-			return Material.SANDSTONE;
-		case 6:
-			return Material.NETHER_BRICK;
-		case 7:
-			return Material.BRICK;
-		case 8:
-			return Material.CLAY;
-		default:
-			return Material.WOOD;
-		}
-	}
-
-	private Material pickCeilingMaterial(Odds odds) {
-		switch (odds.getRandomInt(5)) {
-		case 1:
-			return Material.COBBLESTONE;
-		case 2:
-			return Material.STONE;
-		case 3:
-			return Material.SMOOTH_BRICK;
-		case 4:
-			return Material.SANDSTONE;
-		default:
-			return Material.WOOD;
-		}
-	}
-
-	private Material pickFloorMaterial(Odds odds) {
-		switch (odds.getRandomInt(4)) {
-		case 1:
-			return Material.COBBLESTONE;
-		case 2:
-			return Material.STONE;
-		case 3:
-			return Material.WOOL;
-		default:
-			return Material.WOOD;
-		}
-	}
-
-	private Material pickRoofMaterial(Odds odds) {
-		switch (odds.getRandomInt(6)) {
-		case 1:
-			return Material.COBBLESTONE;
-		case 2:
-			return Material.MOSSY_COBBLESTONE;
-		case 3:
-			return Material.STONE;
-		case 4:
-			return Material.SMOOTH_BRICK;
-		case 5:
-			return Material.SANDSTONE;
-		default:
-			return Material.WOOD;
-		}
-	}
-	
-	private Material pickShedWall(int i) {
-		switch (i) {
-		case 0:
-			return Material.STONE;
-		case 1:
-			return Material.SANDSTONE;
-		case 2:
-			return Material.WOOD;
-		case 3:
-			return Material.COBBLESTONE;
-		case 4:
-			return Material.BRICK;
-		default:
-			return Material.SMOOTH_BRICK;
 		}
 	}
 }

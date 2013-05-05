@@ -6,6 +6,7 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot;
 import me.daddychurchill.CityWorld.Plats.Nature.MineEntranceLot;
 import me.daddychurchill.CityWorld.Plats.Nature.MountainShackLot;
+import me.daddychurchill.CityWorld.Plats.Nature.MountainTentLot;
 import me.daddychurchill.CityWorld.Plats.Nature.OilPlatformLot;
 import me.daddychurchill.CityWorld.Plats.Nature.OldCastleLot;
 import me.daddychurchill.CityWorld.Plats.Nature.RadioTowerLot;
@@ -99,7 +100,10 @@ public class NatureContext extends UncivilizedContext {
 								if (generator.settings.includeHouses)
 									if (!innermost || minHeight < BunkerLot.calcBunkerMinHeight(generator)) {
 										if (heights.isSortaFlat() && generator.shapeProvider.isIsolatedConstructAt(originX + x, originZ + z, oddsOfIsolatedConstructs))
-											current = new MountainShackLot(platmap, originX + x, originZ + z);
+											if (platmapOdds.flipCoin())
+												current = new MountainShackLot(platmap, originX + x, originZ + z);
+											else
+												current = new MountainTentLot(platmap, originX + x, originZ + z);
 										break;
 									}
 							case HIGHLAND:

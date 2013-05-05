@@ -4,6 +4,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
+import me.daddychurchill.CityWorld.Support.Direction.Facing;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.Direction.Torch;
 
@@ -387,6 +388,30 @@ public class RealChunk extends SupportChunk {
 		return getBlock(x, y, z).getId() == grassId;
 	}
 	
+	public enum Color {
+		WHITE(0), ORANGE(1), MAGENTA(2), LIGHTBLUE(3), YELLOW(4), LIME(5), PINK(6), GRAY(7),
+		LIGHTGRAY(8), CYAN(9), PURPLE(10), BLUE(11), BROWN(12), GREEN(13), RED(14), BLACK(15);
+		
+		private byte data;
+		private Color(int c) {
+			data = (byte) c;
+		}
+		
+		public static Color fromByte(byte b) {
+			Color result = Color.WHITE;
+			result.data = b;
+			return result;
+		}
+		
+		public byte getData() {
+			return data;
+		}
+	};
+	
+	public void setWool(int x, int y, int z, Color color) {
+		setBlock(x, y, z, Material.WOOL, (byte)color.ordinal());
+	}
+	
 	private void setDoor(int x, int y, int z, int doorId, Direction.Door direction) {
 		byte orentation = 0;
 		byte hinge = 0;
@@ -528,7 +553,7 @@ public class RealChunk extends SupportChunk {
 		// counter weight
 		setBlock(x - 2, y + 9, z, Material.STEP);
 		setStair(x - 3, y + 9, z, Material.SMOOTH_STAIRS, Stair.EAST);
-		setBlocks(x - 3, x - 1, y + 7, y + 9, z, z + 1, Material.WOOL, odds.getRandomColor());
+		setBlocks(x - 3, x - 1, y + 7, y + 9, z, z + 1, Material.WOOL, odds.getRandomColor().getData());
 	}
 
 	public void setTable(int x1, int x2, int y, int z1, int z2) {
@@ -559,5 +584,25 @@ public class RealChunk extends SupportChunk {
 		setBlock(x, y, z, tableLeg);
 		setBlock(x, y + 1, z, tableTop);
 	}
-	
+
+	public void setBed(int x, int y, int z, Facing direction) {
+		switch (direction) {
+		case EAST:
+			setBlock(x, y, z, Material.BED_BLOCK, (byte)(0x1 + 0x8));
+			setBlock(x + 1, y, z, Material.BED_BLOCK, (byte)(0x1));
+			break;
+		case SOUTH:
+			setBlock(x, y, z, Material.BED_BLOCK, (byte)(0x2 + 0x8));
+			setBlock(x, y, z + 1, Material.BED_BLOCK, (byte)(0x2));
+			break;
+		case WEST:
+			setBlock(x, y, z, Material.BED_BLOCK, (byte)(0x3 + 0x8));
+			setBlock(x + 1, y, z, Material.BED_BLOCK, (byte)(0x3));
+			break;
+		case NORTH:
+			setBlock(x, y, z, Material.BED_BLOCK, (byte)(0x0 + 0x8));
+			setBlock(x, y, z + 1, Material.BED_BLOCK, (byte)(0x0));
+			break;
+		}
+	}
 }

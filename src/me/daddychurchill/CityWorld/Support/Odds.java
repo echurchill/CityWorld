@@ -2,6 +2,8 @@ package me.daddychurchill.CityWorld.Support;
 
 import java.util.Random;
 
+import me.daddychurchill.CityWorld.Support.RealChunk.Color;
+
 public class Odds {
 
 	private Random random;
@@ -55,19 +57,23 @@ public class Odds {
 		return (byte) (min + random.nextInt(range));
 	}
 	
-	public byte getRandomColor() {
-		return getRandomByte((byte)16);
+	public Color getRandomColor() {
+		return Color.fromByte(getRandomByte((byte)16));
 	}
 	
-	public byte getRandomLightColor() {
-		return getRandomByte((byte)7);
+	public Color getRandomLightColor() {
+		return Color.fromByte(getRandomByte((byte)7));
 	}
 	
-	public byte getRandomDarkColor() {
-		return getRandomByte((byte)7, (byte)9);
+	public Color getRandomDarkColor() {
+		return Color.fromByte(getRandomByte((byte)7, (byte)9));
 	}
 	
 	public byte getRandomCauldronLevel() {
+		return getRandomByte((byte)4);
+	}
+	
+	public byte getRandomWoodType() {
 		return getRandomByte((byte)4);
 	}
 	

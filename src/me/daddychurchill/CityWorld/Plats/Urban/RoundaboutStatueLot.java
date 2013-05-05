@@ -160,7 +160,7 @@ public class RoundaboutStatueLot extends IsolatedLot {
 			
 			// simple glass or colored blocks?
 			boolean crystalArt = chunkOdds.flipCoin();
-			byte solidColor = chunkOdds.getRandomColor();
+			byte solidColor = chunkOdds.getRandomColor().getData();
 			boolean singleArt = chunkOdds.playOdds(DataContext.oddsUnlikely);
 			
 			// now the "art"
@@ -174,7 +174,7 @@ public class RoundaboutStatueLot extends IsolatedLot {
 								chunk.setBlock(x, y, z, Material.GLASS);
 							else
 								chunk.setBlock(x, y, z, Material.WOOL.getId(), 
-											   singleArt ? solidColor : chunkOdds.getRandomColor());
+											   singleArt ? solidColor : chunkOdds.getRandomColor().getData());
 			
 			// now put the base in
 			chunk.setBlocks(7, 9, y1, y1 + 5, 7, 9, stoneMaterial);

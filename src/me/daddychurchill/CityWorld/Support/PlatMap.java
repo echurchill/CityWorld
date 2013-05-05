@@ -23,7 +23,7 @@ public class PlatMap {
 	public int originZ;
 	public DataContext context;
 	protected PlatLot[][] platLots;
-	private int naturalPlats;
+	private float naturalPlats;
 
 	public PlatMap(WorldGenerator generator, ShapeProvider shapeProvider, int originX, int originZ) {
 		super();
