@@ -1,7 +1,7 @@
 package me.daddychurchill.CityWorld.Support;
 
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plats.Urban.RoadLot;
+import me.daddychurchill.CityWorld.Plats.RoadLot;
 
 public class SurroundingRoads extends Surroundings {
 

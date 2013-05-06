@@ -1,12 +1,10 @@
-package me.daddychurchill.CityWorld.Plats.Urban;
+package me.daddychurchill.CityWorld.Plats;
 
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Plats.ConnectedLot;
-import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
 import me.daddychurchill.CityWorld.Support.ByteChunk;

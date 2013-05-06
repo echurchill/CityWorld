@@ -1,6 +1,7 @@
-package me.daddychurchill.CityWorld.Context;
+package me.daddychurchill.CityWorld.Context.Floating;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Context.NatureContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Floating.FloatingHouseLot;
 import me.daddychurchill.CityWorld.Plats.Floating.FloatingNothingLot;

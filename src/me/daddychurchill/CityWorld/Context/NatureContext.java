@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Context;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.NatureLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plats.RoadLot;
 import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot;
 import me.daddychurchill.CityWorld.Plats.Nature.MineEntranceLot;
 import me.daddychurchill.CityWorld.Plats.Nature.MountainShackLot;
@@ -10,7 +11,6 @@ import me.daddychurchill.CityWorld.Plats.Nature.MountainTentLot;
 import me.daddychurchill.CityWorld.Plats.Nature.OilPlatformLot;
 import me.daddychurchill.CityWorld.Plats.Nature.OldCastleLot;
 import me.daddychurchill.CityWorld.Plats.Nature.RadioTowerLot;
-import me.daddychurchill.CityWorld.Plats.Urban.RoadLot;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.HeightInfo.HeightState;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -97,21 +97,15 @@ public class NatureContext extends UncivilizedContext {
 							case MIDLAND: 
 								
 								// if not one of the innermost or the height isn't tall enough for bunkers
-								if (generator.settings.includeHouses)
-									if (!innermost || minHeight < BunkerLot.calcBunkerMinHeight(generator)) {
-										if (heights.isSortaFlat() && generator.shapeProvider.isIsolatedConstructAt(originX + x, originZ + z, oddsOfIsolatedConstructs))
-											if (platmapOdds.flipCoin())
-												current = new MountainShackLot(platmap, originX + x, originZ + z);
-											else
-												current = new MountainTentLot(platmap, originX + x, originZ + z);
-										break;
-									}
+								if (!innermost || minHeight < BunkerLot.calcBunkerMinHeight(generator)) {
+									if (heights.isSortaFlat() && generator.shapeProvider.isIsolatedConstructAt(originX + x, originZ + z, oddsOfIsolatedConstructs))
+										current = createSurfaceBuildingLot(generator, platmap, originX + x, originZ + z);
+									break;
+								}
 							case HIGHLAND:
 							case PEAK:
-								if (generator.settings.includeBunkers)
-									if (doBunkers && innermost) {
-										current = new BunkerLot(platmap, originX + x, originZ + z);
-									}
+								if (doBunkers && innermost)
+									current = createBuriedBuildingLot(generator, platmap, originX + x, originZ + z);
 								break;
 							default:
 								break;
@@ -133,7 +127,22 @@ public class NatureContext extends UncivilizedContext {
 		populateSpecial(generator, platmap, minHeightX, minHeightZ, minState);
 	}
 	
-	private void populateSpecial(WorldGenerator generator, PlatMap platmap, int x, int z, HeightState state) {
+	public PlatLot createBuriedBuildingLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
+		if (generator.settings.includeBunkers)
+			return new BunkerLot(platmap, x, z);
+		return null;
+	}
+	
+	public PlatLot createSurfaceBuildingLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
+		if (generator.settings.includeHouses)
+			if (platmap.getOddsGenerator().flipCoin())
+				return new MountainShackLot(platmap, x, z);
+			else
+				return new MountainTentLot(platmap, x, z);
+		return null;
+	}
+	
+	protected void populateSpecial(WorldGenerator generator, PlatMap platmap, int x, int z, HeightState state) {
 
 		// what type of height are we talking about?
 		if (state != HeightState.BUILDING && 
@@ -143,10 +152,6 @@ public class NatureContext extends UncivilizedContext {
 			switch (state) {
 			case DEEPSEA:
 				// Oil rigs
-				//TODO: Do I want to fix this?
-				// SEED: -7145037513581384357 in v1.04
-				// POS: 1080, 80, 284
-				// Two platforms are created right next to two bridges
 				if (generator.settings.includeBuildings) {
 					platmap.setLot(x, z, new OilPlatformLot(platmap, platmap.originX + x, platmap.originZ + z));
 				}
