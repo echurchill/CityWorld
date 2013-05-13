@@ -55,22 +55,23 @@ public abstract class SupportChunk {
 		return chunkZ * chunksBlockWidth + z;
 	}
 	
-	public int getBlockX(int x) {
+	public final int getBlockX(int x) {
 		return getOriginX() + x;
 	}
 
-	public int getBlockZ(int z) {
+	public final int getBlockZ(int z) {
 		return getOriginZ() + z;
 	}
 
-	public int getOriginX() {
+	public final int getOriginX() {
 		return chunkX * width;
 	}
 
-	public int getOriginZ() {
+	public final int getOriginZ() {
 		return chunkZ * width;
 	}
 
+	public abstract int getBlockType(int x, int y, int z);
 	public abstract void setBlock(int x, int y, int z, byte materialId);
 	public abstract void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId);
 	public abstract void setBlocks(int x, int y1, int y2, int z, byte materialId);
@@ -79,14 +80,51 @@ public abstract class SupportChunk {
 	public abstract void clearBlocks(int x, int y1, int y2, int z);
 	public abstract void clearBlocks(int x1, int x2, int y1, int y2, int z1, int z2);
 	
-	public abstract boolean isType(int x, int y, int z, int type);
-	public abstract boolean isEmpty(int x, int y, int z);
-	
-	public boolean isType(int x, int y, int z, Material material) {
-		return isType(x, y, z, material.getId());
+	public final boolean isType(int x, int y, int z, int type) {
+		return getBlockType(x, y, z) == type;
 	}
 	
-	public boolean isSurroundedByEmpty(int x, int y, int z) {
+	public final boolean isType(int x, int y, int z, Material material) {
+		return getBlockType(x, y, z) == material.getId();
+	}
+	
+	public final boolean isOfTypes(int x, int y, int z, Material ... types) {
+		int type = getBlockType(x, y, z);
+		for (Material test : types)
+			if (type == test.getId())
+				return true;
+		return false;
+	}
+	
+	public final boolean isOfTypes(int x, int y, int z, int ... types) {
+		int type = getBlockType(x, y, z);
+		for (int test : types)
+			if (type == test)
+				return true;
+		return false;
+	}
+	
+	public final boolean isEmpty(int x, int y, int z) {
+		return getBlockType(x, y, z) == airId;
+	}
+	
+	public final boolean isPlantable(int x, int y, int z) {
+		return getBlockType(x, y, z) == grassId;
+	}
+	
+	public final boolean isWater(int x, int y, int z) {
+		return isOfTypes(x, y, z, stillWaterId, waterId);
+	}
+	
+	public final boolean isLava(int x, int y, int z) {
+		return isOfTypes(x, y, z, stillLavaId, lavaId);
+	}
+	
+	public final boolean isLiquid(int x, int y, int z) {
+		return isOfTypes(x, y, z, stillWaterId, stillLavaId, waterId, lavaId, iceId);
+	}
+	
+	public final boolean isSurroundedByEmpty(int x, int y, int z) {
 		return (x > 0 && x < 15 && z > 0 && z < 15) && 
 			   (isEmpty(x - 1, y, z) && 
 				isEmpty(x + 1, y, z) &&
@@ -94,25 +132,19 @@ public abstract class SupportChunk {
 				isEmpty(x, y, z + 1));
 	}
 	
-	public boolean isSurroundedByWater(int x, int y, int z) {
+	public final boolean isSurroundedByWater(int x, int y, int z) {
 		return (x > 0 && x < 15 && z > 0 && z < 15) && 
-			   (isType(x - 1, y, z, stillWaterId) || 
-				isType(x + 1, y, z, stillWaterId) ||
-				isType(x, y, z - 1, stillWaterId) || 
-				isType(x, y, z + 1, stillWaterId) ||
-				isType(x - 1, y, z, waterId) || 
-				isType(x + 1, y, z, waterId) ||
-				isType(x, y, z - 1, waterId) || 
-				isType(x, y, z + 1, waterId));
+			   (isWater(x - 1, y, z) || 
+				isWater(x + 1, y, z) ||
+				isWater(x, y, z - 1) || 
+				isWater(x, y, z + 1));
 	}
 	
-	public void setBlocks(int x, int y1, int y2, int z, byte primaryId, byte secondaryId, MaterialFactory maker) {
+	public final void setBlocks(int x, int y1, int y2, int z, byte primaryId, byte secondaryId, MaterialFactory maker) {
 		maker.placeMaterial(this, primaryId, secondaryId, x, y1, y2, z);
 	}
 	
-	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte primaryId, byte secondaryId, MaterialFactory maker) {
-//		if (primaryId < 0)
-//			CityWorld.log.info("x1, x2, y1, y2, z1, z2, wall, glass = " + x1 + ", " + x2 + ", " + y1 + ", " + y2 + ", " + z1 + ", " + z2 + ", " + primaryId + ", " + secondaryId);
+	public final void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte primaryId, byte secondaryId, MaterialFactory maker) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				setBlocks(x, y1, y2, z, primaryId, secondaryId, maker);
@@ -152,11 +184,11 @@ public abstract class SupportChunk {
 		}
 	}
 	
-	public void setCircle(int cx, int cz, int r, int y, byte materialId, boolean fill) {
+	public final void setCircle(int cx, int cz, int r, int y, byte materialId, boolean fill) {
 		setCircle(cx, cz, r, y, y + 1, materialId, fill);
 	}
 	
-	public void setCircle(int cx, int cz, int r, int y1, int y2, byte materialId, boolean fill) {
+	public final void setCircle(int cx, int cz, int r, int y1, int y2, byte materialId, boolean fill) {
 		// Ref: Notes/BCircle.PDF
 		int x = r;
 		int z = 0;
@@ -180,7 +212,7 @@ public abstract class SupportChunk {
 		}
 	}
 	
-	public void setSphere(int cx, int cy, int cz, int r, byte materialId, boolean fill) {
+	public final void setSphere(int cx, int cy, int cz, int r, byte materialId, boolean fill) {
 		for (int r1 = 1; r1 < r; r1++) {
 			setCircle(cx, cz, r - r1, cy + r1, materialId, fill);
 			setCircle(cx, cz, r - r1, cy - r1, materialId, fill);

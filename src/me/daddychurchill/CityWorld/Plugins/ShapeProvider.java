@@ -59,6 +59,14 @@ public abstract class ShapeProvider extends Provider {
 		return findBlockY(generator, blockX, blockZ);
 	}
 	
+	public int findCoverY(WorldGenerator generator, int blockX, int blockZ) {
+		return getSeaLevel();
+	}
+	
+	public int findHighestCoverY(WorldGenerator generator) {
+		return getSeaLevel();
+	}
+	
 	public PlatLot createNaturalLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
 		return natureContext.createNaturalLot(generator, platmap, x, z);
 	}
@@ -100,7 +108,7 @@ public abstract class ShapeProvider extends Provider {
 		}
 	}
 	
-	protected void generateStratas(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, byte substratumId, byte stratumId,
+	protected void actualGenerateStratas(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, byte substratumId, byte stratumId,
 			int stratumY, byte subsurfaceId, int subsurfaceY, byte surfaceId,
 			boolean surfaceCaves) {
 
@@ -133,12 +141,22 @@ public abstract class ShapeProvider extends Provider {
 		}
 	}
 
-	protected void generateStratas(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, byte substratumId, byte statumId,
+	protected void generateStratas(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, byte substratumId, byte stratumId,
+			int stratumY, byte subsurfaceId, int subsurfaceY, byte surfaceId,
+			boolean surfaceCaves) {
+	
+		// a little crust please?
+		actualGenerateStratas(generator, lot, chunk, x, z, substratumId, stratumId, stratumY, 
+				subsurfaceId, subsurfaceY, surfaceId, surfaceCaves);
+	}
+
+	protected void generateStratas(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, byte substratumId, byte stratumId,
 			int stratumY, byte subsurfaceId, int subsurfaceY, byte surfaceId,
 			int coverY, byte coverId, boolean surfaceCaves) {
 
 		// a little crust please?
-		generateStratas(generator, lot, chunk, x, z, substratumId, statumId, stratumY, subsurfaceId, subsurfaceY, surfaceId, surfaceCaves);
+		actualGenerateStratas(generator, lot, chunk, x, z, substratumId, stratumId, stratumY, 
+				subsurfaceId, subsurfaceY, surfaceId, surfaceCaves);
 
 		// cover it up
 		for (int y = subsurfaceY + 1; y <= coverY; y++)

@@ -15,7 +15,9 @@ import org.bukkit.block.Block;
 
 public abstract class FoliageProvider extends Provider {
 	
-    public enum LigneousType {SHORT_OAK, SHORT_PINE, SHORT_BIRCH, OAK, PINE, BIRCH, TALL_OAK, TALL_PINE, TALL_BIRCH};
+	public enum LigneousType {SHORT_OAK, SHORT_PINE, SHORT_BIRCH, SHORT_JUNGLE,
+							  OAK, PINE, BIRCH, JUNGLE, SWAMP,
+							  TALL_OAK, TALL_PINE, TALL_BIRCH, TALL_JUNGLE};
 	public enum HerbaceousType {FLOWER_RED, FLOWER_YELLOW, GRASS, FERN, CACTUS, REED, COVER};
 	
 	protected final static double oddsOfDarkFlora = DataContext.oddsLikely;
@@ -43,27 +45,34 @@ public abstract class FoliageProvider extends Provider {
 //		provider = FoliageProvider_PhatFoliage.loadPhatFoliage();
 		if (provider == null) {
 			
-			if (generator.settings.includeTekkitMaterials) {
-				generator.reportMessage("[FoliageProvider] Found ForgeTekkit, enabling its foliage");
-
-				//TODO provide nether, theend and decayed variants of Tekkit
-				provider = new FoliageProvider_Tekkit(odds);
-			} else {
-				
-				switch (generator.worldEnvironment) {
-				case NETHER:
-					provider = new FoliageProvider_Nether(odds);
-					break;
-				case THE_END:
-					provider = new FoliageProvider_TheEnd(odds);
-					break;
-				default:
-					if (generator.settings.includeDecayedNature)
-						provider = new FoliageProvider_Decayed(odds);
-					else
-						provider = new FoliageProvider_Normal(odds);
-					break;
+			switch (generator.worldStyle) {
+			case FLOODED:
+				provider = new FoliageProvider_Flooded(odds);
+				break;
+			default:
+				if (generator.settings.includeTekkitMaterials) {
+					generator.reportMessage("[FoliageProvider] Found ForgeTekkit, enabling its foliage");
+	
+					//TODO provide nether, theend and decayed variants of Tekkit
+					provider = new FoliageProvider_Tekkit(odds);
+				} else {
+					
+					switch (generator.worldEnvironment) {
+					case NETHER:
+						provider = new FoliageProvider_Nether(odds);
+						break;
+					case THE_END:
+						provider = new FoliageProvider_TheEnd(odds);
+						break;
+					default:
+						if (generator.settings.includeDecayedNature)
+							provider = new FoliageProvider_Decayed(odds);
+						else
+							provider = new FoliageProvider_Normal(odds);
+						break;
+					}
 				}
+				break;
 			}
 		}
 	
@@ -93,20 +102,92 @@ public abstract class FoliageProvider extends Provider {
 			return generateNormalTree(chunk, odds, x, y, z, TreeType.REDWOOD, trunk, leaves1, leaves2);
 		case OAK:
 			return generateNormalTree(chunk, odds, x, y, z, TreeType.TREE, trunk, leaves1, leaves2);
+		case JUNGLE:
+			return generateNormalTree(chunk, odds, x, y, z, TreeType.SMALL_JUNGLE, trunk, leaves1, leaves2);
+		case SWAMP:
+			return generateNormalTree(chunk, odds, x, y, z, TreeType.SWAMP, trunk, leaves1, leaves2);
 		case SHORT_BIRCH:
 			return generateSmallTree(chunk, odds, x, y, z, TreeType.BIRCH, trunk, leaves1);
 		case SHORT_PINE:
 			return generateSmallTree(chunk, odds, x, y, z, TreeType.REDWOOD, trunk, leaves1);
 		case SHORT_OAK:
 			return generateSmallTree(chunk, odds, x, y, z, TreeType.TREE, trunk, leaves1);
+		case SHORT_JUNGLE:
+			return generateSmallTree(chunk, odds, x, y, z, TreeType.JUNGLE_BUSH, trunk, leaves1);
 		case TALL_BIRCH:
 		case TALL_OAK:
 			return generateNormalTree(chunk, odds, x, y, z, TreeType.BIG_TREE, trunk, leaves1, leaves2);
 		case TALL_PINE:
 			return generateNormalTree(chunk, odds, x, y, z, TreeType.TALL_REDWOOD, trunk, leaves1, leaves2);
+		case TALL_JUNGLE:
+			return generateNormalTree(chunk, odds, x, y, z, TreeType.JUNGLE, trunk, leaves1, leaves2);
 		default:
 			return false;
 		}
+	}
+	
+	protected boolean generateTrunk(RealChunk chunk, Odds odds, int x, int y, int z, 
+			LigneousType type) {
+		int treeHeight;
+		byte treeData;
+		switch (type) {
+		case SHORT_OAK:
+			treeHeight = 3;
+			treeData = 0;
+			break;
+		case SHORT_PINE:
+			treeHeight = 3;
+			treeData = 1;
+			break;
+		case SHORT_BIRCH:
+			treeHeight = 3;
+			treeData = 2;
+			break;
+		case SHORT_JUNGLE:
+			treeHeight = 3;
+			treeData = 3;
+			break;
+		case OAK:
+			treeHeight = 5;
+			treeData = 0;
+			break;
+		case PINE:
+			treeHeight = 5;
+			treeData = 1;
+			break;
+		case BIRCH: 
+			treeHeight = 5;
+			treeData = 2;
+			break;
+		case JUNGLE: 
+			treeHeight = 5;
+			treeData = 3;
+			break;
+		case SWAMP:
+			treeHeight = 2;
+			treeData = 3;
+			break;
+		case TALL_OAK:
+			treeHeight = 7;
+			treeData = 0;
+			break;
+		case TALL_PINE:
+			treeHeight = 9;
+			treeData = 1;
+			break;
+		case TALL_BIRCH:
+			treeHeight = 7;
+			treeData = 2;
+			break;
+		case TALL_JUNGLE:
+		default:
+			treeHeight = 9;
+			treeData = 3;
+			break;
+		}
+		chunk.setBlocks(x, y, y + treeHeight, z, Material.LOG, treeData);
+		
+		return true;
 	}
 	
 	protected boolean generateSmallTree(RealChunk chunk, Odds odds, int x, int y, int z, 

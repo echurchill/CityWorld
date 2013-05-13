@@ -80,7 +80,11 @@ public class WorldGenerator extends ChunkGenerator {
 		//UNDERWATER,	// traditional terrain with raised sea level with under water cities
 		//WESTERN,		// desert landscape with sparse western styled towns and ranches
 		//UNDERGROUND,	// elevated terrain with underground cities
+		//MINING,		// elevated terrain with very shallow mines and very small towns
 		//LUNAR,		// lunar landscape with lunar bases
+		//NETHER,		// nether landscape with destroyed cities
+		//DESTROYED,	// normal landscape with destroyed cities
+		//THE_END,		// stark landscape with smaller light colored cities
 		NORMAL};   		// traditional terrain and cities
 	
 	public WorldGenerator(CityWorld plugin, String worldName, String worldStyle) {

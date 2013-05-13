@@ -48,6 +48,7 @@ public class CityWorldSettings {
 
 	public boolean includeTekkitMaterials = false;
 	public boolean forceLoadWorldEdit = false;
+	public boolean forceLoadTekkit = false;
 	
 	public int centerPointOfChunkRadiusX = 0;
 	public int centerPointOfChunkRadiusZ = 0;
@@ -114,6 +115,7 @@ public class CityWorldSettings {
 	public final static String tagIncludeFloatingSubsurface = "IncludeFloatingSubsurface";
 	
 	public final static String tagForceLoadWorldEdit = "ForceLoadWorldEdit";
+	public final static String tagForceLoadTekkit = "ForceLoadTekkit";
 	
 	public CityWorldSettings(WorldGenerator generator) {
 		super();
@@ -137,8 +139,8 @@ public class CityWorldSettings {
 			break;
 		}
 		
-		// what about tekkit?
-		includeTekkitMaterials = TekkitMaterial.isTekkitForgeEnabled();
+		// intialize based world style settings
+		validateSettingsAgainstWorldStyle(generator);
 		
 		// stacks of materials
 		itemsTreasureInSewers = new MaterialStack("Treasure_In_Sewers");
@@ -231,6 +233,7 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeFloatingSubsurface, includeFloatingSubsurface);
 			
 			section.addDefault(tagForceLoadWorldEdit, forceLoadWorldEdit);
+			section.addDefault(tagForceLoadTekkit, forceLoadTekkit);
 			
 			// now read the bits
 			includeRoads = section.getBoolean(tagIncludeRoads, includeRoads);
@@ -296,6 +299,9 @@ public class CityWorldSettings {
 				includeFarms = false;
 			}
 			
+			// one more time for world style settings
+			validateSettingsAgainstWorldStyle(generator);
+			
 			// write things back out with corrections
 			section.set(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
 			section.set(tagCenterPointOfChunkRadiusZ, centerPointOfChunkRadiusZ);
@@ -339,6 +345,7 @@ public class CityWorldSettings {
 			section.set(tagIncludeFloatingSubsurface, includeFloatingSubsurface);
 			
 			section.set(tagForceLoadWorldEdit, forceLoadWorldEdit);
+			section.set(tagForceLoadTekkit, forceLoadTekkit);
 			
 			// note the depreciations
 			deprecateOption(section, "IncludePavedRoads", "DEPRECATED: Use IncludeWoolRoads if you want the old style paved roads");
@@ -349,6 +356,93 @@ public class CityWorldSettings {
 			// write it back out 
 			plugin.saveConfig();
 		}
+		
+		// what about tekkit?
+		includeTekkitMaterials = TekkitMaterial.isTekkitForgeEnabled() || forceLoadTekkit;
+		
+	}
+	
+	private void validateSettingsAgainstWorldStyle(WorldGenerator generator) {
+		// now get the right defaults for the world style
+		switch (generator.worldStyle) {
+		case NORMAL:
+			break;
+		case FLOATING:
+//			includeRoads = true;
+//			includeRoundabouts = true;
+//			includeSewers = true;
+//			includeCisterns = true;
+//			includeBasements = true;
+			includeMines = false; // DIFFERENT
+			includeBunkers = false; // DIFFERENT
+//			includeBuildings = true;
+//			includeHouses = true;
+//			includeFarms = true;
+
+			includeCaves = false; // DIFFERENT
+			includeLavaFields = false; // DIFFERENT
+			includeSeas = false; // DIFFERENT
+			includeMountains = true; // THIS MUST BE SET TO TRUE
+			includeOres = false; // DIFFERENT
+			
+			treasuresInSewers = false; // DIFFERENT
+			spawnersInSewers = false; // DIFFERENT
+			treasuresInMines = false; // DIFFERENT
+			spawnersInMines = false; // DIFFERENT
+			treasuresInBunkers = false; // DIFFERENT
+			spawnersInBunkers = false; // DIFFERENT
+			
+			includeUndergroundFluids = false; // DIFFERENT
+//			includeAbovegroundFluids = true;
+//			includeWorkingLights = true;
+//			includeWoolRoads = false;
+//			includeNamedRoads = true;
+//			includeDecayedRoads = false;
+//			includeDecayedBuildings = false;
+//			includeDecayedNature = false;
+//			includeBuildingInteriors = true;
+//			includeFloatingSubsurface = true;
+			break;
+		case FLOODED:
+		case SANDDUNES:
+		case SNOWDUNES:
+//			includeRoads = true;
+//			includeRoundabouts = true;
+			includeSewers = false; // DIFFERENT
+			includeCisterns = false; // DIFFERENT
+//			includeBasements = true;
+			includeMines = false; // DIFFERENT
+			includeBunkers = false; // DIFFERENT
+//			includeBuildings = true;
+//			includeHouses = true;
+			includeFarms = false; // DIFFERENT
+
+//			includeCaves = true; 
+			includeLavaFields = false; // DIFFERENT
+			includeSeas = true; // THIS MUST BE SET TO TRUE
+			includeMountains = true; // THIS MUST BE SET TO TRUE
+//			includeOres = true;
+			
+			treasuresInSewers = false; // DIFFERENT
+			spawnersInSewers = false; // DIFFERENT
+			treasuresInMines = false; // DIFFERENT
+			spawnersInMines = false; // DIFFERENT
+			treasuresInBunkers = false; // DIFFERENT
+			spawnersInBunkers = false; // DIFFERENT
+			
+			includeUndergroundFluids = false; // DIFFERENT
+//			includeAbovegroundFluids = true;
+			includeWorkingLights = false; // DIFFERENT
+//			includeWoolRoads = false;
+			includeNamedRoads = false; // DIFFERENT
+//			includeDecayedRoads = false;
+//			includeDecayedBuildings = false;
+//			includeDecayedNature = false;
+			includeBuildingInteriors = false; // DIFFERENT
+//			includeFloatingSubsurface = true;
+			break;
+		}
+		
 	}
 	
 //	private File findFolder(File parent, String name) throws Exception {

@@ -43,6 +43,11 @@ public class RealChunk extends SupportChunk {
 	public Location getBlockLocation(int x, int y, int z) {
 		return chunk.getBlock(x, y, z).getLocation();
 	}
+	
+	@Override
+	public int getBlockType(int x, int y, int z) {
+		return getBlock(x, y, z).getId();
+	}
 
 	public Material getBlock(int x, int y, int z) {
 		return chunk.getBlock(x, y, z).getType();
@@ -372,20 +377,6 @@ public class RealChunk extends SupportChunk {
 				xChange += 2;
 			}
 		}
-	}
-	
-	@Override
-	public boolean isType(int x, int y, int z, int type) {
-		return chunk.getBlock(x, y, z).getTypeId() == type;
-	}
-	
-	@Override
-	public boolean isEmpty(int x, int y, int z) {
-		return chunk.getBlock(x, y, z).isEmpty();
-	}
-	
-	public boolean isPlantable(int x, int y, int z) {
-		return getBlock(x, y, z).getId() == grassId;
 	}
 	
 	public enum Color {

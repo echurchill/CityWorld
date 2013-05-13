@@ -8,6 +8,8 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 
 public class WorldBlocks extends SupportChunk {
+	
+	//WARNING: the x,z coordinates in this variant of SupportChunk are world absolute (unlike byte and real chunks)
 
 	private boolean doPhysics;
 //	WorldGenerator generator;
@@ -34,13 +36,8 @@ public class WorldBlocks extends SupportChunk {
 	}
 	
 	@Override
-	public boolean isType(int x, int y, int z, int type) {
-		return world.getBlockAt(x, y, z).getTypeId() == type;
-	}
-
-	@Override
-	public boolean isEmpty(int x, int y, int z) {
-		return world.getBlockAt(x, y, z).isEmpty();
+	public int getBlockType(int x, int y, int z) {
+		return getActualBlock(x, y, z).getTypeId();
 	}
 	
 	@Override
@@ -287,10 +284,6 @@ public class WorldBlocks extends SupportChunk {
 	public int setLayer(int blocky, int height, int inset, Material material) {
 		setBlocks(inset, width - inset, blocky, blocky + height, inset, width - inset, material);
 		return blocky + height;
-	}
-	
-	public boolean isPlantable(int x, int y, int z) {
-		return world.getBlockAt(x, y, z).getTypeId() == grassId;
 	}
 	
 	public void destroyWithin(int x1, int x2, int y1, int y2, int z1, int z2) {

@@ -28,13 +28,14 @@ public class RoadLot extends ConnectedLot {
 	protected final static int tunnelHeight = 8;
 	protected final static int fenceHeight = 2;
 	
-	protected final static Material airMaterial = Material.AIR;
+	protected Material airMaterial = Material.AIR;
+	protected byte airId = (byte) airMaterial.getId();
+	
 	protected final static Material lightpostbaseMaterial = Material.DOUBLE_STEP;
 	protected final static Material lightpostMaterial = Material.FENCE;
 	protected final static Material sewerWallMaterial = Material.MOSSY_COBBLESTONE;
 	//protected final static Material vineMaterial = Material.VINE;
 
-	protected final static byte airId = (byte) airMaterial.getId();
 	protected final static byte sewerFloorId = (byte) Material.COBBLESTONE.getId();
 	protected final static byte sewerWallId = (byte) sewerWallMaterial.getId();
 	protected final static byte sewerCeilingId = sewerFloorId;

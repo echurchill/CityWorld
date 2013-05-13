@@ -99,7 +99,7 @@ public class NatureContext extends UncivilizedContext {
 								// if not one of the innermost or the height isn't tall enough for bunkers
 								if (!innermost || minHeight < BunkerLot.calcBunkerMinHeight(generator)) {
 									if (heights.isSortaFlat() && generator.shapeProvider.isIsolatedConstructAt(originX + x, originZ + z, oddsOfIsolatedConstructs))
-										current = createSurfaceBuildingLot(generator, platmap, originX + x, originZ + z);
+										current = createSurfaceBuildingLot(generator, platmap, originX + x, originZ + z, heights);
 									break;
 								}
 							case HIGHLAND:
@@ -123,8 +123,8 @@ public class NatureContext extends UncivilizedContext {
 		}
 		
 		// any special things to do?
-		populateSpecial(generator, platmap, maxHeightX, maxHeightZ, maxState);
-		populateSpecial(generator, platmap, minHeightX, minHeightZ, minState);
+		populateSpecial(generator, platmap, maxHeightX, maxHeight, maxHeightZ, maxState);
+		populateSpecial(generator, platmap, minHeightX, minHeight, minHeightZ, minState);
 	}
 	
 	public PlatLot createBuriedBuildingLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
@@ -133,7 +133,7 @@ public class NatureContext extends UncivilizedContext {
 		return null;
 	}
 	
-	public PlatLot createSurfaceBuildingLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
+	public PlatLot createSurfaceBuildingLot(WorldGenerator generator, PlatMap platmap, int x, int z, HeightInfo heights) {
 		if (generator.settings.includeHouses)
 			if (platmap.getOddsGenerator().flipCoin())
 				return new MountainShackLot(platmap, x, z);
@@ -142,7 +142,7 @@ public class NatureContext extends UncivilizedContext {
 		return null;
 	}
 	
-	protected void populateSpecial(WorldGenerator generator, PlatMap platmap, int x, int z, HeightState state) {
+	protected void populateSpecial(WorldGenerator generator, PlatMap platmap, int x, int y, int z, HeightState state) {
 
 		// what type of height are we talking about?
 		if (state != HeightState.BUILDING && 
