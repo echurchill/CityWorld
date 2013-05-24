@@ -49,7 +49,11 @@ public abstract class PlatLot {
 		initializeDice(platmap, chunkX, chunkZ);
 	}
 
-	protected final static byte airId = (byte) Material.AIR.getId();
+	// these can change
+	protected Material airMaterial = Material.AIR;
+	protected byte airId = (byte) airMaterial.getId();
+	
+	// these cannot
 	protected final static byte stoneId = (byte) Material.STONE.getId();
 	protected final static byte dirtId = (byte) Material.DIRT.getId();
 	protected final static byte grassId = (byte) Material.GRASS.getId();
@@ -77,7 +81,6 @@ public abstract class PlatLot {
 	
 	protected final static int snowMaterialId = Material.SNOW.getId();
 	protected final static Material snowMaterial = Material.SNOW;
-	protected final static Material airMaterial = Material.AIR;
 	protected final static Material stoneMaterial = Material.STONE;
 	protected final static Material rootMaterial = Material.GRASS;
 	

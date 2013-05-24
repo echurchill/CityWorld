@@ -19,9 +19,9 @@ public class FarmLot extends ConnectedLot {
 	//TODO Tree farm?
 	//TODO Apple farm?
 	//TODO Cocoa farm?
-	//TODO PPPwPPPPPPwPPP based wheat/flower/grass/mushroom/netherwart/dead/fallow
-	//TODO SPSwSPSSPSwSPS based pumpkin/melon/dead/fallow
-	//TODO wPPwPPwwPPwPPw based cane/dead/fallow
+	//TODO PPPwPPPPPPwPPP based wheat/flower/grass/mushroom/netherwart/dead/none/fallow
+	//TODO SPSwSPSSPSwSPS based pumpkin/melon/dead/none/fallow
+	//TODO wPPwPPwwPPwPPw based cane/dead/none/fallow
 	
 	private boolean directionNorthSouth;
 	private Material cropType;
@@ -70,37 +70,36 @@ public class FarmLot extends ConnectedLot {
 		return result;
 	}
 
-	private final static byte isolationNormalId = (byte) Material.LOG.getId();
-	private final static byte isolationNetherId = (byte) Material.NETHER_BRICK.getId();
+	protected final static byte isolationNormalId = (byte) Material.LOG.getId();
+	protected final static byte isolationNetherId = (byte) Material.NETHER_BRICK.getId();
 	
-	private final static Material matWater = Material.STATIONARY_WATER;
-	private final static Material matSoil = Material.SOIL;
-	private final static Material matSand = Material.SAND;
-	private final static Material matMycel = Material.MYCEL;
-	private final static Material matDirt = Material.DIRT;
-	private final static Material matSoul = Material.SOUL_SAND;
-	private final static Material matAir = Material.AIR;
-	private final static Material matTrellis = Material.WOOD;
-	private final static Material matPole = Material.FENCE;
+	protected final static Material waterMaterial = Material.STATIONARY_WATER;
+	protected final static Material soilMaterial = Material.SOIL;
+	protected final static Material sandMaterial = Material.SAND;
+	protected final static Material mycelMaterial = Material.MYCEL;
+	protected final static Material dirtMaterial = Material.DIRT;
+	protected final static Material soulMaterial = Material.SOUL_SAND;
+	protected final static Material trellisMaterial = Material.WOOD;
+	protected final static Material poleMaterial = Material.FENCE;
 
-	private final static Material cropFallow = Material.AIR;
-	private final static Material cropYellowFlower = Material.YELLOW_FLOWER;
-	private final static Material cropRedFlower = Material.RED_ROSE;
-	private final static Material cropWheat = Material.CROPS;
-	private final static Material cropPumpkin = Material.PUMPKIN_STEM;
-	private final static Material cropMelon = Material.MELON_STEM;
-	private final static Material cropVine = Material.VINE;
-	private final static Material cropTrellis = Material.WOOD;
-	private final static Material cropSugarCane = Material.SUGAR_CANE_BLOCK;
-	private final static Material cropGrass = Material.LONG_GRASS;
-	private final static Material cropCactus = Material.CACTUS;
-	private final static Material cropBrownMushroom = Material.BROWN_MUSHROOM;
-	private final static Material cropRedMushroom = Material.RED_MUSHROOM;
-	private final static Material cropNetherwart = Material.NETHER_WARTS;
-	private final static Material cropDeadBush = Material.DEAD_BUSH; 
-	private final static Material cropNone = Material.DIRT;
-	private final static Material cropCarrot = Material.CARROT;
-	private final static Material cropPotato = Material.POTATO;
+	protected final static Material cropFallow = Material.AIR;
+	protected final static Material cropYellowFlower = Material.YELLOW_FLOWER;
+	protected final static Material cropRedFlower = Material.RED_ROSE;
+	protected final static Material cropWheat = Material.CROPS;
+	protected final static Material cropPumpkin = Material.PUMPKIN_STEM;
+	protected final static Material cropMelon = Material.MELON_STEM;
+	protected final static Material cropVine = Material.VINE;
+	protected final static Material cropTrellis = Material.WOOD;
+	protected final static Material cropSugarCane = Material.SUGAR_CANE_BLOCK;
+	protected final static Material cropGrass = Material.LONG_GRASS;
+	protected final static Material cropCactus = Material.CACTUS;
+	protected final static Material cropBrownMushroom = Material.BROWN_MUSHROOM;
+	protected final static Material cropRedMushroom = Material.RED_MUSHROOM;
+	protected final static Material cropNetherwart = Material.NETHER_WARTS;
+	protected final static Material cropDeadBush = Material.DEAD_BUSH; 
+	protected final static Material cropNone = Material.DIRT;
+	protected final static Material cropCarrot = Material.CARROT;
+	protected final static Material cropPotato = Material.POTATO;
 	
 	@Override
 	public int getBottomY(WorldGenerator generator) {
@@ -180,40 +179,40 @@ public class FarmLot extends ConnectedLot {
 		
 		// waterless crops
 		if (cropType == cropCactus)
-			plowField(generator, chunk, chunkOdds, croplevel, matSand, 0, matSand, cropType, 0, 2, 2, 3);
+			plowField(generator, chunk, chunkOdds, croplevel, sandMaterial, 0, sandMaterial, cropType, 0, 2, 2, 3);
 		else if (cropType == cropVine)
 			buildVineyard(generator, chunk, chunkOdds, croplevel, cropType);
 		else if (cropType == cropTrellis)
 			buildVineyard(generator, chunk, chunkOdds, croplevel, cropType);
 		else if (cropType == cropBrownMushroom)
-			plowField(generator, chunk, chunkOdds, croplevel, matMycel, 0, matAir, cropType, 0, 1, 2, 1);
+			plowField(generator, chunk, chunkOdds, croplevel, mycelMaterial, 0, airMaterial, cropType, 0, 1, 2, 1);
 		else if (cropType == cropRedMushroom)
-			plowField(generator, chunk, chunkOdds, croplevel, matMycel, 0, matAir, cropType, 0, 1, 2, 1);
+			plowField(generator, chunk, chunkOdds, croplevel, mycelMaterial, 0, airMaterial, cropType, 0, 1, 2, 1);
 		else if (cropType == cropNetherwart)
-			plowField(generator, chunk, chunkOdds, croplevel, matSoul, 0, matAir, cropType, chunkOdds.getRandomInt(4), 1, 2, 1);
+			plowField(generator, chunk, chunkOdds, croplevel, soulMaterial, 0, airMaterial, cropType, chunkOdds.getRandomInt(4), 1, 2, 1);
 		else if (cropType == cropDeadBush)
-			plowField(generator, chunk, chunkOdds, croplevel, matDirt, 0, matAir, cropType, 0, 1, 2, 1);
+			plowField(generator, chunk, chunkOdds, croplevel, dirtMaterial, 0, airMaterial, cropType, 0, 1, 2, 1);
 		else {
 			
 			// watered crops
 			if (generator.settings.includeAbovegroundFluids) {
 				if (cropType == cropYellowFlower || cropType == cropRedFlower)
-					plowField(generator, chunk, chunkOdds, croplevel, matSoil, 8, matWater, cropType, 0, 1, 2, 1);
+					plowField(generator, chunk, chunkOdds, croplevel, soilMaterial, 8, waterMaterial, cropType, 0, 1, 2, 1);
 				else if (cropType == cropGrass)
-					plowField(generator, chunk, chunkOdds, croplevel, matSoil, 8, matWater, cropType, 1, 1, 2, 1);
+					plowField(generator, chunk, chunkOdds, croplevel, soilMaterial, 8, waterMaterial, cropType, 1, 1, 2, 1);
 				else if (cropType == cropWheat || cropType == cropCarrot || cropType == cropPotato)
-					plowField(generator, chunk, chunkOdds, croplevel, matSoil, 8, matWater, cropType, 2 + chunkOdds.getRandomInt(6), 1, 2, 1);
+					plowField(generator, chunk, chunkOdds, croplevel, soilMaterial, 8, waterMaterial, cropType, 2 + chunkOdds.getRandomInt(6), 1, 2, 1);
 				else if (cropType == cropPumpkin || cropType == cropMelon)
-					plowField(generator, chunk, chunkOdds, croplevel, matSoil, 8, matWater, cropType, 2 + chunkOdds.getRandomInt(6), 1, 3, 1);
+					plowField(generator, chunk, chunkOdds, croplevel, soilMaterial, 8, waterMaterial, cropType, 2 + chunkOdds.getRandomInt(6), 1, 3, 1);
 				else if (cropType == cropSugarCane)
-					plowField(generator, chunk, chunkOdds, croplevel, matSand, 0, matWater, cropType, 0, 1, 2, 3);
+					plowField(generator, chunk, chunkOdds, croplevel, sandMaterial, 0, waterMaterial, cropType, 0, 1, 2, 3);
 				else if (cropType == cropNone)
-					plowField(generator, chunk, chunkOdds, croplevel, matSoil, 8, matWater, matAir, 0, 1, 2, 1);
+					plowField(generator, chunk, chunkOdds, croplevel, soilMaterial, 8, waterMaterial, airMaterial, 0, 1, 2, 1);
 				else
 					fallowField = true;
 			} else {
 				if (cropType == cropNone)
-					plowField(generator, chunk, chunkOdds, croplevel, matDirt, 0, matAir, matAir, 0, 1, 2, 1);
+					plowField(generator, chunk, chunkOdds, croplevel, dirtMaterial, 0, airMaterial, airMaterial, 0, 1, 2, 1);
 				else
 					fallowField = true;
 			}
@@ -221,7 +220,7 @@ public class FarmLot extends ConnectedLot {
 		
 		// just in case nothing happened
 		if (fallowField)
-			plowField(generator, chunk, chunkOdds, croplevel, matDirt, 0, matAir, cropType, 0, 1, 2, 1);
+			plowField(generator, chunk, chunkOdds, croplevel, dirtMaterial, 0, airMaterial, cropType, 0, 1, 2, 1);
 	}
 
 	private void plowField(WorldGenerator generator, RealChunk chunk, Odds odds, int croplevel, 
@@ -260,9 +259,9 @@ public class FarmLot extends ConnectedLot {
 		int stepCol = 3;
 		if (directionNorthSouth) {
 			for (int x = 1; x < 15; x += stepCol) {
-				chunk.setBlocks(x, cropLevel, cropLevel + 4, 1, matPole);
-				chunk.setBlocks(x, cropLevel, cropLevel + 4, 14, matPole);
-				chunk.setBlocks(x, x + 1, cropLevel + 3, cropLevel + 4, 2, 14, matTrellis);
+				chunk.setBlocks(x, cropLevel, cropLevel + 4, 1, poleMaterial);
+				chunk.setBlocks(x, cropLevel, cropLevel + 4, 14, poleMaterial);
+				chunk.setBlocks(x, x + 1, cropLevel + 3, cropLevel + 4, 2, 14, trellisMaterial);
 				if (matCrop != cropTrellis) {
 					if (chunkOdds.playOdds(oddsOfCrop)) {
 						for (int z = 2; z < 14; z++) {
@@ -274,9 +273,9 @@ public class FarmLot extends ConnectedLot {
 			}
 		} else {
 			for (int z = 1; z < 15; z += stepCol) {
-				chunk.setBlocks(1, cropLevel, cropLevel + 4, z, matPole);
-				chunk.setBlocks(14, cropLevel, cropLevel + 4, z, matPole);
-				chunk.setBlocks(2, 14, cropLevel + 3, cropLevel + 4, z, z + 1, matTrellis);
+				chunk.setBlocks(1, cropLevel, cropLevel + 4, z, poleMaterial);
+				chunk.setBlocks(14, cropLevel, cropLevel + 4, z, poleMaterial);
+				chunk.setBlocks(2, 14, cropLevel + 3, cropLevel + 4, z, z + 1, trellisMaterial);
 				if (matCrop != cropTrellis) {
 					if (chunkOdds.playOdds(oddsOfCrop)) {
 						for (int x = 2; x < 14; x++) {
@@ -289,7 +288,7 @@ public class FarmLot extends ConnectedLot {
 		}
 	}
 	
-	private Material getNormalCrop() {
+	protected Material getNormalCrop() {
 		switch (chunkOdds.getRandomInt(14)) {
 		case 1:
 			return cropYellowFlower;
@@ -320,7 +319,7 @@ public class FarmLot extends ConnectedLot {
 		}
 	}
 
-	private Material getDecayedNormalCrop() {
+	protected Material getDecayedNormalCrop() {
 		switch (chunkOdds.getRandomInt(5)) {
 		case 1:
 			return cropTrellis;
@@ -333,7 +332,7 @@ public class FarmLot extends ConnectedLot {
 		}
 	}
 
-	private Material getNetherCrop() {
+	protected Material getNetherCrop() {
 		switch (chunkOdds.getRandomInt(6)) {
 		case 1:
 			return cropBrownMushroom;
@@ -348,7 +347,7 @@ public class FarmLot extends ConnectedLot {
 		}
 	}
 
-	private Material getDecayedNetherCrop() {
+	protected Material getDecayedNetherCrop() {
 		switch (chunkOdds.getRandomInt(10)) {
 		case 1:
 			return cropBrownMushroom;

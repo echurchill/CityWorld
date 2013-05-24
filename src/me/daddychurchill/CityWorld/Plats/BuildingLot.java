@@ -42,7 +42,6 @@ public abstract class BuildingLot extends ConnectedLot {
 	protected int aboveFloorHeight;
 	protected int basementFloorHeight;
 	
-	protected final static byte airId = (byte) Material.AIR.getId();
 	protected final static byte antennaBaseId = (byte) Material.CLAY.getId();
 	protected final static byte antennaId = (byte) Material.FENCE.getId();
 	protected final static byte conditionerId = (byte) Material.DOUBLE_STEP.getId();

@@ -48,11 +48,11 @@ public abstract class UrbanContext extends CivilizedContext {
 					if (generator.settings.includeBuildings) {
 
 						// what to build?
-						boolean buildBuilding = !platmapOdds.playOdds(oddsOfParks);
-						if (buildBuilding)
-							current = getBuilding(generator, platmap, platmapOdds, platmap.originX + x, platmap.originZ + z);
-						else
+						boolean buildPark = platmapOdds.playOdds(oddsOfParks);
+						if (buildPark)
 							current = getPark(generator, platmap, platmapOdds, platmap.originX + x, platmap.originZ + z);
+						else
+							current = getBackfillLot(generator, platmap, platmapOdds, platmap.originX + x, platmap.originZ + z);
 						
 						// see if the previous chunk is the same type
 						PlatLot previous = null;
@@ -67,7 +67,7 @@ public abstract class UrbanContext extends CivilizedContext {
 							current.makeConnected(previous);
 							
 						// 2 by 2 at a minimum if at all possible
-						} else if (buildBuilding && x < PlatMap.Width - 1 && z < PlatMap.Width - 1) {
+						} else if (!buildPark && x < PlatMap.Width - 1 && z < PlatMap.Width - 1) {
 							
 							// is there room?
 							PlatLot toEast = platmap.getLot(x + 1, z);
@@ -111,33 +111,38 @@ public abstract class UrbanContext extends CivilizedContext {
 	
 	@Override
 	protected PlatLot getBackfillLot(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
-		return new OfficeBuildingLot(platmap, chunkX, chunkZ);
+		if (odds.playOdds(oddsOfUnfinishedBuildings))
+			return getUnfinishedBuilding(generator, platmap, odds, chunkX, chunkZ);
+		else
+			return getBuilding(generator, platmap, odds, chunkX, chunkZ);
 	}
 	
 	protected PlatLot getPark(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new ParkLot(platmap, chunkX, chunkZ, generator.connectedKeyForParks);
 	}
 	
+	protected PlatLot getUnfinishedBuilding(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+		return new UnfinishedBuildingLot(platmap, chunkX, chunkZ);
+	}
+	
 	protected PlatLot getBuilding(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		switch (odds.getRandomInt(8)) {
 		case 1:
-		case 2:
-		case 3:
-			return new OfficeBuildingLot(platmap, chunkX, chunkZ);
-		case 4:
-//			return new ApartmentBuildingLot(platmap, chunkX, chunkZ);
-//			return new BankBuildingLot(platmap, chunkX, chunkZ);
-//			return new FactoryBuildingLot(platmap, chunkX, chunkZ);
-//			return new XBuildingLot(platmap, chunkX, chunkZ);
-//			return new YBuildingLot(platmap, chunkX, chunkZ);
-		case 5:
 			return new EmptyBuildingLot(platmap, chunkX, chunkZ);
-		case 6:
+		case 2:
 			return new StoreBuildingLot(platmap, chunkX, chunkZ);
-		case 7:
+		case 3:
 			return new LibraryBuildingLot(platmap, chunkX, chunkZ);
+//		case 4:
+//			return new ApartmentBuildingLot(platmap, chunkX, chunkZ);
+//		case 5:
+//			return new BankBuildingLot(platmap, chunkX, chunkZ);
+//		case 6:
+//			return new FactoryBuildingLot(platmap, chunkX, chunkZ);
+//		case 7:
+//			return new BlaBlaBuildingLot(platmap, chunkX, chunkZ);
 		default:
-			return new UnfinishedBuildingLot(platmap, chunkX, chunkZ);
-		}
+			return new OfficeBuildingLot(platmap, chunkX, chunkZ);
+			}
 	}
 }

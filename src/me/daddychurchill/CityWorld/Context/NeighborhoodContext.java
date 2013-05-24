@@ -22,6 +22,7 @@ public class NeighborhoodContext extends RuralContext {
 
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
+		Odds platmapOdds = platmap.getOddsGenerator();
 		
 		// let the user add their stuff first, then plug any remaining holes with our stuff
 		mapsSchematics.populate(generator, platmap);
@@ -42,23 +43,23 @@ public class NeighborhoodContext extends RuralContext {
 						if (checkForRoads) {
 							if (platmap.isExistingRoad(x - 1, z) || platmap.isExistingRoad(x + 1, z) || 
 								platmap.isExistingRoad(x, z - 1) || platmap.isExistingRoad(x, z + 1))
-								placeHouse(platmap, x, z);
+								platmap.setLot(x, z, getHouseLot(generator, platmap, platmapOdds, platmap.originX + x, platmap.originZ + z));
 							
 						// just do it then
 						} else
-							placeHouse(platmap, x, z);
+							platmap.setLot(x, z, getHouseLot(generator, platmap, platmapOdds, platmap.originX + x, platmap.originZ + z));
 					}
 				}
 			}
 		}
 	}
 	
-	private void placeHouse(PlatMap platmap, int x, int z) {
-		platmap.setLot(x, z, new HouseLot(platmap, platmap.originX + x, platmap.originZ + z));
-	}
-	
 	@Override
 	protected PlatLot getBackfillLot(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
-		return null;
+		return null; // this will eventually get filled in with nature
+	}
+	
+	protected PlatLot getHouseLot(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+		return new HouseLot(platmap, chunkX, chunkZ);
 	}
 }

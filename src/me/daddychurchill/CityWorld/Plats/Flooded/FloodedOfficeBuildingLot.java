@@ -1,13 +1,13 @@
 package me.daddychurchill.CityWorld.Plats.Flooded;
 
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plats.Urban.UnfinishedBuildingLot;
+import me.daddychurchill.CityWorld.Plats.Urban.OfficeBuildingLot;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider_Flooded;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
-public class FloodedUnfinishedBuildingLot extends UnfinishedBuildingLot {
+public class FloodedOfficeBuildingLot extends OfficeBuildingLot {
 
-	public FloodedUnfinishedBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
+	public FloodedOfficeBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
 		airMaterial = ShapeProvider_Flooded.floodMat;
@@ -16,7 +16,7 @@ public class FloodedUnfinishedBuildingLot extends UnfinishedBuildingLot {
 
 	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
-		return new FloodedUnfinishedBuildingLot(platmap, chunkX, chunkZ);
+		return new FloodedOfficeBuildingLot(platmap, chunkX, chunkZ);
 	}
 
 }

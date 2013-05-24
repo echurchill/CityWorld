@@ -89,7 +89,7 @@ public class FarmContext extends RuralContext {
 					
 					// farm house here?
 					if (!housePlaced && platmapOdds.playOdds(oddsOfFarmHouse) && generator.settings.includeHouses) {
-						housePlaced = platmap.setLot(x, z, new HouseLot(platmap, platmap.originX + x, platmap.originZ + z)); 
+						housePlaced = platmap.setLot(x, z, getHouseLot(generator, platmap, platmapOdds, platmap.originX + lastX, platmap.originZ + lastZ)); 
 					
 					// place the farm
 					} else {
@@ -123,12 +123,16 @@ public class FarmContext extends RuralContext {
 		
 		// did we miss out placing the farm house?
 		if (!housePlaced && platmap.isEmptyLot(lastX, lastZ) && generator.settings.includeHouses) {
-			platmap.setLot(lastX, lastZ, new HouseLot(platmap, platmap.originX + lastX, platmap.originZ + lastZ)); 
+			platmap.setLot(lastX, lastZ, getHouseLot(generator, platmap, platmapOdds, platmap.originX + lastX, platmap.originZ + lastZ)); 
 		}
 	}
 	
 	@Override
 	protected PlatLot getBackfillLot(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new FarmLot(platmap, chunkX, chunkZ);
+	}
+	
+	protected PlatLot getHouseLot(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+		return new HouseLot(platmap, chunkX, chunkZ);
 	}
 }
