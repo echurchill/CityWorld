@@ -10,6 +10,7 @@ import me.daddychurchill.CityWorld.Rooms.Populators.OfficeWithNothing;
 import me.daddychurchill.CityWorld.Rooms.Populators.OfficeWithRandom;
 import me.daddychurchill.CityWorld.Rooms.Populators.OfficeWithRooms;
 import me.daddychurchill.CityWorld.Support.PlatMap;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class OfficeBuildingLot extends FinishedBuildingLot {
 
@@ -20,7 +21,7 @@ public class OfficeBuildingLot extends FinishedBuildingLot {
 	private static RoomProvider contentsLounges = new OfficeWithLounges();
 	
 	public enum ContentStyle {RANDOM, EMPTY, OFFICES, CUBICLES};
-	private ContentStyle contentStyle;
+	protected ContentStyle contentStyle;
 
 	public OfficeBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
@@ -49,7 +50,7 @@ public class OfficeBuildingLot extends FinishedBuildingLot {
 	}
 	
 	@Override
-	public RoomProvider roomProviderForFloor(WorldGenerator generator, int floor) {
+	public RoomProvider roomProviderForFloor(WorldGenerator generator, SupportChunk chunk, int floor, int floorY) {
 		switch (contentStyle) {
 		case OFFICES:
 			switch (chunkOdds.getRandomInt(10)) {

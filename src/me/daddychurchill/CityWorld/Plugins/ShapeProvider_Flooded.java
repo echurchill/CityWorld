@@ -39,9 +39,12 @@ public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 			highriseContext = new FloodedHighriseContext(generator);
 			constructionContext = new FloodedConstructionContext(generator);
 			midriseContext = new FloodedMidriseContext(generator);
+			municipalContext = midriseContext;
 			lowriseContext = new FloodedLowriseContext(generator);
+			industrialContext = lowriseContext;
 			neighborhoodContext = new FloodedNeighborhoodContext(generator);
 			farmContext = new FloodedFarmContext(generator);
+			
 			
 			contextInitialized = true;
 		}

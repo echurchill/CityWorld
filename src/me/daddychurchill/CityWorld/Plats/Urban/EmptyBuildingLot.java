@@ -5,6 +5,7 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Rooms.Populators.EmptyWithRooms;
 import me.daddychurchill.CityWorld.Support.PlatMap;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class EmptyBuildingLot extends LibraryBuildingLot {
 
@@ -16,7 +17,7 @@ public class EmptyBuildingLot extends LibraryBuildingLot {
 	}
 
 	@Override
-	public RoomProvider roomProviderForFloor(WorldGenerator generator, int floor) {
+	public RoomProvider roomProviderForFloor(WorldGenerator generator, SupportChunk chunk, int floor, int floorY) {
 		return contentsRooms;
 	}
 	

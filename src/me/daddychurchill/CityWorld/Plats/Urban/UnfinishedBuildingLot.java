@@ -26,7 +26,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 	private final static Material wallMaterial = Material.SMOOTH_BRICK;
 	private final static Material ceilingMaterial = Material.STONE;
 	
-	private final static int inset = 2;
+	protected final static int inset = 2;
 	
 	// our special bits
 	protected boolean unfinishedBasementOnly;
@@ -172,14 +172,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 			}
 			
 			// plop a crane on top?
-			boolean craned = false;
-			if (lastHorizontalGirder > 0 && chunkOdds.playOdds(context.oddsOfCranes)) {
-				if (chunkOdds.flipCoin())
-					chunk.drawCrane(context, chunkOdds, inset + 2, lastHorizontalGirder + 1, inset);
-				else
-					chunk.drawCrane(context, chunkOdds, inset + 2, lastHorizontalGirder + 1, chunk.width - inset - 1);
-				craned = true;
-			}
+			boolean craned = drawCrane(generator, chunk, context);
 			
 			// it looked so nice for a moment... but the moment has passed
 			if (generator.settings.includeDecayedBuildings) {
@@ -203,6 +196,17 @@ public class UnfinishedBuildingLot extends BuildingLot {
 				}
 			}
 		}
+	}
+	
+	protected boolean drawCrane(WorldGenerator generator, RealChunk chunk, DataContext context) {
+		if (lastHorizontalGirder > 0 && chunkOdds.playOdds(context.oddsOfCranes)) {
+			if (chunkOdds.flipCoin())
+				chunk.drawCrane(context, chunkOdds, inset + 2, lastHorizontalGirder + 1, inset);
+			else
+				chunk.drawCrane(context, chunkOdds, inset + 2, lastHorizontalGirder + 1, chunk.width - inset - 1);
+			return true;
+		}
+		return false;
 	}
 	
 	private final static double decayedEdgeOdds = 0.20;

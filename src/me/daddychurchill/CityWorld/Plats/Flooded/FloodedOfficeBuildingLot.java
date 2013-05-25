@@ -1,12 +1,20 @@
 package me.daddychurchill.CityWorld.Plats.Flooded;
 
+import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Urban.OfficeBuildingLot;
+import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider_Flooded;
+import me.daddychurchill.CityWorld.Rooms.Populators.EmptyWithNothing;
+import me.daddychurchill.CityWorld.Rooms.Populators.EmptyWithRooms;
 import me.daddychurchill.CityWorld.Support.PlatMap;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class FloodedOfficeBuildingLot extends OfficeBuildingLot {
 
+	private static RoomProvider contentsEmpty = new EmptyWithNothing();
+	private static RoomProvider contentsWalls = new EmptyWithRooms();
+	
 	public FloodedOfficeBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
@@ -19,4 +27,23 @@ public class FloodedOfficeBuildingLot extends OfficeBuildingLot {
 		return new FloodedOfficeBuildingLot(platmap, chunkX, chunkZ);
 	}
 
+	@Override
+	public RoomProvider roomProviderForFloor(WorldGenerator generator, SupportChunk chunk, int floor, int floorY) {
+		if (generator.shapeProvider.findCoverY(generator, chunk.getOriginX(), chunk.getOriginZ()) < floorY)
+			return super.roomProviderForFloor(generator, chunk, floor, floorY);
+		else {
+			switch (contentStyle) {
+			case OFFICES:
+			case CUBICLES:
+				return contentsWalls;
+			case RANDOM:
+				if (chunkOdds.flipCoin())
+					return contentsWalls;
+				else
+					return contentsEmpty;
+			default:
+				return contentsEmpty;
+			}
+		}
+	}
 }

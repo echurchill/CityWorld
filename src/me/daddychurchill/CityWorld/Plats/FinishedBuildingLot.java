@@ -331,7 +331,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			
 			// inside walls
 			drawInteriorParts(generator, chunk, context, 
-					roomProviderForFloor(generator, floor), floor, floorAt, 
+					roomProviderForFloor(generator, chunk, floor, floorAt), floor, floorAt, 
 					aboveFloorHeight - 1, localInsetWallNS, localInsetWallWE, 
 					allowRounded, wallMaterial, glassMaterial, 
 					stairLocation, stairMaterial, stairWallMaterial, stairPlatformMaterial,

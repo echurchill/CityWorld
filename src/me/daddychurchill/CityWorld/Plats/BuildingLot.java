@@ -17,6 +17,7 @@ import me.daddychurchill.CityWorld.Support.OutsideNSWallFactory;
 import me.daddychurchill.CityWorld.Support.InteriorWallFactory;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
 import me.daddychurchill.CityWorld.Support.Direction.Door;
 import me.daddychurchill.CityWorld.Support.Surroundings;
@@ -75,7 +76,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	private final static Material fenceMaterial = Material.IRON_FENCE;
 	private final static int fenceHeight = 3;
 	
-	public RoomProvider roomProviderForFloor(WorldGenerator generator, int floor) {
+	public RoomProvider roomProviderForFloor(WorldGenerator generator, SupportChunk chunk, int floor, int floorY) {
 		return contentsNothing;
 	}
 	
@@ -1641,32 +1642,32 @@ public abstract class BuildingLot extends ConnectedLot {
 		switch (stairDirection) {
 		case NORTH:
 			for (int i = 0; i < floorHeight; i++) {
-				chunk.setBlock(at.X + 1, y2, at.Z + i, Material.AIR);
-				chunk.setBlock(at.X + 2, y2, at.Z + i, Material.AIR);
+				chunk.setBlock(at.X + 1, y2, at.Z + i, airMaterial);
+				chunk.setBlock(at.X + 2, y2, at.Z + i, airMaterial);
 				chunk.setStair(at.X + 1, y1 + i, at.Z + i, stairMaterial, Stair.SOUTH);
 				chunk.setStair(at.X + 2, y1 + i, at.Z + i, stairMaterial, Stair.SOUTH);
 			}
 			break;
 		case SOUTH:
 			for (int i = 0; i < floorHeight; i++) {
-				chunk.setBlock(at.X + 1, y2, at.Z + i, Material.AIR);
-				chunk.setBlock(at.X + 2, y2, at.Z + i, Material.AIR);
+				chunk.setBlock(at.X + 1, y2, at.Z + i, airMaterial);
+				chunk.setBlock(at.X + 2, y2, at.Z + i, airMaterial);
 				chunk.setStair(at.X + 1, y1 + i, at.Z + floorHeight - i - 1, stairMaterial, Stair.NORTH);
 				chunk.setStair(at.X + 2, y1 + i, at.Z + floorHeight - i - 1, stairMaterial, Stair.NORTH);
 			}
 			break;
 		case WEST:
 			for (int i = 0; i < floorHeight; i++) {
-				chunk.setBlock(at.X + i, y2, at.Z + 1, Material.AIR);
-				chunk.setBlock(at.X + i, y2, at.Z + 2, Material.AIR);
+				chunk.setBlock(at.X + i, y2, at.Z + 1, airMaterial);
+				chunk.setBlock(at.X + i, y2, at.Z + 2, airMaterial);
 				chunk.setStair(at.X + i, y1 + i, at.Z + 1, stairMaterial, Stair.EAST);
 				chunk.setStair(at.X + i, y1 + i, at.Z + 2, stairMaterial, Stair.EAST);
 			}
 			break;
 		case EAST:
 			for (int i = 0; i < floorHeight; i++) {
-				chunk.setBlock(at.X + i, y2, at.Z + 1, Material.AIR);
-				chunk.setBlock(at.X + i, y2, at.Z + 2, Material.AIR);
+				chunk.setBlock(at.X + i, y2, at.Z + 1, airMaterial);
+				chunk.setBlock(at.X + i, y2, at.Z + 2, airMaterial);
 				chunk.setStair(at.X + floorHeight - i - 1, y1 + i, at.Z + 1, stairMaterial, Stair.WEST);
 				chunk.setStair(at.X + floorHeight - i - 1, y1 + i, at.Z + 2, stairMaterial, Stair.WEST);
 			}
@@ -1685,7 +1686,7 @@ public abstract class BuildingLot extends ConnectedLot {
 				switch (stairDirection) {
 				case NORTH:
 				case SOUTH:
-					chunk.setBlocks(at.X + 1, at.X + 3, y1, yClear, at.Z, at.Z + 4, Material.AIR);
+					chunk.setBlocks(at.X + 1, at.X + 3, y1, yClear, at.Z, at.Z + 4, airMaterial);
 					chunk.setBlocks(at.X, at.X + 1, y1, y2, at.Z, at.Z + 4, wallMaterial);
 					chunk.setBlocks(at.X + 3, at.X + 4, y1, y2, at.Z, at.Z + 4, wallMaterial);
 					if (isTopFloor) {
@@ -1697,7 +1698,7 @@ public abstract class BuildingLot extends ConnectedLot {
 					break;
 				case WEST:
 				case EAST:
-					chunk.setBlocks(at.X, at.X + 4, y1, yClear, at.Z + 1, at.Z + 3, Material.AIR);
+					chunk.setBlocks(at.X, at.X + 4, y1, yClear, at.Z + 1, at.Z + 3, airMaterial);
 					chunk.setBlocks(at.X, at.X + 4, y1, y2, at.Z, at.Z + 1, wallMaterial);
 					chunk.setBlocks(at.X, at.X + 4, y1, y2, at.Z + 3, at.Z + 4, wallMaterial);
 					if (isTopFloor) {
@@ -1716,7 +1717,7 @@ public abstract class BuildingLot extends ConnectedLot {
 			if (floorHeight == 4) {
 				switch (stairDirection) {
 				case NORTH:
-					chunk.setBlocks(at.X + 1, at.X + 3, y1, yClear, at.Z,     at.Z + 3, Material.AIR);
+					chunk.setBlocks(at.X + 1, at.X + 3, y1, yClear, at.Z,     at.Z + 3, airMaterial);
 					chunk.setBlocks(at.X,     at.X + 1, y1, y2,     at.Z,     at.Z + 4, wallMaterial);
 					chunk.setBlocks(at.X + 3, at.X + 4, y1, y2,     at.Z,     at.Z + 4, wallMaterial);
 					chunk.setBlocks(at.X + 1, at.X + 3, y1, y2,     at.Z + 3, at.Z + 4, wallMaterial);
@@ -1726,7 +1727,7 @@ public abstract class BuildingLot extends ConnectedLot {
 					}
 					break;
 				case SOUTH:
-					chunk.setBlocks(at.X + 1, at.X + 3, y1, yClear, at.Z + 1, at.Z + 4, Material.AIR);
+					chunk.setBlocks(at.X + 1, at.X + 3, y1, yClear, at.Z + 1, at.Z + 4, airMaterial);
 					chunk.setBlocks(at.X,     at.X + 1, y1, y2, 	at.Z,     at.Z + 4, wallMaterial);
 					chunk.setBlocks(at.X + 3, at.X + 4, y1, y2, 	at.Z,     at.Z + 4, wallMaterial);
 					chunk.setBlocks(at.X + 1, at.X + 3, y1, y2, 	at.Z,     at.Z + 1, wallMaterial);
@@ -1736,7 +1737,7 @@ public abstract class BuildingLot extends ConnectedLot {
 					}
 					break;
 				case WEST:
-					chunk.setBlocks(at.X,     at.X + 3, y1, yClear, at.Z + 1, at.Z + 3, Material.AIR);
+					chunk.setBlocks(at.X,     at.X + 3, y1, yClear, at.Z + 1, at.Z + 3, airMaterial);
 					chunk.setBlocks(at.X,     at.X + 4, y1, y2, 	at.Z,     at.Z + 1, wallMaterial);
 					chunk.setBlocks(at.X,     at.X + 4, y1, y2, 	at.Z + 3, at.Z + 4, wallMaterial);
 					chunk.setBlocks(at.X + 3, at.X + 4, y1, y2, 	at.Z + 1, at.Z + 3, wallMaterial);
@@ -1746,7 +1747,7 @@ public abstract class BuildingLot extends ConnectedLot {
 					}
 					break;
 				case EAST:
-					chunk.setBlocks(at.X + 1, at.X + 4, y1, yClear, at.Z + 1, at.Z + 3, Material.AIR);
+					chunk.setBlocks(at.X + 1, at.X + 4, y1, yClear, at.Z + 1, at.Z + 3, airMaterial);
 					chunk.setBlocks(at.X,     at.X + 4, y1, y2, 	at.Z,     at.Z + 1, wallMaterial);
 					chunk.setBlocks(at.X,     at.X + 4, y1, y2, 	at.Z + 3, at.Z + 4, wallMaterial);
 					chunk.setBlocks(at.X,     at.X + 1, y1, y2, 	at.Z + 1, at.Z + 3, wallMaterial);
@@ -1765,32 +1766,32 @@ public abstract class BuildingLot extends ConnectedLot {
 				chunk.setBlocks(at.X, at.X + 4, y1, y2, at.Z, at.Z + 4, wallMaterial);
 				switch (stairDirection) {
 				case NORTH:
-					chunk.setBlocks(at.X + 1, at.X + 4, y1, yClear, at.Z + 1, at.Z + 2, Material.AIR);
-					chunk.setBlocks(at.X + 1, at.X + 2, y1, yClear, at.Z + 2, at.Z + 4, Material.AIR);
+					chunk.setBlocks(at.X + 1, at.X + 4, y1, yClear, at.Z + 1, at.Z + 2, airMaterial);
+					chunk.setBlocks(at.X + 1, at.X + 2, y1, yClear, at.Z + 2, at.Z + 4, airMaterial);
 					if (isTopFloor) {
 						chunk.setTrapDoor(at.X + 3, y1 - 1, at.Z + 1, TrapDoor.TOP_EAST);
 						chunk.setBlocks(at.X + 3, y1, y2, at.Z + 1, wallMaterial);
 					}
 					break;
 				case SOUTH:
-					chunk.setBlocks(at.X,     at.X + 3, y1, yClear, at.Z + 2, at.Z + 3, Material.AIR);
-					chunk.setBlocks(at.X + 2, at.X + 3, y1, yClear, at.Z,     at.Z + 2, Material.AIR);
+					chunk.setBlocks(at.X,     at.X + 3, y1, yClear, at.Z + 2, at.Z + 3, airMaterial);
+					chunk.setBlocks(at.X + 2, at.X + 3, y1, yClear, at.Z,     at.Z + 2, airMaterial);
 					if (isTopFloor) {
 						chunk.setTrapDoor(at.X, y1 - 1, at.Z + 2, TrapDoor.TOP_WEST);
 						chunk.setBlocks(at.X, y1, y2, at.Z + 2, wallMaterial);
 					}
 					break;
 				case WEST:
-					chunk.setBlocks(at.X + 1, at.X + 2, y1, yClear, at.Z,     at.Z + 3, Material.AIR);
-					chunk.setBlocks(at.X + 2, at.X + 4, y1, yClear, at.Z + 2, at.Z + 3, Material.AIR);
+					chunk.setBlocks(at.X + 1, at.X + 2, y1, yClear, at.Z,     at.Z + 3, airMaterial);
+					chunk.setBlocks(at.X + 2, at.X + 4, y1, yClear, at.Z + 2, at.Z + 3, airMaterial);
 					if (isTopFloor) {
 						chunk.setTrapDoor(at.X + 1, y1 - 1, at.Z, TrapDoor.TOP_NORTH);
 						chunk.setBlocks(at.X + 1, y1, y2, at.Z, wallMaterial);
 					}
 					break;
 				case EAST:
-					chunk.setBlocks(at.X,     at.X + 3, y1, yClear, at.Z + 1, at.Z + 2, Material.AIR);
-					chunk.setBlocks(at.X + 2, at.X + 3, y1, yClear, at.Z + 2, at.Z + 4, Material.AIR);
+					chunk.setBlocks(at.X,     at.X + 3, y1, yClear, at.Z + 1, at.Z + 2, airMaterial);
+					chunk.setBlocks(at.X + 2, at.X + 3, y1, yClear, at.Z + 2, at.Z + 4, airMaterial);
 					if (isTopFloor) {
 						chunk.setTrapDoor(at.X + 2, y1 - 1, at.Z + 3, TrapDoor.TOP_SOUTH);
 						chunk.setBlocks(at.X + 2, y1, y2, at.Z + 3, wallMaterial);
@@ -1808,8 +1809,8 @@ public abstract class BuildingLot extends ConnectedLot {
 		// Studio_A
 		switch (stairDirection) {
 		case NORTH:
-			chunk.setBlocks(at.X + 1, at.X + 3, y1, y2, at.Z, at.Z + 1, Material.AIR);
-			chunk.setBlocks(at.X + 1, at.X + 3, y1, y2, at.Z + floorHeight - 1, at.Z + floorHeight, Material.AIR);
+			chunk.setBlocks(at.X + 1, at.X + 3, y1, y2, at.Z, at.Z + 1, airMaterial);
+			chunk.setBlocks(at.X + 1, at.X + 3, y1, y2, at.Z + floorHeight - 1, at.Z + floorHeight, airMaterial);
 			chunk.setBlocks(at.X, at.X + 1, y1, y2, at.Z, at.Z + floorHeight, wallMaterial);
 			chunk.setBlocks(at.X + 3, at.X + 4, y1, y2, at.Z, at.Z + floorHeight, wallMaterial);
 			if (isTopFloor) {
@@ -1822,8 +1823,8 @@ public abstract class BuildingLot extends ConnectedLot {
 			}
 			break;
 		case SOUTH:
-			chunk.setBlocks(at.X + 1, at.X + 3, y1, y2, at.Z, at.Z + 1, Material.AIR);
-			chunk.setBlocks(at.X + 1, at.X + 3, y1, y2, at.Z + floorHeight - 1, at.Z + floorHeight, Material.AIR);
+			chunk.setBlocks(at.X + 1, at.X + 3, y1, y2, at.Z, at.Z + 1, airMaterial);
+			chunk.setBlocks(at.X + 1, at.X + 3, y1, y2, at.Z + floorHeight - 1, at.Z + floorHeight, airMaterial);
 			chunk.setBlocks(at.X, at.X + 1, y1, y2, at.Z, at.Z + floorHeight, wallMaterial);
 			chunk.setBlocks(at.X + 3, at.X + 4, y1, y2, at.Z, at.Z + floorHeight, wallMaterial);
 			if (isTopFloor) {
@@ -1836,8 +1837,8 @@ public abstract class BuildingLot extends ConnectedLot {
 			}
 			break;
 		case WEST:
-			chunk.setBlocks(at.X, at.X + 1, y1, y2, at.Z + 1, at.Z + 3, Material.AIR);
-			chunk.setBlocks(at.X + floorHeight - 1, at.X + floorHeight, y1, y2, at.Z + 1, at.Z + 3, Material.AIR);
+			chunk.setBlocks(at.X, at.X + 1, y1, y2, at.Z + 1, at.Z + 3, airMaterial);
+			chunk.setBlocks(at.X + floorHeight - 1, at.X + floorHeight, y1, y2, at.Z + 1, at.Z + 3, airMaterial);
 			chunk.setBlocks(at.X, at.X + floorHeight, y1, y2, at.Z, at.Z + 1, wallMaterial);
 			chunk.setBlocks(at.X, at.X + floorHeight, y1, y2, at.Z + 3, at.Z + 4, wallMaterial);
 			if (isTopFloor) {
@@ -1850,8 +1851,8 @@ public abstract class BuildingLot extends ConnectedLot {
 			}
 			break;
 		case EAST:
-			chunk.setBlocks(at.X, at.X + 1, y1, y2, at.Z + 1, at.Z + 3, Material.AIR);
-			chunk.setBlocks(at.X + floorHeight - 1, at.X + floorHeight, y1, y2, at.Z + 1, at.Z + 3, Material.AIR);
+			chunk.setBlocks(at.X, at.X + 1, y1, y2, at.Z + 1, at.Z + 3, airMaterial);
+			chunk.setBlocks(at.X + floorHeight - 1, at.X + floorHeight, y1, y2, at.Z + 1, at.Z + 3, airMaterial);
 			chunk.setBlocks(at.X, at.X + floorHeight, y1, y2, at.Z, at.Z + 1, wallMaterial);
 			chunk.setBlocks(at.X, at.X + floorHeight, y1, y2, at.Z + 3, at.Z + 4, wallMaterial);
 			if (isTopFloor) {

@@ -18,5 +18,4 @@ public class FloodedUnfinishedBuildingLot extends UnfinishedBuildingLot {
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
 		return new FloodedUnfinishedBuildingLot(platmap, chunkX, chunkZ);
 	}
-
 }

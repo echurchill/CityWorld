@@ -11,6 +11,7 @@ import me.daddychurchill.CityWorld.Rooms.Populators.WarehouseWithNothing;
 import me.daddychurchill.CityWorld.Rooms.Populators.WarehouseWithRandom;
 import me.daddychurchill.CityWorld.Rooms.Populators.WarehouseWithStacks;
 import me.daddychurchill.CityWorld.Support.PlatMap;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class WarehouseBuildingLot extends FinishedBuildingLot {
 	
@@ -72,7 +73,7 @@ public class WarehouseBuildingLot extends FinishedBuildingLot {
 	}
 
 	@Override
-	public RoomProvider roomProviderForFloor(WorldGenerator generator, int floor) {
+	public RoomProvider roomProviderForFloor(WorldGenerator generator, SupportChunk chunk, int floor, int floorY) {
 		switch (contentStyle) {
 		case BOOKS:
 			return contentsBooks;
