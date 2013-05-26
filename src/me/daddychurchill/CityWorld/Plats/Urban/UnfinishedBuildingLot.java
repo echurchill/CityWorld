@@ -65,29 +65,29 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		int lowestY = getBottomY(generator);
 		
 		// bottom most floor
-		drawCeilings(chunk, context, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);
+		drawCeilings(generator, chunk, context, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);
 		
 		// below ground
 		for (int floor = 0; floor < depth; floor++) {
 			int floorAt = generator.streetLevel - FloorHeight * floor - 2;
 			
 			// clear it out
-			chunk.setLayer(floorAt, FloorHeight, airId);
+			chunk.setLayer(floorAt, FloorHeight, getAirId(generator, FloorHeight));
 			
 			// at the first floor add a fence to prevent folks from falling in
 			if (floor == 0)
 				drawFence(generator, chunk, context, 0, generator.streetLevel + 1, neighborBasements);
 			
 			// one floor please
-			drawExteriorParts(chunk, context, floorAt, FloorHeight, 0, 0, false,
-					dirtMaterial, dirtMaterial, neighborBasements);
-			drawExteriorParts(chunk, context, floorAt, FloorHeight, 1, 1, false,
-					wallMaterial, wallMaterial, neighborBasements);
+			drawExteriorParts(generator, chunk, context, floorAt, FloorHeight, 0, 0,
+					false, dirtMaterial, dirtMaterial, neighborBasements);
+			drawExteriorParts(generator, chunk, context, floorAt, FloorHeight, 1, 1,
+					false, wallMaterial, wallMaterial, neighborBasements);
 			
 			// ceilings if needed
 			if (!unfinishedBasementOnly) {
-				drawCeilings(chunk, context, floorAt + FloorHeight - 1, 1, 1, 1, false,
-						ceilingMaterial, neighborBasements);
+				drawCeilings(generator, chunk, context, floorAt + FloorHeight - 1, 1, 1, 1,
+						false, ceilingMaterial, neighborBasements);
 			} else {
 				drawHorizontalGirders(chunk, floorAt + FloorHeight - 1, neighborBasements);
 			}
@@ -111,8 +111,8 @@ public class UnfinishedBuildingLot extends BuildingLot {
 				if (floor <= floorsBuilt) {
 					
 					// the floor of the next floor
-					drawCeilings(chunk, context, floorAt + FloorHeight - 1, 1, 1, 1, false,
-							ceilingMaterial, neighborFloors);
+					drawCeilings(generator, chunk, context, floorAt + FloorHeight - 1, 1, 1, 1,
+							false, ceilingMaterial, neighborFloors);
 				} else {
 					
 					// sometimes the top most girders aren't there quite yet
@@ -142,12 +142,12 @@ public class UnfinishedBuildingLot extends BuildingLot {
 					int floorAt = generator.streetLevel - FloorHeight * floor - 2;
 					
 					// plain walls please
-					drawStairsWalls(chunk, floorAt, basementFloorHeight, StairWell.CENTER, 
-							Material.AIR, false, floor == depth - 1);
+					drawStairsWalls(generator, chunk, floorAt, basementFloorHeight, 
+							StairWell.CENTER, Material.AIR, false, floor == depth - 1);
 
 					// place the stairs and such
-					drawStairs(chunk, floorAt, FloorHeight, StairWell.CENTER, 
-							stairMaterial, stairPlatformMaterial);
+					drawStairs(generator, chunk, floorAt, FloorHeight, 
+							StairWell.CENTER, stairMaterial, stairPlatformMaterial);
 				}
 			}
 			
@@ -160,13 +160,13 @@ public class UnfinishedBuildingLot extends BuildingLot {
 						
 						// fancy walls... maybe
 						if (floor > 0 || (floor == 0 && (depth > 0 || height > 1)))
-							drawStairsWalls(chunk, floorAt, aboveFloorHeight, StairWell.CENTER, 
-									Material.AIR, floor == height - 1, floor == 0 && depth == 0);
+							drawStairsWalls(generator, chunk, floorAt, aboveFloorHeight, 
+									StairWell.CENTER, Material.AIR, floor == height - 1, floor == 0 && depth == 0);
 						
 						// more stairs and such
 						if (floor < height - 1)
-							drawStairs(chunk, floorAt, FloorHeight, StairWell.CENTER, 
-									stairMaterial, stairPlatformMaterial);
+							drawStairs(generator, chunk, floorAt, FloorHeight, 
+									StairWell.CENTER, stairMaterial, stairPlatformMaterial);
 					}
 				}
 			}

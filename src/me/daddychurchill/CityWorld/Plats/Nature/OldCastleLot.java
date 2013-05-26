@@ -74,7 +74,7 @@ public class OldCastleLot extends ConstructLot {
 		chunk.setBlocks(1, 15, y1 - 2, 1, 15, supportId);
 		
 		// clear things out a bit
-		chunk.setBlocks(0, 16, y1, maxHeight + 2, 0, 16, airId);
+		chunk.setBlocks(0, 16, y1, maxHeight + 2, 0, 16, getAirId(generator, y1));
 		
 		// add the first layer
 		chunk.setLayer(y1 - 1, platformId);
@@ -103,20 +103,20 @@ public class OldCastleLot extends ConstructLot {
 		}
 		
 		// punch out the doors
-		punchOutNSDoor(chunk, 10, y1, 2);
-		punchOutNSDoor(chunk, 5, y1, 7);
-		punchOutNSDoor(chunk, 10, y1, 7);
-		punchOutNSDoor(chunk, 5, y1, 12);
-		punchOutWEDoor(chunk, 2, y1, 5);
-		punchOutWEDoor(chunk, 7, y1, 5);
-		punchOutWEDoor(chunk, 7, y1, 10);
-		punchOutWEDoor(chunk, 12, y1, 10);
+		punchOutNSDoor(generator, chunk, 10, y1, 2);
+		punchOutNSDoor(generator, chunk, 5, y1, 7);
+		punchOutNSDoor(generator, chunk, 10, y1, 7);
+		punchOutNSDoor(generator, chunk, 5, y1, 12);
+		punchOutWEDoor(generator, chunk, 2, y1, 5);
+		punchOutWEDoor(generator, chunk, 7, y1, 5);
+		punchOutWEDoor(generator, chunk, 7, y1, 10);
+		punchOutWEDoor(generator, chunk, 12, y1, 10);
 		
 		// add second level
-		buildTower(chunk, secondX1, y2, secondZ1, 9);
+		buildTower(generator, chunk, secondX1, y2, secondZ1, 9);
 		
 		// add third level
-		buildTower(chunk, thirdX1, y3, thirdZ1, 5);
+		buildTower(generator, chunk, thirdX1, y3, thirdZ1, 5);
 	}
 	
 	private void buildWall(ByteChunk chunk, int x, int y1, int y2, int z) {
@@ -124,7 +124,7 @@ public class OldCastleLot extends ConstructLot {
 			chunk.setBlocks(x, y1, y2 + 2, z, supportId);
 	}
 	
-	private void buildTower(ByteChunk chunk, int x, int y1, int z, int width) {
+	private void buildTower(WorldGenerator generator, ByteChunk chunk, int x, int y1, int z, int width) {
 		int y2 = y1 + DataContext.FloorHeight;
 		chunk.setWalls(x, x + width, y1 + 1, y2 + 1, z, z + width, wallId);
 		chunk.setBlocks(x + 1, x + width - 1, y2, z + 1, z + width - 1, platformId);
@@ -139,27 +139,27 @@ public class OldCastleLot extends ConstructLot {
 			
 			// windows
 			if (i > 0) {
-				punchOutWindow(chunk, x + i, y1 + 2, z);
-				punchOutWindow(chunk, x + width - 1 - i, y1 + 2, z + width - 1);
-				punchOutWindow(chunk, x, y1 + 2, z + width - 1 - i);
-				punchOutWindow(chunk, x + width - 1, y1 + 2, z + i);
+				punchOutWindow(generator, chunk, x + i, y1 + 2, z);
+				punchOutWindow(generator, chunk, x + width - 1 - i, y1 + 2, z + width - 1);
+				punchOutWindow(generator, chunk, x, y1 + 2, z + width - 1 - i);
+				punchOutWindow(generator, chunk, x + width - 1, y1 + 2, z + i);
 			}
 		}
 	}
 	
-	private void punchOutWindow(ByteChunk chunk, int x, int y, int z) {
+	private void punchOutWindow(WorldGenerator generator, ByteChunk chunk, int x, int y, int z) {
 		if (chunkOdds.flipCoin())
-			chunk.setBlocks(x, y, y + 1 + chunkOdds.getRandomInt(2), z, airId);
+			chunk.setBlocks(x, y, y + 1 + chunkOdds.getRandomInt(2), z, getAirId(generator, y));
 	}
 	
-	private void punchOutNSDoor(ByteChunk chunk, int x, int y, int z) {
+	private void punchOutNSDoor(WorldGenerator generator, ByteChunk chunk, int x, int y, int z) {
 		if (chunkOdds.flipCoin())
-			chunk.setBlocks(x, x + 1, y, y + 3, z, z + 2, airId);
+			chunk.setBlocks(x, x + 1, y, y + 3, z, z + 2, getAirId(generator, y));
 	}
 	
-	private void punchOutWEDoor(ByteChunk chunk, int x, int y, int z) {
+	private void punchOutWEDoor(WorldGenerator generator, ByteChunk chunk, int x, int y, int z) {
 		if (chunkOdds.flipCoin())
-			chunk.setBlocks(x, x + 2, y, y + 3, z, z + 1, airId);
+			chunk.setBlocks(x, x + 2, y, y + 3, z, z + 1, getAirId(generator, y));
 	}
 	
 	@Override

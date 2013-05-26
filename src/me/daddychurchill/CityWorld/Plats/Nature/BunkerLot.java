@@ -280,16 +280,17 @@ public class BunkerLot extends ConstructLot {
 		int x2 = x1 + buildingWidth;
 		int z1 = x1;
 		int z2 = z1 + buildingWidth;
+		byte emptyId = getAirId(generator, y1);
 		
 		// lower bit
 		chunk.setWalls(x1 + 1, x2 - 1, y1, y1 + 1, z1 + 1, z2 - 1, buildingId);
 		chunk.setWalls(x1 + 1, x2 - 1, y1 + 1, y1 + 2, z1 + 1, z2 - 1, glassId);
 		
 		// make it so we can walk into the 
-		chunk.setBlocks(x1 + 4, x2 - 4, y1, y1 + 2, z1 + 1, z1 + 2, airId);
-		chunk.setBlocks(x1 + 4, x2 - 4, y1, y1 + 2, z2 - 2, z2 - 1, airId);
-		chunk.setBlocks(x1 + 1, x1 + 2, y1, y1 + 2, z1 + 4, z2 - 4, airId);
-		chunk.setBlocks(x2 - 2, x2 - 1, y1, y1 + 2, z1 + 4, z2 - 4, airId);
+		chunk.setBlocks(x1 + 4, x2 - 4, y1, y1 + 2, z1 + 1, z1 + 2, emptyId);
+		chunk.setBlocks(x1 + 4, x2 - 4, y1, y1 + 2, z2 - 2, z2 - 1, emptyId);
+		chunk.setBlocks(x1 + 1, x1 + 2, y1, y1 + 2, z1 + 4, z2 - 4, emptyId);
+		chunk.setBlocks(x2 - 2, x2 - 1, y1, y1 + 2, z1 + 4, z2 - 4, emptyId);
 		
 		int y = y1 + 2;
 		int Height = FloorHeight;
@@ -447,16 +448,17 @@ public class BunkerLot extends ConstructLot {
 		int x2 = x1 + 12;
 		int z1 = 2;
 		int z2 = z1 + 12;
+		byte emptyId = getAirId(generator, y1);
 		for (int i = 0; i < 7; i++) {
 			int y = y1 + i * 2;
 			chunk.setWalls(x1 + i, x2 - i, y, y + 2, z1 + i, z2 - i, buildingId);
 		}
 
 		// make it so we can walk through the pyramid
-		chunk.setBlocks(x1 + 5, x2 - 5, y1, y1 + 2, z1    , z1 + 1, airId);
-		chunk.setBlocks(x1 + 5, x2 - 5, y1, y1 + 2, z2 - 1, z2    , airId);
-		chunk.setBlocks(x1    , x1 + 1, y1, y1 + 2, z1 + 5, z2 - 5, airId);
-		chunk.setBlocks(x2 - 1, x2    , y1, y1 + 2, z1 + 5, z2 - 5, airId);
+		chunk.setBlocks(x1 + 5, x2 - 5, y1, y1 + 2, z1    , z1 + 1, emptyId);
+		chunk.setBlocks(x1 + 5, x2 - 5, y1, y1 + 2, z2 - 1, z2    , emptyId);
+		chunk.setBlocks(x1    , x1 + 1, y1, y1 + 2, z1 + 5, z2 - 5, emptyId);
+		chunk.setBlocks(x2 - 1, x2    , y1, y1 + 2, z1 + 5, z2 - 5, emptyId);
 		
 		// top off the entry ways
 		chunk.setBlocks(x1 + 4, x2 - 4, y1 + 2, y1 + 3, z1    , z1 + 1, buildingId);

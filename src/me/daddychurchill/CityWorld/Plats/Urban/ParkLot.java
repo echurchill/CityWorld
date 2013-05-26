@@ -99,7 +99,7 @@ public class ParkLot extends ConnectedLot {
 				chunk.setBlocks(0, chunk.width, lowestY, lowestY + waterDepth, 0, chunk.width, generator.oreProvider.fluidSurfaceId);
 			
 			// clear out the rest
-			chunk.setBlocks(0, chunk.width, lowestY + waterDepth, highestY + 1, 0, chunk.width, airId);
+			chunk.setBlocks(0, chunk.width, lowestY + waterDepth, highestY + 1, 0, chunk.width, getAirId(generator, lowestY + waterDepth));
 			
 			// outer columns and walls as needed
 			if (neighbors.toNorth()) {

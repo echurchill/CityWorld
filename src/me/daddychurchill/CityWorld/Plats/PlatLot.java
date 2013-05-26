@@ -49,10 +49,6 @@ public abstract class PlatLot {
 		initializeDice(platmap, chunkX, chunkZ);
 	}
 
-	// these can change
-	protected Material airMaterial = Material.AIR;
-	protected byte airId = (byte) airMaterial.getId();
-	
 	// these cannot
 	protected final static byte stoneId = (byte) Material.STONE.getId();
 	protected final static byte dirtId = (byte) Material.DIRT.getId();
@@ -218,19 +214,19 @@ public abstract class PlatLot {
 		// draw the shafts/walkways
 		boolean pathFound = false;
 		if (generator.shapeProvider.isHorizontalNSShaft(chunk.chunkX, y, chunk.chunkZ)) {
-			generateMineShaftSpace(chunk, 6, 10, y1, y1 + 4, 0, 6);
+			generateMineShaftSpace(generator, chunk, 6, 10, y1, y1 + 4, 0, 6);
 			generateMineNSSupport(chunk, 6, y2, 1);
 			generateMineNSSupport(chunk, 6, y2, 4);
-			generateMineShaftSpace(chunk, 6, 10, y1, y1 + 4, 10, 16);
+			generateMineShaftSpace(generator, chunk, 6, 10, y1, y1 + 4, 10, 16);
 			generateMineNSSupport(chunk, 6, y2, 11);
 			generateMineNSSupport(chunk, 6, y2, 14);
 			pathFound = true;
 		}
 		if (generator.shapeProvider.isHorizontalWEShaft(chunk.chunkX, y, chunk.chunkZ)) {
-			generateMineShaftSpace(chunk, 0, 6, y1, y1 + 4, 6, 10);
+			generateMineShaftSpace(generator, chunk, 0, 6, y1, y1 + 4, 6, 10);
 			generateMineWESupport(chunk, 1, y2, 6);
 			generateMineWESupport(chunk, 4, y2, 6);
-			generateMineShaftSpace(chunk, 10, 16, y1, y1 + 4, 6, 10);
+			generateMineShaftSpace(generator, chunk, 10, 16, y1, y1 + 4, 6, 10);
 			generateMineWESupport(chunk, 11, y2, 6);
 			generateMineWESupport(chunk, 14, y2, 6);
 			pathFound = true;
@@ -238,16 +234,16 @@ public abstract class PlatLot {
 		
 		// draw the center bit
 		if (pathFound)
-			generateMineShaftSpace(chunk, 6, 10, y1, y1 + 4, 6, 10);
+			generateMineShaftSpace(generator, chunk, 6, 10, y1, y1 + 4, 6, 10);
 	}
 	
 	private final static byte shaftBridgeId = (byte) Material.WOOD.getId(); 
 	private final static byte shaftSupportId = (byte) Material.FENCE.getId();
 	private final static byte shaftBeamId = (byte) Material.WOOD.getId();
 
-	private void generateMineShaftSpace(ByteChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2) {
+	private void generateMineShaftSpace(WorldGenerator generator, ByteChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2) {
 		chunk.setEmptyBlocks(x1, x2, y1, z1, z2, shaftBridgeId);
-		chunk.setBlocks(x1, x2, y1 + 1, y2, z1, z2, airId);
+		chunk.setBlocks(x1, x2, y1 + 1, y2, z1, z2, getAirId(generator, y1 + 1));
 	}
 	
 	private void generateMineNSSupport(ByteChunk chunk, int x, int y, int z) {
@@ -529,4 +525,15 @@ public abstract class PlatLot {
 		generator.surfaceProvider.generateSurface(generator, this, chunk, blockYs, includeTrees);
 	}
 	
+	// these can change
+	private Material airMaterial = Material.AIR;
+	private byte airId = (byte) airMaterial.getId();
+	
+	protected Material getAirMaterial(int y) {
+		return airMaterial;
+	}
+
+	protected byte getAirId(WorldGenerator generator, int y) {
+		return (byte) airId;
+	}
 }

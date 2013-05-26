@@ -176,6 +176,7 @@ public class FarmLot extends ConnectedLot {
 		int croplevel = generator.streetLevel + 1;
 		
 		boolean fallowField = cropType == cropFallow;
+		Material fallowMaterial = getAirMaterial(croplevel - 1);
 		
 		// waterless crops
 		if (cropType == cropCactus)
@@ -185,13 +186,13 @@ public class FarmLot extends ConnectedLot {
 		else if (cropType == cropTrellis)
 			buildVineyard(generator, chunk, chunkOdds, croplevel, cropType);
 		else if (cropType == cropBrownMushroom)
-			plowField(generator, chunk, chunkOdds, croplevel, mycelMaterial, 0, airMaterial, cropType, 0, 1, 2, 1);
+			plowField(generator, chunk, chunkOdds, croplevel, mycelMaterial, 0, fallowMaterial, cropType, 0, 1, 2, 1);
 		else if (cropType == cropRedMushroom)
-			plowField(generator, chunk, chunkOdds, croplevel, mycelMaterial, 0, airMaterial, cropType, 0, 1, 2, 1);
+			plowField(generator, chunk, chunkOdds, croplevel, mycelMaterial, 0, fallowMaterial, cropType, 0, 1, 2, 1);
 		else if (cropType == cropNetherwart)
-			plowField(generator, chunk, chunkOdds, croplevel, soulMaterial, 0, airMaterial, cropType, chunkOdds.getRandomInt(4), 1, 2, 1);
+			plowField(generator, chunk, chunkOdds, croplevel, soulMaterial, 0, fallowMaterial, cropType, chunkOdds.getRandomInt(4), 1, 2, 1);
 		else if (cropType == cropDeadBush)
-			plowField(generator, chunk, chunkOdds, croplevel, dirtMaterial, 0, airMaterial, cropType, 0, 1, 2, 1);
+			plowField(generator, chunk, chunkOdds, croplevel, dirtMaterial, 0, fallowMaterial, cropType, 0, 1, 2, 1);
 		else {
 			
 			// watered crops
@@ -207,12 +208,12 @@ public class FarmLot extends ConnectedLot {
 				else if (cropType == cropSugarCane)
 					plowField(generator, chunk, chunkOdds, croplevel, sandMaterial, 0, waterMaterial, cropType, 0, 1, 2, 3);
 				else if (cropType == cropNone)
-					plowField(generator, chunk, chunkOdds, croplevel, soilMaterial, 8, waterMaterial, airMaterial, 0, 1, 2, 1);
+					plowField(generator, chunk, chunkOdds, croplevel, soilMaterial, 8, waterMaterial, getAirMaterial(croplevel - 1), 0, 1, 2, 1);
 				else
 					fallowField = true;
 			} else {
 				if (cropType == cropNone)
-					plowField(generator, chunk, chunkOdds, croplevel, dirtMaterial, 0, airMaterial, airMaterial, 0, 1, 2, 1);
+					plowField(generator, chunk, chunkOdds, croplevel, dirtMaterial, 0, fallowMaterial, getAirMaterial(croplevel - 1), 0, 1, 2, 1);
 				else
 					fallowField = true;
 			}
@@ -220,7 +221,7 @@ public class FarmLot extends ConnectedLot {
 		
 		// just in case nothing happened
 		if (fallowField)
-			plowField(generator, chunk, chunkOdds, croplevel, dirtMaterial, 0, airMaterial, cropType, 0, 1, 2, 1);
+			plowField(generator, chunk, chunkOdds, croplevel, dirtMaterial, 0, fallowMaterial, cropType, 0, 1, 2, 1);
 	}
 
 	private void plowField(WorldGenerator generator, RealChunk chunk, Odds odds, int croplevel, 

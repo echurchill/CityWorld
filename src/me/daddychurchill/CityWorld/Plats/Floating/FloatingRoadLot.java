@@ -43,7 +43,7 @@ public class FloatingRoadLot extends RoadLot {
 		// draw pavement and clear out a bit
 		chunk.setLayer(pavementLevel - 1, bridgeEdgeId);
 		chunk.setLayer(pavementLevel, pavementId);
-		chunk.setLayer(sidewalkLevel, airId);
+		chunk.setLayer(sidewalkLevel, getAirId(generator, sidewalkLevel));
 		
 		// sidewalk corners
 		chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkId);
@@ -134,20 +134,20 @@ public class FloatingRoadLot extends RoadLot {
 				decayRoad(chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth);
 
 			// sidewalk corners
-			decaySidewalk(chunk, 0, sidewalkWidth, sidewalkLevel, 0, sidewalkWidth);
-			decaySidewalk(chunk, 0, sidewalkWidth, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width);
-			decaySidewalk(chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, 0, sidewalkWidth);
-			decaySidewalk(chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width);
+			decaySidewalk(generator, chunk, 0, sidewalkWidth, sidewalkLevel, 0, sidewalkWidth);
+			decaySidewalk(generator, chunk, 0, sidewalkWidth, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width);
+			decaySidewalk(generator, chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, 0, sidewalkWidth);
+			decaySidewalk(generator, chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width);
 			
 			// sidewalk edges
 			if (!roads.toWest())
-				decaySidewalk(chunk, 0, sidewalkWidth, sidewalkLevel, sidewalkWidth, chunk.width - sidewalkWidth);
+				decaySidewalk(generator, chunk, 0, sidewalkWidth, sidewalkLevel, sidewalkWidth, chunk.width - sidewalkWidth);
 			if (!roads.toEast())
-				decaySidewalk(chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkWidth, chunk.width - sidewalkWidth);
+				decaySidewalk(generator, chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkWidth, chunk.width - sidewalkWidth);
 			if (!roads.toNorth())
-				decaySidewalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, 0, sidewalkWidth);
+				decaySidewalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, 0, sidewalkWidth);
 			if (!roads.toSouth())
-				decaySidewalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width);
+				decaySidewalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width);
 			
 		}
 		

@@ -26,7 +26,7 @@ public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 	public ShapeProvider_Flooded(WorldGenerator generator, Odds odds) {
 		super(generator, odds);
 		
-		floodY = seaLevel + 32;
+		floodY = seaLevel + 20;
 	}
 
 	@Override

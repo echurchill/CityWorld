@@ -180,7 +180,7 @@ public class RoadLot extends ConnectedLot {
 			doSewer = false;
 
 			// clear a little space
-			chunk.setLayer(sidewalkLevel, 2, airId);
+			chunk.setLayer(sidewalkLevel, 2, getAirId(generator, sidewalkLevel));
 			
 			// bridge to the east/west
 			if (roads.toWest() && roads.toEast()) {
@@ -319,7 +319,8 @@ public class RoadLot extends ConnectedLot {
 		} else {
 			// draw pavement and clear out a bit
 			chunk.setLayer(pavementLevel, pavementId);
-			chunk.setLayer(sidewalkLevel, airId);
+			chunk.setLayer(sidewalkLevel, getAirId(generator, sidewalkLevel));
+			byte emptyId = getAirId(generator, sidewalkLevel + 1);
 			
 			// sidewalk corners
 			chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkId);
@@ -363,26 +364,26 @@ public class RoadLot extends ConnectedLot {
 				if (roads.toWest() && roads.toEast()) {
 					
 					// carve out the tunnel
-					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + 6, 2, 14, airId);
+					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + 6, 2, 14, emptyId);
 					
 					// place the arches
-					placeEWTunnelArch(chunk, 0, sidewalkLevel, tunnelWallId, tunnelWallId, tunnelWallId);
+					placeEWTunnelArch(generator, chunk, 0, sidewalkLevel, tunnelWallId, tunnelWallId, tunnelWallId);
 					for (int x = 1; x < chunk.width - 1; x++) {
-						placeEWTunnelArch(chunk, x, sidewalkLevel, tunnelWallId, tunnelTileId, tunnelCeilingId);
+						placeEWTunnelArch(generator, chunk, x, sidewalkLevel, tunnelWallId, tunnelTileId, tunnelCeilingId);
 					}
-					placeEWTunnelArch(chunk, 15, sidewalkLevel, tunnelWallId, tunnelWallId, tunnelWallId);
+					placeEWTunnelArch(generator, chunk, 15, sidewalkLevel, tunnelWallId, tunnelWallId, tunnelWallId);
 					
 				} else if (roads.toNorth() && roads.toSouth()) {
 					
 					// carve out the tunnel
-					chunk.setBlocks(2, 14, sidewalkLevel + 1, sidewalkLevel + 6, 0, 16, airId);
+					chunk.setBlocks(2, 14, sidewalkLevel + 1, sidewalkLevel + 6, 0, 16, emptyId);
 					
 					// place the arches
-					placeNSTunnelArch(chunk, 0, sidewalkLevel, tunnelWallId, tunnelWallId, tunnelWallId);
+					placeNSTunnelArch(generator, chunk, 0, sidewalkLevel, tunnelWallId, tunnelWallId, tunnelWallId);
 					for (int z = 1; z < chunk.width - 1; z++) {
-						placeNSTunnelArch(chunk, z, sidewalkLevel, tunnelWallId, tunnelTileId, tunnelCeilingId);
+						placeNSTunnelArch(generator, chunk, z, sidewalkLevel, tunnelWallId, tunnelTileId, tunnelCeilingId);
 					}
-					placeNSTunnelArch(chunk, 15, sidewalkLevel, tunnelWallId, tunnelWallId, tunnelWallId);
+					placeNSTunnelArch(generator, chunk, 15, sidewalkLevel, tunnelWallId, tunnelWallId, tunnelWallId);
 				}
 				
 			// retaining walls please
@@ -392,7 +393,7 @@ public class RoadLot extends ConnectedLot {
 				if (roads.toWest() && roads.toEast()) {
 					
 					// carve out the tunnel
-					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + tunnelHeight + 1, 0, 16, airId);
+					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + tunnelHeight + 1, 0, 16, emptyId);
 					
 					// walls please, this will find the Y the hard way since we are looking at the next chunk over
 					for (int x = 0; x < chunk.width; x++) {
@@ -402,7 +403,7 @@ public class RoadLot extends ConnectedLot {
 				} else if (roads.toNorth() && roads.toSouth()) {
 
 					// carve out the tunnel
-					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + tunnelHeight + 1, 0, 16, airId);
+					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + tunnelHeight + 1, 0, 16, emptyId);
 
 					// walls please, this will find the Y the hard way since we are looking at the next chunk over
 					for (int z = 0; z < chunk.width; z++) {
@@ -434,13 +435,14 @@ public class RoadLot extends ConnectedLot {
 		if (doSewer) {
 			
 			// empty out the sewer
-			chunk.setLayer(base1Y, base2Y - base1Y, airId);
+			chunk.setLayer(base1Y, base2Y - base1Y, getAirId(generator, base1Y));
+			byte emptyId = getAirId(generator, sewerY - 1);
 					
 			// draw the floor of the sewer
 			chunk.setLayer(sewerY - 1, 1, sewerFloorId);
 			chunk.setBlocks(crossDitchEdge, chunk.width - crossDitchEdge, 
 							sewerY - 1, sewerY, 
-							crossDitchEdge, chunk.width - crossDitchEdge, airId);
+							crossDitchEdge, chunk.width - crossDitchEdge, emptyId);
 			
 			// corner bits
 			chunk.setBlocks(0, 6, sewerY, base2Y, 0, 1, sewerWallId);
@@ -463,25 +465,25 @@ public class RoadLot extends ConnectedLot {
 				chunk.setBlocks(5, 11, sewerY, base2Y, 0, 1, sewerWallId);
 				chunk.setBlocks(5, 11, base2Y - 1, base2Y, 1, 2, sewerCeilingId);
 			} else {
-				chunk.setBlocks(7, 9, sewerY - 1, sewerY, 0, 7, airId);
+				chunk.setBlocks(7, 9, sewerY - 1, sewerY, 0, 7, emptyId);
 			}
 			if (!roads.toSouth()) {
 				chunk.setBlocks(5, 11, sewerY, base2Y, 15, 16, sewerWallId);
 				chunk.setBlocks(5, 11, base2Y - 1, base2Y, 14, 15, sewerCeilingId);
 			} else {
-				chunk.setBlocks(7, 9, sewerY - 1, sewerY, 9, 16, airId);
+				chunk.setBlocks(7, 9, sewerY - 1, sewerY, 9, 16, emptyId);
 			}
 			if (!roads.toWest()) {
 				chunk.setBlocks(0, 1, sewerY, base2Y, 5, 11, sewerWallId);
 				chunk.setBlocks(1, 2, base2Y - 1, base2Y, 5, 11, sewerCeilingId);
 			} else {
-				chunk.setBlocks(0, 7, sewerY - 1, sewerY, 7, 9, airId);
+				chunk.setBlocks(0, 7, sewerY - 1, sewerY, 7, 9, emptyId);
 			}
 			if (!roads.toEast()) {
 				chunk.setBlocks(15, 16, sewerY, base2Y, 5, 11, sewerWallId);
 				chunk.setBlocks(14, 15, base2Y - 1, base2Y, 5, 11, sewerCeilingId);
 			} else {
-				chunk.setBlocks(9, 16, sewerY - 1, sewerY, 7, 9, airId);
+				chunk.setBlocks(9, 16, sewerY - 1, sewerY, 7, 9, emptyId);
 			}
 			
 			// defaults
@@ -706,7 +708,7 @@ public class RoadLot extends ConnectedLot {
 		chunk.setBlocks(12, 14, minHeight, baseY, 15, 16, bridgeEdgeId);
 	}
 	
-	private void placeEWTunnelArch(ByteChunk chunk, int x, int baseY, byte shellId, byte tileId, byte ceilingId) {
+	private void placeEWTunnelArch(WorldGenerator generator, ByteChunk chunk, int x, int baseY, byte shellId, byte tileId, byte ceilingId) {
 		chunk.setBlocks(x, baseY - 2, baseY + 4, 0, shellId);
 
 		chunk.setBlocks(x, baseY, baseY + 3, 1, tileId);
@@ -725,7 +727,7 @@ public class RoadLot extends ConnectedLot {
 		if (shellId != tileId) {
 			chunk.setBlock(x, baseY + 6, 5, ceilingId);
 			chunk.setBlock(x, baseY + 6, 10, ceilingId);
-			chunk.setBlocks(x, x + 1, baseY + 7, baseY + 8, 5, 11, airId);
+			chunk.setBlocks(x, x + 1, baseY + 7, baseY + 8, 5, 11, getAirId(generator, baseY + 7));
 		}
 		
 		chunk.setBlocks(x, baseY + 5, baseY + 6, 12, tileId);
@@ -740,7 +742,7 @@ public class RoadLot extends ConnectedLot {
 		chunk.setBlocks(x, baseY - 2, baseY + 4, 15, shellId);
 	}
 	
-	private void placeNSTunnelArch(ByteChunk chunk, int z, int baseY, byte shellId, byte tileId, byte ceilingId) {
+	private void placeNSTunnelArch(WorldGenerator generator, ByteChunk chunk, int z, int baseY, byte shellId, byte tileId, byte ceilingId) {
 		chunk.setBlocks(0, baseY - 2, baseY + 4, z, shellId);
 
 		chunk.setBlocks(1, baseY, baseY + 3, z, tileId);
@@ -759,7 +761,7 @@ public class RoadLot extends ConnectedLot {
 		if (shellId != tileId) {
 			chunk.setBlock(5, baseY + 6, z, ceilingId);
 			chunk.setBlock(10, baseY + 6, z, ceilingId);
-			chunk.setBlocks(5, 11, baseY + 7, baseY + 8, z, z + 1, airId);
+			chunk.setBlocks(5, 11, baseY + 7, baseY + 8, z, z + 1, getAirId(generator, baseY + 7));
 		}
 		
 		chunk.setBlocks(12, baseY + 5, baseY + 6, z, tileId);
@@ -869,20 +871,20 @@ public class RoadLot extends ConnectedLot {
 					decayRoad(chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth);
 
 				// sidewalk corners
-				decaySidewalk(chunk, 0, sidewalkWidth, sidewalkLevel, 0, sidewalkWidth);
-				decaySidewalk(chunk, 0, sidewalkWidth, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width);
-				decaySidewalk(chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, 0, sidewalkWidth);
-				decaySidewalk(chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width);
+				decaySidewalk(generator, chunk, 0, sidewalkWidth, sidewalkLevel, 0, sidewalkWidth);
+				decaySidewalk(generator, chunk, 0, sidewalkWidth, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width);
+				decaySidewalk(generator, chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, 0, sidewalkWidth);
+				decaySidewalk(generator, chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width);
 				
 				// sidewalk edges
 				if (!roads.toWest())
-					decaySidewalk(chunk, 0, sidewalkWidth, sidewalkLevel, sidewalkWidth, chunk.width - sidewalkWidth);
+					decaySidewalk(generator, chunk, 0, sidewalkWidth, sidewalkLevel, sidewalkWidth, chunk.width - sidewalkWidth);
 				if (!roads.toEast())
-					decaySidewalk(chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkWidth, chunk.width - sidewalkWidth);
+					decaySidewalk(generator, chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkWidth, chunk.width - sidewalkWidth);
 				if (!roads.toNorth())
-					decaySidewalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, 0, sidewalkWidth);
+					decaySidewalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, 0, sidewalkWidth);
 				if (!roads.toSouth())
-					decaySidewalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width);
+					decaySidewalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width);
 				
 			}
 			
@@ -1163,13 +1165,13 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 	
-	protected void decaySidewalk(RealChunk chunk, int x1, int x2, int y, int z1, int z2) {
+	protected void decaySidewalk(WorldGenerator generator, RealChunk chunk, int x1, int x2, int y, int z1, int z2) {
 		int amount = (x2 - x1) * (z2 - z1) / 10;
 		while (amount > 0) {
 			int x = x1 + chunkOdds.getRandomInt(x2 - x1);
 			int z = z1 + chunkOdds.getRandomInt(z2 - z1);
 			if (chunkOdds.flipCoin())
-				chunk.setBlock(x, y, z, airId);
+				chunk.setBlock(x, y, z, getAirId(generator, y));
 			else
 				chunk.setBlock(x, y, z, Material.STEP.getId(), (byte) 3);
 			amount--;

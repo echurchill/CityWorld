@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plats.Flooded;
 
 import org.bukkit.Material;
 
+import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Rural.FarmLot;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider_Flooded;
@@ -12,8 +13,6 @@ public class FloodedFarmLot extends FarmLot {
 	public FloodedFarmLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
-		airMaterial = ShapeProvider_Flooded.floodMat;
-		airId = ShapeProvider_Flooded.floodId;
 	}
 
 	@Override
@@ -39,5 +38,15 @@ public class FloodedFarmLot extends FarmLot {
 	@Override
 	protected Material getDecayedNetherCrop() {
 		return cropNone;
+	}
+	
+	@Override
+	protected byte getAirId(WorldGenerator generator, int y) {
+		return ShapeProvider_Flooded.floodId;
+	}
+
+	@Override
+	protected Material getAirMaterial(int y) {
+		return ShapeProvider_Flooded.floodMat;
 	}
 }

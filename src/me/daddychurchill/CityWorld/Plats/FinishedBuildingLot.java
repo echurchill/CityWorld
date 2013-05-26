@@ -191,7 +191,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		int lowestY = getBottomY(generator);
 		
 		// bottom most floor
-		drawCeilings(chunk, context, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);
+		drawCeilings(generator, chunk, context, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);
 		//chunk.setBlocks(0, chunk.width, lowestY, lowestY + 1, 0, chunk.width, (byte) ceilingMaterial.getId());
 		
 		// below ground
@@ -200,13 +200,13 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				int floorAt = generator.streetLevel - basementFloorHeight * floor - 2;
 	
 				// clear it out
-				chunk.setLayer(floorAt, basementFloorHeight, airId);
+				chunk.setLayer(floorAt, basementFloorHeight, getAirId(generator, floorAt));
 	
 				// one floor please
-				drawExteriorParts(chunk, context, floorAt, basementFloorHeight - 1, 0, 0, false,
-						wallMaterial, wallMaterial, neighborBasements);
-				drawCeilings(chunk, context, floorAt + basementFloorHeight - 1, 1, 0, 0, false,
-						ceilingMaterial, neighborBasements);
+				drawExteriorParts(generator, chunk, context, floorAt, basementFloorHeight - 1, 0, 0,
+						false, wallMaterial, wallMaterial, neighborBasements);
+				drawCeilings(generator, chunk, context, floorAt + basementFloorHeight - 1, 1, 0, 0,
+						false, ceilingMaterial, neighborBasements);
 				
 				// one down, more to go
 				neighborBasements.decrement();
@@ -238,17 +238,17 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			}
 			
 			// one floor please
-			drawExteriorParts(chunk, context, floorAt, aboveFloorHeight - 1, 
-					localInsetWallNS, localInsetWallWE,  
-					allowRounded, wallMaterial, glassMaterial, 
-					neighborFloors);
-			drawCeilings(chunk, context, floorAt + aboveFloorHeight - 1, 1, 
-					localInsetCeilingNS, localInsetCeilingWE, 
-					allowRounded, ceilingMaterial, neighborFloors);
+			drawExteriorParts(generator, chunk, context, floorAt, 
+					aboveFloorHeight - 1, localInsetWallNS,  
+					localInsetWallWE, allowRounded, wallMaterial, 
+					glassMaterial, neighborFloors);
+			drawCeilings(generator, chunk, context, floorAt + aboveFloorHeight - 1, 
+					1, localInsetCeilingNS, 
+					localInsetCeilingWE, allowRounded, ceilingMaterial, neighborFloors);
 			
 			// final floor is done... how about a roof then?
 			if (floor == height - 1)
-				drawRoof(chunk, context, generator.streetLevel + aboveFloorHeight * (floor + 1) + 2, localInsetWallNS, localInsetWallWE, allowRounded, roofMaterial, neighborFloors);
+				drawRoof(generator, chunk, context, generator.streetLevel + aboveFloorHeight * (floor + 1) + 2, localInsetWallNS, localInsetWallWE, allowRounded, roofMaterial, neighborFloors);
 
 			// one down, more to go
 			neighborFloors.decrement();
@@ -282,19 +282,19 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				
 				// top is special... but only if there are no stairs up
 				if (floor == 0 && !needStairsUp) {
-					drawStairsWalls(chunk, floorAt, basementFloorHeight, 
-							stairLocation, stairWallMaterial, true, false);
+					drawStairsWalls(generator, chunk, floorAt, 
+							basementFloorHeight, stairLocation, stairWallMaterial, true, false);
 				
 				// all the rest of those lovely stairs
 				} else {
 
 					// plain walls please
-					drawStairsWalls(chunk, floorAt, basementFloorHeight, stairLocation, 
-							wallMaterial, false, floor == depth - 1);
+					drawStairsWalls(generator, chunk, floorAt, basementFloorHeight, 
+							stairLocation, wallMaterial, false, floor == depth - 1);
 
 					// place the stairs and such
-					drawStairs(chunk, floorAt, basementFloorHeight, stairLocation, 
-							stairMaterial, stairPlatformMaterial);
+					drawStairs(generator, chunk, floorAt, basementFloorHeight, 
+							stairLocation, stairMaterial, stairPlatformMaterial);
 						
 					// pillars if no stairs here
 					drawOtherPillars(chunk, floorAt, basementFloorHeight, 
