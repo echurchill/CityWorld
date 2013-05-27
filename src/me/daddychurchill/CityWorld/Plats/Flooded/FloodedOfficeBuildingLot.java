@@ -16,10 +16,12 @@ public class FloodedOfficeBuildingLot extends OfficeBuildingLot {
 
 	private static RoomProvider contentsEmpty = new EmptyWithNothing();
 	private static RoomProvider contentsWalls = new EmptyWithRooms();
+	private int floodY;
 	
 	public FloodedOfficeBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
+		floodY = platmap.generator.shapeProvider.findHighestFloodY(platmap.generator);
 	}
 
 	@Override
@@ -29,7 +31,7 @@ public class FloodedOfficeBuildingLot extends OfficeBuildingLot {
 
 	@Override
 	public RoomProvider roomProviderForFloor(WorldGenerator generator, SupportChunk chunk, int floor, int floorY) {
-		if (generator.shapeProvider.findCoverY(generator, chunk.getOriginX(), chunk.getOriginZ()) < floorY)
+		if (generator.shapeProvider.findFloodY(generator, chunk.getOriginX(), chunk.getOriginZ()) < floorY)
 			return super.roomProviderForFloor(generator, chunk, floor, floorY);
 		else {
 			switch (contentStyle) {
@@ -49,11 +51,17 @@ public class FloodedOfficeBuildingLot extends OfficeBuildingLot {
 	
 	@Override
 	protected byte getAirId(WorldGenerator generator, int y) {
-		return ShapeProvider_Flooded.floodId;
+		if (y <= floodY)
+			return ShapeProvider_Flooded.floodId;
+		else
+			return super.getAirId(generator, y);
 	}
 
 	@Override
-	protected Material getAirMaterial(int y) {
-		return ShapeProvider_Flooded.floodMat;
+	protected Material getAirMaterial(WorldGenerator generator, int y) {
+		if (y <= floodY)
+			return ShapeProvider_Flooded.floodMat;
+		else
+			return super.getAirMaterial(generator, y);
 	}
 }

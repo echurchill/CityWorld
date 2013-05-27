@@ -27,7 +27,7 @@ public class FloodedRoadLot extends RoadLot {
 	}
 
 	@Override
-	protected Material getAirMaterial(int y) {
+	protected Material getAirMaterial(WorldGenerator generator, int y) {
 		return ShapeProvider_Flooded.floodMat;
 	}
 }

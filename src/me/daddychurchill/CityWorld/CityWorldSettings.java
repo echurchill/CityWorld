@@ -415,7 +415,7 @@ public class CityWorldSettings {
 //			includeHouses = true;
 //			includeFarms = true; 
 
-//			includeCaves = true; 
+			includeCaves = false; // DIFFERENT
 			includeLavaFields = false; // DIFFERENT
 			includeSeas = true; // THIS MUST BE SET TO TRUE
 			includeMountains = true; // THIS MUST BE SET TO TRUE
@@ -452,7 +452,7 @@ public class CityWorldSettings {
 //			includeHouses = true;
 //			includeFarms = true;
 
-//			includeCaves = true; 
+			includeCaves = false; // DIFFERENT
 			includeLavaFields = false; // DIFFERENT
 			includeSeas = true; // THIS MUST BE SET TO TRUE
 			includeMountains = true; // THIS MUST BE SET TO TRUE

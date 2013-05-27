@@ -22,14 +22,14 @@ public class FloodedNatureContext extends NatureContext {
 	
 	@Override
 	public PlatLot createSurfaceBuildingLot(WorldGenerator generator, PlatMap platmap, int x, int z, HeightInfo heights) {
-		if (heights.averageHeight > generator.shapeProvider.findHighestCoverY(generator))
+		if (heights.averageHeight > generator.shapeProvider.findHighestFloodY(generator))
 			return super.createSurfaceBuildingLot(generator, platmap, x, z, heights);
 		return null; 
 	}
 	
 	@Override
 	protected void populateSpecial(WorldGenerator generator, PlatMap platmap, int x, int y, int z, HeightState state) {
-		if (y > generator.shapeProvider.findHighestCoverY(generator))
+		if (y > generator.shapeProvider.findHighestFloodY(generator))
 			super.populateSpecial(generator, platmap, x, y, z, state);
 	}
 	

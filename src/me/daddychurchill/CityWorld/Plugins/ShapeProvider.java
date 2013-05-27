@@ -59,11 +59,11 @@ public abstract class ShapeProvider extends Provider {
 		return findBlockY(generator, blockX, blockZ);
 	}
 	
-	public int findCoverY(WorldGenerator generator, int blockX, int blockZ) {
+	public int findFloodY(WorldGenerator generator, int blockX, int blockZ) {
 		return getSeaLevel();
 	}
 	
-	public int findHighestCoverY(WorldGenerator generator) {
+	public int findHighestFloodY(WorldGenerator generator) {
 		return getSeaLevel();
 	}
 	

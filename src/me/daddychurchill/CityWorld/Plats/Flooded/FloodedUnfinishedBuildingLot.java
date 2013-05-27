@@ -10,9 +10,12 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class FloodedUnfinishedBuildingLot extends UnfinishedBuildingLot {
 
+	private int floodY;
+	
 	public FloodedUnfinishedBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
+		floodY = platmap.generator.shapeProvider.findHighestFloodY(platmap.generator);
 	}
 
 	@Override
@@ -22,11 +25,17 @@ public class FloodedUnfinishedBuildingLot extends UnfinishedBuildingLot {
 	
 	@Override
 	protected byte getAirId(WorldGenerator generator, int y) {
-		return ShapeProvider_Flooded.floodId;
+		if (y <= floodY)
+			return ShapeProvider_Flooded.floodId;
+		else
+			return super.getAirId(generator, y);
 	}
 
 	@Override
-	protected Material getAirMaterial(int y) {
-		return ShapeProvider_Flooded.floodMat;
+	protected Material getAirMaterial(WorldGenerator generator, int y) {
+		if (y <= floodY)
+			return ShapeProvider_Flooded.floodMat;
+		else
+			return super.getAirMaterial(generator, y);
 	}
 }

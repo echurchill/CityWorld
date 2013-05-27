@@ -56,12 +56,12 @@ public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 	}
 	
 	@Override
-	public int findCoverY(WorldGenerator generator, int blockX, int blockZ) {
+	public int findFloodY(WorldGenerator generator, int blockX, int blockZ) {
 		return floodY;
 	}
 
 	@Override
-	public int findHighestCoverY(WorldGenerator generator) {
+	public int findHighestFloodY(WorldGenerator generator) {
 		return floodY;
 	}
 

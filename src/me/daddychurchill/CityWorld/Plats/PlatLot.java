@@ -529,7 +529,7 @@ public abstract class PlatLot {
 	private Material airMaterial = Material.AIR;
 	private byte airId = (byte) airMaterial.getId();
 	
-	protected Material getAirMaterial(int y) {
+	protected Material getAirMaterial(WorldGenerator generator, int y) {
 		return airMaterial;
 	}
 

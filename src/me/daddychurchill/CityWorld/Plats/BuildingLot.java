@@ -1640,7 +1640,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		
 		// Studio_A
 		int y2 = y1 + floorHeight - 1;
-		Material emptyMaterial = getAirMaterial(y2);
+		Material emptyMaterial = getAirMaterial(generator, y2);
 		switch (stairDirection) {
 		case NORTH:
 			for (int i = 0; i < floorHeight; i++) {
@@ -1682,7 +1682,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		StairAt at = new StairAt(chunk, floorHeight, where);
 		int y2 = y1 + floorHeight - 1;
 		int yClear = y2 + (isTopFloor ? 0 : 1);
-		Material emptyMaterial = getAirMaterial(y1);
+		Material emptyMaterial = getAirMaterial(generator, y1);
 		switch (stairStyle) {
 		case CROSSED:
 			if (floorHeight == 4) {

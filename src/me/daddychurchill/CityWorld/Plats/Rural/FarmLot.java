@@ -176,7 +176,7 @@ public class FarmLot extends ConnectedLot {
 		int croplevel = generator.streetLevel + 1;
 		
 		boolean fallowField = cropType == cropFallow;
-		Material fallowMaterial = getAirMaterial(croplevel - 1);
+		Material fallowMaterial = getAirMaterial(generator, croplevel - 1);
 		
 		// waterless crops
 		if (cropType == cropCactus)
@@ -208,12 +208,12 @@ public class FarmLot extends ConnectedLot {
 				else if (cropType == cropSugarCane)
 					plowField(generator, chunk, chunkOdds, croplevel, sandMaterial, 0, waterMaterial, cropType, 0, 1, 2, 3);
 				else if (cropType == cropNone)
-					plowField(generator, chunk, chunkOdds, croplevel, soilMaterial, 8, waterMaterial, getAirMaterial(croplevel - 1), 0, 1, 2, 1);
+					plowField(generator, chunk, chunkOdds, croplevel, soilMaterial, 8, waterMaterial, getAirMaterial(generator, croplevel - 1), 0, 1, 2, 1);
 				else
 					fallowField = true;
 			} else {
 				if (cropType == cropNone)
-					plowField(generator, chunk, chunkOdds, croplevel, dirtMaterial, 0, fallowMaterial, getAirMaterial(croplevel - 1), 0, 1, 2, 1);
+					plowField(generator, chunk, chunkOdds, croplevel, dirtMaterial, 0, fallowMaterial, getAirMaterial(generator, croplevel - 1), 0, 1, 2, 1);
 				else
 					fallowField = true;
 			}

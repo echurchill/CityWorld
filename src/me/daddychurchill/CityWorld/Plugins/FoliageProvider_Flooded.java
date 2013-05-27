@@ -16,7 +16,7 @@ public class FoliageProvider_Flooded extends FoliageProvider_Normal {
 	public boolean isPlantable(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
 
 		// only if the spot above is empty
-		if (y < generator.shapeProvider.findCoverY(generator, x, z)) {
+		if (y < generator.shapeProvider.findFloodY(generator, x, z)) {
 			if (!chunk.isWater(x, y + 1, z))
 				return false;
 		} else {
@@ -34,7 +34,7 @@ public class FoliageProvider_Flooded extends FoliageProvider_Normal {
 	@Override
 	public boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, LigneousType ligneousType) {
 		if (likelyFlora(generator, odds)) {
-			if (y >= generator.shapeProvider.findCoverY(generator, x, z))
+			if (y >= generator.shapeProvider.findFloodY(generator, x, z))
 				return generateTree(chunk, odds, x, y, z, ligneousType, log, leaves, leaves);
 			else {
 //				chunk.setBlock(x, y, z, Material.REDSTONE_BLOCK);
@@ -47,7 +47,7 @@ public class FoliageProvider_Flooded extends FoliageProvider_Normal {
 
 	@Override
 	public boolean generateFlora(WorldGenerator generator, RealChunk chunk, int x, int y, int z, HerbaceousType herbaceousType) {
-		if (y > generator.shapeProvider.findCoverY(generator, x, z))
+		if (y > generator.shapeProvider.findFloodY(generator, x, z))
 			return super.generateFlora(generator, chunk, x, y, z, herbaceousType);
 		return true;
 	}
