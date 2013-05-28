@@ -440,6 +440,41 @@ public class CityWorldSettings {
 //			includeFloatingSubsurface = true;
 			break;
 		case SANDDUNES:
+//			includeRoads = true;
+//			includeRoundabouts = true;
+			includeSewers = false; // DIFFERENT
+//			includeCisterns = true;
+//			includeBasements = true;
+			includeMines = false; // DIFFERENT
+			includeBunkers = false; // DIFFERENT
+//			includeBuildings = true;
+//			includeHouses = true;
+//			includeFarms = true;
+
+			includeCaves = false; // DIFFERENT
+			includeLavaFields = false; // DIFFERENT
+			includeSeas = true; // THIS MUST BE SET TO TRUE
+			includeMountains = true; // THIS MUST BE SET TO TRUE
+//			includeOres = true;
+			
+			treasuresInSewers = false; // DIFFERENT
+			spawnersInSewers = false; // DIFFERENT
+			treasuresInMines = false; // DIFFERENT
+			spawnersInMines = false; // DIFFERENT
+			treasuresInBunkers = false; // DIFFERENT
+			spawnersInBunkers = false; // DIFFERENT
+			
+			includeUndergroundFluids = false; // DIFFERENT
+//			includeAbovegroundFluids = true;
+			includeWorkingLights = false; // DIFFERENT
+//			includeWoolRoads = false;
+			includeNamedRoads = false; // DIFFERENT
+//			includeDecayedRoads = false;
+//			includeDecayedBuildings = false;
+			includeDecayedNature = true; // DIFFERENT
+			includeBuildingInteriors = false; // DIFFERENT
+//			includeFloatingSubsurface = true;
+			break;
 		case SNOWDUNES:
 //			includeRoads = true;
 //			includeRoundabouts = true;

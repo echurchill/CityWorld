@@ -98,7 +98,7 @@ public abstract class ShapeProvider extends Provider {
 		case FLOODED:
 			return new ShapeProvider_Flooded(generator, odds);
 		case SANDDUNES:
-			return new ShapeProvider_Sanddunes(generator, odds);
+			return new ShapeProvider_SandDunes(generator, odds);
 		case SNOWDUNES:
 			return new ShapeProvider_Snowdunes(generator, odds);
 		//case UNDERGROUND
