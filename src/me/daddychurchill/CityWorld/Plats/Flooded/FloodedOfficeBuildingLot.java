@@ -14,16 +14,16 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class FloodedOfficeBuildingLot extends OfficeBuildingLot {
 
-	private static RoomProvider contentsEmpty = new EmptyWithNothing();
-	private static RoomProvider contentsWalls = new EmptyWithRooms();
-	private int floodY;
-	
 	public FloodedOfficeBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
 		floodY = platmap.generator.shapeProvider.findHighestFloodY(platmap.generator);
 	}
 
+	private static RoomProvider contentsEmpty = new EmptyWithNothing();
+	private static RoomProvider contentsWalls = new EmptyWithRooms();
+	private int floodY;
+	
 	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
 		return new FloodedOfficeBuildingLot(platmap, chunkX, chunkZ);
