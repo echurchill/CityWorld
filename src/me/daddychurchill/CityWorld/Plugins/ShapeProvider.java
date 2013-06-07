@@ -1,5 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import org.bukkit.block.Biome;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
@@ -32,6 +33,7 @@ public abstract class ShapeProvider extends Provider {
 	public abstract void preGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs);
 	public abstract void postGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs);
 	
+	protected abstract Biome remapBiome(WorldGenerator generator, PlatLot lot, Biome biome);
 	protected abstract DataContext getContext(PlatMap platmap);
 	protected abstract void allocateContexts(WorldGenerator generator);
 	public abstract String getCollectionName();
@@ -64,6 +66,10 @@ public abstract class ShapeProvider extends Provider {
 	}
 	
 	public int findHighestFloodY(WorldGenerator generator) {
+		return getSeaLevel();
+	}
+	
+	public int findLowestFloodY(WorldGenerator generator) {
 		return getSeaLevel();
 	}
 	

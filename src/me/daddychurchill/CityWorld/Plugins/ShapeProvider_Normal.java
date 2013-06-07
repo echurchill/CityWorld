@@ -209,10 +209,15 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	public String getCollectionName() {
 		return "Normal";
 	}
+	
+	@Override
+	protected Biome remapBiome(WorldGenerator generator, PlatLot lot, Biome biome) {
+		return generator.oreProvider.remapBiome(biome);
+	}
 
 	@Override
 	public void preGenerateChunk(WorldGenerator generator, PlatLot lot, ByteChunk chunk, BiomeGrid biomes, CachedYs blockYs) {
-		Biome resultBiome = lot.getChunkBiome();
+		Biome biome = lot.getChunkBiome();
 		OreProvider ores = generator.oreProvider;
 		boolean surfaceCaves = isSurfaceCaveAt(chunk.chunkX, chunk.chunkZ);
 		
@@ -235,11 +240,11 @@ public class ShapeProvider_Normal extends ShapeProvider {
 					// on the beach
 					if (y == generator.seaLevel) {
 						generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 2, ores.fluidSubsurfaceId, y, ores.fluidSurfaceId, generator.settings.includeDecayedNature);
-						resultBiome = Biome.BEACH;
+						biome = Biome.BEACH;
 
 					// we are in the water! ...or are we?
 					} else if (y < generator.seaLevel) {
-						resultBiome = Biome.DESERT;
+						biome = Biome.DESERT;
 						if (generator.settings.includeDecayedNature)
 							if (generator.settings.includeAbovegroundFluids && y < generator.deepseaLevel)
 								generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 2, ores.fluidSubsurfaceId, y, ores.fluidSurfaceId, generator.deepseaLevel, ores.fluidId, false);
@@ -248,7 +253,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 						else 
 							if (generator.settings.includeAbovegroundFluids) {
 								generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 2, ores.fluidSubsurfaceId, y, ores.fluidSurfaceId, generator.seaLevel, ores.fluidId, false);
-								resultBiome = Biome.OCEAN;
+								biome = Biome.OCEAN;
 							} else
 								generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 2, ores.fluidSubsurfaceId, y, ores.fluidSurfaceId, false);
 
@@ -258,17 +263,17 @@ public class ShapeProvider_Normal extends ShapeProvider {
 						// regular trees only
 						if (y < generator.treeLevel) {
 							generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 3, ores.subsurfaceId, y, ores.surfaceId, generator.settings.includeDecayedNature);
-							resultBiome = Biome.FOREST;
+							biome = Biome.FOREST;
 
 						// regular trees and some evergreen trees
 						} else if (y < generator.evergreenLevel) {
 							generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 2, ores.subsurfaceId, y, ores.surfaceId, surfaceCaves);
-							resultBiome = Biome.FOREST_HILLS;
+							biome = Biome.FOREST_HILLS;
 
 						// evergreen and some of fallen snow
 						} else if (y < generator.snowLevel) {
 							generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 1, ores.subsurfaceId, y, ores.surfaceId, surfaceCaves);
-							resultBiome = Biome.TAIGA_HILLS;
+							biome = Biome.TAIGA_HILLS;
 							
 						// only snow up here!
 						} else {
@@ -276,13 +281,13 @@ public class ShapeProvider_Normal extends ShapeProvider {
 								generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 1, ores.stratumId, y, ores.fluidFrozenId, surfaceCaves);
 							else
 								generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 1, ores.stratumId, y, ores.stratumId, surfaceCaves);
-							resultBiome = Biome.ICE_MOUNTAINS;
+							biome = Biome.ICE_MOUNTAINS;
 						}
 					}
 				}
 				
 				// set biome for block
-				biomes.setBiome(x, z, generator.oreProvider.remapBiome(resultBiome));
+				biomes.setBiome(x, z, remapBiome(generator, lot, biome));
 			}
 		}	
 	}

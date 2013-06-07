@@ -17,7 +17,7 @@ public class FloodedOfficeBuildingLot extends OfficeBuildingLot {
 	public FloodedOfficeBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
-		floodY = platmap.generator.shapeProvider.findHighestFloodY(platmap.generator);
+		floodY = platmap.generator.shapeProvider.findLowestFloodY(platmap.generator);
 	}
 
 	private static RoomProvider contentsEmpty = new EmptyWithNothing();

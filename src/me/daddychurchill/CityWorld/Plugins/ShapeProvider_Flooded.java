@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.Flooded.FloodedConstructionContext;
@@ -66,6 +67,16 @@ public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 	}
 
 	@Override
+	public int findLowestFloodY(WorldGenerator generator) {
+		return floodY;
+	}
+
+	@Override
+	protected Biome remapBiome(WorldGenerator generator, PlatLot lot, Biome biome) {
+		return Biome.OCEAN;
+	}
+
+	@Override
 	protected void generateStratas(WorldGenerator generator, PlatLot lot,
 			ByteChunk chunk, int x, int z, byte substratumId, byte stratumId,
 			int stratumY, byte subsurfaceId, int subsurfaceY, byte surfaceId,
@@ -76,7 +87,7 @@ public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 				subsurfaceId, subsurfaceY, surfaceId, surfaceCaves);
 		
 		// cover it up a bit
-		actualGenerateFlood(generator, lot, chunk, x, z, subsurfaceY);
+		actualGenerateFlood(generator, lot, chunk, x, z, subsurfaceY + 1);
 	}
 	
 	@Override
@@ -90,14 +101,14 @@ public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 				subsurfaceId, subsurfaceY, surfaceId, surfaceCaves);
 		
 		// cover it up a bit
-		actualGenerateFlood(generator, lot, chunk, x, z, subsurfaceY);
+		actualGenerateFlood(generator, lot, chunk, x, z, subsurfaceY + 1);
 	}
 
 	protected void actualGenerateFlood(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, int subsurfaceY) {
 		int y = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 		if (y > subsurfaceY) {
 //			chunk.setBlocks(x, subsurfaceY, y - 2, z, subFloodId);
-			chunk.setBlocks(x, y - 2, y, z, floodId);
+			chunk.setBlocks(x, subsurfaceY, y, z, floodId);
 		}
 	}
 }

@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import org.bukkit.Material;
+import org.bukkit.block.Biome;
 import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
@@ -99,6 +100,16 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 	@Override
 	public int findHighestFloodY(WorldGenerator generator) {
 		return floodY + featureVerticalScale + noiseVerticalScale;
+	}
+
+	@Override
+	public int findLowestFloodY(WorldGenerator generator) {
+		return floodY;
+	}
+
+	@Override
+	protected Biome remapBiome(WorldGenerator generator, PlatLot lot, Biome biome) {
+		return Biome.DESERT_HILLS;
 	}
 
 	@Override
