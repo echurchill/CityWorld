@@ -123,7 +123,7 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 				subsurfaceId, subsurfaceY, surfaceId, surfaceCaves);
 		
 		// cover it up a bit
-		actualGenerateFlood(generator, lot, chunk, x, z, subsurfaceY);
+		actualGenerateSand(generator, lot, chunk, x, z, subsurfaceY);
 	}
 	
 	@Override
@@ -137,10 +137,10 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 				subsurfaceId, subsurfaceY, surfaceId, surfaceCaves);
 		
 		// cover it up a bit
-		actualGenerateFlood(generator, lot, chunk, x, z, subsurfaceY);
+		actualGenerateSand(generator, lot, chunk, x, z, subsurfaceY);
 	}
 	
-	protected void actualGenerateFlood(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, int subsurfaceY) {
+	protected void actualGenerateSand(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, int subsurfaceY) {
 		int y = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 		if (y > subsurfaceY) {
 			chunk.setBlocks(x, subsurfaceY, y - 2, z, subFloodId);

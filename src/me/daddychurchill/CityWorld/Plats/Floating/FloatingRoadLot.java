@@ -35,7 +35,8 @@ public class FloatingRoadLot extends RoadLot {
 
 		// where do we start
 		int pavementLevel = generator.streetLevel;
-		int sidewalkLevel = pavementLevel + 1;
+		int sidewalkLevel = getSidewalkLevel(generator);
+		byte sidewalkId = getSidewalkId();
 		
 		// look around
 		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);

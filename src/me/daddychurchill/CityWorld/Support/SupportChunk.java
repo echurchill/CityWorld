@@ -30,13 +30,16 @@ public abstract class SupportChunk {
 	public static final byte coalId = (byte) Material.COAL_ORE.getId();
 	public static final byte dirtId = (byte) Material.DIRT.getId();
 	public static final byte grassId = (byte) Material.GRASS.getId();
-	public static final byte stepId = (byte) Material.STEP.getId();
+	public static final byte stepStoneId = (byte) Material.STEP.getId();
+	public static final byte stepWoodId = (byte) Material.WOOD_STEP.getId();
 	public static final byte snowId = (byte) Material.SNOW.getId();
 	public static final byte iceId = (byte) Material.ICE.getId(); // the fluid type
 	public static final byte waterId = (byte) Material.WATER.getId(); // the fluid type
 	public static final byte lavaId = (byte) Material.LAVA.getId(); // the fluid type
 	public static final byte stillWaterId = (byte) Material.STATIONARY_WATER.getId(); // the fluid type
 	public static final byte stillLavaId = (byte) Material.STATIONARY_LAVA.getId(); // the fluid type
+	public static final byte plateStoneId = (byte) Material.STONE_PLATE.getId();
+	public static final byte plateWoodId = (byte) Material.WOOD_PLATE.getId();
 	
 	public SupportChunk(WorldGenerator generator) {
 		super();
@@ -122,6 +125,12 @@ public abstract class SupportChunk {
 	
 	public final boolean isLiquid(int x, int y, int z) {
 		return isOfTypes(x, y, z, stillWaterId, stillLavaId, waterId, lavaId, iceId);
+	}
+	
+	public final boolean isPartialHeight(int x, int y, int z) {
+		//TODO this list really should be extended to support all partial height blocks
+		return isOfTypes(x, y, z, airId, stepStoneId, stepWoodId, plateStoneId, plateWoodId, 
+								  stillWaterId, stillLavaId, waterId, lavaId);
 	}
 	
 	public final boolean isSurroundedByEmpty(int x, int y, int z) {

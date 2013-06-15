@@ -49,9 +49,9 @@ public abstract class SurfaceProvider extends Provider {
 		case FLOODED:
 			return new SurfaceProvider_Flooded(odds);
 		case SANDDUNES:
-			return new SurfaceProvider_Sanddunes(odds);
+			return new SurfaceProvider_SandDunes(odds);
 		case SNOWDUNES:
-			return new SurfaceProvider_Snowdunes(odds);
+			return new SurfaceProvider_SnowDunes(odds);
 		default:
 			return new SurfaceProvider_Normal(odds);
 		}

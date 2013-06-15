@@ -73,7 +73,6 @@ public abstract class PlatLot {
 
 	protected final static byte pavementId = (byte) Material.STONE.getId();
 	protected final static byte crosswalkId = (byte) Material.CLAY.getId();
-	protected final static byte sidewalkId = (byte) Material.STEP.getId();
 	
 	protected final static int snowMaterialId = Material.SNOW.getId();
 	protected final static Material snowMaterial = Material.SNOW;
@@ -126,6 +125,14 @@ public abstract class PlatLot {
 	
 	private void deinitializeContext() {
 		blockYs = null;
+	}
+	
+	protected int getSidewalkLevel(WorldGenerator generator) {
+		return generator.streetLevel + 1;
+	}
+	
+	protected byte getSidewalkId() {
+		return (byte) Material.STEP.getId();
 	}
 	
 	protected int getBlockY(int x, int z) {

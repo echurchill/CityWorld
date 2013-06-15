@@ -394,7 +394,7 @@ public class WorldBlocks extends SupportChunk {
 				int blockId = block.getTypeId();
 				
 				// partial blocks
-				if (blockId == stepId || blockId == snowId)
+				if (blockId == stepStoneId || blockId == snowId)
 					block.setTypeIdAndData(item.typeId, item.data, false);
 				
 				// other blocks?

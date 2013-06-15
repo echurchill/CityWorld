@@ -61,6 +61,10 @@ public abstract class ShapeProvider extends Provider {
 		return findBlockY(generator, blockX, blockZ);
 	}
 	
+	public double findPerciseFloodY(WorldGenerator generator, int blockX, int blockZ) {
+		return getSeaLevel();
+	}
+	
 	public int findFloodY(WorldGenerator generator, int blockX, int blockZ) {
 		return getSeaLevel();
 	}
@@ -106,7 +110,7 @@ public abstract class ShapeProvider extends Provider {
 		case SANDDUNES:
 			return new ShapeProvider_SandDunes(generator, odds);
 		case SNOWDUNES:
-			return new ShapeProvider_Snowdunes(generator, odds);
+			return new ShapeProvider_SnowDunes(generator, odds);
 		//case UNDERGROUND
 		//case LUNAR: // curved surface?
 		default: // NORMAL

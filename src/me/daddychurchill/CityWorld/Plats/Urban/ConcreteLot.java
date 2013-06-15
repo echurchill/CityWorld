@@ -4,7 +4,6 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.BuildingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plats.RoadLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -30,10 +29,12 @@ public class ConcreteLot extends BuildingLot {
 			PlatMap platmap, ByteChunk chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
 		int groundY = getBottomY(generator);
+		int sidewalkLevel = getSidewalkLevel(generator);
+		byte sidewalkId = getSidewalkId();
 
 		// top it off
 		chunk.setLayer(groundY, generator.oreProvider.subsurfaceId);
-		chunk.setLayer(groundY + 1, RoadLot.sidewalkId);
+		chunk.setLayer(sidewalkLevel, sidewalkId);
 	}
 
 	@Override
