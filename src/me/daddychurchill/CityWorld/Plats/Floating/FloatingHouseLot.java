@@ -38,6 +38,11 @@ public class FloatingHouseLot extends ConstructLot {
 	}
 	
 	@Override
+	public int getTopY(WorldGenerator generator) {
+		return groundLevel + DataContext.FloorHeight * 2 + 1;
+	}
+
+	@Override
 	protected void generateActualChunk(WorldGenerator generator,
 			PlatMap platmap, ByteChunk chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {

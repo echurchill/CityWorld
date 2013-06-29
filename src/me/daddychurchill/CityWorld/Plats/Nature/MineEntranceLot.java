@@ -37,6 +37,11 @@ public class MineEntranceLot extends ConstructLot {
 	}
 	
 	@Override
+	public int getTopY(WorldGenerator generator) {
+		return generator.streetLevel + DataContext.FloorHeight;
+	}
+
+	@Override
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 
 		// find the bottom of the world

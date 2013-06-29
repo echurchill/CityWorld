@@ -175,6 +175,11 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	}
 	
 	@Override
+	public int getTopY(WorldGenerator generator) {
+		return generator.streetLevel + firstFloorHeight + (height * aboveFloorHeight);
+	}
+	
+	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 
 		// check out the neighbors

@@ -67,4 +67,9 @@ public class StorageLot extends BuildingLot {
 		return generator.streetLevel;
 	}
 
+	@Override
+	public int getTopY(WorldGenerator generator) {
+		return generator.streetLevel + DataContext.FloorHeight * 3 + 1;
+	}
+
 }

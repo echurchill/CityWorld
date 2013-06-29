@@ -108,4 +108,9 @@ public abstract class MountainFlatLot extends ConstructLot {
 		return averageHeight + 1;
 	}
 	
+	@Override
+	public int getTopY(WorldGenerator generator) {
+		return generator.streetLevel + DataContext.FloorHeight * 2 + 1;
+	}
+
 }

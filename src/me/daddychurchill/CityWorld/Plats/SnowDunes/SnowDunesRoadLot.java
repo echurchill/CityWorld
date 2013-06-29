@@ -5,7 +5,6 @@ import org.bukkit.Material;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
-import me.daddychurchill.CityWorld.Plugins.ShapeProvider_SandDunes;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class SnowDunesRoadLot extends RoadLot {
@@ -24,12 +23,12 @@ public class SnowDunesRoadLot extends RoadLot {
 	
 	@Override
 	protected byte getAirId(WorldGenerator generator, int y) {
-		return ShapeProvider_SandDunes.floodId;
+		return generator.shapeProvider.findFloodIdAt(generator, y);
 	}
 
 	@Override
 	protected Material getAirMaterial(WorldGenerator generator, int y) {
-		return ShapeProvider_SandDunes.floodMat;
+		return generator.shapeProvider.findFloodMaterialAt(generator, y);
 	}
 	
 	@Override

@@ -144,6 +144,7 @@ public abstract class PlatLot {
 	}
 	
 	public abstract int getBottomY(WorldGenerator generator);
+	public abstract int getTopY(WorldGenerator generator);
 	
 	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		initializeDice(platmap, chunk.chunkX, chunk.chunkZ);
@@ -541,6 +542,6 @@ public abstract class PlatLot {
 	}
 
 	protected byte getAirId(WorldGenerator generator, int y) {
-		return (byte) airId;
+		return airId;
 	}
 }

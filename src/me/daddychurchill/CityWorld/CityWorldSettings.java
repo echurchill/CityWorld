@@ -405,7 +405,7 @@ public class CityWorldSettings {
 			break;
 		case FLOODED:
 //			includeRoads = true;
-//			includeRoundabouts = true;
+			includeRoundabouts = false; // DIFFERENT
 			includeSewers = false; // DIFFERENT
 //			includeCisterns = true;
 //			includeBasements = true;
@@ -441,7 +441,7 @@ public class CityWorldSettings {
 			break;
 		case SANDDUNES:
 //			includeRoads = true;
-//			includeRoundabouts = true;
+			includeRoundabouts = false; // DIFFERENT
 			includeSewers = false; // DIFFERENT
 //			includeCisterns = true;
 //			includeBasements = true;
@@ -477,7 +477,7 @@ public class CityWorldSettings {
 			break;
 		case SNOWDUNES:
 //			includeRoads = true;
-//			includeRoundabouts = true;
+			includeRoundabouts = false; // DIFFERENT
 			includeSewers = false; // DIFFERENT
 //			includeCisterns = true;
 //			includeBasements = true;

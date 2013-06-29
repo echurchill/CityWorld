@@ -26,6 +26,11 @@ public class NatureLot extends IsolatedLot {
 	}
 	
 	@Override
+	public int getTopY(WorldGenerator generator) {
+		return generator.seaLevel + generator.landRange;
+	}
+	
+	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		// TODO Auto-generated method stub
 		

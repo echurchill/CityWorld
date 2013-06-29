@@ -80,6 +80,11 @@ public class ParkLot extends ConnectedLot {
 	}
 
 	@Override
+	public int getTopY(WorldGenerator generator) {
+		return generator.streetLevel + DataContext.FloorHeight * 3 + 1;
+	}
+
+	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 
 		// look around

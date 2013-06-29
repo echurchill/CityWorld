@@ -6,7 +6,6 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Urban.OfficeBuildingLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
-import me.daddychurchill.CityWorld.Plugins.ShapeProvider_SandDunes;
 import me.daddychurchill.CityWorld.Rooms.Populators.EmptyWithNothing;
 import me.daddychurchill.CityWorld.Rooms.Populators.EmptyWithRooms;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -16,13 +15,10 @@ public class SnowDunesOfficeBuildingLot extends OfficeBuildingLot {
 
 	public SnowDunesOfficeBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-
-		floodY = platmap.generator.shapeProvider.findLowestFloodY(platmap.generator);
 	}
 
 	private static RoomProvider contentsEmpty = new EmptyWithNothing();
 	private static RoomProvider contentsWalls = new EmptyWithRooms();
-	private int floodY;
 	
 	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
@@ -51,17 +47,11 @@ public class SnowDunesOfficeBuildingLot extends OfficeBuildingLot {
 	
 	@Override
 	protected byte getAirId(WorldGenerator generator, int y) {
-		if (y < floodY)
-			return ShapeProvider_SandDunes.floodId;
-		else
-			return super.getAirId(generator, y);
+		return generator.shapeProvider.findFloodIdAt(generator, y);
 	}
 
 	@Override
 	protected Material getAirMaterial(WorldGenerator generator, int y) {
-		if (y < floodY)
-			return ShapeProvider_SandDunes.floodMat;
-		else
-			return super.getAirMaterial(generator, y);
+		return generator.shapeProvider.findFloodMaterialAt(generator, y);
 	}
 }

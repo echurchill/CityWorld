@@ -21,10 +21,6 @@ import me.daddychurchill.CityWorld.Support.Odds;
 
 public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 
-	public final static Material floodMat = Material.SAND;
-	public final static byte floodId = (byte) Material.SAND.getId();
-	public final static byte subFloodId = (byte) Material.SANDSTONE.getId();
-	
 	protected int floodY;
 	
 	private SimplexOctaveGenerator duneFeature1;
@@ -147,4 +143,34 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 			chunk.setBlocks(x, y - 2, y, z, floodId);
 		}
 	}
+	
+	private final static Material floodMat = Material.SAND;
+	private final static byte floodId = (byte) Material.SAND.getId();
+	private final static byte subFloodId = (byte) Material.SANDSTONE.getId();
+	
+	@Override
+	public byte findFloodIdAt(WorldGenerator generator, int blockY) {
+		if (blockY < floodY)
+			return floodId;
+		else
+			return super.findFloodIdAt(generator, blockY);
+	}
+	
+	@Override
+	public Material findFloodMaterialAt(WorldGenerator generator, int blockY) {
+		if (blockY < floodY)
+			return floodMat;
+		else
+			return super.findFloodMaterialAt(generator, blockY);
+	}
+	
+//	@Override
+//	public byte findCoverIdAt(WorldGenerator generator, int blockY) {
+//		return 
+//		if (blockY < floodY)
+//			return snowCoverId;
+//		else
+//			return super.findCoverIdAt(generator, blockY);
+//	}
+	
 }

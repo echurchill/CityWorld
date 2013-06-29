@@ -36,6 +36,11 @@ public class OldCastleLot extends ConstructLot {
 	}
 	
 	@Override
+	public int getTopY(WorldGenerator generator) {
+		return getBottomY(generator) + DataContext.FloorHeight * 4 + 1;
+	}
+
+	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 		// main bits

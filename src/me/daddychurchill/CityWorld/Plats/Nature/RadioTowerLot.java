@@ -50,6 +50,11 @@ public class RadioTowerLot extends ConstructLot {
 	}
 	
 	@Override
+	public int getTopY(WorldGenerator generator) {
+		return getBottomY(generator) + heightTallest;
+	}
+
+	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 		// compute offset to start of chunk

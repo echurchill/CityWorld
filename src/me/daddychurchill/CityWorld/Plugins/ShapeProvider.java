@@ -1,5 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import org.bukkit.util.noise.NoiseGenerator;
@@ -75,6 +76,21 @@ public abstract class ShapeProvider extends Provider {
 	
 	public int findLowestFloodY(WorldGenerator generator) {
 		return getSeaLevel();
+	}
+	
+	private final static Material airMat = Material.AIR;
+	private final static byte airId = (byte) airMat.getId();
+	
+	public byte findFloodIdAt(WorldGenerator generator, int blockY) {
+		return airId;
+	}
+	
+	public Material findFloodMaterialAt(WorldGenerator generator, int blockY) {
+		return airMat;
+	}
+	
+	public byte findCoverIdAt(WorldGenerator generator, int blockY) {
+		return airId;
 	}
 	
 	public PlatLot createNaturalLot(WorldGenerator generator, PlatMap platmap, int x, int z) {

@@ -96,6 +96,11 @@ public class ClipboardLot extends IsolatedLot {
 	}
 	
 	@Override
+	public int getTopY(WorldGenerator generator) {
+		return depth + clip.sizeY;
+	}
+	
+	@Override
 	public boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
 		return blockY <= edgeY1 || blockY > edgeY3;
 	}
