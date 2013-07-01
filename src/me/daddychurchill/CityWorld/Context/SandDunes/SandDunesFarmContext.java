@@ -16,7 +16,7 @@ public class SandDunesFarmContext extends FarmContext {
 	}
 
 	@Override
-	protected PlatLot getBackfillLot(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	protected PlatLot getFarmLot(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new SandDunesFarmLot(platmap, chunkX, chunkZ);
 	}
 	
