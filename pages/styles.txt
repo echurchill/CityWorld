@@ -31,3 +31,23 @@ Flying high above nature, you need to be very careful where you step.
 Its a long way down. 
 But really you don't want to go down there anyway as there isn't any ore or fun things to do except run from monsters.
 
+=== ##**SandDunes**##
+
+{{http://dev.bukkit.org/media/images/44/623/2012-08-18_11.10.43.jpg|SandDunes}}
+
+Imagine Phoenix Arizona after a REALLY bad sandstorm. :-(
+
+=== ##**Flooded**##
+
+{{http://dev.bukkit.org/media/images/44/623/2012-08-18_11.10.43.jpg|Flooded}}
+
+Global warming's rising sea levels has caused a bit of a problem for the world.
+
+=== ##**SnowDunes**##
+
+{{http://dev.bukkit.org/media/images/44/623/2012-08-18_11.10.43.jpg|SnowDunes}}
+
+Global cooling's giant snow storms has caused a bit of a problem for the world.
+
+
+

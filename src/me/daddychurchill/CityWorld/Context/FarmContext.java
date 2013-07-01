@@ -89,13 +89,13 @@ public class FarmContext extends RuralContext {
 					
 					// farm house here?
 					if (!housePlaced && platmapOdds.playOdds(oddsOfFarmHouse) && generator.settings.includeHouses) {
-						housePlaced = platmap.setLot(x, z, getHouseLot(generator, platmap, platmapOdds, platmap.originX + lastX, platmap.originZ + lastZ)); 
+						housePlaced = platmap.setLot(x, z, getHouseLot(generator, platmap, platmapOdds, originX + lastX, originZ + lastZ)); 
 					
 					// place the farm
 					} else {
 						
 						// place the farm
-						current = new FarmLot(platmap, originX + x, originZ + z);
+						current = getFarmLot(generator, platmap, platmapOdds, originX + x, originZ + z);
 						
 						// see if the previous chunk is the same type
 						PlatLot previous = null;
@@ -106,7 +106,7 @@ public class FarmContext extends RuralContext {
 						}
 						
 						// if there was a similar previous one then copy it... maybe
-						if (previous != null && !shapeProvider.isIsolatedLotAt(platmap.originX + x, platmap.originZ + z, oddsOfIsolatedLots)) {
+						if (previous != null && !shapeProvider.isIsolatedLotAt(originX + x, originZ + z, oddsOfIsolatedLots)) {
 							current.makeConnected(previous);
 						}
 
@@ -123,12 +123,16 @@ public class FarmContext extends RuralContext {
 		
 		// did we miss out placing the farm house?
 		if (!housePlaced && platmap.isEmptyLot(lastX, lastZ) && generator.settings.includeHouses) {
-			platmap.setLot(lastX, lastZ, getHouseLot(generator, platmap, platmapOdds, platmap.originX + lastX, platmap.originZ + lastZ)); 
+			platmap.setLot(lastX, lastZ, getHouseLot(generator, platmap, platmapOdds, originX + lastX, originZ + lastZ)); 
 		}
 	}
 	
 	@Override
 	protected PlatLot getBackfillLot(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+		return getFarmLot(generator, platmap, odds, chunkX, chunkZ);
+	}
+	
+	protected PlatLot getFarmLot(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new FarmLot(platmap, chunkX, chunkZ);
 	}
 	

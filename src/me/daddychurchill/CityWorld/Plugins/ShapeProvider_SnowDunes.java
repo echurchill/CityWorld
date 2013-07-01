@@ -30,7 +30,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 //	private SimplexOctaveGenerator duneNoise;
 	
 	private final static int featureOctaves = 2;
-	private final static int featureVerticalScale = 10;
+	private final static int featureVerticalScale = 5;
 	private final static double featureFrequency = 1.50;
 	private final static double featureAmplitude = 1;
 	private final static double featureHorizontalScale = 1.0 / 64.0;
@@ -44,7 +44,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 	public ShapeProvider_SnowDunes(WorldGenerator generator, Odds odds) {
 		super(generator, odds);
 		
-		floodY = seaLevel + 20;
+		floodY = seaLevel + 15;
 
 		long seed = generator.getWorldSeed();
 		duneFeature1 = new SimplexOctaveGenerator(seed + 20, featureOctaves);
@@ -168,23 +168,39 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 	}
 	
 	protected void actualGenerateSnow(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, int subsurfaceY) {
-		int y = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
-		if (y > subsurfaceY) {
-			y = chunk.findLastEmptyBelow(x, y + 1, z);
-			if (!chunk.isPartialHeight(x, y - 1, z))
-				chunk.setBlocks(x, subsurfaceY, y, z, snowId);
+		int baseY = chunk.findLastEmptyBelow(x, subsurfaceY + 1, z);
+		int snowY = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
+		if (snowY > baseY) {
+//			chunk.setBlocks(x, baseY, snowY, z, snowId);
+			chunk.setBlocks(x, baseY, snowY, z, Material.GLASS);
 		}
 	}
 	
 	@Override
 	public void postGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
 		
+		// let the other guy do it's thing
+		super.postGenerateBlocks(generator, lot, chunk, blockYs);
+		
+		// now sprinkle snow
+//		for (int x = 0; x < chunk.width; x++) {
+//			for (int z = 0; z < chunk.width; z++) {
+//				double snowCoverY = findPerciseFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
+//				int snowY = chunk.findFirstEmpty(x, NoiseGenerator.floor(snowCoverY), z);
+//				if (!chunk.isPartialHeight(x, snowY - 1, z)) {
+//					byte snowAmount = (byte) NoiseGenerator.floor((snowCoverY - Math.floor(snowCoverY)) * 8.0);
+////					chunk.setBlock(x, snowY, z, Material.WOOL, snowAmount);
+//					chunk.setBlock(x, snowY, z, snowCoverId, snowAmount, false);
+//				}
+//			}
+//		}
+		
 		// add the snow
 //		ShapeProvider shape = generator.shapeProvider;
 //		OreProvider ore = generator.oreProvider;
 		
-		// let the other guy do it's thing
-		super.postGenerateBlocks(generator, lot, chunk, blockYs);
+//		// let the other guy do it's thing
+//		super.postGenerateBlocks(generator, lot, chunk, blockYs);
 		
 //		// how tall can it be?
 //		int maxY = lot.getTopY(generator);

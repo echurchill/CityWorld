@@ -288,6 +288,23 @@ public class RealChunk extends SupportChunk {
 		}
 	}
 	
+	public int findFirstEmpty(int x, int y, int z) {
+		if (chunk.getBlock(x, y, z).isEmpty())
+			return findLastEmptyBelow(x, y, z);
+		else
+			return findFirstEmptyAbove(x, y, z);
+	}
+	
+	public int findFirstEmptyAbove(int x, int y, int z) {
+		int y1 = y;
+		while (y1 < height - 1) {
+			if (chunk.getBlock(x, y1, z).isEmpty())
+				return y1;
+			y1++;
+		}
+		return height - 1;
+	}
+	
 	public int findLastEmptyAbove(int x, int y, int z) {
 		int y1 = y;
 		while (y1 < height - 1 && chunk.getBlock(x, y1 + 1, z).isEmpty()) {
