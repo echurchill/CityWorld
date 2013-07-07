@@ -25,6 +25,7 @@ public abstract class OreProvider extends Provider {
 	public final static byte stillLavaId = (byte) Material.STATIONARY_LAVA.getId();
 	public final static byte snowId = (byte) Material.SNOW.getId();
 	public final static byte snowBlockId = (byte) Material.SNOW_BLOCK.getId();
+	public final static byte iceId = (byte) Material.ICE.getId();
 	public final static byte bedrockId = (byte) Material.BEDROCK.getId();
 	
 	public final static int lavaFluidLevel = 24;
@@ -66,11 +67,6 @@ public abstract class OreProvider extends Provider {
 	 * modified by simplex
 	 * wildly modified by daddychurchill
 	 */
-	
-	protected static final int iceTypeId = Material.ICE.getId();
-	protected static final int waterTypeId = Material.WATER.getId();
-	protected static final int lavaTypeId = Material.LAVA.getId();
-	protected static final int snowTypeId = Material.SNOW_BLOCK.getId();
 	
 	public enum OreLocation {CRUST};
 	
@@ -179,11 +175,22 @@ public abstract class OreProvider extends Provider {
 					provider = new OreProvider_TheEnd(generator);
 					break;
 				case NORMAL:
-					if (generator.settings.includeDecayedNature)
-						provider = new OreProvider_Decayed(generator);
-					else
-						provider = new OreProvider_Normal(generator);
-					break;
+					switch (generator.worldStyle) {
+					case SNOWDUNES:
+						provider = new OreProvider_SnowDunes(generator);
+						break;
+					case SANDDUNES:
+						provider = new OreProvider_SandDunes(generator);
+						break;
+					//case UNDERGROUND
+					//case LUNAR: // curved surface?
+					default: // NORMAL
+						if (generator.settings.includeDecayedNature)
+							provider = new OreProvider_Decayed(generator);
+						else
+							provider = new OreProvider_Normal(generator);
+						break;
+					}
 				}
 			}
 		}

@@ -70,10 +70,11 @@ public class FarmLot extends ConnectedLot {
 		return result;
 	}
 
+	protected Material waterMaterial = Material.STATIONARY_WATER;
+	
 	protected final static byte isolationNormalId = (byte) Material.LOG.getId();
 	protected final static byte isolationNetherId = (byte) Material.NETHER_BRICK.getId();
 	
-	protected final static Material waterMaterial = Material.STATIONARY_WATER;
 	protected final static Material soilMaterial = Material.SOIL;
 	protected final static Material sandMaterial = Material.SAND;
 	protected final static Material mycelMaterial = Material.MYCEL;

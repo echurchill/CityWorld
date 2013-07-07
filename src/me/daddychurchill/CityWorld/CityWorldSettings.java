@@ -393,7 +393,7 @@ public class CityWorldSettings {
 			spawnersInBunkers = false; // DIFFERENT
 			
 			includeUndergroundFluids = false; // DIFFERENT
-//			includeAbovegroundFluids = true;
+			includeAbovegroundFluids = true; // THIS MUST BE SET TO TRUE
 //			includeWorkingLights = true;
 //			includeWoolRoads = false;
 //			includeNamedRoads = true;
@@ -429,7 +429,7 @@ public class CityWorldSettings {
 			spawnersInBunkers = false; // DIFFERENT
 			
 			includeUndergroundFluids = false; // DIFFERENT
-//			includeAbovegroundFluids = true;
+			includeAbovegroundFluids = true; // THIS MUST BE SET TO TRUE
 //			includeWorkingLights = true;
 //			includeWoolRoads = false;
 			includeNamedRoads = false; // DIFFERENT
@@ -464,8 +464,8 @@ public class CityWorldSettings {
 			treasuresInBunkers = false; // DIFFERENT
 			spawnersInBunkers = false; // DIFFERENT
 			
-			includeUndergroundFluids = false; // DIFFERENT
-//			includeAbovegroundFluids = true;
+//			includeUndergroundFluids = false; 
+			includeAbovegroundFluids = false; // THIS MUST BE SET TO FALSE
 			includeWorkingLights = false; // DIFFERENT
 //			includeWoolRoads = false;
 			includeNamedRoads = false; // DIFFERENT
@@ -500,8 +500,8 @@ public class CityWorldSettings {
 			treasuresInBunkers = false; // DIFFERENT
 			spawnersInBunkers = false; // DIFFERENT
 			
-			includeUndergroundFluids = false; // DIFFERENT
-//			includeAbovegroundFluids = true;
+//			includeUndergroundFluids = false; 
+			includeAbovegroundFluids = true; // THIS MUST BE SET TO TRUE
 			includeWorkingLights = false; // DIFFERENT
 //			includeWoolRoads = false;
 			includeNamedRoads = false; // DIFFERENT

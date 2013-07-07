@@ -325,7 +325,8 @@ public class RoadLot extends ConnectedLot {
 		} else {
 			// draw pavement and clear out a bit
 			chunk.setLayer(pavementLevel, pavementId);
-			chunk.setLayer(sidewalkLevel, getAirId(generator, sidewalkLevel));
+			if (pavementLevel != sidewalkLevel)
+				chunk.setLayer(sidewalkLevel, getAirId(generator, sidewalkLevel));
 			byte emptyId = getAirId(generator, sidewalkLevel + 1);
 			
 			// sidewalk corners

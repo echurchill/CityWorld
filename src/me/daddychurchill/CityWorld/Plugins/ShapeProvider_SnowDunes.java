@@ -107,6 +107,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 	}
 
 	private final static Material snowMat = Material.SNOW_BLOCK;
+//	private final static Material snowMat = Material.GLASS;
 	private final static byte snowId = (byte) snowMat.getId();
 	private final static byte snowCoverId = (byte) Material.SNOW.getId();
 	
@@ -146,11 +147,10 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 			int coverY, byte coverId, boolean surfaceCaves) {
 
 		// do the default bit
-		actualGenerateStratas(generator, lot, chunk, x, z, substratumId, stratumId, stratumY, 
-				subsurfaceId, subsurfaceY, surfaceId, surfaceCaves);
+		super.generateStratas(generator, lot, chunk, x, z, substratumId, stratumId, stratumY, subsurfaceId, subsurfaceY, surfaceId, coverY, coverId, surfaceCaves);
 		
 		// cover it up a bit
-		actualGenerateSnow(generator, lot, chunk, x, z, subsurfaceY);
+		actualGenerateSnow(generator, lot, chunk, x, z, coverY);
 	}
 	
 	@Override
@@ -160,20 +160,17 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 			boolean surfaceCaves) {
 
 		// do the default bit
-		actualGenerateStratas(generator, lot, chunk, x, z, substratumId, stratumId, stratumY, 
-				subsurfaceId, subsurfaceY, surfaceId, surfaceCaves);
+		super.generateStratas(generator, lot, chunk, x, z, substratumId, stratumId, stratumY, subsurfaceId, subsurfaceY, surfaceId, surfaceCaves);
 		
 		// cover it up a bit
 		actualGenerateSnow(generator, lot, chunk, x, z, subsurfaceY);
 	}
 	
-	protected void actualGenerateSnow(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, int subsurfaceY) {
-		int baseY = chunk.findLastEmptyBelow(x, subsurfaceY + 1, z);
+	protected void actualGenerateSnow(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, int y) {
+		int baseY = chunk.findLastEmptyBelow(x, y + 1, z);
 		int snowY = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
-		if (snowY > baseY) {
-//			chunk.setBlocks(x, baseY, snowY, z, snowId);
-			chunk.setBlocks(x, baseY, snowY, z, Material.GLASS);
-		}
+		if (snowY > baseY) 
+			chunk.setBlocks(x, baseY, snowY, z, snowId);
 	}
 	
 	@Override
@@ -183,17 +180,17 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 		super.postGenerateBlocks(generator, lot, chunk, blockYs);
 		
 		// now sprinkle snow
-//		for (int x = 0; x < chunk.width; x++) {
-//			for (int z = 0; z < chunk.width; z++) {
-//				double snowCoverY = findPerciseFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
-//				int snowY = chunk.findFirstEmpty(x, NoiseGenerator.floor(snowCoverY), z);
-//				if (!chunk.isPartialHeight(x, snowY - 1, z)) {
-//					byte snowAmount = (byte) NoiseGenerator.floor((snowCoverY - Math.floor(snowCoverY)) * 8.0);
-////					chunk.setBlock(x, snowY, z, Material.WOOL, snowAmount);
-//					chunk.setBlock(x, snowY, z, snowCoverId, snowAmount, false);
-//				}
-//			}
-//		}
+		for (int x = 0; x < chunk.width; x++) {
+			for (int z = 0; z < chunk.width; z++) {
+				double snowCoverY = findPerciseFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
+				int snowY = chunk.findFirstEmpty(x, NoiseGenerator.floor(snowCoverY), z);
+				if (!chunk.isPartialHeight(x, snowY - 1, z)) {
+					byte snowAmount = (byte) NoiseGenerator.floor((snowCoverY - Math.floor(snowCoverY)) * 8.0);
+//					chunk.setBlock(x, snowY, z, Material.WOOL, snowAmount);
+					chunk.setBlock(x, snowY, z, snowCoverId, snowAmount, false);
+				}
+			}
+		}
 		
 		// add the snow
 //		ShapeProvider shape = generator.shapeProvider;

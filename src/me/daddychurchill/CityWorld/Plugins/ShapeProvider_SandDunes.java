@@ -139,19 +139,21 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 	protected void actualGenerateSand(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, int subsurfaceY) {
 		int y = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 		if (y > subsurfaceY) {
-			chunk.setBlocks(x, subsurfaceY, y - 2, z, subFloodId);
-			chunk.setBlocks(x, y - 2, y, z, floodId);
+			chunk.setBlocks(x, subsurfaceY, y - 2, z, subSandId);
+			chunk.setBlocks(x, y - 2, y, z, sandId);
 		}
 	}
 	
-	private final static Material floodMat = Material.SAND;
-	private final static byte floodId = (byte) Material.SAND.getId();
-	private final static byte subFloodId = (byte) Material.SANDSTONE.getId();
+	private final static Material sandMat = Material.SAND;
+//	private final static Material sandMat = Material.GLASS;
+	private final static byte sandId = (byte) sandMat.getId();
+	private final static byte subSandId = (byte) Material.SANDSTONE.getId();
+//	private final static byte subSandId = sandId;
 	
 	@Override
 	public byte findFloodIdAt(WorldGenerator generator, int blockY) {
 		if (blockY < floodY)
-			return floodId;
+			return sandId;
 		else
 			return super.findFloodIdAt(generator, blockY);
 	}
@@ -159,7 +161,7 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 	@Override
 	public Material findFloodMaterialAt(WorldGenerator generator, int blockY) {
 		if (blockY < floodY)
-			return floodMat;
+			return sandMat;
 		else
 			return super.findFloodMaterialAt(generator, blockY);
 	}

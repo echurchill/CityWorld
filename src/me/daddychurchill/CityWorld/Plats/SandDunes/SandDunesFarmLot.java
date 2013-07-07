@@ -11,7 +11,8 @@ public class SandDunesFarmLot extends FarmLot {
 
 	public SandDunesFarmLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-		// TODO Auto-generated constructor stub
+		
+		waterMaterial = Material.SAND;
 	}
 
 	@Override
