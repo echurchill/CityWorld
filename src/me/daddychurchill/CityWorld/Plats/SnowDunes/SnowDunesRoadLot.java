@@ -22,16 +22,6 @@ public class SnowDunesRoadLot extends RoadLot {
 	}
 	
 	@Override
-	protected byte getAirId(WorldGenerator generator, int y) {
-		return generator.shapeProvider.findFloodIdAt(generator, y);
-	}
-
-	@Override
-	protected Material getAirMaterial(WorldGenerator generator, int y) {
-		return generator.shapeProvider.findFloodMaterialAt(generator, y);
-	}
-	
-	@Override
 	protected byte getSidewalkId() {
 		return (byte) Material.DOUBLE_STEP.getId();
 	}

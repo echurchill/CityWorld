@@ -151,28 +151,18 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 //	private final static byte subSandId = sandId;
 	
 	@Override
-	public byte findFloodIdAt(WorldGenerator generator, int blockY) {
+	public byte findAtmosphereIdAt(WorldGenerator generator, int blockY) {
 		if (blockY < floodY)
 			return sandId;
 		else
-			return super.findFloodIdAt(generator, blockY);
+			return super.findAtmosphereIdAt(generator, blockY);
 	}
 	
 	@Override
-	public Material findFloodMaterialAt(WorldGenerator generator, int blockY) {
+	public Material findAtmosphereMaterialAt(WorldGenerator generator, int blockY) {
 		if (blockY < floodY)
 			return sandMat;
 		else
-			return super.findFloodMaterialAt(generator, blockY);
+			return super.findAtmosphereMaterialAt(generator, blockY);
 	}
-	
-//	@Override
-//	public byte findCoverIdAt(WorldGenerator generator, int blockY) {
-//		return 
-//		if (blockY < floodY)
-//			return snowCoverId;
-//		else
-//			return super.findCoverIdAt(generator, blockY);
-//	}
-	
 }

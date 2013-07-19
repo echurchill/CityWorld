@@ -112,27 +112,27 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 	private final static byte snowCoverId = (byte) Material.SNOW.getId();
 	
 	@Override
-	public byte findFloodIdAt(WorldGenerator generator, int blockY) {
+	public byte findAtmosphereIdAt(WorldGenerator generator, int blockY) {
 		if (blockY < floodY)
 			return snowId;
 		else
-			return super.findFloodIdAt(generator, blockY);
+			return super.findAtmosphereIdAt(generator, blockY);
 	}
 	
 	@Override
-	public Material findFloodMaterialAt(WorldGenerator generator, int blockY) {
+	public Material findAtmosphereMaterialAt(WorldGenerator generator, int blockY) {
 		if (blockY < floodY)
 			return snowMat;
 		else
-			return super.findFloodMaterialAt(generator, blockY);
+			return super.findAtmosphereMaterialAt(generator, blockY);
 	}
 	
 	@Override
-	public byte findCoverIdAt(WorldGenerator generator, int blockY) {
+	public byte findGroundCoverIdAt(WorldGenerator generator, int blockY) {
 		if (blockY < floodY)
 			return snowCoverId;
 		else
-			return super.findCoverIdAt(generator, blockY);
+			return super.findGroundCoverIdAt(generator, blockY);
 	}
 	
 	@Override
@@ -179,14 +179,18 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 		// let the other guy do it's thing
 		super.postGenerateBlocks(generator, lot, chunk, blockYs);
 		
+		// where to start?
+		int topY = lot.getTopY(generator);
+		
 		// now sprinkle snow
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {
 				double snowCoverY = findPerciseFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
-				int snowY = chunk.findFirstEmpty(x, NoiseGenerator.floor(snowCoverY), z);
+				int snowY = chunk.findFirstEmpty(x, Math.max(topY, NoiseGenerator.floor(snowCoverY)), z);
 				if (!chunk.isPartialHeight(x, snowY - 1, z)) {
 					byte snowAmount = (byte) NoiseGenerator.floor((snowCoverY - Math.floor(snowCoverY)) * 8.0);
-//					chunk.setBlock(x, snowY, z, Material.WOOL, snowAmount);
+					if (snowAmount > 3 & chunk.getBlockType(x, snowY - 1, z) != snowId)
+						snowAmount = (byte)(7 - snowAmount);
 					chunk.setBlock(x, snowY, z, snowCoverId, snowAmount, false);
 				}
 			}

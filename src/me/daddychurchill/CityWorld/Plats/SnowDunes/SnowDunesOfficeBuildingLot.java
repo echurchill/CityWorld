@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld.Plats.SnowDunes;
 
-import org.bukkit.Material;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Urban.OfficeBuildingLot;
@@ -43,15 +41,5 @@ public class SnowDunesOfficeBuildingLot extends OfficeBuildingLot {
 				return contentsEmpty;
 			}
 		}
-	}
-	
-	@Override
-	protected byte getAirId(WorldGenerator generator, int y) {
-		return generator.shapeProvider.findFloodIdAt(generator, y);
-	}
-
-	@Override
-	protected Material getAirMaterial(WorldGenerator generator, int y) {
-		return generator.shapeProvider.findFloodMaterialAt(generator, y);
 	}
 }

@@ -78,18 +78,18 @@ public abstract class ShapeProvider extends Provider {
 		return getSeaLevel();
 	}
 	
-	private final static Material airMat = Material.AIR;
-	private final static byte airId = (byte) airMat.getId();
+	public final static Material airMat = Material.AIR;
+	public final static byte airId = (byte) airMat.getId();
 	
-	public byte findFloodIdAt(WorldGenerator generator, int blockY) {
+	public byte findAtmosphereIdAt(WorldGenerator generator, int blockY) {
 		return airId;
 	}
 	
-	public Material findFloodMaterialAt(WorldGenerator generator, int blockY) {
+	public Material findAtmosphereMaterialAt(WorldGenerator generator, int blockY) {
 		return airMat;
 	}
 	
-	public byte findCoverIdAt(WorldGenerator generator, int blockY) {
+	public byte findGroundCoverIdAt(WorldGenerator generator, int blockY) {
 		return airId;
 	}
 	
