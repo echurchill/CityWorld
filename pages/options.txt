@@ -22,7 +22,7 @@ Also some options are exclusive of other options, for example if you decide to n
 # Next I shut down the server go change those newly created settings to what I really want the world to be like. 
 # Then I delete the previously created world and restart my server. If all goes well the newly created world should be regenerated but now using those new options I picked.
 
-If you are wanting to create a particular [[http://dev.bukkit.org/server-mods/cityworld/pages/styles/|world style]], like floating, take a look at the [[http://dev.bukkit.org/server-mods/cityworld/pages/installation-instructions/|Installation]] instructions.
+If you are wanting to create a particular [[http://dev.bukkit.org/server-mods/cityworld/pages/styles/|world style]], like floating, take a look at the [[http://dev.bukkit.org/server-mods/cityworld/pages/installation-instructions/|Installation]] instructions. Note: that certain world styles will turn off/on some of the options listed below.  
 
 ** Observations: **
 * If you regenerate the world using the same version, options and seed (how you set this depends on your multiverse manager works), you should get a nearly identical world, where only foliage might change. Keep in mind when there is a CityWorld version change, all bets are off though. Similar seeds might/will generated wholly new worlds.

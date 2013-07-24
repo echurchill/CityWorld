@@ -11,6 +11,13 @@
 ----
 == Versions
 
+v2.93
+* Tested against Minecraft 1.6.2, Bukkit 1.6.2-R0.1 and 1.6.1-R0.1
+* Added three more world styles: {{http://dev.bukkit.org/media/images/60/63/2013-07-23_20.08.41.jpg|Flooded}}, {{http://dev.bukkit.org/media/images/60/64/2013-07-07_13.59.27.jpg|SandDunes}}, and {{http://dev.bukkit.org/media/images/60/65/2013-07-19_12.07.23.jpg|SnowDunes}}
+* Added latest Minecraft 1.6.2 materials
+* Still no furniture in the Houses, Bunkers or Sheds, sorry
+* Fixed (and likely added) bugs, one really nasty one made all the isolated buildings in the mountains not generate ...oh yea, while fixing that I added occasional camp sites out in the mountains
+
 v2.9
 * Tested against Bukkit 1.5.1-R0.2
 * BETA version of the furniture generators... a lot more to do but here ya go :-)

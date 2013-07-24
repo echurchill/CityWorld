@@ -39,8 +39,11 @@ To create a normal world...
 * ##/mv create //cityname// normal -g CityWorld##
 [[https://github.com/Multiverse/Multiverse-Core/wiki/Custom-Generator-Plugins|(for more info on creation)]]
 
-To create a floating world
+To create other types of worlds
 * ##/mv create //cityname// normal -g CityWorld:Floating##
+* ##/mv create //cityname// normal -g CityWorld:Flooded##
+* ##/mv create //cityname// normal -g CityWorld:SandDunes##
+* ##/mv create //cityname// normal -g CityWorld:SnowDunes##
 
 === [[http://dev.bukkit.org/server-mods/multiworld-v-2-0/|Multiworld]]
 [[http://dev.bukkit.org/server-mods/multiworld-v-2-0/|(for more info)]]
@@ -52,8 +55,11 @@ To create a normal world...
 * ##/mw create ///cityname// plugin:CityWorld##
 [[http://dev.bukkit.org/server-mods/multiworld-v-2-0/pages/worldgenerators/plugin/|(for more info on creation)]]
 
-To create a floating world
+To create other types of worlds
 * ##/mw create ///cityname// plugin:CityWorld:Floating##
+* ##/mw create ///cityname// plugin:CityWorld:Flooded##
+* ##/mw create ///cityname// plugin:CityWorld:SandDunes##
+* ##/mw create ///cityname// plugin:CityWorld:SnowDunes##
 
 === [[http://dev.bukkit.org/server-mods/dimensiondoor/|DimensionDoor]]
 [[http://dev.bukkit.org/server-mods/dimensiondoor/|(for more info)]]
@@ -65,5 +71,5 @@ Creating worlds with DimensionDoor is more like a conversation than simply typin
 To start the conversation simply type the following into the command console...
 * ##/dd create##
 You will then be prompted for each piece of information needed. 
-Some of the answers are tricky and there are a number of tutorials out there to help new users to DimensionDoor.
+Some of the answers are tricky and there are a number of tutorials out there to help new users to DimensionDoor, see their [[http://dev.bukkit.org/server-mods/dimensiondoor/|DevBukkit page]]
 
