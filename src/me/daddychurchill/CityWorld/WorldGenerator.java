@@ -351,6 +351,9 @@ public class WorldGenerator extends ChunkGenerator {
 				if (platmap != null) {
 					platmap.generateBlocks(realChunk);
 					
+					// finalize things
+					chunkGen.lootProvider.saveLoots();
+					
 					// Originally by Sablednah
 					// Moved and modified a bit by DaddyChurchill
 					CityWorldEvent event = new CityWorldEvent(chunk, platmap, platmap.getMapLot(chunkX, chunkZ));

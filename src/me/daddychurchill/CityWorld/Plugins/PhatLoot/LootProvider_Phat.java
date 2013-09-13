@@ -1,5 +1,8 @@
 package me.daddychurchill.CityWorld.Plugins.PhatLoot;
 
+import java.util.HashSet;
+import java.util.Iterator;
+
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Support.Odds;
 
@@ -11,18 +14,43 @@ import org.bukkit.block.Block;
 
 public class LootProvider_Phat extends LootProvider {
 	
+	private HashSet<PhatLoot> phatLoots;
+	public LootProvider_Phat() {
+		phatLoots = new HashSet<PhatLoot>();
+	}
+	
 	@Override
-	public void setLoot(Odds odds, LootLocation lootLocation, Block block) {
-		String name = "CityWorld_" + lootLocation;
+	public void setLoot(Odds odds, String worldPrefix, LootLocation lootLocation, Block block) {
+		String name = worldPrefix + "_" + lootLocation;
 		PhatLoot phatLoot = getByName(name);
 		phatLoot.addChest(block);
+		
+		// remember it!
+		if (!phatLoots.contains(phatLoot))
+			phatLoots.add(phatLoot);
+	}
+	
+	@Override
+	public void saveLoots() {
+		
+		// something to do?
+		if (!phatLoots.isEmpty()) {
+			
+			// save everything
+			Iterator<PhatLoot> aPhatLoot = phatLoots.iterator();
+			while (aPhatLoot.hasNext())
+				aPhatLoot.next().saveChests();
+			
+			// for get about it!
+			phatLoots.clear();
+		}
 	}
 	
 	private static PhatLoot getByName(String name){
 		PhatLoot phatLoot;
 		
 		if (!PhatLoots.hasPhatLoot(name)) {
-        	PhatLoots.addPhatLoot(new PhatLoot(name));        	
+        	PhatLoots.addPhatLoot(new PhatLoot(name));    	
         }
 		
 		phatLoot = PhatLoots.getPhatLoot(name);

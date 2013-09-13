@@ -17,6 +17,7 @@ v2.93
 * Added latest Minecraft 1.6.2 materials
 * Still no furniture in the Houses, Bunkers or Sheds, sorry
 * Fixed (and likely added) bugs, one really nasty one made all the isolated buildings in the mountains not generate ...oh yea, while fixing that I added occasional camp sites out in the mountains
+* For those interested in PhatLoot, I am in contact with Codisimus to work out what is goofed with the integration
 
 v2.9
 * Tested against Bukkit 1.5.1-R0.2

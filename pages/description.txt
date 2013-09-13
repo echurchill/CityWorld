@@ -22,7 +22,10 @@ v2.93
 * Added latest Minecraft 1.6.2 materials
 * Still no furniture in the Houses, Bunkers or Sheds, sorry
 * Fixed (and likely added) bugs, one really nasty one made all the isolated buildings in the mountains not generate ...oh yea, while fixing that I added occasional camp sites out in the mountains
+* For those interested in PhatLoot, I am in contact with Codisimus to work out what is goofed with the integration
 [[http://dev.bukkit.org/server-mods/cityworld/pages/version/|more info...]]
+
+Remember, if you aren't up for using the latest beta of Bukkit or the bugs from this one bother you too much, the older versions are still available.
 
 ----
 ** Personal note **

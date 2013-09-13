@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
-    <jar path="C:/Users/Eddie/Desktop/Minecraft/plugins/CityWorld.jar"/>
+    <jar path="C:/Users/Eddie/Minecraft/plugins/CityWorld.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/CityWorld/CityWorldToMinecraft.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>

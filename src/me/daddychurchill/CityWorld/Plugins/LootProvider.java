@@ -14,7 +14,8 @@ public abstract class LootProvider extends Provider {
 	
 	public enum LootLocation {SEWER, MINE, BUNKER, STORAGESHED};
 	
-	public void setLoot(Odds odds, LootLocation chestLocation, Block block) {}
+	public abstract void setLoot(Odds odds, String worldPrefix, LootLocation chestLocation, Block block);
+	public abstract void saveLoots();
 
 	public static LootProvider loadProvider(WorldGenerator generator) {
 

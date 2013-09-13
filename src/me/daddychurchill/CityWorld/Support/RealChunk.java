@@ -235,8 +235,7 @@ public class RealChunk extends SupportChunk {
 	public boolean setEmptyBlock(int x, int y, int z, Material material) {
 		Block block = chunk.getBlock(x, y, z);
 		if (block.isEmpty()) {
-			block.setTypeId(material.getId(), doPhysics);
-			return true;
+			return block.setTypeId(material.getId(), doPhysics);
 		} else
 			return false;
 	}
@@ -244,8 +243,7 @@ public class RealChunk extends SupportChunk {
 	public boolean setEmptyBlock(int x, int y, int z, int type, byte data) {
 		Block block = chunk.getBlock(x, y, z);
 		if (block.isEmpty()) {
-			block.setTypeIdAndData(type, data, doPhysics);
-			return true;
+			return block.setTypeIdAndData(type, data, doPhysics);
 		} else
 			return false;
 	}
@@ -253,8 +251,7 @@ public class RealChunk extends SupportChunk {
 	public boolean setEmptyBlock(int x, int y, int z, Material material, boolean aDoPhysics) {
 		Block block = chunk.getBlock(x, y, z);
 		if (block.isEmpty()) {
-			block.setTypeId(material.getId(), aDoPhysics);
-			return true;
+			return block.setTypeId(material.getId(), aDoPhysics);
 		} else
 			return false;
 	}
@@ -262,8 +259,7 @@ public class RealChunk extends SupportChunk {
 	public boolean setEmptyBlock(int x, int y, int z, int type, byte data, boolean aDoPhysics) {
 		Block block = chunk.getBlock(x, y, z);
 		if (block.isEmpty()) {
-			block.setTypeIdAndData(type, data, aDoPhysics);
-			return true;
+			return block.setTypeIdAndData(type, data, aDoPhysics);
 		} else
 			return false;
 	}
@@ -515,32 +511,35 @@ public class RealChunk extends SupportChunk {
 	private final static int chestId = Material.CHEST.getId();
 	public void setChest(int x, int y, int z, Direction.General direction, Odds odds, LootProvider lootProvider, LootLocation lootLocation) {
 		Block block = chunk.getBlock(x, y, z);
-		block.setTypeIdAndData(chestId, direction.getData(), false);
-		if (block.getTypeId() == chestId) {
-			lootProvider.setLoot(odds, lootLocation, block);
+		if (block.setTypeIdAndData(chestId, direction.getData(), false)) {
+			if (block.getTypeId() == chestId) {
+				lootProvider.setLoot(odds, world.getName(), lootLocation, block);
+			}
 		}
 	}
 
 	private final static int spawnerId = Material.MOB_SPAWNER.getId();
 	public void setSpawner(int x, int y, int z, EntityType aType) {
 		Block block = chunk.getBlock(x, y, z);
-		block.setTypeId(spawnerId, false);
-		if (block.getTypeId() == spawnerId) {
-			CreatureSpawner spawner = (CreatureSpawner) block.getState();
-			spawner.setSpawnedType(aType);
-			spawner.update(true);
+		if (block.setTypeId(spawnerId, false)) {
+			if (block.getTypeId() == spawnerId) {
+				CreatureSpawner spawner = (CreatureSpawner) block.getState();
+				spawner.setSpawnedType(aType);
+				spawner.update(true);
+			}
 		}
 	}
 	
 	private final static int signId = Material.WALL_SIGN.getId();
 	public void setWallSign(int x, int y, int z, Direction.General direction, String[] text) {
 		Block block = chunk.getBlock(x, y, z);
-		block.setTypeIdAndData(signId, direction.getData(), false);
-		if (block.getTypeId() == signId) {
-			Sign sign = (Sign) block.getState();
-			for (int i = 0; i < text.length && i < 4; i++) 
-				sign.setLine(i, text[i]);
-			sign.update(true);
+		if (block.setTypeIdAndData(signId, direction.getData(), false)) {
+			if (block.getTypeId() == signId) {
+				Sign sign = (Sign) block.getState();
+				for (int i = 0; i < text.length && i < 4; i++) 
+					sign.setLine(i, text[i]);
+				sign.update(true);
+			}
 		}
 	}
 	

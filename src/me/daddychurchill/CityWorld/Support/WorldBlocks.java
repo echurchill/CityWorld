@@ -202,8 +202,7 @@ public class WorldBlocks extends SupportChunk {
 	public boolean setEmptyBlock(int x, int y, int z, Material material) {
 		Block block = world.getBlockAt(x, y, z);
 		if (block.isEmpty()) {
-			block.setTypeId(material.getId(), doPhysics);
-			return true;
+			return block.setTypeId(material.getId(), doPhysics);
 		} else
 			return false;
 	}
@@ -211,8 +210,7 @@ public class WorldBlocks extends SupportChunk {
 	public boolean setEmptyBlock(int x, int y, int z, int type, byte data) {
 		Block block = world.getBlockAt(x, y, z);
 		if (block.isEmpty()) {
-			block.setTypeIdAndData(type, data, doPhysics);
-			return true;
+			return block.setTypeIdAndData(type, data, doPhysics);
 		} else
 			return false;
 	}
@@ -220,8 +218,7 @@ public class WorldBlocks extends SupportChunk {
 	public boolean setEmptyBlock(int x, int y, int z, Material material, boolean aDoPhysics) {
 		Block block = world.getBlockAt(x, y, z);
 		if (block.isEmpty()) {
-			block.setTypeId(material.getId(), aDoPhysics);
-			return true;
+			return block.setTypeId(material.getId(), aDoPhysics);
 		} else
 			return false;
 	}
@@ -229,8 +226,7 @@ public class WorldBlocks extends SupportChunk {
 	public boolean setEmptyBlock(int x, int y, int z, int type, byte data, boolean aDoPhysics) {
 		Block block = world.getBlockAt(x, y, z);
 		if (block.isEmpty()) {
-			block.setTypeIdAndData(type, data, aDoPhysics);
-			return true;
+			return block.setTypeIdAndData(type, data, aDoPhysics);
 		} else
 			return false;
 	}
