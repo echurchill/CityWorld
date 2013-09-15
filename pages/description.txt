@@ -17,12 +17,12 @@ if the above version isn't available check back in an hour or so...
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
 v2.93
-* Tested against Minecraft 1.6.2, Bukkit 1.6.2-R0.1 and 1.6.1-R0.1
+* Tested against Minecraft 1.6.2, Bukkit 1.6.2-R0.1 and 1.6.1-R0.1. It should work against 1.6.2.R1 but generates a lot of deprecation warnings due to their, in my opinion, valid but premature attempt at removing "Magic Values".
 * Added three more world styles: {{http://dev.bukkit.org/media/images/60/63/2013-07-23_20.08.41.jpg|Flooded}}, {{http://dev.bukkit.org/media/images/60/64/2013-07-07_13.59.27.jpg|SandDunes}}, and {{http://dev.bukkit.org/media/images/60/65/2013-07-19_12.07.23.jpg|SnowDunes}}
 * Added latest Minecraft 1.6.2 materials
-* Still no furniture in the Houses, Bunkers or Sheds, sorry
 * Fixed (and likely added) bugs, one really nasty one made all the isolated buildings in the mountains not generate ...oh yea, while fixing that I added occasional camp sites out in the mountains
-* For those interested in PhatLoot, I am in contact with Codisimus to work out what is goofed with the integration
+* For those who use PhatLoot, with help from Codisimus, I think it works now
+* Still no furniture in the Houses, Bunkers or Sheds, sorry
 [[http://dev.bukkit.org/server-mods/cityworld/pages/version/|more info...]]
 
 Remember, if you aren't up for using the latest beta of Bukkit or the bugs from this one bother you too much, the older versions are still available.
@@ -31,8 +31,8 @@ Remember, if you aren't up for using the latest beta of Bukkit or the bugs from 
 ** Personal note **
 
 It has been a while, sorry but my day job continues to be a bit crazy and is pretty much taking up all of my time. 
-Things should start to calm down mid-September for a little bit... hopefully.
 Here is a 1.6.2 happy version with some stuff I have been toying with, specifically three more world styles. 
+Due to changes in Bukkit 1.6.2 (lots of deprecated APIs), it is possible that CityWorld will have to rewritten quite a bit. I am still investigating my options but it is very possible that I might start over from scratch... Time will tell. 
 
 ----
 === Index of useful info ===
