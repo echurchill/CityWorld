@@ -45,8 +45,8 @@ public class RealChunk extends SupportChunk {
 	}
 	
 	@Override
-	public int getBlockType(int x, int y, int z) {
-		return getBlock(x, y, z).getId();
+	public byte getBlockType(int x, int y, int z) {
+		return ByteChunk.getMaterialId(getBlock(x, y, z));
 	}
 
 	public Material getBlock(int x, int y, int z) {
@@ -65,7 +65,7 @@ public class RealChunk extends SupportChunk {
 	@Override
 	public void clearBlocks(int x, int y1, int y2, int z) {
 		for (int y = y1; y < y2; y++)
-			chunk.getBlock(x, y, z).setTypeIdAndData(airId, (byte) 0, doPhysics);
+			setBlockType(chunk.getBlock(x, y, z), airId, doPhysics);
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class RealChunk extends SupportChunk {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
-					chunk.getBlock(x, y, z).setTypeIdAndData(airId, (byte) 0, doPhysics);
+					setBlockType(chunk.getBlock(x, y, z), airId, doPhysics);
 				}
 			}
 		}
@@ -81,143 +81,122 @@ public class RealChunk extends SupportChunk {
 
 	@Override
 	public void setBlock(int x, int y, int z, byte materialId) {
-		chunk.getBlock(x, y, z).setTypeId(materialId & 0xFF, doPhysics);
+		setBlockType(chunk.getBlock(x, y, z), materialId, doPhysics);
 	}
 
 	public void setBlock(int x, int y, int z, Material material) {
-		chunk.getBlock(x, y, z).setTypeId(material.getId(), doPhysics);
+		setBlockType(chunk.getBlock(x, y, z), material, doPhysics);
 	}
 
-	public void setBlock(int x, int y, int z, int type, byte data) {
-		chunk.getBlock(x, y, z).setTypeIdAndData(type, data, doPhysics);
+	public void setBlock(int x, int y, int z, byte type, byte data) {
+		setBlockType(chunk.getBlock(x, y, z), type, data, doPhysics);
 	}
 	
 	public void setBlock(int x, int y, int z, Material material, byte data) {
-		chunk.getBlock(x, y, z).setTypeIdAndData(material.getId(), data, doPhysics);
+		setBlockType(chunk.getBlock(x, y, z), material, data, doPhysics);
 	}
 
 	public void setBlock(int x, int y, int z, Material material, boolean aDoPhysics) {
-		chunk.getBlock(x, y, z).setTypeId(material.getId(), aDoPhysics);
+		setBlockType(chunk.getBlock(x, y, z), material, aDoPhysics);
 	}
 
-	public void setBlock(int x, int y, int z, int type, byte data, boolean aDoPhysics) {
-		chunk.getBlock(x, y, z).setTypeIdAndData(type, data, aDoPhysics);
+	public void setBlock(int x, int y, int z, byte type, byte data, boolean aDoPhysics) {
+		setBlockType(chunk.getBlock(x, y, z), type, data, aDoPhysics);
 	}
 	
 	public void setBlock(int x, int y, int z, Material material, byte data, boolean aDoPhysics) {
-		chunk.getBlock(x, y, z).setTypeIdAndData(material.getId(), data, aDoPhysics);
+		setBlockType(chunk.getBlock(x, y, z), material, data, aDoPhysics);
 	}
 
+	//================ x, y1, y2, z
 	public void setBlocks(int x, int y1, int y2, int z, Material material) {
-		for (int y = y1; y < y2; y++)
-			chunk.getBlock(x, y, z).setType(material);
+		setBlocks(x, y1, y2, z, getMaterialId(material), noData, doPhysics);
+	}
+
+	public void setBlocks(int x, int y1, int y2, int z, Material material, byte data) {
+		setBlocks(x, y1, y2, z, getMaterialId(material), data, doPhysics);
+	}
+
+	public void setBlocks(int x, int y1, int y2, int z, Material material, byte data, boolean aDoPhysics) {
+		setBlocks(x, y1, y2, z, getMaterialId(material), data, aDoPhysics);
 	}
 
 	@Override
 	public void setBlocks(int x, int y1, int y2, int z, byte type) {
-		for (int y = y1; y < y2; y++)
-			chunk.getBlock(x, y, z).setTypeIdAndData(type & 0xFF, (byte) 0, doPhysics);
+		setBlocks(x, y1, y2, z, type, noData, doPhysics);
 	}
 
+	public void setBlocks(int x, int y1, int y2, int z, byte type, boolean aDoPhysics) {
+		setBlocks(x, y1, y2, z, type, noData, doPhysics);
+	}
+
+	public void setBlocks(int x, int y1, int y2, int z, byte type, byte data, boolean aDoPhysics) {
+		for (int y = y1; y < y2; y++)
+			setBlockType(chunk.getBlock(x, y, z), type, aDoPhysics);
+	}
+
+	//================ x1, x2, y1, y2, z1, z2
 	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
-		for (int x = x1; x < x2; x++) {
-			for (int y = y1; y < y2; y++) {
-				for (int z = z1; z < z2; z++) {
-					chunk.getBlock(x, y, z).setType(material);
-				}
-			}
-		}
-	}
-
-	public void setBlocks(int x, int y1, int y2, int z, Material material, byte data) {
-		for (int y = y1; y < y2; y++)
-			chunk.getBlock(x, y, z).setTypeIdAndData(material.getId(), data, doPhysics);
-	}
-
-	public void setBlocks(int x, int y1, int y2, int z, Material material, byte data, boolean aDoPhysics) {
-		for (int y = y1; y < y2; y++)
-			chunk.getBlock(x, y, z).setTypeIdAndData(material.getId(), data, aDoPhysics);
-	}
-
-	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, byte data, boolean aDoPhysics) {
-		for (int x = x1; x < x2; x++) {
-			for (int y = y1; y < y2; y++) {
-				for (int z = z1; z < z2; z++) {
-					chunk.getBlock(x, y, z).setTypeIdAndData(material.getId(), data, aDoPhysics);
-				}
-			}
-		}
+		setBlocks(x1, x2, y1, y2, z1, z2, getMaterialId(material), noData);
 	}
 
 	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, byte data) {
+		setBlocks(x1, x2, y1, y2, z1, z2, getMaterialId(material), data, doPhysics);
+	}
+
+	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, byte data, boolean aDoPhysics) {
+		setBlocks(x1, x2, y1, y2, z1, z2, getMaterialId(material), data, aDoPhysics);
+	}
+
+	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte type, byte data) {
+		setBlocks(x1, x2, y1, y2, z1, z2, type, data, doPhysics);
+	}
+
+	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte type, byte data, boolean aDoPhysics) {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
-					chunk.getBlock(x, y, z).setTypeIdAndData(material.getId(), data, doPhysics);
+					setBlockType(chunk.getBlock(x, y, z), type, data, aDoPhysics);
 				}
-			}
-		}
-	}
-
-	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, int type, byte data) {
-		for (int x = x1; x < x2; x++) {
-			for (int y = y1; y < y2; y++) {
-				for (int z = z1; z < z2; z++) {
-					chunk.getBlock(x, y, z).setTypeIdAndData(type, data, doPhysics);
-				}
-			}
-		}
-	}
-
-	@Override
-	public void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				chunk.getBlock(x, y, z).setTypeId(materialId & 0xFF, doPhysics);
 			}
 		}
 	}
 	
+	//================ x1, x2, y, z1, z2
 	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				chunk.getBlock(x, y, z).setTypeId(material.getId(), doPhysics);
-			}
-		}
-	}
-
-	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, boolean aDoPhysics) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				chunk.getBlock(x, y, z).setTypeId(material.getId(), aDoPhysics);
-			}
-		}
-	}
-
-	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, byte data, boolean aDoPhysics) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				chunk.getBlock(x, y, z).setTypeIdAndData(material.getId(), data, aDoPhysics);
-			}
-		}
+		setBlocks(x1, x2, y, z1, z2, getMaterialId(material), noData, doPhysics);
 	}
 
 	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, byte data) {
+		setBlocks(x1, x2, y, z1, z2, getMaterialId(material), data, doPhysics);
+	}
+
+	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, boolean aDoPhysics) {
+		setBlocks(x1, x2, y, z1, z2, getMaterialId(material), noData, doPhysics);
+	}
+
+	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, byte data, boolean aDoPhysics) {
+		setBlocks(x1, x2, y, z1, z2, getMaterialId(material), data, aDoPhysics);
+	}
+
+	@Override
+	public void setBlocks(int x1, int x2, int y, int z1, int z2, byte typeId) {
+		setBlocks(x1, x2, y, z1, z2, typeId, noData, doPhysics);
+	}
+
+	public void setBlocks(int x1, int x2, int y, int z1, int z2, byte typeId, byte data) {
+		setBlocks(x1, x2, y, z1, z2, typeId, data, doPhysics);
+	}
+	
+	public void setBlocks(int x1, int x2, int y, int z1, int z2, byte typeId, byte data, boolean aDoPhysics) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				chunk.getBlock(x, y, z).setTypeIdAndData(material.getId(), data, doPhysics);
+				setBlockType(chunk.getBlock(x, y, z), typeId, data, aDoPhysics);
 			}
 		}
 	}
-
-//	public void setBlocks(int x1, int x2, int y, int z1, int z2, int type, byte data) {
-//		for (int x = x1; x < x2; x++) {
-//			for (int z = z1; z < z2; z++) {
-//				chunk.getBlock(x, y, z).setTypeIdAndData(type, data, doPhysics);
-//			}
-//		}
-//	}
-
+	
+	
 	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
 		setBlocks(x1, x2, y1, y2, z1, z1 + 1, material);
 		setBlocks(x1, x2, y1, y2, z2 - 1, z2, material);
@@ -225,7 +204,7 @@ public class RealChunk extends SupportChunk {
 		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material);
 	}
 	
-	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, int type, byte data) {
+	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, byte type, byte data) {
 		setBlocks(x1, x2, y1, y2, z1, z1 + 1, type, data);
 		setBlocks(x1, x2, y1, y2, z2 - 1, z2, type, data);
 		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, type, data);
@@ -235,15 +214,15 @@ public class RealChunk extends SupportChunk {
 	public boolean setEmptyBlock(int x, int y, int z, Material material) {
 		Block block = chunk.getBlock(x, y, z);
 		if (block.isEmpty()) {
-			return block.setTypeId(material.getId(), doPhysics);
+			return setBlockType(block, material, doPhysics);
 		} else
 			return false;
 	}
 
-	public boolean setEmptyBlock(int x, int y, int z, int type, byte data) {
+	public boolean setEmptyBlock(int x, int y, int z, byte type, byte data) {
 		Block block = chunk.getBlock(x, y, z);
 		if (block.isEmpty()) {
-			return block.setTypeIdAndData(type, data, doPhysics);
+			return setBlockType(block, type, data, doPhysics);
 		} else
 			return false;
 	}
@@ -251,15 +230,15 @@ public class RealChunk extends SupportChunk {
 	public boolean setEmptyBlock(int x, int y, int z, Material material, boolean aDoPhysics) {
 		Block block = chunk.getBlock(x, y, z);
 		if (block.isEmpty()) {
-			return block.setTypeId(material.getId(), aDoPhysics);
+			return setBlockType(block, material, aDoPhysics);
 		} else
 			return false;
 	}
 
-	public boolean setEmptyBlock(int x, int y, int z, int type, byte data, boolean aDoPhysics) {
+	public boolean setEmptyBlock(int x, int y, int z, byte type, byte data, boolean aDoPhysics) {
 		Block block = chunk.getBlock(x, y, z);
 		if (block.isEmpty()) {
-			return block.setTypeIdAndData(type, data, aDoPhysics);
+			return setBlockType(block, type, data, aDoPhysics);
 		} else
 			return false;
 	}
@@ -274,12 +253,12 @@ public class RealChunk extends SupportChunk {
 		}
 	}
 	
-	public void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, int type, byte data, boolean aDoPhysics) {
+	public void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, byte type, byte data, boolean aDoPhysics) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				Block block = chunk.getBlock(x, y, z);
 				if (block.isEmpty())
-					block.setTypeIdAndData(type, data, aDoPhysics);
+					setBlockType(block, type, data, aDoPhysics);
 			}
 		}
 	}
@@ -416,7 +395,7 @@ public class RealChunk extends SupportChunk {
 		setBlock(x, y, z, Material.WOOL, (byte)color.ordinal());
 	}
 	
-	private void setDoor(int x, int y, int z, int doorId, Direction.Door direction) {
+	private void setDoor(int x, int y, int z, Material material, Direction.Door direction) {
 		byte orentation = 0;
 		byte hinge = 0;
 		
@@ -457,72 +436,69 @@ public class RealChunk extends SupportChunk {
 		}
 		
 		// set the door
-		chunk.getBlock(x, y + 1, z).setTypeIdAndData(doorId, hinge, false);
-		chunk.getBlock(x, y    , z).setTypeIdAndData(doorId, orentation, doPhysics);
+		setBlockType(chunk.getBlock(x, y + 1, z), material, hinge, false);
+		setBlockType(chunk.getBlock(x, y    , z), material, orentation, doPhysics);
 	}
 
 	public void setWoodenDoor(int x, int y, int z, Direction.Door direction) {
-		setDoor(x, y, z, Material.WOODEN_DOOR.getId(), direction);
+		setDoor(x, y, z, Material.WOODEN_DOOR, direction);
 	}
 
 	public void setIronDoor(int x, int y, int z, Direction.Door direction) {
-		setDoor(x, y, z, Material.IRON_DOOR_BLOCK.getId(), direction);
+		setDoor(x, y, z, Material.IRON_DOOR_BLOCK, direction);
 	}
 
 	public void setTrapDoor(int x, int y, int z, Direction.TrapDoor direction) {
-		setBlock(x, y, z, Material.TRAP_DOOR.getId(), direction.getData());
+		setBlock(x, y, z, Material.TRAP_DOOR, direction.getData());
 	}
 
 	public void setStoneSlab(int x, int y, int z, Direction.StoneSlab direction) {
-		setBlock(x, y, z, Material.STEP.getId(), direction.getData());
+		setBlock(x, y, z, Material.STEP, direction.getData());
 	}
 
 	public void setWoodSlab(int x, int y, int z, Direction.WoodSlab direction) {
-		setBlock(x, y, z, Material.WOOD_STEP.getId(), direction.getData());
+		setBlock(x, y, z, Material.WOOD_STEP, direction.getData());
 	}
 
 	public void setLadder(int x, int y1, int y2, int z, Direction.General direction) {
-		int ladderId = Material.LADDER.getId();
 		byte data = direction.getData();
 		for (int y = y1; y < y2; y++)
-			setBlock(x, y, z, ladderId, data);
+			setBlock(x, y, z, Material.LADDER, data);
 	}
 
 	public void setStair(int x, int y, int z, Material material, Direction.Stair direction) {
-		setBlock(x, y, z, material.getId(), direction.getData());
+		setBlock(x, y, z, material, direction.getData());
 	}
 
-	public void setStair(int x, int y, int z, int type, Direction.Stair direction) {
+	public void setStair(int x, int y, int z, byte type, Direction.Stair direction) {
 		setBlock(x, y, z, type, direction.getData());
 	}
 
 	public void setVine(int x, int y, int z, Direction.Vine direction) {
-		setBlock(x, y, z, Material.VINE.getId(), direction.getData());
+		setBlock(x, y, z, Material.VINE, direction.getData());
 	}
 
 	public void setTorch(int x, int y, int z, Material material, Direction.Torch direction) {
-		setBlock(x, y, z, material.getId(), direction.getData(), true);
+		setBlock(x, y, z, material, direction.getData(), true);
 	}
 	
 	public void setFurnace(int x, int y, int z, Direction.General direction) {
-		setBlock(x, y, z, Material.FURNACE.getId(), direction.getData());
+		setBlock(x, y, z, Material.FURNACE, direction.getData());
 	}
 
-	private final static int chestId = Material.CHEST.getId();
 	public void setChest(int x, int y, int z, Direction.General direction, Odds odds, LootProvider lootProvider, LootLocation lootLocation) {
 		Block block = chunk.getBlock(x, y, z);
-		if (block.setTypeIdAndData(chestId, direction.getData(), false)) {
-			if (block.getTypeId() == chestId) {
+		if (setBlockType(block, Material.CHEST, direction.getData(), false)) {
+			if (block.getType() == Material.CHEST) {
 				lootProvider.setLoot(odds, world.getName(), lootLocation, block);
 			}
 		}
 	}
 
-	private final static int spawnerId = Material.MOB_SPAWNER.getId();
 	public void setSpawner(int x, int y, int z, EntityType aType) {
 		Block block = chunk.getBlock(x, y, z);
-		if (block.setTypeId(spawnerId, false)) {
-			if (block.getTypeId() == spawnerId) {
+		if (setBlockType(block, Material.MOB_SPAWNER, false)) {
+			if (block.getType() == Material.MOB_SPAWNER) {
 				CreatureSpawner spawner = (CreatureSpawner) block.getState();
 				spawner.setSpawnedType(aType);
 				spawner.update(true);
@@ -530,11 +506,10 @@ public class RealChunk extends SupportChunk {
 		}
 	}
 	
-	private final static int signId = Material.WALL_SIGN.getId();
 	public void setWallSign(int x, int y, int z, Direction.General direction, String[] text) {
 		Block block = chunk.getBlock(x, y, z);
-		if (block.setTypeIdAndData(signId, direction.getData(), false)) {
-			if (block.getTypeId() == signId) {
+		if (setBlockType(block, Material.WALL_SIGN, direction.getData(), false)) {
+			if (block.getType() == Material.WALL_SIGN) {
 				Sign sign = (Sign) block.getState();
 				for (int i = 0; i < text.length && i < 4; i++) 
 					sign.setLine(i, text[i]);

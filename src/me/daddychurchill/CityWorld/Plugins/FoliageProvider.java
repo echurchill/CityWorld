@@ -5,6 +5,7 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.Tekkit.FoliageProvider_Tekkit;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 import me.daddychurchill.CityWorld.Support.TreeCustomDelegate;
 import me.daddychurchill.CityWorld.Support.TreeVanillaDelegate;
 
@@ -233,8 +234,8 @@ public abstract class FoliageProvider extends Provider {
 		// where do we start?
 		int bottomY = y;
 		Block base = chunk.getActualBlock(x, y - 1, z);
-		int baseTypeId = base.getTypeId();
-		byte baseData = base.getData();
+		byte baseTypeId = SupportChunk.getMaterialId(base);
+		byte baseData = SupportChunk.getMaterialData(base);
 		try {
 			int tries = 0;
 			
@@ -247,7 +248,7 @@ public abstract class FoliageProvider extends Provider {
 				// did we make a tree?
 				if (customTree)
 					result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, 
-							getCustomTreeDelegate(chunk, odds, trunk.getId(), leaves1.getId(), leaves2.getId()));
+							getCustomTreeDelegate(chunk, odds, trunk, leaves1, leaves2));
 				else
 					result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, 
 							getVanillaTreeDelegate(chunk));
@@ -257,7 +258,8 @@ public abstract class FoliageProvider extends Provider {
 					
 					// copy the trunk down a bit
 					Block root = chunk.getActualBlock(x, y, z);
-					chunk.setBlocks(x, bottomY, y, z, root.getType(), root.getData());
+					chunk.setBlocks(x, bottomY, y, z, 
+							SupportChunk.getMaterialId(root), SupportChunk.getMaterialData(root));
 					
 					// all done
 					break;
@@ -283,12 +285,13 @@ public abstract class FoliageProvider extends Provider {
 	}
 	
 	public final static Material log = Material.LOG;
-	public final static int logId = log.getId();
+	public final static byte logId = SupportChunk.getMaterialId(log);
 	public final static Material leaves = Material.LEAVES;
-	public final static int leavesId = leaves.getId();
+	public final static byte leavesId = SupportChunk.getMaterialId(leaves);
 	
-	protected BlockChangeDelegate getCustomTreeDelegate(RealChunk chunk, Odds odds, int trunkId, int leavesId1, int leavesId2) {
-		return new TreeCustomDelegate(chunk, odds, trunkId, leavesId1, leavesId2);
+	protected BlockChangeDelegate getCustomTreeDelegate(RealChunk chunk, Odds odds, 
+			Material trunk, Material leaves1, Material leaves2) {
+		return new TreeCustomDelegate(chunk, odds, trunk, leaves1, leaves2);
 	}
 	
 	protected BlockChangeDelegate getVanillaTreeDelegate(RealChunk chunk) {

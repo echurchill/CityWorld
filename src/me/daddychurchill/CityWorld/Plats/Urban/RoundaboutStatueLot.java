@@ -178,7 +178,7 @@ public class RoundaboutStatueLot extends IsolatedLot {
 							if (crystalArt)
 								chunk.setBlock(x, y, z, Material.GLASS);
 							else
-								chunk.setBlock(x, y, z, Material.WOOL.getId(), 
+								chunk.setBlock(x, y, z, Material.WOOL, 
 											   singleArt ? solidColor : chunkOdds.getRandomColor().getData());
 			
 			// now put the base in

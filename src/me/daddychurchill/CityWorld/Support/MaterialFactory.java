@@ -14,7 +14,7 @@ public abstract class MaterialFactory {
 	protected Odds odds;
 	
 	protected double oddsOfDecay = DataContext.oddsSomewhatLikely;
-	protected byte airId = (byte) Material.AIR.getId();
+	protected byte airId = ByteChunk.getMaterialId(Material.AIR);
 	
 	public MaterialFactory(Odds odds, boolean decayed) {
 		super();

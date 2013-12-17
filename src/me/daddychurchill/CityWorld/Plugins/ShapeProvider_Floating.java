@@ -164,7 +164,6 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	
 	private final static double underworldOdds = 0.50;
 	private final static int underworldLength = 6;
-	private final static byte stoneId = (byte) Material.STONE.getId();
 	
 	@Override
 	public void postGenerateChunk(WorldGenerator generator, PlatLot lot, ByteChunk chunk, CachedYs blockYs) {
@@ -187,8 +186,8 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 			}
 			
 			// cross beams
-			chunk.setBlocks(7, 9, lotBottomY - 2, lotBottomY, 0, 16, stoneId);
-			chunk.setBlocks(0, 16, lotBottomY - 2, lotBottomY, 7, 9, stoneId);
+			chunk.setBlocks(7, 9, lotBottomY - 2, lotBottomY, 0, 16, Material.STONE);
+			chunk.setBlocks(0, 16, lotBottomY - 2, lotBottomY, 7, 9, Material.STONE);
 		}
 	}
 

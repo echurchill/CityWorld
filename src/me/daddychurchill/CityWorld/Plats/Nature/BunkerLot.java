@@ -74,7 +74,9 @@ public class BunkerLot extends ConstructLot {
 	private final static byte lavaId = (byte) Material.STATIONARY_LAVA.getId();
 	private final static byte iceId = (byte) Material.ICE.getId();
 	private final static byte spongeId = (byte) Material.SPONGE.getId();
-	private final static byte oilId = (byte) TekkitMaterial.STATIONARY_OIL;
+//NERF
+//	private final static byte oilId = (byte) TekkitMaterial.STATIONARY_OIL;
+//ENDNERF
 	
 	//private final static int bilgeEmpty = 0;
 	private final static int bilgeWater = 1;
@@ -434,11 +436,13 @@ public class BunkerLot extends ConstructLot {
 		case 4:
 			fillId = spongeId;
 			break;
-		case 5:
-			if (generator.settings.includeTekkitMaterials) { // tekkit support by gunre
-				fillId = oilId;
-				break;
-			} // else just fill with some more water
+//NERF
+//		case 5:
+//			if (generator.settings.includeTekkitMaterials) { // tekkit support by gunre
+//				fillId = oilId;
+//				break;
+//			} // else just fill with some more water
+//ENDNERF
 		default:
 			fillId = waterId;
 			break;

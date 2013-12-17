@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins.Tekkit;
 
 import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 import org.bukkit.World;
 import forge.bukkit.BukkitForgeHooks.ForgeBlockChangeDelegate;
@@ -29,7 +30,7 @@ public class TreeVanillaDelegate_Tekkit implements ForgeBlockChangeDelegate {
 
 	@Override
 	public int getTypeId(int x, int y, int z) {
-		return world.getBlockAt(x, y, z).getTypeId();
+		return SupportChunk.getMaterialId(world.getBlockAt(x, y, z));
 	}
 
 	@Override
@@ -39,21 +40,21 @@ public class TreeVanillaDelegate_Tekkit implements ForgeBlockChangeDelegate {
 
 	@Override
 	public boolean setRawTypeId(int x, int y, int z, int id) {
-		return world.getBlockAt(x, y, z).setTypeIdAndData(id, (byte) 0, false);
+		return SupportChunk.setBlockType(world.getBlockAt(x, y, z), id, 0, false);
 	}
 
 	@Override
 	public boolean setRawTypeIdAndData(int x, int y, int z, int id, int data) {
-		return world.getBlockAt(x, y, z).setTypeIdAndData(id, (byte) data, false);
+		return SupportChunk.setBlockType(world.getBlockAt(x, y, z), id, 0, false);
 	}
 
 	@Override
 	public boolean setTypeId(int x, int y, int z, int id) {
-		return world.getBlockAt(x, y, z).setTypeIdAndData(id, (byte) 0, false);
+		return SupportChunk.setBlockType(world.getBlockAt(x, y, z), id, 0, false);
 	}
 
 	@Override
 	public boolean setTypeIdAndData(int x, int y, int z, int id, int data) {
-		return world.getBlockAt(x, y, z).setTypeIdAndData(id, (byte) data, false);
+		return SupportChunk.setBlockType(world.getBlockAt(x, y, z), id, data, false);
 	}
 }

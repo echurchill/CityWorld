@@ -536,14 +536,14 @@ public abstract class PlatLot {
 	
 	protected byte getAirId(WorldGenerator generator, int y) {
 		if (getTopY(generator) <= y)
-			return ShapeProvider.airId;
+			return SupportChunk.airId;
 		else
 			return generator.shapeProvider.findAtmosphereIdAt(generator, y);
 	}
 
 	protected Material getAirMaterial(WorldGenerator generator, int y) {
 		if (getTopY(generator) <= y)
-			return ShapeProvider.airMat;
+			return Material.AIR;
 		else
 			return generator.shapeProvider.findAtmosphereMaterialAt(generator, y);
 	}

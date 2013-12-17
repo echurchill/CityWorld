@@ -294,7 +294,7 @@ public abstract class BuildingLot extends ConnectedLot {
 			boolean allowRounded, Material material, Surroundings heights) {
 		
 		// precalculate
-		byte materialId = (byte) material.getId();
+		byte materialId = ByteChunk.getMaterialId(material);
 		byte emptyId = getAirId(generator, y1);
 		int y2 = y1 + height;
 		boolean stillNeedCeiling = true;
@@ -368,8 +368,8 @@ public abstract class BuildingLot extends ConnectedLot {
 			boolean allowRounded, Material materialWall, Material materialGlass, Surroundings heights) {
 		
 		// precalculate
-		byte wallId = (byte) materialWall.getId();
-		byte glassId = (byte) materialGlass.getId();
+		byte wallId = ByteChunk.getMaterialId(materialWall);
+		byte glassId = ByteChunk.getMaterialId(materialGlass);
 		int y2 = y1 + height;
 		boolean stillNeedWalls = true;
 		int inset = Math.max(insetNS, insetWE);
@@ -631,8 +631,8 @@ public abstract class BuildingLot extends ConnectedLot {
 		//TODO Atrium in the middle of 2x2
 		
 		// precalculate
-		byte wallId = (byte) materialWall.getId();
-		byte glassId = (byte) materialGlass.getId();
+		byte wallId = ByteChunk.getMaterialId(materialWall);
+		byte glassId = ByteChunk.getMaterialId(materialGlass);
 		int y2 = y1 + floorHeight;
 		int x1 = heights.toWest() ? 0 : insetWE + 1;
 		int x2 = chunk.width - (heights.toEast() ? 0 : (insetWE + 1));

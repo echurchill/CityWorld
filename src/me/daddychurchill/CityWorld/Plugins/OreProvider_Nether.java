@@ -1,6 +1,5 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import org.bukkit.Material;
 import org.bukkit.block.Biome;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
@@ -8,22 +7,23 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class OreProvider_Nether extends OreProvider {
 	
-	public final static byte stillLavaId = (byte) Material.STATIONARY_LAVA.getId();
-	public final static byte netherrackId = (byte) Material.NETHERRACK.getId();
+//	public final static byte stillLavaId = (byte) Material.STATIONARY_LAVA.getId();
+//	public final static byte netherrackId = (byte) Material.NETHERRACK.getId();
 	
 	public OreProvider_Nether(WorldGenerator generator) {
 		super(generator);
 		
-		surfaceId = netherrackId;
-		subsurfaceId = netherrackId;
-		stratumId = netherrackId;
+		surfaceId = SupportChunk.netherrackId;
+		subsurfaceId = SupportChunk.netherrackId;
+		stratumId = SupportChunk.netherrackId;
 		
-		fluidId = stillLavaId;
-		fluidSubsurfaceId = netherrackId;
-		fluidSurfaceId = netherrackId;
+		fluidId = SupportChunk.stillLavaId;
+		fluidSubsurfaceId = SupportChunk.netherrackId;
+		fluidSurfaceId = SupportChunk.netherrackId;
 	}
 
 	@Override
@@ -45,11 +45,11 @@ public class OreProvider_Nether extends OreProvider {
 	 * wildly modified by daddychurchill
 	 */
 	
-	private static final int[] ore_types = new int[] {Material.LAVA.getId(), 
-		  											  Material.GRAVEL.getId(), 
-		  											  Material.SOUL_SAND.getId(), 
-		  											  Material.GLOWSTONE.getId()
-		  											  }; 
+	private static final byte[] ore_types = new byte[] {SupportChunk.fluidLavaId,
+														SupportChunk.gravelId,
+														SupportChunk.soulsandId,
+														SupportChunk.glowstoneId};
+														
 	//                                                          LAVA   GRAV   SOUL   GLOW  
 	private static final int[] ore_iterations = new int[]    {    12,    20,    40,    20};
 	private static final int[] ore_amountToDo = new int[]    {     2,    16,    16,    10};

@@ -12,7 +12,7 @@ public class ByteChunk extends SupportChunk {
 	public byte[][] blocks;
 	
 	public static final int bytesPerSection = chunksBlockWidth * chunksBlockWidth * chunksBlockWidth;
-		
+	
 	public ByteChunk(WorldGenerator aGenerator, int aChunkX, int aChunkZ) {
 		super(aGenerator);
 		
@@ -25,7 +25,7 @@ public class ByteChunk extends SupportChunk {
 	}
 	
 	@Override
-	public int getBlockType(int x, int y, int z) {
+	public byte getBlockType(int x, int y, int z) {
 		return getBlock(x, y, z);
 	}
 	
@@ -45,7 +45,7 @@ public class ByteChunk extends SupportChunk {
 	}
 	
 	public void setBlock(int x, int y, int z, Material material) {
-		setBlock(x, y, z, (byte) material.getId());
+		setBlock(x, y, z, getMaterialId(material));
 	}
 	
 	public void setBlockIfAir(int x, int y, int z, byte materialId) {
@@ -59,7 +59,7 @@ public class ByteChunk extends SupportChunk {
 	}
 	
 	public void setBlocks(int x, int y1, int y2, int z, Material material) {
-		setBlocks(x, y1, y2, z, (byte) material.getId());
+		setBlocks(x, y1, y2, z, getMaterialId(material));
 	}
 	
 	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte materialId) {
@@ -72,7 +72,7 @@ public class ByteChunk extends SupportChunk {
 	}
 	
 	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
-		setBlocks(x1, x2, y1, y2, z1, z2, (byte) material.getId());
+		setBlocks(x1, x2, y1, y2, z1, z2, getMaterialId(material));
 	}
 	
 	@Override
@@ -85,7 +85,7 @@ public class ByteChunk extends SupportChunk {
 	}
 	
 	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
-		setBlocks(x1, x2, y, z1, z2, (byte) material.getId());
+		setBlocks(x1, x2, y, z1, z2, getMaterialId(material));
 	}
 	
 	@Override
@@ -118,7 +118,7 @@ public class ByteChunk extends SupportChunk {
 	}
 	
 	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
-		setWalls(x1, x2, y1, y2, z1, z2, (byte) material.getId());
+		setWalls(x1, x2, y1, y2, z1, z2, getMaterialId(material));
 	}
 	
 	public boolean setEmptyBlock(int x, int y, int z, byte materialId) {
@@ -130,7 +130,7 @@ public class ByteChunk extends SupportChunk {
 	}
 	
 	public boolean setEmptyBlock(int x, int y, int z, Material material) {
-		return setEmptyBlock(x, y, z, (byte) material.getId());
+		return setEmptyBlock(x, y, z, getMaterialId(material));
 	}
 
 	public void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, byte materialId) {
@@ -143,7 +143,7 @@ public class ByteChunk extends SupportChunk {
 	}
 	
 	public void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
-		setEmptyBlocks(x1, x2, y, z1, z2, (byte) material.getId());
+		setEmptyBlocks(x1, x2, y, z1, z2, getMaterialId(material));
 	}
 	
 	public int findLastEmptyAbove(int x, int y, int z) {
@@ -167,7 +167,7 @@ public class ByteChunk extends SupportChunk {
 	}
 	
 	public void setBlocksAt(int y, Material material) {
-		setBlocks(0, width, y, y + 1, 0, width, (byte) material.getId());
+		setBlocks(0, width, y, y + 1, 0, width, getMaterialId(material));
 	}
 	
 	public void setBlocksAt(int y1, int y2, byte materialId) {
@@ -175,7 +175,7 @@ public class ByteChunk extends SupportChunk {
 	}
 	
 	public void setBlocksAt(int y1, int y2, Material material) {
-		setBlocks(0, width, y1, y2, 0, width, (byte) material.getId());
+		setBlocks(0, width, y1, y2, 0, width, getMaterialId(material));
 	}
 	
 	public void setAllBlocks(byte materialID) {
@@ -196,7 +196,7 @@ public class ByteChunk extends SupportChunk {
 	}
 
 	public void setAllBlocks(Material material) {
-		setAllBlocks((byte) material.getId());
+		setAllBlocks(getMaterialId(material));
 	}
 	
 	public void replaceBlocks(byte fromId, byte toId) {
@@ -225,7 +225,7 @@ public class ByteChunk extends SupportChunk {
 	}
 
 	public void replaceBlocks(Material fromMaterial, Material toMaterial) {
-		replaceBlocks((byte) fromMaterial.getId(), (byte) toMaterial.getId());
+		replaceBlocks(getMaterialId(fromMaterial), getMaterialId(toMaterial));
 	}
 	
 	public int setLayer(int blocky, byte materialId) {

@@ -23,7 +23,9 @@ public class FoliageProvider_Tekkit extends FoliageProvider_Normal {
 			//return generateTree(chunk, random, x, y, z, treeType, trunkId, leavesId1, leavesId2);
 			if (likelyFlora(generator, odds)) {
 				chunk.setBlock(x, y - 1, z, Material.GRASS);
-				chunk.setBlock(x, y, z, TekkitMaterial.RUBBER_SAPLING, (byte) 0, true);
+//NERF
+//				chunk.setBlock(x, y, z, TekkitMaterial.RUBBER_SAPLING, (byte) 0, true);
+//ENDNERF
 			}
 			return true;
 		} else
@@ -31,8 +33,9 @@ public class FoliageProvider_Tekkit extends FoliageProvider_Normal {
 	}
 	
 	@Override
-	protected BlockChangeDelegate getCustomTreeDelegate(RealChunk chunk, Odds odds, int trunkId, int leavesId1, int leavesId2) {
-		return new TreeCustomDelegate_Tekkit(chunk, odds, trunkId, leavesId1, leavesId2);
+	protected BlockChangeDelegate getCustomTreeDelegate(RealChunk chunk, Odds odds, 
+			Material trunk, Material leaves1, Material leaves2) {
+		return new TreeCustomDelegate_Tekkit(chunk, odds, trunk, leaves1, leaves2);
 	}
 	
 	@Override

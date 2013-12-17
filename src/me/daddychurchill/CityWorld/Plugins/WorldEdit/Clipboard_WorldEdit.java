@@ -3,13 +3,13 @@ package me.daddychurchill.CityWorld.Plugins.WorldEdit;
 import java.io.File;
 import java.io.IOException;
 
-import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.Clipboard;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 import com.sk89q.worldedit.CuboidClipboard;
 import com.sk89q.worldedit.CuboidClipboard.FlipDirection;
@@ -104,10 +104,10 @@ public class Clipboard_WorldEdit extends Clipboard {
 		
 		// grab the edge block
 		BaseBlock edge = cuboid.getPoint(new Vector(0, groundLevelY, 0));
-		edgeType = Material.getMaterial(edge.getType());
+		edgeType = SupportChunk.getMaterial(edge.getType());
 		edgeData = (byte) edge.getData(); //TODO I think that data can be integers... one of these days
 		//edgeData = (byte)((edge.getData() & 0x000000ff)); // this would make overflows not error out but let's not do that
-		edgeRise = generator.oreProvider.surfaceId == edgeType.getId() ? 0 : 1;
+		edgeRise = generator.oreProvider.surfaceId == SupportChunk.getMaterialId(edgeType) ? 0 : 1;
 		
 		// allocate the blocks
 		facingCount = 1;

@@ -20,6 +20,7 @@ import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 
@@ -106,15 +107,15 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 		return floodY;
 	}
 
-	private final static Material snowMat = Material.SNOW_BLOCK;
+//	private final static Material snowMat = Material.SNOW_BLOCK;
 //	private final static Material snowMat = Material.GLASS;
-	private final static byte snowId = (byte) snowMat.getId();
-	private final static byte snowCoverId = (byte) Material.SNOW.getId();
+//	private final static byte snowId = (byte) snowMat.getId();
+//	private final static byte snowCoverId = (byte) Material.SNOW.getId();
 	
 	@Override
 	public byte findAtmosphereIdAt(WorldGenerator generator, int blockY) {
 		if (blockY < floodY)
-			return snowId;
+			return SupportChunk.snowBlockId;
 		else
 			return super.findAtmosphereIdAt(generator, blockY);
 	}
@@ -122,7 +123,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 	@Override
 	public Material findAtmosphereMaterialAt(WorldGenerator generator, int blockY) {
 		if (blockY < floodY)
-			return snowMat;
+			return Material.SNOW_BLOCK;
 		else
 			return super.findAtmosphereMaterialAt(generator, blockY);
 	}
@@ -130,7 +131,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 	@Override
 	public byte findGroundCoverIdAt(WorldGenerator generator, int blockY) {
 		if (blockY < floodY)
-			return snowCoverId;
+			return SupportChunk.snowCoverId;
 		else
 			return super.findGroundCoverIdAt(generator, blockY);
 	}
@@ -170,7 +171,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 		int baseY = chunk.findLastEmptyBelow(x, y + 1, z);
 		int snowY = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 		if (snowY > baseY) 
-			chunk.setBlocks(x, baseY, snowY, z, snowId);
+			chunk.setBlocks(x, baseY, snowY, z, SupportChunk.snowBlockId);
 	}
 	
 	@Override
@@ -189,9 +190,9 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 				int snowY = chunk.findFirstEmpty(x, Math.max(topY, NoiseGenerator.floor(snowCoverY)), z);
 				if (!chunk.isPartialHeight(x, snowY - 1, z)) {
 					byte snowAmount = (byte) NoiseGenerator.floor((snowCoverY - Math.floor(snowCoverY)) * 8.0);
-					if (snowAmount > 3 & chunk.getBlockType(x, snowY - 1, z) != snowId)
+					if (snowAmount > 3 & chunk.getBlockType(x, snowY - 1, z) != SupportChunk.snowBlockId)
 						snowAmount = (byte)(7 - snowAmount);
-					chunk.setBlock(x, snowY, z, snowCoverId, snowAmount, false);
+					chunk.setBlock(x, snowY, z, SupportChunk.snowCoverId, snowAmount, false);
 				}
 			}
 		}

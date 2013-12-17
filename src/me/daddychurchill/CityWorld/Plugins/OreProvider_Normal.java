@@ -5,7 +5,7 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-import org.bukkit.Material;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class OreProvider_Normal extends OreProvider {
 
@@ -27,17 +27,16 @@ public class OreProvider_Normal extends OreProvider {
 	 * wildly modified by daddychurchill
 	 */
 	
-	private static final int[] ore_types = new int[] {Material.WATER.getId(),
-													  Material.LAVA.getId(),
-		  											  Material.GRAVEL.getId(), 
-													  Material.COAL_ORE.getId(),
-													  Material.IRON_ORE.getId(), 
-													  Material.GOLD_ORE.getId(), 
-													  Material.LAPIS_ORE.getId(),
-													  Material.REDSTONE_ORE.getId(),
-													  Material.DIAMOND_ORE.getId(),
-													  Material.EMERALD_ORE.getId()
-													  }; 
+	private static final byte[] ore_types = new byte[] {SupportChunk.fluidWaterId,
+														SupportChunk.fluidLavaId,
+														SupportChunk.gravelId,
+														SupportChunk.coalId,
+														SupportChunk.ironId,
+														SupportChunk.goldId,
+														SupportChunk.lapisId,
+														SupportChunk.redstoneId,
+														SupportChunk.diamondId,
+														SupportChunk.emeraldId}; 
 	
 	//                                                         WATER   LAVA   GRAV   COAL   IRON   GOLD  LAPIS  REDST   DIAM   EMER  
 	private static final int[] ore_iterations = new int[]    {     8,     6,    40,    30,    12,     4,     2,     4,     2,    10};

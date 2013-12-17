@@ -21,14 +21,14 @@ public class MaterialStack {
 			this.items[i] = new ItemStack(items[i]);
 	}
 	
-	public MaterialStack(String name, Material low, Material high) {
-		super();
-		this.name = name;
-		int range = high.getId() - low.getId();
-		this.items = new ItemStack[range];
-		for (int i = 0; i < range; i++)
-			this.items[i] = new ItemStack(low.getId() + i);
-	}
+//	public MaterialStack(String name, Material low, Material high) {
+//		super();
+//		this.name = name;
+//		int range = ByteChunk.getMaterialId(high) - ByteChunk.getMaterialId(low);
+//		this.items = new ItemStack[range];
+//		for (int i = 0; i < range; i++)
+//			this.items[i] = new ItemStack(ByteChunk.getMaterialId(low) + i);
+//	}
 	
 	private int count() {
 		return items == null ? 0 : items.length;
@@ -39,6 +39,7 @@ public class MaterialStack {
 	}
 
 	public Byte getRandomTypeId(Odds odds) {
-		return (byte) (items == null ? Material.AIR.getId() : items[odds.getRandomInt(count())].getTypeId());
+		return (byte) (items == null ? SupportChunk.getMaterialId(Material.AIR) : 
+									   SupportChunk.getMaterialId(items[odds.getRandomInt(count())].getType()));
 	}
 }

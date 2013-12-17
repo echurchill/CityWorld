@@ -1167,7 +1167,7 @@ public class RoadLot extends ConnectedLot {
 			if (chunkOdds.flipCoin())
 				chunk.setBlock(x, y, z, Material.COBBLESTONE);
 			else
-				chunk.setBlock(x, y, z, Material.STEP.getId(), (byte) 3);
+				chunk.setBlock(x, y, z, Material.STEP, (byte) 3);
 			amount--;
 		}
 	}
@@ -1180,7 +1180,7 @@ public class RoadLot extends ConnectedLot {
 			if (chunkOdds.flipCoin())
 				chunk.setBlock(x, y, z, getAirId(generator, y));
 			else
-				chunk.setBlock(x, y, z, Material.STEP.getId(), (byte) 3);
+				chunk.setBlock(x, y, z, Material.STEP, (byte) 3);
 			amount--;
 		}
 	}

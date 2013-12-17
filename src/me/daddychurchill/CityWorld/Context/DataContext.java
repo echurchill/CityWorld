@@ -101,8 +101,6 @@ public abstract class DataContext {
 			lightMat = Material.REDSTONE_LAMP_OFF;
 			torchMat = Material.REDSTONE_TORCH_OFF;
 		}
-//		lightId = (byte) lightMat.getId();
-//		torchId = (byte) torchMat.getId();
 
 		// let the other guy do it
 		initialize();

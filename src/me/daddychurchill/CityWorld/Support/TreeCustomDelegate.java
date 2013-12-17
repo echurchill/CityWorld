@@ -2,21 +2,22 @@ package me.daddychurchill.CityWorld.Support;
 
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider;
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 
 public class TreeCustomDelegate extends TreeVanillaDelegate {
 
 	private Odds odds;
-	private int trunkId;
-	private int leavesId1;
-	private int leavesId2;
+	private byte trunkId;
+	private byte leavesId1;
+	private byte leavesId2;
 	
-	public TreeCustomDelegate(RealChunk chunk, Odds odds, int trunkId, int leavesId1, int leavesId2) {
+	public TreeCustomDelegate(RealChunk chunk, Odds odds, Material trunk, Material leaves1, Material leaves2) {
 		super(chunk);
 		this.odds = odds;
-		this.trunkId = trunkId;
-		this.leavesId1 = leavesId1;
-		this.leavesId2 = leavesId2;
+		this.trunkId = SupportChunk.getMaterialId(trunk);
+		this.leavesId1 = SupportChunk.getMaterialId(leaves1);
+		this.leavesId2 = SupportChunk.getMaterialId(leaves2);
 	}
 	
 	@Override
@@ -26,7 +27,7 @@ public class TreeCustomDelegate extends TreeVanillaDelegate {
 
 	@Override
 	public int getTypeId(int x, int y, int z) {
-		return world.getBlockAt(x, y, z).getTypeId();
+		return SupportChunk.getMaterialId(world.getBlockAt(x, y, z));
 	}
 
 	@Override
@@ -58,15 +59,15 @@ public class TreeCustomDelegate extends TreeVanillaDelegate {
 		Block block = world.getBlockAt(x, y, z);
 		if (id == FoliageProvider.logId)
 			if (trunkId == FoliageProvider.logId)
-				return block.setTypeIdAndData(FoliageProvider.logId, (byte) data, update);
+				return SupportChunk.setBlockType(block, FoliageProvider.logId, (byte) data, update);
 			else
-				return block.setTypeId(trunkId, update);
+				return SupportChunk.setBlockType(block, trunkId, update);
 		
 		else if (id == FoliageProvider.leavesId)
 			if (odds.flipCoin())
-				return block.setTypeId(leavesId1, update);
+				return SupportChunk.setBlockType(block, leavesId1, update);
 			else
-				return block.setTypeId(leavesId2, update);
+				return SupportChunk.setBlockType(block, leavesId2, update);
 		else
 			return false;
 	}

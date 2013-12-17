@@ -8,25 +8,24 @@ import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
-import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 
 public abstract class OreProvider extends Provider {
 
-	public final static byte stoneId = (byte) Material.STONE.getId();
-	public final static byte dirtId = (byte) Material.DIRT.getId();
-	public final static byte grassId = (byte) Material.GRASS.getId();
-	public final static byte sandId = (byte) Material.SAND.getId();
-	public final static byte sandstoneId = (byte) Material.SANDSTONE.getId();
-	public final static byte fluidWaterId = (byte) Material.WATER.getId();
-	public final static byte fluidLavaId = (byte) Material.LAVA.getId();
-	public final static byte stillWaterId = (byte) Material.STATIONARY_WATER.getId();
-	public final static byte stillLavaId = (byte) Material.STATIONARY_LAVA.getId();
-	public final static byte snowId = (byte) Material.SNOW.getId();
-	public final static byte snowBlockId = (byte) Material.SNOW_BLOCK.getId();
-	public final static byte iceId = (byte) Material.ICE.getId();
-	public final static byte bedrockId = (byte) Material.BEDROCK.getId();
+//	public final static byte stoneId = (byte) Material.STONE.getId();
+//	public final static byte dirtId = (byte) Material.DIRT.getId();
+//	public final static byte grassId = (byte) Material.GRASS.getId();
+//	public final static byte sandId = (byte) Material.SAND.getId();
+//	public final static byte sandstoneId = (byte) Material.SANDSTONE.getId();
+//	public final static byte fluidWaterId = (byte) Material.WATER.getId();
+//	public final static byte fluidLavaId = (byte) Material.LAVA.getId();
+//	public final static byte stillWaterId = (byte) Material.STATIONARY_WATER.getId();
+//	public final static byte stillLavaId = (byte) Material.STATIONARY_LAVA.getId();
+//	public final static byte snowId = (byte) Material.SNOW.getId();
+//	public final static byte snowBlockId = (byte) Material.SNOW_BLOCK.getId();
+//	public final static byte iceId = (byte) Material.ICE.getId();
+//	public final static byte bedrockId = (byte) Material.BEDROCK.getId();
 	
 	public final static int lavaFluidLevel = 24;
 	public final static int lavaFieldLevel = 12;
@@ -47,16 +46,16 @@ public abstract class OreProvider extends Provider {
 	public OreProvider(WorldGenerator generator) {
 		super();
 		
-		surfaceId = grassId;
-		subsurfaceId = dirtId;
-		stratumId = stoneId;
-		substratumId = bedrockId;
+		surfaceId = SupportChunk.grassId;
+		subsurfaceId = SupportChunk.dirtId;
+		stratumId = SupportChunk.stoneId;
+		substratumId = SupportChunk.bedrockId;
 		
-		fluidId = stillWaterId;
-		fluidFluidId = fluidWaterId;
-		fluidSurfaceId = sandId;
-		fluidSubsurfaceId = sandstoneId;
-		fluidFrozenId = snowBlockId;
+		fluidId = SupportChunk.stillWaterId;
+		fluidFluidId = SupportChunk.fluidWaterId;
+		fluidSurfaceId = SupportChunk.sandId;
+		fluidSubsurfaceId = SupportChunk.sandstoneId;
+		fluidFrozenId = SupportChunk.snowBlockId;
 	}
 	
 	/**
@@ -74,7 +73,7 @@ public abstract class OreProvider extends Provider {
 	public abstract String getCollectionName();
 
 	protected void sprinkleOre(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs,
-			Odds odds, int typeId, int maxY, int minY, int iterations, int amount, boolean mirror, boolean physics, boolean liquid) {
+			Odds odds, byte typeId, int maxY, int minY, int iterations, int amount, boolean mirror, boolean physics, boolean liquid) {
 		
 		// do we do this one?
 		if ((liquid && generator.settings.includeUndergroundFluids) ||
@@ -98,7 +97,7 @@ public abstract class OreProvider extends Provider {
 	}
 	
 	private void growVein(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs, 
-			Odds odds, int originX, int originY, int originZ, int amountToDo, int typeId, boolean physics) {
+			Odds odds, int originX, int originY, int originZ, int amountToDo, byte typeId, boolean physics) {
 		int trysLeft = amountToDo * 2;
 		int oresDone = 0;
 		if (lot.isValidStrataY(generator, originX, originY, originZ) && 
@@ -120,7 +119,7 @@ public abstract class OreProvider extends Provider {
 	}
 	
 	private int placeOre(WorldGenerator generator, RealChunk chunk, Odds odds, 
-			int centerX, int centerY, int centerZ, int oresToDo, int typeId, boolean physics) {
+			int centerX, int centerY, int centerZ, int oresToDo, byte typeId, boolean physics) {
 		int count = 0;
 		if (centerY > 0 && centerY < chunk.height) {
 			if (placeBlock(chunk, odds, centerX, centerY, centerZ, typeId, physics)) {
@@ -138,11 +137,11 @@ public abstract class OreProvider extends Provider {
 		return count;
 	}
 	
-	protected boolean placeBlock(RealChunk chunk, Odds odds, int x, int y, int z, int typeId, boolean physics) {
+	protected boolean placeBlock(RealChunk chunk, Odds odds, int x, int y, int z, byte typeId, boolean physics) {
 		if (odds.playOdds(oreSprinkleOdds)) {
 			Block block = chunk.getActualBlock(x, y, z);
-			if (block.getTypeId() == stratumId) {
-				block.setTypeId(typeId, physics);
+			if (SupportChunk.getMaterialId(block) == stratumId) {
+				SupportChunk.setBlockType(block, typeId, physics);
 				return true;
 			}
 		}
@@ -206,7 +205,7 @@ public abstract class OreProvider extends Provider {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				if (odds.playOdds(snowSplinkleOdds))
-					chunk.setBlock(x, y, z, snowId);
+					chunk.setBlock(x, y, z, SupportChunk.snowBlockId);
 			}
 		}
 	}
@@ -218,6 +217,6 @@ public abstract class OreProvider extends Provider {
 	public void dropSnow(WorldGenerator generator, RealChunk chunk, int x, int y, int z, byte level) {
 		y = chunk.findLastEmptyBelow(x, y + 1, z);
 		if (chunk.isEmpty(x, y, z))
-			chunk.setBlock(x, y, z, snowId, level, false);
+			chunk.setBlock(x, y, z, SupportChunk.snowBlockId, level, false);
 	}
 }

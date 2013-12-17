@@ -16,11 +16,12 @@ import me.daddychurchill.CityWorld.Context.Flooded.FloodedRoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Odds;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 
 	public final static Material floodMat = Material.STATIONARY_WATER;
-	public final static byte floodId = (byte) floodMat.getId();
+	public final static byte floodId = SupportChunk.stillWaterId;
 	
 	protected int floodY;
 	
