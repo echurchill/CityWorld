@@ -9,6 +9,7 @@ import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.OreProvider.OreLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Direction;
@@ -536,7 +537,7 @@ public abstract class PlatLot {
 	
 	protected byte getAirId(WorldGenerator generator, int y) {
 		if (getTopY(generator) <= y)
-			return SupportChunk.airId;
+			return BlackMagic.airId;
 		else
 			return generator.shapeProvider.findAtmosphereIdAt(generator, y);
 	}

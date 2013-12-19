@@ -28,9 +28,9 @@ public class FloatingHouseLot extends ConstructLot {
 		return new FloatingHouseLot(platmap, chunkX, chunkZ, groundLevel);
 	}
 
-	private final static byte platformId = (byte) Material.SMOOTH_BRICK.getId();
-	private final static byte dirtId = (byte) Material.DIRT.getId();
-	private final static byte grassId = (byte) Material.GRASS.getId();
+	private final static Material platform = Material.SMOOTH_BRICK;
+	private final static Material dirt = Material.DIRT;
+	private final static Material grass = Material.GRASS;
 
 	@Override
 	public int getBottomY(WorldGenerator generator) {
@@ -48,16 +48,16 @@ public class FloatingHouseLot extends ConstructLot {
 			DataContext context, int platX, int platZ) {
 		
 		// build a little box
-		chunk.setBlocks(1, 15, groundLevel - 2, groundLevel - 1, 1, 15, platformId);
-		chunk.setWalls(0, 16, groundLevel - 1, groundLevel + 1, 0, 16, platformId);
-		chunk.setBlocks(1, 15, groundLevel - 1, groundLevel, 1, 15, dirtId);
-		chunk.setBlocks(1, 15, groundLevel, groundLevel + 1, 1, 15, grassId);
+		chunk.setBlocks(1, 15, groundLevel - 2, groundLevel - 1, 1, 15, platform);
+		chunk.setWalls(0, 16, groundLevel - 1, groundLevel + 1, 0, 16, platform);
+		chunk.setBlocks(1, 15, groundLevel - 1, groundLevel, 1, 15, dirt);
+		chunk.setBlocks(1, 15, groundLevel, groundLevel + 1, 1, 15, grass);
 		
 		// supports for the balloons
-		chunk.setBlock(2, groundLevel + 1, 2, platformId);
-		chunk.setBlock(2, groundLevel + 1, 13, platformId);
-		chunk.setBlock(13, groundLevel + 1, 2, platformId);
-		chunk.setBlock(13, groundLevel + 1, 13, platformId);
+		chunk.setBlock(2, groundLevel + 1, 2, platform);
+		chunk.setBlock(2, groundLevel + 1, 13, platform);
+		chunk.setBlock(13, groundLevel + 1, 2, platform);
+		chunk.setBlock(13, groundLevel + 1, 13, platform);
 	}
 
 	@Override

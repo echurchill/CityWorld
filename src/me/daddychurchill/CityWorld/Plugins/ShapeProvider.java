@@ -16,7 +16,7 @@ import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 
 public abstract class ShapeProvider extends Provider {
 	
@@ -80,7 +80,7 @@ public abstract class ShapeProvider extends Provider {
 	}
 	
 	public byte findAtmosphereIdAt(WorldGenerator generator, int blockY) {
-		return SupportChunk.airId;
+		return BlackMagic.airId;
 	}
 	
 	public Material findAtmosphereMaterialAt(WorldGenerator generator, int blockY) {
@@ -88,7 +88,7 @@ public abstract class ShapeProvider extends Provider {
 	}
 	
 	public byte findGroundCoverIdAt(WorldGenerator generator, int blockY) {
-		return SupportChunk.airId;
+		return BlackMagic.airId;
 	}
 	
 	public PlatLot createNaturalLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
@@ -149,7 +149,7 @@ public abstract class ShapeProvider extends Provider {
 			if (lot.isValidStrataY(generator, blockX, y, blockZ) && generator.shapeProvider.notACave(generator, blockX, y, blockZ))
 				chunk.setBlock(x, y, z, stratumId);
 			else if (y <= OreProvider.lavaFieldLevel && generator.settings.includeLavaFields)
-				chunk.setBlock(x, y, z, SupportChunk.stillLavaId);
+				chunk.setBlock(x, y, z, BlackMagic.stillLavaId);
 
 		// aggregate bits
 		for (int y = stratumY; y < subsurfaceY - 1; y++)

@@ -14,8 +14,9 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class FloatingBlimpLot extends IsolatedLot {
 
-	protected final static byte baseId = (byte) Material.SMOOTH_BRICK.getId();
-	protected final static byte pedestalId = (byte) Material.STONE.getId();
+	protected final static Material base = Material.SMOOTH_BRICK;
+	protected final static Material underlayment = Material.STONE;
+	protected final static Material pedestal = Material.STONE;
 	
 	boolean manyBalloons;
 		
@@ -51,33 +52,33 @@ public class FloatingBlimpLot extends IsolatedLot {
 		boolean toWest = platmap.isStructureLot(platX - 1, platZ);
 		boolean toEast = platmap.isStructureLot(platX + 1, platZ);
 		
-		chunk.setCircle(8, 8, 6, generator.streetLevel, baseId, true);
+		chunk.setCircle(8, 8, 6, generator.streetLevel, base, true);
 		if (toNorth) {
-			chunk.setBlocks(0, 16, generator.streetLevel, 0, 7, baseId);
-			chunk.setBlocks(7, 9, generator.streetLevel - 2, generator.streetLevel, 0, 13, stoneId);
+			chunk.setBlocks(0, 16, generator.streetLevel, 0, 7, base);
+			chunk.setBlocks(7, 9, generator.streetLevel - 2, generator.streetLevel, 0, 13, underlayment);
 		}
 		if (toSouth) {
-			chunk.setBlocks(0, 16, generator.streetLevel, 8, 16, baseId);
-			chunk.setBlocks(7, 9, generator.streetLevel - 2, generator.streetLevel, 3, 16, stoneId);
+			chunk.setBlocks(0, 16, generator.streetLevel, 8, 16, base);
+			chunk.setBlocks(7, 9, generator.streetLevel - 2, generator.streetLevel, 3, 16, underlayment);
 		}
 		if (toWest) {
-			chunk.setBlocks(0, 7, generator.streetLevel, 0, 16, baseId);
-			chunk.setBlocks(0, 13, generator.streetLevel - 2, generator.streetLevel, 7, 9, stoneId);
+			chunk.setBlocks(0, 7, generator.streetLevel, 0, 16, base);
+			chunk.setBlocks(0, 13, generator.streetLevel - 2, generator.streetLevel, 7, 9, underlayment);
 		}
 		if (toEast) {
-			chunk.setBlocks(8, 16, generator.streetLevel, 0, 16, baseId);
-			chunk.setBlocks(3, 16, generator.streetLevel - 2, generator.streetLevel, 7, 9, stoneId);
+			chunk.setBlocks(8, 16, generator.streetLevel, 0, 16, base);
+			chunk.setBlocks(3, 16, generator.streetLevel - 2, generator.streetLevel, 7, 9, underlayment);
 		}
 		
 		// what types of balloon?
 		if (manyBalloons) {
-			chunk.setBlocks(7, 9, generator.streetLevel + 1, generator.streetLevel + 5, 3, 13, pedestalId);
-			chunk.setBlocks(3, 13, generator.streetLevel + 1, generator.streetLevel + 5, 7, 9, pedestalId);
+			chunk.setBlocks(7, 9, generator.streetLevel + 1, generator.streetLevel + 5, 3, 13, pedestal);
+			chunk.setBlocks(3, 13, generator.streetLevel + 1, generator.streetLevel + 5, 7, 9, pedestal);
 		} else {
-			chunk.setBlocks(7, 9, generator.streetLevel + 1, generator.streetLevel + 5, 1, 3, pedestalId);
-			chunk.setBlocks(7, 9, generator.streetLevel + 1, generator.streetLevel + 5, 13, 15, pedestalId);
-			chunk.setBlocks(1, 3, generator.streetLevel + 1, generator.streetLevel + 5, 7, 9, pedestalId);
-			chunk.setBlocks(13, 15, generator.streetLevel + 1, generator.streetLevel + 5, 7, 9, pedestalId);
+			chunk.setBlocks(7, 9, generator.streetLevel + 1, generator.streetLevel + 5, 1, 3, pedestal);
+			chunk.setBlocks(7, 9, generator.streetLevel + 1, generator.streetLevel + 5, 13, 15, pedestal);
+			chunk.setBlocks(1, 3, generator.streetLevel + 1, generator.streetLevel + 5, 7, 9, pedestal);
+			chunk.setBlocks(13, 15, generator.streetLevel + 1, generator.streetLevel + 5, 7, 9, pedestal);
 		}
 	}
 

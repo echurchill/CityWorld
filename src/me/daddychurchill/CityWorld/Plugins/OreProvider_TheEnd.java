@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 
 public class OreProvider_TheEnd extends OreProvider {
 	
@@ -16,8 +16,8 @@ public class OreProvider_TheEnd extends OreProvider {
 	public OreProvider_TheEnd(WorldGenerator generator) {
 		super(generator);
 
-		subsurfaceId = SupportChunk.endstoneId;
-		stratumId = SupportChunk.endstoneId;
+		subsurfaceId = BlackMagic.endstoneId;
+		stratumId = BlackMagic.endstoneId;
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import org.bukkit.block.Block;
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 
 // based on work from brikeener 
 // commit: http://code.google.com/p/cityworld-tekkit/source/detail?spec=svn148c2e29ecc3d9b8ba7c63927da30e790ff2e6c0&r=148c2e29ecc3d9b8ba7c63927da30e790ff2e6c0
@@ -16,9 +16,9 @@ public class TreeCustomDelegate_Tekkit extends TreeVanillaDelegate_Tekkit {
 			Material trunk, Material leaves1, Material leaves2) {
 		super(chunk);
 		this.odds = odds;
-		this.trunkId = SupportChunk.getMaterialId(trunk);
-		this.leavesId1 = SupportChunk.getMaterialId(leaves1);
-		this.leavesId2 = SupportChunk.getMaterialId(leaves2);
+		this.trunkId = BlackMagic.getMaterialId(trunk);
+		this.leavesId1 = BlackMagic.getMaterialId(leaves1);
+		this.leavesId2 = BlackMagic.getMaterialId(leaves2);
 	}
 	
 	private Odds odds;
@@ -33,7 +33,7 @@ public class TreeCustomDelegate_Tekkit extends TreeVanillaDelegate_Tekkit {
 
 	@Override
 	public int getTypeId(int x, int y, int z) {
-		return SupportChunk.getMaterialId(world.getBlockAt(x, y, z));
+		return BlackMagic.getMaterialId(world.getBlockAt(x, y, z));
 	}
 
 	@Override
@@ -65,15 +65,15 @@ public class TreeCustomDelegate_Tekkit extends TreeVanillaDelegate_Tekkit {
 		Block block = world.getBlockAt(x, y, z);
 		if (id == FoliageProvider.logId)
 			if (trunkId == FoliageProvider.logId)
-				return SupportChunk.setBlockType(block, FoliageProvider.logId, (byte) data, update);
+				return BlackMagic.setBlockType(block, FoliageProvider.logId, (byte) data, update);
 			else
-				return SupportChunk.setBlockType(block, trunkId, update);
+				return BlackMagic.setBlockType(block, trunkId, update);
 		
 		else if (id == FoliageProvider.leavesId)
 			if (odds.flipCoin())
-				return SupportChunk.setBlockType(block, leavesId1, update);
+				return BlackMagic.setBlockType(block, leavesId1, update);
 			else
-				return SupportChunk.setBlockType(block, leavesId2, update);
+				return BlackMagic.setBlockType(block, leavesId2, update);
 		else
 			return false;
 	}

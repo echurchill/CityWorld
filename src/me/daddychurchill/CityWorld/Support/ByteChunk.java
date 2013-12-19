@@ -31,7 +31,7 @@ public class ByteChunk extends SupportChunk {
 	
 	public byte getBlock(int x, int y, int z) {
         if (blocks[y >> 4] == null)
-        	return airId;
+        	return BlackMagic.airId;
         else
         	return blocks[y >> 4][((y & 0xF) << 8) | (z << 4) | x];
 	}
@@ -45,11 +45,15 @@ public class ByteChunk extends SupportChunk {
 	}
 	
 	public void setBlock(int x, int y, int z, Material material) {
-		setBlock(x, y, z, getMaterialId(material));
+		setBlock(x, y, z, BlackMagic.getMaterialId(material));
+	}
+	
+	public void setBlockIfAir(int x, int y, int z, Material material) {
+		setBlockIfAir(x, y, z, BlackMagic.getMaterialId(material));
 	}
 	
 	public void setBlockIfAir(int x, int y, int z, byte materialId) {
-		if (getBlock(x, y, z) == airId && getBlock(x, y - 1, z) != airId)
+		if (getBlock(x, y, z) == BlackMagic.airId && getBlock(x, y - 1, z) != BlackMagic.airId)
 			setBlock(x, y, z, materialId);
 	}
 	
@@ -59,7 +63,7 @@ public class ByteChunk extends SupportChunk {
 	}
 	
 	public void setBlocks(int x, int y1, int y2, int z, Material material) {
-		setBlocks(x, y1, y2, z, getMaterialId(material));
+		setBlocks(x, y1, y2, z, BlackMagic.getMaterialId(material));
 	}
 	
 	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte materialId) {
@@ -72,7 +76,7 @@ public class ByteChunk extends SupportChunk {
 	}
 	
 	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
-		setBlocks(x1, x2, y1, y2, z1, z2, getMaterialId(material));
+		setBlocks(x1, x2, y1, y2, z1, z2, BlackMagic.getMaterialId(material));
 	}
 	
 	@Override
@@ -85,13 +89,13 @@ public class ByteChunk extends SupportChunk {
 	}
 	
 	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
-		setBlocks(x1, x2, y, z1, z2, getMaterialId(material));
+		setBlocks(x1, x2, y, z1, z2, BlackMagic.getMaterialId(material));
 	}
 	
 	@Override
 	public void clearBlock(int x, int y, int z) {
         if (blocks[y >> 4] != null) {
-        	blocks[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = airId;
+        	blocks[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = BlackMagic.airId;
         }
 	}
 
@@ -118,11 +122,11 @@ public class ByteChunk extends SupportChunk {
 	}
 	
 	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
-		setWalls(x1, x2, y1, y2, z1, z2, getMaterialId(material));
+		setWalls(x1, x2, y1, y2, z1, z2, BlackMagic.getMaterialId(material));
 	}
 	
 	public boolean setEmptyBlock(int x, int y, int z, byte materialId) {
-		if (getBlock(x, y, z) == airId) {
+		if (getBlock(x, y, z) == BlackMagic.airId) {
 			setBlock(x, y, z, materialId);
 			return true;
 		} else
@@ -130,25 +134,25 @@ public class ByteChunk extends SupportChunk {
 	}
 	
 	public boolean setEmptyBlock(int x, int y, int z, Material material) {
-		return setEmptyBlock(x, y, z, getMaterialId(material));
+		return setEmptyBlock(x, y, z, BlackMagic.getMaterialId(material));
 	}
 
 	public void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, byte materialId) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				if (getBlock(x, y, z) == airId)
+				if (getBlock(x, y, z) == BlackMagic.airId)
 					setBlock(x, y, z, materialId);
 			}
 		}
 	}
 	
 	public void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
-		setEmptyBlocks(x1, x2, y, z1, z2, getMaterialId(material));
+		setEmptyBlocks(x1, x2, y, z1, z2, BlackMagic.getMaterialId(material));
 	}
 	
 	public int findLastEmptyAbove(int x, int y, int z) {
 		int y1 = y;
-		while (y1 < height - 1 && getBlock(x, y1 + 1, z) == airId) {
+		while (y1 < height - 1 && getBlock(x, y1 + 1, z) == BlackMagic.airId) {
 			y1++;
 		}
 		return y1;
@@ -156,7 +160,7 @@ public class ByteChunk extends SupportChunk {
 	
 	public int findLastEmptyBelow(int x, int y, int z) {
 		int y1 = y;
-		while (y1 > 0 && getBlock(x, y1 - 1, z) == airId) {
+		while (y1 > 0 && getBlock(x, y1 - 1, z) == BlackMagic.airId) {
 			y1--;
 		}
 		return y1;
@@ -167,7 +171,7 @@ public class ByteChunk extends SupportChunk {
 	}
 	
 	public void setBlocksAt(int y, Material material) {
-		setBlocks(0, width, y, y + 1, 0, width, getMaterialId(material));
+		setBlocks(0, width, y, y + 1, 0, width, BlackMagic.getMaterialId(material));
 	}
 	
 	public void setBlocksAt(int y1, int y2, byte materialId) {
@@ -175,12 +179,12 @@ public class ByteChunk extends SupportChunk {
 	}
 	
 	public void setBlocksAt(int y1, int y2, Material material) {
-		setBlocks(0, width, y1, y2, 0, width, getMaterialId(material));
+		setBlocks(0, width, y1, y2, 0, width, BlackMagic.getMaterialId(material));
 	}
 	
 	public void setAllBlocks(byte materialID) {
 		// shortcut if we are simply clearing everything
-		if (materialID == airId) {
+		if (materialID == BlackMagic.airId) {
 			for (int c = 0; c < sectionsPerChunk; c++) {
 				blocks[c] = null;
 			}
@@ -196,12 +200,12 @@ public class ByteChunk extends SupportChunk {
 	}
 
 	public void setAllBlocks(Material material) {
-		setAllBlocks(getMaterialId(material));
+		setAllBlocks(BlackMagic.getMaterialId(material));
 	}
 	
 	public void replaceBlocks(byte fromId, byte toId) {
 		// if we are replacing air we might need to do this the hard way
-		if (fromId == airId) {
+		if (fromId == BlackMagic.airId) {
 			for (int c = 0; c < sectionsPerChunk; c++) {
 				if (blocks[c] == null)
 					blocks[c] = new byte[bytesPerSection];
@@ -225,7 +229,7 @@ public class ByteChunk extends SupportChunk {
 	}
 
 	public void replaceBlocks(Material fromMaterial, Material toMaterial) {
-		replaceBlocks(getMaterialId(fromMaterial), getMaterialId(toMaterial));
+		replaceBlocks(BlackMagic.getMaterialId(fromMaterial), BlackMagic.getMaterialId(toMaterial));
 	}
 	
 	public int setLayer(int blocky, byte materialId) {

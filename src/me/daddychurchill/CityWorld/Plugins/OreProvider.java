@@ -7,6 +7,7 @@ import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
@@ -46,16 +47,16 @@ public abstract class OreProvider extends Provider {
 	public OreProvider(WorldGenerator generator) {
 		super();
 		
-		surfaceId = SupportChunk.grassId;
-		subsurfaceId = SupportChunk.dirtId;
-		stratumId = SupportChunk.stoneId;
-		substratumId = SupportChunk.bedrockId;
+		surfaceId = BlackMagic.grassId;
+		subsurfaceId = BlackMagic.dirtId;
+		stratumId = BlackMagic.stoneId;
+		substratumId = BlackMagic.bedrockId;
 		
-		fluidId = SupportChunk.stillWaterId;
-		fluidFluidId = SupportChunk.fluidWaterId;
-		fluidSurfaceId = SupportChunk.sandId;
-		fluidSubsurfaceId = SupportChunk.sandstoneId;
-		fluidFrozenId = SupportChunk.snowBlockId;
+		fluidId = BlackMagic.stillWaterId;
+		fluidFluidId = BlackMagic.fluidWaterId;
+		fluidSurfaceId = BlackMagic.sandId;
+		fluidSubsurfaceId = BlackMagic.sandstoneId;
+		fluidFrozenId = BlackMagic.snowBlockId;
 	}
 	
 	/**
@@ -140,8 +141,8 @@ public abstract class OreProvider extends Provider {
 	protected boolean placeBlock(RealChunk chunk, Odds odds, int x, int y, int z, byte typeId, boolean physics) {
 		if (odds.playOdds(oreSprinkleOdds)) {
 			Block block = chunk.getActualBlock(x, y, z);
-			if (SupportChunk.getMaterialId(block) == stratumId) {
-				SupportChunk.setBlockType(block, typeId, physics);
+			if (BlackMagic.getMaterialId(block) == stratumId) {
+				BlackMagic.setBlockType(block, typeId, physics);
 				return true;
 			}
 		}
@@ -205,7 +206,7 @@ public abstract class OreProvider extends Provider {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				if (odds.playOdds(snowSplinkleOdds))
-					chunk.setBlock(x, y, z, SupportChunk.snowBlockId);
+					chunk.setBlock(x, y, z, BlackMagic.snowBlockId);
 			}
 		}
 	}
@@ -217,6 +218,6 @@ public abstract class OreProvider extends Provider {
 	public void dropSnow(WorldGenerator generator, RealChunk chunk, int x, int y, int z, byte level) {
 		y = chunk.findLastEmptyBelow(x, y + 1, z);
 		if (chunk.isEmpty(x, y, z))
-			chunk.setBlock(x, y, z, SupportChunk.snowBlockId, level, false);
+			chunk.setBlock(x, y, z, BlackMagic.snowBlockId, level, false);
 	}
 }

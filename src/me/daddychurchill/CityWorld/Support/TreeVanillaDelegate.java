@@ -20,7 +20,7 @@ public class TreeVanillaDelegate implements BlockChangeDelegate {
 
 	@Override
 	public int getTypeId(int x, int y, int z) {
-		return SupportChunk.getMaterialId(world.getBlockAt(x, y, z));
+		return BlackMagic.getMaterialId(world.getBlockAt(x, y, z));
 	}
 
 	@Override
@@ -30,21 +30,21 @@ public class TreeVanillaDelegate implements BlockChangeDelegate {
 
 	@Override
 	public boolean setRawTypeId(int x, int y, int z, int id) {
-		return SupportChunk.setBlockType(world.getBlockAt(x, y, z), (byte) id, false);
+		return BlackMagic.setBlockType(world.getBlockAt(x, y, z), (byte) id, false);
 	}
 
 	@Override
 	public boolean setRawTypeIdAndData(int x, int y, int z, int id, int data) {
-		return SupportChunk.setBlockType(world.getBlockAt(x, y, z), (byte) id, (byte) data, false);
+		return BlackMagic.setBlockType(world.getBlockAt(x, y, z), (byte) id, (byte) data, false);
 	}
 
 	@Override
 	public boolean setTypeId(int x, int y, int z, int id) {
-		return SupportChunk.setBlockType(world.getBlockAt(x, y, z), (byte) id, (byte) 0, false);
+		return BlackMagic.setBlockType(world.getBlockAt(x, y, z), (byte) id, (byte) 0, false);
 	}
 
 	@Override
 	public boolean setTypeIdAndData(int x, int y, int z, int id, int data) {
-		return SupportChunk.setBlockType(world.getBlockAt(x, y, z), (byte) id, (byte) data, false);
+		return BlackMagic.setBlockType(world.getBlockAt(x, y, z), (byte) id, (byte) data, false);
 	}
 }

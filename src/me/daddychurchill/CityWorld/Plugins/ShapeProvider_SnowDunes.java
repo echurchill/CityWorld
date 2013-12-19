@@ -20,7 +20,7 @@ import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 
 public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 
@@ -115,7 +115,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 	@Override
 	public byte findAtmosphereIdAt(WorldGenerator generator, int blockY) {
 		if (blockY < floodY)
-			return SupportChunk.snowBlockId;
+			return BlackMagic.snowBlockId;
 		else
 			return super.findAtmosphereIdAt(generator, blockY);
 	}
@@ -131,7 +131,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 	@Override
 	public byte findGroundCoverIdAt(WorldGenerator generator, int blockY) {
 		if (blockY < floodY)
-			return SupportChunk.snowCoverId;
+			return BlackMagic.snowCoverId;
 		else
 			return super.findGroundCoverIdAt(generator, blockY);
 	}
@@ -171,7 +171,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 		int baseY = chunk.findLastEmptyBelow(x, y + 1, z);
 		int snowY = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 		if (snowY > baseY) 
-			chunk.setBlocks(x, baseY, snowY, z, SupportChunk.snowBlockId);
+			chunk.setBlocks(x, baseY, snowY, z, BlackMagic.snowBlockId);
 	}
 	
 	@Override
@@ -190,9 +190,9 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 				int snowY = chunk.findFirstEmpty(x, Math.max(topY, NoiseGenerator.floor(snowCoverY)), z);
 				if (!chunk.isPartialHeight(x, snowY - 1, z)) {
 					byte snowAmount = (byte) NoiseGenerator.floor((snowCoverY - Math.floor(snowCoverY)) * 8.0);
-					if (snowAmount > 3 & chunk.getBlockType(x, snowY - 1, z) != SupportChunk.snowBlockId)
+					if (snowAmount > 3 & chunk.getBlockType(x, snowY - 1, z) != BlackMagic.snowBlockId)
 						snowAmount = (byte)(7 - snowAmount);
-					chunk.setBlock(x, snowY, z, SupportChunk.snowCoverId, snowAmount, false);
+					chunk.setBlock(x, snowY, z, BlackMagic.snowCoverId, snowAmount, false);
 				}
 			}
 		}

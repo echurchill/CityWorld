@@ -4,6 +4,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Rooms.Populators.EmptyWithNothing;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.CurvedWallFactory;
 import me.daddychurchill.CityWorld.Support.Direction;
@@ -43,12 +44,12 @@ public abstract class BuildingLot extends ConnectedLot {
 	protected int aboveFloorHeight;
 	protected int basementFloorHeight;
 	
-	protected final static byte antennaBaseId = (byte) Material.CLAY.getId();
-	protected final static byte antennaId = (byte) Material.FENCE.getId();
-	protected final static byte conditionerId = (byte) Material.DOUBLE_STEP.getId();
-	protected final static byte conditionerTrimId = (byte) Material.STONE_PLATE.getId();
-	protected final static byte conditionerGrillId = (byte) Material.RAILS.getId();
-	protected final static byte ductId = (byte) Material.STEP.getId();
+	protected final static Material antennaBase = Material.CLAY;
+	protected final static Material antenna = Material.FENCE;
+	protected final static Material conditioner = Material.DOUBLE_STEP;
+	protected final static Material conditionerTrim = Material.STONE_PLATE;
+	protected final static Material conditionerGrill = Material.RAILS;
+	protected final static Material duct = Material.STEP;
 	protected final static Material tileMaterial = Material.STEP;
 	
 	public enum RoofStyle {FLATTOP, EDGED, PEAK, TENT_NORTHSOUTH, TENT_WESTEAST};//, SLANT_NORTH, SLANT_SOUTH, SLANT_WEST, SLANT_EAST};
@@ -294,7 +295,7 @@ public abstract class BuildingLot extends ConnectedLot {
 			boolean allowRounded, Material material, Surroundings heights) {
 		
 		// precalculate
-		byte materialId = ByteChunk.getMaterialId(material);
+		byte materialId = BlackMagic.getMaterialId(material);
 		byte emptyId = getAirId(generator, y1);
 		int y2 = y1 + height;
 		boolean stillNeedCeiling = true;
@@ -368,8 +369,8 @@ public abstract class BuildingLot extends ConnectedLot {
 			boolean allowRounded, Material materialWall, Material materialGlass, Surroundings heights) {
 		
 		// precalculate
-		byte wallId = ByteChunk.getMaterialId(materialWall);
-		byte glassId = ByteChunk.getMaterialId(materialGlass);
+		byte wallId = BlackMagic.getMaterialId(materialWall);
+		byte glassId = BlackMagic.getMaterialId(materialGlass);
 		int y2 = y1 + height;
 		boolean stillNeedWalls = true;
 		int inset = Math.max(insetNS, insetWE);
@@ -379,7 +380,7 @@ public abstract class BuildingLot extends ConnectedLot {
 			
 			// hack the glass material if needed
 			if (materialGlass == Material.THIN_GLASS)
-				glassId = (byte) Material.GLASS.getId();
+				glassId = BlackMagic.glassId;
 			
 			// do the sides
 			if (heights.toSouth()) {
@@ -631,8 +632,8 @@ public abstract class BuildingLot extends ConnectedLot {
 		//TODO Atrium in the middle of 2x2
 		
 		// precalculate
-		byte wallId = ByteChunk.getMaterialId(materialWall);
-		byte glassId = ByteChunk.getMaterialId(materialGlass);
+		byte wallId = BlackMagic.getMaterialId(materialWall);
+		byte glassId = BlackMagic.getMaterialId(materialGlass);
 		int y2 = y1 + floorHeight;
 		int x1 = heights.toWest() ? 0 : insetWE + 1;
 		int x2 = chunk.width - (heights.toEast() ? 0 : (insetWE + 1));
@@ -1392,8 +1393,8 @@ public abstract class BuildingLot extends ConnectedLot {
 		
 		if (chunkOdds.flipCoin()) {
 			int y2 = y + 8 + chunkOdds.getRandomInt(8);
-			chunk.setBlocks(x, y, y + 3, z, antennaBaseId);
-			chunk.setBlocks(x, y + 2, y2, z, antennaId);
+			chunk.setBlocks(x, y, y + 3, z, antennaBase);
+			chunk.setBlocks(x, y + 2, y2, z, antenna);
 			if (y2 >= navLightY) {
 				navLightX = x;
 				navLightY = y2 - 1;
@@ -1411,30 +1412,30 @@ public abstract class BuildingLot extends ConnectedLot {
 		
 		//TODO air conditioner tracks are not round
 		if (chunkOdds.flipCoin()) {
-			chunk.setBlock(x, y, z, conditionerId);
-			chunk.setBlock(x, y + 1, z, conditionerTrimId);
+			chunk.setBlock(x, y, z, conditioner);
+			chunk.setBlock(x, y + 1, z, conditionerTrim);
 			if (chunkOdds.flipCoin()) {
-				chunk.setBlockIfAir(x - 1, y, z, ductId);
-				chunk.setBlockIfAir(x - 2, y, z, ductId);
+				chunk.setBlockIfAir(x - 1, y, z, duct);
+				chunk.setBlockIfAir(x - 2, y, z, duct);
 			}
 			if (chunkOdds.flipCoin()) {
-				chunk.setBlockIfAir(x + 1, y, z, ductId);
-				chunk.setBlockIfAir(x + 2, y, z, ductId);
+				chunk.setBlockIfAir(x + 1, y, z, duct);
+				chunk.setBlockIfAir(x + 2, y, z, duct);
 			}
 			if (chunkOdds.flipCoin()) {
-				chunk.setBlockIfAir(x, y, z - 1, ductId);
-				chunk.setBlockIfAir(x, y, z - 2, ductId);
+				chunk.setBlockIfAir(x, y, z - 1, duct);
+				chunk.setBlockIfAir(x, y, z - 2, duct);
 			}
 			if (chunkOdds.flipCoin()) {
-				chunk.setBlockIfAir(x, y, z + 1, ductId);
-				chunk.setBlockIfAir(x, y, z + 2, ductId);
+				chunk.setBlockIfAir(x, y, z + 1, duct);
+				chunk.setBlockIfAir(x, y, z + 2, duct);
 			}
 			if (chunkOdds.flipCoin()) {
-				chunk.setBlock(x, y, z, conditionerId);
-				chunk.setBlock(x, y + 1, z, conditionerTrimId);
+				chunk.setBlock(x, y, z, conditioner);
+				chunk.setBlock(x, y + 1, z, conditionerTrim);
 //			} else {
-//				chunk.setBlocks(x, x + 2, y, z, z + 2, conditionerId);
-//				chunk.setBlocks(x, x + 2, y + 1, z, z + 2, conditionerGrillId);
+//				chunk.setBlocks(x, x + 2, y, z, z + 2, conditioner);
+//				chunk.setBlocks(x, x + 2, y + 1, z, z + 2, conditionerGrill);
 			}
 		}
 	}

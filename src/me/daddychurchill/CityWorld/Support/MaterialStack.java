@@ -39,7 +39,7 @@ public class MaterialStack {
 	}
 
 	public Byte getRandomTypeId(Odds odds) {
-		return (byte) (items == null ? SupportChunk.getMaterialId(Material.AIR) : 
-									   SupportChunk.getMaterialId(items[odds.getRandomInt(count())].getType()));
+		return (byte) (items == null ? BlackMagic.getMaterialId(Material.AIR) : 
+									   BlackMagic.getMaterialId(items[odds.getRandomInt(count())].getType()));
 	}
 }

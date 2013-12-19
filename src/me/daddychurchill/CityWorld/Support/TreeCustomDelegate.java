@@ -15,9 +15,9 @@ public class TreeCustomDelegate extends TreeVanillaDelegate {
 	public TreeCustomDelegate(RealChunk chunk, Odds odds, Material trunk, Material leaves1, Material leaves2) {
 		super(chunk);
 		this.odds = odds;
-		this.trunkId = SupportChunk.getMaterialId(trunk);
-		this.leavesId1 = SupportChunk.getMaterialId(leaves1);
-		this.leavesId2 = SupportChunk.getMaterialId(leaves2);
+		this.trunkId = BlackMagic.getMaterialId(trunk);
+		this.leavesId1 = BlackMagic.getMaterialId(leaves1);
+		this.leavesId2 = BlackMagic.getMaterialId(leaves2);
 	}
 	
 	@Override
@@ -27,7 +27,7 @@ public class TreeCustomDelegate extends TreeVanillaDelegate {
 
 	@Override
 	public int getTypeId(int x, int y, int z) {
-		return SupportChunk.getMaterialId(world.getBlockAt(x, y, z));
+		return BlackMagic.getMaterialId(world.getBlockAt(x, y, z));
 	}
 
 	@Override
@@ -59,15 +59,15 @@ public class TreeCustomDelegate extends TreeVanillaDelegate {
 		Block block = world.getBlockAt(x, y, z);
 		if (id == FoliageProvider.logId)
 			if (trunkId == FoliageProvider.logId)
-				return SupportChunk.setBlockType(block, FoliageProvider.logId, (byte) data, update);
+				return BlackMagic.setBlockType(block, FoliageProvider.logId, (byte) data, update);
 			else
-				return SupportChunk.setBlockType(block, trunkId, update);
+				return BlackMagic.setBlockType(block, trunkId, update);
 		
 		else if (id == FoliageProvider.leavesId)
 			if (odds.flipCoin())
-				return SupportChunk.setBlockType(block, leavesId1, update);
+				return BlackMagic.setBlockType(block, leavesId1, update);
 			else
-				return SupportChunk.setBlockType(block, leavesId2, update);
+				return BlackMagic.setBlockType(block, leavesId2, update);
 		else
 			return false;
 	}

@@ -1,18 +1,18 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 
 public class OreProvider_SandDunes extends OreProvider_Normal {
 
 	public OreProvider_SandDunes(WorldGenerator generator) {
 		super(generator);
 
-		fluidId = SupportChunk.sandId;
-		fluidFluidId = SupportChunk.sandId;
-		fluidSurfaceId = SupportChunk.sandId;
-		fluidSubsurfaceId = SupportChunk.sandstoneId;
-		fluidFrozenId = SupportChunk.snowBlockId;
+		fluidId = BlackMagic.sandId;
+		fluidFluidId = BlackMagic.sandId;
+		fluidSurfaceId = BlackMagic.sandId;
+		fluidSubsurfaceId = BlackMagic.sandstoneId;
+		fluidFrozenId = BlackMagic.snowBlockId;
 	}
 
 	@Override

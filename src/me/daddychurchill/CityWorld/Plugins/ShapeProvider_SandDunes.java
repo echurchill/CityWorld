@@ -18,7 +18,7 @@ import me.daddychurchill.CityWorld.Context.SandDunes.SandDunesRoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 
 public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 
@@ -140,8 +140,8 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 	protected void actualGenerateSand(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, int subsurfaceY) {
 		int y = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 		if (y > subsurfaceY) {
-			chunk.setBlocks(x, subsurfaceY, y - 2, z, SupportChunk.sandstoneId);
-			chunk.setBlocks(x, y - 2, y, z, SupportChunk.sandId);
+			chunk.setBlocks(x, subsurfaceY, y - 2, z, BlackMagic.sandstoneId);
+			chunk.setBlocks(x, y - 2, y, z, BlackMagic.sandId);
 		}
 	}
 	
@@ -154,7 +154,7 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 	@Override
 	public byte findAtmosphereIdAt(WorldGenerator generator, int blockY) {
 		if (blockY < floodY)
-			return SupportChunk.sandId;
+			return BlackMagic.sandId;
 		else
 			return super.findAtmosphereIdAt(generator, blockY);
 	}

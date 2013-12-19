@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 
 public class OreProvider_Nether extends OreProvider {
 	
@@ -17,13 +17,13 @@ public class OreProvider_Nether extends OreProvider {
 	public OreProvider_Nether(WorldGenerator generator) {
 		super(generator);
 		
-		surfaceId = SupportChunk.netherrackId;
-		subsurfaceId = SupportChunk.netherrackId;
-		stratumId = SupportChunk.netherrackId;
+		surfaceId = BlackMagic.netherrackId;
+		subsurfaceId = BlackMagic.netherrackId;
+		stratumId = BlackMagic.netherrackId;
 		
-		fluidId = SupportChunk.stillLavaId;
-		fluidSubsurfaceId = SupportChunk.netherrackId;
-		fluidSurfaceId = SupportChunk.netherrackId;
+		fluidId = BlackMagic.stillLavaId;
+		fluidSubsurfaceId = BlackMagic.netherrackId;
+		fluidSurfaceId = BlackMagic.netherrackId;
 	}
 
 	@Override
@@ -45,10 +45,10 @@ public class OreProvider_Nether extends OreProvider {
 	 * wildly modified by daddychurchill
 	 */
 	
-	private static final byte[] ore_types = new byte[] {SupportChunk.fluidLavaId,
-														SupportChunk.gravelId,
-														SupportChunk.soulsandId,
-														SupportChunk.glowstoneId};
+	private static final byte[] ore_types = new byte[] {BlackMagic.fluidLavaId,
+														BlackMagic.gravelId,
+														BlackMagic.soulsandId,
+														BlackMagic.glowstoneId};
 														
 	//                                                          LAVA   GRAV   SOUL   GLOW  
 	private static final int[] ore_iterations = new int[]    {    12,    20,    40,    20};

@@ -5,7 +5,7 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.Tekkit.FoliageProvider_Tekkit;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.TreeCustomDelegate;
 import me.daddychurchill.CityWorld.Support.TreeVanillaDelegate;
 
@@ -234,8 +234,8 @@ public abstract class FoliageProvider extends Provider {
 		// where do we start?
 		int bottomY = y;
 		Block base = chunk.getActualBlock(x, y - 1, z);
-		byte baseTypeId = SupportChunk.getMaterialId(base);
-		byte baseData = SupportChunk.getMaterialData(base);
+		byte baseTypeId = BlackMagic.getMaterialId(base);
+		byte baseData = BlackMagic.getMaterialData(base);
 		try {
 			int tries = 0;
 			
@@ -259,7 +259,7 @@ public abstract class FoliageProvider extends Provider {
 					// copy the trunk down a bit
 					Block root = chunk.getActualBlock(x, y, z);
 					chunk.setBlocks(x, bottomY, y, z, 
-							SupportChunk.getMaterialId(root), SupportChunk.getMaterialData(root));
+							BlackMagic.getMaterialId(root), BlackMagic.getMaterialData(root));
 					
 					// all done
 					break;
@@ -285,9 +285,9 @@ public abstract class FoliageProvider extends Provider {
 	}
 	
 	public final static Material log = Material.LOG;
-	public final static byte logId = SupportChunk.getMaterialId(log);
+	public final static byte logId = BlackMagic.getMaterialId(log);
 	public final static Material leaves = Material.LEAVES;
-	public final static byte leavesId = SupportChunk.getMaterialId(leaves);
+	public final static byte leavesId = BlackMagic.getMaterialId(leaves);
 	
 	protected BlockChangeDelegate getCustomTreeDelegate(RealChunk chunk, Odds odds, 
 			Material trunk, Material leaves1, Material leaves2) {

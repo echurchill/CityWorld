@@ -39,19 +39,19 @@ public class WorldBlocks extends SupportChunk {
 	
 	@Override
 	public byte getBlockType(int x, int y, int z) {
-		return getMaterialId(getActualBlock(x, y, z));
+		return BlackMagic.getMaterialId(getActualBlock(x, y, z));
 	}
 	
 	@Override
 	public void setBlock(int x, int y, int z, byte materialId) {
-		setBlockType(world.getBlockAt(x, y, z), materialId, noData, doPhysics);
+		BlackMagic.setBlockType(world.getBlockAt(x, y, z), materialId, BlackMagic.noData, doPhysics);
 	}
 
 	@Override
 	public void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				setBlockType(world.getBlockAt(x, y, z), materialId, noData, doPhysics);
+				BlackMagic.setBlockType(world.getBlockAt(x, y, z), materialId, BlackMagic.noData, doPhysics);
 			}
 		}
 	}
@@ -59,23 +59,23 @@ public class WorldBlocks extends SupportChunk {
 	@Override
 	public void setBlocks(int x, int y1, int y2, int z, byte type) {
 		for (int y = y1; y < y2; y++)
-			setBlockType(world.getBlockAt(x, y, z), type, noData, doPhysics);
+			BlackMagic.setBlockType(world.getBlockAt(x, y, z), type, BlackMagic.noData, doPhysics);
 	}
 
 	public void setBlock(int x, int y, int z, Material material) {
-		setBlockType(world.getBlockAt(chunkX + x, y, chunkZ + z), material, doPhysics);
+		BlackMagic.setBlockType(world.getBlockAt(chunkX + x, y, chunkZ + z), material, doPhysics);
 	}
 
 	public void setBlock(int x, int y, int z, byte type, byte data) {
-		setBlockType(world.getBlockAt(chunkX + x, y, chunkZ + z), type, data, doPhysics);
+		BlackMagic.setBlockType(world.getBlockAt(chunkX + x, y, chunkZ + z), type, data, doPhysics);
 	}
 	
 	public void setBlock(int x, int y, int z, Material material, boolean aDoPhysics) {
-		setBlockType(world.getBlockAt(chunkX + x, y, chunkZ + z), material, aDoPhysics);
+		BlackMagic.setBlockType(world.getBlockAt(chunkX + x, y, chunkZ + z), material, aDoPhysics);
 	}
 
 	public void setBlock(int x, int y, int z, byte type, byte data, boolean aDoPhysics) {
-		setBlockType(world.getBlockAt(chunkX + x, y, chunkZ + z), type, data, aDoPhysics);
+		BlackMagic.setBlockType(world.getBlockAt(chunkX + x, y, chunkZ + z), type, data, aDoPhysics);
 	}
 	
 	public void setBlocks(int x, int y1, int y2, int z, Material material) {
@@ -95,19 +95,19 @@ public class WorldBlocks extends SupportChunk {
 
 	public void setBlocks(int x, int y1, int y2, int z, Material material, byte data) {
 		for (int y = y1; y < y2; y++)
-			setBlockType(world.getBlockAt(x, y, z), material, data, doPhysics);
+			BlackMagic.setBlockType(world.getBlockAt(x, y, z), material, data, doPhysics);
 	}
 
 	public void setBlocks(int x, int y1, int y2, int z, Material material, byte data, boolean aDoPhysics) {
 		for (int y = y1; y < y2; y++)
-			setBlockType(world.getBlockAt(x, y, z), material, data, aDoPhysics);
+			BlackMagic.setBlockType(world.getBlockAt(x, y, z), material, data, aDoPhysics);
 	}
 
 	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, byte data, boolean aDoPhysics) {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
-					setBlockType(world.getBlockAt(x, y, z), material, data, aDoPhysics);
+					BlackMagic.setBlockType(world.getBlockAt(x, y, z), material, data, aDoPhysics);
 				}
 			}
 		}
@@ -117,7 +117,7 @@ public class WorldBlocks extends SupportChunk {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
-					setBlockType(world.getBlockAt(x, y, z), material, data, doPhysics);
+					BlackMagic.setBlockType(world.getBlockAt(x, y, z), material, data, doPhysics);
 				}
 			}
 		}
@@ -127,7 +127,7 @@ public class WorldBlocks extends SupportChunk {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
-					setBlockType(world.getBlockAt(x, y, z), type, data, doPhysics);
+					BlackMagic.setBlockType(world.getBlockAt(x, y, z), type, data, doPhysics);
 				}
 			}
 		}
@@ -141,7 +141,7 @@ public class WorldBlocks extends SupportChunk {
 	@Override
 	public void clearBlocks(int x, int y1, int y2, int z) {
 		for (int y = y1; y < y2; y++) {
-			setBlockType(world.getBlockAt(x, y, z), airId, noData, doPhysics);
+			BlackMagic.setBlockType(world.getBlockAt(x, y, z), BlackMagic.airId, BlackMagic.noData, doPhysics);
 		}
 	}
 
@@ -150,7 +150,7 @@ public class WorldBlocks extends SupportChunk {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
-					setBlockType(world.getBlockAt(x, y, z), airId, noData, doPhysics);
+					BlackMagic.setBlockType(world.getBlockAt(x, y, z), BlackMagic.airId, BlackMagic.noData, doPhysics);
 				}
 			}
 		}
@@ -158,7 +158,7 @@ public class WorldBlocks extends SupportChunk {
 	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				setBlockType(world.getBlockAt(x, y, z), material, doPhysics);
+				BlackMagic.setBlockType(world.getBlockAt(x, y, z), material, doPhysics);
 			}
 		}
 	}
@@ -166,7 +166,7 @@ public class WorldBlocks extends SupportChunk {
 	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, boolean aDoPhysics) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				setBlockType(world.getBlockAt(x, y, z), material, aDoPhysics);
+				BlackMagic.setBlockType(world.getBlockAt(x, y, z), material, aDoPhysics);
 			}
 		}
 	}
@@ -174,7 +174,7 @@ public class WorldBlocks extends SupportChunk {
 	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, byte data, boolean aDoPhysics) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				setBlockType(world.getBlockAt(x, y, z), material, data, aDoPhysics);
+				BlackMagic.setBlockType(world.getBlockAt(x, y, z), material, data, aDoPhysics);
 			}
 		}
 	}
@@ -182,7 +182,7 @@ public class WorldBlocks extends SupportChunk {
 	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, byte data) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				setBlockType(world.getBlockAt(x, y, z), material, data, doPhysics);
+				BlackMagic.setBlockType(world.getBlockAt(x, y, z), material, data, doPhysics);
 			}
 		}
 	}
@@ -204,7 +204,7 @@ public class WorldBlocks extends SupportChunk {
 	public boolean setEmptyBlock(int x, int y, int z, Material material) {
 		Block block = world.getBlockAt(x, y, z);
 		if (block.isEmpty()) {
-			return setBlockType(block, material, doPhysics);
+			return BlackMagic.setBlockType(block, material, doPhysics);
 		} else
 			return false;
 	}
@@ -212,7 +212,7 @@ public class WorldBlocks extends SupportChunk {
 	public boolean setEmptyBlock(int x, int y, int z, byte type, byte data) {
 		Block block = world.getBlockAt(x, y, z);
 		if (block.isEmpty()) {
-			return setBlockType(block, type, data, doPhysics);
+			return BlackMagic.setBlockType(block, type, data, doPhysics);
 		} else
 			return false;
 	}
@@ -220,7 +220,7 @@ public class WorldBlocks extends SupportChunk {
 	public boolean setEmptyBlock(int x, int y, int z, Material material, boolean aDoPhysics) {
 		Block block = world.getBlockAt(x, y, z);
 		if (block.isEmpty()) {
-			return setBlockType(block, material, aDoPhysics);
+			return BlackMagic.setBlockType(block, material, aDoPhysics);
 		} else
 			return false;
 	}
@@ -228,7 +228,7 @@ public class WorldBlocks extends SupportChunk {
 	public boolean setEmptyBlock(int x, int y, int z, byte type, byte data, boolean aDoPhysics) {
 		Block block = world.getBlockAt(x, y, z);
 		if (block.isEmpty()) {
-			return setBlockType(block, type, data, aDoPhysics);
+			return BlackMagic.setBlockType(block, type, data, aDoPhysics);
 		} else
 			return false;
 	}
@@ -248,7 +248,7 @@ public class WorldBlocks extends SupportChunk {
 			for (int z = z1; z < z2; z++) {
 				Block block = world.getBlockAt(x, y, z);
 				if (block.isEmpty())
-					setBlockType(block, type, data, aDoPhysics);
+					BlackMagic.setBlockType(block, type, data, aDoPhysics);
 			}
 		}
 	}
@@ -309,8 +309,8 @@ public class WorldBlocks extends SupportChunk {
 		byte data;
 		
 		public debrisItem(Block block) {
-			this.typeId = getMaterialId(block);
-			this.data = getMaterialData(block);
+			this.typeId = BlackMagic.getMaterialId(block);
+			this.data = BlackMagic.getMaterialData(block);
 		}
 	}
 	
@@ -389,11 +389,11 @@ public class WorldBlocks extends SupportChunk {
 				
 				// look out for half blocks
 				Block block = getActualBlock(x, y - 1, z);
-				int blockId = getMaterialId(block);
+				int blockId = BlackMagic.getMaterialId(block);
 				
 				// partial blocks
-				if (blockId == stepStoneId || blockId == snowCoverId)
-					setBlockType(block, item.typeId, item.data, false);
+				if (blockId == BlackMagic.stepStoneId || blockId == BlackMagic.snowCoverId)
+					BlackMagic.setBlockType(block, item.typeId, item.data, false);
 				
 				// other blocks?
 				else {

@@ -1,7 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 
 public class OreProvider_Decayed extends OreProvider_Normal {
 
@@ -9,11 +9,11 @@ public class OreProvider_Decayed extends OreProvider_Normal {
 		super(generator);
 
 		if (generator.settings.includeLavaFields) {
-			fluidId = SupportChunk.stillLavaId;
-			fluidFluidId = SupportChunk.fluidLavaId;
+			fluidId = BlackMagic.stillLavaId;
+			fluidFluidId = BlackMagic.fluidLavaId;
 		}
-		surfaceId = SupportChunk.sandId;
-		subsurfaceId = SupportChunk.sandstoneId;
+		surfaceId = BlackMagic.sandId;
+		subsurfaceId = BlackMagic.sandstoneId;
 	}
 
 	@Override
