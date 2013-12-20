@@ -7,6 +7,8 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
+
+import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class ConcreteLot extends BuildingLot {
@@ -30,11 +32,11 @@ public class ConcreteLot extends BuildingLot {
 			DataContext context, int platX, int platZ) {
 		int groundY = getBottomY(generator);
 		int sidewalkLevel = getSidewalkLevel(generator);
-		byte sidewalkId = getSidewalkId();
+		Material sidewalkMaterial = getSidewalkMaterial();
 
 		// top it off
 		chunk.setLayer(groundY, generator.oreProvider.subsurfaceId);
-		chunk.setLayer(sidewalkLevel, sidewalkId);
+		chunk.setLayer(sidewalkLevel, sidewalkMaterial);
 	}
 
 	@Override

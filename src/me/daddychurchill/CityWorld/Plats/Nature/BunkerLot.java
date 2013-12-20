@@ -9,7 +9,6 @@ import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
-import me.daddychurchill.CityWorld.Plugins.Tekkit.TekkitMaterial;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -64,19 +63,12 @@ public class BunkerLot extends ConstructLot {
 //				super.isShaftableLevel(generator, context, y);	
 	}
 	
-	private final static byte supportId = cobbleId;
-	private final static byte platformId = sandstoneId;
-	private final static byte crosswalkId = (byte) Material.WOOD.getId();
-	private final static byte railingId = (byte) Material.IRON_FENCE.getId();
-	private final static byte buildingId = (byte) Material.CLAY.getId();
-	private final static byte glassId = (byte) Material.GLASS.getId();
-	private final static byte waterId = (byte) Material.STATIONARY_WATER.getId();
-	private final static byte lavaId = (byte) Material.STATIONARY_LAVA.getId();
-	private final static byte iceId = (byte) Material.ICE.getId();
-	private final static byte spongeId = (byte) Material.SPONGE.getId();
-//NERF
-//	private final static byte oilId = (byte) TekkitMaterial.STATIONARY_OIL;
-//ENDNERF
+	private final static Material supportMaterial = Material.COBBLESTONE;
+	private final static Material platformMaterial = Material.SANDSTONE;
+	private final static Material crosswalkMaterial = Material.WOOD;
+	private final static Material railingMaterial = Material.IRON_FENCE;
+	private final static Material buildingMaterial = Material.CLAY;
+	private final static Material windowMaterial = Material.GLASS;
 	
 	//private final static int bilgeEmpty = 0;
 	private final static int bilgeWater = 1;
@@ -128,20 +120,20 @@ public class BunkerLot extends ConstructLot {
 		int yPlatform = calcSegmentOrigin(yBottom) + 6;
 		
 		// bottom
-		chunk.setLayer(yBottom, supportId);
+		chunk.setLayer(yBottom, supportMaterial);
 		
 		// clear out stuff?
 		switch (bilgeType) {
 		case bilgeWater:
-			chunk.setLayer(yBottom + 1, waterId);
+			chunk.setLayer(yBottom + 1, Material.STATIONARY_WATER);
 //			chunk.setBlocks(0, 16, yBottom + 2, yTop3, 0, 16, airId);
 			break;
 		case bilgeLava:
-			chunk.setLayer(yBottom + 1, lavaId);
+			chunk.setLayer(yBottom + 1, Material.STATIONARY_LAVA);
 //			chunk.setBlocks(0, 16, yBottom + 2, yTop3, 0, 16, airId);
 			break;
 		case bilgeIce:
-			chunk.setLayer(yBottom + 1, iceId);
+			chunk.setLayer(yBottom + 1, Material.ICE);
 //			chunk.setBlocks(0, 16, yBottom + 2, yTop3, 0, 16, airId);
 			break;
 		default: // bilgeEmpty:
@@ -150,59 +142,59 @@ public class BunkerLot extends ConstructLot {
 		}
 		
 		// vertical beams
-		chunk.setBlocks(0, 2, yBottom + 1, yTop3, 0, 1, supportId);
-		chunk.setBlocks(0, yBottom + 1, yTop3, 1, supportId);
-		chunk.setBlocks(0, 2, yBottom + 1, yTop3, 15, 16, supportId);
-		chunk.setBlocks(0, yBottom + 1, yTop3, 14, supportId);
-		chunk.setBlocks(14, 16, yBottom + 1, yTop3, 0, 1, supportId);
-		chunk.setBlocks(15, yBottom + 1, yTop3, 1, supportId);
-		chunk.setBlocks(14, 16, yBottom + 1, yTop3, 15, 16, supportId);
-		chunk.setBlocks(15, yBottom + 1, yTop3, 14, supportId);
+		chunk.setBlocks(0, 2, yBottom + 1, yTop3, 0, 1, supportMaterial);
+		chunk.setBlocks(0, yBottom + 1, yTop3, 1, supportMaterial);
+		chunk.setBlocks(0, 2, yBottom + 1, yTop3, 15, 16, supportMaterial);
+		chunk.setBlocks(0, yBottom + 1, yTop3, 14, supportMaterial);
+		chunk.setBlocks(14, 16, yBottom + 1, yTop3, 0, 1, supportMaterial);
+		chunk.setBlocks(15, yBottom + 1, yTop3, 1, supportMaterial);
+		chunk.setBlocks(14, 16, yBottom + 1, yTop3, 15, 16, supportMaterial);
+		chunk.setBlocks(15, yBottom + 1, yTop3, 14, supportMaterial);
 		
 		// near top cross beams
-		chunk.setBlocks(0, 16, yTop1, yTop2, 0, 2, supportId);
-		chunk.setBlocks(0, 16, yTop1, yTop2, 14, 16, supportId);
-		chunk.setBlocks(0, 2, yTop1, yTop2, 2, 14, supportId);
-		chunk.setBlocks(14, 16, yTop1, yTop2, 2, 14, supportId);
+		chunk.setBlocks(0, 16, yTop1, yTop2, 0, 2, supportMaterial);
+		chunk.setBlocks(0, 16, yTop1, yTop2, 14, 16, supportMaterial);
+		chunk.setBlocks(0, 2, yTop1, yTop2, 2, 14, supportMaterial);
+		chunk.setBlocks(14, 16, yTop1, yTop2, 2, 14, supportMaterial);
 		
 		// top cross beams
-		chunk.setBlocks(0, 16, yTop3, yTop4, 0, 2, supportId);
-		chunk.setBlocks(0, 16, yTop3, yTop4, 14, 16, supportId);
-		chunk.setBlocks(0, 2, yTop3, yTop4, 2, 14, supportId);
-		chunk.setBlocks(14, 16, yTop3, yTop4, 2, 14, supportId);
+		chunk.setBlocks(0, 16, yTop3, yTop4, 0, 2, supportMaterial);
+		chunk.setBlocks(0, 16, yTop3, yTop4, 14, 16, supportMaterial);
+		chunk.setBlocks(0, 2, yTop3, yTop4, 2, 14, supportMaterial);
+		chunk.setBlocks(14, 16, yTop3, yTop4, 2, 14, supportMaterial);
 		
 //		// clear out space between the top cross beams
 //		chunk.setBlocks(2, 14, yTop3, yTop4, 2, 14, airId);
 		
 		// draw platform
-		chunk.setBlocks(2, 14, yPlatform, 2, 14, platformId);
+		chunk.setBlocks(2, 14, yPlatform, 2, 14, platformMaterial);
 		
 		// draw crosswalks
-		chunk.setBlocks(7, 9, yPlatform, 0, 2, crosswalkId);
-		chunk.setBlocks(0, 2, yPlatform, 7, 9, crosswalkId);
-		chunk.setBlocks(7, 9, yPlatform, 14, 16, crosswalkId);
-		chunk.setBlocks(14, 16, yPlatform, 7, 9, crosswalkId);
+		chunk.setBlocks(7, 9, yPlatform, 0, 2, crosswalkMaterial);
+		chunk.setBlocks(0, 2, yPlatform, 7, 9, crosswalkMaterial);
+		chunk.setBlocks(7, 9, yPlatform, 14, 16, crosswalkMaterial);
+		chunk.setBlocks(14, 16, yPlatform, 7, 9, crosswalkMaterial);
 		
 		// draw railing
-		chunk.setBlocks(2, 7, yPlatform + 1, 2, 3, railingId);
-		chunk.setBlocks(9, 14, yPlatform + 1, 2, 3, railingId);
-		chunk.setBlocks(2, 7, yPlatform + 1, 13, 14, railingId);
-		chunk.setBlocks(9, 14, yPlatform + 1, 13, 14, railingId);
+		chunk.setBlocks(2, 7, yPlatform + 1, 2, 3, railingMaterial);
+		chunk.setBlocks(9, 14, yPlatform + 1, 2, 3, railingMaterial);
+		chunk.setBlocks(2, 7, yPlatform + 1, 13, 14, railingMaterial);
+		chunk.setBlocks(9, 14, yPlatform + 1, 13, 14, railingMaterial);
 		
-		chunk.setBlocks(2, 3, yPlatform + 1, 3, 7, railingId);
-		chunk.setBlocks(13, 14, yPlatform + 1, 3, 7, railingId);
-		chunk.setBlocks(2, 3, yPlatform + 1, 9, 13, railingId);
-		chunk.setBlocks(13, 14, yPlatform + 1, 9, 13, railingId);
+		chunk.setBlocks(2, 3, yPlatform + 1, 3, 7, railingMaterial);
+		chunk.setBlocks(13, 14, yPlatform + 1, 3, 7, railingMaterial);
+		chunk.setBlocks(2, 3, yPlatform + 1, 9, 13, railingMaterial);
+		chunk.setBlocks(13, 14, yPlatform + 1, 9, 13, railingMaterial);
 		
-		chunk.setBlocks(6, 7, yPlatform, yPlatform + 2, 0, 2, railingId);
-		chunk.setBlocks(9, 10, yPlatform, yPlatform + 2, 0, 2, railingId);
-		chunk.setBlocks(6, 7, yPlatform, yPlatform + 2, 14, 16, railingId);
-		chunk.setBlocks(9, 10, yPlatform, yPlatform + 2, 14, 16, railingId);
+		chunk.setBlocks(6, 7, yPlatform, yPlatform + 2, 0, 2, railingMaterial);
+		chunk.setBlocks(9, 10, yPlatform, yPlatform + 2, 0, 2, railingMaterial);
+		chunk.setBlocks(6, 7, yPlatform, yPlatform + 2, 14, 16, railingMaterial);
+		chunk.setBlocks(9, 10, yPlatform, yPlatform + 2, 14, 16, railingMaterial);
 		
-		chunk.setBlocks(0, 2, yPlatform, yPlatform + 2, 6, 7, railingId);
-		chunk.setBlocks(0, 2, yPlatform, yPlatform + 2, 9, 10, railingId);
-		chunk.setBlocks(14, 16, yPlatform, yPlatform + 2, 6, 7, railingId);
-		chunk.setBlocks(14, 16, yPlatform, yPlatform + 2, 9, 10, railingId);
+		chunk.setBlocks(0, 2, yPlatform, yPlatform + 2, 6, 7, railingMaterial);
+		chunk.setBlocks(0, 2, yPlatform, yPlatform + 2, 9, 10, railingMaterial);
+		chunk.setBlocks(14, 16, yPlatform, yPlatform + 2, 6, 7, railingMaterial);
+		chunk.setBlocks(14, 16, yPlatform, yPlatform + 2, 9, 10, railingMaterial);
 		
 		// build a pretend building
 		switch (buildingType) {
@@ -244,10 +236,10 @@ public class BunkerLot extends ConstructLot {
 		while (y + Height < y2) {
 			
 			// walls please
-			chunk.setWalls(x1, x2, y, y + Height - 1, z1, z2, buildingId);
+			chunk.setWalls(x1, x2, y, y + Height - 1, z1, z2, buildingMaterial);
 			
 			// interspace
-			chunk.setBlocks(x1 + 1, x2 - 1, y + Height - 1, y + Height, z1 + 1, z2 - 1, buildingId);
+			chunk.setBlocks(x1 + 1, x2 - 1, y + Height - 1, y + Height, z1 + 1, z2 - 1, buildingMaterial);
 			
 			// make things bigger
 			y += Height;
@@ -266,16 +258,16 @@ public class BunkerLot extends ConstructLot {
 		for (int y = y1; y < y3; y += FloorHeight) {
 			
 			// walls please
-			chunk.setWalls(x1, x2, y, y + FloorHeight - 1, z1, z2, buildingId);
+			chunk.setWalls(x1, x2, y, y + FloorHeight - 1, z1, z2, buildingMaterial);
 			
 			// windows in the wall
-			chunk.setBlocks(x1 + 2, x2 - 2, y + 1, y + 2, z1, z1 + 1, glassId);
-			chunk.setBlocks(x1 + 2, x2 - 2, y + 1, y + 2, z2 - 1, z2, glassId);
-			chunk.setBlocks(x1, x1 + 1, y + 1, y + 2, z1 + 2, z2 - 2, glassId);
-			chunk.setBlocks(x2 - 1, x2, y + 1, y + 2, z1 + 2, z2 - 2, glassId);
+			chunk.setBlocks(x1 + 2, x2 - 2, y + 1, y + 2, z1, z1 + 1, windowMaterial);
+			chunk.setBlocks(x1 + 2, x2 - 2, y + 1, y + 2, z2 - 1, z2, windowMaterial);
+			chunk.setBlocks(x1, x1 + 1, y + 1, y + 2, z1 + 2, z2 - 2, windowMaterial);
+			chunk.setBlocks(x2 - 1, x2, y + 1, y + 2, z1 + 2, z2 - 2, windowMaterial);
 			
 			// interspace
-			chunk.setBlocks(x1 + 1, x2 - 1, y + FloorHeight - 1, y + FloorHeight, z1 + 1, z2 - 1, buildingId);
+			chunk.setBlocks(x1 + 1, x2 - 1, y + FloorHeight - 1, y + FloorHeight, z1 + 1, z2 - 1, buildingMaterial);
 		}
 
 //		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.BOOKSHELF);
@@ -290,8 +282,8 @@ public class BunkerLot extends ConstructLot {
 		byte emptyId = getAirId(generator, y1);
 		
 		// lower bit
-		chunk.setWalls(x1 + 1, x2 - 1, y1, y1 + 1, z1 + 1, z2 - 1, buildingId);
-		chunk.setWalls(x1 + 1, x2 - 1, y1 + 1, y1 + 2, z1 + 1, z2 - 1, glassId);
+		chunk.setWalls(x1 + 1, x2 - 1, y1, y1 + 1, z1 + 1, z2 - 1, buildingMaterial);
+		chunk.setWalls(x1 + 1, x2 - 1, y1 + 1, y1 + 2, z1 + 1, z2 - 1, windowMaterial);
 		
 		// make it so we can walk into the 
 		chunk.setBlocks(x1 + 4, x2 - 4, y1, y1 + 2, z1 + 1, z1 + 2, emptyId);
@@ -306,17 +298,17 @@ public class BunkerLot extends ConstructLot {
 			
 			// texture
 			for (int i = 1; i < buildingWidth; i += 2) {
-				chunk.setBlocks(x1 + i, y, yTop, z1, buildingId);
-				chunk.setBlocks(x1 + i - 1, y, yTop, z2 - 1, buildingId);
-				chunk.setBlocks(x1, y, yTop, z1 + i, buildingId);
-				chunk.setBlocks(x2 - 1, y, yTop, z1 + i - 1, buildingId);
+				chunk.setBlocks(x1 + i, y, yTop, z1, buildingMaterial);
+				chunk.setBlocks(x1 + i - 1, y, yTop, z2 - 1, buildingMaterial);
+				chunk.setBlocks(x1, y, yTop, z1 + i, buildingMaterial);
+				chunk.setBlocks(x2 - 1, y, yTop, z1 + i - 1, buildingMaterial);
 			}
 			
 			// inner wall
-			chunk.setWalls(x1 + 1, x2 - 1, y, yTop, z1 + 1, z2 - 1, buildingId);
+			chunk.setWalls(x1 + 1, x2 - 1, y, yTop, z1 + 1, z2 - 1, buildingMaterial);
 			
 			// cap it off
-			chunk.setBlocks(x1 + 1, x2 - 1, yTop, yTop + 1, z1 + 1, z2 - 1, buildingId);
+			chunk.setBlocks(x1 + 1, x2 - 1, yTop, yTop + 1, z1 + 1, z2 - 1, buildingMaterial);
 			
 			// make things bigger
 			y += Height;
@@ -334,13 +326,13 @@ public class BunkerLot extends ConstructLot {
 		int y3 = y2 - 5;
 		
 		// initial pylon
-		chunk.setBlocks(x1 + 4, x2 - 4, y1, y1 + 2, z1 + 4, z2 - 4, buildingId);
+		chunk.setBlocks(x1 + 4, x2 - 4, y1, y1 + 2, z1 + 4, z2 - 4, buildingMaterial);
 		
 		// rest of the pylon and balls
 		for (int y = y1 + 2; y < y3; y += 6) {
 			
 			// center pylon
-			chunk.setBlocks(x1 + 4, x2 - 4, y, y + 6, z1 + 4, z2 - 4, buildingId);
+			chunk.setBlocks(x1 + 4, x2 - 4, y, y + 6, z1 + 4, z2 - 4, buildingMaterial);
 			
 			// balls baby!
 			generateBallsyBuildingBall(chunk, x1, y, z1);
@@ -356,13 +348,13 @@ public class BunkerLot extends ConstructLot {
 		if (chunkOdds.playOdds(0.25)) {
 			
 			// bottom
-			chunk.setBlocks(x + 1, x + 4, y, y + 1, z + 1, z + 4, buildingId);
+			chunk.setBlocks(x + 1, x + 4, y, y + 1, z + 1, z + 4, buildingMaterial);
 			
 			// sides
-			chunk.setBlocks(x, x + 5, y + 1, y + 4, z, z + 5, buildingId);
+			chunk.setBlocks(x, x + 5, y + 1, y + 4, z, z + 5, buildingMaterial);
 			
 			// top
-			chunk.setBlocks(x + 1, x + 4, y + 4, y + 5, z + 1, z + 4, buildingId);
+			chunk.setBlocks(x + 1, x + 4, y + 4, y + 5, z + 1, z + 4, buildingMaterial);
 		}
 	}
 
@@ -376,10 +368,10 @@ public class BunkerLot extends ConstructLot {
 		int yBase = y1 + ySegment;
 		
 		// four towers
-		chunk.setBlocks(x1, x1 + 5, y1, yBase + chunkOdds.getRandomInt(yRange), z1, z1 + 5, buildingId);
-		chunk.setBlocks(x1, x1 + 5, y1, yBase + chunkOdds.getRandomInt(yRange), z2 - 5, z2, buildingId);
-		chunk.setBlocks(x2 - 5, x2, y1, yBase + chunkOdds.getRandomInt(yRange), z1, z1 + 5, buildingId);
-		chunk.setBlocks(x2 - 5, x2, y1, yBase + chunkOdds.getRandomInt(yRange), z2 - 5, z2, buildingId);
+		chunk.setBlocks(x1, x1 + 5, y1, yBase + chunkOdds.getRandomInt(yRange), z1, z1 + 5, buildingMaterial);
+		chunk.setBlocks(x1, x1 + 5, y1, yBase + chunkOdds.getRandomInt(yRange), z2 - 5, z2, buildingMaterial);
+		chunk.setBlocks(x2 - 5, x2, y1, yBase + chunkOdds.getRandomInt(yRange), z1, z1 + 5, buildingMaterial);
+		chunk.setBlocks(x2 - 5, x2, y1, yBase + chunkOdds.getRandomInt(yRange), z2 - 5, z2, buildingMaterial);
 		
 		//TODO make them hollow
 		//TODO vertical windows
@@ -398,58 +390,57 @@ public class BunkerLot extends ConstructLot {
 		int yTop = y2;
 		
 		// supports
-		chunk.setBlocks(x1 + 1, x1 + 3, y1, yBottom, z1 + 1, z1 + 3, buildingId);
-		chunk.setBlocks(x1 + 1, x1 + 3, y1, yBottom, z2 - 3, z2 - 1, buildingId);
-		chunk.setBlocks(x2 - 3, x2 - 1, y1, yBottom, z1 + 1, z1 + 3, buildingId);
-		chunk.setBlocks(x2 - 3, x2 - 1, y1, yBottom, z2 - 3, z2 - 1, buildingId);
+		chunk.setBlocks(x1 + 1, x1 + 3, y1, yBottom, z1 + 1, z1 + 3, buildingMaterial);
+		chunk.setBlocks(x1 + 1, x1 + 3, y1, yBottom, z2 - 3, z2 - 1, buildingMaterial);
+		chunk.setBlocks(x2 - 3, x2 - 1, y1, yBottom, z1 + 1, z1 + 3, buildingMaterial);
+		chunk.setBlocks(x2 - 3, x2 - 1, y1, yBottom, z2 - 3, z2 - 1, buildingMaterial);
 		
 		// bottom bit
-		chunk.setBlocks(x1, x2, yBottom, yBottom + 1, z1, z2, buildingId);
+		chunk.setBlocks(x1, x2, yBottom, yBottom + 1, z1, z2, buildingMaterial);
 		
 		// walls
-		chunk.setBlocks(x1, x2, yBottom + 1, yTop, z1 - 1, z1, buildingId);
-		chunk.setBlocks(x1, x2, yBottom + 1, yTop, z2    , z2 + 1, buildingId);
-		chunk.setBlocks(x1 - 1, x1, yBottom + 1, yTop, z1, z2, buildingId);
-		chunk.setBlocks(x2    , x2 + 1, yBottom + 1, yTop, z1, z2, buildingId);
+		chunk.setBlocks(x1, x2, yBottom + 1, yTop, z1 - 1, z1, buildingMaterial);
+		chunk.setBlocks(x1, x2, yBottom + 1, yTop, z2    , z2 + 1, buildingMaterial);
+		chunk.setBlocks(x1 - 1, x1, yBottom + 1, yTop, z1, z2, buildingMaterial);
+		chunk.setBlocks(x2    , x2 + 1, yBottom + 1, yTop, z1, z2, buildingMaterial);
 		
 		// make it so we can see in a bit
-		chunk.setBlocks(x1 + 3, x2 - 3, yBottom + 1, yTop, z1 - 1, z1, glassId);
-		chunk.setBlocks(x1 + 3, x2 - 3, yBottom + 1, yTop, z2    , z2 + 1, glassId);
-		chunk.setBlocks(x1 - 1, x1, yBottom + 1, yTop, z1 + 3, z2 - 3, glassId);
-		chunk.setBlocks(x2    , x2 + 1, yBottom + 1, yTop, z1 + 3, z2 - 3, glassId);
+		chunk.setBlocks(x1 + 3, x2 - 3, yBottom + 1, yTop, z1 - 1, z1, windowMaterial);
+		chunk.setBlocks(x1 + 3, x2 - 3, yBottom + 1, yTop, z2    , z2 + 1, windowMaterial);
+		chunk.setBlocks(x1 - 1, x1, yBottom + 1, yTop, z1 + 3, z2 - 3, windowMaterial);
+		chunk.setBlocks(x2    , x2 + 1, yBottom + 1, yTop, z1 + 3, z2 - 3, windowMaterial);
 		
 		// put a top on it
-		chunk.setBlocks(x1, x2, yTop, yTop + 1, z1, z2, buildingId);
+		chunk.setBlocks(x1, x2, yTop, yTop + 1, z1, z2, buildingMaterial);
 		
-		// fill it
-		byte fillId;
-		switch (chunkOdds.getRandomInt(6)) {
-		case 1:
-			fillId = lavaId;
-			break;
-		case 2:
-			fillId = iceId;
-			break;
-		case 3:
-			fillId = snowId;
-			break;
-		case 4:
-			fillId = spongeId;
-			break;
-//NERF
-//		case 5:
-//			if (generator.settings.includeTekkitMaterials) { // tekkit support by gunre
-//				fillId = oilId;
-//				break;
-//			} // else just fill with some more water
-//ENDNERF
-		default:
-			fillId = waterId;
-			break;
-		}
-		chunk.setBlocks(x1, x2, yBottom + 1, yBottom + ((yTop - yBottom) / 3) * 2, z1, z2, fillId);
+		chunk.setBlocks(x1, x2, yBottom + 1, yBottom + ((yTop - yBottom) / 3) * 2, z1, z2, getFillMaterial());
 
 //		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.LAPIS_BLOCK);
+	}
+	
+	private Material getFillMaterial() {
+		switch (chunkOdds.getRandomInt(10)) {
+		case 1:
+			return Material.STATIONARY_LAVA;
+		case 2:
+			return Material.PACKED_ICE;
+		case 3:
+			return Material.SNOW_BLOCK;
+		case 4:
+			return Material.SPONGE;
+		case 5:
+			return Material.REDSTONE_BLOCK;
+		case 6:
+			return Material.COAL_BLOCK;
+		case 7:
+			return Material.HARD_CLAY;
+		case 8:
+			return Material.ENDER_STONE;
+		case 9:
+			return Material.EMERALD_BLOCK;
+		default:
+			return Material.STATIONARY_WATER;
+		}
 	}
 
 	private void generatePyramidBuilding(WorldGenerator generator, DataContext context, ByteChunk chunk, int y1, int y2) {
@@ -460,7 +451,7 @@ public class BunkerLot extends ConstructLot {
 		byte emptyId = getAirId(generator, y1);
 		for (int i = 0; i < 7; i++) {
 			int y = y1 + i * 2;
-			chunk.setWalls(x1 + i, x2 - i, y, y + 2, z1 + i, z2 - i, buildingId);
+			chunk.setWalls(x1 + i, x2 - i, y, y + 2, z1 + i, z2 - i, buildingMaterial);
 		}
 
 		// make it so we can walk through the pyramid
@@ -470,10 +461,10 @@ public class BunkerLot extends ConstructLot {
 		chunk.setBlocks(x2 - 1, x2    , y1, y1 + 2, z1 + 5, z2 - 5, emptyId);
 		
 		// top off the entry ways
-		chunk.setBlocks(x1 + 4, x2 - 4, y1 + 2, y1 + 3, z1    , z1 + 1, buildingId);
-		chunk.setBlocks(x1 + 4, x2 - 4, y1 + 2, y1 + 3, z2 - 1, z2    , buildingId);
-		chunk.setBlocks(x1    , x1 + 1, y1 + 2, y1 + 3, z1 + 4, z2 - 4, buildingId);
-		chunk.setBlocks(x2 - 1, x2    , y1 + 2, y1 + 3, z1 + 4, z2 - 4, buildingId);
+		chunk.setBlocks(x1 + 4, x2 - 4, y1 + 2, y1 + 3, z1    , z1 + 1, buildingMaterial);
+		chunk.setBlocks(x1 + 4, x2 - 4, y1 + 2, y1 + 3, z2 - 1, z2    , buildingMaterial);
+		chunk.setBlocks(x1    , x1 + 1, y1 + 2, y1 + 3, z1 + 4, z2 - 4, buildingMaterial);
+		chunk.setBlocks(x2 - 1, x2    , y1 + 2, y1 + 3, z1 + 4, z2 - 4, buildingMaterial);
 
 //		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.STONE);
 	}
@@ -564,10 +555,10 @@ public class BunkerLot extends ConstructLot {
 //		while (y + Height < y2) {
 //			
 //			// walls please
-//			chunk.setWalls(x1, x2, y, y + Height - 1, z1, z2, buildingId);
+//			chunk.setWalls(x1, x2, y, y + Height - 1, z1, z2, buildingMaterial);
 //			
 //			// interspace
-//			chunk.setBlocks(x1 + 1, x2 - 1, y + Height - 1, y + Height, z1 + 1, z2 - 1, buildingId);
+//			chunk.setBlocks(x1 + 1, x2 - 1, y + Height - 1, y + Height, z1 + 1, z2 - 1, buildingMaterial);
 //			
 //			// make things bigger
 //			y += Height;
@@ -586,7 +577,7 @@ public class BunkerLot extends ConstructLot {
 //		for (int y = y1; y < y3; y += FloorHeight) {
 //			
 //			// walls please
-//			chunk.setWalls(x1, x2, y, y + FloorHeight - 1, z1, z2, buildingId);
+//			chunk.setWalls(x1, x2, y, y + FloorHeight - 1, z1, z2, buildingMaterial);
 //			
 //			// windows in the wall
 //			chunk.setBlocks(x1 + 2, x2 - 2, y + 1, y + 2, z1, z1 + 1, glassId);
@@ -597,7 +588,7 @@ public class BunkerLot extends ConstructLot {
 //			//TODO add doors & stairs
 //			
 //			// interspace
-//			chunk.setBlocks(x1 + 1, x2 - 1, y + FloorHeight - 1, y + FloorHeight, z1 + 1, z2 - 1, buildingId);
+//			chunk.setBlocks(x1 + 1, x2 - 1, y + FloorHeight - 1, y + FloorHeight, z1 + 1, z2 - 1, buildingMaterial);
 //		}
 
 //		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.BOOKSHELF);
@@ -619,13 +610,13 @@ public class BunkerLot extends ConstructLot {
 //		int y3 = y2 - 5;
 //		
 //		// initial pylon
-//		chunk.setBlocks(x1 + 4, x2 - 4, y1, y1 + 2, z1 + 4, z2 - 4, buildingId);
+//		chunk.setBlocks(x1 + 4, x2 - 4, y1, y1 + 2, z1 + 4, z2 - 4, buildingMaterial);
 //		
 //		// rest of the pylon and balls
 //		for (int y = y1 + 2; y < y3; y += 6) {
 //			
 //			// center pylon
-//			chunk.setBlocks(x1 + 4, x2 - 4, y, y + 6, z1 + 4, z2 - 4, buildingId);
+//			chunk.setBlocks(x1 + 4, x2 - 4, y, y + 6, z1 + 4, z2 - 4, buildingMaterial);
 //			
 //			// balls baby!
 //			decorateBallsyBuildingBall(chunk, random, x1, y, z1);
@@ -641,13 +632,13 @@ public class BunkerLot extends ConstructLot {
 //		if (random.nextDouble() > 0.25) {
 //			
 //			// bottom
-//			chunk.setBlocks(x + 1, x + 4, y, y + 1, z + 1, z + 4, buildingId);
+//			chunk.setBlocks(x + 1, x + 4, y, y + 1, z + 1, z + 4, buildingMaterial);
 //			
 //			// sides
-//			chunk.setBlocks(x, x + 5, y + 1, y + 4, z, z + 5, buildingId);
+//			chunk.setBlocks(x, x + 5, y + 1, y + 4, z, z + 5, buildingMaterial);
 //			
 //			// top
-//			chunk.setBlocks(x + 1, x + 4, y + 4, y + 5, z + 1, z + 4, buildingId);
+//			chunk.setBlocks(x + 1, x + 4, y + 4, y + 5, z + 1, z + 4, buildingMaterial);
 //		}
 //	}
 
@@ -661,10 +652,10 @@ public class BunkerLot extends ConstructLot {
 //		int yBase = y1 + ySegment;
 //		
 //		// four towers
-//		chunk.setBlocks(x1, x1 + 5, y1, yBase + random.nextInt(yRange), z1, z1 + 5, buildingId);
-//		chunk.setBlocks(x1, x1 + 5, y1, yBase + random.nextInt(yRange), z2 - 5, z2, buildingId);
-//		chunk.setBlocks(x2 - 5, x2, y1, yBase + random.nextInt(yRange), z1, z1 + 5, buildingId);
-//		chunk.setBlocks(x2 - 5, x2, y1, yBase + random.nextInt(yRange), z2 - 5, z2, buildingId);
+//		chunk.setBlocks(x1, x1 + 5, y1, yBase + random.nextInt(yRange), z1, z1 + 5, buildingMaterial);
+//		chunk.setBlocks(x1, x1 + 5, y1, yBase + random.nextInt(yRange), z2 - 5, z2, buildingMaterial);
+//		chunk.setBlocks(x2 - 5, x2, y1, yBase + random.nextInt(yRange), z1, z1 + 5, buildingMaterial);
+//		chunk.setBlocks(x2 - 5, x2, y1, yBase + random.nextInt(yRange), z2 - 5, z2, buildingMaterial);
 		
 //		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.GOLD_BLOCK);
 	}
@@ -678,19 +669,19 @@ public class BunkerLot extends ConstructLot {
 //		int yTop = y2;
 //		
 //		// supports
-//		chunk.setBlocks(x1 + 1, x1 + 3, y1, yBottom, z1 + 1, z1 + 3, buildingId);
-//		chunk.setBlocks(x1 + 1, x1 + 3, y1, yBottom, z2 - 3, z2 - 1, buildingId);
-//		chunk.setBlocks(x2 - 3, x2 - 1, y1, yBottom, z1 + 1, z1 + 3, buildingId);
-//		chunk.setBlocks(x2 - 3, x2 - 1, y1, yBottom, z2 - 3, z2 - 1, buildingId);
+//		chunk.setBlocks(x1 + 1, x1 + 3, y1, yBottom, z1 + 1, z1 + 3, buildingMaterial);
+//		chunk.setBlocks(x1 + 1, x1 + 3, y1, yBottom, z2 - 3, z2 - 1, buildingMaterial);
+//		chunk.setBlocks(x2 - 3, x2 - 1, y1, yBottom, z1 + 1, z1 + 3, buildingMaterial);
+//		chunk.setBlocks(x2 - 3, x2 - 1, y1, yBottom, z2 - 3, z2 - 1, buildingMaterial);
 //		
 //		// bottom bit
-//		chunk.setBlocks(x1, x2, yBottom, yBottom + 1, z1, z2, buildingId);
+//		chunk.setBlocks(x1, x2, yBottom, yBottom + 1, z1, z2, buildingMaterial);
 //		
 //		// walls
-//		chunk.setBlocks(x1, x2, yBottom + 1, yTop, z1 - 1, z1, buildingId);
-//		chunk.setBlocks(x1, x2, yBottom + 1, yTop, z2    , z2 + 1, buildingId);
-//		chunk.setBlocks(x1 - 1, x1, yBottom + 1, yTop, z1, z2, buildingId);
-//		chunk.setBlocks(x2    , x2 + 1, yBottom + 1, yTop, z1, z2, buildingId);
+//		chunk.setBlocks(x1, x2, yBottom + 1, yTop, z1 - 1, z1, buildingMaterial);
+//		chunk.setBlocks(x1, x2, yBottom + 1, yTop, z2    , z2 + 1, buildingMaterial);
+//		chunk.setBlocks(x1 - 1, x1, yBottom + 1, yTop, z1, z2, buildingMaterial);
+//		chunk.setBlocks(x2    , x2 + 1, yBottom + 1, yTop, z1, z2, buildingMaterial);
 //		
 //		// make it so we can see in a bit
 //		chunk.setBlocks(x1 + 3, x2 - 3, yBottom + 1, yTop, z1 - 1, z1, glassId);
@@ -699,10 +690,10 @@ public class BunkerLot extends ConstructLot {
 //		chunk.setBlocks(x2    , x2 + 1, yBottom + 1, yTop, z1 + 3, z2 - 3, glassId);
 //		
 //		// put a top on it
-//		chunk.setBlocks(x1, x2, yTop, yTop + 1, z1, z2, buildingId);
+//		chunk.setBlocks(x1, x2, yTop, yTop + 1, z1, z2, buildingMaterial);
 //		
 //		// fill it
-//		chunk.setBlocks(x1, x2, yBottom + 1, yBottom + ((yTop - yBottom) / 3) * 2, z1, z2, waterId);
+//		chunk.setBlocks(x1, x2, yBottom + 1, yBottom + ((yTop - yBottom) / 3) * 2, z1, z2, waterMaterial);
 
 //		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.LAPIS_BLOCK);
 	}

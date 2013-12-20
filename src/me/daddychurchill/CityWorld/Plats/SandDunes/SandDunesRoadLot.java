@@ -22,8 +22,8 @@ public class SandDunesRoadLot extends RoadLot {
 	}
 	
 	@Override
-	protected byte getSidewalkId() {
-		return (byte) Material.DOUBLE_STEP.getId();
+	protected Material getSidewalkMaterial() {
+		return Material.DOUBLE_STEP;
 	}
 	
 	@Override

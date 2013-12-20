@@ -232,6 +232,21 @@ public class ByteChunk extends SupportChunk {
 		replaceBlocks(BlackMagic.getMaterialId(fromMaterial), BlackMagic.getMaterialId(toMaterial));
 	}
 	
+	public int setLayer(int blocky, Material material) {
+		setBlocks(0, width, blocky, blocky + 1, 0, width, material);
+		return blocky + 1;
+	}
+	
+	public int setLayer(int blocky, int height, Material material) {
+		setBlocks(0, width, blocky, blocky + height, 0, width, material);
+		return blocky + height;
+	}
+	
+	public int setLayer(int blocky, int height, int inset, Material material) {
+		setBlocks(inset, width - inset, blocky, blocky + height, inset, width - inset, material);
+		return blocky + height;
+	}
+	
 	public int setLayer(int blocky, byte materialId) {
 		setBlocks(0, width, blocky, blocky + 1, 0, width, materialId);
 		return blocky + 1;

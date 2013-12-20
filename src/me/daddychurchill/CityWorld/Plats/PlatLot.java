@@ -133,8 +133,8 @@ public abstract class PlatLot {
 		return generator.streetLevel + 1;
 	}
 	
-	protected byte getSidewalkId() {
-		return (byte) Material.STEP.getId();
+	protected Material getSidewalkMaterial() {
+		return Material.STEP;
 	}
 	
 	protected int getBlockY(int x, int z) {

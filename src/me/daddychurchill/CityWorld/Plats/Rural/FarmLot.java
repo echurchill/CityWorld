@@ -72,8 +72,8 @@ public class FarmLot extends ConnectedLot {
 
 	protected Material waterMaterial = Material.STATIONARY_WATER;
 	
-	protected final static byte isolationNormalId = (byte) Material.LOG.getId();
-	protected final static byte isolationNetherId = (byte) Material.NETHER_BRICK.getId();
+	protected final static Material isolationNormalMaterial = Material.LOG;
+	protected final static Material isolationNetherMaterial = Material.NETHER_BRICK;
 	
 	protected final static Material soilMaterial = Material.SOIL;
 	protected final static Material sandMaterial = Material.SAND;
@@ -125,53 +125,53 @@ public class FarmLot extends ConnectedLot {
 		chunk.setLayer(generator.streetLevel - 1, 2, groundId);
 		
 		// in-between bits bits
-		byte dividerId = isolationNormalId;
+		Material dividerMaterial = isolationNormalMaterial;
 		if (generator.worldEnvironment == Environment.NETHER) {
-			dividerId = isolationNetherId;
+			dividerMaterial = isolationNetherMaterial;
 		}
 		
 		// draw the isolation blocks
 		if (!farms.toNorth()) {
-			chunk.setBlocks(1, 15, generator.streetLevel, 0, 1, dividerId);
+			chunk.setBlocks(1, 15, generator.streetLevel, 0, 1, dividerMaterial);
 			if (farms.toWest())
-				chunk.setBlock(0, generator.streetLevel, 0, dividerId);
+				chunk.setBlock(0, generator.streetLevel, 0, dividerMaterial);
 			else
 				chunk.setBlock(0, generator.streetLevel, 0, surfaceId);
 			if (farms.toEast())
-				chunk.setBlock(15, generator.streetLevel, 0, dividerId);
+				chunk.setBlock(15, generator.streetLevel, 0, dividerMaterial);
 			else
 				chunk.setBlock(15, generator.streetLevel, 0, surfaceId);
 		}
 		if (!farms.toSouth()) {
-			chunk.setBlocks(1, 15, generator.streetLevel, 15, 16, dividerId);
+			chunk.setBlocks(1, 15, generator.streetLevel, 15, 16, dividerMaterial);
 			if (farms.toWest())
-				chunk.setBlock(0, generator.streetLevel, 15, dividerId);
+				chunk.setBlock(0, generator.streetLevel, 15, dividerMaterial);
 			else
 				chunk.setBlock(0, generator.streetLevel, 15, surfaceId);
 			if (farms.toEast())
-				chunk.setBlock(15, generator.streetLevel, 15, dividerId);
+				chunk.setBlock(15, generator.streetLevel, 15, dividerMaterial);
 			else
 				chunk.setBlock(15, generator.streetLevel, 15, surfaceId);
 		}
 		if (!farms.toWest()) {
-			chunk.setBlocks(0, 1, generator.streetLevel, 1, 15, dividerId);
+			chunk.setBlocks(0, 1, generator.streetLevel, 1, 15, dividerMaterial);
 			if (farms.toNorth())
-				chunk.setBlock(0, generator.streetLevel, 0, dividerId);
+				chunk.setBlock(0, generator.streetLevel, 0, dividerMaterial);
 			else
 				chunk.setBlock(0, generator.streetLevel, 0, surfaceId);
 			if (farms.toSouth())
-				chunk.setBlock(0, generator.streetLevel, 15, dividerId);
+				chunk.setBlock(0, generator.streetLevel, 15, dividerMaterial);
 			else
 				chunk.setBlock(0, generator.streetLevel, 15, surfaceId);
 		}
 		if (!farms.toEast()) {
-			chunk.setBlocks(15, 16, generator.streetLevel, 1, 15, dividerId);
+			chunk.setBlocks(15, 16, generator.streetLevel, 1, 15, dividerMaterial);
 			if (farms.toNorth())
-				chunk.setBlock(15, generator.streetLevel, 0, dividerId);
+				chunk.setBlock(15, generator.streetLevel, 0, dividerMaterial);
 			else
 				chunk.setBlock(15, generator.streetLevel, 0, surfaceId);
 			if (farms.toSouth())
-				chunk.setBlock(15, generator.streetLevel, 15, dividerId);
+				chunk.setBlock(15, generator.streetLevel, 15, dividerMaterial);
 			else
 				chunk.setBlock(15, generator.streetLevel, 15, surfaceId);
 		}

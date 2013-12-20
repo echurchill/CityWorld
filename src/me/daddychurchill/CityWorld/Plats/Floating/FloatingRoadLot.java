@@ -1,5 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Floating;
 
+import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
@@ -36,31 +37,31 @@ public class FloatingRoadLot extends RoadLot {
 		// where do we start
 		int pavementLevel = generator.streetLevel;
 		int sidewalkLevel = getSidewalkLevel(generator);
-		byte sidewalkId = getSidewalkId();
+		Material sidewalkMaterial = getSidewalkMaterial();
 		
 		// look around
 		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);
 		
 		// draw pavement and clear out a bit
-		chunk.setLayer(pavementLevel - 1, bridgeEdgeId);
+		chunk.setLayer(pavementLevel - 1, bridgeEdgeMaterial);
 		chunk.setLayer(pavementLevel, pavementId);
 		chunk.setLayer(sidewalkLevel, getAirId(generator, sidewalkLevel));
 		
 		// sidewalk corners
-		chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkId);
-		chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, chunk.width - sidewalkWidth, chunk.width, sidewalkId);
-		chunk.setBlocks(chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkId);
-		chunk.setBlocks(chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkLevel + 1, chunk.width - sidewalkWidth, chunk.width, sidewalkId);
+		chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkMaterial);
+		chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, chunk.width - sidewalkWidth, chunk.width, sidewalkMaterial);
+		chunk.setBlocks(chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkMaterial);
+		chunk.setBlocks(chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkLevel + 1, chunk.width - sidewalkWidth, chunk.width, sidewalkMaterial);
 		
 		// sidewalk edges
 		if (!roads.toWest())
-			chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkId);
+			chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkMaterial);
 		if (!roads.toEast())
-			chunk.setBlocks(chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkLevel + 1, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkId);
+			chunk.setBlocks(chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkLevel + 1, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkMaterial);
 		if (!roads.toNorth())
-			chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkId);
+			chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkMaterial);
 		if (!roads.toSouth())
-			chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, chunk.width - sidewalkWidth, chunk.width, sidewalkId);
+			chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, chunk.width - sidewalkWidth, chunk.width, sidewalkMaterial);
 		
 		// crosswalks?
 		if (cityRoad && !generator.settings.includeWoolRoads) {

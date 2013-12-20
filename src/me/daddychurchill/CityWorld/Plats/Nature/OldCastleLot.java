@@ -26,9 +26,9 @@ public class OldCastleLot extends ConstructLot {
 		return new OldCastleLot(platmap, chunkX, chunkZ);
 	}
 	
-	private final static byte platformId = (byte) Material.SMOOTH_BRICK.getId();
-	private final static byte supportId = (byte) Material.COBBLESTONE.getId();
-	private final static byte wallId = platformId;
+	private final static Material platformMaterial = Material.SMOOTH_BRICK;
+	private final static Material supportMaterial = Material.COBBLESTONE;
+	private final static Material wallMaterial = platformMaterial;
 	
 	@Override
 	public int getBottomY(WorldGenerator generator) {
@@ -69,34 +69,34 @@ public class OldCastleLot extends ConstructLot {
 //		chunk.setBlocks(12, 14, minHeight, maxHeight - 1, 12, 14, supportId);
 
 		// platform
-		chunk.setWalls(2, 14, minHeight, y1 - 2, 2, 14, supportId);
+		chunk.setWalls(2, 14, minHeight, y1 - 2, 2, 14, supportMaterial);
 		for (int i = 4; i < 11; i += 3) {
-			chunk.setBlocks(i, i + 2, minHeight, y1 - 2, 1, 2, supportId);
-			chunk.setBlocks(i, i + 2, minHeight, y1 - 2, 14, 15, supportId);
-			chunk.setBlocks(1, 2, minHeight, y1 - 2, i, i + 2, supportId);
-			chunk.setBlocks(14, 15, minHeight, y1 - 2, i, i + 2, supportId);
+			chunk.setBlocks(i, i + 2, minHeight, y1 - 2, 1, 2, supportMaterial);
+			chunk.setBlocks(i, i + 2, minHeight, y1 - 2, 14, 15, supportMaterial);
+			chunk.setBlocks(1, 2, minHeight, y1 - 2, i, i + 2, supportMaterial);
+			chunk.setBlocks(14, 15, minHeight, y1 - 2, i, i + 2, supportMaterial);
 		}
-		chunk.setBlocks(1, 15, y1 - 2, 1, 15, supportId);
+		chunk.setBlocks(1, 15, y1 - 2, 1, 15, supportMaterial);
 		
 		// clear things out a bit
 		chunk.setBlocks(0, 16, y1, maxHeight + 2, 0, 16, getAirId(generator, y1));
 		
 		// add the first layer
-		chunk.setLayer(y1 - 1, platformId);
-		chunk.setWalls(0, 11, y1, y2, 0, 6, wallId);
-		chunk.setWalls(10, 16, y1, y2, 0, 11, wallId);
-		chunk.setWalls(5, 16, y1, y2, 10, 16, wallId);
-		chunk.setWalls(0, 6, y1, y2, 5, 16, wallId);
-		chunk.setWalls(0, 16, y2, y2 + 1, 0, 16, wallId);
-		chunk.setBlocks(1, 15, y2, 1, 15, platformId);
-		chunk.setWalls(0, 16, y2 + 1, y2 + 2, 0, 16, supportId);
+		chunk.setLayer(y1 - 1, platformMaterial);
+		chunk.setWalls(0, 11, y1, y2, 0, 6, wallMaterial);
+		chunk.setWalls(10, 16, y1, y2, 0, 11, wallMaterial);
+		chunk.setWalls(5, 16, y1, y2, 10, 16, wallMaterial);
+		chunk.setWalls(0, 6, y1, y2, 5, 16, wallMaterial);
+		chunk.setWalls(0, 16, y2, y2 + 1, 0, 16, wallMaterial);
+		chunk.setBlocks(1, 15, y2, 1, 15, platformMaterial);
+		chunk.setWalls(0, 16, y2 + 1, y2 + 2, 0, 16, supportMaterial);
 		
 		// add trim
 		for (int i = 0; i < 13; i += 3) {
-			chunk.setBlock(i, y2 + 2, 0, supportId);
-			chunk.setBlock(15 - i, y2 + 2, 15, supportId);
-			chunk.setBlock(15, y2 + 2, i, supportId);
-			chunk.setBlock(0, y2 + 2, 15 - i, supportId);
+			chunk.setBlock(i, y2 + 2, 0, supportMaterial);
+			chunk.setBlock(15 - i, y2 + 2, 15, supportMaterial);
+			chunk.setBlock(15, y2 + 2, i, supportMaterial);
+			chunk.setBlock(0, y2 + 2, 15 - i, supportMaterial);
 		}
 		
 		// add retaining walls if needed
@@ -126,21 +126,21 @@ public class OldCastleLot extends ConstructLot {
 	
 	private void buildWall(ByteChunk chunk, int x, int y1, int y2, int z) {
 		if (y2 > y1)
-			chunk.setBlocks(x, y1, y2 + 2, z, supportId);
+			chunk.setBlocks(x, y1, y2 + 2, z, supportMaterial);
 	}
 	
 	private void buildTower(WorldGenerator generator, ByteChunk chunk, int x, int y1, int z, int width) {
 		int y2 = y1 + DataContext.FloorHeight;
-		chunk.setWalls(x, x + width, y1 + 1, y2 + 1, z, z + width, wallId);
-		chunk.setBlocks(x + 1, x + width - 1, y2, z + 1, z + width - 1, platformId);
+		chunk.setWalls(x, x + width, y1 + 1, y2 + 1, z, z + width, wallMaterial);
+		chunk.setBlocks(x + 1, x + width - 1, y2, z + 1, z + width - 1, platformMaterial);
 
 		// add trim
-		chunk.setWalls(x, x + width, y2 + 1, y2 + 2, z, z + width, supportId);
+		chunk.setWalls(x, x + width, y2 + 1, y2 + 2, z, z + width, supportMaterial);
 		for (int i = 0; i < width - 1; i += 2) {
-			chunk.setBlock(x + i, y2 + 2, z, supportId);
-			chunk.setBlock(x + width - 1 - i, y2 + 2, z + width - 1, supportId);
-			chunk.setBlock(x, y2 + 2, z + width - 1 - i, supportId);
-			chunk.setBlock(x + width - 1, y2 + 2, z + i, supportId);
+			chunk.setBlock(x + i, y2 + 2, z, supportMaterial);
+			chunk.setBlock(x + width - 1 - i, y2 + 2, z + width - 1, supportMaterial);
+			chunk.setBlock(x, y2 + 2, z + width - 1 - i, supportMaterial);
+			chunk.setBlock(x + width - 1, y2 + 2, z + i, supportMaterial);
 			
 			// windows
 			if (i > 0) {

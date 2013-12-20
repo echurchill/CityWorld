@@ -18,7 +18,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 
 	private final static int FloorHeight = DataContext.FloorHeight;
 	
-	private final static byte girderId = (byte) Material.CLAY.getId();
+	private final static Material girderMaterial = Material.CLAY;
 	
 	private final static Material dirtMaterial = Material.DIRT;
 	private final static Material stairMaterial = Material.WOOD_STAIRS;
@@ -226,10 +226,10 @@ public class UnfinishedBuildingLot extends BuildingLot {
 	
 	private void drawVerticalGirders(ByteChunk chunk, int y1, int floorHeight) {
 		int y2 = y1 + floorHeight;
-		chunk.setBlocks(inset, y1, y2, inset, girderId);
-		chunk.setBlocks(inset, y1, y2, chunk.width - inset - 1, girderId);
-		chunk.setBlocks(chunk.width - inset - 1, y1, y2, inset, girderId);
-		chunk.setBlocks(chunk.width - inset - 1, y1, y2, chunk.width - inset - 1, girderId);
+		chunk.setBlocks(inset, y1, y2, inset, girderMaterial);
+		chunk.setBlocks(inset, y1, y2, chunk.width - inset - 1, girderMaterial);
+		chunk.setBlocks(chunk.width - inset - 1, y1, y2, inset, girderMaterial);
+		chunk.setBlocks(chunk.width - inset - 1, y1, y2, chunk.width - inset - 1, girderMaterial);
 	}
 
 	private void drawHorizontalGirders(ByteChunk chunk, int y1, Surroundings neighbors) {
@@ -240,10 +240,10 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		int i1 = inset;
 		int i2 = chunk.width - inset - 1;
 		
-		chunk.setBlocks(x1, x2 + 1, y1, y1 + 1, i1, i1 + 1, girderId);
-		chunk.setBlocks(x1, x2 + 1, y1, y1 + 1, i2, i2 + 1, girderId);
-		chunk.setBlocks(i1, i1 + 1, y1, y1 + 1, z1, z2 + 1, girderId);
-		chunk.setBlocks(i2, i2 + 1, y1, y1 + 1, z1, z2 + 1, girderId);
+		chunk.setBlocks(x1, x2 + 1, y1, y1 + 1, i1, i1 + 1, girderMaterial);
+		chunk.setBlocks(x1, x2 + 1, y1, y1 + 1, i2, i2 + 1, girderMaterial);
+		chunk.setBlocks(i1, i1 + 1, y1, y1 + 1, z1, z2 + 1, girderMaterial);
+		chunk.setBlocks(i2, i2 + 1, y1, y1 + 1, z1, z2 + 1, girderMaterial);
 	}
 	
 }

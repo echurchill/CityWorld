@@ -16,8 +16,8 @@ public class RoundaboutStatueLot extends IsolatedLot {
 
 	private enum StatueBase { WATER, GRASS, PEDESTAL };
 	
-	public final static byte curbId = (byte) Material.DOUBLE_STEP.getId();
-	public final static byte brickId = (byte) Material.SMOOTH_BRICK.getId();
+	public final static Material curbMaterial = Material.DOUBLE_STEP;
+	public final static Material brickMaterial = Material.SMOOTH_BRICK;
 	
 	private StatueBase statueBase;
 	
@@ -55,21 +55,21 @@ public class RoundaboutStatueLot extends IsolatedLot {
 
 		// where to start?
 		int y1 = generator.streetLevel + 1;
-		chunk.setLayer(y1, curbId);
+		chunk.setLayer(y1, curbMaterial);
 		
 		// what to build?
 		switch (statueBase) {
 		case WATER:
 			
 			// bottom of the fountain... 
-			chunk.setCircle(8, 8, 5, y1, brickId, false);
+			chunk.setCircle(8, 8, 5, y1, brickMaterial, false);
 			for (int x = 0; x < 10; x++)
 				for (int z = 0; z < 10; z++)
-					chunk.setBlock(x + 3, y1, z + 3, brickId);
+					chunk.setBlock(x + 3, y1, z + 3, brickMaterial);
 			
 			//TODO the plain bit... later we will take care of the fancy bit
 			y1++;
-			chunk.setCircle(8, 8, 6, y1, brickId, false);
+			chunk.setCircle(8, 8, 6, y1, brickMaterial, false);
 			
 			// fill with water
 			if (generator.settings.includeAbovegroundFluids)
@@ -79,7 +79,7 @@ public class RoundaboutStatueLot extends IsolatedLot {
 			
 			// outer edge
 			y1++;
-			chunk.setCircle(8, 8, 6, y1, brickId, false);
+			chunk.setCircle(8, 8, 6, y1, brickMaterial, false);
 			
 			// backfill with grass
 			chunk.setCircle(8, 8, 5, y1 - 1, generator.oreProvider.surfaceId, false);
@@ -90,11 +90,11 @@ public class RoundaboutStatueLot extends IsolatedLot {
 			
 			// pedestal, imagine that!
 			y1++;
-			chunk.setCircle(8, 8, 4, y1, brickId, false);
-			chunk.setCircle(8, 8, 3, y1, brickId, false);
-			chunk.setCircle(8, 8, 3, y1 + 1, brickId, false);
+			chunk.setCircle(8, 8, 4, y1, brickMaterial, false);
+			chunk.setCircle(8, 8, 3, y1, brickMaterial, false);
+			chunk.setCircle(8, 8, 3, y1 + 1, brickMaterial, false);
 			chunk.setCircle(8, 8, 3, y1 + 2, fenceId, false);
-			chunk.setBlocks(5, 11, y1, y1 + 2, 5, 11, brickId);
+			chunk.setBlocks(5, 11, y1, y1 + 2, 5, 11, brickMaterial);
 			break;
 		}
 	}

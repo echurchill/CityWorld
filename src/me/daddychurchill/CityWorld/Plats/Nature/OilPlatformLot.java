@@ -8,7 +8,6 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plugins.Tekkit.TekkitMaterial;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -27,12 +26,12 @@ public class OilPlatformLot extends ConstructLot {
 		return new OilPlatformLot(platmap, chunkX, chunkZ);
 	}
 
-	private final static byte platformId = (byte) Material.DOUBLE_STEP.getId();
-	private final static byte slabId = (byte) Material.STEP.getId();
-	private final static byte railingId = (byte) Material.IRON_FENCE.getId();
-	private final static byte drillId = (byte) Material.NETHER_FENCE.getId();
-	private final static byte supportId = (byte) Material.NETHER_BRICK.getId();
-	private final static byte topperId = (byte) Material.NETHER_BRICK_STAIRS.getId();
+	private final static Material platformMaterial = Material.DOUBLE_STEP;
+	private final static Material headMaterial = Material.STEP;
+	private final static Material railingMaterial = Material.IRON_FENCE;
+	private final static Material drillMaterial = Material.NETHER_FENCE;
+	private final static Material supportMaterial = Material.NETHER_BRICK;
+	private final static Material topperMaterial = Material.NETHER_BRICK_STAIRS;
 	
 //NERF
 //	//tekkit materials
@@ -63,57 +62,57 @@ public class OilPlatformLot extends ConstructLot {
 		byte emptyId = getAirId(generator, y1);
 		
 		// access levels
-		chunk.setBlocks(2, 6, y0, y0 + 1, 2, 6, platformId);
-		chunk.setBlocks(10, 14, y0, y0 + 1, 10, 14, platformId);
+		chunk.setBlocks(2, 6, y0, y0 + 1, 2, 6, platformMaterial);
+		chunk.setBlocks(10, 14, y0, y0 + 1, 10, 14, platformMaterial);
 		
 		// lower level
-		chunk.setLayer(y1, platformId);
-		chunk.setWalls(0, 16, y1 + 1, y1 + 2, 0, 16, railingId);
+		chunk.setLayer(y1, platformMaterial);
+		chunk.setWalls(0, 16, y1 + 1, y1 + 2, 0, 16, railingMaterial);
 		chunk.setBlocks(7, 9, y1, y1 + 1, 7, 9, emptyId);
-		chunk.setWalls(6, 10, y1 + 1, y1 + 2, 6, 10, railingId);
+		chunk.setWalls(6, 10, y1 + 1, y1 + 2, 6, 10, railingMaterial);
 		
 		// upper level
-		chunk.setLayer(y2, platformId);
-		chunk.setWalls(0, 16, y2 + 1, y2 + 2, 0, 16, railingId);
+		chunk.setLayer(y2, platformMaterial);
+		chunk.setWalls(0, 16, y2 + 1, y2 + 2, 0, 16, railingMaterial);
 		chunk.setBlocks(7, 9, y2, y2 + 1, 7, 9, emptyId);
-		chunk.setWalls(6, 10, y2 + 1, y2 + 2, 6, 10, railingId);
+		chunk.setWalls(6, 10, y2 + 1, y2 + 2, 6, 10, railingMaterial);
 		
 		// put the balcony on top 
-		chunk.setBlocks(2, 14, y3, y3 + 1, 2, 14, platformId);
-		chunk.setWalls(2, 14, y3 + 1, y3 + 2, 2, 14, railingId);
+		chunk.setBlocks(2, 14, y3, y3 + 1, 2, 14, platformMaterial);
+		chunk.setWalls(2, 14, y3 + 1, y3 + 2, 2, 14, railingMaterial);
 		chunk.setBlocks(7, 9, y3, y3 + 1, 7, 9, emptyId);
-		chunk.setWalls(6, 10, y3 + 1, y3 + 2, 6, 10, railingId);
+		chunk.setWalls(6, 10, y3 + 1, y3 + 2, 6, 10, railingMaterial);
 		
 		// drill head level
-		chunk.setBlocks(6, 14, y4, y4 + 1, 6, 14, platformId);
-		chunk.setWalls(6, 14, y4 + 1, y4 + 2, 6, 14, railingId);
+		chunk.setBlocks(6, 14, y4, y4 + 1, 6, 14, platformMaterial);
+		chunk.setWalls(6, 14, y4 + 1, y4 + 2, 6, 14, railingMaterial);
 		chunk.setBlocks(6, 9, y4, y4 + 2, 6, 9, emptyId);
-		chunk.setBlocks(9, y3 + 1, y4 + 2, 6, supportId);
-		chunk.setBlocks(6, y3 + 1, y4 + 2, 9, supportId);
+		chunk.setBlocks(9, y3 + 1, y4 + 2, 6, supportMaterial);
+		chunk.setBlocks(6, y3 + 1, y4 + 2, 9, supportMaterial);
 		
 		// drill head itself
-		chunk.setBlock(9, y4 + 2, 6, platformId);
-		chunk.setBlock(6, y4 + 2, 9, platformId);
-		chunk.setBlock(7, y4, 7, slabId);
-		chunk.setBlock(7, y4, 8, slabId);
-		chunk.setBlock(8, y4, 7, slabId);
-		chunk.setBlock(9, y4 + 3, 6, slabId);
-		chunk.setBlock(9, y4 + 3, 7, slabId);
-		chunk.setBlock(9, y4 + 3, 8, slabId);
-		chunk.setBlock(6, y4 + 3, 9, slabId);
-		chunk.setBlock(7, y4 + 3, 9, slabId);
-		chunk.setBlock(8, y4 + 3, 9, slabId);
-		chunk.setBlock(8, y4 + 3, 8, slabId);
+		chunk.setBlock(9, y4 + 2, 6, platformMaterial);
+		chunk.setBlock(6, y4 + 2, 9, platformMaterial);
+		chunk.setBlock(7, y4, 7, headMaterial);
+		chunk.setBlock(7, y4, 8, headMaterial);
+		chunk.setBlock(8, y4, 7, headMaterial);
+		chunk.setBlock(9, y4 + 3, 6, headMaterial);
+		chunk.setBlock(9, y4 + 3, 7, headMaterial);
+		chunk.setBlock(9, y4 + 3, 8, headMaterial);
+		chunk.setBlock(6, y4 + 3, 9, headMaterial);
+		chunk.setBlock(7, y4 + 3, 9, headMaterial);
+		chunk.setBlock(8, y4 + 3, 9, headMaterial);
+		chunk.setBlock(8, y4 + 3, 8, headMaterial);
 
 		// two big legs to hold up the various levels (a little bit deeper than needed, just to be safe)
-		chunk.setBlocks(2, 4, minHeight - 10, y4, 2, 4, supportId);
-		chunk.setBlocks(12, 14, minHeight - 10, y4 + 3, 12, 14, supportId);
+		chunk.setBlocks(2, 4, minHeight - 10, y4, 2, 4, supportMaterial);
+		chunk.setBlocks(12, 14, minHeight - 10, y4 + 3, 12, 14, supportMaterial);
 		
 		// two lesser legs to help the other two
-		chunk.setBlocks(2, 4, minHeight - 10, y3, 12, 14, supportId);
-		chunk.setBlocks(12, 14, minHeight - 10, y3, 2, 4, supportId);
-		chunk.setBlocks(13, y3, y3 + 2, 2, supportId);
-		chunk.setBlocks(2, y3, y3 + 2, 13, supportId);
+		chunk.setBlocks(2, 4, minHeight - 10, y3, 12, 14, supportMaterial);
+		chunk.setBlocks(12, 14, minHeight - 10, y3, 2, 4, supportMaterial);
+		chunk.setBlocks(13, y3, y3 + 2, 2, supportMaterial);
+		chunk.setBlocks(2, y3, y3 + 2, 13, supportMaterial);
 		
 		// drill down
 //NERF
@@ -127,17 +126,17 @@ public class OilPlatformLot extends ConstructLot {
 //			chunk.setBlocks(8, minHeight, y4 + 3, 8, drillId);
 //		} else {
 //ENDNERF
-			chunk.setBlocks(8, 1, y4 + 3, 8, drillId); 
+			chunk.setBlocks(8, 1, y4 + 3, 8, drillMaterial); 
 //NERF
 //		}
 //ENDNERF
 		
 		// extra drill bits
-		chunk.setBlocks(5, y2 + 2, y3 + 2, 1, drillId);
-		chunk.setBlocks(7, y2 + 2, y3 + 2, 1, drillId);
+		chunk.setBlocks(5, y2 + 2, y3 + 2, 1, drillMaterial);
+		chunk.setBlocks(7, y2 + 2, y3 + 2, 1, drillMaterial);
 		//chunk.setBlocks(9, y2 + 2, y3 + 2, 1, drillId);
-		chunk.setBlocks(11, y2 + 2, y3 + 2, 1, drillId);
-		chunk.setBlocks(13, y4 + 4, y4 + 8, 2, drillId); // bit hanging from the crane
+		chunk.setBlocks(11, y2 + 2, y3 + 2, 1, drillMaterial);
+		chunk.setBlocks(13, y4 + 4, y4 + 8, 2, drillMaterial); // bit hanging from the crane
 	}
 	
 	@Override
@@ -155,11 +154,11 @@ public class OilPlatformLot extends ConstructLot {
 		chunk.setLadder(12, y0 + 1, y4 + 2, 11, Direction.General.NORTH);
 		
 		// now draw the crane
-		chunk.setStair(2, y4 - 2, 2, topperId, Direction.Stair.EAST);
-		chunk.setStair(2, y4 - 2, 3, topperId, Direction.Stair.EAST);
+		chunk.setStair(2, y4 - 2, 2, topperMaterial, Direction.Stair.EAST);
+		chunk.setStair(2, y4 - 2, 3, topperMaterial, Direction.Stair.EAST);
 		chunk.clearBlock(2, y4 - 1, 2);
 		chunk.clearBlock(2, y4 - 1, 3);
-		chunk.setStair(3, y4 - 1, 3, topperId, Direction.Stair.NORTH);
+		chunk.setStair(3, y4 - 1, 3, topperMaterial, Direction.Stair.NORTH);
 		chunk.drawCrane(context, chunkOdds, 3, y4, 2);
 		
 		// bleed off

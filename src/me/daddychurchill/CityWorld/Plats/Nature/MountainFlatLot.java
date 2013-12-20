@@ -9,7 +9,7 @@ import org.bukkit.Material;
 
 public abstract class MountainFlatLot extends ConstructLot {
 
-	private final static byte retainingWallId = (byte) Material.SMOOTH_BRICK.getId();
+	private final static Material retainingWallMaterial = Material.SMOOTH_BRICK;
 	
 	public MountainFlatLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
@@ -28,9 +28,9 @@ public abstract class MountainFlatLot extends ConstructLot {
 				// add the retaining walls
 				if (x == 0 || x == chunk.width - 1 || z == 0 || z == chunk.width - 1) {
 					if (y <= averageHeight) {
-						chunk.setBlocks(x, y - 2, averageHeight + 1, z, retainingWallId);
+						chunk.setBlocks(x, y - 2, averageHeight + 1, z, retainingWallMaterial);
 					} else if (y > averageHeight) {
-						chunk.setBlocks(x, averageHeight - 2, y + 1, z, retainingWallId);
+						chunk.setBlocks(x, averageHeight - 2, y + 1, z, retainingWallMaterial);
 					}
 				
 				// backfill
