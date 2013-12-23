@@ -14,7 +14,6 @@ public abstract class MaterialFactory {
 	protected Odds odds;
 	
 	protected double oddsOfDecay = DataContext.oddsSomewhatLikely;
-	protected byte airId = BlackMagic.getMaterialId(Material.AIR);
 	
 	public MaterialFactory(Odds odds, boolean decayed) {
 		super();
@@ -64,56 +63,58 @@ public abstract class MaterialFactory {
 		}		
 	}
 	
-	protected byte pickMaterial(byte primaryId, byte secondaryId, int i) {
+	protected Material pickMaterial(Material primaryMaterial, Material secondaryMaterial, int i) {
 		switch (horizontalStyle) {
 		case WG: 
-			return i % 2 == 0 ? primaryId : secondaryId;
+			return i % 2 == 0 ? primaryMaterial : secondaryMaterial;
 		case WGG: 
-			return i % 3 == 0 ? primaryId : secondaryId;
+			return i % 3 == 0 ? primaryMaterial : secondaryMaterial;
 		case WGGG: 
-			return i % 4 == 0 ? primaryId : secondaryId;
+			return i % 4 == 0 ? primaryMaterial : secondaryMaterial;
 		case WWG: 
-			return ((i % 3 == 0) || (i % 3 == 1)) ? primaryId : secondaryId;
+			return ((i % 3 == 0) || (i % 3 == 1)) ? primaryMaterial : secondaryMaterial;
 		case WWGG: 
-			return ((i % 4 == 0) || (i % 4 == 1)) ? primaryId : secondaryId;
+			return ((i % 4 == 0) || (i % 4 == 1)) ? primaryMaterial : secondaryMaterial;
 		case GGGG:
-			return secondaryId;
+			return secondaryMaterial;
 		default: //case RANDOM:
-			return odds.flipCoin() ? primaryId : secondaryId;
+			return odds.flipCoin() ? primaryMaterial : secondaryMaterial;
 		}
 	}
 	
 	protected void decayMaterial(SupportChunk chunk, int x, int y1, int y2, int z) {
 		if (decayed && odds.playOdds(oddsOfDecay)) {
 			int range = Math.max(1, y2 - y1);
-			chunk.setBlock(x, y1 + odds.getRandomInt(range), z, airId);
+			chunk.setBlock(x, y1 + odds.getRandomInt(range), z, Material.AIR);
 		}
 	}
 	
-	public abstract void placeMaterial(SupportChunk chunk, byte primaryId, byte secondaryId, int x, int y1, int y2, int z);
+	public abstract void placeMaterial(SupportChunk chunk, Material primaryMaterial, Material secondaryMaterial, 
+			int x, int y1, int y2, int z);
 	
-	protected void placeMaterial(SupportChunk chunk, byte primaryId, byte secondaryId, byte glassId, int x, int y1, int y2, int z) {
+	protected void placeMaterial(SupportChunk chunk, Material primaryMaterial, Material secondaryMaterial, 
+			Material glassMaterial, int x, int y1, int y2, int z) {
 		switch (verticalStyle) {
 		case WGGG:
-			chunk.setBlocks(x, y1, y1 + 1, z, primaryId);
-			chunk.setBlocks(x, y1 + 1, y2, z, glassId);
-			if (glassId == secondaryId)
+			chunk.setBlocks(x, y1, y1 + 1, z, primaryMaterial);
+			chunk.setBlocks(x, y1 + 1, y2, z, glassMaterial);
+			if (glassMaterial == secondaryMaterial)
 				decayMaterial(chunk, x, y1 + 1, y2, z);
 			break;
 		case WGGW:
-			chunk.setBlocks(x, y1, y1 + 1, z, primaryId);
-			chunk.setBlocks(x, y1 + 1, y2 - 1, z, glassId);
-			chunk.setBlocks(x, y2 - 1, y2, z, primaryId);
-			if (glassId == secondaryId)
+			chunk.setBlocks(x, y1, y1 + 1, z, primaryMaterial);
+			chunk.setBlocks(x, y1 + 1, y2 - 1, z, glassMaterial);
+			chunk.setBlocks(x, y2 - 1, y2, z, primaryMaterial);
+			if (glassMaterial == secondaryMaterial)
 				decayMaterial(chunk, x, y1 + 1, y2 - 1, z);
 			break;
 		case GGGG:
-			chunk.setBlocks(x, y1, y2, z, glassId);
-			if (glassId == secondaryId)
+			chunk.setBlocks(x, y1, y2, z, glassMaterial);
+			if (glassMaterial == secondaryMaterial)
 				decayMaterial(chunk, x, y1, y2, z);
 			break;
 		case WWWW:
-			chunk.setBlocks(x, y1, y2, z, primaryId);
+			chunk.setBlocks(x, y1, y2, z, primaryMaterial);
 			break;
 		}
 	}

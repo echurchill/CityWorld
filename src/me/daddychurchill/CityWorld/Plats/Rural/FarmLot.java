@@ -118,11 +118,11 @@ public class FarmLot extends ConnectedLot {
 		SurroundingLots farms = new SurroundingLots(platmap, platX, platZ);
 		
 		// what type of ground do we have
-		byte surfaceId = generator.oreProvider.surfaceId;
-		byte groundId = generator.oreProvider.subsurfaceId;
+		Material surfaceMaterial = generator.oreProvider.surfaceMaterial;
+		Material groundMaterial = generator.oreProvider.subsurfaceMaterial;
 		if (cropType == cropSugarCane || cropType == cropCactus)
-			groundId = sandId;
-		chunk.setLayer(generator.streetLevel - 1, 2, groundId);
+			groundMaterial = Material.SAND;
+		chunk.setLayer(generator.streetLevel - 1, 2, groundMaterial);
 		
 		// in-between bits bits
 		Material dividerMaterial = isolationNormalMaterial;
@@ -136,44 +136,44 @@ public class FarmLot extends ConnectedLot {
 			if (farms.toWest())
 				chunk.setBlock(0, generator.streetLevel, 0, dividerMaterial);
 			else
-				chunk.setBlock(0, generator.streetLevel, 0, surfaceId);
+				chunk.setBlock(0, generator.streetLevel, 0, surfaceMaterial);
 			if (farms.toEast())
 				chunk.setBlock(15, generator.streetLevel, 0, dividerMaterial);
 			else
-				chunk.setBlock(15, generator.streetLevel, 0, surfaceId);
+				chunk.setBlock(15, generator.streetLevel, 0, surfaceMaterial);
 		}
 		if (!farms.toSouth()) {
 			chunk.setBlocks(1, 15, generator.streetLevel, 15, 16, dividerMaterial);
 			if (farms.toWest())
 				chunk.setBlock(0, generator.streetLevel, 15, dividerMaterial);
 			else
-				chunk.setBlock(0, generator.streetLevel, 15, surfaceId);
+				chunk.setBlock(0, generator.streetLevel, 15, surfaceMaterial);
 			if (farms.toEast())
 				chunk.setBlock(15, generator.streetLevel, 15, dividerMaterial);
 			else
-				chunk.setBlock(15, generator.streetLevel, 15, surfaceId);
+				chunk.setBlock(15, generator.streetLevel, 15, surfaceMaterial);
 		}
 		if (!farms.toWest()) {
 			chunk.setBlocks(0, 1, generator.streetLevel, 1, 15, dividerMaterial);
 			if (farms.toNorth())
 				chunk.setBlock(0, generator.streetLevel, 0, dividerMaterial);
 			else
-				chunk.setBlock(0, generator.streetLevel, 0, surfaceId);
+				chunk.setBlock(0, generator.streetLevel, 0, surfaceMaterial);
 			if (farms.toSouth())
 				chunk.setBlock(0, generator.streetLevel, 15, dividerMaterial);
 			else
-				chunk.setBlock(0, generator.streetLevel, 15, surfaceId);
+				chunk.setBlock(0, generator.streetLevel, 15, surfaceMaterial);
 		}
 		if (!farms.toEast()) {
 			chunk.setBlocks(15, 16, generator.streetLevel, 1, 15, dividerMaterial);
 			if (farms.toNorth())
 				chunk.setBlock(15, generator.streetLevel, 0, dividerMaterial);
 			else
-				chunk.setBlock(15, generator.streetLevel, 0, surfaceId);
+				chunk.setBlock(15, generator.streetLevel, 0, surfaceMaterial);
 			if (farms.toSouth())
 				chunk.setBlock(15, generator.streetLevel, 15, dividerMaterial);
 			else
-				chunk.setBlock(15, generator.streetLevel, 15, surfaceId);
+				chunk.setBlock(15, generator.streetLevel, 15, surfaceMaterial);
 		}
 	}
 	

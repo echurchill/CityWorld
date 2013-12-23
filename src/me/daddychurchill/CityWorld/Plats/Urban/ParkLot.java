@@ -18,15 +18,15 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class ParkLot extends ConnectedLot {
 
-	protected final static int cisternDepth = DataContext.FloorHeight * 4;
-	protected final static int groundDepth = 2;
+	private final static int cisternDepth = DataContext.FloorHeight * 4;
+	private final static int groundDepth = 2;
 	
-	protected final static Material cisternMaterial = Material.CLAY;
-//	protected final static Material fenceMaterial = Material.FENCE;
-	protected final static Material columnMaterial = Material.SMOOTH_BRICK;
-	protected final static Material pathMaterial = Material.SAND;
-//	protected final static Material stepMaterial = Material.STEP;
-	protected final static Material ledgeMaterial = Material.CLAY;
+	private final static Material cisternMaterial = Material.CLAY;
+	private final static Material fenceMaterial = Material.FENCE;
+	private final static Material columnMaterial = Material.SMOOTH_BRICK;
+	private final static Material pathMaterial = Material.SAND;
+	private final static Material stepMaterial = Material.STEP;
+	private final static Material ledgeMaterial = Material.CLAY;
 	
 	//TODO NW/SE quarter partial circle sidewalks
 	//TODO pond inside of circle sidewalks instead of tree
@@ -99,10 +99,10 @@ public class ParkLot extends ConnectedLot {
 			// fill with water
 			lowestY++;
 			if (generator.settings.includeAbovegroundFluids)
-				chunk.setBlocks(0, chunk.width, lowestY, lowestY + waterDepth, 0, chunk.width, generator.oreProvider.fluidSurfaceId);
+				chunk.setBlocks(0, chunk.width, lowestY, lowestY + waterDepth, 0, chunk.width, generator.oreProvider.fluidSurfaceMaterial);
 			
 			// clear out the rest
-			chunk.setBlocks(0, chunk.width, lowestY + waterDepth, highestY + 1, 0, chunk.width, getAirId(generator, lowestY + waterDepth));
+			chunk.setBlocks(0, chunk.width, lowestY + waterDepth, highestY + 1, 0, chunk.width, getAirMaterial(generator, lowestY + waterDepth));
 			
 			// outer columns and walls as needed
 			if (neighbors.toNorth()) {
@@ -143,55 +143,55 @@ public class ParkLot extends ConnectedLot {
 		} else {
 			
 			// backfill with dirt
-			chunk.setLayer(lowestY, highestY + 2 - lowestY, generator.oreProvider.subsurfaceId);
+			chunk.setLayer(lowestY, highestY + 2 - lowestY, generator.oreProvider.subsurfaceMaterial);
 		}
 		
 		// top it off
-		chunk.setLayer(highestY + 2, generator.oreProvider.subsurfaceId);
-		chunk.setLayer(highestY + 3, generator.oreProvider.surfaceId);
+		chunk.setLayer(highestY + 2, generator.oreProvider.subsurfaceMaterial);
+		chunk.setLayer(highestY + 3, generator.oreProvider.surfaceMaterial);
 		
 		// surface features
 		int surfaceY = generator.streetLevel + 1;
 		if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
 			chunk.setBlocks(0, 6, surfaceY, surfaceY + 1, 0, 1, columnMaterial);
-			chunk.setBlocks(0, 6, surfaceY + 1, surfaceY + 2, 0, 1, fenceId);
+			chunk.setBlocks(0, 6, surfaceY + 1, surfaceY + 2, 0, 1, fenceMaterial);
 			chunk.setBlocks(10, 16, surfaceY, surfaceY + 1, 0, 1, columnMaterial);
-			chunk.setBlocks(10, 16, surfaceY + 1, surfaceY + 2, 0, 1, fenceId);
+			chunk.setBlocks(10, 16, surfaceY + 1, surfaceY + 2, 0, 1, fenceMaterial);
 			chunk.setBlocks(6, surfaceY, surfaceY + 2, 0, columnMaterial);
-			chunk.setBlocks(7, 9, surfaceY, surfaceY + 1, 0, 1, stepId);
+			chunk.setBlocks(7, 9, surfaceY, surfaceY + 1, 0, 1, stepMaterial);
 			chunk.setBlocks(9, surfaceY, surfaceY + 2, 0, columnMaterial);
 			chunk.setBlock(6, surfaceY, 1, columnMaterial);
 			chunk.setBlock(9, surfaceY, 1, columnMaterial);
 		}
 		if (!neighbors.toSouth() && HeightInfo.isBuildableToSouth(generator, chunk)) {
 			chunk.setBlocks(0, 6, surfaceY, surfaceY + 1, 15, 16, columnMaterial);
-			chunk.setBlocks(0, 6, surfaceY + 1, surfaceY + 2, 15, 16, fenceId);
+			chunk.setBlocks(0, 6, surfaceY + 1, surfaceY + 2, 15, 16, fenceMaterial);
 			chunk.setBlocks(10, 16, surfaceY, surfaceY + 1, 15, 16, columnMaterial);
-			chunk.setBlocks(10, 16, surfaceY + 1, surfaceY + 2, 15, 16, fenceId);
+			chunk.setBlocks(10, 16, surfaceY + 1, surfaceY + 2, 15, 16, fenceMaterial);
 			chunk.setBlocks(6, surfaceY, surfaceY + 2, 15, columnMaterial);
-			chunk.setBlocks(7, 9, surfaceY, surfaceY + 1, 15, 16, stepId);
+			chunk.setBlocks(7, 9, surfaceY, surfaceY + 1, 15, 16, stepMaterial);
 			chunk.setBlocks(9, surfaceY, surfaceY + 2, 15, columnMaterial);
 			chunk.setBlock(6, surfaceY, 14, columnMaterial);
 			chunk.setBlock(9, surfaceY, 14, columnMaterial);
 		}
 		if (!neighbors.toWest() && HeightInfo.isBuildableToWest(generator, chunk)) {
 			chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 0, 6, columnMaterial);
-			chunk.setBlocks(0, 1, surfaceY + 1, surfaceY + 2, 0, 6, fenceId);
+			chunk.setBlocks(0, 1, surfaceY + 1, surfaceY + 2, 0, 6, fenceMaterial);
 			chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 10, 16, columnMaterial);
-			chunk.setBlocks(0, 1, surfaceY + 1, surfaceY + 2, 10, 16, fenceId);
+			chunk.setBlocks(0, 1, surfaceY + 1, surfaceY + 2, 10, 16, fenceMaterial);
 			chunk.setBlocks(0, surfaceY, surfaceY + 2, 6, columnMaterial);
-			chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 7, 9, stepId);
+			chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 7, 9, stepMaterial);
 			chunk.setBlocks(0, surfaceY, surfaceY + 2, 9, columnMaterial);
 			chunk.setBlock(1, surfaceY, 6, columnMaterial);
 			chunk.setBlock(1, surfaceY, 9, columnMaterial);
 		}
 		if (!neighbors.toEast() && HeightInfo.isBuildableToEast(generator, chunk)) {
 			chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 0, 6, columnMaterial);
-			chunk.setBlocks(15, 16, surfaceY + 1, surfaceY + 2, 0, 6, fenceId);
+			chunk.setBlocks(15, 16, surfaceY + 1, surfaceY + 2, 0, 6, fenceMaterial);
 			chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 10, 16, columnMaterial);
-			chunk.setBlocks(15, 16, surfaceY + 1, surfaceY + 2, 10, 16, fenceId);
+			chunk.setBlocks(15, 16, surfaceY + 1, surfaceY + 2, 10, 16, fenceMaterial);
 			chunk.setBlocks(15, surfaceY, surfaceY + 2, 6, columnMaterial);
-			chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 7, 9, stepId);
+			chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 7, 9, stepMaterial);
 			chunk.setBlocks(15, surfaceY, surfaceY + 2, 9, columnMaterial);
 			chunk.setBlock(14, surfaceY, 6, columnMaterial);
 			chunk.setBlock(14, surfaceY, 9, columnMaterial);

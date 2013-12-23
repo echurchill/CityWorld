@@ -228,18 +228,18 @@ public class ShapeProvider_Normal extends ShapeProvider {
 				
 				// buildable?
 				if (lot.style == LotStyle.STRUCTURE || lot.style == LotStyle.ROUNDABOUT) {
-					generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, generator.streetLevel - 2, ores.subsurfaceId, generator.streetLevel, ores.subsurfaceId, false);
+					generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, generator.streetLevel - 2, ores.subsurfaceMaterial, generator.streetLevel, ores.subsurfaceMaterial, false);
 					
 				// possibly buildable?
 				} else if (y == generator.streetLevel) {
-					generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 3, ores.subsurfaceId, y, ores.surfaceId, generator.settings.includeDecayedNature);
+					generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 3, ores.subsurfaceMaterial, y, ores.surfaceMaterial, generator.settings.includeDecayedNature);
 				
 				// won't likely have a building
 				} else {
 
 					// on the beach
 					if (y == generator.seaLevel) {
-						generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 2, ores.fluidSubsurfaceId, y, ores.fluidSurfaceId, generator.settings.includeDecayedNature);
+						generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 2, ores.fluidSubsurfaceMaterial, y, ores.fluidSurfaceMaterial, generator.settings.includeDecayedNature);
 						biome = Biome.BEACH;
 
 					// we are in the water! ...or are we?
@@ -247,40 +247,40 @@ public class ShapeProvider_Normal extends ShapeProvider {
 						biome = Biome.DESERT;
 						if (generator.settings.includeDecayedNature)
 							if (generator.settings.includeAbovegroundFluids && y < generator.deepseaLevel)
-								generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 2, ores.fluidSubsurfaceId, y, ores.fluidSurfaceId, generator.deepseaLevel, ores.fluidId, false);
+								generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 2, ores.fluidSubsurfaceMaterial, y, ores.fluidSurfaceMaterial, generator.deepseaLevel, ores.fluidMaterial, false);
 							else
-								generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 2, ores.fluidSubsurfaceId, y, ores.fluidSurfaceId, true);
+								generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 2, ores.fluidSubsurfaceMaterial, y, ores.fluidSurfaceMaterial, true);
 						else 
 							if (generator.settings.includeAbovegroundFluids) {
-								generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 2, ores.fluidSubsurfaceId, y, ores.fluidSurfaceId, generator.seaLevel, ores.fluidId, false);
+								generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 2, ores.fluidSubsurfaceMaterial, y, ores.fluidSurfaceMaterial, generator.seaLevel, ores.fluidMaterial, false);
 								biome = Biome.OCEAN;
 							} else
-								generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 2, ores.fluidSubsurfaceId, y, ores.fluidSurfaceId, false);
+								generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 2, ores.fluidSubsurfaceMaterial, y, ores.fluidSurfaceMaterial, false);
 
 					// we are in the mountains
 					} else {
 
 						// regular trees only
 						if (y < generator.treeLevel) {
-							generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 3, ores.subsurfaceId, y, ores.surfaceId, generator.settings.includeDecayedNature);
+							generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 3, ores.subsurfaceMaterial, y, ores.surfaceMaterial, generator.settings.includeDecayedNature);
 							biome = Biome.FOREST;
 
 						// regular trees and some evergreen trees
 						} else if (y < generator.evergreenLevel) {
-							generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 2, ores.subsurfaceId, y, ores.surfaceId, surfaceCaves);
+							generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 2, ores.subsurfaceMaterial, y, ores.surfaceMaterial, surfaceCaves);
 							biome = Biome.FOREST_HILLS;
 
 						// evergreen and some of fallen snow
 						} else if (y < generator.snowLevel) {
-							generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 1, ores.subsurfaceId, y, ores.surfaceId, surfaceCaves);
+							generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 1, ores.subsurfaceMaterial, y, ores.surfaceMaterial, surfaceCaves);
 							biome = Biome.TAIGA_HILLS;
 							
 						// only snow up here!
 						} else {
 							if (generator.settings.includeAbovegroundFluids && y > generator.snowLevel + 2)
-								generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 1, ores.stratumId, y, ores.fluidFrozenId, surfaceCaves);
+								generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 1, ores.stratumMaterial, y, ores.fluidFrozenMaterial, surfaceCaves);
 							else
-								generateStratas(generator, lot, chunk, x, z, ores.substratumId, ores.stratumId, y - 1, ores.stratumId, y, ores.stratumId, surfaceCaves);
+								generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 1, ores.stratumMaterial, y, ores.stratumMaterial, surfaceCaves);
 							biome = Biome.ICE_MOUNTAINS;
 						}
 					}

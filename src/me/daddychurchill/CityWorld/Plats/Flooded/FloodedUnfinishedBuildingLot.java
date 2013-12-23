@@ -24,17 +24,9 @@ public class FloodedUnfinishedBuildingLot extends UnfinishedBuildingLot {
 	}
 	
 	@Override
-	protected byte getAirId(WorldGenerator generator, int y) {
-		if (y < floodY)
-			return ShapeProvider_Flooded.floodId;
-		else
-			return super.getAirId(generator, y);
-	}
-
-	@Override
 	protected Material getAirMaterial(WorldGenerator generator, int y) {
 		if (y < floodY)
-			return ShapeProvider_Flooded.floodMat;
+			return ShapeProvider_Flooded.floodMaterial;
 		else
 			return super.getAirMaterial(generator, y);
 	}

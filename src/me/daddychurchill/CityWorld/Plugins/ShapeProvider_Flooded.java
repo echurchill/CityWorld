@@ -16,12 +16,10 @@ import me.daddychurchill.CityWorld.Context.Flooded.FloodedRoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.BlackMagic;
 
 public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 
-	public final static Material floodMat = Material.STATIONARY_WATER;
-	public final static byte floodId = BlackMagic.stillWaterId;
+	public final static Material floodMaterial = Material.STATIONARY_WATER;
 	
 	protected int floodY;
 	
@@ -79,13 +77,13 @@ public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 
 	@Override
 	protected void generateStratas(WorldGenerator generator, PlatLot lot,
-			ByteChunk chunk, int x, int z, byte substratumId, byte stratumId,
-			int stratumY, byte subsurfaceId, int subsurfaceY, byte surfaceId,
-			int coverY, byte coverId, boolean surfaceCaves) {
+			ByteChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
+			int coverY, Material coverMaterial, boolean surfaceCaves) {
 
 		// do the default bit
-		actualGenerateStratas(generator, lot, chunk, x, z, substratumId, stratumId, stratumY, 
-				subsurfaceId, subsurfaceY, surfaceId, surfaceCaves);
+		actualGenerateStratas(generator, lot, chunk, x, z, substratumMaterial, stratumMaterial, stratumY, 
+				subsurfaceMaterial, subsurfaceY, surfaceMaterial, surfaceCaves);
 		
 		// cover it up a bit
 		actualGenerateFlood(generator, lot, chunk, x, z, subsurfaceY + 1);
@@ -93,13 +91,13 @@ public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 	
 	@Override
 	protected void generateStratas(WorldGenerator generator, PlatLot lot,
-			ByteChunk chunk, int x, int z, byte substratumId, byte stratumId,
-			int stratumY, byte subsurfaceId, int subsurfaceY, byte surfaceId,
+			ByteChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			boolean surfaceCaves) {
 
 		// do the default bit
-		actualGenerateStratas(generator, lot, chunk, x, z, substratumId, stratumId, stratumY, 
-				subsurfaceId, subsurfaceY, surfaceId, surfaceCaves);
+		actualGenerateStratas(generator, lot, chunk, x, z, substratumMaterial, stratumMaterial, stratumY, 
+				subsurfaceMaterial, subsurfaceY, surfaceMaterial, surfaceCaves);
 		
 		// cover it up a bit
 		actualGenerateFlood(generator, lot, chunk, x, z, subsurfaceY + 1);
@@ -109,7 +107,7 @@ public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 		int y = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 		if (y > subsurfaceY) {
 //			chunk.setBlocks(x, subsurfaceY, y - 2, z, subFloodId);
-			chunk.setBlocks(x, subsurfaceY, y, z, floodId);
+			chunk.setBlocks(x, subsurfaceY, y, z, floodMaterial);
 		}
 	}
 }

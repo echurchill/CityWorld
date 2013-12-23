@@ -16,8 +16,9 @@ public class RoundaboutStatueLot extends IsolatedLot {
 
 	private enum StatueBase { WATER, GRASS, PEDESTAL };
 	
-	public final static Material curbMaterial = Material.DOUBLE_STEP;
-	public final static Material brickMaterial = Material.SMOOTH_BRICK;
+	private final static Material curbMaterial = Material.DOUBLE_STEP;
+	private final static Material brickMaterial = Material.SMOOTH_BRICK;
+	private final static Material fenceMaterial = Material.FENCE;
 	
 	private StatueBase statueBase;
 	
@@ -73,7 +74,7 @@ public class RoundaboutStatueLot extends IsolatedLot {
 			
 			// fill with water
 			if (generator.settings.includeAbovegroundFluids)
-				chunk.setCircle(8, 8, 5, y1, generator.oreProvider.fluidSurfaceId, true);
+				chunk.setCircle(8, 8, 5, y1, generator.oreProvider.fluidSurfaceMaterial, true);
 			break;
 		case GRASS:
 			
@@ -82,9 +83,9 @@ public class RoundaboutStatueLot extends IsolatedLot {
 			chunk.setCircle(8, 8, 6, y1, brickMaterial, false);
 			
 			// backfill with grass
-			chunk.setCircle(8, 8, 5, y1 - 1, generator.oreProvider.surfaceId, false);
-			chunk.setBlocks(3, 13, y1 - 1, y1, 4, 12, generator.oreProvider.surfaceId);
-			chunk.setBlocks(4, 12, y1 - 1, y1, 3, 13, generator.oreProvider.surfaceId);
+			chunk.setCircle(8, 8, 5, y1 - 1, generator.oreProvider.surfaceMaterial, false);
+			chunk.setBlocks(3, 13, y1 - 1, y1, 4, 12, generator.oreProvider.surfaceMaterial);
+			chunk.setBlocks(4, 12, y1 - 1, y1, 3, 13, generator.oreProvider.surfaceMaterial);
 			break;
 		case PEDESTAL:
 			
@@ -93,7 +94,7 @@ public class RoundaboutStatueLot extends IsolatedLot {
 			chunk.setCircle(8, 8, 4, y1, brickMaterial, false);
 			chunk.setCircle(8, 8, 3, y1, brickMaterial, false);
 			chunk.setCircle(8, 8, 3, y1 + 1, brickMaterial, false);
-			chunk.setCircle(8, 8, 3, y1 + 2, fenceId, false);
+			chunk.setCircle(8, 8, 3, y1 + 2, fenceMaterial, false);
 			chunk.setBlocks(5, 11, y1, y1 + 2, 5, 11, brickMaterial);
 			break;
 		}

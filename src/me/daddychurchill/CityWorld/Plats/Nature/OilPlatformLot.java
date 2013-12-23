@@ -59,7 +59,7 @@ public class OilPlatformLot extends ConstructLot {
 		int y2 = y1 + DataContext.FloorHeight;
 		int y3 = y2 + DataContext.FloorHeight;
 		int y4 = y3 + DataContext.FloorHeight;
-		byte emptyId = getAirId(generator, y1);
+		Material emptyMaterial = getAirMaterial(generator, y1);
 		
 		// access levels
 		chunk.setBlocks(2, 6, y0, y0 + 1, 2, 6, platformMaterial);
@@ -68,25 +68,25 @@ public class OilPlatformLot extends ConstructLot {
 		// lower level
 		chunk.setLayer(y1, platformMaterial);
 		chunk.setWalls(0, 16, y1 + 1, y1 + 2, 0, 16, railingMaterial);
-		chunk.setBlocks(7, 9, y1, y1 + 1, 7, 9, emptyId);
+		chunk.setBlocks(7, 9, y1, y1 + 1, 7, 9, emptyMaterial);
 		chunk.setWalls(6, 10, y1 + 1, y1 + 2, 6, 10, railingMaterial);
 		
 		// upper level
 		chunk.setLayer(y2, platformMaterial);
 		chunk.setWalls(0, 16, y2 + 1, y2 + 2, 0, 16, railingMaterial);
-		chunk.setBlocks(7, 9, y2, y2 + 1, 7, 9, emptyId);
+		chunk.setBlocks(7, 9, y2, y2 + 1, 7, 9, emptyMaterial);
 		chunk.setWalls(6, 10, y2 + 1, y2 + 2, 6, 10, railingMaterial);
 		
 		// put the balcony on top 
 		chunk.setBlocks(2, 14, y3, y3 + 1, 2, 14, platformMaterial);
 		chunk.setWalls(2, 14, y3 + 1, y3 + 2, 2, 14, railingMaterial);
-		chunk.setBlocks(7, 9, y3, y3 + 1, 7, 9, emptyId);
+		chunk.setBlocks(7, 9, y3, y3 + 1, 7, 9, emptyMaterial);
 		chunk.setWalls(6, 10, y3 + 1, y3 + 2, 6, 10, railingMaterial);
 		
 		// drill head level
 		chunk.setBlocks(6, 14, y4, y4 + 1, 6, 14, platformMaterial);
 		chunk.setWalls(6, 14, y4 + 1, y4 + 2, 6, 14, railingMaterial);
-		chunk.setBlocks(6, 9, y4, y4 + 2, 6, 9, emptyId);
+		chunk.setBlocks(6, 9, y4, y4 + 2, 6, 9, emptyMaterial);
 		chunk.setBlocks(9, y3 + 1, y4 + 2, 6, supportMaterial);
 		chunk.setBlocks(6, y3 + 1, y4 + 2, 9, supportMaterial);
 		

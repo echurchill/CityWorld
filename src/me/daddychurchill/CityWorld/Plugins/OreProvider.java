@@ -9,54 +9,41 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 
+import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 
 public abstract class OreProvider extends Provider {
 
-//	public final static byte stoneId = (byte) Material.STONE.getId();
-//	public final static byte dirtId = (byte) Material.DIRT.getId();
-//	public final static byte grassId = (byte) Material.GRASS.getId();
-//	public final static byte sandId = (byte) Material.SAND.getId();
-//	public final static byte sandstoneId = (byte) Material.SANDSTONE.getId();
-//	public final static byte fluidWaterId = (byte) Material.WATER.getId();
-//	public final static byte fluidLavaId = (byte) Material.LAVA.getId();
-//	public final static byte stillWaterId = (byte) Material.STATIONARY_WATER.getId();
-//	public final static byte stillLavaId = (byte) Material.STATIONARY_LAVA.getId();
-//	public final static byte snowId = (byte) Material.SNOW.getId();
-//	public final static byte snowBlockId = (byte) Material.SNOW_BLOCK.getId();
-//	public final static byte iceId = (byte) Material.ICE.getId();
-//	public final static byte bedrockId = (byte) Material.BEDROCK.getId();
-	
 	public final static int lavaFluidLevel = 24;
 	public final static int lavaFieldLevel = 12;
 	protected final static double oreSprinkleOdds = 0.40;
 	protected final static double snowSplinkleOdds = 0.60;
 	
-	public byte surfaceId;
-	public byte subsurfaceId;
-	public byte stratumId;
-	public byte substratumId;
+	public Material surfaceMaterial;
+	public Material subsurfaceMaterial;
+	public Material stratumMaterial;
+	public Material substratumMaterial;
 	
-	public byte fluidId;
-	public byte fluidFluidId;
-	public byte fluidSurfaceId;
-	public byte fluidSubsurfaceId;
-	public byte fluidFrozenId;
+	public Material fluidMaterial;
+	public Material fluidFluidMaterial;
+	public Material fluidSurfaceMaterial;
+	public Material fluidSubsurfaceMaterial;
+	public Material fluidFrozenMaterial;
 	
 	public OreProvider(WorldGenerator generator) {
 		super();
 		
-		surfaceId = BlackMagic.grassId;
-		subsurfaceId = BlackMagic.dirtId;
-		stratumId = BlackMagic.stoneId;
-		substratumId = BlackMagic.bedrockId;
+		surfaceMaterial = Material.GRASS;
+		subsurfaceMaterial = Material.DIRT;
+		stratumMaterial = Material.STONE;
+		substratumMaterial = Material.BEDROCK;
 		
-		fluidId = BlackMagic.stillWaterId;
-		fluidFluidId = BlackMagic.fluidWaterId;
-		fluidSurfaceId = BlackMagic.sandId;
-		fluidSubsurfaceId = BlackMagic.sandstoneId;
-		fluidFrozenId = BlackMagic.snowBlockId;
+		fluidMaterial = Material.STATIONARY_WATER;
+		fluidFluidMaterial = Material.WATER;
+		fluidSurfaceMaterial = Material.SAND;
+		fluidSubsurfaceMaterial = Material.SANDSTONE;
+		fluidFrozenMaterial = Material.ICE;
 	}
 	
 	/**
@@ -74,7 +61,8 @@ public abstract class OreProvider extends Provider {
 	public abstract String getCollectionName();
 
 	protected void sprinkleOre(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs,
-			Odds odds, byte typeId, int maxY, int minY, int iterations, int amount, boolean mirror, boolean physics, boolean liquid) {
+			Odds odds, Material material, int maxY, int minY, 
+			int iterations, int amount, boolean mirror, boolean physics, boolean liquid) {
 		
 		// do we do this one?
 		if ((liquid && generator.settings.includeUndergroundFluids) ||
@@ -87,18 +75,18 @@ public abstract class OreProvider extends Provider {
 				int y = odds.getRandomInt(range) + minY;
 				int z = odds.getRandomInt(16);
 				if (y < blockYs.getBlockY(x, z))
-					growVein(generator, lot, chunk, blockYs, odds, x, y, z, amount, typeId, physics);
+					growVein(generator, lot, chunk, blockYs, odds, x, y, z, amount, material, physics);
 				if (mirror) {
 					y = (generator.seaLevel + generator.landRange) - minY - odds.getRandomInt(range);
 					if (y < blockYs.getBlockY(x, z))
-						growVein(generator, lot, chunk, blockYs, odds, x, y, z, amount, typeId, physics);
+						growVein(generator, lot, chunk, blockYs, odds, x, y, z, amount, material, physics);
 				}
 			}
 		}
 	}
 	
 	private void growVein(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs, 
-			Odds odds, int originX, int originY, int originZ, int amountToDo, byte typeId, boolean physics) {
+			Odds odds, int originX, int originY, int originZ, int amountToDo, Material material, boolean physics) {
 		int trysLeft = amountToDo * 2;
 		int oresDone = 0;
 		if (lot.isValidStrataY(generator, originX, originY, originZ) && 
@@ -111,7 +99,7 @@ public abstract class OreProvider extends Provider {
 				int z = originZ + odds.getRandomInt(Math.max(1, amountToDo / 2)) - amountToDo / 4;
 				
 				// ore it is
-				oresDone += placeOre(generator, chunk, odds, x, y, z, amountToDo - oresDone, typeId, physics);
+				oresDone += placeOre(generator, chunk, odds, x, y, z, amountToDo - oresDone, material, physics);
 				
 				// one less try to try
 				trysLeft--;
@@ -120,29 +108,29 @@ public abstract class OreProvider extends Provider {
 	}
 	
 	private int placeOre(WorldGenerator generator, RealChunk chunk, Odds odds, 
-			int centerX, int centerY, int centerZ, int oresToDo, byte typeId, boolean physics) {
+			int centerX, int centerY, int centerZ, int oresToDo, Material material, boolean physics) {
 		int count = 0;
 		if (centerY > 0 && centerY < chunk.height) {
-			if (placeBlock(chunk, odds, centerX, centerY, centerZ, typeId, physics)) {
+			if (placeBlock(chunk, odds, centerX, centerY, centerZ, material, physics)) {
 				count++;
-				if (count < oresToDo && centerX < 15 && placeBlock(chunk, odds, centerX + 1, centerY, centerZ, typeId, physics))
+				if (count < oresToDo && centerX < 15 && placeBlock(chunk, odds, centerX + 1, centerY, centerZ, material, physics))
 					count++;
-				if (count < oresToDo && centerX > 0 && placeBlock(chunk, odds, centerX - 1, centerY, centerZ, typeId, physics))
+				if (count < oresToDo && centerX > 0 && placeBlock(chunk, odds, centerX - 1, centerY, centerZ, material, physics))
 					count++;
-				if (count < oresToDo && centerZ < 15 && placeBlock(chunk, odds, centerX, centerY, centerZ + 1, typeId, physics))
+				if (count < oresToDo && centerZ < 15 && placeBlock(chunk, odds, centerX, centerY, centerZ + 1, material, physics))
 					count++;
-				if (count < oresToDo && centerZ > 0 && placeBlock(chunk, odds, centerX, centerY, centerZ - 1, typeId, physics))
+				if (count < oresToDo && centerZ > 0 && placeBlock(chunk, odds, centerX, centerY, centerZ - 1, material, physics))
 					count++;
 			}
 		}
 		return count;
 	}
 	
-	protected boolean placeBlock(RealChunk chunk, Odds odds, int x, int y, int z, byte typeId, boolean physics) {
+	protected boolean placeBlock(RealChunk chunk, Odds odds, int x, int y, int z, Material material, boolean physics) {
 		if (odds.playOdds(oreSprinkleOdds)) {
 			Block block = chunk.getActualBlock(x, y, z);
-			if (BlackMagic.getMaterialId(block) == stratumId) {
-				BlackMagic.setBlockType(block, typeId, physics);
+			if (block.getType() == stratumMaterial) {
+				BlackMagic.setBlockType(block, material, physics);
 				return true;
 			}
 		}
@@ -206,7 +194,7 @@ public abstract class OreProvider extends Provider {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				if (odds.playOdds(snowSplinkleOdds))
-					chunk.setBlock(x, y, z, BlackMagic.snowBlockId);
+					chunk.setBlock(x, y, z, Material.SNOW_BLOCK);
 			}
 		}
 	}
@@ -218,6 +206,6 @@ public abstract class OreProvider extends Provider {
 	public void dropSnow(WorldGenerator generator, RealChunk chunk, int x, int y, int z, byte level) {
 		y = chunk.findLastEmptyBelow(x, y + 1, z);
 		if (chunk.isEmpty(x, y, z))
-			chunk.setBlock(x, y, z, BlackMagic.snowBlockId, level, false);
+			chunk.setBlock(x, y, z, Material.SNOW, level, false);
 	}
 }

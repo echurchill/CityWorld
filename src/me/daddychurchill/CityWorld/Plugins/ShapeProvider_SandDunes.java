@@ -18,7 +18,6 @@ import me.daddychurchill.CityWorld.Context.SandDunes.SandDunesRoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.BlackMagic;
 
 public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 
@@ -111,13 +110,13 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 
 	@Override
 	protected void generateStratas(WorldGenerator generator, PlatLot lot,
-			ByteChunk chunk, int x, int z, byte substratumId, byte stratumId,
-			int stratumY, byte subsurfaceId, int subsurfaceY, byte surfaceId,
-			int coverY, byte coverId, boolean surfaceCaves) {
+			ByteChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
+			int coverY, Material coverMaterial, boolean surfaceCaves) {
 
 		// do the default bit
-		actualGenerateStratas(generator, lot, chunk, x, z, substratumId, stratumId, stratumY, 
-				subsurfaceId, subsurfaceY, surfaceId, surfaceCaves);
+		actualGenerateStratas(generator, lot, chunk, x, z, substratumMaterial, stratumMaterial, stratumY, 
+				subsurfaceMaterial, subsurfaceY, surfaceMaterial, surfaceCaves);
 		
 		// cover it up a bit
 		actualGenerateSand(generator, lot, chunk, x, z, subsurfaceY);
@@ -125,13 +124,13 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 	
 	@Override
 	protected void generateStratas(WorldGenerator generator, PlatLot lot,
-			ByteChunk chunk, int x, int z, byte substratumId, byte stratumId,
-			int stratumY, byte subsurfaceId, int subsurfaceY, byte surfaceId,
+			ByteChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			boolean surfaceCaves) {
 
 		// do the default bit
-		actualGenerateStratas(generator, lot, chunk, x, z, substratumId, stratumId, stratumY, 
-				subsurfaceId, subsurfaceY, surfaceId, surfaceCaves);
+		actualGenerateStratas(generator, lot, chunk, x, z, substratumMaterial, stratumMaterial, stratumY, 
+				subsurfaceMaterial, subsurfaceY, surfaceMaterial, surfaceCaves);
 		
 		// cover it up a bit
 		actualGenerateSand(generator, lot, chunk, x, z, subsurfaceY);
@@ -140,8 +139,8 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 	protected void actualGenerateSand(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, int subsurfaceY) {
 		int y = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 		if (y > subsurfaceY) {
-			chunk.setBlocks(x, subsurfaceY, y - 2, z, BlackMagic.sandstoneId);
-			chunk.setBlocks(x, y - 2, y, z, BlackMagic.sandId);
+			chunk.setBlocks(x, subsurfaceY, y - 2, z, Material.SANDSTONE);
+			chunk.setBlocks(x, y - 2, y, z, Material.SAND);
 		}
 	}
 	
@@ -151,13 +150,13 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 //	private final static byte subSandId = (byte) Material.SANDSTONE.getId();
 ////	private final static byte subSandId = sandId;
 	
-	@Override
-	public byte findAtmosphereIdAt(WorldGenerator generator, int blockY) {
-		if (blockY < floodY)
-			return BlackMagic.sandId;
-		else
-			return super.findAtmosphereIdAt(generator, blockY);
-	}
+//	@Override
+//	public byte findAtmosphereIdAt(WorldGenerator generator, int blockY) {
+//		if (blockY < floodY)
+//			return BlackMagic.sandId;
+//		else
+//			return super.findAtmosphereIdAt(generator, blockY);
+//	}
 	
 	@Override
 	public Material findAtmosphereMaterialAt(WorldGenerator generator, int blockY) {

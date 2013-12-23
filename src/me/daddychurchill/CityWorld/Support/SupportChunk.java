@@ -7,6 +7,28 @@ import org.bukkit.World;
 
 public abstract class SupportChunk {
 	
+	//TODO: Remove this
+	private static final byte airId = BlackMagic.getMaterialId(Material.AIR);
+//	private static final byte bedrockId = BlackMagic.getMaterialId(Material.BEDROCK);
+//	private static final byte stoneId = BlackMagic.getMaterialId(Material.STONE);
+//	private static final byte gravelId = BlackMagic.getMaterialId(Material.GRAVEL);
+//	private static final byte dirtId = BlackMagic.getMaterialId(Material.DIRT);
+	private static final byte grassId = BlackMagic.getMaterialId(Material.GRASS);
+//	private static final byte glassId = BlackMagic.getMaterialId(Material.GLASS);
+	private static final byte stepStoneId = BlackMagic.getMaterialId(Material.STEP);
+	private static final byte stepWoodId = BlackMagic.getMaterialId(Material.WOOD_STEP);
+//	private static final byte sandId = BlackMagic.getMaterialId(Material.SAND);
+//	private static final byte sandstoneId = BlackMagic.getMaterialId(Material.SANDSTONE); 
+//	private static final byte snowBlockId = BlackMagic.getMaterialId(Material.SNOW_BLOCK);
+//	private static final byte snowCoverId = BlackMagic.getMaterialId(Material.SNOW);
+	private static final byte iceId = BlackMagic.getMaterialId(Material.ICE); // the fluid type
+	private static final byte fluidWaterId = BlackMagic.getMaterialId(Material.WATER); // the fluid type
+	private static final byte fluidLavaId = BlackMagic.getMaterialId(Material.LAVA); // the fluid type
+	private static final byte stillWaterId = BlackMagic.getMaterialId(Material.STATIONARY_WATER); // the fluid type
+	private static final byte stillLavaId = BlackMagic.getMaterialId(Material.STATIONARY_LAVA); // the fluid type
+	private static final byte plateStoneId = BlackMagic.getMaterialId(Material.STONE_PLATE);
+	private static final byte plateWoodId = BlackMagic.getMaterialId(Material.WOOD_PLATE);
+	
 	public World world;
 	public int chunkX;
 	public int chunkZ;
@@ -55,9 +77,12 @@ public abstract class SupportChunk {
 	public abstract byte getBlockType(int x, int y, int z);
 	
 	//TODO these should really return booleans
-	public abstract void setBlock(int x, int y, int z, byte materialId);
-	public abstract void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId);
-	public abstract void setBlocks(int x, int y1, int y2, int z, byte materialId);
+//	public abstract void setBlock(int x, int y, int z, byte materialId);
+//	public abstract void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId);
+//	public abstract void setBlocks(int x, int y1, int y2, int z, byte materialId);
+	public abstract void setBlock(int x, int y, int z, Material material);
+	public abstract void setBlocks(int x1, int x2, int y, int z1, int z2, Material material);
+	public abstract void setBlocks(int x, int y1, int y2, int z, Material material);
 	
 	public abstract void clearBlock(int x, int y, int z);
 	public abstract void clearBlocks(int x, int y1, int y2, int z);
@@ -88,36 +113,36 @@ public abstract class SupportChunk {
 	}
 	
 	public final boolean isEmpty(int x, int y, int z) {
-		return getBlockType(x, y, z) == BlackMagic.airId;
+		return getBlockType(x, y, z) == airId;
 	}
 	
 	public final boolean isPlantable(int x, int y, int z) {
-		return getBlockType(x, y, z) == BlackMagic.grassId;
+		return getBlockType(x, y, z) == grassId;
 	}
 	
 	public final boolean isWater(int x, int y, int z) {
-		return isOfTypes(x, y, z, BlackMagic.stillWaterId, BlackMagic.fluidWaterId);
+		return isOfTypes(x, y, z, stillWaterId, fluidWaterId);
 	}
 	
 	public final boolean isLava(int x, int y, int z) {
-		return isOfTypes(x, y, z, BlackMagic.stillLavaId, BlackMagic.fluidLavaId);
+		return isOfTypes(x, y, z, stillLavaId, fluidLavaId);
 	}
 	
 	public final boolean isLiquid(int x, int y, int z) {
-		return isOfTypes(x, y, z, BlackMagic.stillWaterId, BlackMagic.stillLavaId, 
-								  BlackMagic.fluidWaterId, BlackMagic.fluidLavaId, 
-								  BlackMagic.iceId);
+		return isOfTypes(x, y, z, stillWaterId, stillLavaId, 
+								  fluidWaterId, fluidLavaId, 
+								  iceId);
 	}
 	
 	public final boolean isPartialHeight(int x, int y, int z) {
 		//TODO this list really should be extended to support all partial height blocks
-		return isOfTypes(x, y, z, BlackMagic.airId, 
-								  BlackMagic.stepStoneId, BlackMagic.stepWoodId, 
-								  BlackMagic.plateStoneId, BlackMagic.plateWoodId, 
-								  BlackMagic.stillWaterId, BlackMagic.stillLavaId, 
-								  BlackMagic.fluidWaterId, BlackMagic.fluidLavaId);
+		return isOfTypes(x, y, z, airId, 
+								  stepStoneId, stepWoodId, 
+								  plateStoneId, plateWoodId, 
+								  stillWaterId, stillLavaId, 
+								  fluidWaterId, fluidLavaId);
 	}
-	
+
 	public final boolean isSurroundedByEmpty(int x, int y, int z) {
 		return (x > 0 && x < 15 && z > 0 && z < 15) && 
 			   (isEmpty(x - 1, y, z) && 
@@ -134,16 +159,26 @@ public abstract class SupportChunk {
 				isWater(x, y, z + 1));
 	}
 	
-	public final void setBlocks(int x, int y1, int y2, int z, byte primaryId, byte secondaryId, MaterialFactory maker) {
-		maker.placeMaterial(this, primaryId, secondaryId, x, y1, y2, z);
+	public final void setBlocks(int x, int y1, int y2, int z, Material primary, Material secondary, MaterialFactory maker) {
+		maker.placeMaterial(this, primary, secondary, x, y1, y2, z);
 	}
 	
-	public final void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte primaryId, byte secondaryId, MaterialFactory maker) {
+	public final void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material primary, Material secondary, MaterialFactory maker) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				setBlocks(x, y1, y2, z, primaryId, secondaryId, maker);
+				setBlocks(x, y1, y2, z, primary, secondary, maker);
 			}
 		}
+	}
+	
+	@Deprecated
+	public void setBlock(int x, int y, int z, byte bad) {
+		//TODO: Refactor this
+	}
+	
+	@Deprecated
+	public void setBlocks(int x1, int x2, int y, int z1, int z2, byte bad) {
+		//TODO: Refactor this
 	}
 	
 	private void drawCircleBlocks(int cx, int cz, int x, int z, int y, byte materialId) {

@@ -41,12 +41,7 @@ public class FloodedFarmLot extends FarmLot {
 	}
 	
 	@Override
-	protected byte getAirId(WorldGenerator generator, int y) {
-		return ShapeProvider_Flooded.floodId;
-	}
-
-	@Override
 	protected Material getAirMaterial(WorldGenerator generator, int y) {
-		return ShapeProvider_Flooded.floodMat;
+		return ShapeProvider_Flooded.floodMaterial;
 	}
 }

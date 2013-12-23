@@ -107,7 +107,7 @@ public class Clipboard_WorldEdit extends Clipboard {
 		edgeType = BlackMagic.getMaterial(edge.getType());
 		edgeData = (byte) edge.getData(); //TODO I think that data can be integers... one of these days
 		//edgeData = (byte)((edge.getData() & 0x000000ff)); // this would make overflows not error out but let's not do that
-		edgeRise = generator.oreProvider.surfaceId == BlackMagic.getMaterialId(edgeType) ? 0 : 1;
+		edgeRise = generator.oreProvider.surfaceMaterial == edgeType ? 0 : 1;
 		
 		// allocate the blocks
 		facingCount = 1;

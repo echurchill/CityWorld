@@ -16,7 +16,6 @@ import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.BlackMagic;
 
 public abstract class ShapeProvider extends Provider {
 	
@@ -79,16 +78,20 @@ public abstract class ShapeProvider extends Provider {
 		return getSeaLevel();
 	}
 	
-	public byte findAtmosphereIdAt(WorldGenerator generator, int blockY) {
-		return BlackMagic.airId;
-	}
+//	public byte findAtmosphereIdAt(WorldGenerator generator, int blockY) {
+//		return BlackMagic.airId;
+//	}
 	
 	public Material findAtmosphereMaterialAt(WorldGenerator generator, int blockY) {
 		return Material.AIR;
 	}
 	
-	public byte findGroundCoverIdAt(WorldGenerator generator, int blockY) {
-		return BlackMagic.airId;
+//	public byte findGroundCoverIdAt(WorldGenerator generator, int blockY) {
+//		return BlackMagic.airId;
+//	}
+	
+	public Material findGroundCoverMaterialAt(WorldGenerator generator, int blockY) {
+		return Material.AIR;
 	}
 	
 	public PlatLot createNaturalLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
@@ -132,13 +135,13 @@ public abstract class ShapeProvider extends Provider {
 		}
 	}
 	
-	protected void actualGenerateStratas(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, byte substratumId, byte stratumId,
-			int stratumY, byte subsurfaceId, int subsurfaceY, byte surfaceId,
+	protected void actualGenerateStratas(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			boolean surfaceCaves) {
 
 		// make the base
-		chunk.setBlock(x, 0, z, substratumId);
-		chunk.setBlock(x, 1, z, stratumId);
+		chunk.setBlock(x, 0, z, substratumMaterial);
+		chunk.setBlock(x, 1, z, stratumMaterial);
 
 		// compute the world block coordinates
 		int blockX = chunk.chunkX * chunk.width + x;
@@ -147,44 +150,44 @@ public abstract class ShapeProvider extends Provider {
 		// stony bits
 		for (int y = 2; y < stratumY; y++)
 			if (lot.isValidStrataY(generator, blockX, y, blockZ) && generator.shapeProvider.notACave(generator, blockX, y, blockZ))
-				chunk.setBlock(x, y, z, stratumId);
+				chunk.setBlock(x, y, z, stratumMaterial);
 			else if (y <= OreProvider.lavaFieldLevel && generator.settings.includeLavaFields)
-				chunk.setBlock(x, y, z, BlackMagic.stillLavaId);
+				chunk.setBlock(x, y, z, Material.STATIONARY_LAVA);
 
 		// aggregate bits
 		for (int y = stratumY; y < subsurfaceY - 1; y++)
 			if (lot.isValidStrataY(generator, blockX, y, blockZ) && (!surfaceCaves || generator.shapeProvider.notACave(generator, blockX, y, blockZ)))
-				chunk.setBlock(x, y, z, subsurfaceId);
+				chunk.setBlock(x, y, z, subsurfaceMaterial);
 
 		// icing for the cake
 		if (!surfaceCaves || generator.shapeProvider.notACave(generator, blockX, subsurfaceY, blockZ)) {
 			if (lot.isValidStrataY(generator, blockX, subsurfaceY - 1, blockZ)) 
-				chunk.setBlock(x, subsurfaceY - 1, z, subsurfaceId);
+				chunk.setBlock(x, subsurfaceY - 1, z, subsurfaceMaterial);
 			if (lot.isValidStrataY(generator, blockX, subsurfaceY, blockZ)) 
-				chunk.setBlock(x, subsurfaceY, z, surfaceId);
+				chunk.setBlock(x, subsurfaceY, z, surfaceMaterial);
 		}
 	}
 
-	protected void generateStratas(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, byte substratumId, byte stratumId,
-			int stratumY, byte subsurfaceId, int subsurfaceY, byte surfaceId,
+	protected void generateStratas(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			boolean surfaceCaves) {
 	
 		// a little crust please?
-		actualGenerateStratas(generator, lot, chunk, x, z, substratumId, stratumId, stratumY, 
-				subsurfaceId, subsurfaceY, surfaceId, surfaceCaves);
+		actualGenerateStratas(generator, lot, chunk, x, z, substratumMaterial, stratumMaterial, stratumY, 
+				subsurfaceMaterial, subsurfaceY, surfaceMaterial, surfaceCaves);
 	}
 
-	protected void generateStratas(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, byte substratumId, byte stratumId,
-			int stratumY, byte subsurfaceId, int subsurfaceY, byte surfaceId,
-			int coverY, byte coverId, boolean surfaceCaves) {
+	protected void generateStratas(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
+			int coverY, Material coverMaterial, boolean surfaceCaves) {
 
 		// a little crust please?
-		actualGenerateStratas(generator, lot, chunk, x, z, substratumId, stratumId, stratumY, 
-				subsurfaceId, subsurfaceY, surfaceId, surfaceCaves);
+		actualGenerateStratas(generator, lot, chunk, x, z, substratumMaterial, stratumMaterial, stratumY, 
+				subsurfaceMaterial, subsurfaceY, surfaceMaterial, surfaceCaves);
 
 		// cover it up
 		for (int y = subsurfaceY + 1; y <= coverY; y++)
-			chunk.setBlock(x, y, z, coverId);
+			chunk.setBlock(x, y, z, coverMaterial);
 	}
 
 	//TODO refactor these over to UndergroundProvider (which should include PlatLot's mines generator code)

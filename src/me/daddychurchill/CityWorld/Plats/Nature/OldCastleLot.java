@@ -79,7 +79,7 @@ public class OldCastleLot extends ConstructLot {
 		chunk.setBlocks(1, 15, y1 - 2, 1, 15, supportMaterial);
 		
 		// clear things out a bit
-		chunk.setBlocks(0, 16, y1, maxHeight + 2, 0, 16, getAirId(generator, y1));
+		chunk.setBlocks(0, 16, y1, maxHeight + 2, 0, 16, getAirMaterial(generator, y1));
 		
 		// add the first layer
 		chunk.setLayer(y1 - 1, platformMaterial);
@@ -154,17 +154,17 @@ public class OldCastleLot extends ConstructLot {
 	
 	private void punchOutWindow(WorldGenerator generator, ByteChunk chunk, int x, int y, int z) {
 		if (chunkOdds.flipCoin())
-			chunk.setBlocks(x, y, y + 1 + chunkOdds.getRandomInt(2), z, getAirId(generator, y));
+			chunk.setBlocks(x, y, y + 1 + chunkOdds.getRandomInt(2), z, getAirMaterial(generator, y));
 	}
 	
 	private void punchOutNSDoor(WorldGenerator generator, ByteChunk chunk, int x, int y, int z) {
 		if (chunkOdds.flipCoin())
-			chunk.setBlocks(x, x + 1, y, y + 3, z, z + 2, getAirId(generator, y));
+			chunk.setBlocks(x, x + 1, y, y + 3, z, z + 2, getAirMaterial(generator, y));
 	}
 	
 	private void punchOutWEDoor(WorldGenerator generator, ByteChunk chunk, int x, int y, int z) {
 		if (chunkOdds.flipCoin())
-			chunk.setBlocks(x, x + 2, y, y + 3, z, z + 1, getAirId(generator, y));
+			chunk.setBlocks(x, x + 2, y, y + 3, z, z + 1, getAirMaterial(generator, y));
 	}
 	
 	@Override

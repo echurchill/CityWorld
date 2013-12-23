@@ -12,6 +12,15 @@ public class ByteChunk extends SupportChunk {
 	public byte[][] blocks;
 	
 	public static final int bytesPerSection = chunksBlockWidth * chunksBlockWidth * chunksBlockWidth;
+
+	//TODO: Remove this
+	private static final byte airId = BlackMagic.getMaterialId(Material.AIR);
+//	public static final byte bedrockId = getMaterialId(Material.BEDROCK);
+//	public static final byte stoneId = getMaterialId(Material.STONE);
+//	public static final byte gravelId = getMaterialId(Material.GRAVEL);
+//	public static final byte dirtId = getMaterialId(Material.DIRT);
+//	public static final byte grassId = getMaterialId(Material.GRASS);
+//	public static final byte glassMaterial = getMaterialId(Material.GLASS);
 	
 	public ByteChunk(WorldGenerator aGenerator, int aChunkX, int aChunkZ) {
 		super(aGenerator);
@@ -23,25 +32,36 @@ public class ByteChunk extends SupportChunk {
 		
 		blocks = new byte[sectionsPerChunk][];
 	}
-	
+
+	@Deprecated
 	@Override
 	public byte getBlockType(int x, int y, int z) {
 		return getBlock(x, y, z);
 	}
 	
+	@Deprecated
 	public byte getBlock(int x, int y, int z) {
         if (blocks[y >> 4] == null)
-        	return BlackMagic.airId;
+        	return airId;
         else
         	return blocks[y >> 4][((y & 0xF) << 8) | (z << 4) | x];
 	}
 	
-	@Override
-	public void setBlock(int x, int y, int z, byte materialId) {
+	@Deprecated
+	public void setBlock(int x, int y, int z, byte wallMaterial) {
         if (blocks[y >> 4] == null) {
         	blocks[y >> 4] = new byte[bytesPerSection];
         }
-        blocks[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = materialId;
+        blocks[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = wallMaterial;
+	}
+	
+	@Deprecated
+	public void setBlocks(int x1, int x2, int y, int z1, int z2, byte wallMaterial) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				setBlock(x, y, z, wallMaterial);
+			}
+		}
 	}
 	
 	public void setBlock(int x, int y, int z, Material material) {
@@ -52,40 +72,31 @@ public class ByteChunk extends SupportChunk {
 		setBlockIfAir(x, y, z, BlackMagic.getMaterialId(material));
 	}
 	
-	public void setBlockIfAir(int x, int y, int z, byte materialId) {
-		if (getBlock(x, y, z) == BlackMagic.airId && getBlock(x, y - 1, z) != BlackMagic.airId)
-			setBlock(x, y, z, materialId);
+	public void setBlockIfAir(int x, int y, int z, byte wallMaterial) {
+		if (getBlock(x, y, z) == airId && getBlock(x, y - 1, z) != airId)
+			setBlock(x, y, z, wallMaterial);
 	}
 	
-	public void setBlocks(int x, int y1, int y2, int z, byte materialId) {
+	public void setBlocks(int x, int y1, int y2, int z, byte wallMaterial) {
 		for (int y = y1; y < y2; y++)
-			setBlock(x, y, z, materialId);
+			setBlock(x, y, z, wallMaterial);
 	}
 	
 	public void setBlocks(int x, int y1, int y2, int z, Material material) {
 		setBlocks(x, y1, y2, z, BlackMagic.getMaterialId(material));
 	}
 	
-	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte materialId) {
+	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte wallMaterial) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				for (int y = y1; y < y2; y++)
-					setBlock(x, y, z, materialId);
+					setBlock(x, y, z, wallMaterial);
 			}
 		}
 	}
 	
 	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
 		setBlocks(x1, x2, y1, y2, z1, z2, BlackMagic.getMaterialId(material));
-	}
-	
-	@Override
-	public void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				setBlock(x, y, z, materialId);
-			}
-		}
 	}
 	
 	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
@@ -95,7 +106,7 @@ public class ByteChunk extends SupportChunk {
 	@Override
 	public void clearBlock(int x, int y, int z) {
         if (blocks[y >> 4] != null) {
-        	blocks[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = BlackMagic.airId;
+        	blocks[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = airId;
         }
 	}
 
@@ -114,20 +125,20 @@ public class ByteChunk extends SupportChunk {
 			}
 		}
 	}
-	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, byte materialId) {
-		setBlocks(x1, x2, y1, y2, z1, z1 + 1, materialId);
-		setBlocks(x1, x2, y1, y2, z2 - 1, z2, materialId);
-		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, materialId);
-		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, materialId);
+	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, byte wallMaterial) {
+		setBlocks(x1, x2, y1, y2, z1, z1 + 1, wallMaterial);
+		setBlocks(x1, x2, y1, y2, z2 - 1, z2, wallMaterial);
+		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, wallMaterial);
+		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, wallMaterial);
 	}
 	
 	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
 		setWalls(x1, x2, y1, y2, z1, z2, BlackMagic.getMaterialId(material));
 	}
 	
-	public boolean setEmptyBlock(int x, int y, int z, byte materialId) {
-		if (getBlock(x, y, z) == BlackMagic.airId) {
-			setBlock(x, y, z, materialId);
+	public boolean setEmptyBlock(int x, int y, int z, byte wallMaterial) {
+		if (getBlock(x, y, z) == airId) {
+			setBlock(x, y, z, wallMaterial);
 			return true;
 		} else
 			return false;
@@ -137,11 +148,11 @@ public class ByteChunk extends SupportChunk {
 		return setEmptyBlock(x, y, z, BlackMagic.getMaterialId(material));
 	}
 
-	public void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, byte materialId) {
+	public void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, byte wallMaterial) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				if (getBlock(x, y, z) == BlackMagic.airId)
-					setBlock(x, y, z, materialId);
+				if (getBlock(x, y, z) == airId)
+					setBlock(x, y, z, wallMaterial);
 			}
 		}
 	}
@@ -152,7 +163,7 @@ public class ByteChunk extends SupportChunk {
 	
 	public int findLastEmptyAbove(int x, int y, int z) {
 		int y1 = y;
-		while (y1 < height - 1 && getBlock(x, y1 + 1, z) == BlackMagic.airId) {
+		while (y1 < height - 1 && getBlock(x, y1 + 1, z) == airId) {
 			y1++;
 		}
 		return y1;
@@ -160,31 +171,31 @@ public class ByteChunk extends SupportChunk {
 	
 	public int findLastEmptyBelow(int x, int y, int z) {
 		int y1 = y;
-		while (y1 > 0 && getBlock(x, y1 - 1, z) == BlackMagic.airId) {
+		while (y1 > 0 && getBlock(x, y1 - 1, z) == airId) {
 			y1--;
 		}
 		return y1;
 	}
 	
-	public void setBlocksAt(int y, byte materialId) {
-		setBlocks(0, width, y, y + 1, 0, width, materialId);
+	public void setBlocksAt(int y, byte wallMaterial) {
+		setBlocks(0, width, y, y + 1, 0, width, wallMaterial);
 	}
 	
 	public void setBlocksAt(int y, Material material) {
 		setBlocks(0, width, y, y + 1, 0, width, BlackMagic.getMaterialId(material));
 	}
 	
-	public void setBlocksAt(int y1, int y2, byte materialId) {
-		setBlocks(0, width, y1, y2, 0, width, materialId);
+	public void setBlocksAt(int y1, int y2, byte wallMaterial) {
+		setBlocks(0, width, y1, y2, 0, width, wallMaterial);
 	}
 	
 	public void setBlocksAt(int y1, int y2, Material material) {
 		setBlocks(0, width, y1, y2, 0, width, BlackMagic.getMaterialId(material));
 	}
 	
-	public void setAllBlocks(byte materialID) {
+	public void setAllBlocks(byte wallMaterial) {
 		// shortcut if we are simply clearing everything
-		if (materialID == BlackMagic.airId) {
+		if (wallMaterial == airId) {
 			for (int c = 0; c < sectionsPerChunk; c++) {
 				blocks[c] = null;
 			}
@@ -194,7 +205,7 @@ public class ByteChunk extends SupportChunk {
 			for (int c = 0; c < sectionsPerChunk; c++) {
 				if (blocks[c] == null)
 					blocks[c] = new byte[bytesPerSection];
-				Arrays.fill(blocks[c], 0, bytesPerSection, materialID);
+				Arrays.fill(blocks[c], 0, bytesPerSection, wallMaterial);
 			}
 		}	
 	}
@@ -205,7 +216,7 @@ public class ByteChunk extends SupportChunk {
 	
 	public void replaceBlocks(byte fromId, byte toId) {
 		// if we are replacing air we might need to do this the hard way
-		if (fromId == BlackMagic.airId) {
+		if (fromId == airId) {
 			for (int c = 0; c < sectionsPerChunk; c++) {
 				if (blocks[c] == null)
 					blocks[c] = new byte[bytesPerSection];
@@ -247,54 +258,54 @@ public class ByteChunk extends SupportChunk {
 		return blocky + height;
 	}
 	
-	public int setLayer(int blocky, byte materialId) {
-		setBlocks(0, width, blocky, blocky + 1, 0, width, materialId);
+	public int setLayer(int blocky, byte wallMaterial) {
+		setBlocks(0, width, blocky, blocky + 1, 0, width, wallMaterial);
 		return blocky + 1;
 	}
 	
-	public int setLayer(int blocky, int height, byte materialId) {
-		setBlocks(0, width, blocky, blocky + height, 0, width, materialId);
+	public int setLayer(int blocky, int height, byte wallMaterial) {
+		setBlocks(0, width, blocky, blocky + height, 0, width, wallMaterial);
 		return blocky + height;
 	}
 	
-	public int setLayer(int blocky, int height, int inset, byte materialId) {
-		setBlocks(inset, width - inset, blocky, blocky + height, inset, width - inset, materialId);
+	public int setLayer(int blocky, int height, int inset, byte wallMaterial) {
+		setBlocks(inset, width - inset, blocky, blocky + height, inset, width - inset, wallMaterial);
 		return blocky + height;
 	}
 	
-	public void setArcNorthWest(int inset, int y1, int y2, byte materialId, boolean fill) {
-		setArcNorthWest(inset, y1, y2, materialId, materialId, null, fill);
+	public void setArcNorthWest(int inset, int y1, int y2, Material wallMaterial, boolean fill) {
+		setArcNorthWest(inset, y1, y2, wallMaterial, wallMaterial, null, fill);
 	}
 
-	public void setArcSouthWest(int inset, int y1, int y2, byte materialId, boolean fill) {
-		setArcSouthWest(inset, y1, y2, materialId, materialId, null, fill);
+	public void setArcSouthWest(int inset, int y1, int y2, Material wallMaterial, boolean fill) {
+		setArcSouthWest(inset, y1, y2, wallMaterial, wallMaterial, null, fill);
 	}
 
-	public void setArcNorthEast(int inset, int y1, int y2, byte materialId, boolean fill) {
-		setArcNorthEast(inset, y1, y2, materialId, materialId, null, fill);
+	public void setArcNorthEast(int inset, int y1, int y2, Material wallMaterial, boolean fill) {
+		setArcNorthEast(inset, y1, y2, wallMaterial, wallMaterial, null, fill);
 	}
 	
-	public void setArcSouthEast(int inset, int y1, int y2, byte materialId, boolean fill) {
-		setArcSouthEast(inset, y1, y2, materialId, materialId, null, fill);
+	public void setArcSouthEast(int inset, int y1, int y2, Material wallMaterial, boolean fill) {
+		setArcSouthEast(inset, y1, y2, wallMaterial, wallMaterial, null, fill);
 	}
 
-	public void setArcNorthWest(int inset, int y1, int y2, byte materialId, byte glassId, MaterialFactory maker) {
-		setArcNorthWest(inset, y1, y2, materialId, glassId, maker, false);
+	public void setArcNorthWest(int inset, int y1, int y2, Material wallMaterial, Material glassMaterial, MaterialFactory maker) {
+		setArcNorthWest(inset, y1, y2, wallMaterial, glassMaterial, maker, false);
 	}
 	
-	public void setArcSouthWest(int inset, int y1, int y2, byte materialId, byte glassId, MaterialFactory maker) {
-		setArcSouthWest(inset, y1, y2, materialId, glassId, maker, false);
+	public void setArcSouthWest(int inset, int y1, int y2, Material wallMaterial, Material glassMaterial, MaterialFactory maker) {
+		setArcSouthWest(inset, y1, y2, wallMaterial, glassMaterial, maker, false);
 	}
 	
-	public void setArcNorthEast(int inset, int y1, int y2, byte materialId, byte glassId, MaterialFactory maker) {
-		setArcNorthEast(inset, y1, y2, materialId, glassId, maker, false);
+	public void setArcNorthEast(int inset, int y1, int y2, Material wallMaterial, Material glassMaterial, MaterialFactory maker) {
+		setArcNorthEast(inset, y1, y2, wallMaterial, glassMaterial, maker, false);
 	}
 	
-	public void setArcSouthEast(int inset, int y1, int y2, byte materialId, byte glassId, MaterialFactory maker) {
-		setArcSouthEast(inset, y1, y2, materialId, glassId, maker, false);
+	public void setArcSouthEast(int inset, int y1, int y2, Material wallMaterial, Material glassMaterial, MaterialFactory maker) {
+		setArcSouthEast(inset, y1, y2, wallMaterial, glassMaterial, maker, false);
 	}
 	
-	protected void setArcNorthWest(int inset, int y1, int y2, byte materialId, byte glassId, MaterialFactory maker, boolean fill) {
+	protected void setArcNorthWest(int inset, int y1, int y2, Material wallMaterial, Material glassMaterial, MaterialFactory maker, boolean fill) {
 		// Ref: Notes/BCircle.PDF
 		int cx = inset;
 		int cz = inset;
@@ -307,16 +318,16 @@ public class ByteChunk extends SupportChunk {
 		
 		while (x >= z) {
 			if (fill) {
-				setBlocks(cx, cx + x + 1, y1, y2, cz + z, cz + z + 1, materialId); // point in octant 1 ENE
-				setBlocks(cx, cx + z + 1, y1, y2, cz + x, cz + x + 1, materialId); // point in octant 2 NNE
+				setBlocks(cx, cx + x + 1, y1, y2, cz + z, cz + z + 1, wallMaterial); // point in octant 1 ENE
+				setBlocks(cx, cx + z + 1, y1, y2, cz + x, cz + x + 1, wallMaterial); // point in octant 2 NNE
 			} else if (maker != null) {
-				maker.placeMaterial(this, materialId, glassId, cx + x, y1, y2, cz + z); // point in octant 1 ENE
-				maker.placeMaterial(this, materialId, glassId, cx + z, y1, y2, cz + x); // point in octant 2 NNE
+				maker.placeMaterial(this, wallMaterial, glassMaterial, cx + x, y1, y2, cz + z); // point in octant 1 ENE
+				maker.placeMaterial(this, wallMaterial, glassMaterial, cx + z, y1, y2, cz + x); // point in octant 2 NNE
 			} else {
-				setBlock(cx + x, y1, cz + z, materialId); // point in octant 1 ENE
-				setBlocks(cx + x, y1 + 1, y2, cz + z, glassId); // point in octant 1 ENE
-				setBlock(cx + z, y1, cz + x, materialId); // point in octant 2 NNE
-				setBlocks(cx + z, y1 + 1, y2, cz + x, glassId); // point in octant 2 NNE
+				setBlock(cx + x, y1, cz + z, wallMaterial); // point in octant 1 ENE
+				setBlocks(cx + x, y1 + 1, y2, cz + z, glassMaterial); // point in octant 1 ENE
+				setBlock(cx + z, y1, cz + x, wallMaterial); // point in octant 2 NNE
+				setBlocks(cx + z, y1 + 1, y2, cz + x, glassMaterial); // point in octant 2 NNE
 			}
 			
 			z++;
@@ -330,7 +341,7 @@ public class ByteChunk extends SupportChunk {
 		}
 	}
 	
-	protected void setArcSouthWest(int inset, int y1, int y2, byte materialId, byte glassId, MaterialFactory maker, boolean fill) {
+	protected void setArcSouthWest(int inset, int y1, int y2, Material wallMaterial, Material glassMaterial, MaterialFactory maker, boolean fill) {
 		// Ref: Notes/BCircle.PDF
 		int cx = inset;
 		int cz = width - inset;
@@ -343,16 +354,16 @@ public class ByteChunk extends SupportChunk {
 		
 		while (x >= z) {
 			if (fill) {
-				setBlocks(cx, cx + z + 1, y1, y2, cz - x - 1, cz - x, materialId); // point in octant 7 WNW
-				setBlocks(cx, cx + x + 1, y1, y2, cz - z - 1, cz - z, materialId); // point in octant 8 NNW
+				setBlocks(cx, cx + z + 1, y1, y2, cz - x - 1, cz - x, wallMaterial); // point in octant 7 WNW
+				setBlocks(cx, cx + x + 1, y1, y2, cz - z - 1, cz - z, wallMaterial); // point in octant 8 NNW
 			} else if (maker != null) {
-				maker.placeMaterial(this, materialId, glassId, cx + z, y1, y2, cz - x - 1); // point in octant 7 WNW
-				maker.placeMaterial(this, materialId, glassId, cx + x, y1, y2, cz - z - 1); // point in octant 8 NNW
+				maker.placeMaterial(this, wallMaterial, glassMaterial, cx + z, y1, y2, cz - x - 1); // point in octant 7 WNW
+				maker.placeMaterial(this, wallMaterial, glassMaterial, cx + x, y1, y2, cz - z - 1); // point in octant 8 NNW
 			} else {
-				setBlock(cx + z, y1, cz - x - 1, materialId); // point in octant 7 WNW
-				setBlocks(cx + z, y1 + 1, y2, cz - x - 1, glassId); // point in octant 7 WNW
-				setBlock(cx + x, y1, cz - z - 1, materialId); // point in octant 8 NNW
-				setBlocks(cx + x, y1 + 1, y2, cz - z - 1, glassId); // point in octant 8 NNW
+				setBlock(cx + z, y1, cz - x - 1, wallMaterial); // point in octant 7 WNW
+				setBlocks(cx + z, y1 + 1, y2, cz - x - 1, glassMaterial); // point in octant 7 WNW
+				setBlock(cx + x, y1, cz - z - 1, wallMaterial); // point in octant 8 NNW
+				setBlocks(cx + x, y1 + 1, y2, cz - z - 1, glassMaterial); // point in octant 8 NNW
 			}
 			
 			z++;
@@ -366,7 +377,7 @@ public class ByteChunk extends SupportChunk {
 		}
 	}
 	
-	protected void setArcNorthEast(int inset, int y1, int y2, byte materialId, byte glassId, MaterialFactory maker, boolean fill) {
+	protected void setArcNorthEast(int inset, int y1, int y2, Material wallMaterial, Material glassMaterial, MaterialFactory maker, boolean fill) {
 		// Ref: Notes/BCircle.PDF
 		int cx = width - inset;
 		int cz = inset;
@@ -379,16 +390,16 @@ public class ByteChunk extends SupportChunk {
 		
 		while (x >= z) {
 			if (fill) {
-				setBlocks(cx - z - 1, cx, y1, y2, cz + x, cz + x + 1, materialId); // point in octant 3 ESE
-				setBlocks(cx - x - 1, cx, y1, y2, cz + z, cz + z + 1, materialId); // point in octant 4 SSE
+				setBlocks(cx - z - 1, cx, y1, y2, cz + x, cz + x + 1, wallMaterial); // point in octant 3 ESE
+				setBlocks(cx - x - 1, cx, y1, y2, cz + z, cz + z + 1, wallMaterial); // point in octant 4 SSE
 			} else if (maker != null) {
-				maker.placeMaterial(this, materialId, glassId, cx - z - 1, y1, y2, cz + x); // point in octant 3 ESE
-				maker.placeMaterial(this, materialId, glassId, cx - x - 1, y1, y2, cz + z); // point in octant 4 SSE
+				maker.placeMaterial(this, wallMaterial, glassMaterial, cx - z - 1, y1, y2, cz + x); // point in octant 3 ESE
+				maker.placeMaterial(this, wallMaterial, glassMaterial, cx - x - 1, y1, y2, cz + z); // point in octant 4 SSE
 			} else {
-				setBlock(cx - z - 1, y1, cz + x, materialId); // point in octant 3 ESE
-				setBlocks(cx - z - 1, y1 + 1, y2, cz + x, glassId); // point in octant 3 ESE
-				setBlock(cx - x - 1, y1, cz + z, materialId); // point in octant 4 SSE
-				setBlocks(cx - x - 1, y1 + 1, y2, cz + z, glassId); // point in octant 4 SSE
+				setBlock(cx - z - 1, y1, cz + x, wallMaterial); // point in octant 3 ESE
+				setBlocks(cx - z - 1, y1 + 1, y2, cz + x, glassMaterial); // point in octant 3 ESE
+				setBlock(cx - x - 1, y1, cz + z, wallMaterial); // point in octant 4 SSE
+				setBlocks(cx - x - 1, y1 + 1, y2, cz + z, glassMaterial); // point in octant 4 SSE
 			}
 			
 			z++;
@@ -402,7 +413,7 @@ public class ByteChunk extends SupportChunk {
 		}
 	}
 	
-	protected void setArcSouthEast(int inset, int y1, int y2, byte materialId, byte glassId, MaterialFactory maker, boolean fill) {
+	protected void setArcSouthEast(int inset, int y1, int y2, Material wallMaterial, Material glassMaterial, MaterialFactory maker, boolean fill) {
 		// Ref: Notes/BCircle.PDF
 		int cx = width - inset;
 		int cz = width - inset;
@@ -415,16 +426,16 @@ public class ByteChunk extends SupportChunk {
 		
 		while (x >= z) {
 			if (fill) {
-				setBlocks(cx - x - 1, cx, y1, y2, cz - z - 1, cz - z, materialId); // point in octant 5 SSW
-				setBlocks(cx - z - 1, cx, y1, y2, cz - x - 1, cz - x, materialId); // point in octant 6 WSW
+				setBlocks(cx - x - 1, cx, y1, y2, cz - z - 1, cz - z, wallMaterial); // point in octant 5 SSW
+				setBlocks(cx - z - 1, cx, y1, y2, cz - x - 1, cz - x, wallMaterial); // point in octant 6 WSW
 			} else if (maker != null) {
-				maker.placeMaterial(this, materialId, glassId, cx - x - 1, y1, y2, cz - z - 1); // point in octant 5 SSW
-				maker.placeMaterial(this, materialId, glassId, cx - z - 1, y1, y2, cz - x - 1); // point in octant 6 WSW
+				maker.placeMaterial(this, wallMaterial, glassMaterial, cx - x - 1, y1, y2, cz - z - 1); // point in octant 5 SSW
+				maker.placeMaterial(this, wallMaterial, glassMaterial, cx - z - 1, y1, y2, cz - x - 1); // point in octant 6 WSW
 			} else {
-				setBlock(cx - x - 1, y1, cz - z - 1, materialId); // point in octant 5 SSW
-				setBlocks(cx - x - 1, y1 + 1, y2, cz - z - 1, glassId); // point in octant 5 SSW
-				setBlock(cx - z - 1, y1, cz - x - 1, materialId); // point in octant 6 WSW
-				setBlocks(cx - z - 1, y1 + 1, y2, cz - x - 1, glassId); // point in octant 6 WSW
+				setBlock(cx - x - 1, y1, cz - z - 1, wallMaterial); // point in octant 5 SSW
+				setBlocks(cx - x - 1, y1 + 1, y2, cz - z - 1, glassMaterial); // point in octant 5 SSW
+				setBlock(cx - z - 1, y1, cz - x - 1, wallMaterial); // point in octant 6 WSW
+				setBlocks(cx - z - 1, y1 + 1, y2, cz - x - 1, glassMaterial); // point in octant 6 WSW
 			}
 			
 			z++;

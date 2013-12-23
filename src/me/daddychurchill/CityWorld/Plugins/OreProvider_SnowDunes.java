@@ -1,15 +1,16 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import org.bukkit.Material;
+
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Support.BlackMagic;
 
 public class OreProvider_SnowDunes extends OreProvider_Normal {
 
 	public OreProvider_SnowDunes(WorldGenerator generator) {
 		super(generator);
 
-		fluidId = BlackMagic.iceId;
-		fluidFluidId = BlackMagic.iceId;
+		fluidMaterial = Material.PACKED_ICE;
+		fluidFluidMaterial = Material.ICE;
 	}
 
 	@Override

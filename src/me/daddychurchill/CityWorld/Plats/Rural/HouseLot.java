@@ -1,5 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Rural;
 
+import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
@@ -38,9 +39,9 @@ public class HouseLot extends IsolatedLot {
 		
 		// ground please
 		if (generator.settings.includeDecayedNature)
-			chunk.setLayer(generator.streetLevel, sandId);
+			chunk.setLayer(generator.streetLevel, Material.SAND);
 		else
-			chunk.setLayer(generator.streetLevel, generator.oreProvider.surfaceId);
+			chunk.setLayer(generator.streetLevel, generator.oreProvider.surfaceMaterial);
 	}
 	
 	@Override

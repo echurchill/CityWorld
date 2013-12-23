@@ -20,14 +20,8 @@ public class FloodedHouseLot extends HouseLot {
 		return new FloodedHouseLot(platmap, chunkX, chunkZ);
 	}
 
-	
-	@Override
-	protected byte getAirId(WorldGenerator generator, int y) {
-		return ShapeProvider_Flooded.floodId;
-	}
-
 	@Override
 	protected Material getAirMaterial(WorldGenerator generator, int y) {
-		return ShapeProvider_Flooded.floodMat;
+		return ShapeProvider_Flooded.floodMaterial;
 	}
 }

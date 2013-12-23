@@ -37,7 +37,7 @@ public class StorageLot extends BuildingLot {
 		SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
 		
 		// top it off
-		chunk.setLayer(groundY, generator.oreProvider.subsurfaceId);
+		chunk.setLayer(groundY, generator.oreProvider.subsurfaceMaterial);
 		chunk.setLayer(groundY + 1, RoadLot.pavementId);
 		
 		// fence please

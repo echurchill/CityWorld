@@ -45,7 +45,7 @@ public class FloatingRoadLot extends RoadLot {
 		// draw pavement and clear out a bit
 		chunk.setLayer(pavementLevel - 1, bridgeEdgeMaterial);
 		chunk.setLayer(pavementLevel, pavementId);
-		chunk.setLayer(sidewalkLevel, getAirId(generator, sidewalkLevel));
+		chunk.setLayer(sidewalkLevel, getAirMaterial(generator, sidewalkLevel));
 		
 		// sidewalk corners
 		chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkMaterial);

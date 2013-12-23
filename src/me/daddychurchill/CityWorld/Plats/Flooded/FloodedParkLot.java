@@ -20,15 +20,9 @@ public class FloodedParkLot extends ParkLot {
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
 		return new FloodedParkLot(platmap, chunkX, chunkZ, connectedkey);
 	}
-
 	
 	@Override
-	protected byte getAirId(WorldGenerator generator, int y) {
-		return ShapeProvider_Flooded.floodId;
-	}
-
-	@Override
 	protected Material getAirMaterial(WorldGenerator generator, int y) {
-		return ShapeProvider_Flooded.floodMat;
+		return ShapeProvider_Flooded.floodMaterial;
 	}
 }

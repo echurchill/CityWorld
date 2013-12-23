@@ -6,6 +6,7 @@ import org.bukkit.inventory.ItemStack;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plugins.PhatLoot.LootProvider_Phat;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.Odds;
 
 public abstract class LootProvider extends Provider {
@@ -33,8 +34,8 @@ public abstract class LootProvider extends Provider {
 	}
 
 	protected ItemStack[] createTreasures(Odds odds, Material minTreasure, Material maxTreasure, int maxCount, int maxStack) {
-		int minId = minTreasure.getId();
-		int maxId = maxTreasure.getId();
+		int minId = BlackMagic.getMaterialId(minTreasure);
+		int maxId = BlackMagic.getMaterialId(maxTreasure);
 		int rangeId = maxId - minId + 1;
 		int count = maxCount > 0 ? odds.getRandomInt(maxCount) + 1 : 0;
 		
@@ -43,7 +44,7 @@ public abstract class LootProvider extends Provider {
 		
 		// populate
 		for (int i = 0; i < count; i++)
-			items[i] = new ItemStack(odds.getRandomInt(rangeId) + minId, odds.getRandomInt(maxStack) + 1);
+			items[i] = new ItemStack(BlackMagic.getMaterial(odds.getRandomInt(rangeId) + minId), odds.getRandomInt(maxStack) + 1);
 		
 		// all done
 		return items;

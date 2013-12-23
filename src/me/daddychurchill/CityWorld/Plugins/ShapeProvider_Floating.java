@@ -135,24 +135,24 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 					int groundY = findGroundY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 					
 					// make the base
-					chunk.setBlock(x, 0, z, ores.substratumId);
+					chunk.setBlock(x, 0, z, ores.substratumMaterial);
 					
 					// place the way down there bits
-					chunk.setBlocks(x, 1, groundY - 1, z, ores.stratumId);
+					chunk.setBlocks(x, 1, groundY - 1, z, ores.stratumMaterial);
 					
 					// seas?
 					if (groundY < seaLevel) {
-						chunk.setBlock(x, groundY - 1, z, ores.fluidSubsurfaceId);
-						chunk.setBlock(x, groundY, z, ores.fluidSurfaceId);
+						chunk.setBlock(x, groundY - 1, z, ores.fluidSubsurfaceMaterial);
+						chunk.setBlock(x, groundY, z, ores.fluidSurfaceMaterial);
 						if (generator.settings.includeAbovegroundFluids) {
 							if (generator.settings.includeDecayedNature)
-								chunk.setBlocks(x, groundY + 1, deepSeaLevel, z, ores.fluidId);
+								chunk.setBlocks(x, groundY + 1, deepSeaLevel, z, ores.fluidMaterial);
 							else
-								chunk.setBlocks(x, groundY + 1,  seaLevel, z, ores.fluidId);
+								chunk.setBlocks(x, groundY + 1,  seaLevel, z, ores.fluidMaterial);
 						}
 					} else {
-						chunk.setBlock(x, groundY - 1, z, ores.subsurfaceId);
-						chunk.setBlock(x, groundY, z, ores.surfaceId);
+						chunk.setBlock(x, groundY - 1, z, ores.subsurfaceMaterial);
+						chunk.setBlock(x, groundY, z, ores.surfaceMaterial);
 					}
 				}
 					
@@ -179,7 +179,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 						if (odds.playOdds(underworldOdds)) {
 							int y = lotBottomY - odds.getRandomInt(underworldLength);
 							if (!chunk.isEmpty(x, lotBottomY, z))
-								chunk.setBlocks(x, y, lotBottomY, z, ores.subsurfaceId);
+								chunk.setBlocks(x, y, lotBottomY, z, ores.subsurfaceMaterial);
 						}
 					}
 				}

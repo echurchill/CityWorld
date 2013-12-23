@@ -1,11 +1,12 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import org.bukkit.Material;
+
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.BlackMagic;
 
 public class OreProvider_Normal extends OreProvider {
 
@@ -27,16 +28,16 @@ public class OreProvider_Normal extends OreProvider {
 	 * wildly modified by daddychurchill
 	 */
 	
-	private static final byte[] ore_types = new byte[] {BlackMagic.fluidWaterId,
-														BlackMagic.fluidLavaId,
-														BlackMagic.gravelId,
-														BlackMagic.coalId,
-														BlackMagic.ironId,
-														BlackMagic.goldId,
-														BlackMagic.lapisId,
-														BlackMagic.redstoneId,
-														BlackMagic.diamondId,
-														BlackMagic.emeraldId}; 
+	private static final Material[] ore_types = new Material[] {Material.WATER,
+																Material.LAVA,
+																Material.GRAVEL,
+																Material.COAL_ORE,
+																Material.IRON_ORE,
+																Material.GOLD_ORE,
+																Material.LAPIS_ORE,
+																Material.REDSTONE_ORE,
+																Material.DIAMOND_ORE,
+																Material.EMERALD_ORE}; 
 	
 	//                                                         WATER   LAVA   GRAV   COAL   IRON   GOLD  LAPIS  REDST   DIAM   EMER  
 	private static final int[] ore_iterations = new int[]    {     8,     6,    40,    30,    12,     4,     2,     4,     2,    10};

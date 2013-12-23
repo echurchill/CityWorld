@@ -35,7 +35,7 @@ public class ConcreteLot extends BuildingLot {
 		Material sidewalkMaterial = getSidewalkMaterial();
 
 		// top it off
-		chunk.setLayer(groundY, generator.oreProvider.subsurfaceId);
+		chunk.setLayer(groundY, generator.oreProvider.subsurfaceMaterial);
 		chunk.setLayer(sidewalkLevel, sidewalkMaterial);
 	}
 

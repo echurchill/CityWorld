@@ -4,7 +4,6 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Rooms.Populators.EmptyWithNothing;
-import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.CurvedWallFactory;
 import me.daddychurchill.CityWorld.Support.Direction;
@@ -292,11 +291,10 @@ public abstract class BuildingLot extends ConnectedLot {
 	
 	protected void drawCeilings(WorldGenerator generator, ByteChunk byteChunk, DataContext context, int y1, 
 			int height, int insetNS, int insetWE, 
-			boolean allowRounded, Material material, Surroundings heights) {
+			boolean allowRounded, Material ceilingMaterial, Surroundings heights) {
 		
 		// precalculate
-		byte materialId = BlackMagic.getMaterialId(material);
-		byte emptyId = getAirId(generator, y1);
+		Material emptyMaterial = getAirMaterial(generator, y1);
 		int y2 = y1 + height;
 		boolean stillNeedCeiling = true;
 		int inset = Math.max(insetNS, insetWE);
@@ -306,26 +304,26 @@ public abstract class BuildingLot extends ConnectedLot {
 			int innerCorner = (byteChunk.width - inset * 2) + inset;
 			if (heights.toNorth()) {
 				if (heights.toEast()) {
-					byteChunk.setArcNorthEast(inset, y1, y2, materialId, true);
+					byteChunk.setArcNorthEast(inset, y1, y2, ceilingMaterial, true);
 					if (!heights.toNorthEast()) 
-						byteChunk.setArcNorthEast(innerCorner, y1, y2, emptyId, true);
+						byteChunk.setArcNorthEast(innerCorner, y1, y2, emptyMaterial, true);
 					stillNeedCeiling = false;
 				} else if (heights.toWest()) {
-					byteChunk.setArcNorthWest(inset, y1, y2, materialId, true);
+					byteChunk.setArcNorthWest(inset, y1, y2, ceilingMaterial, true);
 					if (!heights.toNorthWest())
-						byteChunk.setArcNorthWest(innerCorner, y1, y2, emptyId, true);
+						byteChunk.setArcNorthWest(innerCorner, y1, y2, emptyMaterial, true);
 					stillNeedCeiling = false;
 				}
 			} else if (heights.toSouth()) {
 				if (heights.toEast()) {
-					byteChunk.setArcSouthEast(inset, y1, y2, materialId, true);
+					byteChunk.setArcSouthEast(inset, y1, y2, ceilingMaterial, true);
 					if (!heights.toSouthEast())
-						byteChunk.setArcSouthEast(innerCorner, y1, y2, emptyId, true);
+						byteChunk.setArcSouthEast(innerCorner, y1, y2, emptyMaterial, true);
 					stillNeedCeiling = false;
 				} else if (heights.toWest()) {
-					byteChunk.setArcSouthWest(inset, y1, y2, materialId, true);
+					byteChunk.setArcSouthWest(inset, y1, y2, ceilingMaterial, true);
 					if (!heights.toSouthWest())
-						byteChunk.setArcSouthWest(innerCorner, y1, y2, emptyId, true);
+						byteChunk.setArcSouthWest(innerCorner, y1, y2, emptyMaterial, true);
 					stillNeedCeiling = false;
 				}
 			}
@@ -335,7 +333,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		if (stillNeedCeiling) {
 
 			// center part
-			byteChunk.setBlocks(insetWE, byteChunk.width - insetWE, y1, y2, insetNS, byteChunk.width - insetNS, materialId);
+			byteChunk.setBlocks(insetWE, byteChunk.width - insetWE, y1, y2, insetNS, byteChunk.width - insetNS, ceilingMaterial);
 			
 		}
 		
@@ -344,33 +342,31 @@ public abstract class BuildingLot extends ConnectedLot {
 			
 			// cardinal bits
 			if (heights.toWest())
-				byteChunk.setBlocks(0, insetWE, y1, y2, insetNS, byteChunk.width - insetNS, materialId);
+				byteChunk.setBlocks(0, insetWE, y1, y2, insetNS, byteChunk.width - insetNS, ceilingMaterial);
 			if (heights.toEast())
-				byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2, insetNS, byteChunk.width - insetNS, materialId);
+				byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2, insetNS, byteChunk.width - insetNS, ceilingMaterial);
 			if (heights.toNorth())
-				byteChunk.setBlocks(insetWE, byteChunk.width - insetWE, y1, y2, 0, insetNS, materialId);
+				byteChunk.setBlocks(insetWE, byteChunk.width - insetWE, y1, y2, 0, insetNS, ceilingMaterial);
 			if (heights.toSouth())
-				byteChunk.setBlocks(insetWE, byteChunk.width - insetWE, y1, y2, byteChunk.width - insetNS, byteChunk.width, materialId);
+				byteChunk.setBlocks(insetWE, byteChunk.width - insetWE, y1, y2, byteChunk.width - insetNS, byteChunk.width, ceilingMaterial);
 
 			// corner bits
 			if (heights.toNorthWest())
-				byteChunk.setBlocks(0, insetWE, y1, y2, 0, insetNS, materialId);
+				byteChunk.setBlocks(0, insetWE, y1, y2, 0, insetNS, ceilingMaterial);
 			if (heights.toSouthWest())
-				byteChunk.setBlocks(0, insetWE, y1, y2, byteChunk.width - insetNS, byteChunk.width, materialId);
+				byteChunk.setBlocks(0, insetWE, y1, y2, byteChunk.width - insetNS, byteChunk.width, ceilingMaterial);
 			if (heights.toNorthEast())
-				byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2, 0, insetNS, materialId);
+				byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2, 0, insetNS, ceilingMaterial);
 			if (heights.toSouthEast())
-				byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2, byteChunk.width - insetNS, byteChunk.width, materialId);
+				byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2, byteChunk.width - insetNS, byteChunk.width, ceilingMaterial);
 		}
 	}
 	
 	protected void drawExteriorParts(WorldGenerator generator, ByteChunk byteChunk, DataContext context, int y1, 
 			int height, int insetNS, int insetWE, 
-			boolean allowRounded, Material materialWall, Material materialGlass, Surroundings heights) {
+			boolean allowRounded, Material wallMaterial, Material glassMaterial, Surroundings heights) {
 		
 		// precalculate
-		byte wallId = BlackMagic.getMaterialId(materialWall);
-		byte glassId = BlackMagic.getMaterialId(materialGlass);
 		int y2 = y1 + height;
 		boolean stillNeedWalls = true;
 		int inset = Math.max(insetNS, insetWE);
@@ -379,35 +375,35 @@ public abstract class BuildingLot extends ConnectedLot {
 		if (allowRounded) {// && rounded) { 
 			
 			// hack the glass material if needed
-			if (materialGlass == Material.THIN_GLASS)
-				glassId = BlackMagic.glassId;
+			if (glassMaterial == Material.THIN_GLASS)
+				glassMaterial = Material.GLASS;
 			
 			// do the sides
 			if (heights.toSouth()) {
 				if (heights.toWest()) {
-					byteChunk.setArcSouthWest(inset, y1, y2, wallId, glassId, wallsCurved);
+					byteChunk.setArcSouthWest(inset, y1, y2, wallMaterial, glassMaterial, wallsCurved);
 					if (!heights.toSouthWest()) {
-						byteChunk.setBlocks(insetWE, y1, y2, byteChunk.width - insetNS - 1, wallId, glassId, wallsCurved);
+						byteChunk.setBlocks(insetWE, y1, y2, byteChunk.width - insetNS - 1, wallMaterial, glassMaterial, wallsCurved);
 					}
 					stillNeedWalls = false;
 				} else if (heights.toEast()) {
-					byteChunk.setArcSouthEast(inset, y1, y2, wallId, glassId, wallsCurved);
+					byteChunk.setArcSouthEast(inset, y1, y2, wallMaterial, glassMaterial, wallsCurved);
 					if (!heights.toSouthEast()) {
-						byteChunk.setBlocks(byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, wallId, glassId, wallsCurved);
+						byteChunk.setBlocks(byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, wallMaterial, glassMaterial, wallsCurved);
 					}
 					stillNeedWalls = false;
 				}
 			} else if (heights.toNorth()) {
 				if (heights.toWest()) {
-					byteChunk.setArcNorthWest(inset, y1, y2, wallId, glassId, wallsCurved);
+					byteChunk.setArcNorthWest(inset, y1, y2, wallMaterial, glassMaterial, wallsCurved);
 					if (!heights.toNorthWest()) {
-						byteChunk.setBlocks(insetWE, y1, y2, insetNS, wallId, glassId, wallsCurved);
+						byteChunk.setBlocks(insetWE, y1, y2, insetNS, wallMaterial, glassMaterial, wallsCurved);
 					}
 					stillNeedWalls = false;
 				} else if (heights.toEast()) {
-					byteChunk.setArcNorthEast(inset, y1, y2, wallId, glassId, wallsCurved);
+					byteChunk.setArcNorthEast(inset, y1, y2, wallMaterial, glassMaterial, wallsCurved);
 					if (!heights.toNorthEast()) {
-						byteChunk.setBlocks(byteChunk.width - insetWE - 1, y1, y2, insetNS, wallId, glassId, wallsCurved);
+						byteChunk.setBlocks(byteChunk.width - insetWE - 1, y1, y2, insetNS, wallMaterial, glassMaterial, wallsCurved);
 					}
 					stillNeedWalls = false;
 				}
@@ -419,23 +415,23 @@ public abstract class BuildingLot extends ConnectedLot {
 			
 			// corner columns
 			if (!heights.toNorthWest())
-				byteChunk.setBlocks(insetWE, y1, y2, insetNS, wallId);
+				byteChunk.setBlocks(insetWE, y1, y2, insetNS, wallMaterial);
 			if (!heights.toSouthWest())
-				byteChunk.setBlocks(insetWE, y1, y2, byteChunk.width - insetNS - 1, wallId);
+				byteChunk.setBlocks(insetWE, y1, y2, byteChunk.width - insetNS - 1, wallMaterial);
 			if (!heights.toNorthEast())
-				byteChunk.setBlocks(byteChunk.width - insetWE - 1, y1, y2, insetNS, wallId);
+				byteChunk.setBlocks(byteChunk.width - insetWE - 1, y1, y2, insetNS, wallMaterial);
 			if (!heights.toSouthEast())
-				byteChunk.setBlocks(byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, wallId);
+				byteChunk.setBlocks(byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, wallMaterial);
 			
 			// cardinal walls
 			if (!heights.toWest())
-				byteChunk.setBlocks(insetWE,  insetWE + 1, y1, y2, insetNS + 1, byteChunk.width - insetNS - 1, wallId, glassId, wallsNS);
+				byteChunk.setBlocks(insetWE,  insetWE + 1, y1, y2, insetNS + 1, byteChunk.width - insetNS - 1, wallMaterial, glassMaterial, wallsNS);
 			if (!heights.toEast())
-				byteChunk.setBlocks(byteChunk.width - insetWE - 1,  byteChunk.width - insetWE, y1, y2, insetNS + 1, byteChunk.width - insetNS - 1, wallId, glassId, wallsNS);
+				byteChunk.setBlocks(byteChunk.width - insetWE - 1,  byteChunk.width - insetWE, y1, y2, insetNS + 1, byteChunk.width - insetNS - 1, wallMaterial, glassMaterial, wallsNS);
 			if (!heights.toNorth())
-				byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2, insetNS, insetNS + 1, wallId, glassId, wallsWE);
+				byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2, insetNS, insetNS + 1, wallMaterial, glassMaterial, wallsWE);
 			if (!heights.toSouth())
-				byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, byteChunk.width - insetNS, wallId, glassId, wallsWE);
+				byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, byteChunk.width - insetNS, wallMaterial, glassMaterial, wallsWE);
 			
 		}
 			
@@ -443,29 +439,29 @@ public abstract class BuildingLot extends ConnectedLot {
 		if (insetWE > 0) {
 			if (heights.toWest()) {
 				if (!heights.toNorthWest())
-					byteChunk.setBlocks(0, insetWE, y1, y2, insetNS, insetNS + 1, wallId, glassId, wallsWE);
+					byteChunk.setBlocks(0, insetWE, y1, y2, insetNS, insetNS + 1, wallMaterial, glassMaterial, wallsWE);
 				if (!heights.toSouthWest())
-					byteChunk.setBlocks(0, insetWE, y1, y2, byteChunk.width - insetNS - 1, byteChunk.width - insetNS, wallId, glassId, wallsWE);
+					byteChunk.setBlocks(0, insetWE, y1, y2, byteChunk.width - insetNS - 1, byteChunk.width - insetNS, wallMaterial, glassMaterial, wallsWE);
 			}
 			if (heights.toEast()) {
 				if (!heights.toNorthEast())
-					byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2, insetNS, insetNS + 1, wallId, glassId, wallsWE);
+					byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2, insetNS, insetNS + 1, wallMaterial, glassMaterial, wallsWE);
 				if (!heights.toSouthEast())
-					byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2, byteChunk.width - insetNS - 1, byteChunk.width - insetNS, wallId, glassId, wallsWE);
+					byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2, byteChunk.width - insetNS - 1, byteChunk.width - insetNS, wallMaterial, glassMaterial, wallsWE);
 			}
 		}
 		if (insetNS > 0) {
 			if (heights.toNorth()) {
 				if (!heights.toNorthWest())
-					byteChunk.setBlocks(insetWE, insetWE + 1, y1, y2, 0, insetNS, wallId, glassId, wallsNS);
+					byteChunk.setBlocks(insetWE, insetWE + 1, y1, y2, 0, insetNS, wallMaterial, glassMaterial, wallsNS);
 				if (!heights.toNorthEast())
-					byteChunk.setBlocks(byteChunk.width - insetWE - 1, byteChunk.width - insetWE, y1, y2, 0, insetNS, wallId, glassId, wallsNS);
+					byteChunk.setBlocks(byteChunk.width - insetWE - 1, byteChunk.width - insetWE, y1, y2, 0, insetNS, wallMaterial, glassMaterial, wallsNS);
 			}
 			if (heights.toSouth()) {
 				if (!heights.toSouthWest())
-					byteChunk.setBlocks(insetWE, insetWE + 1, y1, y2, byteChunk.width - insetNS, byteChunk.width, wallId, glassId, wallsNS);
+					byteChunk.setBlocks(insetWE, insetWE + 1, y1, y2, byteChunk.width - insetNS, byteChunk.width, wallMaterial, glassMaterial, wallsNS);
 				if (!heights.toSouthEast())
-					byteChunk.setBlocks(byteChunk.width - insetWE - 1, byteChunk.width - insetWE, y1, y2, byteChunk.width - insetNS, byteChunk.width, wallId, glassId, wallsNS);
+					byteChunk.setBlocks(byteChunk.width - insetWE - 1, byteChunk.width - insetWE, y1, y2, byteChunk.width - insetNS, byteChunk.width, wallMaterial, glassMaterial, wallsNS);
 			}
 		}
 	}
@@ -626,14 +622,12 @@ public abstract class BuildingLot extends ConnectedLot {
 	private void drawInteriorWalls(WorldGenerator generator, RealChunk chunk, DataContext context, 
 			boolean drawNarrowInteriors, int floor, int y1, int floorHeight, 
 			int insetNS, int insetWE, boolean allowRounded,
-			Material materialWall, Material materialGlass, 
+			Material wallMaterial, Material glassMaterial, 
 			StairWell stairsLocation, Surroundings heights) {
 		
 		//TODO Atrium in the middle of 2x2
 		
 		// precalculate
-		byte wallId = BlackMagic.getMaterialId(materialWall);
-		byte glassId = BlackMagic.getMaterialId(materialGlass);
 		int y2 = y1 + floorHeight;
 		int x1 = heights.toWest() ? 0 : insetWE + 1;
 		int x2 = chunk.width - (heights.toEast() ? 0 : (insetWE + 1));
@@ -650,89 +644,89 @@ public abstract class BuildingLot extends ConnectedLot {
 				
 				// draw out
 				if (stairsLocation == StairWell.NONE) {
-					drawInteriorNSWall(chunk, 7, y1, y2, 4, 7, wallId, glassId);
-					chunk.setBlocks(7, y1, y2, 7, materialWall);
+					drawInteriorNSWall(chunk, 7, y1, y2, 4, 7, wallMaterial, glassMaterial);
+					chunk.setBlocks(7, y1, y2, 7, wallMaterial);
 				}
 				
 				// draw cap
-				drawInteriorNSWall(chunk, 7, y1, y2, 1, 4, wallId, glassId);
-				drawInteriorWEWall(chunk, x1, 8, y1, y2, 0, wallId, glassId);
+				drawInteriorNSWall(chunk, 7, y1, y2, 1, 4, wallMaterial, glassMaterial);
+				drawInteriorWEWall(chunk, x1, 8, y1, y2, 0, wallMaterial, glassMaterial);
 
 			} else if (stairsLocation == StairWell.NONE && !allowRounded) {
 //				materialWall = Material.BEDROCK;
-//				wallId = (byte) materialWall.getId();
+//				wallMaterial = (byte) materialWall.getMaterial();
 				
 				// draw short wall
-				drawInteriorNSWall(chunk, 7, y1, y2, z1, 8, wallId, glassId);
+				drawInteriorNSWall(chunk, 7, y1, y2, z1, 8, wallMaterial, glassMaterial);
 			}
 				
 			// Eastward
 			if (heights.toEast()) {
 //				materialWall = Material.CLAY;
-//				wallId = (byte) materialWall.getId();
+//				wallMaterial = (byte) materialWall.getMaterial();
 				
 				// draw out
 				if (stairsLocation == StairWell.NONE) {
-					drawInteriorWEWall(chunk, 9, 12, y1, y2, 7, wallId, glassId);
-					chunk.setBlocks(8, y1, y2, 7, materialWall);
+					drawInteriorWEWall(chunk, 9, 12, y1, y2, 7, wallMaterial, glassMaterial);
+					chunk.setBlocks(8, y1, y2, 7, wallMaterial);
 				}
 				
 				// draw cap
-				drawInteriorWEWall(chunk, 12, 15, y1, y2, 7, wallId, glassId);
-				drawInteriorNSWall(chunk, 15, y1, y2, z1, 8, wallId, glassId);
+				drawInteriorWEWall(chunk, 12, 15, y1, y2, 7, wallMaterial, glassMaterial);
+				drawInteriorNSWall(chunk, 15, y1, y2, z1, 8, wallMaterial, glassMaterial);
 				
 			} else if (stairsLocation == StairWell.NONE && !allowRounded) {
 //				materialWall = Material.SAND;
-//				wallId = (byte) materialWall.getId();
+//				wallMaterial = (byte) materialWall.getMaterial();
 				
 				// draw short wall
-				drawInteriorWEWall(chunk, 8, x2, y1, y2, 7, wallId, glassId);
+				drawInteriorWEWall(chunk, 8, x2, y1, y2, 7, wallMaterial, glassMaterial);
 			}
 			
 			// Westward
 			if (heights.toWest()) {
 //				materialWall = Material.IRON_BLOCK;
-//				wallId = (byte) materialWall.getId();
+//				wallMaterial = (byte) materialWall.getMaterial();
 				
 				// draw out
 				if (stairsLocation == StairWell.NONE) {
-					drawInteriorWEWall(chunk, 4, 7, y1, y2, 8, wallId, glassId);
-					chunk.setBlocks(7, y1, y2, 8, materialWall);
+					drawInteriorWEWall(chunk, 4, 7, y1, y2, 8, wallMaterial, glassMaterial);
+					chunk.setBlocks(7, y1, y2, 8, wallMaterial);
 				}
 				
 				// draw cap
-				drawInteriorWEWall(chunk, 1, 4, y1, y2, 8, wallId, glassId);
-				drawInteriorNSWall(chunk, 0, y1, y2, 8, z2, wallId, glassId);
+				drawInteriorWEWall(chunk, 1, 4, y1, y2, 8, wallMaterial, glassMaterial);
+				drawInteriorNSWall(chunk, 0, y1, y2, 8, z2, wallMaterial, glassMaterial);
 				
 			} else if (stairsLocation == StairWell.NONE && !allowRounded) {
 //				materialWall = Material.GOLD_BLOCK;
-//				wallId = (byte) materialWall.getId();
+//				wallMaterial = (byte) materialWall.getMaterial();
 				
 				// draw short wall
-				drawInteriorWEWall(chunk, x1, 8, y1, y2, 8, wallId, glassId);
+				drawInteriorWEWall(chunk, x1, 8, y1, y2, 8, wallMaterial, glassMaterial);
 			}
 			
 			// Southward
 			if (heights.toSouth()) {
 //				materialWall = Material.DIAMOND_BLOCK;
-//				wallId = (byte) materialWall.getId();
+//				wallMaterial = (byte) materialWall.getMaterial();
 				
 				// draw out
 				if (stairsLocation == StairWell.NONE) {
-					drawInteriorNSWall(chunk, 8, 13, y1, y2, 15, wallId, glassId);
-					chunk.setBlocks(8, y1, y2, 8, materialWall);
+					drawInteriorNSWall(chunk, 8, 13, y1, y2, 15, wallMaterial, glassMaterial);
+					chunk.setBlocks(8, y1, y2, 8, wallMaterial);
 				}
 				
 				// draw cap
-				drawInteriorNSWall(chunk, 8, y1, y2, 12, 15, wallId, glassId);
-				drawInteriorWEWall(chunk, 8, x2, y1, y2, 15, wallId, glassId);
+				drawInteriorNSWall(chunk, 8, y1, y2, 12, 15, wallMaterial, glassMaterial);
+				drawInteriorWEWall(chunk, 8, x2, y1, y2, 15, wallMaterial, glassMaterial);
 
 			} else if (stairsLocation == StairWell.NONE && !allowRounded) {
 //				materialWall = Material.LAPIS_BLOCK;
-//				wallId = (byte) materialWall.getId();
+//				wallMaterial = (byte) materialWall.getMaterial();
 				
 				// draw short wall
-				drawInteriorNSWall(chunk, 8, y1, y2, 8, z2, wallId, glassId);
+				drawInteriorNSWall(chunk, 8, y1, y2, 8, z2, wallMaterial, glassMaterial);
 			}
 			
 		// if the narrow logic doesn't handle it, try to use the wide logic (two walls in the middle)
@@ -740,76 +734,76 @@ public abstract class BuildingLot extends ConnectedLot {
 		
 			// NW corner
 			if (heights.toNorthWest()) {
-//				wallId = (byte) Material.QUARTZ_ORE.getId();
+//				wallMaterial = (byte) Material.QUARTZ_ORE.getMaterial();
 				if (heights.toNorth()) {
-					drawInteriorNSWall(chunk, 4, y1, y2, 0, wallId, glassId);
+					drawInteriorNSWall(chunk, 4, y1, y2, 0, wallMaterial, glassMaterial);
 				}
 				if (heights.toWest()) {
-					drawInteriorWEWall(chunk, 0, y1, y2, 4, wallId, glassId);
+					drawInteriorWEWall(chunk, 0, y1, y2, 4, wallMaterial, glassMaterial);
 				}
 				
 			} else {
-//				wallId = (byte) Material.BEDROCK.getId();
+//				wallMaterial = (byte) Material.BEDROCK.getMaterial();
 				if (!heights.toNorth() && heights.toSouth() && heights.toWest()) {
-					drawInteriorNSWall(chunk, 4, y1, y2, z1, 8, wallId, glassId);
+					drawInteriorNSWall(chunk, 4, y1, y2, z1, 8, wallMaterial, glassMaterial);
 				} else if (!heights.toWest() && heights.toEast() && heights.toNorth()) {
-					drawInteriorWEWall(chunk, x1, 8, y1, y2, 4, wallId, glassId);
+					drawInteriorWEWall(chunk, x1, 8, y1, y2, 4, wallMaterial, glassMaterial);
 				}
 			}
 			
 			// NE corner
 			if (heights.toNorthEast()) {
-//				wallId = (byte) Material.CLAY.getId();
+//				wallMaterial = (byte) Material.CLAY.getMaterial();
 				if (heights.toEast()) {
-					drawInteriorWEWall(chunk, 8, y1, y2, 4, wallId, glassId);
+					drawInteriorWEWall(chunk, 8, y1, y2, 4, wallMaterial, glassMaterial);
 				}
 				if (heights.toNorth()) {
-					drawInteriorNSWall(chunk, 11, y1, y2, 0, wallId, glassId);
+					drawInteriorNSWall(chunk, 11, y1, y2, 0, wallMaterial, glassMaterial);
 				}
 				
 			} else {
-//				wallId = (byte) Material.SAND.getId();
+//				wallMaterial = (byte) Material.SAND.getMaterial();
 				if (!heights.toNorth() && heights.toSouth() && heights.toEast()) {
-					drawInteriorNSWall(chunk, 11, y1, y2, z1, 8, wallId, glassId);
+					drawInteriorNSWall(chunk, 11, y1, y2, z1, 8, wallMaterial, glassMaterial);
 				} else if (!heights.toEast() && heights.toWest() && heights.toNorth()) {
-					drawInteriorWEWall(chunk, 8, x2, y1, y2, 4, wallId, glassId);
+					drawInteriorWEWall(chunk, 8, x2, y1, y2, 4, wallMaterial, glassMaterial);
 				}
 			}
 			
 			// SW corner
 			if (heights.toSouthWest()) {
-//				wallId = (byte) Material.IRON_BLOCK.getId();
+//				wallMaterial = (byte) Material.IRON_BLOCK.getMaterial();
 				if (heights.toWest()) {
-					drawInteriorWEWall(chunk, 0, y1, y2, 11, wallId, glassId);
+					drawInteriorWEWall(chunk, 0, y1, y2, 11, wallMaterial, glassMaterial);
 				}
 				if (heights.toSouth()) {
-					drawInteriorNSWall(chunk, 4, y1, y2, 8, wallId, glassId);
+					drawInteriorNSWall(chunk, 4, y1, y2, 8, wallMaterial, glassMaterial);
 				}
 				
 			} else {
-//				wallId = (byte) Material.GOLD_BLOCK.getId();
+//				wallMaterial = (byte) Material.GOLD_BLOCK.getMaterial();
 				if (!heights.toSouth() && heights.toNorth() && heights.toWest()) {
-					drawInteriorNSWall(chunk, 4, y1, y2, 8, z2, wallId, glassId);
+					drawInteriorNSWall(chunk, 4, y1, y2, 8, z2, wallMaterial, glassMaterial);
 				} else if (!heights.toWest() && heights.toEast() && heights.toSouth()) {
-					drawInteriorWEWall(chunk, x1, 8, y1, y2, 11, wallId, glassId);
+					drawInteriorWEWall(chunk, x1, 8, y1, y2, 11, wallMaterial, glassMaterial);
 				}
 			}
 			
 			// SE corner
 			if (heights.toSouthEast()) {
-//				wallId = (byte) Material.DIAMOND_BLOCK.getId();
+//				wallMaterial = (byte) Material.DIAMOND_BLOCK.getMaterial();
 				if (heights.toSouth()) {
-					drawInteriorNSWall(chunk, 11, y1, y2, 8, wallId, glassId);
+					drawInteriorNSWall(chunk, 11, y1, y2, 8, wallMaterial, glassMaterial);
 				}
 				if (heights.toEast()) {
-					drawInteriorWEWall(chunk, 8, y1, y2, 11, wallId, glassId);
+					drawInteriorWEWall(chunk, 8, y1, y2, 11, wallMaterial, glassMaterial);
 				}
 			} else {
-//				wallId = (byte) Material.LAPIS_BLOCK.getId();
+//				wallMaterial = (byte) Material.LAPIS_BLOCK.getMaterial();
 				if (!heights.toSouth() && heights.toNorth() && heights.toEast()) {
-					drawInteriorNSWall(chunk, 11, y1, y2, 8, z2, wallId, glassId);
+					drawInteriorNSWall(chunk, 11, y1, y2, 8, z2, wallMaterial, glassMaterial);
 				} else if (!heights.toEast() && heights.toWest() && heights.toSouth()) {
-					drawInteriorWEWall(chunk, 8, x2, y1, y2, 11, wallId, glassId);
+					drawInteriorWEWall(chunk, 8, x2, y1, y2, 11, wallMaterial, glassMaterial);
 				}
 			}
 		}
@@ -1266,20 +1260,20 @@ public abstract class BuildingLot extends ConnectedLot {
 				roomWidth, height, roomDepth, sideWithWall, materialWall, materialGlass);
 	}
 	
-	private void drawInteriorNSWall(RealChunk chunk, int x, int y1, int y2, int z, byte wallId, byte glassId) {
-		drawInteriorNSWall(chunk, x, y1, y2, z, z + 8, wallId, glassId);
+	private void drawInteriorNSWall(RealChunk chunk, int x, int y1, int y2, int z, Material wallMaterial, Material glassMaterial) {
+		drawInteriorNSWall(chunk, x, y1, y2, z, z + 8, wallMaterial, glassMaterial);
 	}
 	
-	private void drawInteriorWEWall(RealChunk chunk, int x, int y1, int y2, int z, byte wallId, byte glassId) {
-		drawInteriorWEWall(chunk, x, x + 8, y1, y2, z, wallId, glassId);
+	private void drawInteriorWEWall(RealChunk chunk, int x, int y1, int y2, int z, Material wallMaterial, Material glassMaterial) {
+		drawInteriorWEWall(chunk, x, x + 8, y1, y2, z, wallMaterial, glassMaterial);
 	}
 	
-	private void drawInteriorNSWall(RealChunk chunk, int x, int y1, int y2, int z1, int z2, byte wallId, byte glassId) {
-		chunk.setBlocks(x, x + 1, y1, y2, z1, z2, wallId, glassId, wallsInterior);
+	private void drawInteriorNSWall(RealChunk chunk, int x, int y1, int y2, int z1, int z2, Material wallMaterial, Material glassMaterial) {
+		chunk.setBlocks(x, x + 1, y1, y2, z1, z2, wallMaterial, glassMaterial, wallsInterior);
 	}
 	
-	private void drawInteriorWEWall(RealChunk chunk, int x1, int x2, int y1, int y2, int z, byte wallId, byte glassId) {
-		chunk.setBlocks(x1, x2, y1, y2, z, z + 1, wallId, glassId, wallsInterior);
+	private void drawInteriorWEWall(RealChunk chunk, int x1, int x2, int y1, int y2, int z, Material wallMaterial, Material glassMaterial) {
+		chunk.setBlocks(x1, x2, y1, y2, z, z + 1, wallMaterial, glassMaterial, wallsInterior);
 	}
 	
 	private void drawInteriorNSDoor(RealChunk chunk, int x, int y1, int y2, int z, Material wall) {
@@ -1902,14 +1896,14 @@ public abstract class BuildingLot extends ConnectedLot {
 		// holes in fence
 		int i = 4 + chunkOdds.getRandomInt(chunk.width / 2);
 		int y2 = y1 + fenceHeight;
-		byte emptyId = getAirId(generator, y1);
+		Material emptyMaterial = getAirMaterial(generator, y1);
 		if (chunkOdds.flipCoin() && !neighbors.toWest())
-			chunk.setBlocks(inset, y1, y2, i, emptyId);
+			chunk.setBlocks(inset, y1, y2, i, emptyMaterial);
 		if (chunkOdds.flipCoin() && !neighbors.toEast())
-			chunk.setBlocks(chunk.width - 1 - inset, y1, y2, i, emptyId);
+			chunk.setBlocks(chunk.width - 1 - inset, y1, y2, i, emptyMaterial);
 		if (chunkOdds.flipCoin() && !neighbors.toNorth())
-			chunk.setBlocks(i, y1, y2, inset, emptyId);
+			chunk.setBlocks(i, y1, y2, inset, emptyMaterial);
 		if (chunkOdds.flipCoin() && !neighbors.toSouth())
-			chunk.setBlocks(i, y1, y2, chunk.width - 1 - inset, emptyId);
+			chunk.setBlocks(i, y1, y2, chunk.width - 1 - inset, emptyMaterial);
 	}
 }

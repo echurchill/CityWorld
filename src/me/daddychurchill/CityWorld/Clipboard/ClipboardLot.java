@@ -117,10 +117,10 @@ public class ClipboardLot extends IsolatedLot {
 		if (clip.groundLevelY > 0) {
 
 			// backfill a bit
-			chunk.setBlocks(0, edgeX1, depth, edgeY2, 0, 16, generator.oreProvider.stratumId);
-			chunk.setBlocks(edgeX2, 16, depth, edgeY2, 0, 16, generator.oreProvider.stratumId);
-			chunk.setBlocks(edgeX1, edgeX2, depth, edgeY2, 0, edgeZ1, generator.oreProvider.stratumId);
-			chunk.setBlocks(edgeX1, edgeX2, depth, edgeY2, edgeZ2, 16, generator.oreProvider.stratumId);
+			chunk.setBlocks(0, edgeX1, depth, edgeY2, 0, 16, generator.oreProvider.stratumMaterial);
+			chunk.setBlocks(edgeX2, 16, depth, edgeY2, 0, 16, generator.oreProvider.stratumMaterial);
+			chunk.setBlocks(edgeX1, edgeX2, depth, edgeY2, 0, edgeZ1, generator.oreProvider.stratumMaterial);
+			chunk.setBlocks(edgeX1, edgeX2, depth, edgeY2, edgeZ2, 16, generator.oreProvider.stratumMaterial);
 		}
 	}
 	

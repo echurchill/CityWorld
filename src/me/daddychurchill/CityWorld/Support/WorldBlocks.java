@@ -13,6 +13,28 @@ public class WorldBlocks extends SupportChunk {
 	//WARNING: the x,z coordinates in this variant of SupportChunk are world absolute (unlike byte and real chunks)
 	//====================
 
+	//TODO: Remove this
+//	private static final byte airId = BlackMagic.getMaterialId(Material.AIR);
+//	private static final byte bedrockId = BlackMagic.getMaterialId(Material.BEDROCK);
+//	private static final byte stoneId = BlackMagic.getMaterialId(Material.STONE);
+//	private static final byte gravelId = BlackMagic.getMaterialId(Material.GRAVEL);
+//	private static final byte dirtId = BlackMagic.getMaterialId(Material.DIRT);
+//	private static final byte grassId = BlackMagic.getMaterialId(Material.GRASS);
+//	private static final byte glassId = BlackMagic.getMaterialId(Material.GLASS);
+	private static final byte stepStoneId = BlackMagic.getMaterialId(Material.STEP);
+//	private static final byte stepWoodId = BlackMagic.getMaterialId(Material.WOOD_STEP);
+//	private static final byte sandId = BlackMagic.getMaterialId(Material.SAND);
+//	private static final byte sandstoneId = BlackMagic.getMaterialId(Material.SANDSTONE); 
+//	private static final byte snowBlockId = BlackMagic.getMaterialId(Material.SNOW_BLOCK);
+	private static final byte snowCoverId = BlackMagic.getMaterialId(Material.SNOW);
+//	private static final byte iceId = BlackMagic.getMaterialId(Material.ICE); // the fluid type
+//	private static final byte fluidWaterId = BlackMagic.getMaterialId(Material.WATER); // the fluid type
+//	private static final byte fluidLavaId = BlackMagic.getMaterialId(Material.LAVA); // the fluid type
+//	private static final byte stillWaterId = BlackMagic.getMaterialId(Material.STATIONARY_WATER); // the fluid type
+//	private static final byte stillLavaId = BlackMagic.getMaterialId(Material.STATIONARY_LAVA); // the fluid type
+//	private static final byte plateStoneId = BlackMagic.getMaterialId(Material.STONE_PLATE);
+//	private static final byte plateWoodId = BlackMagic.getMaterialId(Material.WOOD_PLATE);
+	
 	private boolean doPhysics;
 //	WorldGenerator generator;
 	Odds odds;
@@ -42,25 +64,25 @@ public class WorldBlocks extends SupportChunk {
 		return BlackMagic.getMaterialId(getActualBlock(x, y, z));
 	}
 	
-	@Override
-	public void setBlock(int x, int y, int z, byte materialId) {
-		BlackMagic.setBlockType(world.getBlockAt(x, y, z), materialId, BlackMagic.noData, doPhysics);
-	}
-
-	@Override
-	public void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				BlackMagic.setBlockType(world.getBlockAt(x, y, z), materialId, BlackMagic.noData, doPhysics);
-			}
-		}
-	}
+//	@Override
+//	public void setBlock(int x, int y, int z, byte materialId) {
+//		BlackMagic.setBlockType(world.getBlockAt(x, y, z), materialId);
+//	}
+//
+//	@Override
+//	public void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId) {
+//		for (int x = x1; x < x2; x++) {
+//			for (int z = z1; z < z2; z++) {
+//				BlackMagic.setBlockType(world.getBlockAt(x, y, z), materialId);
+//			}
+//		}
+//	}
 	
-	@Override
-	public void setBlocks(int x, int y1, int y2, int z, byte type) {
-		for (int y = y1; y < y2; y++)
-			BlackMagic.setBlockType(world.getBlockAt(x, y, z), type, BlackMagic.noData, doPhysics);
-	}
+//	@Override
+//	public void setBlocks(int x, int y1, int y2, int z, byte type) {
+//		for (int y = y1; y < y2; y++)
+//			BlackMagic.setBlockType(world.getBlockAt(x, y, z), type, BlackMagic.noData, doPhysics);
+//	}
 
 	public void setBlock(int x, int y, int z, Material material) {
 		BlackMagic.setBlockType(world.getBlockAt(chunkX + x, y, chunkZ + z), material, doPhysics);
@@ -141,7 +163,7 @@ public class WorldBlocks extends SupportChunk {
 	@Override
 	public void clearBlocks(int x, int y1, int y2, int z) {
 		for (int y = y1; y < y2; y++) {
-			BlackMagic.setBlockType(world.getBlockAt(x, y, z), BlackMagic.airId, BlackMagic.noData, doPhysics);
+			BlackMagic.setBlockType(world.getBlockAt(x, y, z), Material.AIR, BlackMagic.noData, doPhysics);
 		}
 	}
 
@@ -150,7 +172,7 @@ public class WorldBlocks extends SupportChunk {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
-					BlackMagic.setBlockType(world.getBlockAt(x, y, z), BlackMagic.airId, BlackMagic.noData, doPhysics);
+					BlackMagic.setBlockType(world.getBlockAt(x, y, z), Material.AIR, BlackMagic.noData, doPhysics);
 				}
 			}
 		}
@@ -392,7 +414,7 @@ public class WorldBlocks extends SupportChunk {
 				int blockId = BlackMagic.getMaterialId(block);
 				
 				// partial blocks
-				if (blockId == BlackMagic.stepStoneId || blockId == BlackMagic.snowCoverId)
+				if (blockId == stepStoneId || blockId == snowCoverId)
 					BlackMagic.setBlockType(block, item.typeId, item.data, false);
 				
 				// other blocks?

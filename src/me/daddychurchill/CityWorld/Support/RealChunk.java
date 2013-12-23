@@ -12,6 +12,7 @@ import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.EntityType;
@@ -65,7 +66,7 @@ public class RealChunk extends SupportChunk {
 	@Override
 	public void clearBlocks(int x, int y1, int y2, int z) {
 		for (int y = y1; y < y2; y++)
-			BlackMagic.setBlockType(chunk.getBlock(x, y, z), BlackMagic.airId, doPhysics);
+			chunk.getBlock(x, y, z).setType(Material.AIR);
 	}
 
 	@Override
@@ -73,142 +74,127 @@ public class RealChunk extends SupportChunk {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
-					BlackMagic.setBlockType(chunk.getBlock(x, y, z), BlackMagic.airId, doPhysics);
+					chunk.getBlock(x, y, z).setType(Material.AIR);
 				}
 			}
 		}
 	}
 
-	@Override
-	public void setBlock(int x, int y, int z, byte materialId) {
-		BlackMagic.setBlockType(chunk.getBlock(x, y, z), materialId, doPhysics);
-	}
-
 	public void setBlock(int x, int y, int z, Material material) {
-		BlackMagic.setBlockType(chunk.getBlock(x, y, z), material, doPhysics);
+		chunk.getBlock(x, y, z).setType(material);
+//		BlackMagic.setBlockType(chunk.getBlock(x, y, z), material, doPhysics);
 	}
 
-	public void setBlock(int x, int y, int z, byte type, byte data) {
-		BlackMagic.setBlockType(chunk.getBlock(x, y, z), type, data, doPhysics);
-	}
-	
 	public void setBlock(int x, int y, int z, Material material, byte data) {
-		BlackMagic.setBlockType(chunk.getBlock(x, y, z), material, data, doPhysics);
+		Block block = chunk.getBlock(x, y, z);
+		block.setType(material);
+//		block.setData(data, doPhysics);
+//		BlackMagic.setBlockType(chunk.getBlock(x, y, z), material, data, doPhysics);
 	}
 
 	public void setBlock(int x, int y, int z, Material material, boolean aDoPhysics) {
-		BlackMagic.setBlockType(chunk.getBlock(x, y, z), material, aDoPhysics);
+		chunk.getBlock(x, y, z).setType(material);
+//		BlackMagic.setBlockType(chunk.getBlock(x, y, z), material, aDoPhysics);
 	}
 
-	public void setBlock(int x, int y, int z, byte type, byte data, boolean aDoPhysics) {
-		BlackMagic.setBlockType(chunk.getBlock(x, y, z), type, data, aDoPhysics);
-	}
-	
 	public void setBlock(int x, int y, int z, Material material, byte data, boolean aDoPhysics) {
-		BlackMagic.setBlockType(chunk.getBlock(x, y, z), material, data, aDoPhysics);
+		Block block = chunk.getBlock(x, y, z);
+
+//		BlockState state = block.getState();
+//		state.setType(material);
+//		if (data != null)
+//			state.setData(data);
+//		state.update(false, aDoPhysics);
+		
+//		block.setData(data, aDoPhysics);
+//		BlackMagic.setBlockType(chunk.getBlock(x, y, z), material, data, aDoPhysics);
 	}
 
 	//================ x, y1, y2, z
 	public void setBlocks(int x, int y1, int y2, int z, Material material) {
-		setBlocks(x, y1, y2, z, BlackMagic.getMaterialId(material), BlackMagic.noData, doPhysics);
+		for (int y = y1; y < y2; y++)
+			setBlock(x, y, z, material);
 	}
 
 	public void setBlocks(int x, int y1, int y2, int z, Material material, byte data) {
-		setBlocks(x, y1, y2, z, BlackMagic.getMaterialId(material), data, doPhysics);
+		for (int y = y1; y < y2; y++)
+			setBlock(x, y, z, material, data);
 	}
 
 	public void setBlocks(int x, int y1, int y2, int z, Material material, byte data, boolean aDoPhysics) {
-		setBlocks(x, y1, y2, z, BlackMagic.getMaterialId(material), data, aDoPhysics);
-	}
-
-	@Override
-	public void setBlocks(int x, int y1, int y2, int z, byte type) {
-		setBlocks(x, y1, y2, z, type, BlackMagic.noData, doPhysics);
-	}
-
-	public void setBlocks(int x, int y1, int y2, int z, byte type, boolean aDoPhysics) {
-		setBlocks(x, y1, y2, z, type, BlackMagic.noData, doPhysics);
-	}
-
-	public void setBlocks(int x, int y1, int y2, int z, byte type, byte data, boolean aDoPhysics) {
 		for (int y = y1; y < y2; y++)
-			BlackMagic.setBlockType(chunk.getBlock(x, y, z), type, aDoPhysics);
+			setBlock(x, y, z, material, data, aDoPhysics);
 	}
 
 	//================ x1, x2, y1, y2, z1, z2
 	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
-		setBlocks(x1, x2, y1, y2, z1, z2, BlackMagic.getMaterialId(material), BlackMagic.noData);
-	}
-
-	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, byte data) {
-		setBlocks(x1, x2, y1, y2, z1, z2, BlackMagic.getMaterialId(material), data, doPhysics);
-	}
-
-	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, byte data, boolean aDoPhysics) {
-		setBlocks(x1, x2, y1, y2, z1, z2, BlackMagic.getMaterialId(material), data, aDoPhysics);
-	}
-
-	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte type, byte data) {
-		setBlocks(x1, x2, y1, y2, z1, z2, type, data, doPhysics);
-	}
-
-	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte type, byte data, boolean aDoPhysics) {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
-					BlackMagic.setBlockType(chunk.getBlock(x, y, z), type, data, aDoPhysics);
+					setBlock(x, y, z, material);
 				}
 			}
 		}
 	}
-	
-	//================ x1, x2, y, z1, z2
-	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
-		setBlocks(x1, x2, y, z1, z2, BlackMagic.getMaterialId(material), BlackMagic.noData, doPhysics);
-	}
 
-	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, byte data) {
-		setBlocks(x1, x2, y, z1, z2, BlackMagic.getMaterialId(material), data, doPhysics);
-	}
-
-	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, boolean aDoPhysics) {
-		setBlocks(x1, x2, y, z1, z2, BlackMagic.getMaterialId(material), BlackMagic.noData, doPhysics);
-	}
-
-	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, byte data, boolean aDoPhysics) {
-		setBlocks(x1, x2, y, z1, z2, BlackMagic.getMaterialId(material), data, aDoPhysics);
-	}
-
-	@Override
-	public void setBlocks(int x1, int x2, int y, int z1, int z2, byte typeId) {
-		setBlocks(x1, x2, y, z1, z2, typeId, BlackMagic.noData, doPhysics);
-	}
-
-	public void setBlocks(int x1, int x2, int y, int z1, int z2, byte typeId, byte data) {
-		setBlocks(x1, x2, y, z1, z2, typeId, data, doPhysics);
-	}
-	
-	public void setBlocks(int x1, int x2, int y, int z1, int z2, byte typeId, byte data, boolean aDoPhysics) {
+	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, byte data) {
 		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				BlackMagic.setBlockType(chunk.getBlock(x, y, z), typeId, data, aDoPhysics);
+			for (int y = y1; y < y2; y++) {
+				for (int z = z1; z < z2; z++) {
+					setBlock(x, y, z, material, data);
+				}
 			}
 		}
 	}
-	
-	
+
+	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, byte data, boolean aDoPhysics) {
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
+				for (int z = z1; z < z2; z++) {
+					setBlock(x, y, z, material, data, aDoPhysics);
+				}
+			}
+		}
+	}
+
+	//================ x1, x2, y, z1, z2
+	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				setBlock(x, y, z, material);
+			}
+		}
+	}
+
+	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, byte data) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				setBlock(x, y, z, material, data);
+			}
+		}
+	}
+
+	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, boolean aDoPhysics) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				setBlock(x, y, z, material, aDoPhysics);
+			}
+		}
+	}
+
+	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, byte data, boolean aDoPhysics) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				setBlock(x, y, z, material, data, aDoPhysics);
+			}
+		}
+	}
+
 	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
 		setBlocks(x1, x2, y1, y2, z1, z1 + 1, material);
 		setBlocks(x1, x2, y1, y2, z2 - 1, z2, material);
 		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material);
 		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material);
-	}
-	
-	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, byte type, byte data) {
-		setBlocks(x1, x2, y1, y2, z1, z1 + 1, type, data);
-		setBlocks(x1, x2, y1, y2, z2 - 1, z2, type, data);
-		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, type, data);
-		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, type, data);
 	}
 	
 	public boolean setEmptyBlock(int x, int y, int z, Material material) {
@@ -219,14 +205,6 @@ public class RealChunk extends SupportChunk {
 			return false;
 	}
 
-	public boolean setEmptyBlock(int x, int y, int z, byte type, byte data) {
-		Block block = chunk.getBlock(x, y, z);
-		if (block.isEmpty()) {
-			return BlackMagic.setBlockType(block, type, data, doPhysics);
-		} else
-			return false;
-	}
-	
 	public boolean setEmptyBlock(int x, int y, int z, Material material, boolean aDoPhysics) {
 		Block block = chunk.getBlock(x, y, z);
 		if (block.isEmpty()) {
@@ -235,30 +213,12 @@ public class RealChunk extends SupportChunk {
 			return false;
 	}
 
-	public boolean setEmptyBlock(int x, int y, int z, byte type, byte data, boolean aDoPhysics) {
-		Block block = chunk.getBlock(x, y, z);
-		if (block.isEmpty()) {
-			return BlackMagic.setBlockType(block, type, data, aDoPhysics);
-		} else
-			return false;
-	}
-	
 	public void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				Block block = chunk.getBlock(x, y, z);
 				if (block.isEmpty())
 					block.setType(material);
-			}
-		}
-	}
-	
-	public void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, byte type, byte data, boolean aDoPhysics) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				Block block = chunk.getBlock(x, y, z);
-				if (block.isEmpty())
-					BlackMagic.setBlockType(block, type, data, aDoPhysics);
 			}
 		}
 	}
@@ -468,10 +428,6 @@ public class RealChunk extends SupportChunk {
 
 	public void setStair(int x, int y, int z, Material material, Direction.Stair direction) {
 		setBlock(x, y, z, material, direction.getData());
-	}
-
-	public void setStair(int x, int y, int z, byte type, Direction.Stair direction) {
-		setBlock(x, y, z, type, direction.getData());
 	}
 
 	public void setVine(int x, int y, int z, Direction.Vine direction) {

@@ -13,6 +13,7 @@ import org.bukkit.BlockChangeDelegate;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 
 public abstract class FoliageProvider extends Provider {
 	
@@ -234,7 +235,7 @@ public abstract class FoliageProvider extends Provider {
 		// where do we start?
 		int bottomY = y;
 		Block base = chunk.getActualBlock(x, y - 1, z);
-		byte baseTypeId = BlackMagic.getMaterialId(base);
+		Material baseMaterial = base.getType();
 		byte baseData = BlackMagic.getMaterialData(base);
 		try {
 			int tries = 0;
@@ -259,7 +260,7 @@ public abstract class FoliageProvider extends Provider {
 					// copy the trunk down a bit
 					Block root = chunk.getActualBlock(x, y, z);
 					chunk.setBlocks(x, bottomY, y, z, 
-							BlackMagic.getMaterialId(root), BlackMagic.getMaterialData(root));
+							root.getType(), BlackMagic.getMaterialData(root));
 					
 					// all done
 					break;
@@ -279,7 +280,7 @@ public abstract class FoliageProvider extends Provider {
 				chunk.setBlocks(x, bottomY, y, z, Material.AIR);
  			
 			// set the base back to what it was originally
-			chunk.setBlock(x, bottomY - 1, z, baseTypeId, baseData, false);
+			chunk.setBlock(x, bottomY - 1, z, baseMaterial, baseData, false);
 		}
 		return result;
 	}

@@ -185,7 +185,7 @@ public class RoadLot extends ConnectedLot {
 			doSewer = false;
 
 			// clear a little space
-			chunk.setLayer(sidewalkLevel, 2, getAirId(generator, sidewalkLevel));
+			chunk.setLayer(sidewalkLevel, 2, getAirMaterial(generator, sidewalkLevel));
 			
 			// bridge to the east/west
 			if (roads.toWest() && roads.toEast()) {
@@ -325,8 +325,8 @@ public class RoadLot extends ConnectedLot {
 			// draw pavement and clear out a bit
 			chunk.setLayer(pavementLevel, pavementId);
 			if (pavementLevel != sidewalkLevel)
-				chunk.setLayer(sidewalkLevel, getAirId(generator, sidewalkLevel));
-			byte emptyId = getAirId(generator, sidewalkLevel + 1);
+				chunk.setLayer(sidewalkLevel, getAirMaterial(generator, sidewalkLevel));
+			Material emptyMaterial = getAirMaterial(generator, sidewalkLevel + 1);
 			
 			// sidewalk corners
 			chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkMaterial);
@@ -370,7 +370,7 @@ public class RoadLot extends ConnectedLot {
 				if (roads.toWest() && roads.toEast()) {
 					
 					// carve out the tunnel
-					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + 6, 2, 14, emptyId);
+					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + 6, 2, 14, emptyMaterial);
 					
 					// place the arches
 					placeEWTunnelArch(generator, chunk, 0, sidewalkLevel, tunnelWallMaterial, tunnelWallMaterial, tunnelWallMaterial);
@@ -382,7 +382,7 @@ public class RoadLot extends ConnectedLot {
 				} else if (roads.toNorth() && roads.toSouth()) {
 					
 					// carve out the tunnel
-					chunk.setBlocks(2, 14, sidewalkLevel + 1, sidewalkLevel + 6, 0, 16, emptyId);
+					chunk.setBlocks(2, 14, sidewalkLevel + 1, sidewalkLevel + 6, 0, 16, emptyMaterial);
 					
 					// place the arches
 					placeNSTunnelArch(generator, chunk, 0, sidewalkLevel, tunnelWallMaterial, tunnelWallMaterial, tunnelWallMaterial);
@@ -399,7 +399,7 @@ public class RoadLot extends ConnectedLot {
 				if (roads.toWest() && roads.toEast()) {
 					
 					// carve out the tunnel
-					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + tunnelHeight + 1, 0, 16, emptyId);
+					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + tunnelHeight + 1, 0, 16, emptyMaterial);
 					
 					// walls please, this will find the Y the hard way since we are looking at the next chunk over
 					for (int x = 0; x < chunk.width; x++) {
@@ -409,7 +409,7 @@ public class RoadLot extends ConnectedLot {
 				} else if (roads.toNorth() && roads.toSouth()) {
 
 					// carve out the tunnel
-					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + tunnelHeight + 1, 0, 16, emptyId);
+					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + tunnelHeight + 1, 0, 16, emptyMaterial);
 
 					// walls please, this will find the Y the hard way since we are looking at the next chunk over
 					for (int z = 0; z < chunk.width; z++) {
@@ -441,14 +441,14 @@ public class RoadLot extends ConnectedLot {
 		if (doSewer) {
 			
 			// empty out the sewer
-			chunk.setLayer(base1Y, base2Y - base1Y, getAirId(generator, base1Y));
-			byte emptyId = getAirId(generator, sewerY - 1);
+			chunk.setLayer(base1Y, base2Y - base1Y, getAirMaterial(generator, base1Y));
+			Material emptyMaterial = getAirMaterial(generator, sewerY - 1);
 					
 			// draw the floor of the sewer
 			chunk.setLayer(sewerY - 1, 1, sewerFloorMaterial);
 			chunk.setBlocks(crossDitchEdge, chunk.width - crossDitchEdge, 
 							sewerY - 1, sewerY, 
-							crossDitchEdge, chunk.width - crossDitchEdge, emptyId);
+							crossDitchEdge, chunk.width - crossDitchEdge, emptyMaterial);
 			
 			// corner bits
 			chunk.setBlocks(0, 6, sewerY, base2Y, 0, 1, sewerWallMaterial);
@@ -471,25 +471,25 @@ public class RoadLot extends ConnectedLot {
 				chunk.setBlocks(5, 11, sewerY, base2Y, 0, 1, sewerWallMaterial);
 				chunk.setBlocks(5, 11, base2Y - 1, base2Y, 1, 2, sewerCeilingMaterial);
 			} else {
-				chunk.setBlocks(7, 9, sewerY - 1, sewerY, 0, 7, emptyId);
+				chunk.setBlocks(7, 9, sewerY - 1, sewerY, 0, 7, emptyMaterial);
 			}
 			if (!roads.toSouth()) {
 				chunk.setBlocks(5, 11, sewerY, base2Y, 15, 16, sewerWallMaterial);
 				chunk.setBlocks(5, 11, base2Y - 1, base2Y, 14, 15, sewerCeilingMaterial);
 			} else {
-				chunk.setBlocks(7, 9, sewerY - 1, sewerY, 9, 16, emptyId);
+				chunk.setBlocks(7, 9, sewerY - 1, sewerY, 9, 16, emptyMaterial);
 			}
 			if (!roads.toWest()) {
 				chunk.setBlocks(0, 1, sewerY, base2Y, 5, 11, sewerWallMaterial);
 				chunk.setBlocks(1, 2, base2Y - 1, base2Y, 5, 11, sewerCeilingMaterial);
 			} else {
-				chunk.setBlocks(0, 7, sewerY - 1, sewerY, 7, 9, emptyId);
+				chunk.setBlocks(0, 7, sewerY - 1, sewerY, 7, 9, emptyMaterial);
 			}
 			if (!roads.toEast()) {
 				chunk.setBlocks(15, 16, sewerY, base2Y, 5, 11, sewerWallMaterial);
 				chunk.setBlocks(14, 15, base2Y - 1, base2Y, 5, 11, sewerCeilingMaterial);
 			} else {
-				chunk.setBlocks(9, 16, sewerY - 1, sewerY, 7, 9, emptyId);
+				chunk.setBlocks(9, 16, sewerY - 1, sewerY, 7, 9, emptyMaterial);
 			}
 			
 			// defaults
@@ -734,7 +734,7 @@ public class RoadLot extends ConnectedLot {
 		if (shellMaterial != tileMaterial) {
 			chunk.setBlock(x, baseY + 6, 5, ceilingMaterial);
 			chunk.setBlock(x, baseY + 6, 10, ceilingMaterial);
-			chunk.setBlocks(x, x + 1, baseY + 7, baseY + 8, 5, 11, getAirId(generator, baseY + 7));
+			chunk.setBlocks(x, x + 1, baseY + 7, baseY + 8, 5, 11, getAirMaterial(generator, baseY + 7));
 		}
 		
 		chunk.setBlocks(x, baseY + 5, baseY + 6, 12, tileMaterial);
@@ -769,7 +769,7 @@ public class RoadLot extends ConnectedLot {
 		if (shellMaterial != tileMaterial) {
 			chunk.setBlock(5, baseY + 6, z, ceilingMaterial);
 			chunk.setBlock(10, baseY + 6, z, ceilingMaterial);
-			chunk.setBlocks(5, 11, baseY + 7, baseY + 8, z, z + 1, getAirId(generator, baseY + 7));
+			chunk.setBlocks(5, 11, baseY + 7, baseY + 8, z, z + 1, getAirMaterial(generator, baseY + 7));
 		}
 		
 		chunk.setBlocks(12, baseY + 5, baseY + 6, z, tileMaterial);
@@ -988,23 +988,23 @@ public class RoadLot extends ConnectedLot {
 				centerEast = sewerCenterBit || (vaultNorthEast && vaultSouthEast);
 			}
 			
-			byte fluidId = generator.oreProvider.fluidFluidId;
+			Material fluidMaterial = generator.oreProvider.fluidFluidMaterial;
 			
 			// cardinal directions known walls and ditches
 			if (roads.toNorth()) {
-				chunk.setBlock(8, sewerY - 1, 3, fluidId);
+				chunk.setBlock(8, sewerY - 1, 3, fluidMaterial);
 				generateEntryVines(chunk, base2Y - 1, Direction.Vine.NORTH, 6, 1, 7, 1, 8, 1, 9, 1);
 			}
 			if (roads.toSouth()) {
-				chunk.setBlock(7, sewerY - 1, 12, fluidId);
+				chunk.setBlock(7, sewerY - 1, 12, fluidMaterial);
 				generateEntryVines(chunk, base2Y - 1, Direction.Vine.SOUTH, 6, 14, 7, 14, 8, 14, 9, 14);
 			}
 			if (roads.toWest()) {
-				chunk.setBlock(3, sewerY - 1, 7, fluidId);
+				chunk.setBlock(3, sewerY - 1, 7, fluidMaterial);
 				generateEntryVines(chunk, base2Y - 1, Direction.Vine.WEST, 1, 6, 1, 7, 1, 8, 1, 9);
 			}
 			if (roads.toEast()) {
-				chunk.setBlock(12, sewerY - 1, 8, fluidId);
+				chunk.setBlock(12, sewerY - 1, 8, fluidMaterial);
 				generateEntryVines(chunk, base2Y - 1, Direction.Vine.EAST, 14, 6, 14, 7, 14, 8, 14, 9);
 			}
 			
@@ -1179,7 +1179,7 @@ public class RoadLot extends ConnectedLot {
 			int x = x1 + chunkOdds.getRandomInt(x2 - x1);
 			int z = z1 + chunkOdds.getRandomInt(z2 - z1);
 			if (chunkOdds.flipCoin())
-				chunk.setBlock(x, y, z, getAirId(generator, y));
+				chunk.setBlock(x, y, z, getAirMaterial(generator, y));
 			else
 				chunk.setBlock(x, y, z, Material.STEP, (byte) 3);
 			amount--;

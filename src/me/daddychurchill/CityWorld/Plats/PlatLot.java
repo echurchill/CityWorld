@@ -5,11 +5,9 @@ import org.bukkit.block.Biome;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.OreProvider.OreLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
-import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Direction;
@@ -52,31 +50,30 @@ public abstract class PlatLot {
 	}
 
 	// these cannot
-	protected final static byte stoneId = (byte) Material.STONE.getId();
-	protected final static byte dirtId = (byte) Material.DIRT.getId();
-	protected final static byte grassId = (byte) Material.GRASS.getId();
-	protected final static byte snowId = (byte) Material.SNOW_BLOCK.getId();
-	protected final static byte sandId = (byte) Material.SAND.getId();
-	protected final static byte sandstoneId = (byte) Material.SANDSTONE.getId();
-	protected final static byte bedrockId = (byte) Material.BEDROCK.getId();
-	protected final static byte fenceId = (byte) Material.FENCE.getId();
-	protected final static byte cobbleId = (byte) Material.COBBLESTONE.getId();
-	protected final static byte leavesId = (byte) Material.LEAVES.getId();
-	protected final static byte glassId = (byte) Material.GLASS.getId();
-	protected final static byte paneId = (byte) Material.THIN_GLASS.getId();
-	protected final static byte logId = (byte) Material.LOG.getId();
-	protected final static byte glowId = (byte) Material.GLOWSTONE.getId();
-	protected final static byte stepId = (byte) Material.STEP.getId();
-	protected final static byte clayId = (byte) Material.CLAY.getId();
-	protected final static byte ironFenceId = (byte) Material.IRON_FENCE.getId();
-	protected final static byte endId = (byte) Material.ENDER_STONE.getId();
-	protected final static byte netherrackId = (byte) Material.NETHERRACK.getId();
-	protected final static byte soulsandId = (byte) Material.SOUL_SAND.getId();
+//	protected final static byte stoneId = (byte) Material.STONE.getId();
+//	protected final static byte dirtId = (byte) Material.DIRT.getId();
+//	protected final static byte grassId = (byte) Material.GRASS.getId();
+//	protected final static byte snowId = (byte) Material.SNOW_BLOCK.getId();
+//	protected final static byte sandId = (byte) Material.SAND.getId();
+//	protected final static byte sandstoneId = (byte) Material.SANDSTONE.getId();
+//	protected final static byte bedrockId = (byte) Material.BEDROCK.getId();
+//	protected final static byte fenceId = (byte) Material.FENCE.getId();
+//	protected final static byte cobbleId = (byte) Material.COBBLESTONE.getId();
+//	protected final static byte leavesId = (byte) Material.LEAVES.getId();
+//	protected final static byte glassId = (byte) Material.GLASS.getId();
+//	protected final static byte paneId = (byte) Material.THIN_GLASS.getId();
+//	protected final static byte logId = (byte) Material.LOG.getId();
+//	protected final static byte glowId = (byte) Material.GLOWSTONE.getId();
+//	protected final static byte stepId = (byte) Material.STEP.getId();
+//	protected final static byte clayId = (byte) Material.CLAY.getId();
+//	protected final static byte ironFenceId = (byte) Material.IRON_FENCE.getId();
+//	protected final static byte endId = (byte) Material.ENDER_STONE.getId();
+//	protected final static byte netherrackId = (byte) Material.NETHERRACK.getId();
+//	protected final static byte soulsandId = (byte) Material.SOUL_SAND.getId();
 
-	protected final static byte pavementId = (byte) Material.STONE.getId();
-	protected final static byte crosswalkId = (byte) Material.CLAY.getId();
+	protected final static Material pavementId = Material.STONE;
+	protected final static Material crosswalkId = Material.CLAY;
 	
-	protected final static int snowMaterialId = Material.SNOW.getId();
 	protected final static Material snowMaterial = Material.SNOW;
 	protected final static Material stoneMaterial = Material.STONE;
 	protected final static Material rootMaterial = Material.GRASS;
@@ -247,20 +244,20 @@ public abstract class PlatLot {
 			generateMineShaftSpace(generator, chunk, 6, 10, y1, y1 + 4, 6, 10);
 	}
 	
-	private final static byte shaftBridgeId = (byte) Material.WOOD.getId(); 
-	private final static byte shaftSupportId = (byte) Material.FENCE.getId();
-	private final static byte shaftBeamId = (byte) Material.WOOD.getId();
+	private final static Material shaftBridgeId = Material.WOOD; 
+	private final static Material shaftSupportId = Material.FENCE;
+	private final static Material shaftBeamId = Material.WOOD;
 
 	private void generateMineShaftSpace(WorldGenerator generator, ByteChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2) {
 		chunk.setEmptyBlocks(x1, x2, y1, z1, z2, shaftBridgeId);
-		chunk.setBlocks(x1, x2, y1 + 1, y2, z1, z2, getAirId(generator, y1 + 1));
+		chunk.setBlocks(x1, x2, y1 + 1, y2, z1, z2, getAirMaterial(generator, y1 + 1));
 	}
 	
 	private void generateMineNSSupport(ByteChunk chunk, int x, int y, int z) {
 		
 		// on a bridge
-		if (chunk.getBlock(x, y - 1, z) == shaftBridgeId && 
-			chunk.getBlock(x + 3, y - 1, z) == shaftBridgeId) {
+		if (chunk.isType(x, y - 1, z, shaftBridgeId) && 
+			chunk.isType(x + 3, y - 1, z, shaftBridgeId)) {
 			
 			// place supports
 			generateMineSupport(chunk, x, y - 1, z);
@@ -278,8 +275,8 @@ public abstract class PlatLot {
 	
 	private void generateMineWESupport(ByteChunk chunk, int x, int y, int z) {
 		// on a bridge
-		if (chunk.getBlock(x, y - 1, z) == shaftBridgeId && 
-			chunk.getBlock(x, y - 1, z + 3) == shaftBridgeId) {
+		if (chunk.isType(x, y - 1, z, shaftBridgeId) && 
+			chunk.isType(x, y - 1, z + 3, shaftBridgeId)) {
 			
 			// place supports
 			generateMineSupport(chunk, x, y - 1, z);
@@ -535,13 +532,13 @@ public abstract class PlatLot {
 		generator.surfaceProvider.generateSurface(generator, this, chunk, blockYs, includeTrees);
 	}
 	
-	protected byte getAirId(WorldGenerator generator, int y) {
-		if (getTopY(generator) <= y)
-			return BlackMagic.airId;
-		else
-			return generator.shapeProvider.findAtmosphereIdAt(generator, y);
-	}
-
+//	protected byte getAirId(WorldGenerator generator, int y) {
+//		if (getTopY(generator) <= y)
+//			return BlackMagic.airId;
+//		else
+//			return generator.shapeProvider.findAtmosphereIdAt(generator, y);
+//	}
+//
 	protected Material getAirMaterial(WorldGenerator generator, int y) {
 		if (getTopY(generator) <= y)
 			return Material.AIR;

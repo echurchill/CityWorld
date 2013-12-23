@@ -1,5 +1,7 @@
 package me.daddychurchill.CityWorld.Support;
 
+import org.bukkit.Material;
+
 public class CurvedWallFactory extends MaterialFactory {
 
 	public CurvedWallFactory(Odds odds, boolean decayed) {
@@ -11,7 +13,7 @@ public class CurvedWallFactory extends MaterialFactory {
 	}
 
 	@Override
-	public void placeMaterial(SupportChunk chunk, byte primaryId, byte secondaryId, int x, int y1, int y2, int z) {
-		super.placeMaterial(chunk, primaryId, secondaryId, pickMaterial(primaryId, secondaryId, x * z), x, y1, y2, z);
+	public void placeMaterial(SupportChunk chunk, Material primaryMaterial, Material secondaryMaterial, int x, int y1, int y2, int z) {
+		super.placeMaterial(chunk, primaryMaterial, secondaryMaterial, pickMaterial(primaryMaterial, secondaryMaterial, x * z), x, y1, y2, z);
 	}
 }
