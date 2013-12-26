@@ -4,306 +4,28 @@ import java.util.Stack;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.material.MaterialData;
+
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 
-public class WorldBlocks extends SupportChunk {
+public final class WorldBlocks extends SupportChunk {
 	
 	//====================
 	//WARNING: the x,z coordinates in this variant of SupportChunk are world absolute (unlike byte and real chunks)
 	//====================
 
-	//TODO: Remove this
-//	private static final byte airId = BlackMagic.getMaterialId(Material.AIR);
-//	private static final byte bedrockId = BlackMagic.getMaterialId(Material.BEDROCK);
-//	private static final byte stoneId = BlackMagic.getMaterialId(Material.STONE);
-//	private static final byte gravelId = BlackMagic.getMaterialId(Material.GRAVEL);
-//	private static final byte dirtId = BlackMagic.getMaterialId(Material.DIRT);
-//	private static final byte grassId = BlackMagic.getMaterialId(Material.GRASS);
-//	private static final byte glassId = BlackMagic.getMaterialId(Material.GLASS);
-	private static final byte stepStoneId = BlackMagic.getMaterialId(Material.STEP);
-//	private static final byte stepWoodId = BlackMagic.getMaterialId(Material.WOOD_STEP);
-//	private static final byte sandId = BlackMagic.getMaterialId(Material.SAND);
-//	private static final byte sandstoneId = BlackMagic.getMaterialId(Material.SANDSTONE); 
-//	private static final byte snowBlockId = BlackMagic.getMaterialId(Material.SNOW_BLOCK);
-	private static final byte snowCoverId = BlackMagic.getMaterialId(Material.SNOW);
-//	private static final byte iceId = BlackMagic.getMaterialId(Material.ICE); // the fluid type
-//	private static final byte fluidWaterId = BlackMagic.getMaterialId(Material.WATER); // the fluid type
-//	private static final byte fluidLavaId = BlackMagic.getMaterialId(Material.LAVA); // the fluid type
-//	private static final byte stillWaterId = BlackMagic.getMaterialId(Material.STATIONARY_WATER); // the fluid type
-//	private static final byte stillLavaId = BlackMagic.getMaterialId(Material.STATIONARY_LAVA); // the fluid type
-//	private static final byte plateStoneId = BlackMagic.getMaterialId(Material.STONE_PLATE);
-//	private static final byte plateWoodId = BlackMagic.getMaterialId(Material.WOOD_PLATE);
-	
-	private boolean doPhysics;
-//	WorldGenerator generator;
-	Odds odds;
+	private Odds odds;
 	
 	public WorldBlocks(WorldGenerator generator, Odds odds) {
 		super(generator);
 		
-		doPhysics = false;
-//		this.generator = generator;
 		this.odds = odds;
 	}
 
-	public boolean getDoPhysics() {
-		return doPhysics;
-	}
-	
-	public void setDoPhysics(boolean dophysics) {
-		doPhysics = dophysics;
-	}
-
+	@Override
 	public Block getActualBlock(int x, int y, int z) {
 		return world.getBlockAt(x, y, z);
-	}
-	
-	@Override
-	public byte getBlockType(int x, int y, int z) {
-		return BlackMagic.getMaterialId(getActualBlock(x, y, z));
-	}
-	
-//	@Override
-//	public void setBlock(int x, int y, int z, byte materialId) {
-//		BlackMagic.setBlockType(world.getBlockAt(x, y, z), materialId);
-//	}
-//
-//	@Override
-//	public void setBlocks(int x1, int x2, int y, int z1, int z2, byte materialId) {
-//		for (int x = x1; x < x2; x++) {
-//			for (int z = z1; z < z2; z++) {
-//				BlackMagic.setBlockType(world.getBlockAt(x, y, z), materialId);
-//			}
-//		}
-//	}
-	
-//	@Override
-//	public void setBlocks(int x, int y1, int y2, int z, byte type) {
-//		for (int y = y1; y < y2; y++)
-//			BlackMagic.setBlockType(world.getBlockAt(x, y, z), type, BlackMagic.noData, doPhysics);
-//	}
-
-	public void setBlock(int x, int y, int z, Material material) {
-		BlackMagic.setBlockType(world.getBlockAt(chunkX + x, y, chunkZ + z), material, doPhysics);
-	}
-
-	public void setBlock(int x, int y, int z, byte type, byte data) {
-		BlackMagic.setBlockType(world.getBlockAt(chunkX + x, y, chunkZ + z), type, data, doPhysics);
-	}
-	
-	public void setBlock(int x, int y, int z, Material material, boolean aDoPhysics) {
-		BlackMagic.setBlockType(world.getBlockAt(chunkX + x, y, chunkZ + z), material, aDoPhysics);
-	}
-
-	public void setBlock(int x, int y, int z, byte type, byte data, boolean aDoPhysics) {
-		BlackMagic.setBlockType(world.getBlockAt(chunkX + x, y, chunkZ + z), type, data, aDoPhysics);
-	}
-	
-	public void setBlocks(int x, int y1, int y2, int z, Material material) {
-		for (int y = y1; y < y2; y++)
-			world.getBlockAt(x, y, z).setType(material);
-	}
-
-	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
-		for (int x = x1; x < x2; x++) {
-			for (int y = y1; y < y2; y++) {
-				for (int z = z1; z < z2; z++) {
-					world.getBlockAt(x, y, z).setType(material);
-				}
-			}
-		}
-	}
-
-	public void setBlocks(int x, int y1, int y2, int z, Material material, byte data) {
-		for (int y = y1; y < y2; y++)
-			BlackMagic.setBlockType(world.getBlockAt(x, y, z), material, data, doPhysics);
-	}
-
-	public void setBlocks(int x, int y1, int y2, int z, Material material, byte data, boolean aDoPhysics) {
-		for (int y = y1; y < y2; y++)
-			BlackMagic.setBlockType(world.getBlockAt(x, y, z), material, data, aDoPhysics);
-	}
-
-	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, byte data, boolean aDoPhysics) {
-		for (int x = x1; x < x2; x++) {
-			for (int y = y1; y < y2; y++) {
-				for (int z = z1; z < z2; z++) {
-					BlackMagic.setBlockType(world.getBlockAt(x, y, z), material, data, aDoPhysics);
-				}
-			}
-		}
-	}
-
-	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, byte data) {
-		for (int x = x1; x < x2; x++) {
-			for (int y = y1; y < y2; y++) {
-				for (int z = z1; z < z2; z++) {
-					BlackMagic.setBlockType(world.getBlockAt(x, y, z), material, data, doPhysics);
-				}
-			}
-		}
-	}
-
-	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, byte type, byte data) {
-		for (int x = x1; x < x2; x++) {
-			for (int y = y1; y < y2; y++) {
-				for (int z = z1; z < z2; z++) {
-					BlackMagic.setBlockType(world.getBlockAt(x, y, z), type, data, doPhysics);
-				}
-			}
-		}
-	}
-	
-	@Override
-	public void clearBlock(int x, int y, int z) {
-		world.getBlockAt(x, y, z).setType(Material.AIR);
-	}
-
-	@Override
-	public void clearBlocks(int x, int y1, int y2, int z) {
-		for (int y = y1; y < y2; y++) {
-			BlackMagic.setBlockType(world.getBlockAt(x, y, z), Material.AIR, BlackMagic.noData, doPhysics);
-		}
-	}
-
-	@Override
-	public void clearBlocks(int x1, int x2, int y1, int y2, int z1, int z2) {
-		for (int x = x1; x < x2; x++) {
-			for (int y = y1; y < y2; y++) {
-				for (int z = z1; z < z2; z++) {
-					BlackMagic.setBlockType(world.getBlockAt(x, y, z), Material.AIR, BlackMagic.noData, doPhysics);
-				}
-			}
-		}
-	}
-	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				BlackMagic.setBlockType(world.getBlockAt(x, y, z), material, doPhysics);
-			}
-		}
-	}
-
-	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, boolean aDoPhysics) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				BlackMagic.setBlockType(world.getBlockAt(x, y, z), material, aDoPhysics);
-			}
-		}
-	}
-
-	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, byte data, boolean aDoPhysics) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				BlackMagic.setBlockType(world.getBlockAt(x, y, z), material, data, aDoPhysics);
-			}
-		}
-	}
-
-	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, byte data) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				BlackMagic.setBlockType(world.getBlockAt(x, y, z), material, data, doPhysics);
-			}
-		}
-	}
-
-	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
-		setBlocks(x1, x2, y1, y2, z1, z1 + 1, material);
-		setBlocks(x1, x2, y1, y2, z2 - 1, z2, material);
-		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material);
-		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material);
-	}
-	
-	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, byte type, byte data) {
-		setBlocks(x1, x2, y1, y2, z1, z1 + 1, type, data);
-		setBlocks(x1, x2, y1, y2, z2 - 1, z2, type, data);
-		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, type, data);
-		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, type, data);
-	}
-	
-	public boolean setEmptyBlock(int x, int y, int z, Material material) {
-		Block block = world.getBlockAt(x, y, z);
-		if (block.isEmpty()) {
-			return BlackMagic.setBlockType(block, material, doPhysics);
-		} else
-			return false;
-	}
-
-	public boolean setEmptyBlock(int x, int y, int z, byte type, byte data) {
-		Block block = world.getBlockAt(x, y, z);
-		if (block.isEmpty()) {
-			return BlackMagic.setBlockType(block, type, data, doPhysics);
-		} else
-			return false;
-	}
-	
-	public boolean setEmptyBlock(int x, int y, int z, Material material, boolean aDoPhysics) {
-		Block block = world.getBlockAt(x, y, z);
-		if (block.isEmpty()) {
-			return BlackMagic.setBlockType(block, material, aDoPhysics);
-		} else
-			return false;
-	}
-
-	public boolean setEmptyBlock(int x, int y, int z, byte type, byte data, boolean aDoPhysics) {
-		Block block = world.getBlockAt(x, y, z);
-		if (block.isEmpty()) {
-			return BlackMagic.setBlockType(block, type, data, aDoPhysics);
-		} else
-			return false;
-	}
-	
-	public void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				Block block = world.getBlockAt(x, y, z);
-				if (block.isEmpty())
-					block.setType(material);
-			}
-		}
-	}
-	
-	public void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, byte type, byte data, boolean aDoPhysics) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				Block block = world.getBlockAt(x, y, z);
-				if (block.isEmpty())
-					BlackMagic.setBlockType(block, type, data, aDoPhysics);
-			}
-		}
-	}
-	
-	public int findLastEmptyAbove(int x, int y, int z) {
-		int y1 = y;
-		while (y1 < height - 1 && world.getBlockAt(x, y1 + 1, z).isEmpty()) {
-			y1++;
-		}
-		return y1;
-	}
-	
-	public int findLastEmptyBelow(int x, int y, int z) {
-		int y1 = y;
-		while (y1 > 0 && world.getBlockAt(x, y1 - 1, z).isEmpty()) {
-			y1--;
-		}
-		return y1;
-	}
-	
-	public int setLayer(int blocky, Material material) {
-		setBlocks(0, width, blocky, blocky + 1, 0, width, material);
-		return blocky + 1;
-	}
-
-	public int setLayer(int blocky, int height, Material material) {
-		setBlocks(0, width, blocky, blocky + height, 0, width, material);
-		return blocky + height;
-	}
-
-	public int setLayer(int blocky, int height, int inset, Material material) {
-		setBlocks(inset, width - inset, blocky, blocky + height, inset, width - inset, material);
-		return blocky + height;
 	}
 	
 	public void destroyWithin(int x1, int x2, int y1, int y2, int z1, int z2) {
@@ -327,12 +49,12 @@ public class WorldBlocks extends SupportChunk {
 	}
 	
 	private static class debrisItem {
-		byte typeId;
-		byte data;
+		protected Material oldMaterial;
+		protected MaterialData oldData;
 		
 		public debrisItem(Block block) {
-			this.typeId = BlackMagic.getMaterialId(block);
-			this.data = BlackMagic.getMaterialData(block);
+			oldMaterial = block.getType();
+			oldData = block.getState().getData().clone();
 		}
 	}
 	
@@ -385,7 +107,7 @@ public class WorldBlocks extends SupportChunk {
 		disperseCircle(cx, cz, r, cy, debris);
 	}
 	
-	private final static double oddsOfDebris = DataContext.oddsPrettyLikely;
+	private static double oddsOfDebris = DataContext.oddsPrettyLikely;
 	
 	private void sprinkleDebris(int cx, int cy, int cz, int radius, Stack<debrisItem> debris) {
 
@@ -411,25 +133,21 @@ public class WorldBlocks extends SupportChunk {
 				
 				// look out for half blocks
 				Block block = getActualBlock(x, y - 1, z);
-				int blockId = BlackMagic.getMaterialId(block);
 				
-				// partial blocks
-				if (blockId == stepStoneId || blockId == snowCoverId)
-					BlackMagic.setBlockType(block, item.typeId, item.data, false);
+				// find the bottom of the pool
+				if (block.isLiquid()) {
+					do {
+						y--;
+						block = getActualBlock(x, y - 1, z);
+					} while (block.isLiquid());
+				
+				// partial height blocks?
+				} else if (isPartialHeight(block))
+					setBlock(block, item.oldMaterial, item.oldData);
 				
 				// other blocks?
 				else {
-					
-					// find the bottom of the pool
-					if (block.isLiquid()) {
-						do {
-							y--;
-							block = getActualBlock(x, y - 1, z);
-						} while (block.isLiquid());
-					}
-					
-					// place the block
-					setBlock(x, y, z, item.typeId, item.data, false);
+					setBlock(x, y, z, item.oldMaterial, item.oldData);
 				}
 			}
 		}
@@ -446,4 +164,5 @@ public class WorldBlocks extends SupportChunk {
 		// now sprinkle blocks around
 		sprinkleDebris(x, y, z, radius, debris);
 	}
+
 }

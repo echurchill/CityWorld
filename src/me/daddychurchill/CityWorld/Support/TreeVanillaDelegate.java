@@ -30,21 +30,25 @@ public class TreeVanillaDelegate implements BlockChangeDelegate {
 
 	@Override
 	public boolean setRawTypeId(int x, int y, int z, int id) {
-		return BlackMagic.setBlockType(world.getBlockAt(x, y, z), (byte) id, false);
+		BlackMagic.setBlockType(world.getBlockAt(x, y, z), id);
+		return true;
 	}
 
 	@Override
 	public boolean setRawTypeIdAndData(int x, int y, int z, int id, int data) {
-		return BlackMagic.setBlockType(world.getBlockAt(x, y, z), (byte) id, (byte) data, false);
+		BlackMagic.setBlockType(world.getBlockAt(x, y, z), id, data);
+		return true;
 	}
 
 	@Override
 	public boolean setTypeId(int x, int y, int z, int id) {
-		return BlackMagic.setBlockType(world.getBlockAt(x, y, z), (byte) id, (byte) 0, false);
+		BlackMagic.setBlockType(world.getBlockAt(x, y, z), id);
+		return true;
 	}
 
 	@Override
 	public boolean setTypeIdAndData(int x, int y, int z, int id, int data) {
-		return BlackMagic.setBlockType(world.getBlockAt(x, y, z), (byte) id, (byte) data, false);
+		BlackMagic.setBlockType(world.getBlockAt(x, y, z), id, data);
+		return true;
 	}
 }

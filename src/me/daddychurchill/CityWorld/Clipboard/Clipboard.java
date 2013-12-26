@@ -2,11 +2,10 @@ package me.daddychurchill.CityWorld.Clipboard;
 
 import java.io.File;
 
-import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
@@ -31,8 +30,10 @@ public abstract class Clipboard {
 	public int insetWest;
 	public int insetEast;
 	
-	public Material edgeType = Material.AIR;
-	public byte edgeData = 0;
+//	public Material edgeType = Material.AIR;
+//	public MaterialData edgeData = new MaterialData(edgeType);
+	public int edgeType = 0;
+	public int edgeData = 0;
 	public int edgeRise = 0;
 	
 	public Clipboard(WorldGenerator generator, File file) throws Exception {
@@ -58,9 +59,9 @@ public abstract class Clipboard {
 	}
 	
 	protected abstract void load(WorldGenerator generator, File file) throws Exception;
-	public abstract void paste(WorldGenerator generator, RealChunk chunk, Direction.Facing facing, 
+	public abstract void paste(WorldGenerator generator, RealChunk chunk, BlockFace facing, 
 			int blockX, int blockY, int blockZ);
-	public abstract void paste(WorldGenerator generator, RealChunk chunk, Direction.Facing facing, 
+	public abstract void paste(WorldGenerator generator, RealChunk chunk, BlockFace facing, 
 			int blockX, int blockY, int blockZ,
 			int x1, int x2, int y1, int y2, int z1, int z2);
 }

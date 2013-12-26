@@ -1,5 +1,7 @@
 package me.daddychurchill.CityWorld.Context;
 
+import org.bukkit.block.BlockFace;
+
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.Clipboard;
 import me.daddychurchill.CityWorld.Clipboard.ClipboardRoundaboutLot;
@@ -7,7 +9,6 @@ import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
 import me.daddychurchill.CityWorld.Plats.Urban.RoundaboutStatueLot;
-import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
@@ -50,7 +51,7 @@ public class RoadContext extends UrbanContext {
 		Odds odds = platmap.getChunkOddsGenerator(platmap.originX + x, platmap.originZ + z);
 		
 		// what way are we facing?
-		Direction.Facing facing = odds.getFacing();
+		BlockFace facing = odds.getRandomFacing();
 		
 		// see if there is a schematic out there that fits
 		Clipboard clip = mapsSchematics.getSingleLot(generator, platmap, odds, x, z);

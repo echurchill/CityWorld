@@ -26,7 +26,7 @@ public class FoliageProvider_Flooded extends FoliageProvider_Normal {
 		
 		// depends on the block's type and what the world is like
 		if (!generator.settings.includeAbovegroundFluids && y <= generator.seaLevel)
-			return chunk.getBlock(x, y, z) == Material.SAND;
+			return chunk.isType(x, y, z, Material.SAND);
 		else
 			return chunk.isPlantable(x, y, z);
 	}

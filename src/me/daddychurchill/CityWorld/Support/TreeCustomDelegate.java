@@ -37,38 +37,35 @@ public class TreeCustomDelegate extends TreeVanillaDelegate {
 
 	@Override
 	public boolean setRawTypeId(int x, int y, int z, int id) {
-		return setTypeIdAndData(x, y, z, id, 0, false);
+		return setTypeIdAndData(x, y, z, id, 0);
 	}
 
 	@Override
 	public boolean setRawTypeIdAndData(int x, int y, int z, int id, int data) {
-		return setTypeIdAndData(x, y, z, id, data, false);
+		return setTypeIdAndData(x, y, z, id, data);
 	}
 
 	@Override
 	public boolean setTypeId(int x, int y, int z, int id) {
-		return setTypeIdAndData(x, y, z, id, 0, false);
+		return setTypeIdAndData(x, y, z, id, 0);
 	}
 
 	@Override
 	public boolean setTypeIdAndData(int x, int y, int z, int id, int data) {
-		return setTypeIdAndData(x, y, z, id, data, false);
-	}
-	
-	private boolean setTypeIdAndData(int x, int y, int z, int id, int data, boolean update) {
 		Block block = world.getBlockAt(x, y, z);
 		if (id == FoliageProvider.logId)
 			if (trunkId == FoliageProvider.logId)
-				return BlackMagic.setBlockType(block, FoliageProvider.logId, (byte) data, update);
+				BlackMagic.setBlockType(block, FoliageProvider.logId, data);
 			else
-				return BlackMagic.setBlockType(block, trunkId, update);
+				BlackMagic.setBlockType(block, trunkId);
 		
 		else if (id == FoliageProvider.leavesId)
 			if (odds.flipCoin())
-				return BlackMagic.setBlockType(block, leavesId1, update);
+				BlackMagic.setBlockType(block, leavesId1);
 			else
-				return BlackMagic.setBlockType(block, leavesId2, update);
+				BlackMagic.setBlockType(block, leavesId2);
 		else
 			return false;
+		return true;
 	}
 }

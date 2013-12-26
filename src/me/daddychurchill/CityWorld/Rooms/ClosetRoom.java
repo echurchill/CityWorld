@@ -55,7 +55,7 @@ public class ClosetRoom extends FilledRoom {
 	private void drawShelve(RealChunk chunk, Odds odds, int x, int y, int z,
 			Material shelveMaterial) {
 		if (odds.flipCoin())
-			chunk.setBlock(x, y, z, shelveMaterial, (byte)0);
+			chunk.setBlock(x, y, z, shelveMaterial);
 		else
 			chunk.setBlock(x, y, z, Material.BOOKSHELF);
 	}

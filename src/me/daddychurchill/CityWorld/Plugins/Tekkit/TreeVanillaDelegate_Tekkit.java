@@ -40,21 +40,25 @@ public class TreeVanillaDelegate_Tekkit implements ForgeBlockChangeDelegate {
 
 	@Override
 	public boolean setRawTypeId(int x, int y, int z, int id) {
-		return BlackMagic.setBlockType(world.getBlockAt(x, y, z), id, 0, false);
+		BlackMagic.setBlockType(world.getBlockAt(x, y, z), id);
+		return true;
 	}
 
 	@Override
 	public boolean setRawTypeIdAndData(int x, int y, int z, int id, int data) {
-		return BlackMagic.setBlockType(world.getBlockAt(x, y, z), id, 0, false);
+		BlackMagic.setBlockType(world.getBlockAt(x, y, z), id);
+		return true;
 	}
 
 	@Override
 	public boolean setTypeId(int x, int y, int z, int id) {
-		return BlackMagic.setBlockType(world.getBlockAt(x, y, z), id, 0, false);
+		BlackMagic.setBlockType(world.getBlockAt(x, y, z), id);
+		return true;
 	}
 
 	@Override
 	public boolean setTypeIdAndData(int x, int y, int z, int id, int data) {
-		return BlackMagic.setBlockType(world.getBlockAt(x, y, z), id, data, false);
+		BlackMagic.setBlockType(world.getBlockAt(x, y, z), id, data);
+		return true;
 	}
 }

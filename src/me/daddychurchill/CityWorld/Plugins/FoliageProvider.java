@@ -13,7 +13,6 @@ import org.bukkit.BlockChangeDelegate;
 import org.bukkit.Material;
 import org.bukkit.TreeType;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 
 public abstract class FoliageProvider extends Provider {
 	
@@ -89,7 +88,7 @@ public abstract class FoliageProvider extends Provider {
 		
 		// depends on the block's type and what the world is like
 		if (!generator.settings.includeAbovegroundFluids && y <= generator.seaLevel)
-			return chunk.getBlock(x, y, z) == Material.SAND;
+			return chunk.isType(x, y, z, Material.SAND);
 		else
 			return chunk.isPlantable(x, y, z);
 	}
@@ -187,7 +186,7 @@ public abstract class FoliageProvider extends Provider {
 			treeData = 3;
 			break;
 		}
-		chunk.setBlocks(x, y, y + treeHeight, z, Material.LOG, treeData);
+		BlackMagic.setBlocks(chunk, x, y, y + treeHeight, z, Material.LOG, treeData);
 		
 		return true;
 	}
@@ -217,12 +216,12 @@ public abstract class FoliageProvider extends Provider {
 		}
 
 		int trunkHeight = treeHeight - 1;
-		chunk.setBlocks(x, y, y + treeHeight, z, trunk, treeData);
-		chunk.setBlock(x - 1, y + trunkHeight, z, leaves, treeData);
-		chunk.setBlock(x + 1, y + trunkHeight, z, leaves, treeData);
-		chunk.setBlock(x, y + trunkHeight, z - 1, leaves, treeData);
-		chunk.setBlock(x, y + trunkHeight, z + 1, leaves, treeData);
-		chunk.setBlock(x, y + treeHeight, z, leaves, treeData);
+		BlackMagic.setBlocks(chunk, x, y, y + treeHeight, z, trunk, treeData);
+		BlackMagic.setBlock(chunk, x - 1, y + trunkHeight, z, leaves, treeData);
+		BlackMagic.setBlock(chunk, x + 1, y + trunkHeight, z, leaves, treeData);
+		BlackMagic.setBlock(chunk, x, y + trunkHeight, z - 1, leaves, treeData);
+		BlackMagic.setBlock(chunk, x, y + trunkHeight, z + 1, leaves, treeData);
+		BlackMagic.setBlock(chunk, x, y + treeHeight, z, leaves, treeData);
 		
 		return true;
 	}
@@ -259,7 +258,7 @@ public abstract class FoliageProvider extends Provider {
 					
 					// copy the trunk down a bit
 					Block root = chunk.getActualBlock(x, y, z);
-					chunk.setBlocks(x, bottomY, y, z, 
+					BlackMagic.setBlocks(chunk, x, bottomY, y, z, 
 							root.getType(), BlackMagic.getMaterialData(root));
 					
 					// all done
@@ -280,7 +279,7 @@ public abstract class FoliageProvider extends Provider {
 				chunk.setBlocks(x, bottomY, y, z, Material.AIR);
  			
 			// set the base back to what it was originally
-			chunk.setBlock(x, bottomY - 1, z, baseMaterial, baseData, false);
+			BlackMagic.setBlock(chunk, x, bottomY - 1, z, baseMaterial, baseData);
 		}
 		return result;
 	}

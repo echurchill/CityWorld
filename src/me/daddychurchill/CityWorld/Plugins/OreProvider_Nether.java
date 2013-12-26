@@ -39,8 +39,7 @@ public class OreProvider_Nether extends OreProvider {
 	/**
 	 * Populates the world with ores.
 	 *
-	 * @author Nightgunner5
-	 * @author Markus Persson
+	 * original authors Nightgunner5, Markus Persson
 	 * modified by simplex
 	 * wildly modified by daddychurchill
 	 */
@@ -56,7 +55,6 @@ public class OreProvider_Nether extends OreProvider {
 	private static final int[] ore_maxY = new int[]          {   128,    96,   128,   128};
 	private static final int[] ore_minY = new int[]          {     8,    40,    16,    16};
 	private static final boolean[] ore_upper = new boolean[] {  true,  true,  true,  true};
-	private static final boolean[] ore_physics = new boolean[] {true, false, false,  true};
 	private static final boolean[] ore_liquid = new boolean[] { true, false, false, false};
 	
 	@Override
@@ -66,12 +64,12 @@ public class OreProvider_Nether extends OreProvider {
 			sprinkleOre(generator, lot, chunk, blockYs,
 					odds, ore_types[typeNdx], ore_maxY[typeNdx], 
 					ore_minY[typeNdx], ore_iterations[typeNdx], 
-					ore_amountToDo[typeNdx], ore_upper[typeNdx], ore_physics[typeNdx], ore_liquid[typeNdx]);
+					ore_amountToDo[typeNdx], ore_upper[typeNdx], ore_liquid[typeNdx]);
 		}
 	}
 	
 	@Override
-	public void dropSnow(WorldGenerator generator, RealChunk chunk, int x, int y, int z, byte level) {
+	public void dropSnow(WorldGenerator generator, RealChunk chunk, int x, int y, int z, int level) {
 		
 		// do nothing
 	}

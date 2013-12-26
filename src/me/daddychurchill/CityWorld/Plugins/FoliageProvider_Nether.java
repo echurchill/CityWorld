@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -91,7 +92,7 @@ public class FoliageProvider_Nether extends FoliageProvider_Decayed {
 				} else {
 					chunk.setBlock(x, y - 1, z, Material.SOUL_SAND);
 					if (odds.playOdds(0.05))
-						chunk.setBlock(x, y, z, Material.NETHER_WARTS, odds.getRandomNetherWartGrowth());
+						BlackMagic.setBlock(chunk, x, y, z, Material.NETHER_WARTS, odds.getRandomNetherWartGrowth());
 				}
 				break;
 			case COVER:

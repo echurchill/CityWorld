@@ -9,6 +9,7 @@ import me.daddychurchill.CityWorld.Plats.RoadLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 
+import org.bukkit.block.BlockFace;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class PlatMap {
@@ -460,7 +461,7 @@ public class PlatMap {
 		int chunksZ = clip.chunkZ;
 		
 		// what way are we facing?
-		Direction.Facing facing = odds.getFacing();
+		BlockFace facing = odds.getRandomFacing();
 		
 		// calculate the various template plats
 		for (int x = 0; x < chunksX; x++) {

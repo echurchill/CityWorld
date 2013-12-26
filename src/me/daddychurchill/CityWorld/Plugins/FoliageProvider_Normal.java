@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import org.bukkit.Material;
 import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -30,10 +31,10 @@ public class FoliageProvider_Normal extends FoliageProvider {
 				chunk.setBlock(x, y, z, Material.YELLOW_FLOWER);
 				break;
 			case GRASS:
-				chunk.setBlock(x, y, z, Material.LONG_GRASS, (byte) 1);
+				BlackMagic.setBlock(chunk, x, y, z, Material.LONG_GRASS, 1);
 				break;
 			case FERN:
-				chunk.setBlock(x, y, z, Material.LONG_GRASS, (byte) 2);
+				BlackMagic.setBlock(chunk, x, y, z, Material.LONG_GRASS, 2);
 				break;
 			case CACTUS:
 				chunk.setBlock(x, y - 1, z, Material.SAND);

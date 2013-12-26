@@ -78,10 +78,10 @@ public class RadioTowerLot extends ConstructLot {
 		// top it off
 		chunk.setBlocks(originX, originX + platformWidth, platformY - 1, originZ, originZ + platformWidth, platformMaterial);
 		
-		// base
-		if (minHeight > generator.evergreenLevel)
-			generator.oreProvider.sprinkleSnow(generator, chunk, chunkOdds, originX, originX + platformWidth, platformY, originZ, originZ + platformWidth);
-		
+//		// base
+//		if (minHeight > generator.evergreenLevel)
+//			generator.oreProvider.sprinkleSnow(generator, chunk, chunkOdds, originX, originX + platformWidth, platformY, originZ, originZ + platformWidth);
+//		
 		// building
 		if (building) {
 			chunk.setBlocks(originX + 2, originX + platformWidth - 2, platformY, platformY + 2, originZ + 2, originZ + platformWidth - 2, wallMaterial);

@@ -39,7 +39,7 @@ public class StorageDoubleRowRoom extends StorageSingleRowRoom {
 		for (int offset = 0; offset < width; offset += 2) {
 			drawNSEmptyShelve(chunk, x + offset, y, z, 1, depth);
 			for (int run = 0; run < depth; run++)
-				chunk.setBlocks(x + offset, y + 1, y + 1 + Math.max(minheight, odds.getRandomInt(height - 1)), z + run, materialType, materialData);
+				chunk.setBlocks(x + offset, y + 1, y + 1 + Math.max(minheight, odds.getRandomInt(height - 1)), z + run, materialType);
 		}
 	}
 	
@@ -48,7 +48,7 @@ public class StorageDoubleRowRoom extends StorageSingleRowRoom {
 		for (int offset = 0; offset < depth; offset += 2) {
 			drawWEEmptyShelve(chunk, x, y, z + offset, 1, width);
 			for (int run = 0; run < depth; run++)
-				chunk.setBlocks(x + run, y + 1, y + 1 + Math.max(minheight, odds.getRandomInt(height - 1)), z + offset, materialType, materialData);
+				chunk.setBlocks(x + run, y + 1, y + 1 + Math.max(minheight, odds.getRandomInt(height - 1)), z + offset, materialType);
 		}
 	}
 

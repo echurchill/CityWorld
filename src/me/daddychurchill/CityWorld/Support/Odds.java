@@ -2,7 +2,8 @@ package me.daddychurchill.CityWorld.Support;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.Support.RealChunk.Color;
+import org.bukkit.DyeColor;
+import org.bukkit.block.BlockFace;
 
 public class Odds {
 
@@ -21,14 +22,6 @@ public class Odds {
 		return random.nextBoolean();
 	}
 	
-//	public int getAltitude(int min, int range) {
-//		return random.nextInt(range) + min;
-//	}
-	
-//	public int getInt(int min, int range) {
-//		return random.nextInt(range) + min;
-//	}
-	
 	public double getRandomDouble() {
 		return random.nextDouble();
 	}
@@ -45,56 +38,96 @@ public class Odds {
 		return min + random.nextInt(range);
 	}
 	
+	@Deprecated
 	public int getRandomByte() {
 		return (byte) random.nextInt();
 	}
 	
+	@Deprecated
 	public byte getRandomByte(byte range) {
 		return (byte) random.nextInt(range);
 	}
 	
+	@Deprecated
 	public byte getRandomByte(byte min, byte range) {
 		return (byte) (min + random.nextInt(range));
 	}
 	
-	public Color getRandomColor() {
-		return Color.fromByte(getRandomByte((byte)16));
+	private DyeColor getRandomColor(int start, int count) {
+		switch (getRandomInt(start, count)) {
+		case 0:
+			return DyeColor.CYAN;
+		case 1:
+			return DyeColor.LIGHT_BLUE;
+		case 2:
+			return DyeColor.LIME;
+		case 3:
+			return DyeColor.PINK;
+		case 4:
+			return DyeColor.SILVER;
+		case 5:
+			return DyeColor.WHITE;
+		case 6:
+			return DyeColor.YELLOW;
+		case 7:
+			return DyeColor.BLACK;
+		case 8:
+			return DyeColor.BLUE;
+		case 9:
+			return DyeColor.BROWN;
+		case 10:
+			return DyeColor.GRAY;
+		case 11:
+			return DyeColor.GREEN;
+		case 12:
+			return DyeColor.MAGENTA;
+		case 13:
+			return DyeColor.ORANGE;
+		case 14:
+			return DyeColor.PURPLE;
+		default:
+			return DyeColor.RED;
+		}
 	}
 	
-	public Color getRandomLightColor() {
-		return Color.fromByte(getRandomByte((byte)7));
+	public DyeColor getRandomColor() {
+		return getRandomColor(0, 16);
 	}
 	
-	public Color getRandomDarkColor() {
-		return Color.fromByte(getRandomByte((byte)7, (byte)9));
+	public DyeColor getRandomLightColor() {
+		return getRandomColor(0, 7);
 	}
 	
-	public byte getRandomCauldronLevel() {
-		return getRandomByte((byte)4);
+	public DyeColor getRandomDarkColor() {
+		return getRandomColor(7, 9);
 	}
 	
-	public byte getRandomWoodType() {
-		return getRandomByte((byte)4);
+	public int getCauldronLevel() {
+		return getRandomInt(BlackMagic.maxCauldronLevel + 1);
 	}
 	
-	public byte getRandomNetherWartGrowth() {
-		return getRandomByte((byte)4);
+	public int getRandomWoodType() {
+		return getRandomInt(4);
+	}
+	
+	public int getRandomNetherWartGrowth() {
+		return getRandomInt(4);
 	}
 	
 	public long getRandomLong() {
 		return random.nextLong();
 	}
 	
-	public Direction.Facing getFacing() {
+	public BlockFace getRandomFacing() {
 		switch (random.nextInt(4)) {
 		case 0:
-			return Direction.Facing.SOUTH;
+			return BlockFace.SOUTH;
 		case 1:
-			return Direction.Facing.WEST;
+			return BlockFace.WEST;
 		case 2:
-			return Direction.Facing.NORTH;
+			return BlockFace.NORTH;
 		default:
-			return Direction.Facing.EAST;
+			return BlockFace.EAST;
 		}
 	}
 }

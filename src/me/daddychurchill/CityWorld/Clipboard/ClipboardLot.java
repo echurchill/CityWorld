@@ -4,18 +4,18 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.IsolatedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Support.AbstractChunk;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
-import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
-
+import org.bukkit.block.BlockFace;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class ClipboardLot extends IsolatedLot {
 
 	private Clipboard clip;
-	private Direction.Facing facing;
+	private BlockFace facing;
 	private int lotX, lotZ;
 	private int depth;
 	
@@ -23,7 +23,7 @@ public class ClipboardLot extends IsolatedLot {
 	private int edgeX1, edgeX2, edgeY1, edgeY2, edgeY3, edgeZ1, edgeZ2;
 	
 	public ClipboardLot(PlatMap platmap, int chunkX, int chunkZ, 
-			Clipboard clip, Direction.Facing facing, 
+			Clipboard clip, BlockFace facing, 
 			int lotX, int lotZ) {
 		super(platmap, chunkX, chunkZ);
 		
@@ -42,41 +42,41 @@ public class ClipboardLot extends IsolatedLot {
 		// north side
 		if (clip.chunkZ == 1) {
 			edgeZ1 = clip.insetNorth;
-			edgeZ2 = SupportChunk.chunksBlockWidth - clip.insetSouth;
+			edgeZ2 = AbstractChunk.chunksBlockWidth - clip.insetSouth;
 
 		} else if (lotZ == 0) {
 			edgeZ1 = clip.insetNorth;
-			edgeZ2 = SupportChunk.chunksBlockWidth;
+			edgeZ2 = AbstractChunk.chunksBlockWidth;
 			
 		// south side
 		} else if (lotZ == clip.chunkZ - 1) {
 			edgeZ1 = 0;
-			edgeZ2 = SupportChunk.chunksBlockWidth - clip.insetSouth;
+			edgeZ2 = AbstractChunk.chunksBlockWidth - clip.insetSouth;
 			
 		// one of the middle bits
 		} else {
 			edgeZ1 = 0;
-			edgeZ2 = SupportChunk.chunksBlockWidth;
+			edgeZ2 = AbstractChunk.chunksBlockWidth;
 		}
 
 		// west side
 		if (clip.chunkX == 1) {
 			edgeX1 = clip.insetWest;
-			edgeX2 = SupportChunk.chunksBlockWidth - clip.insetEast;
+			edgeX2 = AbstractChunk.chunksBlockWidth - clip.insetEast;
 
 		} else if (lotX == 0) {
 			edgeX1 = clip.insetWest;
-			edgeX2 = SupportChunk.chunksBlockWidth;
+			edgeX2 = AbstractChunk.chunksBlockWidth;
 			
 		// east side
 		} else if (lotX == clip.chunkX - 1) {
 			edgeX1 = 0;
-			edgeX2 = SupportChunk.chunksBlockWidth - clip.insetEast;
+			edgeX2 = AbstractChunk.chunksBlockWidth - clip.insetEast;
 			
 		// one of the middle bits
 		} else {
 			edgeX1 = 0;
-			edgeX2 = SupportChunk.chunksBlockWidth;
+			edgeX2 = AbstractChunk.chunksBlockWidth;
 		}
 	}
 
@@ -117,10 +117,11 @@ public class ClipboardLot extends IsolatedLot {
 		if (clip.groundLevelY > 0) {
 
 			// backfill a bit
-			chunk.setBlocks(0, edgeX1, depth, edgeY2, 0, 16, generator.oreProvider.stratumMaterial);
-			chunk.setBlocks(edgeX2, 16, depth, edgeY2, 0, 16, generator.oreProvider.stratumMaterial);
-			chunk.setBlocks(edgeX1, edgeX2, depth, edgeY2, 0, edgeZ1, generator.oreProvider.stratumMaterial);
-			chunk.setBlocks(edgeX1, edgeX2, depth, edgeY2, edgeZ2, 16, generator.oreProvider.stratumMaterial);
+			byte backfillId = BlackMagic.getMaterialId(generator.oreProvider.stratumMaterial);
+			chunk.setBlocks(0, edgeX1, depth, edgeY2, 0, 16, backfillId);
+			chunk.setBlocks(edgeX2, 16, depth, edgeY2, 0, 16, backfillId);
+			chunk.setBlocks(edgeX1, edgeX2, depth, edgeY2, 0, edgeZ1, backfillId);
+			chunk.setBlocks(edgeX1, edgeX2, depth, edgeY2, edgeZ2, 16, backfillId);
 		}
 	}
 	
@@ -162,10 +163,10 @@ public class ClipboardLot extends IsolatedLot {
 		clip.paste(generator, chunk, facing, originX, depth, originZ, subX1, subX2, 0, clip.sizeY, subZ1, subZ2);
 
 		// draw the edges
-		chunk.setBlocks(0, edgeX1, edgeY2, 0, 16, clip.edgeType, clip.edgeData);
-		chunk.setBlocks(edgeX2, 16, edgeY2, 0, 16, clip.edgeType, clip.edgeData);
-		chunk.setBlocks(edgeX1, edgeX2, edgeY2, 0, edgeZ1, clip.edgeType, clip.edgeData);
-		chunk.setBlocks(edgeX1, edgeX2, edgeY2, edgeZ2, 16, clip.edgeType, clip.edgeData);
+		BlackMagic.setBlocks(chunk, 0, edgeX1, edgeY2, 0, 16, clip.edgeType, clip.edgeData);
+		BlackMagic.setBlocks(chunk, edgeX2, 16, edgeY2, 0, 16, clip.edgeType, clip.edgeData);
+		BlackMagic.setBlocks(chunk, edgeX1, edgeX2, edgeY2, 0, edgeZ1, clip.edgeType, clip.edgeData);
+		BlackMagic.setBlocks(chunk, edgeX1, edgeX2, edgeY2, edgeZ2, 16, clip.edgeType, clip.edgeData);
 		
 		// mr. creeper says: that is a nice building you have there, too bad something bad has to happen to it
 		if (clip.decayable && generator.settings.includeDecayedBuildings)

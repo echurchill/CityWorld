@@ -1,12 +1,13 @@
 package me.daddychurchill.CityWorld.Clipboard;
 
+import org.bukkit.block.BlockFace;
+
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.Direction.Facing;
 
 public class ClipboardRoadLot extends ClipboardLot {
 
-	public ClipboardRoadLot(PlatMap platmap, int chunkX, int chunkZ, Clipboard clip, Facing facing, int lotX, int lotZ) {
+	public ClipboardRoadLot(PlatMap platmap, int chunkX, int chunkZ, Clipboard clip, BlockFace facing, int lotX, int lotZ) {
 		super(platmap, chunkX, chunkZ, clip, facing, lotX, lotZ);
 		
 		style = LotStyle.ROAD;

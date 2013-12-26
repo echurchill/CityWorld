@@ -8,6 +8,7 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.OreProvider.OreLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
+import me.daddychurchill.CityWorld.Support.AbstractChunk;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Direction;
@@ -107,7 +108,7 @@ public abstract class PlatLot {
 		chunkOdds = platmap.getChunkOddsGenerator(chunkX, chunkZ);
 	}
 	
-	protected void initializeContext(WorldGenerator generator, SupportChunk chunk) {
+	protected void initializeContext(WorldGenerator generator, AbstractChunk chunk) {
 		if (blockYs == null) {
 			blockYs = new CachedYs(generator, chunk);
 		
@@ -244,9 +245,9 @@ public abstract class PlatLot {
 			generateMineShaftSpace(generator, chunk, 6, 10, y1, y1 + 4, 6, 10);
 	}
 	
-	private final static Material shaftBridgeId = Material.WOOD; 
-	private final static Material shaftSupportId = Material.FENCE;
-	private final static Material shaftBeamId = Material.WOOD;
+	private final static byte shaftBridgeId = ByteChunk.WOOD; 
+	private final static byte shaftSupportId = ByteChunk.FENCE;
+	private final static byte shaftBeamId = ByteChunk.WOOD;
 
 	private void generateMineShaftSpace(WorldGenerator generator, ByteChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2) {
 		chunk.setEmptyBlocks(x1, x2, y1, z1, z2, shaftBridgeId);
@@ -532,13 +533,6 @@ public abstract class PlatLot {
 		generator.surfaceProvider.generateSurface(generator, this, chunk, blockYs, includeTrees);
 	}
 	
-//	protected byte getAirId(WorldGenerator generator, int y) {
-//		if (getTopY(generator) <= y)
-//			return BlackMagic.airId;
-//		else
-//			return generator.shapeProvider.findAtmosphereIdAt(generator, y);
-//	}
-//
 	protected Material getAirMaterial(WorldGenerator generator, int y) {
 		if (getTopY(generator) <= y)
 			return Material.AIR;

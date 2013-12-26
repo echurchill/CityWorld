@@ -1,18 +1,20 @@
 package me.daddychurchill.CityWorld.Plats;
 
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
+import me.daddychurchill.CityWorld.Support.AbstractChunk;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingRoads;
 import me.daddychurchill.CityWorld.Support.Surroundings;
 
@@ -77,7 +79,7 @@ public class RoadLot extends ConnectedLot {
 	private int topOfRoad;
 	
 	@Override
-	protected void initializeContext(WorldGenerator generator, SupportChunk chunk) {
+	protected void initializeContext(WorldGenerator generator, AbstractChunk chunk) {
 		super.initializeContext(generator, chunk);
 		
 		bottomOfRoad = generator.streetLevel - 1;
@@ -853,7 +855,7 @@ public class RoadLot extends ConnectedLot {
 				calculateCrosswalks(roads);
 				
 				// center bit
-				chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, pavementMat, pavementColor, false);
+				BlackMagic.setBlocks(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, pavementMat, pavementColor);
 			
 				// finally draw the crosswalks
 				generateNSCrosswalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth, crosswalkNorth);
@@ -902,11 +904,11 @@ public class RoadLot extends ConnectedLot {
 				
 				// tunnel to the east/west
 				if (roads.toWest() && roads.toEast()) {
-					chunk.setBlock(3, sidewalkLevel + 7, 8, context.lightMat, true);
-					chunk.setBlock(12, sidewalkLevel + 7, 7, context.lightMat, true);
+					chunk.setBlock(3, sidewalkLevel + 7, 8, context.lightMat);
+					chunk.setBlock(12, sidewalkLevel + 7, 7, context.lightMat);
 				} else if (roads.toNorth() && roads.toSouth()) {
-					chunk.setBlock(8, sidewalkLevel + 7, 3, context.lightMat, true);
-					chunk.setBlock(7, sidewalkLevel + 7, 12, context.lightMat, true);
+					chunk.setBlock(8, sidewalkLevel + 7, 3, context.lightMat);
+					chunk.setBlock(7, sidewalkLevel + 7, 12, context.lightMat);
 				}
 				
 				// add nature on top
@@ -974,7 +976,7 @@ public class RoadLot extends ConnectedLot {
 				vaultNorthWest = true;
 				
 				// place the manhole
-				chunk.setTrapDoor(3, sidewalkLevel, 2, Direction.TrapDoor.WEST);
+				chunk.setTrapDoor(3, sidewalkLevel, 2, BlockFace.WEST);
 				
 				// ladder
 				chunk.setLadder(3, sewerY, sidewalkLevel, 2, Direction.General.WEST);
@@ -1036,7 +1038,7 @@ public class RoadLot extends ConnectedLot {
 				chunk.setStoneSlab(8, sewerY, 4, Direction.StoneSlab.COBBLESTONEFLIP);
 			} else if (!placedPlank && roads.toNorth() && chunkOdds.flipCoin()) {
 				placedPlank = true;
-				chunk.setBlocks(6, 10, sewerY, 5, 6, sewerPlankMaterial, sewerPlankData); 
+				BlackMagic.setBlocks(chunk, 6, 10, sewerY, 5, 6, sewerPlankMaterial, sewerPlankData); 
 			}
 			if (centerSouth) {
 				generateDoor(chunk, 5, sewerY, 11, Direction.Door.SOUTHBYSOUTHWEST);
@@ -1044,7 +1046,7 @@ public class RoadLot extends ConnectedLot {
 				chunk.setStoneSlab(8, sewerY, 11, Direction.StoneSlab.COBBLESTONEFLIP);
 			} else if (!placedPlank && roads.toSouth() && chunkOdds.flipCoin()) {
 				placedPlank = true;
-				chunk.setBlocks(6, 10, sewerY, 10, 11, sewerPlankMaterial, sewerPlankData);
+				BlackMagic.setBlocks(chunk, 6, 10, sewerY, 10, 11, sewerPlankMaterial, sewerPlankData);
 			} 
 			if (centerWest) {
 				generateDoor(chunk, 4, sewerY, 5, Direction.Door.WESTBYNORTHWEST);
@@ -1052,7 +1054,7 @@ public class RoadLot extends ConnectedLot {
 				chunk.setStoneSlab(4, sewerY, 8, Direction.StoneSlab.COBBLESTONEFLIP);
 			} else if (!placedPlank && roads.toWest() && chunkOdds.flipCoin()) {
 				placedPlank = true;
-				chunk.setBlocks(5, 6, sewerY, 6, 10, sewerPlankMaterial, sewerPlankData);
+				BlackMagic.setBlocks(chunk, 5, 6, sewerY, 6, 10, sewerPlankMaterial, sewerPlankData);
 			}
 			if (centerEast) { 
 				generateDoor(chunk, 11, sewerY, 10, Direction.Door.EASTBYSOUTHEAST);
@@ -1060,7 +1062,7 @@ public class RoadLot extends ConnectedLot {
 				chunk.setStoneSlab(11, sewerY, 8, Direction.StoneSlab.COBBLESTONEFLIP);
 			} else if (!placedPlank && roads.toEast() && chunkOdds.flipCoin()) {
 				placedPlank = true;
-				chunk.setBlocks(10, 11, sewerY, 6, 10, sewerPlankMaterial, sewerPlankData);
+				BlackMagic.setBlocks(chunk, 10, 11, sewerY, 6, 10, sewerPlankMaterial, sewerPlankData);
 			}
 			
 			// populate the vaults
@@ -1141,22 +1143,22 @@ public class RoadLot extends ConnectedLot {
 	}
 	
 	protected void generateNSCrosswalk(RealChunk chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
-		chunk.setBlocks(x1, x2, y, z1, z2, pavementMat, pavementColor, false);
+		BlackMagic.setBlocks(chunk, x1, x2, y, z1, z2, pavementMat, pavementColor);
 		if (cityRoad && crosswalk) {
-			chunk.setBlocks(x1 + 1, x1 + 2, y, z1, z2, pavementMat, crosswalkColor, false);
-			chunk.setBlocks(x1 + 3, x1 + 4, y, z1, z2, pavementMat, crosswalkColor, false);
-			chunk.setBlocks(x2 - 2, x2 - 1, y, z1, z2, pavementMat, crosswalkColor, false);
-			chunk.setBlocks(x2 - 4, x2 - 3, y, z1, z2, pavementMat, crosswalkColor, false);
+			BlackMagic.setBlocks(chunk, x1 + 1, x1 + 2, y, z1, z2, pavementMat, crosswalkColor);
+			BlackMagic.setBlocks(chunk, x1 + 3, x1 + 4, y, z1, z2, pavementMat, crosswalkColor);
+			BlackMagic.setBlocks(chunk, x2 - 2, x2 - 1, y, z1, z2, pavementMat, crosswalkColor);
+			BlackMagic.setBlocks(chunk, x2 - 4, x2 - 3, y, z1, z2, pavementMat, crosswalkColor);
 		}
 	}
 
 	protected void generateWECrosswalk(RealChunk chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
-		chunk.setBlocks(x1, x2, y, z1, z2, pavementMat, pavementColor, false);
+		BlackMagic.setBlocks(chunk, x1, x2, y, z1, z2, pavementMat, pavementColor);
 		if (cityRoad && crosswalk) {
-			chunk.setBlocks(x1, x2, y, z1 + 1, z1 + 2, pavementMat, crosswalkColor, false);
-			chunk.setBlocks(x1, x2, y, z1 + 3, z1 + 4, pavementMat, crosswalkColor, false);
-			chunk.setBlocks(x1, x2, y, z2 - 2, z2 - 1, pavementMat, crosswalkColor, false);
-			chunk.setBlocks(x1, x2, y, z2 - 4, z2 - 3, pavementMat, crosswalkColor, false);
+			BlackMagic.setBlocks(chunk, x1, x2, y, z1 + 1, z1 + 2, pavementMat, crosswalkColor);
+			BlackMagic.setBlocks(chunk, x1, x2, y, z1 + 3, z1 + 4, pavementMat, crosswalkColor);
+			BlackMagic.setBlocks(chunk, x1, x2, y, z2 - 2, z2 - 1, pavementMat, crosswalkColor);
+			BlackMagic.setBlocks(chunk, x1, x2, y, z2 - 4, z2 - 3, pavementMat, crosswalkColor);
 		}
 	}
 	
@@ -1168,7 +1170,7 @@ public class RoadLot extends ConnectedLot {
 			if (chunkOdds.flipCoin())
 				chunk.setBlock(x, y, z, Material.COBBLESTONE);
 			else
-				chunk.setBlock(x, y, z, Material.STEP, (byte) 3);
+				BlackMagic.setBlock(chunk, x, y, z, Material.STEP, 3);
 			amount--;
 		}
 	}
@@ -1181,7 +1183,7 @@ public class RoadLot extends ConnectedLot {
 			if (chunkOdds.flipCoin())
 				chunk.setBlock(x, y, z, getAirMaterial(generator, y));
 			else
-				chunk.setBlock(x, y, z, Material.STEP, (byte) 3);
+				BlackMagic.setBlock(chunk, x, y, z, Material.STEP, 3);
 			amount--;
 		}
 	}
@@ -1215,13 +1217,13 @@ public class RoadLot extends ConnectedLot {
 			}
 			if (y > sidewalkLevel + lightpostHeight) {
 				if (chunkOdds.playOdds(0.75))
-					chunk.setBlock(x, y, z, context.lightMat, true);
+					chunk.setBlock(x, y, z, context.lightMat);
 				return true;
 			}
 			return false;
 		} else {
 			chunk.setBlocks(x, sidewalkLevel + 1, sidewalkLevel + lightpostHeight + 1, z, lightpostMaterial);
-			chunk.setBlock(x, sidewalkLevel + lightpostHeight + 1, z, context.lightMat, true);
+			chunk.setBlock(x, sidewalkLevel + lightpostHeight + 1, z, context.lightMat);
 			return true;
 		}
 	}
