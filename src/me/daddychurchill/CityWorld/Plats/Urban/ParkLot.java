@@ -6,7 +6,6 @@ import me.daddychurchill.CityWorld.Plats.ConnectedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.FoliageProvider.LigneousType;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
-import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -224,7 +223,7 @@ public class ParkLot extends ConnectedLot {
 				int lowestY = generator.streetLevel - cisternDepth + 1 + waterDepth;
 				chunk.setBlocks(4, 7, lowestY, lowestY + 1, 1, 2, ledgeMaterial);
 				chunk.setLadder(5, lowestY + 1, surfaceY, 1, Direction.General.SOUTH);
-				chunk.setTrapDoor(5, surfaceY, 1, TrapDoor.EAST);
+				chunk.setTrapDoor(5, surfaceY, 1, Direction.TrapDoor.EAST);
 			}
 		}
 		

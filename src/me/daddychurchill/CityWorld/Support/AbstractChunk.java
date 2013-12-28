@@ -46,9 +46,7 @@ public abstract class AbstractChunk {
 		return chunkZ * width;
 	}
 
-	public abstract void clearBlock(int x, int y, int z);
-	public abstract void clearBlocks(int x, int y1, int y2, int z);
-	public abstract void clearBlocks(int x1, int x2, int y1, int y2, int z1, int z2);
+	public abstract void setBlockIfAir(int x, int y, int z, Material material);
 	public abstract void setBlock(int x, int y, int z, Material material);
 	public abstract void setBlocks(int x, int y1, int y2, int z, Material material);
 	public abstract void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material);
@@ -57,6 +55,14 @@ public abstract class AbstractChunk {
 	public abstract int setLayer(int blocky, Material material);
 	public abstract int setLayer(int blocky, int height, Material material);
 	public abstract int setLayer(int blocky, int height, int inset, Material material);
+	public abstract void setCircle(int cx, int cz, int r, int y, Material material);
+	public abstract void setCircle(int cx, int cz, int r, int y, Material material, boolean fill);
+	public abstract void setCircle(int cx, int cz, int r, int y1, int y2, Material material);
+	public abstract void setCircle(int cx, int cz, int r, int y1, int y2, Material material, boolean fill);
+	
+	public abstract void clearBlock(int x, int y, int z);
+	public abstract void clearBlocks(int x, int y1, int y2, int z);
+	public abstract void clearBlocks(int x1, int x2, int y1, int y2, int z1, int z2);
 	public abstract boolean setEmptyBlock(int x, int y, int z, Material material);
 	public abstract void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, Material material);
 	public abstract int findFirstEmpty(int x, int y, int z);

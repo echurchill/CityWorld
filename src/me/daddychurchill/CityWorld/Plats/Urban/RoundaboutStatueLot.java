@@ -9,6 +9,8 @@ import me.daddychurchill.CityWorld.Plugins.FoliageProvider.LigneousType;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
+
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
@@ -166,7 +168,7 @@ public class RoundaboutStatueLot extends IsolatedLot {
 			
 			// simple glass or colored blocks?
 			boolean crystalArt = chunkOdds.flipCoin();
-			byte solidColor = chunkOdds.getRandomColor().getData();
+			DyeColor solidColor = chunkOdds.getRandomColor();
 			boolean singleArt = chunkOdds.playOdds(DataContext.oddsUnlikely);
 			
 			// now the "art"
@@ -179,8 +181,7 @@ public class RoundaboutStatueLot extends IsolatedLot {
 							if (crystalArt)
 								chunk.setBlock(x, y, z, Material.GLASS);
 							else
-								chunk.setBlock(x, y, z, Material.WOOL, 
-											   singleArt ? solidColor : chunkOdds.getRandomColor().getData());
+								chunk.setWool(x, y, z, singleArt ? solidColor : chunkOdds.getRandomColor());
 			
 			// now put the base in
 			chunk.setBlocks(7, 9, y1, y1 + 5, 7, 9, stoneMaterial);

@@ -1,18 +1,17 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Door;
 import me.daddychurchill.CityWorld.Support.Direction.Facing;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
-import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
-import me.daddychurchill.CityWorld.Support.RealChunk.Color;
 
 public class HouseProvider extends Provider {
 
@@ -48,7 +47,7 @@ public class HouseProvider extends Provider {
 		Material wallMat = pickShedWall(roofData);
 		
 		chunk.setWalls(x1, x2, y1, y2, z1, z2, wallMat);
-		chunk.setBlocks(x1 + 1, x2 - 1, y2, z1 + 1, z2 - 1, Material.STEP, roofData);
+		BlackMagic.setBlocks(chunk, x1 + 1, x2 - 1, y2, z1 + 1, z2 - 1, Material.STEP, roofData);
 		
 		switch (odds.getRandomInt(4)) {
 		case 0: // north
@@ -120,7 +119,7 @@ public class HouseProvider extends Provider {
 	public void generateCampground(WorldGenerator generator, RealChunk chunk, DataContext context, Odds odds, int baseY) {
 		
 		// what are we made of?
-		Color matColor = odds.getRandomColor();
+		DyeColor matColor = odds.getRandomColor();
 		boolean matCamo = odds.playOdds(DataContext.oddsSomewhatUnlikely);
 		
 		// direction? 
@@ -200,35 +199,35 @@ public class HouseProvider extends Provider {
 		chunk.setBlock(11, baseY, 11, matFire);
 		
 		// and the logs
-		byte logType = odds.getRandomWoodType();
-		chunk.setBlock(11, baseY, 8, matLog, (byte)(logType + logWestEast));
-		chunk.setBlock(12, baseY, 8, matLog, (byte)(logType + logWestEast));
-		chunk.setBlock(8, baseY, 11, matLog, (byte)(logType + logNorthSouth));
-		chunk.setBlock(8, baseY, 12, matLog, (byte)(logType + logNorthSouth));
+		int logType = odds.getRandomWoodType();
+		BlackMagic.setBlock(chunk, 11, baseY, 8, matLog, logType + logWestEast);
+		BlackMagic.setBlock(chunk, 12, baseY, 8, matLog, logType + logWestEast);
+		BlackMagic.setBlock(chunk, 8, baseY, 11, matLog, logType + logNorthSouth);
+		BlackMagic.setBlock(chunk, 8, baseY, 12, matLog, logType + logNorthSouth);
 	}
 	
-	private byte logWestEast = 0x4;
-	private byte logNorthSouth = 0x8;
+	private int logWestEast = 0x4;
+	private int logNorthSouth = 0x8;
 	
-	private Color getTentColor(Odds odds, Color baseColor, boolean camoMode) {
+	private DyeColor getTentColor(Odds odds, DyeColor baseColor, boolean camoMode) {
 		if (camoMode) {
-			if (baseColor == Color.PINK) {
+			if (baseColor == DyeColor.PINK) {
 				switch (odds.getRandomInt(3)) {
 				case 1:
-					return Color.PINK;
+					return DyeColor.PINK;
 				case 2:
-					return Color.LIGHTGRAY;
+					return DyeColor.SILVER;
 				default:
-					return Color.RED;
+					return DyeColor.RED;
 				}
 			} else {
 				switch (odds.getRandomInt(3)) {
 				case 1:
-					return Color.BROWN;
+					return DyeColor.BROWN;
 				case 2:
-					return Color.GRAY;
+					return DyeColor.GRAY;
 				default:
-					return Color.GREEN;
+					return DyeColor.GREEN;
 				}
 			}
 		} else
@@ -456,8 +455,7 @@ public class HouseProvider extends Provider {
 				for (int x = 1; x < chunk.width - 1; x++) {
 					for (int z = 1; z < chunk.width - 1; z++) {
 						int yAt = y + roofY;
-						if (chunk.getBlock(x - 1, yAt, z) != materialAir && chunk.getBlock(x + 1, yAt, z) != materialAir &&
-							chunk.getBlock(x, yAt, z - 1) != materialAir && chunk.getBlock(x, yAt, z + 1) != materialAir) {
+						if (!chunk.isSurroundedByEmpty(x, yAt, z)) {
 							chunk.setBlock(x, yAt + 1, z, matRoof);
 						}
 					}
@@ -469,7 +467,7 @@ public class HouseProvider extends Provider {
 				for (int x = 1; x < chunk.width - 1; x++) {
 					for (int z = 1; z < chunk.width - 1; z++) {
 						int yAt = y + roofY;
-						if (chunk.getBlock(x, yAt + 1, z) != materialAir) {
+						if (!chunk.isEmpty(x, yAt + 1, z)) {
 							chunk.setBlock(x, yAt, z, materialAir);
 						}
 					}
@@ -951,21 +949,21 @@ public class HouseProvider extends Provider {
 					if (roomEast) {
 						if (roomSouth) {
 							chunk.setLadder(x1 + 1, y1, y1 + 3, z1 + 1, Direction.General.SOUTH);
-							chunk.setTrapDoor(x1 + 1, y2, z1 + 1, TrapDoor.SOUTH);
+							chunk.setTrapDoor(x1 + 1, y2, z1 + 1, Direction.TrapDoor.SOUTH);
 							
 						} else {
 							chunk.setLadder(x1 + 1, y1, y1 + 3, z2 - 1, Direction.General.EAST);
-							chunk.setTrapDoor(x1 + 1, y2, z2 - 1, TrapDoor.EAST);
+							chunk.setTrapDoor(x1 + 1, y2, z2 - 1, Direction.TrapDoor.EAST);
 
 						}
 					} else {
 						if (roomSouth) {
 							chunk.setLadder(x2 - 1, y1, y1 + 3, z1 + 1, Direction.General.WEST);
-							chunk.setTrapDoor(x2 - 1, y2, z1 + 1, TrapDoor.WEST);
+							chunk.setTrapDoor(x2 - 1, y2, z1 + 1, Direction.TrapDoor.WEST);
 	
 						} else {
 							chunk.setLadder(x2 - 1, y1, y1 + 3, z2 - 1, Direction.General.NORTH);
-							chunk.setTrapDoor(x2 - 1, y2, z2 - 1, TrapDoor.NORTH);
+							chunk.setTrapDoor(x2 - 1, y2, z2 - 1, Direction.TrapDoor.NORTH);
 						
 						}
 					}

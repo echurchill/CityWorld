@@ -38,6 +38,12 @@ public abstract class SupportChunk extends AbstractChunk {
 		doPhysics = dophysics;
 	}
 
+	public void setBlockIfAir(int x, int y, int z, Material material) {
+		Block block = getActualBlock(x, y, z);
+		if (block.isEmpty() && !getActualBlock(x, y - 1, z).isEmpty())
+			block.setType(material);
+	}
+	
 	protected final void setBlock(Block block, Material material, MaterialData data) {
 		BlockState state = block.getState();
 		state.setType(material);
@@ -71,14 +77,6 @@ public abstract class SupportChunk extends AbstractChunk {
 	
 	public final boolean isEmpty(int x, int y, int z) {
 		return getActualBlock(x, y, z).isEmpty();
-	}
-	
-	public final boolean isSurroundedByEmpty(int x, int y, int z) {
-		return (x > 0 && x < 15 && z > 0 && z < 15) && 
-			   (getActualBlock(x - 1, y, z).isEmpty() && 
-				getActualBlock(x + 1, y, z).isEmpty() &&
-				getActualBlock(x, y, z - 1).isEmpty() && 
-				getActualBlock(x, y, z + 1).isEmpty());
 	}
 	
 	public final boolean isPlantable(int x, int y, int z) {
@@ -268,8 +266,16 @@ public abstract class SupportChunk extends AbstractChunk {
 		}
 	}
 	
+	public final void setCircle(int cx, int cz, int r, int y, Material material) {
+		setCircle(cx, cz, r, y, y + 1, material, false);
+	}
+	
 	public final void setCircle(int cx, int cz, int r, int y, Material material, boolean fill) {
 		setCircle(cx, cz, r, y, y + 1, material, fill);
+	}
+	
+	public final void setCircle(int cx, int cz, int r, int y1, int y2, Material material) {
+		setCircle(cx, cz, r, y1, y2, material, false);
 	}
 	
 	public final void setCircle(int cx, int cz, int r, int y1, int y2, Material material, boolean fill) {
@@ -296,6 +302,74 @@ public abstract class SupportChunk extends AbstractChunk {
 		}
 	}
 	
+	private void drawCircleBlocks(int cx, int cz, int x, int z, int y, Material material, DyeColor color) {
+		// Ref: Notes/BCircle.PDF
+		setBlockTypeAndColor(cx + x, y, cz + z, material, color); // point in octant 1
+		setBlockTypeAndColor(cx + z, y, cz + x, material, color); // point in octant 2
+		setBlockTypeAndColor(cx - z - 1, y, cz + x, material, color); // point in octant 3
+		setBlockTypeAndColor(cx - x - 1, y, cz + z, material, color); // point in octant 4
+		setBlockTypeAndColor(cx - x - 1, y, cz - z - 1, material, color); // point in octant 5
+		setBlockTypeAndColor(cx - z - 1, y, cz - x - 1, material, color); // point in octant 6
+		setBlockTypeAndColor(cx + z, y, cz - x - 1, material, color); // point in octant 7
+		setBlockTypeAndColor(cx + x, y, cz - z - 1, material, color); // point in octant 8
+	}
+	
+	private void drawCircleBlocks(int cx, int cz, int x, int z, int y1, int y2, Material material, DyeColor color) {
+		for (int y = y1; y < y2; y++) {
+			drawCircleBlocks(cx, cz, x, z, y, material, color);
+		}
+	}
+	
+	private void fillCircleBlocks(int cx, int cz, int x, int z, int y, Material material, DyeColor color) {
+		// Ref: Notes/BCircle.PDF
+		setBlocksTypeAndColor(cx - x - 1, cx - x, y, cz - z - 1, cz + z + 1, material, color); // point in octant 5
+		setBlocksTypeAndColor(cx - z - 1, cx - z, y, cz - x - 1, cz + x + 1, material, color); // point in octant 6
+		setBlocksTypeAndColor(cx + z, cx + z + 1, y, cz - x - 1, cz + x + 1, material, color); // point in octant 7
+		setBlocksTypeAndColor(cx + x, cx + x + 1, y, cz - z - 1, cz + z + 1, material, color); // point in octant 8
+	}
+	
+	private void fillCircleBlocks(int cx, int cz, int x, int z, int y1, int y2, Material material, DyeColor color) {
+		for (int y = y1; y < y2; y++) {
+			fillCircleBlocks(cx, cz, x, z, y, material, color);
+		}
+	}
+	
+	public final void setCircle(int cx, int cz, int r, int y, Material material, DyeColor color) {
+		setCircle(cx, cz, r, y, y + 1, material, color, false);
+	}
+	
+	public final void setCircle(int cx, int cz, int r, int y, Material material, DyeColor color, boolean fill) {
+		setCircle(cx, cz, r, y, y + 1, material, color, fill);
+	}
+	
+	public final void setCircle(int cx, int cz, int r, int y1, int y2, Material material, DyeColor color) {
+		setCircle(cx, cz, r, y1, y2, material, color, false);
+	}
+	
+	public final void setCircle(int cx, int cz, int r, int y1, int y2, Material material, DyeColor color, boolean fill) {
+		// Ref: Notes/BCircle.PDF
+		int x = r;
+		int z = 0;
+		int xChange = 1 - 2 * r;
+		int zChange = 1;
+		int rError = 0;
+		
+		while (x >= z) {
+			if (fill)
+				fillCircleBlocks(cx, cz, x, z, y1, y2, material, color);
+			else
+				drawCircleBlocks(cx, cz, x, z, y1, y2, material, color);
+			z++;
+			rError += zChange;
+			zChange += 2;
+			if (2 * rError + xChange > 0) {
+				x--;
+				rError += xChange;
+				xChange += 2;
+			}
+		}
+	}
+
 	protected final boolean isPartialHeight(Block block) {
 		return isType(block, Material.STEP, Material.WOOD_STEP, 
 							 Material.STONE_PLATE, Material.WOOD_PLATE);
@@ -312,6 +386,20 @@ public abstract class SupportChunk extends AbstractChunk {
 		if (data instanceof Colorable)
 			((Colorable)state.getData()).setColor(color);
 		state.update(false, doPhysics);
+	}
+	
+	private void setBlocksTypeAndColor(int x, int y1, int y2, int z, Material material, DyeColor color) {
+		for (int y = y1; y < y2; y++) {
+			setBlockTypeAndColor(x, y, z, material, color);
+		}
+	}
+	
+	private void setBlocksTypeAndColor(int x1, int x2, int y, int z1, int z2, Material material, DyeColor color) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				setBlockTypeAndColor(x, y, z, material, color);
+			}
+		}
 	}
 	
 	private void setBlocksTypeAndColor(int x1, int x2, int y1, int y2, int z1, int z2, Material material, DyeColor color) {
@@ -373,6 +461,14 @@ public abstract class SupportChunk extends AbstractChunk {
 
 	public final void setWool(int x, int y, int z, DyeColor color) {
 		setBlockTypeAndColor(x, y, z, Material.WOOL, color);
+	}
+	
+	public final void setWool(int x, int y1, int y2, int z, DyeColor color) {
+		setBlocksTypeAndColor(x, y1, y2, z, Material.WOOL, color);
+	}
+	
+	public final void setWool(int x1, int x2, int y, int z1, int z2, DyeColor color) {
+		setBlocksTypeAndColor(x1, x2, y, z1, z2, Material.WOOL, color);
 	}
 	
 	public final void setWool(int x1, int x2, int y1, int y2, int z1, int z2, DyeColor color) {
@@ -489,7 +585,7 @@ public abstract class SupportChunk extends AbstractChunk {
 		setDoor(x, y, z, Material.IRON_DOOR_BLOCK, direction);
 	}
 
-	public final void setTrapDoor(int x, int y, int z, BlockFace facing) {
+	public final void setTrapDoor(int x, int y, int z, Direction.TrapDoor direction) {
 //		setBlock(x, y, z, Material.TRAP_DOOR, direction.getData());
 	}
 

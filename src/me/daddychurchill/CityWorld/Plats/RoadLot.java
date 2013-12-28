@@ -1,7 +1,6 @@
 package me.daddychurchill.CityWorld.Plats;
 
 import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
@@ -976,7 +975,7 @@ public class RoadLot extends ConnectedLot {
 				vaultNorthWest = true;
 				
 				// place the manhole
-				chunk.setTrapDoor(3, sidewalkLevel, 2, BlockFace.WEST);
+				chunk.setTrapDoor(3, sidewalkLevel, 2, Direction.TrapDoor.WEST);
 				
 				// ladder
 				chunk.setLadder(3, sewerY, sidewalkLevel, 2, Direction.General.WEST);

@@ -28,6 +28,13 @@ public final class WorldBlocks extends SupportChunk {
 		return world.getBlockAt(x, y, z);
 	}
 	
+	public boolean isSurroundedByEmpty(int x, int y, int z) {
+		return getActualBlock(x - 1, y, z).isEmpty() && 
+			   getActualBlock(x + 1, y, z).isEmpty() &&
+			   getActualBlock(x, y, z - 1).isEmpty() && 
+			   getActualBlock(x, y, z + 1).isEmpty();
+	}
+	
 	public void destroyWithin(int x1, int x2, int y1, int y2, int z1, int z2) {
 		int count = Math.max(1, (y2 - y1) / DataContext.FloorHeight);
 		

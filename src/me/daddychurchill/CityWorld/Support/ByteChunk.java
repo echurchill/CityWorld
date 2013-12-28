@@ -109,6 +109,11 @@ public final class ByteChunk extends AbstractChunk {
 	}
 	
 	@Override
+	public void setBlockIfAir(int x, int y, int z, Material material) {
+		setBlockIfAir(x, y, z, BlackMagic.getMaterialId(material));
+	}
+	
+	@Override
 	public void clearBlock(int x, int y, int z) {
         if (blocks[y >> 4] != null) {
         	blocks[y >> 4][((y & 0xF) << 8) | (z << 4) | x] = AIR;
@@ -228,6 +233,14 @@ public final class ByteChunk extends AbstractChunk {
 		}
 	}
 	
+	public void setBlocks(int x, int y1, int y2, int z, Material primary, Material secondary, MaterialFactory maker) {
+		setBlocks(x, y1, y2, z, BlackMagic.getMaterialId(primary), BlackMagic.getMaterialId(secondary), maker);
+	}
+
+	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material primary, Material secondary, MaterialFactory maker) {
+		setBlocks(x1, x2, y1, y2, z1, z2, BlackMagic.getMaterialId(primary), BlackMagic.getMaterialId(secondary), maker);
+	}
+
 	public boolean setEmptyBlock(int x, int y, int z, byte typeId) {
 		if (getBlock(x, y, z) == AIR) {
 			setBlock(x, y, z, typeId);
@@ -358,6 +371,22 @@ public final class ByteChunk extends AbstractChunk {
 		setArcSouthEast(inset, y1, y2, primaryId, primaryId, null, fill);
 	}
 
+	public void setArcNorthWest(int inset, int y1, int y2, Material primary, boolean fill) {
+		setArcNorthWest(inset, y1, y2, BlackMagic.getMaterialId(primary), BlackMagic.getMaterialId(primary), null, fill);
+	}
+
+	public void setArcSouthWest(int inset, int y1, int y2, Material primary, boolean fill) {
+		setArcSouthWest(inset, y1, y2, BlackMagic.getMaterialId(primary), BlackMagic.getMaterialId(primary), null, fill);
+	}
+
+	public void setArcNorthEast(int inset, int y1, int y2, Material primary, boolean fill) {
+		setArcNorthEast(inset, y1, y2, BlackMagic.getMaterialId(primary), BlackMagic.getMaterialId(primary), null, fill);
+	}
+	
+	public void setArcSouthEast(int inset, int y1, int y2, Material primary, boolean fill) {
+		setArcSouthEast(inset, y1, y2, BlackMagic.getMaterialId(primary), BlackMagic.getMaterialId(primary), null, fill);
+	}
+
 	public void setArcNorthWest(int inset, int y1, int y2, byte primaryId, byte secondaryId, MaterialFactory maker) {
 		setArcNorthWest(inset, y1, y2, primaryId, secondaryId, maker, false);
 	}
@@ -372,6 +401,22 @@ public final class ByteChunk extends AbstractChunk {
 	
 	public void setArcSouthEast(int inset, int y1, int y2, byte primaryId, byte secondaryId, MaterialFactory maker) {
 		setArcSouthEast(inset, y1, y2, primaryId, secondaryId, maker, false);
+	}
+	
+	public void setArcNorthWest(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker) {
+		setArcNorthWest(inset, y1, y2, BlackMagic.getMaterialId(primary), BlackMagic.getMaterialId(secondary), maker, false);
+	}
+	
+	public void setArcSouthWest(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker) {
+		setArcSouthWest(inset, y1, y2, BlackMagic.getMaterialId(primary), BlackMagic.getMaterialId(secondary), maker, false);
+	}
+	
+	public void setArcNorthEast(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker) {
+		setArcNorthEast(inset, y1, y2, BlackMagic.getMaterialId(primary), BlackMagic.getMaterialId(secondary), maker, false);
+	}
+	
+	public void setArcSouthEast(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker) {
+		setArcSouthEast(inset, y1, y2, BlackMagic.getMaterialId(primary), BlackMagic.getMaterialId(secondary), maker, false);
 	}
 	
 	protected void setArcNorthWest(int inset, int y1, int y2, byte primaryId, byte secondaryId, MaterialFactory maker, boolean fill) {
@@ -576,6 +621,26 @@ public final class ByteChunk extends AbstractChunk {
 				xChange += 2;
 			}
 		}
+	}
+	
+	@Override
+	public void setCircle(int cx, int cz, int r, int y, Material material) {
+		setCircle(cx, cz, r, y, y + 1, BlackMagic.getMaterialId(material), false);
+	}
+	
+	@Override	
+	public void setCircle(int cx, int cz, int r, int y, Material material, boolean fill) {
+		setCircle(cx, cz, r, y, y + 1, BlackMagic.getMaterialId(material), fill);
+	}
+	
+	@Override
+	public void setCircle(int cx, int cz, int r, int y1, int y2, Material material) {
+		setCircle(cx, cz, r, y1, y2, BlackMagic.getMaterialId(material), false);
+	}
+	
+	@Override
+	public void setCircle(int cx, int cz, int r, int y1, int y2, Material material, boolean fill) {
+		setCircle(cx, cz, r, y1, y2, BlackMagic.getMaterialId(material), fill);
 	}
 	
 	public void setSphere(int cx, int cy, int cz, int r, byte typeId, boolean fill) {

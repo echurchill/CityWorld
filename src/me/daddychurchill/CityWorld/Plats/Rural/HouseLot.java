@@ -41,7 +41,7 @@ public class HouseLot extends IsolatedLot {
 		if (generator.settings.includeDecayedNature)
 			chunk.setLayer(generator.streetLevel, Material.SAND);
 		else
-			chunk.setLayer(generator.streetLevel, generator.oreProvider.surfaceId);
+			chunk.setLayer(generator.streetLevel, generator.oreProvider.surfaceMaterial);
 	}
 	
 	@Override

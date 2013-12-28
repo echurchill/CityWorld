@@ -9,10 +9,10 @@ import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
+import me.daddychurchill.CityWorld.Support.AbstractChunk;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -42,7 +42,7 @@ public class BunkerLot extends ConstructLot {
 	private int topOfBunker;
 	
 	@Override
-	protected void initializeContext(WorldGenerator generator, SupportChunk chunk) {
+	protected void initializeContext(WorldGenerator generator, AbstractChunk chunk) {
 		super.initializeContext(generator, chunk);
 		
 		bottomOfBunker = calcSegmentOrigin(generator.streetLevel) - bunkerBelowStreet;

@@ -80,7 +80,6 @@ public abstract class BlackMagic {
 		}
 	}
 	
-	
 //	public static final boolean setBlockType(Block block, Material material, boolean doPhysics) {
 ////		return block.setTypeId(getMaterialId(material), doPhysics);
 //		if (block == null) {

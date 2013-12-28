@@ -8,6 +8,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConnectedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -243,21 +244,21 @@ public class FarmLot extends ConnectedLot {
 		// do the deed
 		if (directionNorthSouth) {
 			for (int x = 1; x < 15; x += stepCol) {
-				chunk.setBlocks(x, x + 1, croplevel - 1, croplevel, 1, 15, matRidge, byteRidge, false);
+				BlackMagic.setBlocks(chunk, x, x + 1, croplevel - 1, croplevel, 1, 15, matRidge, byteRidge);
 				if (stepCol > 1)
-					chunk.setBlocks(x + 1, x + 2, croplevel - 1, croplevel, 1, 15, matFurrow, byteFurrow, false);
+					BlackMagic.setBlocks(chunk, x + 1, x + 2, croplevel - 1, croplevel, 1, 15, matFurrow, byteFurrow);
 				for (int z = 1; z < 15; z += stepRow)
 					if (chunkOdds.playOdds(oddsOfCrop))
-						chunk.setBlocks(x, croplevel, croplevel + 1 + odds.getRandomInt(maxHeight), z, matCrop, byteCrop, false);
+						BlackMagic.setBlocks(chunk, x, croplevel, croplevel + 1 + odds.getRandomInt(maxHeight), z, matCrop, byteCrop);
 			}
 		} else {
 			for (int z = 1; z < 15; z += stepCol) {
-				chunk.setBlocks(1, 15, croplevel - 1, croplevel, z, z + 1, matRidge, byteRidge, false);
+				BlackMagic.setBlocks(chunk, 1, 15, croplevel - 1, croplevel, z, z + 1, matRidge, byteRidge);
 				if (stepCol > 1)
-					chunk.setBlocks(1, 15, croplevel - 1, croplevel, z + 1, z + 2, matFurrow, byteFurrow, false);
+					BlackMagic.setBlocks(chunk, 1, 15, croplevel - 1, croplevel, z + 1, z + 2, matFurrow, byteFurrow);
 				for (int x = 1; x < 15; x += stepRow)
 					if (chunkOdds.playOdds(oddsOfCrop))
-						chunk.setBlocks(x, croplevel, croplevel + 1 + odds.getRandomInt(maxHeight), z, matCrop, byteCrop, false);
+						BlackMagic.setBlocks(chunk, x, croplevel, croplevel + 1 + odds.getRandomInt(maxHeight), z, matCrop, byteCrop);
 			}
 		}
 	}
@@ -272,8 +273,8 @@ public class FarmLot extends ConnectedLot {
 				if (matCrop != cropTrellis) {
 					if (chunkOdds.playOdds(oddsOfCrop)) {
 						for (int z = 2; z < 14; z++) {
-							chunk.setBlocks(x - 1, x, cropLevel + 1 + odds.getRandomInt(3), cropLevel + 4, z, z + 1, matCrop, (byte) 8);
-							chunk.setBlocks(x + 1, x + 2, cropLevel + 1 + odds.getRandomInt(3), cropLevel + 4, z, z + 1, matCrop, (byte) 2);
+							BlackMagic.setBlocks(chunk, x - 1, x, cropLevel + 1 + odds.getRandomInt(3), cropLevel + 4, z, z + 1, matCrop, (byte) 8);
+							BlackMagic.setBlocks(chunk, x + 1, x + 2, cropLevel + 1 + odds.getRandomInt(3), cropLevel + 4, z, z + 1, matCrop, (byte) 2);
 						}
 					}
 				}
@@ -286,8 +287,8 @@ public class FarmLot extends ConnectedLot {
 				if (matCrop != cropTrellis) {
 					if (chunkOdds.playOdds(oddsOfCrop)) {
 						for (int x = 2; x < 14; x++) {
-							chunk.setBlocks(x, x + 1, cropLevel + 1 + odds.getRandomInt(3), cropLevel + 4, z - 1, z, matCrop, (byte) 1);
-							chunk.setBlocks(x, x + 1, cropLevel + 1 + odds.getRandomInt(3), cropLevel + 4, z + 1, z + 2, matCrop, (byte) 4);
+							BlackMagic.setBlocks(chunk, x, x + 1, cropLevel + 1 + odds.getRandomInt(3), cropLevel + 4, z - 1, z, matCrop, (byte) 1);
+							BlackMagic.setBlocks(chunk, x, x + 1, cropLevel + 1 + odds.getRandomInt(3), cropLevel + 4, z + 1, z + 2, matCrop, (byte) 4);
 						}
 					}
 				}
