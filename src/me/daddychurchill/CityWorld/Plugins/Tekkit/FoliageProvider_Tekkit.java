@@ -2,13 +2,13 @@ package me.daddychurchill.CityWorld.Plugins.Tekkit;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Plugins.FoliageProvider_Normal;
+import me.daddychurchill.CityWorld.Plugins.CoverProvider_Normal;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import org.bukkit.BlockChangeDelegate;
 import org.bukkit.Material;
 
-public class FoliageProvider_Tekkit extends FoliageProvider_Normal {
+public class FoliageProvider_Tekkit extends CoverProvider_Normal {
 
 	public FoliageProvider_Tekkit(Odds odds) {
 		super(odds);
@@ -21,7 +21,7 @@ public class FoliageProvider_Tekkit extends FoliageProvider_Normal {
 		if (ligneousType == LigneousType.OAK && odds.playOdds(oddsOfRubberSapling)) {
 			//TODO what is a rubber tree made of? 
 			//return generateTree(chunk, random, x, y, z, treeType, trunkId, leavesId1, leavesId2);
-			if (likelyFlora(generator, odds)) {
+			if (likelyCover(generator, odds)) {
 				chunk.setBlock(x, y - 1, z, Material.GRASS);
 //NERF
 //				chunk.setBlock(x, y, z, TekkitMaterial.RUBBER_SAPLING, (byte) 0, true);

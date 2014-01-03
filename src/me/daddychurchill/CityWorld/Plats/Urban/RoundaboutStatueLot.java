@@ -4,8 +4,8 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.IsolatedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plugins.FoliageProvider.HerbaceousType;
-import me.daddychurchill.CityWorld.Plugins.FoliageProvider.LigneousType;
+import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
+import me.daddychurchill.CityWorld.Plugins.CoverProvider.LigneousType;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -145,14 +145,14 @@ public class RoundaboutStatueLot extends IsolatedLot {
 			for (int x = 4; x < 12; x++) {
 				for (int z = 4; z < 12; z++) {
 					if (chunkOdds.playOdds(0.40)) {
-						generator.foliageProvider.generateFlora(generator, chunk, x, y1, z, HerbaceousType.GRASS);
+						generator.coverProvider.generateCoverage(generator, chunk, x, y1, z, CoverageType.GRASS);
 					}
 				}
 			}
 			
 			// tree can be art too, you know!
 			if (chunkOdds.playOdds(context.oddsOfNaturalArt)) {
-				generator.foliageProvider.generateTree(generator, chunk, 7, y1, 7, LigneousType.TALL_OAK);
+				generator.coverProvider.generateTree(generator, chunk, 7, y1, 7, LigneousType.TALL_OAK);
 				somethingInTheCenter = false;
 			}
 			

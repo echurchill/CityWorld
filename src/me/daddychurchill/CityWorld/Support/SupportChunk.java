@@ -44,14 +44,14 @@ public abstract class SupportChunk extends AbstractChunk {
 			block.setType(material);
 	}
 	
-	protected final void setBlock(Block block, Material material, MaterialData data) {
+	public final void setBlock(Block block, Material material, MaterialData data) {
 		BlockState state = block.getState();
 		state.setType(material);
 		state.setData(data);
-		state.update(false, doPhysics);
+		state.update(true, doPhysics);
 	}
 	
-	protected final void setBlock(int x, int y, int z, Material material, MaterialData data) {
+	public final void setBlock(int x, int y, int z, Material material, MaterialData data) {
 		setBlock(getActualBlock(x, y, z), material, data);
 	}
 	
@@ -73,6 +73,11 @@ public abstract class SupportChunk extends AbstractChunk {
 	
 	public final boolean isOfTypes(int x, int y, int z, Material ... types) {
 		return isType(getActualBlock(x, y, z), types);
+	}
+	
+	public final void setBlockIfNot(int x, int y, int z, Material ... types) {
+		if (!isOfTypes(x, y, z, types))
+			setBlock(x, y, z, types[0]);
 	}
 	
 	public final boolean isEmpty(int x, int y, int z) {
@@ -385,7 +390,7 @@ public abstract class SupportChunk extends AbstractChunk {
 		MaterialData data = state.getData();
 		if (data instanceof Colorable)
 			((Colorable)state.getData()).setColor(color);
-		state.update(false, doPhysics);
+		state.update(true, doPhysics);
 	}
 	
 	private void setBlocksTypeAndColor(int x, int y1, int y2, int z, Material material, DyeColor color) {
@@ -418,7 +423,7 @@ public abstract class SupportChunk extends AbstractChunk {
 		MaterialData data = state.getData();
 		if (data instanceof Directional)
 			((Directional)state.getData()).setFacingDirection(facing);
-		state.update(false, doPhysics);
+		state.update(true, doPhysics);
 	}
 	
 	public void setBlocksTypeAndDirection(int x1, int x2, int y1, int y2, int z1, int z2, Material material, BlockFace facing) {
@@ -437,7 +442,7 @@ public abstract class SupportChunk extends AbstractChunk {
 		MaterialData data = state.getData();
 		if (data instanceof TexturedMaterial)
 			((TexturedMaterial)state.getData()).setMaterial(texture);
-		state.update(false, doPhysics);
+		state.update(true, doPhysics);
 	}
 	
 	private int clamp(int value, int max) {

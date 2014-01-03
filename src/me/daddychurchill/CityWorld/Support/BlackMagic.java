@@ -30,40 +30,39 @@ public abstract class BlackMagic {
 		block.setTypeId(typeId);
 	}
 	
-	public static final void setBlockType(Block block, int typeId, int data) {
+	public static final void setBlockType(Block block, int typeId, int rawdata) {
 		BlockState state = block.getState();
 		state.setTypeId(typeId);
-		if (data != 0)
-			state.setRawData((byte) data);
-		state.update(false, false); // no physics please
+		if (rawdata != 0)
+			state.setRawData((byte) (rawdata & 0xff));
+		state.update(true);
 	}
 	
-	public static final void setBlockType(Block block, Material material, int data) {
+	public static final void setBlockType(Block block, Material material, int rawdata) {
 		BlockState state = block.getState();
 		state.setType(material);
-		if (data != 0)
-			state.setRawData((byte) data);
-		state.update(false, false);
+		if (rawdata != 0)
+			state.setRawData((byte) (rawdata & 0xff));
+		state.update(true);
 	}
 	
-	public static final void setBlock(RealChunk chunk, int x, int y, int z, Material material, int data) {
+	public static final void setBlock(SupportChunk chunk, int x, int y, int z, Material material, int data) {
 		setBlockType(chunk.getActualBlock(x, y, z), material, data);
 	}
 	
-	public static final void setBlocks(RealChunk chunk, int x, int y1, int y2, int z, Material material, int data) {
-//		CityWorld.log.info(String.format("Material = %s", material));
+	public static final void setBlocks(SupportChunk chunk, int x, int y1, int y2, int z, Material material, int data) {
 		for (int y = y1; y < y2; y++) {
 			setBlockType(chunk.getActualBlock(x, y, z), material, data);
 		}
 	}
 	
-	public static final void setBlocks(RealChunk chunk, int x, int y1, int y2, int z, int typeId, int data) {
+	public static final void setBlocks(SupportChunk chunk, int x, int y1, int y2, int z, int typeId, int data) {
 		for (int y = y1; y < y2; y++) {
 			setBlockType(chunk.getActualBlock(x, y, z), typeId, data);
 		}
 	}
 	
-	public static final void setBlocks(RealChunk chunk, int x1, int x2, int y, int z1, int z2, Material material, int data) {
+	public static final void setBlocks(SupportChunk chunk, int x1, int x2, int y, int z1, int z2, Material material, int data) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				setBlockType(chunk.getActualBlock(x, y, z), material, data);
@@ -71,7 +70,7 @@ public abstract class BlackMagic {
 		}
 	}
 	
-	public static final void setBlocks(RealChunk chunk, int x1, int x2, int y, int z1, int z2, int typeId, int data) {
+	public static final void setBlocks(SupportChunk chunk, int x1, int x2, int y, int z1, int z2, int typeId, int data) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				setBlockType(chunk.getActualBlock(x, y, z), typeId, data);
@@ -79,7 +78,7 @@ public abstract class BlackMagic {
 		}
 	}
 	
-	public static final void setBlocks(RealChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2, Material material, int data) {
+	public static final void setBlocks(SupportChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2, Material material, int data) {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
@@ -89,7 +88,7 @@ public abstract class BlackMagic {
 		}
 	}
 	
-	public static final void setBlocks(RealChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2, int typeId, int data) {
+	public static final void setBlocks(SupportChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2, int typeId, int data) {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
@@ -98,6 +97,16 @@ public abstract class BlackMagic {
 			}
 		}
 	}
+
+	public static void setBlocks(SupportChunk chunk, int x, int y1, int y2, int z, Material primary, Material secondary, MaterialFactory maker) {
+//		setBlocks(x, y1, y2, z, BlackMagic.getMaterialId(primary), BlackMagic.getMaterialId(secondary), maker);
+	}
+
+	public static void setBlocks(SupportChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2, Material primary, Material secondary, MaterialFactory maker) {
+//		setBlocks(x1, x2, y1, y2, z1, z2, BlackMagic.getMaterialId(primary), BlackMagic.getMaterialId(secondary), maker);
+	}
+
+	
 	
 //	public static final boolean setBlockType(Block block, Material material, boolean doPhysics) {
 ////		return block.setTypeId(getMaterialId(material), doPhysics);

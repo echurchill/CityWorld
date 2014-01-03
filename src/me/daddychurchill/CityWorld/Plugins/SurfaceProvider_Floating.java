@@ -5,8 +5,8 @@ import org.bukkit.util.noise.NoiseGenerator;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plugins.FoliageProvider.HerbaceousType;
-import me.daddychurchill.CityWorld.Plugins.FoliageProvider.LigneousType;
+import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
+import me.daddychurchill.CityWorld.Plugins.CoverProvider.LigneousType;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -22,7 +22,7 @@ public class SurfaceProvider_Floating extends SurfaceProvider {
 	public void generateSurface(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs, boolean includeTrees) {
 		if (generator.settings.includeFloatingSubsurface) {
 			ShapeProvider shape = generator.shapeProvider;
-			FoliageProvider foliage = generator.foliageProvider;
+			CoverProvider foliage = generator.coverProvider;
 			for (int x = 0; x < chunk.width; x++) {
 				for (int z = 0; z < chunk.width; z++) {
 					generateSurfacePoint(generator, lot, chunk, foliage, x, shape.findGroundY(generator, chunk.getBlockX(x), chunk.getBlockZ(z)), z, includeTrees);
@@ -36,7 +36,7 @@ public class SurfaceProvider_Floating extends SurfaceProvider {
 	private final static double treeBirchOdds = DataContext.oddsPrettyUnlikely;
 	
 	@Override
-	public void generateSurfacePoint(WorldGenerator generator, PlatLot lot, RealChunk chunk, FoliageProvider foliage, int x, double perciseY, int z, boolean includeTrees) {
+	public void generateSurfacePoint(WorldGenerator generator, PlatLot lot, RealChunk chunk, CoverProvider foliage, int x, double perciseY, int z, boolean includeTrees) {
 		int y = NoiseGenerator.floor(perciseY);
 		
 		// roll the dice
@@ -60,17 +60,17 @@ public class SurfaceProvider_Floating extends SurfaceProvider {
 				
 				// what to pepper about
 				if (secondary < flowerRedOdds)
-					foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.FLOWER_RED);
+					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.POPPY);
 				else if (secondary < flowerYellowOdds)
-					foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.FLOWER_YELLOW);
+					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.DANDELION);
 				else 
-					foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.GRASS);
+					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.WHEAT);
 			}
 		}
 		
 		// snow?
 		if (y > ShapeProvider_Floating.snowPoint)
-			foliage.generateFlora(generator, chunk, x, y, z, HerbaceousType.COVER);
+			generator.oreProvider.dropSnow(generator, chunk, x, y + 5, z);
 	}
 
 }

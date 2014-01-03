@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plugins.Tekkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-import me.daddychurchill.CityWorld.Plugins.FoliageProvider;
+import me.daddychurchill.CityWorld.Plugins.CoverProvider;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
@@ -59,13 +59,13 @@ public class TreeCustomDelegate_Tekkit extends TreeVanillaDelegate_Tekkit {
 	@Override
 	public boolean setTypeIdAndData(int x, int y, int z, int id, int data) {
 		Block block = world.getBlockAt(x, y, z);
-		if (id == FoliageProvider.logId)
-			if (trunkId == FoliageProvider.logId)
-				BlackMagic.setBlockType(block, FoliageProvider.logId, data);
+		if (id == CoverProvider.logId)
+			if (trunkId == CoverProvider.logId)
+				BlackMagic.setBlockType(block, CoverProvider.logId, data);
 			else
 				BlackMagic.setBlockType(block, trunkId);
 		
-		else if (id == FoliageProvider.leavesId)
+		else if (id == CoverProvider.leavesId)
 			if (odds.flipCoin())
 				BlackMagic.setBlockType(block, leavesId1);
 			else

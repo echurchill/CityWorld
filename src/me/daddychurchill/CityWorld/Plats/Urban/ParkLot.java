@@ -4,7 +4,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConnectedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plugins.FoliageProvider.LigneousType;
+import me.daddychurchill.CityWorld.Plugins.CoverProvider.LigneousType;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
@@ -229,15 +229,15 @@ public class ParkLot extends ConnectedLot {
 		
 		// sprinkle some trees
 		if (circleSidewalk) {
-			generator.foliageProvider.generateTree(generator, chunk, 7, surfaceY, 7, LigneousType.TALL_OAK);
+			generator.coverProvider.generateTree(generator, chunk, 7, surfaceY, 7, LigneousType.TALL_OAK);
 		
 		// four smaller trees
 		} else {
 			LigneousType ligneousType = chunkOdds.flipCoin() ? LigneousType.BIRCH : LigneousType.OAK;
-			generator.foliageProvider.generateTree(generator, chunk, 3, surfaceY, 3, ligneousType);
-			generator.foliageProvider.generateTree(generator, chunk, 12, surfaceY, 3, ligneousType);
-			generator.foliageProvider.generateTree(generator, chunk, 3, surfaceY, 12, ligneousType);
-			generator.foliageProvider.generateTree(generator, chunk, 12, surfaceY, 12, ligneousType);
+			generator.coverProvider.generateTree(generator, chunk, 3, surfaceY, 3, ligneousType);
+			generator.coverProvider.generateTree(generator, chunk, 12, surfaceY, 3, ligneousType);
+			generator.coverProvider.generateTree(generator, chunk, 3, surfaceY, 12, ligneousType);
+			generator.coverProvider.generateTree(generator, chunk, 12, surfaceY, 12, ligneousType);
 		}
 	}
 }

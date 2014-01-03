@@ -5,8 +5,8 @@ import org.bukkit.util.noise.NoiseGenerator;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plugins.FoliageProvider.HerbaceousType;
-import me.daddychurchill.CityWorld.Plugins.FoliageProvider.LigneousType;
+import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
+import me.daddychurchill.CityWorld.Plugins.CoverProvider.LigneousType;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -18,7 +18,7 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 	}
 
 	@Override
-	public void generateSurfacePoint(WorldGenerator generator, PlatLot lot, RealChunk chunk, FoliageProvider foliage, 
+	public void generateSurfacePoint(WorldGenerator generator, PlatLot lot, RealChunk chunk, CoverProvider foliage, 
 			int x, double perciseY, int z, boolean includeTrees) {
 		OreProvider ores = generator.oreProvider;
 		int y = NoiseGenerator.floor(perciseY);
@@ -44,7 +44,7 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 					} else {
 						if (primary < cactusOdds && x % 2 == 0 && z % 2 != 0) {
 							if (chunk.isSurroundedByEmpty(x, y + 1, z))
-								foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.CACTUS);
+								foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.CACTUS);
 						}
 					}
 				}
@@ -66,11 +66,11 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 					
 					// what to pepper about
 					if (secondary < flowerRedOdds)
-						foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.FLOWER_RED);
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.POPPY);
 					else if (secondary < flowerYellowOdds)
-						foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.FLOWER_YELLOW);
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.DANDELION);
 					else 
-						foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.GRASS);
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.GRASS);
 				}
 				
 			// regular trees, grass and some evergreen trees... no flowers
@@ -90,9 +90,9 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 
 					// range change?
 					if (secondary > ((double) (y - generator.treeLevel) / (double) generator.deciduousRange))
-						foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.GRASS);
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.GRASS);
 					else
-						foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.FERN);
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.FERN);
 				}
 				
 			// evergreen and some grass and fallen snow, no regular trees or flowers
@@ -111,9 +111,9 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 					// range change?
 					if (secondary > ((double) (y - generator.evergreenLevel) / (double) generator.evergreenRange)) {
 						if (odds.playOdds(flowerFernOdds))
-							foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.FERN);
+							foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.FERN);
 					} else {
-						foliage.generateFlora(generator, chunk, x, y, z, HerbaceousType.COVER);
+						generator.oreProvider.dropSnow(generator, chunk, x, y + 5, z);
 					}
 				}
 			}
@@ -133,7 +133,7 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 						if (primary < reedOdds)
 							if (chunk.isType(x, y, z, Material.SAND))
 								if (chunk.isSurroundedByWater(x, y, z))
-									foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.REED);
+									foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.REED);
 					} else {
 						
 					}
@@ -153,7 +153,7 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 					// range change?
 					if (secondary > ((double) (y - generator.evergreenLevel) / (double) generator.evergreenRange)) {
 						if (odds.playOdds(0.10) && foliage.isPlantable(generator, chunk, x, y, z))
-							foliage.generateFlora(generator, chunk, x, y + 1, z, HerbaceousType.FERN);
+							foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.FERN);
 					} else {
 						ores.dropSnow(generator, chunk, x, y, z);
 					}

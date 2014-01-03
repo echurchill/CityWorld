@@ -11,47 +11,47 @@ import org.bukkit.Material;
 public final class ByteChunk extends AbstractChunk {
 	public byte[][] blocks;
 	
-	public static int bytesPerSection = chunksBlockWidth * chunksBlockWidth * chunksBlockWidth;
+	public final static int bytesPerSection = chunksBlockWidth * chunksBlockWidth * chunksBlockWidth;
 
-	public static byte AIR = BlackMagic.getMaterialId(Material.AIR);
-	public static byte BEDROCK = BlackMagic.getMaterialId(Material.BEDROCK);
-	public static byte STONE = BlackMagic.getMaterialId(Material.STONE);
-	public static byte GRAVEL = BlackMagic.getMaterialId(Material.GRAVEL);
-	public static byte DIRT = BlackMagic.getMaterialId(Material.DIRT);
-	public static byte GRASS = BlackMagic.getMaterialId(Material.GRASS);
-	public static byte GLASS = BlackMagic.getMaterialId(Material.GLASS);
-	public static byte SAND = BlackMagic.getMaterialId(Material.SAND);
-	public static byte SANDSTONE = BlackMagic.getMaterialId(Material.SANDSTONE); 
+	public final static byte AIR = BlackMagic.getMaterialId(Material.AIR);
+	public final static byte BEDROCK = BlackMagic.getMaterialId(Material.BEDROCK);
+	public final static byte STONE = BlackMagic.getMaterialId(Material.STONE);
+	public final static byte GRAVEL = BlackMagic.getMaterialId(Material.GRAVEL);
+	public final static byte DIRT = BlackMagic.getMaterialId(Material.DIRT);
+	public final static byte GRASS = BlackMagic.getMaterialId(Material.GRASS);
+	public final static byte GLASS = BlackMagic.getMaterialId(Material.GLASS);
+	public final static byte SAND = BlackMagic.getMaterialId(Material.SAND);
+	public final static byte SANDSTONE = BlackMagic.getMaterialId(Material.SANDSTONE); 
 
-	public static byte COAL_ORE = BlackMagic.getMaterialId(Material.COAL_ORE); 
-	public static byte IRON_ORE = BlackMagic.getMaterialId(Material.IRON_ORE);
-	public static byte GOLD_ORE = BlackMagic.getMaterialId(Material.GOLD_ORE);
-	public static byte LAPIS_ORE = BlackMagic.getMaterialId(Material.LAPIS_ORE);
-	public static byte REDSTONE_ORE = BlackMagic.getMaterialId(Material.REDSTONE_ORE);
-	public static byte DIAMOND_ORE = BlackMagic.getMaterialId(Material.DIAMOND_ORE);
-	public static byte EMERALD_ORE = BlackMagic.getMaterialId(Material.EMERALD_ORE);
+	public final static byte COAL_ORE = BlackMagic.getMaterialId(Material.COAL_ORE); 
+	public final static byte IRON_ORE = BlackMagic.getMaterialId(Material.IRON_ORE);
+	public final static byte GOLD_ORE = BlackMagic.getMaterialId(Material.GOLD_ORE);
+	public final static byte LAPIS_ORE = BlackMagic.getMaterialId(Material.LAPIS_ORE);
+	public final static byte REDSTONE_ORE = BlackMagic.getMaterialId(Material.REDSTONE_ORE);
+	public final static byte DIAMOND_ORE = BlackMagic.getMaterialId(Material.DIAMOND_ORE);
+	public final static byte EMERALD_ORE = BlackMagic.getMaterialId(Material.EMERALD_ORE);
 	
-	public static byte STEP = BlackMagic.getMaterialId(Material.STEP);
-	public static byte WOOD = BlackMagic.getMaterialId(Material.WOOD);
-	public static byte WOOD_STEP = BlackMagic.getMaterialId(Material.WOOD_STEP);
-	public static byte FENCE = BlackMagic.getMaterialId(Material.FENCE);
-	public static byte SNOW_BLOCK = BlackMagic.getMaterialId(Material.SNOW_BLOCK);
-	public static byte SNOW = BlackMagic.getMaterialId(Material.SNOW);
-	public static byte ICE = BlackMagic.getMaterialId(Material.ICE); 
+	public final static byte STEP = BlackMagic.getMaterialId(Material.STEP);
+	public final static byte WOOD = BlackMagic.getMaterialId(Material.WOOD);
+	public final static byte WOOD_STEP = BlackMagic.getMaterialId(Material.WOOD_STEP);
+	public final static byte FENCE = BlackMagic.getMaterialId(Material.FENCE);
+	public final static byte SNOW_BLOCK = BlackMagic.getMaterialId(Material.SNOW_BLOCK);
+	public final static byte SNOW = BlackMagic.getMaterialId(Material.SNOW);
+	public final static byte ICE = BlackMagic.getMaterialId(Material.ICE); 
 	
-	public static byte WATER = BlackMagic.getMaterialId(Material.WATER); 
-	public static byte LAVA = BlackMagic.getMaterialId(Material.LAVA); 
-	public static byte STATIONARY_WATER = BlackMagic.getMaterialId(Material.STATIONARY_WATER); 
-	public static byte STATIONARY_LAVA = BlackMagic.getMaterialId(Material.STATIONARY_LAVA); 
-	public static byte STONE_PLATE = BlackMagic.getMaterialId(Material.STONE_PLATE);
-	public static byte WOOD_PLATE = BlackMagic.getMaterialId(Material.WOOD_PLATE);
+	public final static byte WATER = BlackMagic.getMaterialId(Material.WATER); 
+	public final static byte LAVA = BlackMagic.getMaterialId(Material.LAVA); 
+	public final static byte STATIONARY_WATER = BlackMagic.getMaterialId(Material.STATIONARY_WATER); 
+	public final static byte STATIONARY_LAVA = BlackMagic.getMaterialId(Material.STATIONARY_LAVA); 
+	public final static byte STONE_PLATE = BlackMagic.getMaterialId(Material.STONE_PLATE);
+	public final static byte WOOD_PLATE = BlackMagic.getMaterialId(Material.WOOD_PLATE);
 	
-	public static byte ENDER_STONE = BlackMagic.getMaterialId(Material.ENDER_STONE);
-	public static byte NETHERRACK = BlackMagic.getMaterialId(Material.NETHERRACK);
-	public static byte SOUL_SAND = BlackMagic.getMaterialId(Material.SOUL_SAND);
-	public static byte GLOWSTONE = BlackMagic.getMaterialId(Material.GLOWSTONE);
+	public final static byte ENDER_STONE = BlackMagic.getMaterialId(Material.ENDER_STONE);
+	public final static byte NETHERRACK = BlackMagic.getMaterialId(Material.NETHERRACK);
+	public final static byte SOUL_SAND = BlackMagic.getMaterialId(Material.SOUL_SAND);
+	public final static byte GLOWSTONE = BlackMagic.getMaterialId(Material.GLOWSTONE);
 	
-	public static byte CAULDRON = BlackMagic.getMaterialId(Material.CAULDRON);
+	public final static byte CAULDRON = BlackMagic.getMaterialId(Material.CAULDRON);
 	
 	private static int sectionsPerChunk = 16;
 	

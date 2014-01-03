@@ -11,6 +11,7 @@ import me.daddychurchill.CityWorld.Support.Direction.Facing;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
 import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.MaterialFactory;
 import me.daddychurchill.CityWorld.Support.OutsideWEWallFactory;
 import me.daddychurchill.CityWorld.Support.OutsideNSWallFactory;
@@ -1269,11 +1270,11 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 	
 	private void drawInteriorNSWall(RealChunk chunk, int x, int y1, int y2, int z1, int z2, Material wallMaterial, Material glassMaterial) {
-		chunk.setBlocks(x, x + 1, y1, y2, z1, z2, wallMaterial, glassMaterial, wallsInterior);
+		BlackMagic.setBlocks(chunk, x, x + 1, y1, y2, z1, z2, wallMaterial, glassMaterial, wallsInterior);
 	}
 	
 	private void drawInteriorWEWall(RealChunk chunk, int x1, int x2, int y1, int y2, int z, Material wallMaterial, Material glassMaterial) {
-		chunk.setBlocks(x1, x2, y1, y2, z, z + 1, wallMaterial, glassMaterial, wallsInterior);
+		BlackMagic.setBlocks(chunk, x1, x2, y1, y2, z, z + 1, wallMaterial, glassMaterial, wallsInterior);
 	}
 	
 	private void drawInteriorNSDoor(RealChunk chunk, int x, int y1, int y2, int z, Material wall) {

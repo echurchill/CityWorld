@@ -20,22 +20,22 @@ public class SandDunesFarmLot extends FarmLot {
 	}
 
 	@Override
-	protected Material getNormalCrop() {
-		return cropNone;
+	protected CropType setNormalCrop() {
+		return CropType.FALLOW;
 	}
 
 	@Override
-	protected Material getDecayedNormalCrop() {
-		return cropNone;
+	protected CropType setDecayedNormalCrop() {
+		return CropType.FALLOW;
 	}
 
 	@Override
-	protected Material getNetherCrop() {
-		return cropNone;
+	protected CropType setNetherCrop() {
+		return CropType.FALLOW;
 	}
 
 	@Override
-	protected Material getDecayedNetherCrop() {
-		return cropNone;
+	protected CropType setDecayedNetherCrop() {
+		return CropType.FALLOW;
 	}
 }
