@@ -4,7 +4,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConnectedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plugins.CoverProvider.LigneousType;
+import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
@@ -212,6 +212,14 @@ public class ParkLot extends ConnectedLot {
 		}
 	}
 	
+	private final static CoverageType[] smallTrees = {
+		CoverageType.SHORT_BIRCH_TREE, CoverageType.SHORT_OAK_TREE, 
+		CoverageType.SHORT_PINE_TREE, CoverageType.BIRCH_TREE,
+		CoverageType.OAK_TREE, CoverageType.TALL_BIRCH_TREE};
+	
+	private final static CoverageType[] tallTrees = {
+		CoverageType.TALL_BIRCH_TREE, CoverageType.TALL_OAK_TREE};
+	
 	@Override
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		int surfaceY = generator.streetLevel + 1;
@@ -229,15 +237,13 @@ public class ParkLot extends ConnectedLot {
 		
 		// sprinkle some trees
 		if (circleSidewalk) {
-			generator.coverProvider.generateTree(generator, chunk, 7, surfaceY, 7, LigneousType.TALL_OAK);
+			generator.coverProvider.setCoverage(chunk, 7, surfaceY, 7, tallTrees);
 		
 		// four smaller trees
 		} else {
-			LigneousType ligneousType = chunkOdds.flipCoin() ? LigneousType.BIRCH : LigneousType.OAK;
-			generator.coverProvider.generateTree(generator, chunk, 3, surfaceY, 3, ligneousType);
-			generator.coverProvider.generateTree(generator, chunk, 12, surfaceY, 3, ligneousType);
-			generator.coverProvider.generateTree(generator, chunk, 3, surfaceY, 12, ligneousType);
-			generator.coverProvider.generateTree(generator, chunk, 12, surfaceY, 12, ligneousType);
+			for (int x = 4; x < 12; x += 7)
+				for (int z = 4; z < 12; z += 7)
+					generator.coverProvider.setCoverage(chunk, x, surfaceY, z, smallTrees);
 		}
 	}
 }

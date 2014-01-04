@@ -5,7 +5,6 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.IsolatedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
-import me.daddychurchill.CityWorld.Plugins.CoverProvider.LigneousType;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -102,6 +101,10 @@ public class RoundaboutStatueLot extends IsolatedLot {
 		}
 	}
 	
+	private final static CoverageType[] tallTrees = {
+		CoverageType.TALL_BIRCH_TREE, CoverageType.TALL_OAK_TREE, 
+		CoverageType.TALL_JUNGLE_TREE, CoverageType.TALL_PINE_TREE};
+	
 	@Override
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		// what is it build on?
@@ -145,14 +148,14 @@ public class RoundaboutStatueLot extends IsolatedLot {
 			for (int x = 4; x < 12; x++) {
 				for (int z = 4; z < 12; z++) {
 					if (chunkOdds.playOdds(0.40)) {
-						generator.coverProvider.generateCoverage(generator, chunk, x, y1, z, CoverageType.GRASS);
+						generator.coverProvider.setCoverage(chunk, x, y1, z, CoverageType.GRASS);
 					}
 				}
 			}
 			
 			// tree can be art too, you know!
 			if (chunkOdds.playOdds(context.oddsOfNaturalArt)) {
-				generator.coverProvider.generateTree(generator, chunk, 7, y1, 7, LigneousType.TALL_OAK);
+				generator.coverProvider.setCoverage(chunk, 7, y1, 7, tallTrees);
 				somethingInTheCenter = false;
 			}
 			
