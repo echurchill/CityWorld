@@ -1,12 +1,8 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
-
-import org.bukkit.Material;
 
 public class CoverProvider_Nether extends CoverProvider_Decayed {
 
@@ -17,64 +13,65 @@ public class CoverProvider_Nether extends CoverProvider_Decayed {
 		super(odds);
 	}
 	
-	private final static Material air = Material.AIR;
-	private final static Material glow = Material.GLOWSTONE;
-	private final static Material glass = Material.GLASS;
-	private final static Material pane = Material.THIN_GLASS;
-	private final static Material obsidian = Material.OBSIDIAN;
-	private final static Material clay = Material.CLAY;
-	private final static Material iron = Material.IRON_FENCE;
-	
-	@Override
-	public boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, LigneousType ligneousType) {
-		if (likelyCover(generator, odds)) {
-			Material trunk = log;
-			Material leaves1 = air;
-			Material leaves2 = air;
-			switch (ligneousType) {
-			case OAK:
-			case SHORT_OAK:
-			case TALL_OAK:
-				//leave trunk alone
-				if (!generator.settings.includeDecayedNature && odds.playOdds(0.10)) {
-					leaves1 = iron;
-					leaves2 = iron;
-					if (odds.playOdds(0.10)) {
-						trunk = glow;
-					}
-				} 
-				break;
-			case BIRCH:
-			case SHORT_BIRCH:
-			case TALL_BIRCH:
-				trunk = clay;
-				if (!generator.settings.includeDecayedNature && odds.playOdds(0.20)) {
-					leaves1 = iron;
-					leaves2 = iron;
-					if (odds.playOdds(0.10)) {
-						trunk = glow;
-					}
-				} 
-				break;
-			case PINE:
-			case SHORT_PINE:
-			case TALL_PINE:
-				trunk = obsidian;
-				if (!generator.settings.includeDecayedNature && odds.playOdds(0.10)) {
-					leaves1 = pane;
-					if (odds.playOdds(0.10))
-						leaves2 = glow;
-					else
-						leaves2 = glass;
-				}
-				break;
-			default:
-				break;
-			}
-			return generateTree(chunk, odds, x, y, z, ligneousType, trunk, leaves1, leaves2);
-		} else
-			return false;
-	}
+//NERFED for 1.7.2
+//	private final static Material air = Material.AIR;
+//	private final static Material glow = Material.GLOWSTONE;
+//	private final static Material glass = Material.GLASS;
+//	private final static Material pane = Material.THIN_GLASS;
+//	private final static Material obsidian = Material.OBSIDIAN;
+//	private final static Material clay = Material.CLAY;
+//	private final static Material iron = Material.IRON_FENCE;
+//	
+//	@Override
+//	public boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, LigneousType ligneousType) {
+//		if (likelyCover(generator)) {
+//			Material trunk = log;
+//			Material leaves1 = air;
+//			Material leaves2 = air;
+//			switch (ligneousType) {
+//			case OAK:
+//			case SHORT_OAK:
+//			case TALL_OAK:
+//				//leave trunk alone
+//				if (!generator.settings.includeDecayedNature && odds.playOdds(0.10)) {
+//					leaves1 = iron;
+//					leaves2 = iron;
+//					if (odds.playOdds(0.10)) {
+//						trunk = glow;
+//					}
+//				} 
+//				break;
+//			case BIRCH:
+//			case SHORT_BIRCH:
+//			case TALL_BIRCH:
+//				trunk = clay;
+//				if (!generator.settings.includeDecayedNature && odds.playOdds(0.20)) {
+//					leaves1 = iron;
+//					leaves2 = iron;
+//					if (odds.playOdds(0.10)) {
+//						trunk = glow;
+//					}
+//				} 
+//				break;
+//			case PINE:
+//			case SHORT_PINE:
+//			case TALL_PINE:
+//				trunk = obsidian;
+//				if (!generator.settings.includeDecayedNature && odds.playOdds(0.10)) {
+//					leaves1 = pane;
+//					if (odds.playOdds(0.10))
+//						leaves2 = glow;
+//					else
+//						leaves2 = glass;
+//				}
+//				break;
+//			default:
+//				break;
+//			}
+//			return generateTree(chunk, x, y, z, ligneousType, trunk, leaves1, leaves2);
+//		} else
+//			return false;
+//	}
 
 	@Override
 	public void setCoverage(SupportChunk chunk, int x, int y, int z, CoverageType coverageType) {
@@ -112,6 +109,20 @@ public class CoverProvider_Nether extends CoverProvider_Decayed {
 		case JUNGLE_SAPLING:
 		case ACACIA_SAPLING:
 		case DARK_OAK_SAPLING:
+		case ACACIA_TREE:
+		case BIRCH_TREE:
+		case JUNGLE_TREE:
+		case OAK_TREE:
+		case PINE_TREE:
+		case SHORT_BIRCH_TREE:
+		case SHORT_JUNGLE_TREE:
+		case SHORT_OAK_TREE:
+		case SHORT_PINE_TREE:
+		case SWAMP_TREE:
+		case TALL_BIRCH_TREE:
+		case TALL_JUNGLE_TREE:
+		case TALL_OAK_TREE:
+		case TALL_PINE_TREE:
 			if (odds.playOdds(oddsOfFire))
 				super.setCoverage(chunk, x, y, z, CoverageType.FIRE);
 			else if (odds.playOdds(oddsOfCrop))

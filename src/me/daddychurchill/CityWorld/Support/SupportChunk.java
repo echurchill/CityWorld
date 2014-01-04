@@ -38,10 +38,17 @@ public abstract class SupportChunk extends AbstractChunk {
 		doPhysics = dophysics;
 	}
 
-	public void setBlockIfAir(int x, int y, int z, Material material) {
+	@Override
+	public final void setBlockIfAir(int x, int y, int z, Material material) {
 		Block block = getActualBlock(x, y, z);
 		if (block.isEmpty() && !getActualBlock(x, y - 1, z).isEmpty())
 			block.setType(material);
+	}
+	
+	public final void setBlockIfAir(int x, int y, int z, Material material, MaterialData data) {
+		Block block = getActualBlock(x, y, z);
+		if (block.isEmpty() && !getActualBlock(x, y - 1, z).isEmpty())
+			setBlock(block, material, data);
 	}
 	
 	public final void setBlock(Block block, Material material, MaterialData data) {
@@ -51,14 +58,15 @@ public abstract class SupportChunk extends AbstractChunk {
 		state.update(true, doPhysics);
 	}
 	
-	public final void setBlock(int x, int y, int z, Material material, MaterialData data) {
-		setBlock(getActualBlock(x, y, z), material, data);
-	}
-	
+	@Override
 	public final void setBlock(int x, int y, int z, Material material) {
 		getActualBlock(x, y, z).setType(material);
 	}
 
+	public final void setBlock(int x, int y, int z, Material material, MaterialData data) {
+		setBlock(getActualBlock(x, y, z), material, data);
+	}
+	
 	protected final boolean isType(Block block, Material ... types) {
 		Material type = block.getType();
 		for (Material test : types)
@@ -85,7 +93,7 @@ public abstract class SupportChunk extends AbstractChunk {
 	}
 	
 	public final boolean isPlantable(int x, int y, int z) {
-		return isType(x, y, z, Material.GRASS);
+		return isOfTypes(x, y, z, Material.GRASS, Material.DIRT, Material.SOIL);
 	}
 	
 	public final boolean isWater(int x, int y, int z) {
@@ -133,6 +141,11 @@ public abstract class SupportChunk extends AbstractChunk {
 			setBlock(x, y, z, material);
 	}
 
+	public final void setBlocks(int x, int y1, int y2, int z, Material material, MaterialData data) {
+		for (int y = y1; y < y2; y++)
+			setBlock(x, y, z, material, data);
+	}
+
 	//================ x1, x2, y1, y2, z1, z2
 	@Override
 	public final void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
@@ -140,6 +153,16 @@ public abstract class SupportChunk extends AbstractChunk {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
 					setBlock(x, y, z, material);
+				}
+			}
+		}
+	}
+
+	public final void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, MaterialData data) {
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
+				for (int z = z1; z < z2; z++) {
+					setBlock(x, y, z, material, data);
 				}
 			}
 		}
@@ -155,12 +178,27 @@ public abstract class SupportChunk extends AbstractChunk {
 		}
 	}
 
+	public final void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, MaterialData data) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				setBlock(x, y, z, material, data);
+			}
+		}
+	}
+
 	@Override
 	public final void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
 		setBlocks(x1, x2, y1, y2, z1, z1 + 1, material);
 		setBlocks(x1, x2, y1, y2, z2 - 1, z2, material);
 		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material);
 		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material);
+	}
+	
+	public final void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material, MaterialData data) {
+		setBlocks(x1, x2, y1, y2, z1, z1 + 1, material, data);
+		setBlocks(x1, x2, y1, y2, z2 - 1, z2, material, data);
+		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material, data);
+		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material, data);
 	}
 	
 	@Override

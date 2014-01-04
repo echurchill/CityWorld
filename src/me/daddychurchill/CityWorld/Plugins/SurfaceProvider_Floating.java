@@ -49,11 +49,11 @@ public class SurfaceProvider_Floating extends SurfaceProvider {
 			// trees? but only if we are not too close to the edge
 			if (includeTrees && primary < treeOdds && x > 0 && x < 15 && z > 0 && z < 15 && x % 2 == 0 && z % 2 != 0) {
 				if (secondary < treePineOdds)
-					foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.SHORT_PINE);
+					foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.MINI_PINE);
 				else if (secondary < treeBirchOdds)
-					foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.SHORT_BIRCH);
+					foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.MINI_BIRCH);
 				else 
-					foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.SHORT_OAK);
+					foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.MINI_OAK);
 			
 			// foliage?
 			} else if (primary < foliageOdds && y <= ShapeProvider_Floating.snowPoint) {
@@ -64,7 +64,7 @@ public class SurfaceProvider_Floating extends SurfaceProvider {
 				else if (secondary < flowerYellowOdds)
 					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.DANDELION);
 				else 
-					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.WHEAT);
+					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.GRASS);
 			}
 		}
 		

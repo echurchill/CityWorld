@@ -6,8 +6,6 @@ import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
-import org.bukkit.Material;
-
 public class CoverProvider_Decayed extends CoverProvider {
 	
 	private double oddsOfCrop = DataContext.oddsLikely;
@@ -18,15 +16,15 @@ public class CoverProvider_Decayed extends CoverProvider {
 	
 	@Override
 	public boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, LigneousType ligneousType) {
-		if (likelyCover(generator, odds)) {
-			return generateTree(chunk, odds, x, y, z, ligneousType, log, Material.AIR, Material.AIR);
+		if (likelyCover(generator)) {
+			return generateTrunk(chunk, x, y, z, ligneousType);
 		} else
 			return false;
 	}
 
 	@Override
 	public boolean generateCoverage(WorldGenerator generator, RealChunk chunk, int x, int y, int z, CoverageType coverageType) {
-		if (likelyCover(generator, odds))
+		if (likelyCover(generator))
 			setCoverage(chunk, x, y, z, coverageType);
 		return true;
 	}
@@ -67,6 +65,20 @@ public class CoverProvider_Decayed extends CoverProvider {
 		case JUNGLE_SAPLING:
 		case ACACIA_SAPLING:
 		case DARK_OAK_SAPLING:
+		case ACACIA_TREE:
+		case BIRCH_TREE:
+		case JUNGLE_TREE:
+		case OAK_TREE:
+		case PINE_TREE:
+		case SHORT_BIRCH_TREE:
+		case SHORT_JUNGLE_TREE:
+		case SHORT_OAK_TREE:
+		case SHORT_PINE_TREE:
+		case SWAMP_TREE:
+		case TALL_BIRCH_TREE:
+		case TALL_JUNGLE_TREE:
+		case TALL_OAK_TREE:
+		case TALL_PINE_TREE:
 		case DEAD_BUSH:
 			if (odds.playOdds(oddsOfCrop))
 				super.setCoverage(chunk, x, y, z, CoverageType.DEAD_BUSH);

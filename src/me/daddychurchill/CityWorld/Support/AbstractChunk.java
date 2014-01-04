@@ -52,6 +52,7 @@ public abstract class AbstractChunk {
 	public abstract void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material);
 	public abstract void setBlocks(int x1, int x2, int y, int z1, int z2, Material material);
 	public abstract void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material);
+	
 	public abstract int setLayer(int blocky, Material material);
 	public abstract int setLayer(int blocky, int height, Material material);
 	public abstract int setLayer(int blocky, int height, int inset, Material material);

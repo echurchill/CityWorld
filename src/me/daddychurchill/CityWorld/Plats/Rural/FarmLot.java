@@ -32,8 +32,13 @@ public class FarmLot extends ConnectedLot {
 		RED_TULIP, ORANGE_TULIP, WHITE_TULIP, PINK_TULIP,
 		SUNFLOWER, LILAC, TALL_GRASS, TALL_FERN, ROSE_BUSH, PEONY,
 		EMERALD_GREEN, 
+		
 		OAK_SAPLING, SPRUCE_SAPLING, BIRCH_SAPLING, 
-		JUNGLE_SAPLING, ACACIA_SAPLING, DARK_OAK_SAPLING,
+		JUNGLE_SAPLING, ACACIA_SAPLING, DARK_OAK_SAPLING, 
+		
+		OAK_TREE, PINE_TREE, BIRCH_TREE, 
+		JUNGLE_TREE, SWAMP_TREE, ACACIA_TREE,
+
 		WHEAT, CARROTS, POTATO, MELON, PUMPKIN, 
 		BROWN_MUSHROOM, RED_MUSHROOM, NETHERWART,
 		SHORT_FLOWERS, TALL_FLOWERS, ALL_FLOWERS,
@@ -188,11 +193,6 @@ public class FarmLot extends ConnectedLot {
 		case ROSE_BUSH:
 		case PEONY:
 		case EMERALD_GREEN:
-		case OAK_SAPLING:
-		case SPRUCE_SAPLING:
-		case BIRCH_SAPLING:
-		case ACACIA_SAPLING:
-		case JUNGLE_SAPLING:
 		case SHORT_FLOWERS:
 		case TALL_FLOWERS:
 		case ALL_FLOWERS:
@@ -201,15 +201,23 @@ public class FarmLot extends ConnectedLot {
 		case ALL_PLANTS:
 		case DECAY_PLANTS:
 			if (generator.settings.includeAbovegroundFluids)
-				plowField(chunk, croplevel, dirtMaterial, 0, waterMaterial, 2);
+				plowField(chunk, croplevel, dirtMaterial, 2, waterMaterial, 2);
 			else 
 				fallowField = true;
 			break;
+		case OAK_SAPLING:
+		case SPRUCE_SAPLING:
+		case BIRCH_SAPLING:
+		case ACACIA_SAPLING:
+		case JUNGLE_SAPLING:
 		case DARK_OAK_SAPLING:
-			if (generator.settings.includeAbovegroundFluids)
-				plowField(chunk, croplevel, dirtMaterial, 0, waterMaterial, 3);
-			else 
-				fallowField = true;
+		case OAK_TREE:
+		case PINE_TREE:
+		case BIRCH_TREE:
+		case JUNGLE_TREE:
+		case ACACIA_TREE:
+		case SWAMP_TREE:
+			// leave the grass alone
 			break;
 		case CACTUS:
 			plowField(chunk, croplevel, sandMaterial, 0, sandMaterial, 2);
@@ -221,7 +229,7 @@ public class FarmLot extends ConnectedLot {
 				fallowField = true;
 			break;
 		case DEAD_BUSH:
-			plowField(chunk, croplevel, dirtMaterial, 0, fallowMaterial, 2);
+			plowField(chunk, croplevel, dirtMaterial, 1, fallowMaterial, 2);
 			break;
 		case WHEAT:
 		case CARROTS:
@@ -255,7 +263,7 @@ public class FarmLot extends ConnectedLot {
 		}
 		
 		if (fallowField)
-			plowField(chunk, croplevel, dirtMaterial, 0, Material.AIR, 2);
+			plowField(chunk, croplevel, dirtMaterial, 1, Material.AIR, 2);
 		else {
 		
 			switch (cropType) {
@@ -334,22 +342,40 @@ public class FarmLot extends ConnectedLot {
 				plantField(generator, chunk, croplevel, CoverageType.EMERALD_GREEN, 2, 2);
 				break;
 			case OAK_SAPLING:
-				plantField(generator, chunk, croplevel, CoverageType.OAK_SAPLING, 7, 2);
+				plantSaplings(generator, chunk, croplevel, CoverageType.OAK_SAPLING);
 				break;
 			case SPRUCE_SAPLING:
-				plantField(generator, chunk, croplevel, CoverageType.SPRUCE_SAPLING, 7, 2);
+				plantSaplings(generator, chunk, croplevel, CoverageType.SPRUCE_SAPLING);
 				break;
 			case BIRCH_SAPLING:
-				plantField(generator, chunk, croplevel, CoverageType.BIRCH_SAPLING, 7, 2);
+				plantSaplings(generator, chunk, croplevel, CoverageType.BIRCH_SAPLING);
 				break;
 			case JUNGLE_SAPLING:
-				plantField(generator, chunk, croplevel, CoverageType.JUNGLE_SAPLING, 7, 2);
+				plantSaplings(generator, chunk, croplevel, CoverageType.JUNGLE_SAPLING);
 				break;
 			case ACACIA_SAPLING:
-				plantField(generator, chunk, croplevel, CoverageType.ACACIA_SAPLING, 7, 2);
+				plantSaplings(generator, chunk, croplevel, CoverageType.ACACIA_SAPLING);
 				break;
 			case DARK_OAK_SAPLING:
-				plantField(generator, chunk, croplevel, CoverageType.DARK_OAK_SAPLING, 7, 3);
+				plantSaplings(generator, chunk, croplevel, CoverageType.DARK_OAK_SAPLING);
+				break;
+			case OAK_TREE:
+				plantTrees(generator, chunk, croplevel, FoliageSets.OAK_TREES);
+				break;
+			case PINE_TREE:
+				plantTrees(generator, chunk, croplevel, FoliageSets.PINE_TREES);
+				break;
+			case BIRCH_TREE:
+				plantTrees(generator, chunk, croplevel, FoliageSets.BIRCH_TREES);
+				break;
+			case JUNGLE_TREE:
+				plantTrees(generator, chunk, croplevel, FoliageSets.JUNGLE_TREES);
+				break;
+			case ACACIA_TREE:
+				plantTrees(generator, chunk, croplevel, FoliageSets.ACACIA_TREES);
+				break;
+			case SWAMP_TREE:
+				plantTrees(generator, chunk, croplevel, FoliageSets.SWAMP_TREES);
 				break;
 			case WHEAT:
 				plantField(generator, chunk, croplevel, CoverageType.WHEAT, 1, 2);
@@ -418,19 +444,19 @@ public class FarmLot extends ConnectedLot {
 				if (x % stepCol == 0)
 					chunk.setBlocks(x, x + 1, croplevel - 1, croplevel, 1, 15, matFurrow);
 				else {
-					if (matRidge == Material.SOIL)
-						BlackMagic.setBlocks(chunk, x, x + 1, croplevel - 1, croplevel, 1, 15, Material.SOIL, datRidge);
+					if (datRidge != 0)
+						BlackMagic.setBlocks(chunk, x, x + 1, croplevel - 1, croplevel, 1, 15, matRidge, datRidge);
 					else
 						chunk.setBlocks(x, x + 1, croplevel - 1, croplevel, 1, 15, matRidge);
 				}
 			}
 		} else {
-			for (int z = 1; z < 15; z += stepCol) {
+			for (int z = 1; z < 15; z++) {
 				if (z % stepCol == 0)
 					chunk.setBlocks(1, 15, croplevel - 1, croplevel, z, z + 1, matFurrow);
 				else {
-					if (matRidge == Material.SOIL)
-						BlackMagic.setBlocks(chunk, 1, 15, croplevel - 1, croplevel, z, z + 1, Material.SOIL, datRidge);
+					if (datRidge != 0)
+						BlackMagic.setBlocks(chunk, 1, 15, croplevel - 1, croplevel, z, z + 1, matRidge, datRidge);
 					else
 						chunk.setBlocks(1, 15, croplevel - 1, croplevel, z, z + 1, matRidge);
 				}
@@ -476,6 +502,33 @@ public class FarmLot extends ConnectedLot {
 		}
 	}
 	
+	private void plantSaplings(WorldGenerator generator, SupportChunk chunk, int croplevel, 
+			CoverageType coverageType) {
+		plantSaplingsRow(generator, chunk, 2, croplevel, 2, coverageType);
+		plantSaplingsRow(generator, chunk, 6, croplevel, 4, coverageType);
+		plantSaplingsRow(generator, chunk, 9, croplevel, 2, coverageType);
+		plantSaplingsRow(generator, chunk, 12, croplevel, 4, coverageType);
+	}
+	
+	private void plantSaplingsRow(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, 
+			CoverageType coverageType) {
+		for (int i = 0; i < 4; i++)
+			generator.coverProvider.setCoverage(chunk, x, y, z + i * 3, coverageType);
+	}
+	
+	private void plantTrees(WorldGenerator generator, SupportChunk chunk, int croplevel, 
+			FoliageSets foliageSet) {
+		plantTreesRow(generator, chunk, 2, croplevel, 2, foliageSet);
+		plantTreesRow(generator, chunk, 7, croplevel, 3, foliageSet);
+		plantTreesRow(generator, chunk, 12, croplevel, 2, foliageSet);
+	}
+	
+	private void plantTreesRow(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, 
+			FoliageSets foliageSet) {
+		for (int i = 0; i < 3; i++)
+			generator.coverProvider.setCoverage(chunk, x, y, z + i * 5, foliageSet);
+	}
+	
 	private static int stepCol = 3;
 	private void buildVineyard(SupportChunk chunk, int cropLevel) {
 		if (directionNorthSouth) {
@@ -516,43 +569,56 @@ public class FarmLot extends ConnectedLot {
 	}
 	
 	private final static CropType[] normalCrops = {
-		CropType.FALLOW, 
-		CropType.TRELLIS, 
-		CropType.VINES, 
-		CropType.GRASS, 
-		CropType.FERN, 
-		CropType.DEAD_GRASS, 
-		CropType.CACTUS, 
-		CropType.REED, 
-		CropType.DANDELION, 
-		CropType.DEAD_BUSH, 
-		CropType.POPPY, 
-		CropType.BLUE_ORCHID, 
-		CropType.ALLIUM, 
-		CropType.AZURE_BLUET, 
-		CropType.OXEYE_DAISY,
-		CropType.RED_TULIP, 
-		CropType.ORANGE_TULIP, 
-		CropType.WHITE_TULIP, 
-		CropType.PINK_TULIP,
-		CropType.SUNFLOWER, 
-		CropType.LILAC, 
-		CropType.TALL_GRASS, 
-		CropType.TALL_FERN, 
-		CropType.ROSE_BUSH, 
-		CropType.PEONY,
-		CropType.WHEAT, 
-		CropType.CARROTS, 
-		CropType.POTATO, 
-		CropType.MELON, 
-		CropType.PUMPKIN, 
-		CropType.SHORT_FLOWERS, 
-		CropType.TALL_FLOWERS, 
-		CropType.ALL_FLOWERS,
-		CropType.SHORT_PLANTS,
-		CropType.TALL_PLANTS,
-		CropType.ALL_PLANTS,
-		CropType.EDIBLE_PLANTS};
+//		CropType.FALLOW, 
+//		CropType.TRELLIS, 
+//		CropType.VINES, 
+//		CropType.GRASS, 
+//		CropType.FERN, 
+//		CropType.DEAD_GRASS, 
+//		CropType.CACTUS, 
+//		CropType.REED, 
+//		CropType.DANDELION, 
+//		CropType.DEAD_BUSH, 
+//		CropType.POPPY, 
+//		CropType.BLUE_ORCHID, 
+//		CropType.ALLIUM, 
+//		CropType.AZURE_BLUET, 
+//		CropType.OXEYE_DAISY,
+//		CropType.RED_TULIP, 
+//		CropType.ORANGE_TULIP, 
+//		CropType.WHITE_TULIP, 
+//		CropType.PINK_TULIP,
+//		CropType.SUNFLOWER, 
+//		CropType.LILAC, 
+//		CropType.TALL_GRASS, 
+//		CropType.TALL_FERN, 
+//		CropType.ROSE_BUSH, 
+//		CropType.PEONY,
+//		CropType.EMERALD_GREEN,
+		CropType.OAK_SAPLING,
+		CropType.SPRUCE_SAPLING,
+		CropType.BIRCH_SAPLING,
+		CropType.ACACIA_SAPLING,
+		CropType.JUNGLE_SAPLING,
+		CropType.OAK_TREE, 
+		CropType.PINE_TREE, 
+		CropType.BIRCH_TREE, 
+		CropType.JUNGLE_TREE, 
+		CropType.SWAMP_TREE, 
+		CropType.ACACIA_TREE,
+//		CropType.WHEAT, 
+//		CropType.CARROTS, 
+//		CropType.POTATO, 
+//		CropType.MELON, 
+//		CropType.PUMPKIN, 
+//		CropType.SHORT_FLOWERS, 
+//		CropType.TALL_FLOWERS, 
+//		CropType.ALL_FLOWERS,
+//		CropType.SHORT_PLANTS,
+//		CropType.TALL_PLANTS,
+//		CropType.ALL_PLANTS,
+//		CropType.EDIBLE_PLANTS
+		};
 	
 	protected CropType setNormalCrop() {
 //		return CropType.SHORT_FLOWERS;
@@ -565,7 +631,8 @@ public class FarmLot extends ConnectedLot {
 		CropType.DEAD_BUSH,
 		CropType.BROWN_MUSHROOM,
 		CropType.RED_MUSHROOM,
-		CropType.DECAY_PLANTS};
+		CropType.DECAY_PLANTS
+		};
 	
 	protected CropType setDecayedNormalCrop() {
 		return pickACrop(decayCrops);
@@ -578,7 +645,8 @@ public class FarmLot extends ConnectedLot {
 		CropType.BROWN_MUSHROOM,
 		CropType.RED_MUSHROOM,
 		CropType.NETHERWART,
-		CropType.NETHER_PLANTS};
+		CropType.NETHER_PLANTS
+		};
 	
 	protected CropType setNetherCrop() {
 		return pickACrop(netherCrops);

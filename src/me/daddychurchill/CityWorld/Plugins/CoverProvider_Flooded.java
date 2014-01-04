@@ -33,13 +33,13 @@ public class CoverProvider_Flooded extends CoverProvider_Normal {
 	
 	@Override
 	public boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, LigneousType ligneousType) {
-		if (likelyCover(generator, odds)) {
+		if (likelyCover(generator)) {
 			if (y >= generator.shapeProvider.findFloodY(generator, x, z))
-				return generateTree(chunk, odds, x, y, z, ligneousType, log, leaves, leaves);
+				return generateTree(chunk, x, y, z, ligneousType);
 			else {
 //				chunk.setBlock(x, y, z, Material.REDSTONE_BLOCK);
 //				return true;
-				return generateTrunk(chunk, odds, x, y, z, ligneousType);
+				return generateTrunk(chunk, x, y, z, ligneousType);
 			}
 		}
 		return false;

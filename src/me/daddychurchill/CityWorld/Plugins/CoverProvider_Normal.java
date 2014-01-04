@@ -12,15 +12,15 @@ public class CoverProvider_Normal extends CoverProvider {
 	
 	@Override
 	public boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, LigneousType ligneousType) {
-		if (likelyCover(generator, odds)) {
-			return generateTree(chunk, odds, x, y, z, ligneousType, log, leaves, leaves);
+		if (likelyCover(generator)) {
+			return generateTree(chunk, x, y, z, ligneousType);
 		} else
 			return false;
 	}
 
 	@Override
 	public boolean generateCoverage(WorldGenerator generator, RealChunk chunk, int x, int y, int z, CoverageType coverageType) {
-		if (likelyCover(generator, odds))
+		if (likelyCover(generator))
 			setCoverage(chunk, x, y, z, coverageType);
 		return true;
 	}
