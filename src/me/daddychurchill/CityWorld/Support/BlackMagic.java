@@ -30,24 +30,32 @@ public abstract class BlackMagic {
 		block.setTypeId(typeId);
 	}
 	
-	public static final void setBlockType(Block block, int typeId, int rawdata) {
+	public static final boolean setBlockType(Block block, int typeId, int rawdata) {
 		BlockState state = block.getState();
 		state.setTypeId(typeId);
 		if (rawdata != 0)
 			state.setRawData((byte) (rawdata & 0xff));
-		state.update(true);
+		return state.update(true);
 	}
 	
-	public static final void setBlockType(Block block, Material material, int rawdata) {
+	public static final boolean setBlockType(Block block, Material material) {
+		return setBlockType(block, material, 0);
+	}
+	
+	public static final boolean setBlockType(Block block, Material material, int rawdata) {
+		return setBlockType(block, material, rawdata, true, true);
+	}
+	
+	public static final boolean setBlockType(Block block, Material material, int rawdata, boolean update, boolean physics) {
 		BlockState state = block.getState();
 		state.setType(material);
 		if (rawdata != 0)
 			state.setRawData((byte) (rawdata & 0xff));
-		state.update(true);
+		return state.update(update, physics);
 	}
 	
-	public static final void setBlock(SupportChunk chunk, int x, int y, int z, Material material, int data) {
-		setBlockType(chunk.getActualBlock(x, y, z), material, data);
+	public static final boolean setBlock(SupportChunk chunk, int x, int y, int z, Material material, int data) {
+		return setBlockType(chunk.getActualBlock(x, y, z), material, data);
 	}
 	
 	public static final void setBlocks(SupportChunk chunk, int x, int y1, int y2, int z, Material material, int data) {

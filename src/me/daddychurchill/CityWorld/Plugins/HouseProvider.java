@@ -234,6 +234,8 @@ public class HouseProvider extends Provider {
 			return baseColor;
 	}
 	
+	private enum HouseRoofStyle {FLAT, NORTHSOUTH, WESTEAST, ANGLED};
+	
 	public int generateShack(WorldGenerator generator, RealChunk chunk, DataContext context, Odds odds, int baseY, int roomWidth) {
 		
 		// what are we made of?
@@ -241,10 +243,11 @@ public class HouseProvider extends Provider {
 		Material matFloor = Material.WOOD;
 		Material matCeiling = Material.WOOD;
 		Material matRoof = Material.WOOD;
+		HouseRoofStyle styleRoof = HouseRoofStyle.FLAT;
 		int floors = 1;
 		
 		//chunk.setWalls(2, 13, baseY, baseY + ContextData.FloorHeight, 2, 13, Material.WOOD);
-		generateColonial(generator, chunk, context, odds, baseY, matFloor, matWall, matCeiling, matRoof, floors, roomWidth, roomWidth, false);
+		generateColonial(generator, chunk, context, odds, baseY, matFloor, matWall, matCeiling, matRoof, floors, roomWidth, roomWidth, styleRoof, false);
 		return floors;
 	}
 	
@@ -255,6 +258,7 @@ public class HouseProvider extends Provider {
 		Material matFloor = pickFloorMaterial(odds);
 		Material matCeiling = pickCeilingMaterial(odds);
 		Material matRoof = pickRoofMaterial(odds);
+		HouseRoofStyle styleRoof = pickRoofStyle(odds);
 		int floors = odds.getRandomInt(maxFloors) + 1;
 		
 		//TODO add bed
@@ -263,7 +267,7 @@ public class HouseProvider extends Provider {
 		//TODO add split level house style
 		
 		// draw the house
-		generateColonial(generator, chunk, context, odds, baseY, matFloor, matWall, matCeiling, matRoof, floors, MinSize, maxRoomWidth, true);
+		generateColonial(generator, chunk, context, odds, baseY, matFloor, matWall, matCeiling, matRoof, floors, MinSize, maxRoomWidth, styleRoof, true);
 		return floors;
 	}
 
@@ -274,7 +278,7 @@ public class HouseProvider extends Provider {
 	private void generateColonial(WorldGenerator generator, RealChunk chunk, DataContext context, 
 			Odds odds, int baseY,
 			Material matFloor, Material matWall, Material matCeiling, Material matRoof, 
-			int floors, int minRoomWidth, int maxRoomWidth, boolean allowMissingRooms) {
+			int floors, int minRoomWidth, int maxRoomWidth, HouseRoofStyle styleRoof, boolean allowMissingRooms) {
 		
 		// what are the rooms like?
 		Room[][][] rooms = new Room[floors][2][2];
@@ -442,64 +446,113 @@ public class HouseProvider extends Provider {
 			}
 		}
 		
-//		// flat roof?
-//		if (odds.nextDouble() < 0.95) {
+		// figure out roofs
+		int roofBottom = baseY + floors * DataContext.FloorHeight - 1;
+		int roofHeight = DataContext.FloorHeight + 1;
+		boolean makeAttic = true;
+		
+		switch (styleRoof) {
+		case ANGLED:
+		default:
 			
-			//TODO simple blocks
-			//TODO flat roofs
-			//TODO NS stair roof
-			//TODO EW stair root
-			// extrude roof
-			int roofY = baseY + floors * DataContext.FloorHeight - 1;
-			for (int y = 0; y < DataContext.FloorHeight - 1; y++) {
+			// place the roof!
+			for (int y = 0; y < roofHeight; y++) {
 				for (int x = 1; x < chunk.width - 1; x++) {
 					for (int z = 1; z < chunk.width - 1; z++) {
-						int yAt = y + roofY;
-						if (!chunk.isSurroundedByEmpty(x, yAt, z)) {
+						int yAt = y + roofBottom;
+						if (!chunk.isEmpty(x, yAt, z) && 
+							!chunk.isEmpty(x - 1, yAt, z) && !chunk.isEmpty(x + 1, yAt, z) &&
+							!chunk.isEmpty(x, yAt, z - 1) && !chunk.isEmpty(x, yAt, z + 1))
 							chunk.setBlock(x, yAt + 1, z, matRoof);
+					}
+				}
+			}
+			break;
+		case NORTHSOUTH:
+			
+			// place the roof!
+			for (int y = 0; y < roofHeight; y++) {
+				for (int x = 1; x < chunk.width - 1; x++) {
+					for (int z = 1; z < chunk.width - 1; z++) {
+						int yAt = y + roofBottom;
+						if (!chunk.isEmpty(x, yAt, z) && 
+							!chunk.isEmpty(x - 1, yAt, z) && !chunk.isEmpty(x + 1, yAt, z))
+							chunk.setBlock(x, yAt + 1, z, matRoof);
+					}
+				}
+			}
+			break;
+		case WESTEAST:
+
+			// place the roof!
+			for (int y = 0; y < roofHeight; y++) {
+				for (int x = 1; x < chunk.width - 1; x++) {
+					for (int z = 1; z < chunk.width - 1; z++) {
+						int yAt = y + roofBottom;
+						if (!chunk.isEmpty(x, yAt, z) && 
+							!chunk.isEmpty(x, yAt, z - 1) && !chunk.isEmpty(x, yAt, z + 1))
+							chunk.setBlock(x, yAt + 1, z, matRoof);
+					}
+				}
+			}
+			break;
+		case FLAT:
+
+			// place the roof!
+			for (int y = 0; y < 1; y++) {
+				for (int x = 1; x < chunk.width - 1; x++) {
+					for (int z = 1; z < chunk.width - 1; z++) {
+						int yAt = y + roofBottom;
+						if (!chunk.isEmpty(x, yAt, z) &&
+							(chunk.isEmpty(x - 1, yAt, z) || chunk.isEmpty(x + 1, yAt, z) ||
+							 chunk.isEmpty(x, yAt, z - 1) || chunk.isEmpty(x, yAt, z + 1)))
+							chunk.setBlock(x, yAt + 1, z, matRoof);
+					}
+				}
+			}
+			makeAttic = false;
+			break;
+		}
+		
+		
+		if (makeAttic) {
+			
+			// fill the potential attic space with dirt
+			for (int y = 1; y < roofHeight - 1; y++) {
+				for (int x = 1; x < chunk.width - 1; x++) {
+					for (int z = 1; z < chunk.width - 1; z++) {
+						int yAt = y + roofBottom;
+						if (!chunk.isEmpty(x, yAt + 1, z))
+							chunk.setBlock(x, yAt, z, Material.DIRT); // mark potential attic space
+					}
+				}
+			}
+			
+			// but don't over do it and go too far
+			for (int y = 1; y < roofHeight - 1; y++) {
+				for (int x = 1; x < chunk.width - 1; x++) {
+					for (int z = 1; z < chunk.width - 1; z++) {
+						int yAt = y + roofBottom;
+						if (chunk.isType(x, yAt, z, Material.DIRT)) { // where we think the attic might be
+							if (chunk.isEmpty(x - 1, yAt, z) || chunk.isEmpty(x + 1, yAt, z) || 
+								chunk.isEmpty(x, yAt, z - 1) || chunk.isEmpty(x, yAt, z + 1))
+								chunk.setBlock(x, yAt, z, matRoof);
 						}
 					}
 				}
 			}
 			
-			// carve out the attic
-			for (int y = 1; y < DataContext.FloorHeight - 1; y++) {
+			// finally remove the dirt from the attic
+			for (int y = 1; y < roofHeight - 1; y++) {
 				for (int x = 1; x < chunk.width - 1; x++) {
 					for (int z = 1; z < chunk.width - 1; z++) {
-						int yAt = y + roofY;
-						if (!chunk.isEmpty(x, yAt + 1, z)) {
-							chunk.setBlock(x, yAt, z, materialAir);
-						}
+						int yAt = y + roofBottom;
+						if (chunk.isType(x, yAt, z, Material.DIRT))
+							chunk.clearBlock(x, yAt, z);
 					}
 				}
 			}
-
-//			// extrude roof
-//			int roofY = baseY + floors * ContextData.FloorHeight - 1;
-//			for (int y = 0; y < ContextData.FloorHeight - 1; y++) {
-//				for (int x = 1; x < chunk.width - 1; x++) {
-//					for (int z = 1; z < chunk.width - 1; z++) {
-//						int yAt = y + roofY;
-//						if (chunk.getBlock(x, yAt, z - 1) != materialAir && chunk.getBlock(x, yAt, z + 1) != materialAir) {
-//							chunk.setBlock(x, yAt + 1, z, matRoof);
-//						}
-//					}
-//				}
-//			}
-//			
-//			// carve out the attic
-//			for (int y = 1; y < ContextData.FloorHeight - 1; y++) {
-//				for (int x = 1; x < chunk.width - 1; x++) {
-//					for (int z = 1; z < chunk.width - 1; z++) {
-//						int yAt = y + roofY;
-//						if (chunk.getBlock(x, yAt + 1, z) != materialAir) {
-//							chunk.setBlock(x, yAt, z, materialAir);
-//						}
-//					}
-//				}
-//			}
-
-//		}
+		}
 	}
 	
 	private int flip(int i) {
@@ -612,6 +665,20 @@ public class HouseProvider extends Provider {
 			return Material.SANDSTONE;
 		default:
 			return Material.WOOD;
+		}
+	}
+	
+	private HouseRoofStyle pickRoofStyle(Odds odds) {
+		switch (odds.getRandomInt(4)) {
+		default:
+		case 0:
+			return HouseRoofStyle.ANGLED;
+		case 1:
+			return HouseRoofStyle.NORTHSOUTH;
+		case 2:
+			return HouseRoofStyle.WESTEAST;
+		case 3:
+			return HouseRoofStyle.FLAT;
 		}
 	}
 	

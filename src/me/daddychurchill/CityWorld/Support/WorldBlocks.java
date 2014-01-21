@@ -28,11 +28,20 @@ public final class WorldBlocks extends SupportChunk {
 		return world.getBlockAt(x, y, z);
 	}
 	
+	@Override
 	public boolean isSurroundedByEmpty(int x, int y, int z) {
-		return getActualBlock(x - 1, y, z).isEmpty() && 
-			   getActualBlock(x + 1, y, z).isEmpty() &&
-			   getActualBlock(x, y, z - 1).isEmpty() && 
-			   getActualBlock(x, y, z + 1).isEmpty();
+		return isEmpty(x - 1, y, z) && 
+				isEmpty(x + 1, y, z) &&
+				isEmpty(x, y, z - 1) && 
+				isEmpty(x, y, z + 1);
+	}
+	
+	@Override
+	public boolean isSurroundedByWater(int x, int y, int z) {
+		return isWater(x - 1, y, z) && 
+				isWater(x + 1, y, z) &&
+				isWater(x, y, z - 1) && 
+				isWater(x, y, z + 1);
 	}
 	
 	public void destroyWithin(int x1, int x2, int y1, int y2, int z1, int z2) {

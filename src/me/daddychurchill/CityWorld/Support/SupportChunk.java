@@ -6,17 +6,24 @@ import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Support.Direction.Facing;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
+
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.TreeSpecies;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.CreatureSpawner;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.EntityType;
 import org.bukkit.material.Colorable;
 import org.bukkit.material.Directional;
 import org.bukkit.material.MaterialData;
+import org.bukkit.material.Step;
 import org.bukkit.material.TexturedMaterial;
+import org.bukkit.material.Vine;
+import org.bukkit.material.WoodenStep;
 
 public abstract class SupportChunk extends AbstractChunk {
 	
@@ -89,8 +96,11 @@ public abstract class SupportChunk extends AbstractChunk {
 	}
 	
 	public final boolean isEmpty(int x, int y, int z) {
-		return getActualBlock(x, y, z).isEmpty();
+		return isType(x, y, z, Material.AIR);
+//		return getActualBlock(x, y, z).isEmpty();
 	}
+	
+	public abstract boolean isSurroundedByEmpty(int x, int y, int z);
 	
 	public final boolean isPlantable(int x, int y, int z) {
 		return isOfTypes(x, y, z, Material.GRASS, Material.DIRT, Material.SOIL);
@@ -100,13 +110,7 @@ public abstract class SupportChunk extends AbstractChunk {
 		return getActualBlock(x, y, z).isLiquid();
 	}
 
-	public final boolean isSurroundedByWater(int x, int y, int z) {
-		return (x > 0 && x < 15 && z > 0 && z < 15) && 
-			   (isWater(x - 1, y, z) && 
-				isWater(x + 1, y, z) &&
-				isWater(x, y, z - 1) && 
-				isWater(x, y, z + 1));
-	}
+	public abstract boolean isSurroundedByWater(int x, int y, int z);
 	
 	public final Location getBlockLocation(int x, int y, int z) {
 		return getActualBlock(x, y, z).getLocation();
@@ -526,6 +530,40 @@ public abstract class SupportChunk extends AbstractChunk {
 		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z2, Material.HARD_CLAY, color);
 	}
 	
+	public final void setVines(int x, int y1, int y2, int z, BlockFace... faces) {
+		Vine data = new Vine(faces);
+		for (int y = y1; y < y2; y++) {
+			Block block = getActualBlock(x, y, z);
+			if (block.getType() == Material.VINE) {
+				BlockState state = block.getState();
+				Vine vines = (Vine)(state.getData());
+				for (BlockFace face: faces)
+					vines.putOnFace(face);
+				state.update();
+			} else
+				setBlock(getActualBlock(x, y, z), Material.VINE, data);
+		}
+	}
+	
+	private final void setSlabs(int x1, int x2, int y1, int y2, int z1, int z2, Material material, MaterialData data, boolean inverted) {
+		for (int x = x1; x < x2; x++)
+			for (int y = y1; y < y2; y++)
+				for (int z = z1; z < z2; z++)
+					setBlock(getActualBlock(x, y, z), material, data);
+	}
+	
+	public final void setSlabs(int x1, int x2, int y1, int y2, int z1, int z2, Material material, boolean inverted) {
+		Step data = new Step(material);
+		data.setInverted(inverted);
+		setSlabs(x1, x2, y1, y2, z1, z2, Material.STEP, data, inverted);
+	}
+	
+	public final void setSlabs(int x1, int x2, int y1, int y2, int z1, int z2, TreeSpecies species, boolean inverted) {
+		WoodenStep data = new WoodenStep(species);
+		data.setInverted(inverted);
+		setSlabs(x1, x2, y1, y2, z1, z2, Material.WOOD_STEP, data, inverted);
+	}
+	
 	public final void drawCrane(DataContext context, Odds odds, int x, int y, int z) {
 		
 		// vertical bit
@@ -576,48 +614,48 @@ public abstract class SupportChunk extends AbstractChunk {
 	}
 	
 	private void setDoor(int x, int y, int z, Material material, Direction.Door direction) {
-//		byte orentation = 0;
-//		byte hinge = 0;
-//		
-//		// orientation
-//		switch (direction) {
-//		case NORTHBYNORTHEAST:
-//		case NORTHBYNORTHWEST:
-//			orentation = 1;
-//			break;
-//		case SOUTHBYSOUTHEAST:
-//		case SOUTHBYSOUTHWEST:
-//			orentation = 3;
-//			break;
-//		case WESTBYNORTHWEST:
-//		case WESTBYSOUTHWEST:
-//			orentation = 0;
-//			break;
-//		case EASTBYNORTHEAST:
-//		case EASTBYSOUTHEAST:
-//			orentation = 2;
-//			break;
-//		}
-//		
-//		// hinge?
-//		switch (direction) {
-//		case SOUTHBYSOUTHEAST:
-//		case NORTHBYNORTHWEST:
-//		case WESTBYSOUTHWEST:
-//		case EASTBYNORTHEAST:
-//			hinge = 8 + 0;
-//			break;
-//		case NORTHBYNORTHEAST:
-//		case SOUTHBYSOUTHWEST:
-//		case WESTBYNORTHWEST:
-//		case EASTBYSOUTHEAST:
-//			hinge = 8 + 1;
-//			break;
-//		}
-//		
-//		// set the door
-//		BlackMagic.setBlockType(chunk.getBlock(x, y + 1, z), material, hinge, false);
-//		BlackMagic.setBlockType(chunk.getBlock(x, y    , z), material, orentation, doPhysics);
+		byte orentation = 0;
+		byte hinge = 0;
+		
+		// orientation
+		switch (direction) {
+		case NORTHBYNORTHEAST:
+		case NORTHBYNORTHWEST:
+			orentation = 1;
+			break;
+		case SOUTHBYSOUTHEAST:
+		case SOUTHBYSOUTHWEST:
+			orentation = 3;
+			break;
+		case WESTBYNORTHWEST:
+		case WESTBYSOUTHWEST:
+			orentation = 0;
+			break;
+		case EASTBYNORTHEAST:
+		case EASTBYSOUTHEAST:
+			orentation = 2;
+			break;
+		}
+		
+		// hinge?
+		switch (direction) {
+		case SOUTHBYSOUTHEAST:
+		case NORTHBYNORTHWEST:
+		case WESTBYSOUTHWEST:
+		case EASTBYNORTHEAST:
+			hinge = 8 + 0;
+			break;
+		case NORTHBYNORTHEAST:
+		case SOUTHBYSOUTHWEST:
+		case WESTBYNORTHWEST:
+		case EASTBYSOUTHEAST:
+			hinge = 8 + 1;
+			break;
+		}
+		
+		// set the door
+		BlackMagic.setBlockType(getActualBlock(x, y    , z), material, orentation, true, false);
+		BlackMagic.setBlockType(getActualBlock(x, y + 1, z), material, hinge, true, true);
 	}
 
 	public final void setWoodenDoor(int x, int y, int z, Direction.Door direction) {
@@ -629,90 +667,89 @@ public abstract class SupportChunk extends AbstractChunk {
 	}
 
 	public final void setTrapDoor(int x, int y, int z, Direction.TrapDoor direction) {
-//		setBlock(x, y, z, Material.TRAP_DOOR, direction.getData());
+		BlackMagic.setBlock(this, x, y, z, Material.TRAP_DOOR, direction.getData());
 	}
 
 	public final void setStoneSlab(int x, int y, int z, Direction.StoneSlab direction) {
-//		setBlock(x, y, z, Material.STEP, direction.getData());
+		BlackMagic.setBlock(this, x, y, z, Material.STEP, direction.getData());
 	}
 
 	public final void setWoodSlab(int x, int y, int z, Direction.WoodSlab direction) {
-//		setBlock(x, y, z, Material.WOOD_STEP, direction.getData());
+		BlackMagic.setBlock(this, x, y, z, Material.WOOD_STEP, direction.getData());
 	}
 
 	public final void setLadder(int x, int y1, int y2, int z, Direction.General direction) {
-//		byte data = direction.getData();
-//		for (int y = y1; y < y2; y++)
-//			setBlock(x, y, z, Material.LADDER, data);
+		byte data = direction.getData();
+		for (int y = y1; y < y2; y++)
+			BlackMagic.setBlock(this, x, y, z, Material.LADDER, data);
 	}
 
 	public final void setStair(int x, int y, int z, Material material, Direction.Stair direction) {
-//		setBlock(x, y, z, material, direction.getData());
+		BlackMagic.setBlock(this, x, y, z, material, direction.getData());
 	}
 
 	public final void setVine(int x, int y, int z, Direction.Vine direction) {
-//		setBlock(x, y, z, Material.VINE, direction.getData());
+		BlackMagic.setBlock(this, x, y, z, Material.VINE, direction.getData());
 	}
 
 	public final void setTorch(int x, int y, int z, Material material, Direction.Torch direction) {
-//		setBlock(x, y, z, material, direction.getData(), true);
+		BlackMagic.setBlock(this, x, y, z, material, direction.getData());
 	}
 	
 	public final void setFurnace(int x, int y, int z, Direction.General direction) {
-//		setBlock(x, y, z, Material.FURNACE, direction.getData());
+		BlackMagic.setBlock(this, x, y, z, Material.FURNACE, direction.getData());
 	}
 
 	public final void setChest(int x, int y, int z, Direction.General direction, Odds odds, LootProvider lootProvider, LootLocation lootLocation) {
-//		Block block = chunk.getBlock(x, y, z);
-//		if (BlackMagic.setBlockType(block, Material.CHEST, direction.getData(), false)) {
-//			if (block.getType() == Material.CHEST) {
-//				lootProvider.setLoot(odds, world.getName(), lootLocation, block);
-//			}
-//		}
+		Block block = getActualBlock(x, y, z);
+		if (BlackMagic.setBlockType(block, Material.CHEST, direction.getData())) {
+			if (block.getType() == Material.CHEST) {
+				lootProvider.setLoot(odds, world.getName(), lootLocation, block);
+			}
+		}
 	}
 
 	public final void setSpawner(int x, int y, int z, EntityType aType) {
-//		Block block = chunk.getBlock(x, y, z);
-//		if (BlackMagic.setBlockType(block, Material.MOB_SPAWNER, false)) {
-//			if (block.getType() == Material.MOB_SPAWNER) {
-//				CreatureSpawner spawner = (CreatureSpawner) block.getState();
-//				spawner.setSpawnedType(aType);
-//				spawner.update(true);
-//			}
-//		}
+		Block block = getActualBlock(x, y, z);
+		if (BlackMagic.setBlockType(block, Material.MOB_SPAWNER)) {
+			if (block.getType() == Material.MOB_SPAWNER) {
+				CreatureSpawner spawner = (CreatureSpawner) block.getState();
+				spawner.setSpawnedType(aType);
+				spawner.update(true);
+			}
+		}
 	}
 	
 	public final void setWallSign(int x, int y, int z, Direction.General direction, String[] text) {
-//		Block block = chunk.getBlock(x, y, z);
-//		if (BlackMagic.setBlockType(block, Material.WALL_SIGN, direction.getData(), false)) {
-//			if (block.getType() == Material.WALL_SIGN) {
-//				Sign sign = (Sign) block.getState();
-//				for (int i = 0; i < text.length && i < 4; i++) 
-//					sign.setLine(i, text[i]);
-//				sign.update(true);
-//			}
-//		}
+		Block block = getActualBlock(x, y, z);
+		if (BlackMagic.setBlockType(block, Material.WALL_SIGN, direction.getData())) {
+			if (block.getType() == Material.WALL_SIGN) {
+				Sign sign = (Sign) block.getState();
+				for (int i = 0; i < text.length && i < 4; i++) 
+					sign.setLine(i, text[i]);
+				sign.update(true);
+			}
+		}
 	}
-	
 
 	public final void setBed(int x, int y, int z, Facing direction) {
-//		switch (direction) {
-//		case EAST:
-//			setBlock(x, y, z, Material.BED_BLOCK, (byte)(0x1 + 0x8));
-//			setBlock(x + 1, y, z, Material.BED_BLOCK, (byte)(0x1));
-//			break;
-//		case SOUTH:
-//			setBlock(x, y, z, Material.BED_BLOCK, (byte)(0x2 + 0x8));
-//			setBlock(x, y, z + 1, Material.BED_BLOCK, (byte)(0x2));
-//			break;
-//		case WEST:
-//			setBlock(x, y, z, Material.BED_BLOCK, (byte)(0x3 + 0x8));
-//			setBlock(x + 1, y, z, Material.BED_BLOCK, (byte)(0x3));
-//			break;
-//		case NORTH:
-//			setBlock(x, y, z, Material.BED_BLOCK, (byte)(0x0 + 0x8));
-//			setBlock(x, y, z + 1, Material.BED_BLOCK, (byte)(0x0));
-//			break;
-//		}
+		switch (direction) {
+		case EAST:
+			BlackMagic.setBlockType(getActualBlock(x, y, z), Material.BED_BLOCK, (byte)(0x1 + 0x8), true, false);
+			BlackMagic.setBlockType(getActualBlock(x + 1, y, z), Material.BED_BLOCK, (byte)(0x1), true, true);
+			break;
+		case SOUTH:
+			BlackMagic.setBlockType(getActualBlock(x, y, z), Material.BED_BLOCK, (byte)(0x2 + 0x8), true, false);
+			BlackMagic.setBlockType(getActualBlock(x, y, z + 1), Material.BED_BLOCK, (byte)(0x2), true, true);
+			break;
+		case WEST:
+			BlackMagic.setBlockType(getActualBlock(x, y, z), Material.BED_BLOCK, (byte)(0x3 + 0x8), true, false);
+			BlackMagic.setBlockType(getActualBlock(x + 1, y, z), Material.BED_BLOCK, (byte)(0x3), true, true);
+			break;
+		case NORTH:
+			BlackMagic.setBlockType(getActualBlock(x, y, z), Material.BED_BLOCK, (byte)(0x0 + 0x8), true, false);
+			BlackMagic.setBlockType(getActualBlock(x, y, z + 1), Material.BED_BLOCK, (byte)(0x0), true, true);
+			break;
+		}
 	}
 }
