@@ -103,7 +103,7 @@ public class Clipboard_WorldEdit extends Clipboard {
 		}
 		
 		// grab the edge block
-		BaseBlock edge = cuboid.getPoint(new Vector(0, groundLevelY, 0));
+		BaseBlock edge = cuboid.getBlock(new Vector(0, groundLevelY, 0));
 		edgeType = edge.getType();
 		edgeData = edge.getData();
 		edgeRise = BlackMagic.getMaterialId(generator.oreProvider.surfaceMaterial) == edgeType ? 0 : 1;
@@ -144,7 +144,7 @@ public class Clipboard_WorldEdit extends Clipboard {
 	    for (int x = 0; x < sizeX; x++)
 	        for (int y = 0; y < sizeY; y++)
 	          for (int z = 0; z < sizeZ; z++)
-	        	  blocks[facing][x][y][z] = cuboid.getPoint(new Vector(x, y, z));
+	        	  blocks[facing][x][y][z] = cuboid.getBlock(new Vector(x, y, z));
 	}
 	
 	private EditSession getEditSession(WorldGenerator generator) {

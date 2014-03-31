@@ -2,7 +2,6 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plugins.Tekkit.OreProvider_Tekkit;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -142,37 +141,29 @@ public abstract class OreProvider extends Provider {
 		// default to stock OreProvider
 		if (provider == null) {
 
-			if (generator.settings.includeTekkitMaterials) {
-				generator.reportMessage("[OreProvider] Found ForgeTekkit, enabling its ores");
-				
-				//TODO provide nether, theend and decayed variants of Tekkit
-				provider = new OreProvider_Tekkit(generator);
-			} else {
-				
-				switch (generator.worldEnvironment) {
-				case NETHER:
-					provider = new OreProvider_Nether(generator);
+			switch (generator.worldEnvironment) {
+			case NETHER:
+				provider = new OreProvider_Nether(generator);
+				break;
+			case THE_END:
+				provider = new OreProvider_TheEnd(generator);
+				break;
+			case NORMAL:
+				switch (generator.worldStyle) {
+				case SNOWDUNES:
+					provider = new OreProvider_SnowDunes(generator);
 					break;
-				case THE_END:
-					provider = new OreProvider_TheEnd(generator);
+				case SANDDUNES:
+					provider = new OreProvider_SandDunes(generator);
 					break;
-				case NORMAL:
-					switch (generator.worldStyle) {
-					case SNOWDUNES:
-						provider = new OreProvider_SnowDunes(generator);
-						break;
-					case SANDDUNES:
-						provider = new OreProvider_SandDunes(generator);
-						break;
-					//case UNDERGROUND
-					//case LUNAR: // curved surface?
-					default: // NORMAL
-						if (generator.settings.includeDecayedNature)
-							provider = new OreProvider_Decayed(generator);
-						else
-							provider = new OreProvider_Normal(generator);
-						break;
-					}
+				//case UNDERGROUND
+				//case LUNAR: // curved surface?
+				default: // NORMAL
+					if (generator.settings.includeDecayedNature)
+						provider = new OreProvider_Decayed(generator);
+					else
+						provider = new OreProvider_Normal(generator);
+					break;
 				}
 			}
 		}

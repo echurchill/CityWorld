@@ -1,7 +1,6 @@
 package me.daddychurchill.CityWorld;
 
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Plugins.Tekkit.TekkitMaterial;
 import me.daddychurchill.CityWorld.Support.MaterialStack;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -46,9 +45,7 @@ public class CityWorldSettings {
 	public boolean includeBuildingInteriors = true;
 	public boolean includeFloatingSubsurface = true;
 
-	public boolean includeTekkitMaterials = false;
 	public boolean forceLoadWorldEdit = false;
-	public boolean forceLoadTekkit = false;
 	
 	public int centerPointOfChunkRadiusX = 0;
 	public int centerPointOfChunkRadiusZ = 0;
@@ -115,7 +112,6 @@ public class CityWorldSettings {
 	public final static String tagIncludeFloatingSubsurface = "IncludeFloatingSubsurface";
 	
 	public final static String tagForceLoadWorldEdit = "ForceLoadWorldEdit";
-	public final static String tagForceLoadTekkit = "ForceLoadTekkit";
 	
 	public CityWorldSettings(WorldGenerator generator) {
 		super();
@@ -233,7 +229,6 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeFloatingSubsurface, includeFloatingSubsurface);
 			
 			section.addDefault(tagForceLoadWorldEdit, forceLoadWorldEdit);
-			section.addDefault(tagForceLoadTekkit, forceLoadTekkit);
 			
 			// now read the bits
 			includeRoads = section.getBoolean(tagIncludeRoads, includeRoads);
@@ -345,20 +340,17 @@ public class CityWorldSettings {
 			section.set(tagIncludeFloatingSubsurface, includeFloatingSubsurface);
 			
 			section.set(tagForceLoadWorldEdit, forceLoadWorldEdit);
-			section.set(tagForceLoadTekkit, forceLoadTekkit);
 			
 			// note the depreciations
 			deprecateOption(section, "IncludePavedRoads", "DEPRECATED: Use IncludeWoolRoads if you want the old style paved roads");
 			deprecateOption(section, "RoadRange", "DEPRECATED: Use RoadChunkRadius instead");
 			deprecateOption(section, "CityRange", "DEPRECATED: Use CityChunkRadius instead");
 			deprecateOption(section, "IncludeTekkitMaterials", "DEPRECATED: ForgeTekkit is auto-recognized");
+			deprecateOption(section, "ForceLoadTekkit", "DEPRECATED: Direct Tekkit support removed as of 3.0");
 			
 			// write it back out 
 			plugin.saveConfig();
 		}
-		
-		// what about tekkit?
-		includeTekkitMaterials = TekkitMaterial.isTekkitForgeEnabled() || forceLoadTekkit;
 		
 	}
 	

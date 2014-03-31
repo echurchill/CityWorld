@@ -478,28 +478,20 @@ public abstract class CoverProvider extends Provider {
 				provider = new CoverProvider_Flooded(odds);
 				break;
 			default:
-//				if (generator.settings.includeTekkitMaterials) {
-//					generator.reportMessage("[FoliageProvider] Found ForgeTekkit, enabling its coverage");
-//	
-//					//TODO provide nether, theend and decayed variants of Tekkit
-//					provider = new FoliageProvider_Tekkit(odds);
-//				} else {
-//					
-					switch (generator.worldEnvironment) {
-					case NETHER:
-						provider = new CoverProvider_Nether(odds);
-						break;
-					case THE_END:
-						provider = new CoverProvider_TheEnd(odds);
-						break;
-					default:
-						if (generator.settings.includeDecayedNature)
-							provider = new CoverProvider_Decayed(odds);
-						else
-							provider = new CoverProvider_Normal(odds);
-						break;
-					}
-//				}
+				switch (generator.worldEnvironment) {
+				case NETHER:
+					provider = new CoverProvider_Nether(odds);
+					break;
+				case THE_END:
+					provider = new CoverProvider_TheEnd(odds);
+					break;
+				default:
+					if (generator.settings.includeDecayedNature)
+						provider = new CoverProvider_Decayed(odds);
+					else
+						provider = new CoverProvider_Normal(odds);
+					break;
+				}
 				break;
 			}
 		}

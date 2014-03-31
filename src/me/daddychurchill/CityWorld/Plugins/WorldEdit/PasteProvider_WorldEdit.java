@@ -18,7 +18,7 @@ import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 public class PasteProvider_WorldEdit extends PasteProvider {
 
 	private static String pluginName = "WorldEdit";
-	private static String pluginMinVersion = "5.4.5";
+	private static String pluginMinVersion = "5.6";
 	private File schematicsFolder;
 	
 	@Override
@@ -136,7 +136,7 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 				pm.enablePlugin(worldEditPlugin);
 
 			// woot!
-			generator.reportMessage("[PasteProvider] Found WorldEdit, enabling its schematics");
+			generator.reportMessage("[PasteProvider] Found WorldEdit v" + worldEditPlugin.getDescription().getVersion() + ", enabling its schematics");
 			
 			return new PasteProvider_WorldEdit(generator);
 			
