@@ -6,7 +6,6 @@ import org.bukkit.util.noise.NoiseGenerator;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
-import me.daddychurchill.CityWorld.Plugins.CoverProvider.LigneousType;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -55,11 +54,11 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 				// trees? but only if we are not too close to the edge of the chunk
 				if (includeTrees && primary < treeOdds && x > 0 && x < 15 && z > 0 && z < 15 && x % 2 == 0 && z % 2 != 0) {
 					if (secondary < treeAltTallOdds && x > 5 && x < 11 && z > 5 && z < 11)
-						foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.TALL_OAK);
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.TALL_OAK_TREE);
 					else if (secondary < treeAltOdds)
-						foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.BIRCH);
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.BIRCH_TREE);
 					else 
-						foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.OAK);
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.OAK_TREE);
 				
 				// foliage?
 				} else if (primary < foliageOdds) {
@@ -81,9 +80,9 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 					
 					// range change?
 					if (secondary > ((double) (y - generator.treeLevel) / (double) generator.deciduousRange))
-						foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.OAK);
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.OAK_TREE);
 					else
-						foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.PINE);
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.PINE_TREE);
 				
 				// foliage?
 				} else if (primary < foliageOdds) {
@@ -101,9 +100,9 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 				// trees? 
 				if (includeTrees && primary < treeOdds && x % 2 == 0 && z % 2 != 0) {
 					if (secondary < treeTallOdds)
-						foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.PINE);
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.PINE_TREE);
 					else
-						foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.TALL_PINE);
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.TALL_PINE_TREE);
 				
 				// foliage?
 				} else if (primary < foliageOdds) {

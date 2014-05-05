@@ -1,5 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
@@ -74,7 +75,7 @@ public class CoverProvider_Nether extends CoverProvider_Decayed {
 //	}
 
 	@Override
-	public void setCoverage(SupportChunk chunk, int x, int y, int z, CoverageType coverageType) {
+	protected void setCoverage(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageType coverageType) {
 		switch (coverageType) {
 		case GRASS:
 		case DANDELION:
@@ -103,37 +104,56 @@ public class CoverProvider_Nether extends CoverProvider_Decayed {
 		case DEAD_GRASS:
 		case CACTUS:
 		case REED:
+
 		case OAK_SAPLING:
+		case PINE_SAPLING:
 		case BIRCH_SAPLING:
-		case SPRUCE_SAPLING:
 		case JUNGLE_SAPLING:
 		case ACACIA_SAPLING:
-		case DARK_OAK_SAPLING:
-		case ACACIA_TREE:
-		case BIRCH_TREE:
-		case JUNGLE_TREE:
 		case OAK_TREE:
 		case PINE_TREE:
-		case SHORT_BIRCH_TREE:
-		case SHORT_JUNGLE_TREE:
+		case BIRCH_TREE:
+		case JUNGLE_TREE:
+		case SWAMP_TREE:
+		case ACACIA_TREE:
 		case SHORT_OAK_TREE:
 		case SHORT_PINE_TREE:
-		case SWAMP_TREE:
-		case TALL_BIRCH_TREE:
-		case TALL_JUNGLE_TREE:
+		case SHORT_BIRCH_TREE:
+		case SHORT_JUNGLE_TREE:
 		case TALL_OAK_TREE:
 		case TALL_PINE_TREE:
+		case TALL_BIRCH_TREE:
+		case TALL_JUNGLE_TREE:
+		case MINI_ACACIA_TREE:
+		case MINI_BIRCH_TREE:
+		case MINI_JUNGLE_TREE:
+		case MINI_OAK_TREE:
+		case MINI_PINE_TREE:
+		case MINI_SWAMP_TREE:
 			if (odds.playOdds(oddsOfFire))
-				super.setCoverage(chunk, x, y, z, CoverageType.FIRE);
+				super.setCoverage(generator, chunk, x, y, z, CoverageType.FIRE);
 			else if (odds.playOdds(oddsOfCrop))
-				super.setCoverage(chunk, x, y, z, CoverageType.NETHERWART);
+				super.setCoverage(generator, chunk, x, y, z, CoverageType.NETHERWART);
 			break;
+			
+		case OAK_TRUNK:
+		case PINE_TRUNK:
+		case BIRCH_TRUNK:
+		case JUNGLE_TRUNK:
+		case ACACIA_TRUNK:
+		case MINI_ACACIA_TRUNK:
+		case MINI_BIRCH_TRUNK:
+		case MINI_JUNGLE_TRUNK:
+		case MINI_OAK_TRUNK:
+		case MINI_PINE_TRUNK:
+		case MINI_SWAMP_TRUNK:
+		case SWAMP_TRUNK:
 		case DEAD_BUSH:
 		case BROWN_MUSHROOM:
 		case RED_MUSHROOM:
 		case NETHERWART:
 		case FIRE:
-			super.setCoverage(chunk, x, y, z, coverageType);
+			super.setCoverage(generator, chunk, x, y, z, coverageType);
 			break;
 		}
 	}

@@ -237,13 +237,13 @@ public class ParkLot extends ConnectedLot {
 		
 		// sprinkle some trees
 		if (circleSidewalk) {
-			generator.coverProvider.setCoverage(chunk, 7, surfaceY, 7, tallTrees);
+			generator.coverProvider.generateRandomCoverage(generator, chunk, 7, surfaceY, 7, tallTrees);
 		
 		// four smaller trees
 		} else {
 			for (int x = 4; x < 12; x += 7)
 				for (int z = 4; z < 12; z += 7)
-					generator.coverProvider.setCoverage(chunk, x, surfaceY, z, smallTrees);
+					generator.coverProvider.generateRandomCoverage(generator, chunk, x, surfaceY, z, smallTrees);
 		}
 	}
 }

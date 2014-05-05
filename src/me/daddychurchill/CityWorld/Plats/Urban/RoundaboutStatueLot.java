@@ -148,14 +148,14 @@ public class RoundaboutStatueLot extends IsolatedLot {
 			for (int x = 4; x < 12; x++) {
 				for (int z = 4; z < 12; z++) {
 					if (chunkOdds.playOdds(0.40)) {
-						generator.coverProvider.setCoverage(chunk, x, y1, z, CoverageType.GRASS);
+						generator.coverProvider.generateCoverage(generator, chunk, x, y1, z, CoverageType.GRASS);
 					}
 				}
 			}
 			
 			// tree can be art too, you know!
 			if (chunkOdds.playOdds(context.oddsOfNaturalArt)) {
-				generator.coverProvider.setCoverage(chunk, 7, y1, 7, tallTrees);
+				generator.coverProvider.generateRandomCoverage(generator, chunk, 7, y1, 7, tallTrees);
 				somethingInTheCenter = false;
 			}
 			

@@ -9,7 +9,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConnectedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plugins.CoverProvider.FoliageSets;
+import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageSets;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
@@ -367,22 +367,22 @@ public class FarmLot extends ConnectedLot {
 //				plantSaplings(generator, chunk, croplevel, CoverageType.DARK_OAK_SAPLING);
 //				break;
 			case OAK_TREE:
-				plantTrees(generator, chunk, croplevel, FoliageSets.OAK_TREES);
+				plantTrees(generator, chunk, croplevel, CoverageSets.OAK_TREES);
 				break;
 //			case PINE_TREE:
-//				plantTrees(generator, chunk, croplevel, FoliageSets.PINE_TREES);
+//				plantTrees(generator, chunk, croplevel, CoverageSets.PINE_TREES);
 //				break;
 			case BIRCH_TREE:
-				plantTrees(generator, chunk, croplevel, FoliageSets.BIRCH_TREES);
+				plantTrees(generator, chunk, croplevel, CoverageSets.BIRCH_TREES);
 				break;
 //			case JUNGLE_TREE:
-//				plantTrees(generator, chunk, croplevel, FoliageSets.JUNGLE_TREES);
+//				plantTrees(generator, chunk, croplevel, CoverageSets.JUNGLE_TREES);
 //				break;
 //			case ACACIA_TREE:
-//				plantTrees(generator, chunk, croplevel, FoliageSets.ACACIA_TREES);
+//				plantTrees(generator, chunk, croplevel, CoverageSets.ACACIA_TREES);
 //				break;
 //			case SWAMP_TREE:
-//				plantTrees(generator, chunk, croplevel, FoliageSets.SWAMP_TREES);
+//				plantTrees(generator, chunk, croplevel, CoverageSets.SWAMP_TREES);
 //				break;
 			case WHEAT:
 				plantField(generator, chunk, croplevel, CoverageType.WHEAT, 1, 2);
@@ -409,31 +409,31 @@ public class FarmLot extends ConnectedLot {
 				plantField(generator, chunk, croplevel, CoverageType.NETHERWART, 1, 2);
 				break;
 			case SHORT_FLOWERS:
-				plantField(generator, chunk, croplevel, FoliageSets.SHORT_FLOWERS, 1, 2);
+				plantField(generator, chunk, croplevel, CoverageSets.SHORT_FLOWERS, 1, 2);
 				break;
 			case TALL_FLOWERS:
-				plantField(generator, chunk, croplevel, FoliageSets.TALL_FLOWERS, 1, 2);
+				plantField(generator, chunk, croplevel, CoverageSets.TALL_FLOWERS, 1, 2);
 				break;
 			case ALL_FLOWERS:
-				plantField(generator, chunk, croplevel, FoliageSets.ALL_FLOWERS, 1, 2);
+				plantField(generator, chunk, croplevel, CoverageSets.ALL_FLOWERS, 1, 2);
 				break;
 			case SHORT_PLANTS:
-				plantField(generator, chunk, croplevel, FoliageSets.SHORT_PLANTS, 1, 2);
+				plantField(generator, chunk, croplevel, CoverageSets.SHORT_PLANTS, 1, 2);
 				break;
 			case TALL_PLANTS:
-				plantField(generator, chunk, croplevel, FoliageSets.TALL_PLANTS, 2, 2);
+				plantField(generator, chunk, croplevel, CoverageSets.TALL_PLANTS, 2, 2);
 				break;
 			case ALL_PLANTS:
-				plantField(generator, chunk, croplevel, FoliageSets.ALL_PLANTS, 2, 2);
+				plantField(generator, chunk, croplevel, CoverageSets.ALL_PLANTS, 2, 2);
 				break;
 			case EDIBLE_PLANTS:
-				plantField(generator, chunk, croplevel, FoliageSets.EDIBLE_PLANTS, 1, 3);
+				plantField(generator, chunk, croplevel, CoverageSets.EDIBLE_PLANTS, 1, 3);
 				break;
 			case NETHER_PLANTS:
-				plantField(generator, chunk, croplevel, FoliageSets.NETHER_PLANTS, 1, 2);
+				plantField(generator, chunk, croplevel, CoverageSets.NETHER_PLANTS, 1, 2);
 				break;
 			case DECAY_PLANTS:
-				plantField(generator, chunk, croplevel, FoliageSets.DECAY_PLANTS, 1, 2);
+				plantField(generator, chunk, croplevel, CoverageSets.DECAY_PLANTS, 1, 2);
 				break;
 			case FALLOW:
 				break;
@@ -479,32 +479,32 @@ public class FarmLot extends ConnectedLot {
 			for (int x = 1; x < 15; x += stepCol) {
 				for (int z = 1; z < 15; z += stepRow)
 					if (chunkOdds.playOdds(oddsOfCrop))
-						generator.coverProvider.setCoverage(chunk, x, croplevel, z, coverageType);
+						generator.coverProvider.generateCoverage(generator, chunk, x, croplevel, z, coverageType);
 			}
 		} else {
 			for (int z = 1; z < 15; z += stepCol) {
 				for (int x = 1; x < 15; x += stepRow)
 					if (chunkOdds.playOdds(oddsOfCrop))
-						generator.coverProvider.setCoverage(chunk, x, croplevel, z, coverageType);
+						generator.coverProvider.generateCoverage(generator, chunk, x, croplevel, z, coverageType);
 			}
 		}
 	}
 	
 	private void plantField(WorldGenerator generator, SupportChunk chunk, int croplevel, 
-			FoliageSets coverageSet, int stepRow, int stepCol) {
+			CoverageSets coverageSet, int stepRow, int stepCol) {
 		
 		// do the deed
 		if (directionNorthSouth) {
 			for (int x = 1; x < 15; x += stepCol) {
 				for (int z = 1; z < 15; z += stepRow)
 					if (chunkOdds.playOdds(oddsOfCrop))
-						generator.coverProvider.setCoverage(chunk, x, croplevel, z, coverageSet);
+						generator.coverProvider.generateCoverage(generator, chunk, x, croplevel, z, coverageSet);
 			}
 		} else {
 			for (int z = 1; z < 15; z += stepCol) {
 				for (int x = 1; x < 15; x += stepRow)
 					if (chunkOdds.playOdds(oddsOfCrop))
-						generator.coverProvider.setCoverage(chunk, x, croplevel, z, coverageSet);
+						generator.coverProvider.generateCoverage(generator, chunk, x, croplevel, z, coverageSet);
 			}
 		}
 	}
@@ -520,20 +520,20 @@ public class FarmLot extends ConnectedLot {
 	private void plantSaplingsRow(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, 
 			CoverageType coverageType) {
 		for (int i = 0; i < 4; i++)
-			generator.coverProvider.setCoverage(chunk, x, y, z + i * 3, coverageType);
+			generator.coverProvider.generateCoverage(generator, chunk, x, y, z + i * 3, coverageType);
 	}
 	
 	private void plantTrees(WorldGenerator generator, SupportChunk chunk, int croplevel, 
-			FoliageSets foliageSet) {
-		plantTreesRow(generator, chunk, 2, croplevel, 2, foliageSet);
-		plantTreesRow(generator, chunk, 7, croplevel, 3, foliageSet);
-		plantTreesRow(generator, chunk, 12, croplevel, 2, foliageSet);
+			CoverageSets coverageSet) {
+		plantTreesRow(generator, chunk, 2, croplevel, 2, coverageSet);
+		plantTreesRow(generator, chunk, 7, croplevel, 3, coverageSet);
+		plantTreesRow(generator, chunk, 12, croplevel, 2, coverageSet);
 	}
 	
 	private void plantTreesRow(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, 
-			FoliageSets foliageSet) {
+			CoverageSets coverageSet) {
 		for (int i = 0; i < 3; i++)
-			generator.coverProvider.setCoverage(chunk, x, y, z + i * 5, foliageSet);
+			generator.coverProvider.generateCoverage(generator, chunk, x, y, z + i * 5, coverageSet);
 	}
 	
 	private static int stepVineRowDelta = 2;

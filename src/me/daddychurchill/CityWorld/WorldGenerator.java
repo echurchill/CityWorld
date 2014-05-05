@@ -8,6 +8,7 @@ import java.util.Random;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider;
 import me.daddychurchill.CityWorld.Plugins.BalloonProvider;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider;
+import me.daddychurchill.CityWorld.Plugins.TreeProvider;
 import me.daddychurchill.CityWorld.Plugins.HouseProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.OdonymProvider;
@@ -50,6 +51,7 @@ public class WorldGenerator extends ChunkGenerator {
 	public OdonymProvider odonymProvider;
 	public BalloonProvider balloonProvider;
 	public HouseProvider houseProvider;
+	public TreeProvider treeProvider;
 	
 	public WorldBlocks decayBlocks;
 	
@@ -142,6 +144,7 @@ public class WorldGenerator extends ChunkGenerator {
 			surfaceProvider = SurfaceProvider.loadProvider(this, new Odds(worldSeed + 5));
 			balloonProvider = BalloonProvider.loadProvider(this);
 			houseProvider = HouseProvider.loadProvider(this);
+			treeProvider = TreeProvider.loadProvider(this);
 			decayBlocks = new WorldBlocks(this, new Odds(worldSeed + 6));
 			pasteProvider = PasteProvider.loadProvider(this);
 			

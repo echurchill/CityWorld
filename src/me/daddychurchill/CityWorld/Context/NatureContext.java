@@ -64,8 +64,10 @@ public class NatureContext extends UncivilizedContext {
 				if (current == null) {
 					
 					// what is the world location of the lot?
-					int blockX = (originX + x) * SupportChunk.chunksBlockWidth;
-					int blockZ = (originZ + z) * SupportChunk.chunksBlockWidth;
+					int chunkX = originX + x;
+					int chunkZ = originZ + z;
+					int blockX = chunkX * SupportChunk.chunksBlockWidth;
+					int blockZ = chunkZ * SupportChunk.chunksBlockWidth;
 					
 					// get the height info for this chunk
 					heights = HeightInfo.getHeightsFaster(generator, blockX, blockZ);
@@ -98,6 +100,15 @@ public class NatureContext extends UncivilizedContext {
 								
 								// if not one of the innermost or the height isn't tall enough for bunkers
 								if (!innermost || minHeight < BunkerLot.calcBunkerMinHeight(generator)) {
+//									if (heights.isSortaFlat()) {
+//										if (generator.shapeProvider.isIsolatedConstructAt(chunkX, chunkZ, oddsOfIsolatedConstructs)) {
+//											generator.reportMessage("FOUND Isolated @ " + blockX + "," + blockZ);
+//											current = createSurfaceBuildingLot(generator, platmap, chunkX, chunkZ, heights);
+//										} else {
+//											generator.reportMessage("MISSING Isolated @ " + blockX + "," + blockZ);
+//										}
+//									}
+									
 									if (heights.isSortaFlat() && generator.shapeProvider.isIsolatedConstructAt(originX + x, originZ + z, oddsOfIsolatedConstructs))
 										current = createSurfaceBuildingLot(generator, platmap, originX + x, originZ + z, heights);
 									break;
@@ -105,7 +116,7 @@ public class NatureContext extends UncivilizedContext {
 							case HIGHLAND:
 							case PEAK:
 								if (doBunkers && innermost)
-									current = createBuriedBuildingLot(generator, platmap, originX + x, originZ + z);
+									current = createBuriedBuildingLot(generator, platmap, chunkX, chunkZ);
 								break;
 							default:
 								break;

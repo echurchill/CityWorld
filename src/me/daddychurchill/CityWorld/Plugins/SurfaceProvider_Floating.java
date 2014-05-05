@@ -6,7 +6,6 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
-import me.daddychurchill.CityWorld.Plugins.CoverProvider.LigneousType;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -49,11 +48,11 @@ public class SurfaceProvider_Floating extends SurfaceProvider {
 			// trees? but only if we are not too close to the edge
 			if (includeTrees && primary < treeOdds && x > 0 && x < 15 && z > 0 && z < 15 && x % 2 == 0 && z % 2 != 0) {
 				if (secondary < treePineOdds)
-					foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.MINI_PINE);
+					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.MINI_PINE_TREE);
 				else if (secondary < treeBirchOdds)
-					foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.MINI_BIRCH);
+					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.MINI_BIRCH_TREE);
 				else 
-					foliage.generateTree(generator, chunk, x, y + 1, z, LigneousType.MINI_OAK);
+					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.MINI_OAK_TREE);
 			
 			// foliage?
 			} else if (primary < foliageOdds && y <= ShapeProvider_Floating.snowPoint) {

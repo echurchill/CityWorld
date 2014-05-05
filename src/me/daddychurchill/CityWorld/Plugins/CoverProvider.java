@@ -3,7 +3,6 @@ package me.daddychurchill.CityWorld.Plugins;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
@@ -13,7 +12,6 @@ import org.bukkit.Material;
 import org.bukkit.NetherWartsState;
 import org.bukkit.TreeSpecies;
 import org.bukkit.TreeType;
-import org.bukkit.block.Block;
 import org.bukkit.material.Crops;
 import org.bukkit.material.LongGrass;
 import org.bukkit.material.NetherWarts;
@@ -21,12 +19,6 @@ import org.bukkit.material.Tree;
 
 public abstract class CoverProvider extends Provider {
 	
-	public enum LigneousType {MINI_OAK, SHORT_OAK, OAK, TALL_OAK, 
-							  MINI_PINE, SHORT_PINE, PINE, TALL_PINE, 
-							  MINI_BIRCH, SHORT_BIRCH, BIRCH, TALL_BIRCH, 
-							  MINI_JUNGLE, SHORT_JUNGLE, JUNGLE, TALL_JUNGLE,
-//							  BROWN_MUSHROOM, RED_MUSHROOM,
-							  SWAMP, ACACIA};
 	public enum CoverageType {
 		GRASS, FERN, DEAD_GRASS, DANDELION, DEAD_BUSH, 
 		
@@ -37,22 +29,30 @@ public abstract class CoverProvider extends Provider {
 		
 		CACTUS, REED, EMERALD_GREEN, 
 		
-		OAK_SAPLING, SPRUCE_SAPLING, BIRCH_SAPLING, 
-		JUNGLE_SAPLING, ACACIA_SAPLING, DARK_OAK_SAPLING,
+		OAK_SAPLING, PINE_SAPLING, BIRCH_SAPLING, 
+		JUNGLE_SAPLING, ACACIA_SAPLING,
 		
-		SHORT_OAK_TREE, OAK_TREE, TALL_OAK_TREE, 
-		SHORT_PINE_TREE, PINE_TREE, TALL_PINE_TREE, 
-		SHORT_BIRCH_TREE, BIRCH_TREE, TALL_BIRCH_TREE, 
-		SHORT_JUNGLE_TREE, JUNGLE_TREE, TALL_JUNGLE_TREE,
-		SWAMP_TREE, ACACIA_TREE,
+		MINI_OAK_TREE, SHORT_OAK_TREE, OAK_TREE, TALL_OAK_TREE, 
+		MINI_PINE_TREE, SHORT_PINE_TREE, PINE_TREE, TALL_PINE_TREE, 
+		MINI_BIRCH_TREE, SHORT_BIRCH_TREE, BIRCH_TREE, TALL_BIRCH_TREE, 
+		MINI_JUNGLE_TREE, SHORT_JUNGLE_TREE, JUNGLE_TREE, TALL_JUNGLE_TREE,
+		MINI_SWAMP_TREE, SWAMP_TREE,
+		MINI_ACACIA_TREE, ACACIA_TREE,
 //		TALL_BROWN_MUSHROOM, TALL_RED_MUSHROOM,
 		  
+		MINI_OAK_TRUNK, OAK_TRUNK, 
+		MINI_PINE_TRUNK, PINE_TRUNK, 
+		MINI_BIRCH_TRUNK, BIRCH_TRUNK, 
+		MINI_JUNGLE_TRUNK, JUNGLE_TRUNK,
+		MINI_SWAMP_TRUNK, SWAMP_TRUNK,
+		MINI_ACACIA_TRUNK, ACACIA_TRUNK,
+		
 		WHEAT, CARROTS, POTATO, MELON, PUMPKIN, 
 
 		BROWN_MUSHROOM, RED_MUSHROOM, NETHERWART,
 		FIRE};
 	
-	public enum FoliageSets {SHORT_FLOWERS, TALL_FLOWERS, ALL_FLOWERS,
+	public enum CoverageSets {SHORT_FLOWERS, TALL_FLOWERS, ALL_FLOWERS,
 		SHORT_PLANTS, TALL_PLANTS, ALL_PLANTS,
 		GENERAL_SAPLINGS, ALL_SAPLINGS, 
 		OAK_TREES, PINE_TREES, BIRCH_TREES, 
@@ -100,21 +100,20 @@ public abstract class CoverProvider extends Provider {
 		CoverageType.PUMPKIN};
 
 	private final static CoverageType[] GeneralSaplings = {
-		CoverageType.OAK_SAPLING, CoverageType.SPRUCE_SAPLING,
-		CoverageType.BIRCH_SAPLING, CoverageType.DARK_OAK_SAPLING};
+		CoverageType.OAK_SAPLING, CoverageType.PINE_SAPLING,
+		CoverageType.BIRCH_SAPLING};
 	
 	private final static CoverageType[] AllSaplings = {
-		CoverageType.OAK_SAPLING, CoverageType.SPRUCE_SAPLING,
-		CoverageType.BIRCH_SAPLING, CoverageType.DARK_OAK_SAPLING,
-		CoverageType.JUNGLE_SAPLING, CoverageType.ACACIA_SAPLING};
-
+		CoverageType.OAK_SAPLING, CoverageType.PINE_SAPLING,
+		CoverageType.BIRCH_SAPLING, CoverageType.JUNGLE_SAPLING, 
+		CoverageType.ACACIA_SAPLING};
+	
 	private final static CoverageType[] OakTrees = {
-		CoverageType.OAK_SAPLING, CoverageType.DARK_OAK_SAPLING, 
-		CoverageType.SHORT_OAK_TREE, CoverageType.OAK_TREE, 
-		CoverageType.TALL_OAK_TREE};
+		CoverageType.OAK_SAPLING, CoverageType.SHORT_OAK_TREE, 
+		CoverageType.OAK_TREE, CoverageType.TALL_OAK_TREE};
 	
 	private final static CoverageType[] PineTrees = {
-		CoverageType.SPRUCE_SAPLING, CoverageType.SHORT_PINE_TREE, 
+		CoverageType.PINE_SAPLING, CoverageType.SHORT_PINE_TREE, 
 		CoverageType.PINE_TREE, CoverageType.TALL_PINE_TREE};
 	
 	private final static CoverageType[] BirchTrees = {
@@ -151,77 +150,76 @@ public abstract class CoverProvider extends Provider {
 		this.odds = odds;
 	}
 	
-	public abstract boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, LigneousType treeType);
-	public abstract boolean generateCoverage(WorldGenerator generator, RealChunk chunk, int x, int y, int z, CoverageType coverageType);
+	public abstract boolean generateCoverage(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageType coverageType);
 	
-	public void setCoverage(SupportChunk chunk, int x, int y, int z, CoverageType ... types) {
-		setCoverage(chunk, x, y, z, getRandomCoverage(types));
-	}
-	
-	public CoverageType getRandomCoverage(CoverageType ... types) {
+	private CoverageType getRandomCoverage(CoverageType ... types) {
 		return types[odds.getRandomInt(types.length)];
 	}
 	
-	public void setCoverage(SupportChunk chunk, int x, int y, int z, FoliageSets coverageSet) {
+	public void generateRandomCoverage(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageType ... types) {
+		setCoverage(generator, chunk, x, y, z, getRandomCoverage(types));
+	}
+	
+	public void generateCoverage(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageSets coverageSet) {
 		switch (coverageSet) {
 		case ALL_FLOWERS:
-			setCoverage(chunk, x, y, z, AllFlowers);
+			generateRandomCoverage(generator, chunk, x, y, z, AllFlowers);
 			break;
 		case ALL_PLANTS:
-			setCoverage(chunk, x, y, z, AllPlants);
+			generateRandomCoverage(generator, chunk, x, y, z, AllPlants);
 			break;
 		case ALL_SAPLINGS:
-			setCoverage(chunk, x, y, z, AllSaplings);
+			generateRandomCoverage(generator, chunk, x, y, z, AllSaplings);
 			break;
 		case EDIBLE_PLANTS:
-			setCoverage(chunk, x, y, z, EdiblePlants);
+			generateRandomCoverage(generator, chunk, x, y, z, EdiblePlants);
 			break;
 		case GENERAL_SAPLINGS:
-			setCoverage(chunk, x, y, z, GeneralSaplings);
+			generateRandomCoverage(generator, chunk, x, y, z, GeneralSaplings);
 			break;
 		case OAK_TREES:
-			setCoverage(chunk, x, y, z, OakTrees);
+			generateRandomCoverage(generator, chunk, x, y, z, OakTrees);
 			break;
 		case PINE_TREES:
-			setCoverage(chunk, x, y, z, PineTrees);
+			generateRandomCoverage(generator, chunk, x, y, z, PineTrees);
 			break;
 		case BIRCH_TREES:
-			setCoverage(chunk, x, y, z, BirchTrees);
+			generateRandomCoverage(generator, chunk, x, y, z, BirchTrees);
 			break;
 		case JUNGLE_TREES:
-			setCoverage(chunk, x, y, z, JungleTrees);
+			generateRandomCoverage(generator, chunk, x, y, z, JungleTrees);
 			break;
 		case ACACIA_TREES:
-			setCoverage(chunk, x, y, z, AcaciaTrees);
+			generateRandomCoverage(generator, chunk, x, y, z, AcaciaTrees);
 			break;
 		case SWAMP_TREES:
-			setCoverage(chunk, x, y, z, SwampTrees);
+			generateRandomCoverage(generator, chunk, x, y, z, SwampTrees);
 			break;
 		case NETHER_PLANTS:
-			setCoverage(chunk, x, y, z, NetherPlants);
+			generateRandomCoverage(generator, chunk, x, y, z, NetherPlants);
 			break;
 		case DECAY_PLANTS:
-			setCoverage(chunk, x, y, z, DecayPlants);
+			generateRandomCoverage(generator, chunk, x, y, z, DecayPlants);
 			break;
 		case SHORT_FLOWERS:
-			setCoverage(chunk, x, y, z, ShortFlowers);
+			generateRandomCoverage(generator, chunk, x, y, z, ShortFlowers);
 			break;
 		case SHORT_PLANTS:
-			setCoverage(chunk, x, y, z, ShortPlants);
+			generateRandomCoverage(generator, chunk, x, y, z, ShortPlants);
 			break;
 		case SHORT_MUSHROOMS:
-			setCoverage(chunk, x, y, z, ShortMushrooms);
+			generateRandomCoverage(generator, chunk, x, y, z, ShortMushrooms);
 			break;
 		case TALL_FLOWERS:
-			setCoverage(chunk, x, y, z, TallFlowers);
+			generateRandomCoverage(generator, chunk, x, y, z, TallFlowers);
 			break;
 		case TALL_PLANTS:
-			setCoverage(chunk, x, y, z, TallPlants);
+			generateRandomCoverage(generator, chunk, x, y, z, TallPlants);
 			break;
 		}
 	}
 	
-	public void setCoverage(SupportChunk chunk, int x, int y, int z, CoverageType coverageType) {
+	protected void setCoverage(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageType coverageType) {
 		switch (coverageType) {
 		case GRASS:
 			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
@@ -327,7 +325,7 @@ public abstract class CoverProvider extends Provider {
 			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT);
 			chunk.setBlock(x, y, z, Material.SAPLING, new Tree(TreeSpecies.BIRCH));
 			break;
-		case SPRUCE_SAPLING:
+		case PINE_SAPLING:
 			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT);
 			chunk.setBlock(x, y, z, Material.SAPLING, new Tree(TreeSpecies.REDWOOD)); //TODO: Bukkit type mismatch/missing
 			break;
@@ -339,58 +337,105 @@ public abstract class CoverProvider extends Provider {
 			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT);
 			chunk.setBlock(x, y, z, Material.SAPLING, new Tree(TreeSpecies.ACACIA));
 			break;
-		case DARK_OAK_SAPLING:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT);
-			chunk.setBlockIfNot(x + 1, y - 1, z, Material.GRASS, Material.DIRT);
-			chunk.setBlockIfNot(x, y - 1, z + 1, Material.GRASS, Material.DIRT);
-			chunk.setBlockIfNot(x + 1, y - 1, z + 1, Material.GRASS, Material.DIRT);
-			chunk.setBlock(x, y, z, Material.SAPLING, new Tree(TreeSpecies.DARK_OAK));
-			chunk.setBlock(x + 1, y, z, Material.SAPLING, new Tree(TreeSpecies.DARK_OAK));
-			chunk.setBlock(x, y, z + 1, Material.SAPLING, new Tree(TreeSpecies.DARK_OAK));
-			chunk.setBlock(x + 1, y, z + 1, Material.SAPLING, new Tree(TreeSpecies.DARK_OAK));
+			
+		case MINI_OAK_TRUNK:
+			generator.treeProvider.generateMiniTrunk(chunk, x, y, z, TreeType.TREE);
+			break;
+		case OAK_TRUNK:
+			generator.treeProvider.generateNormalTrunk(chunk, x, y, z, TreeType.TREE);
+			break;
+		case MINI_PINE_TRUNK:
+			generator.treeProvider.generateMiniTrunk(chunk, x, y, z, TreeType.REDWOOD);
+			break;
+		case PINE_TRUNK:
+			generator.treeProvider.generateNormalTrunk(chunk, x, y, z, TreeType.REDWOOD);
+			break;
+		case MINI_BIRCH_TRUNK:
+			generator.treeProvider.generateMiniTrunk(chunk, x, y, z, TreeType.BIRCH);
+			break;
+		case BIRCH_TRUNK:
+			generator.treeProvider.generateNormalTrunk(chunk, x, y, z, TreeType.BIRCH);
+			break;
+		case MINI_JUNGLE_TRUNK:
+			generator.treeProvider.generateNormalTrunk(chunk, x, y, z, TreeType.JUNGLE);
+			break;
+		case JUNGLE_TRUNK:
+			generator.treeProvider.generateNormalTrunk(chunk, x, y, z, TreeType.JUNGLE);
+			break;
+		case MINI_SWAMP_TRUNK:
+			generator.treeProvider.generateMiniTrunk(chunk, x, y, z, TreeType.SWAMP);
+			break;
+		case SWAMP_TRUNK:
+			generator.treeProvider.generateNormalTrunk(chunk, x, y, z, TreeType.SWAMP);
+			break;
+		case MINI_ACACIA_TRUNK:
+			generator.treeProvider.generateMiniTrunk(chunk, x, y, z, TreeType.ACACIA);
+			break;
+		case ACACIA_TRUNK:
+			generator.treeProvider.generateNormalTrunk(chunk, x, y, z, TreeType.ACACIA);
+			break;
+			
+		case MINI_OAK_TREE:
+			generator.treeProvider.generateMiniTree(chunk, x, y, z, TreeType.TREE);
 			break;
 		case SHORT_OAK_TREE:
-			generateTree(chunk, x, y, z, LigneousType.SHORT_OAK);
+			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.TREE);
 			break;
 		case OAK_TREE:
-			generateTree(chunk, x, y, z, LigneousType.OAK);
+			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.BIG_TREE);
 			break;
 		case TALL_OAK_TREE:
-			generateTree(chunk, x, y, z, LigneousType.TALL_OAK);
+			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.DARK_OAK);
+			break;
+		case MINI_PINE_TREE:
+			generator.treeProvider.generateMiniTree(chunk, x, y, z, TreeType.REDWOOD);
 			break;
 		case SHORT_PINE_TREE:
-			generateTree(chunk, x, y, z, LigneousType.SHORT_PINE);
+			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.REDWOOD);
 			break;
 		case PINE_TREE:
-			generateTree(chunk, x, y, z, LigneousType.PINE);
+			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.TALL_REDWOOD);
 			break;
 		case TALL_PINE_TREE:
-			generateTree(chunk, x, y, z, LigneousType.TALL_PINE);
+			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.MEGA_REDWOOD);
+			break;
+		case MINI_BIRCH_TREE:
+			generator.treeProvider.generateMiniTree(chunk, x, y, z, TreeType.BIRCH);
 			break;
 		case SHORT_BIRCH_TREE:
-			generateTree(chunk, x, y, z, LigneousType.SHORT_BIRCH);
+			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.BIRCH);
 			break;
 		case BIRCH_TREE:
-			generateTree(chunk, x, y, z, LigneousType.BIRCH);
+			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.BIRCH);
 			break;
 		case TALL_BIRCH_TREE:
-			generateTree(chunk, x, y, z, LigneousType.TALL_BIRCH);
+			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.TALL_BIRCH);
+			break;
+		case MINI_JUNGLE_TREE:
+			generator.treeProvider.generateMiniTree(chunk, x, y, z, TreeType.JUNGLE);
 			break;
 		case SHORT_JUNGLE_TREE:
-			generateTree(chunk, x, y, z, LigneousType.SHORT_JUNGLE);
+			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.JUNGLE_BUSH);
 			break;
 		case JUNGLE_TREE:
-			generateTree(chunk, x, y, z, LigneousType.JUNGLE);
+			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.SMALL_JUNGLE);
 			break;
 		case TALL_JUNGLE_TREE:
-			generateTree(chunk, x, y, z, LigneousType.TALL_JUNGLE);
+			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.JUNGLE);
+			break;
+		case MINI_SWAMP_TREE:
+			generator.treeProvider.generateMiniTree(chunk, x, y, z, TreeType.SWAMP);
 			break;
 		case SWAMP_TREE:
-			generateTree(chunk, x, y, z, LigneousType.SWAMP);
+			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.SWAMP);
+			break;
+		case MINI_ACACIA_TREE:
+			generator.treeProvider.generateMiniTree(chunk, x, y, z, TreeType.ACACIA);
 			break;
 		case ACACIA_TREE:
-			generateTree(chunk, x, y, z, LigneousType.ACACIA);
+			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.ACACIA);
 			break;
+			
 		case WHEAT:
 			chunk.setBlockIfNot(x, y - 1, z, Material.SOIL);
 			chunk.setBlock(x, y, z, Material.CROPS, new Crops(getRandomWheatGrowth())); //TODO: Bukkit type mismatch/missing
@@ -499,7 +544,7 @@ public abstract class CoverProvider extends Provider {
 		return provider;
 	}
 	
-	public boolean isPlantable(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
+	public boolean isPlantable(WorldGenerator generator, SupportChunk chunk, int x, int y, int z) {
 		
 		// only if the spot above is empty
 		if (!chunk.isEmpty(x, y + 1, z))
@@ -512,288 +557,82 @@ public abstract class CoverProvider extends Provider {
 			return chunk.isPlantable(x, y, z);
 	}
 	
-	private int maxTries = 3;
-
-	protected boolean generateTree(SupportChunk chunk, int x, int y, int z, LigneousType type) {
-		switch (type) {
-		case MINI_BIRCH:
-			return generateMiniTree(chunk, x, y, z, TreeType.BIRCH);
-		case SHORT_BIRCH:
-			return generateNormalTree(chunk, x, y, z, TreeType.BIRCH); // BUKKIT: there isn't a smaller than normal Birch tree
-		case BIRCH:
-			return generateNormalTree(chunk, x, y, z, TreeType.BIRCH);
-		case TALL_BIRCH:
-			return generateNormalTree(chunk, x, y, z, TreeType.TALL_BIRCH);
-
-		case MINI_PINE:
-			return generateMiniTree(chunk, x, y, z, TreeType.REDWOOD);
-		case SHORT_PINE:
-			return generateNormalTree(chunk, x, y, z, TreeType.REDWOOD);
-		case PINE:
-			return generateNormalTree(chunk, x, y, z, TreeType.TALL_REDWOOD);
-		case TALL_PINE:
-			return generateNormalTree(chunk, x, y, z, TreeType.MEGA_REDWOOD);
-
-		case MINI_OAK:
-			return generateMiniTree(chunk, x, y, z, TreeType.TREE);
-		case SHORT_OAK:
-			return generateNormalTree(chunk, x, y, z, TreeType.TREE);
-		case OAK:
-			return generateNormalTree(chunk, x, y, z, TreeType.BIG_TREE);
-		case TALL_OAK:
-			return generateNormalTree(chunk, x, y, z, TreeType.DARK_OAK);
-
-		case MINI_JUNGLE:
-			return generateMiniTree(chunk, x, y, z, TreeType.JUNGLE);
-		case SHORT_JUNGLE:
-			return generateNormalTree(chunk, x, y, z, TreeType.JUNGLE_BUSH);
-		case JUNGLE:
-			return generateNormalTree(chunk, x, y, z, TreeType.SMALL_JUNGLE);
-		case TALL_JUNGLE:
-			return generateNormalTree(chunk, x, y, z, TreeType.JUNGLE);
-
-		case SWAMP:
-			return generateNormalTree(chunk, x, y, z, TreeType.SWAMP);
-		case ACACIA:
-			return generateNormalTree(chunk, x, y, z, TreeType.ACACIA);
-//		case BROWN_MUSHROOM:
-//			return generateNormalTree(chunk, x, y, z, TreeType.BROWN_MUSHROOM, trunk, leaves1, leaves2);
-//		case RED_MUSHROOM:
-//			return generateNormalTree(chunk, x, y, z, TreeType.RED_MUSHROOM, trunk, leaves1, leaves2);
+	protected boolean isATree(CoverageType coverageType) {
+		switch (coverageType) {
+		case MINI_OAK_TREE:
+		case SHORT_OAK_TREE:
+		case OAK_TREE:
+		case TALL_OAK_TREE:
+			
+		case MINI_PINE_TREE:
+		case SHORT_PINE_TREE:
+		case PINE_TREE:
+		case TALL_PINE_TREE:
+		
+		case MINI_BIRCH_TREE:
+		case SHORT_BIRCH_TREE:
+		case BIRCH_TREE:
+		case TALL_BIRCH_TREE:
+		
+		case MINI_JUNGLE_TREE:
+		case SHORT_JUNGLE_TREE:
+		case JUNGLE_TREE:
+		case TALL_JUNGLE_TREE:
+		
+		case MINI_SWAMP_TREE:
+		case SWAMP_TREE:
+		
+		case MINI_ACACIA_TREE:
+		case ACACIA_TREE:
+			return true;
+		
 		default:
 			return false;
 		}
 	}
 	
-	protected boolean generateTrunk(RealChunk chunk, int x, int y, int z, 
-			LigneousType type) {
+	protected CoverageType convertToTrunk(CoverageType coverageType) {
+		switch (coverageType) {
+		case MINI_OAK_TREE:
+			return CoverageType.MINI_OAK_TRUNK;
+		case SHORT_OAK_TREE:
+		case OAK_TREE:
+		case TALL_OAK_TREE:
+			return CoverageType.OAK_TRUNK;
+			
+		case MINI_PINE_TREE:
+			return CoverageType.MINI_PINE_TRUNK;
+		case SHORT_PINE_TREE:
+		case PINE_TREE:
+		case TALL_PINE_TREE:
+			return CoverageType.PINE_TRUNK;
 		
-		Material trunkMaterial = Material.LOG;
-		int treeHeight;
-		int treeData;
+		case MINI_BIRCH_TREE:
+			return CoverageType.MINI_BIRCH_TRUNK;
+		case SHORT_BIRCH_TREE:
+		case BIRCH_TREE:
+		case TALL_BIRCH_TREE:
+			return CoverageType.BIRCH_TRUNK;
 		
-		switch (type) {
-		case SHORT_OAK:
-			treeHeight = 3;
-			treeData = 0;
-			break;
+		case MINI_JUNGLE_TREE:
+			return CoverageType.MINI_JUNGLE_TRUNK;
+		case SHORT_JUNGLE_TREE:
+		case JUNGLE_TREE:
+		case TALL_JUNGLE_TREE:
+			return CoverageType.JUNGLE_TRUNK;
+		
+		case MINI_SWAMP_TREE:
+			return CoverageType.MINI_SWAMP_TRUNK;
+		case SWAMP_TREE:
+			return CoverageType.SWAMP_TRUNK;
+		
+		case MINI_ACACIA_TREE:
+			return CoverageType.MINI_ACACIA_TRUNK;
+		case ACACIA_TREE:
+			return CoverageType.ACACIA_TRUNK;
+		
 		default:
-		case OAK:
-			treeHeight = 5;
-			treeData = 0;
-			break;
-		case TALL_OAK:
-			treeHeight = 7;
-			treeData = 0;
-			break;
-			
-		case SHORT_PINE:
-			treeHeight = 3;
-			treeData = 1;
-			break;
-		case PINE:
-			treeHeight = 5;
-			treeData = 1;
-			break;
-		case TALL_PINE:
-			treeHeight = 9;
-			treeData = 1;
-			break;
-			
-		case SHORT_BIRCH:
-			treeHeight = 3;
-			treeData = 2;
-			break;
-		case BIRCH: 
-			treeHeight = 5;
-			treeData = 2;
-			break;
-		case TALL_BIRCH:
-			treeHeight = 7;
-			treeData = 2;
-			break;
-			
-		case SWAMP:
-		case SHORT_JUNGLE:
-			treeHeight = 1;
-			treeData = 3;
-			break;
-		case JUNGLE: 
-			treeHeight = 5;
-			treeData = 3;
-			break;
-		case TALL_JUNGLE:
-			treeHeight = 9;
-			treeData = 3;
-			break;
-			
-		case ACACIA:
-			trunkMaterial = Material.LOG_2;
-			treeHeight = 4;
-			treeData = 0;
-			break;
+			return coverageType;
 		}
-		BlackMagic.setBlocks(chunk, x, y, y + treeHeight, z, trunkMaterial, treeData);
-		
-		return true;
 	}
-	
-	protected boolean generateMiniTree(SupportChunk chunk, int x, int y, int z, TreeType treeType) {
-		Material trunk = Material.LOG;
-		Material leaves = Material.LEAVES;
-		int treeData = 0;
-		int treeHeight = 2;
-		
-		// Figure out the height
-		switch (treeType) {
-		case TREE:
-		case REDWOOD:
-		case BIRCH:
-		case JUNGLE_BUSH:
-			treeHeight = 2;
-			break;
-
-		case BIG_TREE:
-		case TALL_REDWOOD:
-		case TALL_BIRCH:
-		case SMALL_JUNGLE:
-		case ACACIA:
-			treeHeight = 3;
-			break;
-		
-		case DARK_OAK:
-		case MEGA_REDWOOD:
-		case JUNGLE:
-			treeHeight = 4;
-			break;
-			
-		case BROWN_MUSHROOM: //TODO: We don't do these yet
-		case RED_MUSHROOM:
-		case SWAMP:
-		default:
-			return false;
-		}
-
-		// Figure out the material data
-		switch (treeType) {
-		default:
-		case TREE:
-		case BIG_TREE:
-		case DARK_OAK:
-			treeData = 0;
-			break;
-			
-		case REDWOOD:
-		case TALL_REDWOOD:
-		case MEGA_REDWOOD:
-			treeData = 1;
-			break;
-			
-		case BIRCH:
-		case TALL_BIRCH:
-			treeData = 2;
-			break;
-			
-		case JUNGLE_BUSH:
-		case SMALL_JUNGLE:
-		case JUNGLE:
-			treeData = 3;
-			break;
-		case ACACIA:
-			trunk = Material.LOG_2;
-			leaves = Material.LEAVES_2;
-			treeData = 0;
-			break;
-		}
-
-		int trunkHeight = treeHeight - 1;
-		BlackMagic.setBlocks(chunk, x, y, y + treeHeight, z, trunk, treeData);
-		BlackMagic.setBlock(chunk, x - 1, y + trunkHeight, z, leaves, treeData);
-		BlackMagic.setBlock(chunk, x + 1, y + trunkHeight, z, leaves, treeData);
-		BlackMagic.setBlock(chunk, x, y + trunkHeight, z - 1, leaves, treeData);
-		BlackMagic.setBlock(chunk, x, y + trunkHeight, z + 1, leaves, treeData);
-		BlackMagic.setBlock(chunk, x, y + treeHeight, z, leaves, treeData);
-		
-		return true;
-	}
-	
-//	protected boolean generateNormalTree(RealChunk chunk, Odds odds, int x, int y, int z, 
-//			TreeType treeType, Material trunk, Material leaves1, Material leaves2) {
-	protected boolean generateNormalTree(SupportChunk chunk, int x, int y, int z, 
-			TreeType treeType) {
-		boolean result = false;
-//		boolean customTree = trunk != log || leaves1 != leaves || leaves2 != leaves;
-		
-		// where do we start?
-		int bottomY = y;
-		int trunkWidth = 1;
-		Block base = chunk.getActualBlock(x, y - 1, z);
-		Material baseMaterial = base.getType();
-		byte baseData = BlackMagic.getMaterialData(base);
-		if (treeType == TreeType.DARK_OAK)
-			trunkWidth = 2;
-		
-		try {
-			int tries = 0;
-			
-			// keep moving up till we get a tree
-			while (tries < maxTries) {
-				
-				// a place to plant
-				chunk.setBlocks(x, x + trunkWidth, y - 1, z, z + trunkWidth, Material.DIRT);
-				
-				// did we make a tree?
-//TODO: THIS WAS NERFED FOR 1.7.2, DO NOT USE
-//				if (customTree)
-//					result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, 
-//							getCustomTreeDelegate(chunk, odds, trunk, leaves1, leaves2));
-//				else
-//					result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType, 
-//							getVanillaTreeDelegate(chunk));
-				result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType);
-				
-				// did it finally work?
-				if (result) {
-					
-					// copy the trunk down a bit
-					Block root = chunk.getActualBlock(x, y, z);
-					BlackMagic.setBlocks(chunk, x, x + trunkWidth, bottomY, y, z, z + trunkWidth, 
-							root.getType(), BlackMagic.getMaterialData(root));
-					
-					// all done
-					break;
-					
-				// on failure move a bit more
-				} else {
-					y++;
-				}
-				
-				// and again?
-				tries++;
-			}
-		} finally {
-			
-			// if we actually failed remove all that dirt we made
-			if (!result)
-				chunk.setBlocks(x, x + trunkWidth, bottomY, y, z, z + trunkWidth, Material.AIR);
- 			
-			// set the base back to what it was originally
-			BlackMagic.setBlocks(chunk, x, x + trunkWidth, bottomY - 1, z, z + trunkWidth, baseMaterial, baseData);
-		}
-		return result;
-	}
-	
-//	public final static Material log = Material.LOG;
-//	public final static byte logId = BlackMagic.getMaterialId(log);
-//	public final static Material leaves = Material.LEAVES;
-//	public final static byte leavesId = BlackMagic.getMaterialId(leaves);
-//	
-//	protected BlockChangeDelegate getCustomTreeDelegate(RealChunk chunk, Odds odds, 
-//			Material trunk, Material leaves1, Material leaves2) {
-//		return new TreeCustomDelegate(chunk, odds, trunk, leaves1, leaves2);
-//	}
-//	
-//	protected BlockChangeDelegate getVanillaTreeDelegate(RealChunk chunk) {
-//		return new TreeVanillaDelegate(chunk);
-//	}
 }

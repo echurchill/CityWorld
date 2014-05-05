@@ -429,8 +429,4 @@ public class ShapeProvider_Normal extends ShapeProvider {
 			return true;
 	}
 	
-	public boolean isSurfaceCaveAt(double chunkX, double chunkZ) {
-		return microBooleanAt(chunkX, chunkZ, microSurfaceCaveSlot);
-	}
-
 }

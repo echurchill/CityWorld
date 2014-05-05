@@ -213,19 +213,35 @@ public abstract class ShapeProvider extends Provider {
 	private double macroScale = 1.0 / 384.0;
 	private double microScale = 2.0;
 	
-	public double getMicroNoiseAt(double x, double z, int a) {
+	private double getMicroNoiseAt(double x, double z, int a) {
 		return microShape.noise(x * microScale, z * microScale, a);
 	}
 	
-	public double getMacroNoiseAt(double x, double z, int a) {
+	private double getMacroNoiseAt(double x, double z, int a) {
 		return macroShape.noise(x * macroScale, z * macroScale, a);
 	}
 	
-	public boolean macroBooleanAt(double chunkX, double chunkZ, int slot) {
+//	private int macroValueAt(double chunkX, double chunkZ, int slot, int scale) {
+//		return NoiseGenerator.floor(macroScaleAt(chunkX, chunkZ, slot) * scale);
+//	}
+//
+//	private int microValueAt(double chunkX, double chunkZ, int slot, int scale) {
+//		return NoiseGenerator.floor(microScaleAt(chunkX, chunkZ, slot) * scale);
+//	}
+//
+//	private double macroScaleAt(double chunkX, double chunkZ, int slot) {
+//		return (getMacroNoiseAt(chunkX, chunkZ, slot) + 1.0) / 2.0;
+//	}
+
+	private double microScaleAt(double chunkX, double chunkZ, int slot) {
+		return (getMicroNoiseAt(chunkX, chunkZ, slot) + 1.0) / 2.0;
+	}
+	
+	private boolean macroBooleanAt(double chunkX, double chunkZ, int slot) {
 		return getMacroNoiseAt(chunkX, chunkZ, slot) >= 0.0;
 	}
 	
-	public boolean microBooleanAt(double chunkX, double chunkZ, int slot) {
+	private boolean microBooleanAt(double chunkX, double chunkZ, int slot) {
 		return getMicroNoiseAt(chunkX, chunkZ, slot) >= 0.0;
 	}
 	
@@ -241,6 +257,10 @@ public abstract class ShapeProvider extends Provider {
 		return macroBooleanAt(chunkX, chunkZ, macroNSBridgeSlot);
 	}
 
+	public boolean isSurfaceCaveAt(double chunkX, double chunkZ) {
+		return microBooleanAt(chunkX, chunkZ, microSurfaceCaveSlot);
+	}
+
 	public boolean isRoundaboutAt(double chunkX, double chunkZ, double oddsOfRoundabouts) {
 		return microScaleAt(chunkX, chunkZ, microRoundaboutSlot) < oddsOfRoundabouts;
 	}
@@ -251,22 +271,6 @@ public abstract class ShapeProvider extends Provider {
 	
 	public boolean isIsolatedLotAt(double chunkX, double chunkZ, double oddsOfIsolatedLots) {
 		return microScaleAt(chunkX, chunkZ, microIsolatedLotSlot) < oddsOfIsolatedLots;
-	}
-	
-	protected int macroValueAt(double chunkX, double chunkZ, int slot, int scale) {
-		return NoiseGenerator.floor(macroScaleAt(chunkX, chunkZ, slot) * scale);
-	}
-	
-	protected int microValueAt(double chunkX, double chunkZ, int slot, int scale) {
-		return NoiseGenerator.floor(microScaleAt(chunkX, chunkZ, slot) * scale);
-	}
-	
-	protected double macroScaleAt(double chunkX, double chunkZ, int slot) {
-		return (getMacroNoiseAt(chunkX, chunkZ, slot) + 1.0) / 2.0;
-	}
-
-	protected double microScaleAt(double chunkX, double chunkZ, int slot) {
-		return (getMicroNoiseAt(chunkX, chunkZ, slot) + 1.0) / 2.0;
 	}
 	
 }
