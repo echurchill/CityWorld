@@ -1,7 +1,10 @@
 package me.daddychurchill.CityWorld;
 
 import me.daddychurchill.CityWorld.Context.DataContext;
+import me.daddychurchill.CityWorld.Plugins.TreeProvider;
+import me.daddychurchill.CityWorld.Plugins.TreeProvider.TreeStyle;
 import me.daddychurchill.CityWorld.Support.MaterialStack;
+
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.Vector;
@@ -44,6 +47,8 @@ public class CityWorldSettings {
 	public boolean includeDecayedNature = false;
 	public boolean includeBuildingInteriors = true;
 	public boolean includeFloatingSubsurface = true;
+	
+	public TreeStyle treeStyle = TreeStyle.NORMAL;
 
 	public boolean forceLoadWorldEdit = false;
 	
@@ -113,6 +118,8 @@ public class CityWorldSettings {
 	
 	public final static String tagForceLoadWorldEdit = "ForceLoadWorldEdit";
 	
+	public final static String tagTreeStyle = "TreeStyle";
+	
 	public CityWorldSettings(WorldGenerator generator) {
 		super();
 		String worldname = generator.worldName;
@@ -122,6 +129,7 @@ public class CityWorldSettings {
 		switch (generator.worldEnvironment) {
 		case NORMAL:
 			darkEnvironment = false;
+			treeStyle = TreeStyle.NORMAL;
 			break;
 		case NETHER:
 			darkEnvironment = true;
@@ -129,9 +137,11 @@ public class CityWorldSettings {
 			includeDecayedRoads = true;
 			includeDecayedBuildings = true;
 			includeDecayedNature = true;
+			treeStyle = TreeStyle.SPOOKY;
 			break;
 		case THE_END:
 			darkEnvironment = true;
+			treeStyle = TreeStyle.CRYSTAL;
 			break;
 		}
 		
@@ -229,6 +239,8 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeFloatingSubsurface, includeFloatingSubsurface);
 			
 			section.addDefault(tagForceLoadWorldEdit, forceLoadWorldEdit);
+
+			section.addDefault(tagTreeStyle, TreeStyle.NORMAL.name());
 			
 			// now read the bits
 			includeRoads = section.getBoolean(tagIncludeRoads, includeRoads);
@@ -267,6 +279,8 @@ public class CityWorldSettings {
 			includeFloatingSubsurface = section.getBoolean(tagIncludeFloatingSubsurface, includeFloatingSubsurface);
 			
 			forceLoadWorldEdit = section.getBoolean(tagForceLoadWorldEdit, forceLoadWorldEdit);
+			
+			treeStyle = TreeProvider.toTreeStyle(section.getString(tagTreeStyle, treeStyle.name()), treeStyle);
 			
 			centerPointOfChunkRadiusX = section.getInt(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
 			centerPointOfChunkRadiusZ = section.getInt(tagCenterPointOfChunkRadiusZ, centerPointOfChunkRadiusZ);
