@@ -35,8 +35,6 @@ public class TreeProvider_Normal extends TreeProvider {
 				trunkWidth = 1;
 				break;
 		}
-//		if (treeType == TreeType.DARK_OAK)
-//			trunkWidth = 2;
 		
 		try {
 			int tries = 0;
