@@ -41,7 +41,7 @@ public class BalloonProvider extends Provider {
 			DyeColor secondaryColor = getSecondaryColor(generator, odds);
 			
 			// draw the balloon
-			chunk.setWool(balloonX, balloonY1, balloonY1 + 2, balloonZ, primaryColor);
+			chunk.setWool(balloonX, balloonX + 1, balloonY1, balloonY1 + 2, balloonZ, balloonZ + 1, primaryColor);
 			
 			chunk.setWool(balloonX - 1, balloonX + 2, balloonY1 + 2, balloonY1 + 4, balloonZ - 1, balloonZ + 2, primaryColor);
 			chunk.setBlock(balloonX - 1, balloonY1 + 2, balloonZ - 1, Material.AIR);
@@ -55,11 +55,12 @@ public class BalloonProvider extends Provider {
 			chunk.setBlock(balloonX + 2, balloonY1 + 4, balloonZ - 2, Material.AIR);
 			chunk.setBlock(balloonX + 2, balloonY1 + 4, balloonZ + 2, Material.AIR);
 			
-			for (int y = balloonY1 + 6; y < balloonY2 - 1; y++)
-				chunk.setWool(balloonX - 2, balloonX + 3, y, balloonZ - 2, balloonZ + 3, secondaryColor);
+//			for (int y = balloonY1 + 6; y < balloonY2 - 1; y++)
+//				chunk.setWool(balloonX - 2, balloonX + 3, y, y + 1, balloonZ - 2, balloonZ + 3, secondaryColor);
+			chunk.setWool(balloonX - 2, balloonX + 3, balloonY1 + 6, balloonY2 - 1, balloonZ - 2, balloonZ + 3, secondaryColor);
 			
-			chunk.setWool(balloonX - 2, balloonX + 3, balloonY2 - 1, balloonZ - 2, balloonZ + 3, primaryColor);
-			chunk.setWool(balloonX - 1, balloonX + 2, balloonY2, balloonZ - 1, balloonZ + 2, primaryColor);
+			chunk.setWool(balloonX - 2, balloonX + 3, balloonY2 - 1, balloonY2, balloonZ - 2, balloonZ + 3, primaryColor);
+			chunk.setWool(balloonX - 1, balloonX + 2, balloonY2, balloonY2 + 1, balloonZ - 1, balloonZ + 2, primaryColor);
 			
 			// candle in the middle
 			addLight(chunk, context, balloonX, balloonY2, balloonZ);

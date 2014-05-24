@@ -8,7 +8,7 @@ import me.daddychurchill.CityWorld.Clipboard.ClipboardRoundaboutLot;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
-import me.daddychurchill.CityWorld.Plats.Urban.RoundaboutStatueLot;
+import me.daddychurchill.CityWorld.Plats.Urban.RoundaboutCenterLot;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
@@ -61,7 +61,7 @@ public class RoadContext extends UrbanContext {
 			return new ClipboardRoundaboutLot(platmap, platmap.originX + x, platmap.originZ + z, clip, facing, 0, 0);
 			
 		} else
-			return new RoundaboutStatueLot(platmap, platmap.originX + x, platmap.originZ + z);
+			return new RoundaboutCenterLot(platmap, platmap.originX + x, platmap.originZ + z);
 	}
 
 }

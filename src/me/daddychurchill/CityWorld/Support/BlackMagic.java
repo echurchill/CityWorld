@@ -1,5 +1,6 @@
 package me.daddychurchill.CityWorld.Support;
 
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -28,6 +29,10 @@ public abstract class BlackMagic {
 
 	public static final void setBlockType(Block block, int typeId) {
 		block.setTypeId(typeId);
+	}
+	
+	public static final void setBlockStateColor(BlockState state, DyeColor color) {
+		state.setRawData(color.getDyeData());
 	}
 	
 	public static final boolean setBlockType(Block block, int typeId, int rawdata) {
@@ -86,7 +91,29 @@ public abstract class BlackMagic {
 		}
 	}
 	
+	public static final void setBlocks(SupportChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
+				for (int z = z1; z < z2; z++) {
+					setBlockType(chunk.getActualBlock(x, y, z), material);
+				}
+			}
+		}
+	}
+	
 	public static final void setBlocks(SupportChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2, Material material, int data) {
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
+				for (int z = z1; z < z2; z++) {
+					setBlockType(chunk.getActualBlock(x, y, z), material, data);
+				}
+			}
+		}
+	}
+	
+	public static final void setBlocks(SupportChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2, Block block) {
+		Material material = block.getType();
+		Byte data = block.getData();
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {

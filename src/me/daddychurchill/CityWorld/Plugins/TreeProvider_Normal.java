@@ -21,12 +21,22 @@ public class TreeProvider_Normal extends TreeProvider {
 		
 		// where do we start?
 		int bottomY = y;
-		int trunkWidth = 1;
-		Block base = chunk.getActualBlock(x, y - 1, z);
-		Material baseMaterial = base.getType();
-		byte baseData = BlackMagic.getMaterialData(base);
-		if (treeType == TreeType.DARK_OAK)
-			trunkWidth = 2;
+		Block base = chunk.getActualBlock(x, bottomY - 1, z);
+		
+		// how wide is the trunk?
+		int trunkWidth;
+		switch (treeType) {
+			case DARK_OAK:
+			case JUNGLE:
+			case MEGA_REDWOOD:
+				trunkWidth = 2;
+				break;
+			default:
+				trunkWidth = 1;
+				break;
+		}
+//		if (treeType == TreeType.DARK_OAK)
+//			trunkWidth = 2;
 		
 		try {
 			int tries = 0;
@@ -35,7 +45,7 @@ public class TreeProvider_Normal extends TreeProvider {
 			while (tries < maxTries) {
 				
 				// a place to plant
-				chunk.setBlocks(x, x + trunkWidth, y - 1, z, z + trunkWidth, Material.DIRT);
+				chunk.setBlocks(x, x + trunkWidth, y - 1, y, z, z + trunkWidth, Material.DIRT);
 				
 				// did we make a tree?
 				result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType);
@@ -43,10 +53,15 @@ public class TreeProvider_Normal extends TreeProvider {
 				// did it finally work?
 				if (result) {
 					
-					// copy the trunk down a bit
-					Block root = chunk.getActualBlock(x, y, z);
-					BlackMagic.setBlocks(chunk, x, x + trunkWidth, bottomY, y, z, z + trunkWidth, 
-							root.getType(), BlackMagic.getMaterialData(root));
+					// do we need to backfill?
+					if (y != bottomY) {
+						
+						// what type of trunk
+						Block trunk = chunk.getActualBlock(x, y, z);
+						
+						// copy the trunk down a bit
+						BlackMagic.setBlocks(chunk, x, x + trunkWidth, bottomY, y, z, z + trunkWidth, trunk);
+					}
 					
 					// all done
 					break;
@@ -66,7 +81,7 @@ public class TreeProvider_Normal extends TreeProvider {
 				chunk.setBlocks(x, x + trunkWidth, bottomY, y, z, z + trunkWidth, Material.AIR);
  			
 			// set the base back to what it was originally
-			BlackMagic.setBlocks(chunk, x, x + trunkWidth, bottomY - 1, z, z + trunkWidth, baseMaterial, baseData);
+			BlackMagic.setBlocks(chunk, x, x + trunkWidth, bottomY - 1, bottomY, z, z + trunkWidth, base);
 		}
 		return result;
 	}

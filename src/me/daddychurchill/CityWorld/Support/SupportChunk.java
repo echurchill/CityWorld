@@ -432,13 +432,9 @@ public abstract class SupportChunk extends AbstractChunk {
 		MaterialData data = state.getData();
 		if (data instanceof Colorable)
 			((Colorable)state.getData()).setColor(color);
+		else
+			BlackMagic.setBlockStateColor(state, color); //BUKKIT: none of the newly colorable blocks materials are colorable
 		state.update(true, doPhysics);
-	}
-	
-	private void setBlocksTypeAndColor(int x, int y1, int y2, int z, Material material, DyeColor color) {
-		for (int y = y1; y < y2; y++) {
-			setBlockTypeAndColor(x, y, z, material, color);
-		}
 	}
 	
 	private void setBlocksTypeAndColor(int x1, int x2, int y, int z1, int z2, Material material, DyeColor color) {
@@ -510,14 +506,6 @@ public abstract class SupportChunk extends AbstractChunk {
 		setBlockTypeAndColor(x, y, z, Material.WOOL, color);
 	}
 	
-	public final void setWool(int x, int y1, int y2, int z, DyeColor color) {
-		setBlocksTypeAndColor(x, y1, y2, z, Material.WOOL, color);
-	}
-	
-	public final void setWool(int x1, int x2, int y, int z1, int z2, DyeColor color) {
-		setBlocksTypeAndColor(x1, x2, y, z1, z2, Material.WOOL, color);
-	}
-	
 	public final void setWool(int x1, int x2, int y1, int y2, int z1, int z2, DyeColor color) {
 		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z2, Material.WOOL, color);
 	}
@@ -528,6 +516,22 @@ public abstract class SupportChunk extends AbstractChunk {
 	
 	public final void setClay(int x1, int x2, int y1, int y2, int z1, int z2, DyeColor color) {
 		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z2, Material.HARD_CLAY, color);
+	}
+	
+	public final void setGlass(int x, int y, int z, DyeColor color) {
+		setBlockTypeAndColor(x, y, z, Material.STAINED_GLASS, color);
+	}
+	
+	public final void setGlass(int x1, int x2, int y1, int y2, int z1, int z2, DyeColor color) {
+		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z2, Material.STAINED_GLASS, color);
+	}
+	
+	public final void setThinGlass(int x, int y, int z, DyeColor color) {
+		setBlockTypeAndColor(x, y, z, Material.STAINED_GLASS_PANE, color);
+	}
+	
+	public final void setThinGlass(int x1, int x2, int y1, int y2, int z1, int z2, DyeColor color) {
+		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z2, Material.STAINED_GLASS_PANE, color);
 	}
 	
 	public final void setVines(int x, int y1, int y2, int z, BlockFace... faces) {

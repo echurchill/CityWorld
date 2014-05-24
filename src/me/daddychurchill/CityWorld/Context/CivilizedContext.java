@@ -36,7 +36,7 @@ public abstract class CivilizedContext extends DataContext {
 		//oddsOfMissingRoad = oddsLikely; 
 		oddsOfRoundAbouts = oddsLikely; 
 		
-		oddsOfMissingArt = oddsUnlikely; 
+		oddsOfMissingArt = oddsLikely; 
 		oddsOfNaturalArt = oddsExtremelyLikely; 
 	}
 
