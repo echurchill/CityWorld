@@ -17,9 +17,9 @@ public abstract class AbstractChunk {
 	public AbstractChunk(WorldGenerator generator) {
 		super();
 		
-		world = generator.getWorld();
-		width = chunksBlockWidth;
-		height = generator.height;
+		this.width = chunksBlockWidth;
+		this.world = generator.getWorld();
+		this.height = generator.height;
 	}
 
 	public final static int getBlockX(int chunkX, int x) {

@@ -15,7 +15,7 @@ public final class WorldBlocks extends SupportChunk {
 	//WARNING: the x,z coordinates in this variant of SupportChunk are world absolute (unlike byte and real chunks)
 	//====================
 
-	private Odds odds;
+	protected Odds odds;
 	
 	public WorldBlocks(WorldGenerator generator, Odds odds) {
 		super(generator);
@@ -77,7 +77,7 @@ public final class WorldBlocks extends SupportChunk {
 	private void disperseLine(int x1, int x2, int y, int z1, int z2, Stack<debrisItem> debris) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				Block block = world.getBlockAt(x, y, z);
+				Block block = getActualBlock(x, y, z);
 				if (!block.isEmpty()) {
 					debris.push(new debrisItem(block));
 					block.setType(Material.AIR);

@@ -120,6 +120,12 @@ public class WorldGenerator extends ChunkGenerator {
 	public Long getWorldSeed() {
 		return worldSeed;
 	}
+	
+	private int deltaSeed = 0;
+	public Long getRelatedSeed() {
+		deltaSeed++;
+		return worldSeed + deltaSeed;
+	}
 
 	@Override
 	public List<BlockPopulator> getDefaultPopulators(World world) {
@@ -133,20 +139,20 @@ public class WorldGenerator extends ChunkGenerator {
 			world = aWorld;
 			settings = new CityWorldSettings(this);
 			worldSeed = world.getSeed();
-			connectionKeyGen = new Odds(worldSeed + 1);
+			connectionKeyGen = new Odds(getRelatedSeed());
 
-			shapeProvider = ShapeProvider.loadProvider(this, new Odds(worldSeed + 2));
+			shapeProvider = ShapeProvider.loadProvider(this, new Odds(getRelatedSeed()));
 			lootProvider = LootProvider.loadProvider(this);
 			spawnProvider = SpawnProvider.loadProvider(this);
 			oreProvider = OreProvider.loadProvider(this);
-			coverProvider = CoverProvider.loadProvider(this, new Odds(worldSeed + 3));
-			odonymProvider = OdonymProvider.loadProvider(this, new Odds(worldSeed + 4));
-			surfaceProvider = SurfaceProvider.loadProvider(this, new Odds(worldSeed + 5));
+			coverProvider = CoverProvider.loadProvider(this, new Odds(getRelatedSeed()));
+			odonymProvider = OdonymProvider.loadProvider(this, new Odds(getRelatedSeed()));
+			surfaceProvider = SurfaceProvider.loadProvider(this, new Odds(getRelatedSeed()));
 			balloonProvider = BalloonProvider.loadProvider(this);
 			houseProvider = HouseProvider.loadProvider(this);
-			treeProvider = TreeProvider.loadProvider(this);
-			decayBlocks = new WorldBlocks(this, new Odds(worldSeed + 6));
+			treeProvider = TreeProvider.loadProvider(this, new Odds(getRelatedSeed()));
 			pasteProvider = PasteProvider.loadProvider(this);
+			decayBlocks = new WorldBlocks(this, new Odds(getRelatedSeed()));
 			
 			// get ranges and contexts
 			height = shapeProvider.getWorldHeight();

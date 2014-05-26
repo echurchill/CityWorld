@@ -11,19 +11,20 @@ public class TreeProvider_Spooky extends TreeProvider {
 	}
 
 	protected void generateLeavesBlock(SupportChunk chunk, int x, int y, int z, Material material, int data) {
-		switch (data) {
-		case 1:
-			chunk.setBlock(x, y, z, Material.WEB);
-			break;
-		case 2:
-			chunk.setBlock(x, y, z, Material.IRON_FENCE);
-			break;
-		case 3:
-			chunk.setBlock(x, y, z, Material.SPONGE);
-			break;
-		default:
-			//chunk.setBlock(x, y, z, Material.AIR);
-			break;
-		}
+		if (chunk.isEmpty(x, y, z))
+			switch (data) {
+			case 1:
+				chunk.setBlock(x, y, z, Material.WEB);
+				break;
+			case 2:
+				chunk.setBlock(x, y, z, Material.IRON_FENCE);
+				break;
+			case 3:
+				chunk.setBlock(x, y, z, Material.SPONGE);
+				break;
+			default:
+				//chunk.setBlock(x, y, z, Material.AIR);
+				break;
+			}
 	}
 }

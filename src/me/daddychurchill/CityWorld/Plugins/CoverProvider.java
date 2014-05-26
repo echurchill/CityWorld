@@ -339,101 +339,101 @@ public abstract class CoverProvider extends Provider {
 			break;
 			
 		case MINI_OAK_TRUNK:
-			generator.treeProvider.generateMiniTrunk(chunk, x, y, z, TreeType.TREE);
+			generator.treeProvider.generateMiniTrunk(generator, chunk, x, y, z, TreeType.TREE);
 			break;
 		case OAK_TRUNK:
-			generator.treeProvider.generateNormalTrunk(chunk, x, y, z, TreeType.TREE);
+			generator.treeProvider.generateNormalTrunk(generator, chunk, x, y, z, TreeType.TREE);
 			break;
 		case MINI_PINE_TRUNK:
-			generator.treeProvider.generateMiniTrunk(chunk, x, y, z, TreeType.REDWOOD);
+			generator.treeProvider.generateMiniTrunk(generator, chunk, x, y, z, TreeType.REDWOOD);
 			break;
 		case PINE_TRUNK:
-			generator.treeProvider.generateNormalTrunk(chunk, x, y, z, TreeType.REDWOOD);
+			generator.treeProvider.generateNormalTrunk(generator, chunk, x, y, z, TreeType.REDWOOD);
 			break;
 		case MINI_BIRCH_TRUNK:
-			generator.treeProvider.generateMiniTrunk(chunk, x, y, z, TreeType.BIRCH);
+			generator.treeProvider.generateMiniTrunk(generator, chunk, x, y, z, TreeType.BIRCH);
 			break;
 		case BIRCH_TRUNK:
-			generator.treeProvider.generateNormalTrunk(chunk, x, y, z, TreeType.BIRCH);
+			generator.treeProvider.generateNormalTrunk(generator, chunk, x, y, z, TreeType.BIRCH);
 			break;
 		case MINI_JUNGLE_TRUNK:
-			generator.treeProvider.generateNormalTrunk(chunk, x, y, z, TreeType.JUNGLE);
+			generator.treeProvider.generateNormalTrunk(generator, chunk, x, y, z, TreeType.JUNGLE);
 			break;
 		case JUNGLE_TRUNK:
-			generator.treeProvider.generateNormalTrunk(chunk, x, y, z, TreeType.JUNGLE);
+			generator.treeProvider.generateNormalTrunk(generator, chunk, x, y, z, TreeType.JUNGLE);
 			break;
 		case MINI_SWAMP_TRUNK:
-			generator.treeProvider.generateMiniTrunk(chunk, x, y, z, TreeType.SWAMP);
+			generator.treeProvider.generateMiniTrunk(generator, chunk, x, y, z, TreeType.SWAMP);
 			break;
 		case SWAMP_TRUNK:
-			generator.treeProvider.generateNormalTrunk(chunk, x, y, z, TreeType.SWAMP);
+			generator.treeProvider.generateNormalTrunk(generator, chunk, x, y, z, TreeType.SWAMP);
 			break;
 		case MINI_ACACIA_TRUNK:
-			generator.treeProvider.generateMiniTrunk(chunk, x, y, z, TreeType.ACACIA);
+			generator.treeProvider.generateMiniTrunk(generator, chunk, x, y, z, TreeType.ACACIA);
 			break;
 		case ACACIA_TRUNK:
-			generator.treeProvider.generateNormalTrunk(chunk, x, y, z, TreeType.ACACIA);
+			generator.treeProvider.generateNormalTrunk(generator, chunk, x, y, z, TreeType.ACACIA);
 			break;
 			
 		case MINI_OAK_TREE:
-			generator.treeProvider.generateMiniTree(chunk, x, y, z, TreeType.TREE);
+			generator.treeProvider.generateMiniTree(generator, chunk, x, y, z, TreeType.TREE);
 			break;
 		case SHORT_OAK_TREE:
-			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.TREE);
+			generator.treeProvider.generateNormalTree(generator, chunk, x, y, z, TreeType.TREE);
 			break;
 		case OAK_TREE:
-			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.BIG_TREE);
+			generator.treeProvider.generateNormalTree(generator, chunk, x, y, z, TreeType.BIG_TREE);
 			break;
 		case TALL_OAK_TREE:
-			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.DARK_OAK);
+			generator.treeProvider.generateNormalTree(generator, chunk, x, y, z, TreeType.DARK_OAK);
 			break;
 		case MINI_PINE_TREE:
-			generator.treeProvider.generateMiniTree(chunk, x, y, z, TreeType.REDWOOD);
+			generator.treeProvider.generateMiniTree(generator, chunk, x, y, z, TreeType.REDWOOD);
 			break;
 		case SHORT_PINE_TREE:
-			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.REDWOOD);
+			generator.treeProvider.generateNormalTree(generator, chunk, x, y, z, TreeType.REDWOOD);
 			break;
 		case PINE_TREE:
-			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.TALL_REDWOOD);
+			generator.treeProvider.generateNormalTree(generator, chunk, x, y, z, TreeType.TALL_REDWOOD);
 			break;
 		case TALL_PINE_TREE:
-			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.MEGA_REDWOOD);
+			generator.treeProvider.generateNormalTree(generator, chunk, x, y, z, TreeType.MEGA_REDWOOD);
 			break;
 		case MINI_BIRCH_TREE:
-			generator.treeProvider.generateMiniTree(chunk, x, y, z, TreeType.BIRCH);
+			generator.treeProvider.generateMiniTree(generator, chunk, x, y, z, TreeType.BIRCH);
 			break;
 		case SHORT_BIRCH_TREE:
-			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.BIRCH);
+			generator.treeProvider.generateNormalTree(generator, chunk, x, y, z, TreeType.BIRCH);
 			break;
 		case BIRCH_TREE:
-			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.BIRCH);
+			generator.treeProvider.generateNormalTree(generator, chunk, x, y, z, TreeType.BIRCH);
 			break;
 		case TALL_BIRCH_TREE:
-			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.TALL_BIRCH);
+			generator.treeProvider.generateNormalTree(generator, chunk, x, y, z, TreeType.TALL_BIRCH);
 			break;
 		case MINI_JUNGLE_TREE:
-			generator.treeProvider.generateMiniTree(chunk, x, y, z, TreeType.JUNGLE);
+			generator.treeProvider.generateMiniTree(generator, chunk, x, y, z, TreeType.JUNGLE);
 			break;
 		case SHORT_JUNGLE_TREE:
-			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.JUNGLE_BUSH);
+			generator.treeProvider.generateNormalTree(generator, chunk, x, y, z, TreeType.JUNGLE_BUSH);
 			break;
 		case JUNGLE_TREE:
-			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.SMALL_JUNGLE);
+			generator.treeProvider.generateNormalTree(generator, chunk, x, y, z, TreeType.SMALL_JUNGLE);
 			break;
 		case TALL_JUNGLE_TREE:
-			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.JUNGLE);
+			generator.treeProvider.generateNormalTree(generator, chunk, x, y, z, TreeType.JUNGLE);
 			break;
 		case MINI_SWAMP_TREE:
-			generator.treeProvider.generateMiniTree(chunk, x, y, z, TreeType.SWAMP);
+			generator.treeProvider.generateMiniTree(generator, chunk, x, y, z, TreeType.SWAMP);
 			break;
 		case SWAMP_TREE:
-			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.SWAMP);
+			generator.treeProvider.generateNormalTree(generator, chunk, x, y, z, TreeType.SWAMP);
 			break;
 		case MINI_ACACIA_TREE:
-			generator.treeProvider.generateMiniTree(chunk, x, y, z, TreeType.ACACIA);
+			generator.treeProvider.generateMiniTree(generator, chunk, x, y, z, TreeType.ACACIA);
 			break;
 		case ACACIA_TREE:
-			generator.treeProvider.generateNormalTree(chunk, x, y, z, TreeType.ACACIA);
+			generator.treeProvider.generateNormalTree(generator, chunk, x, y, z, TreeType.ACACIA);
 			break;
 			
 		case WHEAT:
