@@ -148,7 +148,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 							if (generator.settings.includeDecayedNature)
 								chunk.setBlocks(x, groundY + 1, deepSeaLevel, z, ores.fluidMaterial);
 							else
-								chunk.setBlocks(x, groundY + 1,  seaLevel, z, ores.fluidMaterial);
+								chunk.setBlocks(x, groundY + 1, seaLevel, z, ores.fluidMaterial);
 						}
 					} else {
 						chunk.setBlock(x, groundY - 1, z, ores.subsurfaceMaterial);

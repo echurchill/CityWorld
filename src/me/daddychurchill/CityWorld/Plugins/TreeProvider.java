@@ -401,7 +401,7 @@ public abstract class TreeProvider {
 			return false;
 	}
 	
-	private final static double edgeOdds = 0.05;
+	private final static double edgeOdds = 0.00; // Not chance of edge bits
 	
 	private void addLeaves(SupportChunk chunk, int trunkX, int trunkY, int trunkZ, 
 			Material leavesMaterial, int leavesData, int trunkWidth, int trunkHeight, 
