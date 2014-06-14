@@ -42,19 +42,31 @@ public abstract class SurfaceProvider extends Provider {
 	
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	public static SurfaceProvider loadProvider(WorldGenerator generator, Odds odds) {
+		
+		SurfaceProvider provider = null;
 
 		switch (generator.worldStyle) {
 		case FLOATING:
-			return new SurfaceProvider_Floating(odds);
+			provider = new SurfaceProvider_Floating(odds);
+			break;
 		case FLOODED:
-			return new SurfaceProvider_Flooded(odds);
+			provider = new SurfaceProvider_Flooded(odds);
+			break;
 		case SANDDUNES:
-			return new SurfaceProvider_SandDunes(odds);
+			provider = new SurfaceProvider_SandDunes(odds);
+			break;
 		case SNOWDUNES:
-			return new SurfaceProvider_SnowDunes(odds);
-		default:
-			return new SurfaceProvider_Normal(odds);
+			provider = new SurfaceProvider_SnowDunes(odds);
+			break;
+		case ASTRAL:
+			provider = new SurfaceProvider_Astral(odds);
+			break;
+		case NORMAL:
+			provider = new SurfaceProvider_Normal(odds);
+			break;
 		}
+		
+		return provider;
 	}
 	
 }

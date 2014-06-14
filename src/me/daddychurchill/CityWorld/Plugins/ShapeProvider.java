@@ -118,21 +118,31 @@ public abstract class ShapeProvider extends Provider {
 
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	public static ShapeProvider loadProvider(WorldGenerator generator, Odds odds) {
+		
+		ShapeProvider provider = null;
 
 		switch (generator.worldStyle) {
 		case FLOATING:
-			return new ShapeProvider_Floating(generator, odds);
+			provider = new ShapeProvider_Floating(generator, odds);
+			break;
 		case FLOODED:
-			return new ShapeProvider_Flooded(generator, odds);
+			provider = new ShapeProvider_Flooded(generator, odds);
+			break;
 		case SANDDUNES:
-			return new ShapeProvider_SandDunes(generator, odds);
+			provider = new ShapeProvider_SandDunes(generator, odds);
+			break;
 		case SNOWDUNES:
-			return new ShapeProvider_SnowDunes(generator, odds);
-		//case UNDERGROUND
-		//case LUNAR: // curved surface?
-		default: // NORMAL
-			return new ShapeProvider_Normal(generator, odds);
+			provider = new ShapeProvider_SnowDunes(generator, odds);
+			break;
+		case ASTRAL:
+			provider = new ShapeProvider_Astral(generator, odds);
+			break;
+		case NORMAL:
+			provider = new ShapeProvider_Normal(generator, odds);
+			break;
 		}
+		
+		return provider;
 	}
 	
 	protected void actualGenerateStratas(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,

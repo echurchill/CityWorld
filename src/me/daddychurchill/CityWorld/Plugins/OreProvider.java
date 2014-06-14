@@ -156,9 +156,12 @@ public abstract class OreProvider extends Provider {
 				case SANDDUNES:
 					provider = new OreProvider_SandDunes(generator);
 					break;
-				//case UNDERGROUND
-				//case LUNAR: // curved surface?
-				default: // NORMAL
+				case ASTRAL:
+					provider = new OreProvider_Astral(generator);
+					break;
+				case FLOODED:
+				case FLOATING:
+				case NORMAL:
 					if (generator.settings.includeDecayedNature)
 						provider = new OreProvider_Decayed(generator);
 					else

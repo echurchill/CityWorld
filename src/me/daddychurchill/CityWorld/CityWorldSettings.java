@@ -370,8 +370,10 @@ public class CityWorldSettings {
 	
 	private void validateSettingsAgainstWorldStyle(WorldGenerator generator) {
 		// now get the right defaults for the world style
+		// anything commented out is up for user modification
 		switch (generator.worldStyle) {
 		case NORMAL:
+			includeFloatingSubsurface = false; // DIFFERENT
 			break;
 		case FLOATING:
 //			includeRoads = true;
@@ -443,7 +445,7 @@ public class CityWorldSettings {
 //			includeDecayedBuildings = false;
 //			includeDecayedNature = false;
 //			includeBuildingInteriors = true;
-//			includeFloatingSubsurface = true;
+			includeFloatingSubsurface = false; // DIFFERENT
 			break;
 		case SANDDUNES:
 //			includeRoads = true;
@@ -479,7 +481,7 @@ public class CityWorldSettings {
 //			includeDecayedBuildings = false;
 			includeDecayedNature = true; // DIFFERENT
 			includeBuildingInteriors = false; // DIFFERENT
-//			includeFloatingSubsurface = true;
+			includeFloatingSubsurface = false; // DIFFERENT
 			break;
 		case SNOWDUNES:
 //			includeRoads = true;
@@ -515,7 +517,43 @@ public class CityWorldSettings {
 //			includeDecayedBuildings = false;
 //			includeDecayedNature = false;
 			includeBuildingInteriors = false; // DIFFERENT
-//			includeFloatingSubsurface = true;
+			includeFloatingSubsurface = false; // DIFFERENT
+			break;
+		case ASTRAL:
+//			includeRoads = true;
+			includeRoundabouts = false; // DIFFERENT
+			includeSewers = false; // DIFFERENT
+			includeCisterns = false;
+			includeBasements = false;
+			includeMines = false; // DIFFERENT
+			includeBunkers = false; // DIFFERENT
+//			includeBuildings = true;
+			includeHouses = false;
+			includeFarms = false;
+
+			includeCaves = false; // DIFFERENT
+			includeLavaFields = false; // DIFFERENT
+			includeSeas = false; // DIFFERENT
+			includeMountains = false; // DIFFERENT
+//			includeOres = true;
+			
+			treasuresInSewers = false; // DIFFERENT
+			spawnersInSewers = false; // DIFFERENT
+			treasuresInMines = false; // DIFFERENT
+			spawnersInMines = false; // DIFFERENT
+			treasuresInBunkers = false; // DIFFERENT
+			spawnersInBunkers = false; // DIFFERENT
+			
+//			includeUndergroundFluids = false; 
+//			includeAbovegroundFluids = true; 
+			includeWorkingLights = false; // DIFFERENT
+			includeWoolRoads = false; // DIFFERENT
+			includeNamedRoads = false; // DIFFERENT
+//			includeDecayedRoads = false;
+//			includeDecayedBuildings = false;
+//			includeDecayedNature = false;
+//			includeBuildingInteriors = false;
+			includeFloatingSubsurface = false; // DIFFERENT
 			break;
 		}
 		
