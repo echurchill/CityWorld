@@ -1,6 +1,6 @@
 name: CityWorld
 main: me.daddychurchill.CityWorld.CityWorld
-version: 2.96
+version: 2.97
 load: startup
 author: DaddyChurchill
 website: http://dev.bukkit.org/server-mods/cityworld/
