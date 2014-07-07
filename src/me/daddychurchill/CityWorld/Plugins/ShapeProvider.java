@@ -39,9 +39,44 @@ public abstract class ShapeProvider extends Provider {
 	protected abstract void allocateContexts(WorldGenerator generator);
 	public abstract String getCollectionName();
 	
-	public abstract void populateLots(WorldGenerator generator, PlatMap platmap);
 	protected abstract void validateLots(WorldGenerator generator, PlatMap platmap);
 
+	public void populateLots(WorldGenerator generator, PlatMap platmap) {
+		standardPopulateLots(generator, platmap);
+	}
+	
+	protected void standardPopulateLots(WorldGenerator generator, PlatMap platmap) {
+		try {
+			allocateContexts(generator);
+
+			// assume everything is natural for the moment
+			platmap.context = natureContext;
+			natureContext.populateMap(generator, platmap);
+			natureContext.validateMap(generator, platmap);
+			
+			// place and validate the roads
+			if (generator.settings.includeRoads) {
+				platmap.populateRoads();
+				platmap.validateRoads();
+	
+				// place the buildings
+				if (generator.settings.includeBuildings) {
+		
+					// recalculate the context based on the "natural-ness" of the platmap
+					platmap.context = getContext(platmap);
+					platmap.context.populateMap(generator, platmap);
+					platmap.context.validateMap(generator, platmap);
+				}
+				
+				// one last check
+				validateLots(generator, platmap);
+			}
+		} catch (Exception e) {
+			generator.reportException("ShapeProvider.populateLots FAILED", e);
+
+		} 
+	}
+	
 	protected boolean contextInitialized = false;
 	public NatureContext natureContext;
 	public RoadContext roadContext;
@@ -133,9 +168,6 @@ public abstract class ShapeProvider extends Provider {
 			break;
 		case SNOWDUNES:
 			provider = new ShapeProvider_SnowDunes(generator, odds);
-			break;
-		case ASTRAL:
-			provider = new ShapeProvider_Astral(generator, odds);
 			break;
 		case NORMAL:
 			provider = new ShapeProvider_Normal(generator, odds);

@@ -18,7 +18,7 @@ public class HighriseContext extends UrbanContext {
 		oddsOfIdenticalBuildingHeights = oddsExtremelyLikely;
 		oddsOfSimilarBuildingHeights = oddsExtremelyLikely;
 		oddsOfSimilarBuildingRounding = oddsExtremelyLikely;
-		oddsOfUnfinishedBuildings = oddsVeryUnlikely;
+		oddsOfUnfinishedBuildings = oddsPrettyUnlikely;
 		oddsOfOnlyUnfinishedBasements = oddsNeverGoingToHappen;
 		//oddsOfMissingRoad = oddsNeverGoingToHappen;
 		oddsOfRoundAbouts = oddsNeverGoingToHappen;

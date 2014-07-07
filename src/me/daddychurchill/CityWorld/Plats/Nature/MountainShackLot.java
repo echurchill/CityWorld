@@ -32,6 +32,7 @@ public class MountainShackLot extends MountainFlatLot {
 
 	@Override
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+		reportLocation(generator, "Shack", chunk.getOriginX(), chunk.getOriginZ());
 
 		// now make a shack
 		int floors = generator.houseProvider.generateShack(generator, chunk, context, chunkOdds, averageHeight + 1, 5);

@@ -39,6 +39,7 @@ public class NatureContext extends UncivilizedContext {
 		// random stuff?
 		Odds platmapOdds = platmap.getOddsGenerator();
 		boolean doBunkers = platmapOdds.playOdds(oddsOfBunkers);
+		boolean didBunkers = false;
 		
 		// where it all begins
 		int originX = platmap.originX;
@@ -115,8 +116,10 @@ public class NatureContext extends UncivilizedContext {
 								}
 							case HIGHLAND:
 							case PEAK:
-								if (doBunkers && innermost)
-									current = createBuriedBuildingLot(generator, platmap, chunkX, chunkZ);
+								if (doBunkers && innermost) {
+									current = createBuriedBuildingLot(generator, platmap, chunkX, chunkZ, !didBunkers);
+									didBunkers = true;
+								}
 								break;
 							default:
 								break;
@@ -138,9 +141,9 @@ public class NatureContext extends UncivilizedContext {
 		populateSpecial(generator, platmap, minHeightX, minHeight, minHeightZ, minState);
 	}
 	
-	public PlatLot createBuriedBuildingLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
+	public PlatLot createBuriedBuildingLot(WorldGenerator generator, PlatMap platmap, int x, int z, boolean firstOne) {
 		if (generator.settings.includeBunkers)
-			return new BunkerLot(platmap, x, z);
+			return new BunkerLot(platmap, x, z, firstOne);
 		return null;
 	}
 	

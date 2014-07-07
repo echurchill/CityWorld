@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class SurfaceProvider_Normal extends SurfaceProvider {
 
@@ -17,7 +17,7 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 	}
 
 	@Override
-	public void generateSurfacePoint(WorldGenerator generator, PlatLot lot, RealChunk chunk, CoverProvider foliage, 
+	public void generateSurfacePoint(WorldGenerator generator, PlatLot lot, SupportChunk chunk, CoverProvider foliage, 
 			int x, double perciseY, int z, boolean includeTrees) {
 		OreProvider ores = generator.oreProvider;
 		int y = NoiseGenerator.floor(perciseY);

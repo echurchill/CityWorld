@@ -79,7 +79,7 @@ public class WorldGenerator extends ChunkGenerator {
 		FLOODED,		// traditional terrain and cities but with raised sea level
 		SNOWDUNES,		// traditional terrain and cities but covered with snow dunes
 		SANDDUNES,		// traditional terrain and cities but covered with sand dunes
-		ASTRAL,			// lunar/alien landscape with lunar bases
+		//MOON,			// lunar/alien landscape with lunar bases
 		//UNDERWATER,	// traditional terrain with raised sea level with under water cities
 		//WESTERN,		// desert landscape with sparse western styled towns and ranches
 		//UNDERGROUND,	// elevated terrain with underground cities

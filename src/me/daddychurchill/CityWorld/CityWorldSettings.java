@@ -48,10 +48,11 @@ public class CityWorldSettings {
 	public boolean includeBuildingInteriors = true;
 	public boolean includeFloatingSubsurface = true;
 	
+	public boolean forceLoadWorldEdit = false;
+	public boolean broadcastSpecialPlaces = false;
+	
 	public TreeStyle treeStyle = TreeStyle.NORMAL;
 
-	public boolean forceLoadWorldEdit = false;
-	
 	public int centerPointOfChunkRadiusX = 0;
 	public int centerPointOfChunkRadiusZ = 0;
 	public int constructChunkRadius = Integer.MAX_VALUE;
@@ -74,12 +75,6 @@ public class CityWorldSettings {
 	public MaterialStack itemsTreasureInSewers;
 	public MaterialStack itemsTreasureInBunkers;
 	public MaterialStack itemsTreasureInMines;
-	
-	public final static String tagCenterPointOfChunkRadiusX = "CenterPointOfChunkRadiusX";
-	public final static String tagCenterPointOfChunkRadiusZ = "CenterPointOfChunkRadiusZ";
-	public final static String tagConstructChunkRadius = "ConstructChunkRadius";
-	public final static String tagRoadChunkRadius = "RoadChunkRadius";
-	public final static String tagCityChunkRadius = "CityChunkRadius";
 	
 	public final static String tagIncludeRoads = "IncludeRoads";
 	public final static String tagIncludeRoundabouts = "IncludeRoundabouts";
@@ -117,8 +112,15 @@ public class CityWorldSettings {
 	public final static String tagIncludeFloatingSubsurface = "IncludeFloatingSubsurface";
 	
 	public final static String tagForceLoadWorldEdit = "ForceLoadWorldEdit";
+	public final static String tagBroadcastSpecialPlaces = "BroadcastSpecialPlaces";
 	
 	public final static String tagTreeStyle = "TreeStyle";
+	
+	public final static String tagCenterPointOfChunkRadiusX = "CenterPointOfChunkRadiusX";
+	public final static String tagCenterPointOfChunkRadiusZ = "CenterPointOfChunkRadiusZ";
+	public final static String tagConstructChunkRadius = "ConstructChunkRadius";
+	public final static String tagRoadChunkRadius = "RoadChunkRadius";
+	public final static String tagCityChunkRadius = "CityChunkRadius";
 	
 	public CityWorldSettings(WorldGenerator generator) {
 		super();
@@ -176,9 +178,8 @@ public class CityWorldSettings {
 			section = config.getConfigurationSection(worldname);
 		
 		// if not then create it
-		else {
+		if (section == null)
 			section = config.createSection(worldname);
-		}
 		
 		/* Create a config in the world's folder
 		 * Find the generation section
@@ -196,13 +197,8 @@ public class CityWorldSettings {
 			
 			// create items stacks
 			
+			//===========================================================================
 			// set up the defaults if needed
-			section.addDefault(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
-			section.addDefault(tagCenterPointOfChunkRadiusZ, centerPointOfChunkRadiusZ);
-			section.addDefault(tagConstructChunkRadius, constructChunkRadius);
-			section.addDefault(tagRoadChunkRadius, roadChunkRadius);
-			section.addDefault(tagCityChunkRadius, cityChunkRadius);
-			
 			section.addDefault(tagIncludeRoads, includeRoads);
 			section.addDefault(tagIncludeRoundabouts, includeRoundabouts);
 			section.addDefault(tagIncludeSewers, includeSewers);
@@ -239,9 +235,17 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeFloatingSubsurface, includeFloatingSubsurface);
 			
 			section.addDefault(tagForceLoadWorldEdit, forceLoadWorldEdit);
+			section.addDefault(tagBroadcastSpecialPlaces, broadcastSpecialPlaces);
 
 			section.addDefault(tagTreeStyle, TreeStyle.NORMAL.name());
 			
+			section.addDefault(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
+			section.addDefault(tagCenterPointOfChunkRadiusZ, centerPointOfChunkRadiusZ);
+			section.addDefault(tagConstructChunkRadius, constructChunkRadius);
+			section.addDefault(tagRoadChunkRadius, roadChunkRadius);
+			section.addDefault(tagCityChunkRadius, cityChunkRadius);
+			
+			//===========================================================================
 			// now read the bits
 			includeRoads = section.getBoolean(tagIncludeRoads, includeRoads);
 			includeRoundabouts = section.getBoolean(tagIncludeRoundabouts, includeRoundabouts);
@@ -279,13 +283,13 @@ public class CityWorldSettings {
 			includeFloatingSubsurface = section.getBoolean(tagIncludeFloatingSubsurface, includeFloatingSubsurface);
 			
 			forceLoadWorldEdit = section.getBoolean(tagForceLoadWorldEdit, forceLoadWorldEdit);
+			broadcastSpecialPlaces = section.getBoolean(tagBroadcastSpecialPlaces, broadcastSpecialPlaces);
 			
 			treeStyle = TreeProvider.toTreeStyle(section.getString(tagTreeStyle, treeStyle.name()), treeStyle);
-			
+
 			centerPointOfChunkRadiusX = section.getInt(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
 			centerPointOfChunkRadiusZ = section.getInt(tagCenterPointOfChunkRadiusZ, centerPointOfChunkRadiusZ);
 			centerPointOfChunkRadius = new Vector(centerPointOfChunkRadiusX, 0, centerPointOfChunkRadiusZ);
-			
 			constructChunkRadius = Math.min(Integer.MAX_VALUE, Math.max(0, section.getInt(tagConstructChunkRadius, constructChunkRadius)));
 			checkConstructRange = constructChunkRadius > 0 && constructChunkRadius < Integer.MAX_VALUE;
 			
@@ -308,16 +312,12 @@ public class CityWorldSettings {
 				includeFarms = false;
 			}
 			
-			// one more time for world style settings
+			//===========================================================================
+			// validate settings against world style settings
 			validateSettingsAgainstWorldStyle(generator);
 			
+			//===========================================================================
 			// write things back out with corrections
-			section.set(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
-			section.set(tagCenterPointOfChunkRadiusZ, centerPointOfChunkRadiusZ);
-			section.set(tagConstructChunkRadius, constructChunkRadius);
-			section.set(tagRoadChunkRadius, roadChunkRadius);
-			section.set(tagCityChunkRadius, cityChunkRadius);
-			
 			section.set(tagIncludeRoads, includeRoads);
 			section.set(tagIncludeRoundabouts, includeRoundabouts);
 			section.set(tagIncludeSewers, includeSewers);
@@ -354,7 +354,17 @@ public class CityWorldSettings {
 			section.set(tagIncludeFloatingSubsurface, includeFloatingSubsurface);
 			
 			section.set(tagForceLoadWorldEdit, forceLoadWorldEdit);
+			section.set(tagBroadcastSpecialPlaces, broadcastSpecialPlaces);
 			
+			section.set(tagTreeStyle, treeStyle.name());
+
+			section.set(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
+			section.set(tagCenterPointOfChunkRadiusZ, centerPointOfChunkRadiusZ);
+			section.set(tagConstructChunkRadius, constructChunkRadius);
+			section.set(tagRoadChunkRadius, roadChunkRadius);
+			section.set(tagCityChunkRadius, cityChunkRadius);
+			
+			//===========================================================================
 			// note the depreciations
 			deprecateOption(section, "IncludePavedRoads", "DEPRECATED: Use IncludeWoolRoads if you want the old style paved roads");
 			deprecateOption(section, "RoadRange", "DEPRECATED: Use RoadChunkRadius instead");
@@ -362,6 +372,7 @@ public class CityWorldSettings {
 			deprecateOption(section, "IncludeTekkitMaterials", "DEPRECATED: ForgeTekkit is auto-recognized");
 			deprecateOption(section, "ForceLoadTekkit", "DEPRECATED: Direct Tekkit support removed as of 3.0");
 			
+			//===========================================================================
 			// write it back out 
 			plugin.saveConfig();
 		}
@@ -517,42 +528,6 @@ public class CityWorldSettings {
 //			includeDecayedBuildings = false;
 //			includeDecayedNature = false;
 			includeBuildingInteriors = false; // DIFFERENT
-			includeFloatingSubsurface = false; // DIFFERENT
-			break;
-		case ASTRAL:
-//			includeRoads = true;
-			includeRoundabouts = false; // DIFFERENT
-			includeSewers = false; // DIFFERENT
-			includeCisterns = false;
-			includeBasements = false;
-			includeMines = false; // DIFFERENT
-			includeBunkers = false; // DIFFERENT
-//			includeBuildings = true;
-			includeHouses = false;
-			includeFarms = false;
-
-			includeCaves = false; // DIFFERENT
-			includeLavaFields = false; // DIFFERENT
-			includeSeas = false; // DIFFERENT
-			includeMountains = false; // DIFFERENT
-//			includeOres = true;
-			
-			treasuresInSewers = false; // DIFFERENT
-			spawnersInSewers = false; // DIFFERENT
-			treasuresInMines = false; // DIFFERENT
-			spawnersInMines = false; // DIFFERENT
-			treasuresInBunkers = false; // DIFFERENT
-			spawnersInBunkers = false; // DIFFERENT
-			
-//			includeUndergroundFluids = false; 
-//			includeAbovegroundFluids = true; 
-			includeWorkingLights = false; // DIFFERENT
-			includeWoolRoads = false; // DIFFERENT
-			includeNamedRoads = false; // DIFFERENT
-//			includeDecayedRoads = false;
-//			includeDecayedBuildings = false;
-//			includeDecayedNature = false;
-//			includeBuildingInteriors = false;
 			includeFloatingSubsurface = false; // DIFFERENT
 			break;
 		}

@@ -5,6 +5,8 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import org.bukkit.util.noise.NoiseGenerator;
 
 public class CachedYs {
+	
+	private static int width = 16;
 
 	// extremes
 	public int averageHeight;
@@ -14,7 +16,7 @@ public class CachedYs {
 	public int maxHeight = Integer.MIN_VALUE;
 	public int maxHeightX = 0;
 	public int maxHeightZ = 0;
-	private double[][] blockYs= new double[16][16];
+	private double[][] blockYs= new double[width][width];
 	
 	public CachedYs(WorldGenerator generator, AbstractChunk chunk) {
 		
@@ -26,30 +28,34 @@ public class CachedYs {
 		int originZ = chunk.getOriginZ();
 		
 		// calculate the Ys for this chunk
-		for (int x = 0; x < chunk.width; x++) {
-			for (int z = 0; z < chunk.width; z++) {
+		for (int x = 0; x < width; x++) {
+			for (int z = 0; z < width; z++) {
 
 				// how high are we?
 				blockYs[x][z] = generator.shapeProvider.findPerciseY(generator, originX + x, originZ + z);
 				
 				// keep the tally going
-				int y = NoiseGenerator.floor(blockYs[x][z]);
-				sumHeight += y;
-				if (y < minHeight) {
-					minHeight = y;
-					minHeightX = x;
-					minHeightZ = z;
-				}
-				if (y > maxHeight) {
-					maxHeight = y;
-					maxHeightX = x;
-					maxHeightZ = z;
-				}
+				sumHeight += blockYs[x][z];
+				calcTally(blockYs[x][z], x, z);
 			}
 		}
 		
 		// what was the average height
-		averageHeight = sumHeight / (chunk.width * chunk.width);
+		averageHeight = sumHeight / (width * width);
+	}
+	
+	private void calcTally(double realY, int x, int z) {
+		int y = NoiseGenerator.floor(realY);
+		if (y < minHeight) {
+			minHeight = y;
+			minHeightX = x;
+			minHeightZ = z;
+		}
+		if (y > maxHeight) {
+			maxHeight = y;
+			maxHeightX = x;
+			maxHeightZ = z;
+		}
 	}
 	
 	public int getBlockY(int x, int z) {
@@ -58,6 +64,25 @@ public class CachedYs {
 	
 	public double getPerciseY(int x, int z) {
 		return blockYs[x][z];
+	}
+	
+	public void lift(int h) {
+		// total height
+		int sumHeight = 0;
+		
+		// change the height
+		for (int x = 0; x < width; x++) {
+			for (int z = 0; z < width; z++) {
+				blockYs[x][z] = blockYs[x][z] + h;
+				
+				// keep the tally going
+				sumHeight += blockYs[x][z];
+				calcTally(blockYs[x][z], x, z);
+			}
+		}
+		
+		// what was the average height
+		averageHeight = sumHeight / (width * width);
 	}
 	
 }

@@ -86,6 +86,8 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	public final static double mineScale = 1.0 / 4.0;
 	public final static double mineScaleY = mineScale;
 
+	private final static double oddsOfCentralPark = DataContext.oddsUnlikely;
+	
 	public ShapeProvider_Normal(WorldGenerator generator, Odds odds) {
 		super(generator, odds);
 		World world = generator.getWorld();
@@ -115,39 +117,6 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	}
 	
 	@Override
-	public void populateLots(WorldGenerator generator, PlatMap platmap) {
-		try {
-			allocateContexts(generator);
-
-			// assume everything is natural for the moment
-			platmap.context = natureContext;
-			natureContext.populateMap(generator, platmap);
-			natureContext.validateMap(generator, platmap);
-			
-			// place and validate the roads
-			if (generator.settings.includeRoads) {
-				platmap.populateRoads();
-				platmap.validateRoads();
-	
-				// place the buildings
-				if (generator.settings.includeBuildings) {
-		
-					// recalculate the context based on the "natural-ness" of the platmap
-					platmap.context = getContext(platmap);
-					platmap.context.populateMap(generator, platmap);
-					platmap.context.validateMap(generator, platmap);
-				}
-				
-				// one last check
-				validateLots(generator, platmap);
-			}
-		} catch (Exception e) {
-			generator.reportException("NormalMap.populateLots FAILED", e);
-
-		} 
-	}
-	
-	@Override
 	protected void validateLots(WorldGenerator generator, PlatMap platmap) {
 		// nothing to do in this one
 	}
@@ -172,7 +141,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 		}
 	}
 	
-	private final static double oddsOfCentralPark = DataContext.oddsUnlikely;
+	@Override
 	protected DataContext getContext(PlatMap platmap) {
 		
 		// how natural is this platmap?

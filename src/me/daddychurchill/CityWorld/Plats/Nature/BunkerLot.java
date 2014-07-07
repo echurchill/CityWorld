@@ -5,7 +5,7 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Plats.ConstructLot;
+import me.daddychurchill.CityWorld.Plats.ConnectedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
@@ -15,20 +15,21 @@ import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
-public class BunkerLot extends ConstructLot {
+public class BunkerLot extends ConnectedLot {
 
 	private final static int FloorHeight = DataContext.FloorHeight;
 	
-	public BunkerLot(PlatMap platmap, int chunkX, int chunkZ) {
+	public BunkerLot(PlatMap platmap, int chunkX, int chunkZ, boolean firstOne) {
 		super(platmap, chunkX, chunkZ);
-
-		//platmap.generator.reportMessage("BUNKER AT " + (chunkX * 16) + ", " + (chunkZ * 16));
+		
+		this.firstOne = firstOne;
 	}
 	
 	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
-		return new BunkerLot(platmap, chunkX, chunkZ);
+		return new BunkerLot(platmap, chunkX, chunkZ, false);
 	}
 
 	// these MUST be given in chunk segment units (currently 16) 
@@ -38,8 +39,15 @@ public class BunkerLot extends ConstructLot {
 	private final static int bunkerMinHeight = bunkerSegment * 2;
 	private final static int bunkerMaxHeight = bunkerSegment * 8;
 
-	private int bottomOfBunker;
-	private int topOfBunker;
+	protected boolean firstOne = false;
+	protected int bottomOfBunker;
+	protected int topOfBunker;
+	
+	protected enum BilgeType {EMPTY, WATER, LAVA, ICE};
+	protected enum BunkerType {ENTRY, PYRAMID, TANK, QUAD, RECALL, BALLSY, FLOORED, GROWING};
+
+	protected BilgeType bilgeType;
+	protected BunkerType buildingType;
 	
 	@Override
 	protected void initializeContext(WorldGenerator generator, AbstractChunk chunk) {
@@ -47,6 +55,28 @@ public class BunkerLot extends ConstructLot {
 		
 		bottomOfBunker = calcSegmentOrigin(generator.streetLevel) - bunkerBelowStreet;
 		topOfBunker = calcBunkerCeiling(generator);
+		
+		// initial rolls
+		bilgeType =    getRandomBilgeType();
+		buildingType = getRandomBunkerType();
+	}
+	
+	@Override
+	public boolean makeConnected(PlatLot relative) {
+		boolean result = super.makeConnected(relative);
+
+		// other bits
+		if (result && relative instanceof BunkerLot) {
+			BunkerLot bunker = (BunkerLot)relative;
+		
+			bilgeType = bunker.bilgeType;
+		}
+		return result;
+	}
+	
+	@Override
+	public long getConnectedKey() {
+		return connectedkey = 135792468; // all bunkers share this key
 	}
 	
 	@Override
@@ -70,11 +100,6 @@ public class BunkerLot extends ConstructLot {
 	private final static Material buildingMaterial = Material.CLAY;
 	private final static Material windowMaterial = Material.GLASS;
 	
-	//private final static int bilgeEmpty = 0;
-	private final static int bilgeWater = 1;
-	private final static int bilgeLava = 2;
-	private final static int bilgeIce = 3;
-	
 	private static int calcSegmentOrigin(int y) {
 		return y / bunkerSegment * bunkerSegment;
 	}
@@ -91,9 +116,6 @@ public class BunkerLot extends ConstructLot {
 		return Math.min(calcBunkerMaxHeight(generator), calcSegmentOrigin(minHeight) - bunkerBuffer);
 	}
 
-	private int bilgeType;
-	private int buildingType;
-	
 	@Override
 	public int getBottomY(WorldGenerator generator) {
 		return bottomOfBunker;
@@ -107,9 +129,10 @@ public class BunkerLot extends ConstructLot {
 	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
-		// initial rolls
-		bilgeType = platmapOdds.getRandomInt(5);
-		buildingType = chunkOdds.getRandomInt(7);
+	}
+	
+	@Override
+	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		
 		// precalculate
 		int yBottom = bottomOfBunker;//calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet;
@@ -124,22 +147,24 @@ public class BunkerLot extends ConstructLot {
 		
 		// clear out stuff?
 		switch (bilgeType) {
-		case bilgeWater:
+		case WATER:
 			chunk.setLayer(yBottom + 1, Material.STATIONARY_WATER);
-//			chunk.setBlocks(0, 16, yBottom + 2, yTop3, 0, 16, airId);
 			break;
-		case bilgeLava:
+		case LAVA:
 			chunk.setLayer(yBottom + 1, Material.STATIONARY_LAVA);
-//			chunk.setBlocks(0, 16, yBottom + 2, yTop3, 0, 16, airId);
 			break;
-		case bilgeIce:
+		case ICE:
 			chunk.setLayer(yBottom + 1, Material.ICE);
-//			chunk.setBlocks(0, 16, yBottom + 2, yTop3, 0, 16, airId);
 			break;
-		default: // bilgeEmpty:
-//			chunk.setBlocks(0, 16, yBottom + 1, yTop3, 0, 16, airId);
+		case EMPTY:
 			break;
 		}
+		
+		// hold up buildings
+		generateSupport(chunk, context, 3, yBottom + 1, 3);
+		generateSupport(chunk, context, 3, yBottom + 1, 10);
+		generateSupport(chunk, context, 10, yBottom + 1, 3);
+		generateSupport(chunk, context, 10, yBottom + 1, 10);
 		
 		// vertical beams
 		chunk.setBlocks(0, 2, yBottom + 1, yTop3, 0, 1, supportMaterial);
@@ -196,47 +221,110 @@ public class BunkerLot extends ConstructLot {
 		chunk.setBlocks(14, 16, yPlatform, yPlatform + 2, 6, 7, railingMaterial);
 		chunk.setBlocks(14, 16, yPlatform, yPlatform + 2, 9, 10, railingMaterial);
 		
-		// build a pretend building
+		// build a bunker
 		switch (buildingType) {
-		case 1:
-			generateGrowingBuilding(generator, context, chunk, yPlatform + 1, yTop2);
+		case BALLSY:
+			generateBallsyBunker(generator, context, chunk, yPlatform + 1, yTop2);
 			break;
-		case 2:
-			generateFlooredBuilding(generator, context, chunk, yPlatform + 1, yTop2);
+		case ENTRY:
+			generateEntryBunker(generator, context, chunk, yPlatform + 1, yTop2);
 			break;
-		case 3:
-			generateBallsyBuilding(generator, context, chunk, yPlatform + 1, yTop2);
+		case FLOORED:
+			generateFlooredBunker(generator, context, chunk, yPlatform + 1, yTop2);
 			break;
-		case 4:
-			generateRecallBuilding(generator, context, chunk, yPlatform + 1, yTop2);
+		case GROWING:
+			generateGrowingBunker(generator, context, chunk, yPlatform + 1, yTop2);
 			break;
-		case 5:
-			generateQuadBuilding(generator, context, chunk, yPlatform + 1, yTop2);
+		case PYRAMID:
+			generatePyramidBunker(generator, context, chunk, yPlatform + 1, yTop2);
 			break;
-		case 6:
-			generateTankBuilding(generator, context, chunk, yPlatform + 1, yTop2);
+		case QUAD:
+			generateQuadBunker(generator, context, chunk, yPlatform + 1, yTop2);
 			break;
-		default:
-			generatePyramidBuilding(generator, context, chunk, yPlatform + 1, yTop2);
+		case RECALL:
+			generateRecallBunker(generator, context, chunk, yPlatform + 1, yTop2);
+			break;
+		case TANK:
+			generateTankBunker(generator, context, chunk, yPlatform + 1, yTop2);
 			break;
 		}
 		
-//		// poke out a flag
-//		chunk.setBlocks(7, yTop4, maxHeight + 3, 7, airId);
-//		chunk.setBlocks(7, maxHeight + 3, maxHeight + 10, 7, (byte) Material.GLOWSTONE.getId());
+		// add some surface
+		generateSurface(generator, chunk, true);
+	}
+
+	private void generateEntryBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, int y1, int y2) {
+		reportLocation(generator, "Bunker", chunk.getOriginX(), chunk.getOriginZ());
+		
+		// where is the surface?
+		int surfaceY = Math.min(getBlockY(6, 6), getBlockY(9, 6));
+		surfaceY = Math.min(surfaceY, getBlockY(6, 9));
+		surfaceY = Math.min(surfaceY, getBlockY(9, 9));
+		
+		// walls
+		chunk.setBlocks(5, 11, y1, surfaceY + 4, 5, 11, Material.CLAY);
+		
+		// do it!
+		MineEntranceLot.generateStairWell(generator, chunk, chunkOdds, 6, 6, y1, minHeight, surfaceY,
+				Material.QUARTZ_STAIRS, Material.QUARTZ_BLOCK, Material.QUARTZ_BLOCK); // Make the last one air if you want an easy way down
+		
+		// roof!
+		chunk.setBlocks(6, 10, surfaceY + 4, surfaceY + 5, 6, 10, Material.CLAY);
+		chunk.setBlocks(7, 9, surfaceY + 5, surfaceY + 6, 7, 9, Material.CLAY);
+		
+		// bottom doors
+		chunk.setBlocks(7, 9, y1, y1 + 2, 5, 6, Material.AIR);
+		chunk.setBlocks(7, 9, y1, y1 + 2, 10, 11, Material.AIR);
+		chunk.setBlocks(5, 6, y1, y1 + 2, 7, 9, Material.AIR);
+		chunk.setBlocks(10, 11, y1, y1 + 2, 7, 9, Material.AIR);
+		
+		// top doors
+		chunk.setBlocks(7, 9, surfaceY + 1, surfaceY + 3, 5, 6, Material.IRON_FENCE);
+		chunk.setBlocks(7, 9, surfaceY + 1, surfaceY + 3, 10, 11, Material.IRON_FENCE);
+		chunk.setBlocks(5, 6, surfaceY + 1, surfaceY + 3, 7, 9, Material.IRON_FENCE);
+		chunk.setBlocks(10, 11, surfaceY + 1, surfaceY + 3, 7, 9, Material.IRON_FENCE);
+		
+		// put in some windows
+		for (int y = y1 + 3; y < y2; y = y + 3) {
+			if (chunkOdds.flipCoin())
+				chunk.setBlocks(7, 8 + chunkOdds.getRandomInt(2), y, y + 2, 5, 6, Material.THIN_GLASS);
+			if (chunkOdds.flipCoin())
+				chunk.setBlocks(8 - chunkOdds.getRandomInt(2), 9, y, y + 2, 10, 11, Material.THIN_GLASS);
+			if (chunkOdds.flipCoin())
+				chunk.setBlocks(5, 6, y, y + 2, 7, 8 + chunkOdds.getRandomInt(2), Material.THIN_GLASS);
+			if (chunkOdds.flipCoin())
+				chunk.setBlocks(10, 11, y, y + 2, 8 - chunkOdds.getRandomInt(2), 9, Material.THIN_GLASS);
+		}
+		
+		// place snow
+		blockYs.lift(7);
+		generateSurface(generator, chunk, false);
 	}
 	
-	private void generateGrowingBuilding(WorldGenerator generator, DataContext context, ByteChunk chunk, int y1, int y2) {
+	private void generateGrowingBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, int y1, int y2) {
 		int x1 = 4;
 		int x2 = x1 + 8;
 		int y = y1;
 		int z1 = 4;
 		int z2 = z1 + 8;
 		int Height = FloorHeight;
+
+		Material emptyMaterial = getAirMaterial(generator, y1);
+		boolean firstFloor = true;
+		
 		while (y + Height < y2) {
 			
 			// walls please
 			chunk.setWalls(x1, x2, y, y + Height - 1, z1, z2, buildingMaterial);
+			
+			// doors
+			if (firstFloor) {
+				chunk.setBlocks(x1 + 3, x2 - 3, y, y + 2, z1    , z1 + 1, emptyMaterial);
+				chunk.setBlocks(x1 + 3, x2 - 3, y, y + 2, z2 - 1, z2    , emptyMaterial);
+				chunk.setBlocks(x1    , x1 + 1, y, y + 2, z1 + 3, z2 - 3, emptyMaterial);
+				chunk.setBlocks(x2 - 1, x2    , y, y + 2, z1 + 3, z2 - 3, emptyMaterial);
+				firstFloor = false;
+			}
 			
 			// interspace
 			chunk.setBlocks(x1 + 1, x2 - 1, y + Height - 1, y + Height, z1 + 1, z2 - 1, buildingMaterial);
@@ -245,16 +333,18 @@ public class BunkerLot extends ConstructLot {
 			y += Height;
 			Height += FloorHeight;
 		}
-
-//		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.IRON_BLOCK);
 	}
 
-	private void generateFlooredBuilding(WorldGenerator generator, DataContext context, ByteChunk chunk, int y1, int y2) {
+	private void generateFlooredBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, int y1, int y2) {
 		int x1 = 4;
 		int x2 = x1 + 8;
 		int z1 = 4;
 		int z2 = z1 + 8;
 		int y3 = y2 - 2;
+		
+		Material emptyMaterial = getAirMaterial(generator, y1);
+		boolean firstFloor = true;
+		
 		for (int y = y1; y < y3; y += FloorHeight) {
 			
 			// walls please
@@ -266,19 +356,27 @@ public class BunkerLot extends ConstructLot {
 			chunk.setBlocks(x1, x1 + 1, y + 1, y + 2, z1 + 2, z2 - 2, windowMaterial);
 			chunk.setBlocks(x2 - 1, x2, y + 1, y + 2, z1 + 2, z2 - 2, windowMaterial);
 			
+			// doors
+			if (firstFloor) {
+				chunk.setBlocks(x1 + 3, x2 - 3, y, y + 2, z1    , z1 + 1, emptyMaterial);
+				chunk.setBlocks(x1 + 3, x2 - 3, y, y + 2, z2 - 1, z2    , emptyMaterial);
+				chunk.setBlocks(x1    , x1 + 1, y, y + 2, z1 + 3, z2 - 3, emptyMaterial);
+				chunk.setBlocks(x2 - 1, x2    , y, y + 2, z1 + 3, z2 - 3, emptyMaterial);
+				firstFloor = false;
+			}
+			
 			// interspace
 			chunk.setBlocks(x1 + 1, x2 - 1, y + FloorHeight - 1, y + FloorHeight, z1 + 1, z2 - 1, buildingMaterial);
 		}
-
-//		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.BOOKSHELF);
 	}
 
-	private void generateRecallBuilding(WorldGenerator generator, DataContext context, ByteChunk chunk, int y1, int y2) {
+	private void generateRecallBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, int y1, int y2) {
 		int buildingWidth = 10;
 		int x1 = (chunk.width - buildingWidth) / 2;
 		int x2 = x1 + buildingWidth;
 		int z1 = x1;
 		int z2 = z1 + buildingWidth;
+		
 		Material emptyMaterial = getAirMaterial(generator, y1);
 		
 		// lower bit
@@ -315,10 +413,14 @@ public class BunkerLot extends ConstructLot {
 			Height += FloorHeight;
 		}
 		
-//		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.DIAMOND_BLOCK);
+		generateTreat(generator, chunk, 5, y1, 5);
+		generateTreat(generator, chunk, 10, y1, 10);
+		
+		generateTrick(generator, chunk, 10, y1, 5);
+		generateTrick(generator, chunk, 5, y1, 10);
 	}
 
-	private void generateBallsyBuilding(WorldGenerator generator, DataContext context, ByteChunk chunk, int y1, int y2) {
+	private void generateBallsyBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, int y1, int y2) {
 		int x1 = 2;
 		int x2 = x1 + 12;
 		int z1 = 2;
@@ -340,11 +442,9 @@ public class BunkerLot extends ConstructLot {
 			generateBallsyBuildingBall(chunk, x2 - 5, y, z1);
 			generateBallsyBuildingBall(chunk, x2 - 5, y, z2 - 5);
 		}
-
-//		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.BEDROCK);
 	}
 	
-	private void generateBallsyBuildingBall(ByteChunk chunk, int x, int y, int z) {
+	private void generateBallsyBuildingBall(SupportChunk chunk, int x, int y, int z) {
 		if (chunkOdds.playOdds(0.25)) {
 			
 			// bottom
@@ -358,7 +458,7 @@ public class BunkerLot extends ConstructLot {
 		}
 	}
 
-	private void generateQuadBuilding(WorldGenerator generator, DataContext context, ByteChunk chunk, int y1, int y2) {
+	private void generateQuadBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, int y1, int y2) {
 		int x1 = 2;
 		int x2 = x1 + 12;
 		int z1 = 2;
@@ -377,11 +477,9 @@ public class BunkerLot extends ConstructLot {
 		//TODO vertical windows
 		//TODO horizontal connections from time to time, place treasures here
 		//TODO spiral staircase up the middle
-		
-//		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.GOLD_BLOCK);
 	}
 	
-	private void generateTankBuilding(WorldGenerator generator, DataContext context, ByteChunk chunk, int y1, int y2) {
+	private void generateTankBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, int y1, int y2) {
 		int x1 = 4;
 		int x2 = x1 + 8;
 		int z1 = 4;
@@ -414,8 +512,6 @@ public class BunkerLot extends ConstructLot {
 		chunk.setBlocks(x1, x2, yTop, yTop + 1, z1, z2, buildingMaterial);
 		
 		chunk.setBlocks(x1, x2, yBottom + 1, yBottom + ((yTop - yBottom) / 3) * 2, z1, z2, getFillMaterial());
-
-//		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.LAPIS_BLOCK);
 	}
 	
 	private Material getFillMaterial() {
@@ -443,7 +539,7 @@ public class BunkerLot extends ConstructLot {
 		}
 	}
 
-	private void generatePyramidBuilding(WorldGenerator generator, DataContext context, ByteChunk chunk, int y1, int y2) {
+	private void generatePyramidBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, int y1, int y2) {
 		int x1 = 2;
 		int x2 = x1 + 12;
 		int z1 = 2;
@@ -466,63 +562,18 @@ public class BunkerLot extends ConstructLot {
 		chunk.setBlocks(x1    , x1 + 1, y1 + 2, y1 + 3, z1 + 4, z2 - 4, buildingMaterial);
 		chunk.setBlocks(x2 - 1, x2    , y1 + 2, y1 + 3, z1 + 4, z2 - 4, buildingMaterial);
 
-//		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.STONE);
-	}
-
-	@Override
-	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+		generateTreat(generator, chunk, 3, y1, 3);
+		generateTreat(generator, chunk, 12, y1, 12);
 		
-		// initial rolls
-		bilgeType = platmapOdds.getRandomInt(5);
-		buildingType = chunkOdds.getRandomInt(7);
-			
-		int yBottom = bottomOfBunker;
-		int yTop4 = topOfBunker;
-//		int yTop3 = yTop4 - 2;
-		int yTop2 = yTop4 - bunkerSegment; 
-//		int yTop1 = yTop2 - 2;
-		int yPlatform = calcSegmentOrigin(yBottom) + 6;
-		
-		// hold up buildings
-		generateSupport(chunk, context, 3, yBottom + 1, 3, bilgeType);
-		generateSupport(chunk, context, 3, yBottom + 1, 10, bilgeType);
-		generateSupport(chunk, context, 10, yBottom + 1, 3, bilgeType);
-		generateSupport(chunk, context, 10, yBottom + 1, 10, bilgeType);
-		
-		// build a pretend building
-		switch (buildingType) {
-		case 1:
-			decorateGrowingBuilding(generator, context, chunk, yPlatform + 1, yTop2);
-			break;
-		case 2:
-			decorateFlooredBuilding(generator, context, chunk, yPlatform + 1, yTop2);
-			break;
-		case 3:
-			decorateBallsyBuilding(generator, context, chunk, yPlatform + 1, yTop2);
-			break;
-		case 4:
-			decorateRecallBuilding(generator, context, chunk, yPlatform + 1, yTop2);
-			break;
-		case 5:
-			decorateQuadBuilding(generator, context, chunk, yPlatform + 1, yTop2);
-			break;
-		case 6:
-			decorateWaterBuilding(generator, context, chunk, yPlatform + 1, yTop2);
-			break;
-		default:
-			decoratePyramidBuilding(generator, context, chunk, yPlatform + 1, yTop2);
-			break;
-		}
-		
-		// add some surface
-		generateSurface(generator, chunk, true);
+		generateTrick(generator, chunk, 12, y1, 3);
+		generateTrick(generator, chunk, 3, y1, 12);
 	}
 
 	private final static Material springMat = Material.SMOOTH_STAIRS;
 	private final static Material springBaseMat = Material.STONE;
 	private final static Material springCoreMat = Material.GLOWSTONE;
 	
-	private void generateSupport(RealChunk chunk, DataContext context, int x, int y, int z, int bilgeType) {
+	private void generateSupport(SupportChunk chunk, DataContext context, int x, int y, int z) {
 		chunk.setBlocks(x, x + 3, y, z, z + 3, springBaseMat);
 		
 		generateSpringBit(chunk, x    , y + 1, z    , Stair.EAST, Stair.SOUTHFLIP, Stair.EAST);
@@ -539,174 +590,14 @@ public class BunkerLot extends ConstructLot {
 		chunk.setBlocks(x, x + 3, y + 4, z, z + 3, springBaseMat);
 	}
 	
-	private void generateSpringBit(RealChunk chunk, int x, int y, int z, Stair data1, Stair data2, Stair data3) {
+	private void generateSpringBit(SupportChunk chunk, int x, int y, int z, Stair data1, Stair data2, Stair data3) {
 		chunk.setStair(x, y    , z, springMat, data1);
 		chunk.setStair(x, y + 1, z, springMat, data2);
 		chunk.setStair(x, y + 2, z, springMat, data3);
 	}
 
-	private void decorateGrowingBuilding(WorldGenerator generator, DataContext context, RealChunk chunk, int y1, int y2) {
-//		int x1 = 4;
-//		int x2 = x1 + 8;
-//		int y = y1;
-//		int z1 = 4;
-//		int z2 = z1 + 8;
-//		int Height = FloorHeight;
-//		while (y + Height < y2) {
-//			
-//			// walls please
-//			chunk.setWalls(x1, x2, y, y + Height - 1, z1, z2, buildingMaterial);
-//			
-//			// interspace
-//			chunk.setBlocks(x1 + 1, x2 - 1, y + Height - 1, y + Height, z1 + 1, z2 - 1, buildingMaterial);
-//			
-//			// make things bigger
-//			y += Height;
-//			Height += FloorHeight;
-//		}
 
-//		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.IRON_BLOCK);
-	}
-
-	private void decorateFlooredBuilding(WorldGenerator generator, DataContext context, RealChunk chunk, int y1, int y2) {
-//		int x1 = 4;
-//		int x2 = x1 + 8;
-//		int z1 = 4;
-//		int z2 = z1 + 8;
-//		int y3 = y2 - 2;
-//		for (int y = y1; y < y3; y += FloorHeight) {
-//			
-//			// walls please
-//			chunk.setWalls(x1, x2, y, y + FloorHeight - 1, z1, z2, buildingMaterial);
-//			
-//			// windows in the wall
-//			chunk.setBlocks(x1 + 2, x2 - 2, y + 1, y + 2, z1, z1 + 1, glassId);
-//			chunk.setBlocks(x1 + 2, x2 - 2, y + 1, y + 2, z2 - 1, z2, glassId);
-//			chunk.setBlocks(x1, x1 + 1, y + 1, y + 2, z1 + 2, z2 - 2, glassId);
-//			chunk.setBlocks(x2 - 1, x2, y + 1, y + 2, z1 + 2, z2 - 2, glassId);
-//			
-//			//TODO add doors & stairs
-//			
-//			// interspace
-//			chunk.setBlocks(x1 + 1, x2 - 1, y + FloorHeight - 1, y + FloorHeight, z1 + 1, z2 - 1, buildingMaterial);
-//		}
-
-//		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.BOOKSHELF);
-	}
-
-	private void decorateRecallBuilding(WorldGenerator generator, DataContext context, RealChunk chunk, int y1, int y2) {
-		generateTreat(generator, chunk, 5, y1, 5);
-		generateTreat(generator, chunk, 10, y1, 10);
-		
-		generateTrick(generator, chunk, 10, y1, 5);
-		generateTrick(generator, chunk, 5, y1, 10);
-	}
-
-	private void decorateBallsyBuilding(WorldGenerator generator, DataContext context, RealChunk chunk, int y1, int y2) {
-//		int x1 = 2;
-//		int x2 = x1 + 12;
-//		int z1 = 2;
-//		int z2 = z1 + 12;
-//		int y3 = y2 - 5;
-//		
-//		// initial pylon
-//		chunk.setBlocks(x1 + 4, x2 - 4, y1, y1 + 2, z1 + 4, z2 - 4, buildingMaterial);
-//		
-//		// rest of the pylon and balls
-//		for (int y = y1 + 2; y < y3; y += 6) {
-//			
-//			// center pylon
-//			chunk.setBlocks(x1 + 4, x2 - 4, y, y + 6, z1 + 4, z2 - 4, buildingMaterial);
-//			
-//			// balls baby!
-//			decorateBallsyBuildingBall(chunk, random, x1, y, z1);
-//			decorateBallsyBuildingBall(chunk, random, x1, y, z2 - 5);
-//			decorateBallsyBuildingBall(chunk, random, x2 - 5, y, z1);
-//			decorateBallsyBuildingBall(chunk, random, x2 - 5, y, z2 - 5);
-//		}
-
-//		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.BEDROCK);
-	}
-	
-//	private void decorateBallsyBuildingBall(RealChunk chunk, int x, int y, int z) {
-//		if (random.nextDouble() > 0.25) {
-//			
-//			// bottom
-//			chunk.setBlocks(x + 1, x + 4, y, y + 1, z + 1, z + 4, buildingMaterial);
-//			
-//			// sides
-//			chunk.setBlocks(x, x + 5, y + 1, y + 4, z, z + 5, buildingMaterial);
-//			
-//			// top
-//			chunk.setBlocks(x + 1, x + 4, y + 4, y + 5, z + 1, z + 4, buildingMaterial);
-//		}
-//	}
-
-	private void decorateQuadBuilding(WorldGenerator generator, DataContext context, RealChunk chunk, int y1, int y2) {
-//		int x1 = 2;
-//		int x2 = x1 + 12;
-//		int z1 = 2;
-//		int z2 = z1 + 12;
-//		int ySegment = (y2 - y1) / 5;
-//		int yRange = ySegment * 3;
-//		int yBase = y1 + ySegment;
-//		
-//		// four towers
-//		chunk.setBlocks(x1, x1 + 5, y1, yBase + random.nextInt(yRange), z1, z1 + 5, buildingMaterial);
-//		chunk.setBlocks(x1, x1 + 5, y1, yBase + random.nextInt(yRange), z2 - 5, z2, buildingMaterial);
-//		chunk.setBlocks(x2 - 5, x2, y1, yBase + random.nextInt(yRange), z1, z1 + 5, buildingMaterial);
-//		chunk.setBlocks(x2 - 5, x2, y1, yBase + random.nextInt(yRange), z2 - 5, z2, buildingMaterial);
-		
-//		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.GOLD_BLOCK);
-	}
-	
-	private void decorateWaterBuilding(WorldGenerator generator, DataContext context, RealChunk chunk, int y1, int y2) {
-//		int x1 = 4;
-//		int x2 = x1 + 8;
-//		int z1 = 4;
-//		int z2 = z1 + 8;
-//		int yBottom = y1 + 4;
-//		int yTop = y2;
-//		
-//		// supports
-//		chunk.setBlocks(x1 + 1, x1 + 3, y1, yBottom, z1 + 1, z1 + 3, buildingMaterial);
-//		chunk.setBlocks(x1 + 1, x1 + 3, y1, yBottom, z2 - 3, z2 - 1, buildingMaterial);
-//		chunk.setBlocks(x2 - 3, x2 - 1, y1, yBottom, z1 + 1, z1 + 3, buildingMaterial);
-//		chunk.setBlocks(x2 - 3, x2 - 1, y1, yBottom, z2 - 3, z2 - 1, buildingMaterial);
-//		
-//		// bottom bit
-//		chunk.setBlocks(x1, x2, yBottom, yBottom + 1, z1, z2, buildingMaterial);
-//		
-//		// walls
-//		chunk.setBlocks(x1, x2, yBottom + 1, yTop, z1 - 1, z1, buildingMaterial);
-//		chunk.setBlocks(x1, x2, yBottom + 1, yTop, z2    , z2 + 1, buildingMaterial);
-//		chunk.setBlocks(x1 - 1, x1, yBottom + 1, yTop, z1, z2, buildingMaterial);
-//		chunk.setBlocks(x2    , x2 + 1, yBottom + 1, yTop, z1, z2, buildingMaterial);
-//		
-//		// make it so we can see in a bit
-//		chunk.setBlocks(x1 + 3, x2 - 3, yBottom + 1, yTop, z1 - 1, z1, glassId);
-//		chunk.setBlocks(x1 + 3, x2 - 3, yBottom + 1, yTop, z2    , z2 + 1, glassId);
-//		chunk.setBlocks(x1 - 1, x1, yBottom + 1, yTop, z1 + 3, z2 - 3, glassId);
-//		chunk.setBlocks(x2    , x2 + 1, yBottom + 1, yTop, z1 + 3, z2 - 3, glassId);
-//		
-//		// put a top on it
-//		chunk.setBlocks(x1, x2, yTop, yTop + 1, z1, z2, buildingMaterial);
-//		
-//		// fill it
-//		chunk.setBlocks(x1, x2, yBottom + 1, yBottom + ((yTop - yBottom) / 3) * 2, z1, z2, waterMaterial);
-
-//		chunk.setBlocks(x1, y1, y1 + 10, z1, Material.LAPIS_BLOCK);
-	}
-
-	private void decoratePyramidBuilding(WorldGenerator generator, DataContext context, RealChunk chunk, int y1, int y2) {
-		generateTreat(generator, chunk, 3, y1, 3);
-		generateTreat(generator, chunk, 12, y1, 12);
-		
-		generateTrick(generator, chunk, 12, y1, 3);
-		generateTrick(generator, chunk, 3, y1, 12);
-	}
-	
-	private void generateTreat(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
+	private void generateTreat(WorldGenerator generator, SupportChunk chunk, int x, int y, int z) {
 		
 		// cool stuff?
 		if (generator.settings.treasuresInBunkers && chunkOdds.playOdds(generator.settings.oddsOfTreasureInBunkers)) {
@@ -714,11 +605,47 @@ public class BunkerLot extends ConstructLot {
 		}
 	}
 
-	private void generateTrick(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
+	private void generateTrick(WorldGenerator generator, SupportChunk chunk, int x, int y, int z) {
 
 		// not so cool stuff?
 		if (generator.settings.spawnersInBunkers && chunkOdds.playOdds(generator.settings.oddsOfSpawnerInBunkers)) {
 			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, chunkOdds, SpawnerLocation.BUNKER));
 		}
 	}
+	
+	public BilgeType getRandomBilgeType() {
+		switch (platmapOdds.getRandomInt(5)) {
+		case 1:
+			return BilgeType.WATER; // 1 out of 5
+		case 2:
+			return BilgeType.LAVA;  // 1 out of 5
+		case 3:
+			return BilgeType.ICE;   // 1 out of 5
+		default:
+			return BilgeType.EMPTY; // 2 out of 5
+		}
+	}
+	
+	public BunkerType getRandomBunkerType() {
+		if (firstOne)
+			return BunkerType.ENTRY;
+		else 
+			switch (chunkOdds.getRandomInt(7)) {
+			case 1:
+				return BunkerType.BALLSY;  // 1 out of 7
+			case 2:
+				return BunkerType.FLOORED; // 1 out of 7
+			case 3:
+				return BunkerType.GROWING; // 1 out of 7
+			case 4:
+				return BunkerType.PYRAMID; // 1 out of 7
+			case 5:
+				return BunkerType.QUAD;    // 1 out of 7
+			case 6:
+				return BunkerType.RECALL;  // 1 out of 7
+			default:
+				return BunkerType.TANK;    // 1 out of 7
+			}
+	}
+	
 }

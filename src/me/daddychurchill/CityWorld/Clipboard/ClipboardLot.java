@@ -134,7 +134,7 @@ public class ClipboardLot extends IsolatedLot {
 		
 		// echo the location?
 		if (clip.broadcastLocation && lotX == 0 && lotZ == 0)
-			generator.reportMessage("[WorldEdit] " + clip.name + " placed at " + originX + ", " + originZ);
+			reportLocation(generator, clip.name, originX, originZ);
 		
 		// sub region calculation
 		int subX1, subX2, subZ1, subZ2;

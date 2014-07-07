@@ -19,7 +19,7 @@ public class IndustrialContext extends UrbanContext {
 		super.initialize();
 
 		oddsOfParks = oddsUnlikely;
-		oddsOfIsolatedLots = oddsVeryUnlikely;
+		oddsOfIsolatedLots = oddsPrettyUnlikely;
 		oddsOfIdenticalBuildingHeights = oddsAlwaysGoingToHappen;
 		oddsOfSimilarBuildingHeights = oddsExtremelyLikely;
 		oddsOfSimilarBuildingRounding = oddsNeverGoingToHappen;

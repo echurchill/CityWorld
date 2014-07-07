@@ -11,25 +11,28 @@ public abstract class DataContext {
 	
 	// see PlatMaps.xlsx for more info on this Fibonacci variant
 	public final static double oddsNeverGoingToHappen =			 0.0;          //   0.00%
-	public final static double oddsPracticallyNeverHappens =	 1.0 / 377.00; //   0.27%
-	public final static double oddsAlmostNeverHappens =			 1.0 / 233.00; //   0.43%
-	public final static double oddsRarelyHappens =				 1.0 / 144.00; //   0.69%
-	public final static double oddsNearlyNeverHappens =			 1.0 /  89.00; //   1.12%
-	public final static double oddsEffinUnlikely =				 1.0 /  55.00; //   1.82%
+	public final static double oddsNearlyNeverGoingToHappen =	 1.0 / 377.00; //   0.27%
+	public final static double oddsEffinUnlikely =				 1.0 / 233.00; //   0.43%
+
+	public final static double oddsTremendouslyUnlikely =		 1.0 / 144.00; //   0.69%
+	public final static double oddsExceedinglyUnlikely =		 1.0 /  89.00; //   1.12%
+	public final static double oddsEnormouslyUnlikely =			 1.0 /  55.00; //   1.82%
 	public final static double oddsExtremelyUnlikely =			 1.0 /  34.00; //   2.94%
-	public final static double oddsVeryUnlikely =				 1.0 /  21.00; //   4.76%
-	public final static double oddsPrettyUnlikely =				 1.0 /  13.00; //   7.69%
+	public final static double oddsPrettyUnlikely =				 1.0 /  21.00; //   4.76%
+	public final static double oddsVeryUnlikely =				 1.0 /  13.00; //   7.69%
 	public final static double oddsUnlikely =					 1.0 /   8.00; //  12.50%
 	public final static double oddsSomewhatUnlikely =			 1.0 /   5.00; //  20.00%
+
 	public final static double oddsSomewhatLikely =				 1.0 /   3.00; //  33.33%
 	public final static double oddsLikely =						 1.0 /   2.00; //  50.00%
 	public final static double oddsVeryLikely =					 2.0 /   3.00; //  66.67%
 	public final static double oddsPrettyLikely =				 4.0 /   5.00; //  80.00%
 	public final static double oddsExtremelyLikely =			 7.0 /   8.00; //  87.50%
-	public final static double oddsEffinLikely =				12.0 /  13.00; //  92.31%
-	public final static double oddsNearlyAlwaysHappens =		20.0 /  21.00; //  95.24%
-	public final static double oddsAlmostAlwaysHappens =		33.0 /  34.00; //  97.06%
-	public final static double oddsPracticallyAlwaysHappens =	54.0 /  55.00; //  98.18%
+	public final static double oddsEnormouslyLikely =			12.0 /  13.00; //  92.31%
+	public final static double oddsExceedinglyLikely =			20.0 /  21.00; //  95.24%
+	public final static double oddsTremendouslyLikely =			33.0 /  34.00; //  97.06%
+	
+	public final static double oddsEffinLikely =				54.0 /  55.00; //  98.18%
 	public final static double oddsAlwaysGoingToHappen =		 1.0;          // 100.00%
 	
 	// While these are initialized here, the real defaults live in CivilizedContext and UncivilizedContext

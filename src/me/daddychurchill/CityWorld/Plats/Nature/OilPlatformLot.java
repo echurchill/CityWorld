@@ -48,6 +48,12 @@ public class OilPlatformLot extends ConstructLot {
 	@Override
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
+	}
+	
+	@Override
+	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+		reportLocation(generator, "Oil Platform", chunk.getOriginX(), chunk.getOriginZ());
+
 		// working levels
 		int y0 = generator.seaLevel;
 		int y1 = y0 + aboveSea;
@@ -118,17 +124,6 @@ public class OilPlatformLot extends ConstructLot {
 		//chunk.setBlocks(9, y2 + 2, y3 + 2, 1, drillId);
 		chunk.setBlocks(11, y2 + 2, y3 + 2, 1, drillMaterial);
 		chunk.setBlocks(13, y4 + 4, y4 + 8, 2, drillMaterial); // bit hanging from the crane
-	}
-	
-	@Override
-	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
-
-		// working levels
-		int y0 = generator.seaLevel;
-		int y1 = y0 + aboveSea;
-		int y2 = y1 + DataContext.FloorHeight;
-		int y3 = y2 + DataContext.FloorHeight;
-		int y4 = y3 + DataContext.FloorHeight;
 		
 		// ladder from access level to the balcony
 		chunk.setLadder(3, y0 + 1, y4 - 2, 4, Direction.General.SOUTH);

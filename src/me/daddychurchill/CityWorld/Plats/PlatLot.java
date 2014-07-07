@@ -21,9 +21,9 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 public abstract class PlatLot {
 	
 	// extremes
-	private CachedYs blockYs;
 	private int chunkX;
 	private int chunkZ;
+	protected CachedYs blockYs;
 	protected int averageHeight;
 	protected int minHeight = Integer.MAX_VALUE;
 	protected int minHeightX = 0;
@@ -51,27 +51,6 @@ public abstract class PlatLot {
 	}
 
 	// these cannot
-//	protected final static byte stoneId = (byte) Material.STONE.getId();
-//	protected final static byte dirtId = (byte) Material.DIRT.getId();
-//	protected final static byte grassId = (byte) Material.GRASS.getId();
-//	protected final static byte snowId = (byte) Material.SNOW_BLOCK.getId();
-//	protected final static byte sandId = (byte) Material.SAND.getId();
-//	protected final static byte sandstoneId = (byte) Material.SANDSTONE.getId();
-//	protected final static byte bedrockId = (byte) Material.BEDROCK.getId();
-//	protected final static byte fenceId = (byte) Material.FENCE.getId();
-//	protected final static byte cobbleId = (byte) Material.COBBLESTONE.getId();
-//	protected final static byte leavesId = (byte) Material.LEAVES.getId();
-//	protected final static byte glassId = (byte) Material.GLASS.getId();
-//	protected final static byte paneId = (byte) Material.THIN_GLASS.getId();
-//	protected final static byte logId = (byte) Material.LOG.getId();
-//	protected final static byte glowId = (byte) Material.GLOWSTONE.getId();
-//	protected final static byte stepId = (byte) Material.STEP.getId();
-//	protected final static byte clayId = (byte) Material.CLAY.getId();
-//	protected final static byte ironFenceId = (byte) Material.IRON_FENCE.getId();
-//	protected final static byte endId = (byte) Material.ENDER_STONE.getId();
-//	protected final static byte netherrackId = (byte) Material.NETHERRACK.getId();
-//	protected final static byte soulsandId = (byte) Material.SOUL_SAND.getId();
-
 	protected final static Material pavementId = Material.STONE;
 	protected final static Material crosswalkId = Material.CLAY;
 	
@@ -89,6 +68,11 @@ public abstract class PlatLot {
 	protected abstract void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ);
 	protected abstract void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ);
 
+	protected void reportLocation(WorldGenerator generator, String title, int originX, int originZ) {
+		if (generator.settings.broadcastSpecialPlaces)
+			generator.reportMessage(title + " placed at " + originX + ", " + originZ);
+	}
+	
 	public Biome getChunkBiome() {
 		return Biome.PLAINS;
 	}
@@ -527,7 +511,7 @@ public abstract class PlatLot {
 		return miniPlatMap;
 	}
 	
-	public void generateSurface(WorldGenerator generator, RealChunk chunk, boolean includeTrees) {
+	public void generateSurface(WorldGenerator generator, SupportChunk chunk, boolean includeTrees) {
 		
 		// plant grass or snow
 		generator.surfaceProvider.generateSurface(generator, this, chunk, blockYs, includeTrees);

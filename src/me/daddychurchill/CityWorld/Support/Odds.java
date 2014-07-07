@@ -38,19 +38,12 @@ public class Odds {
 		return min + random.nextInt(range);
 	}
 	
-	@Deprecated
-	public int getRandomByte() {
-		return (byte) random.nextInt();
+	public int calcRandomRange(int min, int max) {
+		return min + random.nextInt(max - min);
 	}
 	
-	@Deprecated
-	public byte getRandomByte(byte range) {
-		return (byte) random.nextInt(range);
-	}
-	
-	@Deprecated
-	public byte getRandomByte(byte min, byte range) {
-		return (byte) (min + random.nextInt(range));
+	public double calcRandomRange(double min, double max) {
+		return min + random.nextDouble() * (max - min);
 	}
 	
 	private DyeColor getRandomColor(int start, int count) {

@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class SurfaceProvider_SnowDunes extends SurfaceProvider_Normal {
 
@@ -16,10 +16,10 @@ public class SurfaceProvider_SnowDunes extends SurfaceProvider_Normal {
 		// TODO Auto-generated constructor stub
 	}
 	
-	private final static double snowmanOdds = DataContext.oddsPracticallyNeverHappens;
+	private final static double snowmanOdds = DataContext.oddsNearlyNeverGoingToHappen;
 	
 	@Override
-	public void generateSurfacePoint(WorldGenerator generator, PlatLot lot, RealChunk chunk, CoverProvider foliage, 
+	public void generateSurfacePoint(WorldGenerator generator, PlatLot lot, SupportChunk chunk, CoverProvider foliage, 
 			int x, double perciseY, int z, boolean includeTrees) {
 		int y = NoiseGenerator.floor(generator.shapeProvider.findFloodY(generator, x, z));
 		

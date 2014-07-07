@@ -6,6 +6,7 @@ import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
+import org.bukkit.material.MaterialData;
 
 @SuppressWarnings("deprecation")
 public abstract class BlackMagic {
@@ -29,6 +30,10 @@ public abstract class BlackMagic {
 		return (byte) block.getData();
 	}
 
+	public static final byte getMaterialData(MaterialData data) {
+		return data.getData();
+	}
+	
 	public static final void setBlockType(Block block, int typeId) {
 		block.setTypeId(typeId);
 	}
