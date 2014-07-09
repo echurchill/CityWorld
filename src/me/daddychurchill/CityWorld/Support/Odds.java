@@ -46,53 +46,33 @@ public class Odds {
 		return min + random.nextDouble() * (max - min);
 	}
 	
-	private DyeColor getRandomColor(int start, int count) {
-		switch (getRandomInt(start, count)) {
-		case 0:
-			return DyeColor.CYAN;
-		case 1:
-			return DyeColor.LIGHT_BLUE;
-		case 2:
-			return DyeColor.LIME;
-		case 3:
-			return DyeColor.PINK;
-		case 4:
-			return DyeColor.SILVER;
-		case 5:
-			return DyeColor.WHITE;
-		case 6:
-			return DyeColor.YELLOW;
-		case 7:
-			return DyeColor.BLACK;
-		case 8:
-			return DyeColor.BLUE;
-		case 9:
-			return DyeColor.BROWN;
-		case 10:
-			return DyeColor.GRAY;
-		case 11:
-			return DyeColor.GREEN;
-		case 12:
-			return DyeColor.MAGENTA;
-		case 13:
-			return DyeColor.ORANGE;
-		case 14:
-			return DyeColor.PURPLE;
-		default:
-			return DyeColor.RED;
-		}
+	private DyeColor getRandomColor(DyeColor... colors) {
+		return colors[getRandomInt(colors.length)];
 	}
 	
 	public DyeColor getRandomColor() {
-		return getRandomColor(0, 16);
+		return getRandomColor(
+				DyeColor.WHITE, DyeColor.ORANGE, DyeColor.MAGENTA, DyeColor.LIGHT_BLUE,
+				DyeColor.YELLOW, DyeColor.LIME, DyeColor.PINK, DyeColor.GRAY, 
+				DyeColor.SILVER, DyeColor.CYAN, DyeColor.PURPLE, DyeColor.BLUE,
+				DyeColor.BROWN, DyeColor.GREEN, DyeColor.RED, DyeColor.BLACK);
 	}
 	
 	public DyeColor getRandomLightColor() {
-		return getRandomColor(0, 7);
+		return getRandomColor(
+				DyeColor.WHITE, DyeColor.ORANGE, DyeColor.MAGENTA, DyeColor.LIGHT_BLUE,
+				DyeColor.YELLOW, DyeColor.LIME, DyeColor.PINK, DyeColor.SILVER);
 	}
 	
 	public DyeColor getRandomDarkColor() {
-		return getRandomColor(7, 9);
+		return getRandomColor(
+				DyeColor.GRAY, DyeColor.CYAN, DyeColor.PURPLE, DyeColor.BLUE,
+				DyeColor.BROWN, DyeColor.GREEN, DyeColor.RED, DyeColor.BLACK);
+	}
+	
+	public DyeColor getRandomCamoColor() {
+		return getRandomColor(
+				DyeColor.BROWN, DyeColor.GREEN, DyeColor.GRAY);
 	}
 	
 	public int getCauldronLevel() {

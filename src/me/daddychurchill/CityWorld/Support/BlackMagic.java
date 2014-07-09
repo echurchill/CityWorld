@@ -39,7 +39,7 @@ public abstract class BlackMagic {
 	}
 	
 	public static final void setBlockStateColor(BlockState state, DyeColor color) {
-		state.setRawData(color.getDyeData());
+		state.setRawData(color.getWoolData());
 	}
 	
 	public static final boolean setBlockType(Block block, int typeId, int rawdata) {

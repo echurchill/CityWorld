@@ -1,5 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Nature;
 
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
@@ -44,7 +45,7 @@ public class BunkerLot extends ConnectedLot {
 	protected int topOfBunker;
 	
 	protected enum BilgeType {EMPTY, WATER, LAVA, ICE};
-	protected enum BunkerType {ENTRY, PYRAMID, TANK, QUAD, RECALL, BALLSY, FLOORED, GROWING};
+	protected enum BunkerType {ENTRY, PYRAMID, TANK, QUAD, RECALL, BALLSY, FLOORED, GROWING}; // FARM, MISSILE, VENT
 
 	protected BilgeType bilgeType;
 	protected BunkerType buildingType;
@@ -93,12 +94,12 @@ public class BunkerLot extends ConnectedLot {
 //				super.isShaftableLevel(generator, context, y);	
 	}
 	
-	private final static Material supportMaterial = Material.COBBLESTONE;
+	private final static Material supportMaterial = Material.QUARTZ_BLOCK;
 	private final static Material platformMaterial = Material.SANDSTONE;
 	private final static Material crosswalkMaterial = Material.WOOD;
 	private final static Material railingMaterial = Material.IRON_FENCE;
-	private final static Material buildingMaterial = Material.CLAY;
-	private final static Material windowMaterial = Material.GLASS;
+	private final static Material buildingMaterial = Material.STAINED_CLAY;
+	private final static Material windowMaterial = Material.THIN_GLASS;
 	
 	private static int calcSegmentOrigin(int y) {
 		return y / bunkerSegment * bunkerSegment;
@@ -262,15 +263,18 @@ public class BunkerLot extends ConnectedLot {
 		surfaceY = Math.min(surfaceY, getBlockY(9, 9));
 		
 		// walls
-		chunk.setBlocks(5, 11, y1, surfaceY + 4, 5, 11, Material.CLAY);
+		chunk.setBlocks(5, 11, y1, surfaceY + 4, 5, 11, buildingMaterial);
 		
 		// do it!
 		MineEntranceLot.generateStairWell(generator, chunk, chunkOdds, 6, 6, y1, minHeight, surfaceY,
 				Material.QUARTZ_STAIRS, Material.QUARTZ_BLOCK, Material.QUARTZ_BLOCK); // Make the last one air if you want an easy way down
 		
 		// roof!
-		chunk.setBlocks(6, 10, surfaceY + 4, surfaceY + 5, 6, 10, Material.CLAY);
-		chunk.setBlocks(7, 9, surfaceY + 5, surfaceY + 6, 7, 9, Material.CLAY);
+		chunk.setBlocks(6, 10, surfaceY + 4, surfaceY + 5, 6, 10, buildingMaterial);
+		chunk.setBlocks(7, 9, surfaceY + 5, surfaceY + 6, 7, 9, buildingMaterial);
+		
+		// camo
+		chunk.camoClay(5, 11, surfaceY - 2, surfaceY + 6, 5, 11, chunkOdds);
 		
 		// bottom doors
 		chunk.setBlocks(7, 9, y1, y1 + 2, 5, 6, Material.AIR);
@@ -279,21 +283,21 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setBlocks(10, 11, y1, y1 + 2, 7, 9, Material.AIR);
 		
 		// top doors
-		chunk.setBlocks(7, 9, surfaceY + 1, surfaceY + 3, 5, 6, Material.IRON_FENCE);
-		chunk.setBlocks(7, 9, surfaceY + 1, surfaceY + 3, 10, 11, Material.IRON_FENCE);
-		chunk.setBlocks(5, 6, surfaceY + 1, surfaceY + 3, 7, 9, Material.IRON_FENCE);
-		chunk.setBlocks(10, 11, surfaceY + 1, surfaceY + 3, 7, 9, Material.IRON_FENCE);
+		chunk.setBlocks(7, 9, surfaceY + 1, surfaceY + 3, 5, 6, railingMaterial);
+		chunk.setBlocks(7, 9, surfaceY + 1, surfaceY + 3, 10, 11, railingMaterial);
+		chunk.setBlocks(5, 6, surfaceY + 1, surfaceY + 3, 7, 9, railingMaterial);
+		chunk.setBlocks(10, 11, surfaceY + 1, surfaceY + 3, 7, 9, railingMaterial);
 		
 		// put in some windows
 		for (int y = y1 + 3; y < y2; y = y + 3) {
 			if (chunkOdds.flipCoin())
-				chunk.setBlocks(7, 8 + chunkOdds.getRandomInt(2), y, y + 2, 5, 6, Material.THIN_GLASS);
+				chunk.setBlocks(7, 8 + chunkOdds.getRandomInt(2), y, y + 2, 5, 6, windowMaterial);
 			if (chunkOdds.flipCoin())
-				chunk.setBlocks(8 - chunkOdds.getRandomInt(2), 9, y, y + 2, 10, 11, Material.THIN_GLASS);
+				chunk.setBlocks(8 - chunkOdds.getRandomInt(2), 9, y, y + 2, 10, 11, windowMaterial);
 			if (chunkOdds.flipCoin())
-				chunk.setBlocks(5, 6, y, y + 2, 7, 8 + chunkOdds.getRandomInt(2), Material.THIN_GLASS);
+				chunk.setBlocks(5, 6, y, y + 2, 7, 8 + chunkOdds.getRandomInt(2), windowMaterial);
 			if (chunkOdds.flipCoin())
-				chunk.setBlocks(10, 11, y, y + 2, 8 - chunkOdds.getRandomInt(2), 9, Material.THIN_GLASS);
+				chunk.setBlocks(10, 11, y, y + 2, 8 - chunkOdds.getRandomInt(2), 9, windowMaterial);
 		}
 		
 		// place snow
@@ -310,12 +314,14 @@ public class BunkerLot extends ConnectedLot {
 		int Height = FloorHeight;
 
 		Material emptyMaterial = getAirMaterial(generator, y1);
+		DyeColor coreColor = chunkOdds.getRandomColor();
+		DyeColor detailColor = chunkOdds.getRandomColor();
 		boolean firstFloor = true;
 		
 		while (y + Height < y2) {
 			
 			// walls please
-			chunk.setWalls(x1, x2, y, y + Height - 1, z1, z2, buildingMaterial);
+			chunk.setClayWalls(x1, x2, y, y + Height - 1, z1, z2, coreColor);
 			
 			// doors
 			if (firstFloor) {
@@ -327,7 +333,7 @@ public class BunkerLot extends ConnectedLot {
 			}
 			
 			// interspace
-			chunk.setBlocks(x1 + 1, x2 - 1, y + Height - 1, y + Height, z1 + 1, z2 - 1, buildingMaterial);
+			chunk.setClay(x1 + 1, x2 - 1, y + Height - 1, y + Height, z1 + 1, z2 - 1, detailColor);
 			
 			// make things bigger
 			y += Height;
@@ -343,12 +349,14 @@ public class BunkerLot extends ConnectedLot {
 		int y3 = y2 - 2;
 		
 		Material emptyMaterial = getAirMaterial(generator, y1);
+		DyeColor coreColor = chunkOdds.getRandomColor();
+		DyeColor detailColor = chunkOdds.getRandomColor();
 		boolean firstFloor = true;
 		
 		for (int y = y1; y < y3; y += FloorHeight) {
 			
 			// walls please
-			chunk.setWalls(x1, x2, y, y + FloorHeight - 1, z1, z2, buildingMaterial);
+			chunk.setClayWalls(x1, x2, y, y + FloorHeight - 1, z1, z2, coreColor);
 			
 			// windows in the wall
 			chunk.setBlocks(x1 + 2, x2 - 2, y + 1, y + 2, z1, z1 + 1, windowMaterial);
@@ -366,7 +374,7 @@ public class BunkerLot extends ConnectedLot {
 			}
 			
 			// interspace
-			chunk.setBlocks(x1 + 1, x2 - 1, y + FloorHeight - 1, y + FloorHeight, z1 + 1, z2 - 1, buildingMaterial);
+			chunk.setClay(x1 + 1, x2 - 1, y + FloorHeight - 1, y + FloorHeight, z1 + 1, z2 - 1, detailColor);
 		}
 	}
 
@@ -378,10 +386,12 @@ public class BunkerLot extends ConnectedLot {
 		int z2 = z1 + buildingWidth;
 		
 		Material emptyMaterial = getAirMaterial(generator, y1);
+		DyeColor coreColor = chunkOdds.getRandomColor();
+		DyeColor detailColor = chunkOdds.getRandomColor();
 		
 		// lower bit
-		chunk.setWalls(x1 + 1, x2 - 1, y1, y1 + 1, z1 + 1, z2 - 1, buildingMaterial);
-		chunk.setWalls(x1 + 1, x2 - 1, y1 + 1, y1 + 2, z1 + 1, z2 - 1, windowMaterial);
+		chunk.setClayWalls(x1 + 1, x2 - 1, y1, y1 + 1, z1 + 1, z2 - 1, coreColor);
+		chunk.setClayWalls(x1 + 1, x2 - 1, y1 + 1, y1 + 2, z1 + 1, z2 - 1, coreColor);
 		
 		// make it so we can walk into the 
 		chunk.setBlocks(x1 + 4, x2 - 4, y1, y1 + 2, z1 + 1, z1 + 2, emptyMaterial);
@@ -396,17 +406,17 @@ public class BunkerLot extends ConnectedLot {
 			
 			// texture
 			for (int i = 1; i < buildingWidth; i += 2) {
-				chunk.setBlocks(x1 + i, y, yTop, z1, buildingMaterial);
-				chunk.setBlocks(x1 + i - 1, y, yTop, z2 - 1, buildingMaterial);
-				chunk.setBlocks(x1, y, yTop, z1 + i, buildingMaterial);
-				chunk.setBlocks(x2 - 1, y, yTop, z1 + i - 1, buildingMaterial);
+				chunk.setClay(x1 + i, y, yTop, z1, detailColor);
+				chunk.setClay(x1 + i - 1, y, yTop, z2 - 1, detailColor);
+				chunk.setClay(x1, y, yTop, z1 + i, detailColor);
+				chunk.setClay(x2 - 1, y, yTop, z1 + i - 1, detailColor);
 			}
 			
 			// inner wall
-			chunk.setWalls(x1 + 1, x2 - 1, y, yTop, z1 + 1, z2 - 1, buildingMaterial);
+			chunk.setClayWalls(x1 + 1, x2 - 1, y, yTop, z1 + 1, z2 - 1, coreColor);
 			
 			// cap it off
-			chunk.setBlocks(x1 + 1, x2 - 1, yTop, yTop + 1, z1 + 1, z2 - 1, buildingMaterial);
+			chunk.setClay(x1 + 1, x2 - 1, yTop, yTop + 1, z1 + 1, z2 - 1, detailColor);
 			
 			// make things bigger
 			y += Height;
@@ -426,15 +436,17 @@ public class BunkerLot extends ConnectedLot {
 		int z1 = 2;
 		int z2 = z1 + 12;
 		int y3 = y2 - 5;
+
+		DyeColor coreColor = chunkOdds.getRandomColor();
 		
 		// initial pylon
-		chunk.setBlocks(x1 + 4, x2 - 4, y1, y1 + 2, z1 + 4, z2 - 4, buildingMaterial);
+		chunk.setClay(x1 + 4, x2 - 4, y1, y1 + 2, z1 + 4, z2 - 4, coreColor);
 		
 		// rest of the pylon and balls
 		for (int y = y1 + 2; y < y3; y += 6) {
 			
 			// center pylon
-			chunk.setBlocks(x1 + 4, x2 - 4, y, y + 6, z1 + 4, z2 - 4, buildingMaterial);
+			chunk.setClay(x1 + 4, x2 - 4, y, y + 6, z1 + 4, z2 - 4, coreColor);
 			
 			// balls baby!
 			generateBallsyBuildingBall(chunk, x1, y, z1);
@@ -445,16 +457,18 @@ public class BunkerLot extends ConnectedLot {
 	}
 	
 	private void generateBallsyBuildingBall(SupportChunk chunk, int x, int y, int z) {
-		if (chunkOdds.playOdds(0.25)) {
+		if (chunkOdds.playOdds(0.33)) {
+			
+			DyeColor ballColor = chunkOdds.getRandomColor();
 			
 			// bottom
-			chunk.setBlocks(x + 1, x + 4, y, y + 1, z + 1, z + 4, buildingMaterial);
+			chunk.setClay(x + 1, x + 4, y, y + 1, z + 1, z + 4, ballColor);
 			
 			// sides
-			chunk.setBlocks(x, x + 5, y + 1, y + 4, z, z + 5, buildingMaterial);
+			chunk.setClay(x, x + 5, y + 1, y + 4, z, z + 5, ballColor);
 			
 			// top
-			chunk.setBlocks(x + 1, x + 4, y + 4, y + 5, z + 1, z + 4, buildingMaterial);
+			chunk.setClay(x + 1, x + 4, y + 4, y + 5, z + 1, z + 4, ballColor);
 		}
 	}
 
@@ -467,11 +481,14 @@ public class BunkerLot extends ConnectedLot {
 		int yRange = ySegment * 3;
 		int yBase = y1 + ySegment;
 		
+		DyeColor coreColor = chunkOdds.getRandomColor();
+		DyeColor detailColor = chunkOdds.getRandomColor();
+		
 		// four towers
-		chunk.setBlocks(x1, x1 + 5, y1, yBase + chunkOdds.getRandomInt(yRange), z1, z1 + 5, buildingMaterial);
-		chunk.setBlocks(x1, x1 + 5, y1, yBase + chunkOdds.getRandomInt(yRange), z2 - 5, z2, buildingMaterial);
-		chunk.setBlocks(x2 - 5, x2, y1, yBase + chunkOdds.getRandomInt(yRange), z1, z1 + 5, buildingMaterial);
-		chunk.setBlocks(x2 - 5, x2, y1, yBase + chunkOdds.getRandomInt(yRange), z2 - 5, z2, buildingMaterial);
+		chunk.setClay(x1, x1 + 5, y1, yBase + chunkOdds.getRandomInt(yRange), z1, z1 + 5, coreColor);
+		chunk.setClay(x1, x1 + 5, y1, yBase + chunkOdds.getRandomInt(yRange), z2 - 5, z2, detailColor);
+		chunk.setClay(x2 - 5, x2, y1, yBase + chunkOdds.getRandomInt(yRange), z1, z1 + 5, coreColor);
+		chunk.setClay(x2 - 5, x2, y1, yBase + chunkOdds.getRandomInt(yRange), z2 - 5, z2, detailColor);
 		
 		//TODO make them hollow
 		//TODO vertical windows
@@ -487,20 +504,23 @@ public class BunkerLot extends ConnectedLot {
 		int yBottom = y1 + 4;
 		int yTop = y2;
 		
+		DyeColor coreColor = chunkOdds.getRandomColor();
+		DyeColor detailColor = chunkOdds.getRandomColor();
+		
 		// supports
-		chunk.setBlocks(x1 + 1, x1 + 3, y1, yBottom, z1 + 1, z1 + 3, buildingMaterial);
-		chunk.setBlocks(x1 + 1, x1 + 3, y1, yBottom, z2 - 3, z2 - 1, buildingMaterial);
-		chunk.setBlocks(x2 - 3, x2 - 1, y1, yBottom, z1 + 1, z1 + 3, buildingMaterial);
-		chunk.setBlocks(x2 - 3, x2 - 1, y1, yBottom, z2 - 3, z2 - 1, buildingMaterial);
+		chunk.setClay(x1 + 1, x1 + 3, y1, yBottom, z1 + 1, z1 + 3, detailColor);
+		chunk.setClay(x1 + 1, x1 + 3, y1, yBottom, z2 - 3, z2 - 1, detailColor);
+		chunk.setClay(x2 - 3, x2 - 1, y1, yBottom, z1 + 1, z1 + 3, detailColor);
+		chunk.setClay(x2 - 3, x2 - 1, y1, yBottom, z2 - 3, z2 - 1, detailColor);
 		
 		// bottom bit
-		chunk.setBlocks(x1, x2, yBottom, yBottom + 1, z1, z2, buildingMaterial);
+		chunk.setClay(x1, x2, yBottom, yBottom + 1, z1, z2, coreColor);
 		
 		// walls
-		chunk.setBlocks(x1, x2, yBottom + 1, yTop, z1 - 1, z1, buildingMaterial);
-		chunk.setBlocks(x1, x2, yBottom + 1, yTop, z2    , z2 + 1, buildingMaterial);
-		chunk.setBlocks(x1 - 1, x1, yBottom + 1, yTop, z1, z2, buildingMaterial);
-		chunk.setBlocks(x2    , x2 + 1, yBottom + 1, yTop, z1, z2, buildingMaterial);
+		chunk.setClay(x1, x2, yBottom + 1, yTop, z1 - 1, z1, coreColor);
+		chunk.setClay(x1, x2, yBottom + 1, yTop, z2    , z2 + 1, coreColor);
+		chunk.setClay(x1 - 1, x1, yBottom + 1, yTop, z1, z2, coreColor);
+		chunk.setClay(x2    , x2 + 1, yBottom + 1, yTop, z1, z2, coreColor);
 		
 		// make it so we can see in a bit
 		chunk.setBlocks(x1 + 3, x2 - 3, yBottom + 1, yTop, z1 - 1, z1, windowMaterial);
@@ -509,7 +529,7 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setBlocks(x2    , x2 + 1, yBottom + 1, yTop, z1 + 3, z2 - 3, windowMaterial);
 		
 		// put a top on it
-		chunk.setBlocks(x1, x2, yTop, yTop + 1, z1, z2, buildingMaterial);
+		chunk.setClay(x1, x2, yTop, yTop + 1, z1, z2, coreColor);
 		
 		chunk.setBlocks(x1, x2, yBottom + 1, yBottom + ((yTop - yBottom) / 3) * 2, z1, z2, getFillMaterial());
 	}

@@ -437,6 +437,18 @@ public abstract class SupportChunk extends AbstractChunk {
 		state.update(true, doPhysics);
 	}
 	
+	private void setBlockIfTypeThenColor(int x, int y, int z, Material material, DyeColor color) {
+		BlockState state = getActualBlock(x, y, z).getState();
+		if (state.getType() == material) {
+			MaterialData data = state.getData();
+			if (data instanceof Colorable)
+				((Colorable)state.getData()).setColor(color);
+			else
+				BlackMagic.setBlockStateColor(state, color); //BUKKIT: none of the newly colorable blocks materials are colorable
+			state.update(true, doPhysics);
+		}
+	}
+	
 	private void setBlocksTypeAndColor(int x1, int x2, int y, int z1, int z2, Material material, DyeColor color) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
@@ -511,11 +523,32 @@ public abstract class SupportChunk extends AbstractChunk {
 	}
 	
 	public final void setClay(int x, int y, int z, DyeColor color) {
-		setBlockTypeAndColor(x, y, z, Material.HARD_CLAY, color);
+		setBlockTypeAndColor(x, y, z, Material.STAINED_CLAY, color);
+	}
+	
+	public final void setClay(int x, int y1, int y2, int z, DyeColor color) {
+		setBlocksTypeAndColor(x, x + 1, y1, y2, z, z + 1, Material.STAINED_CLAY, color);
 	}
 	
 	public final void setClay(int x1, int x2, int y1, int y2, int z1, int z2, DyeColor color) {
-		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z2, Material.HARD_CLAY, color);
+		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z2, Material.STAINED_CLAY, color);
+	}
+	
+	public final void setClayWalls(int x1, int x2, int y1, int y2, int z1, int z2, DyeColor color) {
+		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z1 + 1, Material.STAINED_CLAY, color);
+		setBlocksTypeAndColor(x1, x2, y1, y2, z2 - 1, z2, Material.STAINED_CLAY, color);
+		setBlocksTypeAndColor(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, Material.STAINED_CLAY, color);
+		setBlocksTypeAndColor(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, Material.STAINED_CLAY, color);
+	}
+	
+	public final void camoClay(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds) {
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
+				for (int z = z1; z < z2; z++) {
+					setBlockIfTypeThenColor(x, y, z, Material.STAINED_CLAY, odds.getRandomCamoColor());
+				}
+			}
+		}
 	}
 	
 	public final void setGlass(int x, int y, int z, DyeColor color) {
