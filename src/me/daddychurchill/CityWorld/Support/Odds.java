@@ -22,6 +22,14 @@ public class Odds {
 		return random.nextBoolean();
 	}
 	
+	public int rollDice() {
+		return random.nextInt(6);
+	}
+	
+	public boolean rollDice(int want) {
+		return rollDice() == want;
+	}
+	
 	public double getRandomDouble() {
 		return random.nextDouble();
 	}

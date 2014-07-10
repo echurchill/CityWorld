@@ -11,6 +11,7 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
 import me.daddychurchill.CityWorld.Support.AbstractChunk;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -95,11 +96,11 @@ public class BunkerLot extends ConnectedLot {
 	}
 	
 	private final static Material supportMaterial = Material.QUARTZ_BLOCK;
-	private final static Material platformMaterial = Material.SANDSTONE;
-	private final static Material crosswalkMaterial = Material.WOOD;
+	private final static Material platformMaterial = Material.QUARTZ_BLOCK;
+	private final static Material crosswalkMaterial = Material.QUARTZ_BLOCK;
 	private final static Material railingMaterial = Material.IRON_FENCE;
 	private final static Material buildingMaterial = Material.STAINED_CLAY;
-	private final static Material windowMaterial = Material.THIN_GLASS;
+	private final static Material windowMaterial = Material.GLASS;
 	
 	private static int calcSegmentOrigin(int y) {
 		return y / bunkerSegment * bunkerSegment;
@@ -168,14 +169,14 @@ public class BunkerLot extends ConnectedLot {
 		generateSupport(chunk, context, 10, yBottom + 1, 10);
 		
 		// vertical beams
-		chunk.setBlocks(0, 2, yBottom + 1, yTop3, 0, 1, supportMaterial);
-		chunk.setBlocks(0, yBottom + 1, yTop3, 1, supportMaterial);
-		chunk.setBlocks(0, 2, yBottom + 1, yTop3, 15, 16, supportMaterial);
-		chunk.setBlocks(0, yBottom + 1, yTop3, 14, supportMaterial);
-		chunk.setBlocks(14, 16, yBottom + 1, yTop3, 0, 1, supportMaterial);
-		chunk.setBlocks(15, yBottom + 1, yTop3, 1, supportMaterial);
-		chunk.setBlocks(14, 16, yBottom + 1, yTop3, 15, 16, supportMaterial);
-		chunk.setBlocks(15, yBottom + 1, yTop3, 14, supportMaterial);
+		BlackMagic.setBlocks(chunk, 0, 2, yBottom + 1, yTop3, 0, 1, supportMaterial, 2);
+		BlackMagic.setBlocks(chunk, 0, yBottom + 1, yTop3, 1, supportMaterial, 2);
+		BlackMagic.setBlocks(chunk, 0, 2, yBottom + 1, yTop3, 15, 16, supportMaterial, 2);
+		BlackMagic.setBlocks(chunk, 0, yBottom + 1, yTop3, 14, supportMaterial, 2);
+		BlackMagic.setBlocks(chunk, 14, 16, yBottom + 1, yTop3, 0, 1, supportMaterial, 2);
+		BlackMagic.setBlocks(chunk, 15, yBottom + 1, yTop3, 1, supportMaterial, 2);
+		BlackMagic.setBlocks(chunk, 14, 16, yBottom + 1, yTop3, 15, 16, supportMaterial, 2);
+		BlackMagic.setBlocks(chunk, 15, yBottom + 1, yTop3, 14, supportMaterial, 2);
 		
 		// near top cross beams
 		chunk.setBlocks(0, 16, yTop1, yTop2, 0, 2, supportMaterial);
@@ -193,7 +194,7 @@ public class BunkerLot extends ConnectedLot {
 //		chunk.setBlocks(2, 14, yTop3, yTop4, 2, 14, airId);
 		
 		// draw platform
-		chunk.setBlocks(2, 14, yPlatform, 2, 14, platformMaterial);
+		BlackMagic.setBlocks(chunk, 2, 14, yPlatform, 2, 14, platformMaterial, 1);
 		
 		// draw crosswalks
 		chunk.setBlocks(7, 9, yPlatform, 0, 2, crosswalkMaterial);
@@ -457,7 +458,7 @@ public class BunkerLot extends ConnectedLot {
 	}
 	
 	private void generateBallsyBuildingBall(SupportChunk chunk, int x, int y, int z) {
-		if (chunkOdds.playOdds(0.33)) {
+		if (chunkOdds.flipCoin()) {
 			
 			DyeColor ballColor = chunkOdds.getRandomColor();
 			
@@ -465,7 +466,7 @@ public class BunkerLot extends ConnectedLot {
 			chunk.setClay(x + 1, x + 4, y, y + 1, z + 1, z + 4, ballColor);
 			
 			// sides
-			chunk.setClay(x, x + 5, y + 1, y + 4, z, z + 5, ballColor);
+			chunk.setGlass(x, x + 5, y + 1, y + 4, z, z + 5, ballColor);
 			
 			// top
 			chunk.setClay(x + 1, x + 4, y + 4, y + 5, z + 1, z + 4, ballColor);
@@ -484,16 +485,39 @@ public class BunkerLot extends ConnectedLot {
 		DyeColor coreColor = chunkOdds.getRandomColor();
 		DyeColor detailColor = chunkOdds.getRandomColor();
 		
+		int colY1 = yBase + chunkOdds.getRandomInt(yRange);
+		int colY2 = yBase + chunkOdds.getRandomInt(yRange);
+		int colY3 = yBase + chunkOdds.getRandomInt(yRange);
+		int colY4 = yBase + chunkOdds.getRandomInt(yRange);
+		
 		// four towers
-		chunk.setClay(x1, x1 + 5, y1, yBase + chunkOdds.getRandomInt(yRange), z1, z1 + 5, coreColor);
-		chunk.setClay(x1, x1 + 5, y1, yBase + chunkOdds.getRandomInt(yRange), z2 - 5, z2, detailColor);
-		chunk.setClay(x2 - 5, x2, y1, yBase + chunkOdds.getRandomInt(yRange), z1, z1 + 5, coreColor);
-		chunk.setClay(x2 - 5, x2, y1, yBase + chunkOdds.getRandomInt(yRange), z2 - 5, z2, detailColor);
+		generateQuadTowers(chunk, x1, x1 + 5, y1, colY1, z1, z1 + 5, coreColor, detailColor);
+		generateQuadTowers(chunk, x1, x1 + 5, y1, colY2, z2 - 5, z2, coreColor, detailColor);
+		generateQuadTowers(chunk, x2 - 5, x2, y1, colY3, z1, z1 + 5, coreColor, detailColor);
+		generateQuadTowers(chunk, x2 - 5, x2, y1, colY4, z2 - 5, z2, coreColor, detailColor);
+		
+		// now randomly place connectors
+		generateQuadConnectors(chunk, x1 + 1, x1 + 4, y1 + 5, Math.min(colY1, colY2) - 3, z1 + 5, z1 + 7);
+		generateQuadConnectors(chunk, x1 + 5, x1 + 7, y1 + 5, Math.min(colY1, colY3) - 3, z1 + 1, z1 + 4);
+		generateQuadConnectors(chunk, x1 + 8, x1 + 11, y1 + 5, Math.min(colY3, colY4) - 3, z1 + 5, z1 + 7);
+		generateQuadConnectors(chunk, x1 + 5, x1 + 7, y1 + 5, Math.min(colY2, colY4) - 3, z1 + 8, z1 + 11);
 		
 		//TODO make them hollow
 		//TODO vertical windows
 		//TODO horizontal connections from time to time, place treasures here
 		//TODO spiral staircase up the middle
+	}
+	
+	private void generateQuadTowers(SupportChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2, DyeColor coreColor, DyeColor detailColor) {
+		chunk.setClay(x1 + 1, x2 - 1, y1, y1 + 1, z1 + 1, z2 - 1, detailColor);
+		chunk.setClayWalls(x1, x2, y1 + 1, y2 - 1, z1, z2, coreColor);
+		chunk.setClay(x1 + 1, x2 - 1, y2 - 1, y2, z1 + 1, z2 - 1, detailColor);
+	}
+	
+	private void generateQuadConnectors(SupportChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2) {
+		for (int y = y1; y < y2; y = y + 3)
+			if (chunkOdds.flipCoin())
+				chunk.setGlass(x1, x2, y, y + 2, z1, z2, chunkOdds.getRandomColor());
 	}
 	
 	private void generateTankBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, int y1, int y2) {
@@ -589,12 +613,12 @@ public class BunkerLot extends ConnectedLot {
 		generateTrick(generator, chunk, 3, y1, 12);
 	}
 
-	private final static Material springMat = Material.SMOOTH_STAIRS;
-	private final static Material springBaseMat = Material.STONE;
+	private final static Material springMat = Material.QUARTZ_STAIRS;
+	private final static Material springBaseMat = Material.QUARTZ_BLOCK;
 	private final static Material springCoreMat = Material.GLOWSTONE;
 	
 	private void generateSupport(SupportChunk chunk, DataContext context, int x, int y, int z) {
-		chunk.setBlocks(x, x + 3, y, z, z + 3, springBaseMat);
+		BlackMagic.setBlocks(chunk, x, x + 3, y, z, z + 3, springBaseMat, 2);
 		
 		generateSpringBit(chunk, x    , y + 1, z    , Stair.EAST, Stair.SOUTHFLIP, Stair.EAST);
 		generateSpringBit(chunk, x + 1, y + 1, z    , Stair.WESTFLIP, Stair.EAST, Stair.WESTFLIP);
@@ -607,7 +631,7 @@ public class BunkerLot extends ConnectedLot {
 
 		chunk.setBlocks(x + 1, y + 1, y + 5, z + 1, springCoreMat);
 		
-		chunk.setBlocks(x, x + 3, y + 4, z, z + 3, springBaseMat);
+		BlackMagic.setBlocks(chunk, x, x + 3, y + 4, z, z + 3, springBaseMat, 2);
 	}
 	
 	private void generateSpringBit(SupportChunk chunk, int x, int y, int z, Stair data1, Stair data2, Stair data3) {
@@ -615,7 +639,6 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setStair(x, y + 1, z, springMat, data2);
 		chunk.setStair(x, y + 2, z, springMat, data3);
 	}
-
 
 	private void generateTreat(WorldGenerator generator, SupportChunk chunk, int x, int y, int z) {
 		
