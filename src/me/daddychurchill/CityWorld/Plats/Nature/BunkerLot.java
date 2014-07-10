@@ -466,7 +466,7 @@ public class BunkerLot extends ConnectedLot {
 			chunk.setClay(x + 1, x + 4, y, y + 1, z + 1, z + 4, ballColor);
 			
 			// sides
-			chunk.setGlass(x, x + 5, y + 1, y + 4, z, z + 5, ballColor);
+			chunk.setGlassWalls(x, x + 5, y + 1, y + 4, z, z + 5, ballColor);
 			
 			// top
 			chunk.setClay(x + 1, x + 4, y + 4, y + 5, z + 1, z + 4, ballColor);
@@ -588,10 +588,14 @@ public class BunkerLot extends ConnectedLot {
 		int x2 = x1 + 12;
 		int z1 = 2;
 		int z2 = z1 + 12;
+		
+		DyeColor coreColor = chunkOdds.getRandomColor();
+		DyeColor detailColor = chunkOdds.getRandomColor();
+		
 		Material emptyMaterial = getAirMaterial(generator, y1);
 		for (int i = 0; i < 7; i++) {
 			int y = y1 + i * 2;
-			chunk.setWalls(x1 + i, x2 - i, y, y + 2, z1 + i, z2 - i, buildingMaterial);
+			chunk.setClayWalls(x1 + i, x2 - i, y, y + 2, z1 + i, z2 - i, coreColor);
 		}
 
 		// make it so we can walk through the pyramid
@@ -601,10 +605,10 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setBlocks(x2 - 1, x2    , y1, y1 + 2, z1 + 5, z2 - 5, emptyMaterial);
 		
 		// top off the entry ways
-		chunk.setBlocks(x1 + 4, x2 - 4, y1 + 2, y1 + 3, z1    , z1 + 1, buildingMaterial);
-		chunk.setBlocks(x1 + 4, x2 - 4, y1 + 2, y1 + 3, z2 - 1, z2    , buildingMaterial);
-		chunk.setBlocks(x1    , x1 + 1, y1 + 2, y1 + 3, z1 + 4, z2 - 4, buildingMaterial);
-		chunk.setBlocks(x2 - 1, x2    , y1 + 2, y1 + 3, z1 + 4, z2 - 4, buildingMaterial);
+		chunk.setClay(x1 + 4, x2 - 4, y1 + 2, y1 + 3, z1    , z1 + 1, detailColor);
+		chunk.setClay(x1 + 4, x2 - 4, y1 + 2, y1 + 3, z2 - 1, z2    , detailColor);
+		chunk.setClay(x1    , x1 + 1, y1 + 2, y1 + 3, z1 + 4, z2 - 4, detailColor);
+		chunk.setClay(x2 - 1, x2    , y1 + 2, y1 + 3, z1 + 4, z2 - 4, detailColor);
 
 		generateTreat(generator, chunk, 3, y1, 3);
 		generateTreat(generator, chunk, 12, y1, 12);

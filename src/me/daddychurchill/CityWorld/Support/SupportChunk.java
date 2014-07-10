@@ -559,12 +559,26 @@ public abstract class SupportChunk extends AbstractChunk {
 		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z2, Material.STAINED_GLASS, color);
 	}
 	
+	public final void setGlassWalls(int x1, int x2, int y1, int y2, int z1, int z2, DyeColor color) {
+		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z1 + 1, Material.STAINED_GLASS, color);
+		setBlocksTypeAndColor(x1, x2, y1, y2, z2 - 1, z2, Material.STAINED_GLASS, color);
+		setBlocksTypeAndColor(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, Material.STAINED_GLASS, color);
+		setBlocksTypeAndColor(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, Material.STAINED_GLASS, color);
+	}
+	
 	public final void setThinGlass(int x, int y, int z, DyeColor color) {
 		setBlockTypeAndColor(x, y, z, Material.STAINED_GLASS_PANE, color);
 	}
 	
 	public final void setThinGlass(int x1, int x2, int y1, int y2, int z1, int z2, DyeColor color) {
 		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z2, Material.STAINED_GLASS_PANE, color);
+	}
+	
+	public final void setThinGlassWalls(int x1, int x2, int y1, int y2, int z1, int z2, DyeColor color) {
+		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z1 + 1, Material.STAINED_GLASS_PANE, color);
+		setBlocksTypeAndColor(x1, x2, y1, y2, z2 - 1, z2, Material.STAINED_GLASS_PANE, color);
+		setBlocksTypeAndColor(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, Material.STAINED_GLASS_PANE, color);
+		setBlocksTypeAndColor(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, Material.STAINED_GLASS_PANE, color);
 	}
 	
 	public final void setVines(int x, int y1, int y2, int z, BlockFace... faces) {
