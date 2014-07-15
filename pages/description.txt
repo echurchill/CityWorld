@@ -10,25 +10,29 @@ There is an entire world to explore, have fun!
 ===== //Version 2.97// ===== 
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, 
 if the above version isn't available check back in an hour or so... 
-...or possibly look [[http://dev.bukkit.org/media/files/736/922/CityWorld.jar|here]])//,,
+...or possibly look [[http://dev.bukkit.org/media/files/799/864/CityWorld.jar|here]])//,,
 
 {{http://dev.bukkit.org/media/images/42/720/2012-07-04_11.31.52.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
 v2.97
-
-v2.93
-* Tested against Minecraft 1.6.2, Bukkit 1.6.2-R0.1 and 1.6.1-R0.1. It should work against 1.6.2.R1 but generates a lot of deprecation warnings due to their, in my opinion, valid but premature attempt at removing "Magic Values".
-* Added [[http://dev.bukkit.org/bukkit-plugins/cityworld/pages/styles/|three more world styles]]
-** {{http://dev.bukkit.org/media/images/60/63/2013-07-23_20.08.41.jpg|Flooded}}
-** {{http://dev.bukkit.org/media/images/60/64/2013-07-07_13.59.27.jpg|SandDunes}}
-** {{http://dev.bukkit.org/media/images/60/65/2013-07-19_12.07.23.jpg|SnowDunes}}
-* Added latest Minecraft 1.6.2 materials
-* Fixed (and likely added) bugs, one really nasty one made all the isolated buildings in the mountains not generate ...oh yea, while fixing that I added occasional camp sites out in the mountains
-* For those who use PhatLoot, with help from Codisimus, I think it works now
+* Massive refactor to make CityWorld 1.7.x happy, I hope I found all the regressions. There isn’t a code file that didn’t change in someway.
+* Isolated the magic values that are going away soon into a class called BlackMagic, this should make it easier to do the next update
+* Due to numerous problems I have replaced the custom tree delegates
+* I have removed all of the Tekkit specific code, it was causing a number of problems. I know it doesn’t sound possible but this increases the likelihood that CityWorld will work with Tekkit since it now doesn’t attempt to anything “clever”
+* House roofs have been improved
+* Farms now include every crop possible, including a few manually created ones
+* A lot more foliage types (both trees and plants)
+* Isolated buildings and cisterns should now be working again
+* Added snowmen to SnowDune world and foliage to SandDune
+* Decay now does not include debris that cannot be stack nicely (no more thin glass or carpet hanging about)
+* Revamped bunkers and added an official but camouflaged way to get into them
+* Added a way for server operators to know when a special lot is generated. Take a look at the output logs.
+* Bunkers and tunnels play better with each other
+* Started to work on a new world style called Astral but stopped to get this release out
 * Still no furniture in the Houses, Bunkers or Sheds, sorry
-[[http://dev.bukkit.org/server-mods/cityworld/pages/version/|more info...]]
+* [[http://dev.bukkit.org/server-mods/cityworld/pages/version/|click here for more info...]]
 
 Remember, if you aren't up for using the latest beta of Bukkit or the bugs from this one bother you too much, the older versions are still available.
 
@@ -36,8 +40,7 @@ Remember, if you aren't up for using the latest beta of Bukkit or the bugs from 
 ** Personal note **
 
 It has been a while, sorry but my day job continues to be a bit crazy and is pretty much taking up all of my time. 
-Here is a 1.6.2 happy version with some stuff I have been toying with, specifically three more world styles. 
-<<color red>>Due to changes in Bukkit 1.6.2 (lots of deprecated APIs), it is possible that CityWorld will have to be rewritten quite a bit. I am still investigating my options but it is very possible that I might start over from scratch... Only time will tell. <</color>> 
+<<color red>>With the upcoming changes in 1.8, it is VERY possible that CityWorld will have to be rewritten quite a bit. I have taken the first step with this latest release, but there is still much that can happen. Only time will tell. <</color>> 
 
 ----
 === Index of useful info ===

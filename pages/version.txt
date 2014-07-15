@@ -12,6 +12,21 @@
 == Versions
 
 v2.97
+* Massive refactor to make CityWorld 1.7.x happy, I hope I found all the regressions. There isn’t a code file that didn’t change in someway.
+* Isolated the magic values that are going away soon into a class called BlackMagic, this should make it easier to do the next update
+* Due to numerous problems I have replaced the custom tree delegates
+* I have removed all of the Tekkit specific code, it was causing a number of problems. I know it doesn’t sound possible but this increases the likelihood that CityWorld will work with Tekkit since it now doesn’t attempt to anything “clever”
+* House roofs have been improved
+* Farms now include every crop possible, including a few manually created ones
+* A lot more foliage types (both trees and plants)
+* Isolated buildings and cisterns should now be working again
+* Added snowmen to SnowDune world and foliage to SandDune
+* Decay now does not include debris that cannot be stack nicely (no more thin glass or carpet hanging about)
+* Revamped bunkers and added an official but camouflaged way to get into them
+* Added a way for server operators to know when a special lot is generated. Take a look at the output logs.
+* Bunkers and tunnels play better with each other
+* Started to work on a new world style called Astral but stopped to get this release out
+* Still no furniture in the Houses, Bunkers or Sheds, sorry
 
 v2.93
 * Tested against Minecraft 1.6.2, Bukkit 1.6.2-R0.1 and 1.6.1-R0.1. It should work against 1.6.2.R1 but generates a lot of deprecation warnings due to their, in my opinion, valid but premature attempt at removing "Magic Values".

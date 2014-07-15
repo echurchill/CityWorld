@@ -72,6 +72,7 @@ If you are wanting to create a particular [[http://dev.bukkit.org/server-mods/ci
 |IncludeDecayedNature|Where nature is generated, destroy it a little|false|
 |IncludeBuildingInteriors|Put stuff inside of buildings|true|
 |ForceLoadWorldEdit|Ignores WorldEdit version numbers|false|
+|BroadcastSpecialPlaces|WriteOut the location of each special structure as it generates|false|
 ** Note: ** Some of the above options will default a different way in worlds generated in the Nether or The_End. 
 
 === Generation Range ===
@@ -93,8 +94,5 @@ Note: that the bridges and tunnels stop abruptly when they hit the road radius s
 |IncludePavedRoads|Use IncludeWoolRoads if you want old style paved roads|
 |RoadRange|Replaced with RoadChunkRadius instead to make things clearer|
 |CityRange|Replaced with CityChunkRadius instead to make things clearer|
-|IncludeTekkitMaterials|ForgeTekkit is now auto-recognized|
-
-** Forge/Tekkit Note: ** The way things are currently written, Tekkit ore and nature generation will only be enabled in normal worlds where IncludeDecayedNature is false. 
-This will likely change in the future but for now, it is what it is.
+|IncludeTekkitMaterials|ForgeTekkit is no longer directly support but it should still work|
 

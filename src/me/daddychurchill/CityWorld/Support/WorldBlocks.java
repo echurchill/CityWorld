@@ -79,7 +79,8 @@ public final class WorldBlocks extends SupportChunk {
 			for (int z = z1; z < z2; z++) {
 				Block block = getActualBlock(x, y, z);
 				if (!block.isEmpty()) {
-					debris.push(new debrisItem(block));
+					if (!isNonstackableBlock(block))
+						debris.push(new debrisItem(block));
 					block.setType(Material.AIR);
 				}
 			}
@@ -157,11 +158,11 @@ public final class WorldBlocks extends SupportChunk {
 					} while (block.isLiquid());
 				
 				// partial height blocks?
-				} else if (isNonstackableBlock(block))
+				} else if (isNonstackableBlock(block)) {
 					setBlock(block, item.oldMaterial, item.oldData);
 				
 				// other blocks?
-				else {
+				} else {
 					setBlock(x, y, z, item.oldMaterial, item.oldData);
 				}
 			}
