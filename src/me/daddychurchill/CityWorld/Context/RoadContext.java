@@ -41,8 +41,19 @@ public class RoadContext extends UrbanContext {
 		
 	}
 
-	public PlatLot createRoadLot(WorldGenerator generator, PlatMap platmap, int x, int z, boolean roundaboutPart) {
-		return new RoadLot(platmap, platmap.originX + x, platmap.originZ + z, generator.connectedKeyForPavedRoads, roundaboutPart);
+	public PlatLot createRoadLot(WorldGenerator generator, PlatMap platmap, int x, int z, boolean roundaboutPart, PlatLot oldLot) {
+		PlatLot result = null;
+		
+		// see if the old lot has a suggestion?
+		if (oldLot != null)
+			result = oldLot.repaveLot(generator, platmap);
+		
+		// if not then lets do return the standard one
+		if (result == null)
+			result = new RoadLot(platmap, platmap.originX + x, platmap.originZ + z, generator.connectedKeyForPavedRoads, roundaboutPart);
+		
+		// ok... we are done
+		return result;
 	}
 
 	public PlatLot createRoundaboutStatueLot(WorldGenerator generator, PlatMap platmap, int x, int z) {

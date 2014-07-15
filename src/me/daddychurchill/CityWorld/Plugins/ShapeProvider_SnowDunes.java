@@ -190,7 +190,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 			for (int z = 0; z < chunk.width; z++) {
 				double snowCoverY = findPerciseFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 				int snowY = chunk.findFirstEmpty(x, Math.max(topY, NoiseGenerator.floor(snowCoverY)), z);
-				if (!chunk.isPartialHeight(x, snowY - 1, z)) {
+				if (!chunk.isNonstackableBlock(x, snowY - 1, z)) {
 					int snowAmount = NoiseGenerator.floor((snowCoverY - Math.floor(snowCoverY)) * 8.0);
 					if (snowAmount > 3 & !chunk.isType(x, snowY - 1, z, Material.SNOW_BLOCK))
 						snowAmount = 7 - snowAmount;

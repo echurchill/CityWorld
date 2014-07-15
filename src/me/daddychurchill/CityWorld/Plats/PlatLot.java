@@ -3,12 +3,12 @@ package me.daddychurchill.CityWorld.Plats;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
+
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.OreProvider.OreLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
-import me.daddychurchill.CityWorld.Support.AbstractChunk;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Direction;
@@ -21,16 +21,12 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 public abstract class PlatLot {
 	
 	// extremes
-	private int chunkX;
-	private int chunkZ;
+	protected int chunkX;
+	protected int chunkZ;
 	protected CachedYs blockYs;
 	protected int averageHeight;
 	protected int minHeight = Integer.MAX_VALUE;
-	protected int minHeightX = 0;
-	protected int minHeightZ = 0;
 	protected int maxHeight = Integer.MIN_VALUE;
-	protected int maxHeightX = 0;
-	protected int maxHeightZ = 0;
 	
 	protected Odds platmapOdds;
 	protected Odds chunkOdds;
@@ -48,6 +44,14 @@ public abstract class PlatLot {
 		this.trulyIsolated = false;
 		
 		initializeDice(platmap, chunkX, chunkZ);
+
+		// precalc the Ys
+		blockYs = new CachedYs(platmap.generator, chunkX, chunkZ);
+		
+		// what was the average height
+		minHeight = blockYs.minHeight;
+		maxHeight = blockYs.maxHeight;
+		averageHeight = blockYs.averageHeight;
 	}
 
 	// these cannot
@@ -85,30 +89,15 @@ public abstract class PlatLot {
 		return null; // assume that we don't do anything
 	}
 	
+	public RoadLot repaveLot(WorldGenerator generator, PlatMap platmap) {
+		return null; // same here
+	}
+	
 	private void initializeDice(PlatMap platmap, int chunkX, int chunkZ) {
 		
 		// reset and pick up the dice
 		platmapOdds = platmap.getOddsGenerator();
 		chunkOdds = platmap.getChunkOddsGenerator(chunkX, chunkZ);
-	}
-	
-	protected void initializeContext(WorldGenerator generator, AbstractChunk chunk) {
-		if (blockYs == null) {
-			blockYs = new CachedYs(generator, chunk);
-		
-			// what was the average height
-			minHeight = blockYs.minHeight;
-			minHeightX = blockYs.minHeightX;
-			minHeightZ = blockYs.minHeightZ;
-			maxHeight = blockYs.maxHeight;
-			maxHeightX = blockYs.maxHeightX;
-			maxHeightZ = blockYs.maxHeightZ;
-			averageHeight = blockYs.averageHeight;
-		}
-	}
-	
-	private void deinitializeContext() {
-		blockYs = null;
 	}
 	
 	protected int getSidewalkLevel(WorldGenerator generator) {
@@ -127,12 +116,22 @@ public abstract class PlatLot {
 		return blockYs == null ? 0 : blockYs.getPerciseY(x, z);
 	}
 	
+	protected int getSurfaceAtY(int x, int z) {
+		return getSurfaceAtY(x, 15 - x, z, 15 - z);
+	}
+	
+	protected int getSurfaceAtY(int x1, int x2, int z1, int z2) {
+		int surfaceY = Math.min(getBlockY(x1, z1), getBlockY(x2, z1));
+		surfaceY = Math.min(surfaceY, getBlockY(x1, z2));
+		surfaceY = Math.min(surfaceY, getBlockY(x2, z2));
+		return surfaceY;
+	}
+	
 	public abstract int getBottomY(WorldGenerator generator);
 	public abstract int getTopY(WorldGenerator generator);
 	
 	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		initializeDice(platmap, chunk.chunkX, chunk.chunkZ);
-		initializeContext(generator, chunk);
 		
 		// what do we need to first?
 		generator.shapeProvider.preGenerateChunk(generator, this, chunk, biomes, blockYs);
@@ -146,7 +145,6 @@ public abstract class PlatLot {
 		
 	public void generateBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		initializeDice(platmap, chunk.chunkX, chunk.chunkZ);
-		initializeContext(generator, chunk);
 		
 		// what do we need to first?
 		generator.shapeProvider.preGenerateBlocks(generator, this, chunk, blockYs);
@@ -156,9 +154,6 @@ public abstract class PlatLot {
 		
 		// polish things off
 		generator.shapeProvider.postGenerateBlocks(generator, this, chunk, blockYs);
-		
-		// all done
-		deinitializeContext();
 	}
 	
 	protected void destroyLot(WorldGenerator generator, int y1, int y2) {

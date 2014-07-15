@@ -59,8 +59,8 @@ public class RadioTowerLot extends ConstructLot {
 		
 		// compute offset to start of chunk
 		int platformOffset = platformWidth / 2;
-		int originX = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, maxHeightX));
-		int originZ = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, maxHeightZ));
+		int originX = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, blockYs.maxHeightX));
+		int originZ = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, blockYs.maxHeightZ));
 		int platformY = getBottomY(generator);
 		
 		// base
@@ -96,8 +96,8 @@ public class RadioTowerLot extends ConstructLot {
 
 		// compute offset to start of chunk
 		int platformOffset = platformWidth / 2;
-		int originX = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, maxHeightX));
-		int originZ = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, maxHeightZ));
+		int originX = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, blockYs.maxHeightX));
+		int originZ = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, blockYs.maxHeightZ));
 		int platformY = maxHeight + 2;
 		
 		// place snow

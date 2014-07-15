@@ -33,6 +33,7 @@ public abstract class DataContext {
 	public final static double oddsTremendouslyLikely =			33.0 /  34.00; //  97.06%
 	
 	public final static double oddsEffinLikely =				54.0 /  55.00; //  98.18%
+	public final static double oddsNearlyAlwaysGoingToHappen =	88.0 /  89.00; //  98.88%
 	public final static double oddsAlwaysGoingToHappen =		 1.0;          // 100.00%
 	
 	// While these are initialized here, the real defaults live in CivilizedContext and UncivilizedContext

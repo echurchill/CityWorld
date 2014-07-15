@@ -7,7 +7,6 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
-import me.daddychurchill.CityWorld.Support.AbstractChunk;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
@@ -59,6 +58,8 @@ public class RoadLot extends ConnectedLot {
 	
 	protected boolean cityRoad;
 	protected boolean roundaboutRoad;
+	private int bottomOfRoad;
+	private int topOfRoad;
 	
 	public RoadLot(PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey, boolean roundaboutPart) {
 		super(platmap, chunkX, chunkZ);
@@ -67,26 +68,18 @@ public class RoadLot extends ConnectedLot {
 		connectedkey = globalconnectionkey;
 		cityRoad = platmap.generator.settings.inCityRange(chunkX, chunkZ);
 		roundaboutRoad = roundaboutPart;
+		
+		bottomOfRoad = platmap.generator.streetLevel - 1;
+//		if (generator.settings.includeSewers && cityRoad)
+//			bottomOfRoad -= DataContext.FloorHeight * 2 + 1;
+		topOfRoad = platmap.generator.streetLevel + 1;
+		if (maxHeight > topOfRoad + tunnelHeight)
+			topOfRoad += tunnelHeight;
 	}
 	
 	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
 		return new RoadLot(platmap, chunkX, chunkZ, connectedkey, roundaboutRoad);
-	}
-
-	private int bottomOfRoad;
-	private int topOfRoad;
-	
-	@Override
-	protected void initializeContext(WorldGenerator generator, AbstractChunk chunk) {
-		super.initializeContext(generator, chunk);
-		
-		bottomOfRoad = generator.streetLevel - 1;
-//		if (generator.settings.includeSewers && cityRoad)
-//			bottomOfRoad -= DataContext.FloorHeight * 2 + 1;
-		topOfRoad = generator.streetLevel + 1;
-		if (maxHeight > topOfRoad + tunnelHeight)
-			topOfRoad += tunnelHeight;
 	}
 
 	@Override

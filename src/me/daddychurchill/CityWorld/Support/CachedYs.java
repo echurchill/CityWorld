@@ -18,14 +18,14 @@ public class CachedYs {
 	public int maxHeightZ = 0;
 	private double[][] blockYs= new double[width][width];
 	
-	public CachedYs(WorldGenerator generator, AbstractChunk chunk) {
+	public CachedYs(WorldGenerator generator, int chunkX, int chunkZ) {
 		
 		// total height
 		int sumHeight = 0;
 		
 		// compute offset to start of chunk
-		int originX = chunk.getOriginX();
-		int originZ = chunk.getOriginZ();
+		int originX = chunkX * AbstractChunk.chunksBlockWidth;
+		int originZ = chunkZ * AbstractChunk.chunksBlockWidth;
 		
 		// calculate the Ys for this chunk
 		for (int x = 0; x < width; x++) {

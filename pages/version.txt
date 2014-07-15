@@ -11,6 +11,8 @@
 ----
 == Versions
 
+v2.97
+
 v2.93
 * Tested against Minecraft 1.6.2, Bukkit 1.6.2-R0.1 and 1.6.1-R0.1. It should work against 1.6.2.R1 but generates a lot of deprecation warnings due to their, in my opinion, valid but premature attempt at removing "Magic Values".
 * Added [[http://dev.bukkit.org/bukkit-plugins/cityworld/pages/styles/|three more world styles]]

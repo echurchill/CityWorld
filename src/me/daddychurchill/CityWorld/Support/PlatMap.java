@@ -173,11 +173,14 @@ public class PlatMap {
 		if (generator.settings.inRoadRange(originX + x, originZ + z) && 
 			(platLots[x][z] == null || roundaboutPart || platLots[x][z].style != LotStyle.ROAD)) {
 			
+			// remember the old one
+			PlatLot oldLot = platLots[x][z];
+			
 			// clear it please
 			emptyLot(x, z);
 			
 			// place the lot
-			platLots[x][z] = generator.shapeProvider.createRoadLot(generator, this, x, z, roundaboutPart);
+			platLots[x][z] = generator.shapeProvider.createRoadLot(generator, this, x, z, roundaboutPart, oldLot);
 		}
 	}
 	
@@ -442,11 +445,6 @@ public class PlatMap {
 			// found one?
 			if (empty) {
 				
-//				generator.reportMessage("Placed " + clip.name + " at " + 
-//						((placeX + originX) * SupportChunk.chunksBlockWidth) + 
-//						", " + 
-//						((placeZ + originZ) * SupportChunk.chunksBlockWidth));
-
 				// put it there
 				placeSpecificClip(generator, odds, clip, placeX, placeZ);
 				

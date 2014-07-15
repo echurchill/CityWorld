@@ -124,7 +124,6 @@ public final class WorldBlocks extends SupportChunk {
 	}
 	
 	private static double oddsOfDebris = DataContext.oddsPrettyLikely;
-	
 	private void sprinkleDebris(int cx, int cy, int cz, int radius, Stack<debrisItem> debris) {
 
 		// calculate a few things
@@ -147,7 +146,7 @@ public final class WorldBlocks extends SupportChunk {
 				int z = z1 + odds.getRandomInt(r4);
 				int y = findLastEmptyBelow(x, cy, z);
 				
-				// look out for half blocks
+				// look out for invalid blocks
 				Block block = getActualBlock(x, y - 1, z);
 				
 				// find the bottom of the pool
@@ -158,7 +157,7 @@ public final class WorldBlocks extends SupportChunk {
 					} while (block.isLiquid());
 				
 				// partial height blocks?
-				} else if (isPartialHeight(block))
+				} else if (isNonstackableBlock(block))
 					setBlock(block, item.oldMaterial, item.oldData);
 				
 				// other blocks?

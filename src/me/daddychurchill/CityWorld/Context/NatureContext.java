@@ -38,8 +38,8 @@ public class NatureContext extends UncivilizedContext {
 		
 		// random stuff?
 		Odds platmapOdds = platmap.getOddsGenerator();
-		boolean doBunkers = platmapOdds.playOdds(oddsOfBunkers);
-		boolean didBunkers = false;
+		boolean doBunkers = generator.settings.includeBunkers && platmapOdds.playOdds(oddsOfBunkers);
+		boolean didBunkerEntrance = false;
 		
 		// where it all begins
 		int originX = platmap.originX;
@@ -92,38 +92,47 @@ public class NatureContext extends UncivilizedContext {
 							}
 							
 							// innermost chunks?
-							boolean innermost = x >= RoadLot.PlatMapRoadInset && x < PlatMap.Width - RoadLot.PlatMapRoadInset && 
-												z >= RoadLot.PlatMapRoadInset && z < PlatMap.Width - RoadLot.PlatMapRoadInset;
+							boolean potentialRoads = (x == (RoadLot.PlatMapRoadInset - 1) || x == (PlatMap.Width - RoadLot.PlatMapRoadInset)) && 
+													 (z == (RoadLot.PlatMapRoadInset - 1) || z == (PlatMap.Width - RoadLot.PlatMapRoadInset));
+							boolean doBunkerEntrance = doBunkers && !didBunkerEntrance && !potentialRoads;
 							
 							// what type of height are we talking about?
 							switch (heights.state) {
 							case MIDLAND: 
 								
-								// if not one of the innermost or the height isn't tall enough for bunkers
-								if (!innermost || minHeight < BunkerLot.calcBunkerMinHeight(generator)) {
-//									if (heights.isSortaFlat()) {
-//										if (generator.shapeProvider.isIsolatedConstructAt(chunkX, chunkZ, oddsOfIsolatedConstructs)) {
-//											generator.reportMessage("FOUND Isolated @ " + blockX + "," + blockZ);
-//											current = createSurfaceBuildingLot(generator, platmap, chunkX, chunkZ, heights);
-//										} else {
-//											generator.reportMessage("MISSING Isolated @ " + blockX + "," + blockZ);
-//										}
+//								// if not one of the innermost or the height isn't tall enough for bunkers
+//								if (!innermost || minHeight < BunkerLot.calcBunkerMinHeight(generator)) {
+//									if (heights.isSortaFlat() && generator.shapeProvider.isIsolatedConstructAt(originX + x, originZ + z, oddsOfIsolatedConstructs))
+//										current = createSurfaceBuildingLot(generator, platmap, originX + x, originZ + z, heights);
+//									
+//									else if (doBunkers && innermost) {
+//										current = createBuriedBuildingLot(generator, platmap, chunkX, chunkZ, !didBunkers);
+//										didBunkers = true;
 //									}
+//								} 
+								
+								if (doBunkers && minHeight > BunkerLot.calcBunkerMinHeight(generator)) {
+									current = createBuriedBuildingLot(generator, platmap, chunkX, chunkZ, doBunkerEntrance);
 									
-									if (heights.isSortaFlat() && generator.shapeProvider.isIsolatedConstructAt(originX + x, originZ + z, oddsOfIsolatedConstructs))
-										current = createSurfaceBuildingLot(generator, platmap, originX + x, originZ + z, heights);
-									break;
+									
+								} else if (heights.isSortaFlat() && generator.shapeProvider.isIsolatedConstructAt(originX + x, originZ + z, oddsOfIsolatedConstructs)) {
+									current = createSurfaceBuildingLot(generator, platmap, originX + x, originZ + z, heights);
 								}
+								
+								break;
 							case HIGHLAND:
 							case PEAK:
-								if (doBunkers && innermost) {
-									current = createBuriedBuildingLot(generator, platmap, chunkX, chunkZ, !didBunkers);
-									didBunkers = true;
+								if (doBunkers) {
+									current = createBuriedBuildingLot(generator, platmap, chunkX, chunkZ, doBunkerEntrance);
 								}
 								break;
 							default:
 								break;
 							}
+							
+							// did we do it?
+							if (doBunkerEntrance && current != null)
+								didBunkerEntrance = true;
 						}
 						
 						// did current get defined?

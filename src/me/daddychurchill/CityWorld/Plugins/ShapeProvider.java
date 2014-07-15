@@ -42,10 +42,6 @@ public abstract class ShapeProvider extends Provider {
 	protected abstract void validateLots(WorldGenerator generator, PlatMap platmap);
 
 	public void populateLots(WorldGenerator generator, PlatMap platmap) {
-		standardPopulateLots(generator, platmap);
-	}
-	
-	protected void standardPopulateLots(WorldGenerator generator, PlatMap platmap) {
 		try {
 			allocateContexts(generator);
 
@@ -56,7 +52,7 @@ public abstract class ShapeProvider extends Provider {
 			
 			// place and validate the roads
 			if (generator.settings.includeRoads) {
-				platmap.populateRoads();
+				platmap.populateRoads(); // this will see the platmap's context as natural since it hasn't been re-set yet, see below
 				platmap.validateRoads();
 	
 				// place the buildings
@@ -133,8 +129,8 @@ public abstract class ShapeProvider extends Provider {
 		return natureContext.createNaturalLot(generator, platmap, x, z);
 	}
 	
-	public PlatLot createRoadLot(WorldGenerator generator, PlatMap platmap, int x, int z, boolean roundaboutPart)  {
-		return roadContext.createRoadLot(generator, platmap, x, z, roundaboutPart);
+	public PlatLot createRoadLot(WorldGenerator generator, PlatMap platmap, int x, int z, boolean roundaboutPart, PlatLot oldLot)  {
+		return roadContext.createRoadLot(generator, platmap, x, z, roundaboutPart, oldLot);
 	}
 
 	public PlatLot createRoundaboutStatueLot(WorldGenerator generator, PlatMap platmap, int x, int z) {

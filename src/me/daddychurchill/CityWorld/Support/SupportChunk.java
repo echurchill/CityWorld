@@ -417,15 +417,22 @@ public abstract class SupportChunk extends AbstractChunk {
 		}
 	}
 
-	protected final boolean isPartialHeight(Block block) {
+	public final boolean isNonstackableBlock(Block block) { // either because it really isn't or it just doesn't look good
 		return isType(block, Material.STEP, Material.WOOD_STEP, 
-							 Material.STONE_PLATE, Material.WOOD_PLATE);
+				 			 Material.GLASS, Material.THIN_GLASS,
+							 Material.SNOW, Material.CARPET, Material.SIGN, 
+							 Material.WOOD_DOOR, Material.TRAP_DOOR, 
+							 Material.STAINED_GLASS, Material.STAINED_GLASS_PANE,
+							 Material.FENCE, Material.FENCE_GATE,
+							 Material.STONE_PLATE, Material.WOOD_PLATE,
+							 Material.TRIPWIRE, Material.TRIPWIRE_HOOK,
+							 Material.IRON_DOOR_BLOCK, Material.IRON_FENCE);
 	}
 	
-	public final boolean isPartialHeight(int x, int y, int z) {
-		return isPartialHeight(getActualBlock(x, y, z));
+	public final boolean isNonstackableBlock(int x, int y, int z) {
+		return isNonstackableBlock(getActualBlock(x, y, z));
 	}
-
+	
 	private void setBlockTypeAndColor(int x, int y, int z, Material material, DyeColor color) {
 		BlockState state = getActualBlock(x, y, z).getState();
 		state.setType(material);
