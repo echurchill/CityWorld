@@ -30,8 +30,8 @@ public class HouseProvider extends Provider {
 		return new HouseProvider();
 	}
 	
-	private final static double oddsOfFurnace = DataContext.oddsSomewhatUnlikely;
-	private final static double oddsOfCraftingTable = DataContext.oddsSomewhatUnlikely;
+	private final static double oddsOfFurnace = Odds.oddsSomewhatUnlikely;
+	private final static double oddsOfCraftingTable = Odds.oddsSomewhatUnlikely;
 	
 	public void generateShed(WorldGenerator generator, RealChunk chunk, DataContext context, Odds odds, int x, int y, int z, int radius) {
 		int x1 = x - radius;
@@ -120,7 +120,7 @@ public class HouseProvider extends Provider {
 		
 		// what are we made of?
 		DyeColor matColor = odds.getRandomColor();
-		boolean matCamo = odds.playOdds(DataContext.oddsSomewhatUnlikely);
+		boolean matCamo = odds.playOdds(Odds.oddsSomewhatUnlikely);
 		
 		// direction? 
 		if (odds.flipCoin()) {
@@ -250,6 +250,8 @@ public class HouseProvider extends Provider {
 		generateColonial(generator, chunk, context, odds, baseY, matFloor, matWall, matCeiling, matRoof, floors, roomWidth, roomWidth, styleRoof, false);
 		return floors;
 	}
+	
+	private Material matTrapDoor = Material.TRAP_DOOR;
 	
 	public int generateHouse(WorldGenerator generator, RealChunk chunk, DataContext context, Odds odds, int baseY, int maxFloors, int maxRoomWidth) {
 		
@@ -460,10 +462,25 @@ public class HouseProvider extends Provider {
 				for (int x = 1; x < chunk.width - 1; x++) {
 					for (int z = 1; z < chunk.width - 1; z++) {
 						int yAt = y + roofBottom;
-						if (!chunk.isEmpty(x, yAt, z) && 
-							!chunk.isEmpty(x - 1, yAt, z) && !chunk.isEmpty(x + 1, yAt, z) &&
-							!chunk.isEmpty(x, yAt, z - 1) && !chunk.isEmpty(x, yAt, z + 1))
-							chunk.setBlock(x, yAt + 1, z, matRoof);
+						if (y == 0) {
+							if (chunk.isOfTypes(x, yAt, z, matRoof, matTrapDoor) && 
+								chunk.isOfTypes(x - 1, yAt, z, matRoof, matTrapDoor) &&
+								chunk.isOfTypes(x + 1, yAt, z, matRoof, matTrapDoor) &&
+								chunk.isOfTypes(x, yAt, z - 1, matRoof, matTrapDoor) &&
+								chunk.isOfTypes(x, yAt, z + 1, matRoof, matTrapDoor))
+								chunk.setBlock(x, yAt + 1, z, matRoof);
+						} else {
+							if (chunk.isType(x, yAt, z, matRoof) && 
+								chunk.isType(x - 1, yAt, z, matRoof) &&
+								chunk.isType(x + 1, yAt, z, matRoof) &&
+								chunk.isType(x, yAt, z - 1, matRoof) &&
+								chunk.isType(x, yAt, z + 1, matRoof))
+								chunk.setBlock(x, yAt + 1, z, matRoof);
+						}
+//						if (chunk.isOfTypes(x, yAt, z, matRoof, matTrapDoor) && 
+//							!chunk.isEmpty(x - 1, yAt, z) && !chunk.isEmpty(x + 1, yAt, z) &&
+//							!chunk.isEmpty(x, yAt, z - 1) && !chunk.isEmpty(x, yAt, z + 1))
+//							chunk.setBlock(x, yAt + 1, z, matRoof);
 					}
 				}
 			}
@@ -475,9 +492,20 @@ public class HouseProvider extends Provider {
 				for (int x = 1; x < chunk.width - 1; x++) {
 					for (int z = 1; z < chunk.width - 1; z++) {
 						int yAt = y + roofBottom;
-						if (!chunk.isEmpty(x, yAt, z) && 
-							!chunk.isEmpty(x - 1, yAt, z) && !chunk.isEmpty(x + 1, yAt, z))
-							chunk.setBlock(x, yAt + 1, z, matRoof);
+						if (y == 0) {
+							if (chunk.isOfTypes(x, yAt, z, matRoof, matTrapDoor) && 
+								chunk.isOfTypes(x - 1, yAt, z, matRoof, matTrapDoor) &&
+								chunk.isOfTypes(x + 1, yAt, z, matRoof, matTrapDoor))
+								chunk.setBlock(x, yAt + 1, z, matRoof);
+						} else {
+							if (chunk.isType(x, yAt, z, matRoof) && 
+								chunk.isType(x - 1, yAt, z, matRoof) &&
+								chunk.isType(x + 1, yAt, z, matRoof))
+								chunk.setBlock(x, yAt + 1, z, matRoof);
+						}
+//						if (chunk.isOfTypes(x, yAt, z, matRoof, matTrapDoor) && 
+//							!chunk.isEmpty(x - 1, yAt, z) && !chunk.isEmpty(x + 1, yAt, z))
+//							chunk.setBlock(x, yAt + 1, z, matRoof);
 					}
 				}
 			}
@@ -489,9 +517,20 @@ public class HouseProvider extends Provider {
 				for (int x = 1; x < chunk.width - 1; x++) {
 					for (int z = 1; z < chunk.width - 1; z++) {
 						int yAt = y + roofBottom;
-						if (!chunk.isEmpty(x, yAt, z) && 
-							!chunk.isEmpty(x, yAt, z - 1) && !chunk.isEmpty(x, yAt, z + 1))
-							chunk.setBlock(x, yAt + 1, z, matRoof);
+						if (y == 0) {
+							if (chunk.isOfTypes(x, yAt, z, matRoof, matTrapDoor) && 
+								chunk.isOfTypes(x, yAt, z - 1, matRoof, matTrapDoor) &&
+								chunk.isOfTypes(x, yAt, z + 1, matRoof, matTrapDoor))
+								chunk.setBlock(x, yAt + 1, z, matRoof);
+						} else {
+							if (chunk.isType(x, yAt, z, matRoof) && 
+								chunk.isType(x, yAt, z - 1, matRoof) &&
+								chunk.isType(x, yAt, z + 1, matRoof))
+								chunk.setBlock(x, yAt + 1, z, matRoof);
+						}
+//						if (chunk.isOfTypes(x, yAt, z, matRoof, matTrapDoor) && 
+//							!chunk.isEmpty(x, yAt, z - 1) && !chunk.isEmpty(x, yAt, z + 1))
+//							chunk.setBlock(x, yAt + 1, z, matRoof);
 					}
 				}
 			}
@@ -503,9 +542,11 @@ public class HouseProvider extends Provider {
 				for (int x = 1; x < chunk.width - 1; x++) {
 					for (int z = 1; z < chunk.width - 1; z++) {
 						int yAt = y + roofBottom;
-						if (!chunk.isEmpty(x, yAt, z) &&
-							(chunk.isEmpty(x - 1, yAt, z) || chunk.isEmpty(x + 1, yAt, z) ||
-							 chunk.isEmpty(x, yAt, z - 1) || chunk.isEmpty(x, yAt, z + 1)))
+						if (chunk.isOfTypes(x, yAt, z, matRoof, matTrapDoor) && 
+							(chunk.isEmpty(x - 1, yAt, z) || 
+							 chunk.isEmpty(x + 1, yAt, z) ||
+							 chunk.isEmpty(x, yAt, z - 1) || 
+							 chunk.isEmpty(x, yAt, z + 1)))
 							chunk.setBlock(x, yAt + 1, z, matRoof);
 					}
 				}
@@ -517,13 +558,14 @@ public class HouseProvider extends Provider {
 		
 		if (makeAttic) {
 			
-			// fill the potential attic space with dirt
+			// fill the potential attic space with something silly
 			for (int y = 1; y < roofHeight - 1; y++) {
 				for (int x = 1; x < chunk.width - 1; x++) {
 					for (int z = 1; z < chunk.width - 1; z++) {
 						int yAt = y + roofBottom;
-						if (!chunk.isEmpty(x, yAt + 1, z))
-							chunk.setBlock(x, yAt, z, Material.DIRT); // mark potential attic space
+						if (/*!chunk.isEmpty(x, yAt + 1, z)) */
+							chunk.isType(x, yAt, z, matRoof))
+							chunk.setBlock(x, yAt, z, Material.BEDROCK); // mark potential attic space
 					}
 				}
 			}
@@ -533,7 +575,7 @@ public class HouseProvider extends Provider {
 				for (int x = 1; x < chunk.width - 1; x++) {
 					for (int z = 1; z < chunk.width - 1; z++) {
 						int yAt = y + roofBottom;
-						if (chunk.isType(x, yAt, z, Material.DIRT)) { // where we think the attic might be
+						if (chunk.isType(x, yAt, z, Material.BEDROCK)) { // where we think the attic might be
 							if (chunk.isEmpty(x - 1, yAt, z) || chunk.isEmpty(x + 1, yAt, z) || 
 								chunk.isEmpty(x, yAt, z - 1) || chunk.isEmpty(x, yAt, z + 1))
 								chunk.setBlock(x, yAt, z, matRoof);
@@ -542,12 +584,12 @@ public class HouseProvider extends Provider {
 				}
 			}
 			
-			// finally remove the dirt from the attic
+			// finally remove the silliness from the attic
 			for (int y = 1; y < roofHeight - 1; y++) {
 				for (int x = 1; x < chunk.width - 1; x++) {
 					for (int z = 1; z < chunk.width - 1; z++) {
 						int yAt = y + roofBottom;
-						if (chunk.isType(x, yAt, z, Material.DIRT))
+						if (chunk.isType(x, yAt, z, Material.BEDROCK))
 							chunk.clearBlock(x, yAt, z);
 					}
 				}

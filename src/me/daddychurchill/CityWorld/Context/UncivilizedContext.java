@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Context;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public abstract class UncivilizedContext extends DataContext {
@@ -13,29 +14,29 @@ public abstract class UncivilizedContext extends DataContext {
 
 	@Override
 	protected void initialize() {
-		oddsOfIsolatedLots = oddsNeverGoingToHappen; 
-		oddsOfIsolatedConstructs = oddsSomewhatLikely;
+		oddsOfIsolatedLots = Odds.oddsNeverGoingToHappen; 
+		oddsOfIsolatedConstructs = Odds.oddsSomewhatLikely;
 		
-		oddsOfParks = oddsNeverGoingToHappen; 
+		oddsOfParks = Odds.oddsNeverGoingToHappen; 
 		
-		oddsOfIdenticalBuildingHeights = oddsNeverGoingToHappen; 
-		oddsOfSimilarBuildingHeights = oddsNeverGoingToHappen; 
-		oddsOfSimilarBuildingRounding = oddsNeverGoingToHappen; 
-		oddsOfStairWallMaterialIsWallMaterial = oddsNeverGoingToHappen; 
+		oddsOfIdenticalBuildingHeights = Odds.oddsNeverGoingToHappen; 
+		oddsOfSimilarBuildingHeights = Odds.oddsNeverGoingToHappen; 
+		oddsOfSimilarBuildingRounding = Odds.oddsNeverGoingToHappen; 
+		oddsOfStairWallMaterialIsWallMaterial = Odds.oddsNeverGoingToHappen; 
 		
-		oddsOfUnfinishedBuildings = oddsNeverGoingToHappen; 
-		oddsOfOnlyUnfinishedBasements = oddsNeverGoingToHappen; 
-		oddsOfCranes = oddsNeverGoingToHappen; 
+		oddsOfUnfinishedBuildings = Odds.oddsNeverGoingToHappen; 
+		oddsOfOnlyUnfinishedBasements = Odds.oddsNeverGoingToHappen; 
+		oddsOfCranes = Odds.oddsNeverGoingToHappen; 
 		
-		oddsOfBuildingWallInset = oddsNeverGoingToHappen; 
-		oddsOfSimilarInsetBuildings = oddsNeverGoingToHappen; 
-		oddsOfFlatWalledBuildings = oddsNeverGoingToHappen; 
+		oddsOfBuildingWallInset = Odds.oddsNeverGoingToHappen; 
+		oddsOfSimilarInsetBuildings = Odds.oddsNeverGoingToHappen; 
+		oddsOfFlatWalledBuildings = Odds.oddsNeverGoingToHappen; 
 		
 		//oddsOfMissingRoad = oddsNeverGoingToHappen; 
-		oddsOfRoundAbouts = oddsNeverGoingToHappen; 
+		oddsOfRoundAbouts = Odds.oddsNeverGoingToHappen; 
 		
-		oddsOfMissingArt = oddsNeverGoingToHappen; 
-		oddsOfNaturalArt = oddsNeverGoingToHappen; 
+		oddsOfMissingArt = Odds.oddsNeverGoingToHappen; 
+		oddsOfNaturalArt = Odds.oddsNeverGoingToHappen; 
 	}
 	
 	@Override

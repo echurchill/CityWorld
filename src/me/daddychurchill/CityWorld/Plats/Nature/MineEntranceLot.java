@@ -72,7 +72,7 @@ public class MineEntranceLot extends ConstructLot {
 		}
 		
 		// do it!
-		generateStairWell(generator, chunk, chunkOdds, 0, 0, shaftY, minHeight, surfaceY, 
+		generateStairWell(generator, chunk, chunkOdds, 0, 0, shaftY, blockYs.minHeight, surfaceY, 
 				Material.COBBLESTONE_STAIRS, Material.COBBLESTONE, center);
 		
 		// connect to the minecraft
@@ -84,8 +84,8 @@ public class MineEntranceLot extends ConstructLot {
 		generateSurface(generator, chunk, false);
 	}
 	
-	private final static double oddsOfStairs = DataContext.oddsVeryLikely;
-	private final static double oddsOfLanding = DataContext.oddsVeryLikely;
+	private final static double oddsOfStairs = Odds.oddsVeryLikely;
+	private final static double oddsOfLanding = Odds.oddsVeryLikely;
 	
 	public static void generateStairWell(WorldGenerator generator, SupportChunk chunk, Odds odds, int offX, int offZ, int shaftY, 
 			int minHeight, int surfaceY, Material stairs, Material landing, Material center) {

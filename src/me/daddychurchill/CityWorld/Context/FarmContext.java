@@ -12,7 +12,7 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class FarmContext extends RuralContext {
 
-	protected final static double oddsOfFarmHouse = DataContext.oddsSomewhatUnlikely;
+	protected final static double oddsOfFarmHouse = Odds.oddsSomewhatUnlikely;
 	
 	public FarmContext(WorldGenerator generator) {
 		super(generator);
@@ -23,7 +23,7 @@ public class FarmContext extends RuralContext {
 	protected void initialize() {
 		super.initialize();
 
-		oddsOfIsolatedLots = oddsVeryLikely;
+		oddsOfIsolatedLots = Odds.oddsVeryLikely;
 		
 		schematicFamily = SchematicFamily.FARM;
 	}

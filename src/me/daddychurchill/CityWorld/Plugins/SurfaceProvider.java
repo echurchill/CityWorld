@@ -1,7 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -15,16 +14,16 @@ public abstract class SurfaceProvider extends Provider {
 	}
 
 	
-	protected final static double treeOdds = DataContext.oddsVeryUnlikely;
-	protected final static double treeTallOdds = DataContext.oddsLikely;
-	protected final static double treeAltOdds = DataContext.oddsLikely;
-	protected final static double treeAltTallOdds = DataContext.oddsVeryUnlikely;
-	protected final static double foliageOdds = DataContext.oddsSomewhatLikely;
-	protected final static double cactusOdds = DataContext.oddsPrettyUnlikely;
-	protected final static double reedOdds = DataContext.oddsVeryUnlikely;
-	protected final static double flowerRedOdds = DataContext.oddsVeryUnlikely;
-	protected final static double flowerYellowOdds = DataContext.oddsExtremelyUnlikely;
-	protected final static double flowerFernOdds = DataContext.oddsSomewhatLikely;
+	protected final static double treeOdds = Odds.oddsVeryUnlikely;
+	protected final static double treeTallOdds = Odds.oddsLikely;
+	protected final static double treeAltOdds = Odds.oddsLikely;
+	protected final static double treeAltTallOdds = Odds.oddsVeryUnlikely;
+	protected final static double foliageOdds = Odds.oddsSomewhatLikely;
+	protected final static double cactusOdds = Odds.oddsPrettyUnlikely;
+	protected final static double reedOdds = Odds.oddsVeryUnlikely;
+	protected final static double flowerRedOdds = Odds.oddsVeryUnlikely;
+	protected final static double flowerYellowOdds = Odds.oddsExtremelyUnlikely;
+	protected final static double flowerFernOdds = Odds.oddsSomewhatLikely;
 	
 	protected Odds odds;
 	
@@ -57,6 +56,9 @@ public abstract class SurfaceProvider extends Provider {
 			break;
 		case SNOWDUNES:
 			provider = new SurfaceProvider_SnowDunes(odds);
+			break;
+		case ASTRAL:
+			provider = new SurfaceProvider_Astral(odds);
 			break;
 		case NORMAL:
 			provider = new SurfaceProvider_Normal(odds);

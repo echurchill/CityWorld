@@ -34,8 +34,8 @@ public abstract class LootProvider extends Provider {
 	}
 
 	protected ItemStack[] createTreasures(Odds odds, Material minTreasure, Material maxTreasure, int maxCount, int maxStack) {
-		int minId = BlackMagic.getMaterialId(minTreasure);
-		int maxId = BlackMagic.getMaterialId(maxTreasure);
+		int minId = BlackMagic.getMaterialIdAsInt(minTreasure);
+		int maxId = BlackMagic.getMaterialIdAsInt(maxTreasure);
 		int rangeId = maxId - minId + 1;
 		int count = maxCount > 0 ? odds.getRandomInt(maxCount) + 1 : 0;
 		

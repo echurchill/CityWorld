@@ -127,7 +127,7 @@ public class BunkerLot extends ConnectedLot {
 	}
 	
 	private int calcBunkerCeiling(WorldGenerator generator) {
-		return Math.min(calcBunkerMaxHeight(generator), calcSegmentOrigin(minHeight) - bunkerBuffer);
+		return Math.min(calcBunkerMaxHeight(generator), calcSegmentOrigin(blockYs.minHeight) - bunkerBuffer);
 	}
 
 	@Override
@@ -161,7 +161,7 @@ public class BunkerLot extends ConnectedLot {
 //		generator.reportMessage("TopOfBunker = " + topOfBunker + " MinHeight = " + minHeight);
 		
 		// do it!
-		blockYs.lift(generateBunker(generator, platmap, chunk, chunkOdds, context, platX, platZ, averageHeight,
+		blockYs.lift(generateBunker(generator, platmap, chunk, chunkOdds, context, platX, platZ, blockYs.averageHeight,
 									bottomOfBunker, topOfBunker, bilgeType, buildingType));
 		
 		// add some surface
@@ -727,7 +727,7 @@ public class BunkerLot extends ConnectedLot {
 		return 0;
 	}
 
-	private static double oddsOfWayDownFromTunnel = DataContext.oddsVeryLikely;
+	private static double oddsOfWayDownFromTunnel = Odds.oddsVeryLikely;
 	
 	private static int generateRoadTunnel(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, int y1, int y2) {
 		int underStreetY = generator.streetLevel - 3;

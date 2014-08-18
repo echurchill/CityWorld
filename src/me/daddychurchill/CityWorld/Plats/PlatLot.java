@@ -24,9 +24,6 @@ public abstract class PlatLot {
 	protected int chunkX;
 	protected int chunkZ;
 	protected CachedYs blockYs;
-	protected int averageHeight;
-	protected int minHeight = Integer.MAX_VALUE;
-	protected int maxHeight = Integer.MIN_VALUE;
 	
 	protected Odds platmapOdds;
 	protected Odds chunkOdds;
@@ -46,22 +43,9 @@ public abstract class PlatLot {
 		initializeDice(platmap, chunkX, chunkZ);
 
 		// precalc the Ys
-		blockYs = new CachedYs(platmap.generator, chunkX, chunkZ);
-		
-		// what was the average height
-		minHeight = blockYs.minHeight;
-		maxHeight = blockYs.maxHeight;
-		averageHeight = blockYs.averageHeight;
+		blockYs = platmap.generator.shapeProvider.getCachedYs(platmap.generator, chunkX, chunkZ);
 	}
 
-	// these cannot
-	protected final static Material pavementId = Material.STONE;
-	protected final static Material crosswalkId = Material.CLAY;
-	
-	protected final static Material snowMaterial = Material.SNOW;
-	protected final static Material stoneMaterial = Material.STONE;
-	protected final static Material rootMaterial = Material.GRASS;
-	
 	public abstract long getConnectedKey();
 	public abstract boolean makeConnected(PlatLot relative);
 	public abstract boolean isConnectable(PlatLot relative);
@@ -172,7 +156,7 @@ public abstract class PlatLot {
 		
 		// get shafted! (this builds down to keep the support poles happy)
 		if (generator.settings.includeMines)
-			for (int y = (minHeight / 16 - 1) * 16; y >= lowestMineSegment; y -= 16) {
+			for (int y = (blockYs.minHeight / 16 - 1) * 16; y >= lowestMineSegment; y -= 16) {
 				if (isShaftableLevel(generator, y))
 					generateHorizontalMineLevel(generator, chunk, y);
 			}
@@ -181,7 +165,7 @@ public abstract class PlatLot {
 	protected int findHighestShaftableLevel(WorldGenerator generator, DataContext context, SupportChunk chunk) {
 
 		// keep going down until we find what we are looking for
-		for (int y = (minHeight / 16 - 1) * 16; y >= lowestMineSegment; y -= 16) {
+		for (int y = (blockYs.minHeight / 16 - 1) * 16; y >= lowestMineSegment; y -= 16) {
 			if (isShaftableLevel(generator, y) && generator.shapeProvider.isHorizontalWEShaft(chunk.chunkX, y, chunk.chunkZ))
 				return y + 7;
 		}
@@ -191,7 +175,7 @@ public abstract class PlatLot {
 	}
 	
 	protected boolean isShaftableLevel(WorldGenerator generator, int blockY) {
-		return blockY >= lowestMineSegment && blockY < minHeight && minHeight > generator.seaLevel;
+		return blockY >= lowestMineSegment && blockY < blockYs.minHeight && blockYs.minHeight > generator.seaLevel;
 	}
 
 	private void generateHorizontalMineLevel(WorldGenerator generator, ByteChunk chunk, int y) {
@@ -274,7 +258,7 @@ public abstract class PlatLot {
 	
 	private void generateMineSupport(ByteChunk chunk, int x, int y, int z) {
 		int aboveSupport = chunk.findLastEmptyAbove(x, y, z);
-		if (aboveSupport < maxHeight)
+		if (aboveSupport < blockYs.maxHeight)
 			chunk.setBlocks(x, y + 1, aboveSupport + 1, z, shaftSupportId);
 	}
 	
@@ -282,7 +266,7 @@ public abstract class PlatLot {
 		
 		// get shafted!
 		if (generator.settings.includeMines)
-			for (int y = 0; y + 16 < minHeight; y += 16) {
+			for (int y = 0; y + 16 < blockYs.minHeight; y += 16) {
 				if (isShaftableLevel(generator, y))
 					generateVerticalMineLevel(generator, chunk, y);
 			}
@@ -439,7 +423,7 @@ public abstract class PlatLot {
 	
 	private void generateMineSupport(RealChunk chunk, int x, int y, int z) {
 		int aboveSupport = chunk.findLastEmptyAbove(x, y, z);
-		if (aboveSupport < maxHeight)
+		if (aboveSupport < blockYs.maxHeight)
 			chunk.setBlocks(x, y + 1, aboveSupport + 1, z, Material.FENCE);
 	}
 	private void placeMineStairBase(RealChunk chunk, int x, int y, int z) {

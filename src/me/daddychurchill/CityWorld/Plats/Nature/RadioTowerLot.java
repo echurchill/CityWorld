@@ -9,6 +9,7 @@ import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -16,7 +17,7 @@ public class RadioTowerLot extends ConstructLot {
 
 	private boolean building;
 	
-	private final static double oddsOfBuilding = DataContext.oddsExtremelyLikely;
+	private final static double oddsOfBuilding = Odds.oddsExtremelyLikely;
 	public RadioTowerLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		trulyIsolated = true;
@@ -46,7 +47,7 @@ public class RadioTowerLot extends ConstructLot {
 	
 	@Override
 	public int getBottomY(WorldGenerator generator) {
-		return maxHeight + 2;
+		return blockYs.maxHeight + 2;
 	}
 	
 	@Override
@@ -66,7 +67,7 @@ public class RadioTowerLot extends ConstructLot {
 		// base
 		for (int x = originX + 1; x < originX + platformWidth - 1; x++) {
 			for (int z = originZ + 1; z < originZ + platformWidth - 1; z++) {
-				for (int y = platformY - 2; y > minHeight; y--) {
+				for (int y = platformY - 2; y > blockYs.minHeight; y--) {
 					if (!chunk.setEmptyBlock(x, y, z, supportMaterial)) {
 						chunk.setBlocks(x, y - 3, y + 1, z, supportMaterial);
 						break;
@@ -98,7 +99,7 @@ public class RadioTowerLot extends ConstructLot {
 		int platformOffset = platformWidth / 2;
 		int originX = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, blockYs.maxHeightX));
 		int originZ = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, blockYs.maxHeightZ));
-		int platformY = maxHeight + 2;
+		int platformY = blockYs.maxHeight + 2;
 		
 		// place snow
 		generateSurface(generator, chunk, false);

@@ -14,30 +14,30 @@ public abstract class CivilizedContext extends DataContext {
 	
 	@Override
 	protected void initialize() {
-		oddsOfIsolatedLots = oddsExtremelyLikely; 
-		oddsOfIsolatedConstructs = oddsSomewhatLikely;
+		oddsOfIsolatedLots = Odds.oddsExtremelyLikely; 
+		oddsOfIsolatedConstructs = Odds.oddsSomewhatLikely;
 		
-		oddsOfParks = oddsVeryLikely; 
+		oddsOfParks = Odds.oddsVeryLikely; 
 		
-		oddsOfIdenticalBuildingHeights = oddsExtremelyLikely; 
-		oddsOfSimilarBuildingHeights = oddsExtremelyLikely; 
-		oddsOfSimilarBuildingRounding = oddsExtremelyLikely; 
-		oddsOfStairWallMaterialIsWallMaterial = oddsExtremelyLikely; 
+		oddsOfIdenticalBuildingHeights = Odds.oddsExtremelyLikely; 
+		oddsOfSimilarBuildingHeights = Odds.oddsExtremelyLikely; 
+		oddsOfSimilarBuildingRounding = Odds.oddsExtremelyLikely; 
+		oddsOfStairWallMaterialIsWallMaterial = Odds.oddsExtremelyLikely; 
 		
-		oddsOfUnfinishedBuildings = oddsLikely; 
-		oddsOfOnlyUnfinishedBasements = oddsVeryLikely; 
-		oddsOfCranes = oddsVeryLikely; 
+		oddsOfUnfinishedBuildings = Odds.oddsLikely; 
+		oddsOfOnlyUnfinishedBasements = Odds.oddsVeryLikely; 
+		oddsOfCranes = Odds.oddsVeryLikely; 
 		
-		oddsOfBuildingWallInset = oddsExtremelyLikely; 
-		oddsOfSimilarInsetBuildings = oddsExtremelyLikely; 
-		oddsOfFlatWalledBuildings = oddsExtremelyLikely; 
+		oddsOfBuildingWallInset = Odds.oddsExtremelyLikely; 
+		oddsOfSimilarInsetBuildings = Odds.oddsExtremelyLikely; 
+		oddsOfFlatWalledBuildings = Odds.oddsExtremelyLikely; 
 		
 		//TODO oddsOfMissingRoad is current not used... I need to fix this
 		//oddsOfMissingRoad = oddsLikely; 
-		oddsOfRoundAbouts = oddsLikely; 
+		oddsOfRoundAbouts = Odds.oddsLikely; 
 		
-		oddsOfMissingArt = oddsLikely; 
-		oddsOfNaturalArt = oddsExtremelyLikely; 
+		oddsOfMissingArt = Odds.oddsLikely; 
+		oddsOfNaturalArt = Odds.oddsExtremelyLikely; 
 	}
 
 	protected abstract PlatLot getBackfillLot(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ);

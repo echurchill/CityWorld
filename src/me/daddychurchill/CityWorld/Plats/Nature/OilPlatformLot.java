@@ -106,12 +106,12 @@ public class OilPlatformLot extends ConstructLot {
 		chunk.setBlock(8, y4 + 3, 8, headMaterial);
 
 		// two big legs to hold up the various levels (a little bit deeper than needed, just to be safe)
-		chunk.setBlocks(2, 4, minHeight - 10, y4, 2, 4, supportMaterial);
-		chunk.setBlocks(12, 14, minHeight - 10, y4 + 3, 12, 14, supportMaterial);
+		chunk.setBlocks(2, 4, blockYs.minHeight - 10, y4, 2, 4, supportMaterial);
+		chunk.setBlocks(12, 14, blockYs.minHeight - 10, y4 + 3, 12, 14, supportMaterial);
 		
 		// two lesser legs to help the other two
-		chunk.setBlocks(2, 4, minHeight - 10, y3, 12, 14, supportMaterial);
-		chunk.setBlocks(12, 14, minHeight - 10, y3, 2, 4, supportMaterial);
+		chunk.setBlocks(2, 4, blockYs.minHeight - 10, y3, 12, 14, supportMaterial);
+		chunk.setBlocks(12, 14, blockYs.minHeight - 10, y3, 2, 4, supportMaterial);
 		chunk.setBlocks(13, y3, y3 + 2, 2, supportMaterial);
 		chunk.setBlocks(2, y3, y3 + 2, 13, supportMaterial);
 		

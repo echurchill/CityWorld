@@ -13,10 +13,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/Eddie/Minecraft Work/Tekkit_Server/Tekkit.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Eddie/Minecraft/plugins/PhatLoots.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="http://docs.phatloots.codisimus.com/"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Eddie/Minecraft/PhatLoots.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

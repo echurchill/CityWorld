@@ -18,6 +18,10 @@ public abstract class BlackMagic {
 		return Material.getMaterial(id);
 	}
 	
+	public static final int getMaterialIdAsInt(Material material) {
+		return material.getId();
+	}
+	
 	public static final byte getMaterialId(Material material) {
 		return (byte) material.getId();
 	}

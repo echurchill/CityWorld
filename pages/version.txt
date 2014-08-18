@@ -11,6 +11,13 @@
 ----
 == Versions
 
+v2.98
+* Fixed a bug where chests would be populated with ores instead of useful stuff
+* Fixed a bug where trees would cause house roofs to generate oddly
+* Re-textured the sewers to make them nicer to look at... a lot more spooky and "realistic"
+* Re-textured the roads to make them nicer to look at... and make those darn ores quit showing up
+* Continuing to work on Astral, feel free to visit but don't expect much yet
+
 v2.97
 * Massive refactor to make CityWorld 1.7.x happy, I hope I found all the regressions. There isn’t a code file that didn’t change in someway.
 * Isolated the magic values that are going away soon into a class called BlackMagic, this should make it easier to do the next update

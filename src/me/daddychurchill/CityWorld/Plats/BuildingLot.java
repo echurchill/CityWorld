@@ -16,6 +16,7 @@ import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
 import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
@@ -64,11 +65,11 @@ public abstract class BuildingLot extends ConnectedLot {
 	
 	public enum InteriorStyle {COLUMNS_ONLY, WALLS_ONLY, COLUMNS_OFFICES, WALLS_OFFICES, RANDOM};
 	protected InteriorStyle interiorStyle;
-	protected double oddsOfAnInteriorDoor = DataContext.oddsExtremelyLikely;
-	protected double oddsOfAnExteriorDoor = DataContext.oddsSomewhatLikely;
+	protected double oddsOfAnInteriorDoor = Odds.oddsExtremelyLikely;
+	protected double oddsOfAnExteriorDoor = Odds.oddsSomewhatLikely;
 	protected Material columnMaterial;
 	protected boolean forceNarrowInteriorMode = false;
-	protected double differentInteriorModes = DataContext.oddsUnlikely;
+	protected double differentInteriorModes = Odds.oddsUnlikely;
 	
 	protected int navLightX = 0;
 	protected int navLightY = 0;

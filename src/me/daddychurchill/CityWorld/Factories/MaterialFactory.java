@@ -1,6 +1,5 @@
 package me.daddychurchill.CityWorld.Factories;
 
-import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Odds;
 
@@ -13,7 +12,7 @@ public abstract class MaterialFactory {
 	protected Boolean decayed;
 	protected Odds odds;
 	
-	protected double oddsOfDecay = DataContext.oddsSomewhatLikely;
+	protected double oddsOfDecay = Odds.oddsSomewhatLikely;
 	
 	public MaterialFactory(Odds odds, boolean decayed) {
 		super();

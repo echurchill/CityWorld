@@ -172,6 +172,20 @@ public abstract class SupportChunk extends AbstractChunk {
 		}
 	}
 
+	public final void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, 
+			Odds odds, MaterialData data1, MaterialData data2) {
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
+				for (int z = z1; z < z2; z++) {
+					if (odds.playOdds(Odds.oddsPrettyLikely))
+						setBlock(x, y, z, material, data1);
+					else
+						setBlock(x, y, z, material, data2);
+				}
+			}
+		}
+	}
+
 	//================ x1, x2, y, z1, z2
 	@Override
 	public final void setBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
@@ -535,6 +549,10 @@ public abstract class SupportChunk extends AbstractChunk {
 	
 	public final void setClay(int x, int y1, int y2, int z, DyeColor color) {
 		setBlocksTypeAndColor(x, x + 1, y1, y2, z, z + 1, Material.STAINED_CLAY, color);
+	}
+	
+	public final void setClay(int x1, int x2, int y, int z1, int z2, DyeColor color) {
+		setBlocksTypeAndColor(x1, x2, y, y + 1, z1, z2, Material.STAINED_CLAY, color);
 	}
 	
 	public final void setClay(int x1, int x2, int y1, int y2, int z1, int z2, DyeColor color) {

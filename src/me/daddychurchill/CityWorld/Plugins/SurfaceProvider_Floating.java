@@ -3,7 +3,6 @@ package me.daddychurchill.CityWorld.Plugins;
 import org.bukkit.util.noise.NoiseGenerator;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
 import me.daddychurchill.CityWorld.Support.CachedYs;
@@ -30,9 +29,9 @@ public class SurfaceProvider_Floating extends SurfaceProvider {
 		}
 	}
 
-	private final static double treeOdds = DataContext.oddsUnlikely;
-	private final static double treePineOdds = DataContext.oddsLikely;
-	private final static double treeBirchOdds = DataContext.oddsVeryUnlikely;
+	private final static double treeOdds = Odds.oddsUnlikely;
+	private final static double treePineOdds = Odds.oddsLikely;
+	private final static double treeBirchOdds = Odds.oddsVeryUnlikely;
 	
 	@Override
 	public void generateSurfacePoint(WorldGenerator generator, PlatLot lot, SupportChunk chunk, CoverProvider foliage, int x, double perciseY, int z, boolean includeTrees) {

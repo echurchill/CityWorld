@@ -7,8 +7,8 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
-import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingRoads;
@@ -35,9 +35,16 @@ public class FloatingRoadLot extends RoadLot {
 			PlatMap platmap, ByteChunk chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
 
+	}
+	
+	@Override
+	protected void generateActualBlocks(WorldGenerator generator,
+			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
+			int platZ) {
+
 		// where do we start
 		int pavementLevel = generator.streetLevel;
-		int sidewalkLevel = getSidewalkLevel(generator);
+		int sidewalkLevel = pavementLevel + 1;
 		Material sidewalkMaterial = getSidewalkMaterial();
 		
 		// look around
@@ -45,7 +52,8 @@ public class FloatingRoadLot extends RoadLot {
 		
 		// draw pavement and clear out a bit
 		chunk.setLayer(pavementLevel - 1, bridgeEdgeMaterial);
-		chunk.setLayer(pavementLevel, pavementId);
+		paveRoadLot(chunk, pavementLevel);
+//		chunk.setLayer(pavementLevel, pavementId);
 		chunk.setLayer(sidewalkLevel, getAirMaterial(generator, sidewalkLevel));
 		
 		// sidewalk corners
@@ -64,20 +72,20 @@ public class FloatingRoadLot extends RoadLot {
 		if (!roads.toSouth())
 			chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, chunk.width - sidewalkWidth, chunk.width, sidewalkMaterial);
 		
-		// crosswalks?
-		if (cityRoad && !generator.settings.includeWoolRoads) {
-			calculateCrosswalks(roads);
-			
-			// draw the crosswalk bits
-			if (crosswalkNorth)
-				generateNSCrosswalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth);
-			if (crosswalkSouth)
-				generateNSCrosswalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width);
-			if (crosswalkWest)
-				generateWECrosswalk(chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth);
-			if (crosswalkEast)
-				generateWECrosswalk(chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth);
-		}
+//		// crosswalks?
+//		if (cityRoad && !generator.settings.includeWoolRoads) {
+//			calculateCrosswalks(roads);
+//			
+//			// draw the crosswalk bits
+//			if (crosswalkNorth)
+//				generateNSCrosswalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth);
+//			if (crosswalkSouth)
+//				generateNSCrosswalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width);
+//			if (crosswalkWest)
+//				generateWECrosswalk(chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth);
+//			if (crosswalkEast)
+//				generateWECrosswalk(chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth);
+//		}
 			
 		// round things out
 		if (!roads.toWest() && roads.toEast() && !roads.toNorth() && roads.toSouth())
@@ -92,33 +100,18 @@ public class FloatingRoadLot extends RoadLot {
 		if (roads.toWest() && !roads.toEast() && roads.toNorth() && !roads.toSouth())
 			generateRoundedOut(generator, context, chunk, chunk.width - sidewalkWidth - 4, chunk.width - sidewalkWidth - 4, 
 					true, true);
-	}
 
-	@Override
-	protected void generateActualBlocks(WorldGenerator generator,
-			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
-			int platZ) {
-
-		// where do we start
-		int pavementLevel = generator.streetLevel;
-		int sidewalkLevel = pavementLevel + 1;
-		
-		// look around
-		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);
-		
 		// crosswalks?
-		if (generator.settings.includeWoolRoads) {
-			calculateCrosswalks(roads);
-			
-			// center bit
-			BlackMagic.setBlocks(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, pavementMat, pavementColor);
+		calculateCrosswalks(roads);
 		
-			// finally draw the crosswalks
-			generateNSCrosswalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth, crosswalkNorth);
-			generateNSCrosswalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width, crosswalkSouth);
-			generateWECrosswalk(chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalkWest);
-			generateWECrosswalk(chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalkEast);
-		}
+		// center bit
+		chunk.setClay(sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, pavementColor);
+	
+		// finally draw the crosswalks
+		generateNSCrosswalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth, crosswalkNorth);
+		generateNSCrosswalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width, crosswalkSouth);
+		generateWECrosswalk(chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalkWest);
+		generateWECrosswalk(chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalkEast);
 		
 		// decay please
 		if (generator.settings.includeDecayedRoads) {
@@ -174,7 +167,7 @@ public class FloatingRoadLot extends RoadLot {
 		}
 	}
 	
-	private final static double oddsOfballoons = DataContext.oddsSomewhatLikely;
+	private final static double oddsOfballoons = Odds.oddsSomewhatLikely;
 
 	@Override
 	protected boolean generateLightPost(WorldGenerator generator,

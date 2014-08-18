@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Context;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
+import me.daddychurchill.CityWorld.Support.Odds;
 
 public class MunicipalContext extends UrbanContext {
 
@@ -13,20 +14,20 @@ public class MunicipalContext extends UrbanContext {
 	protected void initialize() {
 		super.initialize();
 
-		oddsOfParks = oddsLikely;
-		oddsOfIsolatedLots = oddsVeryLikely;
-		oddsOfIdenticalBuildingHeights = oddsAlwaysGoingToHappen;
-		oddsOfSimilarBuildingHeights = oddsAlwaysGoingToHappen;
-		oddsOfSimilarBuildingRounding = oddsAlwaysGoingToHappen;
-		oddsOfUnfinishedBuildings = oddsNeverGoingToHappen;
-		oddsOfOnlyUnfinishedBasements = oddsLikely;
+		oddsOfParks = Odds.oddsLikely;
+		oddsOfIsolatedLots = Odds.oddsVeryLikely;
+		oddsOfIdenticalBuildingHeights = Odds.oddsAlwaysGoingToHappen;
+		oddsOfSimilarBuildingHeights = Odds.oddsAlwaysGoingToHappen;
+		oddsOfSimilarBuildingRounding = Odds.oddsAlwaysGoingToHappen;
+		oddsOfUnfinishedBuildings = Odds.oddsNeverGoingToHappen;
+		oddsOfOnlyUnfinishedBasements = Odds.oddsLikely;
 		//oddsOfMissingRoad = oddsNeverGoingToHappen;
-		oddsOfRoundAbouts = oddsVeryLikely;
+		oddsOfRoundAbouts = Odds.oddsVeryLikely;
 		 
-		oddsOfStairWallMaterialIsWallMaterial = oddsAlwaysGoingToHappen;
-		oddsOfFlatWalledBuildings = oddsVeryLikely;
-		oddsOfSimilarInsetBuildings = oddsVeryLikely;
-		oddsOfBuildingWallInset = oddsVeryLikely;
+		oddsOfStairWallMaterialIsWallMaterial = Odds.oddsAlwaysGoingToHappen;
+		oddsOfFlatWalledBuildings = Odds.oddsVeryLikely;
+		oddsOfSimilarInsetBuildings = Odds.oddsVeryLikely;
+		oddsOfBuildingWallInset = Odds.oddsVeryLikely;
 		rangeOfWallInset = 1;
 		
 		schematicFamily = SchematicFamily.MUNICIPAL;

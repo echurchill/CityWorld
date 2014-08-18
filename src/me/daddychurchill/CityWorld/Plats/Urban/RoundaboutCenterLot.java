@@ -6,6 +6,7 @@ import me.daddychurchill.CityWorld.Plats.IsolatedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -20,6 +21,7 @@ public class RoundaboutCenterLot extends IsolatedLot {
 	private final static Material curbMaterial = Material.DOUBLE_STEP;
 	private final static Material brickMaterial = Material.SMOOTH_BRICK;
 	private final static Material fenceMaterial = Material.FENCE;
+	private final static Material baseMaterial = Material.QUARTZ_BLOCK;
 	
 	private StatueBase statueBase;
 	
@@ -170,9 +172,9 @@ public class RoundaboutCenterLot extends IsolatedLot {
 		if (somethingInTheCenter) {
 			
 			// simple glass or colored blocks?
-			boolean crystalArt = chunkOdds.playOdds(DataContext.oddsLikely);
+			boolean crystalArt = chunkOdds.playOdds(Odds.oddsLikely);
 			DyeColor solidColor = chunkOdds.getRandomColor();
-			boolean multiColorArt = chunkOdds.playOdds(DataContext.oddsLikely);
+			boolean multiColorArt = chunkOdds.playOdds(Odds.oddsLikely);
 			
 			// now the "art"
 			for (int x = 6; x < 10; x++) 
@@ -193,7 +195,7 @@ public class RoundaboutCenterLot extends IsolatedLot {
 					}
 			
 			// now put the base in
-			chunk.setBlocks(7, 9, y1, y1 + 5, 7, 9, stoneMaterial);
+			chunk.setBlocks(7, 9, y1, y1 + 5, 7, 9, baseMaterial);
 		}
 	}
 	

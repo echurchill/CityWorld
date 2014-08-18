@@ -27,7 +27,7 @@ public class NatureContext extends UncivilizedContext {
 		return new NatureLot(platmap, platmap.originX + x, platmap.originZ + z);
 	}
 	
-	private final static double oddsOfBunkers = DataContext.oddsLikely;
+	private final static double oddsOfBunkers = Odds.oddsLikely;
 
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {

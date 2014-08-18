@@ -6,6 +6,7 @@ import me.daddychurchill.CityWorld.Plats.Urban.ConcreteLot;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
@@ -488,7 +489,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			return Material.NETHER_FENCE;
 			
 		default: 
-			if (chunkOdds.playOdds(DataContext.oddsSomewhatUnlikely))
+			if (chunkOdds.playOdds(Odds.oddsSomewhatUnlikely))
 				return Material.FENCE;
 			else
 				return wall;
@@ -566,7 +567,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			return Material.NETHER_FENCE;
 		
 		default: // SANDSTONE, WOOD, SAND, CLAY, HARD_CLAY, STAINED_CLAY
-			if (chunkOdds.playOdds(DataContext.oddsSomewhatUnlikely))
+			if (chunkOdds.playOdds(Odds.oddsSomewhatUnlikely))
 				return Material.GLASS;
 			else
 				return Material.FENCE;

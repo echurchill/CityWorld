@@ -33,7 +33,8 @@ public class MountainTentLot extends MountainFlatLot {
 		reportLocation(generator, "Campground", chunk.getOriginX(), chunk.getOriginZ());
 		
 		// now make a tent
-		generator.houseProvider.generateCampground(generator, chunk, context, chunkOdds, averageHeight + 1);
+		generator.houseProvider.generateCampground(generator, chunk, context, chunkOdds, 
+				blockYs.averageHeight + 1);
 	}
 
 }

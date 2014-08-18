@@ -5,6 +5,7 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
+
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 
@@ -12,8 +13,8 @@ public abstract class OreProvider extends Provider {
 
 	public final static int lavaFluidLevel = 24;
 	public final static int lavaFieldLevel = 12;
-	protected final static double oreSprinkleOdds = 0.40;
-	protected final static double snowSplinkleOdds = 0.60;
+	protected final static double oreSprinkleOdds = Odds.oddsHalvedPrettyLikely;
+	protected final static double snowSprinkleOdds = Odds.oddsThricedSomewhatUnlikely;
 	
 	public Material surfaceMaterial;
 	public Material subsurfaceMaterial;
@@ -155,6 +156,9 @@ public abstract class OreProvider extends Provider {
 				case SANDDUNES:
 					provider = new OreProvider_SandDunes(generator);
 					break;
+				case ASTRAL:
+					provider = new OreProvider_Astral(generator);
+					break;
 				case FLOODED:
 				case FLOATING:
 				case NORMAL:
@@ -177,7 +181,7 @@ public abstract class OreProvider extends Provider {
 	public void sprinkleSnow(WorldGenerator generator, SupportChunk chunk, Odds odds, int x1, int x2, int y, int z1, int z2) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				if (odds.playOdds(snowSplinkleOdds))
+				if (odds.playOdds(snowSprinkleOdds))
 					chunk.setBlock(x, y, z, Material.SNOW_BLOCK);
 			}
 		}

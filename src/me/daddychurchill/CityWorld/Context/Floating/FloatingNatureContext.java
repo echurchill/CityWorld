@@ -4,7 +4,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.NatureContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Floating.FloatingHouseLot;
-import me.daddychurchill.CityWorld.Plats.Floating.FloatingNothingLot;
+import me.daddychurchill.CityWorld.Plats.Floating.FloatingNatureLot;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -25,7 +25,7 @@ public class FloatingNatureContext extends NatureContext {
 
 	@Override
 	public PlatLot createNaturalLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
-		return new FloatingNothingLot(platmap, platmap.originX + x, platmap.originZ + z);
+		return new FloatingNatureLot(platmap, platmap.originX + x, platmap.originZ + z);
 	}
 
 	@Override

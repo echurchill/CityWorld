@@ -63,7 +63,8 @@ public class RoadThroughBunkerLot extends RoadLot {
 		super.generateActualBlocks(generator, platmap, chunk, context, platX, platZ);
 		
 		// do it!
-		BunkerLot.generateBunker(generator, platmap, chunk, chunkOdds, context, platX, platZ, averageHeight,
+		BunkerLot.generateBunker(generator, platmap, chunk, chunkOdds, context, 
+				platX, platZ, blockYs.averageHeight,
 				bottomOfBunker, topOfBunker, bilgeType, BunkerType.ROAD);
 	}
 }

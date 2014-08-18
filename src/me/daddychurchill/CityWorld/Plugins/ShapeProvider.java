@@ -41,6 +41,10 @@ public abstract class ShapeProvider extends Provider {
 	
 	protected abstract void validateLots(WorldGenerator generator, PlatMap platmap);
 
+	public CachedYs getCachedYs(WorldGenerator generator, int chunkX, int chunkZ) {
+		return new CachedYs(generator, chunkX, chunkZ);
+	}
+	
 	public void populateLots(WorldGenerator generator, PlatMap platmap) {
 		try {
 			allocateContexts(generator);
@@ -164,6 +168,9 @@ public abstract class ShapeProvider extends Provider {
 			break;
 		case SNOWDUNES:
 			provider = new ShapeProvider_SnowDunes(generator, odds);
+			break;
+		case ASTRAL:
+			provider = new ShapeProvider_Astral(generator, odds);
 			break;
 		case NORMAL:
 			provider = new ShapeProvider_Normal(generator, odds);

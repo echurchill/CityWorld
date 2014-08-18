@@ -34,14 +34,15 @@ public abstract class TreeProvider {
 		
 		// get the right defaults
 		switch (generator.settings.treeStyle) {
-		case NORMAL:
-			provider = new TreeProvider_Normal();
-			break;
 		case SPOOKY:
 			provider = new TreeProvider_Spooky();
 			break;
 		case CRYSTAL:
 			provider = new TreeProvider_Crystal();
+			break;
+		case NORMAL:
+		default:
+			provider = new TreeProvider_Normal();
 			break;
 		}
 		

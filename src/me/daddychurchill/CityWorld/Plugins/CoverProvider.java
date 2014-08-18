@@ -1,7 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
@@ -142,7 +141,7 @@ public abstract class CoverProvider extends Provider {
 		CoverageType.BROWN_MUSHROOM, CoverageType.RED_MUSHROOM,
 		CoverageType.DEAD_BUSH};
 	
-	protected final static double oddsOfDarkCover = DataContext.oddsLikely;
+	protected final static double oddsOfDarkCover = Odds.oddsLikely;
 	protected Odds odds;
 	
 	public CoverProvider(Odds odds) {

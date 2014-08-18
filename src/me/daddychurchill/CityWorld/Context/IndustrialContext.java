@@ -18,20 +18,20 @@ public class IndustrialContext extends UrbanContext {
 	protected void initialize() {
 		super.initialize();
 
-		oddsOfParks = oddsUnlikely;
-		oddsOfIsolatedLots = oddsPrettyUnlikely;
-		oddsOfIdenticalBuildingHeights = oddsAlwaysGoingToHappen;
-		oddsOfSimilarBuildingHeights = oddsExtremelyLikely;
-		oddsOfSimilarBuildingRounding = oddsNeverGoingToHappen;
-		oddsOfUnfinishedBuildings = oddsNeverGoingToHappen;
-		oddsOfOnlyUnfinishedBasements = oddsNeverGoingToHappen;
+		oddsOfParks = Odds.oddsUnlikely;
+		oddsOfIsolatedLots = Odds.oddsPrettyUnlikely;
+		oddsOfIdenticalBuildingHeights = Odds.oddsAlwaysGoingToHappen;
+		oddsOfSimilarBuildingHeights = Odds.oddsExtremelyLikely;
+		oddsOfSimilarBuildingRounding = Odds.oddsNeverGoingToHappen;
+		oddsOfUnfinishedBuildings = Odds.oddsNeverGoingToHappen;
+		oddsOfOnlyUnfinishedBasements = Odds.oddsNeverGoingToHappen;
 		//oddsOfMissingRoad = oddsNeverGoingToHappen;
-		oddsOfRoundAbouts = oddsUnlikely;
+		oddsOfRoundAbouts = Odds.oddsUnlikely;
 		 
-		oddsOfStairWallMaterialIsWallMaterial = oddsExtremelyLikely;
-		oddsOfBuildingWallInset = oddsExtremelyLikely;
-		oddsOfFlatWalledBuildings = oddsExtremelyLikely;
-		oddsOfSimilarInsetBuildings = oddsExtremelyLikely;
+		oddsOfStairWallMaterialIsWallMaterial = Odds.oddsExtremelyLikely;
+		oddsOfBuildingWallInset = Odds.oddsExtremelyLikely;
+		oddsOfFlatWalledBuildings = Odds.oddsExtremelyLikely;
+		oddsOfSimilarInsetBuildings = Odds.oddsExtremelyLikely;
 		rangeOfWallInset = 2;
 		
 		schematicFamily = SchematicFamily.INDUSTRIAL;
@@ -40,8 +40,8 @@ public class IndustrialContext extends UrbanContext {
 		maximumFloorsBelow = 1;
 	}
 	
-	private final static double oddsOfStorageLot = DataContext.oddsVeryLikely;
-	private final static double oddsOfWarehouse = DataContext.oddsVeryLikely;
+	private final static double oddsOfStorageLot = Odds.oddsVeryLikely;
+	private final static double oddsOfWarehouse = Odds.oddsVeryLikely;
 	
 	@Override
 	protected PlatLot getPark(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {

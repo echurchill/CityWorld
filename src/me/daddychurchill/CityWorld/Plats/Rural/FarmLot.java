@@ -13,6 +13,7 @@ import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageSets;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
@@ -55,7 +56,7 @@ public class FarmLot extends ConnectedLot {
 	protected CropType cropType;
 
 	private boolean directionNorthSouth;
-	private double oddsOfCrop = DataContext.oddsExtremelyLikely;
+	private double oddsOfCrop = Odds.oddsExtremelyLikely;
 
 	public FarmLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
@@ -78,7 +79,7 @@ public class FarmLot extends ConnectedLot {
 
 		// decayed world?
 		if (platmap.generator.settings.includeDecayedNature)
-			oddsOfCrop = DataContext.oddsSomewhatUnlikely;
+			oddsOfCrop = Odds.oddsSomewhatUnlikely;
 	}
 
 	@Override

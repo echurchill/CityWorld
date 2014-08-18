@@ -1,13 +1,12 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class CoverProvider_Decayed extends CoverProvider {
 	
-	private double oddsOfCrop = DataContext.oddsLikely;
+	private double oddsOfCrop = Odds.oddsLikely;
 	
 	public CoverProvider_Decayed(Odds odds) {
 		super(odds);

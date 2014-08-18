@@ -1,14 +1,13 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class CoverProvider_Nether extends CoverProvider_Decayed {
 
-	private double oddsOfCrop = DataContext.oddsLikely;
-	private double oddsOfFire = DataContext.oddsSomewhatUnlikely;
+	private double oddsOfCrop = Odds.oddsLikely;
+	private double oddsOfFire = Odds.oddsSomewhatUnlikely;
 	
 	public CoverProvider_Nether(Odds odds) {
 		super(odds);

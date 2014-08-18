@@ -3,7 +3,6 @@ package me.daddychurchill.CityWorld.Plugins;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.Odds;
 
 public abstract class OdonymProvider extends Provider {
@@ -29,7 +28,7 @@ public abstract class OdonymProvider extends Provider {
 		}
 	}
 	
-	private final static double oddsOfDecay = DataContext.oddsExtremelyLikely;
+	private final static double oddsOfDecay = Odds.oddsExtremelyLikely;
 	
 	public String decayLine(Odds odds, String line) {
 		String result = "";

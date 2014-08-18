@@ -5,14 +5,14 @@ import java.io.File;
 import org.bukkit.block.BlockFace;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.DataContext;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public abstract class Clipboard {
 
 	public String name;
-	public double oddsOfAppearance = DataContext.oddsSomewhatUnlikely;
+	public double oddsOfAppearance = Odds.oddsSomewhatUnlikely;
 	public int groundLevelY = 0;
 	public boolean broadcastLocation = false;
 	public boolean decayable = true;

@@ -86,7 +86,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	public final static double mineScale = 1.0 / 4.0;
 	public final static double mineScaleY = mineScale;
 
-	private final static double oddsOfCentralPark = DataContext.oddsUnlikely;
+	private final static double oddsOfCentralPark = Odds.oddsUnlikely;
 	
 	public ShapeProvider_Normal(WorldGenerator generator, Odds odds) {
 		super(generator, odds);
