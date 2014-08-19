@@ -141,26 +141,26 @@ public abstract class OreProvider extends Provider {
 		// default to stock OreProvider
 		if (provider == null) {
 
-			switch (generator.worldEnvironment) {
-			case NETHER:
-				provider = new OreProvider_Nether(generator);
+			switch (generator.worldStyle) {
+			case ASTRAL:
+				provider = new OreProvider_Astral(generator);
 				break;
-			case THE_END:
-				provider = new OreProvider_TheEnd(generator);
+			case SNOWDUNES:
+				provider = new OreProvider_SnowDunes(generator);
 				break;
+			case SANDDUNES:
+				provider = new OreProvider_SandDunes(generator);
+				break;
+			case FLOODED:
+			case FLOATING:
 			case NORMAL:
-				switch (generator.worldStyle) {
-				case SNOWDUNES:
-					provider = new OreProvider_SnowDunes(generator);
+				switch (generator.worldEnvironment) {
+				case NETHER:
+					provider = new OreProvider_Nether(generator);
 					break;
-				case SANDDUNES:
-					provider = new OreProvider_SandDunes(generator);
+				case THE_END:
+					provider = new OreProvider_TheEnd(generator);
 					break;
-				case ASTRAL:
-					provider = new OreProvider_Astral(generator);
-					break;
-				case FLOODED:
-				case FLOATING:
 				case NORMAL:
 					if (generator.settings.includeDecayedNature)
 						provider = new OreProvider_Decayed(generator);
@@ -169,6 +169,36 @@ public abstract class OreProvider extends Provider {
 					break;
 				}
 			}
+
+			
+//			switch (generator.worldEnvironment) {
+//			case NETHER:
+//				provider = new OreProvider_Nether(generator);
+//				break;
+//			case THE_END:
+//				provider = new OreProvider_TheEnd(generator);
+//				break;
+//			case NORMAL:
+//				switch (generator.worldStyle) {
+//				case SNOWDUNES:
+//					provider = new OreProvider_SnowDunes(generator);
+//					break;
+//				case SANDDUNES:
+//					provider = new OreProvider_SandDunes(generator);
+//					break;
+//				case ASTRAL:
+//					provider = new OreProvider_Astral(generator);
+//					break;
+//				case FLOODED:
+//				case FLOATING:
+//				case NORMAL:
+//					if (generator.settings.includeDecayedNature)
+//						provider = new OreProvider_Decayed(generator);
+//					else
+//						provider = new OreProvider_Normal(generator);
+//					break;
+//				}
+//			}
 		}
 	
 		return provider;

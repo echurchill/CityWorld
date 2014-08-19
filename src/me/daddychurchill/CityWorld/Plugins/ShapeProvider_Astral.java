@@ -10,7 +10,9 @@ import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.SegmentedCachedYs;
 
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
@@ -102,8 +104,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	
 	@Override
 	public CachedYs getCachedYs(WorldGenerator generator, int chunkX, int chunkZ) {
-		CachedYs result = super.getCachedYs(generator, chunkX, chunkZ);
-		result.flattenSegments(generator.seaLevel);
+		CachedYs result = new SegmentedCachedYs(generator, chunkX, chunkZ);
 		return result;
 	}
 	
@@ -152,6 +153,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 		Biome biome = lot.getChunkBiome();
 		OreProvider ores = generator.oreProvider;
 //		boolean surfaceCaves = isSurfaceCaveAt(chunk.chunkX, chunk.chunkZ);
+		boolean flattened = blockYs.segmentWidth > 1;
 		
 		// shape the world
 		for (int x = 0; x < chunk.width; x++) {
@@ -168,119 +170,28 @@ public class ShapeProvider_Astral extends ShapeProvider {
 				// Chasm?
 				if (y == 0) {
 					biome = Biome.OCEAN;
-					chunk.setBlock(x, 1, z, ores.fluidFluidMaterial);
+					chunk.setBlock(x, 1, z, ores.fluidMaterial);
 					chunk.setBlocks(x, 2, noiseY + 2, z, Material.WEB);
 				
-				// on the edge
-				} else if (y == seaLevel) {
-					chunk.setBlocks(x, 1, y, z, ores.subsurfaceMaterial);
-					
+				// On the edge?
+				} else if (y == seaLevel && blockYs.getSegment(x, z) == 0) {
+					chunk.setBlocks(x, 1, y - 1, z, ores.stratumMaterial);
+					chunk.setBlocks(x, y - 1, y, z, ores.subsurfaceMaterial);
+				
 				// Valley? Mountain?
 				} else {
+
+					// dented?
 					int baseY = Math.min(seaLevel + noiseY, y);
-					chunk.setBlocks(x, 1, baseY, z, ores.surfaceMaterial);
-					if (baseY < y)
-						chunk.setBlocks(x, baseY, y, z, Material.STAINED_GLASS);
-//					switch (blockYs.segmentWidth) {
-//					case 2:
-//						
-//					case 4:
-//					case 8:
-//					case 16:
-//					default:
-//					}
+					if (flattened)
+						baseY = Math.max(16, baseY - blockYs.segmentWidth * 2);
 					
-//					generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - noiseY, ores.subsurfaceMaterial, y - 1, ores.surfaceMaterial, generator.settings.includeDecayedNature);
-						
-//				// Valley?
-//				} else if (y < seaLevel) {
-//					chunk.setBlocks(x, 1, y, z, ores.stratumMaterial);
-//					
-//				// Mountain?
-//				} else {
-//					chunk.setBlocks(x, 1, y, z, ores.surfaceMaterial);
+					// initial stuff, we will do the rest later
+					chunk.setBlocks(x, 1, baseY - 2, z, ores.stratumMaterial);
+					chunk.setBlocks(x, baseY - 2, baseY, z, ores.surfaceMaterial);
 					
-					// Everywere stuff
-//					double noise = noiseShape.noise(chunk.getBlockX(x), 0, chunk.getBlockZ(z), noiseFrequency, noiseAmplitude, true);
-//					int noiseY = NoiseGenerator.floor(noise * 20) + 20;
-//					
-////					generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 3, ores.subsurfaceMaterial, y, ores.surfaceMaterial, generator.settings.includeDecayedNature);
-//					chunk.setBlocks(x, 1, y - noiseY, z, ores.stratumMaterial);
-//					chunk.setBlocks(x, y - noiseY, y + 1, z, ores.subsurfaceMaterial);
-//					
-//					// Mountainous stuff
-//					if (y > generator.seaLevel) {
-//	//					generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 3, ores.subsurfaceMaterial, y, ores.surfaceMaterial, generator.settings.includeDecayedNature);
-//						chunk.setBlock(x, y, z, ores.surfaceMaterial);
-//					}
+					// we will do the rest later
 				}
-//				
-//				
-//				// buildable?
-//				if (lot.style == LotStyle.STRUCTURE || lot.style == LotStyle.ROUNDABOUT) {
-//					generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, generator.streetLevel - 2, ores.subsurfaceMaterial, generator.streetLevel, ores.subsurfaceMaterial, false);
-//					
-//				// possibly buildable?
-//				} else if (y == generator.streetLevel) {
-//					generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 3, ores.subsurfaceMaterial, y, ores.surfaceMaterial, generator.settings.includeDecayedNature);
-//				
-//				// won't likely have a building
-//				} else {
-//
-////					// on the beach
-////					if (y == generator.seaLevel) {
-////						generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 2, ores.fluidSubsurfaceMaterial, y, ores.fluidSurfaceMaterial, generator.settings.includeDecayedNature);
-////						biome = Biome.BEACH;
-////
-////					// we are in the water! ...or are we?
-////					} else if (y < generator.seaLevel) {
-////						biome = Biome.DESERT;
-////						if (generator.settings.includeDecayedNature)
-////							if (generator.settings.includeAbovegroundFluids && y < generator.deepseaLevel)
-////								generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 2, ores.fluidSubsurfaceMaterial, y, ores.fluidSurfaceMaterial, generator.deepseaLevel, ores.fluidMaterial, false);
-////							else
-////								generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 2, ores.fluidSubsurfaceMaterial, y, ores.fluidSurfaceMaterial, true);
-////						else 
-////							if (generator.settings.includeAbovegroundFluids) {
-////								generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 2, ores.fluidSubsurfaceMaterial, y, ores.fluidSurfaceMaterial, generator.seaLevel, ores.fluidMaterial, false);
-////								biome = Biome.OCEAN;
-////							} else
-////								generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 2, ores.fluidSubsurfaceMaterial, y, ores.fluidSurfaceMaterial, false);
-//					if (y <= generator.seaLevel) {
-//						biome = Biome.OCEAN;
-//						double noise = noiseShape.noise(chunk.getBlockX(x), chunk.getBlockZ(z), noiseFrequency, noiseAmplitude, true) + 1;
-//						chunk.setBlock(x, 0, z, Material.WOOL);
-//						chunk.setBlocks(x, 1, NoiseGenerator.floor(noise * 10 + 1), z, Material.WEB);
-////						generateStratas(generator, lot, chunk, x, z, Material.AIR, Material.AIR, y - 2, Material.AIR, y, Material.AIR, false);
-//
-//					// we are in the mountains
-//					} else {
-//
-//						// regular trees only
-//						if (y < generator.treeLevel) {
-//							generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 3, ores.subsurfaceMaterial, y, ores.surfaceMaterial, generator.settings.includeDecayedNature);
-//							biome = Biome.FOREST;
-//
-//						// regular trees and some evergreen trees
-//						} else if (y < generator.evergreenLevel) {
-//							generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 2, ores.subsurfaceMaterial, y, ores.surfaceMaterial, surfaceCaves);
-//							biome = Biome.FOREST_HILLS;
-//
-//						// evergreen and some of fallen snow
-//						} else if (y < generator.snowLevel) {
-//							generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 1, ores.subsurfaceMaterial, y, ores.surfaceMaterial, surfaceCaves);
-//							biome = Biome.TAIGA_HILLS;
-//							
-//						// only snow up here!
-//						} else {
-//							if (generator.settings.includeAbovegroundFluids && y > generator.snowLevel + 2)
-//								generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 1, ores.stratumMaterial, y, ores.fluidFrozenMaterial, surfaceCaves);
-//							else
-//								generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 1, ores.stratumMaterial, y, ores.stratumMaterial, surfaceCaves);
-//							biome = Biome.ICE_MOUNTAINS;
-//						}
-//					}
-//				}
 				
 				// set biome for block
 				biomes.setBiome(x, z, remapBiome(generator, lot, biome));
@@ -291,23 +202,87 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	@Override
 	public void postGenerateChunk(WorldGenerator generator, PlatLot lot, ByteChunk chunk, CachedYs blockYs) {
 		
-		// mines please
-		lot.generateMines(generator, chunk);
+//		// mines please
+//		lot.generateMines(generator, chunk);
 	}
 
 	@Override
 	public void preGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
-		// nothing... yet
+		OreProvider ores = generator.oreProvider;
+//		boolean surfaceCaves = isSurfaceCaveAt(chunk.chunkX, chunk.chunkZ);
+		int originX = chunk.getOriginX();
+		int originZ = chunk.getOriginZ();
+		boolean flattened = blockYs.segmentWidth > 1;
+		
+		// shape the world
+		for (int x = 0; x < chunk.width; x++) {
+			for (int z = 0; z < chunk.width; z++) {
+				int blockX = chunk.getBlockX(x);
+				int blockZ = chunk.getBlockZ(z);
+				int y = blockYs.getBlockY(x, z);
+				
+				// Chasm?
+				if (y == 0) {
+					
+					// nothing... yet
+				
+				// On the edge?
+				} else if (y == seaLevel && blockYs.getSegment(x, z) == 0) {
+					
+					// nothing... yet
+				
+				// Valley? Mountain?
+				} else {
+					
+					// roughness
+					double noise = noiseShape.noise(blockX, blockZ, 0, noiseFrequency, noiseAmplitude, true);
+					int noiseY = NoiseGenerator.floor(noise * 5) + 5;
+					
+					// dented?
+					int baseY = Math.min(seaLevel + noiseY, y);
+					if (flattened)
+						baseY = Math.max(16, baseY - blockYs.segmentWidth * 2);
+					
+					// backfill valley
+					if (y < seaLevel) {
+						
+						// little more snow
+						chunk.setBlocks(x, baseY, y, z, ores.surfaceMaterial);
+						double perciseY = blockYs.getPerciseY(x, z);
+						chunk.setSnowCover(x, y, z, (byte) NoiseGenerator.floor((perciseY - Math.floor(perciseY)) * 8.0));
+						
+					// backfill mountain
+					} else if (y > seaLevel) {
+				
+						// now the pretty colors
+						if (y > baseY && flattened) {
+							int segmentX = x / blockYs.segmentWidth * blockYs.segmentWidth + originX;
+							int segmentZ = z / blockYs.segmentWidth * blockYs.segmentWidth + originZ;
+							double colorD = noiseShape.noise(segmentX, segmentZ, blockYs.getSegment(x, z), noiseFrequency, noiseAmplitude, true);
+							chunk.setGlass(x, x + 1, baseY, y, z, z + 1, DyeColor.values()[Math.min(15, Math.max(0, NoiseGenerator.floor(colorD * 8) + 8))]);
+						
+						// sprinkle a little bit more snow?
+						} else {
+							
+							// little more snow
+							chunk.setBlocks(x, baseY, y, z, ores.surfaceMaterial);
+							double perciseY = blockYs.getPerciseY(x, z);
+							chunk.setSnowCover(x, y, z, (byte) NoiseGenerator.floor((perciseY - Math.floor(perciseY)) * 8.0));
+						}
+					}
+				}
+			}
+		}	
 	}
 
 	@Override
 	public void postGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
 		
-		// put ores in?
-		lot.generateOres(generator, chunk);
-
-		// do we do it or not?
-		lot.generateMines(generator, chunk);
+//		// put ores in?
+//		lot.generateOres(generator, chunk);
+//
+//		// do we do it or not?
+//		lot.generateMines(generator, chunk);
 	}
 
 	@Override
