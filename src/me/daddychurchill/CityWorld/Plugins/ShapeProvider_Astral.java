@@ -255,7 +255,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 					} else if (y > seaLevel) {
 				
 						// now the pretty colors
-						if (y > baseY && flattened) {
+						if (y > baseY) {
 							int segmentX = x / blockYs.segmentWidth * blockYs.segmentWidth + originX;
 							int segmentZ = z / blockYs.segmentWidth * blockYs.segmentWidth + originZ;
 							double colorD = noiseShape.noise(segmentX, segmentZ, blockYs.getSegment(x, z), noiseFrequency, noiseAmplitude, true);
