@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralDataContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralNatureContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralRoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -23,7 +24,7 @@ import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 public class ShapeProvider_Astral extends ShapeProvider {
 
-//	public DataContext buildingsContext;
+	public DataContext basesContext;
 	
 	public SimplexOctaveGenerator landShape1;
 	public SimplexOctaveGenerator landShape2;
@@ -119,7 +120,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 			natureContext = new AstralNatureContext(generator);
 			roadContext = new AstralRoadContext(generator);
 			
-//			buildingsContext = new AstralBuildingsContext(generator);
+			basesContext = new AstralDataContext(generator);
 			
 			contextInitialized = true;
 		}
@@ -129,12 +130,12 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	protected DataContext getContext(PlatMap platmap) {
 		
 		// how natural is this platmap?
-//		float nature = platmap.getNaturePercent();
-//		if (nature < 0.15)
-//			return buildingsContext;
-//		
-//		// otherwise just keep what we have
-//		else
+		float nature = platmap.getNaturePercent();
+		if (nature < 0.50)
+			return basesContext;
+		
+		// otherwise just keep what we have
+		else
 			return natureContext;
 	}
 
@@ -184,7 +185,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 					// dented?
 					int baseY = Math.min(seaLevel + noiseY, y);
 					if (flattened)
-						baseY = Math.max(16, baseY - blockYs.segmentWidth * 2);
+						baseY = Math.min(seaLevel, Math.max(16, baseY - blockYs.segmentWidth * 2));
 					
 					// initial stuff, we will do the rest later
 					chunk.setBlocks(x, 1, baseY - 2, z, ores.stratumMaterial);
@@ -241,7 +242,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 					// dented?
 					int baseY = Math.min(seaLevel + noiseY, y);
 					if (flattened)
-						baseY = Math.max(16, baseY - blockYs.segmentWidth * 2);
+						baseY = Math.min(seaLevel, Math.max(16, baseY - blockYs.segmentWidth * 2));
 					
 					// backfill valley
 					if (y < seaLevel) {
@@ -365,37 +366,6 @@ public class ShapeProvider_Astral extends ShapeProvider {
 		
 		// range validation
 		return Math.min(height - 3, Math.max(y, 0));
-		
-//		
-//		// land is below the sea
-//		if (landY <= seaLevel) {
-//			
-//			// if seabed is too high... then we might be buildable
-//			if (seaY >= seaLevel) {
-//				y = seaLevel + 1;
-//
-//				// if we are too near the sea then we must be on the beach
-//				if (seaY <= seaLevel + 1) {
-//					y = seaLevel;
-//				}
-//
-//			// if land is higher than the seabed use land to smooth
-//			// out under water base of the mountains 
-//			} else if (landY >= seaY) {
-//				y = Math.min(seaLevel, landY + 1);
-//
-//			// otherwise just take the sea bed as is
-//			} else {
-//				y = Math.min(seaLevel, seaY);
-//			}
-//
-//		// must be a mountain then
-//		} else {
-//			y = Math.max(seaLevel, landY + 1);
-//		}
-//		
-//		// range validation
-//		return Math.min(height - 3, Math.max(y, 3));
 	}
 	
 	@Override

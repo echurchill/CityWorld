@@ -1,5 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
+import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
@@ -33,5 +34,7 @@ public class AstralRoadLot extends RoadLot {
 	protected void generateActualBlocks(WorldGenerator generator,
 			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
 			int platZ) {
+		
+		chunk.setBlocks(7, generator.streetLevel, 200, 7, Material.GLOWSTONE);
 	}
 }

@@ -4,7 +4,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 
 public final class HeightInfo {
 	
-	public enum HeightState {DEEPSEA, SEA, BUILDING, LOWLAND, MIDLAND, HIGHLAND, PEAK};
+	public enum HeightState {EMPTY, DEEPSEA, SEA, BUILDING, LOWLAND, MIDLAND, HIGHLAND, PEAK};
 	public HeightState state;
 
 	private int count = 0;
@@ -71,7 +71,9 @@ public final class HeightInfo {
 	
 	private final void calcState(WorldGenerator generator) {
 		averageHeight = sumHeight / count;
-		if (maxHeight <= generator.deepseaLevel)
+		if (maxHeight == 0)
+			state = HeightState.EMPTY;
+		else if (maxHeight <= generator.deepseaLevel)
 			state = HeightState.DEEPSEA;
 		else if (maxHeight <= generator.seaLevel)
 			state = HeightState.SEA;
@@ -99,6 +101,10 @@ public final class HeightInfo {
 	
 	public final boolean isAbsolutelyFlat() {
 		return maxHeight == minHeight;
+	}
+	
+	public final boolean isAbsolutelyEmpty() {
+		return maxHeight == 0;
 	}
 	
 	public final boolean isOnLevel(int value) {

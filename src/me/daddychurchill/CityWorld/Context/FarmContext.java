@@ -139,4 +139,7 @@ public class FarmContext extends RuralContext {
 	protected PlatLot getHouseLot(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new HouseLot(platmap, chunkX, chunkZ);
 	}
+
+	public void validateMap(WorldGenerator generator, PlatMap platmap) {
+	}
 }

@@ -13,12 +13,15 @@ public class SegmentedCachedYs extends CachedYs {
 		segmentWidth = calcSegmentWidth(generator.seaLevel);
 		int currentSegment = 1;
 		
+		// total height
+		int sumHeight = 0;
+		
 		// which segment are we doing?
 		switch (segmentWidth) {
 		case 2: // two by two
 			for (int x = 0; x < width; x = x + 2) {
 				for (int z = 0; z < width; z = z + 2) {
-					flattenSegment(x, z, 2, 2, currentSegment);
+					sumHeight = flattenSegment(x, z, 2, 2, currentSegment);
 					currentSegment++;
 				}
 			}
@@ -27,7 +30,7 @@ public class SegmentedCachedYs extends CachedYs {
 		case 4: // four by four
 			for (int x = 0; x < width; x = x + 4) {
 				for (int z = 0; z < width; z = z + 4) {
-					flattenSegment(x, z, 4, 4, currentSegment);
+					sumHeight = flattenSegment(x, z, 4, 4, currentSegment);
 					currentSegment++;
 				}
 			}
@@ -36,14 +39,14 @@ public class SegmentedCachedYs extends CachedYs {
 		case 8: // eight by eight
 			for (int x = 0; x < width; x = x + 8) {
 				for (int z = 0; z < width; z = z + 8) {
-					flattenSegment(x, z, 8, 8, currentSegment);
+					sumHeight = flattenSegment(x, z, 8, 8, currentSegment);
 					currentSegment++;
 				}
 			}
 			break;
 			
 		case 16: // sixteen by sixteen
-			flattenSegment(0, 0, 16, 16, currentSegment);
+			sumHeight = flattenSegment(0, 0, 16, 16, currentSegment);
 			break;
 			
 		default:// one by one
@@ -52,8 +55,13 @@ public class SegmentedCachedYs extends CachedYs {
 					segmentYs[x][z] = 0;
 				}
 			}
-			break;
+			
+			// all done, no need to reaverage
+			return;
 		}
+
+		// what was the average height
+		averageHeight = sumHeight / (width * width);
 	}
 
 	@Override
@@ -83,7 +91,8 @@ public class SegmentedCachedYs extends CachedYs {
 			return 1;
 	}
 	
-	private void flattenSegment(int x1, int z1, int xw, int zw, int currentSegment) {
+	private int flattenSegment(int x1, int z1, int xw, int zw, int currentSegment) {
+		int sumHeight = 0;
 		
 		// find the topmost one
 		double atY = average(blockYs[x1][z1], 
@@ -95,9 +104,12 @@ public class SegmentedCachedYs extends CachedYs {
 		for (int x = x1; x < x1 + xw; x++) {
 			for (int z = z1; z < z1 + zw; z++) {
 				blockYs[x][z] = atY;
+				sumHeight += atY;
 				segmentYs[x][z] = currentSegment;
 			}
 		}
+		
+		return sumHeight;
 	}
 	
 	private double average(double ... values) {

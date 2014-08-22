@@ -254,7 +254,8 @@ public class PlatMap {
 			// reclaim all of the silly roads
 			for (int x = 0; x < Width; x++) {
 				for (int z = 0; z < Width; z++) {
-					this.recycleLot(x, z);
+					if (isRoad(x, z))
+						recycleLot(x, z);
 				}
 			}
 			
@@ -470,10 +471,4 @@ public class PlatMap {
 			}
 		}
 	}
-
-//	// Added by Sablednah
-//	// https://github.com/echurchill/CityWorld/pull/4
-//	public PlatLot[][] getPlatLots() {
-//		return platLots;
-//	}
 }

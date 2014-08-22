@@ -206,4 +206,10 @@ public class NatureContext extends UncivilizedContext {
 			}
 		}
 	}
+
+	protected void initialize() {
+	}
+
+	public void validateMap(WorldGenerator generator, PlatMap platmap) {
+	}
 }

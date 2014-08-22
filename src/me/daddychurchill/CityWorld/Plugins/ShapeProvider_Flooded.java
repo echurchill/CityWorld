@@ -45,7 +45,6 @@ public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 			neighborhoodContext = new FloodedNeighborhoodContext(generator);
 			farmContext = new FloodedFarmContext(generator);
 			
-			
 			contextInitialized = true;
 		}
 	}

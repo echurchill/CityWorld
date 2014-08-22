@@ -1,7 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Nature;
 
 import org.bukkit.Material;
-
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.WorldGenerator;

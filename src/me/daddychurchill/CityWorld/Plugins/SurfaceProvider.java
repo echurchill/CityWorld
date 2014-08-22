@@ -13,7 +13,6 @@ public abstract class SurfaceProvider extends Provider {
 		this.odds = odds;
 	}
 
-	
 	protected final static double treeOdds = Odds.oddsVeryUnlikely;
 	protected final static double treeTallOdds = Odds.oddsLikely;
 	protected final static double treeAltOdds = Odds.oddsLikely;

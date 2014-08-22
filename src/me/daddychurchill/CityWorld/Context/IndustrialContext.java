@@ -58,4 +58,10 @@ public class IndustrialContext extends UrbanContext {
 		else
 			return super.getBuilding(generator, platmap, odds, chunkX, chunkZ);
 	}
+
+	public void populateMap(WorldGenerator generator, PlatMap platmap) {
+	}
+
+	public void validateMap(WorldGenerator generator, PlatMap platmap) {
+	}
 }

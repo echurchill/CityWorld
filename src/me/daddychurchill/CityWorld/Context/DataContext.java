@@ -1,15 +1,15 @@
 package me.daddychurchill.CityWorld.Context;
 
-import org.bukkit.Material;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.ClipboardList;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
+import org.bukkit.Material;
+
 public abstract class DataContext {
-	
+
 	// While these are initialized here, the real defaults live in CivilizedContext and UncivilizedContext
 	
 	public double oddsOfIsolatedLots = Odds.oddsNeverGoingToHappen; // isolated buildings 1/n of the time
@@ -58,23 +58,13 @@ public abstract class DataContext {
 	
 	public Material lightMat;
 	public Material torchMat;
-//	public Byte lightId;
-//	public Byte torchId;
-	
 	protected ClipboardList mapsSchematics;
 	public SchematicFamily schematicFamily = SchematicFamily.NATURE;
 	public int schematicMaxX = 4;
 	public int schematicMaxZ = 4;
-	
+
 	public DataContext(WorldGenerator generator) {
-		super();
-		
-		buildingMaximumY = Math.min(126 + FudgeFloorsAbove * FloorHeight, generator.height);
-		
-		// where is the ground
-		absoluteMaximumFloorsBelow = Math.max(Math.min(generator.streetLevel / FloorHeight - FudgeFloorsBelow, absoluteAbsoluteMaximumFloorsBelow), 0);
-		absoluteMaximumFloorsAbove = Math.max(Math.min((buildingMaximumY - generator.streetLevel) / FloorHeight - FudgeFloorsAbove, absoluteAbsoluteMaximumFloorsAbove), absoluteMinimumFloorsAbove);
-		
+
 		// lights?
 		if (generator.settings.includeWorkingLights) {
 			lightMat = Material.GLOWSTONE;
@@ -83,7 +73,16 @@ public abstract class DataContext {
 			lightMat = Material.REDSTONE_LAMP_OFF;
 			torchMat = Material.REDSTONE_TORCH_OFF;
 		}
+		
+		// finally load any schematics if they exists
+		mapsSchematics = generator.pasteProvider.getFamilyClips(generator, schematicFamily, schematicMaxX, schematicMaxZ);
 
+		buildingMaximumY = Math.min(126 + FudgeFloorsAbove * FloorHeight, generator.height);
+		
+		// where is the ground
+		absoluteMaximumFloorsBelow = Math.max(Math.min(generator.streetLevel / FloorHeight - FudgeFloorsBelow, absoluteAbsoluteMaximumFloorsBelow), 0);
+		absoluteMaximumFloorsAbove = Math.max(Math.min((buildingMaximumY - generator.streetLevel) / FloorHeight - FudgeFloorsAbove, absoluteAbsoluteMaximumFloorsAbove), absoluteMinimumFloorsAbove);
+		
 		// let the other guy do it
 		initialize();
 
@@ -95,18 +94,17 @@ public abstract class DataContext {
 		buildingWallInsettedMinLowPoint = floorsFourth;
 		buildingWallInsettedMinMidPoint = floorsFourth * 2;
 //		buildingWallInsettedMinHighPoint = floorsFourth * 3;
-		
-		// finally load any schematics if they exists
-		mapsSchematics = generator.pasteProvider.getFamilyClips(generator, schematicFamily, schematicMaxX, schematicMaxZ);
 	}
-	
+
 	protected abstract void initialize();
+
 	public abstract void populateMap(WorldGenerator generator, PlatMap platmap);
+
 	public abstract void validateMap(WorldGenerator generator, PlatMap platmap);
-	
+
 	protected void setSchematicMaxSize(int maxX, int maxZ) {
 		schematicMaxX = maxX;
 		schematicMaxZ = maxZ;
 	}
-	
+
 }
