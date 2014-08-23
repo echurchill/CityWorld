@@ -1,17 +1,19 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
-import org.bukkit.Material;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
+import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot;
+import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot.BunkerType;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class AstralBuildingLot extends AstralEmptyLot {
 
-	public AstralBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
+	BunkerType buildingType;
+	public AstralBuildingLot(PlatMap platmap, int chunkX, int chunkZ, BunkerType bunkerType) {
 		super(platmap, chunkX, chunkZ);
 
+		this.buildingType = bunkerType;
 	}
 
 	@Override
@@ -20,7 +22,42 @@ public class AstralBuildingLot extends AstralEmptyLot {
 			int platX, int platZ) {
 		
 		super.generateActualBlocks(generator, platmap, chunk, context, platX, platZ);
-		chunk.setBlocks(2, 14, generator.seaLevel + 6, generator.seaLevel + 7, 2, 14, Material.DIAMOND_BLOCK);
+		
+		int levelY = generator.seaLevel + aboveSeaLevel;
+		int segmentY = (context.buildingMaximumY - levelY) / 6;
+		int topY = chunkOdds.getRandomInt(segmentY * 2, segmentY * 4) + levelY;
+		
+		switch (buildingType) {
+		case BALLSY:
+			BunkerLot.generateBallsyBunker(generator, context, chunk, chunkOdds, levelY, topY);
+			break;
+		case ENTRY:
+//			generateEntryBunker(generator, context, chunk, chunkOdds, levelY, yPlatformTop, yTop2, yPlatformTop);
+			break;
+		case FLOORED:
+			BunkerLot.generateFlooredBunker(generator, context, chunk, chunkOdds, levelY, topY);
+			break;
+		case GROWING:
+			BunkerLot.generateGrowingBunker(generator, context, chunk, chunkOdds, levelY, topY);
+			break;
+		case PYRAMID:
+			BunkerLot.generatePyramidBunker(generator, context, chunk, chunkOdds, levelY, topY);
+			break;
+		case QUAD:
+			BunkerLot.generateQuadBunker(generator, context, chunk, chunkOdds, levelY, topY);
+			break;
+		case RECALL:
+			BunkerLot.generateRecallBunker(generator, context, chunk, chunkOdds, levelY, topY);
+			break;
+		case TANK:
+			BunkerLot.generateTankBunker(generator, context, chunk, chunkOdds, levelY, topY);
+			break;
+//		case MISSILE:
+//			return generateMissileBunker(generator, context, chunk, chunkOdds, yPlatform + 1, yPlatformTop, surfaceY);
+		case ROAD:
+//			generateRoadTunnel(generator, context, chunk, chunkOdds, yPlatform + 1, yPlatformTop);
+			break;
+		}
 	}
 
 }

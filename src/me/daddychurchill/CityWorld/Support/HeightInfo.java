@@ -18,6 +18,7 @@ public final class HeightInfo {
 	public int maxHeight = Integer.MIN_VALUE;
 	public int maxHeightX = 0;
 	public int maxHeightZ = 0;
+	public boolean anyEmpties = false;
 	
 	public final static HeightInfo getHeightsFaster(WorldGenerator generator, int blockX, int blockZ) {
 		HeightInfo heights = new HeightInfo();
@@ -122,6 +123,7 @@ public final class HeightInfo {
 	public final void add(WorldGenerator generator, int x, int z) {
 		// we will need to get the Y the hard way
 		int value = generator.getFarBlockY(x, z);
+		anyEmpties = anyEmpties || value == 0;
 		count++;
 		sumHeight += value;
 		if (value < minHeight) {

@@ -38,7 +38,7 @@ public class BunkerLot extends ConnectedLot {
 	protected int topOfBunker;
 	
 	protected enum BilgeType {EMPTY, WATER, LAVA, ICE};
-	protected enum BunkerType {ENTRY, PYRAMID, TANK, QUAD, RECALL, BALLSY, FLOORED, GROWING, ROAD}; // MISSILE, FARM, VENT
+	public enum BunkerType {ENTRY, PYRAMID, TANK, QUAD, RECALL, BALLSY, FLOORED, GROWING, ROAD}; // MISSILE, FARM, VENT
 
 	protected BilgeType bilgeType;
 	protected BunkerType buildingType;
@@ -287,7 +287,7 @@ public class BunkerLot extends ConnectedLot {
 		return 0;
 	}
 	
-	private static int generateEntryBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, 
+	public static int generateEntryBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, 
 			int y1, int y2, int topOfBunker, int surfaceY) {
 		
 		// walls
@@ -332,7 +332,7 @@ public class BunkerLot extends ConnectedLot {
 		return 7;
 	}
 	
-//	private static int generateMissileBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, int y1, int y2, int surfaceY) {
+//	public static int generateMissileBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, int y1, int y2, int surfaceY) {
 //		
 //		// walls
 //		chunk.setCircle(7, 7, 3, y1 + 5, surfaceY + 6, buildingMaterial, false);
@@ -368,7 +368,7 @@ public class BunkerLot extends ConnectedLot {
 //		return 7;
 //	}
 	
-	private static int generateGrowingBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, int y1, int y2) {
+	public static int generateGrowingBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, int y1, int y2) {
 		int x1 = 4;
 		int x2 = x1 + 8;
 		int y = y1;
@@ -407,7 +407,7 @@ public class BunkerLot extends ConnectedLot {
 		return 0;
 	}
 
-	private static int generateFlooredBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, int y1, int y2) {
+	public static int generateFlooredBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, int y1, int y2) {
 		int x1 = 4;
 		int x2 = x1 + 8;
 		int z1 = 4;
@@ -447,7 +447,7 @@ public class BunkerLot extends ConnectedLot {
 		return 0;
 	}
 
-	private static int generateRecallBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, int y1, int y2) {
+	public static int generateRecallBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, int y1, int y2) {
 		int buildingWidth = 10;
 		int x1 = (chunk.width - buildingWidth) / 2;
 		int x2 = x1 + buildingWidth;
@@ -502,7 +502,7 @@ public class BunkerLot extends ConnectedLot {
 		return 0;
 	}
 
-	private static int generateBallsyBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, int y1, int y2) {
+	public static int generateBallsyBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, int y1, int y2) {
 		int x1 = 2;
 		int x2 = x1 + 12;
 		int z1 = 2;
@@ -531,7 +531,7 @@ public class BunkerLot extends ConnectedLot {
 		return 0;
 	}
 	
-	private static void generateBallsyBuildingBall(SupportChunk chunk, Odds odds, int x, int y, int z) {
+	public static void generateBallsyBuildingBall(SupportChunk chunk, Odds odds, int x, int y, int z) {
 		if (odds.flipCoin()) {
 			
 			DyeColor ballColor = odds.getRandomColor();
@@ -547,7 +547,7 @@ public class BunkerLot extends ConnectedLot {
 		}
 	}
 
-	private static int generateQuadBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, int y1, int y2) {
+	public static int generateQuadBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, int y1, int y2) {
 		int x1 = 2;
 		int x2 = x1 + 12;
 		int z1 = 2;
@@ -585,7 +585,7 @@ public class BunkerLot extends ConnectedLot {
 		return 0;
 	}
 	
-	private static void generateQuadTowers(SupportChunk chunk, Odds odds, int x1, int x2, int y1, int y2, int z1, int z2, 
+	public static void generateQuadTowers(SupportChunk chunk, Odds odds, int x1, int x2, int y1, int y2, int z1, int z2, 
 			DyeColor coreColor, DyeColor detailColor) {
 		chunk.setClay(x1 + 2, x2 - 2, y1, y1 + 1, z1 + 2, z2 - 2, detailColor);
 		chunk.setClay(x1 + 1, x2 - 1, y1 + 1, y1 + 2, z1 + 1, z2 - 1, detailColor);
@@ -623,7 +623,7 @@ public class BunkerLot extends ConnectedLot {
 		}
 	}
 	
-	private static int generateTankBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, int y1, int y2) {
+	public static int generateTankBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, int y1, int y2) {
 		int x1 = 4;
 		int x2 = x1 + 8;
 		int z1 = 4;
@@ -690,7 +690,7 @@ public class BunkerLot extends ConnectedLot {
 		}
 	}
 
-	private static int generatePyramidBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, int y1, int y2) {
+	public static int generatePyramidBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, int y1, int y2) {
 		int x1 = 2;
 		int x2 = x1 + 12;
 		int z1 = 2;
@@ -729,7 +729,7 @@ public class BunkerLot extends ConnectedLot {
 
 	private static double oddsOfWayDownFromTunnel = Odds.oddsVeryLikely;
 	
-	private static int generateRoadTunnel(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, int y1, int y2) {
+	public static int generateRoadTunnel(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, int y1, int y2) {
 		int underStreetY = generator.streetLevel - 3;
 		int streetY = generator.streetLevel;
 		

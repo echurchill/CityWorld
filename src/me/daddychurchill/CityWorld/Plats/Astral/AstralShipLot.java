@@ -15,7 +15,7 @@ public class AstralShipLot extends AstralStructureLot {
 	public AstralShipLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 
-		platmap.generator.reportMessage("Ship @ " + chunkX + ", " + chunkZ);
+//		platmap.generator.reportMessage("Ship @ " + chunkX + ", " + chunkZ);
 	}
 
 	@Override
@@ -37,7 +37,15 @@ public class AstralShipLot extends AstralStructureLot {
 			PlatMap platmap, RealChunk chunk, DataContext context,
 			int platX, int platZ) {
 		
-		chunk.setBlocks(0, 16, 128, 130, 0, 16, Material.REDSTONE_BLOCK);
+		int y = chunkOdds.getRandomInt(generator.seaLevel + 32, 64);
+		
+		chunk.setCircle(7, 7, 5, y, Material.QUARTZ_BLOCK, true);
+		chunk.setCircle(7, 7, 3, y, Material.GLASS, true);
+		chunk.setCircle(7, 7, 6, y + 1, Material.QUARTZ_BLOCK, true);
+		chunk.setCircle(7, 7, 2, y + 1, Material.GLASS, true);
+		chunk.setCircle(7, 7, 5, y + 2, Material.REDSTONE_BLOCK, true);
+		chunk.setCircle(7, 7, 3, y + 3, Material.QUARTZ_BLOCK, true);
+		chunk.setCircle(7, 7, 2, y + 4, Material.GLASS, true);
 	}
 
 	@Override

@@ -2,7 +2,6 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Context.Astral.AstralDataContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralNatureContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralRoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -24,8 +23,6 @@ import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 public class ShapeProvider_Astral extends ShapeProvider {
 
-	public DataContext basesContext;
-	
 	public SimplexOctaveGenerator landShape1;
 	public SimplexOctaveGenerator landShape2;
 	public SimplexOctaveGenerator seaShape;
@@ -120,8 +117,6 @@ public class ShapeProvider_Astral extends ShapeProvider {
 			natureContext = new AstralNatureContext(generator);
 			roadContext = new AstralRoadContext(generator);
 			
-			basesContext = new AstralDataContext(generator);
-			
 			contextInitialized = true;
 		}
 	}
@@ -129,14 +124,8 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	@Override
 	protected DataContext getContext(PlatMap platmap) {
 		
-		// how natural is this platmap?
-		float nature = platmap.getNaturePercent();
-		if (nature < 0.50)
-			return basesContext;
-		
-		// otherwise just keep what we have
-		else
-			return natureContext;
+		// let's keep this one simple
+		return natureContext;
 	}
 
 	@Override

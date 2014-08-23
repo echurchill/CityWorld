@@ -3,18 +3,25 @@ package me.daddychurchill.CityWorld.Context.Astral;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.NatureContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plats.Astral.AstralBuildingLot;
+import me.daddychurchill.CityWorld.Plats.Astral.AstralEmptyLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralNatureLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralShipLot;
+import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot.BunkerType;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class AstralNatureContext extends NatureContext {
-
+	
 	public AstralNatureContext(WorldGenerator generator) {
 		super(generator);
-		// TODO Auto-generated constructor stub
+		
+		oddsOfIsolatedLots = Odds.oddsPrettyUnlikely;
+		oddsOfUnfinishedBuildings = Odds.oddsUnlikely;
+		oddsOfIsolatedConstructs = Odds.oddsPrettyUnlikely;
 	}
 	
 	@Override
@@ -30,13 +37,14 @@ public class AstralNatureContext extends NatureContext {
 		//mapsSchematics.populate(generator, platmap);
 		
 		// random fluff
-//		Odds odds = platmap.getOddsGenerator();
+		Odds odds = platmap.getOddsGenerator();
 		ShapeProvider shapeProvider = generator.shapeProvider;
 		
 		// where it all begins
 		int originX = platmap.originX;
 		int originZ = platmap.originZ;
 		HeightInfo heights;
+		boolean addingBases = false;
 		
 		// is this natural or buildable?
 		for (int x = 0; x < PlatMap.Width; x++) {
@@ -50,25 +58,50 @@ public class AstralNatureContext extends NatureContext {
 					
 					// get the height info for this chunk
 					heights = HeightInfo.getHeightsFaster(generator, blockX, blockZ);
-					if (!heights.isSea()) {
+					if (!heights.anyEmpties && heights.averageHeight < generator.seaLevel - 8) {
+						if (!addingBases)
+							addingBases = odds.playOdds(oddsOfIsolatedLots);
 						
-						// our inner chunks?
-						if (x > 0 && x < PlatMap.Width - 1 && z > 0 && z < PlatMap.Width - 1) {
+						if (addingBases) {
+							if (odds.playOdds(oddsOfUnfinishedBuildings)) 
+								current = new AstralEmptyLot(platmap, originX + x, originZ + z);
 							
-							// floating building?
-							if (generator.settings.includeHouses) {
-								if (shapeProvider.isIsolatedConstructAt(originX + x, originZ + z, oddsOfIsolatedConstructs))
-									current = new AstralShipLot(platmap, originX + x, originZ + z);
+							else {
+								switch (odds.getRandomInt(7)) {
+								case 1:
+									current = new AstralBuildingLot(platmap, originX + x, originZ + z, BunkerType.BALLSY);
+									break;
+								case 2:
+									current = new AstralBuildingLot(platmap, originX + x, originZ + z, BunkerType.FLOORED);
+									break;
+								case 3:
+									current = new AstralBuildingLot(platmap, originX + x, originZ + z, BunkerType.GROWING);
+									break;
+								case 4:
+									current = new AstralBuildingLot(platmap, originX + x, originZ + z, BunkerType.PYRAMID);
+									break;
+								case 5:
+									current = new AstralBuildingLot(platmap, originX + x, originZ + z, BunkerType.QUAD);
+									break;
+								case 6:
+									current = new AstralBuildingLot(platmap, originX + x, originZ + z, BunkerType.RECALL);
+									break;
+								default:
+									current = new AstralBuildingLot(platmap, originX + x, originZ + z, BunkerType.TANK);
+									break;
+								}
 							}
 						}
 						
-						// did current get defined?
-						if (current != null)
-							platmap.setLot(x, z, current);
-						else
-							platmap.recycleLot(x, z);
-					}
+					} else if (shapeProvider.isIsolatedConstructAt(originX + x, originZ + z, oddsOfIsolatedConstructs))
+						current = new AstralShipLot(platmap, originX + x, originZ + z);
 				}
+					
+				// did current get defined?
+				if (current != null)
+					platmap.setLot(x, z, current);
+				else
+					platmap.recycleLot(x, z);
 			}
 		}
 	}
