@@ -1,27 +1,19 @@
 package me.daddychurchill.CityWorld.Context.Astral;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.NatureContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plats.Astral.AstralNatureLot;
-import me.daddychurchill.CityWorld.Plats.Astral.AstralShipLot;
-import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
-import me.daddychurchill.CityWorld.Support.Odds;
+import me.daddychurchill.CityWorld.Plats.Astral.AstralMushroomLot;
+import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.PlatMap;
+import me.daddychurchill.CityWorld.Support.SupportChunk;
 
-public class AstralNatureContext extends NatureContext {
-	
-	public AstralNatureContext(WorldGenerator generator) {
+public class AstralMushroomContext extends AstralDataContext {
+
+	public AstralMushroomContext(WorldGenerator generator) {
 		super(generator);
-		
-		oddsOfIsolatedConstructs = Odds.oddsPrettyUnlikely;
+		// TODO Auto-generated constructor stub
 	}
-	
-	@Override
-	public PlatLot createNaturalLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
-		return new AstralNatureLot(platmap, platmap.originX + x, platmap.originZ + z);
-	}
-	
+
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
 		
@@ -29,12 +21,10 @@ public class AstralNatureContext extends NatureContext {
 		// let the user add their stuff first, then plug any remaining holes with our stuff
 		//mapsSchematics.populate(generator, platmap);
 		
-		// random fluff
-		ShapeProvider shapeProvider = generator.shapeProvider;
-		
 		// where it all begins
 		int originX = platmap.originX;
 		int originZ = platmap.originZ;
+		HeightInfo heights;
 		
 		// is this natural or buildable?
 		for (int x = 0; x < PlatMap.Width; x++) {
@@ -42,9 +32,14 @@ public class AstralNatureContext extends NatureContext {
 				PlatLot current = platmap.getLot(x, z);
 				if (current == null) {
 					
+					// what is the world location of the lot?
+					int blockX = (originX + x) * SupportChunk.chunksBlockWidth;
+					int blockZ = (originZ + z) * SupportChunk.chunksBlockWidth;
+					
 					// get the height info for this chunk
-					if (shapeProvider.isIsolatedConstructAt(originX + x, originZ + z, oddsOfIsolatedConstructs))
-						current = new AstralShipLot(platmap, originX + x, originZ + z);
+					heights = HeightInfo.getHeightsFaster(generator, blockX, blockZ);
+					if (heights.averageHeight < generator.seaLevel)
+						current = new AstralMushroomLot(platmap, originX + x, originZ + z);
 
 					// did current get defined?
 					if (current != null)
@@ -53,4 +48,11 @@ public class AstralNatureContext extends NatureContext {
 			}
 		}
 	}
+
+	@Override
+	public void validateMap(WorldGenerator generator, PlatMap platmap) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

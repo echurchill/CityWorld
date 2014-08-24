@@ -11,21 +11,16 @@ public class NeighborhoodContext extends RuralContext {
 
 	public NeighborhoodContext(WorldGenerator generator) {
 		super(generator);
-	}
-	
-	@Override
-	protected void initialize() {
-		super.initialize();
 
 		schematicFamily = SchematicFamily.NEIGHBORHOOD;
 	}
-
+	
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
 		Odds platmapOdds = platmap.getOddsGenerator();
 		
 		// let the user add their stuff first, then plug any remaining holes with our stuff
-		mapsSchematics.populate(generator, platmap);
+		getSchematics(generator).populate(generator, platmap);
 		
 		/// do we check for roads?
 		boolean checkForRoads = platmap.getNumberOfRoads() > 0;

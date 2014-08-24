@@ -9,11 +9,7 @@ public abstract class UncivilizedContext extends DataContext {
 
 	public UncivilizedContext(WorldGenerator generator) {
 		super(generator);
-		// TODO Auto-generated constructor stub
-	}
 
-	@Override
-	protected void initialize() {
 		oddsOfIsolatedLots = Odds.oddsNeverGoingToHappen; 
 		oddsOfIsolatedConstructs = Odds.oddsSomewhatLikely;
 		
@@ -38,7 +34,7 @@ public abstract class UncivilizedContext extends DataContext {
 		oddsOfMissingArt = Odds.oddsNeverGoingToHappen; 
 		oddsOfNaturalArt = Odds.oddsNeverGoingToHappen; 
 	}
-	
+
 	@Override
 	public void validateMap(WorldGenerator generator, PlatMap platmap) {
 		for (int x = 0; x < PlatMap.Width; x++) {

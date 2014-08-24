@@ -18,18 +18,13 @@ public class FloatingNatureContext extends NatureContext {
 	}
 	
 	@Override
-	protected void initialize() {
-		super.initialize();
-
-	}
-
-	@Override
 	public PlatLot createNaturalLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
 		return new FloatingNatureLot(platmap, platmap.originX + x, platmap.originZ + z);
 	}
 
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
+		super.populateMap(generator, platmap);
 		
 		//TODO, Nature doesn't handle schematics quite right yet
 		// let the user add their stuff first, then plug any remaining holes with our stuff

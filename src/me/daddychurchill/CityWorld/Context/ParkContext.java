@@ -8,11 +8,6 @@ public class ParkContext extends UrbanContext {
 	
 	public ParkContext(WorldGenerator generator) {
 		super(generator);
-	}
-	
-	@Override
-	protected void initialize() {
-		super.initialize();
 
 		oddsOfParks = Odds.oddsAlwaysGoingToHappen;
 		oddsOfIsolatedLots = Odds.oddsAlwaysGoingToHappen;
@@ -31,7 +26,5 @@ public class ParkContext extends UrbanContext {
 		rangeOfWallInset = 1;
 		
 		schematicFamily = SchematicFamily.PARK;
-
 	}
-
 }

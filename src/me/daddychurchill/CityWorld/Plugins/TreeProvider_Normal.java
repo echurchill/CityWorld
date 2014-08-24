@@ -23,18 +23,29 @@ public class TreeProvider_Normal extends TreeProvider {
 		// where do we start?
 		int bottomY = y;
 		Block base = chunk.getActualBlock(x, bottomY - 1, z);
+		Material baseMat = base.getType();
+		byte baseDat = BlackMagic.getMaterialData(base);
 		
 		// how wide is the trunk?
-		int trunkWidth;
+		int trunkWidth = 1;
 		switch (treeType) {
-			case DARK_OAK:
-			case JUNGLE:
-			case MEGA_REDWOOD:
-				trunkWidth = 2;
-				break;
-			default:
-				trunkWidth = 1;
-				break;
+		case DARK_OAK:
+		case JUNGLE:
+		case MEGA_REDWOOD:
+			trunkWidth = 2;
+			break;
+		default:
+			break;
+		}
+		
+		// how wide is the trunk?
+		Material root = Material.DIRT;
+		switch (treeType) {
+		case BROWN_MUSHROOM:
+		case RED_MUSHROOM:
+			root = Material.MYCEL;
+		default:
+			break;
 		}
 		
 		try {
@@ -44,7 +55,7 @@ public class TreeProvider_Normal extends TreeProvider {
 			while (tries < maxTries) {
 				
 				// a place to plant
-				chunk.setBlocks(x, x + trunkWidth, y - 1, y, z, z + trunkWidth, Material.DIRT);
+				chunk.setBlocks(x, x + trunkWidth, y - 1, y, z, z + trunkWidth, root);
 				
 				// did we make a tree?
 				result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType);
@@ -80,7 +91,7 @@ public class TreeProvider_Normal extends TreeProvider {
 				chunk.setBlocks(x, x + trunkWidth, bottomY, y, z, z + trunkWidth, Material.AIR);
  			
 			// set the base back to what it was originally
-			BlackMagic.setBlocks(chunk, x, x + trunkWidth, bottomY - 1, bottomY, z, z + trunkWidth, base);
+			BlackMagic.setBlocks(chunk, x, x + trunkWidth, bottomY - 1, bottomY, z, z + trunkWidth, baseMat, baseDat);
 		}
 		return result;
 	}

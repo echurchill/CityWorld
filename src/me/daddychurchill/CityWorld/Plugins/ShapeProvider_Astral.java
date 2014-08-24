@@ -2,6 +2,8 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralBaseContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralMushroomContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralNatureContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralRoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -28,9 +30,9 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	public SimplexOctaveGenerator seaShape;
 	public SimplexOctaveGenerator noiseShape;
 	public SimplexOctaveGenerator featureShape;
-	public SimplexNoiseGenerator caveShape;
-	public SimplexNoiseGenerator mineShape;
-
+//	public SimplexNoiseGenerator caveShape;
+	public SimplexNoiseGenerator ecoShape;
+	
 	protected int height;
 	protected int seaLevel;
 	protected int landRange;
@@ -64,12 +66,12 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	public final static double featureAmplitude = 0.75;
 	public final static double featureHorizontalScale = 1.0 / 64.0;
 	
-	public final static double caveScale = 1.0 / 64.0;
-	public final static double caveScaleY = caveScale * 2;
-	public final static double caveThreshold = 0.75; // smaller the number the more larger the caves will be
-	
-	public final static double mineScale = 1.0 / 4.0;
-	public final static double mineScaleY = mineScale;
+//	public final static double caveScale = 1.0 / 64.0;
+//	public final static double caveScaleY = caveScale * 2;
+//	public final static double caveThreshold = 0.75; // smaller the number the more larger the caves will be
+//	
+	public final static double ecoScale = 1.0 / 4.0;
+	public final static double ecoScaleY = ecoScale;
 
 	public ShapeProvider_Astral(WorldGenerator generator, Odds odds) {
 		super(generator, odds);
@@ -88,8 +90,8 @@ public class ShapeProvider_Astral extends ShapeProvider {
 		featureShape = new SimplexOctaveGenerator(seed + 4, 2);
 		featureShape.setScale(featureHorizontalScale);
 		
-		caveShape = new SimplexNoiseGenerator(seed);
-		mineShape = new SimplexNoiseGenerator(seed + 1);
+//		caveShape = new SimplexNoiseGenerator(seed);
+		ecoShape = new SimplexNoiseGenerator(seed + 5);
 		
 		// get ranges
 		height = world.getMaxHeight();
@@ -102,8 +104,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	
 	@Override
 	public CachedYs getCachedYs(WorldGenerator generator, int chunkX, int chunkZ) {
-		CachedYs result = new SegmentedCachedYs(generator, chunkX, chunkZ);
-		return result;
+		return new SegmentedCachedYs(generator, chunkX, chunkZ);
 	}
 	
 	@Override
@@ -111,11 +112,25 @@ public class ShapeProvider_Astral extends ShapeProvider {
 		// nothing to do in this one
 	}
 	
+	private AstralBaseContext baseContext;
+	private AstralMushroomContext mushroomContext;
+	
 	@Override
 	protected void allocateContexts(WorldGenerator generator) {
 		if (!contextInitialized) {
 			natureContext = new AstralNatureContext(generator);
 			roadContext = new AstralRoadContext(generator);
+			
+			baseContext = new AstralBaseContext(generator); // bunkers on pedestals
+			mushroomContext = new AstralMushroomContext(generator); // standard mushrooms and a couple gigantic ones
+			// crystalSpiresContext = new AstralCrystalContext(generator); // crystal pokie bits
+
+			// obsidianMineContext = new AstralObsidianContext(generator); // obsidian maze mines
+			// citadelContext = new AstralCitadelContext(generator); // dark tower of darkness
+			// landingZoneContext = new AstralLandingContext(generator); // spaceship landing zone
+			// nexusContext = new AstralNexusContext(generator); // the 0,0 zone
+			// wallContext = new AstralWallContext(generator); // the walls going north/south/east/west from the nexus zone
+			// punctureContext = new AstralPunctureContext(generator); // hole in the world
 			
 			contextInitialized = true;
 		}
@@ -125,7 +140,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	protected DataContext getContext(PlatMap platmap) {
 		
 		// let's keep this one simple
-		return natureContext;
+		return mushroomContext;
 	}
 
 	@Override
@@ -359,26 +374,30 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	
 	@Override
 	public boolean isHorizontalNSShaft(int chunkX, int chunkY, int chunkZ) {
-		return mineShape.noise(chunkX * mineScale, chunkY * mineScale, chunkZ * mineScale + 0.5) > 0.0;
+		return false;
+//		return mineShape.noise(chunkX * mineScale, chunkY * mineScale, chunkZ * mineScale + 0.5) > 0.0;
 	}
 
 	@Override
 	public boolean isHorizontalWEShaft(int chunkX, int chunkY, int chunkZ) {
-		return mineShape.noise(chunkX * mineScale + 0.5, chunkY * mineScale, chunkZ * mineScale) > 0.0;
+		return false;
+//		return mineShape.noise(chunkX * mineScale + 0.5, chunkY * mineScale, chunkZ * mineScale) > 0.0;
 	}
 
 	@Override
 	public boolean isVerticalShaft(int chunkX, int chunkY, int chunkZ) {
-		return mineShape.noise(chunkX * mineScale, chunkY * mineScale + 0.5, chunkZ * mineScale) > 0.0;
+		return false;
+//		return mineShape.noise(chunkX * mineScale, chunkY * mineScale + 0.5, chunkZ * mineScale) > 0.0;
 	}
 
 	@Override
 	public boolean notACave(WorldGenerator generator, int blockX, int blockY, int blockZ) {
-		if (generator.settings.includeCaves) {
-			double cave = caveShape.noise(blockX * caveScale, blockY * caveScaleY, blockZ * caveScale);
-			return !(cave > caveThreshold || cave < -caveThreshold);
-		} else
-			return true;
+		return true;
+//		if (generator.settings.includeCaves) {
+//			double cave = caveShape.noise(blockX * caveScale, blockY * caveScaleY, blockZ * caveScale);
+//			return !(cave > caveThreshold || cave < -caveThreshold);
+//		} else
+//			return true;
 	}
 		
 }

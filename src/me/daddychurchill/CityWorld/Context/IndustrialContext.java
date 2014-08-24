@@ -12,11 +12,6 @@ public class IndustrialContext extends UrbanContext {
 
 	public IndustrialContext(WorldGenerator generator) {
 		super(generator);
-	}
-	
-	@Override
-	protected void initialize() {
-		super.initialize();
 
 		oddsOfParks = Odds.oddsUnlikely;
 		oddsOfIsolatedLots = Odds.oddsPrettyUnlikely;
@@ -57,11 +52,5 @@ public class IndustrialContext extends UrbanContext {
 			return new WarehouseBuildingLot(platmap, chunkX, chunkZ);
 		else
 			return super.getBuilding(generator, platmap, odds, chunkX, chunkZ);
-	}
-
-	public void populateMap(WorldGenerator generator, PlatMap platmap) {
-	}
-
-	public void validateMap(WorldGenerator generator, PlatMap platmap) {
 	}
 }

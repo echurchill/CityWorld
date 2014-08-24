@@ -10,10 +10,7 @@ public abstract class CivilizedContext extends DataContext {
 
 	public CivilizedContext(WorldGenerator generator) {
 		super(generator);
-	}
-	
-	@Override
-	protected void initialize() {
+
 		oddsOfIsolatedLots = Odds.oddsExtremelyLikely; 
 		oddsOfIsolatedConstructs = Odds.oddsSomewhatLikely;
 		

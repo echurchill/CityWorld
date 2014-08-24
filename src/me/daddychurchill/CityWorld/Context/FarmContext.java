@@ -17,17 +17,12 @@ public class FarmContext extends RuralContext {
 	public FarmContext(WorldGenerator generator) {
 		super(generator);
 		
-	}
-	
-	@Override
-	protected void initialize() {
-		super.initialize();
 
 		oddsOfIsolatedLots = Odds.oddsVeryLikely;
 		
 		schematicFamily = SchematicFamily.FARM;
 	}
-	
+
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
 		
@@ -77,7 +72,7 @@ public class FarmContext extends RuralContext {
 		}
 		
 		// let the user add their stuff first
-		mapsSchematics.populate(generator, platmap);
+		getSchematics(generator).populate(generator, platmap);
 		
 		// backfill with farms and a single house
 		for (int x = 0; x < PlatMap.Width; x++) {

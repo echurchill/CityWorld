@@ -17,13 +17,6 @@ public class RoadContext extends UrbanContext {
 	public RoadContext(WorldGenerator generator) {
 		super(generator);
 		
-		//TODO do I need to do anything here?
-	}
-
-	@Override
-	protected void initialize() {
-		super.initialize();
-
 		schematicFamily = SchematicFamily.ROUNDABOUT;
 		schematicMaxX = 1;
 		schematicMaxZ = 1;
@@ -31,13 +24,12 @@ public class RoadContext extends UrbanContext {
 
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
-		// TODO Auto-generated method stub
+		super.populateMap(generator, platmap);
 
 	}
 
 	@Override
 	public void validateMap(WorldGenerator generator, PlatMap platmap) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -65,7 +57,7 @@ public class RoadContext extends UrbanContext {
 		BlockFace facing = odds.getRandomFacing();
 		
 		// see if there is a schematic out there that fits
-		Clipboard clip = mapsSchematics.getSingleLot(generator, platmap, odds, x, z);
+		Clipboard clip = getSchematics(generator).getSingleLot(generator, platmap, odds, x, z);
 		if (clip != null) {
 			
 			// create it then

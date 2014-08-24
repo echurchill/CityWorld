@@ -8,11 +8,7 @@ public class ConstructionContext extends UrbanContext {
 
 	public ConstructionContext(WorldGenerator generator) {
 		super(generator);
-	}
-	
-	@Override
-	protected void initialize() {
-		super.initialize();
+
 
 		oddsOfParks = Odds.oddsUnlikely;
 		oddsOfIsolatedLots = Odds.oddsLikely;
@@ -37,5 +33,4 @@ public class ConstructionContext extends UrbanContext {
 		maximumFloorsAbove = absoluteMaximumFloorsAbove;
 		maximumFloorsBelow = 3;
 	}
-
 }

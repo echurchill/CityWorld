@@ -8,11 +8,6 @@ public class LowriseContext extends UrbanContext {
 
 	public LowriseContext(WorldGenerator generator) {
 		super(generator);
-	}
-	
-	@Override
-	protected void initialize() {
-		super.initialize();
 
 		oddsOfParks = Odds.oddsLikely;
 		oddsOfIsolatedLots = Odds.oddsVeryLikely;
@@ -35,5 +30,4 @@ public class LowriseContext extends UrbanContext {
 		maximumFloorsAbove = 3;
 		maximumFloorsBelow = 1;
 	}
-
 }

@@ -17,22 +17,15 @@ public abstract class UrbanContext extends CivilizedContext {
 	public UrbanContext(WorldGenerator generator) {
 		super(generator);
 
-		//TODO: Generalization?
-	}
-	
-	@Override
-	protected void initialize() {
-		super.initialize();
-		
 		maximumFloorsAbove = 2;
 		maximumFloorsBelow = 2;
 	}
-
+	
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
 		
 		// let the user add their stuff first, then plug any remaining holes with our stuff
-		mapsSchematics.populate(generator, platmap);
+		getSchematics(generator).populate(generator, platmap);
 		
 		// random fluff!
 		Odds platmapOdds = platmap.getOddsGenerator();

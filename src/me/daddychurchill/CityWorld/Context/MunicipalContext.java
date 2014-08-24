@@ -8,11 +8,6 @@ public class MunicipalContext extends UrbanContext {
 
 	public MunicipalContext(WorldGenerator generator) {
 		super(generator);
-	}
-	
-	@Override
-	protected void initialize() {
-		super.initialize();
 
 		oddsOfParks = Odds.oddsLikely;
 		oddsOfIsolatedLots = Odds.oddsVeryLikely;
@@ -35,5 +30,5 @@ public class MunicipalContext extends UrbanContext {
 		maximumFloorsAbove = 5;
 		maximumFloorsBelow = 2;
 	}
-
+	
 }

@@ -8,11 +8,6 @@ public class MidriseContext extends UrbanContext {
 
 	public MidriseContext(WorldGenerator generator) {
 		super(generator);
-	}
-	
-	@Override
-	protected void initialize() {
-		super.initialize();
 
 		oddsOfParks = Odds.oddsUnlikely;
 		oddsOfIsolatedLots = Odds.oddsLikely;
@@ -34,7 +29,5 @@ public class MidriseContext extends UrbanContext {
 		
 		maximumFloorsAbove = absoluteMaximumFloorsAbove / 2;
 		maximumFloorsBelow = 3;
-		
 	}
-
 }
