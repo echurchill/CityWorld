@@ -1,5 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import java.util.Random;
+
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralBaseContext;
@@ -131,15 +133,64 @@ public class ShapeProvider_Astral extends ShapeProvider {
 			// nexusContext = new AstralNexusContext(generator); // the 0,0 zone
 			// wallContext = new AstralWallContext(generator); // the walls going north/south/east/west from the nexus zone
 			// punctureContext = new AstralPunctureContext(generator); // hole in the world
-			
+//			testSeeds(generator);
 			contextInitialized = true;
 		}
 	}
 	
+//	private void testSeeds(WorldGenerator generator) {
+//		Random seeder = new Random();
+//		for (int i = 0; i < 100; i++)
+//			testSeed(generator, seeder.nextLong());
+//		
+//		String tallystring = "count = " + countTally + " ";
+//		for (int i = 0; i < totalTally.length; i++) {
+//			totalTally[i] = totalTally[i] / countTally;
+//			tallystring = tallystring + " [" + i + "]=" + totalTally[i];
+//		}
+//		generator.reportMessage(tallystring);
+//	}
+//	
+//	private int[] totalTally = new int[11];
+//	private int countTally = 0;
+//	private void testSeed(WorldGenerator generator, long seed) {
+//		SimplexNoiseGenerator testShape = new SimplexNoiseGenerator(seed);
+//		int limit = 400;
+//		int curI = 0;
+//		int minI = 100;
+//		int maxI = -100;
+//		int totalI = 0;
+//		int[] tally = new int[11];
+//		for (int x = -limit; x < limit; x++) {
+//			for (int z = -limit; z < limit; z++) {
+//				curI = NoiseGenerator.floor(((Math.max(-0.9999, Math.min(0.9999, testShape.noise(x, z) * 1.375)) + 1.0) / 2.0) * 10);
+////				curI = Math.max(0, Math.min(9, NoiseGenerator.floor((((ecoShape.noise(x, z) * 1.5) + 1) / 2) * 10)));
+////				curI = Math.max(0, Math.min(9, NoiseGenerator.floor((((ecoShape.noise(x, z) * 1.5) + 1) / 2) * 10)));
+////				curI = NoiseGenerator.floor((Math.max(-1.0, Math.min(1.0, ecoShape.noise(x, z) * 1.5 + 1)) / 3) * 10);
+////				curI = NoiseGenerator.floor(((ecoShape.noise(x, z) + 1) / 2) * 10);
+//				totalI = totalI + curI;
+//				
+//				if (curI > maxI)
+//					maxI = curI;
+//				if (curI < minI)
+//					minI = curI;
+//				
+//				tally[curI] = tally[curI] + 1;
+//			}
+//		}
+//		
+//		for (int i = 0; i < tally.length; i++) {
+//			totalTally[i] = totalTally[i] + tally[i];
+//			countTally++;
+//		}
+//	}
+	
 	@Override
 	protected DataContext getContext(PlatMap platmap) {
+//		curI = NoiseGenerator.floor(((Math.max(-0.9999, Math.min(0.9999, testShape.noise(x, z) * 1.375)) + 1.0) / 2.0) * 10);
 		
 		// let's keep this one simple
+		//return baseContext;
 		return mushroomContext;
 	}
 
