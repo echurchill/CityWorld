@@ -7,6 +7,7 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.IsolatedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -39,12 +40,18 @@ public class AstralNatureLot extends IsolatedLot {
 			DataContext context, int platX, int platZ) {
 
 	}
+	
+	private static double oddsOfBuriedSaucer = Odds.oddsEnormouslyUnlikely;
 
 	@Override
 	protected void generateActualBlocks(WorldGenerator generator,
 			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
 			int platZ) {
 		
+		if (blockYs.averageHeight > 40 && chunkOdds.playOdds(oddsOfBuriedSaucer)) {
+			int y = chunkOdds.calcRandomRange(20, blockYs.averageHeight - 10);
+			AstralShipLot.drawSaucer(generator, chunk, y);
+		}
 	}
 
 	@Override

@@ -1,12 +1,15 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import java.util.Random;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralBaseContext;
-import me.daddychurchill.CityWorld.Context.Astral.AstralMushroomContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralBlackCubesContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralBrownMushroomContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralCrystalSpiresContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralDataContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralMixedMushroomContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralNatureContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralRedMushroomContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralRoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
@@ -114,8 +117,12 @@ public class ShapeProvider_Astral extends ShapeProvider {
 		// nothing to do in this one
 	}
 	
-	private AstralBaseContext baseContext;
-	private AstralMushroomContext mushroomContext;
+	private AstralDataContext baseContext;
+	private AstralDataContext brownMushroomContext;
+	private AstralDataContext redMushroomContext;
+	private AstralDataContext mixedMushroomContext;
+	private AstralDataContext crystalSpiresContext;
+	private AstralDataContext blackCubesContext;
 	
 	@Override
 	protected void allocateContexts(WorldGenerator generator) {
@@ -124,8 +131,11 @@ public class ShapeProvider_Astral extends ShapeProvider {
 			roadContext = new AstralRoadContext(generator);
 			
 			baseContext = new AstralBaseContext(generator); // bunkers on pedestals
-			mushroomContext = new AstralMushroomContext(generator); // standard mushrooms and a couple gigantic ones
-			// crystalSpiresContext = new AstralCrystalContext(generator); // crystal pokie bits
+			brownMushroomContext = new AstralBrownMushroomContext(generator); // standard mushrooms and a couple gigantic ones
+			redMushroomContext = new AstralRedMushroomContext(generator); // standard mushrooms and a couple gigantic ones
+			mixedMushroomContext = new AstralMixedMushroomContext(generator); // standard mushrooms and a couple gigantic ones
+			crystalSpiresContext = new AstralCrystalSpiresContext(generator); // crystal pokie bits
+			blackCubesContext = new AstralBlackCubesContext(generator); // little boxes of happiness
 
 			// obsidianMineContext = new AstralObsidianContext(generator); // obsidian maze mines
 			// citadelContext = new AstralCitadelContext(generator); // dark tower of darkness
@@ -153,9 +163,10 @@ public class ShapeProvider_Astral extends ShapeProvider {
 //	
 //	private int[] totalTally = new int[11];
 //	private int countTally = 0;
+////	private int factor = 160;
 //	private void testSeed(WorldGenerator generator, long seed) {
 //		SimplexNoiseGenerator testShape = new SimplexNoiseGenerator(seed);
-//		int limit = 400;
+//		int limit = 500;
 //		int curI = 0;
 //		int minI = 100;
 //		int maxI = -100;
@@ -187,11 +198,23 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	
 	@Override
 	protected DataContext getContext(PlatMap platmap) {
-//		curI = NoiseGenerator.floor(((Math.max(-0.9999, Math.min(0.9999, testShape.noise(x, z) * 1.375)) + 1.0) / 2.0) * 10);
-		
-		// let's keep this one simple
-		//return baseContext;
-		return mushroomContext;
+		double rawValue = (Math.max(-0.9999, Math.min(0.9999, ecoShape.noise(platmap.originX, platmap.originZ) * 1.375)) + 1.0) / 2.0;
+		switch (NoiseGenerator.floor(rawValue * 7)) {
+		case 1:
+			return baseContext;
+		case 2:
+			return brownMushroomContext;
+		case 3:
+			return redMushroomContext;
+		case 4:
+			return mixedMushroomContext;
+		case 5:
+			return crystalSpiresContext;
+		case 6:
+			return blackCubesContext;
+		default:
+			return natureContext;
+		}
 	}
 
 	@Override
@@ -231,8 +254,20 @@ public class ShapeProvider_Astral extends ShapeProvider {
 				
 				// On the edge?
 				} else if (y == seaLevel && blockYs.getSegment(x, z) == 0) {
-					chunk.setBlocks(x, 1, y - 1, z, ores.stratumMaterial);
-					chunk.setBlocks(x, y - 1, y, z, ores.subsurfaceMaterial);
+					chunk.setBlocks(x, 1, noiseY * 3, z, ores.stratumMaterial);
+					
+//					int atY = noiseY * 3;
+//					int bandY = Math.max(7, noiseY);
+//					while (bandY > 0 && atY + bandY * 2 < y - 1) {
+//						chunk.setBlocks(x, atY, atY + bandY, z, ores.subsurfaceMaterial);
+//						chunk.setBlocks(x, atY + bandY, atY + bandY * 2, z, ores.stratumMaterial);
+//						atY = atY + bandY * 2;
+//						bandY--;
+//					}
+//					chunk.setBlocks(x, atY, y - 1, z, ores.subsurfaceMaterial);
+					
+					chunk.setBlocks(x, noiseY * 3, y - 1, z, ores.subsurfaceMaterial);
+					chunk.setBlocks(x, y - 1, y, z, ores.stratumMaterial);
 				
 				// Valley? Mountain?
 				} else {
@@ -243,8 +278,9 @@ public class ShapeProvider_Astral extends ShapeProvider {
 						baseY = Math.min(seaLevel, Math.max(16, baseY - blockYs.segmentWidth * 2));
 					
 					// initial stuff, we will do the rest later
-					chunk.setBlocks(x, 1, baseY - 2, z, ores.stratumMaterial);
-					chunk.setBlocks(x, baseY - 2, baseY, z, ores.surfaceMaterial);
+					chunk.setBlocks(x, 1, noiseY * 3, z, ores.stratumMaterial);
+					chunk.setBlocks(x, noiseY * 3, baseY - 3, z, ores.subsurfaceMaterial);
+					chunk.setBlocks(x, baseY - 3, baseY, z, ores.surfaceMaterial);
 					
 					// we will do the rest later
 				}

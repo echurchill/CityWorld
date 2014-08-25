@@ -2,13 +2,14 @@ package me.daddychurchill.CityWorld.Context.Astral;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plats.Astral.AstralBlackCubesLot;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
-public abstract class AstralMushroomContext extends AstralDataContext {
+public class AstralBlackCubesContext extends AstralDataContext {
 
-	public AstralMushroomContext(WorldGenerator generator) {
+	public AstralBlackCubesContext(WorldGenerator generator) {
 		super(generator);
 		// TODO Auto-generated constructor stub
 	}
@@ -37,8 +38,8 @@ public abstract class AstralMushroomContext extends AstralDataContext {
 					
 					// get the height info for this chunk
 					heights = HeightInfo.getHeightsFaster(generator, blockX, blockZ);
-					if (!heights.anyEmpties && heights.averageHeight < generator.seaLevel)
-						current = generateMushroomLot(platmap, originX + x, originZ + z);
+					if (heights.averageHeight > 0 && heights.averageHeight < generator.seaLevel)
+						current = new AstralBlackCubesLot(platmap, originX + x, originZ + z);
 
 					// did current get defined?
 					if (current != null)
@@ -53,7 +54,5 @@ public abstract class AstralMushroomContext extends AstralDataContext {
 		// TODO Auto-generated method stub
 
 	}
-	
-	protected abstract PlatLot generateMushroomLot(PlatMap platmap, int chunkX, int chunkZ);
 
 }
