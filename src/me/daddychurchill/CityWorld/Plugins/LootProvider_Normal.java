@@ -25,7 +25,14 @@ public class LootProvider_Normal extends LootProvider {
 		// we don't need to do anything
 	}
 	
-	private ItemStack[] getLoot( Odds odds, LootLocation lootLocation, Block block) {
+	private ItemStack[] getLoot(Odds odds, LootLocation lootLocation, Block block) {
+		
+		// roll the dice
+		if (lootLocation == LootLocation.RANDOM) {
+			
+			// skip the first one
+			lootLocation = LootLocation.values()[odds.getRandomInt(LootLocation.values().length - 1) + 1];
+		}
 
 		// which mix?
 		switch (lootLocation) {

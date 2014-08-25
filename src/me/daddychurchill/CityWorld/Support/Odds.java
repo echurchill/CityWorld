@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Support;
 import java.util.Random;
 
 import org.bukkit.DyeColor;
+import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 
 public class Odds {
@@ -79,6 +80,10 @@ public class Odds {
 	
 	public double calcRandomRange(double min, double max) {
 		return min + random.nextDouble() * (max - min);
+	}
+	
+	public Material getRandomMaterial(Material ... items) {
+		return items[getRandomInt(items.length)];
 	}
 	
 	private DyeColor getRandomColor(DyeColor... colors) {
