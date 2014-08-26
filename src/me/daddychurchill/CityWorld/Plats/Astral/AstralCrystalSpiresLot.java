@@ -47,6 +47,7 @@ public class AstralCrystalSpiresLot extends AstralNatureLot {
 		for (int x = 0; x < 16; x = x + 2) {
 			for (int z = 0; z < 16; z = z + 2) {
 				if (chunkOdds.playOdds(oddsOfSpire)) {
+					//TODO stagger them a bit?
 					int y = getBlockY(x, z);
 					if (y > 4 && y < generator.seaLevel) {
 						int topY = chunkOdds.getRandomInt(Math.max(2, NoiseGenerator.floor((generator.seaLevel - y) * heightPercent))) + y;

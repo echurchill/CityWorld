@@ -16,7 +16,7 @@ v2.98
 * Fixed a bug where trees would cause house roofs to generate oddly
 * Re-textured the sewers to make them nicer to look at... a lot more spooky and "realistic"
 * Re-textured the roads to make them nicer to look at... and make those darn ores quit showing up
-* Continuing to work on Astral, feel free to visit but don't expect much yet
+* Continuing to work on Astral, feel free to visit but don't expect much yet. For folks using Multiverse try "mv create Astral normal -g CityWorld:Astral". Other multiworld plugins will use a different syntax, see your plugin docs for more info.
 
 v2.97
 * Massive refactor to make CityWorld 1.7.x happy, I hope I found all the regressions. There isn’t a code file that didn’t change in someway.

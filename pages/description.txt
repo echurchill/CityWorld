@@ -7,32 +7,23 @@ There is an entire world to explore, have fun!
 ==== <<color green>>If you like CityWorld, please consider donating via the **Donate** button in the upper right corner.<</color>> ====
 
 ----
-===== //Version 2.97// ===== 
+===== //Version 2.98// ===== 
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, 
 if the above version isn't available check back in an hour or so... 
-...or possibly look [[http://dev.bukkit.org/media/files/799/864/CityWorld.jar|here]])//,,
+...or possibly look [[http://dev.bukkit.org/media/files/811/947/CityWorld.jar|here]])//,,
 
 {{http://dev.bukkit.org/media/images/42/720/2012-07-04_11.31.52.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
-v2.97
-* Massive refactor to make CityWorld 1.7.x happy, I hope I found all the regressions. There isn’t a code file that didn’t change in someway.
-* Isolated the magic values that are going away soon into a class called BlackMagic, this should make it easier to do the next update
-* Due to numerous problems I have replaced the custom tree delegates
-* I have removed all of the Tekkit specific code, it was causing a number of problems. I know it doesn’t sound possible but this increases the likelihood that CityWorld will work with Tekkit since it now doesn’t attempt to anything “clever”
-* House roofs have been improved
-* Farms now include every crop possible, including a few manually created ones
-* A lot more foliage types (both trees and plants)
-* Isolated buildings and cisterns should now be working again
-* Added snowmen to SnowDune world and foliage to SandDune
-* Decay now does not include debris that cannot be stack nicely (no more thin glass or carpet hanging about)
-* Revamped bunkers and added an official but camouflaged way to get into them
-* Added a way for server operators to know when a special lot is generated. Take a look at the output logs.
-* Bunkers and tunnels play better with each other
-* Started to work on a new world style called Astral but stopped to get this release out
-* Still no furniture in the Houses, Bunkers or Sheds, sorry
-* [[http://dev.bukkit.org/server-mods/cityworld/pages/version/|click here for more info...]]
+v2.98
+* Fixed a bug where chests would be populated with ores instead of useful stuff
+* Fixed a bug where trees would cause house roofs to generate oddly
+* Re-textured the sewers to make them nicer to look at... a lot more spooky and "realistic"
+* Re-textured the roads to make them nicer to look at... and make those darn ores quit showing up
+* Continuing to work on Astral, feel free to visit but don't expect much yet. For folks using Multiverse try "mv create Astral normal -g CityWorld:Astral". Other multiworld plugins will use a different syntax, see your plugin docs for more info.
+{{http://dev.bukkit.org/media/images/76/750/2014-08-22_17.56.25.jpg|Astral}}
+
 
 Remember, if you aren't up for using the latest beta of Bukkit or the bugs from this one bother you too much, the older versions are still available.
 

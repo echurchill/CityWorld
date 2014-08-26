@@ -65,7 +65,6 @@ If you are wanting to create a particular [[http://dev.bukkit.org/server-mods/ci
 |IncludeUndergroundFluids|If ores are generated, then generate water and lava as well|true|
 |IncludeAbovegroundFluids|If sea basins are generated, then generate water in them|true|
 |IncludeWorkingLights|Where lights are made, try to make sure the generate light|true|
-|IncludeWoolRoads|If roads are generated, use wool blocks|false|
 |IncludeNamedRoads|If roads are generated, add road signs to the intersections|true|
 |IncludeDecayedRoads|If roads are generated, destroy them a little|false|
 |IncludeDecayedBuildings|If buildings are generated, destroy them a little|false|
@@ -94,5 +93,6 @@ Note: that the bridges and tunnels stop abruptly when they hit the road radius s
 |IncludePavedRoads|Use IncludeWoolRoads if you want old style paved roads|
 |RoadRange|Replaced with RoadChunkRadius instead to make things clearer|
 |CityRange|Replaced with CityChunkRadius instead to make things clearer|
-|IncludeTekkitMaterials|ForgeTekkit is no longer directly support but it should still work|
+|IncludeTekkitMaterials|I no longer generate any Tekkit specific items, sorry|
+|IncludeWoolRoads|I now use tinted clay|
 

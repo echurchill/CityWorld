@@ -23,6 +23,12 @@ For more information on how to do this please refer to the [[http://dev.bukkit.o
 A world of mountains and cities. 
 Tons of ores underground along with abandoned mine shafts and underground wonders.
 
+=== ##**Astral**##
+
+{{http://dev.bukkit.org/media/images/76/750/2014-08-22_17.56.25.jpg|Astral}}
+
+A whole different world. This is a work in progress, more to come. 
+
 === ##**Floating**##
 
 {{http://dev.bukkit.org/media/images/44/623/2012-08-18_11.10.43.jpg|Floating}}
