@@ -59,11 +59,13 @@ public class AstralBlackCubesLot extends AstralNatureLot {
 							Material.IRON_BLOCK, Material.COAL_BLOCK, Material.DIAMOND_BLOCK,
 							Material.REDSTONE_BLOCK, Material.QUARTZ_BLOCK, Material.MONSTER_EGG));
 			break;
-//		case 5:
-//			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 1, y + cubeWidth - 1, z + 1, z + cubeWidth - 1, Material.AIR);
-//			chunk.setBlocks(x + 2, x + 4, y + 1, y + 2, z + 2, z + 4, Material.TNT);
-//			chunk.setBlock(x + 2, y + 2, z + 2, Material.DAYLIGHT_DETECTOR);
-//			break;
+		case 5:
+			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 1, y + cubeWidth - 1, z + 1, z + cubeWidth - 1, Material.AIR);
+			
+//			chunk.setBlocks(x + 2, x + cubeWidth - 2, y + 1), material, data);
+			
+			
+			break;
 		default:
 			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 1, y + cubeWidth - 1, z + 1, z + cubeWidth - 1, Material.AIR);
 			break;
