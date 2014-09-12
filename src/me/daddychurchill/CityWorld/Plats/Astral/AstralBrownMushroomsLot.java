@@ -7,21 +7,21 @@ import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
-public class AstralRedMushroomLot extends AstralMushroomLot {
+public class AstralBrownMushroomsLot extends AstralMushroomsLot {
 
-	public AstralRedMushroomLot(PlatMap platmap, int chunkX, int chunkZ) {
+	public AstralBrownMushroomsLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-		
+		// TODO Auto-generated constructor stub
 	}
 
-	private Material mushroomMaterial = Material.HUGE_MUSHROOM_2;
+	private Material mushroomMaterial = Material.HUGE_MUSHROOM_1;
 
 	private final static double oddsOfTallMushroom = Odds.oddsSomewhatLikely;
 	private final static double oddsOfNarrowMushroom = Odds.oddsSomewhatUnlikely;
 	
 	@Override
 	protected int maxMushrooms() {
-		return 3;
+		return 4;
 	}
 	
 	@Override
@@ -42,20 +42,22 @@ public class AstralRedMushroomLot extends AstralMushroomLot {
 			startMushroom(blocks, blockX, blockY, blockZ, heightY, mushroomMaterial);
 			
 			// slightly taller one?
-			drawMushroomTop(blocks, width - 1);
 			if (chunkOdds.playOdds(oddsOfTallMushroom)) {
-				drawMushroomSlice(blocks, width);
-				drawMushroomSlice(blocks, width);
-			} 
+				drawMushroomTop(blocks, width - 2);
+				drawMushroomSlice(blocks, width - 1);
+				drawMushroomSlice(blocks, width - 1);
+			} else
+				drawMushroomTop(blocks, width - 1);
 			
 			// main bit
 			drawMushroomSlice(blocks, width);
-			drawMushroomSlice(blocks, width + 1);
+			drawMushroomSlice(blocks, width);
 			
-			// if tall enough, add a little more
-			if (heightY > (maxHeight - minHeight) / 2 + minHeight) {
-				drawMushroomSlice(blocks, width + 1);
-				drawMushroomShell(blocks, width);
+			// really tall? if so then let's do it again
+			if (width > 2 && heightY > (maxHeight - minHeight) / 2 + minHeight) {
+				nextMushroomLevel();
+				drawMushroomTop(blocks, width - 2);
+				drawMushroomSlice(blocks, width - 1);
 			}
 		}
 	}

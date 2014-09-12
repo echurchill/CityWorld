@@ -97,7 +97,7 @@ public final class HeightInfo {
 	}
 	
 	public final boolean isSortaFlat() {
-		return (maxHeight - minHeight) < 8;
+		return getRange() < 8;
 	}
 	
 	public final boolean isAbsolutelyFlat() {
@@ -110,6 +110,10 @@ public final class HeightInfo {
 	
 	public final boolean isOnLevel(int value) {
 		return value == maxHeight && value == minHeight;
+	}
+	
+	public final boolean isSortaOnLevel(int value) {
+		return minHeight <= value && value >= maxHeight;
 	}
 	
 	public final boolean isBuildable() {

@@ -131,6 +131,19 @@ public class PlatMap {
 			return true;
 	}
 	
+	public boolean isInnerReallyEmptyLot(int centerX, int centerZ) {
+		if (centerX >= 1 && centerX < Width - 1 && centerZ >= 1 && centerZ < Width - 1) {
+			for (int x = centerX - 1; x < centerX + 2; x++) {
+				for (int z = centerZ - 1; z < centerZ + 2; z++) {
+					if (platLots[x][z] != null)
+						return false;
+				}
+			}
+			return true;
+		} else
+			return false;
+	}
+	
 	public boolean isNaturalLot(int x, int z) {
 		if (x >= 0 && x < Width && z >= 0 && z < Width)
 			return platLots[x][z] == null || platLots[x][z].style == LotStyle.NATURE;

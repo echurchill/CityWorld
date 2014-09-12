@@ -50,7 +50,7 @@ public class AstralNatureLot extends IsolatedLot {
 		
 		if (blockYs.averageHeight > 40 && chunkOdds.playOdds(oddsOfBuriedSaucer)) {
 			int y = chunkOdds.calcRandomRange(20, blockYs.averageHeight - 10);
-			AstralShipLot.drawSaucer(generator, chunk, y);
+			AstralSaucerLot.drawSaucer(generator, chunk, y);
 		}
 	}
 

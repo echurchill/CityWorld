@@ -11,9 +11,9 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
-public abstract class AstralMushroomLot extends AstralNatureLot {
+public abstract class AstralMushroomsLot extends AstralNatureLot {
 
-	public AstralMushroomLot(PlatMap platmap, int chunkX, int chunkZ) {
+	public AstralMushroomsLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 
 	}

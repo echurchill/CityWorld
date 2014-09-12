@@ -4,12 +4,13 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralBaseContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralBlackCubesContext;
-import me.daddychurchill.CityWorld.Context.Astral.AstralBrownMushroomContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralYellowSpongesContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralBrownMushroomsContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralCrystalSpiresContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralDataContext;
-import me.daddychurchill.CityWorld.Context.Astral.AstralMixedMushroomContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralMixedMushroomsContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralNatureContext;
-import me.daddychurchill.CityWorld.Context.Astral.AstralRedMushroomContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralRedMushroomsContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralRoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
@@ -118,11 +119,12 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	}
 	
 	private AstralDataContext baseContext;
-	private AstralDataContext brownMushroomContext;
-	private AstralDataContext redMushroomContext;
-	private AstralDataContext mixedMushroomContext;
+	private AstralDataContext brownMushroomsContext;
+	private AstralDataContext redMushroomsContext;
+	private AstralDataContext mixedMushroomsContext;
 	private AstralDataContext crystalSpiresContext;
 	private AstralDataContext blackCubesContext;
+	private AstralDataContext yellowSpongesContext;
 	
 	@Override
 	protected void allocateContexts(WorldGenerator generator) {
@@ -131,11 +133,12 @@ public class ShapeProvider_Astral extends ShapeProvider {
 			roadContext = new AstralRoadContext(generator);
 			
 			baseContext = new AstralBaseContext(generator); // bunkers on pedestals
-			brownMushroomContext = new AstralBrownMushroomContext(generator); // standard mushrooms and a couple gigantic ones
-			redMushroomContext = new AstralRedMushroomContext(generator); // standard mushrooms and a couple gigantic ones
-			mixedMushroomContext = new AstralMixedMushroomContext(generator); // standard mushrooms and a couple gigantic ones
+			brownMushroomsContext = new AstralBrownMushroomsContext(generator); // standard mushrooms and a couple gigantic ones
+			redMushroomsContext = new AstralRedMushroomsContext(generator); // standard mushrooms and a couple gigantic ones
+			mixedMushroomsContext = new AstralMixedMushroomsContext(generator); // standard mushrooms and a couple gigantic ones
 			crystalSpiresContext = new AstralCrystalSpiresContext(generator); // crystal pokie bits
 			blackCubesContext = new AstralBlackCubesContext(generator); // little boxes of happiness
+			yellowSpongesContext = new AstralYellowSpongesContext(generator); // little boxes of happiness
 
 			// obsidianMineContext = new AstralObsidianContext(generator); // obsidian maze mines
 			// citadelContext = new AstralCitadelContext(generator); // dark tower of darkness
@@ -143,6 +146,12 @@ public class ShapeProvider_Astral extends ShapeProvider {
 			// nexusContext = new AstralNexusContext(generator); // the 0,0 zone
 			// wallContext = new AstralWallContext(generator); // the walls going north/south/east/west from the nexus zone
 			// punctureContext = new AstralPunctureContext(generator); // hole in the world
+			
+			// Buried city
+			// MazeRunner
+			// Damned Lake
+			// Edge odds
+			
 //			testSeeds(generator);
 			contextInitialized = true;
 		}
@@ -199,18 +208,20 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	@Override
 	protected DataContext getContext(PlatMap platmap) {
 		double rawValue = (Math.max(-0.9999, Math.min(0.9999, ecoShape.noise(platmap.originX, platmap.originZ) * 1.375)) + 1.0) / 2.0;
-		switch (NoiseGenerator.floor(rawValue * 7)) {
+		switch (NoiseGenerator.floor(rawValue * 8)) {
 		case 1:
 			return baseContext;
 		case 2:
-			return brownMushroomContext;
+			return brownMushroomsContext;
 		case 3:
-			return redMushroomContext;
+			return redMushroomsContext;
 		case 4:
-			return mixedMushroomContext;
+			return yellowSpongesContext;
 		case 5:
-			return crystalSpiresContext;
+			return mixedMushroomsContext;
 		case 6:
+			return crystalSpiresContext;
+		case 7:
 			return blackCubesContext;
 		default:
 			return natureContext;
