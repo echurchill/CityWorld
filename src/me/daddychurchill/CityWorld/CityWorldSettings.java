@@ -382,6 +382,12 @@ public class CityWorldSettings {
 		case NORMAL:
 			includeFloatingSubsurface = false; // DIFFERENT
 			break;
+		case DESTROYED:
+			includeDecayedRoads = true; // DIFFERENT
+			includeDecayedBuildings = true; // DIFFERENT
+			includeDecayedNature = true; // DIFFERENT
+			includeFloatingSubsurface = false; // DIFFERENT
+			break;
 		case ASTRAL:
 //			includeRoads = true;
 			includeRoundabouts = false; // DIFFERENT
@@ -450,7 +456,7 @@ public class CityWorldSettings {
 //			includeDecayedBuildings = false;
 //			includeDecayedNature = false;
 //			includeBuildingInteriors = true;
-//			includeFloatingSubsurface = true;
+			includeFloatingSubsurface = true;
 			break;
 		case FLOODED:
 //			includeRoads = true;

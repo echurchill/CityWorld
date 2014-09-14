@@ -52,6 +52,7 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 			break;
 		case 9:
 			wallMaterial = Material.WOOL;
+			stepMaterial = Material.QUARTZ_STAIRS;
 			break;
 		default:
 		}
@@ -121,10 +122,10 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 		chunk.setBlocks(1, 15, y2, y2 + 1, 1, 15, wallMaterial);
 		
 		// add stairwells?
-		chunk.setBlocks(7, 10, y, y2, 5, 6, wallMaterial);
+		chunk.setBlocks(7, 10, y, y2, 5, 6, wallMaterial); // bottom & top floors should have some closure
 		chunk.setBlocks(10, 11, y, y2, 6, 10, wallMaterial);
 		chunk.setBlocks(6, 10, y, y2, 10, 11, wallMaterial);
-		chunk.setBlocks(5, 6, y, y2, 7, 10, wallMaterial);
+		chunk.setBlocks(5, 6, y, y2, 7, 10, wallMaterial); 
 		chunk.setDoClearData(false);
 
 		// prep for windows

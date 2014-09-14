@@ -153,6 +153,7 @@ public abstract class OreProvider extends Provider {
 				break;
 			case FLOODED:
 			case FLOATING:
+			case DESTROYED:
 			case NORMAL:
 				switch (generator.worldEnvironment) {
 				case NETHER:

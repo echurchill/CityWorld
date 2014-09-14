@@ -151,13 +151,11 @@ public class ShapeProvider_Astral extends ShapeProvider {
 			cityZoneContext = new AstralBuriedCityContext(generator);
 
 			// obsidianMineContext = new AstralObsidianContext(generator); // obsidian maze mines
-			// citadelContext = new AstralCitadelContext(generator); // dark tower of darkness
 			// landingZoneContext = new AstralLandingContext(generator); // spaceship landing zone
 			// nexusContext = new AstralNexusContext(generator); // the 0,0 zone
 			// wallContext = new AstralWallContext(generator); // the walls going north/south/east/west from the nexus zone
 			// punctureContext = new AstralPunctureContext(generator); // hole in the world
 			
-			// Buried city
 			// MazeRunner
 			// Damned Lake
 			

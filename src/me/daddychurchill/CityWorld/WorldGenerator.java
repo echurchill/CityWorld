@@ -86,7 +86,7 @@ public class WorldGenerator extends ChunkGenerator {
 		//UNDERGROUND,	// elevated terrain with underground cities
 		//MINING,		// elevated terrain with very shallow mines and very small towns
 		//NETHER,		// nether landscape with destroyed cities
-		//DESTROYED,	// normal landscape with destroyed cities
+		DESTROYED,		// normal landscape with destroyed cities
 		//THE_END,		// stark landscape with smaller light colored cities
 		NORMAL};   		// traditional terrain and cities
 	
