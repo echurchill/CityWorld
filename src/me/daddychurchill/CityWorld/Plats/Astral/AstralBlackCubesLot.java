@@ -6,14 +6,13 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Support.Direction.General;
-import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class AstralBlackCubesLot extends AstralNatureLot {
 
-	public AstralBlackCubesLot(PlatMap platmap, int chunkX, int chunkZ) {
-		super(platmap, chunkX, chunkZ);
+	public AstralBlackCubesLot(PlatMap platmap, int chunkX, int chunkZ, double populationChance) {
+		super(platmap, chunkX, chunkZ, populationChance);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -24,13 +23,9 @@ public class AstralBlackCubesLot extends AstralNatureLot {
 			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
 			int platZ) {
 		
-		double oddsOfCube = Odds.oddsPrettyLikely;
-		if (platX == 0 && platZ == 0 && platX == PlatMap.Width - 1 && platZ == PlatMap.Width - 1)
-			oddsOfCube = Odds.oddsSomewhatLikely;
-
 		for (int x = 1; x < 16; x = x + cubeWidth + 2) {
 			for (int z = 1; z < 16; z = z + cubeWidth + 2) {
-				if (chunkOdds.playOdds(oddsOfCube)) {
+				if (chunkOdds.playOdds(populationChance)) {
 					int y = getBlockY(x + 1, z + 1);
 					if (y > cubeWidth && y < generator.seaLevel - cubeWidth)
 						generateBlackCube(generator, chunk, x, y - 1, z);
@@ -41,35 +36,48 @@ public class AstralBlackCubesLot extends AstralNatureLot {
 	
 	private void generateBlackCube(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
 		
-		chunk.setBlocks(x, x + cubeWidth, y + cubeWidth - 1, z, z + cubeWidth, Material.OBSIDIAN);
-		chunk.setWalls(x, x + cubeWidth, y + 1, y + cubeWidth - 1, z, z + cubeWidth, Material.OBSIDIAN);
+//		chunk.setBlocks(x, x + cubeWidth, y + cubeWidth - 1, z, z + cubeWidth, Material.OBSIDIAN);
+//		chunk.setWalls(x, x + cubeWidth, y + 1, y + cubeWidth - 1, z, z + cubeWidth, Material.OBSIDIAN);
+		chunk.setWalls(x, x + cubeWidth, y + 1, y + cubeWidth, z, z + cubeWidth, Material.OBSIDIAN);
 		chunk.setBlocks(x, x + cubeWidth, y, z, z + cubeWidth, Material.OBSIDIAN);
-		chunk.setBlocks(x + 2, x + cubeWidth - 2, y - 2, y, z + 2, z + cubeWidth - 2, Material.OBSIDIAN);
+		chunk.setBlocks(x + 2, x + cubeWidth - 2, y - 8, y, z + 2, z + cubeWidth - 2, Material.OBSIDIAN);
 		
-		switch (chunkOdds.getRandomInt(6)) {
-		case 1:
-		case 2:
-			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 1, y + cubeWidth - 1, z + 1, z + cubeWidth - 1, Material.AIR);
-			chunk.setChest(x + 3, y + 1, z + 3, General.NORTH, chunkOdds, generator.lootProvider, LootLocation.RANDOM);
+		
+		switch (chunkOdds.getRandomInt(4)) {
+		case 0:
+			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 1, y + cubeWidth - 2, z + 1, z + cubeWidth - 1, Material.AIR);
+			if (chunkOdds.playOdds(populationChance))
+				chunk.setChest(x + 3, y + 1, z + 3, General.NORTH, chunkOdds, generator.lootProvider, LootLocation.RANDOM);
+			if (chunkOdds.playOdds(populationChance))
+				chunk.setChest(x + 2, y + 1, z + 2, General.NORTH, chunkOdds, generator.lootProvider, LootLocation.RANDOM);
 			break;
-		case 3:
-		case 4:
-			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 1, y + cubeWidth - 1, z + 1, z + cubeWidth - 1, 
-					chunkOdds.getRandomMaterial(Material.DIRT, Material.STONE, Material.WOOD, 
+		case 1:
+			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 1, y + cubeWidth - 2, z + 1, z + cubeWidth - 1, 
+					chunkOdds.getRandomMaterial(
+							Material.DIRT, Material.STONE, Material.COBBLESTONE, Material.WOOD, 
 							Material.IRON_BLOCK, Material.COAL_BLOCK, Material.DIAMOND_BLOCK,
 							Material.REDSTONE_BLOCK, Material.QUARTZ_BLOCK, Material.MONSTER_EGG));
 			break;
-		case 5:
-			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 1, y + cubeWidth - 1, z + 1, z + cubeWidth - 1, Material.AIR);
-			
-//			chunk.setBlocks(x + 2, x + cubeWidth - 2, y + 1), material, data);
-			
-			
-			break;
 		default:
-			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 1, y + cubeWidth - 1, z + 1, z + cubeWidth - 1, Material.AIR);
+			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 1, y + 3, z + 1, z + cubeWidth - 1, Material.TNT);
+			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 3, y + 4, z + 1, z + cubeWidth - 1, Material.STONE);
+			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 4, y + 5, z + 1, z + cubeWidth - 1, Material.WOOD_PLATE);
+
+			chunk.setDoPhysics(true);
+			chunk.setBlock(x + 1, y + 4, z + 1, Material.GLOWSTONE);
+			chunk.setBlock(x + cubeWidth - 2, y + 4, z + 1, Material.GLOWSTONE);
+			chunk.setBlock(x + 1, y + 4, z + cubeWidth - 2, Material.GLOWSTONE);
+			chunk.setBlock(x + cubeWidth - 2, y + 4, z + cubeWidth - 2, Material.GLOWSTONE);
+			chunk.setDoPhysics(false);
+			
 			break;
 		}
+
+		chunk.setSlabs(x + 1, x + cubeWidth - 1, y + 5, y + 6, z + 1, z + cubeWidth - 1, Material.NETHER_BRICK, false);
+		chunk.setBlock(x + 1, y + 5, z + 1, Material.OBSIDIAN);
+		chunk.setBlock(x + cubeWidth - 2, y + 5, z + 1, Material.OBSIDIAN);
+		chunk.setBlock(x + 1, y + 5, z + cubeWidth - 2, Material.OBSIDIAN);
+		chunk.setBlock(x + cubeWidth - 2, y + 5, z + cubeWidth - 2, Material.OBSIDIAN);
 	}
 	
 }

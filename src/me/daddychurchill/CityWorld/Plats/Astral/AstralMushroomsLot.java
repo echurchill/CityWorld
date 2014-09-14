@@ -1,33 +1,23 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
 import org.bukkit.Material;
-import org.bukkit.generator.ChunkGenerator.BiomeGrid;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
-import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
 public abstract class AstralMushroomsLot extends AstralNatureLot {
 
-	public AstralMushroomsLot(PlatMap platmap, int chunkX, int chunkZ) {
-		super(platmap, chunkX, chunkZ);
-
+	public AstralMushroomsLot(PlatMap platmap, int chunkX, int chunkZ, double populationChance) {
+		super(platmap, chunkX, chunkZ, populationChance);
+		
 	}
 	
 	protected abstract int maxMushrooms();
 	protected abstract void plantMushroom(WorldGenerator generator, WorldBlocks blocks, int blockX, int blockY, int blockZ, int snowY);
 	
-	@Override
-	protected void generateActualChunk(WorldGenerator generator,
-			PlatMap platmap, ByteChunk chunk, BiomeGrid biomes,
-			DataContext context, int platX, int platZ) {
-
-	}
-
 	final static int maxHeight = 18;
 	final static int minHeight = maxHeight / 2;
 	
@@ -38,39 +28,41 @@ public abstract class AstralMushroomsLot extends AstralNatureLot {
 		
 		WorldBlocks blocks = new WorldBlocks(generator, chunkOdds);
 		for (int i = 0; i < maxMushrooms(); i++) {
-			int x = chunkOdds.getRandomInt(4) * 4;
-			int z = chunkOdds.getRandomInt(4) * 4;
-			int y = getSurfaceAtY(x, z);
-			
-			if (y > 0) {
-				int blockY = y;
+			if (chunkOdds.playOdds(populationChance)) {
+				int x = chunkOdds.getRandomInt(4) * 4;
+				int z = chunkOdds.getRandomInt(4) * 4;
+				int y = getSurfaceAtY(x, z);
 				
-				// go up until we get just past the stratum
-				while (chunk.isType(x, blockY, z, generator.oreProvider.subsurfaceMaterial)) {
+				if (y > 0) {
+					int blockY = y;
+					
+					// go up until we get just past the stratum
+					while (chunk.isType(x, blockY, z, generator.oreProvider.subsurfaceMaterial)) {
+						blockY++;
+					}
+					
+					// go down until we get to the stratum
+					while (!chunk.isType(x, blockY, z, generator.oreProvider.subsurfaceMaterial)) {
+						blockY--;
+						if (blockY == 1 || blockY < y - 5)
+							break;
+					}
+					
+					// move up one little bit
 					blockY++;
-				}
-				
-				// go down until we get to the stratum
-				while (!chunk.isType(x, blockY, z, generator.oreProvider.subsurfaceMaterial)) {
-					blockY--;
-					if (blockY == 1 || blockY < y - 5)
-						break;
-				}
-				
-				// move up one little bit
-				blockY++;
-				
-				// now count how much snow is sitting on top
-				int snowY = 0;
-				while (chunk.isType(x, blockY + snowY, z, Material.SNOW_BLOCK))
-					snowY++;
-				
-				// too far?
-				if (blockY + snowY + maxHeight <= generator.seaLevel) {
-					int blockX = chunk.getBlockX(x);
-					int blockZ = chunk.getBlockZ(z);
-				
-					plantMushroom(generator, blocks, blockX, blockY, blockZ, snowY);
+					
+					// now count how much snow is sitting on top
+					int snowY = 0;
+					while (chunk.isType(x, blockY + snowY, z, Material.SNOW_BLOCK))
+						snowY++;
+					
+					// too far?
+					if (blockY + snowY + maxHeight <= generator.seaLevel) {
+						int blockX = chunk.getBlockX(x);
+						int blockZ = chunk.getBlockZ(z);
+					
+						plantMushroom(generator, blocks, blockX, blockY, blockZ, snowY);
+					}
 				}
 			}
 		}

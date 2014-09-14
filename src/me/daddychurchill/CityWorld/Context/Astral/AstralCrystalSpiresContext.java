@@ -39,7 +39,7 @@ public class AstralCrystalSpiresContext extends AstralDataContext {
 					// get the height info for this chunk
 					heights = HeightInfo.getHeightsFaster(generator, blockX, blockZ);
 					if (heights.averageHeight > 0 && heights.averageHeight < generator.seaLevel)
-						current = new AstralCrystalSpiresLot(platmap, originX + x, originZ + z);
+						current = new AstralCrystalSpiresLot(platmap, originX + x, originZ + z, getPopulationOdds(x, z));
 
 					// did current get defined?
 					if (current != null)

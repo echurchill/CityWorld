@@ -2,32 +2,20 @@ package me.daddychurchill.CityWorld.Plats.Astral;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import org.bukkit.generator.ChunkGenerator.BiomeGrid;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Support.ByteChunk;
-import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
 public class AstralYellowSpongesLot extends AstralNatureLot {
 
-	public AstralYellowSpongesLot(PlatMap platmap, int chunkX, int chunkZ) {
-		super(platmap, chunkX, chunkZ);
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	protected void generateActualChunk(WorldGenerator generator,
-			PlatMap platmap, ByteChunk chunk, BiomeGrid biomes,
-			DataContext context, int platX, int platZ) {
-
+	public AstralYellowSpongesLot(PlatMap platmap, int chunkX, int chunkZ, double populationChance) {
+		super(platmap, chunkX, chunkZ, populationChance);
+		
 	}
 
 	final static int belowSurface = 15;
-	final static double oddsOfSpongeTree = Odds.oddsPrettyLikely;
 	
 	@Override
 	protected void generateActualBlocks(WorldGenerator generator,
@@ -44,7 +32,7 @@ public class AstralYellowSpongesLot extends AstralNatureLot {
 	private void placeSponge(WorldGenerator generator, RealChunk chunk, int x, int z) {
 		
 		// do one here?
-		if (chunkOdds.playOdds(oddsOfSpongeTree)) {
+		if (chunkOdds.playOdds(populationChance)) {
 			
 			// ready what we need
 			int topY = generator.seaLevel - 2;

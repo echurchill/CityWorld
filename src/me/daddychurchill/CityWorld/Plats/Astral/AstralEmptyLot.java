@@ -1,12 +1,8 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
 import org.bukkit.Material;
-import org.bukkit.generator.ChunkGenerator.BiomeGrid;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -19,20 +15,6 @@ public class AstralEmptyLot extends AstralStructureLot {
 
 	public AstralEmptyLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-
-	}
-
-	@Override
-	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected void generateActualChunk(WorldGenerator generator,
-			PlatMap platmap, ByteChunk chunk, BiomeGrid biomes,
-			DataContext context, int platX, int platZ) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -60,18 +42,6 @@ public class AstralEmptyLot extends AstralStructureLot {
 		chunk.setBlocks(0, 1, levelY - 3, levelY - 1, 1, 15, materialCross);
 		
 		chunk.setBlocks(0, 16, levelY - 1, levelY, 0, 16, materialBase);
-	}
-
-	@Override
-	public int getBottomY(WorldGenerator generator) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getTopY(WorldGenerator generator) {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 }

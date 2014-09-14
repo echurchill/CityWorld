@@ -1,12 +1,8 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
 import org.bukkit.Material;
-import org.bukkit.generator.ChunkGenerator.BiomeGrid;
-
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -19,20 +15,6 @@ public class AstralSaucerLot extends AstralStructureLot {
 	}
 
 	@Override
-	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected void generateActualChunk(WorldGenerator generator,
-			PlatMap platmap, ByteChunk chunk, BiomeGrid biomes,
-			DataContext context, int platX, int platZ) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	protected void generateActualBlocks(WorldGenerator generator,
 			PlatMap platmap, RealChunk chunk, DataContext context,
 			int platX, int platZ) {
@@ -40,19 +22,17 @@ public class AstralSaucerLot extends AstralStructureLot {
 		int y = chunkOdds.getRandomInt(generator.seaLevel + 32, 64);
 		drawSaucer(generator, chunk, y);
 	}
-
-	@Override
-	public int getBottomY(WorldGenerator generator) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int getTopY(WorldGenerator generator) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 	
+	public static void drawLandedSaucer(WorldGenerator generator, RealChunk chunk, int y) {
+		drawSaucer(generator, chunk, y + 2);
+		
+		// now the legs
+		chunk.setBlocks(3, y, y + 2, 3, Material.QUARTZ_BLOCK);
+		chunk.setBlocks(10, y, y + 2, 3, Material.QUARTZ_BLOCK);
+		chunk.setBlocks(3, y, y + 2, 10, Material.QUARTZ_BLOCK);
+		chunk.setBlocks(10, y, y + 2, 10, Material.QUARTZ_BLOCK);
+	}
+
 	public static void drawSaucer(WorldGenerator generator, RealChunk chunk, int y) {
 		chunk.setCircle(7, 7, 5, y, Material.QUARTZ_BLOCK, true);
 		chunk.setCircle(7, 7, 3, y, Material.GLASS, true);

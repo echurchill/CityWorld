@@ -5,11 +5,11 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
-public class AstralBlackTowerLot extends AstralTowerLot {
+public class AstralWhiteTowerLot extends AstralTowerLot {
 
-	public AstralBlackTowerLot(PlatMap platmap, int chunkX, int chunkZ) {
+	public AstralWhiteTowerLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -17,8 +17,6 @@ public class AstralBlackTowerLot extends AstralTowerLot {
 			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
 			int platZ) {
 		
-		generateTower(generator, chunk, TowerStyle.DARK);
+		generateTower(generator, chunk, TowerStyle.LIGHT);
 	}
-	
-	
 }

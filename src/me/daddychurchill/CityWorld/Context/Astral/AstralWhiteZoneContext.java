@@ -2,18 +2,20 @@ package me.daddychurchill.CityWorld.Context.Astral;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plats.Astral.AstralYellowSpongesLot;
+import me.daddychurchill.CityWorld.Plats.Astral.AstralWhiteSpiresLot;
+import me.daddychurchill.CityWorld.Plats.Astral.AstralWhiteTowerLot;
+import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
-public class AstralYellowSpongesContext extends AstralDataContext {
+public class AstralWhiteZoneContext extends AstralDataContext {
 
-	public AstralYellowSpongesContext(WorldGenerator generator) {
+	public AstralWhiteZoneContext(WorldGenerator generator) {
 		super(generator);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
 		
@@ -21,26 +23,40 @@ public class AstralYellowSpongesContext extends AstralDataContext {
 		// let the user add their stuff first, then plug any remaining holes with our stuff
 		//mapsSchematics.populate(generator, platmap);
 		
+		// random fluff
+		ShapeProvider shapeProvider = generator.shapeProvider;
+		
 		// where it all begins
 		int originX = platmap.originX;
 		int originZ = platmap.originZ;
 		HeightInfo heights;
+		boolean towerPlaced = false;
 		
 		// is this natural or buildable?
 		for (int x = 0; x < PlatMap.Width; x++) {
 			for (int z = 0; z < PlatMap.Width; z++) {
 				PlatLot current = platmap.getLot(x, z);
 				if (current == null) {
-					
+				
 					// what is the world location of the lot?
 					int blockX = (originX + x) * SupportChunk.chunksBlockWidth;
 					int blockZ = (originZ + z) * SupportChunk.chunksBlockWidth;
 					
 					// get the height info for this chunk
 					heights = HeightInfo.getHeightsFaster(generator, blockX, blockZ);
-					if (heights.averageHeight > 0 && heights.averageHeight <= generator.seaLevel)
-						current = new AstralYellowSpongesLot(platmap, originX + x, originZ + z);
-
+					if (!heights.anyEmpties && heights.averageHeight < generator.seaLevel) {
+					
+						// tower?
+						if (!towerPlaced && shapeProvider.isIsolatedConstructAt(originX + x, originZ + z, oddsOfIsolatedConstructs)) {
+							current = new AstralWhiteTowerLot(platmap, originX + x, originZ + z);
+							towerPlaced = true;
+						}
+						
+						// still empty? well then lets put some blocks then
+						if (current == null)
+							current = new AstralWhiteSpiresLot(platmap, originX + x, originZ + z, getPopulationOdds(x, z));
+					}
+	
 					// did current get defined?
 					if (current != null)
 						platmap.setLot(x, z, current);

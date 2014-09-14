@@ -28,11 +28,13 @@ import org.bukkit.material.WoodenStep;
 public abstract class SupportChunk extends AbstractChunk {
 	
 	private boolean doPhysics;
+	private boolean doClearData;
 	
 	public SupportChunk(WorldGenerator generator) {
 		super(generator);
 		
 		doPhysics = false;
+		doClearData = false;
 	}
 	
 	public abstract Block getActualBlock(int x, int y, int z);
@@ -43,6 +45,14 @@ public abstract class SupportChunk extends AbstractChunk {
 	
 	public final void setDoPhysics(boolean dophysics) {
 		doPhysics = dophysics;
+	}
+
+	public final boolean getDoClearData() {
+		return doClearData;
+	}
+	
+	public final void setDoClearData(boolean docleardata) {
+		doClearData = docleardata;
 	}
 
 	@Override
@@ -67,7 +77,13 @@ public abstract class SupportChunk extends AbstractChunk {
 	
 	@Override
 	public final void setBlock(int x, int y, int z, Material material) {
-		getActualBlock(x, y, z).setType(material);
+		if (doClearData) {
+			BlockState state = getActualBlock(x, y, z).getState();
+			state.setType(material);
+			state.setData(new MaterialData(material));
+			state.update(true, doPhysics);
+		} else
+			getActualBlock(x, y, z).setType(material);
 	}
 
 	public final void setBlock(int x, int y, int z, Material material, MaterialData data) {

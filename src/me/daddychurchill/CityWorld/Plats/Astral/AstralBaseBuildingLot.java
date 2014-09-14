@@ -7,10 +7,10 @@ import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot.BunkerType;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
-public class AstralBuildingLot extends AstralEmptyLot {
+public class AstralBaseBuildingLot extends AstralEmptyLot {
 
 	BunkerType buildingType;
-	public AstralBuildingLot(PlatMap platmap, int chunkX, int chunkZ, BunkerType bunkerType) {
+	public AstralBaseBuildingLot(PlatMap platmap, int chunkX, int chunkZ, BunkerType bunkerType) {
 		super(platmap, chunkX, chunkZ);
 
 		this.buildingType = bunkerType;

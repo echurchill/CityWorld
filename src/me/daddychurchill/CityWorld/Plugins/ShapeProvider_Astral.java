@@ -3,15 +3,15 @@ package me.daddychurchill.CityWorld.Plugins;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralBaseContext;
-import me.daddychurchill.CityWorld.Context.Astral.AstralBlackCubesContext;
-import me.daddychurchill.CityWorld.Context.Astral.AstralYellowSpongesContext;
-import me.daddychurchill.CityWorld.Context.Astral.AstralBrownMushroomsContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralBlackZoneContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralBuriedCityContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralCrystalSpiresContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralDataContext;
-import me.daddychurchill.CityWorld.Context.Astral.AstralMixedMushroomsContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralMushroomContext.MushroomStyle;
 import me.daddychurchill.CityWorld.Context.Astral.AstralNatureContext;
-import me.daddychurchill.CityWorld.Context.Astral.AstralRedMushroomsContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralMushroomContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralRoadContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralWhiteZoneContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
 import me.daddychurchill.CityWorld.Support.CachedYs;
@@ -119,12 +119,17 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	}
 	
 	private AstralDataContext baseContext;
+	
 	private AstralDataContext brownMushroomsContext;
 	private AstralDataContext redMushroomsContext;
 	private AstralDataContext mixedMushroomsContext;
-	private AstralDataContext crystalSpiresContext;
-	private AstralDataContext blackCubesContext;
 	private AstralDataContext yellowSpongesContext;
+
+	private AstralDataContext crystalSpiresContext;
+	
+	private AstralDataContext blackZoneContext;
+	private AstralDataContext whiteZoneContext;
+	private AstralDataContext cityZoneContext;
 	
 	@Override
 	protected void allocateContexts(WorldGenerator generator) {
@@ -133,12 +138,17 @@ public class ShapeProvider_Astral extends ShapeProvider {
 			roadContext = new AstralRoadContext(generator);
 			
 			baseContext = new AstralBaseContext(generator); // bunkers on pedestals
-			brownMushroomsContext = new AstralBrownMushroomsContext(generator); // standard mushrooms and a couple gigantic ones
-			redMushroomsContext = new AstralRedMushroomsContext(generator); // standard mushrooms and a couple gigantic ones
-			mixedMushroomsContext = new AstralMixedMushroomsContext(generator); // standard mushrooms and a couple gigantic ones
+			
+			brownMushroomsContext = new AstralMushroomContext(generator, MushroomStyle.BROWN); // brown ones
+			redMushroomsContext = new AstralMushroomContext(generator, MushroomStyle.RED); // red ones
+			mixedMushroomsContext = new AstralMushroomContext(generator, MushroomStyle.REDBROWN); // mix of brown and red ones
+			yellowSpongesContext = new AstralMushroomContext(generator, MushroomStyle.YELLOW); // yellow ones
+			
 			crystalSpiresContext = new AstralCrystalSpiresContext(generator); // crystal pokie bits
-			blackCubesContext = new AstralBlackCubesContext(generator); // little boxes of happiness
-			yellowSpongesContext = new AstralYellowSpongesContext(generator); // little boxes of happiness
+			
+			blackZoneContext = new AstralBlackZoneContext(generator); // little boxes of unhappiness
+			whiteZoneContext = new AstralWhiteZoneContext(generator); // little boxes of happiness
+			cityZoneContext = new AstralBuriedCityContext(generator);
 
 			// obsidianMineContext = new AstralObsidianContext(generator); // obsidian maze mines
 			// citadelContext = new AstralCitadelContext(generator); // dark tower of darkness
@@ -150,7 +160,6 @@ public class ShapeProvider_Astral extends ShapeProvider {
 			// Buried city
 			// MazeRunner
 			// Damned Lake
-			// Edge odds
 			
 //			testSeeds(generator);
 			contextInitialized = true;
@@ -208,21 +217,29 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	@Override
 	protected DataContext getContext(PlatMap platmap) {
 		double rawValue = (Math.max(-0.9999, Math.min(0.9999, ecoShape.noise(platmap.originX, platmap.originZ) * 1.375)) + 1.0) / 2.0;
-		switch (NoiseGenerator.floor(rawValue * 8)) {
+		switch (NoiseGenerator.floor(rawValue * 10)) {
 		case 1:
 			return baseContext;
+
 		case 2:
 			return brownMushroomsContext;
 		case 3:
 			return redMushroomsContext;
 		case 4:
-			return yellowSpongesContext;
-		case 5:
 			return mixedMushroomsContext;
+		case 5:
+			return yellowSpongesContext;
+
 		case 6:
 			return crystalSpiresContext;
+
 		case 7:
-			return blackCubesContext;
+			return blackZoneContext;
+		case 8:
+			return whiteZoneContext;
+		case 9:
+			return cityZoneContext;
+
 		default:
 			return natureContext;
 		}

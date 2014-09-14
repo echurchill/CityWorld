@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Context.Astral;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plats.Astral.AstralBuildingLot;
+import me.daddychurchill.CityWorld.Plats.Astral.AstralBaseBuildingLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralEmptyLot;
 import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot.BunkerType;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
@@ -58,25 +58,25 @@ public class AstralBaseContext extends AstralDataContext {
 							else {
 								switch (odds.getRandomInt(7)) {
 								case 1:
-									current = new AstralBuildingLot(platmap, originX + x, originZ + z, BunkerType.BALLSY);
+									current = new AstralBaseBuildingLot(platmap, originX + x, originZ + z, BunkerType.BALLSY);
 									break;
 								case 2:
-									current = new AstralBuildingLot(platmap, originX + x, originZ + z, BunkerType.FLOORED);
+									current = new AstralBaseBuildingLot(platmap, originX + x, originZ + z, BunkerType.FLOORED);
 									break;
 								case 3:
-									current = new AstralBuildingLot(platmap, originX + x, originZ + z, BunkerType.GROWING);
+									current = new AstralBaseBuildingLot(platmap, originX + x, originZ + z, BunkerType.GROWING);
 									break;
 								case 4:
-									current = new AstralBuildingLot(platmap, originX + x, originZ + z, BunkerType.PYRAMID);
+									current = new AstralBaseBuildingLot(platmap, originX + x, originZ + z, BunkerType.PYRAMID);
 									break;
 								case 5:
-									current = new AstralBuildingLot(platmap, originX + x, originZ + z, BunkerType.QUAD);
+									current = new AstralBaseBuildingLot(platmap, originX + x, originZ + z, BunkerType.QUAD);
 									break;
 								case 6:
-									current = new AstralBuildingLot(platmap, originX + x, originZ + z, BunkerType.RECALL);
+									current = new AstralBaseBuildingLot(platmap, originX + x, originZ + z, BunkerType.RECALL);
 									break;
 								default:
-									current = new AstralBuildingLot(platmap, originX + x, originZ + z, BunkerType.TANK);
+									current = new AstralBaseBuildingLot(platmap, originX + x, originZ + z, BunkerType.TANK);
 									break;
 								}
 							}

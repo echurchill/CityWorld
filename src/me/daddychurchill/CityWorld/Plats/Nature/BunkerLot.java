@@ -294,7 +294,8 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setBlocks(5, 11, y1, surfaceY + 4, 5, 11, buildingMaterial);
 		
 		// do it!
-		MineEntranceLot.generateStairWell(generator, chunk, odds, 6, 6, y1, /*minHeight*/ surfaceY, surfaceY,
+		MineEntranceLot.generateStairWell(generator, chunk, odds, 6, 6, y1, 
+				surfaceY, surfaceY, surfaceY + DataContext.FloorHeight + 1,
 				Material.QUARTZ_STAIRS, Material.QUARTZ_BLOCK, Material.QUARTZ_BLOCK); // Make the last one air if you want an easy way down
 		
 		// roof!
