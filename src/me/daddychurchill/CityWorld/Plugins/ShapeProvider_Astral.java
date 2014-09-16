@@ -10,6 +10,7 @@ import me.daddychurchill.CityWorld.Context.Astral.AstralDataContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralMushroomContext.MushroomStyle;
 import me.daddychurchill.CityWorld.Context.Astral.AstralNatureContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralMushroomContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralNexusContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralRoadContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralWhiteZoneContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -118,6 +119,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 		// nothing to do in this one
 	}
 	
+	private AstralDataContext nexusContext;
 	private AstralDataContext baseContext;
 	
 	private AstralDataContext brownMushroomsContext;
@@ -137,6 +139,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 			natureContext = new AstralNatureContext(generator);
 			roadContext = new AstralRoadContext(generator);
 			
+			nexusContext = new AstralNexusContext(generator); // the one at 0,0
 			baseContext = new AstralBaseContext(generator); // bunkers on pedestals
 			
 			brownMushroomsContext = new AstralMushroomContext(generator, MushroomStyle.BROWN); // brown ones
@@ -214,32 +217,36 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	
 	@Override
 	protected DataContext getContext(PlatMap platmap) {
-		double rawValue = (Math.max(-0.9999, Math.min(0.9999, ecoShape.noise(platmap.originX, platmap.originZ) * 1.375)) + 1.0) / 2.0;
-		switch (NoiseGenerator.floor(rawValue * 10)) {
-		case 1:
-			return baseContext;
-
-		case 2:
-			return brownMushroomsContext;
-		case 3:
-			return redMushroomsContext;
-		case 4:
-			return mixedMushroomsContext;
-		case 5:
-			return yellowSpongesContext;
-
-		case 6:
-			return crystalSpiresContext;
-
-		case 7:
-			return blackZoneContext;
-		case 8:
-			return whiteZoneContext;
-		case 9:
-			return cityZoneContext;
-
-		default:
-			return natureContext;
+		if (platmap.originX == 0 && platmap.originZ == 0)
+			return nexusContext;
+		else {
+			double rawValue = (Math.max(-0.9999, Math.min(0.9999, ecoShape.noise(platmap.originX, platmap.originZ) * 1.375)) + 1.0) / 2.0;
+			switch (NoiseGenerator.floor(rawValue * 10)) {
+			case 1:
+				return baseContext;
+	
+			case 2:
+				return brownMushroomsContext;
+			case 3:
+				return redMushroomsContext;
+			case 4:
+				return mixedMushroomsContext;
+			case 5:
+				return yellowSpongesContext;
+	
+			case 6:
+				return crystalSpiresContext;
+	
+			case 7:
+				return blackZoneContext;
+			case 8:
+				return whiteZoneContext;
+			case 9:
+				return cityZoneContext;
+	
+			default:
+				return natureContext;
+			}
 		}
 	}
 
@@ -465,7 +472,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 				y = 0;
 				
 			// Cliff?
-			} else if (seaY == seaLevel) {
+			} else if (NoiseGenerator.floor(seaY) == seaLevel) {
 				y = seaLevel;
 			
 			// Something in between?

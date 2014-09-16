@@ -5,14 +5,18 @@ import org.bukkit.Material;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.Nature.MineEntranceLot;
+import me.daddychurchill.CityWorld.Plugins.RoomProvider;
+import me.daddychurchill.CityWorld.Rooms.Populators.BuriedWithRandom;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.Direction.Facing;
 
 public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 
-	Material wallMaterial;
-	Material stepMaterial;
+	private Material wallMaterial;
+	private Material stepMaterial;
+	private static RoomProvider roomRandom = new BuriedWithRandom();
 	
 	public AstralBuriedBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
@@ -43,6 +47,7 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 			break;
 		case 6:
 			wallMaterial = Material.CLAY;
+			stepMaterial = Material.QUARTZ_STAIRS;
 			break;
 		case 7:
 			wallMaterial = Material.STAINED_CLAY;
@@ -76,18 +81,21 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 			if (floors > 0) {
 			
 				int y = StreetLevel + 1;
+				int lastY = y;
 				for (int floor = 0; floor < floors; floor++) {
-					y = generateFloor(chunk, y, wallMaterial);
+					lastY = y;
+					y = generateFloor(generator, chunk, y, wallMaterial);
 				}
 				
 				// add stairs?
-				int topY = y - floorHeight - 1;
+				chunk.setDoClearData(true);
+				int topY = lastY - 1;
 				MineEntranceLot.generateStairWell(generator, chunk, chunkOdds, 
 						6, 6, StreetLevel + 1, topY, topY, topY,
 						stepMaterial, wallMaterial, wallMaterial);
+				chunk.setDoClearData(false);
 			}
 		}
-		
 
 		// clear out some space
 		int y1 = StreetLevel + 1;
@@ -103,8 +111,9 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 
 	private final static double oddsOfWindows = Odds.oddsLikely;
 	private final static double oddsOfTallFloor = Odds.oddsVeryUnlikely;
+	private final static double oddsOfFurniture = Odds.oddsVeryLikely;
 	
-	private int generateFloor(RealChunk chunk, int y, Material wallMaterial) {
+	private int generateFloor(WorldGenerator generator, RealChunk chunk, int y, Material wallMaterial) {
 		
 		// tall one?
 		int y2 = y + floorHeight - 1;
@@ -127,6 +136,16 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 		chunk.setBlocks(6, 10, y, y2, 10, 11, wallMaterial);
 		chunk.setBlocks(5, 6, y, y2, 7, 10, wallMaterial); 
 		chunk.setDoClearData(false);
+		
+		// add stuff?
+		if (chunkOdds.playOdds(oddsOfFurniture))
+			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 2, y, 2, 3, 3, 3, Facing.NORTH, Material.CLAY, Material.THIN_GLASS);
+		if (chunkOdds.playOdds(oddsOfFurniture))
+			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 11, y, 2, 3, 3, 3, Facing.EAST, Material.CLAY, Material.THIN_GLASS);
+		if (chunkOdds.playOdds(oddsOfFurniture))
+			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 2, y, 11, 3, 3, 3, Facing.WEST, Material.CLAY, Material.THIN_GLASS);
+		if (chunkOdds.playOdds(oddsOfFurniture))
+			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 11, y, 11, 3, 3, 3, Facing.SOUTH, Material.CLAY, Material.THIN_GLASS);
 
 		// prep for windows
 		boolean regularWindows = chunkOdds.playOdds(oddsOfWindows);

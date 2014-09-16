@@ -23,6 +23,13 @@ For more information on how to do this please refer to the [[http://dev.bukkit.o
 A world of mountains and cities. 
 Tons of ores underground along with abandoned mine shafts and underground wonders.
 
+=== ##**Destroyed**## 
+//(this is simply a normal world with all the destroy/decay flags turned on)//
+
+{{http://dev.bukkit.org/media/images/75/752/2014-07-14_21.22.39.jpg|Destroyed}}
+
+Something went terribly wrong. Watch your step.
+
 === ##**Astral**##
 
 {{http://dev.bukkit.org/media/images/76/750/2014-08-22_17.56.25.jpg|Astral}}

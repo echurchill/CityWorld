@@ -11,6 +11,10 @@
 ----
 == Versions
 
+v2.99
+* Added DESTROYED to the world style list to make it easier to create normal but decayed worlds. For folks using Multiverse try "mv create Destroyed normal -g CityWorld:Destroyed". Other multiworld plugins will use a different syntax, see your plugin docs for more info.
+* Added a lot more stuff to Astral, including a place holder for the Nexus
+
 v2.98
 * Fixed a bug where chests would be populated with ores instead of useful stuff
 * Fixed a bug where trees would cause house roofs to generate oddly

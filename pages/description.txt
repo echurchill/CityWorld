@@ -7,14 +7,18 @@ There is an entire world to explore, have fun!
 ==== <<color green>>If you like CityWorld, please consider donating via the **Donate** button in the upper right corner.<</color>> ====
 
 ----
-===== //Version 2.98// ===== 
+===== //Version 2.99// ===== 
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, 
 if the above version isn't available check back in an hour or so... 
-...or possibly look [[http://dev.bukkit.org/media/files/811/947/CityWorld.jar|here]])//,,
+...or possibly look [[http://dev.bukkit.org/media/files/814/464/CityWorld.jar|here]])//,,
 
 {{http://dev.bukkit.org/media/images/42/720/2012-07-04_11.31.52.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
+
+v2.99
+* Added DESTROYED to the world style list to make it easier to create normal but decayed worlds. For folks using Multiverse try "mv create Destroyed normal -g CityWorld:Destroyed". Other multiworld plugins will use a different syntax, see your plugin docs for more info.
+* Added a lot more stuff to Astral, including a place holder for the Nexus
 
 v2.98
 * Fixed a bug where chests would be populated with ores instead of useful stuff

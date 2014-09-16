@@ -800,6 +800,8 @@ public class RoadLot extends ConnectedLot {
 		int sidewalkLevel = pavementLevel + 1;
 		boolean doSewer = generator.settings.includeSewers && cityRoad;
 		
+		//chunk.setBlocks(6, 10, pavementLevel + 32, 6, 10, Material.GLOWSTONE);
+		
 		// look around
 		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);
 		
@@ -808,7 +810,7 @@ public class RoadLot extends ConnectedLot {
 			doSewer = false;
 
 			// clear a little space
-			chunk.setLayer(sidewalkLevel, 2, getAirMaterial(generator, sidewalkLevel));
+			chunk.setLayer(sidewalkLevel, 4, getAirMaterial(generator, sidewalkLevel));
 			
 			// bridge to the east/west
 			if (roads.toWest() && roads.toEast()) {
