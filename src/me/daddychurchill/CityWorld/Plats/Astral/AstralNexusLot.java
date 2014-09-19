@@ -19,8 +19,13 @@ public class AstralNexusLot extends AstralStructureLot {
 		this.segment = segment;
 	}
 	
-	private final static int nexusY1 = 64 + 16;
-	private final static int nexusY2 = nexusY1 + 16;
+	public final static int nexusY1 = 64 + 16;
+	public final static int nexusY2 = nexusY1 + 16;
+	
+	public final static int chunkX = 5;
+	public final static int chunkZ = 5;
+	public final static int blockX = (chunkX + 1) * RealChunk.chunksBlockWidth;
+	public final static int blockZ = (chunkZ + 1) * RealChunk.chunksBlockWidth;
 
 	@Override
 	protected void generateActualBlocks(WorldGenerator generator,

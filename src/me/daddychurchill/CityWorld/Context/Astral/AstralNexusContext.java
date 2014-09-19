@@ -11,7 +11,7 @@ public class AstralNexusContext extends AstralDataContext {
 		super(generator);
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
 		//TODO, This doesn't handle schematics quite right yet
@@ -19,14 +19,16 @@ public class AstralNexusContext extends AstralDataContext {
 		//mapsSchematics.populate(generator, platmap);
 		
 		// where it all begins
-		int originX = platmap.originX;
-		int originZ = platmap.originZ;
+		int nexusX = AstralNexusLot.chunkX;
+		int nexusZ = AstralNexusLot.chunkZ;
+		int chunkX = platmap.originX + nexusX;
+		int chunkZ = platmap.originZ + nexusZ;
 		
 		// is this natural or buildable?
-		platmap.setLot(5, 5, new AstralNexusLot(platmap, originX + 5, originZ + 5, NexusSegment.NORTHWEST));
-		platmap.setLot(6, 5, new AstralNexusLot(platmap, originX + 6, originZ + 5, NexusSegment.NORTHEAST));
-		platmap.setLot(5, 6, new AstralNexusLot(platmap, originX + 5, originZ + 6, NexusSegment.SOUTHWEST));
-		platmap.setLot(6, 6, new AstralNexusLot(platmap, originX + 6, originZ + 6, NexusSegment.SOUTHEAST));
+		platmap.setLot(nexusX, nexusZ, new AstralNexusLot(platmap, chunkX, chunkZ, NexusSegment.NORTHWEST));
+		platmap.setLot(nexusX + 1, nexusZ, new AstralNexusLot(platmap, chunkX + 1, chunkZ, NexusSegment.NORTHEAST));
+		platmap.setLot(nexusX, nexusZ + 1, new AstralNexusLot(platmap, chunkX, chunkZ + 1, NexusSegment.SOUTHWEST));
+		platmap.setLot(nexusX + 1, nexusZ + 1, new AstralNexusLot(platmap, chunkX + 1, chunkZ + 1, NexusSegment.SOUTHEAST));
 	}
 
 	@Override

@@ -406,8 +406,8 @@ public class ShapeProvider_Astral extends ShapeProvider {
 //		// put ores in?
 //		lot.generateOres(generator, chunk);
 //
-//		// do we do it or not?
-//		lot.generateMines(generator, chunk);
+		// do we do it or not?
+		lot.generateMines(generator, chunk);
 	}
 
 	@Override
