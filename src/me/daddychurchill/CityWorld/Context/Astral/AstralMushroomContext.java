@@ -1,5 +1,7 @@
 package me.daddychurchill.CityWorld.Context.Astral;
 
+import org.bukkit.Material;
+
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralBrownMushroomsLot;
@@ -80,5 +82,19 @@ public class AstralMushroomContext extends AstralDataContext {
 		
 		// just in case
 		return null;
+	}
+
+	@Override
+	public Material getMapRepresentation() {
+		switch (style) {
+		case YELLOW:
+			return Material.SPONGE;
+		case BROWN:
+		case REDBROWN:
+			return Material.HUGE_MUSHROOM_1;
+		case RED:
+		default:
+			return Material.HUGE_MUSHROOM_2;
+		}
 	}
 }

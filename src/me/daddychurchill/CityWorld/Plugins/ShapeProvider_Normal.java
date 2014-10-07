@@ -1,5 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.ConstructionContext;
 import me.daddychurchill.CityWorld.Context.DataContext;
@@ -143,7 +144,13 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	}
 	
 	@Override
-	protected DataContext getContext(PlatMap platmap) {
+	public DataContext getContext(int originX, int originZ) {
+		CityWorld.log.info("IF YOU SEE THIS MESSAGE PLEASE SEND ME EMAIL AT eddie@virtualchurchill.com, THANKS");
+		return null;
+	}
+	
+	@Override
+	public DataContext getContext(PlatMap platmap) {
 		
 		// how natural is this platmap?
 		float nature = platmap.getNaturePercent();

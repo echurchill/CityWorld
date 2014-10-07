@@ -1,13 +1,14 @@
 package me.daddychurchill.CityWorld.Context.Astral;
 
+import org.bukkit.Material;
+
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Context.NatureContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralNatureLot;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
-public class AstralNatureContext extends NatureContext {
+public class AstralNatureContext extends AstralDataContext {
 	
 	public AstralNatureContext(WorldGenerator generator) {
 		super(generator);
@@ -69,4 +70,16 @@ public class AstralNatureContext extends NatureContext {
 //			}
 //		}
 	}
+
+	@Override
+	public void validateMap(WorldGenerator generator, PlatMap platmap) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public Material getMapRepresentation() {
+		return Material.GLASS;
+	}
+
 }

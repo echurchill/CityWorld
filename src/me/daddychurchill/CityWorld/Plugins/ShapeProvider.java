@@ -8,7 +8,6 @@ import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Context.NatureContext;
 import me.daddychurchill.CityWorld.Context.RoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ByteChunk;
@@ -35,11 +34,13 @@ public abstract class ShapeProvider extends Provider {
 	public abstract void postGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs);
 	
 	protected abstract Biome remapBiome(WorldGenerator generator, PlatLot lot, Biome biome);
-	protected abstract DataContext getContext(PlatMap platmap);
 	protected abstract void allocateContexts(WorldGenerator generator);
 	public abstract String getCollectionName();
 	
 	protected abstract void validateLots(WorldGenerator generator, PlatMap platmap);
+
+	public abstract DataContext getContext(int originX, int originZ);
+	public abstract DataContext getContext(PlatMap platmap);
 
 	public CachedYs getCachedYs(WorldGenerator generator, int chunkX, int chunkZ) {
 		return new CachedYs(generator, chunkX, chunkZ);
@@ -78,7 +79,7 @@ public abstract class ShapeProvider extends Provider {
 	}
 	
 	protected boolean contextInitialized = false;
-	public NatureContext natureContext;
+	public DataContext natureContext;
 	public RoadContext roadContext;
 
 	private SimplexNoiseGenerator macroShape;

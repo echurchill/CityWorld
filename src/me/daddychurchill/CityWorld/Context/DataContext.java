@@ -5,6 +5,8 @@ import org.bukkit.Material;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.ClipboardList;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
+import me.daddychurchill.CityWorld.Plats.NatureLot;
+import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
@@ -97,4 +99,13 @@ public abstract class DataContext {
 			mapsSchematics = generator.pasteProvider.getFamilyClips(generator, schematicFamily, schematicMaxX, schematicMaxZ);
 		return mapsSchematics;
 	}
+	
+	public PlatLot createNaturalLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
+		return new NatureLot(platmap, platmap.originX + x, platmap.originZ + z);
+	}
+	
+	public Material getMapRepresentation() {
+		return Material.AIR;
+	}
+	
 }

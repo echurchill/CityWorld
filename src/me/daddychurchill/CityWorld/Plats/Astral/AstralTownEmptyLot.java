@@ -6,14 +6,14 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
-public class AstralEmptyLot extends AstralStructureLot {
+public class AstralTownEmptyLot extends AstralStructureLot {
 	
-	protected Material materialSupport = Material.COAL_BLOCK;
-	protected Material materialCross = Material.STAINED_CLAY;
-	protected Material materialBase = Material.QUARTZ_BLOCK;
-	protected int aboveSeaLevel = 5;
+	public static Material materialSupport = Material.COAL_BLOCK;
+	public static Material materialCross = Material.STAINED_CLAY;
+	public static Material materialBase = Material.QUARTZ_BLOCK;
+	public static int aboveSeaLevel = 5;
 
-	public AstralEmptyLot(PlatMap platmap, int chunkX, int chunkZ) {
+	public AstralTownEmptyLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 
 	}

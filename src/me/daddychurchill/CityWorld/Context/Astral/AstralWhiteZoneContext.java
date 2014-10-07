@@ -1,5 +1,7 @@
 package me.daddychurchill.CityWorld.Context.Astral;
 
+import org.bukkit.Material;
+
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralWhiteSpiresLot;
@@ -71,4 +73,8 @@ public class AstralWhiteZoneContext extends AstralDataContext {
 
 	}
 
+	@Override
+	public Material getMapRepresentation() {
+		return Material.WOOL;
+	}
 }

@@ -116,6 +116,26 @@ public abstract class SupportChunk extends AbstractChunk {
 //		return getActualBlock(x, y, z).isEmpty();
 	}
 	
+	public final boolean isEmpty(int x, int y1, int y2, int z) {
+		for (int y = y1; y < y2; y++) {
+			if (!isType(x, y, z, Material.AIR))
+				return false;
+		}
+		return true;
+	}
+	
+	public final boolean isEmpty(int x1, int x2, int y1, int y2, int z1, int z2) {
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
+				for (int z = z1; z < z2; z++) {
+					if (!isType(x, y, z, Material.AIR))
+						return false;
+				}
+			}
+		}
+		return true;
+	}
+	
 	public abstract boolean isSurroundedByEmpty(int x, int y, int z);
 	
 	public final boolean isPlantable(int x, int y, int z) {

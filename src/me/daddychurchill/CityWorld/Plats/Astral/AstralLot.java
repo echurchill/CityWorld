@@ -37,33 +37,90 @@ public abstract class AstralLot extends IsolatedLot {
 
 	@Override
 	public int getBottomY(WorldGenerator generator) {
-		// TODO Auto-generated method stub
-		return 0;
+		return blockYs.minHeight;
 	}
 
 	@Override
 	public int getTopY(WorldGenerator generator) {
-		// TODO Auto-generated method stub
-		return 0;
+		return blockYs.maxHeight;
 	}
+	
+	protected boolean getSuperSpecial() {
+		return false;
+	}
+	
+	private static int railOffset = 0;
+	private static int specialOffset = 7;
 
 	@Override
 	public void generateMines(WorldGenerator generator, RealChunk chunk) {
-		int y = AstralNexusLot.nexusY1 + 1;
+		int y = generator.seaLevel + AstralTownEmptyLot.aboveSeaLevel - 1;
+		
+		// north/south along where the Nexus is
 		if (chunk.getOriginX() == AstralNexusLot.blockX) {
-			chunk.setBlocks(0, 1, y, 0, 16, Material.QUARTZ_BLOCK);
-			chunk.setBlock(0, y, 0, Material.REDSTONE_BLOCK);
-			chunk.setBlock(0, y, 8, Material.REDSTONE_BLOCK);
-			chunk.setBlocks(0, 1, y + 1, 0, 16, Material.POWERED_RAIL);
-			chunk.setBlocks(0, 1, y + 2, y + 4, 0, 16, Material.AIR);
+			
+			// underlayment
+			for (int z = 0; z < 16; z++)
+				generateOtherbits(chunk, railOffset, y, z, z == specialOffset);
+			
+			// now the rail itself
+			// we do the following weirdness to ensure that power is properly recognized
+			try {
+				chunk.setDoPhysics(true);
+				
+				// from powersource to end
+				for (int z = specialOffset; z < 16; z++)
+					chunk.setBlock(railOffset, y + 1, z, Material.POWERED_RAIL);
+				
+				// from just before powersource to start
+				for (int z = specialOffset - 1; z >= 0; z--)
+					chunk.setBlock(railOffset, y + 1, z, Material.POWERED_RAIL);
+			} finally {
+				chunk.setDoPhysics(false);
+			}
 		}
+		
+		// west/east along where the Nexus is
 		if (chunk.getOriginZ() == AstralNexusLot.blockZ) {
-			chunk.setBlocks(0, 16, AstralNexusLot.nexusY1 + 1, 0, 1, Material.QUARTZ_BLOCK);
-			chunk.setBlock(0, y, 0, Material.REDSTONE_BLOCK);
-			chunk.setBlock(8, y, 0, Material.REDSTONE_BLOCK);
-			chunk.setBlocks(0, 16, y + 1, 0, 1, Material.POWERED_RAIL);
-			chunk.setBlocks(0, 16, y + 2, y + 4, 0, 1, Material.AIR);
+			for (int x = 0; x < 16; x++)
+				generateOtherbits(chunk, x, y, railOffset, x == specialOffset);
+
+			// now the rail itself
+			// we do the following weirdness to ensure that power is properly recognized
+			try {
+				chunk.setDoPhysics(true);
+				
+				// from power source to end
+				for (int x = specialOffset; x < 16; x++)
+					chunk.setBlock(x, y + 1, railOffset, Material.POWERED_RAIL);
+				
+				// from just before power source to start
+				for (int x = specialOffset - 1; x >= 0; x--)
+					chunk.setBlock(x, y + 1, railOffset, Material.POWERED_RAIL);
+			} finally {
+				chunk.setDoPhysics(false);
+			}
 		}
 	}
 	
+	private void generateOtherbits(RealChunk chunk, int x, int y, int z, boolean specialPoint) {
+
+		// underlayment
+		chunk.setBlock(x, y, z, AstralTownEmptyLot.materialBase);
+		if (specialPoint && !getSuperSpecial())
+			if (chunk.isEmpty(x, y - 1, z))
+				chunk.setBlocks(x, blockYs.getBlockY(x, z), y, z, Material.QUARTZ_BLOCK);
+		
+		// need a tunnel?
+		if (!chunk.isEmpty(x, y + 2, y + 4, z)) {
+			chunk.setBlocks(x, x + 1, y + 2, y + 3, z, z + 1, Material.AIR);
+			if (chunkOdds.flipCoin())
+				chunk.setBlock(x, y + 3, z, Material.AIR);
+		}
+		
+		// power!
+		if (specialPoint)
+			chunk.setBlock(x, y, z, Material.REDSTONE_BLOCK);
+		
+	}
 }

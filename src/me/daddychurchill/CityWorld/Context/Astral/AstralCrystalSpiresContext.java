@@ -1,5 +1,7 @@
 package me.daddychurchill.CityWorld.Context.Astral;
 
+import org.bukkit.Material;
+
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralCrystalSpiresLot;
@@ -55,4 +57,8 @@ public class AstralCrystalSpiresContext extends AstralDataContext {
 
 	}
 
+	@Override
+	public Material getMapRepresentation() {
+		return Material.THIN_GLASS;
+	}
 }

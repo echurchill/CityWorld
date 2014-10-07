@@ -1,7 +1,6 @@
 package me.daddychurchill.CityWorld.Context;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
-import me.daddychurchill.CityWorld.Plats.NatureLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
 import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot;
@@ -21,10 +20,6 @@ public class NatureContext extends UncivilizedContext {
 
 	public NatureContext(WorldGenerator generator) {
 		super(generator);
-	}
-	
-	public PlatLot createNaturalLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
-		return new NatureLot(platmap, platmap.originX + x, platmap.originZ + z);
 	}
 	
 	private final static double oddsOfBunkers = Odds.oddsLikely;
@@ -150,13 +145,13 @@ public class NatureContext extends UncivilizedContext {
 		populateSpecial(generator, platmap, minHeightX, minHeight, minHeightZ, minState);
 	}
 	
-	public PlatLot createBuriedBuildingLot(WorldGenerator generator, PlatMap platmap, int x, int z, boolean firstOne) {
+	protected PlatLot createBuriedBuildingLot(WorldGenerator generator, PlatMap platmap, int x, int z, boolean firstOne) {
 		if (generator.settings.includeBunkers)
 			return new BunkerLot(platmap, x, z, firstOne);
 		return null;
 	}
 	
-	public PlatLot createSurfaceBuildingLot(WorldGenerator generator, PlatMap platmap, int x, int z, HeightInfo heights) {
+	protected PlatLot createSurfaceBuildingLot(WorldGenerator generator, PlatMap platmap, int x, int z, HeightInfo heights) {
 		if (generator.settings.includeHouses)
 			if (platmap.getOddsGenerator().flipCoin())
 				return new MountainShackLot(platmap, x, z);

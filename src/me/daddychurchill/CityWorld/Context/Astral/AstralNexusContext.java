@@ -1,5 +1,7 @@
 package me.daddychurchill.CityWorld.Context.Astral;
 
+import org.bukkit.Material;
+
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralNexusLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralNexusLot.NexusSegment;
@@ -37,4 +39,8 @@ public class AstralNexusContext extends AstralDataContext {
 
 	}
 
+	@Override
+	public Material getMapRepresentation() {
+		return Material.BEACON;
+	}
 }

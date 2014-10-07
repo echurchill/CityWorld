@@ -1,5 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralBaseContext;
@@ -139,7 +140,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 			natureContext = new AstralNatureContext(generator);
 			roadContext = new AstralRoadContext(generator);
 			
-			nexusContext = new AstralNexusContext(generator); // the one at 0,0
+			nexusContext = new AstralNexusContext(generator); // the one at 0, 0
 			baseContext = new AstralBaseContext(generator); // bunkers on pedestals
 			
 			brownMushroomsContext = new AstralMushroomContext(generator, MushroomStyle.BROWN); // brown ones
@@ -216,11 +217,12 @@ public class ShapeProvider_Astral extends ShapeProvider {
 //	}
 	
 	@Override
-	protected DataContext getContext(PlatMap platmap) {
-		if (platmap.originX == 0 && platmap.originZ == 0)
+	public DataContext getContext(int originX, int originZ) {
+		CityWorld.log.info("X, Z = " + originX + ", " + originZ);
+		if (originX == 0 && originZ == 0)
 			return nexusContext;
 		else {
-			double rawValue = (Math.max(-0.9999, Math.min(0.9999, ecoShape.noise(platmap.originX, platmap.originZ) * 1.375)) + 1.0) / 2.0;
+			double rawValue = (Math.max(-0.9999, Math.min(0.9999, ecoShape.noise(originX, originZ) * 1.375)) + 1.0) / 2.0;
 			switch (NoiseGenerator.floor(rawValue * 10)) {
 			case 1:
 				return baseContext;
@@ -248,6 +250,11 @@ public class ShapeProvider_Astral extends ShapeProvider {
 				return natureContext;
 			}
 		}
+	}
+	
+	@Override
+	public DataContext getContext(PlatMap platmap) {
+		return getContext(platmap.originX, platmap.originZ);
 	}
 
 	@Override

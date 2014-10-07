@@ -28,5 +28,4 @@ public abstract class AstralDataContext extends DataContext {
 			result = result / 0.66;
 		return result;
 	}
-
 }
