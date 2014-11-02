@@ -6,9 +6,9 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
-public class AstralSaucerLot extends AstralStructureLot {
+public class AstralStructureSaucerLot extends AstralStructureLot {
 
-	public AstralSaucerLot(PlatMap platmap, int chunkX, int chunkZ) {
+	public AstralStructureSaucerLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 
 //		platmap.generator.reportMessage("Ship @ " + chunkX + ", " + chunkZ);

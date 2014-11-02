@@ -4,20 +4,20 @@ import org.bukkit.Material;
 
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plats.Astral.AstralMushroomsBrownLot;
-import me.daddychurchill.CityWorld.Plats.Astral.AstralMushroomsRedLot;
-import me.daddychurchill.CityWorld.Plats.Astral.AstralMushroomsSpongeLot;
+import me.daddychurchill.CityWorld.Plats.Astral.AstralForestCanopyLot;
+import me.daddychurchill.CityWorld.Plats.Astral.AstralForestFernLot;
+import me.daddychurchill.CityWorld.Plats.Astral.AstralForestHedgeLot;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
-public class AstralMushroomContext extends AstralDataContext {
+public class AstralForestContext extends AstralDataContext {
 
-	public enum MushroomStyle { RED, BROWN, REDBROWN, YELLOW };
-	private MushroomStyle style;
+	public enum ForestStyle { FERN, HEDGE, CANOPY, FRACTAL };
+	private ForestStyle style;
 	
-	public AstralMushroomContext(WorldGenerator generator, MushroomStyle style) {
+	public AstralForestContext(WorldGenerator generator, ForestStyle style) {
 		super(generator);
 		
 		this.style = style;
@@ -25,7 +25,6 @@ public class AstralMushroomContext extends AstralDataContext {
 
 	@Override
 	public void populateMap(WorldGenerator generator, PlatMap platmap) {
-		
 		//TODO, This doesn't handle schematics quite right yet
 		// let the user add their stuff first, then plug any remaining holes with our stuff
 		//mapsSchematics.populate(generator, platmap);
@@ -49,7 +48,7 @@ public class AstralMushroomContext extends AstralDataContext {
 					// get the height info for this chunk
 					heights = HeightInfo.getHeightsFaster(generator, blockX, blockZ);
 					if (!heights.anyEmpties && heights.averageHeight < generator.seaLevel)
-						current = generateMushroomLot(platmap, odds, originX + x, originZ + z, getPopulationOdds(x, z));
+						current = generateForestLot(platmap, odds, originX + x, originZ + z, getPopulationOdds(x, z));
 
 					// did current get defined?
 					if (current != null)
@@ -59,40 +58,35 @@ public class AstralMushroomContext extends AstralDataContext {
 		}
 	}
 
+	private PlatLot generateForestLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ, double populationChance) {
+		switch (style) {
+		case FERN:
+			return new AstralForestFernLot(platmap, chunkX, chunkZ, populationChance);
+		case HEDGE:
+			return new AstralForestHedgeLot(platmap, chunkX, chunkZ, populationChance);
+		case CANOPY:
+		default:
+			return new AstralForestCanopyLot(platmap, chunkX, chunkZ, populationChance);
+		}
+	}
+
 	@Override
 	public void validateMap(WorldGenerator generator, PlatMap platmap) {
 		// TODO Auto-generated method stub
 
 	}
 	
-	private PlatLot generateMushroomLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ, double populationChance) {
-		switch (style) {
-		case YELLOW:
-			return new AstralMushroomsSpongeLot(platmap, chunkX, chunkZ, populationChance);
-		case BROWN:
-			return new AstralMushroomsBrownLot(platmap, chunkX, chunkZ, populationChance);
-		case REDBROWN:
-			if (odds.flipCoin())
-				return new AstralMushroomsBrownLot(platmap, chunkX, chunkZ, populationChance);
-			else
-				return new AstralMushroomsRedLot(platmap, chunkX, chunkZ, populationChance);
-		case RED:
-		default:
-			return new AstralMushroomsRedLot(platmap, chunkX, chunkZ, populationChance);
-		}
-	}
-
 	@Override
 	public Material getMapRepresentation() {
 		switch (style) {
-		case YELLOW:
-			return Material.SPONGE;
-		case BROWN:
-		case REDBROWN:
-			return Material.HUGE_MUSHROOM_1;
-		case RED:
+		case FERN:
+			return Material.LEAVES;
+		case HEDGE:
+			return Material.LEAVES_2;
+		case CANOPY:
 		default:
-			return Material.HUGE_MUSHROOM_2;
+			return Material.LOG;
 		}
 	}
+
 }

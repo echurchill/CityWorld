@@ -5,7 +5,7 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
-public class AstralBlackTowerLot extends AstralTowerLot {
+public class AstralBlackTowerLot extends AstralStructureTowerLot {
 
 	public AstralBlackTowerLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);

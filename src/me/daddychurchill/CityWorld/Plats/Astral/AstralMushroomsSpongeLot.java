@@ -8,9 +8,9 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
-public class AstralYellowSpongesLot extends AstralNatureLot {
+public class AstralMushroomsSpongeLot extends AstralNatureLot {
 
-	public AstralYellowSpongesLot(PlatMap platmap, int chunkX, int chunkZ, double populationChance) {
+	public AstralMushroomsSpongeLot(PlatMap platmap, int chunkX, int chunkZ, double populationChance) {
 		super(platmap, chunkX, chunkZ, populationChance);
 		
 	}

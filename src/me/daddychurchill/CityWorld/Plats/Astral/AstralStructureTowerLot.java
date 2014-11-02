@@ -11,9 +11,9 @@ import me.daddychurchill.CityWorld.Support.MazeArray.MazeBit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 
-public abstract class AstralTowerLot extends AstralStructureLot {
+public abstract class AstralStructureTowerLot extends AstralStructureLot {
 
-	public AstralTowerLot(PlatMap platmap, int chunkX, int chunkZ) {
+	public AstralStructureTowerLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		// TODO Auto-generated constructor stub
 	}

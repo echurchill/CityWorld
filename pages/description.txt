@@ -7,7 +7,7 @@ There is an entire world to explore, have fun!
 ==== <<color green>>If you like CityWorld, please consider donating via the **Donate** button in the upper right corner.<</color>> ====
 
 ----
-===== //Version 2.99// ===== 
+===== //Version 2.991// ===== 
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, 
 if the above version isn't available check back in an hour or so... 
 ...or possibly look [[http://dev.bukkit.org/media/files/814/464/CityWorld.jar|here]])//,,
@@ -16,18 +16,13 @@ if the above version isn't available check back in an hour or so...
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
+v2.991
+* Added a lot more stuff to Astral (buried cities, empty bases, abandoned saucers, strange forests, strange towers and much more...)
+* Next up: Zea, along with some other customization suggested by you guys
+
 v2.99
 * Added DESTROYED to the world style list to make it easier to create normal but decayed worlds. For folks using Multiverse try "mv create Destroyed normal -g CityWorld:Destroyed". Other multiworld plugins will use a different syntax, see your plugin docs for more info.
 * Added a lot more stuff to Astral, including a place holder for the Nexus
-
-v2.98
-* Fixed a bug where chests would be populated with ores instead of useful stuff
-* Fixed a bug where trees would cause house roofs to generate oddly
-* Re-textured the sewers to make them nicer to look at... a lot more spooky and "realistic"
-* Re-textured the roads to make them nicer to look at... and make those darn ores quit showing up
-* Continuing to work on Astral, feel free to visit but don't expect much yet. For folks using Multiverse try "mv create Astral normal -g CityWorld:Astral". Other multiworld plugins will use a different syntax, see your plugin docs for more info.
-{{http://dev.bukkit.org/media/images/76/750/2014-08-22_17.56.25.jpg|Astral}}
-
 
 Remember, if you aren't up for using the latest beta of Bukkit or the bugs from this one bother you too much, the older versions are still available.
 

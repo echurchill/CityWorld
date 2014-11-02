@@ -7,9 +7,9 @@ import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
-public class AstralRedMushroomsLot extends AstralMushroomsLot {
+public class AstralMushroomsRedLot extends AstralMushroomsLot {
 
-	public AstralRedMushroomsLot(PlatMap platmap, int chunkX, int chunkZ, double populationChance) {
+	public AstralMushroomsRedLot(PlatMap platmap, int chunkX, int chunkZ, double populationChance) {
 		super(platmap, chunkX, chunkZ, populationChance);
 		
 	}

@@ -38,7 +38,7 @@ public class TreeProvider_Normal extends TreeProvider {
 			break;
 		}
 		
-		// how wide is the trunk?
+		// what is under the trunk?
 		Material root = Material.DIRT;
 		switch (treeType) {
 		case BROWN_MUSHROOM:

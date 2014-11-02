@@ -72,7 +72,7 @@ public class AstralBuriedRoadLot extends AstralBuriedCityLot {
 		
 		// land a saucer?
 		if (chunkOdds.playOdds(oddsOfLandedSaucer))
-			AstralSaucerLot.drawLandedSaucer(generator, chunk, StreetLevel + 1);
+			AstralStructureSaucerLot.drawLandedSaucer(generator, chunk, StreetLevel + 1);
 	}
 
 }

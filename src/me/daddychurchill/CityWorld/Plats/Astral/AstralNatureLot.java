@@ -23,7 +23,7 @@ public class AstralNatureLot extends AstralLot {
 		
 		if (blockYs.averageHeight > 40 && chunkOdds.playOdds(oddsOfBuriedSaucer)) {
 			int y = chunkOdds.calcRandomRange(20, blockYs.averageHeight - 10);
-			AstralSaucerLot.drawSaucer(generator, chunk, y);
+			AstralStructureSaucerLot.drawSaucer(generator, chunk, y);
 		}
 	}
 

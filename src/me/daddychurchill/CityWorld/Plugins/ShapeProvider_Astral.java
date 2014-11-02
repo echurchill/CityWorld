@@ -1,6 +1,5 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralBaseContext;
@@ -8,6 +7,8 @@ import me.daddychurchill.CityWorld.Context.Astral.AstralBlackZoneContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralBuriedCityContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralCrystalSpiresContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralDataContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralForestContext;
+import me.daddychurchill.CityWorld.Context.Astral.AstralForestContext.ForestStyle;
 import me.daddychurchill.CityWorld.Context.Astral.AstralMushroomContext.MushroomStyle;
 import me.daddychurchill.CityWorld.Context.Astral.AstralNatureContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralMushroomContext;
@@ -127,6 +128,10 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	private AstralDataContext redMushroomsContext;
 	private AstralDataContext mixedMushroomsContext;
 	private AstralDataContext yellowSpongesContext;
+	
+	private AstralDataContext fernForestContext;
+	private AstralDataContext hedgeForestContext;
+	private AstralDataContext canopyForestContext;
 
 	private AstralDataContext crystalSpiresContext;
 	
@@ -147,6 +152,10 @@ public class ShapeProvider_Astral extends ShapeProvider {
 			redMushroomsContext = new AstralMushroomContext(generator, MushroomStyle.RED); // red ones
 			mixedMushroomsContext = new AstralMushroomContext(generator, MushroomStyle.REDBROWN); // mix of brown and red ones
 			yellowSpongesContext = new AstralMushroomContext(generator, MushroomStyle.YELLOW); // yellow ones
+
+			fernForestContext = new AstralForestContext(generator, ForestStyle.FERN);
+			hedgeForestContext = new AstralForestContext(generator, ForestStyle.HEDGE);
+			canopyForestContext = new AstralForestContext(generator, ForestStyle.CANOPY);
 			
 			crystalSpiresContext = new AstralCrystalSpiresContext(generator); // crystal pokie bits
 			
@@ -218,12 +227,15 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	
 	@Override
 	public DataContext getContext(int originX, int originZ) {
-		CityWorld.log.info("X, Z = " + originX + ", " + originZ);
+//		CityWorld.log.info("X, Z = " + originX + ", " + originZ);
 		if (originX == 0 && originZ == 0)
 			return nexusContext;
 		else {
 			double rawValue = (Math.max(-0.9999, Math.min(0.9999, ecoShape.noise(originX, originZ) * 1.375)) + 1.0) / 2.0;
-			switch (NoiseGenerator.floor(rawValue * 10)) {
+			switch (NoiseGenerator.floor(rawValue * 13)) { // the constant here should ALWAYS be one more than the biggest case statement constant!
+			default: // always move this to the last one
+			case 0:
+				return natureContext;
 			case 1:
 				return baseContext;
 	
@@ -245,9 +257,13 @@ public class ShapeProvider_Astral extends ShapeProvider {
 				return whiteZoneContext;
 			case 9:
 				return cityZoneContext;
-	
-			default:
-				return natureContext;
+
+			case 10:
+				return fernForestContext;
+			case 11:
+				return hedgeForestContext;
+			case 12:
+				return canopyForestContext;
 			}
 		}
 	}

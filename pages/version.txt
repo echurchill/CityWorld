@@ -11,6 +11,10 @@
 ----
 == Versions
 
+v2.991
+* Added a lot more stuff to Astral (buried cities, empty bases, abandoned saucers, strange forests, strange towers and much more...)
+* Next up: Zea World, along with some other customization suggested by you guys
+
 v2.99
 * Added DESTROYED to the world style list to make it easier to create normal but decayed worlds. For folks using Multiverse try "mv create Destroyed normal -g CityWorld:Destroyed". Other multiworld plugins will use a different syntax, see your plugin docs for more info.
 * Added a lot more stuff to Astral, including a place holder for the Nexus

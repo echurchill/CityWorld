@@ -19,9 +19,11 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.EntityType;
 import org.bukkit.material.Colorable;
 import org.bukkit.material.Directional;
+import org.bukkit.material.Leaves;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Step;
 import org.bukkit.material.TexturedMaterial;
+import org.bukkit.material.Tree;
 import org.bukkit.material.Vine;
 import org.bukkit.material.WoodenStep;
 
@@ -657,23 +659,46 @@ public abstract class SupportChunk extends AbstractChunk {
 		}
 	}
 	
-	private final void setSlabs(int x1, int x2, int y1, int y2, int z1, int z2, Material material, MaterialData data, boolean inverted) {
-		for (int x = x1; x < x2; x++)
-			for (int y = y1; y < y2; y++)
-				for (int z = z1; z < z2; z++)
-					setBlock(getActualBlock(x, y, z), material, data);
-	}
-	
 	public final void setSlabs(int x1, int x2, int y1, int y2, int z1, int z2, Material material, boolean inverted) {
 		Step data = new Step(material);
 		data.setInverted(inverted);
-		setSlabs(x1, x2, y1, y2, z1, z2, Material.STEP, data, inverted);
+		setBlocks(x1, x2, y1, y2, z1, z2, Material.STEP, data);
 	}
 	
 	public final void setSlabs(int x1, int x2, int y1, int y2, int z1, int z2, TreeSpecies species, boolean inverted) {
 		WoodenStep data = new WoodenStep(species);
 		data.setInverted(inverted);
-		setSlabs(x1, x2, y1, y2, z1, z2, Material.WOOD_STEP, data, inverted);
+		setBlocks(x1, x2, y1, y2, z1, z2, Material.WOOD_STEP, data);
+	}
+	
+	public final void setLog(int x, int y, int z, Material material, TreeSpecies species, BlockFace facing) {
+		Tree data = new Tree(species, facing);
+		setBlock(x, y, z, material, data);
+	}
+	
+	public final void setLogs(int x, int y1, int y2, int z, Material material, TreeSpecies species, BlockFace facing) {
+		Tree data = new Tree(species, facing);
+		setBlocks(x, x + 1, y1, y2, z, z + 1, material, data);
+	}
+	
+	public final void setLogs(int x1, int x2, int y1, int y2, int z1, int z2, Material material, TreeSpecies species, BlockFace facing) {
+		Tree data = new Tree(species, facing);
+		setBlocks(x1, x2, y1, y2, z1, z2, material, data);
+	}
+	
+	public final void setLeave(int x, int y, int z, Material material, TreeSpecies species) {
+		Leaves data = new Leaves(species);
+		setBlock(x, y, z, material, data);
+	}
+	
+	public final void setLeaves(int x, int y1, int y2, int z, Material material, TreeSpecies species) {
+		Leaves data = new Leaves(species);
+		setBlocks(x, x + 1, y1, y2, z, z + 1, material, data);
+	}
+	
+	public final void setLeaves(int x1, int x2, int y1, int y2, int z1, int z2, Material material, TreeSpecies species) {
+		Leaves data = new Leaves(species);
+		setBlocks(x1, x2, y1, y2, z1, z2, material, data);
 	}
 	
 	public final void drawCrane(DataContext context, Odds odds, int x, int y, int z) {
