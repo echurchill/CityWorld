@@ -388,6 +388,16 @@ public class CityWorldSettings {
 			includeDecayedNature = true; // DIFFERENT
 			includeFloatingSubsurface = false; // DIFFERENT
 			break;
+		case MAZE:
+			includeRoads = false; // DIFFERENT
+			includeRoundabouts = false; // DIFFERENT
+			includeMines = false; // DIFFERENT
+			includeBunkers = false; // DIFFERENT
+			treasuresInMines = false; // DIFFERENT
+			spawnersInMines = false; // DIFFERENT
+			treasuresInBunkers = false; // DIFFERENT
+			spawnersInBunkers = false; // DIFFERENT
+			break;
 		case ASTRAL:
 //			includeRoads = true;
 			includeRoundabouts = false; // DIFFERENT

@@ -173,6 +173,10 @@ public abstract class ShapeProvider extends Provider {
 		case ASTRAL:
 			provider = new ShapeProvider_Astral(generator, odds);
 			break;
+		case MAZE:
+			generator.reportMessage("LoadShapeProvider");
+			provider = new ShapeProvider_Maze(generator, odds);
+			break;
 		case DESTROYED:
 		case NORMAL:
 			provider = new ShapeProvider_Normal(generator, odds);
