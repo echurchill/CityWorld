@@ -41,7 +41,7 @@ public abstract class DataContext {
 	//public double oddsOfMissingRoad = oddsNeverGoingToHappen; // roads are missing 1/n of the time
 	public double oddsOfRoundAbouts = Odds.oddsNeverGoingToHappen; // roundabouts are created 1/n of the time
 	
-	public double oddsOfMissingArt = Odds.oddsNeverGoingToHappen; // art is missing 1/n of the time
+	public double oddsOfArt = Odds.oddsNeverGoingToHappen; // art is missing 1/n of the time
 	public double oddsOfNaturalArt = Odds.oddsNeverGoingToHappen; // sometimes nature is art 1/n of the time 
 	
 	public Material lightMat;

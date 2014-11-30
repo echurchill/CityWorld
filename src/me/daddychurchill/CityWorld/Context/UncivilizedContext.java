@@ -31,7 +31,7 @@ public abstract class UncivilizedContext extends DataContext {
 		//oddsOfMissingRoad = oddsNeverGoingToHappen; 
 		oddsOfRoundAbouts = Odds.oddsNeverGoingToHappen; 
 		
-		oddsOfMissingArt = Odds.oddsNeverGoingToHappen; 
+		oddsOfArt = Odds.oddsNeverGoingToHappen; 
 		oddsOfNaturalArt = Odds.oddsNeverGoingToHappen; 
 	}
 

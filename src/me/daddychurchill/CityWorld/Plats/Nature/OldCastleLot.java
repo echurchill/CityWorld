@@ -186,7 +186,7 @@ public class OldCastleLot extends ConstructLot {
 //		int thirdZ1 = chunkRandom.nextBoolean() ? secondZ1 : secondZ1 + 4;
 		
 		// ex-castle
-		generator.decayBlocks.destroyWithin(originX + 3, originX + 13, y1, y3, originZ + 3, originZ + 13);
+		generator.decayBlocks.destroyWithin(originX + 4, originX + 12, y1, y3, originZ + 4, originZ + 12);
 //		destroyLot(generator, y1, y3 + floorHeight);
 	}
 }

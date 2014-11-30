@@ -60,7 +60,6 @@ public abstract class SurfaceProvider extends Provider {
 			provider = new SurfaceProvider_Astral(odds);
 			break;
 		case MAZE:
-			generator.reportMessage("LoadSurfaceProvider");
 			provider = new SurfaceProvider_Maze(odds);
 			break;
 		case DESTROYED:

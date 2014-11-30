@@ -113,7 +113,7 @@ public class RoundaboutCenterLot extends IsolatedLot {
 		statueBase = randomBase();
 		
 		// something got stolen?
-		boolean somethingInTheCenter = chunkOdds.playOdds(context.oddsOfMissingArt);
+		boolean somethingInTheCenter = chunkOdds.playOdds(context.oddsOfArt);
 		
 		// where to start?
 		int y1 = generator.streetLevel + 2;
