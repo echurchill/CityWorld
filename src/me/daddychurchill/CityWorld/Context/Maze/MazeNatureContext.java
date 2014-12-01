@@ -5,6 +5,7 @@ import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Context.NatureContext;
 import me.daddychurchill.CityWorld.Plats.NatureLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plats.Maze.MazeBoxLot;
 import me.daddychurchill.CityWorld.Plats.Maze.MazeNatureLot;
 import me.daddychurchill.CityWorld.Plats.Nature.MountainShackLot;
 import me.daddychurchill.CityWorld.Plats.Nature.MountainTentLot;
@@ -54,8 +55,9 @@ public class MazeNatureContext extends NatureContext {
 	}
 	
 	private enum whatToBuild {
-		FARM, PARK, HOUSE, TOWN, CITY, UNFINISHED, 
-		STORAGE, STATUE, FOREST, CAMPGROUND, CASTLE};
+		FARM, PARK, HOUSE, TOWN, CITY, UNFINISHED, STORAGE,
+		STATUE, FOREST, CAMPGROUND, CASTLE, BOX};
+		
 	private whatToBuild pickRandomWhat(Odds odds) {
 		return whatToBuild.values()[odds.getRandomInt(whatToBuild.values().length)];
 	}
@@ -82,6 +84,20 @@ public class MazeNatureContext extends NatureContext {
 		return odds.playOdds(theOdds);
 	}
 	
+	private double getNatureOdds(Odds odds, int x, int z) {
+		double theOdds = Odds.oddsPrettyUnlikely;
+		if (x == 0 || x == openingWidth - 1)
+			theOdds = theOdds * 3;
+		if (z == 0 || z == openingWidth - 1)
+			theOdds = theOdds * 3;
+		return theOdds;
+	}
+	
+	private boolean placeNature(Odds odds, int x, int z) {
+		double theOdds = getNatureOdds(odds, x, z);
+		return odds.playOdds(theOdds);
+	}
+	
 	private static int[] xS = {1, 2, 2, 1,  1, 2, 3, 3, 1, 2, 0, 0,  0, 3, 3, 0};
 	private static int[] zS = {1, 1, 2, 2,  0, 0, 1, 2, 3, 3, 1, 2,  0, 0, 3, 3};
 	
@@ -95,6 +111,8 @@ public class MazeNatureContext extends NatureContext {
 		// where it all begins
 		int originX = platmap.originX;
 		int originZ = platmap.originZ;
+		int offsetX = platmapOdds.getRandomInt(1, 5);
+		int offsetZ = platmapOdds.getRandomInt(1, 5);
 		HeightInfo heights;
 		PlatLot lastOne = null;
 		
@@ -103,12 +121,12 @@ public class MazeNatureContext extends NatureContext {
 		for (int i = 0; i < xS.length; i++) {
 			int x = xS[i];
 			int z = zS[i];
-			PlatLot current = platmap.getLot(x, z);
+			PlatLot current = platmap.getLot(offsetX + x, offsetZ + z);
 			if (current == null) {
 				
 				// what is the world location of the lot?
-				int chunkX = originX + x;
-				int chunkZ = originZ + z;
+				int chunkX = originX + offsetX + x;
+				int chunkZ = originZ + offsetZ + z;
 				int blockX = chunkX * SupportChunk.chunksBlockWidth;
 				int blockZ = chunkZ * SupportChunk.chunksBlockWidth;
 				
@@ -136,53 +154,48 @@ public class MazeNatureContext extends NatureContext {
 							current = new NatureLot(platmap, chunkX, chunkZ);
 						break;
 					case TOWN:
-						switch (platmapOdds.getRandomInt(5)) {
-						case 1:
-						case 2:
-							current = new HouseLot(platmap, chunkX, chunkZ);
-							break;
-						case 3:
-							current = new StoreBuildingLot(platmap, chunkX, chunkZ);
-							break;
-						case 4:
+						if (placeNature(platmapOdds, x, z))
 							current = new NatureLot(platmap, chunkX, chunkZ);
-							break;
-						default:
-							current = new ParkLot(platmap, chunkX, chunkZ, 100);
-							break;
-						}
+						else
+							switch (platmapOdds.getRandomInt(4)) { // one more than needed to force extra houses
+							case 0:
+								current = new StoreBuildingLot(platmap, chunkX, chunkZ);
+								break;
+							case 1:
+								current = new ParkLot(platmap, chunkX, chunkZ, 100);
+								break;
+							default:
+								current = new HouseLot(platmap, chunkX, chunkZ);
+								break;
+							}
 						break;
 					case CITY:
-						switch (platmapOdds.getRandomInt(6)) {
-						case 1:
+						if (placeNature(platmapOdds, x, z))
 							current = new ConcreteLot(platmap, chunkX, chunkZ);
-							break;
-						case 2:
-							current = new LibraryBuildingLot(platmap, chunkX, chunkZ);
-							break;
-						case 3:
-							current = new StoreBuildingLot(platmap, chunkX, chunkZ);
-							break;
-						case 4:
-							current = new WarehouseBuildingLot(platmap, chunkX, chunkZ);
-							break;
-						case 5:
-							current = new OfficeBuildingLot(platmap, chunkX, chunkZ);
-							break;
-						default:
-							current = new ParkLot(platmap, chunkX, chunkZ, 100);
-							break;
-						}
+						else
+							switch (platmapOdds.getRandomInt(5)) {
+							case 0:
+								current = new LibraryBuildingLot(platmap, chunkX, chunkZ);
+								break;
+							case 1:
+								current = new StoreBuildingLot(platmap, chunkX, chunkZ);
+								break;
+							case 2:
+								current = new WarehouseBuildingLot(platmap, chunkX, chunkZ);
+								break;
+							case 3:
+								current = new OfficeBuildingLot(platmap, chunkX, chunkZ);
+								break;
+							default:
+								current = new ParkLot(platmap, chunkX, chunkZ, 100);
+								break;
+							}
 						break;
 					case UNFINISHED:
-						switch (platmapOdds.getRandomInt(2)) {
-						case 1:
-							current = new UnfinishedBuildingLot(platmap, chunkX, chunkZ);
-							break;
-						default:
+						if (placeNature(platmapOdds, x, z))
 							current = new ConcreteLot(platmap, chunkX, chunkZ);
-							break;
-						}
+						else
+							current = new UnfinishedBuildingLot(platmap, chunkX, chunkZ);
 						break;
 					case STORAGE: // storage lot
 						if (placeSpecial(platmapOdds, x, z, specialMade)) {
@@ -221,6 +234,9 @@ public class MazeNatureContext extends NatureContext {
 						} else
 							current = new NatureLot(platmap, chunkX, chunkZ);
 						break;
+					case BOX:
+						current = new MazeBoxLot(platmap, chunkX, chunkZ);
+						break;
 					}
 					
 					// put it somewhere then
@@ -231,7 +247,7 @@ public class MazeNatureContext extends NatureContext {
 							current.makeConnected(lastOne);
 						
 						// place it
-						platmap.setLot(x, z, current);
+						platmap.setLot(offsetX + x, offsetZ + z, current);
 						lastOne = current;
 					}
 				}

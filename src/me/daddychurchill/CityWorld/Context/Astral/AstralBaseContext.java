@@ -6,7 +6,6 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralTownBuildingLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralTownEmptyLot;
-import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot.BunkerType;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -56,32 +55,8 @@ public class AstralBaseContext extends AstralDataContext {
 						if (addingBases) {
 							if (odds.playOdds(oddsOfUnfinishedBuildings)) 
 								current = new AstralTownEmptyLot(platmap, originX + x, originZ + z);
-							
-							else {
-								switch (odds.getRandomInt(7)) {
-								case 1:
-									current = new AstralTownBuildingLot(platmap, originX + x, originZ + z, BunkerType.BALLSY);
-									break;
-								case 2:
-									current = new AstralTownBuildingLot(platmap, originX + x, originZ + z, BunkerType.FLOORED);
-									break;
-								case 3:
-									current = new AstralTownBuildingLot(platmap, originX + x, originZ + z, BunkerType.GROWING);
-									break;
-								case 4:
-									current = new AstralTownBuildingLot(platmap, originX + x, originZ + z, BunkerType.PYRAMID);
-									break;
-								case 5:
-									current = new AstralTownBuildingLot(platmap, originX + x, originZ + z, BunkerType.QUAD);
-									break;
-								case 6:
-									current = new AstralTownBuildingLot(platmap, originX + x, originZ + z, BunkerType.RECALL);
-									break;
-								default:
-									current = new AstralTownBuildingLot(platmap, originX + x, originZ + z, BunkerType.TANK);
-									break;
-								}
-							}
+							else
+								current = new AstralTownBuildingLot(platmap, originX + x, originZ + z, AstralTownBuildingLot.pickBuildingType(odds));
 						}
 					}
 

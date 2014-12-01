@@ -11,6 +11,10 @@
 ----
 == Versions
 
+v2.992
+* Maze world now works, what I was referring to as Zea earlier. Think: MazeRunner but without the bad acting. Give it a whirl, the Zombie servers out there should find this enjoyable. Still a work in progress, more to come
+* For folks using Multiverse, try "mv create MazeWorld normal -g CityWorld:Maze". Other multiworld plugins will use a different syntax, see your plugin docs for more info.
+
 v2.991
 * Added a lot more stuff to Astral (buried cities, empty bases, abandoned saucers, strange forests, strange towers and much more...)
 * Next up: Zea World, along with some other customization suggested by you guys

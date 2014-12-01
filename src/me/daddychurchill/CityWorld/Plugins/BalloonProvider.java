@@ -87,9 +87,9 @@ public class BalloonProvider extends Provider {
 			
 			// draw the bottom of the blimp
 			chunk.setCircle(8, 8, 3, balloonY1 - 1, Material.WOOL, primaryColor);
-			chunk.setCircle(8, 8, 4, balloonY1, balloonY1 + 3, Material.WOOL, primaryColor);
-			chunk.setCircle(8, 8, 5, balloonY1 + 3, balloonY1 + 7, Material.WOOL, primaryColor);
-			chunk.setCircle(8, 8, 6, balloonY1 + 7, Material.WOOL, primaryColor);
+			chunk.setCircle(8, 8, 4, balloonY1, balloonY1 + 3, Material.WOOL, primaryColor, true);
+			chunk.setCircle(8, 8, 5, balloonY1 + 3, balloonY1 + 7, Material.WOOL, primaryColor, true);
+			chunk.setCircle(8, 8, 6, balloonY1 + 7, Material.WOOL, primaryColor, true);
 			
 			// middle of the blimp
 			int step = 2 + odds.getRandomInt(4);
@@ -98,20 +98,20 @@ public class BalloonProvider extends Provider {
 				DyeColor color = primaryColor;
 				if (y % step != 0)
 					color = secondaryColor;
-				chunk.setCircle(8, 8, 6, y, Material.WOOL, color);
+				chunk.setCircle(8, 8, 6, y, Material.WOOL, color, true);
 				y++;
 			} while (y < balloonY2 - 3);
 			
 			// now the top of the balloon
-			chunk.setCircle(8, 8, 6, balloonY2 - 3, Material.WOOL, primaryColor);
-			chunk.setCircle(8, 8, 5, balloonY2 - 2, balloonY2, Material.WOOL, primaryColor);
-			chunk.setCircle(8, 8, 4, balloonY2, Material.WOOL, primaryColor);
+			chunk.setCircle(8, 8, 6, balloonY2 - 3, Material.WOOL, primaryColor, true);
+			chunk.setCircle(8, 8, 5, balloonY2 - 2, balloonY2, Material.WOOL, primaryColor, true);
+			chunk.setCircle(8, 8, 4, balloonY2, Material.WOOL, primaryColor, true);
 			
 			// add the lights
-			addLight(chunk, context, 7, balloonY2, 4);
-			addLight(chunk, context, 8, balloonY2, 11);
-			addLight(chunk, context, 4, balloonY2, 8);
-			addLight(chunk, context, 11, balloonY2, 7);
+//			addLight(chunk, context, 7, balloonY2, 4);
+//			addLight(chunk, context, 8, balloonY2, 11);
+//			addLight(chunk, context, 4, balloonY2, 8);
+//			addLight(chunk, context, 11, balloonY2, 7);
 		}
 	}
 	

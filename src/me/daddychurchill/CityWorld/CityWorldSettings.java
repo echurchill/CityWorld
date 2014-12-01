@@ -466,7 +466,7 @@ public class CityWorldSettings {
 //			includeDecayedBuildings = false;
 //			includeDecayedNature = false;
 //			includeBuildingInteriors = true;
-			includeFloatingSubsurface = true;
+//			includeFloatingSubsurface = true;
 			break;
 		case FLOODED:
 //			includeRoads = true;

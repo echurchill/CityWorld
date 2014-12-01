@@ -167,6 +167,8 @@ public class OldCastleLot extends ConstructLot {
 			chunk.setBlocks(x, x + 2, y, y + 3, z, z + 1, getAirMaterial(generator, y));
 	}
 	
+	private static int insetChaos = 3;
+	
 	@Override
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		reportLocation(generator, "Castle", chunk.getOriginX(), chunk.getOriginZ());
@@ -186,7 +188,7 @@ public class OldCastleLot extends ConstructLot {
 //		int thirdZ1 = chunkRandom.nextBoolean() ? secondZ1 : secondZ1 + 4;
 		
 		// ex-castle
-		generator.decayBlocks.destroyWithin(originX + 4, originX + 12, y1, y3, originZ + 4, originZ + 12);
+		generator.decayBlocks.destroyWithin(originX + insetChaos, originX + 16 - insetChaos, y1, y3, originZ + insetChaos, originZ + 16 - insetChaos);
 //		destroyLot(generator, y1, y3 + floorHeight);
 	}
 }

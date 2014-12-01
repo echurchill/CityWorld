@@ -7,7 +7,7 @@ There is an entire world to explore, have fun!
 ==== <<color green>>If you like CityWorld, please consider donating via the **Donate** button in the upper right corner.<</color>> ====
 
 ----
-===== //Version 2.991// ===== 
+===== //Version 2.992// ===== 
 ,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, 
 if the above version isn't available check back in an hour or so... 
 ...or possibly look [[http://dev.bukkit.org/media/files/828/124/CityWorld.jar|here]])//,,
@@ -16,13 +16,15 @@ if the above version isn't available check back in an hour or so...
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
+v2.992
+* Maze world now works, what I was referring to as Zea earlier. Think: MazeRunner but without the bad acting. Give it a whirl, the Zombie servers out there should find this enjoyable. Still a work in progress, more to come
+* For folks using Multiverse, try "mv create MazeWorld normal -g CityWorld:Maze". Other multiworld plugins will use a different syntax, see your plugin docs for more info.
+
 v2.991
 * Added a lot more stuff to Astral (buried cities, empty bases, abandoned saucers, strange forests, strange towers and much more...)
 * Next up: Zea, along with some other customization suggested by you guys
 
-v2.99
-* Added DESTROYED to the world style list to make it easier to create normal but decayed worlds. For folks using Multiverse try "mv create Destroyed normal -g CityWorld:Destroyed". Other multiworld plugins will use a different syntax, see your plugin docs for more info.
-* Added a lot more stuff to Astral, including a place holder for the Nexus
+([[http://dev.bukkit.org/server-mods/cityworld/pages/version/|For older version info...]]
 
 Remember, if you aren't up for using the latest beta of Bukkit or the bugs from this one bother you too much, the older versions are still available.
 

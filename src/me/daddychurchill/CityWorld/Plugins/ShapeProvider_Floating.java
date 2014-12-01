@@ -67,6 +67,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 
 	@Override
 	protected void validateLots(WorldGenerator generator, PlatMap platmap) {
+
 		// find blimp moorings
 		for (int x = 0; x < PlatMap.Width; x++) {
 			for (int z = 0; z < PlatMap.Width; z++) {

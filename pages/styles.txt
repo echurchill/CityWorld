@@ -30,6 +30,12 @@ Tons of ores underground along with abandoned mine shafts and underground wonder
 
 Something went terribly wrong. Watch your step.
 
+=== ##**Maze**##
+
+{{http://dev.bukkit.org/media/images/79/463/2014-11-29_18.34.39.jpg|Maze}}
+
+Think: MazeRunner but without the bad acting. Give it a whirl, the Zombie servers out there should find this enjoyable.
+
 === ##**Astral**##
 
 {{http://dev.bukkit.org/media/images/76/750/2014-08-22_17.56.25.jpg|Astral}}

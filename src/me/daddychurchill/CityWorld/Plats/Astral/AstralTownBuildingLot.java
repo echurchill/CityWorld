@@ -4,6 +4,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot;
 import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot.BunkerType;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -14,6 +15,26 @@ public class AstralTownBuildingLot extends AstralTownEmptyLot {
 		super(platmap, chunkX, chunkZ);
 
 		this.buildingType = bunkerType;
+	}
+	
+	// This doesn't return road tunnels, entry or missiles
+	public static BunkerType pickBuildingType(Odds odds) {
+		switch (odds.getRandomInt(7)) {
+		case 1:
+			return BunkerType.BALLSY;
+		case 2:
+			return BunkerType.FLOORED;
+		case 3:
+			return BunkerType.GROWING;
+		case 4:
+			return BunkerType.PYRAMID;
+		case 5:
+			return BunkerType.QUAD;
+		case 6:
+			return BunkerType.RECALL;
+		default:
+			return BunkerType.TANK;
+		}
 	}
 
 	@Override

@@ -23,10 +23,10 @@ public class MazeNatureLot extends NatureLot {
 	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 	}
 	
-	private final static int mazeWidth = 11; 
-	private final static int mazeHeight = 10;
-	private final static int mazeDepth = 2;
-	private final static Material wallMaterial = Material.OBSIDIAN;
+	protected final static int mazeWidth = 11; 
+	protected final static int mazeHeight = 12;
+	protected final static int mazeDepth = 3;
+	protected final static Material wallMaterial = Material.OBSIDIAN;
 	
 	@Override
 	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
@@ -64,6 +64,11 @@ public class MazeNatureLot extends NatureLot {
 			for (int z = z1; z < z2; z++) {
 				int my = generator.streetLevel + mazeHeight;
 				int y = getBlockY(x, z);
+				
+				// underlayment to screw with diggers
+				chunk.setBlock(x, Math.min(my, y) - mazeDepth, z, wallMaterial);
+				
+				// make room in the mountains
 				if (y >= my)
 					chunk.setBlocks(x, my, my + 3 + chunkOdds.getRandomInt(3), z, Material.AIR);
 			}
