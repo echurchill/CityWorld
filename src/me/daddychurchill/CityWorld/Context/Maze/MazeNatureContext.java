@@ -5,7 +5,7 @@ import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Context.NatureContext;
 import me.daddychurchill.CityWorld.Plats.NatureLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plats.Maze.MazeBoxLot;
+import me.daddychurchill.CityWorld.Plats.Maze.MazeCoveredLot;
 import me.daddychurchill.CityWorld.Plats.Maze.MazeNatureLot;
 import me.daddychurchill.CityWorld.Plats.Nature.MountainShackLot;
 import me.daddychurchill.CityWorld.Plats.Nature.MountainTentLot;
@@ -235,7 +235,7 @@ public class MazeNatureContext extends NatureContext {
 							current = new NatureLot(platmap, chunkX, chunkZ);
 						break;
 					case BOX:
-						current = new MazeBoxLot(platmap, chunkX, chunkZ);
+						current = new MazeCoveredLot(platmap, chunkX, chunkZ);
 						break;
 					}
 					

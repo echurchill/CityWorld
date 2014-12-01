@@ -70,6 +70,7 @@ If you are wanting to create a particular [[http://dev.bukkit.org/server-mods/ci
 |IncludeDecayedBuildings|If buildings are generated, destroy them a little|false|
 |IncludeDecayedNature|Where nature is generated, destroy it a little|false|
 |IncludeBuildingInteriors|Put stuff inside of buildings|true|
+|IncludeFloatingSubsurface|Generate the surface under the floating cities, only works with Floating world style|true|
 |ForceLoadWorldEdit|Ignores WorldEdit version numbers|false|
 |BroadcastSpecialPlaces|WriteOut the location of each special structure as it generates|false|
 ** Note: ** Some of the above options will default a different way in worlds generated in the Nether or The_End. 

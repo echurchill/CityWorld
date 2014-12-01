@@ -108,6 +108,7 @@ public class BalloonProvider extends Provider {
 			chunk.setCircle(8, 8, 4, balloonY2, Material.WOOL, primaryColor, true);
 			
 			// add the lights
+			addLight(chunk, context, 8, balloonY2, 8);
 //			addLight(chunk, context, 7, balloonY2, 4);
 //			addLight(chunk, context, 8, balloonY2, 11);
 //			addLight(chunk, context, 4, balloonY2, 8);
