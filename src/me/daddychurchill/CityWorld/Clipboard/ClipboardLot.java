@@ -6,7 +6,7 @@ import me.daddychurchill.CityWorld.Plats.IsolatedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.AbstractChunk;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
-import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.ShortChunk;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -112,13 +112,13 @@ public class ClipboardLot extends IsolatedLot {
 	}
 	
 	@Override
-	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 		// put a hole in the ground?
 		if (clip.groundLevelY > 0) {
 
 			// backfill a bit
-			byte backfillId = BlackMagic.getMaterialId(generator.oreProvider.stratumMaterial);
+			short backfillId = BlackMagic.getMaterialId(generator.oreProvider.stratumMaterial);
 			chunk.setBlocks(0, edgeX1, depth, edgeY2, 0, 16, backfillId);
 			chunk.setBlocks(edgeX2, 16, depth, edgeY2, 0, 16, backfillId);
 			chunk.setBlocks(edgeX1, edgeX2, depth, edgeY2, 0, edgeZ1, backfillId);

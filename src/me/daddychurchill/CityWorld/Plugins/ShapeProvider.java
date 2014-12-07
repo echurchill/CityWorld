@@ -10,7 +10,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Context.RoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.ShortChunk;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -28,8 +28,8 @@ public abstract class ShapeProvider extends Provider {
 	
 	public abstract double findPerciseY(WorldGenerator generator, int blockX, int blockZ);
 
-	public abstract void preGenerateChunk(WorldGenerator generator, PlatLot lot, ByteChunk chunk, BiomeGrid biomes, CachedYs blockYs);
-	public abstract void postGenerateChunk(WorldGenerator generator, PlatLot lot, ByteChunk chunk, CachedYs blockYs);
+	public abstract void preGenerateChunk(WorldGenerator generator, PlatLot lot, ShortChunk chunk, BiomeGrid biomes, CachedYs blockYs);
+	public abstract void postGenerateChunk(WorldGenerator generator, PlatLot lot, ShortChunk chunk, CachedYs blockYs);
 	public abstract void preGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs);
 	public abstract void postGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs);
 	
@@ -185,7 +185,7 @@ public abstract class ShapeProvider extends Provider {
 		return provider;
 	}
 	
-	protected void actualGenerateStratas(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+	protected void actualGenerateStratas(WorldGenerator generator, PlatLot lot, ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			boolean surfaceCaves) {
 
@@ -218,7 +218,7 @@ public abstract class ShapeProvider extends Provider {
 		}
 	}
 
-	protected void generateStratas(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+	protected void generateStratas(WorldGenerator generator, PlatLot lot, ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			boolean surfaceCaves) {
 	
@@ -227,7 +227,7 @@ public abstract class ShapeProvider extends Provider {
 				subsurfaceMaterial, subsurfaceY, surfaceMaterial, surfaceCaves);
 	}
 
-	protected void generateStratas(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+	protected void generateStratas(WorldGenerator generator, PlatLot lot, ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			int coverY, Material coverMaterial, boolean surfaceCaves) {
 

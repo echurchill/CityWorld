@@ -16,7 +16,7 @@ import me.daddychurchill.CityWorld.Plugins.OreProvider;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider;
-import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.ShortChunk;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -199,19 +199,19 @@ public class WorldGenerator extends ChunkGenerator {
 	}
 	
 	@Override
-	public byte[][] generateBlockSections(World aWorld, Random random, int chunkX, int chunkZ, BiomeGrid biomes) {
+	public short[][] generateExtBlockSections(World world, Random random, int x, int z, BiomeGrid biomes) {
 		try {
 
-			initializeWorldInfo(aWorld);
+			initializeWorldInfo(world);
 
 			// place to work
-			ByteChunk byteChunk = new ByteChunk(this, chunkX, chunkZ);
+			ShortChunk shortChunk = new ShortChunk(this, x, z);
 		
 			// figure out what everything looks like
-			PlatMap platmap = getPlatMap(chunkX, chunkZ);
+			PlatMap platmap = getPlatMap(x, z);
 			if (platmap != null) {
 				//CityWorld.reportMessage("generate X,Z = " + chunkX + "," + chunkZ);
-				platmap.generateChunk(byteChunk, biomes);
+				platmap.generateChunk(shortChunk, biomes);
 			}
 			
 			// This was added by Sablednah
@@ -220,7 +220,7 @@ public class WorldGenerator extends ChunkGenerator {
 			//CityWorldEvent event = new CityWorldEvent(chunkX, chunkZ, platmap.context, platmap.getPlatLots()[chunkX - platmap.originX][chunkZ - platmap.originZ]);
 			//Bukkit.getServer().getPluginManager().callEvent(event);
 			
-			return byteChunk.blocks;
+			return shortChunk.blocks;
 			
 		} catch (Exception e) {
 			reportException("ChunkPopulator FAILED", e);

@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.BuildingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.ShortChunk;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
@@ -60,7 +60,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 	}
 
 	@Override
-	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 
 		// check out the neighbors
 		SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
@@ -224,7 +224,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		}	
 	}
 	
-	private void drawVerticalGirders(ByteChunk chunk, int y1, int floorHeight) {
+	private void drawVerticalGirders(ShortChunk chunk, int y1, int floorHeight) {
 		int y2 = y1 + floorHeight;
 		chunk.setBlocks(inset, y1, y2, inset, girderMaterial);
 		chunk.setBlocks(inset, y1, y2, chunk.width - inset - 1, girderMaterial);
@@ -232,7 +232,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		chunk.setBlocks(chunk.width - inset - 1, y1, y2, chunk.width - inset - 1, girderMaterial);
 	}
 
-	private void drawHorizontalGirders(ByteChunk chunk, int y1, Surroundings neighbors) {
+	private void drawHorizontalGirders(ShortChunk chunk, int y1, Surroundings neighbors) {
 		int x1 = neighbors.toWest() ? 0 : inset;
 		int x2 = neighbors.toEast() ? chunk.width - 1 : chunk.width - inset - 1;
 		int z1 = neighbors.toNorth() ? 0 : inset;

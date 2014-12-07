@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plats.Nature;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
-import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.ShortChunk;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
 import org.bukkit.Material;
@@ -19,7 +19,7 @@ public abstract class MountainFlatLot extends ConstructLot {
 		trulyIsolated = true;
 	}
 
-	protected void generateRetainerLot(WorldGenerator generator, ByteChunk chunk, DataContext context) {
+	protected void generateRetainerLot(WorldGenerator generator, ShortChunk chunk, DataContext context) {
 		
 		// flatten things out a bit
 		for (int x = 0; x < chunk.width; x++) {
@@ -51,7 +51,7 @@ public abstract class MountainFlatLot extends ConstructLot {
 	
 	private final static int bevelInset = 2;
 
-	protected void generateSmoothedLot(WorldGenerator generator, ByteChunk chunk, DataContext context) {
+	protected void generateSmoothedLot(WorldGenerator generator, ShortChunk chunk, DataContext context) {
 		
 		// blend the edges
 		for (int i = 0; i < bevelInset; i++)
@@ -74,7 +74,7 @@ public abstract class MountainFlatLot extends ConstructLot {
 		}
 	}
 
-	private void generateSmoothedLotBevel(WorldGenerator generator, ByteChunk chunk, DataContext context, int inset) {
+	private void generateSmoothedLotBevel(WorldGenerator generator, ShortChunk chunk, DataContext context, int inset) {
 
 		// Xwise
 		for (int x = inset; x < chunk.width - inset; x++) {
@@ -89,7 +89,7 @@ public abstract class MountainFlatLot extends ConstructLot {
 		}
 	}
 	
-	private void generateBevelBlock(WorldGenerator generator, ByteChunk chunk, DataContext context, int inset, int x, int z) {
+	private void generateBevelBlock(WorldGenerator generator, ShortChunk chunk, DataContext context, int inset, int x, int z) {
 		int y = getBlockY(x, z);
 		int y1 = y;
 		if (y < blockYs.averageHeight) {

@@ -6,7 +6,7 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
-import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.ShortChunk;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -25,7 +25,7 @@ public class AstralRoadLot extends RoadLot {
 	
 	@Override
 	protected void generateActualChunk(WorldGenerator generator,
-			PlatMap platmap, ByteChunk chunk, BiomeGrid biomes,
+			PlatMap platmap, ShortChunk chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
 
 	}

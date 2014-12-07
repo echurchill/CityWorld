@@ -14,7 +14,7 @@ import me.daddychurchill.CityWorld.Context.Flooded.FloodedNeighborhoodContext;
 import me.daddychurchill.CityWorld.Context.Flooded.FloodedParkContext;
 import me.daddychurchill.CityWorld.Context.Flooded.FloodedRoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.ShortChunk;
 import me.daddychurchill.CityWorld.Support.Odds;
 
 public class ShapeProvider_Flooded extends ShapeProvider_Normal {
@@ -76,7 +76,7 @@ public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 
 	@Override
 	protected void generateStratas(WorldGenerator generator, PlatLot lot,
-			ByteChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+			ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			int coverY, Material coverMaterial, boolean surfaceCaves) {
 
@@ -90,7 +90,7 @@ public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 	
 	@Override
 	protected void generateStratas(WorldGenerator generator, PlatLot lot,
-			ByteChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+			ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			boolean surfaceCaves) {
 
@@ -102,7 +102,7 @@ public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 		actualGenerateFlood(generator, lot, chunk, x, z, subsurfaceY + 1);
 	}
 
-	protected void actualGenerateFlood(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, int subsurfaceY) {
+	protected void actualGenerateFlood(WorldGenerator generator, PlatLot lot, ShortChunk chunk, int x, int z, int subsurfaceY) {
 		int y = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 		if (y > subsurfaceY) {
 //			chunk.setBlocks(x, subsurfaceY, y - 2, z, subFloodId);

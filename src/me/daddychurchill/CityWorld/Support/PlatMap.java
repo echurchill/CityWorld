@@ -67,7 +67,7 @@ public class PlatMap {
 		return generator.shapeProvider.getMicroOddsGeneratorAt(chunkX, chunkZ);
 	}
 	
-	public void generateChunk(ByteChunk chunk, BiomeGrid biomes) {
+	public void generateChunk(ShortChunk chunk, BiomeGrid biomes) {
 
 		// depending on the platchunk's type render a layer
 		int platX = chunk.chunkX - originX;

@@ -9,7 +9,7 @@ import me.daddychurchill.CityWorld.Factories.OutsideNSWallFactory;
 import me.daddychurchill.CityWorld.Factories.OutsideWEWallFactory;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Rooms.Populators.EmptyWithNothing;
-import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.ShortChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Direction.Facing;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
@@ -291,7 +291,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		return neighborBuildings;
 	}
 	
-	protected void drawCeilings(WorldGenerator generator, ByteChunk byteChunk, DataContext context, int y1, 
+	protected void drawCeilings(WorldGenerator generator, ShortChunk byteChunk, DataContext context, int y1, 
 			int height, int insetNS, int insetWE, 
 			boolean allowRounded, Material ceilingMaterial, Surroundings heights) {
 		
@@ -364,7 +364,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 	
-	protected void drawExteriorParts(WorldGenerator generator, ByteChunk byteChunk, DataContext context, int y1, 
+	protected void drawExteriorParts(WorldGenerator generator, ShortChunk byteChunk, DataContext context, int y1, 
 			int height, int insetNS, int insetWE, 
 			boolean allowRounded, Material wallMaterial, Material glassMaterial, Surroundings heights) {
 		
@@ -1309,7 +1309,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 	
 	//TODO roof fixtures (peak, helipad, air conditioning, stairwells access, penthouse, castle trim, etc.
-	protected void drawRoof(WorldGenerator generator, ByteChunk chunk, DataContext context, 
+	protected void drawRoof(WorldGenerator generator, ShortChunk chunk, DataContext context, 
 			int y1, int insetNS, int insetWE, 
 			boolean allowRounded, Material material, Surroundings heights) {
 		switch (roofStyle) {
@@ -1355,7 +1355,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 	
-	private void drawEdgedRoof(WorldGenerator generator, ByteChunk chunk, DataContext context, 
+	private void drawEdgedRoof(WorldGenerator generator, ShortChunk chunk, DataContext context, 
 			int y1, int insetNS, int insetWE, 
 			boolean allowRounded, Material material, boolean doEdge, Surroundings heights) {
 		
@@ -1385,7 +1385,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 	
-	private void drawAntenna(ByteChunk chunk, int x, int y, int z) {
+	private void drawAntenna(ShortChunk chunk, int x, int y, int z) {
 		
 		if (chunkOdds.flipCoin()) {
 			int y2 = y + 8 + chunkOdds.getRandomInt(8);
@@ -1404,7 +1404,7 @@ public abstract class BuildingLot extends ConnectedLot {
 			chunk.setTorch(navLightX, navLightY, navLightZ, context.torchMat, Direction.Torch.FLOOR);
 	}
 	
-	private void drawConditioner(ByteChunk chunk, int x, int y, int z) {
+	private void drawConditioner(ShortChunk chunk, int x, int y, int z) {
 		
 		//TODO air conditioner tracks are not round
 		if (chunkOdds.flipCoin()) {
@@ -1889,7 +1889,7 @@ public abstract class BuildingLot extends ConnectedLot {
 			chunk.setBlocks(11, 13, y1, y2, 11, 13, wallMaterial);
 	}
 
-	protected void drawFence(WorldGenerator generator, ByteChunk chunk, DataContext context, int inset, int y1, Surroundings neighbors) {
+	protected void drawFence(WorldGenerator generator, ShortChunk chunk, DataContext context, int inset, int y1, Surroundings neighbors) {
 		
 		// actual fence
 		drawExteriorParts(generator, chunk, context, y1, fenceHeight, inset, inset,

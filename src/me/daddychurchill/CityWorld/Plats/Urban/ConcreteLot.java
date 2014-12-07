@@ -4,7 +4,7 @@ import me.daddychurchill.CityWorld.WorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.BuildingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.ShortChunk;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 
@@ -28,7 +28,7 @@ public class ConcreteLot extends BuildingLot {
 
 	@Override
 	protected void generateActualChunk(WorldGenerator generator,
-			PlatMap platmap, ByteChunk chunk, BiomeGrid biomes,
+			PlatMap platmap, ShortChunk chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
 		int groundY = getBottomY(generator);
 		int sidewalkLevel = getSidewalkLevel(generator);

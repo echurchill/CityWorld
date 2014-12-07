@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Factories;
 
-import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.ShortChunk;
 import me.daddychurchill.CityWorld.Support.Odds;
 
 public abstract class MaterialFactory {
@@ -62,7 +62,7 @@ public abstract class MaterialFactory {
 		}		
 	}
 	
-	protected byte pickMaterial(byte primaryId, byte secondaryId, int i) {
+	protected short pickMaterial(short primaryId, short secondaryId, int i) {
 		switch (horizontalStyle) {
 		case WG: 
 			return i % 2 == 0 ? primaryId : secondaryId;
@@ -81,18 +81,18 @@ public abstract class MaterialFactory {
 		}
 	}
 	
-	protected void decayMaterial(ByteChunk chunk, int x, int y1, int y2, int z) {
+	protected void decayMaterial(ShortChunk chunk, int x, int y1, int y2, int z) {
 		if (decayed && odds.playOdds(oddsOfDecay)) {
 			int range = Math.max(1, y2 - y1);
-			chunk.setBlock(x, y1 + odds.getRandomInt(range), z, ByteChunk.AIR);
+			chunk.setBlock(x, y1 + odds.getRandomInt(range), z, ShortChunk.AIR);
 		}
 	}
 	
-	public abstract void placeMaterial(ByteChunk chunk, byte primaryId, byte secondaryId, 
+	public abstract void placeMaterial(ShortChunk chunk, short primaryId, short secondaryId, 
 			int x, int y1, int y2, int z);
 	
-	protected void placeMaterial(ByteChunk chunk, byte primaryId, byte secondaryId, 
-			byte glassId, int x, int y1, int y2, int z) {
+	protected void placeMaterial(ShortChunk chunk, short primaryId, short secondaryId, 
+			short glassId, int x, int y1, int y2, int z) {
 		switch (verticalStyle) {
 		case WGGG:
 			chunk.setBlocks(x, y1, y1 + 1, z, primaryId);

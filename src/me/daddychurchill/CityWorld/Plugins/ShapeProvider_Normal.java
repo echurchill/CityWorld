@@ -16,7 +16,7 @@ import me.daddychurchill.CityWorld.Context.ParkContext;
 import me.daddychurchill.CityWorld.Context.RoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
-import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.ShortChunk;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -193,7 +193,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	}
 
 	@Override
-	public void preGenerateChunk(WorldGenerator generator, PlatLot lot, ByteChunk chunk, BiomeGrid biomes, CachedYs blockYs) {
+	public void preGenerateChunk(WorldGenerator generator, PlatLot lot, ShortChunk chunk, BiomeGrid biomes, CachedYs blockYs) {
 		Biome biome = lot.getChunkBiome();
 		OreProvider ores = generator.oreProvider;
 		boolean surfaceCaves = isSurfaceCaveAt(chunk.chunkX, chunk.chunkZ);
@@ -270,7 +270,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	}
 	
 	@Override
-	public void postGenerateChunk(WorldGenerator generator, PlatLot lot, ByteChunk chunk, CachedYs blockYs) {
+	public void postGenerateChunk(WorldGenerator generator, PlatLot lot, ShortChunk chunk, CachedYs blockYs) {
 		
 		// mines please
 		lot.generateMines(generator, chunk);

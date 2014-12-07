@@ -16,7 +16,7 @@ import me.daddychurchill.CityWorld.Context.SnowDunes.SnowDunesNeighborhoodContex
 import me.daddychurchill.CityWorld.Context.SnowDunes.SnowDunesParkContext;
 import me.daddychurchill.CityWorld.Context.SnowDunes.SnowDunesRoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.ShortChunk;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -145,7 +145,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 
 	@Override
 	protected void generateStratas(WorldGenerator generator, PlatLot lot,
-			ByteChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+			ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			int coverY, Material coverMaterial, boolean surfaceCaves) {
 
@@ -158,7 +158,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 	
 	@Override
 	protected void generateStratas(WorldGenerator generator, PlatLot lot,
-			ByteChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+			ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			boolean surfaceCaves) {
 
@@ -169,7 +169,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 		actualGenerateSnow(generator, lot, chunk, x, z, subsurfaceY);
 	}
 	
-	protected void actualGenerateSnow(WorldGenerator generator, PlatLot lot, ByteChunk chunk, int x, int z, int y) {
+	protected void actualGenerateSnow(WorldGenerator generator, PlatLot lot, ShortChunk chunk, int x, int z, int y) {
 		int baseY = chunk.findLastEmptyBelow(x, y + 1, z);
 		int snowY = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 		if (snowY > baseY) 

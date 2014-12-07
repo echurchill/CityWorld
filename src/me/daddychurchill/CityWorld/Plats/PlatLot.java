@@ -9,7 +9,7 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.OreProvider.OreLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
-import me.daddychurchill.CityWorld.Support.ByteChunk;
+import me.daddychurchill.CityWorld.Support.ShortChunk;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -53,7 +53,7 @@ public abstract class PlatLot {
 	
 	public abstract PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ);
 
-	protected abstract void generateActualChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ);
+	protected abstract void generateActualChunk(WorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ);
 	protected abstract void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ);
 
 	protected void reportLocation(WorldGenerator generator, String title, int originX, int originZ) {
@@ -114,7 +114,7 @@ public abstract class PlatLot {
 	public abstract int getBottomY(WorldGenerator generator);
 	public abstract int getTopY(WorldGenerator generator);
 	
-	public void generateChunk(WorldGenerator generator, PlatMap platmap, ByteChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	public void generateChunk(WorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		initializeDice(platmap, chunk.chunkX, chunk.chunkZ);
 		
 		// what do we need to first?
@@ -152,7 +152,7 @@ public abstract class PlatLot {
 	
 	private final static int lowestMineSegment = 16;
 	
-	public void generateMines(WorldGenerator generator, ByteChunk chunk) {
+	public void generateMines(WorldGenerator generator, ShortChunk chunk) {
 		
 		// get shafted! (this builds down to keep the support poles happy)
 		if (generator.settings.includeMines)
@@ -178,7 +178,7 @@ public abstract class PlatLot {
 		return blockY >= lowestMineSegment && blockY < blockYs.minHeight && blockYs.minHeight > generator.seaLevel;
 	}
 
-	private void generateHorizontalMineLevel(WorldGenerator generator, ByteChunk chunk, int y) {
+	private void generateHorizontalMineLevel(WorldGenerator generator, ShortChunk chunk, int y) {
 		int y1 = y + 6;
 		int y2 = y1 + 1;
 		
@@ -208,16 +208,16 @@ public abstract class PlatLot {
 			generateMineShaftSpace(generator, chunk, 6, 10, y1, y1 + 4, 6, 10);
 	}
 	
-	private final static byte shaftBridgeId = ByteChunk.WOOD; 
-	private final static byte shaftSupportId = ByteChunk.FENCE;
-	private final static byte shaftBeamId = ByteChunk.WOOD;
+	private final static short shaftBridgeId = ShortChunk.WOOD; 
+	private final static short shaftSupportId = ShortChunk.FENCE;
+	private final static short shaftBeamId = ShortChunk.WOOD;
 
-	private void generateMineShaftSpace(WorldGenerator generator, ByteChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2) {
+	private void generateMineShaftSpace(WorldGenerator generator, ShortChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2) {
 		chunk.setEmptyBlocks(x1, x2, y1, z1, z2, shaftBridgeId);
 		chunk.setBlocks(x1, x2, y1 + 1, y2, z1, z2, getAirMaterial(generator, y1 + 1));
 	}
 	
-	private void generateMineNSSupport(ByteChunk chunk, int x, int y, int z) {
+	private void generateMineNSSupport(ShortChunk chunk, int x, int y, int z) {
 		
 		// on a bridge
 		if (chunk.isType(x, y - 1, z, shaftBridgeId) && 
@@ -237,7 +237,7 @@ public abstract class PlatLot {
 		}
 	}
 	
-	private void generateMineWESupport(ByteChunk chunk, int x, int y, int z) {
+	private void generateMineWESupport(ShortChunk chunk, int x, int y, int z) {
 		// on a bridge
 		if (chunk.isType(x, y - 1, z, shaftBridgeId) && 
 			chunk.isType(x, y - 1, z + 3, shaftBridgeId)) {
@@ -256,7 +256,7 @@ public abstract class PlatLot {
 		}
 	}
 	
-	private void generateMineSupport(ByteChunk chunk, int x, int y, int z) {
+	private void generateMineSupport(ShortChunk chunk, int x, int y, int z) {
 		int aboveSupport = chunk.findLastEmptyAbove(x, y, z);
 		if (aboveSupport < blockYs.maxHeight)
 			chunk.setBlocks(x, y + 1, aboveSupport + 1, z, shaftSupportId);

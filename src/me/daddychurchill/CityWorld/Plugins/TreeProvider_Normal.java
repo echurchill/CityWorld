@@ -24,7 +24,7 @@ public class TreeProvider_Normal extends TreeProvider {
 		int bottomY = y;
 		Block base = chunk.getActualBlock(x, bottomY - 1, z);
 		Material baseMat = base.getType();
-		byte baseDat = BlackMagic.getMaterialData(base);
+		short baseDat = BlackMagic.getMaterialData(base);
 		
 		// how wide is the trunk?
 		int trunkWidth = 1;

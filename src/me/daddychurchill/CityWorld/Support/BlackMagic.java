@@ -22,19 +22,19 @@ public abstract class BlackMagic {
 		return material.getId();
 	}
 	
-	public static final byte getMaterialId(Material material) {
-		return (byte) material.getId();
+	public static final short getMaterialId(Material material) {
+		return (short) material.getId();
 	}
 	
-	public static final byte getMaterialId(Block block) {
-		return (byte) block.getTypeId();
+	public static final short getMaterialId(Block block) {
+		return (short) block.getTypeId();
 	}
 
-	public static final byte getMaterialData(Block block) {
-		return (byte) block.getData();
+	public static final short getMaterialData(Block block) {
+		return (short) block.getData();
 	}
 
-	public static final byte getMaterialData(MaterialData data) {
+	public static final short getMaterialData(MaterialData data) {
 		return data.getData();
 	}
 	
@@ -124,7 +124,7 @@ public abstract class BlackMagic {
 	
 	public static final void setBlocks(SupportChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2, Block block) {
 		Material material = block.getType();
-		Byte data = block.getData();
+		short data = block.getData();
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
@@ -163,34 +163,34 @@ public abstract class BlackMagic {
 //			return block.setTypeIdAndData(getMaterialId(material), noData, doPhysics);
 //	}
 //
-//	public static final boolean setBlockType(Block block, byte typeId, boolean doPhysics) {
+//	public static final boolean setBlockType(Block block, short typeId, boolean doPhysics) {
 ////		return block.setTypeId(typeId, doPhysics);
 //		if (block == null) {
-//			CityWorld.log.info("setBlockType(Block block, byte typeId, boolean doPhysics): block is null");
+//			CityWorld.log.info("setBlockType(Block block, short typeId, boolean doPhysics): block is null");
 //			return false;
 //		} else
 //			return block.setTypeIdAndData(typeId & 0xFF, noData, doPhysics);
 //	}
 //
-//	public static final boolean setBlockType(Block block, Material material, byte data, boolean doPhysics) {
+//	public static final boolean setBlockType(Block block, Material material, short data, boolean doPhysics) {
 ////		CityWorld.log.info("BlackMagic...");
 //		if (block == null) {
-//			CityWorld.log.info("setBlockType(Block block, Material material, byte data, boolean doPhysics): block is null");
+//			CityWorld.log.info("setBlockType(Block block, Material material, short data, boolean doPhysics): block is null");
 //			return false;
 //		} else
 //			return block.setTypeIdAndData(getMaterialId(material), data, doPhysics);
 //	}
 //
-//	public static final boolean setBlockType(Block block, byte typeId, byte data, boolean doPhysics) {
+//	public static final boolean setBlockType(Block block, short typeId, short data, boolean doPhysics) {
 //		if (block == null) {
-//			CityWorld.log.info("setBlockType(Block block, byte typeId, byte data, boolean doPhysics): block is null");
+//			CityWorld.log.info("setBlockType(Block block, short typeId, short data, boolean doPhysics): block is null");
 //			return false;
 //		} else
 //			return block.setTypeIdAndData(typeId & 0xFF, data, doPhysics);
 //	}
 //	
 //	
-//	public static final byte noData = (byte) 0;
+//	public static final short noData = (short) 0;
 //		
 	
 }
