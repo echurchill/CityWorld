@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plats.Astral;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -18,7 +18,7 @@ public class AstralMushroomsSpongeLot extends AstralNatureLot {
 	final static int belowSurface = 15;
 	
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator,
+	protected void generateActualBlocks(CityWorldGenerator generator,
 			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
 			int platZ) {
 		
@@ -29,7 +29,7 @@ public class AstralMushroomsSpongeLot extends AstralNatureLot {
 		placeSponge(generator, chunk, 11, 11);
 	}
 	
-	private void placeSponge(WorldGenerator generator, RealChunk chunk, int x, int z) {
+	private void placeSponge(CityWorldGenerator generator, RealChunk chunk, int x, int z) {
 		
 		// do one here?
 		if (chunkOdds.playOdds(populationChance)) {

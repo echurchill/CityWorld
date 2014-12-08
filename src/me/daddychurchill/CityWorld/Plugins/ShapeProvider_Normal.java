@@ -1,7 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.CityWorld;
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.ConstructionContext;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Context.FarmContext;
@@ -90,7 +90,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 
 	private final static double oddsOfCentralPark = Odds.oddsUnlikely;
 	
-	public ShapeProvider_Normal(WorldGenerator generator, Odds odds) {
+	public ShapeProvider_Normal(CityWorldGenerator generator, Odds odds) {
 		super(generator, odds);
 		World world = generator.getWorld();
 		long seed = generator.getWorldSeed();
@@ -119,12 +119,12 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	}
 	
 	@Override
-	protected void validateLots(WorldGenerator generator, PlatMap platmap) {
+	protected void validateLots(CityWorldGenerator generator, PlatMap platmap) {
 		// nothing to do in this one
 	}
 	
 	@Override
-	protected void allocateContexts(WorldGenerator generator) {
+	protected void allocateContexts(CityWorldGenerator generator) {
 		if (!contextInitialized) {
 			natureContext = new NatureContext(generator);
 			roadContext = new RoadContext(generator);
@@ -188,12 +188,12 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	}
 	
 	@Override
-	protected Biome remapBiome(WorldGenerator generator, PlatLot lot, Biome biome) {
+	protected Biome remapBiome(CityWorldGenerator generator, PlatLot lot, Biome biome) {
 		return generator.oreProvider.remapBiome(biome);
 	}
 
 	@Override
-	public void preGenerateChunk(WorldGenerator generator, PlatLot lot, ShortChunk chunk, BiomeGrid biomes, CachedYs blockYs) {
+	public void preGenerateChunk(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, BiomeGrid biomes, CachedYs blockYs) {
 		Biome biome = lot.getChunkBiome();
 		OreProvider ores = generator.oreProvider;
 		boolean surfaceCaves = isSurfaceCaveAt(chunk.chunkX, chunk.chunkZ);
@@ -270,19 +270,19 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	}
 	
 	@Override
-	public void postGenerateChunk(WorldGenerator generator, PlatLot lot, ShortChunk chunk, CachedYs blockYs) {
+	public void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, CachedYs blockYs) {
 		
 		// mines please
 		lot.generateMines(generator, chunk);
 	}
 
 	@Override
-	public void preGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
+	public void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
 		// nothing... yet
 	}
 
 	@Override
-	public void postGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
+	public void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
 		
 		// put ores in?
 		lot.generateOres(generator, chunk);
@@ -327,7 +327,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	}
 	
 	@Override
-	public double findPerciseY(WorldGenerator generator, int blockX, int blockZ) {
+	public double findPerciseY(CityWorldGenerator generator, int blockX, int blockZ) {
 		double y = 0;
 		
 		// shape the noise
@@ -398,7 +398,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	}
 
 	@Override
-	public boolean notACave(WorldGenerator generator, int blockX, int blockY, int blockZ) {
+	public boolean notACave(CityWorldGenerator generator, int blockX, int blockY, int blockZ) {
 		if (generator.settings.includeCaves) {
 			double cave = caveShape.noise(blockX * caveScale, blockY * caveScaleY, blockZ * caveScale);
 			return !(cave > caveThreshold || cave < -caveThreshold);

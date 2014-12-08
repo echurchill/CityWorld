@@ -5,7 +5,7 @@ import org.bukkit.block.Biome;
 import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.SnowDunes.SnowDunesConstructionContext;
 import me.daddychurchill.CityWorld.Context.SnowDunes.SnowDunesFarmContext;
 import me.daddychurchill.CityWorld.Context.SnowDunes.SnowDunesHighriseContext;
@@ -41,7 +41,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 //	private final static double noiseAmplitude = 0.70;
 //	private final static double noiseHorizontalScale = 1.0 / 64.0;
 	
-	public ShapeProvider_SnowDunes(WorldGenerator generator, Odds odds) {
+	public ShapeProvider_SnowDunes(CityWorldGenerator generator, Odds odds) {
 		super(generator, odds);
 		
 		floodY = seaLevel + 15;
@@ -56,7 +56,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 	}
 
 	@Override
-	public void allocateContexts(WorldGenerator generator) {
+	public void allocateContexts(CityWorldGenerator generator) {
 		if (!contextInitialized) {
 			natureContext = new SnowDunesNatureContext(generator);
 			roadContext = new SnowDunesRoadContext(generator);
@@ -81,7 +81,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 	}
 	
 	@Override
-	public double findPerciseFloodY(WorldGenerator generator, int blockX, int blockZ) {
+	public double findPerciseFloodY(CityWorldGenerator generator, int blockX, int blockZ) {
 		
 		// shape the noise
 //		double noiseY = 0;//duneNoise.noise(blockX, blockZ, noiseFrequency, noiseAmplitude, true);
@@ -92,17 +92,17 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 	}
 	
 	@Override
-	public int findFloodY(WorldGenerator generator, int blockX, int blockZ) {
+	public int findFloodY(CityWorldGenerator generator, int blockX, int blockZ) {
 		return NoiseGenerator.floor(findPerciseFloodY(generator, blockX, blockZ));
 	}
 
 	@Override
-	public int findHighestFloodY(WorldGenerator generator) {
+	public int findHighestFloodY(CityWorldGenerator generator) {
 		return floodY + featureVerticalScale + noiseVerticalScale;
 	}
 
 	@Override
-	public int findLowestFloodY(WorldGenerator generator) {
+	public int findLowestFloodY(CityWorldGenerator generator) {
 		return floodY;
 	}
 
@@ -115,7 +115,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 //	}
 	
 	@Override
-	public Material findAtmosphereMaterialAt(WorldGenerator generator, int blockY) {
+	public Material findAtmosphereMaterialAt(CityWorldGenerator generator, int blockY) {
 		if (blockY < floodY)
 			return Material.SNOW_BLOCK;
 		else
@@ -131,7 +131,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 //	}
 	
 	@Override
-	public Material findGroundCoverMaterialAt(WorldGenerator generator, int blockY) {
+	public Material findGroundCoverMaterialAt(CityWorldGenerator generator, int blockY) {
 		if (blockY < floodY)
 			return Material.SNOW;
 		else
@@ -139,12 +139,12 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 	}
 	
 	@Override
-	protected Biome remapBiome(WorldGenerator generator, PlatLot lot, Biome biome) {
+	protected Biome remapBiome(CityWorldGenerator generator, PlatLot lot, Biome biome) {
 		return Biome.ICE_MOUNTAINS;
 	}
 
 	@Override
-	protected void generateStratas(WorldGenerator generator, PlatLot lot,
+	protected void generateStratas(CityWorldGenerator generator, PlatLot lot,
 			ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			int coverY, Material coverMaterial, boolean surfaceCaves) {
@@ -157,7 +157,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 	}
 	
 	@Override
-	protected void generateStratas(WorldGenerator generator, PlatLot lot,
+	protected void generateStratas(CityWorldGenerator generator, PlatLot lot,
 			ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			boolean surfaceCaves) {
@@ -169,7 +169,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 		actualGenerateSnow(generator, lot, chunk, x, z, subsurfaceY);
 	}
 	
-	protected void actualGenerateSnow(WorldGenerator generator, PlatLot lot, ShortChunk chunk, int x, int z, int y) {
+	protected void actualGenerateSnow(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, int x, int z, int y) {
 		int baseY = chunk.findLastEmptyBelow(x, y + 1, z);
 		int snowY = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 		if (snowY > baseY) 
@@ -177,7 +177,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 	}
 	
 	@Override
-	public void postGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
+	public void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
 		
 		// let the other guy do it's thing
 		super.postGenerateBlocks(generator, lot, chunk, blockYs);

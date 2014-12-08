@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Context;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
 import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot;
@@ -18,14 +18,14 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class NatureContext extends UncivilizedContext {
 
-	public NatureContext(WorldGenerator generator) {
+	public NatureContext(CityWorldGenerator generator) {
 		super(generator);
 	}
 	
 	private final static double oddsOfBunkers = Odds.oddsLikely;
 
 	@Override
-	public void populateMap(WorldGenerator generator, PlatMap platmap) {
+	public void populateMap(CityWorldGenerator generator, PlatMap platmap) {
 
 		//TODO, Nature doesn't handle schematics quite right yet
 		// let the user add their stuff first, then plug any remaining holes with our stuff
@@ -145,13 +145,13 @@ public class NatureContext extends UncivilizedContext {
 		populateSpecial(generator, platmap, minHeightX, minHeight, minHeightZ, minState);
 	}
 	
-	protected PlatLot createBuriedBuildingLot(WorldGenerator generator, PlatMap platmap, int x, int z, boolean firstOne) {
+	protected PlatLot createBuriedBuildingLot(CityWorldGenerator generator, PlatMap platmap, int x, int z, boolean firstOne) {
 		if (generator.settings.includeBunkers)
 			return new BunkerLot(platmap, x, z, firstOne);
 		return null;
 	}
 	
-	protected PlatLot createSurfaceBuildingLot(WorldGenerator generator, PlatMap platmap, int x, int z, HeightInfo heights) {
+	protected PlatLot createSurfaceBuildingLot(CityWorldGenerator generator, PlatMap platmap, int x, int z, HeightInfo heights) {
 		if (generator.settings.includeHouses)
 			if (platmap.getOddsGenerator().flipCoin())
 				return new MountainShackLot(platmap, x, z);
@@ -160,7 +160,7 @@ public class NatureContext extends UncivilizedContext {
 		return null;
 	}
 	
-	protected void populateSpecial(WorldGenerator generator, PlatMap platmap, int x, int y, int z, HeightState state) {
+	protected void populateSpecial(CityWorldGenerator generator, PlatMap platmap, int x, int y, int z, HeightState state) {
 
 		// what type of height are we talking about?
 		if (state != HeightState.BUILDING && 
@@ -202,6 +202,6 @@ public class NatureContext extends UncivilizedContext {
 		}
 	}
 
-	public void validateMap(WorldGenerator generator, PlatMap platmap) {
+	public void validateMap(CityWorldGenerator generator, PlatMap platmap) {
 	}
 }

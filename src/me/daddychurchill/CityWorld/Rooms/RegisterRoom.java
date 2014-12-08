@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Rooms;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Direction.Facing;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -16,7 +16,7 @@ public class RegisterRoom extends FilledRoom {
 	}
 
 	@Override
-	public void drawFixture(WorldGenerator generator, RealChunk chunk,
+	public void drawFixture(CityWorldGenerator generator, RealChunk chunk,
 			Odds odds, int floor, int x, int y, int z, int width, int height,
 			int depth, Facing sideWithWall, Material materialWall,
 			Material materialGlass) {

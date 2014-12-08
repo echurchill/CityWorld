@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public abstract class ConstructLot extends IsolatedLot {
@@ -10,7 +10,7 @@ public abstract class ConstructLot extends IsolatedLot {
 	}
 
 	@Override
-	public boolean isPlaceableAt(WorldGenerator generator, int chunkX, int chunkZ) {
+	public boolean isPlaceableAt(CityWorldGenerator generator, int chunkX, int chunkZ) {
 		return generator.settings.inConstructRange(chunkX, chunkZ);
 	}
 	

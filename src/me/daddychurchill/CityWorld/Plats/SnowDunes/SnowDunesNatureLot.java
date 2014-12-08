@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plats.SnowDunes;
 
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.NatureLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -23,13 +23,13 @@ public class SnowDunesNatureLot extends NatureLot {
 	}
 
 	@Override
-	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		generateSurface(generator, chunk, true);
 	}
 

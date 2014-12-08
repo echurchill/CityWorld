@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
 
 import org.bukkit.entity.EntityType;
@@ -10,7 +10,7 @@ public class SpawnProvider_Normal extends SpawnProvider {
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	
 	@Override
-	public EntityType getEntity(WorldGenerator generator, Odds odds, SpawnerLocation location) {
+	public EntityType getEntity(CityWorldGenerator generator, Odds odds, SpawnerLocation location) {
 
 		switch(location) {
 		case BUNKER:

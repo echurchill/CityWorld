@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Clipboard;
 
 import org.bukkit.block.BlockFace;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class ClipboardRoadLot extends ClipboardLot {
@@ -14,7 +14,7 @@ public class ClipboardRoadLot extends ClipboardLot {
 	}
 
 	@Override
-	public boolean isPlaceableAt(WorldGenerator generator, int chunkX, int chunkZ) {
+	public boolean isPlaceableAt(CityWorldGenerator generator, int chunkX, int chunkZ) {
 		return generator.settings.inRoadRange(chunkX, chunkZ);
 	}
 }

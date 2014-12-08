@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.TreeType;
 import org.bukkit.util.noise.NoiseGenerator;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RelativeBlocks;
@@ -28,7 +28,7 @@ public abstract class TreeProvider {
 	
 	protected Odds odds;
 
-	public static TreeProvider loadProvider(WorldGenerator generator, Odds odds) {
+	public static TreeProvider loadProvider(CityWorldGenerator generator, Odds odds) {
 
 		TreeProvider provider = null;
 		
@@ -61,15 +61,15 @@ public abstract class TreeProvider {
 			BlackMagic.setBlocks(chunk, x, x + w, y, y + h, z, z + w, material, data);
 	}
 	
-	public boolean generateMiniTrunk(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, TreeType treeType) {
+	public boolean generateMiniTrunk(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, TreeType treeType) {
 		return generateMiniTree(generator, chunk, x, y, z, treeType, false);
 	}
 	
-	public boolean generateMiniTree(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, TreeType treeType) {
+	public boolean generateMiniTree(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, TreeType treeType) {
 		return generateMiniTree(generator, chunk, x, y, z, treeType, true);
 	}
 	
-	protected boolean generateMiniTree(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, TreeType treeType, Boolean includeLeaves) {
+	protected boolean generateMiniTree(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, TreeType treeType, Boolean includeLeaves) {
 		Material trunkMaterial = Material.LOG;
 		Material leavesMaterial = Material.LEAVES;
 		int trunkHeight = 2;
@@ -176,15 +176,15 @@ public abstract class TreeProvider {
 			return false;
 	}
 	
-	public boolean generateNormalTrunk(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, TreeType treeType) {
+	public boolean generateNormalTrunk(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, TreeType treeType) {
 		return generateNormalTree(generator, chunk, x, y, z, treeType, false);
 	}
 	
-	public boolean generateNormalTree(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, TreeType treeType) {
+	public boolean generateNormalTree(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, TreeType treeType) {
 		return generateNormalTree(generator, chunk, x, y, z, treeType, true);
 	}
 	
-	protected boolean generateNormalTree(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, TreeType treeType, boolean includeLeaves) {
+	protected boolean generateNormalTree(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, TreeType treeType, boolean includeLeaves) {
 		Material trunkMaterial = Material.LOG;
 		Material leavesMaterial = Material.LEAVES;
 		int trunkBlackMagicData = 0;

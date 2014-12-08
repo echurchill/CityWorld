@@ -2,11 +2,11 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import org.bukkit.Material;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 public class OreProvider_Decayed extends OreProvider_Normal {
 
-	public OreProvider_Decayed(WorldGenerator generator) {
+	public OreProvider_Decayed(CityWorldGenerator generator) {
 		super(generator);
 
 		if (generator.settings.includeLavaFields) {

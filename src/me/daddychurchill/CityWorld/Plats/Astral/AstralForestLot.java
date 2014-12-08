@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plats.Astral;
 
 import org.bukkit.Material;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -21,11 +21,11 @@ public abstract class AstralForestLot extends AstralNatureLot {
 	final static int maxHeight = 18;
 	final static int minHeight = maxHeight / 2;
 	
-	protected abstract void plantTree(WorldGenerator generator, WorldBlocks blocks,
+	protected abstract void plantTree(CityWorldGenerator generator, WorldBlocks blocks,
 			int blockX, int blockY, int blockZ, int snowY);
 	
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator,
+	protected void generateActualBlocks(CityWorldGenerator generator,
 			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
 			int platZ) {
 		

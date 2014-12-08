@@ -5,7 +5,7 @@ import org.bukkit.World.Environment;
 import org.bukkit.block.BlockFace;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConnectedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -116,17 +116,17 @@ public class FarmLot extends ConnectedLot {
 	private final static Material trellisMaterial = Material.WOOD;
 
 	@Override
-	public int getBottomY(WorldGenerator generator) {
+	public int getBottomY(CityWorldGenerator generator) {
 		return generator.streetLevel;
 	}
 	
 	@Override
-	public int getTopY(WorldGenerator generator) {
+	public int getTopY(CityWorldGenerator generator) {
 		return generator.streetLevel + DataContext.FloorHeight * 3 + 1;
 	}
 
 	@Override
-	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		// look around
 		SurroundingLots farms = new SurroundingLots(platmap, platX, platZ);
 		
@@ -170,7 +170,7 @@ public class FarmLot extends ConnectedLot {
 		}
 	}
 	
-	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		int croplevel = generator.streetLevel + 1;
 		
 		boolean fallowField = false;
@@ -472,7 +472,7 @@ public class FarmLot extends ConnectedLot {
 		}
 	}
 	
-	private void plantField(WorldGenerator generator, SupportChunk chunk, int croplevel, 
+	private void plantField(CityWorldGenerator generator, SupportChunk chunk, int croplevel, 
 			CoverageType coverageType, int stepRow, int stepCol) {
 		
 		// do the deed
@@ -491,7 +491,7 @@ public class FarmLot extends ConnectedLot {
 		}
 	}
 	
-	private void plantField(WorldGenerator generator, SupportChunk chunk, int croplevel, 
+	private void plantField(CityWorldGenerator generator, SupportChunk chunk, int croplevel, 
 			CoverageSets coverageSet, int stepRow, int stepCol) {
 		
 		// do the deed
@@ -510,7 +510,7 @@ public class FarmLot extends ConnectedLot {
 		}
 	}
 	
-	private void plantSaplings(WorldGenerator generator, SupportChunk chunk, int croplevel, 
+	private void plantSaplings(CityWorldGenerator generator, SupportChunk chunk, int croplevel, 
 			CoverageType coverageType) {
 		plantSaplingsRow(generator, chunk, 3, croplevel, 2, coverageType);
 		plantSaplingsRow(generator, chunk, 6, croplevel, 4, coverageType);
@@ -518,20 +518,20 @@ public class FarmLot extends ConnectedLot {
 		plantSaplingsRow(generator, chunk, 12, croplevel, 4, coverageType);
 	}
 	
-	private void plantSaplingsRow(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, 
+	private void plantSaplingsRow(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, 
 			CoverageType coverageType) {
 		for (int i = 0; i < 4; i++)
 			generator.coverProvider.generateCoverage(generator, chunk, x, y, z + i * 3, coverageType);
 	}
 	
-	private void plantTrees(WorldGenerator generator, SupportChunk chunk, int croplevel, 
+	private void plantTrees(CityWorldGenerator generator, SupportChunk chunk, int croplevel, 
 			CoverageSets coverageSet) {
 		plantTreesRow(generator, chunk, 2, croplevel, 2, coverageSet);
 		plantTreesRow(generator, chunk, 7, croplevel, 3, coverageSet);
 		plantTreesRow(generator, chunk, 12, croplevel, 2, coverageSet);
 	}
 	
-	private void plantTreesRow(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, 
+	private void plantTreesRow(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, 
 			CoverageSets coverageSet) {
 		for (int i = 0; i < 3; i++)
 			generator.coverProvider.generateCoverage(generator, chunk, x, y, z + i * 5, coverageSet);

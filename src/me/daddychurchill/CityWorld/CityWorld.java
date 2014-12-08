@@ -19,7 +19,7 @@ public class CityWorld extends JavaPlugin{
     
 	@Override
 	public ChunkGenerator getDefaultWorldGenerator(String name, String style){
-		return new WorldGenerator(this, name, style);
+		return new CityWorldGenerator(this, name, style);
 	}
 	
 	@Override

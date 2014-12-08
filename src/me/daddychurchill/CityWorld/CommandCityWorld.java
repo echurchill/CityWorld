@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld;
 
-import me.daddychurchill.CityWorld.WorldGenerator.WorldStyle;
+import me.daddychurchill.CityWorld.CityWorldGenerator.WorldStyle;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -31,32 +31,24 @@ public class CommandCityWorld implements CommandExecutor {
 				
 				// arguments?
 				for (int n = 0; n < split.length; n++) {
-					if (split[n].compareToIgnoreCase("LEAVE") == 0)
+					if (split[n].compareToIgnoreCase("LEAVE") == 0) {
 						leaving = true;
+						break;
+					}
 					
-					else if (split[n].compareToIgnoreCase("NETHER") == 0)
+					else if (split[n].compareToIgnoreCase("NETHER") == 0) {
 						environment = Environment.NETHER;
+					}
 					
-					else if (split[n].compareToIgnoreCase("THE_END") == 0)
+					else if (split[n].compareToIgnoreCase("THE_END") == 0) {
 						environment = Environment.THE_END;
+					}
 					
-//					else if (split[n].compareToIgnoreCase("FLOATING") == 0)
-//						style = WorldStyle.FLOATING;
-//					
-//					else if (split[n].compareToIgnoreCase("FLOODED") == 0)
-//						style = WorldStyle.FLOODED;
-//					
-//					else if (split[n].compareToIgnoreCase("SANDDUNES") == 0)
-//						style = WorldStyle.SANDDUNES;
-//					
-//					else if (split[n].compareToIgnoreCase("SNOWDUNES") == 0)
-//						style = WorldStyle.SNOWDUNES;
-//					
-					else if (split[n].compareToIgnoreCase("NORMAL") == 0) {
-						environment = Environment.NORMAL;
-						style = WorldStyle.NORMAL;
-					
-					} else {
+					else try {
+						style = WorldStyle.valueOf(split[n].trim().toUpperCase());
+					} catch (IllegalArgumentException e) {
+						CityWorld.log.info("[Generator] Unknown world style " + split[n]);
+						style  = WorldStyle.NORMAL;
 						error = true;
 						break;
 					}
@@ -84,30 +76,31 @@ public class CommandCityWorld implements CommandExecutor {
 				
 				// okay, let's enter the city
 				} else {
-					World world = Bukkit.getServer().getWorld(DEFAULT_WORLD_NAME);
+					String worldName = getDefaultWorldName(style, environment);
+					World world = Bukkit.getServer().getWorld(worldName);
 					
 					// if the world doesn't exist but the player has permission to create it
 					if (world == null && player.hasPermission("cityworld.create")) {
-						sender.sendMessage("Creating CityWorld... This will take a moment...");
+						sender.sendMessage("Creating " + worldName + "... This will take a moment...");
 						world = getDefaultCityWorld(style, environment);
 					}
 					
 					// test to see if it exists
 					if (world == null) {
-						sender.sendMessage("Cannot find or create the default CityWorld");
+						sender.sendMessage("Cannot find or create " + worldName);
 						return false;
 					} else {
 						
 						// are we actually going to the right place
-						if (!(world.getGenerator() instanceof WorldGenerator))
-							sender.sendMessage("WARNING: The world called CityWorld does NOT use the CityWorld generator");
+						if (!(world.getGenerator() instanceof CityWorldGenerator))
+							sender.sendMessage("WARNING: The world called " + worldName + " does NOT use the CityWorld generator");
 						
 						// actually go there then
 						if (player.getLocation().getWorld() == world) {
 							sender.sendMessage("You are already here");
 							return true;
 						} else {
-							player.sendMessage("Entering CityWorld...");
+							player.sendMessage("Entering " + worldName + "...");
 							player.teleport(world.getSpawnLocation());
 							return true;
 						}
@@ -125,18 +118,30 @@ public class CommandCityWorld implements CommandExecutor {
 
     // prime world support (loosely based on ExpansiveTerrain)
 	public final static String DEFAULT_WORLD_NAME = "CityWorld";
+	
+	public final static String getDefaultWorldName(WorldStyle style, Environment environment) {
+		String worldName = DEFAULT_WORLD_NAME;
+		style = CityWorldGenerator.validateStyle(style);
+		if (style != WorldStyle.NORMAL)
+			worldName = worldName + "_" + style.toString().toLowerCase();
+		if (environment != Environment.NORMAL)
+			worldName = worldName + "_" + environment.toString().toLowerCase();
+		return worldName;
+	}
+	
 	public World getDefaultCityWorld(WorldStyle style, Environment environment) {
 		
 		// built yet?
-		World cityWorldPrime = Bukkit.getServer().getWorld(DEFAULT_WORLD_NAME);
+		String worldName = getDefaultWorldName(style, environment);
+		World cityWorldPrime = Bukkit.getServer().getWorld(worldName);
 		if (cityWorldPrime == null) {
 			
 			// if neither then create/build it!
-			WorldCreator worldcreator = new WorldCreator(DEFAULT_WORLD_NAME);
+			WorldCreator worldcreator = new WorldCreator(worldName);
 			//worldcreator.seed(-7457540200860308014L); // Beta seed
 			//worldcreator.seed(5509442565638151977L); // 82,-35
 			worldcreator.environment(environment);
-			worldcreator.generator(new WorldGenerator(plugin, DEFAULT_WORLD_NAME, style.toString()));
+			worldcreator.generator(new CityWorldGenerator(plugin, worldName, style.toString()));
 			cityWorldPrime = Bukkit.getServer().createWorld(worldcreator);
 		}
 		return cityWorldPrime;

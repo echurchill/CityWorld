@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
@@ -13,14 +13,14 @@ public class CoverProvider_Decayed extends CoverProvider {
 	}
 	
 	@Override
-	public boolean generateCoverage(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageType coverageType) {
+	public boolean generateCoverage(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageType coverageType) {
 		if (likelyCover(generator))
 			setCoverage(generator, chunk, x, y, z, coverageType);
 		return true;
 	}
 
 	@Override
-	protected void setCoverage(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageType coverageType) {
+	protected void setCoverage(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageType coverageType) {
 		switch (coverageType) {
 		case GRASS:
 		case DANDELION:
@@ -134,7 +134,7 @@ public class CoverProvider_Decayed extends CoverProvider {
 	}
 	
 	@Override
-	public boolean isPlantable(WorldGenerator generator, SupportChunk chunk, int x, int y, int z) {
+	public boolean isPlantable(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z) {
 		
 		// only if the spot above is empty
 		if (!chunk.isEmpty(x, y + 1, z))

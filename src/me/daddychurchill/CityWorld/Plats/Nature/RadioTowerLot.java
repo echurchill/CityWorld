@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plats.Nature;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -46,17 +46,17 @@ public class RadioTowerLot extends ConstructLot {
 	private final static Material capTinyMaterial = Material.STEP;
 	
 	@Override
-	public int getBottomY(WorldGenerator generator) {
+	public int getBottomY(CityWorldGenerator generator) {
 		return blockYs.maxHeight + 2;
 	}
 	
 	@Override
-	public int getTopY(WorldGenerator generator) {
+	public int getTopY(CityWorldGenerator generator) {
 		return getBottomY(generator) + heightTallest;
 	}
 
 	@Override
-	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 		// compute offset to start of chunk
 		int platformOffset = platformWidth / 2;
@@ -92,7 +92,7 @@ public class RadioTowerLot extends ConstructLot {
 	}
 	
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		reportLocation(generator, "Radio Tower", chunk.getOriginX(), chunk.getOriginZ());
 
 		// compute offset to start of chunk

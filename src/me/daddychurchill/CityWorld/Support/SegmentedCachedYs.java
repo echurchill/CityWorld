@@ -1,12 +1,12 @@
 package me.daddychurchill.CityWorld.Support;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 public class SegmentedCachedYs extends CachedYs {
 
 	private int[][] segmentYs= new int[width][width];
 	
-	public SegmentedCachedYs(WorldGenerator generator, int chunkX, int chunkZ) {
+	public SegmentedCachedYs(CityWorldGenerator generator, int chunkX, int chunkZ) {
 		super(generator, chunkX, chunkZ);
 
 		// lets get started?

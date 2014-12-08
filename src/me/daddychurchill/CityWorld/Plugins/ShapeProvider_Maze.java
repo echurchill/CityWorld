@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Context.Maze.MazeNatureContext;
 import me.daddychurchill.CityWorld.Context.Maze.MazeRoadContext;
@@ -9,13 +9,13 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class ShapeProvider_Maze extends ShapeProvider_Normal {
 
-	public ShapeProvider_Maze(WorldGenerator generator, Odds odds) {
+	public ShapeProvider_Maze(CityWorldGenerator generator, Odds odds) {
 		super(generator, odds);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void allocateContexts(WorldGenerator generator) {
+	public void allocateContexts(CityWorldGenerator generator) {
 		if (!contextInitialized) {
 			natureContext = new MazeNatureContext(generator);
 			roadContext = new MazeRoadContext(generator);

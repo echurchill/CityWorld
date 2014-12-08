@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Context.Floating;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.NatureContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Floating.FloatingHouseLot;
@@ -13,17 +13,17 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class FloatingNatureContext extends NatureContext {
 
-	public FloatingNatureContext(WorldGenerator generator) {
+	public FloatingNatureContext(CityWorldGenerator generator) {
 		super(generator);
 	}
 	
 	@Override
-	public PlatLot createNaturalLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
+	public PlatLot createNaturalLot(CityWorldGenerator generator, PlatMap platmap, int x, int z) {
 		return new FloatingNatureLot(platmap, platmap.originX + x, platmap.originZ + z);
 	}
 
 	@Override
-	public void populateMap(WorldGenerator generator, PlatMap platmap) {
+	public void populateMap(CityWorldGenerator generator, PlatMap platmap) {
 		super.populateMap(generator, platmap);
 		
 		//TODO, Nature doesn't handle schematics quite right yet

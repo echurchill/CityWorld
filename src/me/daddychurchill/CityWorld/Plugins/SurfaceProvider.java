@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -26,10 +26,10 @@ public abstract class SurfaceProvider extends Provider {
 	
 	protected Odds odds;
 	
-	public abstract void generateSurfacePoint(WorldGenerator generator, PlatLot lot, SupportChunk chunk, CoverProvider foliage, 
+	public abstract void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot, SupportChunk chunk, CoverProvider foliage, 
 			int x, double perciseY, int z, boolean includeTrees);
 	
-	public void generateSurface(WorldGenerator generator, PlatLot lot, SupportChunk chunk, CachedYs blockYs, boolean includeTrees) {
+	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportChunk chunk, CachedYs blockYs, boolean includeTrees) {
 		CoverProvider foliage = generator.coverProvider;
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {
@@ -39,7 +39,7 @@ public abstract class SurfaceProvider extends Provider {
 	}
 	
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
-	public static SurfaceProvider loadProvider(WorldGenerator generator, Odds odds) {
+	public static SurfaceProvider loadProvider(CityWorldGenerator generator, Odds odds) {
 		
 		SurfaceProvider provider = null;
 

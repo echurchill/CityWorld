@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 public class OdonymProvider_Normal extends OdonymProvider {
 
@@ -11,7 +11,7 @@ public class OdonymProvider_Normal extends OdonymProvider {
 	}
 
 	@Override
-	public String[] generateNorthSouthOdonym(WorldGenerator generator, int x, int z) {
+	public String[] generateNorthSouthOdonym(CityWorldGenerator generator, int x, int z) {
 		int streetN = generateStreetNumber(z);
 		String[] result = new String[4];
 		result[0] = generateNumericPrefix(streetN, "North", "South");
@@ -75,7 +75,7 @@ public class OdonymProvider_Normal extends OdonymProvider {
 	}
 	
 	@Override
-	public String[] generateWestEastOdonym(WorldGenerator generator, int x, int z) {
+	public String[] generateWestEastOdonym(CityWorldGenerator generator, int x, int z) {
 		int streetN = generateStreetNumber(x);
 		Random random = getRandomFor(streetN);
 		String[] result = new String[4];

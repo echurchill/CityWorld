@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plats.Urban;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.BuildingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -50,17 +50,17 @@ public class UnfinishedBuildingLot extends BuildingLot {
 	}
 
 	@Override
-	public int getBottomY(WorldGenerator generator) {
+	public int getBottomY(CityWorldGenerator generator) {
 		return generator.streetLevel - FloorHeight * (depth - 1) - 3;
 	}
 	
 	@Override
-	public int getTopY(WorldGenerator generator) {
+	public int getTopY(CityWorldGenerator generator) {
 		return generator.streetLevel + FloorHeight * (height + 1) + 10; // crane bit
 	}
 
 	@Override
-	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 
 		// check out the neighbors
 		SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
@@ -137,7 +137,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 	}
 
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		
 		// work on the basement stairs first
 		if (!unfinishedBasementOnly) {
@@ -203,7 +203,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		}
 	}
 	
-	protected boolean drawCrane(WorldGenerator generator, RealChunk chunk, DataContext context) {
+	protected boolean drawCrane(CityWorldGenerator generator, RealChunk chunk, DataContext context) {
 		if (lastHorizontalGirder > 0 && chunkOdds.playOdds(context.oddsOfCranes)) {
 			if (chunkOdds.flipCoin())
 				chunk.drawCrane(context, chunkOdds, inset + 2, lastHorizontalGirder + 1, inset);
@@ -216,7 +216,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 	
 	private final static double decayedEdgeOdds = 0.20;
 	
-	private void decayEdge(WorldGenerator generator, int x, int y, int z) {
+	private void decayEdge(CityWorldGenerator generator, int x, int y, int z) {
 		if (chunkOdds.playOdds(decayedEdgeOdds)) {
 			
 			// make it go away

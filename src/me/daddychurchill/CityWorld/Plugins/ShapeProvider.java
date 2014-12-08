@@ -6,7 +6,7 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Context.RoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -26,27 +26,27 @@ public abstract class ShapeProvider extends Provider {
 	public abstract int getConstuctMin();
 	public abstract int getConstuctRange();
 	
-	public abstract double findPerciseY(WorldGenerator generator, int blockX, int blockZ);
+	public abstract double findPerciseY(CityWorldGenerator generator, int blockX, int blockZ);
 
-	public abstract void preGenerateChunk(WorldGenerator generator, PlatLot lot, ShortChunk chunk, BiomeGrid biomes, CachedYs blockYs);
-	public abstract void postGenerateChunk(WorldGenerator generator, PlatLot lot, ShortChunk chunk, CachedYs blockYs);
-	public abstract void preGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs);
-	public abstract void postGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs);
+	public abstract void preGenerateChunk(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, BiomeGrid biomes, CachedYs blockYs);
+	public abstract void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, CachedYs blockYs);
+	public abstract void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs);
+	public abstract void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs);
 	
-	protected abstract Biome remapBiome(WorldGenerator generator, PlatLot lot, Biome biome);
-	protected abstract void allocateContexts(WorldGenerator generator);
+	protected abstract Biome remapBiome(CityWorldGenerator generator, PlatLot lot, Biome biome);
+	protected abstract void allocateContexts(CityWorldGenerator generator);
 	public abstract String getCollectionName();
 	
-	protected abstract void validateLots(WorldGenerator generator, PlatMap platmap);
+	protected abstract void validateLots(CityWorldGenerator generator, PlatMap platmap);
 
 	public abstract DataContext getContext(int originX, int originZ);
 	public abstract DataContext getContext(PlatMap platmap);
 
-	public CachedYs getCachedYs(WorldGenerator generator, int chunkX, int chunkZ) {
+	public CachedYs getCachedYs(CityWorldGenerator generator, int chunkX, int chunkZ) {
 		return new CachedYs(generator, chunkX, chunkZ);
 	}
 	
-	public void populateLots(WorldGenerator generator, PlatMap platmap) {
+	public void populateLots(CityWorldGenerator generator, PlatMap platmap) {
 		try {
 			allocateContexts(generator);
 
@@ -90,27 +90,27 @@ public abstract class ShapeProvider extends Provider {
 		return getStreetLevel();
 	}
 	
-	public int findBlockY(WorldGenerator generator, int blockX, int blockZ) {
+	public int findBlockY(CityWorldGenerator generator, int blockX, int blockZ) {
 		return NoiseGenerator.floor(findPerciseY(generator, blockX, blockZ));
 	}
 	
-	public int findGroundY(WorldGenerator generator, int blockX, int blockZ) {
+	public int findGroundY(CityWorldGenerator generator, int blockX, int blockZ) {
 		return findBlockY(generator, blockX, blockZ);
 	}
 	
-	public double findPerciseFloodY(WorldGenerator generator, int blockX, int blockZ) {
+	public double findPerciseFloodY(CityWorldGenerator generator, int blockX, int blockZ) {
 		return getSeaLevel();
 	}
 	
-	public int findFloodY(WorldGenerator generator, int blockX, int blockZ) {
+	public int findFloodY(CityWorldGenerator generator, int blockX, int blockZ) {
 		return getSeaLevel();
 	}
 	
-	public int findHighestFloodY(WorldGenerator generator) {
+	public int findHighestFloodY(CityWorldGenerator generator) {
 		return getSeaLevel();
 	}
 	
-	public int findLowestFloodY(WorldGenerator generator) {
+	public int findLowestFloodY(CityWorldGenerator generator) {
 		return getSeaLevel();
 	}
 	
@@ -118,7 +118,7 @@ public abstract class ShapeProvider extends Provider {
 //		return BlackMagic.airId;
 //	}
 	
-	public Material findAtmosphereMaterialAt(WorldGenerator generator, int blockY) {
+	public Material findAtmosphereMaterialAt(CityWorldGenerator generator, int blockY) {
 		return Material.AIR;
 	}
 	
@@ -126,23 +126,23 @@ public abstract class ShapeProvider extends Provider {
 //		return BlackMagic.airId;
 //	}
 	
-	public Material findGroundCoverMaterialAt(WorldGenerator generator, int blockY) {
+	public Material findGroundCoverMaterialAt(CityWorldGenerator generator, int blockY) {
 		return Material.AIR;
 	}
 	
-	public PlatLot createNaturalLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
+	public PlatLot createNaturalLot(CityWorldGenerator generator, PlatMap platmap, int x, int z) {
 		return natureContext.createNaturalLot(generator, platmap, x, z);
 	}
 	
-	public PlatLot createRoadLot(WorldGenerator generator, PlatMap platmap, int x, int z, boolean roundaboutPart, PlatLot oldLot)  {
+	public PlatLot createRoadLot(CityWorldGenerator generator, PlatMap platmap, int x, int z, boolean roundaboutPart, PlatLot oldLot)  {
 		return roadContext.createRoadLot(generator, platmap, x, z, roundaboutPart, oldLot);
 	}
 
-	public PlatLot createRoundaboutStatueLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
+	public PlatLot createRoundaboutStatueLot(CityWorldGenerator generator, PlatMap platmap, int x, int z) {
 		return roadContext.createRoundaboutStatueLot(generator, platmap, x, z);
 	}
 
-	public ShapeProvider(WorldGenerator generator, Odds odds) {
+	public ShapeProvider(CityWorldGenerator generator, Odds odds) {
 		super();
 		this.odds = odds;
 		long seed = generator.getWorldSeed();
@@ -153,7 +153,7 @@ public abstract class ShapeProvider extends Provider {
 	}
 
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
-	public static ShapeProvider loadProvider(WorldGenerator generator, Odds odds) {
+	public static ShapeProvider loadProvider(CityWorldGenerator generator, Odds odds) {
 		
 		ShapeProvider provider = null;
 
@@ -185,7 +185,7 @@ public abstract class ShapeProvider extends Provider {
 		return provider;
 	}
 	
-	protected void actualGenerateStratas(WorldGenerator generator, PlatLot lot, ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+	protected void actualGenerateStratas(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			boolean surfaceCaves) {
 
@@ -218,7 +218,7 @@ public abstract class ShapeProvider extends Provider {
 		}
 	}
 
-	protected void generateStratas(WorldGenerator generator, PlatLot lot, ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+	protected void generateStratas(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			boolean surfaceCaves) {
 	
@@ -227,7 +227,7 @@ public abstract class ShapeProvider extends Provider {
 				subsurfaceMaterial, subsurfaceY, surfaceMaterial, surfaceCaves);
 	}
 
-	protected void generateStratas(WorldGenerator generator, PlatLot lot, ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+	protected void generateStratas(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			int coverY, Material coverMaterial, boolean surfaceCaves) {
 
@@ -247,7 +247,7 @@ public abstract class ShapeProvider extends Provider {
 	public abstract boolean isVerticalShaft(int chunkX, int chunkY, int chunkZ);
 	
 	//TODO refactor this so that it is a positive (maybe ifCave) instead of a negative
-	public abstract boolean notACave(WorldGenerator generator, int blockX, int blockY, int blockZ);
+	public abstract boolean notACave(CityWorldGenerator generator, int blockX, int blockY, int blockZ);
 	
 	// macro slots
 	private final static int macroRandomGeneratorSlot = 0;

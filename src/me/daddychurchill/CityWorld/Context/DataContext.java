@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Context;
 
 import org.bukkit.Material;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.ClipboardList;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Plats.NatureLot;
@@ -62,7 +62,7 @@ public abstract class DataContext {
 	public int absoluteMaximumFloorsBelow;
 	public int absoluteMaximumFloorsAbove; 
 	
-	public DataContext(WorldGenerator generator) {
+	public DataContext(CityWorldGenerator generator) {
 
 		// lights?
 		if (generator.settings.includeWorkingLights) {
@@ -89,18 +89,18 @@ public abstract class DataContext {
 		
 	}
 	
-	public abstract void populateMap(WorldGenerator generator, PlatMap platmap);
-	public abstract void validateMap(WorldGenerator generator, PlatMap platmap);
+	public abstract void populateMap(CityWorldGenerator generator, PlatMap platmap);
+	public abstract void validateMap(CityWorldGenerator generator, PlatMap platmap);
 
 	private ClipboardList mapsSchematics;
 	public double oddsOfUnfinishedBuildings = Odds.oddsNeverGoingToHappen;
-	protected ClipboardList getSchematics(WorldGenerator generator) {
+	protected ClipboardList getSchematics(CityWorldGenerator generator) {
 		if (mapsSchematics == null)
 			mapsSchematics = generator.pasteProvider.getFamilyClips(generator, schematicFamily, schematicMaxX, schematicMaxZ);
 		return mapsSchematics;
 	}
 	
-	public PlatLot createNaturalLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
+	public PlatLot createNaturalLot(CityWorldGenerator generator, PlatMap platmap, int x, int z) {
 		return new NatureLot(platmap, platmap.originX + x, platmap.originZ + z);
 	}
 	

@@ -1,13 +1,13 @@
 package me.daddychurchill.CityWorld.Context;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public abstract class UncivilizedContext extends DataContext {
 
-	public UncivilizedContext(WorldGenerator generator) {
+	public UncivilizedContext(CityWorldGenerator generator) {
 		super(generator);
 
 		oddsOfIsolatedLots = Odds.oddsNeverGoingToHappen; 
@@ -36,7 +36,7 @@ public abstract class UncivilizedContext extends DataContext {
 	}
 
 	@Override
-	public void validateMap(WorldGenerator generator, PlatMap platmap) {
+	public void validateMap(CityWorldGenerator generator, PlatMap platmap) {
 		for (int x = 0; x < PlatMap.Width; x++) {
 			for (int z = 0; z < PlatMap.Width; z++) {
 				PlatLot current = platmap.getLot(x, z);

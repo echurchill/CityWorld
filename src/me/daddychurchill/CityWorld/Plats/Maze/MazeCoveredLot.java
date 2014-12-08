@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Maze;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -13,7 +13,7 @@ public class MazeCoveredLot extends MazeNatureLot {
 	}
 
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		super.generateActualBlocks(generator, platmap, chunk, context, platX, platZ);
 		
 		// top it off

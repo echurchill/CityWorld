@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plugins;
 import org.bukkit.Material;
 import org.bukkit.util.noise.NoiseGenerator;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -17,7 +17,7 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 	}
 
 	@Override
-	public void generateSurfacePoint(WorldGenerator generator, PlatLot lot, SupportChunk chunk, CoverProvider foliage, 
+	public void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot, SupportChunk chunk, CoverProvider foliage, 
 			int x, double perciseY, int z, boolean includeTrees) {
 		OreProvider ores = generator.oreProvider;
 		int y = NoiseGenerator.floor(perciseY);

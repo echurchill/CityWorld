@@ -1,33 +1,19 @@
 == **CityWorld** ==
-The great outdoors is all fine and good but sometimes you just want to go to town. 
+The great outdoors is all good and fine but sometimes you just want to go to town. 
 Not any town will do, how about one that goes on forever or multiple ones separated by the largest mountains possible in MineCraft. 
 But what is under those mountains? 
 There is an entire world to explore, have fun!
 
-==== <<color green>>If you like CityWorld, please consider donating via the **Donate** button in the upper right corner.<</color>> ====
-
-----
-===== //Version 2.992// ===== 
-,,//(sometimes there is a delay in getting the new version of the plugin through the approval process, 
-if the above version isn't available check back in an hour or so... 
-...or possibly look [[http://dev.bukkit.org/media/files/836/100/CityWorld.jar|here]])//,,
+===== //Version 2.993// ===== 
 
 {{http://dev.bukkit.org/media/images/42/720/2012-07-04_11.31.52.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
-v2.992
-* Maze world now works, what I was referring to as Zea earlier. Think: MazeRunner but without the bad acting. Give it a whirl, the Zombie servers out there should find this enjoyable. Still a work in progress, more to come
-* For folks using Multiverse, try "mv create MazeWorld normal -g CityWorld:Maze". Other multiworld plugins will use a different syntax, see your plugin docs for more info.
-* Fixed Floating's IncludeFloatingSubsurface option and documented it finally. If you set this to false then the world the cities are floating over won't be generated.
-
-v2.991
-* Added a lot more stuff to Astral (buried cities, empty bases, abandoned saucers, strange forests, strange towers and much more...)
-* Next up: Zea, along with some other customization suggested by you guys
+v2.993
+* This first post is a "get well" build for Spigot. The links in this post refer to the old Bukkit site. I will be moving that content during December. (my thanks go out to the Spigot folks to continuing the great Modding support provided by old' Bukkit)
 
 ([[http://dev.bukkit.org/server-mods/cityworld/pages/version/|For older version info...]]
-
-Remember, if you aren't up for using the latest beta of Bukkit or the bugs from this one bother you too much, the older versions are still available.
 
 ----
 ** Personal note **

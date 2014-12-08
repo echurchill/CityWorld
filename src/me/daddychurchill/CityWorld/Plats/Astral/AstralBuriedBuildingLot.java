@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plats.Astral;
 
 import org.bukkit.Material;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.Nature.MineEntranceLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
@@ -67,7 +67,7 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 	private final static int floorHeight = 4;
 
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator,
+	protected void generateActualBlocks(CityWorldGenerator generator,
 			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
 			int platZ) {
 		
@@ -113,7 +113,7 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 	private final static double oddsOfTallFloor = Odds.oddsVeryUnlikely;
 	private final static double oddsOfFurniture = Odds.oddsVeryLikely;
 	
-	private int generateFloor(WorldGenerator generator, RealChunk chunk, int y, Material wallMaterial) {
+	private int generateFloor(CityWorldGenerator generator, RealChunk chunk, int y, Material wallMaterial) {
 		
 		// tall one?
 		int y2 = y + floorHeight - 1;

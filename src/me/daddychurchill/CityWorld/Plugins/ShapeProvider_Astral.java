@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralBaseContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralBlackZoneContext;
@@ -82,7 +82,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	public final static double ecoScale = 1.0 / 4.0;
 	public final static double ecoScaleY = ecoScale;
 
-	public ShapeProvider_Astral(WorldGenerator generator, Odds odds) {
+	public ShapeProvider_Astral(CityWorldGenerator generator, Odds odds) {
 		super(generator, odds);
 		
 		World world = generator.getWorld();
@@ -112,12 +112,12 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	}
 	
 	@Override
-	public CachedYs getCachedYs(WorldGenerator generator, int chunkX, int chunkZ) {
+	public CachedYs getCachedYs(CityWorldGenerator generator, int chunkX, int chunkZ) {
 		return new SegmentedCachedYs(generator, chunkX, chunkZ);
 	}
 	
 	@Override
-	protected void validateLots(WorldGenerator generator, PlatMap platmap) {
+	protected void validateLots(CityWorldGenerator generator, PlatMap platmap) {
 		// nothing to do in this one
 	}
 	
@@ -140,7 +140,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	private AstralDataContext cityZoneContext;
 	
 	@Override
-	protected void allocateContexts(WorldGenerator generator) {
+	protected void allocateContexts(CityWorldGenerator generator) {
 		if (!contextInitialized) {
 			natureContext = new AstralNatureContext(generator);
 			roadContext = new AstralRoadContext(generator);
@@ -279,12 +279,12 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	}
 	
 	@Override
-	protected Biome remapBiome(WorldGenerator generator, PlatLot lot, Biome biome) {
+	protected Biome remapBiome(CityWorldGenerator generator, PlatLot lot, Biome biome) {
 		return generator.oreProvider.remapBiome(biome);
 	}
 
 	@Override
-	public void preGenerateChunk(WorldGenerator generator, PlatLot lot, ShortChunk chunk, BiomeGrid biomes, CachedYs blockYs) {
+	public void preGenerateChunk(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, BiomeGrid biomes, CachedYs blockYs) {
 		Biome biome = lot.getChunkBiome();
 		OreProvider ores = generator.oreProvider;
 //		boolean surfaceCaves = isSurfaceCaveAt(chunk.chunkX, chunk.chunkZ);
@@ -348,14 +348,14 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	}
 	
 	@Override
-	public void postGenerateChunk(WorldGenerator generator, PlatLot lot, ShortChunk chunk, CachedYs blockYs) {
+	public void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, CachedYs blockYs) {
 		
 //		// mines please
 //		lot.generateMines(generator, chunk);
 	}
 
 	@Override
-	public void preGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
+	public void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
 		OreProvider ores = generator.oreProvider;
 //		boolean surfaceCaves = isSurfaceCaveAt(chunk.chunkX, chunk.chunkZ);
 		int originX = chunk.getOriginX();
@@ -424,7 +424,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	}
 
 	@Override
-	public void postGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
+	public void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
 		
 //		// put ores in?
 //		lot.generateOres(generator, chunk);
@@ -469,7 +469,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	}
 	
 	@Override
-	public double findPerciseY(WorldGenerator generator, int blockX, int blockZ) {
+	public double findPerciseY(CityWorldGenerator generator, int blockX, int blockZ) {
 		double y = 0;
 		
 		// shape the noise
@@ -534,7 +534,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	}
 
 	@Override
-	public boolean notACave(WorldGenerator generator, int blockX, int blockY, int blockZ) {
+	public boolean notACave(CityWorldGenerator generator, int blockX, int blockY, int blockZ) {
 		return true;
 //		if (generator.settings.includeCaves) {
 //			double cave = caveShape.noise(blockX * caveScale, blockY * caveScaleY, blockZ * caveScale);

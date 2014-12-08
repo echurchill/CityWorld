@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plats.Flooded;
 
 import org.bukkit.Material;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Urban.OfficeBuildingLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
@@ -30,7 +30,7 @@ public class FloodedOfficeBuildingLot extends OfficeBuildingLot {
 	}
 
 	@Override
-	public RoomProvider roomProviderForFloor(WorldGenerator generator, SupportChunk chunk, int floor, int floorY) {
+	public RoomProvider roomProviderForFloor(CityWorldGenerator generator, SupportChunk chunk, int floor, int floorY) {
 		if (generator.shapeProvider.findFloodY(generator, chunk.getOriginX(), chunk.getOriginZ()) < floorY)
 			return super.roomProviderForFloor(generator, chunk, floor, floorY);
 		else {
@@ -50,7 +50,7 @@ public class FloodedOfficeBuildingLot extends OfficeBuildingLot {
 	}
 	
 	@Override
-	protected Material getAirMaterial(WorldGenerator generator, int y) {
+	protected Material getAirMaterial(CityWorldGenerator generator, int y) {
 		if (y < floodY)
 			return ShapeProvider_Flooded.floodMaterial;
 		else

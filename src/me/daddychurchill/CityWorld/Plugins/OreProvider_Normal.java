@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import org.bukkit.Material;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -10,7 +10,7 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class OreProvider_Normal extends OreProvider {
 
-	public OreProvider_Normal(WorldGenerator generator) {
+	public OreProvider_Normal(CityWorldGenerator generator) {
 		super(generator);
 	}
 	
@@ -47,7 +47,7 @@ public class OreProvider_Normal extends OreProvider {
 	private static final boolean[] ore_liquid = new boolean[] { true,  true, false, false, false, false, false, false, false, false};
 	
 	@Override
-	public void sprinkleOres(WorldGenerator generator, PlatLot lot, SupportChunk chunk, CachedYs blockYs, Odds odds, OreLocation location) {
+	public void sprinkleOres(CityWorldGenerator generator, PlatLot lot, SupportChunk chunk, CachedYs blockYs, Odds odds, OreLocation location) {
 		
 		// do it!
 		for (int typeNdx = 0; typeNdx < ore_types.length; typeNdx++) {

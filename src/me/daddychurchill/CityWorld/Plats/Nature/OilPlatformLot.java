@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plats.Nature;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -35,22 +35,22 @@ public class OilPlatformLot extends ConstructLot {
 	private final static int aboveSea = 6;
 
 	@Override
-	public int getBottomY(WorldGenerator generator) {
+	public int getBottomY(CityWorldGenerator generator) {
 		return generator.seaLevel + aboveSea;
 	}
 	
 	@Override
-	public int getTopY(WorldGenerator generator) {
+	public int getTopY(CityWorldGenerator generator) {
 		return getBottomY(generator) + DataContext.FloorHeight * 4 + 1;
 	}
 
 	@Override
-	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 	}
 	
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		reportLocation(generator, "Oil Platform", chunk.getOriginX(), chunk.getOriginZ());
 
 		// working levels
@@ -180,7 +180,7 @@ public class OilPlatformLot extends ConstructLot {
 
 	private final static double decayedEdgeOdds = 0.25;
 	
-	private void decayEdge(WorldGenerator generator, int x, int y, int z) {
+	private void decayEdge(CityWorldGenerator generator, int x, int y, int z) {
 		if (chunkOdds.playOdds(decayedEdgeOdds))
 			
 			// make it go away

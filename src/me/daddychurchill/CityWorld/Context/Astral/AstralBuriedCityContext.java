@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Context.Astral;
 
 import org.bukkit.Material;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralBuriedBuildingLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralBuriedRoadLot;
@@ -13,13 +13,13 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class AstralBuriedCityContext extends AstralDataContext {
 
-	public AstralBuriedCityContext(WorldGenerator generator) {
+	public AstralBuriedCityContext(CityWorldGenerator generator) {
 		super(generator);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void populateMap(WorldGenerator generator, PlatMap platmap) {
+	public void populateMap(CityWorldGenerator generator, PlatMap platmap) {
 		//TODO, This doesn't handle schematics quite right yet
 		// let the user add their stuff first, then plug any remaining holes with our stuff
 		//mapsSchematics.populate(generator, platmap);
@@ -68,7 +68,7 @@ public class AstralBuriedCityContext extends AstralDataContext {
 	}
 
 	@Override
-	public void validateMap(WorldGenerator generator, PlatMap platmap) {
+	public void validateMap(CityWorldGenerator generator, PlatMap platmap) {
 		// TODO Auto-generated method stub
 
 	}

@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Floating;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.IsolatedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -33,17 +33,17 @@ public class FloatingBlimpLot extends IsolatedLot {
 	}
 
 	@Override
-	public int getBottomY(WorldGenerator generator) {
+	public int getBottomY(CityWorldGenerator generator) {
 		return 0;
 	}
 
 	@Override
-	public int getTopY(WorldGenerator generator) {
+	public int getTopY(CityWorldGenerator generator) {
 		return generator.streetLevel;
 	}
 
 	@Override
-	protected void generateActualChunk(WorldGenerator generator,
+	protected void generateActualChunk(CityWorldGenerator generator,
 			PlatMap platmap, ShortChunk chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
 		
@@ -83,7 +83,7 @@ public class FloatingBlimpLot extends IsolatedLot {
 	}
 
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator,
+	protected void generateActualBlocks(CityWorldGenerator generator,
 			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
 			int platZ) {
 		if (generator.settings.includeDecayedBuildings)

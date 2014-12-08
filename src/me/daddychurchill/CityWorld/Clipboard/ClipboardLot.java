@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Clipboard;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.IsolatedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -87,32 +87,32 @@ public class ClipboardLot extends IsolatedLot {
 	}
 
 	@Override
-	public boolean isPlaceableAt(WorldGenerator generator, int chunkX, int chunkZ) {
+	public boolean isPlaceableAt(CityWorldGenerator generator, int chunkX, int chunkZ) {
 		return generator.settings.inCityRange(chunkX, chunkZ);
 	}
 	
 	@Override
-	public int getBottomY(WorldGenerator generator) {
+	public int getBottomY(CityWorldGenerator generator) {
 		return depth;
 	}
 	
 	@Override
-	public int getTopY(WorldGenerator generator) {
+	public int getTopY(CityWorldGenerator generator) {
 		return depth + clip.sizeY;
 	}
 	
 	@Override
-	public boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
+	public boolean isValidStrataY(CityWorldGenerator generator, int blockX, int blockY, int blockZ) {
 		return blockY <= edgeY1 || blockY > edgeY3;
 	}
 
 	@Override
-	protected boolean isShaftableLevel(WorldGenerator generator, int y) {
+	protected boolean isShaftableLevel(CityWorldGenerator generator, int y) {
 		return (y < depth - 32 || y > edgeY3 + 16) && super.isShaftableLevel(generator, y);
 	}
 	
 	@Override
-	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 		// put a hole in the ground?
 		if (clip.groundLevelY > 0) {
@@ -127,7 +127,7 @@ public class ClipboardLot extends IsolatedLot {
 	}
 	
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		
 		// where do we start?
 		int originX = chunk.getOriginX() - lotX * chunk.width + clip.insetWest;

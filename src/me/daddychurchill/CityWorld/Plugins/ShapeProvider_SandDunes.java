@@ -5,7 +5,7 @@ import org.bukkit.block.Biome;
 import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.SandDunes.SandDunesConstructionContext;
 import me.daddychurchill.CityWorld.Context.SandDunes.SandDunesFarmContext;
 import me.daddychurchill.CityWorld.Context.SandDunes.SandDunesHighriseContext;
@@ -39,7 +39,7 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 //	private final static double noiseAmplitude = 0.70;
 //	private final static double noiseHorizontalScale = 1.0 / 64.0;
 	
-	public ShapeProvider_SandDunes(WorldGenerator generator, Odds odds) {
+	public ShapeProvider_SandDunes(CityWorldGenerator generator, Odds odds) {
 		super(generator, odds);
 		
 		floodY = seaLevel + 20;
@@ -54,7 +54,7 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 	}
 
 	@Override
-	public void allocateContexts(WorldGenerator generator) {
+	public void allocateContexts(CityWorldGenerator generator) {
 		if (!contextInitialized) {
 			natureContext = new SandDunesNatureContext(generator);
 			roadContext = new SandDunesRoadContext(generator);
@@ -78,7 +78,7 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 		return "SandDunes";
 	}
 	
-	public double findPerciseFloodY(WorldGenerator generator, int blockX, int blockZ) {
+	public double findPerciseFloodY(CityWorldGenerator generator, int blockX, int blockZ) {
 		
 		// shape the noise
 //		double noiseY = 0;//duneNoise.noise(blockX, blockZ, noiseFrequency, noiseAmplitude, true);
@@ -89,27 +89,27 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 	}
 	
 	@Override
-	public int findFloodY(WorldGenerator generator, int blockX, int blockZ) {
+	public int findFloodY(CityWorldGenerator generator, int blockX, int blockZ) {
 		return NoiseGenerator.floor(findPerciseFloodY(generator, blockX, blockZ));
 	}
 
 	@Override
-	public int findHighestFloodY(WorldGenerator generator) {
+	public int findHighestFloodY(CityWorldGenerator generator) {
 		return floodY + featureVerticalScale + noiseVerticalScale;
 	}
 
 	@Override
-	public int findLowestFloodY(WorldGenerator generator) {
+	public int findLowestFloodY(CityWorldGenerator generator) {
 		return floodY;
 	}
 
 	@Override
-	protected Biome remapBiome(WorldGenerator generator, PlatLot lot, Biome biome) {
+	protected Biome remapBiome(CityWorldGenerator generator, PlatLot lot, Biome biome) {
 		return Biome.DESERT_HILLS;
 	}
 
 	@Override
-	protected void generateStratas(WorldGenerator generator, PlatLot lot,
+	protected void generateStratas(CityWorldGenerator generator, PlatLot lot,
 			ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			int coverY, Material coverMaterial, boolean surfaceCaves) {
@@ -123,7 +123,7 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 	}
 	
 	@Override
-	protected void generateStratas(WorldGenerator generator, PlatLot lot,
+	protected void generateStratas(CityWorldGenerator generator, PlatLot lot,
 			ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			boolean surfaceCaves) {
@@ -136,7 +136,7 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 		actualGenerateSand(generator, lot, chunk, x, z, subsurfaceY);
 	}
 	
-	protected void actualGenerateSand(WorldGenerator generator, PlatLot lot, ShortChunk chunk, int x, int z, int subsurfaceY) {
+	protected void actualGenerateSand(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, int x, int z, int subsurfaceY) {
 		int y = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 		if (y > subsurfaceY) {
 			chunk.setBlocks(x, subsurfaceY, y - 2, z, Material.SANDSTONE);
@@ -159,7 +159,7 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 //	}
 	
 	@Override
-	public Material findAtmosphereMaterialAt(WorldGenerator generator, int blockY) {
+	public Material findAtmosphereMaterialAt(CityWorldGenerator generator, int blockY) {
 		if (blockY < floodY)
 			return Material.GLASS;
 		else

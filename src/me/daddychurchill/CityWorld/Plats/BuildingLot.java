@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Factories.CurvedWallFactory;
 import me.daddychurchill.CityWorld.Factories.InteriorWallFactory;
@@ -78,7 +78,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	private final static Material fenceMaterial = Material.IRON_FENCE;
 	private final static int fenceHeight = 3;
 	
-	public RoomProvider roomProviderForFloor(WorldGenerator generator, SupportChunk chunk, int floor, int floorY) {
+	public RoomProvider roomProviderForFloor(CityWorldGenerator generator, SupportChunk chunk, int floor, int floorY) {
 		return contentsNothing;
 	}
 	
@@ -116,12 +116,12 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 
 	@Override
-	public boolean isValidStrataY(WorldGenerator generator, int blockX, int blockY, int blockZ) {
+	public boolean isValidStrataY(CityWorldGenerator generator, int blockX, int blockY, int blockZ) {
 		return blockY < generator.streetLevel - basementFloorHeight * depth;
 	}
 
 	@Override
-	protected boolean isShaftableLevel(WorldGenerator generator, int blockY) {
+	protected boolean isShaftableLevel(CityWorldGenerator generator, int blockY) {
 		return blockY >= 0 && blockY < generator.streetLevel - basementFloorHeight * depth - 2 - 16;	
 	}
 
@@ -291,7 +291,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		return neighborBuildings;
 	}
 	
-	protected void drawCeilings(WorldGenerator generator, ShortChunk byteChunk, DataContext context, int y1, 
+	protected void drawCeilings(CityWorldGenerator generator, ShortChunk byteChunk, DataContext context, int y1, 
 			int height, int insetNS, int insetWE, 
 			boolean allowRounded, Material ceilingMaterial, Surroundings heights) {
 		
@@ -364,7 +364,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 	
-	protected void drawExteriorParts(WorldGenerator generator, ShortChunk byteChunk, DataContext context, int y1, 
+	protected void drawExteriorParts(CityWorldGenerator generator, ShortChunk byteChunk, DataContext context, int y1, 
 			int height, int insetNS, int insetWE, 
 			boolean allowRounded, Material wallMaterial, Material glassMaterial, Surroundings heights) {
 		
@@ -468,7 +468,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 	
-	protected void drawInteriorParts(WorldGenerator generator, RealChunk chunk, 
+	protected void drawInteriorParts(CityWorldGenerator generator, RealChunk chunk, 
 			DataContext context, RoomProvider rooms,
 			int floor, int floorAt, int floorHeight, 
 			int insetNS, int insetWE, boolean allowRounded,
@@ -487,7 +487,7 @@ public abstract class BuildingLot extends ConnectedLot {
 				heights);
 	}
 	
-	private void drawInteriorParts(WorldGenerator generator, RealChunk chunk, 
+	private void drawInteriorParts(CityWorldGenerator generator, RealChunk chunk, 
 			DataContext context, InteriorStyle style, RoomProvider rooms, 
 			int floor, int floorAt, int floorHeight, 
 			int insetNS, int insetWE, boolean allowRounded,
@@ -594,7 +594,7 @@ public abstract class BuildingLot extends ConnectedLot {
 					stairLocation, heights);
 	}
 		
-	private void drawInteriorColumns(WorldGenerator generator, RealChunk chunk, DataContext context, 
+	private void drawInteriorColumns(CityWorldGenerator generator, RealChunk chunk, DataContext context, 
 			boolean drawNarrowInteriors, int floor, int y1, int floorHeight, 
 			int insetNS, int insetWE, boolean allowRounded, 
 			Material materialWall, Material materialGlass, 
@@ -621,7 +621,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 	
-	private void drawInteriorWalls(WorldGenerator generator, RealChunk chunk, DataContext context, 
+	private void drawInteriorWalls(CityWorldGenerator generator, RealChunk chunk, DataContext context, 
 			boolean drawNarrowInteriors, int floor, int y1, int floorHeight, 
 			int insetNS, int insetWE, boolean allowRounded,
 			Material wallMaterial, Material glassMaterial, 
@@ -811,7 +811,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 	
-	private void drawInteriorDoors(WorldGenerator generator, RealChunk chunk, DataContext context, 
+	private void drawInteriorDoors(CityWorldGenerator generator, RealChunk chunk, DataContext context, 
 			boolean drawNarrowInteriors, int floor, int y1, int floorHeight, 
 			int insetNS, int insetWE, boolean allowRounded,
 			Material materialWall, Material materialGlass, 
@@ -1002,7 +1002,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 	
-	private void drawExteriorDoors(WorldGenerator generator, RealChunk chunk, DataContext context, 
+	private void drawExteriorDoors(CityWorldGenerator generator, RealChunk chunk, DataContext context, 
 			int floor, int y1, int height, 
 			int insetNS, int insetWE, boolean allowRounded,
 			Material materialWall, Material materialGlass, 
@@ -1039,7 +1039,7 @@ public abstract class BuildingLot extends ConnectedLot {
 
 	private static int maxInsetForRooms = 2;
 	
-	private void drawInteriorRooms(WorldGenerator generator, RealChunk chunk, DataContext context, 
+	private void drawInteriorRooms(CityWorldGenerator generator, RealChunk chunk, DataContext context, 
 			boolean drawNarrowInteriors, RoomProvider rooms, int floor, int y1, int height, 
 			int insetNS, int insetWE, boolean allowRounded,
 			Material materialWall, Material materialGlass, 
@@ -1254,7 +1254,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	private static int roomWidth = 3;
 	private static int roomDepth = 3;
 	
-	private void drawInteriorRoom(WorldGenerator generator, RealChunk chunk, 
+	private void drawInteriorRoom(CityWorldGenerator generator, RealChunk chunk, 
 			RoomProvider rooms, int floor, int x, int y, int z, int height, 
 			Facing sideWithWall, Material materialWall, Material materialGlass) {
 
@@ -1309,7 +1309,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 	
 	//TODO roof fixtures (peak, helipad, air conditioning, stairwells access, penthouse, castle trim, etc.
-	protected void drawRoof(WorldGenerator generator, ShortChunk chunk, DataContext context, 
+	protected void drawRoof(CityWorldGenerator generator, ShortChunk chunk, DataContext context, 
 			int y1, int insetNS, int insetWE, 
 			boolean allowRounded, Material material, Surroundings heights) {
 		switch (roofStyle) {
@@ -1355,7 +1355,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 	
-	private void drawEdgedRoof(WorldGenerator generator, ShortChunk chunk, DataContext context, 
+	private void drawEdgedRoof(CityWorldGenerator generator, ShortChunk chunk, DataContext context, 
 			int y1, int insetNS, int insetWE, 
 			boolean allowRounded, Material material, boolean doEdge, Surroundings heights) {
 		
@@ -1520,7 +1520,7 @@ public abstract class BuildingLot extends ConnectedLot {
 			return StairWell.CENTER;
 	}
 	
-	protected void drawStairs(WorldGenerator generator, RealChunk chunk, int y1, 
+	protected void drawStairs(CityWorldGenerator generator, RealChunk chunk, int y1, 
 			int floorHeight, StairWell where, Material stairMaterial, Material platformMaterial) {
 		StairAt at = new StairAt(chunk, floorHeight, where);
 		switch (stairStyle) {
@@ -1673,18 +1673,18 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 	
-	private void emptyBlock(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
+	private void emptyBlock(CityWorldGenerator generator, RealChunk chunk, int x, int y, int z) {
 		chunk.setBlock(x, y, z, getAirMaterial(generator, y));
 		
 	}
 	
-	private void emptyBlocks(WorldGenerator generator, RealChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2) {
+	private void emptyBlocks(CityWorldGenerator generator, RealChunk chunk, int x1, int x2, int y1, int y2, int z1, int z2) {
 		for (int y = y1; y < y2; y++) {
 			chunk.setBlocks(x1, x2, y, y + 1, z1, z2, getAirMaterial(generator, y));
 		}
 	}
 
-	protected void drawStairsWalls(WorldGenerator generator, RealChunk chunk, int y1, 
+	protected void drawStairsWalls(CityWorldGenerator generator, RealChunk chunk, int y1, 
 			int floorHeight, StairWell where, Material wallMaterial, boolean isTopFloor, boolean isBottomFloor) {
 		StairAt at = new StairAt(chunk, floorHeight, where);
 		int y2 = y1 + floorHeight - 1;
@@ -1889,7 +1889,7 @@ public abstract class BuildingLot extends ConnectedLot {
 			chunk.setBlocks(11, 13, y1, y2, 11, 13, wallMaterial);
 	}
 
-	protected void drawFence(WorldGenerator generator, ShortChunk chunk, DataContext context, int inset, int y1, Surroundings neighbors) {
+	protected void drawFence(CityWorldGenerator generator, ShortChunk chunk, DataContext context, int inset, int y1, Surroundings neighbors) {
 		
 		// actual fence
 		drawExteriorParts(generator, chunk, context, y1, fenceHeight, inset, inset,

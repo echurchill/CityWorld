@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 import org.bukkit.plugin.Plugin;
 
@@ -10,7 +10,7 @@ public abstract class Provider {
 		// TODO Auto-generated constructor stub
 	}
 	
-	protected static boolean isPlugInVersionOrBetter(WorldGenerator generator, Plugin plugin, String minVersion) {
+	protected static boolean isPlugInVersionOrBetter(CityWorldGenerator generator, Plugin plugin, String minVersion) {
 		// doesn't exist?
 		if (plugin == null)
 			return false;

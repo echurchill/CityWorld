@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Support;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.Clipboard;
 import me.daddychurchill.CityWorld.Clipboard.ClipboardLot;
 import me.daddychurchill.CityWorld.Context.DataContext;
@@ -19,14 +19,14 @@ public class PlatMap {
 	
 	// Instance data
 //	public World world;
-	public WorldGenerator generator;
+	public CityWorldGenerator generator;
 	public int originX;
 	public int originZ;
 	public DataContext context;
 	protected PlatLot[][] platLots;
 	private float naturalPlats;
 
-	public PlatMap(WorldGenerator generator, ShapeProvider shapeProvider, int originX, int originZ) {
+	public PlatMap(CityWorldGenerator generator, ShapeProvider shapeProvider, int originX, int originZ) {
 		super();
 		
 		// populate the instance data
@@ -435,7 +435,7 @@ public class PlatMap {
 	}
 
 	private final static int maxPlaceTries = 16;
-	public void placeSpecificClip(WorldGenerator generator, Odds odds, Clipboard clip) {
+	public void placeSpecificClip(CityWorldGenerator generator, Odds odds, Clipboard clip) {
 		int chunksX = clip.chunkX;
 		int chunksZ = clip.chunkZ;
 		
@@ -468,7 +468,7 @@ public class PlatMap {
 		}
 	}
 
-	public void placeSpecificClip(WorldGenerator generator, Odds odds, Clipboard clip, int placeX, int placeZ) {
+	public void placeSpecificClip(CityWorldGenerator generator, Odds odds, Clipboard clip, int placeX, int placeZ) {
 		int chunksX = clip.chunkX;
 		int chunksZ = clip.chunkZ;
 		

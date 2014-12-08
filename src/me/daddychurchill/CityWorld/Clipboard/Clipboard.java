@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.bukkit.block.BlockFace;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
@@ -36,7 +36,7 @@ public abstract class Clipboard {
 	public int edgeData = 0;
 	public int edgeRise = 0;
 	
-	public Clipboard(WorldGenerator generator, File file) throws Exception {
+	public Clipboard(CityWorldGenerator generator, File file) throws Exception {
 		super();
 		this.name = file.getName();
 		
@@ -58,10 +58,10 @@ public abstract class Clipboard {
 		insetSouth = leftoverZ - insetNorth;
 	}
 	
-	protected abstract void load(WorldGenerator generator, File file) throws Exception;
-	public abstract void paste(WorldGenerator generator, RealChunk chunk, BlockFace facing, 
+	protected abstract void load(CityWorldGenerator generator, File file) throws Exception;
+	public abstract void paste(CityWorldGenerator generator, RealChunk chunk, BlockFace facing, 
 			int blockX, int blockY, int blockZ);
-	public abstract void paste(WorldGenerator generator, RealChunk chunk, BlockFace facing, 
+	public abstract void paste(CityWorldGenerator generator, RealChunk chunk, BlockFace facing, 
 			int blockX, int blockY, int blockZ,
 			int x1, int x2, int y1, int y2, int z1, int z2);
 }

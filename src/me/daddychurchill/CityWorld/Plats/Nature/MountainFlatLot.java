@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Nature;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Support.ShortChunk;
@@ -19,7 +19,7 @@ public abstract class MountainFlatLot extends ConstructLot {
 		trulyIsolated = true;
 	}
 
-	protected void generateRetainerLot(WorldGenerator generator, ShortChunk chunk, DataContext context) {
+	protected void generateRetainerLot(CityWorldGenerator generator, ShortChunk chunk, DataContext context) {
 		
 		// flatten things out a bit
 		for (int x = 0; x < chunk.width; x++) {
@@ -51,7 +51,7 @@ public abstract class MountainFlatLot extends ConstructLot {
 	
 	private final static int bevelInset = 2;
 
-	protected void generateSmoothedLot(WorldGenerator generator, ShortChunk chunk, DataContext context) {
+	protected void generateSmoothedLot(CityWorldGenerator generator, ShortChunk chunk, DataContext context) {
 		
 		// blend the edges
 		for (int i = 0; i < bevelInset; i++)
@@ -74,7 +74,7 @@ public abstract class MountainFlatLot extends ConstructLot {
 		}
 	}
 
-	private void generateSmoothedLotBevel(WorldGenerator generator, ShortChunk chunk, DataContext context, int inset) {
+	private void generateSmoothedLotBevel(CityWorldGenerator generator, ShortChunk chunk, DataContext context, int inset) {
 
 		// Xwise
 		for (int x = inset; x < chunk.width - inset; x++) {
@@ -89,7 +89,7 @@ public abstract class MountainFlatLot extends ConstructLot {
 		}
 	}
 	
-	private void generateBevelBlock(WorldGenerator generator, ShortChunk chunk, DataContext context, int inset, int x, int z) {
+	private void generateBevelBlock(CityWorldGenerator generator, ShortChunk chunk, DataContext context, int inset, int x, int z) {
 		int y = getBlockY(x, z);
 		int y1 = y;
 		if (y < blockYs.averageHeight) {
@@ -107,12 +107,12 @@ public abstract class MountainFlatLot extends ConstructLot {
 	}
 		
 	@Override
-	public int getBottomY(WorldGenerator generator) {
+	public int getBottomY(CityWorldGenerator generator) {
 		return blockYs.averageHeight + 1;
 	}
 	
 	@Override
-	public int getTopY(WorldGenerator generator) {
+	public int getTopY(CityWorldGenerator generator) {
 		return generator.streetLevel + DataContext.FloorHeight * 2 + 1;
 	}
 

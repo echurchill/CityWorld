@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Urban;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.BuildingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -27,7 +27,7 @@ public class ConcreteLot extends BuildingLot {
 	}
 
 	@Override
-	protected void generateActualChunk(WorldGenerator generator,
+	protected void generateActualChunk(CityWorldGenerator generator,
 			PlatMap platmap, ShortChunk chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
 		int groundY = getBottomY(generator);
@@ -40,7 +40,7 @@ public class ConcreteLot extends BuildingLot {
 	}
 
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator,
+	protected void generateActualBlocks(CityWorldGenerator generator,
 			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
 			int platZ) {
 		int groundY = getBottomY(generator);
@@ -51,12 +51,12 @@ public class ConcreteLot extends BuildingLot {
 	}
 
 	@Override
-	public int getBottomY(WorldGenerator generator) {
+	public int getBottomY(CityWorldGenerator generator) {
 		return generator.streetLevel;
 	}
 
 	@Override
-	public int getTopY(WorldGenerator generator) {
+	public int getTopY(CityWorldGenerator generator) {
 		return generator.streetLevel + DataContext.FloorHeight * 2 + 1;
 	}
 

@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Support;
 
 import java.util.Arrays;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Factories.MaterialFactory;
 
 import org.bukkit.Material;
@@ -57,7 +57,7 @@ public final class ShortChunk extends AbstractChunk {
 	
 	private static int sectionsPerChunk = 16;
 	
-	public ShortChunk(WorldGenerator aGenerator, int aChunkX, int aChunkZ) {
+	public ShortChunk(CityWorldGenerator aGenerator, int aChunkX, int aChunkZ) {
 		super(aGenerator);
 		
 		chunkX = aChunkX;

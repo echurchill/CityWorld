@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
@@ -149,17 +149,17 @@ public abstract class CoverProvider extends Provider {
 		this.odds = odds;
 	}
 	
-	public abstract boolean generateCoverage(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageType coverageType);
+	public abstract boolean generateCoverage(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageType coverageType);
 	
 	private CoverageType getRandomCoverage(CoverageType ... types) {
 		return types[odds.getRandomInt(types.length)];
 	}
 	
-	public void generateRandomCoverage(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageType ... types) {
+	public void generateRandomCoverage(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageType ... types) {
 		setCoverage(generator, chunk, x, y, z, getRandomCoverage(types));
 	}
 	
-	public void generateCoverage(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageSets coverageSet) {
+	public void generateCoverage(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageSets coverageSet) {
 		switch (coverageSet) {
 		case ALL_FLOWERS:
 			generateRandomCoverage(generator, chunk, x, y, z, AllFlowers);
@@ -218,7 +218,7 @@ public abstract class CoverProvider extends Provider {
 		}
 	}
 	
-	protected void setCoverage(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageType coverageType) {
+	protected void setCoverage(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageType coverageType) {
 		switch (coverageType) {
 		case GRASS:
 			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
@@ -504,12 +504,12 @@ public abstract class CoverProvider extends Provider {
 		return NetherWartsState.values()[odds.getRandomInt(NetherWartsState.values().length)];
 	}
 	
-	protected boolean likelyCover(WorldGenerator generator) {
+	protected boolean likelyCover(CityWorldGenerator generator) {
 		return !generator.settings.darkEnvironment || odds.playOdds(oddsOfDarkCover);
 	}
 	
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
-	public static CoverProvider loadProvider(WorldGenerator generator, Odds odds) {
+	public static CoverProvider loadProvider(CityWorldGenerator generator, Odds odds) {
 
 		CoverProvider provider = null;
 		
@@ -543,7 +543,7 @@ public abstract class CoverProvider extends Provider {
 		return provider;
 	}
 	
-	public boolean isPlantable(WorldGenerator generator, SupportChunk chunk, int x, int y, int z) {
+	public boolean isPlantable(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z) {
 		
 		// only if the spot above is empty
 		if (!chunk.isEmpty(x, y + 1, z))

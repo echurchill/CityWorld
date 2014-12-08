@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plugins;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -14,7 +14,7 @@ public class OreProvider_Nether extends OreProvider {
 //	public final static byte stillLavaId = (byte) Material.STATIONARY_LAVA.getId();
 //	public final static byte netherrackId = (byte) Material.NETHERRACK.getId();
 	
-	public OreProvider_Nether(WorldGenerator generator) {
+	public OreProvider_Nether(CityWorldGenerator generator) {
 		super(generator);
 		
 		surfaceMaterial = Material.NETHERRACK;
@@ -58,7 +58,7 @@ public class OreProvider_Nether extends OreProvider {
 	private static final boolean[] ore_liquid = new boolean[] { true, false, false, false};
 	
 	@Override
-	public void sprinkleOres(WorldGenerator generator, PlatLot lot, SupportChunk chunk, CachedYs blockYs, Odds odds, OreLocation location) {
+	public void sprinkleOres(CityWorldGenerator generator, PlatLot lot, SupportChunk chunk, CachedYs blockYs, Odds odds, OreLocation location) {
 		
 		for (int typeNdx = 0; typeNdx < ore_types.length; typeNdx++) {
 			sprinkleOre(generator, lot, chunk, blockYs,
@@ -69,7 +69,7 @@ public class OreProvider_Nether extends OreProvider {
 	}
 	
 	@Override
-	public void dropSnow(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, int level) {
+	public void dropSnow(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, int level) {
 		
 		// do nothing
 	}

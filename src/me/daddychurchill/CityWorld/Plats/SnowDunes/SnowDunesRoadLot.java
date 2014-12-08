@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plats.SnowDunes;
 
 import org.bukkit.Material;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -27,7 +27,7 @@ public class SnowDunesRoadLot extends RoadLot {
 	}
 	
 	@Override
-	protected int getSidewalkLevel(WorldGenerator generator) {
+	protected int getSidewalkLevel(CityWorldGenerator generator) {
 		return generator.streetLevel;
 	}
 }

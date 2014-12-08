@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Context;
 
 import org.bukkit.block.BlockFace;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.Clipboard;
 import me.daddychurchill.CityWorld.Clipboard.ClipboardRoundaboutLot;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
@@ -14,7 +14,7 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class RoadContext extends UrbanContext {
 
-	public RoadContext(WorldGenerator generator) {
+	public RoadContext(CityWorldGenerator generator) {
 		super(generator);
 		
 		schematicFamily = SchematicFamily.ROUNDABOUT;
@@ -23,17 +23,17 @@ public class RoadContext extends UrbanContext {
 	}
 
 	@Override
-	public void populateMap(WorldGenerator generator, PlatMap platmap) {
+	public void populateMap(CityWorldGenerator generator, PlatMap platmap) {
 		super.populateMap(generator, platmap);
 
 	}
 
 	@Override
-	public void validateMap(WorldGenerator generator, PlatMap platmap) {
+	public void validateMap(CityWorldGenerator generator, PlatMap platmap) {
 		
 	}
 
-	public PlatLot createRoadLot(WorldGenerator generator, PlatMap platmap, int x, int z, boolean roundaboutPart, PlatLot oldLot) {
+	public PlatLot createRoadLot(CityWorldGenerator generator, PlatMap platmap, int x, int z, boolean roundaboutPart, PlatLot oldLot) {
 		PlatLot result = null;
 		
 		// see if the old lot has a suggestion?
@@ -48,7 +48,7 @@ public class RoadContext extends UrbanContext {
 		return result;
 	}
 
-	public PlatLot createRoundaboutStatueLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
+	public PlatLot createRoundaboutStatueLot(CityWorldGenerator generator, PlatMap platmap, int x, int z) {
 
 		// grab potential platlot's random
 		Odds odds = platmap.getChunkOddsGenerator(platmap.originX + x, platmap.originZ + z);

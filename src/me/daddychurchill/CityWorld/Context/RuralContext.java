@@ -1,10 +1,10 @@
 package me.daddychurchill.CityWorld.Context;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 public abstract class RuralContext extends CivilizedContext {
 
-	public RuralContext(WorldGenerator generator) {
+	public RuralContext(CityWorldGenerator generator) {
 		super(generator);
 
 		maximumFloorsAbove = 1;

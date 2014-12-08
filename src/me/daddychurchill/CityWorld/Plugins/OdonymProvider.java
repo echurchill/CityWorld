@@ -2,13 +2,13 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
 
 public abstract class OdonymProvider extends Provider {
 
-	public abstract String[] generateNorthSouthOdonym(WorldGenerator generator, int x, int z);
-	public abstract String[] generateWestEastOdonym(WorldGenerator generator, int x, int z);
+	public abstract String[] generateNorthSouthOdonym(CityWorldGenerator generator, int x, int z);
+	public abstract String[] generateWestEastOdonym(CityWorldGenerator generator, int x, int z);
 	
 	// yep it is a little one... we will make it bigger in a moment
 	int baseSeed;
@@ -42,7 +42,7 @@ public abstract class OdonymProvider extends Provider {
 	}
 	
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
-	public static OdonymProvider loadProvider(WorldGenerator generator, Odds odds) {
+	public static OdonymProvider loadProvider(CityWorldGenerator generator, Odds odds) {
 
 		OdonymProvider provider = null;
 		

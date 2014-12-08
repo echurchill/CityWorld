@@ -120,7 +120,7 @@ public class CityWorldSettings {
 	public final static String tagRoadChunkRadius = "RoadChunkRadius";
 	public final static String tagCityChunkRadius = "CityChunkRadius";
 	
-	public CityWorldSettings(WorldGenerator generator) {
+	public CityWorldSettings(CityWorldGenerator generator) {
 		super();
 		String worldname = generator.worldName;
 		generator.worldEnvironment = generator.getWorld().getEnvironment();
@@ -375,7 +375,7 @@ public class CityWorldSettings {
 		
 	}
 	
-	private void validateSettingsAgainstWorldStyle(WorldGenerator generator) {
+	private void validateSettingsAgainstWorldStyle(CityWorldGenerator generator) {
 		// now get the right defaults for the world style
 		// anything commented out is up for user modification
 		switch (generator.worldStyle) {

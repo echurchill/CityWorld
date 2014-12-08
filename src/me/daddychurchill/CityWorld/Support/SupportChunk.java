@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Support;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
@@ -32,7 +32,7 @@ public abstract class SupportChunk extends AbstractChunk {
 	private boolean doPhysics;
 	private boolean doClearData;
 	
-	public SupportChunk(WorldGenerator generator) {
+	public SupportChunk(CityWorldGenerator generator) {
 		super(generator);
 		
 		doPhysics = false;

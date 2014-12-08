@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Floating;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -33,17 +33,17 @@ public class FloatingHouseLot extends ConstructLot {
 	private final static Material grass = Material.GRASS;
 
 	@Override
-	public int getBottomY(WorldGenerator generator) {
+	public int getBottomY(CityWorldGenerator generator) {
 		return groundLevel - 1;
 	}
 	
 	@Override
-	public int getTopY(WorldGenerator generator) {
+	public int getTopY(CityWorldGenerator generator) {
 		return groundLevel + DataContext.FloorHeight * 2 + 1;
 	}
 
 	@Override
-	protected void generateActualChunk(WorldGenerator generator,
+	protected void generateActualChunk(CityWorldGenerator generator,
 			PlatMap platmap, ShortChunk chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
 		
@@ -61,7 +61,7 @@ public class FloatingHouseLot extends ConstructLot {
 	}
 
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator,
+	protected void generateActualBlocks(CityWorldGenerator generator,
 			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
 			int platZ) {
 

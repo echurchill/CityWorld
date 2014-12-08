@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Context.Astral;
 
 import org.bukkit.Material;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralMushroomsBrownLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralMushroomsRedLot;
@@ -17,14 +17,14 @@ public class AstralMushroomContext extends AstralDataContext {
 	public enum MushroomStyle { RED, BROWN, REDBROWN, YELLOW };
 	private MushroomStyle style;
 	
-	public AstralMushroomContext(WorldGenerator generator, MushroomStyle style) {
+	public AstralMushroomContext(CityWorldGenerator generator, MushroomStyle style) {
 		super(generator);
 		
 		this.style = style;
 	}
 
 	@Override
-	public void populateMap(WorldGenerator generator, PlatMap platmap) {
+	public void populateMap(CityWorldGenerator generator, PlatMap platmap) {
 		
 		//TODO, This doesn't handle schematics quite right yet
 		// let the user add their stuff first, then plug any remaining holes with our stuff
@@ -60,7 +60,7 @@ public class AstralMushroomContext extends AstralDataContext {
 	}
 
 	@Override
-	public void validateMap(WorldGenerator generator, PlatMap platmap) {
+	public void validateMap(CityWorldGenerator generator, PlatMap platmap) {
 		// TODO Auto-generated method stub
 
 	}

@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plats.Flooded;
 
 import org.bukkit.Material;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Rural.HouseLot;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider_Flooded;
@@ -21,7 +21,7 @@ public class FloodedHouseLot extends HouseLot {
 	}
 
 	@Override
-	protected Material getAirMaterial(WorldGenerator generator, int y) {
+	protected Material getAirMaterial(CityWorldGenerator generator, int y) {
 		return ShapeProvider_Flooded.floodMaterial;
 	}
 }

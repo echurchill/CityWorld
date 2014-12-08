@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Context.Astral;
 
 import org.bukkit.Material;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralNatureLot;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -10,19 +10,19 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class AstralNatureContext extends AstralDataContext {
 	
-	public AstralNatureContext(WorldGenerator generator) {
+	public AstralNatureContext(CityWorldGenerator generator) {
 		super(generator);
 		
 		oddsOfIsolatedConstructs = Odds.oddsPrettyUnlikely;
 	}
 	
 	@Override
-	public PlatLot createNaturalLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
+	public PlatLot createNaturalLot(CityWorldGenerator generator, PlatMap platmap, int x, int z) {
 		return new AstralNatureLot(platmap, platmap.originX + x, platmap.originZ + z, Odds.oddsAlwaysGoingToHappen);
 	}
 	
 	@Override
-	public void populateMap(WorldGenerator generator, PlatMap platmap) {
+	public void populateMap(CityWorldGenerator generator, PlatMap platmap) {
 		
 		//TODO, This doesn't handle schematics quite right yet
 		// let the user add their stuff first, then plug any remaining holes with our stuff
@@ -72,7 +72,7 @@ public class AstralNatureContext extends AstralDataContext {
 	}
 
 	@Override
-	public void validateMap(WorldGenerator generator, PlatMap platmap) {
+	public void validateMap(CityWorldGenerator generator, PlatMap platmap) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,7 +1,7 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
 import org.bukkit.Material;
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -16,13 +16,13 @@ public abstract class AstralMushroomsLot extends AstralNatureLot {
 	}
 	
 	protected abstract int maxMushrooms();
-	protected abstract void plantMushroom(WorldGenerator generator, WorldBlocks blocks, int blockX, int blockY, int blockZ, int snowY);
+	protected abstract void plantMushroom(CityWorldGenerator generator, WorldBlocks blocks, int blockX, int blockY, int blockZ, int snowY);
 	
 	final static int maxHeight = 18;
 	final static int minHeight = maxHeight / 2;
 	
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator,
+	protected void generateActualBlocks(CityWorldGenerator generator,
 			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
 			int platZ) {
 		

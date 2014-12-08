@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
 
 import org.bukkit.entity.EntityType;
@@ -11,9 +11,9 @@ public abstract class SpawnProvider extends Provider {
 	
 	public enum SpawnerLocation {SEWER, MINE, BUNKER, HOUSE};
 	
-	public abstract EntityType getEntity(WorldGenerator generator, Odds odds, SpawnerLocation location);
+	public abstract EntityType getEntity(CityWorldGenerator generator, Odds odds, SpawnerLocation location);
 
-	public static SpawnProvider loadProvider(WorldGenerator generator) {
+	public static SpawnProvider loadProvider(CityWorldGenerator generator) {
 
 		SpawnProvider provider = null;
 		

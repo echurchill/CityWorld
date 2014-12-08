@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Context;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Rural.HouseLot;
@@ -9,14 +9,14 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class NeighborhoodContext extends RuralContext {
 
-	public NeighborhoodContext(WorldGenerator generator) {
+	public NeighborhoodContext(CityWorldGenerator generator) {
 		super(generator);
 
 		schematicFamily = SchematicFamily.NEIGHBORHOOD;
 	}
 	
 	@Override
-	public void populateMap(WorldGenerator generator, PlatMap platmap) {
+	public void populateMap(CityWorldGenerator generator, PlatMap platmap) {
 		Odds platmapOdds = platmap.getOddsGenerator();
 		
 		// let the user add their stuff first, then plug any remaining holes with our stuff
@@ -50,14 +50,14 @@ public class NeighborhoodContext extends RuralContext {
 	}
 	
 	@Override
-	protected PlatLot getBackfillLot(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	protected PlatLot getBackfillLot(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return null; // this will eventually get filled in with nature
 	}
 	
-	protected PlatLot getHouseLot(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	protected PlatLot getHouseLot(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new HouseLot(platmap, chunkX, chunkZ);
 	}
 
-	public void validateMap(WorldGenerator generator, PlatMap platmap) {
+	public void validateMap(CityWorldGenerator generator, PlatMap platmap) {
 	}
 }

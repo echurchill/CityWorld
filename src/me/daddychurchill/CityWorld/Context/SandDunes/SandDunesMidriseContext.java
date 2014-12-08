@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Context.SandDunes;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.MidriseContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.SandDunes.SandDunesOfficeBuildingLot;
@@ -11,23 +11,23 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class SandDunesMidriseContext extends MidriseContext {
 
-	public SandDunesMidriseContext(WorldGenerator generator) {
+	public SandDunesMidriseContext(CityWorldGenerator generator) {
 		super(generator);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	protected PlatLot getPark(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
-		return new SandDunesParkLot(platmap, chunkX, chunkZ, generator.connectedKeyForParks);
+	protected PlatLot getPark(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ, int waterDepth) {
+		return new SandDunesParkLot(platmap, chunkX, chunkZ, generator.connectedKeyForParks, waterDepth);
 	}
 	
 	@Override
-	protected PlatLot getUnfinishedBuilding(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	protected PlatLot getUnfinishedBuilding(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new SandDunesUnfinishedBuildingLot(platmap, chunkX, chunkZ);
 	}
 	
 	@Override
-	protected PlatLot getBuilding(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	protected PlatLot getBuilding(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new SandDunesOfficeBuildingLot(platmap, chunkX, chunkZ);
 	}
 }

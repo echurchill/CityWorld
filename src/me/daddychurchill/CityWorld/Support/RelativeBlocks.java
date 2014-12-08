@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Support;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 import org.bukkit.block.Block;
 
@@ -9,7 +9,7 @@ public final class RelativeBlocks extends SupportChunk {
 	private int originX;
 	private int originZ;
 	
-	public RelativeBlocks(WorldGenerator generator, SupportChunk relative) {
+	public RelativeBlocks(CityWorldGenerator generator, SupportChunk relative) {
 		super(generator);
 		
 		this.originX = relative.getOriginX();

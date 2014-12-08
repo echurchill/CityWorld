@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Context.Maze;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Context.NatureContext;
 import me.daddychurchill.CityWorld.Plats.NatureLot;
@@ -28,7 +28,7 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class MazeNatureContext extends NatureContext {
 
-	public MazeNatureContext(WorldGenerator generator) {
+	public MazeNatureContext(CityWorldGenerator generator) {
 		super(generator);
 
 		oddsOfParks = Odds.oddsUnlikely;
@@ -102,11 +102,12 @@ public class MazeNatureContext extends NatureContext {
 	private static int[] zS = {1, 1, 2, 2,  0, 0, 1, 2, 3, 3, 1, 2,  0, 0, 3, 3};
 	
 	@Override
-	public void populateMap(WorldGenerator generator, PlatMap platmap) {
+	public void populateMap(CityWorldGenerator generator, PlatMap platmap) {
 		
 		// random stuff?
 		Odds platmapOdds = platmap.getOddsGenerator();
 		boolean specialMade = false;
+		int waterDepth = ParkLot.getWaterDepth(platmapOdds);
 		
 		// where it all begins
 		int originX = platmap.originX;
@@ -142,7 +143,7 @@ public class MazeNatureContext extends NatureContext {
 							current = new FarmLot(platmap, chunkX, chunkZ);
 						break;
 					case PARK: // park
-						current = new ParkLot(platmap, chunkX, chunkZ, 100);
+						current = new ParkLot(platmap, chunkX, chunkZ, 100, waterDepth);
 						if (lastOne != null)
 							current.makeConnected(lastOne);
 						break;
@@ -162,7 +163,7 @@ public class MazeNatureContext extends NatureContext {
 								current = new StoreBuildingLot(platmap, chunkX, chunkZ);
 								break;
 							case 1:
-								current = new ParkLot(platmap, chunkX, chunkZ, 100);
+								current = new ParkLot(platmap, chunkX, chunkZ, 100, waterDepth);
 								break;
 							default:
 								current = new HouseLot(platmap, chunkX, chunkZ);
@@ -187,7 +188,7 @@ public class MazeNatureContext extends NatureContext {
 								current = new OfficeBuildingLot(platmap, chunkX, chunkZ);
 								break;
 							default:
-								current = new ParkLot(platmap, chunkX, chunkZ, 100);
+								current = new ParkLot(platmap, chunkX, chunkZ, 100, waterDepth);
 								break;
 							}
 						break;
@@ -259,7 +260,7 @@ public class MazeNatureContext extends NatureContext {
 	}
 
 	@Override
-	public PlatLot createNaturalLot(WorldGenerator generator, PlatMap platmap, int x, int z) {
+	public PlatLot createNaturalLot(CityWorldGenerator generator, PlatMap platmap, int x, int z) {
 		return new MazeNatureLot(platmap, platmap.originX + x, platmap.originZ + z);
 	}
 }

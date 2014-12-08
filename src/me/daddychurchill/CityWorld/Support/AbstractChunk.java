@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Support;
 
 import org.bukkit.Material;
 import org.bukkit.World;
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 public abstract class AbstractChunk {
 
@@ -14,7 +14,7 @@ public abstract class AbstractChunk {
 	
 	public final static int chunksBlockWidth = 16;
 	
-	public AbstractChunk(WorldGenerator generator) {
+	public AbstractChunk(CityWorldGenerator generator) {
 		super();
 		
 		this.width = chunksBlockWidth;

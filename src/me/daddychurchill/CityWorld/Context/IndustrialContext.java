@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Context;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Urban.StorageLot;
@@ -10,7 +10,7 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class IndustrialContext extends UrbanContext {
 
-	public IndustrialContext(WorldGenerator generator) {
+	public IndustrialContext(CityWorldGenerator generator) {
 		super(generator);
 
 		oddsOfParks = Odds.oddsUnlikely;
@@ -39,15 +39,15 @@ public class IndustrialContext extends UrbanContext {
 	private final static double oddsOfWarehouse = Odds.oddsVeryLikely;
 	
 	@Override
-	protected PlatLot getPark(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	protected PlatLot getPark(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ, int waterDepth) {
 		if (odds.playOdds(oddsOfStorageLot))
 			return new StorageLot(platmap, chunkX, chunkZ);
 		else
-			return super.getPark(generator, platmap, odds, chunkX, chunkZ);
+			return super.getPark(generator, platmap, odds, chunkX, chunkZ, waterDepth);
 	}
 	
 	@Override
-	protected PlatLot getBuilding(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	protected PlatLot getBuilding(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		if (odds.playOdds(oddsOfWarehouse))
 			return new WarehouseBuildingLot(platmap, chunkX, chunkZ);
 		else

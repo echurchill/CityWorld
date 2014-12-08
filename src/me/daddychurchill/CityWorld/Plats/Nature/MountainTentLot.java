@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plats.Nature;
 
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.ShortChunk;
@@ -22,14 +22,14 @@ public class MountainTentLot extends MountainFlatLot {
 	}
 
 	@Override
-	protected void generateActualChunk(WorldGenerator generator,
+	protected void generateActualChunk(CityWorldGenerator generator,
 			PlatMap platmap, ShortChunk chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
 		generateSmoothedLot(generator, chunk, context);
 	}
 
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		reportLocation(generator, "Campground", chunk.getOriginX(), chunk.getOriginZ());
 		
 		// now make a tent

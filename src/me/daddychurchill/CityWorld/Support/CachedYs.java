@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Support;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 import org.bukkit.util.noise.NoiseGenerator;
 
@@ -19,7 +19,7 @@ public class CachedYs {
 	protected static int width = AbstractChunk.chunksBlockWidth;
 	protected double[][] blockYs= new double[width][width];
 	
-	public CachedYs(WorldGenerator generator, int chunkX, int chunkZ) {
+	public CachedYs(CityWorldGenerator generator, int chunkX, int chunkZ) {
 		
 		// total height
 		int sumHeight = 0;

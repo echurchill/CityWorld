@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot;
 import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot.BunkerType;
@@ -38,7 +38,7 @@ public class AstralTownBuildingLot extends AstralTownEmptyLot {
 	}
 
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator,
+	protected void generateActualBlocks(CityWorldGenerator generator,
 			PlatMap platmap, RealChunk chunk, DataContext context,
 			int platX, int platZ) {
 		

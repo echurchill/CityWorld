@@ -1,10 +1,11 @@
 package me.daddychurchill.CityWorld.Plats.Urban;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConnectedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.ShortChunk;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
@@ -32,10 +33,10 @@ public class ParkLot extends ConnectedLot {
 	//TODO park benches
 	//TODO gazebos
 	
-	private boolean circleSidewalk;
-	private int waterDepth;
+	protected boolean circleSidewalk;
+	protected int waterDepth;
 	
-	public ParkLot(PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey) {
+	public ParkLot(PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey, int depth) {
 		super(platmap, chunkX, chunkZ);
 		
 		// all parks are interconnected
@@ -44,16 +45,20 @@ public class ParkLot extends ConnectedLot {
 		
 		// pick a style
 		circleSidewalk = chunkOdds.flipCoin();
-		waterDepth = 1 + chunkOdds.getRandomInt(DataContext.FloorHeight * 2);
+		waterDepth = depth;
+	}
+	
+	public static int getWaterDepth(Odds odds) {
+		return 1 + odds.getRandomInt(DataContext.FloorHeight * 2);
 	}
 
 	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
-		return new ParkLot(platmap, chunkX, chunkZ, connectedkey);
+		return new ParkLot(platmap, chunkX, chunkZ, connectedkey, waterDepth);
 	}
 
 	@Override
-	protected boolean isShaftableLevel(WorldGenerator generator, int blockY) {
+	protected boolean isShaftableLevel(CityWorldGenerator generator, int blockY) {
 		return blockY >= 0 && blockY < generator.streetLevel - cisternDepth - 2 - 16;
 	}
 
@@ -72,17 +77,17 @@ public class ParkLot extends ConnectedLot {
 	}
 	
 	@Override
-	public int getBottomY(WorldGenerator generator) {
+	public int getBottomY(CityWorldGenerator generator) {
 		return generator.streetLevel - cisternDepth + 1;
 	}
 
 	@Override
-	public int getTopY(WorldGenerator generator) {
+	public int getTopY(CityWorldGenerator generator) {
 		return generator.streetLevel + DataContext.FloorHeight * 3 + 1;
 	}
 
 	@Override
-	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 
 		// look around
 		SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
@@ -221,7 +226,7 @@ public class ParkLot extends ConnectedLot {
 		CoverageType.TALL_BIRCH_TREE, CoverageType.TALL_OAK_TREE};
 	
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		int surfaceY = generator.streetLevel + 1;
 		
 		// way down?

@@ -5,7 +5,7 @@ import org.bukkit.block.Biome;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import org.bukkit.util.noise.NoiseGenerator;
 import org.bukkit.util.noise.SimplexNoiseGenerator;
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.ConstructionContext;
 import me.daddychurchill.CityWorld.Context.FarmContext;
 import me.daddychurchill.CityWorld.Context.HighriseContext;
@@ -28,7 +28,7 @@ import me.daddychurchill.CityWorld.Support.RealChunk;
 
 public class ShapeProvider_Floating extends ShapeProvider_Normal {
 
-	public ShapeProvider_Floating(WorldGenerator generator, Odds odds) {
+	public ShapeProvider_Floating(CityWorldGenerator generator, Odds odds) {
 		super(generator, odds);
 		long seed = generator.getWorldSeed();
 		
@@ -41,7 +41,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	}
 
 	@Override
-	protected void allocateContexts(WorldGenerator generator) {
+	protected void allocateContexts(CityWorldGenerator generator) {
 		if (!contextInitialized) {
 			natureContext = new FloatingNatureContext(generator);
 			roadContext = new FloatingRoadContext(generator);
@@ -66,7 +66,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	}
 
 	@Override
-	protected void validateLots(WorldGenerator generator, PlatMap platmap) {
+	protected void validateLots(CityWorldGenerator generator, PlatMap platmap) {
 
 		// find blimp moorings
 		for (int x = 0; x < PlatMap.Width; x++) {
@@ -114,7 +114,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	}
 
 	@Override
-	public int findGroundY(WorldGenerator generator, int blockX, int blockZ) {
+	public int findGroundY(CityWorldGenerator generator, int blockX, int blockZ) {
 		
 		// calculator the way down there bits
 		double terrainAt = terrainShape.noise(blockX * terrainScale, blockZ * terrainScale) * midRange;
@@ -123,7 +123,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	}
 	
 	@Override
-	public void preGenerateChunk(WorldGenerator generator, PlatLot lot, ShortChunk chunk, BiomeGrid biomes, CachedYs blockYs) {
+	public void preGenerateChunk(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, BiomeGrid biomes, CachedYs blockYs) {
 		Biome resultBiome = lot.getChunkBiome();
 		OreProvider ores = generator.oreProvider;
 		
@@ -167,7 +167,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	private final static int underworldLength = 6;
 	
 	@Override
-	public void postGenerateChunk(WorldGenerator generator, PlatLot lot, ShortChunk chunk, CachedYs blockYs) {
+	public void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, CachedYs blockYs) {
 		OreProvider ores = generator.oreProvider;
 		int lotBottomY = lot.getBottomY(generator);
 		if (lotBottomY != 0) {
@@ -193,12 +193,12 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	}
 
 	@Override
-	public void preGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
+	public void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
 		
 	}
 
 	@Override
-	public void postGenerateBlocks(WorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
+	public void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
 		// there is always something to plant!
 		lot.generateSurface(generator, chunk, true);
 	}
@@ -219,7 +219,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	}
 
 	@Override
-	public boolean notACave(WorldGenerator generator, int blockX, int blockY, int blockZ) {
+	public boolean notACave(CityWorldGenerator generator, int blockX, int blockY, int blockZ) {
 		return true;
 	}
 }

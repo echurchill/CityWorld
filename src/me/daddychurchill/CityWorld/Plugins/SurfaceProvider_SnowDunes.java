@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plugins;
 import org.bukkit.Material;
 import org.bukkit.util.noise.NoiseGenerator;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
@@ -18,7 +18,7 @@ public class SurfaceProvider_SnowDunes extends SurfaceProvider_Normal {
 	private final static double snowmanOdds = Odds.oddsNearlyNeverGoingToHappen;
 	
 	@Override
-	public void generateSurfacePoint(WorldGenerator generator, PlatLot lot, SupportChunk chunk, CoverProvider foliage, 
+	public void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot, SupportChunk chunk, CoverProvider foliage, 
 			int x, double perciseY, int z, boolean includeTrees) {
 		int y = NoiseGenerator.floor(generator.shapeProvider.findFloodY(generator, x, z));
 		

@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.SupportChunk;
 
@@ -17,7 +17,7 @@ public class TreeProvider_Normal extends TreeProvider {
 	private int maxTries = 3;
 
 	@Override
-	public boolean generateNormalTree(WorldGenerator generator, SupportChunk chunk, int x, int y, int z, TreeType treeType) {
+	public boolean generateNormalTree(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, TreeType treeType) {
 		boolean result = false;
 		
 		// where do we start?

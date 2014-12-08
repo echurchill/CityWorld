@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.Clipboard;
 import me.daddychurchill.CityWorld.Support.RealChunk;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
@@ -43,12 +43,12 @@ public class Clipboard_WorldEdit extends Clipboard {
 	private final static String tagBroadcastLocation = "BroadcastLocation";
 	private final static String tagDecayable = "Decayable";
 	
-	public Clipboard_WorldEdit(WorldGenerator generator, File file) throws Exception {
+	public Clipboard_WorldEdit(CityWorldGenerator generator, File file) throws Exception {
 		super(generator, file);
 	}
 	
 	@Override
-	protected void load(WorldGenerator generator, File file) throws Exception {
+	protected void load(CityWorldGenerator generator, File file) throws Exception {
 		
 		// prepare to read the meta data
 		YamlConfiguration metaYaml = new YamlConfiguration();
@@ -147,7 +147,7 @@ public class Clipboard_WorldEdit extends Clipboard {
 	        	  blocks[facing][x][y][z] = cuboid.getBlock(new Vector(x, y, z));
 	}
 	
-	private EditSession getEditSession(WorldGenerator generator) {
+	private EditSession getEditSession(CityWorldGenerator generator) {
 		return new EditSession(new BukkitWorld(generator.getWorld()), blockCount);
 	}
 	
@@ -171,7 +171,7 @@ public class Clipboard_WorldEdit extends Clipboard {
 	}
 	
 	@Override
-	public void paste(WorldGenerator generator, RealChunk chunk, BlockFace facing, int blockX, int blockY, int blockZ) {
+	public void paste(CityWorldGenerator generator, RealChunk chunk, BlockFace facing, int blockX, int blockY, int blockZ) {
 		Vector at = new Vector(blockX, blockY, blockZ);
 		try {
 			EditSession editSession = getEditSession(generator);
@@ -215,7 +215,7 @@ public class Clipboard_WorldEdit extends Clipboard {
 
 	//TODO remove the editSession need by directly setting the blocks in the chunk
 	@Override
-	public void paste(WorldGenerator generator, RealChunk chunk, BlockFace facing, 
+	public void paste(CityWorldGenerator generator, RealChunk chunk, BlockFace facing, 
 			int blockX, int blockY, int blockZ,
 			int x1, int x2, int y1, int y2, int z1, int z2) {
 		Vector at = new Vector(blockX, blockY, blockZ);

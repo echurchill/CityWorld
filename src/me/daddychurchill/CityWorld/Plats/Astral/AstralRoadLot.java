@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plats.Astral;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
 import me.daddychurchill.CityWorld.Support.ShortChunk;
@@ -19,19 +19,19 @@ public class AstralRoadLot extends RoadLot {
 	}
 
 	@Override
-	public int getBottomY(WorldGenerator generator) {
+	public int getBottomY(CityWorldGenerator generator) {
 		return generator.streetLevel;
 	}
 	
 	@Override
-	protected void generateActualChunk(WorldGenerator generator,
+	protected void generateActualChunk(CityWorldGenerator generator,
 			PlatMap platmap, ShortChunk chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
 
 	}
 
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator,
+	protected void generateActualBlocks(CityWorldGenerator generator,
 			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
 			int platZ) {
 		

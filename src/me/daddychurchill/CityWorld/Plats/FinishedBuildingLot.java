@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.Urban.ConcreteLot;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
@@ -169,7 +169,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	}
 
 	@Override
-	public int getBottomY(WorldGenerator generator) {
+	public int getBottomY(CityWorldGenerator generator) {
 		int result = generator.streetLevel;
 		if (depth > 0)
 			result -= basementFloorHeight * (depth - 1) + 3;
@@ -177,12 +177,12 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	}
 	
 	@Override
-	public int getTopY(WorldGenerator generator) {
+	public int getTopY(CityWorldGenerator generator) {
 		return generator.streetLevel + firstFloorHeight + (height * aboveFloorHeight);
 	}
 	
 	@Override
-	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 
 		// check out the neighbors
 		SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
@@ -264,7 +264,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	}
 	
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 
 		// check out the neighbors
 		//SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);

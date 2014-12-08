@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Urban;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Rooms.Populators.EmptyWithRooms;
@@ -17,7 +17,7 @@ public class EmptyBuildingLot extends LibraryBuildingLot {
 	}
 
 	@Override
-	public RoomProvider roomProviderForFloor(WorldGenerator generator, SupportChunk chunk, int floor, int floorY) {
+	public RoomProvider roomProviderForFloor(CityWorldGenerator generator, SupportChunk chunk, int floor, int floorY) {
 		return contentsRooms;
 	}
 	

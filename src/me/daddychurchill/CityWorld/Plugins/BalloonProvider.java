@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealChunk;
@@ -16,7 +16,7 @@ public class BalloonProvider extends Provider {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public final static BalloonProvider loadProvider(WorldGenerator generator) {
+	public final static BalloonProvider loadProvider(CityWorldGenerator generator) {
 		// for now
 		return new BalloonProvider();
 	}
@@ -25,7 +25,7 @@ public class BalloonProvider extends Provider {
 	//TODO need better balloons
 	//TODO need better strings
 	
-	public void generateBalloon(WorldGenerator generator, RealChunk chunk, DataContext context, 
+	public void generateBalloon(CityWorldGenerator generator, RealChunk chunk, DataContext context, 
 			int attachX, int attachY, int attachZ, Odds odds) {
 		// where is the balloon
 		int balloonX = attachX;
@@ -67,7 +67,7 @@ public class BalloonProvider extends Provider {
 		}
 	}
 
-	public void generateBlimp(WorldGenerator generator, RealChunk chunk, DataContext context, 
+	public void generateBlimp(CityWorldGenerator generator, RealChunk chunk, DataContext context, 
 			int attachY, Odds odds) {
 		int balloonY1 = attachY + 4 + odds.getRandomInt(4);
 		int balloonY2 = balloonY1 + 15 + odds.getRandomInt(15);
@@ -123,14 +123,14 @@ public class BalloonProvider extends Provider {
 		return result;
 	}
 	
-	private DyeColor getPrimaryColor(WorldGenerator generator, Odds odds) {
+	private DyeColor getPrimaryColor(CityWorldGenerator generator, Odds odds) {
 		if (generator.worldEnvironment == Environment.NETHER)
 			return getSecondaryColor(generator, odds);
 		else
 			return odds.getRandomLightColor();
 	}
 
-	private DyeColor getSecondaryColor(WorldGenerator generator, Odds odds) {
+	private DyeColor getSecondaryColor(CityWorldGenerator generator, Odds odds) {
 		return odds.getRandomDarkColor();
 	}
 	

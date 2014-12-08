@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plats.Floating;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
@@ -26,19 +26,19 @@ public class FloatingRoadLot extends RoadLot {
 	}
 
 	@Override
-	public int getBottomY(WorldGenerator generator) {
+	public int getBottomY(CityWorldGenerator generator) {
 		return generator.streetLevel;
 	}
 	
 	@Override
-	protected void generateActualChunk(WorldGenerator generator,
+	protected void generateActualChunk(CityWorldGenerator generator,
 			PlatMap platmap, ShortChunk chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
 
 	}
 	
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator,
+	protected void generateActualBlocks(CityWorldGenerator generator,
 			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
 			int platZ) {
 
@@ -170,7 +170,7 @@ public class FloatingRoadLot extends RoadLot {
 	private final static double oddsOfballoons = Odds.oddsSomewhatLikely;
 
 	@Override
-	protected boolean generateLightPost(WorldGenerator generator,
+	protected boolean generateLightPost(CityWorldGenerator generator,
 			RealChunk chunk, DataContext context, int sidewalkLevel, int x, int z) {
 		boolean result = super.generateLightPost(generator, chunk, context, sidewalkLevel, x, z);
 		if (result && chunkOdds.playOdds(oddsOfballoons))

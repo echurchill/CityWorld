@@ -30,7 +30,7 @@ import org.bukkit.World.Environment;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 
-public class WorldGenerator extends ChunkGenerator {
+public class CityWorldGenerator extends ChunkGenerator {
 
 	private CityWorld plugin;
 	private World world;
@@ -86,12 +86,25 @@ public class WorldGenerator extends ChunkGenerator {
 		//WESTERN,		// desert landscape with sparse western styled towns and ranches
 		//UNDERGROUND,	// elevated terrain with underground cities
 		//MINING,		// elevated terrain with very shallow mines and very small towns
-		//NETHER,		// nether landscape with destroyed cities
 		DESTROYED,		// normal landscape with destroyed cities
-		//THE_END,		// stark landscape with smaller light colored cities
 		NORMAL};   		// traditional terrain and cities
 	
-	public WorldGenerator(CityWorld plugin, String worldName, String worldStyle) {
+	public static WorldStyle validateStyle(WorldStyle style) {
+		switch (style) {
+		case MAZE:
+		case FLOATING:
+		case ASTRAL:
+		case FLOODED:
+		case SANDDUNES:
+		case SNOWDUNES:
+			CityWorld.log.info("[Generator] " + style + " worlds unavailable due to 1.8 issues, switching to NORMAL");
+			return WorldStyle.NORMAL;
+		default:
+		}
+		return style;
+	}
+		
+	public CityWorldGenerator(CityWorld plugin, String worldName, String worldStyle) {
 		this.plugin = plugin;
 		this.worldName = worldName;
 		this.worldStyle = WorldStyle.NORMAL;
@@ -99,7 +112,7 @@ public class WorldGenerator extends ChunkGenerator {
 		// parse the style string
 		if (worldStyle != null) {
 			try {
-				this.worldStyle = WorldStyle.valueOf(worldStyle.trim().toUpperCase());
+				this.worldStyle = validateStyle(WorldStyle.valueOf(worldStyle.trim().toUpperCase()));
 			} catch (IllegalArgumentException e) {
 				reportMessage("[Generator] Unknown world style " + worldStyle + ", switching to NORMAL");
 				this.worldStyle = WorldStyle.NORMAL;
@@ -228,36 +241,6 @@ public class WorldGenerator extends ChunkGenerator {
 		} 
 	}
 	
-//	@Override
-//	public short[][] generateExtBlockSections(World world, Random random, int chunkX, int chunkZ, BiomeGrid biomes) {
-//		try {
-//
-//			initializeWorldInfo(world);
-//
-//			// place to work
-//			ShortChunk shortChunk = new ShortChunk(this, chunkX, chunkZ);
-//		
-//			// figure out what everything looks like
-//			PlatMap platmap = getPlatMap(chunkX, chunkZ);
-//			if (platmap != null) {
-//				//CityWorld.reportMessage("generate X,Z = " + chunkX + "," + chunkZ);
-//				platmap.generateChunk(shortChunk, biomes);
-//			}
-//			
-//			// This was added by Sablednah
-//			// https://github.com/echurchill/CityWorld/pull/5
-//			// MOVED to the chunk populator by DaddyChurchill 10/27/12
-//			//CityWorldEvent event = new CityWorldEvent(chunkX, chunkZ, platmap.context, platmap.getPlatLots()[chunkX - platmap.originX][chunkZ - platmap.originZ]);
-//			//Bukkit.getServer().getPluginManager().callEvent(event);
-//			
-//			return shortChunk.blocks;
-//			
-//		} catch (Exception e) {
-//			reportException("ChunkPopulator FAILED", e);
-//			return null;
-//		} 
-//	}
-
 	public long getConnectionKey() {
 		return connectionKeyGen.getRandomLong();
 	}
@@ -338,9 +321,9 @@ public class WorldGenerator extends ChunkGenerator {
 
 	private class CityWorldBlockPopulator extends BlockPopulator {
 
-		private WorldGenerator chunkGen;
+		private CityWorldGenerator chunkGen;
 
-		public CityWorldBlockPopulator(WorldGenerator chunkGen) {
+		public CityWorldBlockPopulator(CityWorldGenerator chunkGen) {
 			this.chunkGen = chunkGen;
 		}
 

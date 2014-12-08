@@ -1,12 +1,12 @@
 package me.daddychurchill.CityWorld.Context;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Support.Odds;
 
 public class MunicipalContext extends UrbanContext {
 
-	public MunicipalContext(WorldGenerator generator) {
+	public MunicipalContext(CityWorldGenerator generator) {
 		super(generator);
 
 		oddsOfParks = Odds.oddsLikely;

@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Context;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Urban.EmptyBuildingLot;
 import me.daddychurchill.CityWorld.Plats.Urban.LibraryBuildingLot;
@@ -14,7 +14,7 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public abstract class UrbanContext extends CivilizedContext {
 
-	public UrbanContext(WorldGenerator generator) {
+	public UrbanContext(CityWorldGenerator generator) {
 		super(generator);
 
 		maximumFloorsAbove = 2;
@@ -22,7 +22,7 @@ public abstract class UrbanContext extends CivilizedContext {
 	}
 	
 	@Override
-	public void populateMap(WorldGenerator generator, PlatMap platmap) {
+	public void populateMap(CityWorldGenerator generator, PlatMap platmap) {
 		
 		// let the user add their stuff first, then plug any remaining holes with our stuff
 		getSchematics(generator).populate(generator, platmap);
@@ -30,6 +30,7 @@ public abstract class UrbanContext extends CivilizedContext {
 		// random fluff!
 		Odds platmapOdds = platmap.getOddsGenerator();
 		ShapeProvider shapeProvider = generator.shapeProvider;
+		int waterDepth = ParkLot.getWaterDepth(platmapOdds);
 		
 		// backfill with buildings and parks
 		for (int x = 0; x < PlatMap.Width; x++) {
@@ -43,7 +44,7 @@ public abstract class UrbanContext extends CivilizedContext {
 						// what to build?
 						boolean buildPark = platmapOdds.playOdds(oddsOfParks);
 						if (buildPark)
-							current = getPark(generator, platmap, platmapOdds, platmap.originX + x, platmap.originZ + z);
+							current = getPark(generator, platmap, platmapOdds, platmap.originX + x, platmap.originZ + z, waterDepth);
 						else
 							current = getBackfillLot(generator, platmap, platmapOdds, platmap.originX + x, platmap.originZ + z);
 						
@@ -103,22 +104,22 @@ public abstract class UrbanContext extends CivilizedContext {
 	}
 	
 	@Override
-	protected PlatLot getBackfillLot(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	protected PlatLot getBackfillLot(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		if (odds.playOdds(oddsOfUnfinishedBuildings))
 			return getUnfinishedBuilding(generator, platmap, odds, chunkX, chunkZ);
 		else
 			return getBuilding(generator, platmap, odds, chunkX, chunkZ);
 	}
 	
-	protected PlatLot getPark(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
-		return new ParkLot(platmap, chunkX, chunkZ, generator.connectedKeyForParks);
+	protected PlatLot getPark(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ, int waterDepth) {
+		return new ParkLot(platmap, chunkX, chunkZ, generator.connectedKeyForParks, waterDepth);
 	}
 	
-	protected PlatLot getUnfinishedBuilding(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	protected PlatLot getUnfinishedBuilding(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new UnfinishedBuildingLot(platmap, chunkX, chunkZ);
 	}
 	
-	protected PlatLot getBuilding(WorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	protected PlatLot getBuilding(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		switch (odds.getRandomInt(8)) {
 		case 1:
 			return new EmptyBuildingLot(platmap, chunkX, chunkZ);

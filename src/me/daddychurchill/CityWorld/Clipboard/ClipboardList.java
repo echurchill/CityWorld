@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Clipboard;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
@@ -40,7 +40,7 @@ public class ClipboardList implements Iterable<Clipboard> {
 		return list.size();
 	}
 	
-	public void populate(WorldGenerator generator, PlatMap platmap) {
+	public void populate(CityWorldGenerator generator, PlatMap platmap) {
 
 		// grab platmap's random
 		Odds odds = platmap.getOddsGenerator();
@@ -55,7 +55,7 @@ public class ClipboardList implements Iterable<Clipboard> {
 		}
 	}
 
-	public Clipboard getSingleLot(WorldGenerator generator, PlatMap platmap, Odds odds, int placeX, int placeZ) {
+	public Clipboard getSingleLot(CityWorldGenerator generator, PlatMap platmap, Odds odds, int placeX, int placeZ) {
 
 		// for each schematic
 		for (Clipboard clip: this) {

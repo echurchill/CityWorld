@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 import org.bukkit.Chunk;
 
@@ -33,7 +33,7 @@ public class CityWorldAPI {
 		HashMap<String, String> info = new HashMap<String, String>();
 		String classname;
 
-		WorldGenerator gen = (WorldGenerator) c.getWorld().getGenerator();
+		CityWorldGenerator gen = (CityWorldGenerator) c.getWorld().getGenerator();
 		int chunkX = c.getX();
 		int chunkZ = c.getZ();
 
@@ -75,7 +75,7 @@ public class CityWorldAPI {
 
 	public int getRoadCount(Chunk c) throws IllegalArgumentException {
 
-		WorldGenerator gen = (WorldGenerator) c.getWorld().getGenerator();
+		CityWorldGenerator gen = (CityWorldGenerator) c.getWorld().getGenerator();
 		int chunkX = c.getX();
 		int chunkZ = c.getZ();
 
@@ -91,7 +91,7 @@ public class CityWorldAPI {
 	}
 
 	public String getContextName(Chunk c) throws IllegalArgumentException {
-		WorldGenerator gen = (WorldGenerator) c.getWorld().getGenerator();
+		CityWorldGenerator gen = (CityWorldGenerator) c.getWorld().getGenerator();
 		int chunkX = c.getX();
 		int chunkZ = c.getZ();
 
@@ -108,7 +108,7 @@ public class CityWorldAPI {
 
 	public DataContext getContext(Chunk c) throws IllegalArgumentException {
 
-		WorldGenerator gen = (WorldGenerator) c.getWorld().getGenerator();
+		CityWorldGenerator gen = (CityWorldGenerator) c.getWorld().getGenerator();
 		int chunkX = c.getX();
 		int chunkZ = c.getZ();
 
@@ -125,7 +125,7 @@ public class CityWorldAPI {
 
 	public String getLotStyleName(Chunk c) throws IllegalArgumentException, IndexOutOfBoundsException {
 
-		WorldGenerator gen = (WorldGenerator) c.getWorld().getGenerator();
+		CityWorldGenerator gen = (CityWorldGenerator) c.getWorld().getGenerator();
 		int chunkX = c.getX();
 		int chunkZ = c.getZ();
 
@@ -144,7 +144,7 @@ public class CityWorldAPI {
 
 	public LotStyle getLotStyle(Chunk c) throws IllegalArgumentException, IndexOutOfBoundsException {
 
-		WorldGenerator gen = (WorldGenerator) c.getWorld().getGenerator();
+		CityWorldGenerator gen = (CityWorldGenerator) c.getWorld().getGenerator();
 		int chunkX = c.getX();
 		int chunkZ = c.getZ();
 
@@ -164,7 +164,7 @@ public class CityWorldAPI {
 	public String getSchematicName(Chunk c) throws IllegalArgumentException, IndexOutOfBoundsException {
 		String name = null;
 
-		WorldGenerator gen = (WorldGenerator) c.getWorld().getGenerator();
+		CityWorldGenerator gen = (CityWorldGenerator) c.getWorld().getGenerator();
 		int chunkX = c.getX();
 		int chunkZ = c.getZ();
 

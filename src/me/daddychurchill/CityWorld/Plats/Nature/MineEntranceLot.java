@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Nature;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -27,22 +27,22 @@ public class MineEntranceLot extends ConstructLot {
 	}
 
 	@Override
-	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 	}
 	
 	@Override
-	public int getBottomY(WorldGenerator generator) {
+	public int getBottomY(CityWorldGenerator generator) {
 		return 0;
 	}
 	
 	@Override
-	public int getTopY(WorldGenerator generator) {
+	public int getTopY(CityWorldGenerator generator) {
 		return generator.streetLevel + DataContext.FloorHeight;
 	}
 
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		reportLocation(generator, "Mine Entrance", chunk.getOriginX(), chunk.getOriginZ());
 		
 		// find the bottom of the world
@@ -88,7 +88,7 @@ public class MineEntranceLot extends ConstructLot {
 	private final static double oddsOfStairs = Odds.oddsVeryLikely;
 	private final static double oddsOfLanding = Odds.oddsVeryLikely;
 	
-	public static void generateStairWell(WorldGenerator generator, SupportChunk chunk, Odds odds, 
+	public static void generateStairWell(CityWorldGenerator generator, SupportChunk chunk, Odds odds, 
 			int offX, int offZ, int shaftY, int minHeight, int surfaceY, int clearToY, 
 			Material stairs, Material landing, Material center) {
 		
@@ -150,7 +150,7 @@ public class MineEntranceLot extends ConstructLot {
 //		chunk.setBlocks(2, surfaceY + 5, maxHeight + 20, 1, Material.GLOWSTONE);
 	}
 	
-	public static int generateStairs(WorldGenerator generator, SupportChunk chunk, Odds odds, int x, int y, int z, 
+	public static int generateStairs(CityWorldGenerator generator, SupportChunk chunk, Odds odds, int x, int y, int z, 
 			Direction.Stair direction, Direction.Stair underdirection, Material stairs) {
 		chunk.setBlocks(x, y + 1, y + 4, z, Material.AIR);
 		
@@ -168,7 +168,7 @@ public class MineEntranceLot extends ConstructLot {
 		return y;
 	}
 	
-	public static void generateLanding(WorldGenerator generator, SupportChunk chunk, Odds odds, int x, int y, int z, 
+	public static void generateLanding(CityWorldGenerator generator, SupportChunk chunk, Odds odds, int x, int y, int z, 
 			Direction.Stair underdirection, Material stairs, Material landing) {
 		chunk.setBlocks(x, y, y + 3, z, Material.AIR);
 		

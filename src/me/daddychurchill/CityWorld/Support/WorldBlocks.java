@@ -6,7 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.material.MaterialData;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 
 public final class WorldBlocks extends SupportChunk {
@@ -17,7 +17,7 @@ public final class WorldBlocks extends SupportChunk {
 
 	protected Odds odds;
 	
-	public WorldBlocks(WorldGenerator generator, Odds odds) {
+	public WorldBlocks(CityWorldGenerator generator, Odds odds) {
 		super(generator);
 		
 		this.odds = odds;

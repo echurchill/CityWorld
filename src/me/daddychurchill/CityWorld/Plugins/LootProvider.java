@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plugins.PhatLoot.LootProvider_Phat;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -18,7 +18,7 @@ public abstract class LootProvider extends Provider {
 	public abstract void setLoot(Odds odds, String worldPrefix, LootLocation chestLocation, Block block);
 	public abstract void saveLoots();
 
-	public static LootProvider loadProvider(WorldGenerator generator) {
+	public static LootProvider loadProvider(CityWorldGenerator generator) {
 
 		LootProvider provider = null;
 		

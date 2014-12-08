@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 
 import me.daddychurchill.CityWorld.CityWorldSettings;
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.Clipboard;
 import me.daddychurchill.CityWorld.Clipboard.ClipboardList;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider;
@@ -22,11 +22,11 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 	private File schematicsFolder;
 	
 	@Override
-	public void reportStatus(WorldGenerator generator) {
+	public void reportStatus(CityWorldGenerator generator) {
 		generator.reportMessage("[WorldEdit] Loaded " + schematicsLoaded + " schematic(s) for world " + generator.worldName);
 	}
 	
-	public PasteProvider_WorldEdit(WorldGenerator generator) throws Exception {
+	public PasteProvider_WorldEdit(CityWorldGenerator generator) throws Exception {
 		super();
 		
 		// find the files
@@ -66,7 +66,7 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 	}
 
 	@Override
-	public void loadClips(WorldGenerator generator, SchematicFamily family, ClipboardList clips, int maxX, int maxZ) throws Exception {
+	public void loadClips(CityWorldGenerator generator, SchematicFamily family, ClipboardList clips, int maxX, int maxZ) throws Exception {
 		
 		// things aren't happy
 		if (schematicsFolder != null) {
@@ -105,7 +105,7 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 	}
 	
 	// VERY Loosely based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
-	public static PasteProvider loadWorldEdit(WorldGenerator generator) {
+	public static PasteProvider loadWorldEdit(CityWorldGenerator generator) {
 //		return null;
 		WorldEditPlugin worldEditPlugin = null;
 

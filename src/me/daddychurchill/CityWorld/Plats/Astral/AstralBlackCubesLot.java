@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plats.Astral;
 
 import org.bukkit.Material;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Support.Direction.General;
@@ -19,7 +19,7 @@ public class AstralBlackCubesLot extends AstralNatureLot {
 	private final static int cubeWidth = 6;
 
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator,
+	protected void generateActualBlocks(CityWorldGenerator generator,
 			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
 			int platZ) {
 		
@@ -34,7 +34,7 @@ public class AstralBlackCubesLot extends AstralNatureLot {
 		}
 	}
 	
-	private void generateBlackCube(WorldGenerator generator, RealChunk chunk, int x, int y, int z) {
+	private void generateBlackCube(CityWorldGenerator generator, RealChunk chunk, int x, int y, int z) {
 		
 //		chunk.setBlocks(x, x + cubeWidth, y + cubeWidth - 1, z, z + cubeWidth, Material.OBSIDIAN);
 //		chunk.setWalls(x, x + cubeWidth, y + 1, y + cubeWidth - 1, z, z + cubeWidth, Material.OBSIDIAN);

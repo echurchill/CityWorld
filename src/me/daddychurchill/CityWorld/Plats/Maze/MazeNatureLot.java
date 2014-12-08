@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plats.Maze;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.NatureLot;
 import me.daddychurchill.CityWorld.Support.ShortChunk;
@@ -20,7 +20,7 @@ public class MazeNatureLot extends NatureLot {
 	}
 	
 	@Override
-	protected void generateActualChunk(WorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 	}
 	
 	protected final static int mazeWidth = 11; 
@@ -29,7 +29,7 @@ public class MazeNatureLot extends NatureLot {
 	protected final static Material wallMaterial = Material.OBSIDIAN;
 	
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
 		
 		// new maze please
 		MazeArray maze = new MazeArray(chunkOdds, mazeWidth, mazeWidth);
@@ -49,7 +49,7 @@ public class MazeNatureLot extends NatureLot {
 			generateSurface(generator, chunk, true);
 	}
 	
-	protected void generateWallPart(WorldGenerator generator, RealChunk chunk, int x1, int x2, int z1, int z2) {
+	protected void generateWallPart(CityWorldGenerator generator, RealChunk chunk, int x1, int x2, int z1, int z2) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				int my = generator.streetLevel + mazeHeight;
@@ -59,7 +59,7 @@ public class MazeNatureLot extends NatureLot {
 		}
 	}
 
-	protected void generateHallPart(WorldGenerator generator, RealChunk chunk, int x1, int x2, int z1, int z2) {
+	protected void generateHallPart(CityWorldGenerator generator, RealChunk chunk, int x1, int x2, int z1, int z2) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				int my = generator.streetLevel + mazeHeight;

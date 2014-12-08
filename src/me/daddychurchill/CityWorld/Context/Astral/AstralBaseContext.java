@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Context.Astral;
 
 import org.bukkit.Material;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralTownBuildingLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralTownEmptyLot;
@@ -13,7 +13,7 @@ import me.daddychurchill.CityWorld.Support.SupportChunk;
 
 public class AstralBaseContext extends AstralDataContext {
 
-	public AstralBaseContext(WorldGenerator generator) {
+	public AstralBaseContext(CityWorldGenerator generator) {
 		super(generator);
 
 		oddsOfIsolatedLots = Odds.oddsPrettyUnlikely;
@@ -21,7 +21,7 @@ public class AstralBaseContext extends AstralDataContext {
 	}
 
 	@Override
-	public void populateMap(WorldGenerator generator, PlatMap platmap) {
+	public void populateMap(CityWorldGenerator generator, PlatMap platmap) {
 		
 		//TODO, This doesn't handle schematics quite right yet
 		// let the user add their stuff first, then plug any remaining holes with our stuff
@@ -69,7 +69,7 @@ public class AstralBaseContext extends AstralDataContext {
 	}
 
 	@Override
-	public void validateMap(WorldGenerator generator, PlatMap platmap) {
+	public void validateMap(CityWorldGenerator generator, PlatMap platmap) {
 		// TODO Auto-generated method stub
 
 	}

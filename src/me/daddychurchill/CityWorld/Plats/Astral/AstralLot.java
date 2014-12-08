@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plats.Astral;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.IsolatedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -28,7 +28,7 @@ public abstract class AstralLot extends IsolatedLot {
 	}
 
 	@Override
-	protected void generateActualChunk(WorldGenerator generator,
+	protected void generateActualChunk(CityWorldGenerator generator,
 			PlatMap platmap, ShortChunk chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
 		// TODO Auto-generated method stub
@@ -36,12 +36,12 @@ public abstract class AstralLot extends IsolatedLot {
 	}
 
 	@Override
-	public int getBottomY(WorldGenerator generator) {
+	public int getBottomY(CityWorldGenerator generator) {
 		return blockYs.minHeight;
 	}
 
 	@Override
-	public int getTopY(WorldGenerator generator) {
+	public int getTopY(CityWorldGenerator generator) {
 		return blockYs.maxHeight;
 	}
 	
@@ -53,7 +53,7 @@ public abstract class AstralLot extends IsolatedLot {
 	private static int specialOffset = 7;
 
 	@Override
-	public void generateMines(WorldGenerator generator, RealChunk chunk) {
+	public void generateMines(CityWorldGenerator generator, RealChunk chunk) {
 		int y = generator.seaLevel + AstralTownEmptyLot.aboveSeaLevel - 1;
 		
 		// north/south along where the Nexus is

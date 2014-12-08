@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.SnowDunes;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Urban.OfficeBuildingLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
@@ -24,7 +24,7 @@ public class SnowDunesOfficeBuildingLot extends OfficeBuildingLot {
 	}
 
 	@Override
-	public RoomProvider roomProviderForFloor(WorldGenerator generator, SupportChunk chunk, int floor, int floorY) {
+	public RoomProvider roomProviderForFloor(CityWorldGenerator generator, SupportChunk chunk, int floor, int floorY) {
 		if (generator.shapeProvider.findFloodY(generator, chunk.getOriginX(), chunk.getOriginZ()) < floorY)
 			return super.roomProviderForFloor(generator, chunk, floor, floorY);
 		else {

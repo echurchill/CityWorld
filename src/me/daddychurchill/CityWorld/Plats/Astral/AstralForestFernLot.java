@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plats.Astral;
 import org.bukkit.Material;
 import org.bukkit.TreeSpecies;
 import org.bukkit.block.BlockFace;
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
@@ -19,7 +19,7 @@ public class AstralForestFernLot extends AstralForestLot {
 	static protected int darkLeaves = 7;
 
 	@Override
-	protected void plantTree(WorldGenerator generator, WorldBlocks blocks,
+	protected void plantTree(CityWorldGenerator generator, WorldBlocks blocks,
 			int blockX, int blockY, int blockZ, int snowY) {
 		
 		// Buried bit

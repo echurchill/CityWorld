@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
-import me.daddychurchill.CityWorld.WorldGenerator;
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -17,7 +17,7 @@ public class AstralNatureLot extends AstralLot {
 	private static double oddsOfBuriedSaucer = Odds.oddsEnormouslyUnlikely;
 
 	@Override
-	protected void generateActualBlocks(WorldGenerator generator,
+	protected void generateActualBlocks(CityWorldGenerator generator,
 			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
 			int platZ) {
 		
