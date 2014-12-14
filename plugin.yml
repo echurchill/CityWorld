@@ -1,6 +1,6 @@
 name: CityWorld
 main: me.daddychurchill.CityWorld.CityWorld
-version: 2.993
+version: 2.994
 load: startup
 author: DaddyChurchill
 website: http://dev.bukkit.org/server-mods/cityworld/
@@ -12,7 +12,7 @@ prefix: CityWorld
 commands:
   cityworld:
     description: Teleports you to/from the default CityWorld
-    usage: /cityworld [leave] [normal|nether|the_end] [floating]
+    usage: /cityworld [leave] [normal|destroyed|maze|astral|sanddunes|snowdunes|flooded|floating] [normal|nether|the_end]
     permission: cityworld.command
   citychunk:
     description: Performs specific maintenance on chunks of CityWorld

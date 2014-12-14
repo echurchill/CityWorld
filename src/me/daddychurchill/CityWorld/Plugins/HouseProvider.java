@@ -152,8 +152,10 @@ public class HouseProvider extends Provider {
 			chunk.setBlocks(6, baseY, baseY + 3, 8, matPole);
 			
 			// beds
-			chunk.setBed(5, baseY, 4, Facing.SOUTH);
-			chunk.setBed(7, baseY, 4, Facing.SOUTH);
+			if (odds.playOdds(Odds.oddsPrettyLikely))
+				chunk.setBed(5, baseY, 4, Facing.SOUTH);
+			if (odds.playOdds(Odds.oddsPrettyLikely))
+				chunk.setBed(7, baseY, 4, Facing.SOUTH);
 		} else {
 			// north/south tent first
 			for (int x = 3; x < 9; x++) {
@@ -181,30 +183,39 @@ public class HouseProvider extends Provider {
 			chunk.setBlocks(8, baseY, baseY + 3, 6, matPole);
 			
 			// beds
-			chunk.setBed(4, baseY, 5, Facing.EAST);
-			chunk.setBed(4, baseY, 7, Facing.EAST);
+			if (odds.playOdds(Odds.oddsPrettyLikely))
+				chunk.setBed(4, baseY, 5, Facing.EAST);
+			if (odds.playOdds(Odds.oddsPrettyLikely))
+				chunk.setBed(4, baseY, 7, Facing.EAST);
 		}
 		
 		// now the fire pit
-		chunk.setStair(11, baseY - 1, 10, matFireRing, Stair.SOUTH);
-		chunk.setStair(12, baseY - 1, 11, matFireRing, Stair.WEST);
-		chunk.setStair(11, baseY - 1, 12, matFireRing, Stair.NORTH);
-		chunk.setStair(10, baseY - 1, 11, matFireRing, Stair.EAST);
-		chunk.setStair(10, baseY - 1, 10, matFireRing, Stair.SOUTH);
-		chunk.setStair(12, baseY - 1, 10, matFireRing, Stair.WEST);
-		chunk.setStair(12, baseY - 1, 12, matFireRing, Stair.NORTH);
-		chunk.setStair(10, baseY - 1, 12, matFireRing, Stair.EAST);
-
-		// and the fire itself
-		chunk.setBlock(11, baseY - 1, 11, matFireBase);
-		chunk.setBlock(11, baseY, 11, matFire);
+		if (odds.playOdds(Odds.oddsPrettyLikely)) {
+			chunk.setStair(11, baseY - 1, 10, matFireRing, Stair.SOUTH);
+			chunk.setStair(12, baseY - 1, 11, matFireRing, Stair.WEST);
+			chunk.setStair(11, baseY - 1, 12, matFireRing, Stair.NORTH);
+			chunk.setStair(10, baseY - 1, 11, matFireRing, Stair.EAST);
+			chunk.setStair(10, baseY - 1, 10, matFireRing, Stair.SOUTH);
+			chunk.setStair(12, baseY - 1, 10, matFireRing, Stair.WEST);
+			chunk.setStair(12, baseY - 1, 12, matFireRing, Stair.NORTH);
+			chunk.setStair(10, baseY - 1, 12, matFireRing, Stair.EAST);
+	
+			// and the fire itself
+			chunk.setBlock(11, baseY - 1, 11, matFireBase);
+			if (odds.playOdds(Odds.oddsPrettyLikely))
+				chunk.setBlock(11, baseY, 11, matFire);
+		}
 		
 		// and the logs
 		int logType = odds.getRandomWoodType();
-		BlackMagic.setBlock(chunk, 11, baseY, 8, matLog, logType + logWestEast);
-		BlackMagic.setBlock(chunk, 12, baseY, 8, matLog, logType + logWestEast);
-		BlackMagic.setBlock(chunk, 8, baseY, 11, matLog, logType + logNorthSouth);
-		BlackMagic.setBlock(chunk, 8, baseY, 12, matLog, logType + logNorthSouth);
+		if (odds.playOdds(Odds.oddsPrettyLikely)) {
+			BlackMagic.setBlock(chunk, 11, baseY, 8, matLog, logType + logWestEast);
+			BlackMagic.setBlock(chunk, 12, baseY, 8, matLog, logType + logWestEast);
+		}
+		if (odds.playOdds(Odds.oddsPrettyLikely)) {
+			BlackMagic.setBlock(chunk, 8, baseY, 11, matLog, logType + logNorthSouth);
+			BlackMagic.setBlock(chunk, 8, baseY, 12, matLog, logType + logNorthSouth);
+		}
 	}
 	
 	private int logWestEast = 0x4;

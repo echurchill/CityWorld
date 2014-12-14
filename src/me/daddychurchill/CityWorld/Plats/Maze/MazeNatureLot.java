@@ -6,6 +6,8 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.NatureLot;
+import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageSets;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.ShortChunk;
 import me.daddychurchill.CityWorld.Support.MazeArray;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -52,9 +54,10 @@ public class MazeNatureLot extends NatureLot {
 	protected void generateWallPart(CityWorldGenerator generator, RealChunk chunk, int x1, int x2, int z1, int z2) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				int my = generator.streetLevel + mazeHeight;
-				int y = Math.min(my, getBlockY(x, z));
-				chunk.setBlocks(x, y - mazeDepth, y + mazeHeight - mazeDepth, z, wallMaterial);
+
+				int surfaceY = getBlockY(x, z);
+				int mazeY = Math.min(generator.streetLevel, surfaceY);
+				chunk.setBlocks(x, mazeY - mazeDepth, mazeY + mazeHeight - mazeDepth, z, wallMaterial);
 			}
 		}
 	}
@@ -62,15 +65,25 @@ public class MazeNatureLot extends NatureLot {
 	protected void generateHallPart(CityWorldGenerator generator, RealChunk chunk, int x1, int x2, int z1, int z2) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				int my = generator.streetLevel + mazeHeight;
-				int y = getBlockY(x, z);
+
+				int surfaceY = getBlockY(x, z);
+				int mazeY = Math.min(generator.streetLevel, surfaceY);
+				CoverageSets flowers = CoverageSets.SHORT_FLOWERS;
+				
+				// carve out room under the mountains
+				if (surfaceY > mazeY) {
+					if (chunk.isEmpty(x, mazeY, z))
+						chunk.setBlocks(x, mazeY - mazeDepth + 1, mazeY + 1, z, Material.STONE);
+					chunk.setBlocks(x, mazeY + 1, mazeY + 4 + chunkOdds.getRandomInt(3), z, Material.AIR);
+					flowers = CoverageSets.SHORT_MUSHROOMS;
+				}
 				
 				// underlayment to screw with diggers
-				chunk.setBlock(x, Math.min(my, y) - mazeDepth, z, wallMaterial);
-				
-				// make room in the mountains
-				if (y >= my)
-					chunk.setBlocks(x, my, my + 3 + chunkOdds.getRandomInt(3), z, Material.AIR);
+				if (chunkOdds.playOdds(Odds.oddsExtremelyUnlikely)) {
+					if (chunk.isEmpty(x, mazeY + 1, z) && !chunk.isEmpty(x, mazeY, z))
+						generator.coverProvider.generateCoverage(generator, chunk, x, mazeY + 1, z, flowers);
+				} else
+					chunk.setBlock(x, mazeY - mazeDepth, z, wallMaterial);
 			}
 		}
 	}

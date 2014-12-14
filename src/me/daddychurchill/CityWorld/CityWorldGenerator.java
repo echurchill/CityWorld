@@ -24,7 +24,6 @@ import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.generator.BlockPopulator;
@@ -91,13 +90,13 @@ public class CityWorldGenerator extends ChunkGenerator {
 	
 	public static WorldStyle validateStyle(WorldStyle style) {
 		switch (style) {
-		case MAZE:
 		case FLOATING:
-		case ASTRAL:
-		case FLOODED:
-		case SANDDUNES:
-		case SNOWDUNES:
-			CityWorld.log.info("[Generator] " + style + " worlds unavailable due to 1.8 issues, switching to NORMAL");
+//		case MAZE:
+//		case ASTRAL:
+//		case FLOODED:
+//		case SANDDUNES:
+//		case SNOWDUNES:
+			CityWorld.log.info("[Generator] " + style + " worlds unavailable due to performance issues, switching to NORMAL");
 			return WorldStyle.NORMAL;
 		default:
 		}
@@ -249,22 +248,32 @@ public class CityWorldGenerator extends ChunkGenerator {
 		return shapeProvider.findBlockY(this, blockX, blockZ);
 	}
 	
-	private final static int spawnRadius = 100;
-	
-	@Override
-	public Location getFixedSpawnLocation(World world, Random random) {
-		int spawnX = random.nextInt(spawnRadius * 2) - spawnRadius;
-		int spawnZ = random.nextInt(spawnRadius * 2) - spawnRadius;
-		
-		// find the first non empty spot;
-		int spawnY = world.getMaxHeight();
-		while ((spawnY > 0) && world.getBlockAt(spawnX, spawnY - 1, spawnZ).isEmpty()) {
-			spawnY--;
-		}
-		
-		// return the location
-		return new Location(world, spawnX, spawnY, spawnZ);
-	}
+//	private final static int spawnRadius = 100;
+//	
+//	@Override
+//	public Location getFixedSpawnLocation(World world, Random random) {
+//		
+//		// guess a location
+//		int spawnX = random.nextInt(spawnRadius * 2) - spawnRadius;
+//		int spawnZ = random.nextInt(spawnRadius * 2) - spawnRadius;
+//		
+//		// find a general height
+//		int spawnY = getFarBlockY(spawnX, spawnZ);
+//		int maxY = world.getMaxHeight();
+//		
+//		// find the first empty block
+//		while (spawnY < maxY) {
+//			if (world.getBlockAt(spawnX, spawnY, spawnZ).isEmpty() && 
+//				world.getBlockAt(spawnX, spawnY + 1, spawnZ).isEmpty())
+//				return new Location(world, spawnX, spawnY, spawnZ);
+//			
+//			// little higher up then
+//			spawnY++;
+//		}
+//		
+//		// still nothing?
+//		return new Location(world, spawnX, spawnY, spawnZ);
+//	}
 
 	// manager for handling the city plat maps collection
 	private Hashtable<Long, PlatMap> platmaps;
