@@ -6,10 +6,15 @@ import me.daddychurchill.CityWorld.Context.NatureContext;
 import me.daddychurchill.CityWorld.Plats.NatureLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Maze.MazeCoveredLot;
+import me.daddychurchill.CityWorld.Plats.Maze.MazeInvisibleWalledLot;
+import me.daddychurchill.CityWorld.Plats.Maze.MazeLavaWalledLot;
 import me.daddychurchill.CityWorld.Plats.Maze.MazeNatureLot;
+import me.daddychurchill.CityWorld.Plats.Maze.MazeWaterWalledLot;
+import me.daddychurchill.CityWorld.Plats.Nature.GravelLot;
 import me.daddychurchill.CityWorld.Plats.Nature.MountainShackLot;
 import me.daddychurchill.CityWorld.Plats.Nature.MountainTentLot;
 import me.daddychurchill.CityWorld.Plats.Nature.OldCastleLot;
+import me.daddychurchill.CityWorld.Plats.Nature.GravelMineLot;
 import me.daddychurchill.CityWorld.Plats.Rural.FarmLot;
 import me.daddychurchill.CityWorld.Plats.Rural.HouseLot;
 import me.daddychurchill.CityWorld.Plats.Urban.ConcreteLot;
@@ -56,10 +61,18 @@ public class MazeNatureContext extends NatureContext {
 	
 	private enum whatToBuild {
 		FARM, PARK, HOUSE, TOWN, CITY, UNFINISHED, STORAGE,
-		STATUE, FOREST, CAMPGROUND, CASTLE, BOX};
+		STATUE, FOREST, CAMPGROUND, CASTLE, BOX, THEPIT, 
 		
-	private whatToBuild pickRandomWhat(Odds odds) {
-		return whatToBuild.values()[odds.getRandomInt(whatToBuild.values().length)];
+		// 1.8 ones from here on, if you add more remember to update the numberWithNewStuff const
+		LAVA, WATER, MYSTERY};
+	private int numberWithNewStuff = 3;
+		
+	private whatToBuild pickRandomWhat(CityWorldGenerator generator, Odds odds) {
+		if (generator.minecraftVer > 1.7) {
+			return whatToBuild.values()[odds.getRandomInt(whatToBuild.values().length)];
+		} else {
+			return whatToBuild.values()[odds.getRandomInt(whatToBuild.values().length - numberWithNewStuff)];
+		}
 	}
 	
 	private int openingWidth = 4;
@@ -98,6 +111,11 @@ public class MazeNatureContext extends NatureContext {
 		return odds.playOdds(theOdds);
 	}
 	
+	// I am pretty sure there is a GREAT reason to do this in this specific order but 
+	//  for the life of me I can't remember why I do it this way. This just goes to show
+	//  you that you should comment the heck out of your code, especially the "clever" bits
+	// Ok, I just remembered what this is about. By starting in the middle and circling out
+	//  there much better chance the special lot will be in the middle
 	private static int[] xS = {1, 2, 2, 1,  1, 2, 3, 3, 1, 2, 0, 0,  0, 3, 3, 0};
 	private static int[] zS = {1, 1, 2, 2,  0, 0, 1, 2, 3, 3, 1, 2,  0, 0, 3, 3};
 	
@@ -118,7 +136,7 @@ public class MazeNatureContext extends NatureContext {
 		PlatLot lastOne = null;
 		
 		// what to build?
-		whatToBuild what = pickRandomWhat(platmapOdds);
+		whatToBuild what = pickRandomWhat(generator, platmapOdds);
 		for (int i = 0; i < xS.length; i++) {
 			int x = xS[i];
 			int z = zS[i];
@@ -135,6 +153,7 @@ public class MazeNatureContext extends NatureContext {
 				heights = HeightInfo.getHeightsFaster(generator, blockX, blockZ);
 				if (heights.isBuildable()) {
 					switch (what) {
+					default:
 					case FARM: // farm
 						if (placeSpecial(platmapOdds, x, z, specialMade)) {
 							specialMade = true;
@@ -237,6 +256,26 @@ public class MazeNatureContext extends NatureContext {
 						break;
 					case BOX:
 						current = new MazeCoveredLot(platmap, chunkX, chunkZ);
+						break;
+					case LAVA:
+						current = new MazeLavaWalledLot(platmap, chunkX, chunkZ);
+						break;
+					case WATER:
+						current = new MazeWaterWalledLot(platmap, chunkX, chunkZ);
+						break;
+					case MYSTERY:
+						current = new MazeInvisibleWalledLot(platmap, chunkX, chunkZ);
+						break;
+					case THEPIT:
+						if (placeSpecial(platmapOdds, x, z, specialMade)) {
+							specialMade = true;
+							current = new GravelMineLot(platmap, chunkX, chunkZ);
+						} else if (platmapOdds.playOdds(Odds.oddsSomewhatUnlikely))
+							current = new GravelMineLot(platmap, chunkX, chunkZ);
+//						else if (placeNature(platmapOdds, x, z))
+//							current = new NatureLot(platmap, chunkX, chunkZ);
+						else
+							current = new GravelLot(platmap, chunkX, chunkZ);
 						break;
 					}
 					

@@ -28,7 +28,10 @@ public class MazeNatureLot extends NatureLot {
 	protected final static int mazeWidth = 11; 
 	protected final static int mazeHeight = 12;
 	protected final static int mazeDepth = 3;
-	protected final static Material wallMaterial = Material.OBSIDIAN;
+	
+	protected Material getWallMaterial() {
+		return Material.OBSIDIAN;
+	}
 	
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
@@ -52,6 +55,7 @@ public class MazeNatureLot extends NatureLot {
 	}
 	
 	protected void generateWallPart(CityWorldGenerator generator, RealChunk chunk, int x1, int x2, int z1, int z2) {
+		Material wallMaterial = getWallMaterial();
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 
@@ -63,6 +67,7 @@ public class MazeNatureLot extends NatureLot {
 	}
 
 	protected void generateHallPart(CityWorldGenerator generator, RealChunk chunk, int x1, int x2, int z1, int z2) {
+		Material wallMaterial = getWallMaterial();
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 

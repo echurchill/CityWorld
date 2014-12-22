@@ -1,5 +1,7 @@
 package me.daddychurchill.CityWorld.Plats.Maze;
 
+import org.bukkit.Material;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -17,8 +19,9 @@ public class MazeCoveredLot extends MazeNatureLot {
 		super.generateActualBlocks(generator, platmap, chunk, context, platX, platZ);
 		
 		// top it off
+		Material wallMaterial = getWallMaterial();
 		int y = generator.streetLevel + mazeHeight - mazeDepth - 1;
 		chunk.setBlocks(0, 16, y, 0, 16, wallMaterial);
-		chunk.setWalls(0, 16, generator.streetLevel + 3, y - 1, 0, 16, wallMaterial);
+		chunk.setWalls(0, 16, generator.streetLevel + 4, y, 0, 16, wallMaterial);
 	}
 }
