@@ -61,7 +61,7 @@ public class MazeNatureContext extends NatureContext {
 	
 	private enum whatToBuild {
 		FARM, PARK, HOUSE, TOWN, CITY, UNFINISHED, STORAGE,
-		STATUE, FOREST, CAMPGROUND, CASTLE, BOX, THEPIT, 
+		STATUE, FOREST, CAMPGROUND, CASTLE, BOX, THEPIT, // TREEHOUSE, PYRAMID, 
 		
 		// 1.8 ones from here on, if you add more remember to update the numberWithNewStuff const
 		LAVA, WATER, MYSTERY};
@@ -277,6 +277,7 @@ public class MazeNatureContext extends NatureContext {
 						else
 							current = new GravelLot(platmap, chunkX, chunkZ);
 						break;
+					//case TREEHOUSE:
 					}
 					
 					// put it somewhere then
@@ -293,6 +294,8 @@ public class MazeNatureContext extends NatureContext {
 				}
 			}
 		}
+		
+		//TODO surround the thing we just created with partial walls
 		
 		// pass on the effort
 		super.populateMap(generator, platmap);

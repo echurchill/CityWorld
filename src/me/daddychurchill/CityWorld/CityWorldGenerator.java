@@ -262,31 +262,31 @@ public class CityWorldGenerator extends ChunkGenerator {
 		return shapeProvider.findBlockY(this, blockX, blockZ);
 	}
 	
-//	private final static int spawnRadius = 100;
-//	
 //	@Override
 //	public Location getFixedSpawnLocation(World world, Random random) {
 //		
-//		// guess a location
-//		int spawnX = random.nextInt(spawnRadius * 2) - spawnRadius;
-//		int spawnZ = random.nextInt(spawnRadius * 2) - spawnRadius;
-//		
-//		// find a general height
-//		int spawnY = getFarBlockY(spawnX, spawnZ);
-//		int maxY = world.getMaxHeight();
-//		
-//		// find the first empty block
-//		while (spawnY < maxY) {
-//			if (world.getBlockAt(spawnX, spawnY, spawnZ).isEmpty() && 
-//				world.getBlockAt(spawnX, spawnY + 1, spawnZ).isEmpty())
-//				return new Location(world, spawnX, spawnY, spawnZ);
-//			
-//			// little higher up then
-//			spawnY++;
-//		}
-//		
-//		// still nothing?
-//		return new Location(world, spawnX, spawnY, spawnZ);
+////		// guess a location
+////		int spawnX = random.nextInt(spawnRadius * 2) - spawnRadius;
+////		int spawnZ = random.nextInt(spawnRadius * 2) - spawnRadius;
+////		
+////		// find a general height
+////		int spawnY = getFarBlockY(spawnX, spawnZ);
+////		int maxY = world.getMaxHeight();
+////		
+////		// find the first empty block
+////		while (spawnY < maxY) {
+////			if (world.getBlockAt(spawnX, spawnY, spawnZ).isEmpty() && 
+////				world.getBlockAt(spawnX, spawnY + 1, spawnZ).isEmpty())
+////				return new Location(world, spawnX, spawnY, spawnZ);
+////			
+////			// little higher up then
+////			spawnY++;
+////		}
+////		
+////		// still nothing?
+////		return new Location(world, spawnX, spawnY, spawnZ);
+//		CityWorld.log.info("******* getFixedSpawnLocation = 0, 250, 0");
+//		return new Location(world, 0, world.getHighestBlockYAt(0, 0), 0);
 //	}
 
 	// manager for handling the city plat maps collection

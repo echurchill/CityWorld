@@ -165,7 +165,6 @@ public class ShapeProvider_Astral extends ShapeProvider {
 
 			// obsidianMineContext = new AstralObsidianContext(generator); // obsidian maze mines
 			// landingZoneContext = new AstralLandingContext(generator); // spaceship landing zone
-			// nexusContext = new AstralNexusContext(generator); // the 0,0 zone
 			// wallContext = new AstralWallContext(generator); // the walls going north/south/east/west from the nexus zone
 			// punctureContext = new AstralPunctureContext(generator); // hole in the world
 			
@@ -233,7 +232,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 		else {
 			double rawValue = (Math.max(-0.9999, Math.min(0.9999, ecoShape.noise(originX, originZ) * 1.375)) + 1.0) / 2.0;
 			switch (NoiseGenerator.floor(rawValue * 13)) { // the constant here should ALWAYS be one more than the biggest case statement constant!
-			default: // always move this to the last one
+			default: // always leave default at zero
 			case 0:
 				return natureContext;
 			case 1:
