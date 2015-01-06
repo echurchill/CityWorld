@@ -34,7 +34,13 @@ public class HouseProvider extends Provider {
 	private final static double oddsOfFurnace = Odds.oddsSomewhatUnlikely;
 	private final static double oddsOfCraftingTable = Odds.oddsSomewhatUnlikely;
 	
-	public void generateShed(CityWorldGenerator generator, RealChunk chunk, DataContext context, Odds odds, int x, int y, int z, int radius) {
+	public void generateShed(CityWorldGenerator generator, RealChunk chunk, DataContext context, Odds odds, 
+			int x, int y, int z, int radius, LootLocation location) {
+		generateShed(generator, chunk, context, odds, x, y, z, radius, location, location);
+	}
+		
+	public void generateShed(CityWorldGenerator generator, RealChunk chunk, DataContext context, Odds odds, 
+			int x, int y, int z, int radius, LootLocation location, LootLocation other) {
 		int x1 = x - radius;
 		int x2 = x + radius + 1;
 		int z1 = z - radius;
@@ -55,29 +61,29 @@ public class HouseProvider extends Provider {
 			chunk.setWoodenDoor(x1 + odds.getRandomInt(xR) + 1, y1, z1, Direction.Door.NORTHBYNORTHEAST);
 			chunk.setBlock(x1 + odds.getRandomInt(xR) + 1, y1 + 1, z2 - 1, materialGlass);
 			placeShedTable(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z2 - 2, Direction.General.SOUTH);
-			placeShedChest(generator, chunk, odds, x1 - 1, y1, z1 + odds.getRandomInt(zR) + 1, Direction.General.WEST);
-			placeShedChest(generator, chunk, odds, x2, y1, z1 + odds.getRandomInt(zR) + 1, Direction.General.EAST);
+			placeShedChest(generator, chunk, odds, x1 - 1, y1, z1 + odds.getRandomInt(zR) + 1, Direction.General.WEST, location);
+			placeShedChest(generator, chunk, odds, x2, y1, z1 + odds.getRandomInt(zR) + 1, Direction.General.EAST, other);
 			break;
 		case 1: // south
 			chunk.setWoodenDoor(x1 + odds.getRandomInt(xR) + 1, y1, z2 - 1, Direction.Door.SOUTHBYSOUTHWEST);
 			chunk.setBlock(x1 + odds.getRandomInt(xR) + 1, y1 + 1, z1, materialGlass);
 			placeShedTable(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z1 + 1, Direction.General.NORTH);
-			placeShedChest(generator, chunk, odds, x1 - 1, y1, z1 + odds.getRandomInt(zR) + 1, Direction.General.WEST);
-			placeShedChest(generator, chunk, odds, x2, y1, z1 + odds.getRandomInt(zR) + 1, Direction.General.EAST);
+			placeShedChest(generator, chunk, odds, x1 - 1, y1, z1 + odds.getRandomInt(zR) + 1, Direction.General.WEST, location);
+			placeShedChest(generator, chunk, odds, x2, y1, z1 + odds.getRandomInt(zR) + 1, Direction.General.EAST, other);
 			break;
 		case 2: // west
 			chunk.setWoodenDoor(x1, y1, z1 + odds.getRandomInt(zR) + 1, Direction.Door.WESTBYNORTHWEST);
 			chunk.setBlock(x2 - 1, y1 + 1, z1 + odds.getRandomInt(zR) + 1, materialGlass);
 			placeShedTable(generator, chunk, odds, x2 - 2, y1, z1 + odds.getRandomInt(zR) + 1, Direction.General.EAST);
-			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z1 - 1, Direction.General.NORTH);
-			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z2, Direction.General.SOUTH);
+			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z1 - 1, Direction.General.NORTH, location);
+			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z2, Direction.General.SOUTH, other);
 			break;
 		default: // east
 			chunk.setWoodenDoor(x1, y1, z1 + odds.getRandomInt(zR) + 1, Direction.Door.EASTBYSOUTHEAST);
 			chunk.setBlock(x2 - 1, y1 + 1, z1 + odds.getRandomInt(zR) + 1, materialGlass);
 			placeShedTable(generator, chunk, odds, x1 + 1, y1, z1 + odds.getRandomInt(zR) + 1, Direction.General.WEST);
-			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z1 - 1, Direction.General.NORTH);
-			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z2, Direction.General.SOUTH);
+			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z1 - 1, Direction.General.NORTH, location);
+			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z2, Direction.General.SOUTH, other);
 			break;
 		}
 	}
@@ -93,19 +99,20 @@ public class HouseProvider extends Provider {
 		}
 	}
 	
-	private void placeShedChest(CityWorldGenerator generator, RealChunk chunk, Odds odds, int x, int y, int z, Direction.General direction) {
+	private void placeShedChest(CityWorldGenerator generator, RealChunk chunk, Odds odds, int x, int y, int z, 
+			Direction.General direction, LootLocation location) {
 		switch (direction) {
 		case NORTH:
-			chunk.setChest(x + 1, y, z, direction, odds, generator.lootProvider, LootLocation.STORAGESHED);
+			chunk.setChest(x + 1, y, z, direction, odds, generator.lootProvider, location);
 			break;
 		case SOUTH:
-			chunk.setChest(x - 1, y, z, direction, odds, generator.lootProvider, LootLocation.STORAGESHED);
+			chunk.setChest(x - 1, y, z, direction, odds, generator.lootProvider, location);
 			break;
 		case WEST:
-			chunk.setChest(x, y, z + 1, direction, odds, generator.lootProvider, LootLocation.STORAGESHED);
+			chunk.setChest(x, y, z + 1, direction, odds, generator.lootProvider, location);
 			break;
 		case EAST:
-			chunk.setChest(x, y, z - 1, direction, odds, generator.lootProvider, LootLocation.STORAGESHED);
+			chunk.setChest(x, y, z - 1, direction, odds, generator.lootProvider, location);
 			break;
 		}
 	}

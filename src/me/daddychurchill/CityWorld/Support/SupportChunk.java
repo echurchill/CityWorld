@@ -659,10 +659,22 @@ public abstract class SupportChunk extends AbstractChunk {
 		}
 	}
 	
+	public final void setSlab(int x, int y, int z, Material material, boolean inverted) {
+		Step data = new Step(material);
+		data.setInverted(inverted);
+		setBlock(x, y, z, Material.STEP, data);
+	}
+	
 	public final void setSlabs(int x1, int x2, int y1, int y2, int z1, int z2, Material material, boolean inverted) {
 		Step data = new Step(material);
 		data.setInverted(inverted);
 		setBlocks(x1, x2, y1, y2, z1, z2, Material.STEP, data);
+	}
+	
+	public final void setSlab(int x, int y, int z, TreeSpecies species, boolean inverted) {
+		WoodenStep data = new WoodenStep(species);
+		data.setInverted(inverted);
+		setBlock(x, y, z, Material.STEP, data);
 	}
 	
 	public final void setSlabs(int x1, int x2, int y1, int y2, int z1, int z2, TreeSpecies species, boolean inverted) {

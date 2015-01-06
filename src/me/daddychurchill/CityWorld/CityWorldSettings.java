@@ -389,7 +389,7 @@ public class CityWorldSettings {
 			includeFloatingSubsurface = false; // DIFFERENT
 			break;
 		case MAZE:
-			includeRoads = false; // DIFFERENT
+			includeRoads = true; // This has too be true in order for things to generate correctly
 			includeRoundabouts = false; // DIFFERENT
 			includeMines = false; // DIFFERENT
 			includeBunkers = false; // DIFFERENT

@@ -43,7 +43,80 @@ public class LootProvider_Normal extends LootProvider {
 		case SEWER:
 			return createTreasures(odds, Material.IRON_SPADE, Material.COAL, 3, 2);
 		case STORAGESHED:
-			return createTreasures(odds, Material.IRON_SPADE, Material.IRON_AXE, 2, 1);
+			return pickFromTreasures(odds, 3, 2, 
+					Material.IRON_SPADE, 
+					Material.WOOD_SPADE, 
+					Material.IRON_PICKAXE,
+					Material.WOOD_PICKAXE,
+					Material.IRON_SWORD,
+					Material.WOOD_SWORD,
+					Material.TORCH,
+					Material.IRON_HELMET,
+					Material.COOKED_MUTTON);
+		case FARMWORKS:
+			return pickFromTreasures(odds, 4, 3, 
+					Material.IRON_HOE, 
+					Material.WOOD_HOE, 
+					Material.BOW,
+					Material.ARROW,
+					Material.TORCH,
+					Material.SHEARS,
+					Material.WATER_BUCKET,
+					Material.SEEDS,
+					Material.PUMPKIN_SEEDS,
+					Material.MELON_SEEDS,
+					Material.CARROT_ITEM,
+					Material.POTATO_ITEM);
+		case WOODWORKS:
+			return pickFromTreasures(odds, 4, 3, 
+					Material.STONE_AXE, 
+					Material.WOOD_AXE, 
+					Material.STONE_SPADE, 
+					Material.WOOD_SPADE, 
+					Material.STONE_SWORD,
+					Material.WOOD_SWORD,
+					Material.TORCH,
+					Material.STRING,
+					Material.FISHING_ROD,
+					Material.LEATHER,
+					Material.COOKED_MUTTON,
+					Material.COOKED_FISH);
+		case STONEWORKS:
+			return pickFromTreasures(odds, 3, 2, 
+					Material.IRON_SPADE, 
+					Material.STONE_SPADE, 
+					Material.IRON_PICKAXE,
+					Material.STONE_PICKAXE,
+					Material.IRON_SWORD,
+					Material.STONE_SWORD,
+					Material.TORCH,
+					Material.BUCKET,
+					Material.COOKED_BEEF,
+					Material.COOKED_CHICKEN);
+		case STONEWORKSOUTPUT:
+			return pickFromTreasures(odds, 6, 3, 
+					Material.IRON_INGOT, // easy but stupid way to increase odds of some of these happening
+					Material.IRON_INGOT,
+					Material.IRON_INGOT,
+					Material.IRON_INGOT,
+					Material.IRON_INGOT,
+					Material.IRON_INGOT,
+					Material.IRON_INGOT,
+					Material.COAL,
+					Material.COAL,
+					Material.COAL,
+					Material.COAL,
+					Material.COAL,
+					Material.COAL,
+					Material.COAL,
+					Material.GOLD_INGOT,
+					Material.GOLD_INGOT,
+					Material.GOLD_INGOT,
+					Material.REDSTONE,
+					Material.REDSTONE,
+					Material.REDSTONE,
+					Material.DIAMOND,
+					Material.EMERALD);
 		default:
 			return createTreasures(odds, Material.IRON_SPADE, Material.IRON_SPADE, 0, 0);
 		}

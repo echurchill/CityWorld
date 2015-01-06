@@ -18,4 +18,16 @@ public abstract class ConstructLot extends IsolatedLot {
 	public PlatLot validateLot(PlatMap platmap, int platX, int platZ) {
 		return null;
 	}
+
+	@Override
+	public int getBottomY(CityWorldGenerator generator) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getTopY(CityWorldGenerator generator) {
+		// TODO Auto-generated method stub
+		return generator.streetLevel;
+	}
 }

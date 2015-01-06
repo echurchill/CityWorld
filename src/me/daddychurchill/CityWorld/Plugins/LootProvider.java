@@ -13,7 +13,7 @@ public abstract class LootProvider extends Provider {
 
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	
-	public enum LootLocation {RANDOM, SEWER, MINE, BUNKER, STORAGESHED};
+	public enum LootLocation {RANDOM, SEWER, MINE, BUNKER, STORAGESHED, FARMWORKS, WOODWORKS, STONEWORKS, STONEWORKSOUTPUT};
 	
 	public abstract void setLoot(Odds odds, String worldPrefix, LootLocation chestLocation, Block block);
 	public abstract void saveLoots();
@@ -49,4 +49,19 @@ public abstract class LootProvider extends Provider {
 		// all done
 		return items;
 	}
+	
+	protected ItemStack[] pickFromTreasures(Odds odds, int maxCount, int maxStack, Material ... treasure) {
+		int count = maxCount > 0 ? odds.getRandomInt(maxCount) + 1 : 0;
+		
+		// make room
+		ItemStack[] items = new ItemStack[count];
+		
+		// populate
+		for (int i = 0; i < count; i++)
+			items[i] = new ItemStack(treasure[odds.getRandomInt(treasure.length)], odds.getRandomInt(maxStack) + 1);
+		
+		// all done
+		return items;
+	}
+	
 }

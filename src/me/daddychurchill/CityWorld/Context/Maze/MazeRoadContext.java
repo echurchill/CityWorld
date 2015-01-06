@@ -11,6 +11,11 @@ public class MazeRoadContext extends RoadContext {
 		super(generator);
 		// TODO Auto-generated constructor stub
 	}
+	
+	@Override
+	public void populateMap(CityWorldGenerator generator, PlatMap platmap) {
+		// nothing to do
+	}
 
 	@Override
 	public PlatLot createRoadLot(CityWorldGenerator generator, PlatMap platmap, int x, int z, boolean roundaboutPart, PlatLot oldLot) {

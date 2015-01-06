@@ -175,11 +175,13 @@ public class NatureContext extends UncivilizedContext {
 				}
 				break;
 //			case SEA:
+				//TODO boat!
 //				break;
 //			case BUILDING:
 //				break;
 //			case LOWLAND:
-//				//TODO Statue overlooking the city?
+				//TODO Statue overlooking the city?
+				//TODO hot air balloon!
 //				break;
 			case MIDLAND: 
 				// Mine entrance
