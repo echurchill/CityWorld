@@ -16,7 +16,7 @@ public class CachedYs {
 	public int maxHeightZ = 0;
 	public int segmentWidth = 1;
 	
-	protected static int width = AbstractChunk.chunksBlockWidth;
+	protected static int width = AbstractSection.sectionBlockWidth;
 	protected double[][] blockYs= new double[width][width];
 	
 	public CachedYs(CityWorldGenerator generator, int chunkX, int chunkZ) {

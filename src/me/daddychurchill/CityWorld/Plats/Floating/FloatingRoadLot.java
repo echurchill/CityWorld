@@ -7,10 +7,10 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
-import me.daddychurchill.CityWorld.Support.ShortChunk;
+import me.daddychurchill.CityWorld.Support.InitSection;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
 import me.daddychurchill.CityWorld.Support.SurroundingRoads;
 
 public class FloatingRoadLot extends RoadLot {
@@ -32,14 +32,14 @@ public class FloatingRoadLot extends RoadLot {
 	
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator,
-			PlatMap platmap, ShortChunk chunk, BiomeGrid biomes,
+			PlatMap platmap, InitSection chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
 
 	}
 	
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
+			PlatMap platmap, RealSection chunk, DataContext context, int platX,
 			int platZ) {
 
 		// where do we start
@@ -171,7 +171,7 @@ public class FloatingRoadLot extends RoadLot {
 
 	@Override
 	protected boolean generateLightPost(CityWorldGenerator generator,
-			RealChunk chunk, DataContext context, int sidewalkLevel, int x, int z) {
+			RealSection chunk, DataContext context, int sidewalkLevel, int x, int z) {
 		boolean result = super.generateLightPost(generator, chunk, context, sidewalkLevel, x, z);
 		if (result && chunkOdds.playOdds(oddsOfballoons))
 			generator.balloonProvider.generateBalloon(generator, chunk, context, x, sidewalkLevel + lightpostHeight + 2, z, chunkOdds);

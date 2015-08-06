@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.WorldBlocks;
+import me.daddychurchill.CityWorld.Support.WorldSection;
 
 public class AstralMushroomsRedLot extends AstralMushroomsLot {
 
@@ -25,7 +25,7 @@ public class AstralMushroomsRedLot extends AstralMushroomsLot {
 	}
 	
 	@Override
-	protected void plantMushroom(CityWorldGenerator generator, WorldBlocks blocks, int blockX, int blockY, int blockZ, int snowY) {
+	protected void plantMushroom(CityWorldGenerator generator, WorldSection blocks, int blockX, int blockY, int blockZ, int snowY) {
 		
 		// how tall?
 		int heightY = chunkOdds.getRandomInt(Math.min(generator.seaLevel - blockY, maxHeight) - minHeight) + minHeight + snowY;

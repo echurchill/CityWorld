@@ -59,19 +59,19 @@ public class PlatMap {
 		return generator.shapeProvider.getMacroOddsGeneratorAt(originX, originZ);
 	}
 	
-	public Odds getChunkOddsGenerator(SupportChunk chunk) {
-		return generator.shapeProvider.getMicroOddsGeneratorAt(chunk.chunkX, chunk.chunkZ);
+	public Odds getChunkOddsGenerator(SupportSection chunk) {
+		return generator.shapeProvider.getMicroOddsGeneratorAt(chunk.sectionX, chunk.sectionZ);
 	}
 	
 	public Odds getChunkOddsGenerator(int chunkX, int chunkZ) {
 		return generator.shapeProvider.getMicroOddsGeneratorAt(chunkX, chunkZ);
 	}
 	
-	public void generateChunk(ShortChunk chunk, BiomeGrid biomes) {
+	public void generateChunk(InitSection chunk, BiomeGrid biomes) {
 
 		// depending on the platchunk's type render a layer
-		int platX = chunk.chunkX - originX;
-		int platZ = chunk.chunkZ - originZ;
+		int platX = chunk.sectionX - originX;
+		int platZ = chunk.sectionZ - originZ;
 		
 		PlatLot platlot = platLots[platX][platZ];
 		if (platlot != null) {
@@ -81,11 +81,11 @@ public class PlatMap {
 		}
 	}
 	
-	public void generateBlocks(RealChunk chunk) {
+	public void generateBlocks(RealSection chunk) {
 
 		// depending on the platchunk's type render a layer
-		int platX = chunk.chunkX - originX;
-		int platZ = chunk.chunkZ - originZ;
+		int platX = chunk.sectionX - originX;
+		int platZ = chunk.sectionZ - originZ;
 		PlatLot platlot = platLots[platX][platZ];
 		if (platlot != null) {
 
@@ -363,8 +363,8 @@ public class PlatMap {
 	private boolean isRoadTowards(int x, int z, int deltaX, int deltaZ) {
 		
 		// is this a "real" spot?
-		boolean result = HeightInfo.isBuildableAt(generator, (originX + x + deltaX) * SupportChunk.chunksBlockWidth,
-									   			 			 (originZ + z + deltaZ) * SupportChunk.chunksBlockWidth);
+		boolean result = HeightInfo.isBuildableAt(generator, (originX + x + deltaX) * SupportSection.sectionBlockWidth,
+									   			 			 (originZ + z + deltaZ) * SupportSection.sectionBlockWidth);
 		
 		// if this isn't a buildable spot, is there a bridge or tunnel that gets us there?
 		if (!result)
@@ -393,12 +393,12 @@ public class PlatMap {
 	private boolean isBridgeTowards(int x, int z, int deltaX, int deltaZ) {
 		
 		// how far do we go?
-		int offsetX = deltaX * SupportChunk.chunksBlockWidth;
-		int offsetZ = deltaZ * SupportChunk.chunksBlockWidth;
+		int offsetX = deltaX * SupportSection.sectionBlockWidth;
+		int offsetZ = deltaZ * SupportSection.sectionBlockWidth;
 		
 		// where do we test?
-		int chunkX = (originX + x) * SupportChunk.chunksBlockWidth;
-		int chunkZ = (originZ + z) * SupportChunk.chunksBlockWidth;
+		int chunkX = (originX + x) * SupportSection.sectionBlockWidth;
+		int chunkZ = (originZ + z) * SupportSection.sectionBlockWidth;
 		
 		// what is the polarity of this spot
 		boolean originPolarity = generator.shapeProvider.getBridgePolarityAt(chunkX, chunkZ);

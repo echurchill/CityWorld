@@ -6,7 +6,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Direction.Door;
 import me.daddychurchill.CityWorld.Support.Direction.Facing;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
 
 public class ClosetRoom extends FilledRoom {
 
@@ -15,7 +15,7 @@ public class ClosetRoom extends FilledRoom {
 	}
 
 	@Override
-	public void drawFixture(CityWorldGenerator generator, RealChunk chunk, Odds odds, int floor, int x,
+	public void drawFixture(CityWorldGenerator generator, RealSection chunk, Odds odds, int floor, int x,
 			int y, int z, int width, int height, int depth,
 			Facing sideWithWall, Material materialWall, Material materialGlass) {
 		
@@ -39,7 +39,7 @@ public class ClosetRoom extends FilledRoom {
 		}
 	}
 	
-	private void drawShelves(RealChunk chunk, Odds odds, int x, int y, int z, 
+	private void drawShelves(RealSection chunk, Odds odds, int x, int y, int z, 
 			int width, int height, int depth, Material materialWall) {
 		
 		// walls and room
@@ -52,7 +52,7 @@ public class ClosetRoom extends FilledRoom {
 		drawShelve(chunk, odds, x + 1, y + 1, z + 1, shelveMaterial);
 	}
 	
-	private void drawShelve(RealChunk chunk, Odds odds, int x, int y, int z,
+	private void drawShelve(RealSection chunk, Odds odds, int x, int y, int z,
 			Material shelveMaterial) {
 		if (odds.flipCoin())
 			chunk.setBlock(x, y, z, shelveMaterial);

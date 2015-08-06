@@ -7,9 +7,9 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.BuildingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.ShortChunk;
+import me.daddychurchill.CityWorld.Support.InitSection;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
 import me.daddychurchill.CityWorld.Support.Surroundings;
 import me.daddychurchill.CityWorld.Support.Direction.StairWell;
@@ -60,7 +60,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 	}
 
 	@Override
-	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitSection chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 
 		// check out the neighbors
 		SurroundingFloors neighborBasements = getNeighboringBasementCounts(platmap, platX, platZ);
@@ -137,7 +137,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 	}
 
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealSection chunk, DataContext context, int platX, int platZ) {
 		
 		// work on the basement stairs first
 		if (!unfinishedBasementOnly) {
@@ -203,7 +203,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		}
 	}
 	
-	protected boolean drawCrane(CityWorldGenerator generator, RealChunk chunk, DataContext context) {
+	protected boolean drawCrane(CityWorldGenerator generator, RealSection chunk, DataContext context) {
 		if (lastHorizontalGirder > 0 && chunkOdds.playOdds(context.oddsOfCranes)) {
 			if (chunkOdds.flipCoin())
 				chunk.drawCrane(context, chunkOdds, inset + 2, lastHorizontalGirder + 1, inset);
@@ -224,7 +224,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		}	
 	}
 	
-	private void drawVerticalGirders(ShortChunk chunk, int y1, int floorHeight) {
+	private void drawVerticalGirders(InitSection chunk, int y1, int floorHeight) {
 		int y2 = y1 + floorHeight;
 		chunk.setBlocks(inset, y1, y2, inset, girderMaterial);
 		chunk.setBlocks(inset, y1, y2, chunk.width - inset - 1, girderMaterial);
@@ -232,7 +232,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		chunk.setBlocks(chunk.width - inset - 1, y1, y2, chunk.width - inset - 1, girderMaterial);
 	}
 
-	private void drawHorizontalGirders(ShortChunk chunk, int y1, Surroundings neighbors) {
+	private void drawHorizontalGirders(InitSection chunk, int y1, Surroundings neighbors) {
 		int x1 = neighbors.toWest() ? 0 : inset;
 		int x2 = neighbors.toEast() ? chunk.width - 1 : chunk.width - inset - 1;
 		int z1 = neighbors.toNorth() ? 0 : inset;

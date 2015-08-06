@@ -10,7 +10,7 @@ import me.daddychurchill.CityWorld.Plats.Astral.AstralMushroomsSpongeLot;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.SupportSection;
 
 public class AstralMushroomContext extends AstralDataContext {
 
@@ -43,8 +43,8 @@ public class AstralMushroomContext extends AstralDataContext {
 				if (current == null) {
 					
 					// what is the world location of the lot?
-					int blockX = (originX + x) * SupportChunk.chunksBlockWidth;
-					int blockZ = (originZ + z) * SupportChunk.chunksBlockWidth;
+					int blockX = (originX + x) * SupportSection.sectionBlockWidth;
+					int blockZ = (originZ + z) * SupportSection.sectionBlockWidth;
 					
 					// get the height info for this chunk
 					heights = HeightInfo.getHeightsFaster(generator, blockX, blockZ);

@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plugins;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.SupportSection;
 
 public class SurfaceProvider_Astral extends SurfaceProvider {
 
@@ -14,7 +14,7 @@ public class SurfaceProvider_Astral extends SurfaceProvider {
 
 	@Override
 	public void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot,
-			SupportChunk chunk, CoverProvider foliage, int x, double perciseY,
+			SupportSection chunk, CoverProvider foliage, int x, double perciseY,
 			int z, boolean includeTrees) {
 		// TODO Auto-generated method stub
 

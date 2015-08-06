@@ -14,7 +14,7 @@ import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.HeightInfo.HeightState;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.SupportSection;
 
 public class NatureContext extends UncivilizedContext {
 
@@ -62,8 +62,8 @@ public class NatureContext extends UncivilizedContext {
 					// what is the world location of the lot?
 					int chunkX = originX + x;
 					int chunkZ = originZ + z;
-					int blockX = chunkX * SupportChunk.chunksBlockWidth;
-					int blockZ = chunkZ * SupportChunk.chunksBlockWidth;
+					int blockX = chunkX * SupportSection.sectionBlockWidth;
+					int blockZ = chunkZ * SupportSection.sectionBlockWidth;
 					
 					// get the height info for this chunk
 					heights = HeightInfo.getHeightsFaster(generator, blockX, blockZ);

@@ -7,8 +7,8 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.ShortChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
+import me.daddychurchill.CityWorld.Support.InitSection;
 
 public class CampgroundLot extends ConstructLot {
 
@@ -24,7 +24,7 @@ public class CampgroundLot extends ConstructLot {
 
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator,
-			PlatMap platmap, ShortChunk chunk, BiomeGrid biomes,
+			PlatMap platmap, InitSection chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
 		// TODO Auto-generated method stub
 
@@ -32,7 +32,7 @@ public class CampgroundLot extends ConstructLot {
 
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
+			PlatMap platmap, RealSection chunk, DataContext context, int platX,
 			int platZ) {
 		
 		// now make a tent

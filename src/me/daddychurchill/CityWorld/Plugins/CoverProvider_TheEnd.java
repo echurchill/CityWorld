@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.SupportSection;
 
 public class CoverProvider_TheEnd extends CoverProvider_Normal {
 
@@ -27,7 +27,7 @@ public class CoverProvider_TheEnd extends CoverProvider_Normal {
 //	}
 	
 	@Override
-	protected void setCoverage(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageType coverageType) {
+	protected void setCoverage(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z, CoverageType coverageType) {
 		switch (coverageType) {
 		case GRASS:
 		case DANDELION:

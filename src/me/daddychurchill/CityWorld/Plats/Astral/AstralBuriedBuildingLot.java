@@ -9,7 +9,7 @@ import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Rooms.Populators.BuriedWithRandom;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
 import me.daddychurchill.CityWorld.Support.Direction.Facing;
 
 public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
@@ -68,7 +68,7 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
+			PlatMap platmap, RealSection chunk, DataContext context, int platX,
 			int platZ) {
 		
 		// what is the potential height?
@@ -113,7 +113,7 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 	private final static double oddsOfTallFloor = Odds.oddsVeryUnlikely;
 	private final static double oddsOfFurniture = Odds.oddsVeryLikely;
 	
-	private int generateFloor(CityWorldGenerator generator, RealChunk chunk, int y, Material wallMaterial) {
+	private int generateFloor(CityWorldGenerator generator, RealSection chunk, int y, Material wallMaterial) {
 		
 		// tall one?
 		int y2 = y + floorHeight - 1;

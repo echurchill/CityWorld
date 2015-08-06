@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
 
 public class MazeCoveredLot extends MazeNatureLot {
 
@@ -15,7 +15,7 @@ public class MazeCoveredLot extends MazeNatureLot {
 	}
 
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealSection chunk, DataContext context, int platX, int platZ) {
 		super.generateActualBlocks(generator, platmap, chunk, context, platX, platZ);
 		
 		// top it off

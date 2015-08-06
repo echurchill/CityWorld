@@ -8,10 +8,10 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.NatureLot;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageSets;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.ShortChunk;
+import me.daddychurchill.CityWorld.Support.InitSection;
 import me.daddychurchill.CityWorld.Support.MazeArray;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
 import me.daddychurchill.CityWorld.Support.MazeArray.MazeBit;
 
 public class MazeNatureLot extends NatureLot {
@@ -22,7 +22,7 @@ public class MazeNatureLot extends NatureLot {
 	}
 	
 	@Override
-	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitSection chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 	}
 	
 	protected final static int mazeWidth = 11; 
@@ -34,7 +34,7 @@ public class MazeNatureLot extends NatureLot {
 	}
 	
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealSection chunk, DataContext context, int platX, int platZ) {
 		
 		// new maze please
 		MazeArray maze = new MazeArray(chunkOdds, mazeWidth, mazeWidth);
@@ -54,7 +54,7 @@ public class MazeNatureLot extends NatureLot {
 			generateSurface(generator, chunk, true);
 	}
 	
-	protected void generateWallPart(CityWorldGenerator generator, RealChunk chunk, int x1, int x2, int z1, int z2) {
+	protected void generateWallPart(CityWorldGenerator generator, RealSection chunk, int x1, int x2, int z1, int z2) {
 		Material wallMaterial = getWallMaterial();
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
@@ -66,7 +66,7 @@ public class MazeNatureLot extends NatureLot {
 		}
 	}
 
-	protected void generateHallPart(CityWorldGenerator generator, RealChunk chunk, int x1, int x2, int z1, int z2) {
+	protected void generateHallPart(CityWorldGenerator generator, RealSection chunk, int x1, int x2, int z1, int z2) {
 		Material wallMaterial = getWallMaterial();
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {

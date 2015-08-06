@@ -27,12 +27,12 @@ import org.bukkit.material.Tree;
 import org.bukkit.material.Vine;
 import org.bukkit.material.WoodenStep;
 
-public abstract class SupportChunk extends AbstractChunk {
+public abstract class SupportSection extends AbstractSection {
 	
 	private boolean doPhysics;
 	private boolean doClearData;
 	
-	public SupportChunk(CityWorldGenerator generator) {
+	public SupportSection(CityWorldGenerator generator) {
 		super(generator);
 		
 		doPhysics = false;
@@ -365,16 +365,8 @@ public abstract class SupportChunk extends AbstractChunk {
 		}
 	}
 	
-	public final void setCircle(int cx, int cz, int r, int y, Material material) {
-		setCircle(cx, cz, r, y, y + 1, material, false);
-	}
-	
 	public final void setCircle(int cx, int cz, int r, int y, Material material, boolean fill) {
 		setCircle(cx, cz, r, y, y + 1, material, fill);
-	}
-	
-	public final void setCircle(int cx, int cz, int r, int y1, int y2, Material material) {
-		setCircle(cx, cz, r, y1, y2, material, false);
 	}
 	
 	public final void setCircle(int cx, int cz, int r, int y1, int y2, Material material, boolean fill) {

@@ -16,7 +16,7 @@ import me.daddychurchill.CityWorld.Context.SandDunes.SandDunesNeighborhoodContex
 import me.daddychurchill.CityWorld.Context.SandDunes.SandDunesParkContext;
 import me.daddychurchill.CityWorld.Context.SandDunes.SandDunesRoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.ShortChunk;
+import me.daddychurchill.CityWorld.Support.InitSection;
 import me.daddychurchill.CityWorld.Support.Odds;
 
 public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
@@ -110,7 +110,7 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 
 	@Override
 	protected void generateStratas(CityWorldGenerator generator, PlatLot lot,
-			ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+			InitSection chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			int coverY, Material coverMaterial, boolean surfaceCaves) {
 
@@ -124,7 +124,7 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 	
 	@Override
 	protected void generateStratas(CityWorldGenerator generator, PlatLot lot,
-			ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+			InitSection chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			boolean surfaceCaves) {
 
@@ -136,7 +136,7 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 		actualGenerateSand(generator, lot, chunk, x, z, subsurfaceY);
 	}
 	
-	protected void actualGenerateSand(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, int x, int z, int subsurfaceY) {
+	protected void actualGenerateSand(CityWorldGenerator generator, PlatLot lot, InitSection chunk, int x, int z, int subsurfaceY) {
 		int y = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 		if (y > subsurfaceY) {
 			chunk.setBlocks(x, subsurfaceY, y - 2, z, Material.SANDSTONE);

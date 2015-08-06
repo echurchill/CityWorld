@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.SupportSection;
 
 public class OreProvider_TheEnd extends OreProvider {
 	
@@ -29,7 +29,7 @@ public class OreProvider_TheEnd extends OreProvider {
 	}
 
 	@Override
-	public void sprinkleOres(CityWorldGenerator generator, PlatLot lot, SupportChunk chunk, CachedYs blockYs, Odds odds, OreLocation location) {
+	public void sprinkleOres(CityWorldGenerator generator, PlatLot lot, SupportSection chunk, CachedYs blockYs, Odds odds, OreLocation location) {
 		// no ores here!
 	}
 }

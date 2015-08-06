@@ -4,7 +4,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.SupportSection;
 
 public abstract class SurfaceProvider extends Provider {
 
@@ -26,10 +26,10 @@ public abstract class SurfaceProvider extends Provider {
 	
 	protected Odds odds;
 	
-	public abstract void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot, SupportChunk chunk, CoverProvider foliage, 
+	public abstract void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot, SupportSection chunk, CoverProvider foliage, 
 			int x, double perciseY, int z, boolean includeTrees);
 	
-	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportChunk chunk, CachedYs blockYs, boolean includeTrees) {
+	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportSection chunk, CachedYs blockYs, boolean includeTrees) {
 		CoverProvider foliage = generator.coverProvider;
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {

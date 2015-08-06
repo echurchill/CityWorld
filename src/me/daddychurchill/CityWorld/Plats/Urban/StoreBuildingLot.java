@@ -9,7 +9,7 @@ import me.daddychurchill.CityWorld.Rooms.Populators.StoreWithNothing;
 import me.daddychurchill.CityWorld.Rooms.Populators.StoreWithRandom;
 import me.daddychurchill.CityWorld.Rooms.Populators.StoreWithRegisters;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.SupportSection;
 
 public class StoreBuildingLot extends FinishedBuildingLot {
 
@@ -58,7 +58,7 @@ public class StoreBuildingLot extends FinishedBuildingLot {
 	}
 
 	@Override
-	public RoomProvider roomProviderForFloor(CityWorldGenerator generator, SupportChunk chunk, int floor, int floorY) {
+	public RoomProvider roomProviderForFloor(CityWorldGenerator generator, SupportSection chunk, int floor, int floorY) {
 		if (floor == 0)
 			return contentsRegisters;
 		else

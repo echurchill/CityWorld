@@ -6,7 +6,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Direction.Facing;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
 
 public class LoungeTVRoom extends LoungeRoom {
 
@@ -15,7 +15,7 @@ public class LoungeTVRoom extends LoungeRoom {
 	}
 
 	@Override
-	public void drawFixture(CityWorldGenerator generator, RealChunk chunk, Odds odds, int floor, int x,
+	public void drawFixture(CityWorldGenerator generator, RealSection chunk, Odds odds, int floor, int x,
 			int y, int z, int width, int height, int depth,
 			Facing sideWithWall, Material materialWall, Material materialGlass) {
 		switch (sideWithWall) {

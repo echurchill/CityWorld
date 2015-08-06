@@ -4,12 +4,12 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 import org.bukkit.block.Block;
 
-public final class RelativeBlocks extends SupportChunk {
+public final class RelativeSection extends SupportSection {
 
 	private int originX;
 	private int originZ;
 	
-	public RelativeBlocks(CityWorldGenerator generator, SupportChunk relative) {
+	public RelativeSection(CityWorldGenerator generator, SupportSection relative) {
 		super(generator);
 		
 		this.originX = relative.getOriginX();

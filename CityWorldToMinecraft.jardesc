@@ -11,9 +11,9 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
-        <file path="/CityWorld/.classpath"/>
-        <javaElement handleIdentifier="=CityWorld/src"/>
-        <file path="/CityWorld/plugin.yml"/>
         <file path="/CityWorld/.project"/>
+        <file path="/CityWorld/plugin.yml"/>
+        <javaElement handleIdentifier="=CityWorld/src"/>
+        <file path="/CityWorld/.classpath"/>
     </selectedElements>
 </jardesc>

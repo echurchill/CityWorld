@@ -7,10 +7,10 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.ShortChunk;
+import me.daddychurchill.CityWorld.Support.InitSection;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
 
 public class OilPlatformLot extends ConstructLot {
 
@@ -45,12 +45,12 @@ public class OilPlatformLot extends ConstructLot {
 	}
 
 	@Override
-	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitSection chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 	}
 	
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealSection chunk, DataContext context, int platX, int platZ) {
 		reportLocation(generator, "Oil Platform", chunk.getOriginX(), chunk.getOriginZ());
 
 		// working levels

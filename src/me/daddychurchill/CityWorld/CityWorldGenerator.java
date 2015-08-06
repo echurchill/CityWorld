@@ -16,11 +16,11 @@ import me.daddychurchill.CityWorld.Plugins.OreProvider;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider;
-import me.daddychurchill.CityWorld.Support.ShortChunk;
+import me.daddychurchill.CityWorld.Support.InitSection;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.WorldBlocks;
+import me.daddychurchill.CityWorld.Support.RealSection;
+import me.daddychurchill.CityWorld.Support.WorldSection;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -52,7 +52,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 	public HouseProvider houseProvider;
 	public TreeProvider treeProvider;
 	
-	public WorldBlocks decayBlocks;
+	public WorldSection decayBlocks;
 	
 	public CityWorldSettings settings;
 
@@ -180,7 +180,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 			houseProvider = HouseProvider.loadProvider(this);
 			treeProvider = TreeProvider.loadProvider(this, new Odds(getRelatedSeed()));
 			pasteProvider = PasteProvider.loadProvider(this);
-			decayBlocks = new WorldBlocks(this, new Odds(getRelatedSeed()));
+			decayBlocks = new WorldSection(this, new Odds(getRelatedSeed()));
 			
 			// get ranges and contexts
 			height = shapeProvider.getWorldHeight();
@@ -225,28 +225,23 @@ public class CityWorldGenerator extends ChunkGenerator {
 	}
 	
 	@Override
-	public short[][] generateExtBlockSections(World world, Random random, int x, int z, BiomeGrid biomes) {
+	public ChunkData generateChunkData(World world, Random random, int x, int z, BiomeGrid biome) {
+//	public short[][] generateExtBlockSections(World world, Random random, int x, int z, BiomeGrid biomes) {
 		try {
 
 			initializeWorldInfo(world);
 
 			// place to work
-			ShortChunk shortChunk = new ShortChunk(this, x, z);
+			InitSection initialBlocks = new InitSection(this, this.createChunkData(world), x, z);
 		
 			// figure out what everything looks like
 			PlatMap platmap = getPlatMap(x, z);
 			if (platmap != null) {
 				//CityWorld.reportMessage("generate X,Z = " + chunkX + "," + chunkZ);
-				platmap.generateChunk(shortChunk, biomes);
+				platmap.generateChunk(initialBlocks, biome);
 			}
 			
-			// This was added by Sablednah
-			// https://github.com/echurchill/CityWorld/pull/5
-			// MOVED to the chunk populator by DaddyChurchill 10/27/12
-			//CityWorldEvent event = new CityWorldEvent(chunkX, chunkZ, platmap.context, platmap.getPlatLots()[chunkX - platmap.originX][chunkZ - platmap.originZ]);
-			//Bukkit.getServer().getPluginManager().callEvent(event);
-			
-			return shortChunk.blocks;
+			return initialBlocks.chunkData;
 			
 		} catch (Exception e) {
 			reportException("ChunkPopulator FAILED", e);
@@ -361,7 +356,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 				int chunkZ = chunk.getZ();
 				
 				// place to work
-				RealChunk realChunk = new RealChunk(chunkGen, chunk);
+				RealSection realChunk = new RealSection(chunkGen, chunk);
 
 				// figure out what everything looks like
 				PlatMap platmap = chunkGen.getPlatMap(chunkX, chunkZ);

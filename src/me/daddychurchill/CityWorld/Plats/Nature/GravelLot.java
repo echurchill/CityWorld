@@ -8,8 +8,8 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.ShortChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
+import me.daddychurchill.CityWorld.Support.InitSection;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 
 public abstract class GravelLot extends ConstructLot {
@@ -21,17 +21,17 @@ public abstract class GravelLot extends ConstructLot {
 
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator,
-			PlatMap platmap, ShortChunk chunk, BiomeGrid biomes,
+			PlatMap platmap, InitSection chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	protected void generateTailings(CityWorldGenerator generator, RealChunk chunk, int x1, int x2, int z1, int z2) {
+	protected void generateTailings(CityWorldGenerator generator, RealSection chunk, int x1, int x2, int z1, int z2) {
 		generateTailings(generator, chunk, x1, x2, generator.streetLevel, z1, z2);
 	}
 	
-	protected void generateTailings(CityWorldGenerator generator, RealChunk chunk, int x1, int x2, int y, int z1, int z2) {
+	protected void generateTailings(CityWorldGenerator generator, RealSection chunk, int x1, int x2, int y, int z1, int z2) {
 		
 		// clear out some room above the tailings
 		if (x1 + 1 < x2 - 1 && z1 + 1 < z2 - 1)
@@ -67,7 +67,7 @@ public abstract class GravelLot extends ConstructLot {
 		}
 	}
 	
-	protected void generateBase(CityWorldGenerator generator, RealChunk chunk) {
+	protected void generateBase(CityWorldGenerator generator, RealSection chunk) {
 		chunk.setBlocks(2, 14, generator.streetLevel, 2, 14, Material.COBBLESTONE);
 		for (int i = 0; i < 10; i++) {
 			if (chunkOdds.flipCoin())
@@ -108,7 +108,7 @@ public abstract class GravelLot extends ConstructLot {
 			return Material.COBBLESTONE;
 	}
 	
-	protected void generatePile(CityWorldGenerator generator, RealChunk chunk, int x, int z, int width) {
+	protected void generatePile(CityWorldGenerator generator, RealSection chunk, int x, int z, int width) {
 		int index = chunkOdds.getRandomInt(oreTypes.length);
 		int y = generator.streetLevel + 1;
 		if (chunkOdds.playOdds(Odds.oddsPrettyLikely)) {
@@ -127,7 +127,7 @@ public abstract class GravelLot extends ConstructLot {
 		}
 	}
 	
-	protected void generateHole(CityWorldGenerator generator, RealChunk chunk, int width, int lowestY) {
+	protected void generateHole(CityWorldGenerator generator, RealSection chunk, int width, int lowestY) {
 		width = (width / 2) * 2; // make sure width is even
 		
 		// get ready to dig
@@ -209,14 +209,14 @@ public abstract class GravelLot extends ConstructLot {
 //		generateTailings(generator, chunk, 15, 16, 1, 15);
 	}
 	
-	private void generateStep(RealChunk chunk, int x, int y1, int y2, int z, Material step, Stair directionTop, Stair directionBottom) {
+	private void generateStep(RealSection chunk, int x, int y1, int y2, int z, Material step, Stair directionTop, Stair directionBottom) {
 		chunk.setStair(x, y1, z, step, directionTop);
 		if (chunk.isEmpty(x, y1 - 1, z))
 			chunk.setStair(x, y1 - 1, z, step, directionBottom);
 		chunk.setBlocks(x, y1 + 1, y2 + 1, z, Material.AIR);
 	}
 
-	private void generateLanding(RealChunk chunk, int x, int y1, int y2, int z, Material landing) {
+	private void generateLanding(RealSection chunk, int x, int y1, int y2, int z, Material landing) {
 		chunk.setBlock(x, y1, z, landing);
 		chunk.setBlocks(x, y1 + 1, y2 + 1, z, Material.AIR);
 	}

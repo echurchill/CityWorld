@@ -4,7 +4,7 @@ import org.bukkit.Material;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.SupportSection;
 
 public class CoverProvider_Flooded extends CoverProvider_Normal {
 
@@ -13,7 +13,7 @@ public class CoverProvider_Flooded extends CoverProvider_Normal {
 	}
 
 	@Override
-	public boolean isPlantable(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z) {
+	public boolean isPlantable(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z) {
 
 		// only if the spot above is empty
 		if (y < generator.shapeProvider.findFloodY(generator, x, z)) {
@@ -32,7 +32,7 @@ public class CoverProvider_Flooded extends CoverProvider_Normal {
 	}
 	
 	@Override
-	public boolean generateCoverage(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageType coverageType) {
+	public boolean generateCoverage(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z, CoverageType coverageType) {
 		if (likelyCover(generator)) {
 			int floodY = generator.shapeProvider.findFloodY(generator, x, z);
 			

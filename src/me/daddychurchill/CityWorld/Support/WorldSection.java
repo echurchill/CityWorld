@@ -9,15 +9,15 @@ import org.bukkit.material.MaterialData;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 
-public final class WorldBlocks extends SupportChunk {
+public final class WorldSection extends SupportSection {
 	
 	//====================
-	//WARNING: the x,z coordinates in this variant of SupportChunk are world absolute (unlike byte and real chunks)
+	//WARNING: the x,z coordinates in this variant of SupportSection are world absolute (unlike init and real sections)
 	//====================
 
 	protected Odds odds;
 	
-	public WorldBlocks(CityWorldGenerator generator, Odds odds) {
+	public WorldSection(CityWorldGenerator generator, Odds odds) {
 		super(generator);
 		
 		this.odds = odds;

@@ -6,9 +6,9 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
-import me.daddychurchill.CityWorld.Support.ShortChunk;
+import me.daddychurchill.CityWorld.Support.InitSection;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
 
 public class AstralRoadLot extends RoadLot {
 
@@ -25,14 +25,14 @@ public class AstralRoadLot extends RoadLot {
 	
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator,
-			PlatMap platmap, ShortChunk chunk, BiomeGrid biomes,
+			PlatMap platmap, InitSection chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
 
 	}
 
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
+			PlatMap platmap, RealSection chunk, DataContext context, int platX,
 			int platZ) {
 		
 		chunk.setBlocks(7, generator.streetLevel, 200, 7, Material.GLOWSTONE);

@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plugins;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -25,7 +25,7 @@ public class BalloonProvider extends Provider {
 	//TODO need better balloons
 	//TODO need better strings
 	
-	public void generateBalloon(CityWorldGenerator generator, RealChunk chunk, DataContext context, 
+	public void generateBalloon(CityWorldGenerator generator, RealSection chunk, DataContext context, 
 			int attachX, int attachY, int attachZ, Odds odds) {
 		// where is the balloon
 		int balloonX = attachX;
@@ -67,7 +67,7 @@ public class BalloonProvider extends Provider {
 		}
 	}
 
-	public void generateBlimp(CityWorldGenerator generator, RealChunk chunk, DataContext context, 
+	public void generateBlimp(CityWorldGenerator generator, RealSection chunk, DataContext context, 
 			int attachY, Odds odds) {
 		int balloonY1 = attachY + 4 + odds.getRandomInt(4);
 		int balloonY2 = balloonY1 + 15 + odds.getRandomInt(15);
@@ -116,7 +116,7 @@ public class BalloonProvider extends Provider {
 		}
 	}
 	
-	private boolean attachString(RealChunk chunk, int x, int y1, int y2, int z) {
+	private boolean attachString(RealSection chunk, int x, int y1, int y2, int z) {
 		boolean result = !chunk.isEmpty(x, y1 - 1, z);
 		if (result)
 			chunk.setBlocks(x, y1, y2, z, Material.FENCE);
@@ -134,7 +134,7 @@ public class BalloonProvider extends Provider {
 		return odds.getRandomDarkColor();
 	}
 	
-	private void addLight(RealChunk chunk, DataContext context, int x, int y, int z) {
+	private void addLight(RealSection chunk, DataContext context, int x, int y, int z) {
 		chunk.setBlock(x, y, z, Material.AIR);
 		chunk.setBlock(x, y - 1, z, context.lightMat);
 	}

@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plats.Astral;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
 
 public class AstralBlackTowerLot extends AstralStructureTowerLot {
 
@@ -14,7 +14,7 @@ public class AstralBlackTowerLot extends AstralStructureTowerLot {
 
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
+			PlatMap platmap, RealSection chunk, DataContext context, int platX,
 			int platZ) {
 		
 		generateTower(generator, chunk, TowerStyle.DARK);

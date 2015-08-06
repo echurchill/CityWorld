@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plugins;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.SupportSection;
 
 import org.bukkit.CropState;
 import org.bukkit.GrassSpecies;
@@ -149,17 +149,17 @@ public abstract class CoverProvider extends Provider {
 		this.odds = odds;
 	}
 	
-	public abstract boolean generateCoverage(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageType coverageType);
+	public abstract boolean generateCoverage(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z, CoverageType coverageType);
 	
 	private CoverageType getRandomCoverage(CoverageType ... types) {
 		return types[odds.getRandomInt(types.length)];
 	}
 	
-	public void generateRandomCoverage(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageType ... types) {
+	public void generateRandomCoverage(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z, CoverageType ... types) {
 		setCoverage(generator, chunk, x, y, z, getRandomCoverage(types));
 	}
 	
-	public void generateCoverage(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageSets coverageSet) {
+	public void generateCoverage(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z, CoverageSets coverageSet) {
 		switch (coverageSet) {
 		case ALL_FLOWERS:
 			generateRandomCoverage(generator, chunk, x, y, z, AllFlowers);
@@ -218,7 +218,7 @@ public abstract class CoverProvider extends Provider {
 		}
 	}
 	
-	protected void setCoverage(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, CoverageType coverageType) {
+	protected void setCoverage(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z, CoverageType coverageType) {
 		switch (coverageType) {
 		case GRASS:
 			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
@@ -543,7 +543,7 @@ public abstract class CoverProvider extends Provider {
 		return provider;
 	}
 	
-	public boolean isPlantable(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z) {
+	public boolean isPlantable(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z) {
 		
 		// only if the spot above is empty
 		if (!chunk.isEmpty(x, y + 1, z))

@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Direction.Facing;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
 
 public class LibraryDoubleRoom extends LibraryRoom {
 
@@ -14,7 +14,7 @@ public class LibraryDoubleRoom extends LibraryRoom {
 	}
 
 	@Override
-	public void drawFixture(CityWorldGenerator generator, RealChunk chunk, Odds odds, int floor, int x,
+	public void drawFixture(CityWorldGenerator generator, RealSection chunk, Odds odds, int floor, int x,
 			int y, int z, int width, int height, int depth,
 			Facing sideWithWall, Material materialWall, Material materialGlass) {
 
@@ -34,7 +34,7 @@ public class LibraryDoubleRoom extends LibraryRoom {
 		}
 	}
 	
-	public void drawNSBookshelves(RealChunk chunk, int x, int y, int z, int width, int height, int depth, int i) {
+	public void drawNSBookshelves(RealSection chunk, int x, int y, int z, int width, int height, int depth, int i) {
 		for (int offset = 0; offset < width; offset += 2) {
 			chunk.setBlocks(x + offset, x + 1 + offset, y, y + height, z, z + depth, Material.BOOKSHELF);
 			if (offset < width - 1)
@@ -42,7 +42,7 @@ public class LibraryDoubleRoom extends LibraryRoom {
 		}
 	}
 	
-	public void drawWEBookshelves(RealChunk chunk, int x, int y, int z, int width, int height, int depth, int i) {
+	public void drawWEBookshelves(RealSection chunk, int x, int y, int z, int width, int height, int depth, int i) {
 		for (int offset = 0; offset < depth; offset += 2) {
 			chunk.setBlocks(x, x + width, y, y + height, z + offset, z + 1 + offset, Material.BOOKSHELF);
 			if (offset < depth - 1)

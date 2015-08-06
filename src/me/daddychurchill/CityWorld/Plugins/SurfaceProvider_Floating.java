@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.SupportSection;
 
 public class SurfaceProvider_Floating extends SurfaceProvider {
 
@@ -17,7 +17,7 @@ public class SurfaceProvider_Floating extends SurfaceProvider {
 	}
 	
 	@Override
-	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportChunk chunk, CachedYs blockYs, boolean includeTrees) {
+	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportSection chunk, CachedYs blockYs, boolean includeTrees) {
 		if (generator.settings.includeFloatingSubsurface) {
 			ShapeProvider shape = generator.shapeProvider;
 			CoverProvider foliage = generator.coverProvider;
@@ -34,7 +34,7 @@ public class SurfaceProvider_Floating extends SurfaceProvider {
 	private final static double treeBirchOdds = Odds.oddsVeryUnlikely;
 	
 	@Override
-	public void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot, SupportChunk chunk, CoverProvider foliage, int x, double perciseY, int z, boolean includeTrees) {
+	public void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot, SupportSection chunk, CoverProvider foliage, int x, double perciseY, int z, boolean includeTrees) {
 		int y = NoiseGenerator.floor(perciseY);
 		
 		// roll the dice

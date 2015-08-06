@@ -6,7 +6,7 @@ import org.bukkit.util.noise.NoiseGenerator;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
 
 public class AstralCrystalSpiresLot extends AstralNatureLot {
 
@@ -17,7 +17,7 @@ public class AstralCrystalSpiresLot extends AstralNatureLot {
 
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
+			PlatMap platmap, RealSection chunk, DataContext context, int platX,
 			int platZ) {
 		
 		for (int x = 0; x < 16; x = x + 2) {

@@ -12,11 +12,11 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageSets;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
-import me.daddychurchill.CityWorld.Support.ShortChunk;
+import me.daddychurchill.CityWorld.Support.InitSection;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
+import me.daddychurchill.CityWorld.Support.SupportSection;
 import me.daddychurchill.CityWorld.Support.SurroundingLots;
 
 public class FarmLot extends ConnectedLot {
@@ -126,7 +126,7 @@ public class FarmLot extends ConnectedLot {
 	}
 
 	@Override
-	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitSection chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		// look around
 		SurroundingLots farms = new SurroundingLots(platmap, platX, platZ);
 		
@@ -170,7 +170,7 @@ public class FarmLot extends ConnectedLot {
 		}
 	}
 	
-	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealSection chunk, DataContext context, int platX, int platZ) {
 		int croplevel = generator.streetLevel + 1;
 		
 		boolean fallowField = false;
@@ -442,7 +442,7 @@ public class FarmLot extends ConnectedLot {
 		}
 	}
 
-	private void plowField(SupportChunk chunk, int croplevel, 
+	private void plowField(SupportSection chunk, int croplevel, 
 			Material matRidge, int datRidge, Material matFurrow, 
 			int stepCol) {
 		
@@ -472,7 +472,7 @@ public class FarmLot extends ConnectedLot {
 		}
 	}
 	
-	private void plantField(CityWorldGenerator generator, SupportChunk chunk, int croplevel, 
+	private void plantField(CityWorldGenerator generator, SupportSection chunk, int croplevel, 
 			CoverageType coverageType, int stepRow, int stepCol) {
 		
 		// do the deed
@@ -491,7 +491,7 @@ public class FarmLot extends ConnectedLot {
 		}
 	}
 	
-	private void plantField(CityWorldGenerator generator, SupportChunk chunk, int croplevel, 
+	private void plantField(CityWorldGenerator generator, SupportSection chunk, int croplevel, 
 			CoverageSets coverageSet, int stepRow, int stepCol) {
 		
 		// do the deed
@@ -510,7 +510,7 @@ public class FarmLot extends ConnectedLot {
 		}
 	}
 	
-	private void plantSaplings(CityWorldGenerator generator, SupportChunk chunk, int croplevel, 
+	private void plantSaplings(CityWorldGenerator generator, SupportSection chunk, int croplevel, 
 			CoverageType coverageType) {
 		plantSaplingsRow(generator, chunk, 3, croplevel, 2, coverageType);
 		plantSaplingsRow(generator, chunk, 6, croplevel, 4, coverageType);
@@ -518,27 +518,27 @@ public class FarmLot extends ConnectedLot {
 		plantSaplingsRow(generator, chunk, 12, croplevel, 4, coverageType);
 	}
 	
-	private void plantSaplingsRow(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, 
+	private void plantSaplingsRow(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z, 
 			CoverageType coverageType) {
 		for (int i = 0; i < 4; i++)
 			generator.coverProvider.generateCoverage(generator, chunk, x, y, z + i * 3, coverageType);
 	}
 	
-	private void plantTrees(CityWorldGenerator generator, SupportChunk chunk, int croplevel, 
+	private void plantTrees(CityWorldGenerator generator, SupportSection chunk, int croplevel, 
 			CoverageSets coverageSet) {
 		plantTreesRow(generator, chunk, 2, croplevel, 2, coverageSet);
 		plantTreesRow(generator, chunk, 7, croplevel, 3, coverageSet);
 		plantTreesRow(generator, chunk, 12, croplevel, 2, coverageSet);
 	}
 	
-	private void plantTreesRow(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, 
+	private void plantTreesRow(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z, 
 			CoverageSets coverageSet) {
 		for (int i = 0; i < 3; i++)
 			generator.coverProvider.generateCoverage(generator, chunk, x, y, z + i * 5, coverageSet);
 	}
 	
 	private static int stepVineRowDelta = 2;
-	private void buildVineyard(SupportChunk chunk, int cropLevel) {
+	private void buildVineyard(SupportSection chunk, int cropLevel) {
 		if (directionNorthSouth) {
 			for (int x = 1; x < 15; x += stepVineRowDelta) {
 				chunk.setBlocks(x, cropLevel, cropLevel + 4, 1, poleMaterial);
@@ -564,7 +564,7 @@ public class FarmLot extends ConnectedLot {
 		}
 	}
 	
-	private void plantVineyard(SupportChunk chunk, int cropLevel, Material matCrop) {
+	private void plantVineyard(SupportSection chunk, int cropLevel, Material matCrop) {
 		if (directionNorthSouth) {
 			for (int x = 1; x < 15; x += stepVineRowDelta) {
 				if (chunkOdds.playOdds(oddsOfCrop)) {

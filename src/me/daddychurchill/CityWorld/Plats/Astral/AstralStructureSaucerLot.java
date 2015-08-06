@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
 
 public class AstralStructureSaucerLot extends AstralStructureLot {
 
@@ -16,14 +16,14 @@ public class AstralStructureSaucerLot extends AstralStructureLot {
 
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealChunk chunk, DataContext context,
+			PlatMap platmap, RealSection chunk, DataContext context,
 			int platX, int platZ) {
 		
 		int y = chunkOdds.getRandomInt(generator.seaLevel + 32, 64);
 		drawSaucer(generator, chunk, y);
 	}
 	
-	public static void drawLandedSaucer(CityWorldGenerator generator, RealChunk chunk, int y) {
+	public static void drawLandedSaucer(CityWorldGenerator generator, RealSection chunk, int y) {
 		drawSaucer(generator, chunk, y + 2);
 		
 		// now the legs
@@ -33,7 +33,7 @@ public class AstralStructureSaucerLot extends AstralStructureLot {
 		chunk.setBlocks(10, y, y + 2, 10, Material.QUARTZ_BLOCK);
 	}
 
-	public static void drawSaucer(CityWorldGenerator generator, RealChunk chunk, int y) {
+	public static void drawSaucer(CityWorldGenerator generator, RealSection chunk, int y) {
 		chunk.setCircle(7, 7, 5, y, Material.QUARTZ_BLOCK, true);
 		chunk.setCircle(7, 7, 3, y, Material.GLASS, true);
 		chunk.setCircle(7, 7, 6, y + 1, Material.QUARTZ_BLOCK, true);

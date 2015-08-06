@@ -4,7 +4,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.MazeArray;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
 import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
 import me.daddychurchill.CityWorld.Support.MazeArray.MazeBit;
 
@@ -27,7 +27,7 @@ public abstract class AstralStructureTowerLot extends AstralStructureLot {
 	private final static int towerBottom = towerFloorHeight;
 	protected enum TowerStyle {DARK, LIGHT};
 	
-	protected void generateTower(CityWorldGenerator generator, RealChunk chunk, TowerStyle style) {
+	protected void generateTower(CityWorldGenerator generator, RealSection chunk, TowerStyle style) {
 		
 		// set things up for darkness
 		Material wallMaterial = Material.OBSIDIAN;

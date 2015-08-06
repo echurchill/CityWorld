@@ -10,11 +10,11 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Context.RoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.ShortChunk;
+import me.daddychurchill.CityWorld.Support.InitSection;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
 
 public abstract class ShapeProvider extends Provider {
 	
@@ -28,10 +28,10 @@ public abstract class ShapeProvider extends Provider {
 	
 	public abstract double findPerciseY(CityWorldGenerator generator, int blockX, int blockZ);
 
-	public abstract void preGenerateChunk(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, BiomeGrid biomes, CachedYs blockYs);
-	public abstract void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, CachedYs blockYs);
-	public abstract void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs);
-	public abstract void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs);
+	public abstract void preGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitSection chunk, BiomeGrid biomes, CachedYs blockYs);
+	public abstract void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitSection chunk, CachedYs blockYs);
+	public abstract void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealSection chunk, CachedYs blockYs);
+	public abstract void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealSection chunk, CachedYs blockYs);
 	
 	protected abstract Biome remapBiome(CityWorldGenerator generator, PlatLot lot, Biome biome);
 	protected abstract void allocateContexts(CityWorldGenerator generator);
@@ -185,7 +185,7 @@ public abstract class ShapeProvider extends Provider {
 		return provider;
 	}
 	
-	protected void actualGenerateStratas(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+	protected void actualGenerateStratas(CityWorldGenerator generator, PlatLot lot, InitSection chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			boolean surfaceCaves) {
 
@@ -194,8 +194,8 @@ public abstract class ShapeProvider extends Provider {
 		chunk.setBlock(x, 1, z, stratumMaterial);
 
 		// compute the world block coordinates
-		int blockX = chunk.chunkX * chunk.width + x;
-		int blockZ = chunk.chunkZ * chunk.width + z;
+		int blockX = chunk.sectionX * chunk.width + x;
+		int blockZ = chunk.sectionZ * chunk.width + z;
 		
 		// stony bits
 		for (int y = 2; y < stratumY; y++)
@@ -218,7 +218,7 @@ public abstract class ShapeProvider extends Provider {
 		}
 	}
 
-	protected void generateStratas(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+	protected void generateStratas(CityWorldGenerator generator, PlatLot lot, InitSection chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			boolean surfaceCaves) {
 	
@@ -227,7 +227,7 @@ public abstract class ShapeProvider extends Provider {
 				subsurfaceMaterial, subsurfaceY, surfaceMaterial, surfaceCaves);
 	}
 
-	protected void generateStratas(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+	protected void generateStratas(CityWorldGenerator generator, PlatLot lot, InitSection chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			int coverY, Material coverMaterial, boolean surfaceCaves) {
 

@@ -5,8 +5,8 @@ import org.bukkit.Material;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.WorldBlocks;
+import me.daddychurchill.CityWorld.Support.RealSection;
+import me.daddychurchill.CityWorld.Support.WorldSection;
 
 public class AstralMushroomsSpongeLot extends AstralNatureLot {
 
@@ -19,7 +19,7 @@ public class AstralMushroomsSpongeLot extends AstralNatureLot {
 	
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
+			PlatMap platmap, RealSection chunk, DataContext context, int platX,
 			int platZ) {
 		
 		// four please
@@ -29,7 +29,7 @@ public class AstralMushroomsSpongeLot extends AstralNatureLot {
 		placeSponge(generator, chunk, 11, 11);
 	}
 	
-	private void placeSponge(CityWorldGenerator generator, RealChunk chunk, int x, int z) {
+	private void placeSponge(CityWorldGenerator generator, RealSection chunk, int x, int z) {
 		
 		// do one here?
 		if (chunkOdds.playOdds(populationChance)) {
@@ -51,7 +51,7 @@ public class AstralMushroomsSpongeLot extends AstralNatureLot {
 				// normalize
 				int blockX = chunk.getBlockX(x);
 				int blockZ = chunk.getBlockZ(z);
-				WorldBlocks blocks = new WorldBlocks(generator, chunkOdds);
+				WorldSection blocks = new WorldSection(generator, chunkOdds);
 				
 				// draw the disc bit
 				placeTopDisc(blocks, blockX, topY, blockZ);
@@ -77,7 +77,7 @@ public class AstralMushroomsSpongeLot extends AstralNatureLot {
 		}
 	}
 		
-	private void placeTopDisc(WorldBlocks blocks, int x, int y, int z) {
+	private void placeTopDisc(WorldSection blocks, int x, int y, int z) {
 		placeLine(blocks, x, x + 2, y, z - 4);
 		placeLine(blocks, x - 2, x + 4, y, z - 3);
 
@@ -94,7 +94,7 @@ public class AstralMushroomsSpongeLot extends AstralNatureLot {
 		placeLine(blocks, x, x + 2, y, z + 5);
 	}
 	
-	private void placeMiddleDisc(WorldBlocks blocks, int x, int y, int z) {
+	private void placeMiddleDisc(WorldSection blocks, int x, int y, int z) {
 		placeLine(blocks, x - 1, x + 3, y, z - 3);
 		placeLine(blocks, x - 2, x + 4, y, z - 2);
 		placeLine(blocks, x - 3, x + 5, y, z - 1);
@@ -107,7 +107,7 @@ public class AstralMushroomsSpongeLot extends AstralNatureLot {
 		placeLine(blocks, x - 1, x + 3, y, z + 4);
 	}
 	
-	private void placeBottomDisc(WorldBlocks blocks, int x, int y, int z) {
+	private void placeBottomDisc(WorldSection blocks, int x, int y, int z) {
 		placeLine(blocks, x - 1, x + 3, y, z - 2);
 		placeLine(blocks, x - 2, x + 4, y, z - 1);
 
@@ -118,12 +118,12 @@ public class AstralMushroomsSpongeLot extends AstralNatureLot {
 		placeLine(blocks, x - 1, x + 3, y, z + 3);
 	}
 	
-	private void placeLine(WorldBlocks blocks, int x1, int x2, int y, int z) {
+	private void placeLine(WorldSection blocks, int x1, int x2, int y, int z) {
 		for (int x = x1; x < x2; x++) 
 			placeBlock(blocks, x, y, z);
 	}
 	
-	private void placeBlock(WorldBlocks blocks, int x, int y, int z) {
+	private void placeBlock(WorldSection blocks, int x, int y, int z) {
 		switch (chunkOdds.getRandomInt(20)) {
 		case 1:
 			// some occasional holes

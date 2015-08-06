@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Rooms.Populators.EmptyWithNothing;
 import me.daddychurchill.CityWorld.Rooms.Populators.EmptyWithRooms;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.SupportSection;
 
 public class SnowDunesOfficeBuildingLot extends OfficeBuildingLot {
 
@@ -24,7 +24,7 @@ public class SnowDunesOfficeBuildingLot extends OfficeBuildingLot {
 	}
 
 	@Override
-	public RoomProvider roomProviderForFloor(CityWorldGenerator generator, SupportChunk chunk, int floor, int floorY) {
+	public RoomProvider roomProviderForFloor(CityWorldGenerator generator, SupportSection chunk, int floor, int floorY) {
 		if (generator.shapeProvider.findFloodY(generator, chunk.getOriginX(), chunk.getOriginZ()) < floorY)
 			return super.roomProviderForFloor(generator, chunk, floor, floorY);
 		else {

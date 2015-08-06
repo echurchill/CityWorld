@@ -6,7 +6,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.SupportSection;
 
 public class OreProvider_Astral extends OreProvider {
 
@@ -31,15 +31,15 @@ public class OreProvider_Astral extends OreProvider {
 	}
 
 	@Override
-	public void sprinkleSnow(CityWorldGenerator generator, SupportChunk chunk, Odds odds, int x1, int x2, int y, int z1, int z2) {
+	public void sprinkleSnow(CityWorldGenerator generator, SupportSection chunk, Odds odds, int x1, int x2, int y, int z1, int z2) {
 	}
 	
 	@Override
-	public void dropSnow(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z) {
+	public void dropSnow(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z) {
 	}
 	
 	@Override
-	public void dropSnow(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, int level) {
+	public void dropSnow(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z, int level) {
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class OreProvider_Astral extends OreProvider {
 	private static final boolean[] ore_liquid = new boolean[] { true,  true, false, false, false, false, false, false, false, false};
 	
 	@Override
-	public void sprinkleOres(CityWorldGenerator generator, PlatLot lot, SupportChunk chunk, CachedYs blockYs, Odds odds, OreLocation location) {
+	public void sprinkleOres(CityWorldGenerator generator, PlatLot lot, SupportSection chunk, CachedYs blockYs, Odds odds, OreLocation location) {
 		
 		// do it!
 		for (int typeNdx = 0; typeNdx < ore_types.length; typeNdx++) {

@@ -4,7 +4,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.SupportSection;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
@@ -52,10 +52,10 @@ public abstract class OreProvider extends Provider {
 	
 	public enum OreLocation {CRUST};
 	
-	public abstract void sprinkleOres(CityWorldGenerator generator, PlatLot lot, SupportChunk chunk, CachedYs blockYs, Odds odds, OreLocation location);
+	public abstract void sprinkleOres(CityWorldGenerator generator, PlatLot lot, SupportSection chunk, CachedYs blockYs, Odds odds, OreLocation location);
 	public abstract String getCollectionName();
 
-	protected void sprinkleOre(CityWorldGenerator generator, PlatLot lot, SupportChunk chunk, CachedYs blockYs,
+	protected void sprinkleOre(CityWorldGenerator generator, PlatLot lot, SupportSection chunk, CachedYs blockYs,
 			Odds odds, Material material, int maxY, int minY, 
 			int iterations, int amount, boolean mirror, boolean liquid) {
 		
@@ -80,7 +80,7 @@ public abstract class OreProvider extends Provider {
 		}
 	}
 	
-	private void growVein(CityWorldGenerator generator, PlatLot lot, SupportChunk chunk, CachedYs blockYs, 
+	private void growVein(CityWorldGenerator generator, PlatLot lot, SupportSection chunk, CachedYs blockYs, 
 			Odds odds, int originX, int originY, int originZ, int amountToDo, Material material) {
 		int trysLeft = amountToDo * 2;
 		int oresDone = 0;
@@ -102,7 +102,7 @@ public abstract class OreProvider extends Provider {
 		}
 	}
 	
-	private int placeOre(CityWorldGenerator generator, SupportChunk chunk, Odds odds, 
+	private int placeOre(CityWorldGenerator generator, SupportSection chunk, Odds odds, 
 			int centerX, int centerY, int centerZ, int oresToDo, Material material) {
 		int count = 0;
 		if (centerY > 0 && centerY < chunk.height) {
@@ -121,7 +121,7 @@ public abstract class OreProvider extends Provider {
 		return count;
 	}
 	
-	protected boolean placeBlock(SupportChunk chunk, Odds odds, int x, int y, int z, Material material) {
+	protected boolean placeBlock(SupportSection chunk, Odds odds, int x, int y, int z, Material material) {
 		if (odds.playOdds(oreSprinkleOdds))
 			if (chunk.isType(x, y, z, stratumMaterial)) {
 				chunk.setBlock(x, y, z, material);
@@ -210,7 +210,7 @@ public abstract class OreProvider extends Provider {
 		return biome;
 	}
 
-	public void sprinkleSnow(CityWorldGenerator generator, SupportChunk chunk, Odds odds, int x1, int x2, int y, int z1, int z2) {
+	public void sprinkleSnow(CityWorldGenerator generator, SupportSection chunk, Odds odds, int x1, int x2, int y, int z1, int z2) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				if (odds.playOdds(snowSprinkleOdds))
@@ -219,11 +219,11 @@ public abstract class OreProvider extends Provider {
 		}
 	}
 	
-	public void dropSnow(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z) {
+	public void dropSnow(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z) {
 		dropSnow(generator, chunk, x, y, z, 0);
 	}
 	
-	public void dropSnow(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, int level) {
+	public void dropSnow(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z, int level) {
 		y = chunk.findLastEmptyBelow(x, y + 1, z);
 		if (!chunk.isOfTypes(x, y - 1, z, Material.SNOW))
 			chunk.setSnowCover(x, y, z, level);

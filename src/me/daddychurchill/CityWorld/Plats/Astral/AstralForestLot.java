@@ -6,8 +6,8 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealChunk;
-import me.daddychurchill.CityWorld.Support.WorldBlocks;
+import me.daddychurchill.CityWorld.Support.RealSection;
+import me.daddychurchill.CityWorld.Support.WorldSection;
 
 public abstract class AstralForestLot extends AstralNatureLot {
 
@@ -21,15 +21,15 @@ public abstract class AstralForestLot extends AstralNatureLot {
 	final static int maxHeight = 18;
 	final static int minHeight = maxHeight / 2;
 	
-	protected abstract void plantTree(CityWorldGenerator generator, WorldBlocks blocks,
+	protected abstract void plantTree(CityWorldGenerator generator, WorldSection blocks,
 			int blockX, int blockY, int blockZ, int snowY);
 	
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealChunk chunk, DataContext context, int platX,
+			PlatMap platmap, RealSection chunk, DataContext context, int platX,
 			int platZ) {
 		
-		WorldBlocks blocks = new WorldBlocks(generator, chunkOdds);
+		WorldSection blocks = new WorldSection(generator, chunkOdds);
 		for (int i = 0; i < maxTrees; i++) {
 			if (chunkOdds.playOdds(populationChance)) {
 				int x = chunkOdds.getRandomInt(4) * 4;
@@ -71,7 +71,7 @@ public abstract class AstralForestLot extends AstralNatureLot {
 		}
 	}
 
-	protected void setLeaves(WorldBlocks blocks, int x1, int x2, int y, int z1, int z2, int data) {
+	protected void setLeaves(WorldSection blocks, int x1, int x2, int y, int z1, int z2, int data) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				setLeaf(blocks, x, y, z, data);
@@ -79,7 +79,7 @@ public abstract class AstralForestLot extends AstralNatureLot {
 		}
 	}
 	
-	protected void setLeaf(WorldBlocks blocks, int x, int y, int z, int data) {
+	protected void setLeaf(WorldSection blocks, int x, int y, int z, int data) {
 		if (blocks.isEmpty(x, y, z))
 			BlackMagic.setBlock(blocks, x, y, z, Material.LEAVES, data);
 	}

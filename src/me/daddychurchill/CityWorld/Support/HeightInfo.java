@@ -54,19 +54,19 @@ public final class HeightInfo {
 		return getHeightsFaster(generator, blockX, blockZ).state == HeightState.BUILDING;
 	}
 	
-	public final static boolean isBuildableToNorth(CityWorldGenerator generator, AbstractChunk chunk) {
+	public final static boolean isBuildableToNorth(CityWorldGenerator generator, AbstractSection chunk) {
 		return isBuildableAt(generator, chunk.getOriginX(), chunk.getOriginZ() - chunk.width);
 	}
 
-	public final static boolean isBuildableToSouth(CityWorldGenerator generator, AbstractChunk chunk) {
+	public final static boolean isBuildableToSouth(CityWorldGenerator generator, AbstractSection chunk) {
 		return isBuildableAt(generator, chunk.getOriginX(), chunk.getOriginZ() + chunk.width);
 	}
 
-	public final static boolean isBuildableToWest(CityWorldGenerator generator, AbstractChunk chunk) {
+	public final static boolean isBuildableToWest(CityWorldGenerator generator, AbstractSection chunk) {
 		return isBuildableAt(generator, chunk.getOriginX() - chunk.width, chunk.getOriginZ());
 	}
 
-	public final static boolean isBuildableToEast(CityWorldGenerator generator, AbstractChunk chunk) {
+	public final static boolean isBuildableToEast(CityWorldGenerator generator, AbstractSection chunk) {
 		return isBuildableAt(generator, chunk.getOriginX() + chunk.width, chunk.getOriginZ());
 	}
 	

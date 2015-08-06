@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.SupportSection;
 
 public class OreProvider_Nether extends OreProvider {
 	
@@ -58,7 +58,7 @@ public class OreProvider_Nether extends OreProvider {
 	private static final boolean[] ore_liquid = new boolean[] { true, false, false, false};
 	
 	@Override
-	public void sprinkleOres(CityWorldGenerator generator, PlatLot lot, SupportChunk chunk, CachedYs blockYs, Odds odds, OreLocation location) {
+	public void sprinkleOres(CityWorldGenerator generator, PlatLot lot, SupportSection chunk, CachedYs blockYs, Odds odds, OreLocation location) {
 		
 		for (int typeNdx = 0; typeNdx < ore_types.length; typeNdx++) {
 			sprinkleOre(generator, lot, chunk, blockYs,
@@ -69,7 +69,7 @@ public class OreProvider_Nether extends OreProvider {
 	}
 	
 	@Override
-	public void dropSnow(CityWorldGenerator generator, SupportChunk chunk, int x, int y, int z, int level) {
+	public void dropSnow(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z, int level) {
 		
 		// do nothing
 	}

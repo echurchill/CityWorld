@@ -5,15 +5,15 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import org.bukkit.Chunk;
 import org.bukkit.block.Block;
 
-public final class RealChunk extends SupportChunk {
+public final class RealSection extends SupportSection {
 	private Chunk chunk;
 
-	public RealChunk(CityWorldGenerator generator, Chunk aChunk) {
+	public RealSection(CityWorldGenerator generator, Chunk aChunk) {
 		super(generator);
 		
 		chunk = aChunk;
-		chunkX = chunk.getX();
-		chunkZ = chunk.getZ();
+		sectionX = chunk.getX();
+		sectionZ = chunk.getZ();
 	}
 	
 	@Override

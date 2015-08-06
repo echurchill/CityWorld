@@ -7,9 +7,9 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.ShortChunk;
+import me.daddychurchill.CityWorld.Support.InitSection;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
 
 public class OldCastleLot extends ConstructLot {
 
@@ -41,7 +41,7 @@ public class OldCastleLot extends ConstructLot {
 	}
 
 	@Override
-	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, ShortChunk chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitSection chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 		// main bits
 		int floorHeight = DataContext.FloorHeight;
@@ -124,12 +124,12 @@ public class OldCastleLot extends ConstructLot {
 		buildTower(generator, chunk, thirdX1, y3, thirdZ1, 5);
 	}
 	
-	private void buildWall(ShortChunk chunk, int x, int y1, int y2, int z) {
+	private void buildWall(InitSection chunk, int x, int y1, int y2, int z) {
 		if (y2 > y1)
 			chunk.setBlocks(x, y1, y2 + 2, z, supportMaterial);
 	}
 	
-	private void buildTower(CityWorldGenerator generator, ShortChunk chunk, int x, int y1, int z, int width) {
+	private void buildTower(CityWorldGenerator generator, InitSection chunk, int x, int y1, int z, int width) {
 		int y2 = y1 + DataContext.FloorHeight;
 		chunk.setWalls(x, x + width, y1 + 1, y2 + 1, z, z + width, wallMaterial);
 		chunk.setBlocks(x + 1, x + width - 1, y2, z + 1, z + width - 1, platformMaterial);
@@ -152,17 +152,17 @@ public class OldCastleLot extends ConstructLot {
 		}
 	}
 	
-	private void punchOutWindow(CityWorldGenerator generator, ShortChunk chunk, int x, int y, int z) {
+	private void punchOutWindow(CityWorldGenerator generator, InitSection chunk, int x, int y, int z) {
 		if (chunkOdds.flipCoin())
 			chunk.setBlocks(x, y, y + 1 + chunkOdds.getRandomInt(2), z, getAirMaterial(generator, y));
 	}
 	
-	private void punchOutNSDoor(CityWorldGenerator generator, ShortChunk chunk, int x, int y, int z) {
+	private void punchOutNSDoor(CityWorldGenerator generator, InitSection chunk, int x, int y, int z) {
 		if (chunkOdds.flipCoin())
 			chunk.setBlocks(x, x + 1, y, y + 3, z, z + 2, getAirMaterial(generator, y));
 	}
 	
-	private void punchOutWEDoor(CityWorldGenerator generator, ShortChunk chunk, int x, int y, int z) {
+	private void punchOutWEDoor(CityWorldGenerator generator, InitSection chunk, int x, int y, int z) {
 		if (chunkOdds.flipCoin())
 			chunk.setBlocks(x, x + 2, y, y + 3, z, z + 1, getAirMaterial(generator, y));
 	}
@@ -170,7 +170,7 @@ public class OldCastleLot extends ConstructLot {
 	private static int insetChaos = 3;
 	
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealChunk chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealSection chunk, DataContext context, int platX, int platZ) {
 		reportLocation(generator, "Castle", chunk.getOriginX(), chunk.getOriginZ());
 		
 		// main bits

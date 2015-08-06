@@ -3,31 +3,32 @@ package me.daddychurchill.CityWorld.Support;
 import org.bukkit.Material;
 import org.bukkit.World;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
+import me.daddychurchill.CityWorld.Factories.MaterialFactory;
 
-public abstract class AbstractChunk {
+public abstract class AbstractSection {
 
 	public World world;
 	public int width;
 	public int height;
-	public int chunkX;
-	public int chunkZ;
+	public int sectionX;
+	public int sectionZ;
 	
-	public final static int chunksBlockWidth = 16;
+	public final static int sectionBlockWidth = 16;
 	
-	public AbstractChunk(CityWorldGenerator generator) {
+	public AbstractSection(CityWorldGenerator generator) {
 		super();
 		
-		this.width = chunksBlockWidth;
 		this.world = generator.getWorld();
+		this.width = sectionBlockWidth;
 		this.height = generator.height;
 	}
 
-	public final static int getBlockX(int chunkX, int x) {
-		return chunkX * chunksBlockWidth + x;
+	public final static int getBlockX(int sectionX, int x) {
+		return sectionX * sectionBlockWidth + x;
 	}
 	
-	public final static int getBlockZ(int chunkZ, int z) {
-		return chunkZ * chunksBlockWidth + z;
+	public final static int getBlockZ(int sectionZ, int z) {
+		return sectionZ * sectionBlockWidth + z;
 	}
 	
 	public final int getBlockX(int x) {
@@ -39,11 +40,11 @@ public abstract class AbstractChunk {
 	}
 
 	public final int getOriginX() {
-		return chunkX * width;
+		return sectionX * width;
 	}
 
 	public final int getOriginZ() {
-		return chunkZ * width;
+		return sectionZ * width;
 	}
 
 	public abstract void setBlockIfAir(int x, int y, int z, Material material);
@@ -56,10 +57,6 @@ public abstract class AbstractChunk {
 	public abstract int setLayer(int blocky, Material material);
 	public abstract int setLayer(int blocky, int height, Material material);
 	public abstract int setLayer(int blocky, int height, int inset, Material material);
-	public abstract void setCircle(int cx, int cz, int r, int y, Material material);
-	public abstract void setCircle(int cx, int cz, int r, int y, Material material, boolean fill);
-	public abstract void setCircle(int cx, int cz, int r, int y1, int y2, Material material);
-	public abstract void setCircle(int cx, int cz, int r, int y1, int y2, Material material, boolean fill);
 	
 	public abstract void clearBlock(int x, int y, int z);
 	public abstract void clearBlocks(int x, int y1, int y2, int z);
@@ -71,4 +68,34 @@ public abstract class AbstractChunk {
 	public abstract int findLastEmptyAbove(int x, int y, int z);
 	public abstract int findLastEmptyBelow(int x, int y, int z);
 
+	public abstract void setCircle(int cx, int cz, int r, int y, Material material, boolean fill);
+	public abstract void setCircle(int cx, int cz, int r, int y1, int y2, Material material, boolean fill);
+	
+	public final void setCircle(int cx, int cz, int r, int y, Material material) {
+		setCircle(cx, cz, r, y, material, false);
+	}
+	
+	public final void setCircle(int cx, int cz, int r, int y1, int y2, Material material) {
+		setCircle(cx, cz, r, y1, y2, material, false);
+	}
+	
+	public final void setSphere(int cx, int cy, int cz, int r, Material material, boolean fill) {
+		for (int r1 = 1; r1 < r; r1++) {
+			setCircle(cx, cz, r - r1, cy + r1, material, fill);
+			setCircle(cx, cz, r - r1, cy - r1, material, fill);
+		}
+		setCircle(cx, cz, r, cy, material, fill);
+	}
+
+	public final void setBlocks(int x, int y1, int y2, int z, Material primary, Material secondary, MaterialFactory maker) {
+		maker.placeMaterial(this, primary, secondary, x, y1, y2, z);
+	}
+
+	public final void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material primary, Material secondary, MaterialFactory maker) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				maker.placeMaterial(this, primary, secondary, x, y1, y2, z);
+			}
+		}
+	}
 }

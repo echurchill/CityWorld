@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Rooms;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Direction.Facing;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
 
 import org.bukkit.Material;
 
@@ -15,7 +15,7 @@ public class StorageDoubleRowRoom extends StorageSingleRowRoom {
 	}
 
 	@Override
-	public void drawFixture(CityWorldGenerator generator, RealChunk chunk, Odds odds, int floor, int x,
+	public void drawFixture(CityWorldGenerator generator, RealSection chunk, Odds odds, int floor, int x,
 			int y, int z, int width, int height, int depth,
 			Facing sideWithWall, Material materialWall, Material materialGlass) {
 		switch (sideWithWall) {
@@ -34,7 +34,7 @@ public class StorageDoubleRowRoom extends StorageSingleRowRoom {
 		}
 	}
 	
-	public void drawNSMaterialShelves(RealChunk chunk, Odds odds, int x, int y, int z, int width, int height, int depth, int i) {
+	public void drawNSMaterialShelves(RealSection chunk, Odds odds, int x, int y, int z, int width, int height, int depth, int i) {
 		int minheight = odds.getRandomInt(height - 1);
 		for (int offset = 0; offset < width; offset += 2) {
 			drawNSEmptyShelve(chunk, x + offset, y, z, 1, depth);
@@ -43,7 +43,7 @@ public class StorageDoubleRowRoom extends StorageSingleRowRoom {
 		}
 	}
 	
-	public void drawWEMaterialShelves(RealChunk chunk, Odds odds, int x, int y, int z, int width, int height, int depth, int i) {
+	public void drawWEMaterialShelves(RealSection chunk, Odds odds, int x, int y, int z, int width, int height, int depth, int i) {
 		int minheight = odds.getRandomInt(height - 1);
 		for (int offset = 0; offset < depth; offset += 2) {
 			drawWEEmptyShelve(chunk, x, y, z + offset, 1, width);

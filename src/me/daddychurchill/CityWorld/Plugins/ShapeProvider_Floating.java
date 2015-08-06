@@ -20,11 +20,11 @@ import me.daddychurchill.CityWorld.Context.Floating.FloatingRoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Floating.FloatingBlimpLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
-import me.daddychurchill.CityWorld.Support.ShortChunk;
+import me.daddychurchill.CityWorld.Support.InitSection;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealChunk;
+import me.daddychurchill.CityWorld.Support.RealSection;
 
 public class ShapeProvider_Floating extends ShapeProvider_Normal {
 
@@ -123,7 +123,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	}
 	
 	@Override
-	public void preGenerateChunk(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, BiomeGrid biomes, CachedYs blockYs) {
+	public void preGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitSection chunk, BiomeGrid biomes, CachedYs blockYs) {
 		Biome resultBiome = lot.getChunkBiome();
 		OreProvider ores = generator.oreProvider;
 		
@@ -167,7 +167,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	private final static int underworldLength = 6;
 	
 	@Override
-	public void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, ShortChunk chunk, CachedYs blockYs) {
+	public void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitSection chunk, CachedYs blockYs) {
 		OreProvider ores = generator.oreProvider;
 		int lotBottomY = lot.getBottomY(generator);
 		if (lotBottomY != 0) {
@@ -193,12 +193,12 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	}
 
 	@Override
-	public void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
+	public void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealSection chunk, CachedYs blockYs) {
 		
 	}
 
 	@Override
-	public void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealChunk chunk, CachedYs blockYs) {
+	public void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealSection chunk, CachedYs blockYs) {
 		// there is always something to plant!
 		lot.generateSurface(generator, chunk, true);
 	}

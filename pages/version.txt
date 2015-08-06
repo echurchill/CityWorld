@@ -11,6 +11,9 @@
 ----
 == Versions
 
+v2.996
+* Built against Minecraft 1.8.8, Spigot XXX, WorldEdit 6.1.0, PhatLoots 4.1.0
+
 v2.992
 * Maze world now works, what I was referring to as Zea earlier. Think: MazeRunner but without the bad acting. Give it a whirl, the Zombie servers out there should find this enjoyable. Still a work in progress, more to come
 * For folks using Multiverse, try "mv create MazeWorld normal -g CityWorld:Maze". Other multiworld plugins will use a different syntax, see your plugin docs for more info.

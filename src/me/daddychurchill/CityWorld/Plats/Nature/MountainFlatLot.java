@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plats.Nature;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
-import me.daddychurchill.CityWorld.Support.ShortChunk;
+import me.daddychurchill.CityWorld.Support.InitSection;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
 import org.bukkit.Material;
@@ -19,7 +19,7 @@ public abstract class MountainFlatLot extends ConstructLot {
 		trulyIsolated = true;
 	}
 
-	protected void generateRetainerLot(CityWorldGenerator generator, ShortChunk chunk, DataContext context) {
+	protected void generateRetainerLot(CityWorldGenerator generator, InitSection chunk, DataContext context) {
 		
 		// flatten things out a bit
 		for (int x = 0; x < chunk.width; x++) {
@@ -51,7 +51,7 @@ public abstract class MountainFlatLot extends ConstructLot {
 	
 	private final static int bevelInset = 2;
 
-	protected void generateSmoothedLot(CityWorldGenerator generator, ShortChunk chunk, DataContext context) {
+	protected void generateSmoothedLot(CityWorldGenerator generator, InitSection chunk, DataContext context) {
 		
 		// blend the edges
 		for (int i = 0; i < bevelInset; i++)
@@ -74,7 +74,7 @@ public abstract class MountainFlatLot extends ConstructLot {
 		}
 	}
 
-	private void generateSmoothedLotBevel(CityWorldGenerator generator, ShortChunk chunk, DataContext context, int inset) {
+	private void generateSmoothedLotBevel(CityWorldGenerator generator, InitSection chunk, DataContext context, int inset) {
 
 		// Xwise
 		for (int x = inset; x < chunk.width - inset; x++) {
@@ -89,7 +89,7 @@ public abstract class MountainFlatLot extends ConstructLot {
 		}
 	}
 	
-	private void generateBevelBlock(CityWorldGenerator generator, ShortChunk chunk, DataContext context, int inset, int x, int z) {
+	private void generateBevelBlock(CityWorldGenerator generator, InitSection chunk, DataContext context, int inset, int x, int z) {
 		int y = getBlockY(x, z);
 		int y1 = y;
 		if (y < blockYs.averageHeight) {

@@ -1,7 +1,7 @@
 package me.daddychurchill.CityWorld;
 
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Support.SupportChunk;
+import me.daddychurchill.CityWorld.Support.SupportSection;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -66,20 +66,20 @@ public class CommandCityLines implements CommandExecutor {
 					World world = player.getWorld();
 					Location location = player.getLocation();
 					Chunk chunk = world.getChunkAt(location);
-					int areaX1 = chunk.getX() * SupportChunk.chunksBlockWidth;
-					int areaX2 = areaX1 + widthX * SupportChunk.chunksBlockWidth;
+					int areaX1 = chunk.getX() * SupportSection.sectionBlockWidth;
+					int areaX2 = areaX1 + widthX * SupportSection.sectionBlockWidth;
 					int groundY = location.getBlockY();
-					int areaZ1 = chunk.getZ() * SupportChunk.chunksBlockWidth;
-					int areaZ2 = areaZ1 + widthZ * SupportChunk.chunksBlockWidth;
+					int areaZ1 = chunk.getZ() * SupportSection.sectionBlockWidth;
+					int areaZ2 = areaZ1 + widthZ * SupportSection.sectionBlockWidth;
 					
 					// place markers
 					for (int x = 0; x <= widthX; x++) {
-						int markerX = areaX1 + x * SupportChunk.chunksBlockWidth;
+						int markerX = areaX1 + x * SupportSection.sectionBlockWidth;
 						placeMarker(world, markerX, groundY, areaZ1 - 1, floorsUp, floorsDown);
 						placeMarker(world, markerX, groundY, areaZ2 + 1, floorsUp, floorsDown);
 					}
 					for (int z = 0; z <= widthZ; z++) {
-						int markerZ = areaZ1 + z * SupportChunk.chunksBlockWidth;
+						int markerZ = areaZ1 + z * SupportSection.sectionBlockWidth;
 						placeMarker(world, areaX1 - 1, groundY, markerZ, floorsUp, floorsDown);
 						placeMarker(world, areaX2 + 1, groundY, markerZ, floorsUp, floorsDown);
 					}
