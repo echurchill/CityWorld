@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealSection;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class AstralTownEmptyLot extends AstralStructureLot {
 	
@@ -20,7 +20,7 @@ public class AstralTownEmptyLot extends AstralStructureLot {
 
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealSection chunk, DataContext context,
+			PlatMap platmap, RealBlocks chunk, DataContext context,
 			int platX, int platZ) {
 		
 		int levelY = generator.seaLevel + aboveSeaLevel;

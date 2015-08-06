@@ -27,12 +27,12 @@ import org.bukkit.material.Tree;
 import org.bukkit.material.Vine;
 import org.bukkit.material.WoodenStep;
 
-public abstract class SupportSection extends AbstractSection {
+public abstract class SupportBlocks extends AbstractBlocks {
 	
 	private boolean doPhysics;
 	private boolean doClearData;
 	
-	public SupportSection(CityWorldGenerator generator) {
+	public SupportBlocks(CityWorldGenerator generator) {
 		super(generator);
 		
 		doPhysics = false;

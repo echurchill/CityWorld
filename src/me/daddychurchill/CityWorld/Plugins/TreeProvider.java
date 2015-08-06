@@ -7,8 +7,8 @@ import org.bukkit.util.noise.NoiseGenerator;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.RelativeSection;
-import me.daddychurchill.CityWorld.Support.SupportSection;
+import me.daddychurchill.CityWorld.Support.RelativeBlocks;
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public abstract class TreeProvider {
 	
@@ -51,25 +51,25 @@ public abstract class TreeProvider {
 		return provider;
 	}
 	
-	protected void generateLeavesBlock(SupportSection chunk, int x, int y, int z, Material material, int data) {
+	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, int data) {
 		if (chunk.isEmpty(x, y, z))
 			BlackMagic.setBlock(chunk, x, y, z, material, data);
 	}
 	
-	protected void generateTrunkBlock(SupportSection chunk, int x, int y, int z, int w, int h, Material material, int data) {
+	protected void generateTrunkBlock(SupportBlocks chunk, int x, int y, int z, int w, int h, Material material, int data) {
 		if (chunk.isEmpty(x, y, z))
 			BlackMagic.setBlocks(chunk, x, x + w, y, y + h, z, z + w, material, data);
 	}
 	
-	public boolean generateMiniTrunk(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z, TreeType treeType) {
+	public boolean generateMiniTrunk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType) {
 		return generateMiniTree(generator, chunk, x, y, z, treeType, false);
 	}
 	
-	public boolean generateMiniTree(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z, TreeType treeType) {
+	public boolean generateMiniTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType) {
 		return generateMiniTree(generator, chunk, x, y, z, treeType, true);
 	}
 	
-	protected boolean generateMiniTree(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z, TreeType treeType, Boolean includeLeaves) {
+	protected boolean generateMiniTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType, Boolean includeLeaves) {
 		Material trunkMaterial = Material.LOG;
 		Material leavesMaterial = Material.LEAVES;
 		int trunkHeight = 2;
@@ -156,7 +156,7 @@ public abstract class TreeProvider {
 		if (trunkHeight > 0) {
 			
 			// a place to work
-			RelativeSection blocks = new RelativeSection(generator, chunk);
+			RelativeBlocks blocks = new RelativeBlocks(generator, chunk);
 
 			// do the trunk
 			generateTrunkBlock(blocks, x, y, z, 1, trunkHeight, trunkMaterial, trunkBlackMagicData);
@@ -176,15 +176,15 @@ public abstract class TreeProvider {
 			return false;
 	}
 	
-	public boolean generateNormalTrunk(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z, TreeType treeType) {
+	public boolean generateNormalTrunk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType) {
 		return generateNormalTree(generator, chunk, x, y, z, treeType, false);
 	}
 	
-	public boolean generateNormalTree(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z, TreeType treeType) {
+	public boolean generateNormalTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType) {
 		return generateNormalTree(generator, chunk, x, y, z, treeType, true);
 	}
 	
-	protected boolean generateNormalTree(CityWorldGenerator generator, SupportSection chunk, int x, int y, int z, TreeType treeType, boolean includeLeaves) {
+	protected boolean generateNormalTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType, boolean includeLeaves) {
 		Material trunkMaterial = Material.LOG;
 		Material leavesMaterial = Material.LEAVES;
 		int trunkBlackMagicData = 0;
@@ -380,7 +380,7 @@ public abstract class TreeProvider {
 		if (trunkHeight > 0) {
 
 			// a place to work
-			RelativeSection blocks = new RelativeSection(generator, chunk);
+			RelativeBlocks blocks = new RelativeBlocks(generator, chunk);
 
 			// do the trunk
 			generateTrunkBlock(blocks, x, y, z, trunkWidth, trunkHeight, trunkMaterial, trunkBlackMagicData);
@@ -404,7 +404,7 @@ public abstract class TreeProvider {
 	
 	private final static double edgeOdds = 0.00; // Not chance of edge bits
 	
-	private void addLeaves(SupportSection chunk, int trunkX, int trunkY, int trunkZ, 
+	private void addLeaves(SupportBlocks chunk, int trunkX, int trunkY, int trunkZ, 
 			Material leavesMaterial, int leavesData, int trunkWidth, int trunkHeight, 
 			int start, int end, double width, double delta) {
 		

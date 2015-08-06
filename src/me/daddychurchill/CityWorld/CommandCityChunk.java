@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld;
 
 import java.util.List;
 
-import me.daddychurchill.CityWorld.Support.SupportSection;
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -85,10 +85,10 @@ public class CommandCityChunk implements CommandExecutor {
 					// cleaning up chunks of stray items
 					if (cleaning) {
 						player.sendMessage("Cleaning up orphan items");
-						int x1 = (chunkX - radius) * SupportSection.sectionBlockWidth;
-						int x2 = (chunkX + radius + 1) * SupportSection.sectionBlockWidth;
-						int z1 = (chunkZ - radius) * SupportSection.sectionBlockWidth;
-						int z2 = (chunkZ + radius + 1) * SupportSection.sectionBlockWidth;
+						int x1 = (chunkX - radius) * SupportBlocks.sectionBlockWidth;
+						int x2 = (chunkX + radius + 1) * SupportBlocks.sectionBlockWidth;
+						int z1 = (chunkZ - radius) * SupportBlocks.sectionBlockWidth;
+						int z2 = (chunkZ + radius + 1) * SupportBlocks.sectionBlockWidth;
 						List<Entity> entities = world.getEntities();
 						for (Entity entity : entities) {
 							

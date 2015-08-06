@@ -6,7 +6,7 @@ import org.bukkit.block.BlockFace;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.WorldSection;
+import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
 public class AstralForestCanopyLot extends AstralForestLot {
 
@@ -17,7 +17,7 @@ public class AstralForestCanopyLot extends AstralForestLot {
 	}
 
 	@Override
-	protected void plantTree(CityWorldGenerator generator, WorldSection blocks,
+	protected void plantTree(CityWorldGenerator generator, WorldBlocks blocks,
 			int blockX, int blockY, int blockZ, int snowY) {
 		
 		// Buried bit

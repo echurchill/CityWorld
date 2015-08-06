@@ -10,7 +10,7 @@ import me.daddychurchill.CityWorld.Rooms.Populators.OfficeWithNothing;
 import me.daddychurchill.CityWorld.Rooms.Populators.OfficeWithRandom;
 import me.daddychurchill.CityWorld.Rooms.Populators.OfficeWithRooms;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.SupportSection;
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class OfficeBuildingLot extends FinishedBuildingLot {
 
@@ -50,7 +50,7 @@ public class OfficeBuildingLot extends FinishedBuildingLot {
 	}
 	
 	@Override
-	public RoomProvider roomProviderForFloor(CityWorldGenerator generator, SupportSection chunk, int floor, int floorY) {
+	public RoomProvider roomProviderForFloor(CityWorldGenerator generator, SupportBlocks chunk, int floor, int floorY) {
 		switch (contentStyle) {
 		case OFFICES:
 			switch (chunkOdds.getRandomInt(10)) {

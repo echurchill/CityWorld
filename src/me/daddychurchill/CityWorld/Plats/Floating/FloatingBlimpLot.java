@@ -5,9 +5,9 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.IsolatedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.BalloonProvider;
-import me.daddychurchill.CityWorld.Support.InitSection;
+import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealSection;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
@@ -44,7 +44,7 @@ public class FloatingBlimpLot extends IsolatedLot {
 
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator,
-			PlatMap platmap, InitSection chunk, BiomeGrid biomes,
+			PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
 		
 		boolean toNorth = platmap.isStructureLot(platX, platZ - 1);
@@ -84,7 +84,7 @@ public class FloatingBlimpLot extends IsolatedLot {
 
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealSection chunk, DataContext context, int platX,
+			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
 			int platZ) {
 		if (generator.settings.includeDecayedBuildings)
 			destroyLot(generator, generator.streetLevel - 1, generator.streetLevel + 3);

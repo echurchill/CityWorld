@@ -8,7 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.Clipboard;
-import me.daddychurchill.CityWorld.Support.RealSection;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 
 import com.sk89q.worldedit.CuboidClipboard;
@@ -85,8 +85,6 @@ public class Clipboard_WorldEdit extends Clipboard {
 		}
 		
 		// load the actual blocks
-		Clipboard clip = ClipboardFormat.findByFile(file).get;
-		Clipboard clip = SchematicReader.
 		CuboidClipboard cuboid = SchematicFormat.getFormat(file).load(file);
 		
 		// how big is it?
@@ -105,11 +103,20 @@ public class Clipboard_WorldEdit extends Clipboard {
 			generator.reportException("[WorldEdit] Could not resave " + metaFile.getAbsolutePath(), e);
 		}
 		
+		//TODO I need to fix this code over in ClipboardLot when I figure out how to use the new WorldEdit schematic code
+		/* 
+		chunk.setBlocks(0, edgeX1, edgeY2, 0, 16, clip.edgeMaterial);//, clip.edgeData);
+		chunk.setBlocks(edgeX2, 16, edgeY2, 0, 16, clip.edgeMaterial);//, clip.edgeData);
+		chunk.setBlocks(edgeX1, edgeX2, edgeY2, 0, edgeZ1, clip.edgeMaterial);//, clip.edgeData);
+		chunk.setBlocks(edgeX1, edgeX2, edgeY2, edgeZ2, 16, clip.edgeMaterial);//, clip.edgeData);
+		 */
+		
+		//TODO I need to change the edgeMaterial and edgeData types to be Material and MaterialData or something like that
 		// grab the edge block
 		BaseBlock edge = cuboid.getBlock(new Vector(0, groundLevelY, 0));
-		edgeType = BlackMagic.edge.getType();
+		edgeMaterial = BlackMagic.getMaterial(edge.getType());
 		edgeData = edge.getData();
-		edgeRise = generator.oreProvider.surfaceMaterial.equals(edgeType) ? 0 : 1;
+		edgeRise = generator.oreProvider.surfaceMaterial.equals(edgeMaterial) ? 0 : 1;
 		
 		// allocate the blocks
 		facingCount = 1;
@@ -174,7 +181,7 @@ public class Clipboard_WorldEdit extends Clipboard {
 	}
 	
 	@Override
-	public void paste(CityWorldGenerator generator, RealSection chunk, BlockFace facing, int blockX, int blockY, int blockZ) {
+	public void paste(CityWorldGenerator generator, RealBlocks chunk, BlockFace facing, int blockX, int blockY, int blockZ) {
 		Vector at = new Vector(blockX, blockY, blockZ);
 		try {
 			EditSession editSession = getEditSession(generator);
@@ -218,7 +225,7 @@ public class Clipboard_WorldEdit extends Clipboard {
 
 	//TODO remove the editSession need by directly setting the blocks in the chunk
 	@Override
-	public void paste(CityWorldGenerator generator, RealSection chunk, BlockFace facing, 
+	public void paste(CityWorldGenerator generator, RealBlocks chunk, BlockFace facing, 
 			int blockX, int blockY, int blockZ,
 			int x1, int x2, int y1, int y2, int z1, int z2) {
 		Vector at = new Vector(blockX, blockY, blockZ);

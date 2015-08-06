@@ -5,7 +5,7 @@ import org.bukkit.World;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Factories.MaterialFactory;
 
-public abstract class AbstractSection {
+public abstract class AbstractBlocks {
 
 	public World world;
 	public int width;
@@ -15,7 +15,7 @@ public abstract class AbstractSection {
 	
 	public final static int sectionBlockWidth = 16;
 	
-	public AbstractSection(CityWorldGenerator generator) {
+	public AbstractBlocks(CityWorldGenerator generator) {
 		super();
 		
 		this.world = generator.getWorld();

@@ -59,7 +59,7 @@ public class PlatMap {
 		return generator.shapeProvider.getMacroOddsGeneratorAt(originX, originZ);
 	}
 	
-	public Odds getChunkOddsGenerator(SupportSection chunk) {
+	public Odds getChunkOddsGenerator(SupportBlocks chunk) {
 		return generator.shapeProvider.getMicroOddsGeneratorAt(chunk.sectionX, chunk.sectionZ);
 	}
 	
@@ -67,7 +67,7 @@ public class PlatMap {
 		return generator.shapeProvider.getMicroOddsGeneratorAt(chunkX, chunkZ);
 	}
 	
-	public void generateChunk(InitSection chunk, BiomeGrid biomes) {
+	public void generateChunk(InitialBlocks chunk, BiomeGrid biomes) {
 
 		// depending on the platchunk's type render a layer
 		int platX = chunk.sectionX - originX;
@@ -81,7 +81,7 @@ public class PlatMap {
 		}
 	}
 	
-	public void generateBlocks(RealSection chunk) {
+	public void generateBlocks(RealBlocks chunk) {
 
 		// depending on the platchunk's type render a layer
 		int platX = chunk.sectionX - originX;
@@ -363,8 +363,8 @@ public class PlatMap {
 	private boolean isRoadTowards(int x, int z, int deltaX, int deltaZ) {
 		
 		// is this a "real" spot?
-		boolean result = HeightInfo.isBuildableAt(generator, (originX + x + deltaX) * SupportSection.sectionBlockWidth,
-									   			 			 (originZ + z + deltaZ) * SupportSection.sectionBlockWidth);
+		boolean result = HeightInfo.isBuildableAt(generator, (originX + x + deltaX) * SupportBlocks.sectionBlockWidth,
+									   			 			 (originZ + z + deltaZ) * SupportBlocks.sectionBlockWidth);
 		
 		// if this isn't a buildable spot, is there a bridge or tunnel that gets us there?
 		if (!result)
@@ -393,12 +393,12 @@ public class PlatMap {
 	private boolean isBridgeTowards(int x, int z, int deltaX, int deltaZ) {
 		
 		// how far do we go?
-		int offsetX = deltaX * SupportSection.sectionBlockWidth;
-		int offsetZ = deltaZ * SupportSection.sectionBlockWidth;
+		int offsetX = deltaX * SupportBlocks.sectionBlockWidth;
+		int offsetZ = deltaZ * SupportBlocks.sectionBlockWidth;
 		
 		// where do we test?
-		int chunkX = (originX + x) * SupportSection.sectionBlockWidth;
-		int chunkZ = (originZ + z) * SupportSection.sectionBlockWidth;
+		int chunkX = (originX + x) * SupportBlocks.sectionBlockWidth;
+		int chunkZ = (originZ + z) * SupportBlocks.sectionBlockWidth;
 		
 		// what is the polarity of this spot
 		boolean originPolarity = generator.shapeProvider.getBridgePolarityAt(chunkX, chunkZ);

@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import me.daddychurchill.CityWorld.Support.SupportSection;
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 import org.bukkit.Material;
 
@@ -10,7 +10,7 @@ public class TreeProvider_Crystal extends TreeProvider {
 		// TODO Auto-generated constructor stub
 	}
 
-	protected void generateLeavesBlock(SupportSection chunk, int x, int y, int z, Material material, int data) {
+	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, int data) {
 		if (chunk.isEmpty(x, y, z))
 			switch (data) {
 			case 1:

@@ -8,7 +8,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.Clipboard;
 import me.daddychurchill.CityWorld.Clipboard.ClipboardList;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider;
-import me.daddychurchill.CityWorld.Support.SupportSection;
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -86,8 +86,8 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 					if (clip.chunkX > maxX || clip.chunkZ > maxZ) {
 						generator.reportMessage("[WorldEdit] Schematic " + schematicFile.getName() + 
 								" too large, max size = " + 
-								maxX * SupportSection.sectionBlockWidth + " by " + 
-								maxZ * SupportSection.sectionBlockWidth + " it is = " + 
+								maxX * SupportBlocks.sectionBlockWidth + " by " + 
+								maxZ * SupportBlocks.sectionBlockWidth + " it is = " + 
 								clip.sizeX + " by " + clip.sizeZ + ", skipped");
 						
 					} else {

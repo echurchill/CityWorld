@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Factories;
 
 import org.bukkit.Material;
 
-import me.daddychurchill.CityWorld.Support.AbstractSection;
+import me.daddychurchill.CityWorld.Support.AbstractBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
 
 public abstract class MaterialFactory {
@@ -83,16 +83,16 @@ public abstract class MaterialFactory {
 		}
 	}
 	
-	protected void decayMaterial(AbstractSection blocks, int x, int y1, int y2, int z) {
+	protected void decayMaterial(AbstractBlocks blocks, int x, int y1, int y2, int z) {
 		if (decayed && odds.playOdds(oddsOfDecay)) {
 			int range = Math.max(1, y2 - y1);
 			blocks.clearBlock(x, y1 + odds.getRandomInt(range), z);
 		}
 	}
 	
-	public abstract void placeMaterial(AbstractSection blocks, Material primary, Material secondary, int x, int y1, int y2, int z);
+	public abstract void placeMaterial(AbstractBlocks blocks, Material primary, Material secondary, int x, int y1, int y2, int z);
 	
-	protected void placeMaterial(AbstractSection blocks, Material primary, Material secondary, Material glass, int x, int y1, int y2, int z) {
+	protected void placeMaterial(AbstractBlocks blocks, Material primary, Material secondary, Material glass, int x, int y1, int y2, int z) {
 		switch (verticalStyle) {
 		case WGGG:
 			blocks.setBlocks(x, y1, y1 + 1, z, primary);

@@ -5,8 +5,8 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealSection;
-import me.daddychurchill.CityWorld.Support.WorldSection;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
+import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
 public abstract class AstralMushroomsLot extends AstralNatureLot {
 
@@ -16,17 +16,17 @@ public abstract class AstralMushroomsLot extends AstralNatureLot {
 	}
 	
 	protected abstract int maxMushrooms();
-	protected abstract void plantMushroom(CityWorldGenerator generator, WorldSection blocks, int blockX, int blockY, int blockZ, int snowY);
+	protected abstract void plantMushroom(CityWorldGenerator generator, WorldBlocks blocks, int blockX, int blockY, int blockZ, int snowY);
 	
 	final static int maxHeight = 18;
 	final static int minHeight = maxHeight / 2;
 	
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealSection chunk, DataContext context, int platX,
+			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
 			int platZ) {
 		
-		WorldSection blocks = new WorldSection(generator, chunkOdds);
+		WorldBlocks blocks = new WorldBlocks(generator, chunkOdds);
 		for (int i = 0; i < maxMushrooms(); i++) {
 			if (chunkOdds.playOdds(populationChance)) {
 				int x = chunkOdds.getRandomInt(4) * 4;
@@ -78,7 +78,7 @@ public abstract class AstralMushroomsLot extends AstralNatureLot {
 	private int mushZ = 0;
 	private int layerY = 0;
 
-	protected void startMushroom(WorldSection blocks, int baseX, int baseY, int baseZ, int heightY, Material material) {
+	protected void startMushroom(WorldBlocks blocks, int baseX, int baseY, int baseZ, int heightY, Material material) {
 		shellMaterial = material;
 		mushX = baseX;
 		mushZ = baseZ;
@@ -95,7 +95,7 @@ public abstract class AstralMushroomsLot extends AstralNatureLot {
 		layerY++;
 	}
 
-	protected void drawMushroomSlice(WorldSection blocks, int r) {
+	protected void drawMushroomSlice(WorldBlocks blocks, int r) {
 		if (r > 0) {
 			drawMushroomShell(blocks, r);
 			prevMushroomLevel();
@@ -106,7 +106,7 @@ public abstract class AstralMushroomsLot extends AstralNatureLot {
 		}
 	}
 
-	protected void drawMushroomShell(WorldSection blocks, int r) {
+	protected void drawMushroomShell(WorldBlocks blocks, int r) {
 		if (r > 0) {
 			BlackMagic.setBlocks(blocks, mushX - r + 1, mushX + r, layerY, layerY + 1, mushZ - r, mushZ - r + 1, shellMaterial, shellData);
 			BlackMagic.setBlocks(blocks, mushX - r, mushX - r + 1, layerY, layerY + 1, mushZ - r + 1, mushZ + r, shellMaterial, shellData);
@@ -117,7 +117,7 @@ public abstract class AstralMushroomsLot extends AstralNatureLot {
 		nextMushroomLevel();
 	}
 
-	protected void drawMushroomTop(WorldSection blocks, int r) {
+	protected void drawMushroomTop(WorldBlocks blocks, int r) {
 		if (r > 0)
 			BlackMagic.setBlocks(blocks, mushX - r, mushX + r + 1, layerY, layerY + 1, mushZ - r, mushZ + r + 1, shellMaterial, shellData);
 		else
@@ -125,7 +125,7 @@ public abstract class AstralMushroomsLot extends AstralNatureLot {
 		nextMushroomLevel();
 	}
 	
-	protected void drawMushroomFlesh(WorldSection blocks, int r) {
+	protected void drawMushroomFlesh(WorldBlocks blocks, int r) {
 		if (r > 0) {
 			BlackMagic.setBlocks(blocks, mushX - r + 1, mushX + r, layerY, layerY + 1, mushZ - r + 1, mushZ + r, fleshMaterial, fleshData);
 			BlackMagic.setBlock(blocks, mushX - r + 1, layerY, mushZ - r + 1, shellMaterial, shellData);

@@ -10,11 +10,11 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Context.RoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.InitSection;
+import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealSection;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public abstract class ShapeProvider extends Provider {
 	
@@ -28,10 +28,10 @@ public abstract class ShapeProvider extends Provider {
 	
 	public abstract double findPerciseY(CityWorldGenerator generator, int blockX, int blockZ);
 
-	public abstract void preGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitSection chunk, BiomeGrid biomes, CachedYs blockYs);
-	public abstract void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitSection chunk, CachedYs blockYs);
-	public abstract void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealSection chunk, CachedYs blockYs);
-	public abstract void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealSection chunk, CachedYs blockYs);
+	public abstract void preGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, BiomeGrid biomes, CachedYs blockYs);
+	public abstract void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, CachedYs blockYs);
+	public abstract void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, CachedYs blockYs);
+	public abstract void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, CachedYs blockYs);
 	
 	protected abstract Biome remapBiome(CityWorldGenerator generator, PlatLot lot, Biome biome);
 	protected abstract void allocateContexts(CityWorldGenerator generator);
@@ -185,7 +185,7 @@ public abstract class ShapeProvider extends Provider {
 		return provider;
 	}
 	
-	protected void actualGenerateStratas(CityWorldGenerator generator, PlatLot lot, InitSection chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+	protected void actualGenerateStratas(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			boolean surfaceCaves) {
 
@@ -218,7 +218,7 @@ public abstract class ShapeProvider extends Provider {
 		}
 	}
 
-	protected void generateStratas(CityWorldGenerator generator, PlatLot lot, InitSection chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+	protected void generateStratas(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			boolean surfaceCaves) {
 	
@@ -227,7 +227,7 @@ public abstract class ShapeProvider extends Provider {
 				subsurfaceMaterial, subsurfaceY, surfaceMaterial, surfaceCaves);
 	}
 
-	protected void generateStratas(CityWorldGenerator generator, PlatLot lot, InitSection chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+	protected void generateStratas(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			int coverY, Material coverMaterial, boolean surfaceCaves) {
 

@@ -9,7 +9,7 @@ import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.RealSection;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.Direction.Door;
 import me.daddychurchill.CityWorld.Support.Direction.Facing;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
@@ -34,12 +34,12 @@ public class HouseProvider extends Provider {
 	private final static double oddsOfFurnace = Odds.oddsSomewhatUnlikely;
 	private final static double oddsOfCraftingTable = Odds.oddsSomewhatUnlikely;
 	
-	public void generateShed(CityWorldGenerator generator, RealSection chunk, DataContext context, Odds odds, 
+	public void generateShed(CityWorldGenerator generator, RealBlocks chunk, DataContext context, Odds odds, 
 			int x, int y, int z, int radius, LootLocation location) {
 		generateShed(generator, chunk, context, odds, x, y, z, radius, location, location);
 	}
 		
-	public void generateShed(CityWorldGenerator generator, RealSection chunk, DataContext context, Odds odds, 
+	public void generateShed(CityWorldGenerator generator, RealBlocks chunk, DataContext context, Odds odds, 
 			int x, int y, int z, int radius, LootLocation location, LootLocation other) {
 		int x1 = x - radius;
 		int x2 = x + radius + 1;
@@ -88,7 +88,7 @@ public class HouseProvider extends Provider {
 		}
 	}
 	
-	private void placeShedTable(CityWorldGenerator generator, RealSection chunk, Odds odds, int x, int y, int z, Direction.General direction) {
+	private void placeShedTable(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int x, int y, int z, Direction.General direction) {
 		if (odds.playOdds(oddsOfFurnace))
 			chunk.setFurnace(x, y, z, direction);
 		else if (odds.playOdds(oddsOfCraftingTable))
@@ -99,7 +99,7 @@ public class HouseProvider extends Provider {
 		}
 	}
 	
-	private void placeShedChest(CityWorldGenerator generator, RealSection chunk, Odds odds, int x, int y, int z, 
+	private void placeShedChest(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int x, int y, int z, 
 			Direction.General direction, LootLocation location) {
 		switch (direction) {
 		case NORTH:
@@ -124,7 +124,7 @@ public class HouseProvider extends Provider {
 	private final static Material matFireRing = Material.COBBLESTONE_STAIRS;
 	private final static Material matLog = Material.LOG;
 	
-	public void generateCampground(CityWorldGenerator generator, RealSection chunk, DataContext context, Odds odds, int baseY) {
+	public void generateCampground(CityWorldGenerator generator, RealBlocks chunk, DataContext context, Odds odds, int baseY) {
 		
 		// what are we made of?
 		DyeColor matColor = odds.getRandomColor();
@@ -255,7 +255,7 @@ public class HouseProvider extends Provider {
 	
 	private enum HouseRoofStyle {FLAT, NORTHSOUTH, WESTEAST, ANGLED};
 	
-	public int generateShack(CityWorldGenerator generator, RealSection chunk, DataContext context, Odds odds, int baseY, int roomWidth) {
+	public int generateShack(CityWorldGenerator generator, RealBlocks chunk, DataContext context, Odds odds, int baseY, int roomWidth) {
 		
 		// what are we made of?
 		Material matWall = Material.WOOD;
@@ -272,7 +272,7 @@ public class HouseProvider extends Provider {
 	
 	private Material matTrapDoor = Material.TRAP_DOOR;
 	
-	public int generateHouse(CityWorldGenerator generator, RealSection chunk, DataContext context, Odds odds, int baseY, int maxFloors, int maxRoomWidth) {
+	public int generateHouse(CityWorldGenerator generator, RealBlocks chunk, DataContext context, Odds odds, int baseY, int maxFloors, int maxRoomWidth) {
 		
 		// what are we made of?
 		Material matWall = pickWallMaterial(odds);
@@ -292,11 +292,11 @@ public class HouseProvider extends Provider {
 		return floors;
 	}
 
-	public int generateHouse(CityWorldGenerator generator, RealSection chunk, DataContext context, Odds odds, int baseY, int maxFloors) {
+	public int generateHouse(CityWorldGenerator generator, RealBlocks chunk, DataContext context, Odds odds, int baseY, int maxFloors) {
 		return generateHouse(generator, chunk, context, odds, baseY, maxFloors, MaxSize);
 	}
 
-	private void generateColonial(CityWorldGenerator generator, RealSection chunk, DataContext context, 
+	private void generateColonial(CityWorldGenerator generator, RealBlocks chunk, DataContext context, 
 			Odds odds, int baseY,
 			Material matFloor, Material matWall, Material matCeiling, Material matRoof, 
 			int floors, int minRoomWidth, int maxRoomWidth, HouseRoofStyle styleRoof, boolean allowMissingRooms) {
@@ -620,7 +620,7 @@ public class HouseProvider extends Provider {
 		return i == 0 ? 1 : 0;
 	}
 	
-	private void drawRoom(CityWorldGenerator generator, RealSection chunk, DataContext context, 
+	private void drawRoom(CityWorldGenerator generator, RealBlocks chunk, DataContext context, 
 			Odds odds, Room[][][] rooms, int floor, int floors, int x, int z, 
 			int roomOffsetX, int roomOffsetZ, int baseY, 
 			Material matFloor, Material matWall, Material matCeiling, Material matRoof) {
@@ -815,7 +815,7 @@ public class HouseProvider extends Provider {
 			}
 		}
 		
-		protected void DrawWalls(RealSection chunk, DataContext context, int floor, int floors, 
+		protected void DrawWalls(RealBlocks chunk, DataContext context, int floor, int floors, 
 				int x, int z, int roomOffsetX, int roomOffsetZ, int baseY, 
 				Material matWall) {
 			
@@ -863,7 +863,7 @@ public class HouseProvider extends Provider {
 			}
 		}
 		
-		protected void DrawFloor(RealSection chunk, DataContext context, int floor, int floors, 
+		protected void DrawFloor(RealBlocks chunk, DataContext context, int floor, int floors, 
 				int x, int z, int roomOffsetX, int roomOffsetZ, int baseY, 
 				Material matFloor) {
 			
@@ -874,7 +874,7 @@ public class HouseProvider extends Provider {
 			chunk.setBlocks(x1, x2 + 1, y1 - 1, y1, z1, z2 + 1, matFloor);
 		}
 		
-		protected void DrawCeiling(RealSection chunk, DataContext context, int floor, int floors, 
+		protected void DrawCeiling(RealBlocks chunk, DataContext context, int floor, int floors, 
 				int x, int z, int roomOffsetX, int roomOffsetZ, int baseY, 
 				Material matCeiling) {
 			
@@ -885,7 +885,7 @@ public class HouseProvider extends Provider {
 			chunk.setBlocks(x1, x2 + 1, y2, y2 + 1, z1, z2 + 1, matCeiling);
 		}
 		
-		protected void DrawRoof(RealSection chunk, DataContext context, int floor, int floors, 
+		protected void DrawRoof(RealBlocks chunk, DataContext context, int floor, int floors, 
 				int x, int z, int roomOffsetX, int roomOffsetZ, int baseY, 
 				Material matRoof) {
 			
@@ -897,7 +897,7 @@ public class HouseProvider extends Provider {
 			chunk.setBlocks(x1, x2 + 1, y2, y2 + 1, z1, z2 + 1, matRoof);
 		}
 
-		protected void DrawRailing(RealSection chunk) {
+		protected void DrawRailing(RealBlocks chunk) {
 			
 			// only if we have found ourselves
 			if (located) {
@@ -916,7 +916,7 @@ public class HouseProvider extends Provider {
 			}
 		}
 
-		protected void DrawStyle(CityWorldGenerator generator, RealSection chunk, DataContext context, 
+		protected void DrawStyle(CityWorldGenerator generator, RealBlocks chunk, DataContext context, 
 				Odds odds, int floor, int floors, 
 				int x, int z, int roomOffsetX, int roomOffsetZ, int baseY) {
 			

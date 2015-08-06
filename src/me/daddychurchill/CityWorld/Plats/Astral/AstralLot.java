@@ -7,9 +7,9 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.IsolatedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.InitSection;
+import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealSection;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public abstract class AstralLot extends IsolatedLot {
 
@@ -29,7 +29,7 @@ public abstract class AstralLot extends IsolatedLot {
 
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator,
-			PlatMap platmap, InitSection chunk, BiomeGrid biomes,
+			PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
 		// TODO Auto-generated method stub
 
@@ -53,7 +53,7 @@ public abstract class AstralLot extends IsolatedLot {
 	private static int specialOffset = 7;
 
 	@Override
-	public void generateMines(CityWorldGenerator generator, RealSection chunk) {
+	public void generateMines(CityWorldGenerator generator, RealBlocks chunk) {
 		int y = generator.seaLevel + AstralTownEmptyLot.aboveSeaLevel - 1;
 		
 		// north/south along where the Nexus is
@@ -103,7 +103,7 @@ public abstract class AstralLot extends IsolatedLot {
 		}
 	}
 	
-	private void generateOtherbits(RealSection chunk, int x, int y, int z, boolean specialPoint) {
+	private void generateOtherbits(RealBlocks chunk, int x, int y, int z, boolean specialPoint) {
 
 		// underlayment
 		chunk.setBlock(x, y, z, AstralTownEmptyLot.materialBase);

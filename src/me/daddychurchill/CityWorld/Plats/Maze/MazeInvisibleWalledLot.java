@@ -4,7 +4,7 @@ import org.bukkit.Material;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealSection;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class MazeInvisibleWalledLot extends MazeNatureLot {
 
@@ -19,14 +19,14 @@ public class MazeInvisibleWalledLot extends MazeNatureLot {
 	}
 	
 	@Override
-	protected void generateWallPart(CityWorldGenerator generator, RealSection chunk, int x1, int x2, int z1, int z2) {
+	protected void generateWallPart(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int z1, int z2) {
 		int mazeY = generator.streetLevel - mazeDepth;
 		chunk.setBlocks(x1, x2, mazeY, mazeY + mazeDepth + 1, z1, z2, Material.OBSIDIAN);
 		chunk.setBlocks(x1, x2, mazeY + mazeDepth + 2, mazeY + mazeHeight, z1, z2, getWallMaterial());
 	}
 
 	@Override
-	protected void generateHallPart(CityWorldGenerator generator, RealSection chunk, int x1, int x2, int z1, int z2) {
+	protected void generateHallPart(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int z1, int z2) {
 		int mazeY = generator.streetLevel - mazeDepth;
 		chunk.setBlocks(x1, x2, mazeY, mazeY + mazeDepth + 1, z1, z2, Material.OBSIDIAN);
 	}

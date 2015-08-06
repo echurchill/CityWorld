@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Support.Direction.General;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealSection;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class AstralBlackCubesLot extends AstralNatureLot {
 
@@ -20,7 +20,7 @@ public class AstralBlackCubesLot extends AstralNatureLot {
 
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealSection chunk, DataContext context, int platX,
+			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
 			int platZ) {
 		
 		for (int x = 1; x < 16; x = x + cubeWidth + 2) {
@@ -34,7 +34,7 @@ public class AstralBlackCubesLot extends AstralNatureLot {
 		}
 	}
 	
-	private void generateBlackCube(CityWorldGenerator generator, RealSection chunk, int x, int y, int z) {
+	private void generateBlackCube(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z) {
 		
 //		chunk.setBlocks(x, x + cubeWidth, y + cubeWidth - 1, z, z + cubeWidth, Material.OBSIDIAN);
 //		chunk.setWalls(x, x + cubeWidth, y + 1, y + cubeWidth - 1, z, z + cubeWidth, Material.OBSIDIAN);

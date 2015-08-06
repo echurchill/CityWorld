@@ -7,11 +7,11 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.InitSection;
+import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealSection;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class RadioTowerLot extends ConstructLot {
 
@@ -56,7 +56,7 @@ public class RadioTowerLot extends ConstructLot {
 	}
 
 	@Override
-	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitSection chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 		// compute offset to start of chunk
 		int platformOffset = platformWidth / 2;
@@ -92,7 +92,7 @@ public class RadioTowerLot extends ConstructLot {
 	}
 	
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealSection chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
 		reportLocation(generator, "Radio Tower", chunk.getOriginX(), chunk.getOriginZ());
 
 		// compute offset to start of chunk
@@ -130,7 +130,7 @@ public class RadioTowerLot extends ConstructLot {
 		}
 	}
 	
-	private void generateAntenna(RealSection chunk, DataContext context, int x, int y, int z, boolean lastChance) {
+	private void generateAntenna(RealBlocks chunk, DataContext context, int x, int y, int z, boolean lastChance) {
 		
 		// build an antenna?
 		if ((lastChance && !antennaBuilt) || chunkOdds.flipCoin()) {

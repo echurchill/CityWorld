@@ -9,14 +9,14 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.OreProvider.OreLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
-import me.daddychurchill.CityWorld.Support.InitSection;
+import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.RealSection;
-import me.daddychurchill.CityWorld.Support.SupportSection;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public abstract class PlatLot {
 	
@@ -53,8 +53,8 @@ public abstract class PlatLot {
 	
 	public abstract PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ);
 
-	protected abstract void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitSection chunk, BiomeGrid biomes, DataContext context, int platX, int platZ);
-	protected abstract void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealSection chunk, DataContext context, int platX, int platZ);
+	protected abstract void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ);
+	protected abstract void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ);
 
 	protected void reportLocation(CityWorldGenerator generator, String title, int originX, int originZ) {
 		if (generator.settings.broadcastSpecialPlaces)
@@ -114,7 +114,7 @@ public abstract class PlatLot {
 	public abstract int getBottomY(CityWorldGenerator generator);
 	public abstract int getTopY(CityWorldGenerator generator);
 	
-	public void generateChunk(CityWorldGenerator generator, PlatMap platmap, InitSection chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	public void generateChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		initializeDice(platmap, chunk.sectionX, chunk.sectionZ);
 		
 		// what do we need to first?
@@ -127,7 +127,7 @@ public abstract class PlatLot {
 		generator.shapeProvider.postGenerateChunk(generator, this, chunk, blockYs);
 	}
 		
-	public void generateBlocks(CityWorldGenerator generator, PlatMap platmap, RealSection chunk, DataContext context, int platX, int platZ) {
+	public void generateBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
 		initializeDice(platmap, chunk.sectionX, chunk.sectionZ);
 		
 		// what do we need to first?
@@ -141,9 +141,9 @@ public abstract class PlatLot {
 	}
 	
 	protected void destroyLot(CityWorldGenerator generator, int y1, int y2) {
-		int x1 = chunkX * SupportSection.sectionBlockWidth;
-		int z1 = chunkZ * SupportSection.sectionBlockWidth;
-		generator.decayBlocks.destroyWithin(x1, x1 + SupportSection.sectionBlockWidth, y1, y2, z1, z1 + SupportSection.sectionBlockWidth);
+		int x1 = chunkX * SupportBlocks.sectionBlockWidth;
+		int z1 = chunkZ * SupportBlocks.sectionBlockWidth;
+		generator.decayBlocks.destroyWithin(x1, x1 + SupportBlocks.sectionBlockWidth, y1, y2, z1, z1 + SupportBlocks.sectionBlockWidth);
 	}
 	
 	public void destroyBuilding(CityWorldGenerator generator, int y, int floors) {
@@ -152,7 +152,7 @@ public abstract class PlatLot {
 	
 	private final static int lowestMineSegment = 16;
 	
-	public void generateMines(CityWorldGenerator generator, InitSection chunk) {
+	public void generateMines(CityWorldGenerator generator, InitialBlocks chunk) {
 		
 		// get shafted! (this builds down to keep the support poles happy)
 		if (generator.settings.includeMines)
@@ -162,7 +162,7 @@ public abstract class PlatLot {
 			}
 	}
 	
-	protected int findHighestShaftableLevel(CityWorldGenerator generator, DataContext context, SupportSection chunk) {
+	protected int findHighestShaftableLevel(CityWorldGenerator generator, DataContext context, SupportBlocks chunk) {
 
 		// keep going down until we find what we are looking for
 		for (int y = (blockYs.minHeight / 16 - 1) * 16; y >= lowestMineSegment; y -= 16) {
@@ -178,7 +178,7 @@ public abstract class PlatLot {
 		return blockY >= lowestMineSegment && blockY < blockYs.minHeight && blockYs.minHeight > generator.seaLevel;
 	}
 
-	private void generateHorizontalMineLevel(CityWorldGenerator generator, InitSection chunk, int y) {
+	private void generateHorizontalMineLevel(CityWorldGenerator generator, InitialBlocks chunk, int y) {
 		int y1 = y + 6;
 		int y2 = y1 + 1;
 		
@@ -212,12 +212,12 @@ public abstract class PlatLot {
 	private final static Material shaftSupport = Material.FENCE;
 	private final static Material shaftBeam = Material.WOOD;
 
-	private void generateMineShaftSpace(CityWorldGenerator generator, InitSection chunk, int x1, int x2, int y1, int y2, int z1, int z2) {
+	private void generateMineShaftSpace(CityWorldGenerator generator, InitialBlocks chunk, int x1, int x2, int y1, int y2, int z1, int z2) {
 		chunk.setEmptyBlocks(x1, x2, y1, z1, z2, shaftBridge);
 		chunk.setBlocks(x1, x2, y1 + 1, y2, z1, z2, getAirMaterial(generator, y1 + 1));
 	}
 	
-	private void generateMineNSSupport(InitSection chunk, int x, int y, int z) {
+	private void generateMineNSSupport(InitialBlocks chunk, int x, int y, int z) {
 		
 		// on a bridge
 		if (chunk.isType(x, y - 1, z, shaftBridge) && 
@@ -237,7 +237,7 @@ public abstract class PlatLot {
 		}
 	}
 	
-	private void generateMineWESupport(InitSection chunk, int x, int y, int z) {
+	private void generateMineWESupport(InitialBlocks chunk, int x, int y, int z) {
 		// on a bridge
 		if (chunk.isType(x, y - 1, z, shaftBridge) && 
 			chunk.isType(x, y - 1, z + 3, shaftBridge)) {
@@ -256,13 +256,13 @@ public abstract class PlatLot {
 		}
 	}
 	
-	private void generateMineSupport(InitSection chunk, int x, int y, int z) {
+	private void generateMineSupport(InitialBlocks chunk, int x, int y, int z) {
 		int aboveSupport = chunk.findLastEmptyAbove(x, y, z);
 		if (aboveSupport < blockYs.maxHeight)
 			chunk.setBlocks(x, y + 1, aboveSupport + 1, z, shaftSupport);
 	}
 	
-	public void generateMines(CityWorldGenerator generator, RealSection chunk) {
+	public void generateMines(CityWorldGenerator generator, RealBlocks chunk) {
 		
 		// get shafted!
 		if (generator.settings.includeMines)
@@ -272,7 +272,7 @@ public abstract class PlatLot {
 			}
 	}
 	
-	private void generateVerticalMineLevel(CityWorldGenerator generator, RealSection chunk, int y) {
+	private void generateVerticalMineLevel(CityWorldGenerator generator, RealBlocks chunk, int y) {
 		int y1 = y + 6;
 		boolean stairsFound = false;
 		
@@ -395,7 +395,7 @@ public abstract class PlatLot {
 	}
 	
 	
-	private void generateMineAlcove(CityWorldGenerator generator, RealSection chunk, int x, int y, int z, int prizeX, int prizeZ) {
+	private void generateMineAlcove(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z, int prizeX, int prizeZ) {
 		if (chunkOdds.playOdds(generator.settings.oddsOfAlcoveInMines)) {
 			if (!chunk.isEmpty(x, y, z) &&
 				!chunk.isEmpty(x + 1, y, z) &&
@@ -411,7 +411,7 @@ public abstract class PlatLot {
 		}
 	}
 	
-	private void generateMineCeiling(RealSection chunk, int x1, int x2, int y, int z1, int z2) {
+	private void generateMineCeiling(RealBlocks chunk, int x1, int x2, int y, int z1, int z2) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				if (chunkOdds.flipCoin())
@@ -421,24 +421,24 @@ public abstract class PlatLot {
 		}
 	}
 	
-	private void generateMineSupport(RealSection chunk, int x, int y, int z) {
+	private void generateMineSupport(RealBlocks chunk, int x, int y, int z) {
 		int aboveSupport = chunk.findLastEmptyAbove(x, y, z);
 		if (aboveSupport < blockYs.maxHeight)
 			chunk.setBlocks(x, y + 1, aboveSupport + 1, z, Material.FENCE);
 	}
-	private void placeMineStairBase(RealSection chunk, int x, int y, int z) {
+	private void placeMineStairBase(RealBlocks chunk, int x, int y, int z) {
 		chunk.setBlocks(x, y + 1, y + 4, z, Material.AIR);
 		chunk.setEmptyBlock(x, y, z, Material.WOOD);
 	}
 	
-	private void placeMineStairStep(RealSection chunk, int x, int y, int z, Stair direction, Stair flipDirection) {
+	private void placeMineStairStep(RealBlocks chunk, int x, int y, int z, Stair direction, Stair flipDirection) {
 		chunk.setBlocks(x, y + 1, y + 4, z, Material.AIR);
 		chunk.setStair(x, y, z, Material.WOOD_STAIRS, direction);
 		if (chunk.isEmpty(x, y - 1, z))
 			chunk.setStair(x, y - 1, z, Material.WOOD_STAIRS, flipDirection);
 	}
 	
-	private void generateMineTreat(CityWorldGenerator generator, RealSection chunk, int x, int y, int z) {
+	private void generateMineTreat(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z) {
 
 		// cool stuff?
 		if (generator.settings.treasuresInMines && chunkOdds.playOdds(generator.settings.oddsOfTreasureInMines)) {
@@ -446,7 +446,7 @@ public abstract class PlatLot {
 		}
 	}
 
-	private void generateMineTrick(CityWorldGenerator generator, RealSection chunk, int x, int y, int z) {
+	private void generateMineTrick(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z) {
 		// not so cool stuff?
 		if (generator.settings.spawnersInMines && chunkOdds.playOdds(generator.settings.oddsOfSpawnerInMines)) {
 			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, chunkOdds, SpawnerLocation.MINE));
@@ -457,7 +457,7 @@ public abstract class PlatLot {
 		return true;
 	}
 	
-	public void generateOres(CityWorldGenerator generator, RealSection chunk) {
+	public void generateOres(CityWorldGenerator generator, RealBlocks chunk) {
 		
 		// shape the world
 		if (generator.settings.includeOres || generator.settings.includeUndergroundFluids)
@@ -490,7 +490,7 @@ public abstract class PlatLot {
 		return miniPlatMap;
 	}
 	
-	public void generateSurface(CityWorldGenerator generator, SupportSection chunk, boolean includeTrees) {
+	public void generateSurface(CityWorldGenerator generator, SupportBlocks chunk, boolean includeTrees) {
 		
 		// plant grass or snow
 		generator.surfaceProvider.generateSurface(generator, this, chunk, blockYs, includeTrees);

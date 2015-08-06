@@ -4,9 +4,9 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.InitSection;
+import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealSection;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
@@ -44,7 +44,7 @@ public class FloatingHouseLot extends ConstructLot {
 
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator,
-			PlatMap platmap, InitSection chunk, BiomeGrid biomes,
+			PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
 		
 		// build a little box
@@ -62,7 +62,7 @@ public class FloatingHouseLot extends ConstructLot {
 
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealSection chunk, DataContext context, int platX,
+			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
 			int platZ) {
 
 		// now make a house

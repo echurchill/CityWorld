@@ -5,7 +5,7 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.SupportSection;
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public abstract class MazeConstructContext extends MazeNatureContext {
 
@@ -97,8 +97,8 @@ public abstract class MazeConstructContext extends MazeNatureContext {
 				// what is the world location of the lot?
 				int chunkX = originX + offsetX + x;
 				int chunkZ = originZ + offsetZ + z;
-				int blockX = chunkX * SupportSection.sectionBlockWidth;
-				int blockZ = chunkZ * SupportSection.sectionBlockWidth;
+				int blockX = chunkX * SupportBlocks.sectionBlockWidth;
+				int blockZ = chunkZ * SupportBlocks.sectionBlockWidth;
 				
 				// get the height info for this chunk
 				heights = HeightInfo.getHeightsFaster(generator, blockX, blockZ);

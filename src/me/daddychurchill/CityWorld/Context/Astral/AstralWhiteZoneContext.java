@@ -9,7 +9,7 @@ import me.daddychurchill.CityWorld.Plats.Astral.AstralWhiteTowerLot;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.SupportSection;
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class AstralWhiteZoneContext extends AstralDataContext {
 
@@ -41,8 +41,8 @@ public class AstralWhiteZoneContext extends AstralDataContext {
 				if (current == null) {
 				
 					// what is the world location of the lot?
-					int blockX = (originX + x) * SupportSection.sectionBlockWidth;
-					int blockZ = (originZ + z) * SupportSection.sectionBlockWidth;
+					int blockX = (originX + x) * SupportBlocks.sectionBlockWidth;
+					int blockZ = (originZ + z) * SupportBlocks.sectionBlockWidth;
 					
 					// get the height info for this chunk
 					heights = HeightInfo.getHeightsFaster(generator, blockX, blockZ);

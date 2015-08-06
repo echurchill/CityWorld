@@ -16,11 +16,11 @@ import me.daddychurchill.CityWorld.Plugins.OreProvider;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider;
-import me.daddychurchill.CityWorld.Support.InitSection;
+import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealSection;
-import me.daddychurchill.CityWorld.Support.WorldSection;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
+import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -52,7 +52,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 	public HouseProvider houseProvider;
 	public TreeProvider treeProvider;
 	
-	public WorldSection decayBlocks;
+	public WorldBlocks decayBlocks;
 	
 	public CityWorldSettings settings;
 
@@ -180,7 +180,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 			houseProvider = HouseProvider.loadProvider(this);
 			treeProvider = TreeProvider.loadProvider(this, new Odds(getRelatedSeed()));
 			pasteProvider = PasteProvider.loadProvider(this);
-			decayBlocks = new WorldSection(this, new Odds(getRelatedSeed()));
+			decayBlocks = new WorldBlocks(this, new Odds(getRelatedSeed()));
 			
 			// get ranges and contexts
 			height = shapeProvider.getWorldHeight();
@@ -232,7 +232,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 			initializeWorldInfo(world);
 
 			// place to work
-			InitSection initialBlocks = new InitSection(this, this.createChunkData(world), x, z);
+			InitialBlocks initialBlocks = new InitialBlocks(this, this.createChunkData(world), x, z);
 		
 			// figure out what everything looks like
 			PlatMap platmap = getPlatMap(x, z);
@@ -356,7 +356,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 				int chunkZ = chunk.getZ();
 				
 				// place to work
-				RealSection realChunk = new RealSection(chunkGen, chunk);
+				RealBlocks realChunk = new RealBlocks(chunkGen, chunk);
 
 				// figure out what everything looks like
 				PlatMap platmap = chunkGen.getPlatMap(chunkX, chunkZ);

@@ -70,23 +70,23 @@ public abstract class BlackMagic {
 		return state.update(update, physics);
 	}
 	
-	public static final boolean setBlock(SupportSection chunk, int x, int y, int z, Material material, int data) {
+	public static final boolean setBlock(SupportBlocks chunk, int x, int y, int z, Material material, int data) {
 		return setBlockType(chunk.getActualBlock(x, y, z), material, data);
 	}
 	
-	public static final void setBlocks(SupportSection chunk, int x, int y1, int y2, int z, Material material, int data) {
+	public static final void setBlocks(SupportBlocks chunk, int x, int y1, int y2, int z, Material material, int data) {
 		for (int y = y1; y < y2; y++) {
 			setBlockType(chunk.getActualBlock(x, y, z), material, data);
 		}
 	}
 	
-	public static final void setBlocks(SupportSection chunk, int x, int y1, int y2, int z, int typeId, int data) {
+	public static final void setBlocks(SupportBlocks chunk, int x, int y1, int y2, int z, int typeId, int data) {
 		for (int y = y1; y < y2; y++) {
 			setBlockType(chunk.getActualBlock(x, y, z), typeId, data);
 		}
 	}
 	
-	public static final void setBlocks(SupportSection chunk, int x1, int x2, int y, int z1, int z2, Material material, int data) {
+	public static final void setBlocks(SupportBlocks chunk, int x1, int x2, int y, int z1, int z2, Material material, int data) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				setBlockType(chunk.getActualBlock(x, y, z), material, data);
@@ -94,7 +94,7 @@ public abstract class BlackMagic {
 		}
 	}
 	
-	public static final void setBlocks(SupportSection chunk, int x1, int x2, int y, int z1, int z2, int typeId, int data) {
+	public static final void setBlocks(SupportBlocks chunk, int x1, int x2, int y, int z1, int z2, int typeId, int data) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				setBlockType(chunk.getActualBlock(x, y, z), typeId, data);
@@ -102,7 +102,7 @@ public abstract class BlackMagic {
 		}
 	}
 	
-	public static final void setBlocks(SupportSection chunk, int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
+	public static final void setBlocks(SupportBlocks chunk, int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
@@ -112,7 +112,7 @@ public abstract class BlackMagic {
 		}
 	}
 	
-	public static final void setBlocks(SupportSection chunk, int x1, int x2, int y1, int y2, int z1, int z2, Material material, int data) {
+	public static final void setBlocks(SupportBlocks chunk, int x1, int x2, int y1, int y2, int z1, int z2, Material material, int data) {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
@@ -122,7 +122,7 @@ public abstract class BlackMagic {
 		}
 	}
 	
-	public static final void setBlocks(SupportSection chunk, int x1, int x2, int y1, int y2, int z1, int z2, Block block) {
+	public static final void setBlocks(SupportBlocks chunk, int x1, int x2, int y1, int y2, int z1, int z2, Block block) {
 		Material material = block.getType();
 		short data = block.getData();
 		for (int x = x1; x < x2; x++) {
@@ -134,7 +134,7 @@ public abstract class BlackMagic {
 		}
 	}
 	
-	public static final void setBlocks(SupportSection chunk, int x1, int x2, int y1, int y2, int z1, int z2, int typeId, int data) {
+	public static final void setBlocks(SupportBlocks chunk, int x1, int x2, int y1, int y2, int z1, int z2, int typeId, int data) {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
@@ -144,11 +144,11 @@ public abstract class BlackMagic {
 		}
 	}
 
-	public static void setBlocks(SupportSection chunk, int x, int y1, int y2, int z, Material primary, Material secondary, MaterialFactory maker) {
+	public static void setBlocks(SupportBlocks chunk, int x, int y1, int y2, int z, Material primary, Material secondary, MaterialFactory maker) {
 //		setBlocks(x, y1, y2, z, BlackMagic.getMaterialId(primary), BlackMagic.getMaterialId(secondary), maker);
 	}
 
-	public static void setBlocks(SupportSection chunk, int x1, int x2, int y1, int y2, int z1, int z2, Material primary, Material secondary, MaterialFactory maker) {
+	public static void setBlocks(SupportBlocks chunk, int x1, int x2, int y1, int y2, int z1, int z2, Material primary, Material secondary, MaterialFactory maker) {
 //		setBlocks(x1, x2, y1, y2, z1, z2, BlackMagic.getMaterialId(primary), BlackMagic.getMaterialId(secondary), maker);
 	}
 

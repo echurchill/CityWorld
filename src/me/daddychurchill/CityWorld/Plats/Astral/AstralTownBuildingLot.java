@@ -6,7 +6,7 @@ import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot;
 import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot.BunkerType;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealSection;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class AstralTownBuildingLot extends AstralTownEmptyLot {
 
@@ -39,7 +39,7 @@ public class AstralTownBuildingLot extends AstralTownEmptyLot {
 
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealSection chunk, DataContext context,
+			PlatMap platmap, RealBlocks chunk, DataContext context,
 			int platX, int platZ) {
 		
 		super.generateActualBlocks(generator, platmap, chunk, context, platX, platZ);

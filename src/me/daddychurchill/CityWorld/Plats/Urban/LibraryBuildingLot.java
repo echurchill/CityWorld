@@ -11,7 +11,7 @@ import me.daddychurchill.CityWorld.Rooms.Populators.LibraryWithNoBooks;
 import me.daddychurchill.CityWorld.Rooms.Populators.LibraryWithRandom;
 import me.daddychurchill.CityWorld.Rooms.Populators.LibraryWithSomeBooks;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.SupportSection;
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class LibraryBuildingLot extends FinishedBuildingLot {
 
@@ -28,7 +28,7 @@ public class LibraryBuildingLot extends FinishedBuildingLot {
 	}
 
 	@Override
-	public RoomProvider roomProviderForFloor(CityWorldGenerator generator, SupportSection chunk, int floor, int floorY) {
+	public RoomProvider roomProviderForFloor(CityWorldGenerator generator, SupportBlocks chunk, int floor, int floorY) {
 		if (floor == 0)
 			return contentsLounges;
 		else switch (chunkOdds.getRandomInt(5)) {

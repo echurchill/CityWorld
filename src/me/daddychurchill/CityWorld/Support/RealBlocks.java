@@ -5,10 +5,10 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import org.bukkit.Chunk;
 import org.bukkit.block.Block;
 
-public final class RealSection extends SupportSection {
+public final class RealBlocks extends SupportBlocks {
 	private Chunk chunk;
 
-	public RealSection(CityWorldGenerator generator, Chunk aChunk) {
+	public RealBlocks(CityWorldGenerator generator, Chunk aChunk) {
 		super(generator);
 		
 		chunk = aChunk;

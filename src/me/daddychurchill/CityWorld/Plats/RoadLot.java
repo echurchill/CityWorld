@@ -10,15 +10,15 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
-import me.daddychurchill.CityWorld.Support.AbstractSection;
+import me.daddychurchill.CityWorld.Support.AbstractBlocks;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
-import me.daddychurchill.CityWorld.Support.InitSection;
+import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealSection;
-import me.daddychurchill.CityWorld.Support.SupportSection;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
 import me.daddychurchill.CityWorld.Support.SurroundingRoads;
 import me.daddychurchill.CityWorld.Support.Surroundings;
 
@@ -157,7 +157,7 @@ public class RoadLot extends ConnectedLot {
 	}
 	
 	@Override
-	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitSection chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 //		// random bits
 //		sewerCenterBit = chunkOdds.flipCoin();
@@ -592,11 +592,11 @@ public class RoadLot extends ConnectedLot {
 //		}
 	}
 	
-	private void placeEWBridgeCap(AbstractSection chunk, int x, int baseY, int topY) {
+	private void placeEWBridgeCap(AbstractBlocks chunk, int x, int baseY, int topY) {
 		chunk.setBlocks(x, x + 2, baseY, topY, 0, 16, retainingWallMaterial);
 	}
 	
-	private void placeEWBridgePartA(AbstractSection chunk, int x, int baseY) {
+	private void placeEWBridgePartA(AbstractBlocks chunk, int x, int baseY) {
 		
 		// cross beam
 		chunk.setBlocks(x, x + 2, baseY - 1, baseY, 0, 16, bridgeEdgeMaterial);
@@ -617,7 +617,7 @@ public class RoadLot extends ConnectedLot {
 		chunk.setBlocks(x, x + 2, baseY, baseY + 1, 3, 13, bridgePavement1Material);
 	}
 	
-	private void placeEWBridgePartB(AbstractSection chunk, int x, int baseY) {
+	private void placeEWBridgePartB(AbstractBlocks chunk, int x, int baseY) {
 
 		// edges
 		chunk.setBlocks(x, x + 2, baseY, baseY + 2, 0, 1, bridgeEdgeMaterial);
@@ -637,21 +637,21 @@ public class RoadLot extends ConnectedLot {
 		chunk.setBlocks(x, x + 2, baseY, baseY + 1, 3, 13, bridgePavement2Material);
 	}
 	
-	private void placeWBridgeColumns(AbstractSection chunk, int baseY) {
+	private void placeWBridgeColumns(AbstractBlocks chunk, int baseY) {
 		chunk.setBlocks(0, 1, blockYs.minHeight, baseY, 2, 4, bridgeEdgeMaterial);
 		chunk.setBlocks(0, 1, blockYs.minHeight, baseY, 12, 14, bridgeEdgeMaterial);
 	}
 
-	private void placeEBridgeColumns(AbstractSection chunk, int baseY) {
+	private void placeEBridgeColumns(AbstractBlocks chunk, int baseY) {
 		chunk.setBlocks(15, 16, blockYs.minHeight, baseY, 2, 4, bridgeEdgeMaterial);
 		chunk.setBlocks(15, 16, blockYs.minHeight, baseY, 12, 14, bridgeEdgeMaterial);
 	}
 
-	private void placeNSBridgeCap(AbstractSection chunk, int z, int baseY, int topY) {
+	private void placeNSBridgeCap(AbstractBlocks chunk, int z, int baseY, int topY) {
 		chunk.setBlocks(0, 16, baseY, topY - 1, z, z + 2, retainingWallMaterial);
 	}
 	
-	private void placeNSBridgePartA(AbstractSection chunk, int z, int baseY) {
+	private void placeNSBridgePartA(AbstractBlocks chunk, int z, int baseY) {
 		
 		// cross beam
 		chunk.setBlocks(0, 16, baseY - 1, baseY, z, z + 2, bridgeEdgeMaterial);
@@ -672,7 +672,7 @@ public class RoadLot extends ConnectedLot {
 		chunk.setBlocks(3, 13, baseY, baseY + 1, z, z + 2, bridgePavement1Material);
 	}
 	
-	private void placeNSBridgePartB(AbstractSection chunk, int z, int baseY) {
+	private void placeNSBridgePartB(AbstractBlocks chunk, int z, int baseY) {
 		
 		// edges
 		chunk.setBlocks(0, 1, baseY, baseY + 2, z, z + 2, bridgeEdgeMaterial);
@@ -692,17 +692,17 @@ public class RoadLot extends ConnectedLot {
 		chunk.setBlocks(3, 13, baseY, baseY + 1, z, z + 2, bridgePavement2Material);
 	}
 	
-	private void placeNBridgeColumns(AbstractSection chunk, int baseY) {
+	private void placeNBridgeColumns(AbstractBlocks chunk, int baseY) {
 		chunk.setBlocks(2, 4, blockYs.minHeight, baseY, 0, 1, bridgeEdgeMaterial);
 		chunk.setBlocks(12, 14, blockYs.minHeight, baseY, 0, 1, bridgeEdgeMaterial);
 	}
 
-	private void placeSBridgeColumns(AbstractSection chunk, int baseY) {
+	private void placeSBridgeColumns(AbstractBlocks chunk, int baseY) {
 		chunk.setBlocks(2, 4, blockYs.minHeight, baseY, 15, 16, bridgeEdgeMaterial);
 		chunk.setBlocks(12, 14, blockYs.minHeight, baseY, 15, 16, bridgeEdgeMaterial);
 	}
 	
-	private void placeEWTunnelArch(CityWorldGenerator generator, AbstractSection chunk, int x, int baseY, 
+	private void placeEWTunnelArch(CityWorldGenerator generator, AbstractBlocks chunk, int x, int baseY, 
 			Material shellMaterial, Material tileMaterial, Material ceilingMaterial) {
 		chunk.setBlocks(x, baseY - 2, baseY + 4, 0, shellMaterial);
 
@@ -737,7 +737,7 @@ public class RoadLot extends ConnectedLot {
 		chunk.setBlocks(x, baseY - 2, baseY + 4, 15, shellMaterial);
 	}
 	
-	private void placeNSTunnelArch(CityWorldGenerator generator, AbstractSection chunk, int z, int baseY, 
+	private void placeNSTunnelArch(CityWorldGenerator generator, AbstractBlocks chunk, int z, int baseY, 
 			Material shellMaterial, Material tileMaterial, Material ceilingMaterial) {
 		chunk.setBlocks(0, baseY - 2, baseY + 4, z, shellMaterial);
 
@@ -772,14 +772,14 @@ public class RoadLot extends ConnectedLot {
 		chunk.setBlocks(15, baseY - 2, baseY + 4, z, shellMaterial);
 	}
 	
-	private void placeRetainingWall(AbstractSection chunk, int x, int z, int baseY, int topY) {
+	private void placeRetainingWall(AbstractBlocks chunk, int x, int z, int baseY, int topY) {
 		chunk.setBlocks(x, baseY, topY + 1, z, retainingWallMaterial);
 		if (topY > baseY + fenceHeight)
 			chunk.setBlocks(x, topY + 1, topY + fenceHeight + 1, z, retainingFenceMaterial);
 	}
 	
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealSection chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
 
 		// random bits
 		sewerCenterBit = chunkOdds.flipCoin();
@@ -1514,11 +1514,11 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 	
-	protected void paveRoadLot(SupportSection chunk, int y) {
+	protected void paveRoadLot(SupportBlocks chunk, int y) {
 		chunk.setClay(0, 16, y - 1, y + 1, 0, 16, pavementColor);
 	}
 	
-	protected void generateNSCrosswalk(RealSection chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
+	protected void generateNSCrosswalk(RealBlocks chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
 		if (cityRoad) {
 			chunk.setClay(x1, x2, y, z1, z2, pavementColor);
 			if (crosswalk) {
@@ -1534,7 +1534,7 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 
-	protected void generateWECrosswalk(RealSection chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
+	protected void generateWECrosswalk(RealBlocks chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
 		if (cityRoad) {
 			chunk.setClay(x1, x2, y, z1, z2, pavementColor);
 			if (crosswalk) {
@@ -1550,7 +1550,7 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 	
-	protected void decayRoad(RealSection chunk, int x1, int x2, int y, int z1, int z2) {
+	protected void decayRoad(RealBlocks chunk, int x1, int x2, int y, int z1, int z2) {
 		int amount = (x2 - x1) * (z2 - z1) / 10;
 		while (amount > 0) {
 			int x = x1 + chunkOdds.getRandomInt(x2 - x1);
@@ -1563,7 +1563,7 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 	
-	protected void decaySidewalk(CityWorldGenerator generator, RealSection chunk, int x1, int x2, int y, int z1, int z2) {
+	protected void decaySidewalk(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int y, int z1, int z2) {
 		int amount = (x2 - x1) * (z2 - z1) / 10;
 		while (amount > 0) {
 			int x = x1 + chunkOdds.getRandomInt(x2 - x1);
@@ -1576,7 +1576,7 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 	
-	private void generateEntryVines(RealSection chunk, int y, Direction.Vine direction,
+	private void generateEntryVines(RealBlocks chunk, int y, Direction.Vine direction,
 			int x1, int z1, int x2, int z2, int x3, int z3, int x4, int z4) {
 		if (chunkOdds.flipCoin())
 			chunk.setVine(x1, y, z1, direction);
@@ -1588,12 +1588,12 @@ public class RoadLot extends ConnectedLot {
 			chunk.setVine(x4, y, z4, direction);
 	}
 	
-	private void generateHangingVine(RealSection chunk, int y, Direction.Vine direction, int x1, int z1, int x2, int z2) {
+	private void generateHangingVine(RealBlocks chunk, int y, Direction.Vine direction, int x1, int z1, int x2, int z2) {
 		if (chunkOdds.flipCoin() && chunk.isEmpty(x1, y, z1) && !chunk.isEmpty(x2, y, z2))
 			chunk.setVine(x1, y, z1, direction);
 	}
 	
-	protected boolean generateLightPost(CityWorldGenerator generator, RealSection chunk, DataContext context, int sidewalkLevel, int x, int z) {
+	protected boolean generateLightPost(CityWorldGenerator generator, RealBlocks chunk, DataContext context, int sidewalkLevel, int x, int z) {
 		chunk.setBlock(x, sidewalkLevel, z, lightpostbaseMaterial);
 		if (generator.settings.includeDecayedRoads) {
 			int y = sidewalkLevel + 1;
@@ -1617,7 +1617,7 @@ public class RoadLot extends ConnectedLot {
 	}
 	
 	private final static double oddsOfDecayedSign = Odds.oddsExtremelyLikely;
-	protected void generateStreetSign(CityWorldGenerator generator, RealSection chunk, int sidewalkLevel, int x, int z) {
+	protected void generateStreetSign(CityWorldGenerator generator, RealBlocks chunk, int sidewalkLevel, int x, int z) {
 		int cx = chunk.sectionX;
 		int cz = chunk.sectionZ;
 		int y = sidewalkLevel + lightpostHeight;
@@ -1660,7 +1660,7 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 	
-	private void generateDoor(RealSection chunk, int x, int y, int z, Direction.Door direction) {
+	private void generateDoor(RealBlocks chunk, int x, int y, int z, Direction.Door direction) {
 		switch (chunkOdds.getRandomInt(5)) {
 		case 1:
 			chunk.setBlocks(x, y, y + 2, z, Material.BRICK);
@@ -1680,7 +1680,7 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 	
-	protected void generateRoundedOut(CityWorldGenerator generator, DataContext context, AbstractSection chunk, int x, int z, boolean toNorth, boolean toEast) {
+	protected void generateRoundedOut(CityWorldGenerator generator, DataContext context, AbstractBlocks chunk, int x, int z, boolean toNorth, boolean toEast) {
 		int sidewalkLevel = getSidewalkLevel(generator);
 		Material sidewalkMaterial = getSidewalkMaterial();
 		
@@ -1697,7 +1697,7 @@ public class RoadLot extends ConnectedLot {
 					   sidewalkMaterial);
 	}
 	
-	private void generateTreat(CityWorldGenerator generator, RealSection chunk, int x, int y, int z) {
+	private void generateTreat(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z) {
 		
 		// cool stuff?
 		if (generator.settings.treasuresInSewers && chunkOdds.playOdds(generator.settings.oddsOfTreasureInSewers)) {
@@ -1705,7 +1705,7 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 
-	private void generateTrick(CityWorldGenerator generator, RealSection chunk, int x, int y, int z) {
+	private void generateTrick(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z) {
 		
 		// not so cool stuff?
 		if (generator.settings.spawnersInSewers && chunkOdds.playOdds(generator.settings.oddsOfSpawnerInSewers)) {

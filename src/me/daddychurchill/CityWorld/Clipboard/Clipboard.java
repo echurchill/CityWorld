@@ -4,12 +4,10 @@ import java.io.File;
 
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
-import org.bukkit.material.MaterialData;
-
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.RealSection;
-import me.daddychurchill.CityWorld.Support.SupportSection;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public abstract class Clipboard {
 
@@ -34,8 +32,8 @@ public abstract class Clipboard {
 	
 //	public Material edgeType = Material.AIR;
 //	public MaterialData edgeData = new MaterialData(edgeType);
-	public Material edgeType;
-	public MaterialData edgeData;
+	public Material edgeMaterial;
+	public int edgeData;
 	public int edgeRise;
 	
 	public Clipboard(CityWorldGenerator generator, File file) throws Exception {
@@ -48,11 +46,11 @@ public abstract class Clipboard {
 		// finish figuring things out
 		blockCount = sizeX * sizeY * sizeZ;
 		
-		chunkX = (sizeX + SupportSection.sectionBlockWidth - 1) / SupportSection.sectionBlockWidth;
-		chunkZ = (sizeZ + SupportSection.sectionBlockWidth - 1) / SupportSection.sectionBlockWidth;
+		chunkX = (sizeX + SupportBlocks.sectionBlockWidth - 1) / SupportBlocks.sectionBlockWidth;
+		chunkZ = (sizeZ + SupportBlocks.sectionBlockWidth - 1) / SupportBlocks.sectionBlockWidth;
 		
-		int leftoverX = chunkX * SupportSection.sectionBlockWidth - sizeX;
-		int leftoverZ = chunkZ * SupportSection.sectionBlockWidth - sizeZ;
+		int leftoverX = chunkX * SupportBlocks.sectionBlockWidth - sizeX;
+		int leftoverZ = chunkZ * SupportBlocks.sectionBlockWidth - sizeZ;
 		
 		insetWest = leftoverX / 2;
 		insetEast = leftoverX - insetWest;
@@ -61,9 +59,9 @@ public abstract class Clipboard {
 	}
 	
 	protected abstract void load(CityWorldGenerator generator, File file) throws Exception;
-	public abstract void paste(CityWorldGenerator generator, RealSection chunk, BlockFace facing, 
+	public abstract void paste(CityWorldGenerator generator, RealBlocks chunk, BlockFace facing, 
 			int blockX, int blockY, int blockZ);
-	public abstract void paste(CityWorldGenerator generator, RealSection chunk, BlockFace facing, 
+	public abstract void paste(CityWorldGenerator generator, RealBlocks chunk, BlockFace facing, 
 			int blockX, int blockY, int blockZ,
 			int x1, int x2, int y1, int y2, int z1, int z2);
 }

@@ -13,8 +13,8 @@ import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.Direction.General;
 import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealSection;
-import me.daddychurchill.CityWorld.Support.InitSection;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
+import me.daddychurchill.CityWorld.Support.InitialBlocks;
 
 public class WoodworksLot extends ConstructLot {
 
@@ -30,7 +30,7 @@ public class WoodworksLot extends ConstructLot {
 
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator,
-			PlatMap platmap, InitSection chunk, BiomeGrid biomes,
+			PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
 		// TODO Auto-generated method stub
 
@@ -38,7 +38,7 @@ public class WoodworksLot extends ConstructLot {
 
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealSection chunk, DataContext context, int platX,
+			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
 			int platZ) {
 		
 		int y = generator.streetLevel + 1;
@@ -48,7 +48,7 @@ public class WoodworksLot extends ConstructLot {
 		generateSomething(generator, chunk, 8, y, 12);
 	}
 	
-	private void generateSomething(CityWorldGenerator generator, RealSection chunk, int x, int y, int z) {
+	private void generateSomething(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z) {
 		switch (chunkOdds.getRandomInt(10)) {
 		default:
 		case 0:
@@ -103,7 +103,7 @@ public class WoodworksLot extends ConstructLot {
 	protected static int sectionWidth = 5;
 	protected static int floorHeight = 4;
 
-	protected void generateSection(RealSection chunk, int x, int y, int z) {
+	protected void generateSection(RealBlocks chunk, int x, int y, int z) {
 		chunk.setBlocks(x, x + sectionWidth + 1, y, y + 1, z, z + sectionWidth + 1, Material.WOOD_STEP);
 		
 		generateColumn(chunk, x, y, z);
@@ -112,14 +112,14 @@ public class WoodworksLot extends ConstructLot {
 		generateColumn(chunk, x + sectionWidth, y, z + sectionWidth);
 	}
 	
-	private void generateColumn(RealSection chunk, int x, int y, int z) {
+	private void generateColumn(RealBlocks chunk, int x, int y, int z) {
 		if (chunk.isEmpty(x, y - 1, z)) {
 			chunk.setBlock(x, y - floorHeight, z, Material.WOOD);
 			chunk.setBlocks(x, y - floorHeight + 1, y, z, Material.FENCE);
 		}
 	}
 	
-	protected void generateStairs(RealSection chunk, int x, int y, int z) {
+	protected void generateStairs(RealBlocks chunk, int x, int y, int z) {
 		chunk.setBlocks(x, x + 1, y, z, z + 3, Material.AIR);
 		chunk.setStair(x, y - 1, z    , Material.WOOD_STAIRS, Stair.NORTH);
 		chunk.setStair(x, y - 2, z + 1, Material.WOOD_STAIRS, Stair.NORTH);

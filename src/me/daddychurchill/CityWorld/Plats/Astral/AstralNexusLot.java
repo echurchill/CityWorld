@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealSection;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class AstralNexusLot extends AstralStructureLot {
 
@@ -24,12 +24,12 @@ public class AstralNexusLot extends AstralStructureLot {
 	
 	public final static int chunkX = 5;
 	public final static int chunkZ = 5;
-	public final static int blockX = (chunkX + 1) * RealSection.sectionBlockWidth;
-	public final static int blockZ = (chunkZ + 1) * RealSection.sectionBlockWidth;
+	public final static int blockX = (chunkX + 1) * RealBlocks.sectionBlockWidth;
+	public final static int blockZ = (chunkZ + 1) * RealBlocks.sectionBlockWidth;
 
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealSection chunk, DataContext context, int platX,
+			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
 			int platZ) {
 		int y = generator.seaLevel + AstralTownEmptyLot.aboveSeaLevel - 1;
 		
@@ -58,7 +58,7 @@ public class AstralNexusLot extends AstralStructureLot {
 	//TODO Supply room (chests of happiness)
 	//TODO Spawn room (where you arrive)
 	
-	private void generateNorthWest(CityWorldGenerator generator, RealSection chunk, int y) {
+	private void generateNorthWest(CityWorldGenerator generator, RealBlocks chunk, int y) {
 //		chunk.setBlocks(0, 16, y - 5, y + 20, 0, 16, Material.STAINED_GLASS);
 		for (int i = 0; i < 16; i++) {
 			Material material = getRoofMaterial(i);
@@ -95,7 +95,7 @@ public class AstralNexusLot extends AstralStructureLot {
 		}
 	}
 
-	private void generateNorthEast(CityWorldGenerator generator, RealSection chunk, int y) {
+	private void generateNorthEast(CityWorldGenerator generator, RealBlocks chunk, int y) {
 //		chunk.setBlocks(0, 16, y - 5, y + 20, 0, 16, Material.STAINED_GLASS);
 		for (int i = 0; i < 16; i++) {
 			Material material = getRoofMaterial(i);
@@ -132,7 +132,7 @@ public class AstralNexusLot extends AstralStructureLot {
 		}
 	}
 
-	private void generateSouthWest(CityWorldGenerator generator, RealSection chunk, int y) {
+	private void generateSouthWest(CityWorldGenerator generator, RealBlocks chunk, int y) {
 //		chunk.setBlocks(0, 16, y - 5, y + 20, 0, 16, Material.STAINED_GLASS);
 		for (int i = 0; i < 16; i++) {
 			Material material = getRoofMaterial(i);
@@ -169,7 +169,7 @@ public class AstralNexusLot extends AstralStructureLot {
 		}
 	}
 	
-	private void generateSouthEast(CityWorldGenerator generator, RealSection chunk, int y) {
+	private void generateSouthEast(CityWorldGenerator generator, RealBlocks chunk, int y) {
 //		chunk.setBlocks(0, 16, y - 5, y + 20, 0, 16, Material.STAINED_GLASS);
 		for (int i = 0; i < 16; i++) {
 			Material material = getRoofMaterial(i);

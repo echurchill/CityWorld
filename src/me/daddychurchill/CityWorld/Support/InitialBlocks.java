@@ -6,10 +6,10 @@ import me.daddychurchill.CityWorld.Factories.MaterialFactory;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 
-public final class InitSection extends AbstractSection {
+public final class InitialBlocks extends AbstractBlocks {
 	public ChunkData chunkData;
 	
-	public InitSection(CityWorldGenerator aGenerator, ChunkData chunk, int sectionX, int sectionZ) {
+	public InitialBlocks(CityWorldGenerator aGenerator, ChunkData chunk, int sectionX, int sectionZ) {
 		super(aGenerator);
 		
 		this.sectionX = sectionX;

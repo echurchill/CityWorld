@@ -6,7 +6,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.SupportSection;
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class OreProvider_Normal extends OreProvider {
 
@@ -47,7 +47,7 @@ public class OreProvider_Normal extends OreProvider {
 	private static final boolean[] ore_liquid = new boolean[] { true,  true, false, false, false, false, false, false, false, false};
 	
 	@Override
-	public void sprinkleOres(CityWorldGenerator generator, PlatLot lot, SupportSection chunk, CachedYs blockYs, Odds odds, OreLocation location) {
+	public void sprinkleOres(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CachedYs blockYs, Odds odds, OreLocation location) {
 		
 		// do it!
 		for (int typeNdx = 0; typeNdx < ore_types.length; typeNdx++) {

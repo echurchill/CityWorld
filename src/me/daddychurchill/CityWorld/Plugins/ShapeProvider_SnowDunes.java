@@ -16,10 +16,10 @@ import me.daddychurchill.CityWorld.Context.SnowDunes.SnowDunesNeighborhoodContex
 import me.daddychurchill.CityWorld.Context.SnowDunes.SnowDunesParkContext;
 import me.daddychurchill.CityWorld.Context.SnowDunes.SnowDunesRoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.InitSection;
+import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.RealSection;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 
@@ -145,7 +145,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 
 	@Override
 	protected void generateStratas(CityWorldGenerator generator, PlatLot lot,
-			InitSection chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+			InitialBlocks chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			int coverY, Material coverMaterial, boolean surfaceCaves) {
 
@@ -158,7 +158,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 	
 	@Override
 	protected void generateStratas(CityWorldGenerator generator, PlatLot lot,
-			InitSection chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
+			InitialBlocks chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			boolean surfaceCaves) {
 
@@ -169,7 +169,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 		actualGenerateSnow(generator, lot, chunk, x, z, subsurfaceY);
 	}
 	
-	protected void actualGenerateSnow(CityWorldGenerator generator, PlatLot lot, InitSection chunk, int x, int z, int y) {
+	protected void actualGenerateSnow(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, int x, int z, int y) {
 		int baseY = chunk.findLastEmptyBelow(x, y + 1, z);
 		int snowY = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 		if (snowY > baseY) 
@@ -177,7 +177,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 	}
 	
 	@Override
-	public void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealSection chunk, CachedYs blockYs) {
+	public void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, CachedYs blockYs) {
 		
 		// let the other guy do it's thing
 		super.postGenerateBlocks(generator, lot, chunk, blockYs);
