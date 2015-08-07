@@ -205,5 +205,6 @@ public class NatureContext extends UncivilizedContext {
 	}
 
 	public void validateMap(CityWorldGenerator generator, PlatMap platmap) {
+		//TODO Should this be calling the parent?
 	}
 }

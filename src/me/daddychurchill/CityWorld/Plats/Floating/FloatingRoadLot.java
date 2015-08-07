@@ -35,13 +35,6 @@ public class FloatingRoadLot extends RoadLot {
 			PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
 
-	}
-	
-	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
-			int platZ) {
-
 		// where do we start
 		int pavementLevel = generator.streetLevel;
 		int sidewalkLevel = pavementLevel + 1;
@@ -52,7 +45,7 @@ public class FloatingRoadLot extends RoadLot {
 		
 		// draw pavement and clear out a bit
 		chunk.setLayer(pavementLevel - 1, bridgeEdgeMaterial);
-		paveRoadLot(chunk, pavementLevel);
+//		paveRoadLot(chunk, pavementLevel);
 //		chunk.setLayer(pavementLevel, pavementId);
 		chunk.setLayer(sidewalkLevel, getAirMaterial(generator, sidewalkLevel));
 		
@@ -72,21 +65,6 @@ public class FloatingRoadLot extends RoadLot {
 		if (!roads.toSouth())
 			chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, chunk.width - sidewalkWidth, chunk.width, sidewalkMaterial);
 		
-//		// crosswalks?
-//		if (cityRoad && !generator.settings.includeWoolRoads) {
-//			calculateCrosswalks(roads);
-//			
-//			// draw the crosswalk bits
-//			if (crosswalkNorth)
-//				generateNSCrosswalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth);
-//			if (crosswalkSouth)
-//				generateNSCrosswalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width);
-//			if (crosswalkWest)
-//				generateWECrosswalk(chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth);
-//			if (crosswalkEast)
-//				generateWECrosswalk(chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth);
-//		}
-			
 		// round things out
 		if (!roads.toWest() && roads.toEast() && !roads.toNorth() && roads.toSouth())
 			generateRoundedOut(generator, context, chunk, sidewalkWidth, sidewalkWidth, 
@@ -100,6 +78,56 @@ public class FloatingRoadLot extends RoadLot {
 		if (roads.toWest() && !roads.toEast() && roads.toNorth() && !roads.toSouth())
 			generateRoundedOut(generator, context, chunk, chunk.width - sidewalkWidth - 4, chunk.width - sidewalkWidth - 4, 
 					true, true);
+	}
+	
+	@Override
+	protected void generateActualBlocks(CityWorldGenerator generator,
+			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
+			int platZ) {
+
+		// where do we start
+		int pavementLevel = generator.streetLevel;
+		int sidewalkLevel = pavementLevel + 1;
+//		Material sidewalkMaterial = getSidewalkMaterial();
+		
+		// look around
+		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);
+		
+//		// draw pavement and clear out a bit
+//		chunk.setLayer(pavementLevel - 1, bridgeEdgeMaterial);
+		paveRoadLot(chunk, pavementLevel);
+////		chunk.setLayer(pavementLevel, pavementId);
+//		chunk.setLayer(sidewalkLevel, getAirMaterial(generator, sidewalkLevel));
+//		
+//		// sidewalk corners
+//		chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkMaterial);
+//		chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, chunk.width - sidewalkWidth, chunk.width, sidewalkMaterial);
+//		chunk.setBlocks(chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkMaterial);
+//		chunk.setBlocks(chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkLevel + 1, chunk.width - sidewalkWidth, chunk.width, sidewalkMaterial);
+//		
+//		// sidewalk edges
+//		if (!roads.toWest())
+//			chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkMaterial);
+//		if (!roads.toEast())
+//			chunk.setBlocks(chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkLevel + 1, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkMaterial);
+//		if (!roads.toNorth())
+//			chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkMaterial);
+//		if (!roads.toSouth())
+//			chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, chunk.width - sidewalkWidth, chunk.width, sidewalkMaterial);
+//		
+//		// round things out
+//		if (!roads.toWest() && roads.toEast() && !roads.toNorth() && roads.toSouth())
+//			generateRoundedOut(generator, context, chunk, sidewalkWidth, sidewalkWidth, 
+//					false, false);
+//		if (!roads.toWest() && roads.toEast() && roads.toNorth() && !roads.toSouth())
+//			generateRoundedOut(generator, context, chunk, sidewalkWidth, chunk.width - sidewalkWidth - 4, 
+//					false, true);
+//		if (roads.toWest() && !roads.toEast() && !roads.toNorth() && roads.toSouth())
+//			generateRoundedOut(generator, context, chunk, chunk.width - sidewalkWidth - 4, sidewalkWidth, 
+//					true, false);
+//		if (roads.toWest() && !roads.toEast() && roads.toNorth() && !roads.toSouth())
+//			generateRoundedOut(generator, context, chunk, chunk.width - sidewalkWidth - 4, chunk.width - sidewalkWidth - 4, 
+//					true, true);
 
 		// crosswalks?
 		calculateCrosswalks(roads);
