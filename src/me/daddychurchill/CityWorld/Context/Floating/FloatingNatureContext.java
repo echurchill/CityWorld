@@ -43,6 +43,7 @@ public class FloatingNatureContext extends NatureContext {
 		for (int x = 0; x < PlatMap.Width; x++) {
 			for (int z = 0; z < PlatMap.Width; z++) {
 				PlatLot current = platmap.getLot(x, z);
+//				if (current == null || current.style == LotStyle.NATURE) {
 				if (current == null) {
 					
 					// what is the world location of the lot?

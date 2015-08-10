@@ -113,10 +113,10 @@ public class WoodworksLot extends ConstructLot {
 	}
 	
 	private void generateColumn(RealBlocks chunk, int x, int y, int z) {
-		if (chunk.isEmpty(x, y - 1, z)) {
+//		if (chunk.isEmpty(x, y - 1, z)) {
 			chunk.setBlock(x, y - floorHeight, z, Material.WOOD);
 			chunk.setBlocks(x, y - floorHeight + 1, y, z, Material.FENCE);
-		}
+//		}
 	}
 	
 	protected void generateStairs(RealBlocks chunk, int x, int y, int z) {

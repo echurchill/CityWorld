@@ -33,7 +33,6 @@ public class AstralForestFernLot extends AstralForestLot {
 		
 		// more trunk!
 		blocks.setLogs(blockX, blockY, treeTop, blockZ, Material.LOG, TreeSpecies.GENERIC, BlockFace.UP);
-		blockY += 2;
 		
 		// now add the fern bit
 		setLeaf(blocks, blockX, treeTop + 1, blockZ, lightLeaves);

@@ -113,6 +113,11 @@ public abstract class PlatLot {
 	
 	public abstract int getBottomY(CityWorldGenerator generator);
 	public abstract int getTopY(CityWorldGenerator generator);
+
+	//TODO: It seems that Spigot is generating the real blocks twice (generateBlocks) for each time the blocks are initialized (generateChunk)
+//	private static int totalNumberOfLotsOverGenerated = 0;
+//	private static int totalNumberOfGeneratedChunks = 0;
+	private int generateBlocksCallCountForThisLot = 0;
 	
 	public void generateChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		initializeDice(platmap, chunk.sectionX, chunk.sectionZ);
@@ -122,12 +127,25 @@ public abstract class PlatLot {
 		
 		// let the specialized platlot do it's thing
 		generateActualChunk(generator, platmap, chunk, biomes, context, platX, platZ);
+		generateBlocksCallCountForThisLot = 0;
+//		totalNumberOfGeneratedChunks++;
 		
 		// polish things off
 		generator.shapeProvider.postGenerateChunk(generator, this, chunk, blockYs);
 	}
 		
 	public void generateBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
+		
+		//TODO: This code makes sure that there is a single generateBlocks for each generateChunk... and occasionally reports how often the problem occurred.
+//		generateBlocksCallCountForThisLot++;
+		if (generateBlocksCallCountForThisLot > 1) {
+//			totalNumberOfLotsOverGenerated++;
+//			if (totalNumberOfLotsOverGenerated % 100 == 0)
+//				generator.reportMessage(String.format("OVERGEN: At least %3.1f percentage of the lots have been over generated", 
+//						((double)totalNumberOfLotsOverGenerated / (double)totalNumberOfGeneratedChunks) * 100));
+			return;
+		}
+		
 		initializeDice(platmap, chunk.sectionX, chunk.sectionZ);
 		
 		// what do we need to first?

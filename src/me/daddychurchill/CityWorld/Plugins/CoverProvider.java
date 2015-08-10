@@ -313,7 +313,7 @@ public abstract class CoverProvider extends Provider {
 		case EMERALD_GREEN:
 			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
 			chunk.setBlock(x, y, z, Material.LOG, new Tree(TreeSpecies.JUNGLE));
-//			chunk.setBlocks(x, y + 1, y + odds.getRandomInt(2, 4), z, Material.LEAVES, new Leaves()); //TODO: Jungle + NoDecay
+//			chunk.setBlocks(x, y + 1, y + odds.getRandomInt(2, 4), z, Material.LEAVES, new Leaves(TreeSpecies.JUNGLE)); //TODO: Bukkit does not like this AT ALL
 			BlackMagic.setBlocks(chunk, x, y + 1, y + odds.getRandomInt(2, 4), z, Material.LEAVES, 3 + 4); //TODO: Jungle + NoDecay
 			break;
 		case OAK_SAPLING:

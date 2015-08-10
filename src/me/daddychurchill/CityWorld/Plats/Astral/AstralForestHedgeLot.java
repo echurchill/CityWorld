@@ -31,7 +31,6 @@ public class AstralForestHedgeLot extends AstralForestLot {
 		
 		// more trunk!
 		blocks.setLogs(blockX, blockY, treeTop, blockZ, Material.LOG, TreeSpecies.GENERIC, BlockFace.UP);
-		blockY += 2;
 		
 		// now add the hedge bit
 		for (int x = blockX - 1; x < blockX + 2; x++) {

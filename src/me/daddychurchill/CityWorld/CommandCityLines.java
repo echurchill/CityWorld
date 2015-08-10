@@ -39,13 +39,13 @@ public class CommandCityLines implements CommandExecutor {
 				// arguments?
 				try {
 					if (split.length >= 1) {
-						widthX = Math.min(1, Math.max(8, Integer.parseInt(split[0])));
+						widthX = Math.min(8, Math.max(1, Integer.parseInt(split[0])));
 						if (split.length >= 2) {
-							widthZ = Math.min(1, Math.max(8, Integer.parseInt(split[1])));
+							widthZ = Math.min(8, Math.max(1, Integer.parseInt(split[1])));
 							if (split.length >= 3) {
-								floorsUp = Math.min(1, Math.max(16, Integer.parseInt(split[2])));
+								floorsUp = Math.min(16, Math.max(1, Integer.parseInt(split[2])));
 								if (split.length >= 4) {
-									floorsDown = Math.min(0, Math.max(4, Integer.parseInt(split[3])));
+									floorsDown = Math.min(4, Math.max(0, Integer.parseInt(split[3])));
 								}
 							}
 						}

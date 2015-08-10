@@ -31,7 +31,6 @@ public class AstralForestCanopyLot extends AstralForestLot {
 		
 		// more trunk!
 		blocks.setLogs(blockX, blockX + 2, blockY, treeTop, blockZ, blockZ + 2, Material.LOG, TreeSpecies.GENERIC, BlockFace.UP);
-		blockY += 2;
 		
 		// now add the canopy bit
 		for (int x = blockX - 3; x < blockX + 5; x++) {

@@ -76,29 +76,31 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 			
 			// now load those schematic files
 			File[] schematicFiles = contextFolder.listFiles(matchSchematics());
-			for (File schematicFile: schematicFiles) {
-				try {
-					
-					// load a clipboard
-					Clipboard clip = new Clipboard_WorldEdit(generator, schematicFile);
-					
-					// too big?
-					if (clip.chunkX > maxX || clip.chunkZ > maxZ) {
-						generator.reportMessage("[WorldEdit] Schematic " + schematicFile.getName() + 
-								" too large, max size = " + 
-								maxX * SupportBlocks.sectionBlockWidth + " by " + 
-								maxZ * SupportBlocks.sectionBlockWidth + " it is = " + 
-								clip.sizeX + " by " + clip.sizeZ + ", skipped");
+			if (schematicFiles != null) {
+				for (File schematicFile: schematicFiles) {
+					try {
 						
-					} else {
-					
-						// add the clip to the result
-						clips.put(clip);
+						// load a clipboard
+						Clipboard clip = new Clipboard_WorldEdit(generator, schematicFile);
+						
+						// too big?
+						if (clip.chunkX > maxX || clip.chunkZ > maxZ) {
+							generator.reportMessage("[WorldEdit] Schematic " + schematicFile.getName() + 
+									" too large, max size = " + 
+									maxX * SupportBlocks.sectionBlockWidth + " by " + 
+									maxZ * SupportBlocks.sectionBlockWidth + " it is = " + 
+									clip.sizeX + " by " + clip.sizeZ + ", skipped");
+							
+						} else {
+						
+							// add the clip to the result
+							clips.put(clip);
+						}
+						
+//						generator.reportMessage("[WorldEdit] Schematic " + schematicFile.getName() + " loaded");
+					} catch (Exception e) {
+						generator.reportException("[WorldEdit] Schematic " + schematicFile.getName() + " could NOT be loaded", e);
 					}
-					
-//					generator.reportMessage("[WorldEdit] Schematic " + schematicFile.getName() + " loaded");
-				} catch (Exception e) {
-					generator.reportException("[WorldEdit] Schematic " + schematicFile.getName() + " could NOT be loaded", e);
 				}
 			}
 		}

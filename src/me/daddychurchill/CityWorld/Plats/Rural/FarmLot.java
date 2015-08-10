@@ -127,6 +127,7 @@ public class FarmLot extends ConnectedLot {
 
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+
 		// look around
 		SurroundingLots farms = new SurroundingLots(platmap, platX, platZ);
 		
@@ -498,14 +499,20 @@ public class FarmLot extends ConnectedLot {
 		if (directionNorthSouth) {
 			for (int x = 1; x < 15; x += stepCol) {
 				for (int z = 1; z < 15; z += stepRow)
-					if (chunkOdds.playOdds(oddsOfCrop))
+					if (chunkOdds.playOdds(oddsOfCrop)) {
+						if (!chunk.isEmpty(x, croplevel, z))
+							chunk.setBlock(x, croplevel + 5, z, Material.DIAMOND_BLOCK);
 						generator.coverProvider.generateCoverage(generator, chunk, x, croplevel, z, coverageSet);
+					}
 			}
 		} else {
 			for (int z = 1; z < 15; z += stepCol) {
 				for (int x = 1; x < 15; x += stepRow)
-					if (chunkOdds.playOdds(oddsOfCrop))
+					if (chunkOdds.playOdds(oddsOfCrop)) {
+						if (!chunk.isEmpty(x, croplevel, z))
+							chunk.setBlock(x, croplevel + 5, z, Material.DIAMOND_BLOCK);
 						generator.coverProvider.generateCoverage(generator, chunk, x, croplevel, z, coverageSet);
+					}
 			}
 		}
 	}
