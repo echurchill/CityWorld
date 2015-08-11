@@ -226,7 +226,6 @@ public class CityWorldGenerator extends ChunkGenerator {
 	
 	@Override
 	public ChunkData generateChunkData(World world, Random random, int x, int z, BiomeGrid biome) {
-//	public short[][] generateExtBlockSections(World world, Random random, int x, int z, BiomeGrid biomes) {
 		try {
 
 			initializeWorldInfo(world);

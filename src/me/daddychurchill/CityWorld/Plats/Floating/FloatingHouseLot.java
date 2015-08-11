@@ -53,6 +53,12 @@ public class FloatingHouseLot extends ConstructLot {
 		chunk.setBlocks(1, 15, groundLevel - 1, groundLevel, 1, 15, dirt);
 		chunk.setBlocks(1, 15, groundLevel, groundLevel + 1, 1, 15, grass);
 		
+		// round it a bit
+		chunk.clearBlocks(0, groundLevel - 1, groundLevel + 1, 0);
+		chunk.clearBlocks(15, groundLevel - 1, groundLevel + 1, 0);
+		chunk.clearBlocks(0, groundLevel - 1, groundLevel + 1, 15);
+		chunk.clearBlocks(15, groundLevel - 1, groundLevel + 1, 15);
+		
 		// supports for the balloons
 		chunk.setBlock(2, groundLevel + 1, 2, platform);
 		chunk.setBlock(2, groundLevel + 1, 13, platform);

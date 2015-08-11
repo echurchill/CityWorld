@@ -11,6 +11,16 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class SurfaceProvider_Floating extends SurfaceProvider {
 
+	public enum SubSurfaceStyle {NONE, LAND, CLOUD, LAVA};
+
+	public static SubSurfaceStyle toSubSurfaceStyle(String value, SubSurfaceStyle defaultValue) {
+		try {
+			return SubSurfaceStyle.valueOf(value);
+		} catch(Exception e) {
+			return defaultValue;
+		}
+	}
+	
 	public SurfaceProvider_Floating(Odds odds) {
 		super(odds);
 		// TODO Auto-generated constructor stub
@@ -18,7 +28,7 @@ public class SurfaceProvider_Floating extends SurfaceProvider {
 	
 	@Override
 	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CachedYs blockYs, boolean includeTrees) {
-		if (generator.settings.includeFloatingSubsurface) {
+		if (generator.settings.subSurfaceStyle == SubSurfaceStyle.LAND) {
 			ShapeProvider shape = generator.shapeProvider;
 			CoverProvider foliage = generator.coverProvider;
 			for (int x = 0; x < chunk.width; x++) {

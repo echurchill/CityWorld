@@ -130,11 +130,12 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 		// shape the world
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {
-				if (generator.settings.includeFloatingSubsurface) {
-					
-					// where is the ground?
-					int groundY = findGroundY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
-					
+				// where is the ground?
+				int groundY = findGroundY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
+				
+				// which one are we doing?
+				switch (generator.settings.subSurfaceStyle) {
+				case LAND:
 					// make the base
 					chunk.setBlock(x, 0, z, ores.substratumMaterial);
 					
@@ -155,6 +156,33 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 						chunk.setBlock(x, groundY - 1, z, ores.subsurfaceMaterial);
 						chunk.setBlock(x, groundY, z, ores.surfaceMaterial);
 					}
+					break;
+				case CLOUD:
+					
+					// where is the fluff?
+					if (groundY >= seaLevel) {
+						int thickness = groundY - seaLevel;
+						int bottomY = Math.max(0, seaLevel - thickness);
+						int topY = seaLevel + thickness;
+						int midY = topY - 5;
+						if (midY > bottomY) {
+							chunk.setBlocks(x, bottomY, midY, z, Material.WOOL);
+							chunk.setBlocks(x, midY, topY, z, Material.WEB);
+						} else
+							chunk.setBlocks(x, bottomY, topY, z, Material.WEB);
+					}
+					break;
+				case LAVA:
+					
+					// make the base
+					chunk.setBlock(x, 0, z, ores.substratumMaterial);
+					
+					// add the nasty bit
+					chunk.setBlocks(x, 1, groundY, z, Material.STATIONARY_LAVA);
+					break;
+				case NONE:
+				default:
+					break;
 				}
 					
 				// set biome for block

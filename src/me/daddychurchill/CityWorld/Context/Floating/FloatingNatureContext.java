@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Context.Floating;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.NatureContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Plats.Floating.FloatingHouseLot;
 import me.daddychurchill.CityWorld.Plats.Floating.FloatingNatureLot;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
@@ -15,6 +16,8 @@ public class FloatingNatureContext extends NatureContext {
 
 	public FloatingNatureContext(CityWorldGenerator generator) {
 		super(generator);
+		
+		oddsOfIsolatedConstructs = Odds.oddsUnlikely;
 	}
 	
 	@Override
@@ -43,8 +46,8 @@ public class FloatingNatureContext extends NatureContext {
 		for (int x = 0; x < PlatMap.Width; x++) {
 			for (int z = 0; z < PlatMap.Width; z++) {
 				PlatLot current = platmap.getLot(x, z);
-//				if (current == null || current.style == LotStyle.NATURE) {
-				if (current == null) {
+				if (current == null || current.style == LotStyle.NATURE) {
+//				if (current == null) {
 					
 					// what is the world location of the lot?
 					int blockX = (originX + x) * SupportBlocks.sectionBlockWidth;

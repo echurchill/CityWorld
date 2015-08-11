@@ -161,7 +161,7 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 	@Override
 	public Material findAtmosphereMaterialAt(CityWorldGenerator generator, int blockY) {
 		if (blockY < floodY)
-			return Material.GLASS;
+			return Material.AIR;
 		else
 			return super.findAtmosphereMaterialAt(generator, blockY);
 	}

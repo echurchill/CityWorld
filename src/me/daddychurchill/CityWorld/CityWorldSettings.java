@@ -1,5 +1,7 @@
 package me.daddychurchill.CityWorld;
 
+import me.daddychurchill.CityWorld.Plugins.SurfaceProvider_Floating;
+import me.daddychurchill.CityWorld.Plugins.SurfaceProvider_Floating.SubSurfaceStyle;
 import me.daddychurchill.CityWorld.Plugins.TreeProvider;
 import me.daddychurchill.CityWorld.Plugins.TreeProvider.TreeStyle;
 import me.daddychurchill.CityWorld.Support.MaterialStack;
@@ -45,12 +47,14 @@ public class CityWorldSettings {
 	public boolean includeDecayedBuildings = false;
 	public boolean includeDecayedNature = false;
 	public boolean includeBuildingInteriors = true;
-	public boolean includeFloatingSubsurface = true;
+	public boolean includeFloatingSubsurface = false;
+	public boolean includeFloatingSubclouds = true;
 	
 	public boolean forceLoadWorldEdit = false;
 	public boolean broadcastSpecialPlaces = false;
 	
 	public TreeStyle treeStyle = TreeStyle.NORMAL;
+	public SubSurfaceStyle subSurfaceStyle = SubSurfaceStyle.LAND;
 
 	public int centerPointOfChunkRadiusX = 0;
 	public int centerPointOfChunkRadiusZ = 0;
@@ -113,6 +117,7 @@ public class CityWorldSettings {
 	public final static String tagBroadcastSpecialPlaces = "BroadcastSpecialPlaces";
 	
 	public final static String tagTreeStyle = "TreeStyle";
+	public final static String tagSubSurfaceStyle = "SubSurfaceStyle";
 	
 	public final static String tagCenterPointOfChunkRadiusX = "CenterPointOfChunkRadiusX";
 	public final static String tagCenterPointOfChunkRadiusZ = "CenterPointOfChunkRadiusZ";
@@ -130,6 +135,7 @@ public class CityWorldSettings {
 		case NORMAL:
 			darkEnvironment = false;
 			treeStyle = TreeStyle.NORMAL;
+			subSurfaceStyle = SubSurfaceStyle.LAND;
 			break;
 		case NETHER:
 			darkEnvironment = true;
@@ -138,10 +144,12 @@ public class CityWorldSettings {
 			includeDecayedBuildings = true;
 			includeDecayedNature = true;
 			treeStyle = TreeStyle.SPOOKY;
+			subSurfaceStyle = SubSurfaceStyle.LAVA;
 			break;
 		case THE_END:
 			darkEnvironment = true;
 			treeStyle = TreeStyle.CRYSTAL;
+			subSurfaceStyle = SubSurfaceStyle.CLOUD;
 			break;
 		}
 		
@@ -229,12 +237,12 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeDecayedBuildings, includeDecayedBuildings);
 			section.addDefault(tagIncludeDecayedNature, includeDecayedNature);
 			section.addDefault(tagIncludeBuildingInteriors, includeBuildingInteriors);
-			section.addDefault(tagIncludeFloatingSubsurface, includeFloatingSubsurface);
 			
 			section.addDefault(tagForceLoadWorldEdit, forceLoadWorldEdit);
 			section.addDefault(tagBroadcastSpecialPlaces, broadcastSpecialPlaces);
 
 			section.addDefault(tagTreeStyle, TreeStyle.NORMAL.name());
+			section.addDefault(tagSubSurfaceStyle, SubSurfaceStyle.LAND.name());
 			
 			section.addDefault(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
 			section.addDefault(tagCenterPointOfChunkRadiusZ, centerPointOfChunkRadiusZ);
@@ -276,12 +284,20 @@ public class CityWorldSettings {
 			includeDecayedBuildings = section.getBoolean(tagIncludeDecayedBuildings, includeDecayedBuildings);
 			includeDecayedNature = section.getBoolean(tagIncludeDecayedNature, includeDecayedNature);
 			includeBuildingInteriors = section.getBoolean(tagIncludeBuildingInteriors, includeBuildingInteriors);
-			includeFloatingSubsurface = section.getBoolean(tagIncludeFloatingSubsurface, includeFloatingSubsurface);
+			
 			
 			forceLoadWorldEdit = section.getBoolean(tagForceLoadWorldEdit, forceLoadWorldEdit);
 			broadcastSpecialPlaces = section.getBoolean(tagBroadcastSpecialPlaces, broadcastSpecialPlaces);
 			
 			treeStyle = TreeProvider.toTreeStyle(section.getString(tagTreeStyle, treeStyle.name()), treeStyle);
+			
+			if (section.contains(tagSubSurfaceStyle)) { // are we using the next property yet?
+				subSurfaceStyle = SurfaceProvider_Floating.toSubSurfaceStyle(section.getString(tagSubSurfaceStyle, subSurfaceStyle.name()), subSurfaceStyle);
+				
+			} else { // still old property, lets read it one last time
+				if (section.getBoolean(tagIncludeFloatingSubsurface, true))
+					subSurfaceStyle = SubSurfaceStyle.LAND;
+			} 
 
 			centerPointOfChunkRadiusX = section.getInt(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
 			centerPointOfChunkRadiusZ = section.getInt(tagCenterPointOfChunkRadiusZ, centerPointOfChunkRadiusZ);
@@ -346,12 +362,12 @@ public class CityWorldSettings {
 			section.set(tagIncludeDecayedBuildings, includeDecayedBuildings);
 			section.set(tagIncludeDecayedNature, includeDecayedNature);
 			section.set(tagIncludeBuildingInteriors, includeBuildingInteriors);
-			section.set(tagIncludeFloatingSubsurface, includeFloatingSubsurface);
 			
 			section.set(tagForceLoadWorldEdit, forceLoadWorldEdit);
 			section.set(tagBroadcastSpecialPlaces, broadcastSpecialPlaces);
 			
 			section.set(tagTreeStyle, treeStyle.name());
+			section.set(tagSubSurfaceStyle, subSurfaceStyle.name());
 
 			section.set(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
 			section.set(tagCenterPointOfChunkRadiusZ, centerPointOfChunkRadiusZ);
@@ -367,6 +383,7 @@ public class CityWorldSettings {
 			deprecateOption(section, "CityRange", "DEPRECATED: Use CityChunkRadius instead");
 			deprecateOption(section, "IncludeTekkitMaterials", "DEPRECATED: ForgeTekkit is auto-recognized");
 			deprecateOption(section, "ForceLoadTekkit", "DEPRECATED: Direct Tekkit support removed as of 3.0");
+			deprecateOption(section, "IncludeFloatingSubsurface", "DEPRECATED: Use SubSurfaceStyle instead");
 			
 			//===========================================================================
 			// write it back out 
@@ -380,13 +397,13 @@ public class CityWorldSettings {
 		// anything commented out is up for user modification
 		switch (generator.worldStyle) {
 		case NORMAL:
-			includeFloatingSubsurface = false; // DIFFERENT
+			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
 			break;
 		case DESTROYED:
 			includeDecayedRoads = true; // DIFFERENT
 			includeDecayedBuildings = true; // DIFFERENT
 			includeDecayedNature = true; // DIFFERENT
-			includeFloatingSubsurface = false; // DIFFERENT
+			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
 			break;
 		case MAZE:
 			includeRoads = true; // This has too be true in order for things to generate correctly
@@ -397,6 +414,7 @@ public class CityWorldSettings {
 			spawnersInMines = false; // DIFFERENT
 			treasuresInBunkers = false; // DIFFERENT
 			spawnersInBunkers = false; // DIFFERENT
+			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
 			break;
 		case ASTRAL:
 //			includeRoads = true;
@@ -431,7 +449,7 @@ public class CityWorldSettings {
 //			includeDecayedBuildings = false;
 //			includeDecayedNature = false;
 //			includeBuildingInteriors = true;
-			includeFloatingSubsurface = false; // DIFFERENT
+			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
 			break;
 		case FLOATING:
 //			includeRoads = true;
@@ -466,7 +484,7 @@ public class CityWorldSettings {
 //			includeDecayedBuildings = false;
 //			includeDecayedNature = false;
 //			includeBuildingInteriors = true;
-//			includeFloatingSubsurface = true;
+//			subSurfaceStyle = SubSurfaceStyle.LAND; 
 
 			break;
 		case FLOODED:
@@ -502,7 +520,7 @@ public class CityWorldSettings {
 //			includeDecayedBuildings = false;
 //			includeDecayedNature = false;
 //			includeBuildingInteriors = true;
-			includeFloatingSubsurface = false; // DIFFERENT
+			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
 			break;
 		case SANDDUNES:
 //			includeRoads = true;
@@ -536,8 +554,8 @@ public class CityWorldSettings {
 //			includeDecayedRoads = false;
 //			includeDecayedBuildings = false;
 			includeDecayedNature = true; // DIFFERENT
-			includeBuildingInteriors = false; // DIFFERENT
-			includeFloatingSubsurface = false; // DIFFERENT
+//			includeBuildingInteriors = true;
+			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
 			break;
 		case SNOWDUNES:
 //			includeRoads = true;
@@ -571,8 +589,8 @@ public class CityWorldSettings {
 //			includeDecayedRoads = false;
 //			includeDecayedBuildings = false;
 //			includeDecayedNature = false;
-			includeBuildingInteriors = false; // DIFFERENT
-			includeFloatingSubsurface = false; // DIFFERENT
+//			includeBuildingInteriors = true;
+			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
 			break;
 		}
 		

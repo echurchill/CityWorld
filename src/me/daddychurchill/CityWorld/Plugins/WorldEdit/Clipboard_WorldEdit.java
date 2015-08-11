@@ -18,9 +18,9 @@ import com.sk89q.worldedit.MaxChangedBlocksException;
 import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.blocks.BaseBlock;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
-import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
 import com.sk89q.worldedit.schematic.SchematicFormat;
 
+@SuppressWarnings("deprecation")
 public class Clipboard_WorldEdit extends Clipboard {
 
 	private BaseBlock[][][][] blocks;

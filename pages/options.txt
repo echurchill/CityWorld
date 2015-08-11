@@ -68,11 +68,15 @@ If you are wanting to create a particular [[http://dev.bukkit.org/server-mods/ci
 |IncludeNamedRoads|If roads are generated, add road signs to the intersections|true|
 |IncludeDecayedRoads|If roads are generated, destroy them a little|false|
 |IncludeDecayedBuildings|If buildings are generated, destroy them a little|false|
-|IncludeDecayedNature|Where nature is generated, destroy it a little|false|
+|IncludeDecayedNature|Where nature is generated, destroy it a little. This will also force all biomes to be Desert|false|
 |IncludeBuildingInteriors|Put stuff inside of buildings|true|
-|IncludeFloatingSubsurface|Generate the surface under the floating cities, only works with Floating world style|true|
 |ForceLoadWorldEdit|Ignores WorldEdit version numbers|false|
 |BroadcastSpecialPlaces|WriteOut the location of each special structure as it generates|false|
+
+|=Option|=Description|=Default|=Values|
+|TreeStyle|Specifies how trees generate|NORMAL|NORMAL, SPOOKY, CRYSTAL|
+|SubSurfaceStyle|Specifies what gets generated below a floating CityWorld|LAND|NONE, LAND, CLOUD, LAVA|
+
 ** Note: ** Some of the above options will default a different way in worlds generated in the Nether or The_End. 
 
 === Generation Range ===
@@ -91,9 +95,10 @@ Note: that the bridges and tunnels stop abruptly when they hit the road radius s
 
 === Deprecated options ===
 |=Option|=Workaround|
-|IncludePavedRoads|Use IncludeWoolRoads if you want old style paved roads|
-|RoadRange|Replaced with RoadChunkRadius instead to make things clearer|
-|CityRange|Replaced with CityChunkRadius instead to make things clearer|
-|IncludeTekkitMaterials|I no longer generate any Tekkit specific items, sorry|
-|IncludeWoolRoads|I now use tinted clay|
-
+|IncludeWoolRoads|CityWorld now uses stained clay and quartz for roads|
+|IncludePavedRoads|See deprecated note for IncludeWoolRoads|
+|RoadRange|Use RoadChunkRadius instead|
+|CityRange|Use CityChunkRadius instead|
+|IncludeTekkitMaterials|Generating Tekkit materials removed as of 3.0|
+|ForceLoadTekkit|Tekkit support removed as of 3.0|
+|IncludeFloatingSubsurface|Use SubSurfaceStyle instead|

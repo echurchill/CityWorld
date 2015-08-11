@@ -264,6 +264,8 @@ public class ShapeProvider_Normal extends ShapeProvider {
 				}
 				
 				// set biome for block
+				if (generator.settings.includeDecayedNature)
+					biome = Biome.DESERT;
 				biomes.setBiome(x, z, remapBiome(generator, lot, biome));
 			}
 		}	

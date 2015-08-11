@@ -9,9 +9,9 @@
 * Copyright... (you are here)
 
 ----
-== Copyright (C) 2011-2014 
+== Copyright (C) 2011-2015 
 
-**Written by** DaddyChurchill 
+**Written by** Eddie 'DaddyChurchill' Churchill 
 
 **Website** <http://www.virtualchurchill.com>
 
@@ -20,14 +20,15 @@
 Contains (sometimes literally copied, sometimes loosely based on) ideas and code from 
 * **keenerb** (various code bits, ideas and Forge/Tekkit support)
 * **Sablednah** (CityInfo command support)
-* **drew-bahrue** (initial plugin support.. I still need to enable his PhatLoot support)
+* **drew-bahrue** (initial plugin support and initially tried to get PlatLoots to work)
 * **gunre** (initial tekkit ore support)
 * **Nightgunner5** (initial ore populator idea)
 * **Markus Persson** (who modified Nightgunner5's idea)
 * **simplex** (who modified Markus's modification to Nightgunner5's idea)
 * **SpaceRibs** (who got PhatLoots to work again)
 * **Codisimus** (who made PhatLoots)
-* I am sure there are others I have borrowed ideas/code from. 
+* **Sk89q** (who started WorldEdit, too many folks to list added/changed it)
+* I am sure there are others I have borrowed/leveraged ideas/code from. 
 If so, raise your hand and I will be happy to add you name here. :-)
 
 ----

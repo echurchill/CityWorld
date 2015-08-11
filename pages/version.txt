@@ -12,7 +12,12 @@
 == Versions
 
 v2.996
-* Built against Minecraft 1.8.8, Spigot XXX, WorldEdit 6.1.0, PhatLoots 4.1.0
+* Built against MineCraft 1.8.8, Spigot XXX, WorldEdit 6.1.0, PhatLoots 4.1.0
+* Fixed some generation issues related to subsurfaces in floating worlds, upside is now you have more options for it. See SubSurfaceStyle for option.
+* Spigot 1.8.x seems to be double generating some chunks, put in code to avoid it happening. This was making Farms create really odd hybrid plants... like CactusRoses and FernGrass.
+* Forgot to document tree styles. See TreeStyle for options.
+* Fixed a bug that allowed worlds with decayed nature to have normal biomes, now their biomes are wholly set to desert.
+* WARNING: WorldEdit itself has changed quite a bit, I haven't tried to update the CityWorld for the latest incarnation of WorldEdit. If it works, great. If not, it will eventually. SORRY
 
 v2.992
 * Maze world now works, what I was referring to as Zea earlier. Think: MazeRunner but without the bad acting. Give it a whirl, the Zombie servers out there should find this enjoyable. Still a work in progress, more to come

@@ -4,22 +4,28 @@ Not any town will do, how about one that goes on forever or multiple ones separa
 But what is under those mountains? 
 There is an entire world to explore, have fun!
 
-===== //Version 2.993// ===== 
+<<color red>>**There is a Spigot/Bukkit 1.8.8 happy version of CityWorld over at http://www.spigotmc.org/resources/cityworld.2250/. I am not going to be updating the version here on dev.bukkit.com, so go there for the latest. **<</color>>
+
+===== //Version 2.996// ===== 
 
 {{http://dev.bukkit.org/media/images/42/720/2012-07-04_11.31.52.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
-v2.993
-* This first post is a "get well" build for Spigot. The links in this post refer to the old Bukkit site. I will be moving that content during December. (my thanks go out to the Spigot folks to continuing the great Modding support provided by old' Bukkit)
+v2.996
+* Built against MineCraft 1.8.8, Spigot XXX, WorldEdit 6.1.0, PhatLoots 4.1.0
+* Fixed some generation issues related to subsurfaces in floating worlds, upside is now you have more options for it. See SubSurfaceStyle for option.
+* Spigot 1.8.x seems to be double generating some chunks, put in code to avoid it happening. This was making Farms create really odd hybrid plants... like CactusRoses and FernGrass.
+* Forgot to document tree styles. See TreeStyle for options.
+* Fixed a bug that allowed worlds with decayed nature to have normal biomes, now their biomes are wholly set to desert.
+* WARNING: WorldEdit itself has changed quite a bit, I haven't tried to update the CityWorld for the latest incarnation of WorldEdit. If it works, great. If not, it will eventually. SORRY
 
 ([[http://dev.bukkit.org/server-mods/cityworld/pages/version/|For older version info...]]
 
 ----
 ** Personal note **
 
-It has been a while, sorry but my day job continues to be a bit crazy and is pretty much taking up all of my time. 
-<<color red>>With the upcoming changes in 1.8, it is VERY possible that CityWorld will have to be rewritten quite a bit. I have taken the first step with this latest release, but there is still much that can happen. Only time will tell. <</color>> 
+It has been a while, sorry but my day job continues to be a bit crazy and is pretty much taking up all of my time. In this most recent update CityWorld should now work against 1.8.8 to a large degree. Many things have changed with the latest MineCraft and Spigot/CraftBukkit, I would be surprised if no problems are hiding in here somewhere.
 
 ----
 === Index of useful info ===
