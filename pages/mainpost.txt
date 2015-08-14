@@ -6,11 +6,15 @@ There is an entire world to explore, have fun!
 
 <<color red>>**There is a Spigot/Bukkit 1.8.8 happy version of CityWorld over at http://www.spigotmc.org/resources/cityworld.2250/. I am not going to be updating the version here on dev.bukkit.com, so go there for the latest. **<</color>>
 
-===== //Version 2.996// ===== 
+===== //Version 2.997// ===== 
 
 {{http://dev.bukkit.org/media/images/42/720/2012-07-04_11.31.52.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
+
+v2.997
+* Oops left in some debug diamond block generation in, ironically enough, the farms
+* Made door generation in empty buildings even rarer
 
 v2.996
 * Built against MineCraft 1.8.8, Spigot XXX, WorldEdit 6.1.0, PhatLoots 4.1.0

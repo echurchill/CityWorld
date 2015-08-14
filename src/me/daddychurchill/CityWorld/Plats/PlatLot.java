@@ -137,7 +137,7 @@ public abstract class PlatLot {
 	public void generateBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
 		
 		//TODO: This code makes sure that there is a single generateBlocks for each generateChunk... and occasionally reports how often the problem occurred.
-//		generateBlocksCallCountForThisLot++;
+		generateBlocksCallCountForThisLot++;
 		if (generateBlocksCallCountForThisLot > 1) {
 //			totalNumberOfLotsOverGenerated++;
 //			if (totalNumberOfLotsOverGenerated % 100 == 0)

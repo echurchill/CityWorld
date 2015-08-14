@@ -500,8 +500,8 @@ public class FarmLot extends ConnectedLot {
 			for (int x = 1; x < 15; x += stepCol) {
 				for (int z = 1; z < 15; z += stepRow)
 					if (chunkOdds.playOdds(oddsOfCrop)) {
-						if (!chunk.isEmpty(x, croplevel, z))
-							chunk.setBlock(x, croplevel + 5, z, Material.DIAMOND_BLOCK);
+//						if (!chunk.isEmpty(x, croplevel, z))
+//							chunk.setBlock(x, croplevel + 5, z, Material.DIAMOND_BLOCK);
 						generator.coverProvider.generateCoverage(generator, chunk, x, croplevel, z, coverageSet);
 					}
 			}
@@ -509,8 +509,8 @@ public class FarmLot extends ConnectedLot {
 			for (int z = 1; z < 15; z += stepCol) {
 				for (int x = 1; x < 15; x += stepRow)
 					if (chunkOdds.playOdds(oddsOfCrop)) {
-						if (!chunk.isEmpty(x, croplevel, z))
-							chunk.setBlock(x, croplevel + 5, z, Material.DIAMOND_BLOCK);
+//						if (!chunk.isEmpty(x, croplevel, z))
+//							chunk.setBlock(x, croplevel + 5, z, Material.DIAMOND_BLOCK);
 						generator.coverProvider.generateCoverage(generator, chunk, x, croplevel, z, coverageSet);
 					}
 			}

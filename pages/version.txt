@@ -11,6 +11,10 @@
 ----
 == Versions
 
+v2.997
+* Oops left in some debug diamond block generation in, ironically enough, the farms
+* Made door generation in empty buildings even rarer
+
 v2.996
 * Built against MineCraft 1.8.8, Spigot XXX, WorldEdit 6.1.0, PhatLoots 4.1.0
 * Fixed some generation issues related to subsurfaces in floating worlds, upside is now you have more options for it. See SubSurfaceStyle for option.
