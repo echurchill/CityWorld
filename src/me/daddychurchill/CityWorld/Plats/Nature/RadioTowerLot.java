@@ -164,12 +164,13 @@ public class RadioTowerLot extends ConstructLot {
 				}
 				
 				// top of the tallest one?
-				if (antennaHeight == heightTallest) {
-					chunk.setBlock(x, y + 2 + antennaHeight, z, capBigMaterial);
-					if (!generator.settings.includeDecayedBuildings)
+				if (!generator.settings.includeDecayedBuildings) {
+					if (antennaHeight == heightTallest) {
+						chunk.setBlock(x, y + 2 + antennaHeight, z, capBigMaterial);
 						chunk.setTorch(x, y + 2 + antennaHeight + 1, z, context.torchMat, Direction.Torch.FLOOR);
-				} else
-					chunk.setBlock(x, y + 2 + antennaHeight, z, capTinyMaterial);
+					} else
+						chunk.setBlock(x, y + 2 + antennaHeight, z, capTinyMaterial);
+				}
 			}
 		}
 	}
