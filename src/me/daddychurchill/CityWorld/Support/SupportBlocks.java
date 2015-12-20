@@ -821,8 +821,26 @@ public abstract class SupportBlocks extends AbstractBlocks {
 
 	public final void setLadder(int x, int y1, int y2, int z, Direction.General direction) {
 		byte data = direction.getData();
-		for (int y = y1; y < y2; y++)
-			BlackMagic.setBlock(this, x, y, z, Material.LADDER, data);
+		int offsetX = 0;
+		int offsetZ = 0;
+		switch (direction) {
+		case EAST:
+			offsetX = -1;
+			break;
+		case WEST:
+			offsetX = 1;
+			break;
+		case NORTH:
+			offsetZ = -1;
+			break;
+		case SOUTH:
+			offsetZ = 1;
+			break;
+		}
+		for (int y = y1; y < y2; y++) {
+			if (!isEmpty(x + offsetX, y, z + offsetZ))
+				BlackMagic.setBlock(this, x, y, z, Material.LADDER, data);
+		}
 	}
 
 	public final void setStair(int x, int y, int z, Material material, Direction.Stair direction) {
