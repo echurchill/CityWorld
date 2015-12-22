@@ -65,6 +65,8 @@ public class WoodframeLot extends WoodworksLot {
 			generateStairs(chunk, x * sectionWidth + 4, y, z * sectionWidth + 1);
 			y = y - floorHeight;
 		}
+		
+		//TODO add decay
 	}
 	
 }

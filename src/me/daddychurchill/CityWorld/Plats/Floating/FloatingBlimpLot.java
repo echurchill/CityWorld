@@ -97,7 +97,7 @@ public class FloatingBlimpLot extends IsolatedLot {
 			balloons.generateBalloon(generator, chunk, context, 3, generator.streetLevel + 5, 7 + chunkOdds.getRandomInt(2), chunkOdds);
 			balloons.generateBalloon(generator, chunk, context, 12, generator.streetLevel + 5, 7 + chunkOdds.getRandomInt(2), chunkOdds);
 		} else {
-			balloons.generateBlimp(generator, chunk, context, generator.streetLevel + 5, chunkOdds);
+			balloons.generateBigBalloon(generator, chunk, context, generator.streetLevel + 5, chunkOdds);
 		}
 	}
 

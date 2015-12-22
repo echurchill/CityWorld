@@ -24,5 +24,7 @@ public class GravelMineLot extends GravelLot {
 			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
 			int platZ) {
 		generateHole(generator, chunk, 14, 16);
+		
+		//TODO add decay
 	}
 }

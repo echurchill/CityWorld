@@ -4,6 +4,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
 import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot;
+import me.daddychurchill.CityWorld.Plats.Nature.HotairBalloonLot;
 import me.daddychurchill.CityWorld.Plats.Nature.MineEntranceLot;
 import me.daddychurchill.CityWorld.Plats.Nature.MountainShackLot;
 import me.daddychurchill.CityWorld.Plats.Nature.MountainTentLot;
@@ -181,10 +182,12 @@ public class NatureContext extends UncivilizedContext {
 //				break;
 //			case BUILDING:
 //				break;
-//			case LOWLAND:
+			case LOWLAND:
 				//TODO Statue overlooking the city?
-				//TODO hot air balloon!
-//				break;
+				// Hotair balloons
+				if (generator.settings.includeBuildings && !generator.settings.includeDecayedBuildings)
+					platmap.setLot(x, z, new HotairBalloonLot(platmap, platmap.originX + x, platmap.originZ + z));
+				break;
 			case MIDLAND: 
 				// Mine entrance
 				if (generator.settings.includeMines)

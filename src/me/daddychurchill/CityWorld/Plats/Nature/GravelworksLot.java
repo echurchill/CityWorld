@@ -75,6 +75,7 @@ public class GravelworksLot extends GravelLot {
 			break;
 		}
 		
+		//TODO add decay
 	}
 
 }

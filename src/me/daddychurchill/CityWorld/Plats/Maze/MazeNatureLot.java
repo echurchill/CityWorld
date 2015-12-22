@@ -33,6 +33,10 @@ public class MazeNatureLot extends NatureLot {
 		return Material.OBSIDIAN;
 	}
 	
+	protected Material getLaymentMaterial() {
+		return Material.OBSIDIAN;
+	}
+	
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
 		

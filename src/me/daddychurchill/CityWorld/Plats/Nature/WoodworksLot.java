@@ -98,6 +98,8 @@ public class WoodworksLot extends ConstructLot {
 			}
 			break;
 		}
+		
+		//TODO add decay
 	}
 
 	protected static int sectionWidth = 5;
