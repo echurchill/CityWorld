@@ -40,6 +40,6 @@ public class MountainShackLot extends MountainFlatLot {
 		
 		// not a happy place?
 		if (generator.settings.includeDecayedBuildings)
-			destroyBuilding(generator, generator.streetLevel + 1, floors);
+			destroyBuilding(generator, blockYs.averageHeight + 1, floors);
 	}
 }
