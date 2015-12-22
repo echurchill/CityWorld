@@ -73,6 +73,8 @@ public class TreeProvider_Normal extends TreeProvider {
 						BlackMagic.setBlocks(chunk, x, x + trunkWidth, bottomY, y, z, z + trunkWidth, trunk);
 					}
 					
+					//TODO If the trunkWidth is > 1 we might need to copy the dirt down so the dirt doesn't look like it is floating
+					
 					// all done
 					break;
 					

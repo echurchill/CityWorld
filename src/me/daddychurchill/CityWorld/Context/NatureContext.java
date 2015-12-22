@@ -20,6 +20,8 @@ public class NatureContext extends UncivilizedContext {
 
 	public NatureContext(CityWorldGenerator generator) {
 		super(generator);
+
+		oddsOfIsolatedConstructs = Odds.oddsSomewhatUnlikely;
 	}
 	
 	private final static double oddsOfBunkers = Odds.oddsLikely;
@@ -164,7 +166,7 @@ public class NatureContext extends UncivilizedContext {
 
 		// what type of height are we talking about?
 		if (state != HeightState.BUILDING && 
-			generator.shapeProvider.isIsolatedConstructAt(platmap.originX + x, platmap.originZ + z, oddsOfIsolatedConstructs / 2)) {
+			generator.shapeProvider.isIsolatedConstructAt(platmap.originX + x, platmap.originZ + z, oddsOfIsolatedConstructs)) {
 			
 			// what to make?
 			switch (state) {
