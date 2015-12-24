@@ -51,7 +51,7 @@ public class OilPlatformLot extends ConstructLot {
 	
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
-		reportLocation(generator, "Oil Platform", chunk.getOriginX(), chunk.getOriginZ());
+		reportLocation(generator, "Oil Platform", chunk);
 
 		// working levels
 		int y0 = generator.seaLevel;

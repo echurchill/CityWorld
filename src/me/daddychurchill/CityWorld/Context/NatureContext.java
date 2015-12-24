@@ -177,16 +177,31 @@ public class NatureContext extends UncivilizedContext {
 					platmap.setLot(x, z, new OilPlatformLot(platmap, platmap.originX + x, platmap.originZ + z));
 				}
 				break;
-//			case SEA:
-				//TODO boat!
-//				break;
+			case SEA:
+				if (generator.settings.includeBuildings && !generator.settings.includeDecayedBuildings) {
+					PlatLot lot = null;
+					if (platmap.getOddsGenerator().flipCoin())
+						// Hotair balloons
+						lot = new HotairBalloonLot(platmap, platmap.originX + x, platmap.originZ + z);
+					else
+						//TODO boat!
+						lot = null;
+					platmap.setLot(x, z, lot);
+				}
+				break;
 //			case BUILDING:
 //				break;
 			case LOWLAND:
-				//TODO Statue overlooking the city?
-				// Hotair balloons
-				if (generator.settings.includeBuildings && !generator.settings.includeDecayedBuildings)
-					platmap.setLot(x, z, new HotairBalloonLot(platmap, platmap.originX + x, platmap.originZ + z));
+				if (generator.settings.includeBuildings && !generator.settings.includeDecayedBuildings) {
+					PlatLot lot = null;
+					if (platmap.getOddsGenerator().flipCoin())
+						// Hotair balloons
+						lot = new HotairBalloonLot(platmap, platmap.originX + x, platmap.originZ + z);
+					else
+						//TODO Statue overlooking the city?
+						lot = null;
+					platmap.setLot(x, z, lot);
+				}
 				break;
 			case MIDLAND: 
 				// Mine entrance

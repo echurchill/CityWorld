@@ -10,6 +10,7 @@ import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.OreProvider.OreLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
+import me.daddychurchill.CityWorld.Support.AbstractBlocks;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Direction;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -56,6 +57,10 @@ public abstract class PlatLot {
 	protected abstract void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ);
 	protected abstract void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ);
 
+	protected void reportLocation(CityWorldGenerator generator, String title, AbstractBlocks chunk) {
+		reportLocation(generator, title, chunk.getOriginX(), chunk.getOriginZ());
+	}
+	
 	protected void reportLocation(CityWorldGenerator generator, String title, int originX, int originZ) {
 		if (generator.settings.broadcastSpecialPlaces)
 			generator.reportMessage(title + " placed at " + originX + ", " + originZ);

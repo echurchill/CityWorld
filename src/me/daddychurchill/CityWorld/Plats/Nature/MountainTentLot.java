@@ -30,7 +30,7 @@ public class MountainTentLot extends MountainFlatLot {
 
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
-		reportLocation(generator, "Campground", chunk.getOriginX(), chunk.getOriginZ());
+		reportLocation(generator, "Campground", chunk);
 		
 		// now make a tent
 		generator.houseProvider.generateCampground(generator, chunk, context, chunkOdds, 

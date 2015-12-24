@@ -93,7 +93,7 @@ public class RadioTowerLot extends ConstructLot {
 	
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
-		reportLocation(generator, "Radio Tower", chunk.getOriginX(), chunk.getOriginZ());
+		reportLocation(generator, "Radio Tower", chunk);
 
 		// compute offset to start of chunk
 		int platformOffset = platformWidth / 2;

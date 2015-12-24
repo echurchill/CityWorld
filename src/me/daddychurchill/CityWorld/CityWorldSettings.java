@@ -4,9 +4,10 @@ import me.daddychurchill.CityWorld.Plugins.SurfaceProvider_Floating;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider_Floating.SubSurfaceStyle;
 import me.daddychurchill.CityWorld.Plugins.TreeProvider;
 import me.daddychurchill.CityWorld.Plugins.TreeProvider.TreeStyle;
-import me.daddychurchill.CityWorld.Support.MaterialStack;
+import me.daddychurchill.CityWorld.Support.MaterialList;
 import me.daddychurchill.CityWorld.Support.Odds;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.Vector;
@@ -33,10 +34,10 @@ public class CityWorldSettings {
 	public boolean includeOres = true;
 	
 	public boolean treasuresInSewers = true;
-	public boolean spawnersInSewers = true;
 	public boolean treasuresInMines = true;
-	public boolean spawnersInMines = true;
 	public boolean treasuresInBunkers = true;
+	public boolean spawnersInSewers = true;
+	public boolean spawnersInMines = true;
 	public boolean spawnersInBunkers = true;
 	
 	public boolean includeUndergroundFluids = true;
@@ -76,9 +77,9 @@ public class CityWorldSettings {
 	public double oddsOfSpawnerInMineAlcove = Odds.oddsSomewhatLikely;
 	public double oddsOfAlcoveInMines = Odds.oddsVeryLikely;
 	
-	public MaterialStack itemsTreasureInSewers;
-	public MaterialStack itemsTreasureInBunkers;
-	public MaterialStack itemsTreasureInMines;
+	public MaterialList itemsTreasureInSewers;
+	public MaterialList itemsTreasureInBunkers;
+	public MaterialList itemsTreasureInMines;
 	
 	public final static String tagIncludeRoads = "IncludeRoads";
 	public final static String tagIncludeRoundabouts = "IncludeRoundabouts";
@@ -159,9 +160,14 @@ public class CityWorldSettings {
 		validateSettingsAgainstWorldStyle(generator);
 		
 		// stacks of materials
-		itemsTreasureInSewers = new MaterialStack("Treasure_In_Sewers");
-		itemsTreasureInBunkers = new MaterialStack("Treasure_In_Bunkers");
-		itemsTreasureInMines = new MaterialStack("Treasure_In_Mines");
+		itemsTreasureInSewers = new MaterialList("Treasure_In_Sewers");
+		itemsTreasureInBunkers = new MaterialList("Treasure_In_Bunkers");
+		itemsTreasureInMines = new MaterialList("Treasure_In_Mines");
+		
+		itemsTreasureInBunkers.add(Material.IRON_BLOCK);
+		itemsTreasureInBunkers.add(Material.IRON_AXE, Material.IRON_BOOTS, Material.ACACIA_DOOR);
+		
+		//generator.reportMessage("Items.Count = " + itemsTreasureInBunkers.count());
 		
 		// see if the new configuration is out there?
 //		// find the files
@@ -273,10 +279,10 @@ public class CityWorldSettings {
 			includeOres = section.getBoolean(tagIncludeOres, includeOres);
 
 			treasuresInSewers = section.getBoolean(tagTreasuresInSewers, treasuresInSewers);
-			spawnersInSewers = section.getBoolean(tagSpawnersInSewers, spawnersInSewers);
 			treasuresInMines = section.getBoolean(tagTreasuresInMines, treasuresInMines);
-			spawnersInMines = section.getBoolean(tagSpawnersInMines, spawnersInMines);
 			treasuresInBunkers = section.getBoolean(tagTreasuresInBunkers, treasuresInBunkers);
+			spawnersInSewers = section.getBoolean(tagSpawnersInSewers, spawnersInSewers);
+			spawnersInMines = section.getBoolean(tagSpawnersInMines, spawnersInMines);
 			spawnersInBunkers = section.getBoolean(tagSpawnersInBunkers, spawnersInBunkers);
 			
 			includeUndergroundFluids = section.getBoolean(tagIncludeUndergroundFluids, includeUndergroundFluids);
@@ -355,34 +361,6 @@ public class CityWorldSettings {
 				}
 			}
 
-			// this looks wrong for buildOutside
-			
-/*			centerPointOfChunkRadiusX = section.getInt(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
-			centerPointOfChunkRadiusZ = section.getInt(tagCenterPointOfChunkRadiusZ, centerPointOfChunkRadiusZ);
-			centerPointOfChunkRadius = new Vector(centerPointOfChunkRadiusX, 0, centerPointOfChunkRadiusZ);
-			constructChunkRadius = Math.min(Integer.MAX_VALUE, Math.max(0, section.getInt(tagConstructChunkRadius, constructChunkRadius)));
-			checkConstructRange = constructChunkRadius > 0 && constructChunkRadius < Integer.MAX_VALUE;
-			
-			roadChunkRadius = Math.min(constructChunkRadius, Math.max(0, section.getInt(tagRoadChunkRadius, roadChunkRadius)));
-			checkRoadRange = roadChunkRadius > 0 && roadChunkRadius < Integer.MAX_VALUE;
-			if (roadChunkRadius == 0) {
-				includeRoads = false;
-				includeSewers = false;
-			}
-
-			cityChunkRadius = Math.min(roadChunkRadius, Math.max(0, section.getInt(tagCityChunkRadius, cityChunkRadius)));
-			checkCityRange = cityChunkRadius > 0 && cityChunkRadius < Integer.MAX_VALUE;
-			if (cityChunkRadius == 0) {
-				includeCisterns = false;
-				includeBasements = false;
-				includeMines = false;
-				includeBunkers = false;
-				includeBuildings = false;
-				includeHouses = false;
-				includeFarms = false;
-			}
-			*/
-			
 			//===========================================================================
 			// validate settings against world style settings
 			validateSettingsAgainstWorldStyle(generator);
@@ -653,7 +631,6 @@ public class CityWorldSettings {
 			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
 			break;
 		}
-		
 	}
 	
 //	private File findFolder(File parent, String name) throws Exception {
@@ -683,7 +660,6 @@ public class CityWorldSettings {
 			else
 				return centerPointOfChunkRadius.distance(new Vector(x, 0, z)) <= constructChunkRadius;
 		} return true;
-//		return !checkConstructRange || centerPointOfChunkRadius.distance(new Vector(x, 0, z)) <= constructChunkRadius;
 	}
 	
 	public boolean inRoadRange(int x, int z) {
@@ -693,7 +669,6 @@ public class CityWorldSettings {
 			else
 				return centerPointOfChunkRadius.distance(new Vector(x, 0, z)) <= roadChunkRadius;
 		} return true;
-//		return !checkRoadRange || centerPointOfChunkRadius.distance(new Vector(x, 0, z)) <= roadChunkRadius;
 	}
 	
 	public boolean inCityRange(int x, int z) {
@@ -703,7 +678,6 @@ public class CityWorldSettings {
 			else
 				return centerPointOfChunkRadius.distance(new Vector(x, 0, z)) <= cityChunkRadius;
 		} return true;
-//		return !checkCityRange || centerPointOfChunkRadius.distance(new Vector(x, 0, z)) <= cityChunkRadius;
 	}
 	
 //	private HashMap<String, ItemStack[]> materials;
