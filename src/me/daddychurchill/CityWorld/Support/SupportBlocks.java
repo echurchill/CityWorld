@@ -859,11 +859,11 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		BlackMagic.setBlock(this, x, y, z, Material.FURNACE, direction.getData());
 	}
 
-	public final void setChest(int x, int y, int z, Direction.General direction, Odds odds, LootProvider lootProvider, LootLocation lootLocation) {
+	public final void setChest(CityWorldGenerator generator, int x, int y, int z, Direction.General direction, Odds odds, LootProvider lootProvider, LootLocation lootLocation) {
 		Block block = getActualBlock(x, y, z);
 		if (BlackMagic.setBlockType(block, Material.CHEST, direction.getData())) {
 			if (block.getType() == Material.CHEST) {
-				lootProvider.setLoot(odds, world.getName(), lootLocation, block);
+				lootProvider.setLoot(generator, odds, world.getName(), lootLocation, block);
 			}
 		}
 	}

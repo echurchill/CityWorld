@@ -4,24 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
+
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 public class MaterialList {
 
-	public String name;
+	public String listName;
 	private List<ItemStack> items;
 	
 	public MaterialList(String name) {
 		super();
-		this.name = name;
+		listName = name;
 	}
 
-	public MaterialList(String name, Material ... materials) {
-		super();
-		this.name = name;
-		set(materials);
-	}
-	
 	private void init(boolean clear) {
 		if (items == null)
 			items = new ArrayList<ItemStack>();
@@ -29,16 +26,11 @@ public class MaterialList {
 			items.clear();
 	}
 	
-	public void set(Material ... materials) {
-		init(true);
-		for (int i = 0; i < materials.length; i++)
-			items.add(new ItemStack(materials[i]));
-	}
-	
 	public void add(Material ... materials) {
 		init(false);
-		for (int i = 0; i < materials.length; i++)
-			items.add(new ItemStack(materials[i]));
+		for (Material material : materials) {
+			items.add(new ItemStack(material));
+		}
 	}
 	
 	public void add(Material material) {
@@ -58,6 +50,38 @@ public class MaterialList {
 	}
 	
 	public Material getRandomMaterial(Odds odds) {
-		return items == null ? Material.AIR : items.get(odds.getRandomInt(count())).getType();
+		if (items == null || count() == 0)
+			return Material.AIR;
+		else
+			return items.get(odds.getRandomInt(count())).getType();
+	}
+
+	public void write(CityWorldGenerator generator, ConfigurationSection section) {
+		List<String> names = new ArrayList<String>();
+		if (items != null) {
+			for (ItemStack item : items) {
+				names.add(item.getType().name());
+			}
+		}
+		section.set(listName, names);
+	}
+	
+	public void read(CityWorldGenerator generator, ConfigurationSection section) {
+		if (section.isList(listName)) {
+			init(true);
+			List<String> names = section.getStringList(listName);
+			for (String name : names) {
+				Material material = null;
+				try {
+					material = Material.getMaterial(name);
+				} catch (Exception e) {
+					generator.reportException("Reading " + generator.worldName + ".Materials." + listName, e);
+					material = null;
+				}
+				
+				if (material != null)
+					add(material);
+			}
+		}
 	}
 }

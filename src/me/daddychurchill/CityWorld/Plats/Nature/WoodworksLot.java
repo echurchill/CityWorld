@@ -81,7 +81,7 @@ public class WoodworksLot extends ConstructLot {
 			break;
 		case 8:
 			if (chunkOdds.flipCoin())
-				chunk.setChest(x + 1, y, z, General.SOUTH, chunkOdds, 
+				chunk.setChest(generator, x + 1, y, z, General.SOUTH, chunkOdds, 
 						generator.lootProvider, LootLocation.WOODWORKS);
 			if (chunkOdds.flipCoin())
 				chunk.setBlock(x + 3, y, z, Material.WORKBENCH);

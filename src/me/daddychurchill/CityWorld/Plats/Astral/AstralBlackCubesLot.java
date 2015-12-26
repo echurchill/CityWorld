@@ -47,9 +47,9 @@ public class AstralBlackCubesLot extends AstralNatureLot {
 		case 0:
 			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 1, y + cubeWidth - 2, z + 1, z + cubeWidth - 1, Material.AIR);
 			if (chunkOdds.playOdds(populationChance))
-				chunk.setChest(x + 3, y + 1, z + 3, General.NORTH, chunkOdds, generator.lootProvider, LootLocation.RANDOM);
+				chunk.setChest(generator, x + 3, y + 1, z + 3, General.NORTH, chunkOdds, generator.lootProvider, LootLocation.RANDOM);
 			if (chunkOdds.playOdds(populationChance))
-				chunk.setChest(x + 2, y + 1, z + 2, General.NORTH, chunkOdds, generator.lootProvider, LootLocation.RANDOM);
+				chunk.setChest(generator, x + 2, y + 1, z + 2, General.NORTH, chunkOdds, generator.lootProvider, LootLocation.RANDOM);
 			break;
 		case 1:
 			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 1, y + cubeWidth - 2, z + 1, z + cubeWidth - 1, 

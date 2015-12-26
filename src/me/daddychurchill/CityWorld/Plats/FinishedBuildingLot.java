@@ -72,14 +72,14 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		otherFloorHeight = aboveFloorHeight;
 		
 		// what is it made of?
-		wallMaterial = pickWallMaterial();
-		ceilingMaterial = pickCeilingMaterial();
-		glassMaterial = pickGlassMaterial();
+		wallMaterial = platmap.generator.settings.materials.itemsMaterialsForBuildingWalls.getRandomMaterial(chunkOdds);
+		ceilingMaterial = platmap.generator.settings.materials.itemsMaterialsForBuildingCeilings.getRandomMaterial(chunkOdds);
+		roofMaterial = platmap.generator.settings.materials.itemsMaterialsForBuildingRoofs.getRandomMaterial(chunkOdds);
 		columnMaterial = pickColumnMaterial(wallMaterial);
 		stairMaterial = pickStairMaterial(wallMaterial);
+		doorMaterial = pickDoorMaterial(wallMaterial);
 		stairPlatformMaterial = pickStairPlatformMaterial(stairMaterial);
-		doorMaterial = Material.WOOD_DOOR;
-		roofMaterial = pickRoofMaterial();
+		glassMaterial = pickGlassMaterial();
 		
 		// what are the walls of the stairs made of?
 		if (chunkOdds.playOdds(context.oddsOfStairWallMaterialIsWallMaterial))
@@ -392,106 +392,88 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 	}
 	
-	//TODO make the material settable by users
-	protected Material pickWallMaterial() {
-		switch (chunkOdds.getRandomInt(20)) {
-		case 1:
-			return Material.COBBLESTONE;
-		case 2:
-			return Material.SAND;
-		case 3:
-			return Material.GRAVEL;
-		case 4:
-			return Material.WOOD;
-		case 5:
-			return Material.SANDSTONE;
-		case 6:
-			return Material.WOOL;
-		case 7:
-			return Material.DOUBLE_STEP;
-		case 8:
-			return Material.BRICK;
-		case 9:
-			return Material.MOSSY_COBBLESTONE;
-		case 10:
-			return Material.CLAY;
-		case 11:
-			return Material.NETHERRACK;
-		case 12:
-			return Material.SOUL_SAND;
-		case 13:
-			return Material.SMOOTH_BRICK;
-		case 14:
-			return Material.NETHER_BRICK;
-		case 15:
-			return Material.QUARTZ_BLOCK;
-		case 16:
-			return Material.HARD_CLAY;
-		case 17:
-			return Material.STAINED_CLAY;
-		case 18:
-			return Material.COAL_BLOCK;
-		case 19:
-			return Material.ENDER_STONE;
-		default:
-			return Material.STONE;
-		}
-	}
-
-	protected Material pickRoofMaterial() {
-		switch (chunkOdds.getRandomInt(17)) {
-		case 1:
-			return Material.COBBLESTONE;
-		case 2:
-			return Material.WOOD;
-		case 3:
-			return Material.SANDSTONE;
-		case 4:
-			return Material.WOOL;
-		case 5:
-			return Material.DOUBLE_STEP;
-		case 6:
-			return Material.BRICK;
-		case 7:
-			return Material.MOSSY_COBBLESTONE;
-		case 8:
-			return Material.CLAY;
-		case 9:
-			return Material.NETHERRACK;
-		case 10:
-			return Material.SMOOTH_BRICK;
-		case 11:
-			return Material.NETHER_BRICK;
-		case 12:
-			return Material.QUARTZ_BLOCK;
-		case 13:
-			return Material.HARD_CLAY;
-		case 14:
-			return Material.STAINED_CLAY;
-		case 15:
-			return Material.COAL_BLOCK;
-		case 16:
-			return Material.ENDER_STONE;
-		default:
-			return Material.STONE;
-		}
-	}
-
 	protected Material pickColumnMaterial(Material wall) {
+		if (chunkOdds.playOdds(Odds.oddsVeryLikely))
+			return wall;
+		else
+			switch (wall) {
+			case COBBLESTONE:
+			case MOSSY_COBBLESTONE:
+			case WOOL:
+				return Material.COBBLE_WALL;
+	
+			case NETHERRACK:
+			case BRICK:
+			case NETHER_BRICK:
+			case COAL_BLOCK:
+				return Material.BIRCH_FENCE;
+				
+			case SAND:
+			case SANDSTONE:
+			case ENDER_STONE:
+				return Material.NETHER_FENCE;
+				
+			case SOUL_SAND:
+			case SMOOTH_BRICK:
+			case QUARTZ_BLOCK:
+				return Material.ACACIA_FENCE;
+				
+			case CLAY:
+			case DOUBLE_STEP:
+			case HARD_CLAY:
+				return Material.DARK_OAK_FENCE;
+				
+			case GRAVEL:
+			case WOOD:
+				return Material.JUNGLE_FENCE;
+	
+			case STAINED_CLAY:
+			case STONE:
+				return Material.SPRUCE_FENCE;
+	
+			case RED_SANDSTONE:
+			case DOUBLE_STONE_SLAB2:
+			default:
+					return Material.FENCE;
+			}
+	}
+
+	protected Material pickDoorMaterial(Material wall) {
 		switch (wall) {
 		case COBBLESTONE:
 		case MOSSY_COBBLESTONE:
+		case CLAY:
+		case COAL_BLOCK:
+			return Material.DARK_OAK_DOOR;
+			
+		case QUARTZ_BLOCK:
+		case DOUBLE_STEP:
+		case HARD_CLAY:
+			return Material.DARK_OAK_DOOR;
+			
+		case ENDER_STONE:
+		case BRICK:
+		case GRAVEL:
+		case SOUL_SAND:
+			return Material.ACACIA_DOOR;
+			
+		case SAND:
+		case SANDSTONE:
+		case WOOD:
 		case WOOL:
-			return Material.COBBLE_WALL;
+			return Material.JUNGLE_DOOR;
 
 		case NETHERRACK:
-			return Material.NETHER_FENCE;
-			
-		default: 
-			if (chunkOdds.playOdds(Odds.oddsSomewhatUnlikely))
-				return Material.FENCE;
-			else
-				return wall;
+		case NETHER_BRICK:
+		case STONE:
+		case STAINED_CLAY:
+			return Material.SPRUCE_DOOR;
+
+		case RED_SANDSTONE:
+		case DOUBLE_STONE_SLAB2:
+		case SMOOTH_BRICK:
+		default:
+			return Material.WOOD_DOOR;
 		}
 	}
 
@@ -500,31 +482,49 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		case COBBLESTONE:
 		case MOSSY_COBBLESTONE:
 			return Material.COBBLESTONE_STAIRS;
-
-		case STONE:
-		case SMOOTH_BRICK:
-		case CLAY:
-		case DOUBLE_STEP:
-			return Material.SMOOTH_STAIRS;
-
-		case WOOL:
-		case BRICK:
-			return Material.BRICK_STAIRS;
-		
+			
 		case NETHERRACK:
 		case NETHER_BRICK:
 			return Material.NETHER_BRICK_STAIRS;
 			
-		case SANDSTONE:
 		case SAND:
+		case SANDSTONE:
 			return Material.SANDSTONE_STAIRS;
 			
-		case QUARTZ_BLOCK:
-		case COAL_BLOCK:
-			return Material.QUARTZ_STAIRS;
+		case ENDER_STONE:
+		case BRICK:
+			return Material.BRICK_STAIRS;
 		
-		default: // all other materials
-			return Material.WOOD_STAIRS;
+		case QUARTZ_BLOCK:
+			return Material.QUARTZ_STAIRS;
+			
+		case CLAY:
+		case COAL_BLOCK:
+			return Material.BIRCH_WOOD_STAIRS;
+			
+		case DOUBLE_STEP:
+		case HARD_CLAY:
+			return Material.DARK_OAK_STAIRS;
+			
+		case GRAVEL:
+		case SOUL_SAND:
+			return Material.ACACIA_STAIRS;
+			
+		case WOOD:
+		case WOOL:
+			return Material.JUNGLE_WOOD_STAIRS;
+
+		case STONE:
+		case STAINED_CLAY:
+			return Material.SPRUCE_WOOD_STAIRS;
+
+		case RED_SANDSTONE:
+		case DOUBLE_STONE_SLAB2:
+			return Material.RED_SANDSTONE_STAIRS;
+
+		case SMOOTH_BRICK:
+		default:
+			return Material.SMOOTH_STAIRS;
 		}
 	}
 
@@ -532,81 +532,75 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		switch (stair) {
 		case COBBLESTONE_STAIRS:
 			return Material.COBBLESTONE;
-		case SMOOTH_STAIRS:
-			return Material.SMOOTH_BRICK;
-		case BRICK_STAIRS:
-			return Material.BRICK;
+			
 		case NETHER_BRICK_STAIRS:
-			return Material.NETHER_BRICK;
+			return Material.NETHERRACK;
+			
 		case SANDSTONE_STAIRS:
 			return Material.SANDSTONE;
+			
+		case BRICK_STAIRS:
+			return Material.BRICK;
+		
 		case QUARTZ_STAIRS:
 			return Material.QUARTZ_BLOCK;
-		default:
+			
+		case BIRCH_WOOD_STAIRS:
+			return Material.CLAY;
+			
+		case DARK_OAK_STAIRS:
+			return Material.DOUBLE_STEP;
+			
+		case ACACIA_STAIRS:
+			return Material.GRAVEL;
+			
+		case JUNGLE_WOOD_STAIRS:
 			return Material.WOOD;
+
+		case SPRUCE_WOOD_STAIRS:
+			return Material.STONE;
+
+		case RED_SANDSTONE_STAIRS:
+			return Material.RED_SANDSTONE;
+
+		default:
+			return Material.SMOOTH_BRICK;
 		}
 	}
 	
 	protected Material pickStairWallMaterial(Material wall) {
-		switch (wall) {
-		case COBBLESTONE:
-		case MOSSY_COBBLESTONE:
-		case STONE:
-		case SMOOTH_BRICK:
-			return Material.IRON_FENCE;
-
-		case DOUBLE_STEP:
-		case WOOL:
-		case BRICK:
-		case COAL_BLOCK:
-			return Material.THIN_GLASS;
-		
-		case NETHERRACK:
-		case NETHER_BRICK:
-			return Material.NETHER_FENCE;
-		
-		default: // SANDSTONE, WOOD, SAND, CLAY, HARD_CLAY, STAINED_CLAY
-			if (chunkOdds.playOdds(Odds.oddsSomewhatUnlikely))
-				return Material.GLASS;
-			else
-				return Material.FENCE;
-		}
-	}
-
-	protected Material pickCeilingMaterial() {
-		switch (chunkOdds.getRandomInt(16)) {
-		case 1:
-			return Material.COBBLESTONE;
-		case 2:
-			return Material.WOOD;
-		case 3:
-			return Material.SANDSTONE;
-		case 4:
-			return Material.WOOL;
-		case 5:
-			return Material.DOUBLE_STEP;
-		case 6:
-			return Material.BRICK;
-		case 7:
-			return Material.MOSSY_COBBLESTONE;
-		case 8:
-			return Material.CLAY;
-		case 9:
-			return Material.NETHERRACK;
-		case 10:
-			return Material.SMOOTH_BRICK;
-		case 11:
-			return Material.NETHER_BRICK;
-		case 12:
-			return Material.QUARTZ_BLOCK;
-		case 13:
-			return Material.HARD_CLAY;
-		case 14:
-			return Material.STAINED_CLAY;
-		case 15:
-			return Material.COAL_BLOCK;
-		default:
-			return Material.STONE;
-		}
+		if (chunkOdds.flipCoin())
+			return pickColumnMaterial(wall);
+		else
+			switch (wall) {
+			case COBBLESTONE:
+			case MOSSY_COBBLESTONE:
+			case STONE:
+			case SMOOTH_BRICK:
+			case SOUL_SAND:
+			case QUARTZ_BLOCK:
+			case SAND:
+			case SANDSTONE:
+			case ENDER_STONE:
+				return Material.IRON_FENCE;
+	
+			case WOOL:
+			case DOUBLE_STEP:
+			case HARD_CLAY:
+			case CLAY:
+			case BRICK:
+			case NETHERRACK:
+			case NETHER_BRICK:
+			case COAL_BLOCK:
+				return Material.THIN_GLASS;
+				
+			case GRAVEL:
+			case WOOD:
+			case STAINED_CLAY:
+			case RED_SANDSTONE:
+			case DOUBLE_STONE_SLAB2:
+			default:
+					return Material.GLASS;
+			}
 	}
 }

@@ -7,18 +7,18 @@ import org.bukkit.inventory.ItemStack;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plugins.PhatLoot.LootProvider_Phat;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
+import me.daddychurchill.CityWorld.Support.MaterialList;
 import me.daddychurchill.CityWorld.Support.Odds;
 
 public abstract class LootProvider extends Provider {
 
-	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
-	
 	public enum LootLocation {RANDOM, SEWER, MINE, BUNKER, STORAGESHED, FARMWORKS, WOODWORKS, STONEWORKS, STONEWORKSOUTPUT};
 	
-	public abstract void setLoot(Odds odds, String worldPrefix, LootLocation chestLocation, Block block);
+	public abstract void setLoot(CityWorldGenerator generator, Odds odds, String worldPrefix, LootLocation chestLocation, Block block);
 	public abstract void saveLoots();
 
 	public static LootProvider loadProvider(CityWorldGenerator generator) {
+		// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 
 		LootProvider provider = null;
 		
@@ -50,7 +50,7 @@ public abstract class LootProvider extends Provider {
 		return items;
 	}
 	
-	protected ItemStack[] pickFromTreasures(Odds odds, int maxCount, int maxStack, Material ... treasure) {
+	protected ItemStack[] pickFromTreasures(MaterialList materials, Odds odds, int maxCount, int maxStack) {
 		int count = maxCount > 0 ? odds.getRandomInt(maxCount) + 1 : 0;
 		
 		// make room
@@ -58,7 +58,7 @@ public abstract class LootProvider extends Provider {
 		
 		// populate
 		for (int i = 0; i < count; i++)
-			items[i] = new ItemStack(treasure[odds.getRandomInt(treasure.length)], odds.getRandomInt(maxStack) + 1);
+			items[i] = new ItemStack(materials.getRandomMaterial(odds), odds.getRandomInt(maxStack) + 1);
 		
 		// all done
 		return items;

@@ -799,7 +799,7 @@ public class BunkerLot extends ConnectedLot {
 		
 		// cool stuff?
 		if (generator.settings.treasuresInBunkers && odds.playOdds(generator.settings.oddsOfTreasureInBunkers)) {
-			 chunk.setChest(x, y, z, Direction.General.NORTH, odds, generator.lootProvider, LootLocation.BUNKER);
+			 chunk.setChest(generator, x, y, z, Direction.General.NORTH, odds, generator.lootProvider, LootLocation.BUNKER);
 		}
 	}
 

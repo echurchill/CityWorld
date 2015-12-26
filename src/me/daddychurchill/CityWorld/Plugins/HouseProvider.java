@@ -50,11 +50,11 @@ public class HouseProvider extends Provider {
 		int xR = x2 - x1 - 2;
 		int zR = z2 - z1 - 2;
 		
-		byte roofData = (byte) odds.getRandomInt(6);
-		Material wallMat = pickShedWall(roofData);
+		Material wallMat = generator.settings.materials.itemsMaterialsForShedWalls.getRandomMaterial(odds);
+		Material roofMat = generator.settings.materials.itemsMaterialsForShedRoofs.getRandomMaterial(odds);
 		
 		chunk.setWalls(x1, x2, y1, y2, z1, z2, wallMat);
-		BlackMagic.setBlocks(chunk, x1 + 1, x2 - 1, y2, z1 + 1, z2 - 1, Material.STEP, roofData);
+		chunk.setBlocks(x1 + 1, x2 - 1, y2, z1 + 1, z2 - 1, roofMat);
 		
 		switch (odds.getRandomInt(4)) {
 		case 0: // north
@@ -103,16 +103,16 @@ public class HouseProvider extends Provider {
 			Direction.General direction, LootLocation location) {
 		switch (direction) {
 		case NORTH:
-			chunk.setChest(x + 1, y, z, direction, odds, generator.lootProvider, location);
+			chunk.setChest(generator, x + 1, y, z, direction, odds, generator.lootProvider, location);
 			break;
 		case SOUTH:
-			chunk.setChest(x - 1, y, z, direction, odds, generator.lootProvider, location);
+			chunk.setChest(generator, x - 1, y, z, direction, odds, generator.lootProvider, location);
 			break;
 		case WEST:
-			chunk.setChest(x, y, z + 1, direction, odds, generator.lootProvider, location);
+			chunk.setChest(generator, x, y, z + 1, direction, odds, generator.lootProvider, location);
 			break;
 		case EAST:
-			chunk.setChest(x, y, z - 1, direction, odds, generator.lootProvider, location);
+			chunk.setChest(generator, x, y, z - 1, direction, odds, generator.lootProvider, location);
 			break;
 		}
 	}
@@ -275,10 +275,10 @@ public class HouseProvider extends Provider {
 	public int generateHouse(CityWorldGenerator generator, RealBlocks chunk, DataContext context, Odds odds, int baseY, int maxFloors, int maxRoomWidth) {
 		
 		// what are we made of?
-		Material matWall = pickWallMaterial(odds);
-		Material matFloor = pickFloorMaterial(odds);
-		Material matCeiling = pickCeilingMaterial(odds);
-		Material matRoof = pickRoofMaterial(odds);
+		Material matWall = generator.settings.materials.itemsMaterialsForHouseWalls.getRandomMaterial(odds);
+		Material matFloor = generator.settings.materials.itemsMaterialsForHouseFloors.getRandomMaterial(odds);
+		Material matCeiling = generator.settings.materials.itemsMaterialsForHouseCeilings.getRandomMaterial(odds);
+		Material matRoof = generator.settings.materials.itemsMaterialsForHouseRoofs.getRandomMaterial(odds);
 		HouseRoofStyle styleRoof = pickRoofStyle(odds);
 		int floors = odds.getRandomInt(maxFloors) + 1;
 		
@@ -661,74 +661,6 @@ public class HouseProvider extends Provider {
 		return odds.getRandomInt(maxRoomWidth - minRoomWidth + 1) + minRoomWidth;
 	}
 	
-	private Material pickWallMaterial(Odds odds) {
-		switch (odds.getRandomInt(9)) {
-		case 1:
-			return Material.COBBLESTONE;
-		case 2:
-			return Material.MOSSY_COBBLESTONE;
-		case 3:
-			return Material.STONE;
-		case 4:
-			return Material.SMOOTH_BRICK;
-		case 5:
-			return Material.SANDSTONE;
-		case 6:
-			return Material.NETHER_BRICK;
-		case 7:
-			return Material.BRICK;
-		case 8:
-			return Material.CLAY;
-		default:
-			return Material.WOOD;
-		}
-	}
-
-	private Material pickCeilingMaterial(Odds odds) {
-		switch (odds.getRandomInt(5)) {
-		case 1:
-			return Material.COBBLESTONE;
-		case 2:
-			return Material.STONE;
-		case 3:
-			return Material.SMOOTH_BRICK;
-		case 4:
-			return Material.SANDSTONE;
-		default:
-			return Material.WOOD;
-		}
-	}
-
-	private Material pickFloorMaterial(Odds odds) {
-		switch (odds.getRandomInt(4)) {
-		case 1:
-			return Material.COBBLESTONE;
-		case 2:
-			return Material.STONE;
-		case 3:
-			return Material.WOOL;
-		default:
-			return Material.WOOD;
-		}
-	}
-
-	private Material pickRoofMaterial(Odds odds) {
-		switch (odds.getRandomInt(6)) {
-		case 1:
-			return Material.COBBLESTONE;
-		case 2:
-			return Material.MOSSY_COBBLESTONE;
-		case 3:
-			return Material.STONE;
-		case 4:
-			return Material.SMOOTH_BRICK;
-		case 5:
-			return Material.SANDSTONE;
-		default:
-			return Material.WOOD;
-		}
-	}
-	
 	private HouseRoofStyle pickRoofStyle(Odds odds) {
 		switch (odds.getRandomInt(4)) {
 		default:
@@ -743,22 +675,6 @@ public class HouseProvider extends Provider {
 		}
 	}
 	
-	private Material pickShedWall(int i) {
-		switch (i) {
-		case 0:
-			return Material.STONE;
-		case 1:
-			return Material.SANDSTONE;
-		case 2:
-			return Material.WOOD;
-		case 3:
-			return Material.COBBLESTONE;
-		case 4:
-			return Material.BRICK;
-		default:
-			return Material.SMOOTH_BRICK;
-		}
-	}
 	private final static Material materialAir = Material.AIR;
 	private final static Material materialGlass = Material.GLASS;
 	private final static Material materialFence = Material.FENCE;

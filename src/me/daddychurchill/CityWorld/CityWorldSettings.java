@@ -1,18 +1,19 @@
 package me.daddychurchill.CityWorld;
 
+import me.daddychurchill.CityWorld.Plugins.MaterialProvider;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider_Floating;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider_Floating.SubSurfaceStyle;
 import me.daddychurchill.CityWorld.Plugins.TreeProvider;
 import me.daddychurchill.CityWorld.Plugins.TreeProvider.TreeStyle;
-import me.daddychurchill.CityWorld.Support.MaterialList;
 import me.daddychurchill.CityWorld.Support.Odds;
 
-import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.Vector;
 
 public class CityWorldSettings {
+	
+	public MaterialProvider materials;
 	
 	public boolean darkEnvironment;
 	
@@ -33,12 +34,13 @@ public class CityWorldSettings {
 	public boolean includeMountains = true;
 	public boolean includeOres = true;
 	
-	public boolean treasuresInSewers = true;
-	public boolean treasuresInMines = true;
-	public boolean treasuresInBunkers = true;
-	public boolean spawnersInSewers = true;
-	public boolean spawnersInMines = true;
 	public boolean spawnersInBunkers = true;
+	public boolean spawnersInMines = true;
+	public boolean spawnersInSewers = true;
+	
+	public boolean treasuresInBunkers = true;
+	public boolean treasuresInMines = true;
+	public boolean treasuresInSewers = true;
 	
 	public boolean includeUndergroundFluids = true;
 	public boolean includeAbovegroundFluids = true;
@@ -77,10 +79,6 @@ public class CityWorldSettings {
 	public double oddsOfSpawnerInMineAlcove = Odds.oddsSomewhatLikely;
 	public double oddsOfAlcoveInMines = Odds.oddsVeryLikely;
 	
-	public MaterialList itemsTreasureInSewers;
-	public MaterialList itemsTreasureInBunkers;
-	public MaterialList itemsTreasureInMines;
-	
 	public final static String tagIncludeRoads = "IncludeRoads";
 	public final static String tagIncludeRoundabouts = "IncludeRoundabouts";
 	public final static String tagIncludeSewers = "IncludeSewers";
@@ -98,13 +96,14 @@ public class CityWorldSettings {
 	public final static String tagIncludeMountains = "IncludeMountains";
 	public final static String tagIncludeOres = "IncludeOres";
 	
-	public final static String tagTreasuresInSewers = "TreasuresInSewers";
-	public final static String tagSpawnersInSewers = "SpawnersInSewers";
-	public final static String tagTreasuresInMines = "TreasuresInMines";
-	public final static String tagSpawnersInMines = "SpawnersInMines";
-	public final static String tagTreasuresInBunkers = "TreasuresInBunkers";
 	public final static String tagSpawnersInBunkers = "SpawnersInBunkers";
+	public final static String tagSpawnersInMines = "SpawnersInMines";
+	public final static String tagSpawnersInSewers = "SpawnersInSewers";
 	
+	public final static String tagTreasuresInBunkers = "TreasuresInBunkers";
+	public final static String tagTreasuresInMines = "TreasuresInMines";
+	public final static String tagTreasuresInSewers = "TreasuresInSewers";
+
 	public final static String tagIncludeUndergroundFluids = "IncludeUndergroundFluids";
 	public final static String tagIncludeAbovegroundFluids = "IncludeAbovegroundFluids";
 	public final static String tagIncludeWorkingLights = "IncludeWorkingLights";
@@ -156,16 +155,11 @@ public class CityWorldSettings {
 			break;
 		}
 		
-		// intialize based world style settings
+		// Initialize based world style settings
 		validateSettingsAgainstWorldStyle(generator);
 		
 		// stacks of materials
-		itemsTreasureInSewers = new MaterialList("Treasure_In_Sewers");
-		itemsTreasureInBunkers = new MaterialList("Treasure_In_Bunkers");
-		itemsTreasureInMines = new MaterialList("Treasure_In_Mines");
-		
-		itemsTreasureInBunkers.add(Material.IRON_BLOCK);
-		itemsTreasureInBunkers.add(Material.IRON_AXE, Material.IRON_BOOTS, Material.ACACIA_DOOR);
+		materials = new MaterialProvider(generator, this);
 		
 		//generator.reportMessage("Items.Count = " + itemsTreasureInBunkers.count());
 		
@@ -230,12 +224,13 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeMountains, includeMountains);
 			section.addDefault(tagIncludeOres, includeOres);
 			
-			section.addDefault(tagTreasuresInSewers, treasuresInSewers);
-			section.addDefault(tagSpawnersInSewers, spawnersInSewers);
-			section.addDefault(tagTreasuresInMines, treasuresInMines);
-			section.addDefault(tagSpawnersInMines, spawnersInMines);
-			section.addDefault(tagTreasuresInBunkers, treasuresInBunkers);
 			section.addDefault(tagSpawnersInBunkers, spawnersInBunkers);
+			section.addDefault(tagSpawnersInMines, spawnersInMines);
+			section.addDefault(tagSpawnersInSewers, spawnersInSewers);
+
+			section.addDefault(tagTreasuresInBunkers, treasuresInBunkers);
+			section.addDefault(tagTreasuresInMines, treasuresInMines);
+			section.addDefault(tagTreasuresInSewers, treasuresInSewers);
 			
 			section.addDefault(tagIncludeUndergroundFluids, includeUndergroundFluids);
 			section.addDefault(tagIncludeAbovegroundFluids, includeAbovegroundFluids);
@@ -278,12 +273,15 @@ public class CityWorldSettings {
 			includeMountains = section.getBoolean(tagIncludeMountains, includeMountains);
 			includeOres = section.getBoolean(tagIncludeOres, includeOres);
 
-			treasuresInSewers = section.getBoolean(tagTreasuresInSewers, treasuresInSewers);
-			treasuresInMines = section.getBoolean(tagTreasuresInMines, treasuresInMines);
-			treasuresInBunkers = section.getBoolean(tagTreasuresInBunkers, treasuresInBunkers);
 			spawnersInSewers = section.getBoolean(tagSpawnersInSewers, spawnersInSewers);
 			spawnersInMines = section.getBoolean(tagSpawnersInMines, spawnersInMines);
 			spawnersInBunkers = section.getBoolean(tagSpawnersInBunkers, spawnersInBunkers);
+			
+			treasuresInSewers = section.getBoolean(tagTreasuresInSewers, treasuresInSewers);
+			treasuresInMines = section.getBoolean(tagTreasuresInMines, treasuresInMines);
+			treasuresInBunkers = section.getBoolean(tagTreasuresInBunkers, treasuresInBunkers);
+
+			materials.read(generator, section);
 			
 			includeUndergroundFluids = section.getBoolean(tagIncludeUndergroundFluids, includeUndergroundFluids);
 			includeAbovegroundFluids = section.getBoolean(tagIncludeAbovegroundFluids, includeAbovegroundFluids);
@@ -315,6 +313,7 @@ public class CityWorldSettings {
 			cityChunkRadius = Math.max(0, section.getInt(tagCityChunkRadius, cityChunkRadius));
 			buildOutsideRadius = section.getBoolean(tagBuildOutsideRadius, buildOutsideRadius);
 			
+			// validate the range values
 			if (buildOutsideRadius) {
 				constructChunkRadius = Math.max(0, constructChunkRadius);
 				roadChunkRadius = Math.max(constructChunkRadius, roadChunkRadius);
@@ -384,12 +383,13 @@ public class CityWorldSettings {
 			section.set(tagIncludeMountains, includeMountains);
 			section.set(tagIncludeOres, includeOres);
 			
-			section.set(tagTreasuresInSewers, treasuresInSewers);
-			section.set(tagSpawnersInSewers, spawnersInSewers);
-			section.set(tagTreasuresInMines, treasuresInMines);
-			section.set(tagSpawnersInMines, spawnersInMines);
-			section.set(tagTreasuresInBunkers, treasuresInBunkers);
 			section.set(tagSpawnersInBunkers, spawnersInBunkers);
+			section.set(tagSpawnersInMines, spawnersInMines);
+			section.set(tagSpawnersInSewers, spawnersInSewers);
+
+			section.set(tagTreasuresInBunkers, treasuresInBunkers);
+			section.set(tagTreasuresInMines, treasuresInMines);
+			section.set(tagTreasuresInSewers, treasuresInSewers);
 			
 			section.set(tagIncludeUndergroundFluids, includeUndergroundFluids);
 			section.set(tagIncludeAbovegroundFluids, includeAbovegroundFluids);
@@ -412,6 +412,8 @@ public class CityWorldSettings {
 			section.set(tagRoadChunkRadius, roadChunkRadius);
 			section.set(tagCityChunkRadius, cityChunkRadius);
 			section.set(tagBuildOutsideRadius, buildOutsideRadius);
+			
+			materials.write(generator, section);
 			
 			//===========================================================================
 			// note the depreciations
@@ -441,6 +443,7 @@ public class CityWorldSettings {
 			includeDecayedRoads = true; // DIFFERENT
 			includeDecayedBuildings = true; // DIFFERENT
 			includeDecayedNature = true; // DIFFERENT
+			
 			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
 			break;
 		case MAZE:
@@ -448,10 +451,12 @@ public class CityWorldSettings {
 			includeRoundabouts = false; // DIFFERENT
 			includeMines = false; // DIFFERENT
 			includeBunkers = false; // DIFFERENT
-			treasuresInMines = false; // DIFFERENT
+
 			spawnersInMines = false; // DIFFERENT
-			treasuresInBunkers = false; // DIFFERENT
 			spawnersInBunkers = false; // DIFFERENT
+			treasuresInMines = false; // DIFFERENT
+			treasuresInBunkers = false; // DIFFERENT
+
 			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
 			break;
 		case ASTRAL:
@@ -472,12 +477,13 @@ public class CityWorldSettings {
 			includeMountains = true; // THIS MUST BE SET TO TRUE
 //			includeOres = false; 
 			
-			treasuresInSewers = false; // DIFFERENT
-			spawnersInSewers = false; // DIFFERENT
-			treasuresInMines = false; // DIFFERENT
-			spawnersInMines = false; // DIFFERENT
-			treasuresInBunkers = false; // DIFFERENT
 			spawnersInBunkers = false; // DIFFERENT
+			spawnersInMines = false; // DIFFERENT
+			spawnersInSewers = false; // DIFFERENT
+			
+			treasuresInBunkers = false; // DIFFERENT
+			treasuresInMines = false; // DIFFERENT
+			treasuresInSewers = false; // DIFFERENT
 			
 			includeUndergroundFluids = false; // THIS MUST BE SET TO FALSE
 			includeAbovegroundFluids = false; // THIS MUST BE SET TO FALSE
@@ -507,12 +513,13 @@ public class CityWorldSettings {
 			includeMountains = true; // THIS MUST BE SET TO TRUE
 			includeOres = false; // DIFFERENT
 			
-			treasuresInSewers = false; // DIFFERENT
-			spawnersInSewers = false; // DIFFERENT
-			treasuresInMines = false; // DIFFERENT
-			spawnersInMines = false; // DIFFERENT
-			treasuresInBunkers = false; // DIFFERENT
 			spawnersInBunkers = false; // DIFFERENT
+			spawnersInMines = false; // DIFFERENT
+			spawnersInSewers = false; // DIFFERENT
+
+			treasuresInBunkers = false; // DIFFERENT
+			treasuresInMines = false; // DIFFERENT
+			treasuresInSewers = false; // DIFFERENT
 			
 			includeUndergroundFluids = false; // DIFFERENT
 			includeAbovegroundFluids = true; // THIS MUST BE SET TO TRUE
@@ -543,12 +550,13 @@ public class CityWorldSettings {
 			includeMountains = true; // THIS MUST BE SET TO TRUE
 //			includeOres = true;
 			
-			treasuresInSewers = false; // DIFFERENT
-			spawnersInSewers = false; // DIFFERENT
-			treasuresInMines = false; // DIFFERENT
-			spawnersInMines = false; // DIFFERENT
-			treasuresInBunkers = false; // DIFFERENT
 			spawnersInBunkers = false; // DIFFERENT
+			spawnersInMines = false; // DIFFERENT
+			spawnersInSewers = false; // DIFFERENT
+
+			treasuresInBunkers = false; // DIFFERENT
+			treasuresInMines = false; // DIFFERENT
+			treasuresInSewers = false; // DIFFERENT
 			
 			includeUndergroundFluids = false; // DIFFERENT
 			includeAbovegroundFluids = true; // THIS MUST BE SET TO TRUE
@@ -578,12 +586,13 @@ public class CityWorldSettings {
 			includeMountains = true; // THIS MUST BE SET TO TRUE
 //			includeOres = true;
 			
-			treasuresInSewers = false; // DIFFERENT
-			spawnersInSewers = false; // DIFFERENT
-			treasuresInMines = false; // DIFFERENT
-			spawnersInMines = false; // DIFFERENT
-			treasuresInBunkers = false; // DIFFERENT
 			spawnersInBunkers = false; // DIFFERENT
+			spawnersInMines = false; // DIFFERENT
+			spawnersInSewers = false; // DIFFERENT
+
+			treasuresInBunkers = false; // DIFFERENT
+			treasuresInMines = false; // DIFFERENT
+			treasuresInSewers = false; // DIFFERENT
 			
 //			includeUndergroundFluids = false; 
 			includeAbovegroundFluids = false; // THIS MUST BE SET TO FALSE
@@ -613,12 +622,13 @@ public class CityWorldSettings {
 			includeMountains = true; // THIS MUST BE SET TO TRUE
 //			includeOres = true;
 			
-			treasuresInSewers = false; // DIFFERENT
-			spawnersInSewers = false; // DIFFERENT
-			treasuresInMines = false; // DIFFERENT
-			spawnersInMines = false; // DIFFERENT
-			treasuresInBunkers = false; // DIFFERENT
 			spawnersInBunkers = false; // DIFFERENT
+			spawnersInMines = false; // DIFFERENT
+			spawnersInSewers = false; // DIFFERENT
+
+			treasuresInBunkers = false; // DIFFERENT
+			treasuresInMines = false; // DIFFERENT
+			treasuresInSewers = false; // DIFFERENT
 			
 //			includeUndergroundFluids = false; 
 			includeAbovegroundFluids = true; // THIS MUST BE SET TO TRUE
@@ -679,41 +689,4 @@ public class CityWorldSettings {
 				return centerPointOfChunkRadius.distance(new Vector(x, 0, z)) <= cityChunkRadius;
 		} return true;
 	}
-	
-//	private HashMap<String, ItemStack[]> materials;
-//	
-//	public void addMaterials(String name, Material low, Material high) {
-//		
-//		// build the collection
-//		int base = low.getId();
-//		int count = high.getId() - base;
-//		ItemStack[] collection = new ItemStack[count];
-//		for (int i = 0; i < count; i++) 
-//			collection[i] = new ItemStack(base + i);
-//		
-//		// remember it
-//		materials.put(name, collection);
-//	}
-//	
-//	public void addMaterials(String name, Material ... items) {
-//		
-//		// build the collection
-//		int count = items.length;
-//		ItemStack[] collection = new ItemStack[count];
-//		for (int i = 0; i < count; i++) 
-//			collection[i] = new ItemStack(items[i]);
-//		
-//		// remember it
-//		materials.put(name, collection);
-//	}
-//	
-//	public Material getRandomMaterial(String name, Odds odds) {
-//		ItemStack[] collection = materials.get(name);
-//		return collection == null ? Material.AIR : collection[odds.getRandomInt(collection.length)].getType();
-//	}
-//
-//	public Byte getRandomTypeId(String name, Odds odds) {
-//		ItemStack[] collection = materials.get(name);
-//		return (byte) ((collection == null ? Material.AIR : collection[odds.getRandomInt(collection.length)].getType()).getId());
-//	}
 }

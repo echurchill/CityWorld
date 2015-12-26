@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Plugins.PhatLoot;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Support.Odds;
 
@@ -20,7 +21,7 @@ public class LootProvider_Phat extends LootProvider {
 	}
 	
 	@Override
-	public void setLoot(Odds odds, String worldPrefix, LootLocation lootLocation, Block block) {
+	public void setLoot(CityWorldGenerator generator, Odds odds, String worldPrefix, LootLocation lootLocation, Block block) {
 		String name = worldPrefix + "_" + lootLocation;
 		PhatLoot phatLoot = getByName(name);
 		phatLoot.addChest(block);
