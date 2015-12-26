@@ -41,8 +41,11 @@ public class MaterialProvider {
 	public MaterialList itemsMaterialsForHouseFloors;
 	public MaterialList itemsMaterialsForHouseCeilings;
 	public MaterialList itemsMaterialsForHouseRoofs;
+	public MaterialList itemsMaterialsForShackWalls;
+	public MaterialList itemsMaterialsForShackRoofs;
 	public MaterialList itemsMaterialsForShedWalls;
 	public MaterialList itemsMaterialsForShedRoofs;
+	public MaterialList itemsMaterialsForCastles;
 	
 	public final static String tagMaterialsForBuildingWalls = "Materials_For_BuildingWalls";
 	public final static String tagMaterialsForBuildingCeilings = "Materials_For_BuildingCeilings";
@@ -51,8 +54,11 @@ public class MaterialProvider {
 	public final static String tagMaterialsForHouseFloors = "Materials_For_HouseFloors";
 	public final static String tagMaterialsForHouseCeilings = "Materials_For_HouseCeilings";
 	public final static String tagMaterialsForHouseRoofs = "Materials_For_HouseRoofs";
+	public final static String tagMaterialsForShackWalls = "Materials_For_ShackWalls";
+	public final static String tagMaterialsForShackRoofs = "Materials_For_ShackRoofs";
 	public final static String tagMaterialsForShedWalls = "Materials_For_ShedWalls";
 	public final static String tagMaterialsForShedRoofs = "Materials_For_ShedRoofs";
+	public final static String tagMaterialsForCastles = "Materials_For_Castles";
 	
 	private List<MaterialList> listOfLists;
 	
@@ -424,6 +430,20 @@ public class MaterialProvider {
 				Material.RED_SANDSTONE,
 				Material.WOOD);
 		
+		itemsMaterialsForShackWalls = createList(tagMaterialsForShackWalls,
+				Material.WOOD,
+				Material.WOOD,
+				Material.WOOD,
+				Material.WOOD,
+				Material.MOSSY_COBBLESTONE,
+				Material.RED_SANDSTONE,
+				Material.NETHER_BRICK);
+		
+		itemsMaterialsForShackRoofs = createList(tagMaterialsForShackRoofs,
+				Material.WOOD,
+				Material.STEP,
+				Material.WOOD_STEP);
+		
 		itemsMaterialsForShedWalls = createList(tagMaterialsForShedWalls,
 				Material.STONE,
 				Material.SANDSTONE,
@@ -436,6 +456,18 @@ public class MaterialProvider {
 		itemsMaterialsForShedRoofs = createList(tagMaterialsForShedRoofs,
 				Material.STEP,
 				Material.WOOD_STEP);
+
+		itemsMaterialsForCastles = createList(tagMaterialsForCastles,
+				Material.SMOOTH_BRICK,
+				Material.COBBLESTONE,
+				Material.MOSSY_COBBLESTONE,
+				Material.NETHER_BRICK,
+				Material.SANDSTONE,
+				Material.HARD_CLAY,
+				Material.STAINED_CLAY,
+				Material.ENDER_STONE,
+				Material.DOUBLE_STEP,
+				Material.DOUBLE_STONE_SLAB2);
 	}
 	
 	private MaterialList createList(String name, Material ... materials) {

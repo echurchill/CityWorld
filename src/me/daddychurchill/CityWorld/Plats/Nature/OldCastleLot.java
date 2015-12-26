@@ -13,22 +13,28 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class OldCastleLot extends ConstructLot {
 
+//	private Material platformMaterial = Material.SMOOTH_BRICK;
+//	private Material supportMaterial = Material.COBBLESTONE;
+//	private Material wallMaterial = platformMaterial;
+	
+	private Material platformMaterial;
+	private Material supportMaterial;
+	private Material wallMaterial;
+	
 	public OldCastleLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
 		trulyIsolated = true;
-
-		//platmap.generator.reportMessage("CASTLE AT " + (chunkX * 16) + ", " + (chunkZ * 16));
+		
+		platformMaterial = platmap.generator.settings.materials.itemsMaterialsForCastles.getRandomMaterial(chunkOdds);
+		supportMaterial = platmap.generator.settings.materials.itemsMaterialsForCastles.getRandomMaterial(chunkOdds);
+		wallMaterial = platmap.generator.settings.materials.itemsMaterialsForCastles.getRandomMaterial(chunkOdds);
 	}
 	
 	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
 		return new OldCastleLot(platmap, chunkX, chunkZ);
 	}
-	
-	private final static Material platformMaterial = Material.SMOOTH_BRICK;
-	private final static Material supportMaterial = Material.COBBLESTONE;
-	private final static Material wallMaterial = platformMaterial;
 	
 	@Override
 	public int getBottomY(CityWorldGenerator generator) {

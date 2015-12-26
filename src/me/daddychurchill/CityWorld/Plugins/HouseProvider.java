@@ -255,13 +255,13 @@ public class HouseProvider extends Provider {
 	
 	private enum HouseRoofStyle {FLAT, NORTHSOUTH, WESTEAST, ANGLED};
 	
-	public int generateShack(CityWorldGenerator generator, RealBlocks chunk, DataContext context, Odds odds, int baseY, int roomWidth) {
+	public int generateRuralShack(CityWorldGenerator generator, RealBlocks chunk, DataContext context, Odds odds, int baseY, int roomWidth) {
 		
 		// what are we made of?
-		Material matWall = Material.WOOD;
-		Material matFloor = Material.WOOD;
-		Material matCeiling = Material.WOOD;
-		Material matRoof = Material.WOOD;
+		Material matWall = generator.settings.materials.itemsMaterialsForShackWalls.getRandomMaterial(odds);
+		Material matFloor = generator.settings.materials.itemsMaterialsForShackWalls.getRandomMaterial(odds);
+		Material matRoof = generator.settings.materials.itemsMaterialsForShackRoofs.getRandomMaterial(odds);
+		Material matCeiling = matRoof;
 		HouseRoofStyle styleRoof = HouseRoofStyle.FLAT;
 		int floors = 1;
 		
