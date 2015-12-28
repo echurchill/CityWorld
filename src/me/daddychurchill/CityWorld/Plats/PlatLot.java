@@ -57,6 +57,14 @@ public abstract class PlatLot {
 	protected abstract void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ);
 	protected abstract void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ);
 
+	public int getChunkX() {
+		return chunkX;
+	}
+	
+	public int getChunkZ() {
+		return chunkZ;
+	}
+	
 	protected void reportLocation(CityWorldGenerator generator, String title, AbstractBlocks chunk) {
 		reportLocation(generator, title, chunk.getOriginX(), chunk.getOriginZ());
 	}
@@ -124,19 +132,34 @@ public abstract class PlatLot {
 //	private static int totalNumberOfGeneratedChunks = 0;
 	private int generateBlocksCallCountForThisLot = 0;
 	
+//	protected void burp(CityWorldGenerator generator, int i, boolean report) {
+//		int realY = generator.shapeProvider.findBlockY(generator, AbstractBlocks.getBlockX(chunkX, 0), AbstractBlocks.getBlockZ(chunkZ, 0));
+//		int cacheY = blockYs.getBlockY(0, 0);
+//		if (report || realY != cacheY)
+//			generator.reportFormatted(">>>>>%d> chunk %d,%d [0][0] real = %4d, cached = %4d", i, chunkX, chunkZ, realY, cacheY);
+//	}
+		
 	public void generateChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+//		if (chunk.sectionX != chunkX || chunk.sectionZ != chunkZ)
+//			generator.reportFormatted("!!!!!2! Wrong chunk [%d, %d] for Platlot [%d, %d]", chunk.sectionX, chunk.sectionZ, chunkX, chunkZ);
+//		
+//		burp(generator, 1, false);
 		initializeDice(platmap, chunk.sectionX, chunk.sectionZ);
 		
 		// what do we need to first?
+//		burp(generator, 2, false);
 		generator.shapeProvider.preGenerateChunk(generator, this, chunk, biomes, blockYs);
 		
 		// let the specialized platlot do it's thing
+//		burp(generator, 3, false);
 		generateActualChunk(generator, platmap, chunk, biomes, context, platX, platZ);
 		generateBlocksCallCountForThisLot = 0;
 //		totalNumberOfGeneratedChunks++;
 		
 		// polish things off
+//		burp(generator, 4, false);
 		generator.shapeProvider.postGenerateChunk(generator, this, chunk, blockYs);
+//		burp(generator, 5, false);
 	}
 		
 	public void generateBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {

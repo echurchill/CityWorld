@@ -75,6 +75,9 @@ public class PlatMap {
 		
 		PlatLot platlot = platLots[platX][platZ];
 		if (platlot != null) {
+			
+//			if (chunk.sectionX != platlot.getChunkX() || chunk.sectionZ != platlot.getChunkZ())
+//				generator.reportFormatted("!!!!!1! Wrong chunk [%d, %d] for Platlot [%d, %d]", chunk.sectionX, chunk.sectionZ, platlot.getChunkX(), platlot.getChunkZ());
 
 			// do what we came here for
 			platlot.generateChunk(generator, this, chunk, biomes, context, platX, platZ);

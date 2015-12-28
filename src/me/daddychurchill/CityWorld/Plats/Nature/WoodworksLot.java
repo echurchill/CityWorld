@@ -15,6 +15,7 @@ import me.daddychurchill.CityWorld.Support.Direction.Stair;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
+import me.daddychurchill.CityWorld.Support.Odds;
 
 public class WoodworksLot extends ConstructLot {
 
@@ -49,7 +50,7 @@ public class WoodworksLot extends ConstructLot {
 	}
 	
 	private void generateSomething(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z) {
-		switch (chunkOdds.getRandomInt(10)) {
+		switch (chunkOdds.getRandomInt(11)) {
 		default:
 		case 0:
 		case 1:
@@ -90,6 +91,17 @@ public class WoodworksLot extends ConstructLot {
 			break;
 		case 9:
 			if (chunkOdds.flipCoin()) {
+				for (int x1 = x + 1; x1 < x + 5; x1++)
+					if (chunkOdds.playOdds(Odds.oddsPrettyLikely))
+						chunk.setChest(generator, x1, y, z, General.NORTH, chunkOdds, generator.lootProvider, LootLocation.WOODWORKSOUTPUT);
+			} else {
+				for (int z1 = z + 1; z1 < z + 5; z1++)
+					if (chunkOdds.playOdds(Odds.oddsPrettyLikely))
+						chunk.setChest(generator, x + 3, y, z1, General.EAST, chunkOdds, generator.lootProvider, LootLocation.WOODWORKSOUTPUT);
+			}
+			break;
+		case 10:
+			if (chunkOdds.flipCoin()) {
 				x = x / 8 * 8;
 				z = z / 8 * 8;
 				generateSection(chunk, x, y + floorHeight, z);
@@ -101,7 +113,7 @@ public class WoodworksLot extends ConstructLot {
 		
 		//TODO add decay
 	}
-
+	
 	protected static int sectionWidth = 5;
 	protected static int floorHeight = 4;
 

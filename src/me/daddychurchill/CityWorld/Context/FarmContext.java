@@ -4,6 +4,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
+import me.daddychurchill.CityWorld.Plats.Rural.BarnLot;
 import me.daddychurchill.CityWorld.Plats.Rural.FarmLot;
 import me.daddychurchill.CityWorld.Plats.Rural.HouseLot;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
@@ -13,6 +14,7 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 public class FarmContext extends RuralContext {
 
 	protected final static double oddsOfFarmHouse = Odds.oddsSomewhatUnlikely;
+	protected final static double oddsOfBarn = Odds.oddsAlwaysGoingToHappen;// Odds.oddsSomewhatUnlikely;
 	
 	public FarmContext(CityWorldGenerator generator) {
 		super(generator);
@@ -30,6 +32,7 @@ public class FarmContext extends RuralContext {
 		Odds platmapOdds = platmap.getOddsGenerator();
 		ShapeProvider shapeProvider = generator.shapeProvider;
 		boolean housePlaced = false;
+		boolean barnPlaced = false;
 		int lastX = 0, lastZ = 0;
 		
 		// where do we begin?
@@ -84,8 +87,12 @@ public class FarmContext extends RuralContext {
 					
 					// farm house here?
 					if (!housePlaced && platmapOdds.playOdds(oddsOfFarmHouse) && generator.settings.includeHouses) {
-						housePlaced = platmap.setLot(x, z, getHouseLot(generator, platmap, platmapOdds, originX + lastX, originZ + lastZ)); 
+						housePlaced = platmap.setLot(x, z, getHouseLot(generator, platmap, platmapOdds, originX + x, originZ + z)); 
 					
+					// barn here?
+					} else if (!barnPlaced && platmapOdds.playOdds(oddsOfBarn) && generator.settings.includeBuildings) {
+						barnPlaced = platmap.setLot(x, z, getBarnLot(generator, platmap, platmapOdds, originX + x, originZ + z)); 
+						
 					// place the farm
 					} else {
 						
@@ -133,6 +140,10 @@ public class FarmContext extends RuralContext {
 	
 	protected PlatLot getHouseLot(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new HouseLot(platmap, chunkX, chunkZ);
+	}
+
+	protected PlatLot getBarnLot(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+		return new BarnLot(platmap, chunkX, chunkZ);
 	}
 
 	public void validateMap(CityWorldGenerator generator, PlatMap platmap) {

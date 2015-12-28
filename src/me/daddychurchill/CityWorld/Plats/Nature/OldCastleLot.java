@@ -26,9 +26,9 @@ public class OldCastleLot extends ConstructLot {
 		
 		trulyIsolated = true;
 		
-		platformMaterial = platmap.generator.settings.materials.itemsMaterialsForCastles.getRandomMaterial(chunkOdds);
-		supportMaterial = platmap.generator.settings.materials.itemsMaterialsForCastles.getRandomMaterial(chunkOdds);
-		wallMaterial = platmap.generator.settings.materials.itemsMaterialsForCastles.getRandomMaterial(chunkOdds);
+		platformMaterial = platmap.generator.settings.materials.itemsMaterialsForCastles.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
+		supportMaterial = platmap.generator.settings.materials.itemsMaterialsForCastles.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
+		wallMaterial = platmap.generator.settings.materials.itemsMaterialsForCastles.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
 	}
 	
 	@Override

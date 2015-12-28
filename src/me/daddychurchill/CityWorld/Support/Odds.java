@@ -82,6 +82,14 @@ public class Odds {
 		return min + random.nextDouble() * (max - min);
 	}
 	
+	public int getShimmy() {
+		return getShimmy(1);
+	}
+	
+	public int getShimmy(int max) {
+		return -max + random.nextInt(max * 2 + 1);
+	}
+	
 	public Material getRandomMaterial(Material ... items) {
 		return items[getRandomInt(items.length)];
 	}

@@ -68,16 +68,16 @@ public abstract class GravelLot extends ConstructLot {
 	}
 	
 	protected void generateBase(CityWorldGenerator generator, RealBlocks chunk) {
-		chunk.setBlocks(2, 14, generator.streetLevel, 2, 14, Material.COBBLESTONE);
+		chunk.setBlocks(1, 15, generator.streetLevel, 1, 15, Material.COBBLESTONE);
 		for (int i = 0; i < 10; i++) {
 			if (chunkOdds.flipCoin())
-				chunk.setBlock(i + 3, generator.streetLevel, 1, Material.COBBLESTONE);
+				chunk.setBlock(i + 2, generator.streetLevel, 0, Material.COBBLESTONE);
 			if (chunkOdds.flipCoin())
-				chunk.setBlock(14, generator.streetLevel, i + 3, Material.COBBLESTONE);
+				chunk.setBlock(15, generator.streetLevel, i + 3, Material.COBBLESTONE);
 			if (chunkOdds.flipCoin())
-				chunk.setBlock(12 - i, generator.streetLevel, 14, Material.COBBLESTONE);
+				chunk.setBlock(13 - i, generator.streetLevel, 15, Material.COBBLESTONE);
 			if (chunkOdds.flipCoin())
-				chunk.setBlock(1, generator.streetLevel, 12 - i, Material.COBBLESTONE);
+				chunk.setBlock(0, generator.streetLevel, 13 - i, Material.COBBLESTONE);
 		}
 	}
 

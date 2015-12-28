@@ -12,7 +12,7 @@ import me.daddychurchill.CityWorld.Support.Odds;
 
 public abstract class LootProvider extends Provider {
 
-	public enum LootLocation {RANDOM, SEWER, MINE, BUNKER, STORAGESHED, FARMWORKS, WOODWORKS, STONEWORKS, STONEWORKSOUTPUT};
+	public enum LootLocation {RANDOM, SEWER, MINE, BUNKER, STORAGESHED, FARMWORKS, FARMWORKSOUTPUT, WOODWORKS, WOODWORKSOUTPUT, STONEWORKS, STONEWORKSOUTPUT};
 	
 	public abstract void setLoot(CityWorldGenerator generator, Odds odds, String worldPrefix, LootLocation chestLocation, Block block);
 	public abstract void saveLoots();
@@ -57,8 +57,9 @@ public abstract class LootProvider extends Provider {
 		ItemStack[] items = new ItemStack[count];
 		
 		// populate
-		for (int i = 0; i < count; i++)
+		for (int i = 0; i < count; i++) {
 			items[i] = new ItemStack(materials.getRandomMaterial(odds), odds.getRandomInt(maxStack) + 1);
+		}
 		
 		// all done
 		return items;

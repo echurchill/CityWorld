@@ -37,13 +37,17 @@ public class LootProvider_Normal extends LootProvider {
 		case STORAGESHED:
 			return pickFromTreasures(generator.settings.materials.itemsTreasureInStorageSheds, odds, 3, 2);
 		case FARMWORKS:
-			return pickFromTreasures(generator.settings.materials.itemsTreasureInFarmWorks, odds, 4, 3);
+			return pickFromTreasures(generator.settings.materials.itemsTreasureInFarmWorks, odds, 4, 2);
+		case FARMWORKSOUTPUT:
+			return pickFromTreasures(generator.settings.materials.itemsTreasureInFarmWorksOutput, odds, 8, 6);
 		case WOODWORKS:
-			return pickFromTreasures(generator.settings.materials.itemsTreasureInWoodWorks, odds, 4, 3);
+			return pickFromTreasures(generator.settings.materials.itemsTreasureInWoodWorks, odds, 4, 2);
+		case WOODWORKSOUTPUT:
+			return pickFromTreasures(generator.settings.materials.itemsTreasureInWoodWorksOutput, odds, 8, 6);
 		case STONEWORKS:
-			return pickFromTreasures(generator.settings.materials.itemsTreasureInStoneWorks, odds, 3, 2);
+			return pickFromTreasures(generator.settings.materials.itemsTreasureInStoneWorks, odds, 4, 2);
 		case STONEWORKSOUTPUT:
-			return pickFromTreasures(generator.settings.materials.itemsTreasureInStoneWorksOutput, odds, 6, 3);
+			return pickFromTreasures(generator.settings.materials.itemsTreasureInStoneWorksOutput, odds, 10, 6);
 		case RANDOM:
 			lootLocation = LootLocation.values()[odds.getRandomInt(LootLocation.values().length - 1) + 1];
 			return getLoot(generator, odds, lootLocation, block);

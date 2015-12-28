@@ -37,6 +37,7 @@ public class MaterialProvider {
 	public MaterialList itemsMaterialsForBuildingWalls;
 	public MaterialList itemsMaterialsForBuildingCeilings;
 	public MaterialList itemsMaterialsForBuildingRoofs;
+	public MaterialList itemsMaterialsForUnfinishedBuildings;
 	public MaterialList itemsMaterialsForHouseWalls;
 	public MaterialList itemsMaterialsForHouseFloors;
 	public MaterialList itemsMaterialsForHouseCeilings;
@@ -50,6 +51,7 @@ public class MaterialProvider {
 	public final static String tagMaterialsForBuildingWalls = "Materials_For_BuildingWalls";
 	public final static String tagMaterialsForBuildingCeilings = "Materials_For_BuildingCeilings";
 	public final static String tagMaterialsForBuildingRoofs = "Materials_For_BuildingRoofs";
+	public final static String tagMaterialsForUnfinishedBuildings = "Materials_For_UnfinishedBuildings";
 	public final static String tagMaterialsForHouseWalls = "Materials_For_HouseWalls";
 	public final static String tagMaterialsForHouseFloors = "Materials_For_HouseFloors";
 	public final static String tagMaterialsForHouseCeilings = "Materials_For_HouseCeilings";
@@ -394,6 +396,17 @@ public class MaterialProvider {
 				Material.STONE,
 				Material.RED_SANDSTONE,
 				Material.DOUBLE_STONE_SLAB2);
+		
+		itemsMaterialsForUnfinishedBuildings = createList(tagMaterialsForUnfinishedBuildings,
+				Material.CLAY,
+				Material.CLAY,
+				Material.HARD_CLAY,
+				Material.HARD_CLAY,
+				Material.STAINED_CLAY,
+				Material.STAINED_CLAY,
+				Material.STONE,
+				Material.STONE,
+				Material.WOOD);
 
 		itemsMaterialsForHouseWalls = createList(tagMaterialsForHouseWalls,
 				Material.COBBLESTONE,
@@ -437,7 +450,8 @@ public class MaterialProvider {
 				Material.WOOD,
 				Material.MOSSY_COBBLESTONE,
 				Material.RED_SANDSTONE,
-				Material.NETHER_BRICK);
+				Material.NETHER_BRICK,
+				Material.BRICK);
 		
 		itemsMaterialsForShackRoofs = createList(tagMaterialsForShackRoofs,
 				Material.WOOD,
@@ -461,10 +475,6 @@ public class MaterialProvider {
 				Material.SMOOTH_BRICK,
 				Material.COBBLESTONE,
 				Material.MOSSY_COBBLESTONE,
-				Material.NETHER_BRICK,
-				Material.SANDSTONE,
-				Material.HARD_CLAY,
-				Material.STAINED_CLAY,
 				Material.ENDER_STONE,
 				Material.DOUBLE_STEP,
 				Material.DOUBLE_STONE_SLAB2);

@@ -69,12 +69,28 @@ public class Direction {
 		}
 	};
 	
+	public enum Wood {
+		OAK(0), SPRUCE(1), 
+		BIRCH(2), JUNGLE(3),
+		ACACIA(4), DARK_OAK(5);
+		
+		private byte data;
+		private Wood(int d) {
+			data = (byte) d;
+		}
+		public byte getData() {
+			return data;
+		}
+	};
+	
 	public enum WoodSlab {
 		OAK(0), SPRUCE(1), 
 		BIRCH(2), JUNGLE(3),
+		ACACIA(4), DARK_OAK(5),
 		
 		OAKFLIP(8 + 0), SPRUCEFLIP(8 + 1), 
-		BIRCHFLIP(8 + 2), JUNGLEFLIP(8 + 3);
+		BIRCHFLIP(8 + 2), JUNGLEFLIP(8 + 3),
+		ACACIAFLIP(8 + 4), DARK_OAKFLIP(8 + 5);
 			
 		private byte data;
 		private WoodSlab(int d) {

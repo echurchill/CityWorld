@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Support;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 
+import org.bukkit.Material;
 import org.bukkit.util.noise.NoiseGenerator;
 
 public class CachedYs {
@@ -90,4 +91,30 @@ public class CachedYs {
 		averageHeight = sumHeight / (width * width);
 	}
 	
+	public void draw(AbstractBlocks chunk) {
+		for (int x = 0; x < width; x++) {
+			for (int z = 0; z < width; z++) {
+				chunk.setBlock(x, getBlockY(x, z), z, Material.GOLD_BLOCK);
+			}
+		}
+		chunk.setBlock(minHeightX, minHeight, minHeightZ, Material.DIAMOND_BLOCK);
+		chunk.setBlock(maxHeightX, maxHeight, maxHeightZ, Material.LAPIS_BLOCK);
+		chunk.setBlock(0, averageHeight - 1, 0, Material.COAL_BLOCK);
+		chunk.setBlock(0, averageHeight + 1, 0, Material.COAL_BLOCK);
+	}
+	
+	public void report(CityWorldGenerator generator, String prefix) {
+		generator.reportFormatted("%s minHeight = %s maxHeight = %s averageHeight = %s streetLevel = %s", 
+				prefix, minHeight, maxHeight, averageHeight, generator.streetLevel);
+	}
+	
+	public void reportMatrix(CityWorldGenerator generator, String prefix) {
+		for (int z = 0; z < width; z++) {
+			String line = String.format("%s [%2s] =", prefix, z);
+			for (int x = 0; x < width; x++) {
+				line = line + String.format(" %4s", getBlockY(x, z));
+			}
+			generator.reportMessage(line);
+		}
+	}
 }

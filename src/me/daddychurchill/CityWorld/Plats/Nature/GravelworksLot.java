@@ -60,17 +60,19 @@ public class GravelworksLot extends GravelLot {
 			
 			// clear off some space
 			generateBase(generator, chunk);
-			generateTailings(generator, chunk, 2, 14, 2, 14);
+			int x = chunkOdds.getRandomInt(3);
+			int z = chunkOdds.getRandomInt(3);
+			generateTailings(generator, chunk, x, 15 - x, z, 15 - z);
 			break;
 			
 		default:
 			
 			// create some piles of stuff
 			generateBase(generator, chunk);
-			generatePile(generator, chunk, 3, 3, 4);
-			generatePile(generator, chunk, 3, 9, 4);
-			generatePile(generator, chunk, 9, 3, 4);
-			generatePile(generator, chunk, 9, 9, 4);
+			generatePile(generator, chunk, 3 + chunkOdds.getShimmy(), 3 + chunkOdds.getShimmy(), 4);
+			generatePile(generator, chunk, 3 + chunkOdds.getShimmy(), 9 + chunkOdds.getShimmy(), 4);
+			generatePile(generator, chunk, 9 + chunkOdds.getShimmy(), 3 + chunkOdds.getShimmy(), 4);
+			generatePile(generator, chunk, 9 + chunkOdds.getShimmy(), 9 + chunkOdds.getShimmy(), 4);
 			
 			break;
 		}

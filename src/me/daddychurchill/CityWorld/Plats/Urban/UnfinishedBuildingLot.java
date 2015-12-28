@@ -18,7 +18,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 
 	private final static int FloorHeight = DataContext.FloorHeight;
 	
-	private final static Material girderMaterial = Material.CLAY;
+	private Material girderMaterial;// = Material.CLAY;
 	
 	private final static Material dirtMaterial = Material.DIRT;
 	private final static Material stairMaterial = Material.WOOD_STAIRS;
@@ -37,11 +37,15 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		super(platmap, chunkX, chunkZ);
 		DataContext context = platmap.context;
 		
+		// material please
+		girderMaterial = platmap.generator.settings.materials.itemsMaterialsForUnfinishedBuildings.getRandomMaterial(chunkOdds, Material.CLAY);
+		
 		// basement only?
 		unfinishedBasementOnly = chunkOdds.playOdds(context.oddsOfOnlyUnfinishedBasements);
 		
 		// how many floors are finished?
 		floorsBuilt = chunkOdds.getRandomInt(height);
+		
 	}
 
 	@Override

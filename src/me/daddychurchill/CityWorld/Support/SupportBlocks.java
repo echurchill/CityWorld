@@ -19,6 +19,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.EntityType;
 import org.bukkit.material.Colorable;
 import org.bukkit.material.Directional;
+import org.bukkit.material.Ladder;
 import org.bukkit.material.Leaves;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Step;
@@ -675,6 +676,11 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		setBlocks(x1, x2, y1, y2, z1, z2, Material.WOOD_STEP, data);
 	}
 	
+	public final void setWood(int x, int y, int z, TreeSpecies species) {
+		Tree data = new Tree(species);
+		setBlock(x, y, z, Material.WOOD, data);
+	}
+	
 	public final void setLog(int x, int y, int z, Material material, TreeSpecies species, BlockFace facing) {
 		Tree data = new Tree(species, facing);
 		setBlock(x, y, z, material, data);
@@ -815,10 +821,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		BlackMagic.setBlock(this, x, y, z, Material.STEP, direction.getData());
 	}
 
-	public final void setWoodSlab(int x, int y, int z, Direction.WoodSlab direction) {
-		BlackMagic.setBlock(this, x, y, z, Material.WOOD_STEP, direction.getData());
-	}
-
 	public final void setLadder(int x, int y1, int y2, int z, Direction.General direction) {
 		byte data = direction.getData();
 		int offsetX = 0;
@@ -840,6 +842,33 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		for (int y = y1; y < y2; y++) {
 			if (!isEmpty(x + offsetX, y, z + offsetZ))
 				BlackMagic.setBlock(this, x, y, z, Material.LADDER, data);
+		}
+	}
+	
+	public final void setLadder(int x, int y1, int y2, int z, BlockFace direction) {
+		int offsetX = 0;
+		int offsetZ = 0;
+		switch (direction) {
+		case WEST:
+			offsetX = -1;
+			break;
+		case EAST:
+			offsetX = 1;
+			break;
+		case NORTH:
+			offsetZ = -1;
+			break;
+		case SOUTH:
+		default:
+			offsetZ = 1;
+			break;
+		}
+		for (int y = y1; y < y2; y++) {
+			if (!isEmpty(x + offsetX, y, z + offsetZ)) {
+				Ladder data = new Ladder();
+				data.setFacingDirection(direction);
+				setBlock(x, y, z, Material.LADDER, data);
+			}
 		}
 	}
 

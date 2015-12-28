@@ -331,6 +331,10 @@ public class CityWorldGenerator extends ChunkGenerator {
 	public void reportMessage(String message1, String message2) {
 		plugin.reportMessage(message1, message2);
 	}
+	
+	public void reportFormatted(String format, Object ... objects) {
+		plugin.reportMessage(String.format(format, objects));
+	}
 
 	public void reportException(String message, Exception e) {
 		plugin.reportException(message, e);

@@ -50,8 +50,12 @@ public class MaterialList {
 	}
 	
 	public Material getRandomMaterial(Odds odds) {
+		return getRandomMaterial(odds, Material.AIR);
+	}
+	
+	public Material getRandomMaterial(Odds odds, Material defaultMaterial) {
 		if (items == null || count() == 0)
-			return Material.AIR;
+			return defaultMaterial;
 		else
 			return items.get(odds.getRandomInt(count())).getType();
 	}

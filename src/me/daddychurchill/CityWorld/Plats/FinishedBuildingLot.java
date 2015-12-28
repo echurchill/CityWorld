@@ -72,9 +72,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		otherFloorHeight = aboveFloorHeight;
 		
 		// what is it made of?
-		wallMaterial = platmap.generator.settings.materials.itemsMaterialsForBuildingWalls.getRandomMaterial(chunkOdds);
-		ceilingMaterial = platmap.generator.settings.materials.itemsMaterialsForBuildingCeilings.getRandomMaterial(chunkOdds);
-		roofMaterial = platmap.generator.settings.materials.itemsMaterialsForBuildingRoofs.getRandomMaterial(chunkOdds);
+		wallMaterial = platmap.generator.settings.materials.itemsMaterialsForBuildingWalls.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
+		ceilingMaterial = platmap.generator.settings.materials.itemsMaterialsForBuildingCeilings.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
+		roofMaterial = platmap.generator.settings.materials.itemsMaterialsForBuildingRoofs.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
 		columnMaterial = pickColumnMaterial(wallMaterial);
 		stairMaterial = pickStairMaterial(wallMaterial);
 		doorMaterial = pickDoorMaterial(wallMaterial);
