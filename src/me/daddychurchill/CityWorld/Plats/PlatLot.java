@@ -12,9 +12,9 @@ import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.AbstractBlocks;
 import me.daddychurchill.CityWorld.Support.CachedYs;
-import me.daddychurchill.CityWorld.Support.Direction;
+import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.Direction.Stair;
+import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
@@ -462,7 +462,7 @@ public abstract class PlatLot {
 			for (int z = z1; z < z2; z++) {
 				if (chunkOdds.flipCoin())
 					if (!chunk.isEmpty(x, y + 1, z) && chunk.isEmpty(x, y, z))
-						chunk.setStoneSlab(x, y, z, Direction.StoneSlab.COBBLESTONEFLIP);
+						chunk.setStoneSlab(x, y, z, BadMagic.StoneSlab.COBBLESTONEFLIP);
 			}
 		}
 	}
@@ -488,7 +488,7 @@ public abstract class PlatLot {
 
 		// cool stuff?
 		if (generator.settings.treasuresInMines && chunkOdds.playOdds(generator.settings.oddsOfTreasureInMines)) {
-			 chunk.setChest(generator, x, y, z, Direction.General.SOUTH, chunkOdds, generator.lootProvider, LootLocation.MINE);
+			 chunk.setChest(generator, x, y, z, BadMagic.General.SOUTH, chunkOdds, generator.lootProvider, LootLocation.MINE);
 		}
 	}
 

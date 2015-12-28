@@ -15,7 +15,7 @@ public class MazeCampgroundContext extends MazeConstructContext {
 	}
 
 	@Override
-	protected PlatLot generateSpecialLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	protected PlatLot generateSpecialOneLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new CampgroundLot(platmap, chunkX, chunkZ);
 	}
 

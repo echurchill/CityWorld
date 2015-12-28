@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plats.Nature;
 
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
@@ -8,7 +9,7 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.Direction;
+import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
@@ -112,14 +113,14 @@ public class RadioTowerLot extends ConstructLot {
 
 		// place a door but only if everything is "normal"
 		} else if (building)
-			chunk.setWoodenDoor(originX + 2, platformY, originZ + 3, Direction.Door.WESTBYNORTHWEST);
+			chunk.setWoodenDoor(originX + 2, platformY, originZ + 3, BadMagic.Door.WESTBYNORTHWEST);
 		
 		// place the ladder
 		int ladderBase = platformY - 2;
 		while (chunk.isEmpty(originX, ladderBase, originZ + 4)) {
 			ladderBase--;
 		}
-		chunk.setLadder(originX, ladderBase, platformY, originZ + 4, Direction.General.WEST);
+		chunk.setLadder(originX, ladderBase, platformY, originZ + 4, BlockFace.EAST);
 		chunk.setBlock(originX, platformY, originZ + 4, getAirMaterial(generator, platformY));
 			
 		// place antennas
@@ -167,7 +168,7 @@ public class RadioTowerLot extends ConstructLot {
 				if (!generator.settings.includeDecayedBuildings) {
 					if (antennaHeight == heightTallest) {
 						chunk.setBlock(x, y + 2 + antennaHeight, z, capBigMaterial);
-						chunk.setTorch(x, y + 2 + antennaHeight + 1, z, context.torchMat, Direction.Torch.FLOOR);
+						chunk.setTorch(x, y + 2 + antennaHeight + 1, z, context.torchMat, BadMagic.Torch.FLOOR);
 					} else
 						chunk.setBlock(x, y + 2 + antennaHeight, z, capTinyMaterial);
 				}

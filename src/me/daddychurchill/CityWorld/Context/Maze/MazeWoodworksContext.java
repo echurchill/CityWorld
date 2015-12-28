@@ -16,7 +16,7 @@ public class MazeWoodworksContext extends MazeConstructContext {
 	}
 
 	@Override
-	protected PlatLot generateSpecialLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	protected PlatLot generateSpecialOneLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new WoodframeLot(platmap, chunkX, chunkZ);
 	}
 
@@ -26,6 +26,11 @@ public class MazeWoodworksContext extends MazeConstructContext {
 			return new MountainTentLot(platmap, chunkX, chunkZ);
 		else
 			return new WoodworksLot(platmap, chunkX, chunkZ);
+	}
+	
+	@Override
+	protected PlatLot generateSpecialTooLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+		return new MountainTentLot(platmap, chunkX, chunkZ);
 	}
 
 }

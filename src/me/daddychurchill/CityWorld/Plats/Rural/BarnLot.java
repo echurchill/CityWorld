@@ -12,9 +12,8 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.IsolatedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
-import me.daddychurchill.CityWorld.Support.Direction.General;
+import me.daddychurchill.CityWorld.Support.BadMagic.General;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
@@ -253,7 +252,7 @@ public class BarnLot extends IsolatedLot {
 	}
 	
 	private void hayPile(RealBlocks chunk, int x1, int x2, int y, int z1, int z2) {
-		if (chunkOdds.playOdds(Odds.oddsLikely))
+		if (chunkOdds.flipCoin())
 			for (int x = x1; x < x2; x++)
 				for (int z = z1; z < z2; z++)
 						chunk.setBlocks(x, y, y + chunkOdds.getRandomInt(3), z, Material.HAY_BLOCK);

@@ -4,8 +4,8 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
-import me.daddychurchill.CityWorld.Support.Direction.Facing;
-import me.daddychurchill.CityWorld.Support.Direction.Stair;
+import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
+import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
@@ -760,7 +760,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		setBlock(x, y + 1, z, tableTop);
 	}
 	
-	private void setDoor(int x, int y, int z, Material material, Direction.Door direction) {
+	private void setDoor(int x, int y, int z, Material material, BadMagic.Door direction) {
 		byte orentation = 0;
 		byte hinge = 0;
 		
@@ -805,46 +805,22 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		BlackMagic.setBlockType(getActualBlock(x, y + 1, z), material, hinge, true, true);
 	}
 
-	public final void setWoodenDoor(int x, int y, int z, Direction.Door direction) {
+	public final void setWoodenDoor(int x, int y, int z, BadMagic.Door direction) {
 		setDoor(x, y, z, Material.WOODEN_DOOR, direction);
 	}
 
-	public final void setIronDoor(int x, int y, int z, Direction.Door direction) {
+	public final void setIronDoor(int x, int y, int z, BadMagic.Door direction) {
 		setDoor(x, y, z, Material.IRON_DOOR_BLOCK, direction);
 	}
 
-	public final void setTrapDoor(int x, int y, int z, Direction.TrapDoor direction) {
+	public final void setTrapDoor(int x, int y, int z, BadMagic.TrapDoor direction) {
 		BlackMagic.setBlock(this, x, y, z, Material.TRAP_DOOR, direction.getData());
 	}
 
-	public final void setStoneSlab(int x, int y, int z, Direction.StoneSlab direction) {
+	public final void setStoneSlab(int x, int y, int z, BadMagic.StoneSlab direction) {
 		BlackMagic.setBlock(this, x, y, z, Material.STEP, direction.getData());
 	}
 
-	public final void setLadder(int x, int y1, int y2, int z, Direction.General direction) {
-		byte data = direction.getData();
-		int offsetX = 0;
-		int offsetZ = 0;
-		switch (direction) {
-		case EAST:
-			offsetX = -1;
-			break;
-		case WEST:
-			offsetX = 1;
-			break;
-		case NORTH:
-			offsetZ = -1;
-			break;
-		case SOUTH:
-			offsetZ = 1;
-			break;
-		}
-		for (int y = y1; y < y2; y++) {
-			if (!isEmpty(x + offsetX, y, z + offsetZ))
-				BlackMagic.setBlock(this, x, y, z, Material.LADDER, data);
-		}
-	}
-	
 	public final void setLadder(int x, int y1, int y2, int z, BlockFace direction) {
 		int offsetX = 0;
 		int offsetZ = 0;
@@ -872,23 +848,23 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 
-	public final void setStair(int x, int y, int z, Material material, Direction.Stair direction) {
+	public final void setStair(int x, int y, int z, Material material, BadMagic.Stair direction) {
 		BlackMagic.setBlock(this, x, y, z, material, direction.getData());
 	}
 
-	public final void setVine(int x, int y, int z, Direction.Vine direction) {
+	public final void setVine(int x, int y, int z, BadMagic.Vine direction) {
 		BlackMagic.setBlock(this, x, y, z, Material.VINE, direction.getData());
 	}
 
-	public final void setTorch(int x, int y, int z, Material material, Direction.Torch direction) {
+	public final void setTorch(int x, int y, int z, Material material, BadMagic.Torch direction) {
 		BlackMagic.setBlock(this, x, y, z, material, direction.getData());
 	}
 	
-	public final void setFurnace(int x, int y, int z, Direction.General direction) {
+	public final void setFurnace(int x, int y, int z, BadMagic.General direction) {
 		BlackMagic.setBlock(this, x, y, z, Material.FURNACE, direction.getData());
 	}
 
-	public final void setChest(CityWorldGenerator generator, int x, int y, int z, Direction.General direction, Odds odds, LootProvider lootProvider, LootLocation lootLocation) {
+	public final void setChest(CityWorldGenerator generator, int x, int y, int z, BadMagic.General direction, Odds odds, LootProvider lootProvider, LootLocation lootLocation) {
 		Block block = getActualBlock(x, y, z);
 		if (BlackMagic.setBlockType(block, Material.CHEST, direction.getData())) {
 			if (block.getType() == Material.CHEST) {
@@ -908,7 +884,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 	
-	public final void setWallSign(int x, int y, int z, Direction.General direction, String[] text) {
+	public final void setWallSign(int x, int y, int z, BadMagic.General direction, String[] text) {
 		Block block = getActualBlock(x, y, z);
 		if (BlackMagic.setBlockType(block, Material.WALL_SIGN, direction.getData())) {
 			if (block.getType() == Material.WALL_SIGN) {

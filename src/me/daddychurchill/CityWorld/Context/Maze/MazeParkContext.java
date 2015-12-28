@@ -1,7 +1,9 @@
 package me.daddychurchill.CityWorld.Context.Maze;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
+import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plats.Rural.WaterTowerLot;
 import me.daddychurchill.CityWorld.Plats.Urban.ParkLot;
 import me.daddychurchill.CityWorld.Plats.Urban.RoundaboutCenterLot;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -17,14 +19,18 @@ public class MazeParkContext extends MazeConstructContext {
 	private int connectParkMagicValue = 18273645;
 	
 	@Override
-	protected PlatLot generateSpecialLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	protected PlatLot generateSpecialOneLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new RoundaboutCenterLot(platmap, chunkX, chunkZ);
 	}
 
 	@Override
 	protected PlatLot generateNormalLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new ParkLot(platmap, chunkX, chunkZ, connectParkMagicValue, 
-				ParkLot.getWaterDepth(odds));
+				DataContext.FloorHeight);
 	}
 
+	@Override
+	protected PlatLot generateSpecialTooLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+		return new WaterTowerLot(platmap, chunkX, chunkZ);
+	}
 }

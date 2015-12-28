@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plats.Nature;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
@@ -13,12 +14,9 @@ import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.Direction;
+import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.Direction.General;
-import me.daddychurchill.CityWorld.Support.Direction.Stair;
-import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
@@ -760,8 +758,8 @@ public class BunkerLot extends ConnectedLot {
 		
 		// put in a way down?
 		if (odds.playOdds(oddsOfWayDownFromTunnel)) {
-			chunk.setTrapDoor(6, streetY, 7, TrapDoor.TOP_WEST);
-			chunk.setLadder(6, y1, streetY, 7, General.WEST);
+			chunk.setTrapDoor(6, streetY, 7, BadMagic.TrapDoor.TOP_WEST);
+			chunk.setLadder(6, y1, streetY, 7, BlockFace.EAST);
 		}
 		
 		// lift the surface? NOPE
@@ -775,21 +773,22 @@ public class BunkerLot extends ConnectedLot {
 	private static void generateSupport(SupportBlocks chunk, Odds odds, DataContext context, int x, int y, int z) {
 		BlackMagic.setBlocks(chunk, x, x + 3, y, z, z + 3, springBaseMat, 2);
 		
-		generateSpringBit(chunk, odds, x    , y + 1, z    , Stair.EAST, Stair.SOUTHFLIP, Stair.EAST);
-		generateSpringBit(chunk, odds, x + 1, y + 1, z    , Stair.WESTFLIP, Stair.EAST, Stair.WESTFLIP);
-		generateSpringBit(chunk, odds, x + 2, y + 1, z    , Stair.SOUTH, Stair.WESTFLIP, Stair.SOUTH);
-		generateSpringBit(chunk, odds, x + 2, y + 1, z + 1, Stair.NORTHFLIP, Stair.SOUTH, Stair.NORTHFLIP);
-		generateSpringBit(chunk, odds, x + 2, y + 1, z + 2, Stair.WEST, Stair.NORTHFLIP, Stair.WEST);
-		generateSpringBit(chunk, odds, x + 1, y + 1, z + 2, Stair.EASTFLIP, Stair.WEST, Stair.EASTFLIP);
-		generateSpringBit(chunk, odds, x    , y + 1, z + 2, Stair.NORTH, Stair.EASTFLIP, Stair.NORTH);
-		generateSpringBit(chunk, odds, x    , y + 1, z + 1, Stair.SOUTHFLIP, Stair.NORTH, Stair.SOUTHFLIP);
+		generateSpringBit(chunk, odds, x    , y + 1, z    , BadMagic.Stair.EAST, BadMagic.Stair.SOUTHFLIP, BadMagic.Stair.EAST);
+		generateSpringBit(chunk, odds, x + 1, y + 1, z    , BadMagic.Stair.WESTFLIP, BadMagic.Stair.EAST, BadMagic.Stair.WESTFLIP);
+		generateSpringBit(chunk, odds, x + 2, y + 1, z    , BadMagic.Stair.SOUTH, BadMagic.Stair.WESTFLIP, BadMagic.Stair.SOUTH);
+		generateSpringBit(chunk, odds, x + 2, y + 1, z + 1, BadMagic.Stair.NORTHFLIP, BadMagic.Stair.SOUTH, BadMagic.Stair.NORTHFLIP);
+		generateSpringBit(chunk, odds, x + 2, y + 1, z + 2, BadMagic.Stair.WEST, BadMagic.Stair.NORTHFLIP, BadMagic.Stair.WEST);
+		generateSpringBit(chunk, odds, x + 1, y + 1, z + 2, BadMagic.Stair.EASTFLIP, BadMagic.Stair.WEST, BadMagic.Stair.EASTFLIP);
+		generateSpringBit(chunk, odds, x    , y + 1, z + 2, BadMagic.Stair.NORTH, BadMagic.Stair.EASTFLIP, BadMagic.Stair.NORTH);
+		generateSpringBit(chunk, odds, x    , y + 1, z + 1, BadMagic.Stair.SOUTHFLIP, BadMagic.Stair.NORTH, BadMagic.Stair.SOUTHFLIP);
 
 		chunk.setBlocks(x + 1, y + 1, y + 5, z + 1, springCoreMat);
 		
 		BlackMagic.setBlocks(chunk, x, x + 3, y + 4, z, z + 3, springBaseMat, 2);
 	}
 	
-	private static void generateSpringBit(SupportBlocks chunk, Odds odds, int x, int y, int z, Stair data1, Stair data2, Stair data3) {
+	private static void generateSpringBit(SupportBlocks chunk, Odds odds, int x, int y, int z, 
+			BadMagic.Stair data1, BadMagic.Stair data2, BadMagic.Stair data3) {
 		chunk.setStair(x, y    , z, springMat, data1);
 		chunk.setStair(x, y + 1, z, springMat, data2);
 		chunk.setStair(x, y + 2, z, springMat, data3);
@@ -799,7 +798,7 @@ public class BunkerLot extends ConnectedLot {
 		
 		// cool stuff?
 		if (generator.settings.treasuresInBunkers && odds.playOdds(generator.settings.oddsOfTreasureInBunkers)) {
-			 chunk.setChest(generator, x, y, z, Direction.General.NORTH, odds, generator.lootProvider, LootLocation.BUNKER);
+			 chunk.setChest(generator, x, y, z, BadMagic.General.NORTH, odds, generator.lootProvider, LootLocation.BUNKER);
 		}
 	}
 

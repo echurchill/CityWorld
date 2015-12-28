@@ -7,13 +7,14 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.Direction;
+import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.SurroundingLots;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class ParkLot extends ConnectedLot {
@@ -235,8 +236,8 @@ public class ParkLot extends ConnectedLot {
 			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
 				int lowestY = generator.streetLevel - cisternDepth + 1 + waterDepth;
 				chunk.setBlocks(4, 7, lowestY, lowestY + 1, 1, 2, ledgeMaterial);
-				chunk.setLadder(5, lowestY + 1, surfaceY, 1, Direction.General.SOUTH);
-				chunk.setTrapDoor(5, surfaceY, 1, Direction.TrapDoor.EAST);
+				chunk.setLadder(5, lowestY + 1, surfaceY, 1, BlockFace.NORTH);
+				chunk.setTrapDoor(5, surfaceY, 1, BadMagic.TrapDoor.EAST);
 			}
 		}
 		
@@ -244,6 +245,10 @@ public class ParkLot extends ConnectedLot {
 		if (circleSidewalk) {
 			generator.coverProvider.generateRandomCoverage(generator, chunk, 7, surfaceY, 7, tallTrees);
 		
+		// water tower please
+		} else if (chunkOdds.playOdds(Odds.oddsUnlikely)){
+			generator.houseProvider.drawWaterTower(chunk, 4, surfaceY, 4, chunkOdds);
+			
 		// four smaller trees
 		} else {
 			for (int x = 4; x < 12; x += 7)

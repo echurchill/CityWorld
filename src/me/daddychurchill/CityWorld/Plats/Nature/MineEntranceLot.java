@@ -5,7 +5,7 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.Direction;
+import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
@@ -102,48 +102,48 @@ public class MineEntranceLot extends ConstructLot {
 		// now do the stair
 		do {
 			shaftY = generateStairs(generator, chunk, odds, offX + 3, shaftY, offZ + 2, 
-					Direction.Stair.NORTH, Direction.Stair.SOUTHFLIP, stairs);
+					BadMagic.Stair.NORTH, BadMagic.Stair.SOUTHFLIP, stairs);
 			if (shaftY > surfaceY)
 				break;
 			shaftY = generateStairs(generator, chunk, odds, offX + 3, shaftY, offZ + 1, 
-					Direction.Stair.NORTH, Direction.Stair.EASTFLIP, stairs);
+					BadMagic.Stair.NORTH, BadMagic.Stair.EASTFLIP, stairs);
 			if (shaftY > surfaceY)
 				break;
 			generateLanding(generator, chunk, odds, offX + 3, shaftY, offZ + 0, 
-					Direction.Stair.EASTFLIP, stairs, landing);
+					BadMagic.Stair.EASTFLIP, stairs, landing);
 
 			shaftY = generateStairs(generator, chunk, odds, offX + 2, shaftY, offZ + 0, 
-					Direction.Stair.WEST, Direction.Stair.EASTFLIP, stairs);
+					BadMagic.Stair.WEST, BadMagic.Stair.EASTFLIP, stairs);
 			if (shaftY > surfaceY)
 				break;
 			shaftY = generateStairs(generator, chunk, odds, offX + 1, shaftY, offZ + 0, 
-					Direction.Stair.WEST, Direction.Stair.NORTHFLIP, stairs);
+					BadMagic.Stair.WEST, BadMagic.Stair.NORTHFLIP, stairs);
 			if (shaftY > surfaceY)
 				break;
 			generateLanding(generator, chunk, odds, offX + 0, shaftY, offZ + 0, 
-					Direction.Stair.NORTHFLIP, stairs, landing);
+					BadMagic.Stair.NORTHFLIP, stairs, landing);
 
 			shaftY = generateStairs(generator, chunk, odds, offX + 0, shaftY, offZ + 1, 
-					Direction.Stair.SOUTH, Direction.Stair.NORTHFLIP, stairs);
+					BadMagic.Stair.SOUTH, BadMagic.Stair.NORTHFLIP, stairs);
 			if (shaftY > surfaceY)
 				break;
 			shaftY = generateStairs(generator, chunk, odds, offX + 0, shaftY, offZ + 2, 
-					Direction.Stair.SOUTH, Direction.Stair.WESTFLIP, stairs);
+					BadMagic.Stair.SOUTH, BadMagic.Stair.WESTFLIP, stairs);
 			if (shaftY > surfaceY)
 				break;
 			generateLanding(generator, chunk, odds, offX + 0, shaftY, offZ + 3, 
-					Direction.Stair.WESTFLIP, stairs, landing);
+					BadMagic.Stair.WESTFLIP, stairs, landing);
 
 			shaftY = generateStairs(generator, chunk, odds, offX + 1, shaftY, offZ + 3, 
-					Direction.Stair.EAST, Direction.Stair.WESTFLIP, stairs);
+					BadMagic.Stair.EAST, BadMagic.Stair.WESTFLIP, stairs);
 			if (shaftY > surfaceY)
 				break;
 			shaftY = generateStairs(generator, chunk, odds, offX + 2, shaftY, offZ + 3, 
-					Direction.Stair.EAST, Direction.Stair.SOUTHFLIP, stairs);
+					BadMagic.Stair.EAST, BadMagic.Stair.SOUTHFLIP, stairs);
 			if (shaftY > surfaceY)
 				break;
 			generateLanding(generator, chunk, odds, offX + 3, shaftY, offZ + 3, 
-					Direction.Stair.SOUTHFLIP, stairs, landing);
+					BadMagic.Stair.SOUTHFLIP, stairs, landing);
 		} while (shaftY <= surfaceY);
 		
 //		//TODO remove this flag!
@@ -151,7 +151,7 @@ public class MineEntranceLot extends ConstructLot {
 	}
 	
 	public static int generateStairs(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y, int z, 
-			Direction.Stair direction, Direction.Stair underdirection, Material stairs) {
+			BadMagic.Stair direction, BadMagic.Stair underdirection, Material stairs) {
 		chunk.setBlocks(x, y + 1, y + 4, z, Material.AIR);
 		
 		// make a step... or not...
@@ -169,7 +169,7 @@ public class MineEntranceLot extends ConstructLot {
 	}
 	
 	public static void generateLanding(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y, int z, 
-			Direction.Stair underdirection, Material stairs, Material landing) {
+			BadMagic.Stair underdirection, Material stairs, Material landing) {
 		chunk.setBlocks(x, y, y + 3, z, Material.AIR);
 		
 		// make a landing... or not...

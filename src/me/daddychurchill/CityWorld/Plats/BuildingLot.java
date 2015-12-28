@@ -10,18 +10,18 @@ import me.daddychurchill.CityWorld.Factories.OutsideWEWallFactory;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Rooms.Populators.EmptyWithNothing;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.Direction;
-import me.daddychurchill.CityWorld.Support.Direction.Facing;
-import me.daddychurchill.CityWorld.Support.Direction.Stair;
-import me.daddychurchill.CityWorld.Support.Direction.StairWell;
-import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
+import me.daddychurchill.CityWorld.Support.BadMagic;
+import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
+import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
+import me.daddychurchill.CityWorld.Support.BadMagic.StairWell;
+import me.daddychurchill.CityWorld.Support.BadMagic.TrapDoor;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
-import me.daddychurchill.CityWorld.Support.Direction.Door;
+import me.daddychurchill.CityWorld.Support.BadMagic.Door;
 import me.daddychurchill.CityWorld.Support.Surroundings;
 
 import org.bukkit.Material;
@@ -61,7 +61,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	
 	public enum StairStyle {STUDIO_A, CROSSED, LANDING, CORNER};
 	protected StairStyle stairStyle;
-	protected Direction.Facing stairDirection;
+	protected BadMagic.Facing stairDirection;
 	
 	public enum InteriorStyle {COLUMNS_ONLY, WALLS_ONLY, COLUMNS_OFFICES, WALLS_OFFICES, RANDOM};
 	protected InteriorStyle interiorStyle;
@@ -163,13 +163,13 @@ public abstract class BuildingLot extends ConnectedLot {
 	protected Facing pickStairDirection() {
 		switch (chunkOdds.getRandomInt(4)) {
 		case 1:
-			return Direction.Facing.NORTH;
+			return BadMagic.Facing.NORTH;
 		case 2:
-			return Direction.Facing.SOUTH;
+			return BadMagic.Facing.SOUTH;
 		case 3:
-			return Direction.Facing.WEST;
+			return BadMagic.Facing.WEST;
 		default:
-			return Direction.Facing.EAST;
+			return BadMagic.Facing.EAST;
 		}
 	}
 
@@ -1406,7 +1406,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	
 	protected void drawNavLight(RealBlocks chunk, DataContext context) {
 		if (navLightY > 0)
-			chunk.setTorch(navLightX, navLightY, navLightZ, context.torchMat, Direction.Torch.FLOOR);
+			chunk.setTorch(navLightX, navLightY, navLightZ, context.torchMat, BadMagic.Torch.FLOOR);
 	}
 	
 	private void drawConditioner(InitialBlocks chunk, int x, int y, int z) {
@@ -1442,7 +1442,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 	
 	private void drawDoor(RealBlocks chunk, int x1, int x2, int x3, int y1, int y2, int z1, int z2, int z3, 
-			Direction.Door direction, DoorStyle doorStyle, Material wallMaterial) {
+			BadMagic.Door direction, DoorStyle doorStyle, Material wallMaterial) {
 		
 		// frame the door
 		chunk.setBlocks(x1, y1, y2, z1, wallMaterial);

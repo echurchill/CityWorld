@@ -15,12 +15,17 @@ public class MazeMineContext extends MazeConstructContext {
 	}
 
 	@Override
-	protected PlatLot generateSpecialLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	protected PlatLot generateSpecialOneLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new GravelMineLot(platmap, chunkX, chunkZ);
 	}
 
 	@Override
 	protected PlatLot generateNormalLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+		return new GravelworksLot(platmap, chunkX, chunkZ);
+	}
+	
+	@Override
+	protected PlatLot generateSpecialTooLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new GravelworksLot(platmap, chunkX, chunkZ);
 	}
 

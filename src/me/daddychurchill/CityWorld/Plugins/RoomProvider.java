@@ -4,7 +4,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Rooms.PlatRoom;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
-import me.daddychurchill.CityWorld.Support.Direction.Facing;
+import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
 
 import java.util.ArrayList;
 import java.util.List;

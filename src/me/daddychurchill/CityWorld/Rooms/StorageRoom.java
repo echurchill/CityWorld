@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Rooms;
 import org.bukkit.Material;
 
 import me.daddychurchill.CityWorld.Support.BlackMagic;
-import me.daddychurchill.CityWorld.Support.Direction.Stair;
+import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public abstract class StorageRoom extends FilledRoom {

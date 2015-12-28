@@ -5,7 +5,7 @@ import me.daddychurchill.CityWorld.Support.MazeArray;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
-import me.daddychurchill.CityWorld.Support.Direction.TrapDoor;
+import me.daddychurchill.CityWorld.Support.BadMagic.TrapDoor;
 import me.daddychurchill.CityWorld.Support.MazeArray.MazeBit;
 
 import org.bukkit.DyeColor;

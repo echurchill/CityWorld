@@ -22,7 +22,7 @@ public class MazeTownContext extends MazeConstructContext {
 	private int connectParkMagicValue = 21436587;
 
 	@Override
-	protected PlatLot generateSpecialLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	protected PlatLot generateSpecialOneLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new ParkLot(platmap, chunkX, chunkZ, connectParkMagicValue, 
 				ParkLot.getWaterDepth(odds));
 	}

@@ -10,7 +10,7 @@ import me.daddychurchill.CityWorld.Rooms.Populators.BuriedWithRandom;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
-import me.daddychurchill.CityWorld.Support.Direction.Facing;
+import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
 
 public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 

@@ -15,12 +15,17 @@ public class MazeCastleContext extends MazeConstructContext {
 	}
 
 	@Override
-	protected PlatLot generateSpecialLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	protected PlatLot generateSpecialOneLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new OldCastleLot(platmap, chunkX, chunkZ);
 	}
 
 	@Override
 	protected PlatLot generateNormalLot(PlatMap platmap, Odds odds, int chunkX,	int chunkZ) {
+		return new NatureLot(platmap, chunkX, chunkZ);
+	}
+	
+	@Override
+	protected PlatLot generateSpecialTooLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new NatureLot(platmap, chunkX, chunkZ);
 	}
 

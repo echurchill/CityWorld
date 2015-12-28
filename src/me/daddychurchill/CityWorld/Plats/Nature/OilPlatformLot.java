@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plats.Nature;
 
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
@@ -8,7 +9,7 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.Direction;
+import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
@@ -125,15 +126,15 @@ public class OilPlatformLot extends ConstructLot {
 		chunk.setBlocks(13, y4 + 4, y4 + 8, 2, drillMaterial); // bit hanging from the crane
 		
 		// ladder from access level to the balcony
-		chunk.setLadder(3, y0 + 1, y4 - 2, 4, Direction.General.SOUTH);
-		chunk.setLadder(12, y0 + 1, y4 + 2, 11, Direction.General.NORTH);
+		chunk.setLadder(3, y0 + 1, y4 - 2, 4, BlockFace.NORTH);
+		chunk.setLadder(12, y0 + 1, y4 + 2, 11, BlockFace.SOUTH);
 		
 		// now draw the crane
-		chunk.setStair(2, y4 - 2, 2, topperMaterial, Direction.Stair.EAST);
-		chunk.setStair(2, y4 - 2, 3, topperMaterial, Direction.Stair.EAST);
+		chunk.setStair(2, y4 - 2, 2, topperMaterial, BadMagic.Stair.EAST);
+		chunk.setStair(2, y4 - 2, 3, topperMaterial, BadMagic.Stair.EAST);
 		chunk.clearBlock(2, y4 - 1, 2);
 		chunk.clearBlock(2, y4 - 1, 3);
-		chunk.setStair(3, y4 - 1, 3, topperMaterial, Direction.Stair.NORTH);
+		chunk.setStair(3, y4 - 1, 3, topperMaterial, BadMagic.Stair.NORTH);
 		chunk.drawCrane(context, chunkOdds, 3, y4, 2);
 		
 		// bleed off

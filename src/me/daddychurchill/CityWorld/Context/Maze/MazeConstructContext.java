@@ -52,8 +52,12 @@ public abstract class MazeConstructContext extends MazeNatureContext {
 		return odds.playOdds(theOdds);
 	}
 	
-	protected abstract PlatLot generateSpecialLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ);
+	protected abstract PlatLot generateSpecialOneLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ);
 	protected abstract PlatLot generateNormalLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ);
+	
+	protected PlatLot generateSpecialTooLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+		return generateSpecialOneLot(platmap, odds, chunkX, chunkZ);
+	}
 	
 	// I am pretty sure there is a GREAT reason to do this in this specific order but 
 	//  for the life of me I can't remember why I do it this way. This just goes to show
@@ -84,7 +88,8 @@ public abstract class MazeConstructContext extends MazeNatureContext {
 		int offsetX = platmapOdds.getRandomInt(1, 3);
 		int offsetZ = platmapOdds.getRandomInt(1, 3);
 		HeightInfo heights;
-		boolean specialMade = false;
+		boolean specialOneMade = false;
+		boolean specialTooMade = false;
 		PlatLot lastOne = null;
 		
 		// what to build?
@@ -103,9 +108,12 @@ public abstract class MazeConstructContext extends MazeNatureContext {
 				// get the height info for this chunk
 				heights = HeightInfo.getHeightsFaster(generator, blockX, blockZ);
 				if (heights.isBuildable()) {
-					if (placeSpecial(platmapOdds, x, z, specialMade)) {
-						current = generateSpecialLot(platmap, platmapOdds, chunkX, chunkZ);
-						specialMade = true;
+					if (placeSpecial(platmapOdds, x, z, specialOneMade)) {
+						current = generateSpecialOneLot(platmap, platmapOdds, chunkX, chunkZ);
+						specialOneMade = true;
+					} else if (placeSpecial(platmapOdds, x, z, specialTooMade)) {
+						current = generateSpecialTooLot(platmap, platmapOdds, chunkX, chunkZ);
+						specialTooMade = true;
 					} else
 						current = generateNormalLot(platmap, platmapOdds, chunkX, chunkZ);
 

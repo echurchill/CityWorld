@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plats;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.SmoothBrick;
@@ -13,7 +14,7 @@ import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
 import me.daddychurchill.CityWorld.Support.AbstractBlocks;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.Direction;
+import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -1348,10 +1349,10 @@ public class RoadLot extends ConnectedLot {
 				vaultNorthWest = true;
 				
 				// place the manhole
-				chunk.setTrapDoor(3, sidewalkLevel, 2, Direction.TrapDoor.WEST);
+				chunk.setTrapDoor(3, sidewalkLevel, 2, BadMagic.TrapDoor.WEST);
 				
 				// ladder
-				chunk.setLadder(3, sewerY, sidewalkLevel, 2, Direction.General.WEST);
+				chunk.setLadder(3, sewerY, sidewalkLevel, 2, BlockFace.EAST);
 			}
 			
 			// figure out the center
@@ -1367,37 +1368,37 @@ public class RoadLot extends ConnectedLot {
 			// cardinal directions known walls and ditches
 			if (roads.toNorth()) {
 				chunk.setBlock(8, sewerY - 1, 3, fluidMaterial);
-				generateEntryVines(chunk, base2Y - 1, Direction.Vine.NORTH, 6, 1, 7, 1, 8, 1, 9, 1);
+				generateEntryVines(chunk, base2Y - 1, BadMagic.Vine.NORTH, 6, 1, 7, 1, 8, 1, 9, 1);
 			}
 			if (roads.toSouth()) {
 				chunk.setBlock(7, sewerY - 1, 12, fluidMaterial);
-				generateEntryVines(chunk, base2Y - 1, Direction.Vine.SOUTH, 6, 14, 7, 14, 8, 14, 9, 14);
+				generateEntryVines(chunk, base2Y - 1, BadMagic.Vine.SOUTH, 6, 14, 7, 14, 8, 14, 9, 14);
 			}
 			if (roads.toWest()) {
 				chunk.setBlock(3, sewerY - 1, 7, fluidMaterial);
-				generateEntryVines(chunk, base2Y - 1, Direction.Vine.WEST, 1, 6, 1, 7, 1, 8, 1, 9);
+				generateEntryVines(chunk, base2Y - 1, BadMagic.Vine.WEST, 1, 6, 1, 7, 1, 8, 1, 9);
 			}
 			if (roads.toEast()) {
 				chunk.setBlock(12, sewerY - 1, 8, fluidMaterial);
-				generateEntryVines(chunk, base2Y - 1, Direction.Vine.EAST, 14, 6, 14, 7, 14, 8, 14, 9);
+				generateEntryVines(chunk, base2Y - 1, BadMagic.Vine.EAST, 14, 6, 14, 7, 14, 8, 14, 9);
 			}
 			
 			// add the various doors
 			if (vaultNorthWest) {
-				generateDoor(chunk, 4, sewerY, 1, Direction.Door.EASTBYNORTHEAST);
-				generateDoor(chunk, 1, sewerY, 4, Direction.Door.SOUTHBYSOUTHWEST);
+				generateDoor(chunk, 4, sewerY, 1, BadMagic.Door.EASTBYNORTHEAST);
+				generateDoor(chunk, 1, sewerY, 4, BadMagic.Door.SOUTHBYSOUTHWEST);
 			}
 			if (vaultNorthEast) {
-				generateDoor(chunk, 11, sewerY, 1, Direction.Door.WESTBYNORTHWEST);
-				generateDoor(chunk, 14, sewerY, 4, Direction.Door.SOUTHBYSOUTHEAST);
+				generateDoor(chunk, 11, sewerY, 1, BadMagic.Door.WESTBYNORTHWEST);
+				generateDoor(chunk, 14, sewerY, 4, BadMagic.Door.SOUTHBYSOUTHEAST);
 			}
 			if (vaultSouthWest) {
-				generateDoor(chunk, 1, sewerY, 11, Direction.Door.NORTHBYNORTHWEST);
-				generateDoor(chunk, 4, sewerY, 14, Direction.Door.EASTBYSOUTHEAST);
+				generateDoor(chunk, 1, sewerY, 11, BadMagic.Door.NORTHBYNORTHWEST);
+				generateDoor(chunk, 4, sewerY, 14, BadMagic.Door.EASTBYSOUTHEAST);
 			}
 			if (vaultSouthEast) {
-				generateDoor(chunk, 14, sewerY, 11, Direction.Door.NORTHBYNORTHEAST);
-				generateDoor(chunk, 11, sewerY, 14, Direction.Door.WESTBYSOUTHWEST);
+				generateDoor(chunk, 14, sewerY, 11, BadMagic.Door.NORTHBYNORTHEAST);
+				generateDoor(chunk, 11, sewerY, 14, BadMagic.Door.WESTBYSOUTHWEST);
 			}
 			
 			// we might put down a plank... or maybe not...
@@ -1405,33 +1406,33 @@ public class RoadLot extends ConnectedLot {
 			
 			// fancy up the center walls?
 			if (centerNorth) {
-				generateDoor(chunk, 10, sewerY, 4, Direction.Door.NORTHBYNORTHEAST);
-				chunk.setStoneSlab(7, sewerY, 4, Direction.StoneSlab.COBBLESTONEFLIP);
-				chunk.setStoneSlab(8, sewerY, 4, Direction.StoneSlab.COBBLESTONEFLIP);
+				generateDoor(chunk, 10, sewerY, 4, BadMagic.Door.NORTHBYNORTHEAST);
+				chunk.setStoneSlab(7, sewerY, 4, BadMagic.StoneSlab.COBBLESTONEFLIP);
+				chunk.setStoneSlab(8, sewerY, 4, BadMagic.StoneSlab.COBBLESTONEFLIP);
 			} else if (!placedPlank && roads.toNorth() && chunkOdds.flipCoin()) {
 				placedPlank = true;
 				BlackMagic.setBlocks(chunk, 6, 10, sewerY, 5, 6, sewerPlankMaterial, sewerPlankData); 
 			}
 			if (centerSouth) {
-				generateDoor(chunk, 5, sewerY, 11, Direction.Door.SOUTHBYSOUTHWEST);
-				chunk.setStoneSlab(7, sewerY, 11, Direction.StoneSlab.COBBLESTONEFLIP);
-				chunk.setStoneSlab(8, sewerY, 11, Direction.StoneSlab.COBBLESTONEFLIP);
+				generateDoor(chunk, 5, sewerY, 11, BadMagic.Door.SOUTHBYSOUTHWEST);
+				chunk.setStoneSlab(7, sewerY, 11, BadMagic.StoneSlab.COBBLESTONEFLIP);
+				chunk.setStoneSlab(8, sewerY, 11, BadMagic.StoneSlab.COBBLESTONEFLIP);
 			} else if (!placedPlank && roads.toSouth() && chunkOdds.flipCoin()) {
 				placedPlank = true;
 				BlackMagic.setBlocks(chunk, 6, 10, sewerY, 10, 11, sewerPlankMaterial, sewerPlankData);
 			} 
 			if (centerWest) {
-				generateDoor(chunk, 4, sewerY, 5, Direction.Door.WESTBYNORTHWEST);
-				chunk.setStoneSlab(4, sewerY, 7, Direction.StoneSlab.COBBLESTONEFLIP);
-				chunk.setStoneSlab(4, sewerY, 8, Direction.StoneSlab.COBBLESTONEFLIP);
+				generateDoor(chunk, 4, sewerY, 5, BadMagic.Door.WESTBYNORTHWEST);
+				chunk.setStoneSlab(4, sewerY, 7, BadMagic.StoneSlab.COBBLESTONEFLIP);
+				chunk.setStoneSlab(4, sewerY, 8, BadMagic.StoneSlab.COBBLESTONEFLIP);
 			} else if (!placedPlank && roads.toWest() && chunkOdds.flipCoin()) {
 				placedPlank = true;
 				BlackMagic.setBlocks(chunk, 5, 6, sewerY, 6, 10, sewerPlankMaterial, sewerPlankData);
 			}
 			if (centerEast) { 
-				generateDoor(chunk, 11, sewerY, 10, Direction.Door.EASTBYSOUTHEAST);
-				chunk.setStoneSlab(11, sewerY, 7, Direction.StoneSlab.COBBLESTONEFLIP);
-				chunk.setStoneSlab(11, sewerY, 8, Direction.StoneSlab.COBBLESTONEFLIP);
+				generateDoor(chunk, 11, sewerY, 10, BadMagic.Door.EASTBYSOUTHEAST);
+				chunk.setStoneSlab(11, sewerY, 7, BadMagic.StoneSlab.COBBLESTONEFLIP);
+				chunk.setStoneSlab(11, sewerY, 8, BadMagic.StoneSlab.COBBLESTONEFLIP);
 			} else if (!placedPlank && roads.toEast() && chunkOdds.flipCoin()) {
 				placedPlank = true;
 				BlackMagic.setBlocks(chunk, 10, 11, sewerY, 6, 10, sewerPlankMaterial, sewerPlankData);
@@ -1501,15 +1502,15 @@ public class RoadLot extends ConnectedLot {
 			
 			// now the vines
 			for (int i = 2; i < 14; i++) {
-				generateHangingVine(chunk, base2Y - 1, Direction.Vine.NORTH, i, 2, i, 1);
+				generateHangingVine(chunk, base2Y - 1, BadMagic.Vine.NORTH, i, 2, i, 1);
 //				generateHangingVine(chunk, base2Y - 1, Direction.Vine.NORTH, i, 5, i, 4);
 //				generateHangingVine(chunk, base2Y - 1, Direction.Vine.SOUTH, i, 10, i, 11);
-				generateHangingVine(chunk, base2Y - 1, Direction.Vine.SOUTH, i, 13, i, 14);
+				generateHangingVine(chunk, base2Y - 1, BadMagic.Vine.SOUTH, i, 13, i, 14);
 					
-				generateHangingVine(chunk, base2Y - 1, Direction.Vine.WEST, 2, i, 1, i);
+				generateHangingVine(chunk, base2Y - 1, BadMagic.Vine.WEST, 2, i, 1, i);
 //				generateHangingVine(chunk, base2Y - 1, Direction.Vine.WEST, 5, i, 4, i);
 //				generateHangingVine(chunk, base2Y - 1, Direction.Vine.EAST, 10, i, 11, i);
-				generateHangingVine(chunk, base2Y - 1, Direction.Vine.EAST, 13, i, 14, i);
+				generateHangingVine(chunk, base2Y - 1, BadMagic.Vine.EAST, 13, i, 14, i);
 			}
 		}
 	}
@@ -1576,7 +1577,7 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 	
-	private void generateEntryVines(RealBlocks chunk, int y, Direction.Vine direction,
+	private void generateEntryVines(RealBlocks chunk, int y, BadMagic.Vine direction,
 			int x1, int z1, int x2, int z2, int x3, int z3, int x4, int z4) {
 		if (chunkOdds.flipCoin())
 			chunk.setVine(x1, y, z1, direction);
@@ -1588,7 +1589,7 @@ public class RoadLot extends ConnectedLot {
 			chunk.setVine(x4, y, z4, direction);
 	}
 	
-	private void generateHangingVine(RealBlocks chunk, int y, Direction.Vine direction, int x1, int z1, int x2, int z2) {
+	private void generateHangingVine(RealBlocks chunk, int y, BadMagic.Vine direction, int x1, int z1, int x2, int z2) {
 		if (chunkOdds.flipCoin() && chunk.isEmpty(x1, y, z1) && !chunk.isEmpty(x2, y, z2))
 			chunk.setVine(x1, y, z1, direction);
 	}
@@ -1629,22 +1630,22 @@ public class RoadLot extends ConnectedLot {
 			if (chunkOdds.playOdds(oddsOfDecayedSign)) {
 				String[] odonym = generator.odonymProvider.generateNorthSouthOdonym(generator, cx, cz);
 				generator.odonymProvider.decaySign(chunkOdds, odonym);
-				chunk.setWallSign(x, y, z - 1, Direction.General.NORTH, odonym);
+				chunk.setWallSign(x, y, z - 1, BadMagic.General.NORTH, odonym);
 			}
 			if (chunkOdds.playOdds(oddsOfDecayedSign)) {
 				String[] odonym = generator.odonymProvider.generateNorthSouthOdonym(generator, cx, cz);
 				generator.odonymProvider.decaySign(chunkOdds, odonym);
-				chunk.setWallSign(x, y, z + 1, Direction.General.SOUTH, odonym);
+				chunk.setWallSign(x, y, z + 1, BadMagic.General.SOUTH, odonym);
 			}
 			if (chunkOdds.playOdds(oddsOfDecayedSign)) {
 				String[] odonym = generator.odonymProvider.generateWestEastOdonym(generator, cx, cz);
 				generator.odonymProvider.decaySign(chunkOdds, odonym);
-				chunk.setWallSign(x - 1, y, z, Direction.General.WEST, odonym);
+				chunk.setWallSign(x - 1, y, z, BadMagic.General.WEST, odonym);
 			}
 			if (chunkOdds.playOdds(oddsOfDecayedSign)) {
 				String[] odonym = generator.odonymProvider.generateWestEastOdonym(generator, cx, cz);
 				generator.odonymProvider.decaySign(chunkOdds, odonym);
-				chunk.setWallSign(x + 1, y, z, Direction.General.EAST, odonym);
+				chunk.setWallSign(x + 1, y, z, BadMagic.General.EAST, odonym);
 			}
 		} else {
 			
@@ -1653,14 +1654,14 @@ public class RoadLot extends ConnectedLot {
 			String[] odonymWestEast = generator.odonymProvider.generateWestEastOdonym(generator, cx, cz);
 			
 			// put the signs up
-			chunk.setWallSign(x, y, z - 1, Direction.General.NORTH, odonymNorthSouth);
-			chunk.setWallSign(x, y, z + 1, Direction.General.SOUTH, odonymNorthSouth);
-			chunk.setWallSign(x - 1, y, z, Direction.General.WEST, odonymWestEast);
-			chunk.setWallSign(x + 1, y, z, Direction.General.EAST, odonymWestEast);
+			chunk.setWallSign(x, y, z - 1, BadMagic.General.NORTH, odonymNorthSouth);
+			chunk.setWallSign(x, y, z + 1, BadMagic.General.SOUTH, odonymNorthSouth);
+			chunk.setWallSign(x - 1, y, z, BadMagic.General.WEST, odonymWestEast);
+			chunk.setWallSign(x + 1, y, z, BadMagic.General.EAST, odonymWestEast);
 		}
 	}
 	
-	private void generateDoor(RealBlocks chunk, int x, int y, int z, Direction.Door direction) {
+	private void generateDoor(RealBlocks chunk, int x, int y, int z, BadMagic.Door direction) {
 		switch (chunkOdds.getRandomInt(5)) {
 		case 1:
 			chunk.setBlocks(x, y, y + 2, z, Material.BRICK);
@@ -1701,7 +1702,7 @@ public class RoadLot extends ConnectedLot {
 		
 		// cool stuff?
 		if (generator.settings.treasuresInSewers && chunkOdds.playOdds(generator.settings.oddsOfTreasureInSewers)) {
-			 chunk.setChest(generator, x, y, z, Direction.General.NORTH, chunkOdds, generator.lootProvider, LootLocation.SEWER);
+			 chunk.setChest(generator, x, y, z, BadMagic.General.NORTH, chunkOdds, generator.lootProvider, LootLocation.SEWER);
 		}
 	}
 

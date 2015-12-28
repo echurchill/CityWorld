@@ -4,6 +4,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.NatureLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Rural.HouseLot;
+import me.daddychurchill.CityWorld.Plats.Rural.WaterTowerLot;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
@@ -15,7 +16,7 @@ public class MazeNeighborhoodContext extends MazeConstructContext {
 	}
 
 	@Override
-	protected PlatLot generateSpecialLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	protected PlatLot generateSpecialOneLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new HouseLot(platmap, chunkX, chunkZ);
 	}
 
@@ -25,6 +26,11 @@ public class MazeNeighborhoodContext extends MazeConstructContext {
 			return new HouseLot(platmap, chunkX, chunkZ);
 		else
 			return new NatureLot(platmap, chunkX, chunkZ);
+	}
+	
+	@Override
+	protected PlatLot generateSpecialTooLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+		return new WaterTowerLot(platmap, chunkX, chunkZ);
 	}
 
 }
