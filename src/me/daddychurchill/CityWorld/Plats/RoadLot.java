@@ -88,8 +88,8 @@ public class RoadLot extends ConnectedLot {
 		if (blockYs.maxHeight > topOfRoad + tunnelHeight)
 			topOfRoad += tunnelHeight;
 		
-		pavementMat = platmap.generator.settings.materials.itemsMaterialsForRoads.getNthMaterial(0, Material.STAINED_CLAY);
-		linesMat = platmap.generator.settings.materials.itemsMaterialsForRoads.getNthMaterial(1, Material.QUARTZ_BLOCK);
+		pavementMat = platmap.generator.settings.materials.itemsMaterialListFor_Roads.getNthMaterial(0, Material.STAINED_CLAY);
+		linesMat = platmap.generator.settings.materials.itemsMaterialListFor_Roads.getNthMaterial(1, Material.QUARTZ_BLOCK);
 		pavementIsClay = pavementMat == Material.STAINED_CLAY;
 	}
 	

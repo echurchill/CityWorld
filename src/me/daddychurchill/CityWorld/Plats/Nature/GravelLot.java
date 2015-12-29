@@ -82,7 +82,7 @@ public abstract class GravelLot extends ConstructLot {
 	}
 
 	protected void generatePile(CityWorldGenerator generator, RealBlocks chunk, int x, int z, int width) {
-		Material specialMaterial = generator.settings.materials.itemsMaterialsForStoneWorksPiles.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
+		Material specialMaterial = generator.settings.materials.itemsSelectMaterial_QuaryPiles.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
 		int y = generator.streetLevel + 1;
 		if (chunkOdds.playOdds(Odds.oddsPrettyLikely)) {
 			for (int a = 0; a < width; a++) {

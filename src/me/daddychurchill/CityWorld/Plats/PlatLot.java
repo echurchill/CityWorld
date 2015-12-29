@@ -7,7 +7,6 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
-import me.daddychurchill.CityWorld.Plugins.OreProvider.OreLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.AbstractBlocks;
@@ -507,7 +506,7 @@ public abstract class PlatLot {
 		
 		// shape the world
 		if (generator.settings.includeOres || generator.settings.includeUndergroundFluids)
-			generator.oreProvider.sprinkleOres(generator, this, chunk, blockYs, chunkOdds, OreLocation.CRUST);
+			generator.oreProvider.sprinkleOres(generator, this, chunk, blockYs, chunkOdds);
 	}
 
 	//TODO move this logic to SurroundingLots, add to it the ability to produce SurroundingHeights and SurroundingDepths

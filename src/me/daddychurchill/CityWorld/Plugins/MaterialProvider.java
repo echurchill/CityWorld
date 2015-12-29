@@ -12,61 +12,70 @@ import me.daddychurchill.CityWorld.Support.MaterialList;
 
 public class MaterialProvider {
 
-	public MaterialList itemsTreasureInBunkers;
-	public MaterialList itemsTreasureInMines;
-	public MaterialList itemsTreasureInSewers;
-	public MaterialList itemsTreasureInStorageSheds;
-	public MaterialList itemsTreasureInFarmWorks;
-	public MaterialList itemsTreasureInFarmWorksOutput;
-	public MaterialList itemsTreasureInWoodWorks;
-	public MaterialList itemsTreasureInWoodWorksOutput;
-	public MaterialList itemsTreasureInStoneWorks;
-	public MaterialList itemsTreasureInStoneWorksOutput;
+	public MaterialList itemsRandomMaterials_BunkerChests;
+	public MaterialList itemsRandomMaterials_MineChests;
+	public MaterialList itemsRandomMaterials_SewerChests;
+	public MaterialList itemsRandomMaterials_StorageShedChests;
+	public MaterialList itemsRandomMaterials_FarmChests;
+	public MaterialList itemsRandomMaterials_FarmOutputChests;
+	public MaterialList itemsRandomMaterials_LumberChests;
+	public MaterialList itemsRandomMaterials_LumberOutputChests;
+	public MaterialList itemsRandomMaterials_QuaryChests;
+	public MaterialList itemsRandomMaterials_QuaryOutputChests;
 	
-	public final static String tagListOfTreasuresInBunkers = "List_Of_Treasures_In_Bunkers";
-	public final static String tagListOfTreasuresInMines = "List_Of_Treasures_In_Mines";
-	public final static String tagListOfTreasuresInSewers = "List_Of_Treasures_In_Sewers";
-	public final static String tagListOfTreasuresInStorageSheds = "List_Of_Treasures_In_Storage_Sheds";
-	public final static String tagListOfTreasuresInFarmWorks = "List_Of_Treasures_In_Farm_Works";
-	public final static String tagListOfTreasuresInFarmWorksOutput = "List_Of_Treasures_In_Farm_Works_Output";
-	public final static String tagListOfTreasuresInWoodWorks = "List_Of_Treasures_In_Wood_Works";
-	public final static String tagListOfTreasuresInWoodWorksOutput = "List_Of_Treasures_In_Works_Works_Output";
-	public final static String tagListOfTreasuresInStoneWorks = "List_Of_Treasures_In_Stone_Works";
-	public final static String tagListOfTreasuresInStoneWorksOutput = "List_Of_Treasures_In_Stone_Works_Output";
+	public MaterialList itemsSelectMaterial_BuildingWalls;
+	public MaterialList itemsSelectMaterial_BuildingCeilings;
+	public MaterialList itemsSelectMaterial_BuildingRoofs;
+	public MaterialList itemsSelectMaterial_UnfinishedBuildings;
+	public MaterialList itemsSelectMaterial_HouseWalls;
+	public MaterialList itemsSelectMaterial_HouseFloors;
+	public MaterialList itemsSelectMaterial_HouseCeilings;
+	public MaterialList itemsSelectMaterial_HouseRoofs;
+	public MaterialList itemsSelectMaterial_ShackWalls;
+	public MaterialList itemsSelectMaterial_ShackRoofs;
+	public MaterialList itemsSelectMaterial_ShedWalls;
+	public MaterialList itemsSelectMaterial_ShedRoofs;
+	public MaterialList itemsSelectMaterial_QuaryPiles;
+	public MaterialList itemsSelectMaterial_Castles;
 	
-	public MaterialList itemsMaterialsForBuildingWalls;
-	public MaterialList itemsMaterialsForBuildingCeilings;
-	public MaterialList itemsMaterialsForBuildingRoofs;
-	public MaterialList itemsMaterialsForUnfinishedBuildings;
-	public MaterialList itemsMaterialsForHouseWalls;
-	public MaterialList itemsMaterialsForHouseFloors;
-	public MaterialList itemsMaterialsForHouseCeilings;
-	public MaterialList itemsMaterialsForHouseRoofs;
-	public MaterialList itemsMaterialsForShackWalls;
-	public MaterialList itemsMaterialsForShackRoofs;
-	public MaterialList itemsMaterialsForShedWalls;
-	public MaterialList itemsMaterialsForShedRoofs;
-	public MaterialList itemsMaterialsForStoneWorksPiles;
-	public MaterialList itemsMaterialsForCastles;
-	public MaterialList itemsMaterialsForMazeWalls;
-	public MaterialList itemsMaterialsForRoads;
+	public MaterialList itemsMaterialListFor_MazeWalls;
+	public MaterialList itemsMaterialListFor_Roads;
+	public MaterialList itemsMaterialListFor_NormalOres;
+	public MaterialList itemsMaterialListFor_NetherOres;
+	public MaterialList itemsMaterialListFor_TheEndOres;
 	
-	public final static String tagMaterialsForBuildingWalls = "Materials_For_BuildingWalls";
-	public final static String tagMaterialsForBuildingCeilings = "Materials_For_BuildingCeilings";
-	public final static String tagMaterialsForBuildingRoofs = "Materials_For_BuildingRoofs";
-	public final static String tagMaterialsForUnfinishedBuildings = "Materials_For_UnfinishedBuildings";
-	public final static String tagMaterialsForHouseWalls = "Materials_For_HouseWalls";
-	public final static String tagMaterialsForHouseFloors = "Materials_For_HouseFloors";
-	public final static String tagMaterialsForHouseCeilings = "Materials_For_HouseCeilings";
-	public final static String tagMaterialsForHouseRoofs = "Materials_For_HouseRoofs";
-	public final static String tagMaterialsForShackWalls = "Materials_For_ShackWalls";
-	public final static String tagMaterialsForShackRoofs = "Materials_For_ShackRoofs";
-	public final static String tagMaterialsForShedWalls = "Materials_For_ShedWalls";
-	public final static String tagMaterialsForShedRoofs = "Materials_For_ShedRoofs";
-	public final static String tagMaterialsForStoneWorksPiles = "Materials_For_Stone_Works_Piles";
-	public final static String tagMaterialsForCastles = "Materials_For_Castles";
-	public final static String tagMaterialsForMazeWalls = "Materials_For_MazeWalls";
-	public final static String tagMaterialsForRoads = "Materials_For_Roads";
+	public final static String tagRandomMaterials_BunkerChests = "Random_Materials_For_Bunker_Chests";
+	public final static String tagRandomMaterials_MineChests = "Random_Materials_For_Mine_Chests";
+	public final static String tagRandomMaterials_SewerChests = "Random_Materials_For_Sewer_Chests";
+	public final static String tagRandomMaterials_StorageShedChests = "Random_Materials_For_Storage_Shed_Chests";
+	public final static String tagRandomMaterials_FarmChests = "Random_Materials_For_Farm_Chests";
+	public final static String tagRandomMaterials_FarmOutputChests = "Random_Materials_For_Farm_Output_Chests";
+	public final static String tagRandomMaterials_LumberChests = "Random_Materials_For_Lumber_Chests";
+	public final static String tagRandomMaterials_LumberOutputChests = "Random_Materials_For_Lumber_Output_Chests";
+	public final static String tagRandomMaterials_QuaryChests = "Random_Materials_For_Quary_Chests";
+	public final static String tagRandomMaterials_QuaryOutputChests = "Random_Materials_For_Quary_Output_Chests";
+	
+	public final static String tagSelectMaterial_BuildingWalls = "Materials_For_BuildingWalls";
+	public final static String tagSelectMaterial_BuildingCeilings = "Materials_For_BuildingCeilings";
+	public final static String tagSelectMaterial_BuildingRoofs = "Materials_For_BuildingRoofs";
+	public final static String tagSelectMaterial_UnfinishedBuildings = "Materials_For_UnfinishedBuildings";
+	public final static String tagSelectMaterial_HouseWalls = "Materials_For_HouseWalls";
+	public final static String tagSelectMaterial_HouseFloors = "Materials_For_HouseFloors";
+	public final static String tagSelectMaterial_HouseCeilings = "Materials_For_HouseCeilings";
+	public final static String tagSelectMaterial_HouseRoofs = "Materials_For_HouseRoofs";
+	public final static String tagSelectMaterial_ShackWalls = "Materials_For_ShackWalls";
+	public final static String tagSelectMaterial_ShackRoofs = "Materials_For_ShackRoofs";
+	public final static String tagSelectMaterial_ShedWalls = "Materials_For_ShedWalls";
+	public final static String tagSelectMaterial_ShedRoofs = "Materials_For_ShedRoofs";
+	public final static String tagSelectMaterial_StoneWorksPiles = "Materials_For_QuaryPiles";
+	public final static String tagSelectMaterial_Castles = "Materials_For_Castles";
+
+	public final static String tagMaterialListFor_MazeWalls = "Materials_List_For_MazeWalls";
+	public final static String tagMaterialListFor_Roads = "Materials_List_For_Roads";
+	public final static String tagMaterialListFor_NormalOres = "Materials_List_For_NormalOres";
+	public final static String tagMaterialListFor_NetherOres = "Materials_List_For_NetherOres";
+	public final static String tagMaterialListFor_TheEndOres = "Materials_List_For_TheEndOres";
+	
 	
 	private List<MaterialList> listOfLists;
 	
@@ -74,7 +83,7 @@ public class MaterialProvider {
 		
 		listOfLists = new ArrayList<MaterialList>();
 
-		itemsTreasureInBunkers = createList(tagListOfTreasuresInBunkers, 
+		itemsRandomMaterials_BunkerChests = createList(tagRandomMaterials_BunkerChests, 
 				Material.IRON_PICKAXE, 
 				Material.IRON_SWORD,
 				Material.IRON_SPADE,
@@ -95,7 +104,7 @@ public class MaterialProvider {
 				
 				Material.REDSTONE);
 		
-		itemsTreasureInMines = createList(tagListOfTreasuresInMines, 
+		itemsRandomMaterials_MineChests = createList(tagRandomMaterials_MineChests, 
 				Material.STONE_PICKAXE,
 				Material.STONE_SWORD,
 				Material.STONE_SPADE,
@@ -128,7 +137,7 @@ public class MaterialProvider {
 				Material.APPLE,
 				Material.ROTTEN_FLESH);
 
-		itemsTreasureInSewers = createList(tagListOfTreasuresInSewers, 
+		itemsRandomMaterials_SewerChests = createList(tagRandomMaterials_SewerChests, 
 				Material.WOOD_PICKAXE, 
 				Material.WOOD_SWORD,
 				Material.WOOD_SPADE,
@@ -151,7 +160,7 @@ public class MaterialProvider {
 				Material.APPLE,
 				Material.ROTTEN_FLESH);
 		
-		itemsTreasureInStorageSheds = createList(tagListOfTreasuresInStorageSheds,
+		itemsRandomMaterials_StorageShedChests = createList(tagRandomMaterials_StorageShedChests,
 				Material.WOOD_AXE, 
 				Material.WOOD_SPADE, 
 				Material.WOOD_PICKAXE, 
@@ -169,7 +178,7 @@ public class MaterialProvider {
 				Material.BOWL,
 				Material.MUSHROOM_SOUP);
 		
-		itemsTreasureInFarmWorks = createList(tagListOfTreasuresInFarmWorks,
+		itemsRandomMaterials_FarmChests = createList(tagRandomMaterials_FarmChests,
 				Material.WOOD_SPADE, 
 				Material.WOOD_PICKAXE, 
 				Material.WOOD_HOE,
@@ -208,7 +217,7 @@ public class MaterialProvider {
 				Material.PUMPKIN_PIE,
 				Material.MUSHROOM_SOUP);
 		
-		itemsTreasureInFarmWorksOutput = createList(tagListOfTreasuresInFarmWorksOutput,
+		itemsRandomMaterials_FarmOutputChests = createList(tagRandomMaterials_FarmOutputChests,
 				Material.LEATHER,
 				Material.PORK,
 				Material.RAW_BEEF,
@@ -226,7 +235,7 @@ public class MaterialProvider {
 				Material.SUGAR_CANE,
 				Material.APPLE);
 		
-		itemsTreasureInWoodWorks = createList(tagListOfTreasuresInWoodWorks,
+		itemsRandomMaterials_LumberChests = createList(tagRandomMaterials_LumberChests,
 				Material.WOOD_AXE, 
 				Material.WOOD_SPADE, 
 				Material.WOOD_PICKAXE,
@@ -244,7 +253,7 @@ public class MaterialProvider {
 				Material.COOKED_CHICKEN,
 				Material.COOKIE);
 		
-		itemsTreasureInWoodWorksOutput = createList(tagListOfTreasuresInWoodWorksOutput,
+		itemsRandomMaterials_LumberOutputChests = createList(tagRandomMaterials_LumberOutputChests,
 				Material.WOOD, // simple but cheesy way to increase the odds for this one
 				Material.WOOD,
 				Material.WOOD,
@@ -296,7 +305,7 @@ public class MaterialProvider {
 				Material.DARK_OAK_FENCE_GATE,
 				Material.DARK_OAK_STAIRS);
 		
-		itemsTreasureInStoneWorks = createList(tagListOfTreasuresInStoneWorks,
+		itemsRandomMaterials_QuaryChests = createList(tagRandomMaterials_QuaryChests,
 				Material.STONE_SPADE, 
 				Material.STONE_PICKAXE,
 				Material.IRON_SPADE, 
@@ -311,7 +320,7 @@ public class MaterialProvider {
 				Material.COOKED_BEEF,
 				Material.COOKED_CHICKEN);
 		
-		itemsTreasureInStoneWorksOutput = createList(tagListOfTreasuresInStoneWorksOutput,
+		itemsRandomMaterials_QuaryOutputChests = createList(tagRandomMaterials_QuaryOutputChests,
 				Material.IRON_INGOT, // easy but stupid way to increase odds of some of these happening
 				Material.IRON_INGOT,
 				Material.IRON_INGOT,
@@ -335,7 +344,7 @@ public class MaterialProvider {
 				Material.DIAMOND,
 				Material.EMERALD);
 		
-		itemsMaterialsForBuildingWalls = createList(tagMaterialsForBuildingWalls,
+		itemsSelectMaterial_BuildingWalls = createList(tagSelectMaterial_BuildingWalls,
 				Material.COBBLESTONE,
 				Material.SAND,
 				Material.GRAVEL,
@@ -359,7 +368,7 @@ public class MaterialProvider {
 				Material.RED_SANDSTONE,
 				Material.DOUBLE_STONE_SLAB2);
 		
-		itemsMaterialsForBuildingCeilings = createList(tagMaterialsForBuildingCeilings,
+		itemsSelectMaterial_BuildingCeilings = createList(tagSelectMaterial_BuildingCeilings,
 				Material.COBBLESTONE,
 				Material.WOOD,
 				Material.SANDSTONE,
@@ -381,7 +390,7 @@ public class MaterialProvider {
 				Material.RED_SANDSTONE,
 				Material.DOUBLE_STONE_SLAB2);
 		
-		itemsMaterialsForBuildingRoofs = createList(tagMaterialsForBuildingRoofs,
+		itemsSelectMaterial_BuildingRoofs = createList(tagSelectMaterial_BuildingRoofs,
 				Material.COBBLESTONE,
 				Material.WOOD,
 				Material.SANDSTONE,
@@ -403,7 +412,7 @@ public class MaterialProvider {
 				Material.RED_SANDSTONE,
 				Material.DOUBLE_STONE_SLAB2);
 		
-		itemsMaterialsForUnfinishedBuildings = createList(tagMaterialsForUnfinishedBuildings,
+		itemsSelectMaterial_UnfinishedBuildings = createList(tagSelectMaterial_UnfinishedBuildings,
 				Material.CLAY,
 				Material.CLAY,
 				Material.HARD_CLAY,
@@ -414,7 +423,7 @@ public class MaterialProvider {
 				Material.STONE,
 				Material.WOOD);
 
-		itemsMaterialsForHouseWalls = createList(tagMaterialsForHouseWalls,
+		itemsSelectMaterial_HouseWalls = createList(tagSelectMaterial_HouseWalls,
 				Material.COBBLESTONE,
 				Material.MOSSY_COBBLESTONE,
 				Material.STONE,
@@ -426,13 +435,13 @@ public class MaterialProvider {
 				Material.CLAY,
 				Material.WOOD);
 		
-		itemsMaterialsForHouseFloors = createList(tagMaterialsForHouseFloors,
+		itemsSelectMaterial_HouseFloors = createList(tagSelectMaterial_HouseFloors,
 				Material.COBBLESTONE,
 				Material.STONE,
 				Material.WOOL,
 				Material.WOOD);
 		
-		itemsMaterialsForHouseCeilings = createList(tagMaterialsForHouseCeilings,
+		itemsSelectMaterial_HouseCeilings = createList(tagSelectMaterial_HouseCeilings,
 				Material.COBBLESTONE,
 				Material.STONE,
 				Material.SMOOTH_BRICK,
@@ -440,7 +449,7 @@ public class MaterialProvider {
 				Material.RED_SANDSTONE,
 				Material.WOOD);
 		
-		itemsMaterialsForHouseRoofs = createList(tagMaterialsForHouseRoofs,
+		itemsSelectMaterial_HouseRoofs = createList(tagSelectMaterial_HouseRoofs,
 				Material.COBBLESTONE,
 				Material.MOSSY_COBBLESTONE,
 				Material.STONE,
@@ -449,7 +458,7 @@ public class MaterialProvider {
 				Material.RED_SANDSTONE,
 				Material.WOOD);
 		
-		itemsMaterialsForShackWalls = createList(tagMaterialsForShackWalls,
+		itemsSelectMaterial_ShackWalls = createList(tagSelectMaterial_ShackWalls,
 				Material.WOOD,
 				Material.WOOD,
 				Material.WOOD,
@@ -459,12 +468,12 @@ public class MaterialProvider {
 				Material.NETHER_BRICK,
 				Material.BRICK);
 		
-		itemsMaterialsForShackRoofs = createList(tagMaterialsForShackRoofs,
+		itemsSelectMaterial_ShackRoofs = createList(tagSelectMaterial_ShackRoofs,
 				Material.WOOD,
 				Material.STEP,
 				Material.WOOD_STEP);
 		
-		itemsMaterialsForShedWalls = createList(tagMaterialsForShedWalls,
+		itemsSelectMaterial_ShedWalls = createList(tagSelectMaterial_ShedWalls,
 				Material.STONE,
 				Material.SANDSTONE,
 				Material.RED_SANDSTONE,
@@ -473,11 +482,11 @@ public class MaterialProvider {
 				Material.BRICK,
 				Material.SMOOTH_BRICK);
 		
-		itemsMaterialsForShedRoofs = createList(tagMaterialsForShedRoofs,
+		itemsSelectMaterial_ShedRoofs = createList(tagSelectMaterial_ShedRoofs,
 				Material.STEP,
 				Material.WOOD_STEP);
 
-		itemsMaterialsForStoneWorksPiles = createList(tagMaterialsForStoneWorksPiles,
+		itemsSelectMaterial_QuaryPiles = createList(tagSelectMaterial_StoneWorksPiles,
 				Material.GRAVEL, // easy but stupid way to increase odds of some of these happening
 				Material.GRAVEL,
 				Material.GRAVEL,
@@ -496,7 +505,7 @@ public class MaterialProvider {
 				Material.DIAMOND_ORE,
 				Material.EMERALD_ORE);
 		
-		itemsMaterialsForCastles = createList(tagMaterialsForCastles,
+		itemsSelectMaterial_Castles = createList(tagSelectMaterial_Castles,
 				Material.STONE,
 				Material.SMOOTH_BRICK,
 				Material.COBBLESTONE,
@@ -505,25 +514,51 @@ public class MaterialProvider {
 				Material.DOUBLE_STEP,
 				Material.DOUBLE_STONE_SLAB2);
 
-		itemsMaterialsForMazeWalls = createList(tagMaterialsForMazeWalls,
+		itemsMaterialListFor_MazeWalls = createList(tagMaterialListFor_MazeWalls,
 				Material.OBSIDIAN,
 				Material.OBSIDIAN);
 
-		itemsMaterialsForRoads = createList(tagMaterialsForRoads,
+		itemsMaterialListFor_Roads = createList(tagMaterialListFor_Roads,
 				Material.STAINED_CLAY,
 				Material.QUARTZ_BLOCK);
+		
+		itemsMaterialListFor_NormalOres = createList(tagMaterialListFor_NormalOres,
+				Material.WATER,
+				Material.LAVA,
+				Material.GRAVEL,
+				Material.COAL_ORE,
+				Material.IRON_ORE,
+				Material.GOLD_ORE,
+				Material.LAPIS_ORE,
+				Material.REDSTONE_ORE,
+				Material.DIAMOND_ORE,
+				Material.EMERALD_ORE);
+
+		itemsMaterialListFor_NetherOres = createList(tagMaterialListFor_NetherOres,
+				Material.LAVA,
+				Material.GRAVEL,
+				Material.SOUL_SAND,
+				Material.GLOWSTONE,
+				Material.QUARTZ_ORE,
+				Material.OBSIDIAN);
+
+		itemsMaterialListFor_TheEndOres = createList(tagMaterialListFor_TheEndOres,
+				Material.WATER,
+				Material.LAVA,
+				Material.QUARTZ_BLOCK,
+				Material.GLOWSTONE,
+				Material.PRISMARINE);
 	}
 	
 	private MaterialList createList(String name, Material ... materials) {
 		
 		// create the list and add all of the goodies
-		MaterialList list = new MaterialList(name);
-		list.add(materials);
+		MaterialList list = new MaterialList(name, materials);
 		
 		// add it to the big list so we can generically remember it
 		listOfLists.add(list);
 		
-		// return it so we can especially remember it
+		// return it so we can specifically remember it
 		return list;
 	}
 	

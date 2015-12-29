@@ -15,10 +15,4 @@ public class OreProvider_SandDunes extends OreProvider_Normal {
 		fluidSubsurfaceMaterial = Material.SANDSTONE;
 		fluidFrozenMaterial = Material.SNOW_BLOCK;
 	}
-
-	@Override
-	public String getCollectionName() {
-		return "SandDunes";
-	}
-
 }

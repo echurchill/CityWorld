@@ -38,7 +38,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		DataContext context = platmap.context;
 		
 		// material please
-		girderMaterial = platmap.generator.settings.materials.itemsMaterialsForUnfinishedBuildings.getRandomMaterial(chunkOdds, Material.CLAY);
+		girderMaterial = platmap.generator.settings.materials.itemsSelectMaterial_UnfinishedBuildings.getRandomMaterial(chunkOdds, Material.CLAY);
 		
 		// basement only?
 		unfinishedBasementOnly = chunkOdds.playOdds(context.oddsOfOnlyUnfinishedBasements);

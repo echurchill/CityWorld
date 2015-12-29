@@ -19,6 +19,12 @@ public class MaterialList {
 		listName = name;
 	}
 
+	public MaterialList(String name, Material ... materials) {
+		super();
+		listName = name;
+		add(materials);
+	}
+
 	private void init(boolean clear) {
 		if (items == null)
 			items = new ArrayList<ItemStack>();

@@ -12,10 +12,4 @@ public class OreProvider_SnowDunes extends OreProvider_Normal {
 		fluidMaterial = Material.PACKED_ICE;
 		fluidFluidMaterial = Material.ICE;
 	}
-
-	@Override
-	public String getCollectionName() {
-		return "SnowDunes";
-	}
-
 }

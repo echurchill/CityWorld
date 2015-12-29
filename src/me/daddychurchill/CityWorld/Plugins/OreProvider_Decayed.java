@@ -16,10 +16,4 @@ public class OreProvider_Decayed extends OreProvider_Normal {
 		surfaceMaterial = Material.SAND;
 		subsurfaceMaterial = Material.SANDSTONE;
 	}
-
-	@Override
-	public String getCollectionName() {
-		return "Decayed";
-	}
-
 }
