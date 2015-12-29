@@ -6,23 +6,21 @@ There is an entire world to explore, have fun!
 
 <<color red>>**There is a Spigot/Bukkit 1.8.8 happy version of CityWorld over at http://www.spigotmc.org/resources/cityworld.2250/. I am not going to be updating the version here on dev.bukkit.com, so go there for the latest. **<</color>>
 
-===== //Version 2.997// ===== 
+===== //Version 3.000// ===== 
 
 {{http://dev.bukkit.org/media/images/42/720/2012-07-04_11.31.52.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
-v2.997
-* Oops left in some debug diamond block generation in, ironically enough, the farms
-* Made door generation in empty buildings even rarer
-
-v2.996
-* Built against MineCraft 1.8.8, Spigot XXX, WorldEdit 6.1.0, PhatLoots 4.1.0
-* Fixed some generation issues related to subsurfaces in floating worlds, upside is now you have more options for it. See SubSurfaceStyle for option.
-* Spigot 1.8.x seems to be double generating some chunks, put in code to avoid it happening. This was making Farms create really odd hybrid plants... like CactusRoses and FernGrass.
-* Forgot to document tree styles. See TreeStyle for options.
-* Fixed a bug that allowed worlds with decayed nature to have normal biomes, now their biomes are wholly set to desert.
-* WARNING: WorldEdit itself has changed quite a bit, I haven't tried to update the CityWorld for the latest incarnation of WorldEdit. If it works, great. If not, it will eventually. SORRY
+v3.000 (over at http://www.spigotmc.org/resources/cityworld.2250/)
+* The majority of materials used during building generation are now configurable (lists are maintained in the cityworld's yml file)
+* All chest content generation is now configurable (phatloot should still work if you really need it)
+* Road material is now configurable, don't like clay... change it
+* Added new lot types to world (hot air balloons, water towers, park mazes, barns, etc.)
+* Brought over some of the Maze world lots to normal worlds (lumber yards, quarries, camp grounds, etc.) 
+* Created a way to invert the range generation logic, now you can generate cities that surround a center of nature instead of the other way around
+* Lots of refactoring and tweaking, world generation will likely change... sorry but it couldn't be helped
+* Fixed a number of bugs that have been bothering me
 
 ([[http://dev.bukkit.org/server-mods/cityworld/pages/version/|For older version info...]]
 

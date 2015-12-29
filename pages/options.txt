@@ -86,12 +86,51 @@ If you are wanting to create a particular [[http://dev.bukkit.org/server-mods/ci
 |CityChunkRadius|How far do cities chunks generate, in chunks from the world's center point|
 |CenterPointOfChunkRadiusX|Where is the center point of the above options, defaults to 0|
 |CenterPointOfChunkRadiusZ|Where is the center point of the above options, defaults to 0|
+|BuildOutsideRadius|Generates things outside a circle of nature, instead of the other way around (totally inverts all the range limits logic)
 **Note:** If the road radius is larger than the city radius, the roads generate without lights, lines, sewers, etc.
 
 {{http://dev.bukkit.org/media/images/43/502/server2439_City_normal_day.jpg|Radius}}
 In the above picture the inner circle, centered on world's 0,0, represents the CityChunkRadius (in this case 10 chunks), the outer ring shows the RoadChunkRadius (20 chunks). 
 
-Note: that the bridges and tunnels stop abruptly when they hit the road radius specified.
+Note: that the bridges and tunnels will stop generating abruptly when they hit the road radius specified.
+
+=== Material Generation ===
+|=Option|=Description|
+|Random_Materials_For_Bunker_Chests|List of items that can be in a bunker's chest, a random subset will be used|
+|Random_Materials_For_Mine_Chests|List of items that can be in a mine's chest, a random subset will be used|
+|Random_Materials_For_Sewer_Chests|List of items that can be in a sewer's chest, a random subset will be used|
+|Random_Materials_For_Storage_Shed_Chests|List of items that can be in a storage shed's chest, a random subset will be used|
+|Random_Materials_For_Farm_Chests|List of items that can be in a farm's chest, a random subset will be used|
+|Random_Materials_For_Farm_Output_Chests|List of items that can be in a farm's output chest, a random subset will be used|
+|Random_Materials_For_Lumber_Chests|List of items that can be in a lumber yard's chest, a random subset will be used|
+|Random_Materials_For_Lumber_Output_Chests|List of items that can be in a lumber yard's output chest, a random subset will be used|
+|Random_Materials_For_Quary_Chests|List of items that can be in a quary's chest, a random subset will be used|
+|Random_Materials_For_Quary_Output_Chests|List of items that can be in a quary's output chest, a random subset will be used|
+
+|=Option|=Description|
+|Materials_For_BuildingWalls|List of materials that can be used to make a building's wall, a random material from this list will be used|
+|Materials_For_BuildingCeilings|List of materials that can be used to make a building's ceilings, a random material from this list will be used|
+|Materials_For_BuildingRoofs|List of materials that can be used to make a building's roofs, a random material from this list will be used|
+|Materials_For_UnfinishedBuildings|List of materials that can be used to make a unfinished building's cross beams, a random material from this list will be used|
+|Materials_For_HouseWalls|List of materials that can be used to make a house's wall, a random material from this list will be used|
+|Materials_For_HouseFloors|List of materials that can be used to make a house's floor, a random material from this list will be used|
+|Materials_For_HouseCeilings|List of materials that can be used to make a house's ceiling, a random material from this list will be used|
+|Materials_For_HouseRoofs|List of materials that can be used to make a house's roof, a random material from this list will be used|
+|Materials_For_ShackWalls|List of materials that can be used to make a shack's wall, a random material from this list will be used|
+|Materials_For_ShackRoofs|List of materials that can be used to make a shack's roof, a random material from this list will be used|
+|Materials_For_ShedWalls|List of materials that can be used to make a shet's wall, a random material from this list will be used|
+|Materials_For_ShedRoofs|List of materials that can be used to make a shed's roof, a random material from this list will be used|
+|Materials_For_QuaryPiles|List of materials that can be used to make a quary's pile, a random material from this list will be sprinkled in|
+|Materials_For_Castles|List of materials that can be used to make a castle, a random material from this list will be used|
+
+|=Option|=Description|
+|Materials_List_For_MazeWalls|Ordered list of materials that will be used to make the mazes|
+|Materials_List_For_Roads|Ordered list of materials that will be used to make the roads|
+|Materials_List_For_NormalOres|Ordered list of materials that will be sprinkled in the ground|
+|Materials_List_For_NetherOres|Ordered list of materials that will be sprinkled in the ground|
+|Materials_List_For_TheEndOres|Ordered list of materials that will be sprinkled in the ground|
+
+If you want to reset one of the above lists back to its default, simply remove it from the configuration file and the defaults will be written back out.
 
 === Deprecated options ===
 |=Option|=Workaround|
