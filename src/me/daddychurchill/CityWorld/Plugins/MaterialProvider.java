@@ -48,7 +48,7 @@ public class MaterialProvider {
 	public MaterialList itemsMaterialsForShedRoofs;
 	public MaterialList itemsMaterialsForCastles;
 	public MaterialList itemsMaterialsForMazeWalls;
-	public MaterialList itemsMaterialsForMazeUnderlayments;
+	public MaterialList itemsMaterialsForRoads;
 	
 	public final static String tagMaterialsForBuildingWalls = "Materials_For_BuildingWalls";
 	public final static String tagMaterialsForBuildingCeilings = "Materials_For_BuildingCeilings";
@@ -64,7 +64,7 @@ public class MaterialProvider {
 	public final static String tagMaterialsForShedRoofs = "Materials_For_ShedRoofs";
 	public final static String tagMaterialsForCastles = "Materials_For_Castles";
 	public final static String tagMaterialsForMazeWalls = "Materials_For_MazeWalls";
-	public final static String tagMaterialsForMazeUnderlayments = "Materials_For_MazeUnderlayments";
+	public final static String tagMaterialsForRoads = "Materials_For_Roads";
 	
 	private List<MaterialList> listOfLists;
 	
@@ -485,13 +485,12 @@ public class MaterialProvider {
 				Material.DOUBLE_STONE_SLAB2);
 
 		itemsMaterialsForMazeWalls = createList(tagMaterialsForMazeWalls,
-				Material.STONE,
-				Material.SMOOTH_BRICK,
-				Material.COBBLESTONE,
-				Material.MOSSY_COBBLESTONE);
-
-		itemsMaterialsForMazeUnderlayments = createList(tagMaterialsForMazeUnderlayments,
+				Material.OBSIDIAN,
 				Material.OBSIDIAN);
+
+		itemsMaterialsForRoads = createList(tagMaterialsForRoads,
+				Material.STAINED_CLAY,
+				Material.QUARTZ_BLOCK);
 	}
 	
 	private MaterialList createList(String name, Material ... materials) {

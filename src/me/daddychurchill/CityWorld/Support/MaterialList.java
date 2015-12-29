@@ -60,6 +60,13 @@ public class MaterialList {
 			return items.get(odds.getRandomInt(count())).getType();
 	}
 
+	public Material getNthMaterial(int index, Material defaultMaterial) {
+		if (items == null || count() == 0 || index > count() - 1)
+			return defaultMaterial;
+		else
+			return items.get(index).getType();
+	}
+
 	public void write(CityWorldGenerator generator, ConfigurationSection section) {
 		List<String> names = new ArrayList<String>();
 		if (items != null) {

@@ -55,13 +55,13 @@ public class ParkLot extends ConnectedLot {
 	}
 	
 	private centerStyles getRandomCenterStyle() {
-		if (chunkOdds.playOdds(Odds.oddsPrettyUnlikely))
+		if (chunkOdds.playOdds(Odds.oddsExtremelyUnlikely))
 			return centerStyles.LABYRINTH_MAZE;
-		else if (chunkOdds.playOdds(Odds.oddsPrettyUnlikely))
+		else if (chunkOdds.playOdds(Odds.oddsExtremelyUnlikely))
 			return centerStyles.HEDGE_MAZE;
-		else if (chunkOdds.playOdds(Odds.oddsPrettyUnlikely))
+		else if (chunkOdds.playOdds(Odds.oddsExtremelyUnlikely))
 			return centerStyles.CIRCLE_MAZE;
-		else if (chunkOdds.playOdds(Odds.oddsVeryUnlikely))
+		else if (chunkOdds.playOdds(Odds.oddsExtremelyUnlikely))
 			return centerStyles.WATER_TOWER;
 		else if (chunkOdds.playOdds(Odds.oddsSomewhatLikely))
 			return centerStyles.CIRCLE_PATH;
