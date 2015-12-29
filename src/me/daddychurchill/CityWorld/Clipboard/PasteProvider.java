@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.Plugins.WorldEdit.PasteProvider_WorldEdit;
 public abstract class PasteProvider extends Provider {
 
 	public enum SchematicFamily {ROUNDABOUT, PARK, HIGHRISE, MIDRISE, LOWRISE, INDUSTRIAL, MUNICIPAL, CONSTRUCTION, 
-		NEIGHBORHOOD, FARM, NATURE, ASTRAL};
+		NEIGHBORHOOD, FARM, NATURE, ASTRAL, OUTLAND};
 	
 	public PasteProvider() {
 		super();

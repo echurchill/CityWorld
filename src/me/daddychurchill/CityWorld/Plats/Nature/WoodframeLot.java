@@ -66,7 +66,8 @@ public class WoodframeLot extends WoodworksLot {
 			y = y - floorHeight;
 		}
 		
-		//TODO add decay
+		// place snow
+		generateSurface(generator, chunk, false);
 	}
 	
 }

@@ -25,6 +25,8 @@ public class GravelMineLot extends GravelLot {
 			int platZ) {
 		generateHole(generator, chunk, 14, 16);
 		
-		//TODO add decay
+		// place snow
+		generateSurface(generator, chunk, false);
+		
 	}
 }

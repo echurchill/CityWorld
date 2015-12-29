@@ -81,35 +81,8 @@ public abstract class GravelLot extends ConstructLot {
 		}
 	}
 
-	private static final Material[] oreTypes = new Material[] {
-		Material.GRAVEL,
-		Material.COAL_ORE,
-		Material.IRON_ORE,
-		Material.GOLD_ORE,
-		Material.LAPIS_ORE,
-		Material.REDSTONE_ORE,
-		Material.DIAMOND_ORE,
-		Material.EMERALD_ORE};
-	
-	private static final double[] oreOdds = new double[] {
-		0.146484375,
-		0.0732421875,
-		0.05859375,
-		0.00732421875,
-		0.003662109375,
-		0.0244140625,
-		0.003662109375,
-		0.006103515625};
-	
-	private Material getOre(int index) {
-		if (chunkOdds.playOdds(oreOdds[index]))
-			return oreTypes[index];
-		else
-			return Material.COBBLESTONE;
-	}
-	
 	protected void generatePile(CityWorldGenerator generator, RealBlocks chunk, int x, int z, int width) {
-		int index = chunkOdds.getRandomInt(oreTypes.length);
+		Material specialMaterial = generator.settings.materials.itemsMaterialsForStoneWorksPiles.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
 		int y = generator.streetLevel + 1;
 		if (chunkOdds.playOdds(Odds.oddsPrettyLikely)) {
 			for (int a = 0; a < width; a++) {
@@ -121,7 +94,7 @@ public abstract class GravelLot extends ConstructLot {
 						base--;
 					int height = chunkOdds.getRandomInt(base, 3);
 					for (int c = 0; c < height; c++)
-						chunk.setBlock(x + a, y + c, z + b, getOre(index));
+						chunk.setBlock(x + a, y + c, z + b, chunkOdds.playOdds(Odds.oddsVeryUnlikely) ? specialMaterial : Material.COBBLESTONE);
 				}
 			}
 		}

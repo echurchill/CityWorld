@@ -77,7 +77,9 @@ public class GravelworksLot extends GravelLot {
 			break;
 		}
 		
-		//TODO add decay
+		// place snow
+		generateSurface(generator, chunk, false);
+		
 	}
 
 }

@@ -46,6 +46,7 @@ public class MaterialProvider {
 	public MaterialList itemsMaterialsForShackRoofs;
 	public MaterialList itemsMaterialsForShedWalls;
 	public MaterialList itemsMaterialsForShedRoofs;
+	public MaterialList itemsMaterialsForStoneWorksPiles;
 	public MaterialList itemsMaterialsForCastles;
 	public MaterialList itemsMaterialsForMazeWalls;
 	public MaterialList itemsMaterialsForRoads;
@@ -62,6 +63,7 @@ public class MaterialProvider {
 	public final static String tagMaterialsForShackRoofs = "Materials_For_ShackRoofs";
 	public final static String tagMaterialsForShedWalls = "Materials_For_ShedWalls";
 	public final static String tagMaterialsForShedRoofs = "Materials_For_ShedRoofs";
+	public final static String tagMaterialsForStoneWorksPiles = "Materials_For_Stone_Works_Piles";
 	public final static String tagMaterialsForCastles = "Materials_For_Castles";
 	public final static String tagMaterialsForMazeWalls = "Materials_For_MazeWalls";
 	public final static String tagMaterialsForRoads = "Materials_For_Roads";
@@ -475,6 +477,25 @@ public class MaterialProvider {
 				Material.STEP,
 				Material.WOOD_STEP);
 
+		itemsMaterialsForStoneWorksPiles = createList(tagMaterialsForStoneWorksPiles,
+				Material.GRAVEL, // easy but stupid way to increase odds of some of these happening
+				Material.GRAVEL,
+				Material.GRAVEL,
+				Material.GRAVEL,
+				Material.GRAVEL,
+				Material.COAL_ORE,
+				Material.COAL_ORE,
+				Material.COAL_ORE,
+				Material.COAL_ORE,
+				Material.IRON_ORE,
+				Material.IRON_ORE,
+				Material.IRON_ORE,
+				Material.GOLD_ORE,
+				Material.LAPIS_ORE,
+				Material.REDSTONE_ORE,
+				Material.DIAMOND_ORE,
+				Material.EMERALD_ORE);
+		
 		itemsMaterialsForCastles = createList(tagMaterialsForCastles,
 				Material.STONE,
 				Material.SMOOTH_BRICK,

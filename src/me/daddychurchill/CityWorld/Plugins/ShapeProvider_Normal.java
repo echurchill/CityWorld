@@ -12,6 +12,7 @@ import me.daddychurchill.CityWorld.Context.MidriseContext;
 import me.daddychurchill.CityWorld.Context.MunicipalContext;
 import me.daddychurchill.CityWorld.Context.NatureContext;
 import me.daddychurchill.CityWorld.Context.NeighborhoodContext;
+import me.daddychurchill.CityWorld.Context.OutlandContext;
 import me.daddychurchill.CityWorld.Context.ParkContext;
 import me.daddychurchill.CityWorld.Context.RoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -39,6 +40,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	public DataContext lowriseContext;
 	public DataContext neighborhoodContext;
 	public DataContext farmContext;
+	public DataContext outlandContext;
 	
 	public SimplexOctaveGenerator landShape1;
 	public SimplexOctaveGenerator landShape2;
@@ -138,6 +140,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 			lowriseContext = new LowriseContext(generator);
 			neighborhoodContext = new NeighborhoodContext(generator);
 			farmContext = new FarmContext(generator);
+			outlandContext = new OutlandContext(generator);
 			
 			contextInitialized = true;
 		}
@@ -160,22 +163,38 @@ public class ShapeProvider_Normal extends ShapeProvider {
 			else
 				return highriseContext;
 		}
-		else if (nature < 0.15)
+		else if (nature < 0.05)
 			return constructionContext;
-		else if (nature < 0.25)
+		else if (nature < 0.10)
 			return midriseContext;
-		else if (nature < 0.37)
+		else if (nature < 0.20)
 			return municipalContext;
-		else if (nature < 0.50)
+		else if (nature < 0.30)
 			return industrialContext;
-		else if (nature < 0.65)
+		else if (nature < 0.40)
 			return lowriseContext;
-		else if (nature < 0.75)
+		else if (nature < 0.50)
 			return neighborhoodContext;
-		else if (nature < 0.90 && platmap.generator.settings.includeFarms)
+		else if (nature < 0.65 && platmap.generator.settings.includeFarms)
 			return farmContext;
-		else if (nature < 1.0)
-			return neighborhoodContext;
+		else if (nature < 0.80)
+			return outlandContext;
+//		else if (nature < 0.15)
+//			return constructionContext;
+//		else if (nature < 0.25)
+//			return midriseContext;
+//		else if (nature < 0.37)
+//			return municipalContext;
+//		else if (nature < 0.50)
+//			return industrialContext;
+//		else if (nature < 0.65)
+//			return lowriseContext;
+//		else if (nature < 0.75)
+//			return neighborhoodContext;
+//		else if (nature < 0.90 && platmap.generator.settings.includeFarms)
+//			return farmContext;
+//		else if (nature < 1.0)
+//			return outlandContext;
 		
 		// otherwise just keep what we have
 		else

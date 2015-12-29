@@ -47,6 +47,9 @@ public class WoodworksLot extends ConstructLot {
 		generateSomething(generator, chunk, 8, y, 6);
 		generateSomething(generator, chunk, 2, y, 9);
 		generateSomething(generator, chunk, 8, y, 12);
+
+		// place snow
+		generateSurface(generator, chunk, false);
 	}
 	
 	private void generateSomething(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z) {
