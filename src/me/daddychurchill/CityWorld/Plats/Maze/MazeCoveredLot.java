@@ -19,7 +19,7 @@ public class MazeCoveredLot extends MazeNatureLot {
 		super.generateActualBlocks(generator, platmap, chunk, context, platX, platZ);
 		
 		// top it off
-		Material wallMaterial = getWallMaterial();
+		Material wallMaterial = getWallMaterial(generator);
 		int y = generator.streetLevel + mazeHeight - mazeDepth - 1;
 		chunk.setBlocks(0, 16, y, 0, 16, wallMaterial);
 		chunk.setWalls(0, 16, generator.streetLevel + 4, y, 0, 16, wallMaterial);

@@ -50,7 +50,7 @@ public class GravelworksLot extends GravelLot {
 			
 			// storage
 			generateBase(generator, chunk);
-			generator.houseProvider.generateShed(generator, chunk, context, chunkOdds, 7, generator.streetLevel + 1, 7, 
+			generator.structureProvider.generateShed(generator, chunk, context, chunkOdds, 7, generator.streetLevel + 1, 7, 
 					chunkOdds.getRandomInt(2, 2), LootLocation.STONEWORKS, LootLocation.STONEWORKSOUTPUT);
 			break;
 			

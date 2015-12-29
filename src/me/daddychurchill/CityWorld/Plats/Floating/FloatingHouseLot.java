@@ -72,7 +72,7 @@ public class FloatingHouseLot extends ConstructLot {
 			int platZ) {
 
 		// now make a house
-		int floors = generator.houseProvider.generateHouse(generator, chunk, context, chunkOdds, groundLevel + 1, 1, 4);
+		int floors = generator.structureProvider.generateHouse(generator, chunk, context, chunkOdds, groundLevel + 1, 1, 4);
 		
 		// not a happy place?
 		if (generator.settings.includeDecayedBuildings)

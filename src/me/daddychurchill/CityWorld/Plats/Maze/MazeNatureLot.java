@@ -29,12 +29,12 @@ public class MazeNatureLot extends NatureLot {
 	protected final static int mazeHeight = 12;
 	protected final static int mazeDepth = 3;
 	
-	protected Material getWallMaterial() {
-		return Material.OBSIDIAN;
+	protected Material getWallMaterial(CityWorldGenerator generator) {
+		return generator.settings.materials.itemsMaterialsForMazeWalls.getRandomMaterial(chunkOdds, Material.OBSIDIAN);
 	}
 	
-	protected Material getLaymentMaterial() {
-		return Material.OBSIDIAN;
+	protected Material getLaymentMaterial(CityWorldGenerator generator) {
+		return generator.settings.materials.itemsMaterialsForMazeUnderlayments.getRandomMaterial(chunkOdds, Material.OBSIDIAN);
 	}
 	
 	@Override
@@ -59,19 +59,19 @@ public class MazeNatureLot extends NatureLot {
 	}
 	
 	protected void generateWallPart(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int z1, int z2) {
-		Material wallMaterial = getWallMaterial();
+		Material wallMaterial = getWallMaterial(generator);
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 
 				int surfaceY = getBlockY(x, z);
 				int mazeY = Math.min(generator.streetLevel, surfaceY);
-				chunk.setBlocks(x, mazeY - mazeDepth, mazeY + mazeHeight - mazeDepth, z, wallMaterial);
+				chunk.setBlocks(x, mazeY - mazeDepth, mazeY + mazeHeight - mazeDepth + chunkOdds.getRandomInt(1), z, wallMaterial);
 			}
 		}
 	}
 
 	protected void generateHallPart(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int z1, int z2) {
-		Material wallMaterial = getWallMaterial();
+		Material wallMaterial = getWallMaterial(generator);
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 

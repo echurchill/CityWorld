@@ -12,21 +12,21 @@ import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
-public class HouseProvider extends Provider {
+public class StructureProvider extends Provider {
 
 //	private static RoomProvider contentsKitchen = new HouseKitchens();
 //	private static RoomProvider contentsBedroom = new HouseBedrooms();
 //	private static RoomProvider contentsDiningRoom = new HouseDiningRooms();
 //	private static RoomProvider contentsLivingRoom = new HouseLivingRooms();
 	
-	public HouseProvider() {
+	public StructureProvider() {
 		super();
 
 	}
 	
-	public final static HouseProvider loadProvider(CityWorldGenerator generator) {
+	public final static StructureProvider loadProvider(CityWorldGenerator generator) {
 		// for now
-		return new HouseProvider();
+		return new StructureProvider();
 	}
 	
 	private final static double oddsOfFurnace = Odds.oddsSomewhatUnlikely;

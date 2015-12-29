@@ -31,7 +31,7 @@ public class WaterTowerLot extends IsolatedLot {
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
 			DataContext context, int platX, int platZ) {
-		generator.houseProvider.drawWaterTower(chunk, 4, generator.streetLevel + 1, 4, chunkOdds);
+		generator.structureProvider.drawWaterTower(chunk, 4, generator.streetLevel + 1, 4, chunkOdds);
 	}
 	
 	@Override

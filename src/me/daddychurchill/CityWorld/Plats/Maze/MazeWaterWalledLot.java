@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plats.Maze;
 
 import org.bukkit.Material;
 
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class MazeWaterWalledLot extends MazeLavaWalledLot {
@@ -12,7 +13,7 @@ public class MazeWaterWalledLot extends MazeLavaWalledLot {
 	}
 
 	@Override
-	protected Material getWallMaterial() {
+	protected Material getWallMaterial(CityWorldGenerator generator) {
 		return Material.STATIONARY_WATER;
 	}
 	
