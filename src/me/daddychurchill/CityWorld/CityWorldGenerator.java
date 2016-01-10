@@ -7,6 +7,7 @@ import java.util.Random;
 
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider;
 import me.daddychurchill.CityWorld.Plugins.BalloonProvider;
+import me.daddychurchill.CityWorld.Plugins.BonesProvider;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider;
 import me.daddychurchill.CityWorld.Plugins.TreeProvider;
 import me.daddychurchill.CityWorld.Plugins.StructureProvider;
@@ -45,6 +46,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 	public LootProvider lootProvider;
 	public SpawnProvider spawnProvider;
 	public OreProvider oreProvider;
+	public BonesProvider bonesProvider;
 	public SurfaceProvider surfaceProvider;
 	public CoverProvider coverProvider;
 	public OdonymProvider odonymProvider;
@@ -173,6 +175,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 			lootProvider = LootProvider.loadProvider(this);
 			spawnProvider = SpawnProvider.loadProvider(this);
 			oreProvider = OreProvider.loadProvider(this);
+			bonesProvider = BonesProvider.loadProvider(this);
 			coverProvider = CoverProvider.loadProvider(this, new Odds(getRelatedSeed()));
 			odonymProvider = OdonymProvider.loadProvider(this, new Odds(getRelatedSeed()));
 			surfaceProvider = SurfaceProvider.loadProvider(this, new Odds(getRelatedSeed()));

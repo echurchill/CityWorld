@@ -33,6 +33,7 @@ public class CityWorldSettings {
 	public boolean includeSeas = true;
 	public boolean includeMountains = true;
 	public boolean includeOres = true;
+	public boolean includeBones = true;
 	
 	public boolean spawnersInBunkers = true;
 	public boolean spawnersInMines = true;
@@ -95,6 +96,7 @@ public class CityWorldSettings {
 	public final static String tagIncludeSeas = "IncludeSeas";
 	public final static String tagIncludeMountains = "IncludeMountains";
 	public final static String tagIncludeOres = "IncludeOres";
+	public final static String tagIncludeBones = "IncludeBones";
 	
 	public final static String tagSpawnersInBunkers = "SpawnersInBunkers";
 	public final static String tagSpawnersInMines = "SpawnersInMines";
@@ -223,6 +225,7 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeSeas, includeSeas);
 			section.addDefault(tagIncludeMountains, includeMountains);
 			section.addDefault(tagIncludeOres, includeOres);
+			section.addDefault(tagIncludeBones, includeBones);
 			
 			section.addDefault(tagSpawnersInBunkers, spawnersInBunkers);
 			section.addDefault(tagSpawnersInMines, spawnersInMines);
@@ -272,6 +275,7 @@ public class CityWorldSettings {
 			includeSeas = section.getBoolean(tagIncludeSeas, includeSeas);
 			includeMountains = section.getBoolean(tagIncludeMountains, includeMountains);
 			includeOres = section.getBoolean(tagIncludeOres, includeOres);
+			includeBones = section.getBoolean(tagIncludeBones, includeBones);
 
 			spawnersInSewers = section.getBoolean(tagSpawnersInSewers, spawnersInSewers);
 			spawnersInMines = section.getBoolean(tagSpawnersInMines, spawnersInMines);
@@ -382,6 +386,7 @@ public class CityWorldSettings {
 			section.set(tagIncludeSeas, includeSeas);
 			section.set(tagIncludeMountains, includeMountains);
 			section.set(tagIncludeOres, includeOres);
+			section.set(tagIncludeBones, includeBones);
 			
 			section.set(tagSpawnersInBunkers, spawnersInBunkers);
 			section.set(tagSpawnersInMines, spawnersInMines);
@@ -476,6 +481,7 @@ public class CityWorldSettings {
 			includeSeas = true; // THIS MUST BE SET TO TRUE
 			includeMountains = true; // THIS MUST BE SET TO TRUE
 //			includeOres = false; 
+//			includeBones = false;
 			
 			spawnersInBunkers = false; // DIFFERENT
 			spawnersInMines = false; // DIFFERENT
@@ -512,6 +518,7 @@ public class CityWorldSettings {
 			includeSeas = false; // DIFFERENT
 			includeMountains = true; // THIS MUST BE SET TO TRUE
 			includeOres = false; // DIFFERENT
+			includeBones = false; // DIFFERENT
 			
 			spawnersInBunkers = false; // DIFFERENT
 			spawnersInMines = false; // DIFFERENT
@@ -549,6 +556,7 @@ public class CityWorldSettings {
 			includeSeas = true; // THIS MUST BE SET TO TRUE
 			includeMountains = true; // THIS MUST BE SET TO TRUE
 //			includeOres = true;
+//			includeBones = false;
 			
 			spawnersInBunkers = false; // DIFFERENT
 			spawnersInMines = false; // DIFFERENT
@@ -585,6 +593,7 @@ public class CityWorldSettings {
 			includeSeas = true; // THIS MUST BE SET TO TRUE
 			includeMountains = true; // THIS MUST BE SET TO TRUE
 //			includeOres = true;
+//			includeBones = false;
 			
 			spawnersInBunkers = false; // DIFFERENT
 			spawnersInMines = false; // DIFFERENT
@@ -621,6 +630,7 @@ public class CityWorldSettings {
 			includeSeas = true; // THIS MUST BE SET TO TRUE
 			includeMountains = true; // THIS MUST BE SET TO TRUE
 //			includeOres = true;
+//			includeBones = false;
 			
 			spawnersInBunkers = false; // DIFFERENT
 			spawnersInMines = false; // DIFFERENT
