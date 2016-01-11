@@ -42,7 +42,7 @@ public class NatureLot extends IsolatedLot {
 		generateSurface(generator, chunk, true);
 		
 //		if (generator.settings.includeBones)
-//			generator.bonesProvider.generateBones(generator, chunk, context, chunkOdds);
+//			generator.bonesProvider.generateBones2(generator, chunk, context, chunkOdds);
 	}
 
 }

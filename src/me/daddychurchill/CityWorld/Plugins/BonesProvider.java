@@ -19,6 +19,111 @@ public class BonesProvider extends Provider {
 		return new BonesProvider();
 	}
 	
+	public void generateBones2(CityWorldGenerator generator, RealBlocks chunk, DataContext context, Odds odds) {
+		Material matBlock = Material.QUARTZ_BLOCK;
+		Material matStair = Material.QUARTZ_STAIRS;
+
+		int x = 7;
+		int y = 200;
+		int z = 15;
+		chunk.setBlocks(2, 14, y - 1, 3, 16, Material.GLASS);
+		chunk.setBlocks(0, 16, y, 15, 16, Material.GLASS);
+
+		// what bits does it have?
+		boolean gotTorso = odds.flipCoin(); // arms just below the head
+		boolean gotHind = odds.flipCoin(); // legs on either end
+		if (gotTorso && gotHind) // a centaur, pretty rare beast?
+			gotTorso = odds.playOdds(Odds.oddsPrettyUnlikely);
+
+		// figure out the legs
+		int backLegHeight = odds.calcRandomRange(3, 5);
+		int frontLegHeight = odds.calcRandomRange(2, 5);
+		int armLength = odds.calcRandomRange(2, 4);
+		
+		// calculate the lengths of the sections
+		int spineLength = 0;
+		if (gotTorso)
+			spineLength = odds.calcRandomRange(armLength, armLength + 2);
+		int hindLength = 0;
+		if (gotHind)
+			hindLength = odds.calcRandomRange(3, 8);
+		
+		// up on the back legs?
+		boolean isHindUpright = gotHind && odds.playOdds(Odds.oddsSomewhatLikely); 
+
+		// figure out the tail bit
+		int tailLength = 0;
+		if (gotHind || odds.playOdds(Odds.oddsExtremelyUnlikely))
+			tailLength = odds.calcRandomRange(0, 4);
+			
+		// start at the back
+		int sectionZ = z;
+			
+		// tail?
+		if (tailLength > 0) {
+			sectionZ = sectionZ - tailLength;
+			int tailZ = sectionZ + 1;
+			int tailY = y + backLegHeight;
+			for (int zO = 0; zO < tailLength; zO++) {
+				if (tailY > y && odds.flipCoin()) {
+					chunk.setStair(x, tailY, tailZ + zO, matStair, Stair.NORTH);
+					tailY--;
+				}
+				chunk.setBlock(x, tailY, tailZ + zO, Material.COAL_BLOCK/*matBlock*/);
+			}
+		}
+		
+		// back legs
+		generateLimbs(chunk, odds, x, y + backLegHeight, sectionZ, odds.calcRandomRange(1, 3), backLegHeight, Material.GOLD_BLOCK/*matBlock*/, matStair);
+		
+		// hind section
+		if (gotHind) {
+			sectionZ = sectionZ - hindLength;
+			int hindZ = sectionZ;
+			int hindY = y + backLegHeight;
+			if (isHindUpright)
+				hindY = hindY + hindLength;
+			
+			// now the front legs
+			generateLimbs(chunk, odds, x, hindY, hindZ, odds.calcRandomRange(1, 3), frontLegHeight, Material.HAY_BLOCK/*matBlock*/, matStair);
+			
+			// now for the spine and ribs
+			for (int zO = 0; zO <= hindLength; zO++) {
+				chunk.setBlock(x, hindY, hindZ + zO, Material.DIAMOND_BLOCK/*matBlock*/);
+				
+				// ribs
+				if (zO > 0 && zO % 2 == 0 && zO + 1 < hindLength && odds.playOdds(Odds.oddsPrettyLikely)) {
+					chunk.setStair(x - 1, hindY, hindZ + zO, matStair, Stair.EAST);
+					chunk.setStair(x + 1, hindY, hindZ + zO, matStair, Stair.WEST);
+					
+					chunk.setBlock(x - 1, hindY - 1, hindZ + zO, Material.IRON_BLOCK/*matBlock*/);
+					chunk.setBlock(x + 1, hindY - 1, hindZ + zO, Material.IRON_BLOCK/*matBlock*/);
+					
+					chunk.setStair(x - 1, hindY - 2, hindZ + zO, matStair, Stair.EASTFLIP);
+					chunk.setStair(x + 1, hindY - 2, hindZ + zO, matStair, Stair.WESTFLIP);
+				}
+				
+				// move down 
+				if (isHindUpright) {
+					chunk.setStair(x, hindY + 1, hindZ + zO, matStair, Stair.NORTH);
+					chunk.setStair(x, hindY - 1, hindZ + zO, matStair, Stair.SOUTHFLIP);
+					hindY--;
+				}
+			}
+		}
+		
+		// torso section
+		if (gotTorso) {
+			
+			// spine
+			
+			// arms
+		}
+		
+		// add the head
+		
+	}
+	
 	public void generateBones(CityWorldGenerator generator, RealBlocks chunk, DataContext context, Odds odds) {
 		
 		int x = 7;
@@ -129,8 +234,13 @@ public class BonesProvider extends Provider {
 	}
 	
 	private void generateLimbs(RealBlocks chunk, Odds odds, int x, int y, int z, int xO, int yO, Material matBlock, Material matStair) {
-		chunk.setBlocks(x - xO, x + xO + 1, y, z, z + 1, matBlock);
 		if (odds.flipCoin()) { // rounded tops
+			chunk.setBlocks(x - xO, x, y, z, z + 1, matBlock);
+			chunk.setBlocks(x + 1, x + xO + 1, y, z, z + 1, matBlock);
+		} else {
+			chunk.setBlocks(x - xO + 1, x, y, z, z + 1, matBlock);
+			chunk.setBlocks(x + 1, x + xO, y, z, z + 1, matBlock);
+			
 			chunk.setStair(x - xO, y, z, matStair, Stair.EAST);
 			chunk.setStair(x + xO, y, z, matStair, Stair.WEST);
 		}
@@ -140,16 +250,18 @@ public class BonesProvider extends Provider {
 		chunk.setBlocks(x + xO, x + xO + 1, y - yO + 1, y, z, z + 1, matBlock);
 
 		// wrist/heels
+		boolean forceToes = false;
 		if (odds.flipCoin()) {
 			chunk.setBlock(x - xO, y - yO, z, matBlock);
 			chunk.setBlock(x + xO, y - yO, z, matBlock);
 		} else {
+			forceToes = true;
 			chunk.setStair(x - xO, y - yO, z, matStair, Stair.NORTHFLIP);
 			chunk.setStair(x + xO, y - yO, z, matStair, Stair.NORTHFLIP);
 		}
 		
 		// fingers/toes
-		if (odds.flipCoin()) {
+		if (forceToes || odds.flipCoin()) {
 			chunk.setStair(x - xO, y - yO, z - 1, matStair, Stair.SOUTH);
 			chunk.setStair(x + xO, y - yO, z - 1, matStair, Stair.SOUTH);
 		}
