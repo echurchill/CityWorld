@@ -32,18 +32,21 @@ public class BonesProvider extends Provider {
 		// what bits does it have?
 		boolean gotTorso = odds.flipCoin(); // arms just below the head
 		boolean gotHind = odds.flipCoin(); // legs on either end
-		if (gotTorso && gotHind) // a centaur, pretty rare beast?
-			gotTorso = odds.playOdds(Odds.oddsPrettyUnlikely);
+//		if (gotTorso && gotHind) // a centaur, pretty rare beast?
+//			gotTorso = odds.playOdds(Odds.oddsPrettyUnlikely);
 
 		// figure out the legs
 		int backLegHeight = odds.calcRandomRange(3, 5);
-		int frontLegHeight = odds.calcRandomRange(2, 5);
+		int backLegWidth = odds.calcRandomRange(1, 3);
+		int frontLegHeight = Math.min(odds.calcRandomRange(2, 5), backLegHeight);
+		int frontLegWidth = odds.calcRandomRange(1, 3);
 		int armLength = odds.calcRandomRange(2, 4);
+		int armWidth = odds.calcRandomRange(2, 3);
 		
 		// calculate the lengths of the sections
 		int spineLength = 0;
 		if (gotTorso)
-			spineLength = odds.calcRandomRange(armLength, armLength + 2);
+			spineLength = odds.calcRandomRange(armLength + 1, armLength + 3);
 		int hindLength = 0;
 		if (gotHind)
 			hindLength = odds.calcRandomRange(3, 8);
@@ -58,12 +61,13 @@ public class BonesProvider extends Provider {
 			
 		// start at the back
 		int sectionZ = z;
-			
+		int sectionY = y;
+		
 		// tail?
 		if (tailLength > 0) {
 			sectionZ = sectionZ - tailLength;
 			int tailZ = sectionZ + 1;
-			int tailY = y + backLegHeight;
+			int tailY = sectionY + backLegHeight;
 			for (int zO = 0; zO < tailLength; zO++) {
 				if (tailY > y && odds.flipCoin()) {
 					chunk.setStair(x, tailY, tailZ + zO, matStair, Stair.NORTH);
@@ -74,18 +78,20 @@ public class BonesProvider extends Provider {
 		}
 		
 		// back legs
-		generateLimbs(chunk, odds, x, y + backLegHeight, sectionZ, odds.calcRandomRange(1, 3), backLegHeight, Material.GOLD_BLOCK/*matBlock*/, matStair);
+		sectionY = sectionY + backLegHeight;
+		generateLimbs(chunk, odds, x, sectionY, sectionZ, backLegWidth, backLegHeight, Material.GOLD_BLOCK/*matBlock*/, matStair);
 		
 		// hind section
 		if (gotHind) {
 			sectionZ = sectionZ - hindLength;
 			int hindZ = sectionZ;
-			int hindY = y + backLegHeight;
+			int hindY = y + Math.max(backLegHeight, frontLegHeight);
 			if (isHindUpright)
 				hindY = hindY + hindLength;
-			
+			sectionY = hindY;
+
 			// now the front legs
-			generateLimbs(chunk, odds, x, hindY, hindZ, odds.calcRandomRange(1, 3), frontLegHeight, Material.HAY_BLOCK/*matBlock*/, matStair);
+			generateLimbs(chunk, odds, x, hindY, hindZ, frontLegWidth, frontLegHeight, Material.HAY_BLOCK/*matBlock*/, matStair);
 			
 			// now for the spine and ribs
 			for (int zO = 0; zO <= hindLength; zO++) {
@@ -116,12 +122,48 @@ public class BonesProvider extends Provider {
 		if (gotTorso) {
 			
 			// spine
+			boolean showRibs = armWidth > 2 && odds.flipCoin();
+			for (int yO = 0; yO < spineLength; yO++) {
+				chunk.setBlock(x, sectionY + yO, sectionZ, Material.EMERALD_BLOCK/*matBlock*/);
+				if (showRibs) {
+					chunk.setStair(x - 1, sectionY + yO, sectionZ, matStair, Stair.EAST);
+					chunk.setStair(x + 1, sectionY + yO, sectionZ, matStair, Stair.WEST);
+				}
+			}
 			
 			// arms
+			sectionY =+ spineLength;
+			generateLimbs(chunk, odds, x, sectionY, sectionZ, armWidth, armLength, Material.REDSTONE_BLOCK/*matBlock*/, matStair);
 		}
 		
 		// add the head
-		
+		if (odds.playOdds(Odds.oddsEnormouslyLikely)) {
+			
+			// long neck
+			boolean longNeck = (gotHind && !gotTorso && isHindUpright && odds.playOdds(Odds.oddsSomewhatUnlikely)) ||
+							   (gotHind && !gotTorso && odds.playOdds(Odds.oddsVeryLikely)) ||
+							   (gotTorso && odds.playOdds(Odds.oddsExtremelyUnlikely));
+			
+			// so do it
+			if (longNeck) {
+				int neckLength = odds.calcRandomRange(2, 4);
+				for (int yO = 0; yO < neckLength; yO++) {
+					
+					chunk.setBlock(x, sectionY, sectionZ, Material.BEDROCK/*matBlock*/);
+					chunk.setStair(x, sectionY + 1, sectionZ, matStair, Stair.NORTH);
+					chunk.setStair(x, sectionY, sectionZ - 1, matStair, Stair.SOUTHFLIP);
+					
+					sectionY++;
+					sectionZ--;
+				}
+			} else {
+				chunk.setBlock(x, sectionY, sectionZ, Material.OBSIDIAN/*matBlock*/);
+				sectionY++;
+			}
+			
+			// now the head itself
+			generateHead(chunk, odds, x, sectionY, sectionZ, Material.COBBLESTONE/*matBlock*/, matStair);
+		}
 	}
 	
 	public void generateBones(CityWorldGenerator generator, RealBlocks chunk, DataContext context, Odds odds) {
