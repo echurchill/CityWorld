@@ -116,7 +116,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	
 	public final boolean isEmpty(int x, int y, int z) {
 		return isType(x, y, z, Material.AIR);
-//		return getActualBlock(x, y, z).isEmpty();
 	}
 	
 	public final boolean isEmpty(int x, int y1, int y2, int z) {
@@ -137,6 +136,26 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			}
 		}
 		return true;
+	}
+	
+	public final boolean isSomewhatEmpty(int x, int y1, int y2, int z) {
+		for (int y = y1; y < y2; y++) {
+			if (isType(x, y, z, Material.AIR))
+				return true;
+		}
+		return false;
+	}
+	
+	public final boolean isSomewhatEmpty(int x1, int x2, int y1, int y2, int z1, int z2) {
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
+				for (int z = z1; z < z2; z++) {
+					if (isType(x, y, z, Material.AIR))
+						return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	public abstract boolean isSurroundedByEmpty(int x, int y, int z);
@@ -896,7 +915,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 
-	public final void setSignPost(int x, int y, int z, BlockFace direction, String[] text) {
+	public final void setSignPost(int x, int y, int z, BlockFace direction, String ... text) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(Material.SIGN_POST);
 		if (block.getType() == Material.SIGN_POST) {

@@ -40,9 +40,6 @@ public class NatureLot extends IsolatedLot {
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
 		generateSurface(generator, chunk, true);
-		
-//		if (generator.settings.includeBones)
-//			generator.bonesProvider.generateBones2(generator, chunk, context, chunkOdds);
 	}
 
 }

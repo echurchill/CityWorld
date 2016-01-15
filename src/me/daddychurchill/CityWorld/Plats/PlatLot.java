@@ -502,6 +502,13 @@ public abstract class PlatLot {
 		return true;
 	}
 	
+	public void generateBones(CityWorldGenerator generator, RealBlocks chunk) {
+
+		// fossils?
+		if (generator.settings.includeBones && chunkOdds.playOdds(Odds.oddsExceedinglyUnlikely))
+			generator.bonesProvider.generateBones(generator, this, chunk, blockYs, chunkOdds);
+	}
+	
 	public void generateOres(CityWorldGenerator generator, RealBlocks chunk) {
 		
 		// shape the world

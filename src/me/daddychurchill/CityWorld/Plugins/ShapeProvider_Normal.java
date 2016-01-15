@@ -292,14 +292,16 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	
 	@Override
 	public void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, CachedYs blockYs) {
-		
+
 		// mines please
 		lot.generateMines(generator, chunk);
 	}
 
 	@Override
 	public void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, CachedYs blockYs) {
-		// nothing... yet
+		
+		// put bones in?
+		lot.generateBones(generator, chunk);
 	}
 
 	@Override

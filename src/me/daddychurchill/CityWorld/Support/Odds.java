@@ -75,11 +75,11 @@ public class Odds {
 	}
 	
 	public int calcRandomRange(int min, int max) {
-		return min + random.nextInt(max - min);
+		return min + random.nextInt(max - min + 1);
 	}
 	
 	public double calcRandomRange(double min, double max) {
-		return min + random.nextDouble() * (max - min);
+		return min + random.nextDouble() * (max - min + 1);
 	}
 	
 	public int getShimmy() {
