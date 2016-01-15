@@ -76,7 +76,7 @@ public class TreeProvider_Normal extends TreeProvider {
 //					chunk.setBlocks(x, x + trunkWidth, y - 1, y, z, z + trunkWidth, root);
 					
 					// did we make a tree?
-					result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeT ype);
+					result = chunk.world.generateTree(chunk.getBlockLocation(x, y, z), treeType);
 					
 //					// did it finally work?
 //					if (result) {
