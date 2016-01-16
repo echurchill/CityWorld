@@ -118,27 +118,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		return isType(x, y, z, Material.AIR);
 	}
 	
-	public final boolean isEmpty(int x, int y1, int y2, int z) {
-		for (int y = y1; y < y2; y++) {
-			if (!isType(x, y, z, Material.AIR))
-				return false;
-		}
-		return true;
-	}
-	
-	public final boolean isEmpty(int x1, int x2, int y1, int y2, int z1, int z2) {
-		for (int x = x1; x < x2; x++) {
-			for (int y = y1; y < y2; y++) {
-				for (int z = z1; z < z2; z++) {
-					if (!isType(x, y, z, Material.AIR))
-						return false;
-				}
-			}
-		}
-		return true;
-	}
-	
-	public final boolean isSomewhatEmpty(int x, int y1, int y2, int z) {
+	public final boolean isPartiallyEmpty(int x, int y1, int y2, int z) {
 		for (int y = y1; y < y2; y++) {
 			if (isType(x, y, z, Material.AIR))
 				return true;
@@ -146,7 +126,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		return false;
 	}
 	
-	public final boolean isSomewhatEmpty(int x1, int x2, int y1, int y2, int z1, int z2) {
+	public final boolean isPartiallyEmpty(int x1, int x2, int y1, int y2, int z1, int z2) {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
@@ -177,23 +157,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	@Override
 	public final void clearBlock(int x, int y, int z) {
 		getActualBlock(x, y, z).setType(Material.AIR);
-	}
-
-	@Override
-	public final void clearBlocks(int x, int y1, int y2, int z) {
-		for (int y = y1; y < y2; y++)
-			getActualBlock(x, y, z).setType(Material.AIR);
-	}
-
-	@Override
-	public final void clearBlocks(int x1, int x2, int y1, int y2, int z1, int z2) {
-		for (int x = x1; x < x2; x++) {
-			for (int y = y1; y < y2; y++) {
-				for (int z = z1; z < z2; z++) {
-					getActualBlock(x, y, z).setType(Material.AIR);
-				}
-			}
-		}
 	}
 
 	//================ x, y1, y2, z

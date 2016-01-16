@@ -57,22 +57,6 @@ public final class InitialBlocks extends AbstractBlocks {
 		chunkData.setBlock(x, y, z, Material.AIR);
 	}
 
-	@Override
-	public void clearBlocks(int x, int y1, int y2, int z) {
-		for (int y = y1; y < y2; y++)
-			clearBlock(x, y, z);
-	}
-
-	@Override
-	public void clearBlocks(int x1, int x2, int y1, int y2, int z1, int z2) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				for (int y = y1; y < y2; y++)
-					clearBlock(x, y, z);
-			}
-		}
-	}
-	
 	//================ x, y1, y2, z
 	@Override
 	public void setBlocks(int x, int y1, int y2, int z, Material material) {
@@ -185,56 +169,6 @@ public final class InitialBlocks extends AbstractBlocks {
 		return y1;
 	}
 	
-//	public void setBlocksAt(int y, short typeId) {
-//		setBlocks(0, width, y, y + 1, 0, width, typeId);
-//	}
-//	
-//	public void setBlocksAt(int y1, int y2, short typeId) {
-//		setBlocks(0, width, y1, y2, 0, width, typeId);
-//	}
-//	
-//	public void setAllBlocks(short typeId) {
-//		// shortcut if we are simply clearing everything
-//		if (typeId == AIR) {
-//			for (int c = 0; c < sectionsPerChunk; c++) {
-//				blocks[c] = null;
-//			}
-//		
-//		// fine.. do it the hard way
-//		} else {
-//			for (int c = 0; c < sectionsPerChunk; c++) {
-//				if (blocks[c] == null)
-//					blocks[c] = new short[bytesPerSection];
-//				Arrays.fill(blocks[c], 0, bytesPerSection, typeId);
-//			}
-//		}	
-//	}
-//
-//	public void replaceBlocks(short fromId, short toId) {
-//		// if we are replacing air we might need to do this the hard way
-//		if (fromId == AIR) {
-//			for (int c = 0; c < sectionsPerChunk; c++) {
-//				if (blocks[c] == null)
-//					blocks[c] = new short[bytesPerSection];
-//				for (int i = 0; i < bytesPerSection; i++) {
-//					if (blocks[c][i] == fromId)
-//						blocks[c][i] = toId;
-//				}
-//			}
-//		
-//		// if not then take a short cut if we can
-//		} else {
-//			for (int c = 0; c < sectionsPerChunk; c++) {
-//				if (blocks[c] != null) {
-//					for (int i = 0; i < bytesPerSection; i++) {
-//						if (blocks[c][i] == fromId)
-//							blocks[c][i] = toId;
-//					}
-//				}
-//			}
-//		}
-//	}
-
 	public void setArcNorthWest(int inset, int y1, int y2, Material primary, boolean fill) {
 		setArcNorthWest(inset, y1, y2, primary, primary, null, fill);
 	}

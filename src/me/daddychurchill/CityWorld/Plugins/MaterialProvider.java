@@ -506,13 +506,13 @@ public class MaterialProvider {
 				Material.EMERALD_ORE);
 		
 		itemsSelectMaterial_Castles = createList(tagSelectMaterial_Castles,
-				Material.STONE,
-				Material.SMOOTH_BRICK,
+//				Material.STONE,
 				Material.COBBLESTONE,
 				Material.MOSSY_COBBLESTONE,
-				Material.ENDER_STONE,
-				Material.DOUBLE_STEP,
-				Material.DOUBLE_STONE_SLAB2);
+//				Material.ENDER_STONE,
+//				Material.DOUBLE_STEP,
+//				Material.DOUBLE_STONE_SLAB2,
+				Material.SMOOTH_BRICK);
 
 		itemsMaterialListFor_MazeWalls = createList(tagMaterialListFor_MazeWalls,
 				Material.OBSIDIAN,

@@ -59,8 +59,6 @@ public abstract class AbstractBlocks {
 	public abstract int setLayer(int blocky, int height, int inset, Material material);
 	
 	public abstract void clearBlock(int x, int y, int z);
-	public abstract void clearBlocks(int x, int y1, int y2, int z);
-	public abstract void clearBlocks(int x1, int x2, int y1, int y2, int z1, int z2);
 	public abstract boolean setEmptyBlock(int x, int y, int z, Material material);
 	public abstract void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, Material material);
 	public abstract int findFirstEmpty(int x, int y, int z);
@@ -98,4 +96,44 @@ public abstract class AbstractBlocks {
 			}
 		}
 	}
+
+	public void clearBlocks(int x, int y1, int y2, int z) {
+		for (int y = y1; y < y2; y++)
+			clearBlock(x, y, z);
+	}
+
+	public void clearBlocks(int x1, int x2, int y, int z1, int z2) {
+		for (int x = x1; x < x2; x++)
+			for (int z = z1; z < z2; z++)
+				clearBlock(x, y, z);
+	}
+	
+	public void clearBlocks(int x1, int x2, int y1, int y2, int z1, int z2) {
+		for (int x = x1; x < x2; x++)
+			for (int z = z1; z < z2; z++)
+				for (int y = y1; y < y2; y++)
+					clearBlock(x, y, z);
+	}
+	
+	public void clearBlocks(int x, int y1, int y2, int z, Odds odds) {
+		for (int y = y1; y < y2; y++)
+			if (odds.flipCoin())
+				clearBlock(x, y, z);
+	}
+
+	public void clearBlocks(int x1, int x2, int y, int z1, int z2, Odds odds) {
+		for (int x = x1; x < x2; x++)
+			for (int z = z1; z < z2; z++)
+				if (odds.flipCoin())
+					clearBlock(x, y, z);
+	}
+	
+	public void clearBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds) {
+		for (int x = x1; x < x2; x++)
+			for (int z = z1; z < z2; z++)
+				for (int y = y1; y < y2; y++)
+					if (odds.flipCoin())
+						clearBlock(x, y, z);
+	}
+	
 }

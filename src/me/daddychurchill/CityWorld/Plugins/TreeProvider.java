@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import org.bukkit.Material;
+import org.bukkit.TreeSpecies;
 import org.bukkit.TreeType;
 import org.bukkit.util.noise.NoiseGenerator;
 
@@ -49,6 +50,52 @@ public abstract class TreeProvider {
 		provider.odds = odds;
 		
 		return provider;
+	}
+	
+	public static TreeSpecies getTreeSpecies(TreeType treeType) {
+		switch (treeType) {
+		case ACACIA:
+			return TreeSpecies.ACACIA;
+		case DARK_OAK:
+			return TreeSpecies.DARK_OAK;
+		case JUNGLE:
+		case JUNGLE_BUSH:
+		case SMALL_JUNGLE:
+		case COCOA_TREE:
+			return TreeSpecies.JUNGLE;
+		case TALL_REDWOOD:
+		case MEGA_REDWOOD:
+		case REDWOOD:
+			return TreeSpecies.REDWOOD;
+		case BIRCH:
+		case TALL_BIRCH:
+			return TreeSpecies.BIRCH;
+		case SWAMP:
+		case BIG_TREE:
+		case TREE:
+		case BROWN_MUSHROOM:
+		case RED_MUSHROOM:
+		default:
+			return TreeSpecies.GENERIC;
+		}
+	}
+	
+	public static TreeType getTreeType(TreeSpecies treeSpecies) {
+		switch (treeSpecies) {
+		case ACACIA:
+			return TreeType.ACACIA;
+		case BIRCH:
+			return TreeType.BIRCH;
+		case DARK_OAK:
+			return TreeType.DARK_OAK;
+		case JUNGLE:
+			return TreeType.JUNGLE;
+		case REDWOOD:
+			return TreeType.REDWOOD;
+		case GENERIC:
+		default:
+			return TreeType.TREE;
+		}
 	}
 	
 	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, int data) {

@@ -21,6 +21,11 @@ public class BonesProvider extends Provider {
 	}
 	
 	public void generateBones(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, CachedYs blockYs, Odds odds) {
+		int y = odds.calcRandomRange(10, blockYs.minHeight - 20);
+		generateBones(generator, lot, chunk, y, odds);
+	}
+	
+	public void generateBones(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, int y, Odds odds) {
 		Material matBlock = Material.QUARTZ_BLOCK;
 		Material matStair = Material.QUARTZ_STAIRS;
 		if (generator.settings.includeDecayedNature) {
@@ -28,11 +33,10 @@ public class BonesProvider extends Provider {
 			matStair = Material.SANDSTONE_STAIRS;
 		}
 
-		// figure the location
+		// figure the starting location within the chunk
 		int x = 7;
-		int y = odds.calcRandomRange(10, blockYs.minHeight - 25);
 		int z = 15;
-//		chunk.setBlocks(0, 16, 220, 221, 0, 16, Material.GLASS);
+//		chunk.setBlocks(0, 16, 255, 0, 16, Material.GLASS);
 
 		// what bits does it have?
 		boolean gotTorso = odds.flipCoin(); // arms just below the head

@@ -8,15 +8,12 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class OldCastleLot extends ConstructLot {
 
-//	private Material platformMaterial = Material.SMOOTH_BRICK;
-//	private Material supportMaterial = Material.COBBLESTONE;
-//	private Material wallMaterial = platformMaterial;
-	
 	private Material platformMaterial;
 	private Material supportMaterial;
 	private Material wallMaterial;
@@ -27,8 +24,17 @@ public class OldCastleLot extends ConstructLot {
 		trulyIsolated = true;
 		
 		platformMaterial = platmap.generator.settings.materials.itemsSelectMaterial_Castles.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
-		supportMaterial = platmap.generator.settings.materials.itemsSelectMaterial_Castles.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
-		wallMaterial = platmap.generator.settings.materials.itemsSelectMaterial_Castles.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
+		
+		if (chunkOdds.playOdds(Odds.oddsPrettyLikely))
+			wallMaterial = platformMaterial;
+		else
+			wallMaterial = platmap.generator.settings.materials.itemsSelectMaterial_Castles.getRandomMaterial(chunkOdds, platformMaterial);
+
+		if (chunkOdds.playOdds(Odds.oddsSomewhatLikely))
+			supportMaterial = platformMaterial;
+		else
+			supportMaterial = platmap.generator.settings.materials.itemsSelectMaterial_Castles.getRandomMaterial(chunkOdds, platformMaterial);
+		
 	}
 	
 	@Override

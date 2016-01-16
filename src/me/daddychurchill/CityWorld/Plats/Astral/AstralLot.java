@@ -121,7 +121,7 @@ public abstract class AstralLot extends IsolatedLot {
 				chunk.setBlocks(x, blockYs.getBlockY(x, z), y, z, Material.QUARTZ_BLOCK);
 		
 		// need a tunnel?
-		if (!chunk.isSomewhatEmpty(x, y + 2, y + 4, z)) {
+		if (!chunk.isPartiallyEmpty(x, y + 2, y + 4, z)) {
 			chunk.setBlocks(x, x + 1, y + 2, y + 3, z, z + 1, Material.AIR);
 			if (chunkOdds.flipCoin())
 				chunk.setBlock(x, y + 3, z, Material.AIR);
