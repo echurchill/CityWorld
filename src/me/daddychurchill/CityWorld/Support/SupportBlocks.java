@@ -460,7 +460,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		return isNonstackableBlock(getActualBlock(x, y, z));
 	}
 	
-	private void setBlockTypeAndColor(int x, int y, int z, Material material, DyeColor color) {
+	public void setBlockTypeAndColor(int x, int y, int z, Material material, DyeColor color) {
 		BlockState state = getActualBlock(x, y, z).getState();
 		state.setType(material);
 		MaterialData data = state.getData();
@@ -471,7 +471,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		state.update(true, doPhysics);
 	}
 	
-	private void setBlockIfTypeThenColor(int x, int y, int z, Material material, DyeColor color) {
+	public void setBlockIfTypeThenColor(int x, int y, int z, Material material, DyeColor color) {
 		BlockState state = getActualBlock(x, y, z).getState();
 		if (state.getType() == material) {
 			MaterialData data = state.getData();
@@ -483,7 +483,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 	
-	private void setBlocksTypeAndColor(int x1, int x2, int y, int z1, int z2, Material material, DyeColor color) {
+	public void setBlocksTypeAndColor(int x1, int x2, int y, int z1, int z2, Material material, DyeColor color) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				setBlockTypeAndColor(x, y, z, material, color);
@@ -491,7 +491,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 	
-	private void setBlocksTypeAndColor(int x1, int x2, int y1, int y2, int z1, int z2, Material material, DyeColor color) {
+	public void setBlocksTypeAndColor(int x1, int x2, int y1, int y2, int z1, int z2, Material material, DyeColor color) {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {

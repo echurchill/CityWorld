@@ -63,7 +63,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	protected StairStyle stairStyle;
 	protected BadMagic.Facing stairDirection;
 	
-	public enum InteriorStyle {COLUMNS_ONLY, WALLS_ONLY, COLUMNS_OFFICES, WALLS_OFFICES, RANDOM};
+	public enum InteriorStyle {EMPTY, COLUMNS_ONLY, WALLS_ONLY, COLUMNS_OFFICES, WALLS_OFFICES, RANDOM};
 	protected InteriorStyle interiorStyle;
 	protected double oddsOfAnInteriorDoor = Odds.oddsExtremelyLikely;
 	protected double oddsOfAnExteriorDoor = Odds.oddsSomewhatLikely;
@@ -514,6 +514,8 @@ public abstract class BuildingLot extends ConnectedLot {
 		
 		// let's do it!
 		switch (style) {
+		case EMPTY:
+			break;
 		case COLUMNS_ONLY:
 			drawInteriorColumns(generator, chunk, context, drawNarrowInteriors,
 					floor, floorAt, floorHeight, insetNS, insetWE, 

@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.RealBlocks;
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class BonesProvider extends Provider {
 
@@ -20,12 +20,18 @@ public class BonesProvider extends Provider {
 		return new BonesProvider();
 	}
 	
-	public void generateBones(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, CachedYs blockYs, Odds odds) {
+	public void generateBones(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CachedYs blockYs, Odds odds) {
 		int y = odds.calcRandomRange(10, blockYs.minHeight - 20);
 		generateBones(generator, lot, chunk, y, odds);
 	}
 	
-	public void generateBones(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, int y, Odds odds) {
+	public void generateBones(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, int y, Odds odds) {
+		int x = 7;
+		int z = 15;
+		generateBones(generator, lot, chunk, x, y, z, odds, false);
+	}
+	
+	public void generateBones(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, int x, int y, int z, Odds odds, boolean smaller) {
 		Material matBlock = Material.QUARTZ_BLOCK;
 		Material matStair = Material.QUARTZ_STAIRS;
 		if (generator.settings.includeDecayedNature) {
@@ -34,8 +40,6 @@ public class BonesProvider extends Provider {
 		}
 
 		// figure the starting location within the chunk
-		int x = 7;
-		int z = 15;
 //		chunk.setBlocks(0, 16, 255, 0, 16, Material.GLASS);
 
 		// what bits does it have?
@@ -45,11 +49,11 @@ public class BonesProvider extends Provider {
 			gotTorso = odds.playOdds(Odds.oddsPrettyUnlikely);
 
 		// figure out the legs
-		int backLegHeight = odds.calcRandomRange(3, 5);
+		int backLegHeight = odds.calcRandomRange(smaller ? 2 : 3, smaller ? 3 : 5);
 		int backLegWidth = odds.calcRandomRange(1, 3);
-		int frontLegHeight = Math.min(odds.calcRandomRange(2, 5), backLegHeight);
+		int frontLegHeight = Math.min(odds.calcRandomRange(2, smaller ? 3 : 5), backLegHeight);
 		int frontLegWidth = odds.calcRandomRange(1, 3);
-		int armLength = odds.calcRandomRange(2, 4);
+		int armLength = odds.calcRandomRange(2, smaller ? 3 : 4);
 		int armWidth = odds.calcRandomRange(2, 3);
 		
 		// calculate the lengths of the sections
@@ -58,14 +62,14 @@ public class BonesProvider extends Provider {
 			spineLength = odds.calcRandomRange(armLength + 1, armLength + 3);
 		int hindLength = 0;
 		if (gotHind)
-			hindLength = odds.calcRandomRange(3, 6);
+			hindLength = odds.calcRandomRange(smaller ? 2 : 3, smaller ? 4 : 6);
 		
 		// up on the back legs?
 		boolean isHindUpright = gotHind && odds.playOdds(Odds.oddsSomewhatLikely); 
 
 		// figure out the tail bit
 		int tailLength = 0;
-		if (gotHind || odds.playOdds(Odds.oddsExtremelyUnlikely))
+		if (!smaller && (gotHind || odds.playOdds(Odds.oddsExtremelyUnlikely)))
 			tailLength = odds.calcRandomRange(0, 3);
 			
 		// start at the back
@@ -154,7 +158,7 @@ public class BonesProvider extends Provider {
 							   (gotTorso && odds.playOdds(Odds.oddsExtremelyUnlikely));
 			
 			// so do it
-			int neckLength = odds.calcRandomRange(1, 3);
+			int neckLength = odds.calcRandomRange(1, smaller ? 2 : 3);
 			if (tiltedNeck) {
 				for (int yO = 0; yO < neckLength; yO++) {
 					
@@ -166,7 +170,7 @@ public class BonesProvider extends Provider {
 					sectionZ--;
 				}
 			} else {
-				if (odds.playOdds(Odds.oddsPrettyUnlikely))
+				if (!smaller && odds.playOdds(Odds.oddsPrettyUnlikely))
 					neckLength = odds.calcRandomRange(3, 6);
 				chunk.setBlocks(x, sectionY, sectionY + neckLength, sectionZ, matBlock);
 				sectionY += neckLength;
@@ -177,7 +181,7 @@ public class BonesProvider extends Provider {
 		}
 	}
 	
-	private void generateLimbs(RealBlocks chunk, Odds odds, int x, int y, int z, int xO, int yO, Material matBlock, Material matStair) {
+	private void generateLimbs(SupportBlocks chunk, Odds odds, int x, int y, int z, int xO, int yO, Material matBlock, Material matStair) {
 		if (odds.flipCoin()) { // rounded tops
 			chunk.setBlocks(x - xO, x, y, z, z + 1, matBlock);
 			chunk.setBlocks(x + 1, x + xO + 1, y, z, z + 1, matBlock);
@@ -211,7 +215,7 @@ public class BonesProvider extends Provider {
 		}
 	}
 	
-	private void generateHead(RealBlocks chunk, Odds odds, int x, int y, int z, Material matBlock, Material matStair) {
+	private void generateHead(SupportBlocks chunk, Odds odds, int x, int y, int z, Material matBlock, Material matStair) {
 		int headHeight = odds.calcRandomRange(2, 3);
 		int y1 = y;
 		int y2 = y + 1;
