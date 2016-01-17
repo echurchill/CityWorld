@@ -11,6 +11,10 @@
 ----
 == Versions
 
+v3.001
+* Finally got the fossils generating... and Museums :-)
+* Fixed a long standing tree generation bug... and added the occasional dead tree trunk
+
 v3.000
 * The majority of materials used during building generation are now configurable (lists are maintained in the cityworld's yml file)
 * All chest content generation is now configurable (phatloot should still work if you really need it)

@@ -50,6 +50,7 @@ If you are wanting to create a particular [[http://dev.bukkit.org/server-mods/ci
 |IncludeLavaFields|Include lava pools way down below|
 |IncludeCaves|Hollow out caves in the ground|
 |IncludeOres|Randomly place ores underground|
+|IncludeBones|Randomly place fossils underground and in museums|
 
 === Trick or Treat ===
 |=Option|=Description|

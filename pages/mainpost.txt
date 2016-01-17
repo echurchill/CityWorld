@@ -6,11 +6,15 @@ There is an entire world to explore, have fun!
 
 <<color red>>**There is a Spigot/Bukkit 1.8.8 happy version of CityWorld over at http://www.spigotmc.org/resources/cityworld.2250/. I am not going to be updating the version here on dev.bukkit.com, so go there for the latest. **<</color>>
 
-===== //Version 3.000// ===== 
+===== //Version 3.001// ===== 
 
 {{http://dev.bukkit.org/media/images/42/720/2012-07-04_11.31.52.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
+
+v3.001
+* Finally got the fossils generating... and Museums :-)
+* Fixed a long standing tree generation bug... and added the occasional dead tree trunk
 
 v3.000 (over at http://www.spigotmc.org/resources/cityworld.2250/)
 * The majority of materials used during building generation are now configurable (lists are maintained in the cityworld's yml file)
