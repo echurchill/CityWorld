@@ -7,8 +7,9 @@ import me.daddychurchill.CityWorld.Support.Odds;
 
 public abstract class OdonymProvider extends Provider {
 
-	public abstract String[] generateNorthSouthOdonym(CityWorldGenerator generator, int x, int z);
-	public abstract String[] generateWestEastOdonym(CityWorldGenerator generator, int x, int z);
+	public abstract String[] generateFossilOdonym(CityWorldGenerator generator, Odds odds);
+	public abstract String[] generateNorthSouthStreetOdonym(CityWorldGenerator generator, int x, int z);
+	public abstract String[] generateWestEastStreetOdonym(CityWorldGenerator generator, int x, int z);
 	
 	// yep it is a little one... we will make it bigger in a moment
 	int baseSeed;

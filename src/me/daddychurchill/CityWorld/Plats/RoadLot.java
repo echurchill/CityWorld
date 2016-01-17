@@ -1643,30 +1643,30 @@ public class RoadLot extends ConnectedLot {
 			
 			// put the signs up
 			if (chunkOdds.playOdds(oddsOfDecayedSign)) {
-				String[] odonym = generator.odonymProvider.generateNorthSouthOdonym(generator, cx, cz);
+				String[] odonym = generator.odonymProvider.generateNorthSouthStreetOdonym(generator, cx, cz);
 				generator.odonymProvider.decaySign(chunkOdds, odonym);
 				chunk.setWallSign(x, y, z - 1, BadMagic.General.NORTH, odonym);
 			}
 			if (chunkOdds.playOdds(oddsOfDecayedSign)) {
-				String[] odonym = generator.odonymProvider.generateNorthSouthOdonym(generator, cx, cz);
+				String[] odonym = generator.odonymProvider.generateNorthSouthStreetOdonym(generator, cx, cz);
 				generator.odonymProvider.decaySign(chunkOdds, odonym);
 				chunk.setWallSign(x, y, z + 1, BadMagic.General.SOUTH, odonym);
 			}
 			if (chunkOdds.playOdds(oddsOfDecayedSign)) {
-				String[] odonym = generator.odonymProvider.generateWestEastOdonym(generator, cx, cz);
+				String[] odonym = generator.odonymProvider.generateWestEastStreetOdonym(generator, cx, cz);
 				generator.odonymProvider.decaySign(chunkOdds, odonym);
 				chunk.setWallSign(x - 1, y, z, BadMagic.General.WEST, odonym);
 			}
 			if (chunkOdds.playOdds(oddsOfDecayedSign)) {
-				String[] odonym = generator.odonymProvider.generateWestEastOdonym(generator, cx, cz);
+				String[] odonym = generator.odonymProvider.generateWestEastStreetOdonym(generator, cx, cz);
 				generator.odonymProvider.decaySign(chunkOdds, odonym);
 				chunk.setWallSign(x + 1, y, z, BadMagic.General.EAST, odonym);
 			}
 		} else {
 			
 			// compute the name for the roads
-			String[] odonymNorthSouth = generator.odonymProvider.generateNorthSouthOdonym(generator, cx, cz);
-			String[] odonymWestEast = generator.odonymProvider.generateWestEastOdonym(generator, cx, cz);
+			String[] odonymNorthSouth = generator.odonymProvider.generateNorthSouthStreetOdonym(generator, cx, cz);
+			String[] odonymWestEast = generator.odonymProvider.generateWestEastStreetOdonym(generator, cx, cz);
 			
 			// put the signs up
 			chunk.setWallSign(x, y, z - 1, BadMagic.General.NORTH, odonymNorthSouth);

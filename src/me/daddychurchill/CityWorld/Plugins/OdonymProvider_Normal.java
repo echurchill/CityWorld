@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Plugins;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
+import me.daddychurchill.CityWorld.Support.Odds;
 
 public class OdonymProvider_Normal extends OdonymProvider {
 
@@ -11,17 +12,17 @@ public class OdonymProvider_Normal extends OdonymProvider {
 	}
 
 	@Override
-	public String[] generateNorthSouthOdonym(CityWorldGenerator generator, int x, int z) {
+	public String[] generateNorthSouthStreetOdonym(CityWorldGenerator generator, int x, int z) {
 		int streetN = generateStreetNumber(z);
 		String[] result = new String[4];
 		result[0] = generateNumericPrefix(streetN, "North", "South");
 		result[1] = generateNumericName(streetN, "Main");
 		result[2] = "Street";
-		result[3] = generateBlockNumbers(x);
+		result[3] = generateStreetBlockNumbers(x);
 		return result;
 	}
 	
-	protected String generateBlockNumbers(int i) {
+	protected String generateStreetBlockNumbers(int i) {
 		//TODO need to work on orientation
 //		int streetN = generateStreetNumber(i);
 //		if (i < 0)
@@ -75,25 +76,25 @@ public class OdonymProvider_Normal extends OdonymProvider {
 	}
 	
 	@Override
-	public String[] generateWestEastOdonym(CityWorldGenerator generator, int x, int z) {
+	public String[] generateWestEastStreetOdonym(CityWorldGenerator generator, int x, int z) {
 		int streetN = generateStreetNumber(x);
 		Random random = getRandomFor(streetN);
 		String[] result = new String[4];
-		result[0] = generateNamedPrefix(random, streetN, "West", "East");
-		result[1] = generateNamedName(random, streetN, "Central");
+		result[0] = generateStreetNamedPrefix(random, streetN, "West", "East");
+		result[1] = generateStreetNamedName(random, streetN, "Central");
 		result[2] = getSuffixPart(random, streetN);
-		result[3] = generateBlockNumbers(z);
+		result[3] = generateStreetBlockNumbers(z);
 		return result;
 	}
 	
-	protected String generateNamedPrefix(Random random, int streetN, String negative, String positive) {
+	protected String generateStreetNamedPrefix(Random random, int streetN, String negative, String positive) {
 		if (streetN == 0)
 			return "";
 		else
 			return (streetN < 0 ? negative : positive) + getPrefixPart(random);
 	}
 	
-	protected String generateNamedName(Random random, int streetN, String central) {
+	protected String generateStreetNamedName(Random random, int streetN, String central) {
 		if (streetN == 0)
 			return central;
 		else {
@@ -101,18 +102,18 @@ public class OdonymProvider_Normal extends OdonymProvider {
 		}
 	}
 	
-	private final static String[] prefixes = new String[] 
+	private final static String[] prefixStreets = new String[] 
 		{"Mount", "Fort", "New", "Upper", "Lower", "Lake", "Ben", "Old", "Ole", "Saint"}; 
 	
 	private String getPrefixPart(Random random) {
-		int pick = random.nextInt(prefixes.length * 2);
-		if (pick < prefixes.length)
-			return " " + prefixes[pick];
+		int pick = random.nextInt(prefixStreets.length * 2);
+		if (pick < prefixStreets.length)
+			return " " + prefixStreets[pick];
 		else
 			return "";
 	}
 	
-	private final static String[] starts = new String[]
+	private final static String[] startStreets = new String[]
 		{"Charles", "York", "Spring", "Cove", "Fair", "Meadow", "Mill", "Elm", "Oak", 
 		 "Willow", "Hans", "Win", "Salem", "Mans", "Beech", "Layne", "Wood", "Crest", 
 		 "Knox", "Ross", "Day", "Night", "Wes", "Sharon", "Ash", "Maple", "Quaker", 
@@ -130,9 +131,9 @@ public class OdonymProvider_Normal extends OdonymProvider {
 		 "Wall", "Fleet", "Jane", "Finch", "Brook", "Ham", "Liver", "Worc", "Fil", "Man"};
 	
 	private String getStartingPart(Random random) {
-		return starts[random.nextInt(starts.length)];
+		return startStreets[random.nextInt(startStreets.length)];
 	}
-	private final static String[] ends = new String[]
+	private final static String[] endStreets = new String[]
 		{"grove", "ville", "town", "ship", "view", "bank", "bridge", "dell", "mount", 
 		 "stead", "beach", "opolis", "way", "caster", "park", "brook", "vale", "wich", 
 		 "ton", "dam", "line", "field", "mont", "more", "moore", "side", "bay", "ford", 
@@ -141,14 +142,14 @@ public class OdonymProvider_Normal extends OdonymProvider {
 		 "towne", "ridge", "meadow", "mead", "slade", "tree", "son", "lyn", "pool", "hattan"};
 
 	private String getEndingPart(Random random) {
-		int pick = random.nextInt(ends.length * 3 / 2);
-		if (pick < ends.length)
-			return ends[pick];
+		int pick = random.nextInt(endStreets.length * 3 / 2);
+		if (pick < endStreets.length)
+			return endStreets[pick];
 		else
 			return "";
 	}
 	
-	private final static String[] suffixes = new String[] 
+	private final static String[] suffixStreets = new String[] 
 		{"Avenue", "Road", "Lane", "Street", "Way", "Pass", "Trail", "Court", "Route",
 		 "Boulevard", "Grade", "Ridge", "Parkway", "Promenade", "Bypass", "Quay", "Motorway", 
 		 "Vale", "Grove", "Gardens", "Fairway", "Bend", "Heights", "View", "Place", "Plaza", 
@@ -156,8 +157,63 @@ public class OdonymProvider_Normal extends OdonymProvider {
 	
 	private String getSuffixPart(Random random, int streetN) {
 		if (streetN == 0)
-			return suffixes[0];
+			return suffixStreets[0];
 		else
-			return suffixes[random.nextInt(suffixes.length)];
+			return suffixStreets[random.nextInt(suffixStreets.length)];
 	}
+
+	@Override
+	public String[] generateFossilOdonym(CityWorldGenerator generator, Odds odds) {
+		String[] result = new String[4];
+		
+		String prefix = getFossilPrefixPart(odds);
+//		String middle = getFossilMiddlePart(odds);
+		String suffix = getFossilSuffixPart(odds);
+		
+//		result[1] = smartConcat(odds, smartConcat(odds, prefix, middle), suffix);
+		result[1] = smartConcat(odds, prefix, suffix);
+		return result;
+	}
+	
+	private String smartConcat(Odds odds, String first, String second) {
+		if (second == "")
+			return first;
+		else if (first.endsWith(second.substring(0)) && odds.flipCoin())
+			return first + second.substring(1, second.length() - 1);
+		else
+			return first + second;
+	}
+
+	private final static String[] fossilPrefixes = new String[] 
+			{"Archea", "Amphel", "Belo", "Bronto", "Camel", "Carno", "Dein", "Dino", 
+			"Eoabel", "Eshano", "Fuku", "Futaba", "Gala", "Glypto", "Hadro", "Hesper", 
+			"Iguano", "Ichthyo", "Jinta", "Jurave", "Kentro", "Krito", "Labo", "Lepto", 
+			"Majun", "Melan", "Nano", "Ningy", "Omni", "Othni", "Pachy", "Parro", 
+			"Quaesit", "Qantas", "Rinch", "Rug", "Shamo", "Sauro", "Tachi", "Tyranno", 
+			"Tro", "Utah", "Ultra", "Vari", "Veloci", "Wakino", "Wintono", "Xeno", 
+			"Xuwu", "Yang", "Yul", "Zana", "Zephyro"};
+		
+	private String getFossilPrefixPart(Odds odds) {
+		return fossilPrefixes[odds.getRandomInt(fossilPrefixes.length)];
+	}
+
+//	private final static String[] fossilMiddles = new String[] 
+//			{"cera", "ingo", "oro", "uan", "ara", "cephal", "saur", "pose", "tarso"};
+//		
+//	private String getFossilMiddlePart(Odds odds) {
+//		if (odds.playOdds(Odds.oddsSomewhatLikely))
+//			return fossilMiddles[odds.getRandomInt(fossilMiddles.length)];
+//		else
+//			return "";
+//	}
+
+	private final static String[] fossilSuffixes = new String[] 
+			{"osaurus", "raptor", "utitan", "tops", "ornis", "mimus", "odon", "otia", 
+			 "ellia", "onychus", "enator", "opteryx", "ocania", "oid", "enia", "ops", 
+			 "elurus", "utitan", "long", "noid"};
+		
+	private String getFossilSuffixPart(Odds odds) {
+		return fossilSuffixes[odds.getRandomInt(fossilSuffixes.length)];
+	}
+
 }

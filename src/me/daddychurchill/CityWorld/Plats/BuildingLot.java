@@ -487,7 +487,7 @@ public abstract class BuildingLot extends ConnectedLot {
 				heights);
 	}
 	
-	private enum DoorStyle {NONE, HOLE, WOOD};
+	public enum DoorStyle {NONE, HOLE, WOOD};
 	private void drawInteriorParts(CityWorldGenerator generator, RealBlocks chunk, 
 			DataContext context, InteriorStyle style, RoomProvider rooms, 
 			int floor, int floorAt, int floorHeight, 
@@ -501,7 +501,6 @@ public abstract class BuildingLot extends ConnectedLot {
 		
 		// calculate initial door state
 		DoorStyle drawInteriorDoors = DoorStyle.NONE;
-		DoorStyle drawExteriorDoors = floor == 0 ? DoorStyle.WOOD : DoorStyle.NONE;
 		
 		// need to do more stuff?
 		boolean drawNarrowInteriors = forceNarrowInteriorMode || 
@@ -591,7 +590,20 @@ public abstract class BuildingLot extends ConnectedLot {
 			drawStairs(generator, chunk, floorAt, aboveFloorHeight, 
 					stairLocation, materialStair, materialPlatform);
 		
-		// outside 
+		drawExteriorDoors(generator, chunk, context, 
+					floor, floorAt, floorHeight, insetNS, insetWE, 
+					allowRounded, materialWall, materialGlass, 
+					stairLocation, heights);
+	}	
+	
+	// outside 
+	protected void drawExteriorDoors(CityWorldGenerator generator, RealBlocks chunk, 
+			DataContext context, int floor, int floorAt, int floorHeight, 
+			int insetNS, int insetWE, boolean allowRounded,
+			Material materialWall, Material materialGlass, 
+			StairWell stairLocation, Surroundings heights) {
+		
+		DoorStyle drawExteriorDoors = floor == 0 ? DoorStyle.WOOD : DoorStyle.NONE;
 		if (drawExteriorDoors == DoorStyle.WOOD && generator.settings.includeDecayedBuildings)
 			drawExteriorDoors = chunkOdds.flipCoin() ? DoorStyle.HOLE : DoorStyle.WOOD;
 		if (drawExteriorDoors != DoorStyle.NONE)

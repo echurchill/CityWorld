@@ -9,7 +9,9 @@ import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.Surroundings;
+import me.daddychurchill.CityWorld.Support.BadMagic.General;
 import me.daddychurchill.CityWorld.Support.BadMagic.StairWell;
+import me.daddychurchill.CityWorld.Support.BadMagic.Torch;
 
 public class MuseumBuildingLot extends FinishedBuildingLot {
 
@@ -76,13 +78,20 @@ public class MuseumBuildingLot extends FinishedBuildingLot {
 			Material materialStairWall, Material materialPlatform, boolean drawStairWall, boolean drawStairs,
 			boolean topFloor, boolean singleFloor, Surroundings heights) {
 		
+		
+		// outside 
+		drawExteriorDoors(generator, chunk, context, 
+				floor, floorAt, floorHeight, insetNS, insetWE, 
+				allowRounded, materialWall, materialGlass, 
+				stairLocation, heights);
+		
 		if (singleFloor && generator.settings.includeBones) {
 			
 			// calculate if we should do it
 			boolean placeBones = false;
 			if (allowRounded) {
 
-				// do the sides
+				// do the sides (yea this could be done tighter but it doesn't get called much)
 				if (heights.toSouth()) {
 					if (heights.toWest()) {
 						placeBones = false;
@@ -104,6 +113,16 @@ public class MuseumBuildingLot extends FinishedBuildingLot {
 				int sidewalkLevel = getSidewalkLevel(generator);
 				chunk.setBlocksTypeAndColor(3, 13, sidewalkLevel + 1, 3, 13, Material.CARPET, chunkOdds.getRandomColor());
 				generator.bonesProvider.generateBones(generator, this, chunk, 7, sidewalkLevel + 1, 11, chunkOdds, true);
+				
+				// it looked so nice for a moment... but the moment has passed
+				if (generator.settings.includeDecayedBuildings) {
+					destroyLot(generator, sidewalkLevel, sidewalkLevel + firstFloorHeight);
+					
+				} else {
+					chunk.setBlocks(7, sidewalkLevel + 1, sidewalkLevel + 3, 4, Material.STONE);
+					chunk.setWallSign(7, sidewalkLevel + 2, 3, General.NORTH, generator.odonymProvider.generateFossilOdonym(generator, chunkOdds));
+					chunk.setTorch(7, sidewalkLevel + 2, 5, Material.TORCH, Torch.SOUTH);
+				}
 			}
 		}
 	}
