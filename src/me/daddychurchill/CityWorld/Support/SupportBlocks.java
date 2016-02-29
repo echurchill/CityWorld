@@ -483,6 +483,11 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 	
+	public void setBlocksTypeAndColor(int x, int y1, int y2, int z, Material material, DyeColor color) {
+		for (int y = y1; y < y2; y++)
+			setBlockTypeAndColor(x, y, z, material, color);
+	}
+	
 	public void setBlocksTypeAndColor(int x1, int x2, int y, int z1, int z2, Material material, DyeColor color) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {

@@ -42,6 +42,7 @@ If you are wanting to create a particular [[http://dev.bukkit.org/server-mods/ci
 |IncludeCisterns|if buildings are generated, then generate cisterns under the parks|
 |IncludeMines|Generate maze of mine shafts underground|
 |IncludeBunkers|Generate something somewhere... It is a secret|
+|IncludeAirborneStructures|Generate Hot Air Balloons and other similar things in the air|
 
 === Natural features ===
 |=Option|=Description|
@@ -123,6 +124,8 @@ Note: that the bridges and tunnels will stop generating abruptly when they hit t
 |Materials_For_ShedRoofs|List of materials that can be used to make a shed's roof, a random material from this list will be used|
 |Materials_For_QuaryPiles|List of materials that can be used to make a quary's pile, a random material from this list will be sprinkled in|
 |Materials_For_Castles|List of materials that can be used to make a castle, a random material from this list will be used|
+|Materials_For_WaterTowers|List of materials that can be used to make a water tower, a random material from this list will be used|
+|Materials_For_Bunkers|List of materials that can be used to make a bunker... whatever that is, a random material from this list will be used|
 
 |=Option|=Description|
 |Materials_List_For_MazeWalls|Ordered list of materials that will be used to make the mazes|

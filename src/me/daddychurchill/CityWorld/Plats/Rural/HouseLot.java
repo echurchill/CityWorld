@@ -36,19 +36,20 @@ public class HouseLot extends IsolatedLot {
 
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
-		
-		// ground please
-		if (generator.settings.includeDecayedNature)
-			chunk.setLayer(generator.streetLevel, Material.SAND);
-		else
-			chunk.setLayer(generator.streetLevel, generator.oreProvider.surfaceMaterial);
+		if (blockYs.averageHeight >= generator.streetLevel + 1) {
+			
+			// ground please
+			if (generator.settings.includeDecayedNature)
+				chunk.setLayer(generator.streetLevel, Material.SAND);
+			else
+				chunk.setLayer(generator.streetLevel, generator.oreProvider.surfaceMaterial);
+		}
 	}
 	
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
-
 		// now make a house
-		int floors = generator.structureProvider.generateHouse(generator, chunk, context, chunkOdds, generator.streetLevel + 1, 2);
+		int floors = generator.structureOnGroundProvider.generateHouse(generator, chunk, context, chunkOdds, generator.streetLevel + 1, 2);
 		
 		// not a happy place?
 		if (generator.settings.includeDecayedBuildings)

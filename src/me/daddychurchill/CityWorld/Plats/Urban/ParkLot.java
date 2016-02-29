@@ -327,7 +327,7 @@ public class ParkLot extends ConnectedLot {
 			generator.coverProvider.generateRandomCoverage(generator, chunk, 7, surfaceY, 7, tallTrees);
 			break;
 		case WATER_TOWER:
-			generator.structureProvider.drawWaterTower(chunk, 4, surfaceY, 4, chunkOdds);
+			generator.structureOnGroundProvider.drawWaterTower(generator, chunk, 4, surfaceY, 4, chunkOdds);
 			break;
 		case LABYRINTH_MAZE:
 			chunk.setClay(1, 15, surfaceY - 1, 1, 15, DyeColor.BLUE);

@@ -12,21 +12,21 @@ import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
-public class StructureProvider extends Provider {
+public class StructureOnGroundProvider extends Provider {
 
 //	private static RoomProvider contentsKitchen = new HouseKitchens();
 //	private static RoomProvider contentsBedroom = new HouseBedrooms();
 //	private static RoomProvider contentsDiningRoom = new HouseDiningRooms();
 //	private static RoomProvider contentsLivingRoom = new HouseLivingRooms();
 	
-	public StructureProvider() {
+	public StructureOnGroundProvider() {
 		super();
 
 	}
 	
-	public final static StructureProvider loadProvider(CityWorldGenerator generator) {
+	public final static StructureOnGroundProvider loadProvider(CityWorldGenerator generator) {
 		// for now
-		return new StructureProvider();
+		return new StructureOnGroundProvider();
 	}
 	
 	private final static double oddsOfFurnace = Odds.oddsSomewhatUnlikely;
@@ -1073,42 +1073,69 @@ public class StructureProvider extends Provider {
 		}
 	}
 	
-	public void drawWaterTower(RealBlocks chunk, int x, int y, int z, Odds odds) {
+	public void drawWaterTower(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z, Odds odds) {
 		int y1 = y;
 		int y2 = y1 + 7;
 		int y3 = y2 + 6;
 
-		Material legMat = Material.CLAY;
+		Material legMat = generator.settings.materials.itemsSelectMaterial_WaterTowers.getRandomMaterial(odds, Material.CLAY);
+		Material topMat = generator.settings.materials.itemsSelectMaterial_WaterTowers.getRandomMaterial(odds, Material.STAINED_CLAY);
+		
 		DyeColor platformColor = odds.getRandomDarkColor();
 		DyeColor tankColor = odds.getRandomLightColor();
 		DyeColor topColor = odds.getRandomColor();
 		
-//		chunk.setBlocks(x, y1, y2, z, legMat);
-		chunk.setBlocks(x, y1, y3, z + 1, legMat);
-		chunk.setBlocks(x + 1, y1, y3, z, legMat);
-		
-//		chunk.setBlocks(x + 7, y1, y2, z, legMat);
-		chunk.setBlocks(x + 6, y1, y3, z, legMat);
-		chunk.setBlocks(x + 7, y1, y3, z + 1, legMat);
-		
-//		chunk.setBlocks(x, y1, y2, z + 7, legMat);
-		chunk.setBlocks(x, y1, y3, z + 6, legMat);
-		chunk.setBlocks(x + 1, y1, y3, z + 7, legMat);
+		if (legMat == Material.STAINED_CLAY) {
+			DyeColor legColor = odds.getRandomColor();
+			chunk.setBlocksTypeAndColor(x, y1, y3, z + 1, legMat, legColor);
+			chunk.setBlocksTypeAndColor(x + 1, y1, y3, z, legMat, legColor);
+			
+			chunk.setBlocksTypeAndColor(x + 6, y1, y3, z, legMat, legColor);
+			chunk.setBlocksTypeAndColor(x + 7, y1, y3, z + 1, legMat, legColor);
+			
+			chunk.setBlocksTypeAndColor(x, y1, y3, z + 6, legMat, legColor);
+			chunk.setBlocksTypeAndColor(x + 1, y1, y3, z + 7, legMat, legColor);
 
-//		chunk.setBlocks(x + 7, y1, y2, z + 7, legMat);
-		chunk.setBlocks(x + 7, y1, y3, z + 6, legMat);
-		chunk.setBlocks(x + 6, y1, y3, z + 7, legMat);
-		
-		chunk.setCircle(x + 4, x + 4, 3, y3 - 1, Material.STAINED_CLAY, topColor, true);
-		chunk.setCircle(x + 4, x + 4, 5, y3, Material.STAINED_CLAY, platformColor, true);
-		chunk.setCircle(x + 4, x + 4, 4, y3 + 1, Material.STAINED_CLAY, tankColor, false);
-		chunk.setCircle(x + 4, x + 4, 4, y3 + 2, Material.STAINED_CLAY, tankColor, false);
-		chunk.setCircle(x + 4, x + 4, 4, y3 + 3, Material.STAINED_CLAY, tankColor, false);
-		chunk.setCircle(x + 4, x + 4, 4, y3 + 4, Material.STAINED_CLAY, tankColor, false);
-		chunk.setCircle(x + 4, x + 4, 4, y3 + 5, Material.STAINED_CLAY, tankColor, true);
-		chunk.setCircle(x + 4, x + 4, 3, y3 + 6, Material.STAINED_CLAY, topColor, true);
+			chunk.setBlocksTypeAndColor(x + 7, y1, y3, z + 6, legMat, legColor);
+			chunk.setBlocksTypeAndColor(x + 6, y1, y3, z + 7, legMat, legColor);
+			
+		} else {
+			chunk.setBlocks(x, y1, y3, z + 1, legMat);
+			chunk.setBlocks(x + 1, y1, y3, z, legMat);
+			
+			chunk.setBlocks(x + 6, y1, y3, z, legMat);
+			chunk.setBlocks(x + 7, y1, y3, z + 1, legMat);
+			
+			chunk.setBlocks(x, y1, y3, z + 6, legMat);
+			chunk.setBlocks(x + 1, y1, y3, z + 7, legMat);
 
-		chunk.setCircle(x + 4, x + 4, 3, y3 + 2, Material.WATER, true);
-		chunk.setCircle(x + 4, x + 4, 3, y3 + 3, Material.WATER, true);
+			chunk.setBlocks(x + 7, y1, y3, z + 6, legMat);
+			chunk.setBlocks(x + 6, y1, y3, z + 7, legMat);
+		}
+		
+		if (topMat == Material.STAINED_CLAY) {
+			chunk.setCircle(x + 4, x + 4, 3, y3 - 1, Material.STAINED_CLAY, topColor, true);
+			chunk.setCircle(x + 4, x + 4, 5, y3, Material.STAINED_CLAY, platformColor, true);
+			chunk.setCircle(x + 4, x + 4, 4, y3 + 1, Material.STAINED_CLAY, tankColor, false);
+			chunk.setCircle(x + 4, x + 4, 4, y3 + 2, Material.STAINED_CLAY, tankColor, false);
+			chunk.setCircle(x + 4, x + 4, 4, y3 + 3, Material.STAINED_CLAY, tankColor, false);
+			chunk.setCircle(x + 4, x + 4, 4, y3 + 4, Material.STAINED_CLAY, tankColor, false);
+			chunk.setCircle(x + 4, x + 4, 4, y3 + 5, Material.STAINED_CLAY, tankColor, true);
+			chunk.setCircle(x + 4, x + 4, 3, y3 + 6, Material.STAINED_CLAY, topColor, true);
+		} else {
+			chunk.setCircle(x + 4, x + 4, 3, y3 - 1, topMat, true);
+			chunk.setCircle(x + 4, x + 4, 5, y3, topMat, true);
+			chunk.setCircle(x + 4, x + 4, 4, y3 + 1, topMat, false);
+			chunk.setCircle(x + 4, x + 4, 4, y3 + 2, topMat, false);
+			chunk.setCircle(x + 4, x + 4, 4, y3 + 3, topMat, false);
+			chunk.setCircle(x + 4, x + 4, 4, y3 + 4, topMat, false);
+			chunk.setCircle(x + 4, x + 4, 4, y3 + 5, topMat, true);
+			chunk.setCircle(x + 4, x + 4, 3, y3 + 6, topMat, true);
+		}
+
+		if (generator.settings.includeAbovegroundFluids) {
+			chunk.setCircle(x + 4, x + 4, 3, y3 + 2, Material.WATER, true);
+			chunk.setCircle(x + 4, x + 4, 3, y3 + 3, Material.WATER, true);
+		}
 	}
 }

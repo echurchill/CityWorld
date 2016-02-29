@@ -108,6 +108,10 @@ public abstract class PlatLot {
 		return blockYs == null ? 0 : blockYs.getBlockY(x, z);
 	}
 	
+	public double getAverageY() {
+		return blockYs == null ? 0 : blockYs.averageHeight;
+	}
+	
 	protected double getPerciseY(int x, int z) {
 		return blockYs == null ? 0 : blockYs.getPerciseY(x, z);
 	}

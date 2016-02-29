@@ -1,6 +1,5 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
-import org.bukkit.Material;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -24,23 +23,11 @@ public class AstralStructureSaucerLot extends AstralStructureLot {
 	}
 	
 	public static void drawLandedSaucer(CityWorldGenerator generator, RealBlocks chunk, int y) {
-		drawSaucer(generator, chunk, y + 2);
-		
-		// now the legs
-		chunk.setBlocks(3, y, y + 2, 3, Material.QUARTZ_BLOCK);
-		chunk.setBlocks(10, y, y + 2, 3, Material.QUARTZ_BLOCK);
-		chunk.setBlocks(3, y, y + 2, 10, Material.QUARTZ_BLOCK);
-		chunk.setBlocks(10, y, y + 2, 10, Material.QUARTZ_BLOCK);
+		generator.structureInAirProvider.generateSaucer(generator, chunk, y, true);
 	}
 
 	public static void drawSaucer(CityWorldGenerator generator, RealBlocks chunk, int y) {
-		chunk.setCircle(7, 7, 5, y, Material.QUARTZ_BLOCK, true);
-		chunk.setCircle(7, 7, 3, y, Material.GLASS, true);
-		chunk.setCircle(7, 7, 6, y + 1, Material.QUARTZ_BLOCK, true);
-		chunk.setCircle(7, 7, 2, y + 1, Material.GLASS, true);
-		chunk.setCircle(7, 7, 5, y + 2, Material.REDSTONE_BLOCK, true);
-		chunk.setCircle(7, 7, 3, y + 3, Material.QUARTZ_BLOCK, true);
-		chunk.setCircle(7, 7, 2, y + 4, Material.GLASS, true);
+		generator.structureInAirProvider.generateSaucer(generator, chunk, y, false);
 	}
 
 }

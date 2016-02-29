@@ -37,8 +37,9 @@ public class NeighborhoodContext extends RuralContext {
 						// check for roads?
 						if (checkForRoads) {
 							if (platmap.isExistingRoad(x - 1, z) || platmap.isExistingRoad(x + 1, z) || 
-								platmap.isExistingRoad(x, z - 1) || platmap.isExistingRoad(x, z + 1))
+								platmap.isExistingRoad(x, z - 1) || platmap.isExistingRoad(x, z + 1)) {
 								platmap.setLot(x, z, getHouseLot(generator, platmap, platmapOdds, platmap.originX + x, platmap.originZ + z));
+							}
 							
 						// just do it then
 						} else
@@ -59,5 +60,12 @@ public class NeighborhoodContext extends RuralContext {
 	}
 
 	public void validateMap(CityWorldGenerator generator, PlatMap platmap) {
+//		for (int x = 0; x < PlatMap.Width; x++) {
+//			for (int z = 0; z < PlatMap.Width; z++) {
+//				PlatLot current = platmap.getLot(x, z);
+//				if (current != null)
+//					if (platmap.isNaturalLot(x, z))
+//			}
+//		}
 	}
 }

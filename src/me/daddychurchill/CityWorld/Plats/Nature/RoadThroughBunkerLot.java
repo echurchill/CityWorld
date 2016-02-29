@@ -6,7 +6,6 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
-import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot.BilgeType;
 import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot.BunkerType;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -16,7 +15,6 @@ public class RoadThroughBunkerLot extends RoadLot {
 
 	protected int bottomOfBunker;
 	protected int topOfBunker;
-	protected BilgeType bilgeType;
 	
 	public final static Material wallMaterial = tunnelWallMaterial;
 	
@@ -27,7 +25,6 @@ public class RoadThroughBunkerLot extends RoadLot {
 		
 		this.bottomOfBunker = originalLot.bottomOfBunker;
 		this.topOfBunker = originalLot.topOfBunker;
-		this.bilgeType = originalLot.bilgeType;
 	}
 
 	@Override
@@ -64,7 +61,6 @@ public class RoadThroughBunkerLot extends RoadLot {
 		
 		// do it!
 		BunkerLot.generateBunker(generator, platmap, chunk, chunkOdds, context, 
-				platX, platZ, blockYs.averageHeight,
-				bottomOfBunker, topOfBunker, bilgeType, BunkerType.ROAD);
+				platX, platZ, blockYs, bottomOfBunker, topOfBunker, BunkerType.ROAD);
 	}
 }

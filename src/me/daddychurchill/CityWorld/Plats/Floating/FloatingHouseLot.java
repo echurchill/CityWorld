@@ -72,17 +72,17 @@ public class FloatingHouseLot extends ConstructLot {
 			int platZ) {
 
 		// now make a house
-		int floors = generator.structureProvider.generateHouse(generator, chunk, context, chunkOdds, groundLevel + 1, 1, 4);
+		int floors = generator.structureOnGroundProvider.generateHouse(generator, chunk, context, chunkOdds, groundLevel + 1, 1, 4);
 		
 		// not a happy place?
 		if (generator.settings.includeDecayedBuildings)
 			destroyBuilding(generator, groundLevel + 1, floors);
 
 		// add balloons on the corners
-		generator.balloonProvider.generateBalloon(generator, chunk, context, 2, groundLevel + 2, 2, chunkOdds);
-		generator.balloonProvider.generateBalloon(generator, chunk, context, 2, groundLevel + 2, 13, chunkOdds);
-		generator.balloonProvider.generateBalloon(generator, chunk, context, 13, groundLevel + 2, 2, chunkOdds);
-		generator.balloonProvider.generateBalloon(generator, chunk, context, 13, groundLevel + 2, 13, chunkOdds);
+		generator.structureInAirProvider.generateBalloon(generator, chunk, context, 2, groundLevel + 2, 2, chunkOdds);
+		generator.structureInAirProvider.generateBalloon(generator, chunk, context, 2, groundLevel + 2, 13, chunkOdds);
+		generator.structureInAirProvider.generateBalloon(generator, chunk, context, 13, groundLevel + 2, 2, chunkOdds);
+		generator.structureInAirProvider.generateBalloon(generator, chunk, context, 13, groundLevel + 2, 13, chunkOdds);
 		
 		// add to the surface
 		generateSurface(generator, chunk, true);

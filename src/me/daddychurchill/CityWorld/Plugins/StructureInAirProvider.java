@@ -3,29 +3,29 @@ package me.daddychurchill.CityWorld.Plugins;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.RealBlocks;
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.World.Environment;
 
-public class BalloonProvider extends Provider {
+public class StructureInAirProvider extends Provider {
 
-	public BalloonProvider() {
+	public StructureInAirProvider() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public final static BalloonProvider loadProvider(CityWorldGenerator generator) {
+	public final static StructureInAirProvider loadProvider(CityWorldGenerator generator) {
 		// for now
-		return new BalloonProvider();
+		return new StructureInAirProvider();
 	}
 
 	//TODO need bigger balloons
 	//TODO need better balloons
 	//TODO need better strings
 	
-	public void generateBalloon(CityWorldGenerator generator, RealBlocks chunk, DataContext context, 
+	public void generateBalloon(CityWorldGenerator generator, SupportBlocks chunk, DataContext context, 
 			int attachX, int attachY, int attachZ, Odds odds) {
 		// where is the balloon
 		int balloonX = attachX;
@@ -68,7 +68,7 @@ public class BalloonProvider extends Provider {
 	}
 
 	public static int hotairBalloonHeight = 30;
-	public void generateHotairBalloon(CityWorldGenerator generator, RealBlocks chunk, DataContext context, 
+	public void generateHotairBalloon(CityWorldGenerator generator, SupportBlocks chunk, DataContext context, 
 			int bottomY, Odds odds) {
 		int balloonY1 = bottomY + 5;
 		int balloonY2 = balloonY1 + 20;
@@ -84,7 +84,7 @@ public class BalloonProvider extends Provider {
 		generateBigBalloon(generator, chunk, context, balloonY1, balloonY2, odds);
 	}
 	
-	public void generateBigBalloon(CityWorldGenerator generator, RealBlocks chunk, DataContext context, 
+	public void generateBigBalloon(CityWorldGenerator generator, SupportBlocks chunk, DataContext context, 
 			int attachY, Odds odds) {
 		int balloonY1 = attachY + 4 + odds.getRandomInt(4);
 		int balloonY2 = balloonY1 + 15 + odds.getRandomInt(15);
@@ -100,7 +100,7 @@ public class BalloonProvider extends Provider {
 			generateBigBalloon(generator, chunk, context, balloonY1, balloonY2, odds);
 	}
 	
-	private void generateBigBalloon(CityWorldGenerator generator, RealBlocks chunk, DataContext context, 
+	private void generateBigBalloon(CityWorldGenerator generator, SupportBlocks chunk, DataContext context, 
 			int balloonY1, int balloonY2, Odds odds) {
 		
 		// pick the colors
@@ -138,7 +138,7 @@ public class BalloonProvider extends Provider {
 
 	}
 	
-	private boolean attachString(RealBlocks chunk, int x, int y1, int y2, int z) {
+	private boolean attachString(SupportBlocks chunk, int x, int y1, int y2, int z) {
 		boolean result = !chunk.isEmpty(x, y1 - 1, z);
 		if (result)
 			chunk.setBlocks(x, y1, y2, z, Material.FENCE);
@@ -156,8 +156,35 @@ public class BalloonProvider extends Provider {
 		return odds.getRandomDarkColor();
 	}
 	
-	private void addLight(RealBlocks chunk, DataContext context, int x, int y, int z) {
+	private void addLight(SupportBlocks chunk, DataContext context, int x, int y, int z) {
 		chunk.setBlock(x, y, z, Material.AIR);
 		chunk.setBlock(x, y - 1, z, context.lightMat);
+	}
+	
+	public void generateSaucer(CityWorldGenerator generator, SupportBlocks chunk, int y, boolean drawLegs) {
+		generateSaucer(generator, chunk, 7, y, 7, drawLegs);
+	}
+	
+	public void generateSaucer(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, boolean drawLegs) {
+		if (drawLegs) {
+			generateSaucer(generator, chunk, x, y + 2, z);
+
+			// now the legs
+			chunk.setBlocks(x - 3, y, y + 2, z - 3, Material.QUARTZ_BLOCK);
+			chunk.setBlocks(x + 2, y, y + 2, z - 3, Material.QUARTZ_BLOCK);
+			chunk.setBlocks(x - 3, y, y + 2, z + 2, Material.QUARTZ_BLOCK);
+			chunk.setBlocks(x + 2, y, y + 2, z + 2, Material.QUARTZ_BLOCK);
+		} else
+			generateSaucer(generator, chunk, x, y, z);
+	}
+	
+	private void generateSaucer(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
+		chunk.setCircle(x, z, 4, y, Material.QUARTZ_BLOCK, true);
+		chunk.setCircle(x, z, 1, y, Material.GLASS, true);
+		chunk.setCircle(x, z, 5, y + 1, Material.QUARTZ_BLOCK, true);
+		chunk.setCircle(x, z, 2, y + 1, Material.GLASS, true);
+		chunk.setCircle(x, z, 4, y + 2, Material.REDSTONE_BLOCK, true);
+		chunk.setCircle(x, z, 2, y + 3, Material.QUARTZ_BLOCK, true);
+		chunk.setCircle(x, z, 1, y + 4, Material.GLASS, true);
 	}
 }

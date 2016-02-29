@@ -177,7 +177,27 @@ public class PlatMap {
 
 		// if it is not natural, make it so
 		PlatLot current = platLots[x][z];
+		if (current != null && current.getChunkX() == 21 && current.getChunkZ() == -22) {
+//			generator.reportMessage("#####>>>>> recycling it");
+//			generator.reportMessage(".....>>>>> from = " + current.toString());
+//			try {
+//				throw new Exception();
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		} else if (this.originX + x == 21 && this.originZ + z == -22) {
+//			generator.reportMessage("#####>>>>> recycled it");
+//			try {
+//				throw new Exception();
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+		}
+
+		// put nature there
 		if (current == null || current.style != LotStyle.NATURE) {
+//			if (this.originX + x == 21 && this.originZ + z == -22) 
+//				generator.reportMessage(".....>>>>> planting nature");
 		
 			// place nature
 			platLots[x][z] = generator.shapeProvider.createNaturalLot(generator, this, x, z);
@@ -205,11 +225,24 @@ public class PlatMap {
 			emptyLot(x, z);
 			return true;
 		} else {
+//			if (lot.getChunkX() == 21 && lot.getChunkZ() == -22)
+//				generator.reportMessage("#####>>>>> setting it");
+			
 			boolean result = lot.isPlaceableAt(generator, originX + x, originZ + z);
 			if (result) {
 				
 				// clear it please
 				emptyLot(x, z);
+				
+//				if (lot.getChunkX() == 21 && lot.getChunkZ() == -22) {
+//					generator.reportMessage(".....>>>>> set it = " + lot.toString());
+//					generator.reportMessage(".....>>>>> average = " + lot.getAverageY());
+//					try {
+//						throw new Exception();
+//					} catch (Exception e) {
+//						e.printStackTrace();
+//					}
+//				}
 				
 				// place the lot
 				platLots[x][z] = lot;
@@ -222,11 +255,24 @@ public class PlatMap {
 		
 		// keep track of the nature count
 		PlatLot current = platLots[x][z];
-		if (current != null && current.style == LotStyle.NATURE)
-			naturalPlats--;
+		if (current != null) {
+			if (current.style == LotStyle.NATURE)
+				naturalPlats--;
 		
-		// empty this one out
-		platLots[x][z] = null;
+//			if (current.getChunkX() == 21 && current.getChunkZ() == -22) {
+//				generator.reportMessage("#####>>>>> emptied it");
+//				generator.reportMessage(".    >>>>> was = " + current.toString());
+//				generator.reportMessage(".....>>>>> average = " + current.getAverageY());
+//				try {
+//					throw new Exception();
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+			
+			// empty this one out
+			platLots[x][z] = null;
+		}
 	}
 	
 	public boolean isTrulyIsolatedLot(int x, int z) {

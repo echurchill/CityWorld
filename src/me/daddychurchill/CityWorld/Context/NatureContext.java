@@ -97,18 +97,6 @@ public class NatureContext extends UncivilizedContext {
 							// what type of height are we talking about?
 							switch (heights.state) {
 							case MIDLAND: 
-								
-//								// if not one of the innermost or the height isn't tall enough for bunkers
-//								if (!innermost || minHeight < BunkerLot.calcBunkerMinHeight(generator)) {
-//									if (heights.isSortaFlat() && generator.shapeProvider.isIsolatedConstructAt(originX + x, originZ + z, oddsOfIsolatedConstructs))
-//										current = createSurfaceBuildingLot(generator, platmap, originX + x, originZ + z, heights);
-//									
-//									else if (doBunkers && innermost) {
-//										current = createBuriedBuildingLot(generator, platmap, chunkX, chunkZ, !didBunkers);
-//										didBunkers = true;
-//									}
-//								} 
-								
 								if (doBunkers && minHeight > BunkerLot.calcBunkerMinHeight(generator)) {
 									current = createBuriedBuildingLot(generator, platmap, chunkX, chunkZ, doBunkerEntrance);
 									
@@ -168,59 +156,58 @@ public class NatureContext extends UncivilizedContext {
 		// what type of height are we talking about?
 		if (state != HeightState.BUILDING && 
 			generator.shapeProvider.isIsolatedConstructAt(platmap.originX + x, platmap.originZ + z, oddsOfIsolatedConstructs)) {
+			PlatLot current = null;
 			
 			// what to make?
 			switch (state) {
 			case DEEPSEA:
 				// Oil rigs
-				if (generator.settings.includeBuildings) {
-					platmap.setLot(x, z, new OilPlatformLot(platmap, platmap.originX + x, platmap.originZ + z));
-				}
+				if (generator.settings.includeBuildings)
+					current = new OilPlatformLot(platmap, platmap.originX + x, platmap.originZ + z);
 				break;
 			case SEA:
 				if (generator.settings.includeBuildings && !generator.settings.includeDecayedBuildings) {
-					PlatLot lot = null;
-					if (platmap.getOddsGenerator().flipCoin())
+					if (platmap.getOddsGenerator().playOdds(Odds.oddsSomewhatUnlikely))
+
 						// Hotair balloons
-						lot = new HotairBalloonLot(platmap, platmap.originX + x, platmap.originZ + z);
-					else
+						current = new HotairBalloonLot(platmap, platmap.originX + x, platmap.originZ + z);
+					
 						//TODO boat!
-						lot = null;
-					platmap.setLot(x, z, lot);
 				}
 				break;
 //			case BUILDING:
 //				break;
 			case LOWLAND:
 				if (generator.settings.includeBuildings && !generator.settings.includeDecayedBuildings) {
-					PlatLot lot = null;
-					if (platmap.getOddsGenerator().flipCoin())
+					if (platmap.getOddsGenerator().playOdds(Odds.oddsSomewhatUnlikely))
+
 						// Hotair balloons
-						lot = new HotairBalloonLot(platmap, platmap.originX + x, platmap.originZ + z);
-					else
+						current = new HotairBalloonLot(platmap, platmap.originX + x, platmap.originZ + z);
+					
 						//TODO Statue overlooking the city?
-						lot = null;
-					platmap.setLot(x, z, lot);
 				}
 				break;
 			case MIDLAND: 
 				// Mine entrance
 				if (generator.settings.includeMines)
-					platmap.setLot(x, z, new MineEntranceLot(platmap, platmap.originX + x, platmap.originZ + z));
+					current = new MineEntranceLot(platmap, platmap.originX + x, platmap.originZ + z);
 				break;
 			case HIGHLAND: 
 				// Radio towers
 				if (generator.settings.includeBuildings)
-					platmap.setLot(x, z, new RadioTowerLot(platmap, platmap.originX + x, platmap.originZ + z));
+					current = new RadioTowerLot(platmap, platmap.originX + x, platmap.originZ + z);
 				break;
 			case PEAK:
 				// Old castle
 				if (generator.settings.includeBuildings)
-					platmap.setLot(x, z, new OldCastleLot(platmap, platmap.originX + x, platmap.originZ + z));
+					current = new OldCastleLot(platmap, platmap.originX + x, platmap.originZ + z);
 				break;
 			default:
 				break;
 			}
+			
+			if (current != null)
+				platmap.setLot(x, z, current);
 		}
 	}
 

@@ -46,7 +46,7 @@ public class IndustrialContext extends UrbanContext {
 	
 	@Override
 	protected PlatLot getBuilding(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
-		if (odds.playOdds(Odds.oddsHalvedPrettyLikely))
+		if (generator.settings.includeBones && odds.playOdds(Odds.oddsUnlikely))
 			return new MuseumBuildingLot(platmap, chunkX, chunkZ);
 		else if (odds.playOdds(Odds.oddsSomewhatLikely))
 			return new WarehouseBuildingLot(platmap, chunkX, chunkZ);

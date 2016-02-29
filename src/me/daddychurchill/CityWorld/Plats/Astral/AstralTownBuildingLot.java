@@ -52,9 +52,6 @@ public class AstralTownBuildingLot extends AstralTownEmptyLot {
 		case BALLSY:
 			BunkerLot.generateBallsyBunker(generator, context, chunk, chunkOdds, levelY, topY);
 			break;
-		case ENTRY:
-//			generateEntryBunker(generator, context, chunk, chunkOdds, levelY, yPlatformTop, yTop2, yPlatformTop);
-			break;
 		case FLOORED:
 			BunkerLot.generateFlooredBunker(generator, context, chunk, chunkOdds, levelY, topY);
 			break;
@@ -73,10 +70,8 @@ public class AstralTownBuildingLot extends AstralTownEmptyLot {
 		case TANK:
 			BunkerLot.generateTankBunker(generator, context, chunk, chunkOdds, levelY, topY);
 			break;
-//		case MISSILE:
-//			return generateMissileBunker(generator, context, chunk, chunkOdds, yPlatform + 1, yPlatformTop, surfaceY);
-		case ROAD:
-//			generateRoadTunnel(generator, context, chunk, chunkOdds, yPlatform + 1, yPlatformTop);
+		default:
+			// the rest do nothing
 			break;
 		}
 	}

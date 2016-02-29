@@ -27,6 +27,7 @@ public class CityWorldSettings {
 	public boolean includeBuildings = true;
 	public boolean includeHouses = true;
 	public boolean includeFarms = true;
+	public boolean includeAirborneStructures = true;
 
 	public boolean includeCaves = true;
 	public boolean includeLavaFields = true;
@@ -90,6 +91,7 @@ public class CityWorldSettings {
 	public final static String tagIncludeBuildings = "IncludeBuildings";
 	public final static String tagIncludeHouses = "IncludeHouses";
 	public final static String tagIncludeFarms = "IncludeFarms";
+	public final static String tagIncludeAirborneStructures = "IncludeAirborneStructures";
 
 	public final static String tagIncludeCaves = "IncludeCaves";
 	public final static String tagIncludeLavaFields = "IncludeLavaFields";
@@ -219,6 +221,7 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeBuildings, includeBuildings);
 			section.addDefault(tagIncludeHouses, includeHouses);
 			section.addDefault(tagIncludeFarms, includeFarms);
+			section.addDefault(tagIncludeAirborneStructures, includeAirborneStructures);
 			
 			section.addDefault(tagIncludeCaves, includeCaves);
 			section.addDefault(tagIncludeLavaFields, includeLavaFields);
@@ -269,6 +272,7 @@ public class CityWorldSettings {
 			includeBuildings = section.getBoolean(tagIncludeBuildings, includeBuildings);
 			includeHouses = section.getBoolean(tagIncludeHouses, includeHouses);
 			includeFarms = section.getBoolean(tagIncludeFarms, includeFarms);
+			includeAirborneStructures = section.getBoolean(tagIncludeAirborneStructures, includeAirborneStructures);
 			
 			includeCaves = section.getBoolean(tagIncludeCaves, includeCaves);
 			includeLavaFields = section.getBoolean(tagIncludeLavaFields, includeLavaFields);
@@ -380,6 +384,7 @@ public class CityWorldSettings {
 			section.set(tagIncludeBuildings, includeBuildings);
 			section.set(tagIncludeHouses, includeHouses);
 			section.set(tagIncludeFarms, includeFarms);
+			section.set(tagIncludeAirborneStructures, includeAirborneStructures);
 			
 			section.set(tagIncludeCaves, includeCaves);
 			section.set(tagIncludeLavaFields, includeLavaFields);
@@ -448,6 +453,7 @@ public class CityWorldSettings {
 			includeDecayedRoads = true; // DIFFERENT
 			includeDecayedBuildings = true; // DIFFERENT
 			includeDecayedNature = true; // DIFFERENT
+			includeAirborneStructures = false; // DIFFERENT;
 			
 			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
 			break;
@@ -475,6 +481,7 @@ public class CityWorldSettings {
 //			includeBuildings = true;
 //			includeHouses = true;
 			includeFarms = false; // DIFFERENT
+			includeAirborneStructures = false; // DIFFERENT;
 
 //			includeCaves = false;
 //			includeLavaFields = false;
@@ -512,6 +519,7 @@ public class CityWorldSettings {
 //			includeBuildings = true;
 //			includeHouses = true;
 //			includeFarms = true;
+			includeAirborneStructures = false; // DIFFERENT;
 
 			includeCaves = false; // DIFFERENT
 			includeLavaFields = false; // DIFFERENT
@@ -550,6 +558,7 @@ public class CityWorldSettings {
 //			includeBuildings = true;
 //			includeHouses = true;
 //			includeFarms = true; 
+			includeAirborneStructures = false; // DIFFERENT;
 
 			includeCaves = false; // DIFFERENT
 			includeLavaFields = false; // DIFFERENT
@@ -587,6 +596,7 @@ public class CityWorldSettings {
 //			includeBuildings = true;
 //			includeHouses = true;
 //			includeFarms = true;
+			includeAirborneStructures = false; // DIFFERENT;
 
 			includeCaves = false; // DIFFERENT
 			includeLavaFields = false; // DIFFERENT
@@ -624,6 +634,7 @@ public class CityWorldSettings {
 //			includeBuildings = true;
 //			includeHouses = true;
 //			includeFarms = true;
+			includeAirborneStructures = false; // DIFFERENT;
 
 			includeCaves = false; // DIFFERENT
 			includeLavaFields = false; // DIFFERENT

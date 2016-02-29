@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Random;
 
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider;
-import me.daddychurchill.CityWorld.Plugins.BalloonProvider;
+import me.daddychurchill.CityWorld.Plugins.StructureInAirProvider;
 import me.daddychurchill.CityWorld.Plugins.BonesProvider;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider;
 import me.daddychurchill.CityWorld.Plugins.TreeProvider;
-import me.daddychurchill.CityWorld.Plugins.StructureProvider;
+import me.daddychurchill.CityWorld.Plugins.StructureOnGroundProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.OdonymProvider;
 import me.daddychurchill.CityWorld.Plugins.OreProvider;
@@ -50,8 +50,8 @@ public class CityWorldGenerator extends ChunkGenerator {
 	public SurfaceProvider surfaceProvider;
 	public CoverProvider coverProvider;
 	public OdonymProvider odonymProvider;
-	public BalloonProvider balloonProvider;
-	public StructureProvider structureProvider;
+	public StructureInAirProvider structureInAirProvider;
+	public StructureOnGroundProvider structureOnGroundProvider;
 	public TreeProvider treeProvider;
 	
 	public WorldBlocks decayBlocks;
@@ -179,8 +179,8 @@ public class CityWorldGenerator extends ChunkGenerator {
 			coverProvider = CoverProvider.loadProvider(this, new Odds(getRelatedSeed()));
 			odonymProvider = OdonymProvider.loadProvider(this, new Odds(getRelatedSeed()));
 			surfaceProvider = SurfaceProvider.loadProvider(this, new Odds(getRelatedSeed()));
-			balloonProvider = BalloonProvider.loadProvider(this);
-			structureProvider = StructureProvider.loadProvider(this);
+			structureOnGroundProvider = StructureOnGroundProvider.loadProvider(this);
+			structureInAirProvider = StructureInAirProvider.loadProvider(this);
 			treeProvider = TreeProvider.loadProvider(this, new Odds(getRelatedSeed()));
 			pasteProvider = PasteProvider.loadProvider(this);
 			decayBlocks = new WorldBlocks(this, new Odds(getRelatedSeed()));

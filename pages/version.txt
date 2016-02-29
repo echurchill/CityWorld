@@ -11,6 +11,11 @@
 ----
 == Versions
 
+v3.002
+* Added an option to turn off things like Hot Air Balloons for folks who don't like fun things in the air ;-)
+* Add material lists for bunkers and water towers generation
+* Reduced the likelihood of Museums
+
 v3.001
 * Finally got the fossils generating... and Museums :-)
 * Fixed a long standing tree generation bug... and added the occasional dead tree trunk

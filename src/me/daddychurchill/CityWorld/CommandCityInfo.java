@@ -40,9 +40,11 @@ public class CommandCityInfo implements CommandExecutor {
 
 				// get API instance
 				CityWorldAPI api = new CityWorldAPI(plugin);
+				
 				// fetch full info hash
 				HashMap<String, String> info = api.getFullInfo(chunk);
-				// wite a message to player for each line
+				
+				// write a message to player for each line
 				for (Entry<String, String> entry : info.entrySet()) {
 					String message = entry.getKey() + ": " + entry.getValue();
 					player.sendMessage(message);

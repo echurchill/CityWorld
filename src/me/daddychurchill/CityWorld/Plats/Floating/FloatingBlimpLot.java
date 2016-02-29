@@ -4,7 +4,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.IsolatedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plugins.BalloonProvider;
+import me.daddychurchill.CityWorld.Plugins.StructureInAirProvider;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
@@ -90,7 +90,7 @@ public class FloatingBlimpLot extends IsolatedLot {
 			destroyLot(generator, generator.streetLevel - 1, generator.streetLevel + 3);
 		
 		// what type of balloon?
-		BalloonProvider balloons = generator.balloonProvider;
+		StructureInAirProvider balloons = generator.structureInAirProvider;
 		if (manyBalloons) {
 			balloons.generateBalloon(generator, chunk, context, 7 + chunkOdds.getRandomInt(2), generator.streetLevel + 5, 3, chunkOdds);
 			balloons.generateBalloon(generator, chunk, context, 7 + chunkOdds.getRandomInt(2), generator.streetLevel + 5, 12, chunkOdds);

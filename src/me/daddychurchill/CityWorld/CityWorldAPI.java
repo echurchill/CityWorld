@@ -64,6 +64,9 @@ public class CityWorldAPI {
 		classname = classname.substring(classname.lastIndexOf(".") + 1);
 		info.put("lotclass", classname);
 
+		// where are we?
+		info.put("at", lot.getChunkX() + "|" + lot.getChunkZ());
+		
 		// Now check if lot is a clipboardlot to get schematic name
 		if (lot instanceof ClipboardLot) {
 			ClipboardLot clot = (ClipboardLot) lot;

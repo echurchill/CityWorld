@@ -37,6 +37,10 @@ public class MaterialProvider {
 	public MaterialList itemsSelectMaterial_ShedRoofs;
 	public MaterialList itemsSelectMaterial_QuaryPiles;
 	public MaterialList itemsSelectMaterial_Castles;
+	public MaterialList itemsSelectMaterial_WaterTowers;
+	public MaterialList itemsSelectMaterial_BunkerBuildings;
+	public MaterialList itemsSelectMaterial_BunkerPlatforms;
+	public MaterialList itemsSelectMaterial_BunkerBilge;
 	
 	public MaterialList itemsMaterialListFor_MazeWalls;
 	public MaterialList itemsMaterialListFor_Roads;
@@ -69,6 +73,10 @@ public class MaterialProvider {
 	public final static String tagSelectMaterial_ShedRoofs = "Materials_For_ShedRoofs";
 	public final static String tagSelectMaterial_StoneWorksPiles = "Materials_For_QuaryPiles";
 	public final static String tagSelectMaterial_Castles = "Materials_For_Castles";
+	public final static String tagSelectMaterial_WaterTowers = "Materials_For_WaterTowers";
+	public final static String tagSelectMaterial_BunkerBuildings = "Materials_For_BunkerBuildings";
+	public final static String tagSelectMaterial_BunkerPlatforms = "Materials_For_BunkerPlatforms";
+	public final static String tagSelectMaterial_BunkerBilge = "Materials_For_BunkerBilge";
 
 	public final static String tagMaterialListFor_MazeWalls = "Materials_List_For_MazeWalls";
 	public final static String tagMaterialListFor_Roads = "Materials_List_For_Roads";
@@ -513,6 +521,26 @@ public class MaterialProvider {
 //				Material.DOUBLE_STEP,
 //				Material.DOUBLE_STONE_SLAB2,
 				Material.SMOOTH_BRICK);
+
+		itemsSelectMaterial_WaterTowers = createList(tagSelectMaterial_WaterTowers,
+				Material.CLAY,
+				Material.STAINED_CLAY,
+				Material.STAINED_CLAY);
+
+		itemsSelectMaterial_BunkerBuildings = createList(tagSelectMaterial_BunkerBuildings,
+				Material.CLAY,
+				Material.STAINED_CLAY);
+
+		itemsSelectMaterial_BunkerPlatforms = createList(tagSelectMaterial_BunkerPlatforms,
+				Material.CLAY,
+				Material.QUARTZ_BLOCK);
+
+		itemsSelectMaterial_BunkerBilge = createList(tagSelectMaterial_BunkerBilge,
+				Material.AIR,
+				Material.STATIONARY_LAVA,
+				Material.STATIONARY_WATER,
+				Material.ICE,
+				Material.PACKED_ICE);
 
 		itemsMaterialListFor_MazeWalls = createList(tagMaterialListFor_MazeWalls,
 				Material.OBSIDIAN,

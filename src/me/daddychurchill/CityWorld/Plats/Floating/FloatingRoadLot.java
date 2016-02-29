@@ -202,7 +202,7 @@ public class FloatingRoadLot extends RoadLot {
 			RealBlocks chunk, DataContext context, int sidewalkLevel, int x, int z) {
 		boolean result = super.generateLightPost(generator, chunk, context, sidewalkLevel, x, z);
 		if (result && chunkOdds.playOdds(oddsOfballoons))
-			generator.balloonProvider.generateBalloon(generator, chunk, context, x, sidewalkLevel + lightpostHeight + 2, z, chunkOdds);
+			generator.structureInAirProvider.generateBalloon(generator, chunk, context, x, sidewalkLevel + lightpostHeight + 2, z, chunkOdds);
 		return result;
 	}
 	

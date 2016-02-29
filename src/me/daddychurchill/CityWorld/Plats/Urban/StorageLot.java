@@ -55,7 +55,7 @@ public class StorageLot extends BuildingLot {
 		
 		// shed please
 		if (chunkOdds.getRandomInt(neighbors.getNeighborCount() + 2) == 0)
-			generator.structureProvider.generateShed(generator, chunk, context, chunkOdds, 7, groundY + 2, 7, 2 + chunkOdds.getRandomInt(2), LootLocation.STORAGESHED);
+			generator.structureOnGroundProvider.generateShed(generator, chunk, context, chunkOdds, 7, groundY + 2, 7, 2 + chunkOdds.getRandomInt(2), LootLocation.STORAGESHED);
 
 		// it looked so nice for a moment... but the moment has passed
 		if (generator.settings.includeDecayedBuildings)

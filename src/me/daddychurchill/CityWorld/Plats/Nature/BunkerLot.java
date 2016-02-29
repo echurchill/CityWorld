@@ -13,6 +13,7 @@ import me.daddychurchill.CityWorld.Plats.RoadLot;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
+import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -35,10 +36,9 @@ public class BunkerLot extends ConnectedLot {
 	protected int bottomOfBunker;
 	protected int topOfBunker;
 	
-	protected enum BilgeType {EMPTY, WATER, LAVA, ICE};
-	public enum BunkerType {ENTRY, PYRAMID, TANK, QUAD, RECALL, BALLSY, FLOORED, GROWING, ROAD}; // MISSILE, FARM, VENT
+	public enum BunkerType {ENTRY, PYRAMID, TANK, QUAD, RECALL, BALLSY, FLOORED, GROWING, SAUCER, ROAD}; // MISSILE, FARM, VENT
 
-	protected BilgeType bilgeType;
+	protected int bilgeType;
 	protected BunkerType buildingType;
 	
 	public BunkerLot(PlatMap platmap, int chunkX, int chunkZ, boolean firstOne) {
@@ -56,7 +56,6 @@ public class BunkerLot extends ConnectedLot {
 //			" -> topOfBunker = " + topOfBunker);
 		
 		// initial rolls, using two different odds engines
-		bilgeType =    getRandomBilgeType(platmapOdds);
 		buildingType = getRandomBunkerType(chunkOdds, firstOne);
 	}
 	
@@ -90,8 +89,13 @@ public class BunkerLot extends ConnectedLot {
 	
 	@Override
 	protected boolean isShaftableLevel(CityWorldGenerator generator, int blockY) {
-		return bunkerIsShaftableLevel(generator, blockY, bottomOfBunker, topOfBunker)&&
+		return isBunkerShaftable() &&
+			   bunkerIsShaftableLevel(generator, blockY, bottomOfBunker, topOfBunker)&&
 			   super.isShaftableLevel(generator, blockY);
+	}
+	
+	private boolean isBunkerShaftable() {
+		return buildingType != BunkerType.ENTRY && buildingType != BunkerType.SAUCER;
 	}
 	
 	public static boolean bunkerIsValidStrataY(CityWorldGenerator generator, int blockX, int blockY, int blockZ, 
@@ -104,13 +108,6 @@ public class BunkerLot extends ConnectedLot {
 		
 		return (blockY < bottomOfBunker - bunkerBuffer || blockY > topOfBunker - bunkerSegment - bunkerBuffer);
 	}
-	
-	public final static Material supportMaterial = Material.QUARTZ_BLOCK;
-	public final static Material platformMaterial = Material.QUARTZ_BLOCK;
-	public final static Material crosswalkMaterial = Material.QUARTZ_BLOCK;
-	public final static Material railingMaterial = Material.IRON_FENCE;
-	public final static Material buildingMaterial = Material.STAINED_CLAY;
-	public final static Material windowMaterial = Material.GLASS;
 	
 	private static int calcSegmentOrigin(int y) {
 		return (y / bunkerSegment) * bunkerSegment;
@@ -159,16 +156,37 @@ public class BunkerLot extends ConnectedLot {
 //		generator.reportMessage("TopOfBunker = " + topOfBunker + " MinHeight = " + minHeight);
 		
 		// do it!
-		blockYs.lift(generateBunker(generator, platmap, chunk, chunkOdds, context, platX, platZ, blockYs.averageHeight,
-									bottomOfBunker, topOfBunker, bilgeType, buildingType));
+		blockYs.lift(generateBunker(generator, platmap, chunk, chunkOdds, context, platX, platZ, blockYs,
+									bottomOfBunker, topOfBunker, buildingType));
 		
 		// add some surface
 		generateSurface(generator, chunk, true);
 	}
 	
-	public static int generateBunker(CityWorldGenerator generator, PlatMap platmap, SupportBlocks chunk, Odds odds, 
-			DataContext context, int platX, int platZ, int surfaceY,
-			int bottomOfBunker, int topOfBunker, BilgeType bilgeType, BunkerType buildingType) {
+	public static boolean materialsDefined = false;
+	public static Material supportMaterial = Material.QUARTZ_BLOCK;
+	public static Material platformMaterial = Material.QUARTZ_BLOCK;
+	public static Material crosswalkMaterial = Material.QUARTZ_BLOCK;
+	public static Material railingMaterial = Material.IRON_FENCE;
+	public static Material buildingMaterial = Material.STAINED_CLAY;
+	public static Material windowMaterial = Material.GLASS;
+	public static Material bilgeMaterial = Material.AIR;
+	
+	protected static int generateBunker(CityWorldGenerator generator, PlatMap platmap, SupportBlocks chunk, Odds odds, 
+			DataContext context, int platX, int platZ, CachedYs blockYs,
+			int bottomOfBunker, int topOfBunker, BunkerType buildingType) {
+		
+		// make sure we know what we are making
+		if (!materialsDefined) {
+			
+			platformMaterial = generator.settings.materials.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds, platformMaterial);
+			crosswalkMaterial = generator.settings.materials.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds, crosswalkMaterial);
+			supportMaterial = generator.settings.materials.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds, supportMaterial);
+			buildingMaterial = generator.settings.materials.itemsSelectMaterial_BunkerBuildings.getRandomMaterial(odds, buildingMaterial);
+			bilgeMaterial = generator.settings.materials.itemsSelectMaterial_BunkerBilge.getRandomMaterial(odds, bilgeMaterial);
+			
+			materialsDefined = true;
+		}
 		
 		// precalculate
 		int yBottom = bottomOfBunker;//calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet;
@@ -184,19 +202,8 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setLayer(yBottom, supportMaterial);
 		
 		// clear out stuff?
-		switch (bilgeType) {
-		case WATER:
-			chunk.setLayer(yBottom + 1, Material.STATIONARY_WATER);
-			break;
-		case LAVA:
-			chunk.setLayer(yBottom + 1, Material.STATIONARY_LAVA);
-			break;
-		case ICE:
-			chunk.setLayer(yBottom + 1, Material.ICE);
-			break;
-		case EMPTY:
-			break;
-		}
+		if (bilgeMaterial != Material.AIR)
+			chunk.setLayer(yBottom + 1, bilgeMaterial);
 		
 		// hold up buildings
 		generateSupport(chunk, odds, context, 3, yBottom + 1, 3);
@@ -264,7 +271,7 @@ public class BunkerLot extends ConnectedLot {
 		case BALLSY:
 			return generateBallsyBunker(generator, context, chunk, odds, yPlatform + 1, yPlatformTop);
 		case ENTRY:
-			return generateEntryBunker(generator, context, chunk, odds, yPlatform + 1, yPlatformTop, yTop2, surfaceY);
+			return generateEntryBunker(generator, context, chunk, odds, yPlatform + 1, yPlatformTop, yTop2, blockYs);
 		case FLOORED:
 			return generateFlooredBunker(generator, context, chunk, odds, yPlatform + 1, yPlatformTop);
 		case GROWING:
@@ -277,8 +284,8 @@ public class BunkerLot extends ConnectedLot {
 			return generateRecallBunker(generator, context, chunk, odds, yPlatform + 1, yPlatformTop);
 		case TANK:
 			return generateTankBunker(generator, context, chunk, odds, yPlatform + 1, yPlatformTop);
-//		case MISSILE:
-//			return generateMissileBunker(generator, context, chunk, odds, yPlatform + 1, yPlatformTop, surfaceY);
+		case SAUCER:
+			return generateSaucerBunker(generator, context, chunk, odds, yPlatform + 1, yPlatformTop, topOfBunker, blockYs);
 		case ROAD:
 			return generateRoadTunnel(generator, context, chunk, odds, yPlatform + 1, yPlatformTop);
 		}
@@ -286,7 +293,8 @@ public class BunkerLot extends ConnectedLot {
 	}
 	
 	public static int generateEntryBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk, Odds odds, 
-			int y1, int y2, int topOfBunker, int surfaceY) {
+			int y1, int y2, int topOfBunker, CachedYs blockYs) {
+		int surfaceY = blockYs.averageHeight;
 		
 		// walls
 		chunk.setBlocks(5, 11, y1, surfaceY + 4, 5, 11, buildingMaterial);
@@ -331,9 +339,22 @@ public class BunkerLot extends ConnectedLot {
 		return 7;
 	}
 	
-//	public static int generateMissileBunker(WorldGenerator generator, DataContext context, SupportChunk chunk, Odds odds, int y1, int y2, int surfaceY) {
+	public static int generateSaucerBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk, Odds odds, 
+			int y1, int y2, int topOfBunker, CachedYs blockYs) {
+		
+		// walls
+		chunk.setCircle(8, 8, 5, topOfBunker, blockYs.maxHeight + 1, Material.AIR, true);
+		chunk.setCircle(8, 8, 6, topOfBunker, blockYs.minHeight + 1, buildingMaterial, false);
+		chunk.setCircle(8, 8, 6, blockYs.minHeight, blockYs.averageHeight + 1, Material.STAINED_CLAY, false);
+		
+//		chunk.clearBlocks(0, 16, y1 + 1, surfaceY + 6, 0, 16);
+//		chunk.setWalls(1, 15, y2, surfaceY, 1, 15, buildingMaterial);
 //		
-//		// walls
+//		chunk.setBlocks(2, 14, surfaceY + 20, surfaceY + 22, 2, 14, Material.GLOWSTONE);
+		
+		// place it then
+		generator.structureInAirProvider.generateSaucer(generator, chunk, 8, y1, 8, true);
+		
 //		chunk.setCircle(7, 7, 3, y1 + 5, surfaceY + 6, buildingMaterial, false);
 //		chunk.setCircle(7, 7, 2, y1 + 5, surfaceY + 6, Material.AIR, true);
 //		chunk.setCircle(7, 7, 2, surfaceY + 3, surfaceY + 5, Material.IRON_BLOCK, true);
@@ -341,31 +362,29 @@ public class BunkerLot extends ConnectedLot {
 //		// camo the exit
 //		chunk.camoClay(3, 12, surfaceY - 2, surfaceY + 6, 3, 12, odds);
 //		
-////		
-////		// do it!
-////		MineEntranceLot.generateStairWell(generator, chunk, odds, 6, 6, y1, minHeight, surfaceY,
-////				Material.QUARTZ_STAIRS, Material.QUARTZ_BLOCK, Material.QUARTZ_BLOCK); // Make the last one air if you want an easy way down
-////		
-////		// roof!
-////		chunk.setBlocks(6, 10, surfaceY + 4, surfaceY + 5, 6, 10, buildingMaterial);
-////		chunk.setBlocks(7, 9, surfaceY + 5, surfaceY + 6, 7, 9, buildingMaterial);
-////		
-////		// bottom doors
-////		chunk.setBlocks(7, 9, y1, y1 + 2, 5, 6, Material.AIR);
-////		chunk.setBlocks(7, 9, y1, y1 + 2, 10, 11, Material.AIR);
-////		chunk.setBlocks(5, 6, y1, y1 + 2, 7, 9, Material.AIR);
-////		chunk.setBlocks(10, 11, y1, y1 + 2, 7, 9, Material.AIR);
-////		
-////		// top doors
-////		chunk.setBlocks(7, 9, surfaceY + 1, surfaceY + 3, 5, 6, railingMaterial);
-////		chunk.setBlocks(7, 9, surfaceY + 1, surfaceY + 3, 10, 11, railingMaterial);
-////		chunk.setBlocks(5, 6, surfaceY + 1, surfaceY + 3, 7, 9, railingMaterial);
-////		chunk.setBlocks(10, 11, surfaceY + 1, surfaceY + 3, 7, 9, railingMaterial);
-////		
+//		// do it!
+//		MineEntranceLot.generateStairWell(generator, chunk, odds, 6, 6, y1, minHeight, surfaceY,
+//				Material.QUARTZ_STAIRS, Material.QUARTZ_BLOCK, Material.QUARTZ_BLOCK); // Make the last one air if you want an easy way down
 //		
-//		// lift the surface?
-//		return 7;
-//	}
+//		// roof!
+//		chunk.setBlocks(6, 10, surfaceY + 4, surfaceY + 5, 6, 10, buildingMaterial);
+//		chunk.setBlocks(7, 9, surfaceY + 5, surfaceY + 6, 7, 9, buildingMaterial);
+//		
+//		// bottom doors
+//		chunk.setBlocks(7, 9, y1, y1 + 2, 5, 6, Material.AIR);
+//		chunk.setBlocks(7, 9, y1, y1 + 2, 10, 11, Material.AIR);
+//		chunk.setBlocks(5, 6, y1, y1 + 2, 7, 9, Material.AIR);
+//		chunk.setBlocks(10, 11, y1, y1 + 2, 7, 9, Material.AIR);
+//		
+//		// top doors
+//		chunk.setBlocks(7, 9, surfaceY + 1, surfaceY + 3, 5, 6, railingMaterial);
+//		chunk.setBlocks(7, 9, surfaceY + 1, surfaceY + 3, 10, 11, railingMaterial);
+//		chunk.setBlocks(5, 6, surfaceY + 1, surfaceY + 3, 7, 9, railingMaterial);
+//		chunk.setBlocks(10, 11, surfaceY + 1, surfaceY + 3, 7, 9, railingMaterial);
+		
+		// lift the surface?
+		return 7;
+	}
 	
 	public static int generateGrowingBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk, Odds odds, int y1, int y2) {
 		int x1 = 4;
@@ -810,25 +829,11 @@ public class BunkerLot extends ConnectedLot {
 		}
 	}
 	
-	// note the different odds engines that these two functions use!
-	private static BilgeType getRandomBilgeType(Odds platmapOdds) {
-		switch (platmapOdds.getRandomInt(5)) {
-		case 1:
-			return BilgeType.WATER; // 1 out of 5
-		case 2:
-			return BilgeType.LAVA;  // 1 out of 5
-		case 3:
-			return BilgeType.ICE;   // 1 out of 5
-		default:
-			return BilgeType.EMPTY; // 2 out of 5
-		}
-	}
-	
 	private static BunkerType getRandomBunkerType(Odds chunkOdds, boolean firstOne) {
 		if (firstOne)
 			return BunkerType.ENTRY;
 		else 
-			switch (chunkOdds.getRandomInt(7)) {
+			switch (chunkOdds.getRandomInt(8)) {
 			case 1:
 				return BunkerType.BALLSY;  
 			case 2:
@@ -841,6 +846,8 @@ public class BunkerLot extends ConnectedLot {
 				return BunkerType.QUAD;    
 			case 6:
 				return BunkerType.RECALL;  
+			case 7:
+				return BunkerType.SAUCER;  
 			default:
 				return BunkerType.TANK;    
 			}
