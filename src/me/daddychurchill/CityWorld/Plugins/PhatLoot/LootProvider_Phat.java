@@ -43,6 +43,7 @@ public class LootProvider_Phat extends LootProvider {
 				PhatLoot loot = aPhatLoot.next();
 				
 				// sometimes hasNext is true but there really isn't a next... go figure
+				// reported by EODStevens on SpigotMC.org
 				if (loot != null)
 					loot.saveChests();
 			}
