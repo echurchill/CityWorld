@@ -39,8 +39,13 @@ public class LootProvider_Phat extends LootProvider {
 			
 			// save everything
 			Iterator<PhatLoot> aPhatLoot = phatLoots.iterator();
-			while (aPhatLoot.hasNext())
-				aPhatLoot.next().saveChests();
+			while (aPhatLoot.hasNext()) {
+				PhatLoot loot = aPhatLoot.next();
+				
+				// sometimes hasNext is true but there really isn't a next... go figure
+				if (loot != null)
+					loot.saveChests();
+			}
 			
 			// for get about it!
 			phatLoots.clear();
