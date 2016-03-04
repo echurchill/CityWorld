@@ -30,15 +30,15 @@ public abstract class AstralStructureTowerLot extends AstralStructureLot {
 	protected void generateTower(CityWorldGenerator generator, RealBlocks chunk, TowerStyle style) {
 		
 		// set things up for darkness
-		Material wallMaterial = Material.OBSIDIAN;
-		Material trimMaterial = Material.AIR;
+		Material wallMaterial = generator.settings.materials.itemsSelectMaterial_AstralTowerDark.getRandomMaterial(chunkOdds, Material.OBSIDIAN);
+		Material trimMaterial = generator.settings.materials.itemsSelectMaterial_AstralTowerTrim.getRandomMaterial(chunkOdds, Material.AIR);
 		DyeColor windowPrimaryColor = DyeColor.BLACK;
 		DyeColor windowSecondaryColor = DyeColor.PURPLE;
 		
 		// adjust for lightness
 		if (style == TowerStyle.LIGHT) {
-			wallMaterial = Material.ENDER_STONE;
-			trimMaterial = Material.GLOWSTONE;
+			wallMaterial = generator.settings.materials.itemsSelectMaterial_AstralTowerDark.getRandomMaterial(chunkOdds, Material.ENDER_STONE);
+			trimMaterial = generator.settings.materials.itemsSelectMaterial_AstralTowerTrim.getRandomMaterial(chunkOdds, Material.GLOWSTONE);
 			windowPrimaryColor = DyeColor.WHITE;
 			windowSecondaryColor = DyeColor.SILVER;
 		}
@@ -61,7 +61,7 @@ public abstract class AstralStructureTowerLot extends AstralStructureLot {
 				if (y1 == y2 - 1)
 					chunk.setTrapDoor(x, y1, z, TrapDoor.TOP_NORTH);
 				else
-					chunk.setBlocks(x, x + 2, y1, y1 + 1, z, z + 2, getHallMaterial());
+					chunk.setBlocks(x, x + 2, y1, y1 + 1, z, z + 2, getHallMaterial(generator));
 			}
 			
 			// new floor please
@@ -72,14 +72,14 @@ public abstract class AstralStructureTowerLot extends AstralStructureLot {
 						int x1 = m * 2 - 1;
 						int z1 = n * 2 - 1;
 						if (chunk.isType(x1, y1 + 1, z1, wallMaterial)) {
-							Material hallMaterial = getHallMaterial();
+							Material hallMaterial = getHallMaterial(generator);
 							chunk.setBlocks(x1, x1 + 2, y1 + 1, y1 + towerFloorHeight, z1, z1 + 2, hallMaterial);
 
 							if (hallMaterial == specialHallMaterial) {
 								for (int y = y1 + 1; y < y1 + towerFloorHeight; y++) {
 									int x = x1 + chunkOdds.getRandomInt(2);
 									int z = z1 + chunkOdds.getRandomInt(2);
-									chunk.setBlock(x, y, z, getSpecialOre());
+									chunk.setBlock(x, y, z, getSpecialOre(generator));
 								}
 							}
 						}
@@ -130,21 +130,16 @@ public abstract class AstralStructureTowerLot extends AstralStructureLot {
 	private final static double oddsOfSpecialOre = Odds.oddsExtremelyLikely;
 	private final static double oddsOfSpecialHall = Odds.oddsUnlikely;
 
-	private Material getSpecialOre() {
+	private Material getSpecialOre(CityWorldGenerator generator) {
 		if (chunkOdds.playOdds(oddsOfSpecialOre))
-			return chunkOdds.getRandomMaterial(
-					Material.LAVA, Material.WATER, Material.MONSTER_EGG,
-					Material.COAL_ORE, Material.DIAMOND_ORE, Material.EMERALD_ORE, Material.GOLD_ORE,
-					Material.IRON_ORE, Material.LAPIS_ORE, Material.QUARTZ_ORE, Material.REDSTONE_ORE);
+			return generator.settings.materials.itemsSelectMaterial_AstralTowerOres.getRandomMaterial(chunkOdds);
 		else
 			return specialHallMaterial;
 	}
 	
-	private Material getHallMaterial() {
+	private Material getHallMaterial(CityWorldGenerator generator) {
 		if (chunkOdds.playOdds(oddsOfSpecialHall))
-			return chunkOdds.getRandomMaterial(
-					Material.GRAVEL, specialHallMaterial, Material.BRICK, 
-					Material.COBBLESTONE, Material.SMOOTH_BRICK, Material.MOSSY_COBBLESTONE);
+			return generator.settings.materials.itemsSelectMaterial_AstralTowerOres.getRandomMaterial(chunkOdds, specialHallMaterial);
 		else
 			return emptyHallMaterial;
 	}

@@ -236,7 +236,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 					// on the beach
 					if (y == generator.seaLevel) {
 						generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 2, ores.fluidSubsurfaceMaterial, y, ores.fluidSurfaceMaterial, generator.settings.includeDecayedNature);
-						biome = Biome.BEACH;
+						biome = Biome.BEACHES;
 
 					// we are in the water! ...or are we?
 					} else if (y < generator.seaLevel) {

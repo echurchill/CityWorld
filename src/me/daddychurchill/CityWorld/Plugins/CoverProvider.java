@@ -12,8 +12,10 @@ import org.bukkit.NetherWartsState;
 import org.bukkit.TreeSpecies;
 import org.bukkit.TreeType;
 import org.bukkit.material.Crops;
+import org.bukkit.material.Leaves;
 import org.bukkit.material.LongGrass;
 import org.bukkit.material.NetherWarts;
+import org.bukkit.material.Sapling;
 import org.bukkit.material.Tree;
 
 public abstract class CoverProvider extends Provider {
@@ -46,7 +48,7 @@ public abstract class CoverProvider extends Provider {
 		MINI_SWAMP_TRUNK, SWAMP_TRUNK,
 		MINI_ACACIA_TRUNK, ACACIA_TRUNK,
 		
-		WHEAT, CARROTS, POTATO, MELON, PUMPKIN, 
+		WHEAT, CARROTS, POTATO, MELON, PUMPKIN, BEETROOT,
 
 		BROWN_MUSHROOM, RED_MUSHROOM, NETHERWART,
 		FIRE};
@@ -96,7 +98,7 @@ public abstract class CoverProvider extends Provider {
 	private final static CoverageType[] EdiblePlants = {
 		CoverageType.WHEAT, CoverageType.CARROTS,
 		CoverageType.POTATO, CoverageType.MELON,
-		CoverageType.PUMPKIN};
+		CoverageType.PUMPKIN, CoverageType.BEETROOT};
 
 	private final static CoverageType[] GeneralSaplings = {
 		CoverageType.OAK_SAPLING, CoverageType.PINE_SAPLING,
@@ -222,7 +224,7 @@ public abstract class CoverProvider extends Provider {
 		switch (coverageType) {
 		case GRASS:
 			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
-			chunk.setBlock(x, y, z, Material.LONG_GRASS, new LongGrass(GrassSpecies.NORMAL)); //TODO: Bukkit type mismatch/missing
+			chunk.setBlock(x, y, z, Material.LONG_GRASS, new LongGrass(GrassSpecies.NORMAL));
 			break;
 		case FERN:
 			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
@@ -313,28 +315,29 @@ public abstract class CoverProvider extends Provider {
 		case EMERALD_GREEN:
 			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
 			chunk.setBlock(x, y, z, Material.LOG, new Tree(TreeSpecies.JUNGLE));
-//			chunk.setBlocks(x, y + 1, y + odds.getRandomInt(2, 4), z, Material.LEAVES, new Leaves(TreeSpecies.JUNGLE)); //TODO: Bukkit does not like this AT ALL
-			BlackMagic.setBlocks(chunk, x, y + 1, y + odds.getRandomInt(2, 4), z, Material.LEAVES, 3 + 4); //TODO: Jungle + NoDecay
+			Leaves leafData = new Leaves(TreeSpecies.JUNGLE);
+			leafData.setDecayable(false);
+			chunk.setBlocks(x, y + 1, y + odds.getRandomInt(2, 4), z, Material.LEAVES, leafData);
 			break;
 		case OAK_SAPLING:
 			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT);
-			chunk.setBlock(x, y, z, Material.SAPLING, new Tree(TreeSpecies.GENERIC)); //TODO: Bukkit type mismatch/missing
+			chunk.setBlock(x, y, z, Material.SAPLING, new Sapling(TreeSpecies.GENERIC));
 			break;
 		case BIRCH_SAPLING:
 			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT);
-			chunk.setBlock(x, y, z, Material.SAPLING, new Tree(TreeSpecies.BIRCH));
+			chunk.setBlock(x, y, z, Material.SAPLING, new Sapling(TreeSpecies.BIRCH));
 			break;
 		case PINE_SAPLING:
 			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT);
-			chunk.setBlock(x, y, z, Material.SAPLING, new Tree(TreeSpecies.REDWOOD)); //TODO: Bukkit type mismatch/missing
+			chunk.setBlock(x, y, z, Material.SAPLING, new Sapling(TreeSpecies.REDWOOD));
 			break;
 		case JUNGLE_SAPLING:
 			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT);
-			chunk.setBlock(x, y, z, Material.SAPLING, new Tree(TreeSpecies.JUNGLE));
+			chunk.setBlock(x, y, z, Material.SAPLING, new Sapling(TreeSpecies.JUNGLE));
 			break;
 		case ACACIA_SAPLING:
 			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT);
-			chunk.setBlock(x, y, z, Material.SAPLING, new Tree(TreeSpecies.ACACIA));
+			chunk.setBlock(x, y, z, Material.SAPLING, new Sapling(TreeSpecies.ACACIA));
 			break;
 			
 		case MINI_OAK_TRUNK:
@@ -437,23 +440,32 @@ public abstract class CoverProvider extends Provider {
 			
 		case WHEAT:
 			chunk.setBlockIfNot(x, y - 1, z, Material.SOIL);
-			chunk.setBlock(x, y, z, Material.CROPS, new Crops(getRandomWheatGrowth())); //TODO: Bukkit type mismatch/missing
+			chunk.setBlock(x, y, z, Material.CROPS, getRandomCropState());
 			break;
 		case CARROTS:
 			chunk.setBlockIfNot(x, y - 1, z, Material.SOIL);
-			BlackMagic.setBlock(chunk, x, y, z, Material.CARROT, getRandomCarrotGrowth()); //TODO: Bukkit missing proper MaterialData
+//			chunk.setBlock(x, y, z, Material.CARROT, getRandomCropState());
+			BlackMagic.setBlock(chunk, x, y, z, Material.CARROT, odds.getRandomInt(8));
 			break;
 		case POTATO:
 			chunk.setBlockIfNot(x, y - 1, z, Material.SOIL);
-			BlackMagic.setBlock(chunk, x, y, z, Material.POTATO, getRandomPotatoGrowth()); //TODO: Bukkit missing proper MaterialData
+//			chunk.setBlock(x, y, z, Material.POTATO, getRandomCroxpState());
+			BlackMagic.setBlock(chunk, x, y, z, Material.POTATO, odds.getRandomInt(8));
 			break;
 		case MELON:
 			chunk.setBlockIfNot(x, y - 1, z, Material.SOIL);
-			BlackMagic.setBlock(chunk, x, y, z, Material.MELON_STEM, getRandomMelonGrowth()); //TODO: Bukkit missing proper MaterialData
+//			chunk.setBlock(x, y, z, Material.MELON_STEM, getRandomCxropState());
+			BlackMagic.setBlock(chunk, x, y, z, Material.MELON_STEM, odds.getRandomInt(8));
 			break;
 		case PUMPKIN:
 			chunk.setBlockIfNot(x, y - 1, z, Material.SOIL);
-			BlackMagic.setBlock(chunk, x, y, z, Material.PUMPKIN_STEM, getRandomPumpkinGrowth()); //TODO: Bukkit missing proper MaterialData
+//			chunk.setBlock(x, y, z, Material.PUMPKIN_STEM, getRandoxmCropState());
+			BlackMagic.setBlock(chunk, x, y, z, Material.PUMPKIN_STEM, odds.getRandomInt(8));
+			break;
+		case BEETROOT:
+			chunk.setBlockIfNot(x, y - 1, z, Material.SOIL);
+//			chunk.setBlock(x, y, z, Material.BEETROOT_BLOCK, getRandomCropState());
+			BlackMagic.setBlock(chunk, x, y, z, Material.BEETROOT_BLOCK, odds.getRandomInt(4));
 			break;
 		case DEAD_BUSH:
 			chunk.setBlockIfNot(x, y - 1, z, Material.SAND, Material.DIRT, Material.HARD_CLAY);
@@ -471,7 +483,7 @@ public abstract class CoverProvider extends Provider {
 			break;
 		case NETHERWART:
 			chunk.setBlockIfNot(x, y - 1, z, Material.SOUL_SAND);
-			chunk.setBlock(x, y, z, Material.NETHER_WARTS, new NetherWarts(getRandomNetherWartGrowth())); //TODO: Bukkit type mismatch/missing
+			chunk.setBlock(x, y, z, Material.NETHER_WARTS, getRandomNetherWartState()); 
 			break;
 		case FIRE:
 			chunk.setBlockIfNot(x, y - 1, z, Material.NETHERRACK);
@@ -480,28 +492,12 @@ public abstract class CoverProvider extends Provider {
 		}
 	}
 	
-	private CropState getRandomWheatGrowth() {
-		return CropState.values()[odds.getRandomInt(CropState.values().length)];
+	private Crops getRandomCropState() {
+		return new Crops(CropState.values()[odds.getRandomInt(CropState.values().length)]);
 	}
 	
-	private int getRandomCarrotGrowth() {
-		return odds.getRandomInt(8);
-	}
-	
-	private int getRandomPotatoGrowth() {
-		return odds.getRandomInt(8);
-	}
-	
-	private int getRandomMelonGrowth() {
-		return odds.getRandomInt(8);
-	}
-	
-	private int getRandomPumpkinGrowth() {
-		return odds.getRandomInt(8);
-	}
-	
-	private NetherWartsState getRandomNetherWartGrowth() {
-		return NetherWartsState.values()[odds.getRandomInt(NetherWartsState.values().length)];
+	private NetherWarts getRandomNetherWartState() {
+		return new NetherWarts(NetherWartsState.values()[odds.getRandomInt(NetherWartsState.values().length)]);
 	}
 	
 	protected boolean likelyCover(CityWorldGenerator generator) {

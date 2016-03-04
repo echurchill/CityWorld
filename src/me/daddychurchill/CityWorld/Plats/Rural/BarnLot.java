@@ -5,7 +5,7 @@ import org.bukkit.TreeSpecies;
 import org.bukkit.block.BlockFace;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import org.bukkit.material.MaterialData;
-import org.bukkit.material.Tree;
+import org.bukkit.material.Wood;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
@@ -31,9 +31,9 @@ public class BarnLot extends IsolatedLot {
 		style = LotStyle.STRUCTURE;
 		
 		wallMat = Material.WOOD;
-		wallData = new Tree(TreeSpecies.ACACIA);
+		wallData = new Wood(TreeSpecies.ACACIA);
 		roofMat = Material.WOOD;
-		roofData = new Tree(TreeSpecies.BIRCH);
+		roofData = new Wood(TreeSpecies.BIRCH);
 		windowsMat = Material.THIN_GLASS;
 	}
 

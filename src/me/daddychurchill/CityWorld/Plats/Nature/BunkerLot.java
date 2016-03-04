@@ -346,41 +346,13 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setCircle(8, 8, 5, topOfBunker, blockYs.maxHeight + 1, Material.AIR, true);
 		chunk.setCircle(8, 8, 6, topOfBunker, blockYs.minHeight + 1, buildingMaterial, false);
 		chunk.setCircle(8, 8, 6, blockYs.minHeight, blockYs.averageHeight + 1, Material.STAINED_CLAY, false);
+		chunk.setCircle(8, 8, 5, blockYs.averageHeight - 1, Material.STAINED_CLAY, true);
 		
-//		chunk.clearBlocks(0, 16, y1 + 1, surfaceY + 6, 0, 16);
-//		chunk.setWalls(1, 15, y2, surfaceY, 1, 15, buildingMaterial);
-//		
-//		chunk.setBlocks(2, 14, surfaceY + 20, surfaceY + 22, 2, 14, Material.GLOWSTONE);
+		// camo the exit
+		chunk.camoClay(1, 15, blockYs.minHeight, blockYs.averageHeight + 1, 1, 15, odds);
 		
 		// place it then
 		generator.structureInAirProvider.generateSaucer(generator, chunk, 8, y1, 8, true);
-		
-//		chunk.setCircle(7, 7, 3, y1 + 5, surfaceY + 6, buildingMaterial, false);
-//		chunk.setCircle(7, 7, 2, y1 + 5, surfaceY + 6, Material.AIR, true);
-//		chunk.setCircle(7, 7, 2, surfaceY + 3, surfaceY + 5, Material.IRON_BLOCK, true);
-//		
-//		// camo the exit
-//		chunk.camoClay(3, 12, surfaceY - 2, surfaceY + 6, 3, 12, odds);
-//		
-//		// do it!
-//		MineEntranceLot.generateStairWell(generator, chunk, odds, 6, 6, y1, minHeight, surfaceY,
-//				Material.QUARTZ_STAIRS, Material.QUARTZ_BLOCK, Material.QUARTZ_BLOCK); // Make the last one air if you want an easy way down
-//		
-//		// roof!
-//		chunk.setBlocks(6, 10, surfaceY + 4, surfaceY + 5, 6, 10, buildingMaterial);
-//		chunk.setBlocks(7, 9, surfaceY + 5, surfaceY + 6, 7, 9, buildingMaterial);
-//		
-//		// bottom doors
-//		chunk.setBlocks(7, 9, y1, y1 + 2, 5, 6, Material.AIR);
-//		chunk.setBlocks(7, 9, y1, y1 + 2, 10, 11, Material.AIR);
-//		chunk.setBlocks(5, 6, y1, y1 + 2, 7, 9, Material.AIR);
-//		chunk.setBlocks(10, 11, y1, y1 + 2, 7, 9, Material.AIR);
-//		
-//		// top doors
-//		chunk.setBlocks(7, 9, surfaceY + 1, surfaceY + 3, 5, 6, railingMaterial);
-//		chunk.setBlocks(7, 9, surfaceY + 1, surfaceY + 3, 10, 11, railingMaterial);
-//		chunk.setBlocks(5, 6, surfaceY + 1, surfaceY + 3, 7, 9, railingMaterial);
-//		chunk.setBlocks(10, 11, surfaceY + 1, surfaceY + 3, 7, 9, railingMaterial);
 		
 		// lift the surface?
 		return 7;
@@ -677,37 +649,13 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setClay(x1, x2, yTop, yTop + 1, z1, z2, coreColor);
 		
 		// fill it in
-		chunk.setBlocks(x1, x2, yBottom + 1, yBottom + ((yTop - yBottom) / 3) * 2, z1, z2, getFillMaterial(odds));
+		chunk.setBlocks(x1, x2, yBottom + 1, yBottom + ((yTop - yBottom) / 3) * 2, z1, z2, 
+				generator.settings.materials.itemsSelectMaterial_BunkerTanks.getRandomMaterial(odds));
 		
 		// lift the surface? NOPE
 		return 0;
 	}
 	
-	private static Material getFillMaterial(Odds odds) {
-		switch (odds.getRandomInt(10)) {
-		case 1:
-			return Material.STATIONARY_LAVA;
-		case 2:
-			return Material.PACKED_ICE;
-		case 3:
-			return Material.SNOW_BLOCK;
-		case 4:
-			return Material.SPONGE;
-		case 5:
-			return Material.REDSTONE_BLOCK;
-		case 6:
-			return Material.COAL_BLOCK;
-		case 7:
-			return Material.HARD_CLAY;
-		case 8:
-			return Material.ENDER_STONE;
-		case 9:
-			return Material.EMERALD_BLOCK;
-		default:
-			return Material.STATIONARY_WATER;
-		}
-	}
-
 	public static int generatePyramidBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk, Odds odds, int y1, int y2) {
 		int x1 = 2;
 		int x2 = x1 + 12;

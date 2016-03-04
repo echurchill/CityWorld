@@ -52,6 +52,7 @@ public class CoverProvider_TheEnd extends CoverProvider_Normal {
 		case POTATO:
 		case MELON:
 		case PUMPKIN:
+		case BEETROOT:
 		case FERN:
 		case DEAD_GRASS:
 		case CACTUS:

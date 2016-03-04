@@ -53,10 +53,7 @@ public class AstralBlackCubesLot extends AstralNatureLot {
 			break;
 		case 1:
 			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 1, y + cubeWidth - 2, z + 1, z + cubeWidth - 1, 
-					chunkOdds.getRandomMaterial(
-							Material.DIRT, Material.STONE, Material.COBBLESTONE, Material.WOOD, 
-							Material.IRON_BLOCK, Material.COAL_BLOCK, Material.DIAMOND_BLOCK,
-							Material.REDSTONE_BLOCK, Material.QUARTZ_BLOCK, Material.MONSTER_EGG));
+					generator.settings.materials.itemsSelectMaterial_AstralCubeOres.getRandomMaterial(chunkOdds, Material.STONE));
 			break;
 		default:
 			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 1, y + 3, z + 1, z + cubeWidth - 1, Material.TNT);

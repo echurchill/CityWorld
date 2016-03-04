@@ -99,6 +99,7 @@ public class CoverProvider_Nether extends CoverProvider_Decayed {
 		case POTATO:
 		case MELON:
 		case PUMPKIN:
+		case BEETROOT:
 		case FERN:
 		case DEAD_GRASS:
 		case CACTUS:

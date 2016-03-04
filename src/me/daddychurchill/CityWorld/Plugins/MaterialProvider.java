@@ -41,6 +41,13 @@ public class MaterialProvider {
 	public MaterialList itemsSelectMaterial_BunkerBuildings;
 	public MaterialList itemsSelectMaterial_BunkerPlatforms;
 	public MaterialList itemsSelectMaterial_BunkerBilge;
+	public MaterialList itemsSelectMaterial_BunkerTanks;
+	public MaterialList itemsSelectMaterial_AstralTowerLight;
+	public MaterialList itemsSelectMaterial_AstralTowerDark;
+	public MaterialList itemsSelectMaterial_AstralTowerOres;
+	public MaterialList itemsSelectMaterial_AstralTowerHalls;
+	public MaterialList itemsSelectMaterial_AstralTowerTrim;
+	public MaterialList itemsSelectMaterial_AstralCubeOres;
 	
 	public MaterialList itemsMaterialListFor_MazeWalls;
 	public MaterialList itemsMaterialListFor_Roads;
@@ -77,13 +84,19 @@ public class MaterialProvider {
 	public final static String tagSelectMaterial_BunkerBuildings = "Materials_For_BunkerBuildings";
 	public final static String tagSelectMaterial_BunkerPlatforms = "Materials_For_BunkerPlatforms";
 	public final static String tagSelectMaterial_BunkerBilge = "Materials_For_BunkerBilge";
+	public final static String tagSelectMaterial_BunkerTanks = "Materials_For_BunkerTanks";
+	public final static String tagSelectMaterial_AstralTowerLight = "Materials_For_AstralTowerLight";
+	public final static String tagSelectMaterial_AstralTowerDark = "Materials_For_AstralTowerDark";
+	public final static String tagSelectMaterial_AstralTowerOres = "Materials_For_AstralTowerOres";
+	public final static String tagSelectMaterial_AstralTowerHalls = "Materials_For_AstralTowerHalls";
+	public final static String tagSelectMaterial_AstralTowerTrim = "Materials_For_AstralTowerTrim";
+	public final static String tagSelectMaterial_AstralCubeOres = "Materials_For_AstralCubeOres";
 
 	public final static String tagMaterialListFor_MazeWalls = "Materials_List_For_MazeWalls";
 	public final static String tagMaterialListFor_Roads = "Materials_List_For_Roads";
 	public final static String tagMaterialListFor_NormalOres = "Materials_List_For_NormalOres";
 	public final static String tagMaterialListFor_NetherOres = "Materials_List_For_NetherOres";
 	public final static String tagMaterialListFor_TheEndOres = "Materials_List_For_TheEndOres";
-	
 	
 	private List<MaterialList> listOfLists;
 	
@@ -541,6 +554,61 @@ public class MaterialProvider {
 				Material.STATIONARY_WATER,
 				Material.ICE,
 				Material.PACKED_ICE);
+
+		itemsSelectMaterial_BunkerTanks = createList(tagSelectMaterial_BunkerTanks,
+				Material.STATIONARY_LAVA,
+				Material.PACKED_ICE,
+				Material.SNOW_BLOCK,
+				Material.SPONGE,
+				Material.REDSTONE_BLOCK,
+				Material.COAL_BLOCK,
+				Material.HARD_CLAY,
+				Material.ENDER_STONE,
+				Material.EMERALD_BLOCK,
+				Material.STATIONARY_WATER);
+
+		itemsSelectMaterial_AstralTowerLight = createList(tagSelectMaterial_AstralTowerLight,
+				Material.ENDER_STONE);
+
+		itemsSelectMaterial_AstralTowerDark = createList(tagSelectMaterial_AstralTowerDark,
+				Material.OBSIDIAN);
+
+		itemsSelectMaterial_AstralTowerOres = createList(tagSelectMaterial_AstralTowerOres,
+				Material.LAVA, 
+				Material.WATER, 
+				Material.MONSTER_EGG,
+				Material.COAL_ORE, 
+				Material.DIAMOND_ORE, 
+				Material.EMERALD_ORE, 
+				Material.GOLD_ORE,
+				Material.IRON_ORE, 
+				Material.LAPIS_ORE, 
+				Material.QUARTZ_ORE, 
+				Material.REDSTONE_ORE);
+
+		itemsSelectMaterial_AstralTowerHalls = createList(tagSelectMaterial_AstralTowerHalls,
+				Material.OBSIDIAN, 
+				Material.STONE, 
+				Material.BRICK, 
+				Material.COBBLESTONE, 
+				Material.SMOOTH_BRICK, 
+				Material.MOSSY_COBBLESTONE);
+
+		itemsSelectMaterial_AstralTowerTrim = createList(tagSelectMaterial_AstralTowerTrim,
+				Material.AIR, 
+				Material.GLOWSTONE);
+
+		itemsSelectMaterial_AstralCubeOres = createList(tagSelectMaterial_AstralCubeOres,
+				Material.DIRT, 
+				Material.STONE, 
+				Material.COBBLESTONE, 
+				Material.WOOD, 
+				Material.IRON_BLOCK, 
+				Material.COAL_BLOCK, 
+				Material.DIAMOND_BLOCK,
+				Material.REDSTONE_BLOCK, 
+				Material.QUARTZ_BLOCK, 
+				Material.MONSTER_EGG);
 
 		itemsMaterialListFor_MazeWalls = createList(tagMaterialListFor_MazeWalls,
 				Material.OBSIDIAN,
