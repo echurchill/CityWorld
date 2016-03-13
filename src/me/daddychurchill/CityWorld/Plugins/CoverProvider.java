@@ -97,8 +97,8 @@ public abstract class CoverProvider extends Provider {
 
 	private final static CoverageType[] EdiblePlants = {
 		CoverageType.WHEAT, CoverageType.CARROTS,
-		CoverageType.POTATO, CoverageType.MELON,
-		CoverageType.PUMPKIN, CoverageType.BEETROOT};
+		CoverageType.POTATO, CoverageType.BEETROOT,
+		CoverageType.MELON, CoverageType.PUMPKIN};
 
 	private final static CoverageType[] GeneralSaplings = {
 		CoverageType.OAK_SAPLING, CoverageType.PINE_SAPLING,

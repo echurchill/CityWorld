@@ -37,7 +37,7 @@ public abstract class AstralStructureTowerLot extends AstralStructureLot {
 		
 		// adjust for lightness
 		if (style == TowerStyle.LIGHT) {
-			wallMaterial = generator.settings.materials.itemsSelectMaterial_AstralTowerDark.getRandomMaterial(chunkOdds, Material.ENDER_STONE);
+			wallMaterial = generator.settings.materials.itemsSelectMaterial_AstralTowerLight.getRandomMaterial(chunkOdds, Material.ENDER_STONE);
 			trimMaterial = generator.settings.materials.itemsSelectMaterial_AstralTowerTrim.getRandomMaterial(chunkOdds, Material.GLOWSTONE);
 			windowPrimaryColor = DyeColor.WHITE;
 			windowSecondaryColor = DyeColor.SILVER;
@@ -139,7 +139,7 @@ public abstract class AstralStructureTowerLot extends AstralStructureLot {
 	
 	private Material getHallMaterial(CityWorldGenerator generator) {
 		if (chunkOdds.playOdds(oddsOfSpecialHall))
-			return generator.settings.materials.itemsSelectMaterial_AstralTowerOres.getRandomMaterial(chunkOdds, specialHallMaterial);
+			return generator.settings.materials.itemsSelectMaterial_AstralTowerHalls.getRandomMaterial(chunkOdds, specialHallMaterial);
 		else
 			return emptyHallMaterial;
 	}

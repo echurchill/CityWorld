@@ -13,11 +13,11 @@ public final class HeightInfo {
 	public int averageHeight = 0;
 
 	public int minHeight = Integer.MAX_VALUE;
-	public int minHeightX = 0;
-	public int minHeightZ = 0;
+//	public int minHeightX = 0;
+//	public int minHeightZ = 0;
 	public int maxHeight = Integer.MIN_VALUE;
-	public int maxHeightX = 0;
-	public int maxHeightZ = 0;
+//	public int maxHeightX = 0;
+//	public int maxHeightZ = 0;
 	public boolean anyEmpties = false;
 	
 	public final static HeightInfo getHeightsFaster(CityWorldGenerator generator, int blockX, int blockZ) {
@@ -132,13 +132,13 @@ public final class HeightInfo {
 		sumHeight += value;
 		if (value < minHeight) {
 			minHeight = value;
-			minHeightX = x;
-			minHeightZ = z;
+//			minHeightX = x;
+//			minHeightZ = z;
 		}
 		if (value > maxHeight) {
 			maxHeight = value;
-			maxHeightX = x;
-			maxHeightZ = z;
+//			maxHeightX = x;
+//			maxHeightZ = z;
 		}
 	}
 }

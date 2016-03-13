@@ -85,13 +85,13 @@ public class UnfinishedBuildingLot extends BuildingLot {
 			
 			// at the first floor add a fence to prevent folks from falling in
 			if (floor == 0)
-				drawFence(generator, chunk, context, 0, generator.streetLevel + 1, neighborBasements);
+				drawFence(generator, chunk, context, 0, generator.streetLevel + 1, floor, neighborBasements);
 			
 			// one floor please
-			drawExteriorParts(generator, chunk, context, floorAt, FloorHeight, 0, 0,
-					false, dirtMaterial, dirtMaterial, neighborBasements);
-			drawExteriorParts(generator, chunk, context, floorAt, FloorHeight, 1, 1,
-					false, wallMaterial, wallMaterial, neighborBasements);
+			drawExteriorParts(generator, chunk, context, floorAt, FloorHeight, 0, 0, floor,
+					CornerStyle.FILLED, false, dirtMaterial, dirtMaterial, neighborBasements);
+			drawExteriorParts(generator, chunk, context, floorAt, FloorHeight, 1, 1, floor,
+					CornerStyle.FILLED, false, wallMaterial, wallMaterial, neighborBasements);
 			
 			// ceilings if needed
 			if (!unfinishedBasementOnly) {

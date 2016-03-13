@@ -17,8 +17,8 @@ public class CachedYs {
 	public int maxHeightZ = 0;
 	public int segmentWidth = 1;
 	
-	protected static int width = AbstractBlocks.sectionBlockWidth;
-	protected double[][] blockYs= new double[width][width];
+	protected final static int width = AbstractBlocks.sectionBlockWidth;
+	protected double[][] blockYs = new double[width][width];
 	
 	public CachedYs(CityWorldGenerator generator, int chunkX, int chunkZ) {
 		
@@ -103,18 +103,18 @@ public class CachedYs {
 		chunk.setBlock(0, averageHeight + 1, 0, Material.COAL_BLOCK);
 	}
 	
-	public void report(CityWorldGenerator generator, String prefix) {
-		generator.reportFormatted("%s minHeight = %s maxHeight = %s averageHeight = %s streetLevel = %s", 
-				prefix, minHeight, maxHeight, averageHeight, generator.streetLevel);
-	}
-	
-	public void reportMatrix(CityWorldGenerator generator, String prefix) {
-		for (int z = 0; z < width; z++) {
-			String line = String.format("%s [%2s] =", prefix, z);
-			for (int x = 0; x < width; x++) {
-				line = line + String.format(" %4s", getBlockY(x, z));
-			}
-			generator.reportMessage(line);
-		}
-	}
+//	public void report(CityWorldGenerator generator, String prefix) {
+//		generator.reportFormatted("%s minHeight = %s maxHeight = %s averageHeight = %s streetLevel = %s", 
+//				prefix, minHeight, maxHeight, averageHeight, generator.streetLevel);
+//	}
+//	
+//	public void reportMatrix(CityWorldGenerator generator, String prefix) {
+//		for (int z = 0; z < width; z++) {
+//			StringBuilder line = new StringBuilder(String.format("%s [%2s] =", prefix, z));
+//			for (int x = 0; x < width; x++) {
+//				line.append(String.format(" %4s", getBlockY(x, z)));
+//			}
+//			generator.reportMessage(line.toString());
+//		}
+//	}
 }

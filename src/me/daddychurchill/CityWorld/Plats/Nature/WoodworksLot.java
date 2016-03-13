@@ -117,8 +117,8 @@ public class WoodworksLot extends ConstructLot {
 		//TODO add decay
 	}
 	
-	protected static int sectionWidth = 5;
-	protected static int floorHeight = 4;
+	protected final static int sectionWidth = 5;
+	protected final static int floorHeight = 4;
 
 	protected void generateSection(RealBlocks chunk, int x, int y, int z) {
 		chunk.setBlocks(x, x + sectionWidth + 1, y, y + 1, z, z + sectionWidth + 1, Material.WOOD_STEP);

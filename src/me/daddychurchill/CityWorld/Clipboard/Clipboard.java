@@ -33,7 +33,7 @@ public abstract class Clipboard {
 //	public Material edgeType = Material.AIR;
 //	public MaterialData edgeData = new MaterialData(edgeType);
 	public Material edgeMaterial;
-	public int edgeData;
+//	public int edgeData; // TODO: one of these days I need to get this working again
 	public int edgeRise;
 	
 	public Clipboard(CityWorldGenerator generator, File file) throws Exception {

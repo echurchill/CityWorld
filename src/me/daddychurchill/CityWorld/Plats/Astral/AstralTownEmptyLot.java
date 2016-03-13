@@ -8,10 +8,10 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class AstralTownEmptyLot extends AstralStructureLot {
 	
-	public static Material materialSupport = Material.COAL_BLOCK;
-	public static Material materialCross = Material.STAINED_CLAY;
-	public static Material materialBase = Material.QUARTZ_BLOCK;
-	public static int aboveSeaLevel = 5;
+	public final static Material materialSupport = Material.COAL_BLOCK;
+	public final static Material materialCross = Material.STAINED_CLAY;
+	public final static Material materialBase = Material.QUARTZ_BLOCK;
+	public final static int aboveSeaLevel = 5;
 
 	public AstralTownEmptyLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);

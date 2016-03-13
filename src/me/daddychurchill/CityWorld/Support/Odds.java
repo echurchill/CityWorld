@@ -35,6 +35,11 @@ public class Odds {
 	public final static double oddsThricedSomewhatUnlikely = 	oddsSomewhatUnlikely * 3; // 60.0%
 	public final static double oddsHalvedPrettyLikely = 		oddsPrettyLikely / 2;     // 40.0%
 	
+	public Odds() {
+		super();
+		random = new Random();
+	}
+	
 	public Odds(long seed) {
 		super();
 		random = new Random(seed);
@@ -129,6 +134,24 @@ public class Odds {
 	
 	public int getRandomWoodType() {
 		return getRandomInt(4);
+	}
+	
+	public Material getRandomWoodenDoorType() {
+		switch (getRandomInt(6)) {
+		case 1:
+			return Material.ACACIA_DOOR;
+		case 2:
+			return Material.BIRCH_DOOR;
+		case 3:
+			return Material.DARK_OAK_DOOR;
+		case 4:
+			return Material.JUNGLE_DOOR;
+		case 5:
+			return Material.SPRUCE_DOOR;
+		case 0:
+		default:
+			return Material.WOODEN_DOOR;
+		}
 	}
 	
 	public int getRandomNetherWartGrowth() {

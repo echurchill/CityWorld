@@ -30,11 +30,14 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	protected int insetCeilingWE;
 	protected int insetCeilingNS;
 	protected boolean insetInsetted;
+	protected boolean insetInverted;
 	protected int insetInsetMidAt;
 	protected int insetInsetHighAt;
 	
 	protected int firstFloorHeight;
 	protected int otherFloorHeight;
+	
+	protected CornerStyle cornerStyle;
 
 	@Override
 	public PlatLot validateLot(PlatMap platmap, int platX, int platZ) {
@@ -49,10 +52,10 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			return new ConcreteLot(platmap, platmap.originX + platX, platmap.originZ + platZ);
 			
 		// if nothing to north/south or west/east then no insets for us
-		} else if ((!neighborFloors.toNorth() && !neighborFloors.toSouth()) ||
-				   (!neighborFloors.toWest() && !neighborFloors.toEast())) {
-
-			// clear insets
+//		} else if ((!neighborFloors.toNorth() && !neighborFloors.toSouth()) ||
+//				   (!neighborFloors.toWest() && !neighborFloors.toEast())) {
+//
+//			// clear insets
 //			insetInsetted = false;
 		}
 		
@@ -113,14 +116,21 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 		
 		// nudge in a bit more as we go up
+		int insetSegment = height / 8;
 		insetInsetMidAt = 1;
 		insetInsetHighAt = 1;
-		insetInsetted = height >= context.buildingWallInsettedMinLowPoint && chunkOdds.playOdds(context.oddsOfBuildingWallInset);
+//		insetInsetted = height >= context.buildingWallInsettedMinLowPoint && chunkOdds.playOdds(context.oddsOfBuildingWallInset);
+		insetInsetted = insetSegment > 1 && chunkOdds.playOdds(context.oddsOfBuildingWallInset);
 		if (insetInsetted) {
-			insetInsetMidAt = Math.max(context.buildingWallInsettedMinMidPoint, 
-					chunkOdds.getRandomInt(context.buildingWallInsettedMinLowPoint));
-			insetInsetHighAt = Math.max(insetInsetMidAt + 1, chunkOdds.getRandomInt(context.buildingWallInsettedMinLowPoint));
+//			insetInsetMidAt = Math.max(context.buildingWallInsettedMinMidPoint, 
+//					chunkOdds.getRandomInt(context.buildingWallInsettedMinLowPoint));
+//			insetInsetHighAt = Math.max(insetInsetMidAt + 1, chunkOdds.getRandomInt(context.buildingWallInsettedMinLowPoint));
+			insetInsetMidAt = chunkOdds.getRandomInt(insetSegment, insetSegment * 3);
+			insetInsetHighAt = chunkOdds.getRandomInt(insetInsetMidAt + 1, insetSegment * 7);
 		}
+		insetInverted = insetInsetted && chunkOdds.playOdds(Odds.oddsLikely);
+
+		cornerStyle = pickCornerStyle();
 	}
 	
 	protected void validateOptions() {
@@ -132,6 +142,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			insetCeilingNS = Math.min(insetCeilingNS, insetWallNS);
 			if (wallMaterial == Material.DOUBLE_STEP)
 				glassMaterial = Material.GLASS;
+			cornerStyle = CornerStyle.FILLED;
 		}
 	}
 
@@ -152,6 +163,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			insetInsetted = relativebuilding.insetInsetted;
 			insetInsetMidAt = relativebuilding.insetInsetMidAt;
 			insetInsetHighAt = relativebuilding.insetInsetHighAt;
+			insetInverted = relativebuilding.insetInverted;
 			
 			// what is it made of?
 			wallMaterial = relativebuilding.wallMaterial;
@@ -163,6 +175,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			stairPlatformMaterial = relativebuilding.stairPlatformMaterial;
 			doorMaterial = relativebuilding.doorMaterial;
 			roofMaterial = relativebuilding.roofMaterial;
+			cornerStyle = relativebuilding.cornerStyle;
 		}
 		return result;
 	}
@@ -209,8 +222,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				chunk.setLayer(floorAt, basementFloorHeight, getAirMaterial(generator, floorAt));
 	
 				// one floor please
-				drawExteriorParts(generator, chunk, context, floorAt, basementFloorHeight - 1, 0, 0,
-						false, wallMaterial, wallMaterial, neighborBasements);
+				drawExteriorParts(generator, chunk, context, floorAt, basementFloorHeight - 1, 0, 0, floor,
+						CornerStyle.FILLED, false, wallMaterial, wallMaterial, neighborBasements);
 				drawCeilings(generator, chunk, context, floorAt + basementFloorHeight - 1, 1, 0, 0,
 						false, ceilingMaterial, neighborBasements);
 				
@@ -226,6 +239,20 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		int localInsetWallNS = insetWallNS;
 		int localInsetCeilingWE = insetCeilingWE;
 		int localInsetCeilingNS = insetCeilingNS;
+		
+		// inverted inset?
+		if (insetInverted) {
+			int inset = 0;
+			if (insetInsetMidAt > 1)
+				inset++;
+			if (insetInsetHighAt > 1)
+				inset++;
+			
+			localInsetWallWE += inset;
+			localInsetWallNS += inset;
+			localInsetCeilingWE += inset;
+			localInsetCeilingNS += inset;
+		}
 
 		// above ground
 		aboveFloorHeight = firstFloorHeight;
@@ -236,25 +263,31 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			// breath in?
 			if (insetInsetted) {
 				if (floor == insetInsetMidAt || floor == insetInsetHighAt) {
-					localInsetWallWE++;
-					localInsetWallNS++;
-					localInsetCeilingWE++;
-					localInsetCeilingNS++;
+					if (insetInverted) {
+						localInsetWallWE--;
+						localInsetWallNS--;
+						localInsetCeilingWE--;
+						localInsetCeilingNS--;
+					} else {
+						localInsetWallWE++;
+						localInsetWallNS++;
+						localInsetCeilingWE++;
+						localInsetCeilingNS++;
+					}
 				}
 			}
 			
 			// one floor please
-			drawExteriorParts(generator, chunk, context, floorAt, 
-					aboveFloorHeight - 1, localInsetWallNS,  
-					localInsetWallWE, allowRounded, wallMaterial, 
-					glassMaterial, neighborFloors);
+			drawExteriorParts(generator, chunk, context, floorAt, aboveFloorHeight - 1, localInsetWallNS, localInsetWallWE, floor, 
+					cornerStyle, allowRounded, wallMaterial, glassMaterial, neighborFloors);
 			drawCeilings(generator, chunk, context, floorAt + aboveFloorHeight - 1, 
 					1, localInsetCeilingNS, 
 					localInsetCeilingWE, allowRounded, ceilingMaterial, neighborFloors);
 			
 			// final floor is done... how about a roof then?
 			if (floor == height - 1)
-				drawRoof(generator, chunk, context, generator.streetLevel + aboveFloorHeight * (floor + 1) + 2, localInsetWallNS, localInsetWallWE, allowRounded, roofMaterial, neighborFloors);
+				drawRoof(generator, chunk, context, generator.streetLevel + aboveFloorHeight * (floor + 1) + 2, localInsetWallNS, localInsetWallWE, floor, 
+						allowRounded, roofMaterial, neighborFloors);
 
 			// one down, more to go
 			neighborFloors.decrement();
@@ -318,6 +351,18 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		int localInsetWallWE = insetWallWE;
 		int localInsetWallNS = insetWallNS;
 
+		// inverted inset?
+		if (insetInverted) {
+			int inset = 0;
+			if (insetInsetMidAt > 1)
+				inset++;
+			if (insetInsetHighAt > 1)
+				inset++;
+			
+			localInsetWallWE += inset;
+			localInsetWallNS += inset;
+		}
+
 		// now the above ground floors
 		aboveFloorHeight = firstFloorHeight;
 		for (int floor = 0; floor < height; floor++) {
@@ -330,8 +375,13 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			// breath in?
 			if (insetInsetted) {
 				if (floor == insetInsetMidAt || floor == insetInsetHighAt) {
-					localInsetWallWE++;
-					localInsetWallNS++;
+					if (insetInverted) {
+						localInsetWallWE--;
+						localInsetWallNS--;
+					} else {
+						localInsetWallWE++;
+						localInsetWallNS++;
+					}
 				}
 			}
 			

@@ -12,9 +12,11 @@
 == Versions
 
 v3.002
+* Now supports Minecraft/Spigot 1.9 (or I think it does)
 * Added an option to turn off things like Hot Air Balloons for folks who don't like fun things in the air ;-)
 * Add material lists for bunkers and water towers generation
-* Reduced the likelihood of Museums
+* Reduced the likelihood of Museums, sorry about that
+* Farms now can grow BeetRoots, Yumm!
 
 v3.001
 * Finally got the fossils generating... and Museums :-)

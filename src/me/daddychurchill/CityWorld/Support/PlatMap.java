@@ -177,7 +177,7 @@ public class PlatMap {
 
 		// if it is not natural, make it so
 		PlatLot current = platLots[x][z];
-		if (current != null && current.getChunkX() == 21 && current.getChunkZ() == -22) {
+//		if (current != null && current.getChunkX() == 21 && current.getChunkZ() == -22) {
 //			generator.reportMessage("#####>>>>> recycling it");
 //			generator.reportMessage(".....>>>>> from = " + current.toString());
 //			try {
@@ -192,7 +192,7 @@ public class PlatMap {
 //			} catch (Exception e) {
 //				e.printStackTrace();
 //			}
-		}
+//		}
 
 		// put nature there
 		if (current == null || current.style != LotStyle.NATURE) {

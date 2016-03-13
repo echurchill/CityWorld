@@ -60,6 +60,7 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 			stepMaterial = Material.QUARTZ_STAIRS;
 			break;
 		default:
+			break;
 		}
 	}
 	

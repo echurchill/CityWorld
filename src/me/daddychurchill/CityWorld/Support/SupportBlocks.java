@@ -747,7 +747,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		setBlock(x, y + 1, z, tableTop);
 	}
 	
-	private void setDoor(int x, int y, int z, Material material, BadMagic.Door direction) {
+	public void setDoor(int x, int y, int z, Material material, BadMagic.Door direction) {
 		byte orentation = 0;
 		byte hinge = 0;
 		
@@ -795,7 +795,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	public final void setWoodenDoor(int x, int y, int z, BadMagic.Door direction) {
 		setDoor(x, y, z, Material.WOODEN_DOOR, direction);
 	}
-
+	
 	public final void setIronDoor(int x, int y, int z, BadMagic.Door direction) {
 		setDoor(x, y, z, Material.IRON_DOOR_BLOCK, direction);
 	}

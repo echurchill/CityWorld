@@ -32,7 +32,7 @@ public class BunkerLot extends ConnectedLot {
 	private final static int bunkerMinHeight = bunkerSegment * 2;
 	private final static int bunkerMaxHeight = bunkerSegment * 6;
 
-	protected boolean firstOne = false;
+//	private boolean firstOne = false;
 	protected int bottomOfBunker;
 	protected int topOfBunker;
 	
@@ -44,7 +44,7 @@ public class BunkerLot extends ConnectedLot {
 	public BunkerLot(PlatMap platmap, int chunkX, int chunkZ, boolean firstOne) {
 		super(platmap, chunkX, chunkZ);
 		
-		this.firstOne = firstOne;
+//		this.firstOne = firstOne;
 		
 		// been here?
 		bottomOfBunker = calcSegmentOrigin(platmap.generator.streetLevel) - bunkerBelowStreet;
@@ -163,30 +163,39 @@ public class BunkerLot extends ConnectedLot {
 		generateSurface(generator, chunk, true);
 	}
 	
-	public static boolean materialsDefined = false;
-	public static Material supportMaterial = Material.QUARTZ_BLOCK;
-	public static Material platformMaterial = Material.QUARTZ_BLOCK;
-	public static Material crosswalkMaterial = Material.QUARTZ_BLOCK;
-	public static Material railingMaterial = Material.IRON_FENCE;
-	public static Material buildingMaterial = Material.STAINED_CLAY;
-	public static Material windowMaterial = Material.GLASS;
-	public static Material bilgeMaterial = Material.AIR;
+	private static class BunkerMaterials {
+		public Material support = Material.QUARTZ_BLOCK;
+		public Material platform = Material.QUARTZ_BLOCK;
+		public Material crosswalk = Material.QUARTZ_BLOCK;
+		public Material building = Material.STAINED_CLAY;
+		public Material bilge = Material.AIR;
+		
+		public Material railing = Material.IRON_FENCE;
+		public Material window = Material.GLASS;
+		
+		public BunkerMaterials(CityWorldGenerator generator, Odds odds) {
+			platform = generator.settings.materials.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds, platform);
+			crosswalk = generator.settings.materials.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds, crosswalk);
+			support = generator.settings.materials.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds, support);
+			building = generator.settings.materials.itemsSelectMaterial_BunkerBuildings.getRandomMaterial(odds, building);
+			bilge = generator.settings.materials.itemsSelectMaterial_BunkerBilge.getRandomMaterial(odds, bilge);
+		}
+	}
+	
+	private static BunkerMaterials materials;
+	
+	private static void loadMaterials(CityWorldGenerator generator, Odds odds) {
+		// make sure we know what we are making
+		if (materials == null)
+			materials = new BunkerMaterials(generator, odds);
+	}
 	
 	protected static int generateBunker(CityWorldGenerator generator, PlatMap platmap, SupportBlocks chunk, Odds odds, 
 			DataContext context, int platX, int platZ, CachedYs blockYs,
 			int bottomOfBunker, int topOfBunker, BunkerType buildingType) {
 		
-		// make sure we know what we are making
-		if (!materialsDefined) {
-			
-			platformMaterial = generator.settings.materials.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds, platformMaterial);
-			crosswalkMaterial = generator.settings.materials.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds, crosswalkMaterial);
-			supportMaterial = generator.settings.materials.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds, supportMaterial);
-			buildingMaterial = generator.settings.materials.itemsSelectMaterial_BunkerBuildings.getRandomMaterial(odds, buildingMaterial);
-			bilgeMaterial = generator.settings.materials.itemsSelectMaterial_BunkerBilge.getRandomMaterial(odds, bilgeMaterial);
-			
-			materialsDefined = true;
-		}
+		// make sure we know what we using to make things
+		loadMaterials(generator, odds);
 		
 		// precalculate
 		int yBottom = bottomOfBunker;//calcSegmentOrigin(generator.sidewalkLevel) - bunkerBelowStreet;
@@ -199,11 +208,11 @@ public class BunkerLot extends ConnectedLot {
 		int yPlatformTop = Math.min(Math.max(yPlatform + bunkerSegment * 2, odds.getRandomInt(yRange) + yRange * 2), yTop1);
 		
 		// bottom
-		chunk.setLayer(yBottom, supportMaterial);
+		chunk.setLayer(yBottom, materials.support);
 		
 		// clear out stuff?
-		if (bilgeMaterial != Material.AIR)
-			chunk.setLayer(yBottom + 1, bilgeMaterial);
+		if (materials.bilge != Material.AIR)
+			chunk.setLayer(yBottom + 1, materials.bilge);
 		
 		// hold up buildings
 		generateSupport(chunk, odds, context, 3, yBottom + 1, 3);
@@ -212,59 +221,59 @@ public class BunkerLot extends ConnectedLot {
 		generateSupport(chunk, odds, context, 10, yBottom + 1, 10);
 		
 		// vertical beams
-		BlackMagic.setBlocks(chunk, 0, 2, yBottom + 1, yTop3, 0, 1, supportMaterial, 2);
-		BlackMagic.setBlocks(chunk, 0, yBottom + 1, yTop3, 1, supportMaterial, 2);
-		BlackMagic.setBlocks(chunk, 0, 2, yBottom + 1, yTop3, 15, 16, supportMaterial, 2);
-		BlackMagic.setBlocks(chunk, 0, yBottom + 1, yTop3, 14, supportMaterial, 2);
-		BlackMagic.setBlocks(chunk, 14, 16, yBottom + 1, yTop3, 0, 1, supportMaterial, 2);
-		BlackMagic.setBlocks(chunk, 15, yBottom + 1, yTop3, 1, supportMaterial, 2);
-		BlackMagic.setBlocks(chunk, 14, 16, yBottom + 1, yTop3, 15, 16, supportMaterial, 2);
-		BlackMagic.setBlocks(chunk, 15, yBottom + 1, yTop3, 14, supportMaterial, 2);
+		BlackMagic.setBlocks(chunk, 0, 2, yBottom + 1, yTop3, 0, 1, materials.support, 2);
+		BlackMagic.setBlocks(chunk, 0, yBottom + 1, yTop3, 1, materials.support, 2);
+		BlackMagic.setBlocks(chunk, 0, 2, yBottom + 1, yTop3, 15, 16, materials.support, 2);
+		BlackMagic.setBlocks(chunk, 0, yBottom + 1, yTop3, 14, materials.support, 2);
+		BlackMagic.setBlocks(chunk, 14, 16, yBottom + 1, yTop3, 0, 1, materials.support, 2);
+		BlackMagic.setBlocks(chunk, 15, yBottom + 1, yTop3, 1, materials.support, 2);
+		BlackMagic.setBlocks(chunk, 14, 16, yBottom + 1, yTop3, 15, 16, materials.support, 2);
+		BlackMagic.setBlocks(chunk, 15, yBottom + 1, yTop3, 14, materials.support, 2);
 		
 		// near top cross beams
-		chunk.setBlocks(0, 16, yTop1, yTop2, 0, 2, supportMaterial);
-		chunk.setBlocks(0, 16, yTop1, yTop2, 14, 16, supportMaterial);
-		chunk.setBlocks(0, 2, yTop1, yTop2, 2, 14, supportMaterial);
-		chunk.setBlocks(14, 16, yTop1, yTop2, 2, 14, supportMaterial);
+		chunk.setBlocks(0, 16, yTop1, yTop2, 0, 2, materials.support);
+		chunk.setBlocks(0, 16, yTop1, yTop2, 14, 16, materials.support);
+		chunk.setBlocks(0, 2, yTop1, yTop2, 2, 14, materials.support);
+		chunk.setBlocks(14, 16, yTop1, yTop2, 2, 14, materials.support);
 		
 		// top cross beams
-		chunk.setBlocks(0, 16, yTop3, yTop4, 0, 2, supportMaterial);
-		chunk.setBlocks(0, 16, yTop3, yTop4, 14, 16, supportMaterial);
-		chunk.setBlocks(0, 2, yTop3, yTop4, 2, 14, supportMaterial);
-		chunk.setBlocks(14, 16, yTop3, yTop4, 2, 14, supportMaterial);
+		chunk.setBlocks(0, 16, yTop3, yTop4, 0, 2, materials.support);
+		chunk.setBlocks(0, 16, yTop3, yTop4, 14, 16, materials.support);
+		chunk.setBlocks(0, 2, yTop3, yTop4, 2, 14, materials.support);
+		chunk.setBlocks(14, 16, yTop3, yTop4, 2, 14, materials.support);
 		
 //		// clear out space between the top cross beams
 //		chunk.setBlocks(2, 14, yTop3, yTop4, 2, 14, airId);
 		
 		// draw platform
-		BlackMagic.setBlocks(chunk, 2, 14, yPlatform, 2, 14, platformMaterial, 1);
+		BlackMagic.setBlocks(chunk, 2, 14, yPlatform, 2, 14, materials.platform, 1);
 		
 		// draw crosswalks
-		chunk.setBlocks(7, 9, yPlatform, 0, 2, crosswalkMaterial);
-		chunk.setBlocks(0, 2, yPlatform, 7, 9, crosswalkMaterial);
-		chunk.setBlocks(7, 9, yPlatform, 14, 16, crosswalkMaterial);
-		chunk.setBlocks(14, 16, yPlatform, 7, 9, crosswalkMaterial);
+		chunk.setBlocks(7, 9, yPlatform, 0, 2, materials.crosswalk);
+		chunk.setBlocks(0, 2, yPlatform, 7, 9, materials.crosswalk);
+		chunk.setBlocks(7, 9, yPlatform, 14, 16, materials.crosswalk);
+		chunk.setBlocks(14, 16, yPlatform, 7, 9, materials.crosswalk);
 		
 		// draw railing
-		chunk.setBlocks(2, 7, yPlatform + 1, 2, 3, railingMaterial);
-		chunk.setBlocks(9, 14, yPlatform + 1, 2, 3, railingMaterial);
-		chunk.setBlocks(2, 7, yPlatform + 1, 13, 14, railingMaterial);
-		chunk.setBlocks(9, 14, yPlatform + 1, 13, 14, railingMaterial);
+		chunk.setBlocks(2, 7, yPlatform + 1, 2, 3, materials.railing);
+		chunk.setBlocks(9, 14, yPlatform + 1, 2, 3, materials.railing);
+		chunk.setBlocks(2, 7, yPlatform + 1, 13, 14, materials.railing);
+		chunk.setBlocks(9, 14, yPlatform + 1, 13, 14, materials.railing);
 		
-		chunk.setBlocks(2, 3, yPlatform + 1, 3, 7, railingMaterial);
-		chunk.setBlocks(13, 14, yPlatform + 1, 3, 7, railingMaterial);
-		chunk.setBlocks(2, 3, yPlatform + 1, 9, 13, railingMaterial);
-		chunk.setBlocks(13, 14, yPlatform + 1, 9, 13, railingMaterial);
+		chunk.setBlocks(2, 3, yPlatform + 1, 3, 7, materials.railing);
+		chunk.setBlocks(13, 14, yPlatform + 1, 3, 7, materials.railing);
+		chunk.setBlocks(2, 3, yPlatform + 1, 9, 13, materials.railing);
+		chunk.setBlocks(13, 14, yPlatform + 1, 9, 13, materials.railing);
 		
-		chunk.setBlocks(6, 7, yPlatform, yPlatform + 2, 0, 2, railingMaterial);
-		chunk.setBlocks(9, 10, yPlatform, yPlatform + 2, 0, 2, railingMaterial);
-		chunk.setBlocks(6, 7, yPlatform, yPlatform + 2, 14, 16, railingMaterial);
-		chunk.setBlocks(9, 10, yPlatform, yPlatform + 2, 14, 16, railingMaterial);
+		chunk.setBlocks(6, 7, yPlatform, yPlatform + 2, 0, 2, materials.railing);
+		chunk.setBlocks(9, 10, yPlatform, yPlatform + 2, 0, 2, materials.railing);
+		chunk.setBlocks(6, 7, yPlatform, yPlatform + 2, 14, 16, materials.railing);
+		chunk.setBlocks(9, 10, yPlatform, yPlatform + 2, 14, 16, materials.railing);
 		
-		chunk.setBlocks(0, 2, yPlatform, yPlatform + 2, 6, 7, railingMaterial);
-		chunk.setBlocks(0, 2, yPlatform, yPlatform + 2, 9, 10, railingMaterial);
-		chunk.setBlocks(14, 16, yPlatform, yPlatform + 2, 6, 7, railingMaterial);
-		chunk.setBlocks(14, 16, yPlatform, yPlatform + 2, 9, 10, railingMaterial);
+		chunk.setBlocks(0, 2, yPlatform, yPlatform + 2, 6, 7, materials.railing);
+		chunk.setBlocks(0, 2, yPlatform, yPlatform + 2, 9, 10, materials.railing);
+		chunk.setBlocks(14, 16, yPlatform, yPlatform + 2, 6, 7, materials.railing);
+		chunk.setBlocks(14, 16, yPlatform, yPlatform + 2, 9, 10, materials.railing);
 		
 		// build a bunker
 		switch (buildingType) {
@@ -296,8 +305,11 @@ public class BunkerLot extends ConnectedLot {
 			int y1, int y2, int topOfBunker, CachedYs blockYs) {
 		int surfaceY = blockYs.averageHeight;
 		
+		// make sure we know what we using to make things
+		loadMaterials(generator, odds);
+		
 		// walls
-		chunk.setBlocks(5, 11, y1, surfaceY + 4, 5, 11, buildingMaterial);
+		chunk.setBlocks(5, 11, y1, surfaceY + 4, 5, 11, materials.building);
 		
 		// do it!
 		MineEntranceLot.generateStairWell(generator, chunk, odds, 6, 6, y1, 
@@ -305,8 +317,8 @@ public class BunkerLot extends ConnectedLot {
 				Material.QUARTZ_STAIRS, Material.QUARTZ_BLOCK, Material.QUARTZ_BLOCK); // Make the last one air if you want an easy way down
 		
 		// roof!
-		chunk.setBlocks(6, 10, surfaceY + 4, surfaceY + 5, 6, 10, buildingMaterial);
-		chunk.setBlocks(7, 9, surfaceY + 5, surfaceY + 6, 7, 9, buildingMaterial);
+		chunk.setBlocks(6, 10, surfaceY + 4, surfaceY + 5, 6, 10, materials.building);
+		chunk.setBlocks(7, 9, surfaceY + 5, surfaceY + 6, 7, 9, materials.building);
 		
 		// camo
 		chunk.camoClay(5, 11, surfaceY - 2, surfaceY + 6, 5, 11, odds);
@@ -318,21 +330,21 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setBlocks(10, 11, y1, y1 + 2, 7, 9, Material.AIR);
 		
 		// top doors
-		chunk.setBlocks(7, 9, surfaceY + 1, surfaceY + 3, 5, 6, railingMaterial);
-		chunk.setBlocks(7, 9, surfaceY + 1, surfaceY + 3, 10, 11, railingMaterial);
-		chunk.setBlocks(5, 6, surfaceY + 1, surfaceY + 3, 7, 9, railingMaterial);
-		chunk.setBlocks(10, 11, surfaceY + 1, surfaceY + 3, 7, 9, railingMaterial);
+		chunk.setBlocks(7, 9, surfaceY + 1, surfaceY + 3, 5, 6, materials.railing);
+		chunk.setBlocks(7, 9, surfaceY + 1, surfaceY + 3, 10, 11, materials.railing);
+		chunk.setBlocks(5, 6, surfaceY + 1, surfaceY + 3, 7, 9, materials.railing);
+		chunk.setBlocks(10, 11, surfaceY + 1, surfaceY + 3, 7, 9, materials.railing);
 		
 		// put in some windows
 		for (int y = y1 + 3; y < topOfBunker - 3; y = y + 3) {
 			if (odds.flipCoin())
-				chunk.setBlocks(7, 8 + odds.getRandomInt(2), y, y + 2, 5, 6, windowMaterial);
+				chunk.setBlocks(7, 8 + odds.getRandomInt(2), y, y + 2, 5, 6, materials.window);
 			if (odds.flipCoin())
-				chunk.setBlocks(8 - odds.getRandomInt(2), 9, y, y + 2, 10, 11, windowMaterial);
+				chunk.setBlocks(8 - odds.getRandomInt(2), 9, y, y + 2, 10, 11, materials.window);
 			if (odds.flipCoin())
-				chunk.setBlocks(5, 6, y, y + 2, 7, 8 + odds.getRandomInt(2), windowMaterial);
+				chunk.setBlocks(5, 6, y, y + 2, 7, 8 + odds.getRandomInt(2), materials.window);
 			if (odds.flipCoin())
-				chunk.setBlocks(10, 11, y, y + 2, 8 - odds.getRandomInt(2), 9, windowMaterial);
+				chunk.setBlocks(10, 11, y, y + 2, 8 - odds.getRandomInt(2), 9, materials.window);
 		}
 		
 		// lift the surface?
@@ -342,9 +354,12 @@ public class BunkerLot extends ConnectedLot {
 	public static int generateSaucerBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk, Odds odds, 
 			int y1, int y2, int topOfBunker, CachedYs blockYs) {
 		
+		// make sure we know what we using to make things
+		loadMaterials(generator, odds);
+		
 		// walls
 		chunk.setCircle(8, 8, 5, topOfBunker, blockYs.maxHeight + 1, Material.AIR, true);
-		chunk.setCircle(8, 8, 6, topOfBunker, blockYs.minHeight + 1, buildingMaterial, false);
+		chunk.setCircle(8, 8, 6, topOfBunker, blockYs.minHeight + 1, materials.building, false);
 		chunk.setCircle(8, 8, 6, blockYs.minHeight, blockYs.averageHeight + 1, Material.STAINED_CLAY, false);
 		chunk.setCircle(8, 8, 5, blockYs.averageHeight - 1, Material.STAINED_CLAY, true);
 		
@@ -359,6 +374,9 @@ public class BunkerLot extends ConnectedLot {
 	}
 	
 	public static int generateGrowingBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk, Odds odds, int y1, int y2) {
+		// make sure we know what we using to make things
+		loadMaterials(generator, odds);
+		
 		int x1 = 4;
 		int x2 = x1 + 8;
 		int y = y1;
@@ -398,6 +416,9 @@ public class BunkerLot extends ConnectedLot {
 	}
 
 	public static int generateFlooredBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk, Odds odds, int y1, int y2) {
+		// make sure we know what we using to make things
+		loadMaterials(generator, odds);
+		
 		int x1 = 4;
 		int x2 = x1 + 8;
 		int z1 = 4;
@@ -415,10 +436,10 @@ public class BunkerLot extends ConnectedLot {
 			chunk.setClayWalls(x1, x2, y, y + FloorHeight - 1, z1, z2, coreColor);
 			
 			// windows in the wall
-			chunk.setBlocks(x1 + 2, x2 - 2, y + 1, y + 2, z1, z1 + 1, windowMaterial);
-			chunk.setBlocks(x1 + 2, x2 - 2, y + 1, y + 2, z2 - 1, z2, windowMaterial);
-			chunk.setBlocks(x1, x1 + 1, y + 1, y + 2, z1 + 2, z2 - 2, windowMaterial);
-			chunk.setBlocks(x2 - 1, x2, y + 1, y + 2, z1 + 2, z2 - 2, windowMaterial);
+			chunk.setBlocks(x1 + 2, x2 - 2, y + 1, y + 2, z1, z1 + 1, materials.window);
+			chunk.setBlocks(x1 + 2, x2 - 2, y + 1, y + 2, z2 - 1, z2, materials.window);
+			chunk.setBlocks(x1, x1 + 1, y + 1, y + 2, z1 + 2, z2 - 2, materials.window);
+			chunk.setBlocks(x2 - 1, x2, y + 1, y + 2, z1 + 2, z2 - 2, materials.window);
 			
 			// doors
 			if (firstFloor) {
@@ -438,6 +459,9 @@ public class BunkerLot extends ConnectedLot {
 	}
 
 	public static int generateRecallBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk, Odds odds, int y1, int y2) {
+		// make sure we know what we using to make things
+		loadMaterials(generator, odds);
+		
 		int buildingWidth = 10;
 		int x1 = (chunk.width - buildingWidth) / 2;
 		int x2 = x1 + buildingWidth;
@@ -493,6 +517,9 @@ public class BunkerLot extends ConnectedLot {
 	}
 
 	public static int generateBallsyBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk, Odds odds, int y1, int y2) {
+		// make sure we know what we using to make things
+		loadMaterials(generator, odds);
+		
 		int x1 = 2;
 		int x2 = x1 + 12;
 		int z1 = 2;
@@ -521,7 +548,7 @@ public class BunkerLot extends ConnectedLot {
 		return 0;
 	}
 	
-	public static void generateBallsyBuildingBall(SupportBlocks chunk, Odds odds, int x, int y, int z) {
+	private static void generateBallsyBuildingBall(SupportBlocks chunk, Odds odds, int x, int y, int z) {
 		if (odds.flipCoin()) {
 			
 			DyeColor ballColor = odds.getRandomColor();
@@ -538,6 +565,9 @@ public class BunkerLot extends ConnectedLot {
 	}
 
 	public static int generateQuadBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk, Odds odds, int y1, int y2) {
+		// make sure we know what we using to make things
+		loadMaterials(generator, odds);
+		
 		int x1 = 2;
 		int x2 = x1 + 12;
 		int z1 = 2;
@@ -575,7 +605,7 @@ public class BunkerLot extends ConnectedLot {
 		return 0;
 	}
 	
-	public static void generateQuadTowers(SupportBlocks chunk, Odds odds, int x1, int x2, int y1, int y2, int z1, int z2, 
+	private static void generateQuadTowers(SupportBlocks chunk, Odds odds, int x1, int x2, int y1, int y2, int z1, int z2, 
 			DyeColor coreColor, DyeColor detailColor) {
 		chunk.setClay(x1 + 2, x2 - 2, y1, y1 + 1, z1 + 2, z2 - 2, detailColor);
 		chunk.setClay(x1 + 1, x2 - 1, y1 + 1, y1 + 2, z1 + 1, z2 - 1, detailColor);
@@ -614,6 +644,9 @@ public class BunkerLot extends ConnectedLot {
 	}
 	
 	public static int generateTankBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk, Odds odds, int y1, int y2) {
+		// make sure we know what we using to make things
+		loadMaterials(generator, odds);
+		
 		int x1 = 4;
 		int x2 = x1 + 8;
 		int z1 = 4;
@@ -640,10 +673,10 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setClay(x2    , x2 + 1, yBottom + 1, yTop, z1, z2, coreColor);
 		
 		// make it so we can see in a bit
-		chunk.setBlocks(x1 + 3, x2 - 3, yBottom + 1, yTop, z1 - 1, z1, windowMaterial);
-		chunk.setBlocks(x1 + 3, x2 - 3, yBottom + 1, yTop, z2    , z2 + 1, windowMaterial);
-		chunk.setBlocks(x1 - 1, x1, yBottom + 1, yTop, z1 + 3, z2 - 3, windowMaterial);
-		chunk.setBlocks(x2    , x2 + 1, yBottom + 1, yTop, z1 + 3, z2 - 3, windowMaterial);
+		chunk.setBlocks(x1 + 3, x2 - 3, yBottom + 1, yTop, z1 - 1, z1, materials.window);
+		chunk.setBlocks(x1 + 3, x2 - 3, yBottom + 1, yTop, z2    , z2 + 1, materials.window);
+		chunk.setBlocks(x1 - 1, x1, yBottom + 1, yTop, z1 + 3, z2 - 3, materials.window);
+		chunk.setBlocks(x2    , x2 + 1, yBottom + 1, yTop, z1 + 3, z2 - 3, materials.window);
 		
 		// put a top on it
 		chunk.setClay(x1, x2, yTop, yTop + 1, z1, z2, coreColor);
@@ -657,6 +690,9 @@ public class BunkerLot extends ConnectedLot {
 	}
 	
 	public static int generatePyramidBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk, Odds odds, int y1, int y2) {
+		// make sure we know what we using to make things
+		loadMaterials(generator, odds);
+		
 		int x1 = 2;
 		int x2 = x1 + 12;
 		int z1 = 2;
@@ -696,21 +732,24 @@ public class BunkerLot extends ConnectedLot {
 	private static double oddsOfWayDownFromTunnel = Odds.oddsVeryLikely;
 	
 	public static int generateRoadTunnel(CityWorldGenerator generator, DataContext context, SupportBlocks chunk, Odds odds, int y1, int y2) {
+		// make sure we know what we using to make things
+		loadMaterials(generator, odds);
+		
 		int underStreetY = generator.streetLevel - 3;
 		int streetY = generator.streetLevel;
 		
 		// cross supports
-		chunk.setBlocks(0, 16, underStreetY + 1, underStreetY + 2, 0, 2, BunkerLot.supportMaterial);
-		chunk.setBlocks(0, 16, underStreetY + 1, underStreetY + 2, 14, 16, BunkerLot.supportMaterial);
-		chunk.setBlocks(0, 2, underStreetY + 1, underStreetY + 2, 2, 14, BunkerLot.supportMaterial);
-		chunk.setBlocks(14, 16, underStreetY + 1, underStreetY + 2, 2, 14, BunkerLot.supportMaterial);
-		chunk.setBlocks(0, 16, underStreetY, underStreetY + 1, 0, 1, BunkerLot.supportMaterial);
-		chunk.setBlocks(0, 16, underStreetY, underStreetY + 1, 15, 16, BunkerLot.supportMaterial);
-		chunk.setBlocks(0, 1, underStreetY, underStreetY + 1, 2, 14, BunkerLot.supportMaterial);
-		chunk.setBlocks(15, 16, underStreetY, underStreetY + 1, 2, 14, BunkerLot.supportMaterial);
+		chunk.setBlocks(0, 16, underStreetY + 1, underStreetY + 2, 0, 2, materials.support);
+		chunk.setBlocks(0, 16, underStreetY + 1, underStreetY + 2, 14, 16, materials.support);
+		chunk.setBlocks(0, 2, underStreetY + 1, underStreetY + 2, 2, 14, materials.support);
+		chunk.setBlocks(14, 16, underStreetY + 1, underStreetY + 2, 2, 14, materials.support);
+		chunk.setBlocks(0, 16, underStreetY, underStreetY + 1, 0, 1, materials.support);
+		chunk.setBlocks(0, 16, underStreetY, underStreetY + 1, 15, 16, materials.support);
+		chunk.setBlocks(0, 1, underStreetY, underStreetY + 1, 2, 14, materials.support);
+		chunk.setBlocks(15, 16, underStreetY, underStreetY + 1, 2, 14, materials.support);
 		
 		// center support
-		BlackMagic.setBlocks(chunk, 7, 9, y1, underStreetY + 2, 7, 9, supportMaterial, 2);
+		BlackMagic.setBlocks(chunk, 7, 9, y1, underStreetY + 2, 7, 9, materials.support, 2);
 		
 		//BUKKIT: simply changing the type of these blocks won't reset the metadata associated with the existing blocks, resulting in cracked bricks
 		// fix up the tunnel walls

@@ -32,14 +32,14 @@ public abstract class OdonymProvider extends Provider {
 	private final static double oddsOfDecay = Odds.oddsExtremelyLikely;
 	
 	public String decayLine(Odds odds, String line) {
-		String result = "";
+		StringBuffer result = new StringBuffer();
 		for (int i = 0; i < line.length(); i++) {
 			if (odds.playOdds(oddsOfDecay))
-				result = result + line.charAt(i);
+				result.append(line.charAt(i));
 			else
-				result = result + ' ';
+				result.append(' ');
 		}
-		return result;
+		return result.toString();
 	}
 	
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)

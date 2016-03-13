@@ -16,6 +16,7 @@ public class OreProvider_Normal extends OreProvider {
 		ore_types.add(generator.settings.materials.itemsMaterialListFor_NormalOres.getNthMaterial(2, Material.GRAVEL));
 		ore_types.add(generator.settings.materials.itemsMaterialListFor_NormalOres.getNthMaterial(3, Material.COAL_ORE));
 		ore_types.add(generator.settings.materials.itemsMaterialListFor_NormalOres.getNthMaterial(4, Material.IRON_ORE));
+		
 		ore_types.add(generator.settings.materials.itemsMaterialListFor_NormalOres.getNthMaterial(5, Material.GOLD_ORE));
 		ore_types.add(generator.settings.materials.itemsMaterialListFor_NormalOres.getNthMaterial(6, Material.LAPIS_ORE));
 		ore_types.add(generator.settings.materials.itemsMaterialListFor_NormalOres.getNthMaterial(7, Material.REDSTONE_ORE));

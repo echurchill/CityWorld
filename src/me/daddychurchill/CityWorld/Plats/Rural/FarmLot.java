@@ -48,7 +48,7 @@ public class FarmLot extends ConnectedLot {
 //		SWAMP_TREE, 
 //		ACACIA_TREE,
 
-		WHEAT, CARROT, POTATO, MELON, PUMPKIN, 
+		WHEAT, CARROT, POTATO, MELON, PUMPKIN, BEETROOT,
 		BROWN_MUSHROOM, RED_MUSHROOM, NETHERWART,
 		SHORT_FLOWERS, TALL_FLOWERS, ALL_FLOWERS,
 		SHORT_PLANTS, TALL_PLANTS, ALL_PLANTS,
@@ -243,6 +243,7 @@ public class FarmLot extends ConnectedLot {
 		case WHEAT:
 		case CARROT:
 		case POTATO:
+		case BEETROOT:
 			if (generator.settings.includeAbovegroundFluids)
 				plowField(chunk, croplevel, soilMaterial, 8, waterMaterial, 2);
 			else 
@@ -394,6 +395,9 @@ public class FarmLot extends ConnectedLot {
 				break;
 			case POTATO:
 				plantField(generator, chunk, croplevel, CoverageType.POTATO, 1, 2);
+				break;
+			case BEETROOT:
+				plantField(generator, chunk, croplevel, CoverageType.BEETROOT, 1, 2);
 				break;
 			case MELON:
 				plantField(generator, chunk, croplevel, CoverageType.MELON, 1, 3);
@@ -638,6 +642,7 @@ public class FarmLot extends ConnectedLot {
 		CropType.WHEAT, 
 		CropType.CARROT, 
 		CropType.POTATO, 
+		CropType.BEETROOT, 
 		CropType.MELON, 
 		CropType.PUMPKIN, 
 		CropType.SHORT_FLOWERS, 

@@ -16,14 +16,15 @@ public class OreProvider_TheEnd extends OreProvider {
 		
 		ore_types.add(generator.settings.materials.itemsMaterialListFor_TheEndOres.getNthMaterial(0, Material.WATER));
 		ore_types.add(generator.settings.materials.itemsMaterialListFor_TheEndOres.getNthMaterial(1, Material.LAVA));
-		ore_types.add(generator.settings.materials.itemsMaterialListFor_TheEndOres.getNthMaterial(2, Material.QUARTZ_BLOCK));
-		ore_types.add(generator.settings.materials.itemsMaterialListFor_TheEndOres.getNthMaterial(3, Material.GLOWSTONE));
-		ore_types.add(generator.settings.materials.itemsMaterialListFor_TheEndOres.getNthMaterial(4, Material.PRISMARINE));
-		ore_types.add(generator.settings.materials.itemsMaterialListFor_TheEndOres.getNthMaterial(5, Material.OBSIDIAN));
-		ore_types.add(generator.settings.materials.itemsMaterialListFor_TheEndOres.getNthMaterial(6, stratumMaterial));
-		ore_types.add(generator.settings.materials.itemsMaterialListFor_TheEndOres.getNthMaterial(7, stratumMaterial));
-		ore_types.add(generator.settings.materials.itemsMaterialListFor_TheEndOres.getNthMaterial(8, stratumMaterial));
-		ore_types.add(generator.settings.materials.itemsMaterialListFor_TheEndOres.getNthMaterial(9, stratumMaterial));
+		ore_types.add(generator.settings.materials.itemsMaterialListFor_TheEndOres.getNthMaterial(2, Material.GRAVEL));
+		ore_types.add(generator.settings.materials.itemsMaterialListFor_TheEndOres.getNthMaterial(3, Material.QUARTZ_BLOCK));
+		ore_types.add(generator.settings.materials.itemsMaterialListFor_TheEndOres.getNthMaterial(4, Material.GLOWSTONE));
+		
+		ore_types.add(generator.settings.materials.itemsMaterialListFor_TheEndOres.getNthMaterial(5, Material.PURPUR_BLOCK));
+		ore_types.add(generator.settings.materials.itemsMaterialListFor_TheEndOres.getNthMaterial(6, Material.GOLD_ORE));
+		ore_types.add(generator.settings.materials.itemsMaterialListFor_TheEndOres.getNthMaterial(7, Material.LAPIS_ORE));
+		ore_types.add(generator.settings.materials.itemsMaterialListFor_TheEndOres.getNthMaterial(8, Material.DIAMOND_ORE));
+		ore_types.add(generator.settings.materials.itemsMaterialListFor_TheEndOres.getNthMaterial(9, Material.OBSIDIAN));
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public abstract class PlatLot {
 	protected int chunkZ;
 	protected CachedYs blockYs;
 	
-	protected Odds platmapOdds;
+//	protected Odds platmapOdds;
 	protected Odds chunkOdds;
 	
 	// styling!
@@ -92,7 +92,7 @@ public abstract class PlatLot {
 	private void initializeDice(PlatMap platmap, int chunkX, int chunkZ) {
 		
 		// reset and pick up the dice
-		platmapOdds = platmap.getOddsGenerator();
+//		platmapOdds = platmap.getOddsGenerator();
 		chunkOdds = platmap.getChunkOddsGenerator(chunkX, chunkZ);
 	}
 	

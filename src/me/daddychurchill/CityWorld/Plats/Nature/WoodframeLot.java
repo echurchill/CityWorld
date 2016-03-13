@@ -28,11 +28,11 @@ public class WoodframeLot extends WoodworksLot {
 		
 		int y = generator.streetLevel + floorHeight + 1;
 		
-		// set up the array
-		boolean[][] sections = new boolean[3][3];
-		for (int x = 0; x < 3; x++)
-			for (int z = 0; z < 3; z++)
-				sections[x][z] = true;
+//		// set up the array
+//		boolean[][] sections = new boolean[3][3];
+//		for (int x = 0; x < 3; x++)
+//			for (int z = 0; z < 3; z++)
+//				sections[x][z] = true;
 	
 		// set up the list
 		ArrayList<Integer> sectionsLeft = new ArrayList<Integer>();

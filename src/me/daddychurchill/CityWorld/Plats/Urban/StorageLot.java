@@ -41,7 +41,7 @@ public class StorageLot extends BuildingLot {
 //		chunk.setLayer(groundY + 1, RoadLot.pavementId);
 		
 		// fence please
-		drawFence(generator, chunk, context, 1, groundY + 2, neighbors);
+		drawFence(generator, chunk, context, 1, groundY + 2, 0, neighbors);
 	}
 
 	@Override

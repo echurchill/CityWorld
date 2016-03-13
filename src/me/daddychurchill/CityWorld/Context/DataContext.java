@@ -23,8 +23,8 @@ public abstract class DataContext {
 	public double oddsOfRoundedBuilding = Odds.oddsLikely; // how naturally rounded are buildings that can be rounded
 	public double oddsOfSimilarBuildingRounding = Odds.oddsNeverGoingToHappen; // like rounding 1/n of the time
 	public double oddsOfStairWallMaterialIsWallMaterial = Odds.oddsNeverGoingToHappen; // stair walls are the same as walls 1/n of the time
-	public int buildingWallInsettedMinLowPoint; // minimum building height before insetting is allowed
-	public int buildingWallInsettedMinMidPoint; // lowest point of inset
+//	public int buildingWallInsettedMinLowPoint; // minimum building height before insetting is allowed
+//	public int buildingWallInsettedMinMidPoint; // lowest point of inset
 //	public int buildingWallInsettedMinHighPoint; // lowest highest point of inset
 	public int rangeOfWallInset = 2; // 1 or 2 in... but not zero
 	public double oddsOfForcedNarrowInteriorMode = Odds.oddsLikely;
@@ -82,9 +82,9 @@ public abstract class DataContext {
 		maximumFloorsAbove = Math.min(maximumFloorsAbove, absoluteMaximumFloorsAbove);
 		maximumFloorsBelow = Math.min(maximumFloorsBelow, absoluteMaximumFloorsBelow);
 		
-		int floorsFourth = Math.max((maximumFloorsAbove) / 4, 1);
-		buildingWallInsettedMinLowPoint = floorsFourth;
-		buildingWallInsettedMinMidPoint = floorsFourth * 2;
+//		int floorsFourth = Math.max((maximumFloorsAbove) / 4, 1);
+//		buildingWallInsettedMinLowPoint = floorsFourth;
+//		buildingWallInsettedMinMidPoint = floorsFourth * 2;
 //		buildingWallInsettedMinHighPoint = floorsFourth * 3;
 		
 	}

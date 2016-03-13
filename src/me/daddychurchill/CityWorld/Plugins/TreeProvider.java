@@ -408,7 +408,7 @@ public abstract class TreeProvider {
 		case ACACIA:
 			trunkMaterial = Material.LOG_2;
 			leavesMaterial = Material.LEAVES_2;
-			trunkBlackMagicData = 0;
+			trunkBlackMagicData = 4;
 			break;
 		case DARK_OAK:
 			trunkMaterial = Material.LOG_2;

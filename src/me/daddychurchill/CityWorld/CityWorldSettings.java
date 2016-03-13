@@ -52,8 +52,8 @@ public class CityWorldSettings {
 	public boolean includeDecayedBuildings = false;
 	public boolean includeDecayedNature = false;
 	public boolean includeBuildingInteriors = true;
-	public boolean includeFloatingSubsurface = false;
-	public boolean includeFloatingSubclouds = true;
+//	public boolean includeFloatingSubsurface = false; // not needed anymore
+//	public boolean includeFloatingSubclouds = true;
 	
 	public boolean forceLoadWorldEdit = false;
 	public boolean broadcastSpecialPlaces = false;

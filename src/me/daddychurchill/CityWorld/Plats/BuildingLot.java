@@ -70,6 +70,10 @@ public abstract class BuildingLot extends ConnectedLot {
 	protected Material columnMaterial;
 	protected boolean forceNarrowInteriorMode = false;
 	protected double differentInteriorModes = Odds.oddsUnlikely;
+	protected Material interiorDoorMaterial;
+	protected Material exteriorDoorMaterial;
+	
+	public enum CornerStyle {EMPTY, FILLED, WOODCOLUMN, STONECOLUMN, FILLEDTHENEMPTY, WOODTHENFILLED, STONETHENFILLED};
 	
 	protected int navLightX = 0;
 	protected int navLightY = 0;
@@ -106,13 +110,17 @@ public abstract class BuildingLot extends ConnectedLot {
 		stairStyle = pickStairStyle();
 		stairDirection = pickStairDirection();
 		interiorStyle = pickInteriorStyle();
-		columnMaterial = Material.COBBLE_WALL;
+		columnMaterial = platmap.generator.settings.materials.itemsSelectMaterial_BuildingWalls.getRandomMaterial(chunkOdds);
+		
 		wallsWE = new OutsideWEWallFactory(chunkOdds, platmap.generator.settings.includeDecayedBuildings);
 		wallsNS = new OutsideNSWallFactory(wallsWE);
 		wallsCurved = new CurvedWallFactory(wallsWE);
 		wallsInterior = new InteriorWallFactory(chunkOdds, platmap.generator.settings.includeDecayedBuildings);
+
 		forceNarrowInteriorMode = chunkOdds.playOdds(context.oddsOfForcedNarrowInteriorMode);
 		differentInteriorModes = context.oddsOfDifferentInteriorModes;
+		interiorDoorMaterial = chunkOdds.getRandomWoodenDoorType();
+		exteriorDoorMaterial = chunkOdds.getRandomWoodenDoorType();
 	}
 
 	@Override
@@ -176,7 +184,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	protected StairStyle pickStairStyle() {
 		switch (chunkOdds.getRandomInt(4)) {
 		case 1:
-			return StairStyle.CORNER;
+			return StairStyle.CORNER; // TODO: THIS SEEMS TO BE BROKEN
 		case 2:
 			return StairStyle.CROSSED;
 		case 3:
@@ -203,6 +211,28 @@ public abstract class BuildingLot extends ConnectedLot {
 		case 9:
 		default:
 			return InteriorStyle.WALLS_OFFICES;
+		}
+	}
+	
+	protected CornerStyle pickCornerStyle() {
+		switch (chunkOdds.getRandomInt(16)) {
+		case 0:
+			return CornerStyle.WOODCOLUMN;
+		case 1:
+			return CornerStyle.WOODTHENFILLED;
+		case 2:
+			return CornerStyle.STONECOLUMN;
+		case 3:
+			return CornerStyle.STONETHENFILLED;
+		case 4:
+			return CornerStyle.FILLEDTHENEMPTY;
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+			return CornerStyle.EMPTY;
+		default:
+			return CornerStyle.FILLED;
 		}
 	}
 	
@@ -241,6 +271,8 @@ public abstract class BuildingLot extends ConnectedLot {
 			wallsInterior = relativebuilding.wallsInterior;
 			if (!chunkOdds.playOdds(differentInteriorModes))
 				forceNarrowInteriorMode = relativebuilding.forceNarrowInteriorMode;
+			exteriorDoorMaterial = relativebuilding.exteriorDoorMaterial;
+			interiorDoorMaterial = relativebuilding.interiorDoorMaterial;
 			
 			// do we need stairs?
 			relativebuilding.needStairsDown = relativebuilding.depth > depth;
@@ -364,9 +396,9 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 	
-	protected void drawExteriorParts(CityWorldGenerator generator, InitialBlocks byteChunk, DataContext context, int y1, 
-			int height, int insetNS, int insetWE, 
-			boolean allowRounded, Material wallMaterial, Material glassMaterial, Surroundings heights) {
+	protected void drawExteriorParts(CityWorldGenerator generator, InitialBlocks byteChunk, DataContext context, 
+			int y1, int height, int insetNS, int insetWE, int floor, 
+			CornerStyle cornerStyle, boolean allowRounded, Material wallMaterial, Material glassMaterial, Surroundings heights) {
 		
 		// precalculate
 		int y2 = y1 + height;
@@ -416,14 +448,30 @@ public abstract class BuildingLot extends ConnectedLot {
 		if (stillNeedWalls) {
 			
 			// corner columns
-			if (!heights.toNorthWest())
-				byteChunk.setBlocks(insetWE, y1, y2, insetNS, wallMaterial);
-			if (!heights.toSouthWest())
-				byteChunk.setBlocks(insetWE, y1, y2, byteChunk.width - insetNS - 1, wallMaterial);
-			if (!heights.toNorthEast())
-				byteChunk.setBlocks(byteChunk.width - insetWE - 1, y1, y2, insetNS, wallMaterial);
-			if (!heights.toSouthEast())
-				byteChunk.setBlocks(byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, wallMaterial);
+			if (!heights.toNorthWest()) {
+				if (heights.toNorth() || heights.toWest())
+					drawCornerBit(byteChunk, CornerStyle.FILLED, insetWE, y1, y2, insetNS, floor, wallMaterial);
+				else
+					drawCornerBit(byteChunk, cornerStyle, insetWE, y1, y2, insetNS, floor, wallMaterial);
+			}
+			if (!heights.toSouthWest()) {
+				if (heights.toSouth() || heights.toWest())
+					drawCornerBit(byteChunk, CornerStyle.FILLED, insetWE, y1, y2, byteChunk.width - insetNS - 1, floor, wallMaterial);
+				else
+					drawCornerBit(byteChunk, cornerStyle, insetWE, y1, y2, byteChunk.width - insetNS - 1, floor, wallMaterial);
+			}
+			if (!heights.toNorthEast()) {
+				if (heights.toNorth() || heights.toEast())
+					drawCornerBit(byteChunk, CornerStyle.FILLED, byteChunk.width - insetWE - 1, y1, y2, insetNS, floor, wallMaterial);
+				else
+					drawCornerBit(byteChunk, cornerStyle, byteChunk.width - insetWE - 1, y1, y2, insetNS, floor, wallMaterial);
+			}
+			if (!heights.toSouthEast()) {
+				if (heights.toSouth() || heights.toEast())
+					drawCornerBit(byteChunk, CornerStyle.FILLED, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, floor, wallMaterial);
+				else
+					drawCornerBit(byteChunk, cornerStyle, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, floor, wallMaterial);
+			}
 			
 			// cardinal walls
 			if (!heights.toWest())
@@ -465,6 +513,42 @@ public abstract class BuildingLot extends ConnectedLot {
 				if (!heights.toSouthEast())
 					byteChunk.setBlocks(byteChunk.width - insetWE - 1, byteChunk.width - insetWE, y1, y2, byteChunk.width - insetNS, byteChunk.width, wallMaterial, glassMaterial, wallsNS);
 			}
+		}
+	}
+	
+	private void drawCornerBit(InitialBlocks blocks, CornerStyle style, int x, int y1, int y2, int z, int floor, Material wallMaterial) {
+		boolean firstFloor = floor == 0;
+		switch (style) {
+		case FILLEDTHENEMPTY:
+			if (firstFloor)
+				drawCornerBit(blocks, CornerStyle.FILLED, x, y1, y2, z, floor, wallMaterial);
+			else
+				drawCornerBit(blocks, CornerStyle.EMPTY, x, y1, y2, z, floor, wallMaterial);
+			break;
+		case STONETHENFILLED:
+			if (firstFloor)
+				drawCornerBit(blocks, CornerStyle.STONECOLUMN, x, y1, y2, z, floor, wallMaterial);
+			else
+				drawCornerBit(blocks, CornerStyle.FILLED, x, y1, y2, z, floor, wallMaterial);
+			break;
+		case WOODTHENFILLED:
+			if (firstFloor)
+				drawCornerBit(blocks, CornerStyle.WOODCOLUMN, x, y1, y2, z, floor, wallMaterial);
+			else
+				drawCornerBit(blocks, CornerStyle.FILLED, x, y1, y2, z, floor, wallMaterial);
+			break;
+		case EMPTY:
+			break;
+		case WOODCOLUMN:
+			blocks.setBlocks(x, y1, y2, z, Material.FENCE);
+			break;
+		case STONECOLUMN:
+			blocks.setBlocks(x, y1, y2, z, Material.COBBLE_WALL);
+			break;
+		case FILLED:
+		default:
+			blocks.setBlocks(x, y1, y2, z, wallMaterial);
+			break;
 		}
 	}
 	
@@ -1299,37 +1383,37 @@ public abstract class BuildingLot extends ConnectedLot {
 	
 	private void drawInteriorNSDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
 		if (chunkOdds.playOdds(oddsOfAnInteriorDoor))
-			drawDoor(chunk, x, x, x, y1, y2, z, z + 1, z + 2, Door.WESTBYNORTHWEST, doorStyle, wall);
+			drawDoor(chunk, x, x, x, y1, y2, z, z + 1, z + 2, Door.WESTBYNORTHWEST, doorStyle, wall, interiorDoorMaterial);
 	}
 	
 	private void drawInteriorWEDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
 		if (chunkOdds.playOdds(oddsOfAnInteriorDoor))
-			drawDoor(chunk, x, x + 1, x + 2, y1, y2, z, z, z, Door.NORTHBYNORTHWEST, doorStyle, wall);
+			drawDoor(chunk, x, x + 1, x + 2, y1, y2, z, z, z, Door.NORTHBYNORTHWEST, doorStyle, wall, interiorDoorMaterial);
 	}
 	
 	private void drawExteriorNSDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
 		if (chunkOdds.playOdds(oddsOfAnExteriorDoor))
-			drawDoor(chunk, x, x, x, y1, y2, z, z + 1, z + 2, Door.WESTBYNORTHWEST, doorStyle, wall);
+			drawDoor(chunk, x, x, x, y1, y2, z, z + 1, z + 2, Door.WESTBYNORTHWEST, doorStyle, wall, exteriorDoorMaterial);
 	}
 	
 	private void drawExteriorSNDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
 		if (chunkOdds.playOdds(oddsOfAnExteriorDoor))
-			drawDoor(chunk, x, x, x, y1, y2, z, z + 1, z + 2, Door.EASTBYNORTHEAST, doorStyle, wall);
+			drawDoor(chunk, x, x, x, y1, y2, z, z + 1, z + 2, Door.EASTBYNORTHEAST, doorStyle, wall, exteriorDoorMaterial);
 	}
 
 	private void drawExteriorWEDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
 		if (chunkOdds.playOdds(oddsOfAnExteriorDoor))
-			drawDoor(chunk, x, x + 1, x + 2, y1, y2, z, z, z, Door.NORTHBYNORTHWEST, doorStyle, wall);
+			drawDoor(chunk, x, x + 1, x + 2, y1, y2, z, z, z, Door.NORTHBYNORTHWEST, doorStyle, wall, exteriorDoorMaterial);
 	}
 	
 	private void drawExteriorEWDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
 		if (chunkOdds.playOdds(oddsOfAnExteriorDoor))
-			drawDoor(chunk, x, x + 1, x + 2, y1, y2, z, z, z, Door.SOUTHBYSOUTHEAST, doorStyle, wall);
+			drawDoor(chunk, x, x + 1, x + 2, y1, y2, z, z, z, Door.SOUTHBYSOUTHEAST, doorStyle, wall, exteriorDoorMaterial);
 	}
 	
 	//TODO roof fixtures (peak, helipad, air conditioning, stairwells access, penthouse, castle trim, etc.
 	protected void drawRoof(CityWorldGenerator generator, InitialBlocks chunk, DataContext context, 
-			int y1, int insetNS, int insetWE, 
+			int y1, int insetNS, int insetWE, int floor, 
 			boolean allowRounded, Material material, Surroundings heights) {
 		switch (roofStyle) {
 		case PEAK:
@@ -1338,10 +1422,11 @@ public abstract class BuildingLot extends ConnectedLot {
 					if (i == aboveFloorHeight - 1)
 						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE + i, allowRounded, material, heights);
 					else
-						drawExteriorParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE + i, allowRounded, material, material, heights);
+						drawExteriorParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE + i, floor, 
+								CornerStyle.FILLED, allowRounded, material, material, heights);
 				}
 			} else
-				drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, allowRounded, material, true, heights);
+				drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, true, heights);
 			break;
 		case TENT_NORTHSOUTH:
 			if (heights.getNeighborCount() == 0) { 
@@ -1349,10 +1434,11 @@ public abstract class BuildingLot extends ConnectedLot {
 					if (i == aboveFloorHeight - 1)
 						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE, allowRounded, material, heights);
 					else
-						drawExteriorParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE, allowRounded, material, material, heights);
+						drawExteriorParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE, floor, 
+								CornerStyle.FILLED, allowRounded, material, material, heights);
 				}
 			} else
-				drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, allowRounded, material, true, heights);
+				drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, true, heights);
 			break;
 		case TENT_WESTEAST:
 			if (heights.getNeighborCount() == 0) { 
@@ -1360,27 +1446,29 @@ public abstract class BuildingLot extends ConnectedLot {
 					if (i == aboveFloorHeight - 1)
 						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS, insetWE + i, allowRounded, material, heights);
 					else
-						drawExteriorParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS, insetWE + i, allowRounded, material, material, heights);
+						drawExteriorParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS, insetWE + i, floor, 
+								CornerStyle.FILLED, allowRounded, material, material, heights);
 				}
 			} else
-				drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, allowRounded, material, true, heights);
+				drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, true, heights);
 			break;
 		case EDGED:
-			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, allowRounded, material, true, heights);
+			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, true, heights);
 			break;
 		case FLATTOP:
-			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, allowRounded, material, false, heights);
+			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, false, heights);
 			break;
 		}
 	}
 	
 	private void drawEdgedRoof(CityWorldGenerator generator, InitialBlocks chunk, DataContext context, 
-			int y1, int insetNS, int insetWE, 
+			int y1, int insetNS, int insetWE, int floor,
 			boolean allowRounded, Material material, boolean doEdge, Surroundings heights) {
 		
 		// a little bit of edge 
 		if (doEdge)
-			drawExteriorParts(generator, chunk, context, y1, 1, insetNS, insetWE, allowRounded, material, material, heights);
+			drawExteriorParts(generator, chunk, context, y1, 1, insetNS, insetWE, floor, 
+					CornerStyle.FILLED, allowRounded, material, material, heights);
 		
 		// add the special features
 		switch (roofFeature) {
@@ -1456,7 +1544,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 	
 	private void drawDoor(RealBlocks chunk, int x1, int x2, int x3, int y1, int y2, int z1, int z2, int z3, 
-			BadMagic.Door direction, DoorStyle doorStyle, Material wallMaterial) {
+			BadMagic.Door direction, DoorStyle doorStyle, Material wallMaterial, Material doorMaterial) {
 		
 		// frame the door
 		chunk.setBlocks(x1, y1, y2, z1, wallMaterial);
@@ -1469,9 +1557,10 @@ public abstract class BuildingLot extends ConnectedLot {
 			chunk.clearBlocks(x2, y1, y1 + 2, z2);
 			break;
 		case WOOD:
-			chunk.setWoodenDoor(x2, y1, z2, direction);
+			chunk.setDoor(x2, y1, z2, doorMaterial, direction);
 			break;
 		case NONE:
+			break;
 		}
 	}
 	
@@ -1916,11 +2005,11 @@ public abstract class BuildingLot extends ConnectedLot {
 			chunk.setBlocks(11, 13, y1, y2, 11, 13, wallMaterial);
 	}
 
-	protected void drawFence(CityWorldGenerator generator, InitialBlocks chunk, DataContext context, int inset, int y1, Surroundings neighbors) {
+	protected void drawFence(CityWorldGenerator generator, InitialBlocks chunk, DataContext context, int inset, int y1, int floor, Surroundings neighbors) {
 		
 		// actual fence
-		drawExteriorParts(generator, chunk, context, y1, fenceHeight, inset, inset,
-				false, fenceMaterial, fenceMaterial, neighbors);
+		drawExteriorParts(generator, chunk, context, y1, fenceHeight, inset, inset, floor,
+				CornerStyle.FILLED, false, fenceMaterial, fenceMaterial, neighbors);
 		
 		// holes in fence
 		int i = 4 + chunkOdds.getRandomInt(chunk.width / 2);

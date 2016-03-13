@@ -115,7 +115,7 @@ public class Clipboard_WorldEdit extends Clipboard {
 		// grab the edge block
 		BaseBlock edge = cuboid.getBlock(new Vector(0, groundLevelY, 0));
 		edgeMaterial = BlackMagic.getMaterial(edge.getType());
-		edgeData = edge.getData();
+//		edgeData = edge.getData(); // TODO: One of these days I need to get this working again
 		edgeRise = generator.oreProvider.surfaceMaterial.equals(edgeMaterial) ? 0 : 1;
 		
 		// allocate the blocks

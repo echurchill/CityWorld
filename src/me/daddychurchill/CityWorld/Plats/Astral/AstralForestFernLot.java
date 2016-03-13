@@ -15,8 +15,8 @@ public class AstralForestFernLot extends AstralForestLot {
 		// TODO Auto-generated constructor stub
 	}
 	
-	static protected int lightLeaves = 6;
-	static protected int darkLeaves = 7;
+	protected final static int lightLeaves = 6;
+	protected final static int darkLeaves = 7;
 
 	@Override
 	protected void plantTree(CityWorldGenerator generator, WorldBlocks blocks,

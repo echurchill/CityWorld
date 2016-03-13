@@ -90,6 +90,7 @@ public class WarehouseBuildingLot extends FinishedBuildingLot {
 	
 	@Override
 	protected void calculateOptions(DataContext context) {
+		super.calculateOptions(context);
 		
 		// how do the walls inset?
 		insetWallWE = 1;

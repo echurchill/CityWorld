@@ -67,7 +67,7 @@ public class StructureInAirProvider extends Provider {
 		}
 	}
 
-	public static int hotairBalloonHeight = 30;
+	public final static int hotairBalloonHeight = 30;
 	public void generateHotairBalloon(CityWorldGenerator generator, SupportBlocks chunk, DataContext context, 
 			int bottomY, Odds odds) {
 		int balloonY1 = bottomY + 5;

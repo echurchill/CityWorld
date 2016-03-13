@@ -92,6 +92,7 @@ public class TreeProvider_Normal extends TreeProvider {
 		case BROWN_MUSHROOM:
 		case RED_MUSHROOM:
 			root = Material.MYCEL;
+			break;
 		default:
 			break;
 		}

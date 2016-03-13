@@ -108,7 +108,7 @@ public class MazeArray {
 				}
 				break;
 			case 4: // Left
-				
+			default:	
 				// Whether 2 cells to the left is out or not
 				if (x - 2 <= 0)
 					continue;

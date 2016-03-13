@@ -176,10 +176,10 @@ public class OdonymProvider_Normal extends OdonymProvider {
 	}
 	
 	private String smartConcat(Odds odds, String first, String second) {
-		if (second == "")
+		if (second.isEmpty())
 			return first;
-		else if (first.endsWith(second.substring(0)) && odds.flipCoin())
-			return first + second.substring(1, second.length() - 1);
+		else if (first.endsWith(second.substring(1)))// && odds.flipCoin())
+			return first + second.substring(2, second.length() - 1);
 		else
 			return first + second;
 	}
