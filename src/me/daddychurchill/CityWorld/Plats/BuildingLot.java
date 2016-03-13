@@ -54,7 +54,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	protected final static Material tileMaterial = Material.STEP;
 	
 	public enum RoofStyle {FLATTOP, EDGED, PEAK, TENT_NORTHSOUTH, TENT_WESTEAST};//, SLANT_NORTH, SLANT_SOUTH, SLANT_WEST, SLANT_EAST};
-	public enum RoofFeature {ANTENNAS, CONDITIONERS, TILE};
+	public enum RoofFeature {ANTENNAS, CONDITIONERS, TILE, SKYLIGHT, SKYPEAK, SKYLIGHT_NS, SKYLIGHT_WE};
 	protected RoofStyle roofStyle;
 	protected RoofFeature roofFeature;
 	protected int roofScale;
@@ -149,11 +149,20 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 	
 	protected RoofFeature pickRoofFeature() {
-		switch (chunkOdds.getRandomInt(3)) {
+		switch (chunkOdds.getRandomInt(7)) {
 		case 1:
 			return RoofFeature.ANTENNAS;
 		case 2:
 			return RoofFeature.CONDITIONERS;
+		case 3:
+			return RoofFeature.SKYLIGHT;
+		case 4:
+			return RoofFeature.SKYPEAK;
+		case 5:
+			return RoofFeature.SKYLIGHT_NS;
+		case 6:
+			return RoofFeature.SKYLIGHT_WE;
+		case 0:
 		default:
 			return RoofFeature.TILE;
 		}
@@ -162,7 +171,10 @@ public abstract class BuildingLot extends ConnectedLot {
 	protected Material pickGlassMaterial() {
 		switch (chunkOdds.getRandomInt(2)) {
 		case 1:
-			return Material.THIN_GLASS;
+			if (chunkOdds.playOdds(Odds.oddsExceedinglyUnlikely))
+				return Material.IRON_FENCE;
+			else
+				return Material.THIN_GLASS;
 		default:
 			return Material.GLASS;
 		}
@@ -398,7 +410,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	
 	protected void drawExteriorParts(CityWorldGenerator generator, InitialBlocks byteChunk, DataContext context, 
 			int y1, int height, int insetNS, int insetWE, int floor, 
-			CornerStyle cornerStyle, boolean allowRounded, Material wallMaterial, Material glassMaterial, Surroundings heights) {
+			CornerStyle cornerStyle, boolean allowRounded, boolean outsetEffect, Material wallMaterial, Material glassMaterial, Surroundings heights) {
 		
 		// precalculate
 		int y2 = y1 + height;
@@ -444,74 +456,132 @@ public abstract class BuildingLot extends ConnectedLot {
 			}
 		}
 		
+		// outset stuff
+		Material outsetMaterial = wallMaterial;
+		Material outsetBackfill = Material.AIR;
+		if (outsetMaterial.hasGravity())
+			outsetMaterial = Material.STONE;
+		
 		// still need to do something?
 		if (stillNeedWalls) {
 			
 			// corner columns
 			if (!heights.toNorthWest()) {
-				if (heights.toNorth() || heights.toWest())
+				if (heights.toNorth() || heights.toWest()) {
 					drawCornerBit(byteChunk, CornerStyle.FILLED, insetWE, y1, y2, insetNS, floor, wallMaterial);
-				else
+					if (outsetEffect) {
+						drawCornerBit(byteChunk, CornerStyle.FILLED, insetWE, y1, y2 + 1, insetNS - 1, floor, outsetMaterial);
+						drawCornerBit(byteChunk, CornerStyle.FILLED, insetWE - 1, y1, y2 + 1, insetNS, floor, outsetMaterial);
+					}
+				} else
 					drawCornerBit(byteChunk, cornerStyle, insetWE, y1, y2, insetNS, floor, wallMaterial);
 			}
 			if (!heights.toSouthWest()) {
-				if (heights.toSouth() || heights.toWest())
+				if (heights.toSouth() || heights.toWest()) {
 					drawCornerBit(byteChunk, CornerStyle.FILLED, insetWE, y1, y2, byteChunk.width - insetNS - 1, floor, wallMaterial);
-				else
+					if (outsetEffect) {
+						drawCornerBit(byteChunk, CornerStyle.FILLED, insetWE, y1, y2 + 1, byteChunk.width - insetNS, floor, outsetMaterial);
+						drawCornerBit(byteChunk, CornerStyle.FILLED, insetWE - 1, y1, y2 + 1, byteChunk.width - insetNS - 1, floor, outsetMaterial);
+					}
+				} else
 					drawCornerBit(byteChunk, cornerStyle, insetWE, y1, y2, byteChunk.width - insetNS - 1, floor, wallMaterial);
 			}
 			if (!heights.toNorthEast()) {
-				if (heights.toNorth() || heights.toEast())
+				if (heights.toNorth() || heights.toEast()) {
 					drawCornerBit(byteChunk, CornerStyle.FILLED, byteChunk.width - insetWE - 1, y1, y2, insetNS, floor, wallMaterial);
-				else
+					if (outsetEffect) {
+						drawCornerBit(byteChunk, CornerStyle.FILLED, byteChunk.width - insetWE - 1, y1, y2 + 1, insetNS - 1, floor, outsetMaterial);
+						drawCornerBit(byteChunk, CornerStyle.FILLED, byteChunk.width - insetWE, y1, y2 + 1, insetNS, floor, outsetMaterial);
+					}
+				} else
 					drawCornerBit(byteChunk, cornerStyle, byteChunk.width - insetWE - 1, y1, y2, insetNS, floor, wallMaterial);
 			}
 			if (!heights.toSouthEast()) {
-				if (heights.toSouth() || heights.toEast())
+				if (heights.toSouth() || heights.toEast()) {
 					drawCornerBit(byteChunk, CornerStyle.FILLED, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, floor, wallMaterial);
-				else
+					if (outsetEffect) {
+						drawCornerBit(byteChunk, CornerStyle.FILLED, byteChunk.width - insetWE - 1, y1, y2 + 1, byteChunk.width - insetNS, floor, outsetMaterial);
+						drawCornerBit(byteChunk, CornerStyle.FILLED, byteChunk.width - insetWE, y1, y2 + 1, byteChunk.width - insetNS - 1, floor, outsetMaterial);
+					}
+				} else
 					drawCornerBit(byteChunk, cornerStyle, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, floor, wallMaterial);
 			}
 			
 			// cardinal walls
-			if (!heights.toWest())
+			if (!heights.toWest()) {
 				byteChunk.setBlocks(insetWE,  insetWE + 1, y1, y2, insetNS + 1, byteChunk.width - insetNS - 1, wallMaterial, glassMaterial, wallsNS);
-			if (!heights.toEast())
+				if (outsetEffect)
+					byteChunk.setBlocks(insetWE - 1,  insetWE, y1, y2 + 1, insetNS + 1, byteChunk.width - insetNS - 1, outsetMaterial, outsetBackfill, wallsNS);
+			}
+			if (!heights.toEast()) {
 				byteChunk.setBlocks(byteChunk.width - insetWE - 1,  byteChunk.width - insetWE, y1, y2, insetNS + 1, byteChunk.width - insetNS - 1, wallMaterial, glassMaterial, wallsNS);
-			if (!heights.toNorth())
+				if (outsetEffect)
+					byteChunk.setBlocks(byteChunk.width - insetWE,  byteChunk.width - insetWE + 1, y1, y2 + 1, insetNS + 1, byteChunk.width - insetNS - 1, outsetMaterial, outsetBackfill, wallsNS);
+			}
+			if (!heights.toNorth()) {
 				byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2, insetNS, insetNS + 1, wallMaterial, glassMaterial, wallsWE);
-			if (!heights.toSouth())
+				if (outsetEffect)
+					byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2 + 1, insetNS - 1, insetNS, outsetMaterial, outsetBackfill, wallsWE);
+			}
+			if (!heights.toSouth()) {
 				byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, byteChunk.width - insetNS, wallMaterial, glassMaterial, wallsWE);
+				if (outsetEffect)
+					byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2 + 1, byteChunk.width - insetNS, byteChunk.width - insetNS + 1, outsetMaterial, outsetBackfill, wallsWE);
+			}
 			
 		}
 			
 		// only if there are insets
 		if (insetWE > 0) {
 			if (heights.toWest()) {
-				if (!heights.toNorthWest())
+				if (!heights.toNorthWest()) {
 					byteChunk.setBlocks(0, insetWE, y1, y2, insetNS, insetNS + 1, wallMaterial, glassMaterial, wallsWE);
-				if (!heights.toSouthWest())
+					if (outsetEffect)
+						byteChunk.setBlocks(0, insetWE, y1, y2 + 1, insetNS - 1, insetNS, outsetMaterial, outsetBackfill, wallsWE);
+				}
+				if (!heights.toSouthWest()) {
 					byteChunk.setBlocks(0, insetWE, y1, y2, byteChunk.width - insetNS - 1, byteChunk.width - insetNS, wallMaterial, glassMaterial, wallsWE);
+					if (outsetEffect)
+						byteChunk.setBlocks(0, insetWE, y1, y2 + 1, byteChunk.width - insetNS, byteChunk.width - insetNS + 1, outsetMaterial, outsetBackfill, wallsWE);
+				}
 			}
 			if (heights.toEast()) {
-				if (!heights.toNorthEast())
+				if (!heights.toNorthEast()) {
 					byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2, insetNS, insetNS + 1, wallMaterial, glassMaterial, wallsWE);
-				if (!heights.toSouthEast())
+					if (outsetEffect)
+						byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2 + 1, insetNS - 1, insetNS, outsetMaterial, outsetBackfill, wallsWE);
+				}
+				if (!heights.toSouthEast()) {
 					byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2, byteChunk.width - insetNS - 1, byteChunk.width - insetNS, wallMaterial, glassMaterial, wallsWE);
+					if (outsetEffect)
+						byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2 + 1, byteChunk.width - insetNS, byteChunk.width - insetNS + 1, outsetMaterial, outsetBackfill, wallsWE);
+				}
 			}
 		}
 		if (insetNS > 0) {
 			if (heights.toNorth()) {
-				if (!heights.toNorthWest())
+				if (!heights.toNorthWest()) {
 					byteChunk.setBlocks(insetWE, insetWE + 1, y1, y2, 0, insetNS, wallMaterial, glassMaterial, wallsNS);
-				if (!heights.toNorthEast())
+					if (outsetEffect)
+						byteChunk.setBlocks(insetWE - 1, insetWE, y1, y2 + 1, 0, insetNS, outsetMaterial, outsetBackfill, wallsNS);
+				}
+				if (!heights.toNorthEast()) {
 					byteChunk.setBlocks(byteChunk.width - insetWE - 1, byteChunk.width - insetWE, y1, y2, 0, insetNS, wallMaterial, glassMaterial, wallsNS);
+					if (outsetEffect)
+						byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width - insetWE + 1, y1, y2 + 1, 0, insetNS, outsetMaterial, outsetBackfill, wallsNS);
+				}
 			}
 			if (heights.toSouth()) {
-				if (!heights.toSouthWest())
+				if (!heights.toSouthWest()) {
 					byteChunk.setBlocks(insetWE, insetWE + 1, y1, y2, byteChunk.width - insetNS, byteChunk.width, wallMaterial, glassMaterial, wallsNS);
-				if (!heights.toSouthEast())
+					if (outsetEffect)
+						byteChunk.setBlocks(insetWE - 1, insetWE, y1, y2 + 1, byteChunk.width - insetNS, byteChunk.width, outsetMaterial, outsetBackfill, wallsNS);
+				}
+				if (!heights.toSouthEast()) {
 					byteChunk.setBlocks(byteChunk.width - insetWE - 1, byteChunk.width - insetWE, y1, y2, byteChunk.width - insetNS, byteChunk.width, wallMaterial, glassMaterial, wallsNS);
+					if (outsetEffect)
+						byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width - insetWE + 1, y1, y2 + 1, byteChunk.width - insetNS, byteChunk.width, outsetMaterial, outsetBackfill, wallsNS);
+				}
 			}
 		}
 	}
@@ -1423,7 +1493,7 @@ public abstract class BuildingLot extends ConnectedLot {
 						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE + i, allowRounded, material, heights);
 					else
 						drawExteriorParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE + i, floor, 
-								CornerStyle.FILLED, allowRounded, material, material, heights);
+								CornerStyle.FILLED, allowRounded, false, material, material, heights);
 				}
 			} else
 				drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, true, heights);
@@ -1435,7 +1505,7 @@ public abstract class BuildingLot extends ConnectedLot {
 						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE, allowRounded, material, heights);
 					else
 						drawExteriorParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE, floor, 
-								CornerStyle.FILLED, allowRounded, material, material, heights);
+								CornerStyle.FILLED, allowRounded, false, material, material, heights);
 				}
 			} else
 				drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, true, heights);
@@ -1447,7 +1517,7 @@ public abstract class BuildingLot extends ConnectedLot {
 						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS, insetWE + i, allowRounded, material, heights);
 					else
 						drawExteriorParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS, insetWE + i, floor, 
-								CornerStyle.FILLED, allowRounded, material, material, heights);
+								CornerStyle.FILLED, allowRounded, false, material, material, heights);
 				}
 			} else
 				drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, true, heights);
@@ -1468,7 +1538,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		// a little bit of edge 
 		if (doEdge)
 			drawExteriorParts(generator, chunk, context, y1, 1, insetNS, insetWE, floor, 
-					CornerStyle.FILLED, allowRounded, material, material, heights);
+					CornerStyle.FILLED, allowRounded, false, material, material, heights);
 		
 		// add the special features
 		switch (roofFeature) {
@@ -1489,6 +1559,31 @@ public abstract class BuildingLot extends ConnectedLot {
 		case TILE:
 			drawCeilings(generator, chunk, context, y1, 1, insetNS + 1, insetWE + 1, allowRounded, tileMaterial, heights);
 			break;
+		case SKYLIGHT:
+			chunk.setBlocks(5, 6, y1 - 1, 6, 10, Material.GLASS);
+			chunk.setBlocks(10, 11, y1 - 1, 6, 10, Material.GLASS);
+			chunk.setBlocks(6, 10, y1 - 1, 5, 6, Material.GLASS);
+			chunk.setBlocks(6, 10, y1 - 1, 10, 11, Material.GLASS);
+			chunk.setBlocks(6, 10, y1 - 1, 6, 10, Material.GLASS);
+			break;
+		case SKYPEAK:
+			chunk.setBlocks(5, 6, y1 - 1, 6, 10, Material.GLASS);
+			chunk.setBlocks(10, 11, y1 - 1, 6, 10, Material.GLASS);
+			chunk.setBlocks(6, 10, y1 - 1, 5, 6, Material.GLASS);
+			chunk.setBlocks(6, 10, y1 - 1, 10, 11, Material.GLASS);
+			chunk.setBlocks(6, 10, y1 - 1, 6, 10, Material.AIR);
+
+			chunk.setWalls(6, 10, y1, y1 + 1, 6, 10, Material.GLASS);
+			chunk.setBlocks(7, 9, y1 + 1, y1 + 2, 7, 9, Material.GLASS);
+			break;
+		case SKYLIGHT_NS:
+			chunk.setBlocks(6, 10, y1 - 1, 6, 7, Material.GLASS);
+			chunk.setBlocks(6, 10, y1 - 1, 9, 10, Material.GLASS);
+			break;
+		case SKYLIGHT_WE:
+			chunk.setBlocks(6, 7, y1 - 1, 6, 10, Material.GLASS);
+			chunk.setBlocks(9, 10, y1 - 1, 6, 10, Material.GLASS);
+			break;
 		}
 	}
 	
@@ -1508,7 +1603,8 @@ public abstract class BuildingLot extends ConnectedLot {
 	
 	protected void drawNavLight(RealBlocks chunk, DataContext context) {
 		if (navLightY > 0)
-			chunk.setTorch(navLightX, navLightY, navLightZ, context.torchMat, BadMagic.Torch.FLOOR);
+//			chunk.setTorch(navLightX, navLightY, navLightZ, context.torchMat, BadMagic.Torch.FLOOR);
+			chunk.setBlock(navLightX, navLightY, navLightZ, Material.END_ROD);
 	}
 	
 	private void drawConditioner(InitialBlocks chunk, int x, int y, int z) {
@@ -2009,7 +2105,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		
 		// actual fence
 		drawExteriorParts(generator, chunk, context, y1, fenceHeight, inset, inset, floor,
-				CornerStyle.FILLED, false, fenceMaterial, fenceMaterial, neighbors);
+				CornerStyle.FILLED, false, false, fenceMaterial, fenceMaterial, neighbors);
 		
 		// holes in fence
 		int i = 4 + chunkOdds.getRandomInt(chunk.width / 2);

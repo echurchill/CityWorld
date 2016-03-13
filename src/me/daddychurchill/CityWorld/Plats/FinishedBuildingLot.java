@@ -33,6 +33,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	protected boolean insetInverted;
 	protected int insetInsetMidAt;
 	protected int insetInsetHighAt;
+	protected boolean outsetColumns;
+	protected int outsetColumnsDivisor;
 	
 	protected int firstFloorHeight;
 	protected int otherFloorHeight;
@@ -116,7 +118,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 		
 		// nudge in a bit more as we go up
-		int insetSegment = height / 8;
+		int insetSegment = height / 4;
 		insetInsetMidAt = 1;
 		insetInsetHighAt = 1;
 //		insetInsetted = height >= context.buildingWallInsettedMinLowPoint && chunkOdds.playOdds(context.oddsOfBuildingWallInset);
@@ -125,10 +127,12 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 //			insetInsetMidAt = Math.max(context.buildingWallInsettedMinMidPoint, 
 //					chunkOdds.getRandomInt(context.buildingWallInsettedMinLowPoint));
 //			insetInsetHighAt = Math.max(insetInsetMidAt + 1, chunkOdds.getRandomInt(context.buildingWallInsettedMinLowPoint));
-			insetInsetMidAt = chunkOdds.getRandomInt(insetSegment, insetSegment * 3);
-			insetInsetHighAt = chunkOdds.getRandomInt(insetInsetMidAt + 1, insetSegment * 7);
+			insetInsetMidAt = chunkOdds.getRandomInt(insetSegment, insetSegment * 2);
+			insetInsetHighAt = chunkOdds.getRandomInt(insetInsetMidAt + 1, insetSegment * 3);
 		}
-		insetInverted = insetInsetted && chunkOdds.playOdds(Odds.oddsLikely);
+		insetInverted = insetInsetted && chunkOdds.playOdds(Odds.oddsSomewhatLikely); 
+		outsetColumns = chunkOdds.playOdds(Odds.oddsSomewhatLikely); 
+		outsetColumnsDivisor = chunkOdds.getRandomInt(1, 5); 
 
 		cornerStyle = pickCornerStyle();
 	}
@@ -164,6 +168,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			insetInsetMidAt = relativebuilding.insetInsetMidAt;
 			insetInsetHighAt = relativebuilding.insetInsetHighAt;
 			insetInverted = relativebuilding.insetInverted;
+			outsetColumns = relativebuilding.outsetColumns;
+			outsetColumnsDivisor = relativebuilding.outsetColumnsDivisor;
 			
 			// what is it made of?
 			wallMaterial = relativebuilding.wallMaterial;
@@ -223,7 +229,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	
 				// one floor please
 				drawExteriorParts(generator, chunk, context, floorAt, basementFloorHeight - 1, 0, 0, floor,
-						CornerStyle.FILLED, false, wallMaterial, wallMaterial, neighborBasements);
+						CornerStyle.FILLED, false, false, wallMaterial, wallMaterial, neighborBasements);
 				drawCeilings(generator, chunk, context, floorAt + basementFloorHeight - 1, 1, 0, 0,
 						false, ceilingMaterial, neighborBasements);
 				
@@ -277,9 +283,14 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				}
 			}
 			
+			// columns?
+			boolean localOutsetColumns = outsetColumns && (localInsetCeilingNS > 0 || localInsetCeilingWE > 0);
+			if (outsetColumnsDivisor > 1 && floor % outsetColumnsDivisor == 0)
+				localOutsetColumns = false;
+			
 			// one floor please
 			drawExteriorParts(generator, chunk, context, floorAt, aboveFloorHeight - 1, localInsetWallNS, localInsetWallWE, floor, 
-					cornerStyle, allowRounded, wallMaterial, glassMaterial, neighborFloors);
+					cornerStyle, allowRounded, localOutsetColumns, wallMaterial, glassMaterial, neighborFloors);
 			drawCeilings(generator, chunk, context, floorAt + aboveFloorHeight - 1, 
 					1, localInsetCeilingNS, 
 					localInsetCeilingWE, allowRounded, ceilingMaterial, neighborFloors);
