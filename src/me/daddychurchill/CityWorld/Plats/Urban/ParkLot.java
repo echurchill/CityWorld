@@ -309,18 +309,6 @@ public class ParkLot extends ConnectedLot {
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
 		int surfaceY = generator.streetLevel + 1;
 		
-		// way down?
-		if (generator.settings.includeCisterns) {
-			SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
-			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
-				int lowestY = generator.streetLevel - cisternDepth + 1 + waterDepth;
-				chunk.setBlocks(4, 7, lowestY, lowestY + 1, 1, 2, ledgeMaterial);
-				chunk.setLadder(5, lowestY + 1, surfaceY, 1, BlockFace.NORTH);
-				chunk.setTrapDoor(5, surfaceY, 1, BadMagic.TrapDoor.EAST);
-			}
-		}
-		
-		
 		// draw center bits
 		switch (centerStyle) {
 		case CIRCLE_PATH:
@@ -406,6 +394,17 @@ public class ParkLot extends ConnectedLot {
 				for (int z = 4; z < 12; z += 7)
 					generator.coverProvider.generateRandomCoverage(generator, chunk, x, surfaceY, z, smallTrees);
 			break;
+		}
+
+		// way down?
+		if (generator.settings.includeCisterns) {
+			SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
+			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
+				int lowestY = generator.streetLevel - cisternDepth + 1 + waterDepth;
+				chunk.setBlocks(4, 7, lowestY, lowestY + 1, 1, 2, ledgeMaterial);
+				chunk.setLadder(5, lowestY + 1, surfaceY + 1, 1, BlockFace.NORTH);
+				chunk.setTrapDoor(5, surfaceY, 1, BadMagic.TrapDoor.EAST);
+			}
 		}
 	}
 	

@@ -216,7 +216,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		int lowestY = getBottomY(generator);
 		
 		// bottom most floor
-		drawCeilings(generator, chunk, context, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);
+		chunk.setLayer(lowestY - 1, Material.STONE);
+		drawCeilings(generator, chunk, context, lowestY, 1, 0, 0, false, /*ceilingMaterial*/ Material.DIAMOND_BLOCK, neighborBasements);
 		//chunk.setBlocks(0, chunk.width, lowestY, lowestY + 1, 0, chunk.width, (byte) ceilingMaterial.getId());
 		
 		// below ground
@@ -236,8 +237,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				// one down, more to go
 				neighborBasements.decrement();
 			}
-		} else {
-			chunk.setLayer(lowestY + 1, ceilingMaterial);
+//		} else {
+//			chunk.setLayer(lowestY - 1, Material.GOLD_BLOCK);//ceilingMaterial);
 		}
 
 		// insetting the inset

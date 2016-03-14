@@ -817,10 +817,13 @@ public class BunkerLot extends ConnectedLot {
 	}
 	
 	private static BunkerType getRandomBunkerType(Odds chunkOdds, boolean firstOne) {
-		if (firstOne)
-			return BunkerType.ENTRY;
-		else 
-			switch (chunkOdds.getRandomInt(8)) {
+		if (firstOne) {
+			if (chunkOdds.flipCoin())
+				return BunkerType.SAUCER;  
+			else
+				return BunkerType.ENTRY;
+		} else 
+			switch (chunkOdds.getRandomInt(7)) {
 			case 1:
 				return BunkerType.BALLSY;  
 			case 2:
@@ -833,8 +836,6 @@ public class BunkerLot extends ConnectedLot {
 				return BunkerType.QUAD;    
 			case 6:
 				return BunkerType.RECALL;  
-			case 7:
-				return BunkerType.SAUCER;  
 			default:
 				return BunkerType.TANK;    
 			}

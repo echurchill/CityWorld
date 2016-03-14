@@ -31,10 +31,12 @@ import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 
 public class CityWorldGenerator extends ChunkGenerator {
+	
+	private final static double minVersion = 1.9;
 
 	private CityWorld plugin;
 	private World world;
-	private Long worldSeed;
+	private long worldSeed;
 	private Odds connectionKeyGen;
 	
 	public String worldName;
@@ -75,7 +77,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 	public long connectedKeyForPavedRoads;
 	public long connectedKeyForParks;
 	
-//	public double minecraftVer;
+	public double minecraftVer;
 	
 	public enum WorldStyle {
 		FLOATING,		// very low terrain with floating houses and cities
@@ -112,17 +114,26 @@ public class CityWorldGenerator extends ChunkGenerator {
 		this.worldName = worldName;
 		this.worldStyle = WorldStyle.NORMAL;
 		
-//		try {
-//			String versionTxt = plugin.getServer().getVersion();
-//			int mcAt = versionTxt.indexOf("MC: ");
-//			if (mcAt != -1) {
-//				versionTxt = versionTxt.substring(mcAt + 4, mcAt + 7);
-//				this.minecraftVer = Double.parseDouble(versionTxt);
-//			} else
-//				this.minecraftVer = 0;
-//		} catch (NumberFormatException e) {
-//			this.minecraftVer = 0;
-//		}
+		// new enough?
+		try {
+			String versionTxt = plugin.getServer().getVersion();
+			int mcAt = versionTxt.indexOf("MC: ");
+			if (mcAt != -1) {
+				versionTxt = versionTxt.substring(mcAt + 4, mcAt + 7);
+				this.minecraftVer = Double.parseDouble(versionTxt);
+			} else
+				this.minecraftVer = 0;
+		} catch (NumberFormatException e) {
+			this.minecraftVer = 0;
+		}
+		if (this.minecraftVer < minVersion) {
+			reportMessage("*****************************************************");
+			reportMessage("** WARNING, RUNNING ON AN OLD VERSION OF MINECRAFT **");
+			reportMessage("*****************************************************");
+			reportException("Needs " + minVersion + " or better", new Exception(getPluginName()));
+		}
+//		else
+//			reportMessage("Found " + this.minecraftVer + ", all is swell");
 		
 		// parse the style string
 		if (worldStyle != null) {
