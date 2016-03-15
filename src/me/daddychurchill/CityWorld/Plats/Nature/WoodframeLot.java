@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
@@ -57,6 +58,10 @@ public class WoodframeLot extends WoodworksLot {
 			
 			// remove one
 			sectionsLeft.remove(chunkOdds.getRandomInt(sectionsLeft.size()));
+			
+			// remove an extra one?
+			if (chunkOdds.playOdds(Odds.oddsSomewhatUnlikely))
+				sectionsLeft.remove(chunkOdds.getRandomInt(sectionsLeft.size()));
 		}
 		
 		// add stairs up to the top

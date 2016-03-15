@@ -13,14 +13,14 @@ There is an entire world to explore, have fun!
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
 v3.002
-* Now supports Minecraft/Spigot 1.9 (or I think it does)
+* Now supports Minecraft/Spigot 1.9 (or I think it does) and was tested against PI day build of Spigot
 * Added an option to turn off things like Hot Air Balloons for folks who don't like fun things in the air ;-)
 * Add material lists for astral, bunkers and water towers generation, yes I know there still more to do
 * Reduced the likelihood of Museums, sorry about that
 * Farms now can grow BeetRoots, Yumm!
 * More building and roof styles
-* Fixed bugs
 * MAYBE ISSUE: It seems to me that Minecraft/Spigot 1.9 causes CityWorld to generate worlds slower, but I could be wrong
+* Fixed bugs
 
 v3.001
 * Finally got the fossils generating... and Museums :-)

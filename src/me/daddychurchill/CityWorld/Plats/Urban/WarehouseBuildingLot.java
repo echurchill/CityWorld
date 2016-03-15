@@ -124,16 +124,4 @@ public class WarehouseBuildingLot extends FinishedBuildingLot {
 			return InteriorStyle.COLUMNS_OFFICES;
 		}
 	}
-
-	@Override
-	protected RoofStyle pickRoofStyle() {
-		switch (chunkOdds.getRandomInt(3)) {
-		case 1:
-			return RoofStyle.EDGED;
-		default:
-			return RoofStyle.FLATTOP;
-		}
-	}
-	
-	
 }

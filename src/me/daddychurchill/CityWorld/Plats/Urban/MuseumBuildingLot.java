@@ -68,11 +68,6 @@ public class MuseumBuildingLot extends FinishedBuildingLot {
 	}
 
 	@Override
-	protected RoofStyle pickRoofStyle() {
-		return RoofStyle.FLATTOP;
-	}
-	
-	@Override
 	protected void drawInteriorParts(CityWorldGenerator generator, RealBlocks chunk, DataContext context,
 			RoomProvider rooms, int floor, int floorAt, int floorHeight, int insetNS, int insetWE, boolean allowRounded,
 			Material materialWall, Material materialGlass, StairWell stairLocation, Material materialStair,

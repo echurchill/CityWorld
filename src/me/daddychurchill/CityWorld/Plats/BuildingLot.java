@@ -53,7 +53,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	protected final static Material duct = Material.STEP;
 	protected final static Material tileMaterial = Material.STEP;
 	
-	public enum RoofStyle {FLATTOP, EDGED, PEAK, TENT_NORTHSOUTH, TENT_WESTEAST};//, SLANT_NORTH, SLANT_SOUTH, SLANT_WEST, SLANT_EAST};
+	public enum RoofStyle {FLATTOP, EDGED, PEAK, TENT_NORTHSOUTH, TENT_WESTEAST, INSET_BOX, BOXED, RAISED_BOX};//, SLANT_NORTH, SLANT_SOUTH, SLANT_WEST, SLANT_EAST};
 	public enum RoofFeature {ANTENNAS, CONDITIONERS, TILE, SKYLIGHT, SKYPEAK, SKYLIGHT_NS, SKYLIGHT_WE};
 	protected RoofStyle roofStyle;
 	protected RoofFeature roofFeature;
@@ -134,22 +134,32 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 
 	protected RoofStyle pickRoofStyle() {
-		switch (chunkOdds.getRandomInt(5)) {
+		switch (chunkOdds.getRandomInt(8)) {
+		default:
+		case 0:
+			return RoofStyle.FLATTOP;
 		case 1:
 			return RoofStyle.EDGED;
 		case 2:
-			return RoofStyle.PEAK;
+			return RoofStyle.INSET_BOX;
 		case 3:
-			return RoofStyle.TENT_NORTHSOUTH;
+			return RoofStyle.BOXED;
 		case 4:
+			return RoofStyle.RAISED_BOX;
+		case 5:
+			return RoofStyle.PEAK;
+		case 6:
+			return RoofStyle.TENT_NORTHSOUTH;
+		case 7:
 			return RoofStyle.TENT_WESTEAST;
-		default:
-			return RoofStyle.FLATTOP;
 		}
 	}
 	
 	protected RoofFeature pickRoofFeature() {
 		switch (chunkOdds.getRandomInt(7)) {
+		case 0:
+		default:
+			return RoofFeature.TILE;
 		case 1:
 			return RoofFeature.ANTENNAS;
 		case 2:
@@ -162,65 +172,61 @@ public abstract class BuildingLot extends ConnectedLot {
 			return RoofFeature.SKYLIGHT_NS;
 		case 6:
 			return RoofFeature.SKYLIGHT_WE;
-		case 0:
-		default:
-			return RoofFeature.TILE;
 		}
 	}
 	
 	protected Material pickGlassMaterial() {
 		switch (chunkOdds.getRandomInt(2)) {
+		case 0:
+		default:
+			return Material.GLASS;
 		case 1:
 			if (chunkOdds.playOdds(Odds.oddsExceedinglyUnlikely))
 				return Material.IRON_FENCE;
 			else
 				return Material.THIN_GLASS;
-		default:
-			return Material.GLASS;
 		}
 	}
 	
 	protected Facing pickStairDirection() {
 		switch (chunkOdds.getRandomInt(4)) {
+		case 0:
+		default:
+			return BadMagic.Facing.EAST;
 		case 1:
 			return BadMagic.Facing.NORTH;
 		case 2:
 			return BadMagic.Facing.SOUTH;
 		case 3:
 			return BadMagic.Facing.WEST;
-		default:
-			return BadMagic.Facing.EAST;
 		}
 	}
 
 	protected StairStyle pickStairStyle() {
 		switch (chunkOdds.getRandomInt(4)) {
+		case 0:
+		default:
+			return StairStyle.LANDING;
 		case 1:
 			return StairStyle.CORNER; // TODO: THIS SEEMS TO BE BROKEN
 		case 2:
 			return StairStyle.CROSSED;
 		case 3:
 			return StairStyle.STUDIO_A;
-		default:
-			return StairStyle.LANDING;
 		}
 	}
 
 	protected InteriorStyle pickInteriorStyle() {
 		switch (chunkOdds.getRandomInt(10)) {
-		case 1:
+		case 0:
 			return InteriorStyle.RANDOM;
-		case 2:
+		case 1:
 			return InteriorStyle.WALLS_ONLY;
-		case 3:
+		case 2:
 			return InteriorStyle.COLUMNS_ONLY;
+		case 3:
 		case 4:
-		case 5:
 			return InteriorStyle.COLUMNS_OFFICES;
-		case 6:
-		case 7:
-		case 8:
-		case 9:
 		default:
 			return InteriorStyle.WALLS_OFFICES;
 		}
@@ -1485,48 +1491,87 @@ public abstract class BuildingLot extends ConnectedLot {
 	protected void drawRoof(CityWorldGenerator generator, InitialBlocks chunk, DataContext context, 
 			int y1, int insetNS, int insetWE, int floor, 
 			boolean allowRounded, Material material, Surroundings heights) {
-		switch (roofStyle) {
-		case PEAK:
-			if (heights.getNeighborCount() == 0) { 
-				for (int i = 0; i < aboveFloorHeight; i++) {
-					if (i == aboveFloorHeight - 1)
-						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE + i, allowRounded, material, heights);
-					else
-						drawExteriorParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE + i, floor, 
-								CornerStyle.FILLED, allowRounded, false, material, material, heights);
-				}
-			} else
-				drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, true, heights);
-			break;
-		case TENT_NORTHSOUTH:
-			if (heights.getNeighborCount() == 0) { 
-				for (int i = 0; i < aboveFloorHeight; i++) {
-					if (i == aboveFloorHeight - 1)
-						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE, allowRounded, material, heights);
-					else
-						drawExteriorParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE, floor, 
-								CornerStyle.FILLED, allowRounded, false, material, material, heights);
-				}
-			} else
-				drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, true, heights);
-			break;
-		case TENT_WESTEAST:
-			if (heights.getNeighborCount() == 0) { 
-				for (int i = 0; i < aboveFloorHeight; i++) {
-					if (i == aboveFloorHeight - 1)
-						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS, insetWE + i, allowRounded, material, heights);
-					else
-						drawExteriorParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS, insetWE + i, floor, 
-								CornerStyle.FILLED, allowRounded, false, material, material, heights);
-				}
-			} else
-				drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, true, heights);
-			break;
+		drawRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, heights, roofStyle);
+	}
+	
+	protected void drawRoof(CityWorldGenerator generator, InitialBlocks chunk, DataContext context, 
+			int y1, int insetNS, int insetWE, int floor, boolean allowRounded, 
+			Material material, Surroundings heights, RoofStyle thisStyle) {
+		switch (thisStyle) {
 		case EDGED:
 			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, true, heights);
 			break;
 		case FLATTOP:
 			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, false, heights);
+			break;
+		case PEAK:
+			if (heights.getNeighborCount() == 0) { 
+				for (int i = 0; i < aboveFloorHeight; i++) {
+					if (i == aboveFloorHeight - 2)
+						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE + i, allowRounded, material, heights);
+					else
+						drawExteriorParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE + i, floor, 
+								CornerStyle.FILLED, allowRounded, false, material, material, heights);
+				}
+			} else {
+				drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, false, heights);
+				for (int i = 0; i < 4; i++)
+					drawExteriorParts(generator, chunk, context, y1 + i, 1, insetNS + i, insetWE + i, floor, 
+							CornerStyle.FILLED, allowRounded, false, material, material, heights);
+			}
+			break;
+		case TENT_NORTHSOUTH:
+			if (heights.getNeighborCount() == 0) { 
+				for (int i = 0; i < aboveFloorHeight; i++) {
+					if (i == aboveFloorHeight - 2)
+						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE, allowRounded, material, heights);
+					else
+						drawExteriorParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE, floor, 
+								CornerStyle.FILLED, allowRounded, false, material, material, heights);
+				}
+			} else {
+				drawRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, heights, RoofStyle.INSET_BOX);
+//				drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, false, heights);
+//				for (int i = 0; i < 3; i++)
+//					drawExteriorParts(generator, chunk, context, y1 + i, 1, insetNS + i, insetWE, floor, 
+//							CornerStyle.FILLED, allowRounded, false, material, material, heights);
+			}
+			break;
+		case TENT_WESTEAST:
+			if (heights.getNeighborCount() == 0) { 
+				for (int i = 0; i < aboveFloorHeight; i++) {
+					if (i == aboveFloorHeight - 2)
+						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS, insetWE + i, allowRounded, material, heights);
+					else
+						drawExteriorParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS, insetWE + i, floor, 
+								CornerStyle.FILLED, allowRounded, false, material, material, heights);
+				}
+			} else {
+				drawRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, heights, RoofStyle.RAISED_BOX);
+//				drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, false, heights);
+//				for (int i = 0; i < 3; i++)
+//					drawExteriorParts(generator, chunk, context, y1 + i, 1, insetNS, insetWE + i, floor, 
+//							CornerStyle.FILLED, allowRounded, false, material, material, heights);
+			}
+			break;
+		case BOXED:
+			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, false, heights);
+			drawExteriorParts(generator, chunk, context, y1, 2, insetNS, insetWE, floor, 
+					CornerStyle.FILLED, allowRounded, false, material, material, heights);
+			break;
+		case INSET_BOX:
+			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, false, heights);
+			drawExteriorParts(generator, chunk, context, y1, 1, insetNS, insetWE, floor, 
+					CornerStyle.FILLED, allowRounded, false, material, material, heights);
+			drawExteriorParts(generator, chunk, context, y1 + 1, 2, insetNS + 1, insetWE + 1, floor, 
+					CornerStyle.FILLED, allowRounded, false, material, material, heights);
+			break;
+		case RAISED_BOX:
+			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, false, heights);
+			drawExteriorParts(generator, chunk, context, y1, 1, insetNS + 1, insetWE + 1, floor, 
+					CornerStyle.FILLED, allowRounded, false, material, material, heights);
+			drawExteriorParts(generator, chunk, context, y1 + 1, 2, insetNS, insetWE, floor, 
+					CornerStyle.FILLED, allowRounded, false, material, material, heights);
 			break;
 		}
 	}
