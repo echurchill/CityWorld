@@ -11,7 +11,7 @@
 ----
 == Versions
 
-v3.002
+v3.002 (at https://www.spigotmc.org/resources/cityworld.2250/)
 * Now supports Minecraft/Spigot 1.9 (or I think it does) and was tested against PI day build of Spigot
 * Added an option to turn off things like Hot Air Balloons for folks who don't like fun things in the air ;-)
 * Add material lists for astral, bunkers and water towers generation, yes I know there still more to do
@@ -21,11 +21,11 @@ v3.002
 * MAYBE ISSUE: It seems to me that Minecraft/Spigot 1.9 causes CityWorld to generate worlds slower, but I could be wrong
 * Fixed bugs
 
-v3.001
+v3.001 (at https://www.spigotmc.org/resources/cityworld.2250/)
 * Finally got the fossils generating... and Museums :-)
 * Fixed a long standing tree generation bug... and added the occasional dead tree trunk
 
-v3.000
+v3.000 (at https://www.spigotmc.org/resources/cityworld.2250/)
 * The majority of materials used during building generation are now configurable (lists are maintained in the cityworld's yml file)
 * All chest content generation is now configurable (phatloot should still work if you really need it)
 * Road material is now configurable, don't like clay... change it
@@ -35,11 +35,11 @@ v3.000
 * Lots of refactoring and tweaking, world generation will likely change... sorry but it couldn't be helped
 * Fixed a number of bugs that have been bothering me
 
-v2.997
+v2.997 (at https://www.spigotmc.org/resources/cityworld.2250/)
 * Oops left in some debug diamond block generation in, ironically enough, the farms
 * Made door generation in empty buildings even rarer
 
-v2.996
+v2.996 (at https://www.spigotmc.org/resources/cityworld.2250/)
 * Built against MineCraft 1.8.8, Spigot XXX, WorldEdit 6.1.0, PhatLoots 4.1.0
 * Fixed some generation issues related to subsurfaces in floating worlds, upside is now you have more options for it. See SubSurfaceStyle for option.
 * Spigot 1.8.x seems to be double generating some chunks, put in code to avoid it happening. This was making Farms create really odd hybrid plants... like CactusRoses and FernGrass.

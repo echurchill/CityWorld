@@ -1497,7 +1497,11 @@ public abstract class BuildingLot extends ConnectedLot {
 	protected void drawRoof(CityWorldGenerator generator, InitialBlocks chunk, DataContext context, 
 			int y1, int insetNS, int insetWE, int floor, boolean allowRounded, 
 			Material material, Surroundings heights, RoofStyle thisStyle) {
+		
+		// protect ourselves from really tall floors
 		int maxHeight = Math.min(6, aboveFloorHeight);
+		
+		// what type of roof are we talking about?
 		switch (thisStyle) {
 		case EDGED:
 			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, true, heights);
