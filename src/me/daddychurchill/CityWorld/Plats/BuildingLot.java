@@ -1497,6 +1497,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	protected void drawRoof(CityWorldGenerator generator, InitialBlocks chunk, DataContext context, 
 			int y1, int insetNS, int insetWE, int floor, boolean allowRounded, 
 			Material material, Surroundings heights, RoofStyle thisStyle) {
+		int maxHeight = Math.min(6, aboveFloorHeight);
 		switch (thisStyle) {
 		case EDGED:
 			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, true, heights);
@@ -1506,8 +1507,8 @@ public abstract class BuildingLot extends ConnectedLot {
 			break;
 		case PEAK:
 			if (heights.getNeighborCount() == 0) { 
-				for (int i = 0; i < aboveFloorHeight; i++) {
-					if (i == aboveFloorHeight - 2)
+				for (int i = 0; i < maxHeight; i++) {
+					if (i == maxHeight - 2)
 						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE + i, allowRounded, material, heights);
 					else
 						drawExteriorParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE + i, floor, 
@@ -1522,8 +1523,8 @@ public abstract class BuildingLot extends ConnectedLot {
 			break;
 		case TENT_NORTHSOUTH:
 			if (heights.getNeighborCount() == 0) { 
-				for (int i = 0; i < aboveFloorHeight; i++) {
-					if (i == aboveFloorHeight - 2)
+				for (int i = 0; i < maxHeight; i++) {
+					if (i == maxHeight - 2)
 						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE, allowRounded, material, heights);
 					else
 						drawExteriorParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE, floor, 
@@ -1539,8 +1540,8 @@ public abstract class BuildingLot extends ConnectedLot {
 			break;
 		case TENT_WESTEAST:
 			if (heights.getNeighborCount() == 0) { 
-				for (int i = 0; i < aboveFloorHeight; i++) {
-					if (i == aboveFloorHeight - 2)
+				for (int i = 0; i < maxHeight; i++) {
+					if (i == maxHeight - 2)
 						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS, insetWE + i, allowRounded, material, heights);
 					else
 						drawExteriorParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS, insetWE + i, floor, 
