@@ -53,15 +53,15 @@ public class WoodframeLot extends WoodworksLot {
 				generateSection(chunk, x * sectionWidth, y, z * sectionWidth);
 			}
 			
-			// up one
-			y = y + floorHeight;
-			
 			// remove one
 			sectionsLeft.remove(chunkOdds.getRandomInt(sectionsLeft.size()));
 			
 			// remove an extra one?
-			if (chunkOdds.playOdds(Odds.oddsSomewhatUnlikely))
+			if (!sectionsLeft.isEmpty() && chunkOdds.playOdds(Odds.oddsSomewhatUnlikely))
 				sectionsLeft.remove(chunkOdds.getRandomInt(sectionsLeft.size()));
+			
+			// up one
+			y = y + floorHeight;
 		}
 		
 		// add stairs up to the top

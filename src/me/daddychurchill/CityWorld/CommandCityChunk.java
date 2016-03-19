@@ -28,9 +28,16 @@ public class CommandCityChunk implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] split) {
-		if (sender instanceof Player) {
-			Player player = (Player) sender;
+		Player player = null;
+		if (sender instanceof Player)
+			player = (Player) sender;
+//		else {
+//			player = sender.getServer().getPlayer("echurchill");
+//			if (player != null)
+//				sender.sendMessage("Found " + player);
+//		}
 
+		if (player != null) {
 			if (player.hasPermission("citychunk.command")) {
 				boolean cleaning = false;
 				boolean regening = false;
@@ -50,7 +57,7 @@ public class CommandCityChunk implements CommandExecutor {
 							error = true;
 							break;
 						}
-						radius = Math.max(0, Math.min(10, radius));
+						radius = Math.max(0, Math.min(15, radius));
 					} else {
 						error = true;
 						break;

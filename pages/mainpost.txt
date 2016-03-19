@@ -10,6 +10,9 @@ There is an entire world to explore, have fun!
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
+v3.003 (at https://www.spigotmc.org/resources/cityworld.2250/)
+Fixed a bug in Woodframe lots that would sometimes cause exceptions
+
 v3.002
 Now supports Minecraft/Spigot 1.9 (or I think it does) and was tested against PI day build of Spigot
 Added an option to turn off things like Hot Air Balloons for folks who don't like fun things in the air ;-)
