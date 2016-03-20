@@ -32,6 +32,10 @@ public abstract class MaterialFactory {
 		horizontalStyle = other.horizontalStyle;
 	}
 	
+	public boolean isSame(MaterialFactory other) {
+		return verticalStyle == other.verticalStyle && horizontalStyle == other.horizontalStyle;
+	}
+	
 	protected VerticalStyle pickVerticalStyle() {
 		switch (odds.getRandomInt(3)) {
 		default:

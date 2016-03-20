@@ -35,15 +35,23 @@ public abstract class BuildingLot extends ConnectedLot {
 	protected double neighborsHaveSimilarRoundedOdds;
 	protected int height; // floors up
 	protected int depth; // floors down
+	protected int aboveFloorHeight;
+	protected int basementFloorHeight;
+	
 	protected boolean needStairsUp;
 	protected boolean needStairsDown;
 	protected boolean rounded; // rounded corners if possible? (only if the insets match)
 	protected MaterialFactory wallsWE;
 	protected MaterialFactory wallsNS;
-	protected MaterialFactory wallsInterior;
 	protected MaterialFactory wallsCurved;
-	protected int aboveFloorHeight;
-	protected int basementFloorHeight;
+	protected MaterialFactory wallsWEAlt;
+	protected MaterialFactory wallsNSAlt;
+	protected MaterialFactory wallsCurvedAlt;
+	
+	public enum WallStyle {SAME, ALTFLOORS, ALTINDENT, RANDOM, PENTHOUSE};
+	protected WallStyle wallStyle;
+	
+	protected MaterialFactory wallsInterior;
 	
 	protected final static Material antennaBase = Material.CLAY;
 	protected final static Material antenna = Material.FENCE;
@@ -115,6 +123,12 @@ public abstract class BuildingLot extends ConnectedLot {
 		wallsWE = new OutsideWEWallFactory(chunkOdds, platmap.generator.settings.includeDecayedBuildings);
 		wallsNS = new OutsideNSWallFactory(wallsWE);
 		wallsCurved = new CurvedWallFactory(wallsWE);
+		
+		wallsWEAlt = new OutsideWEWallFactory(chunkOdds, platmap.generator.settings.includeDecayedBuildings);
+		wallsNSAlt = new OutsideNSWallFactory(wallsWEAlt);
+		wallsCurvedAlt = new CurvedWallFactory(wallsWEAlt);
+		wallStyle = pickWallStyle();
+		
 		wallsInterior = new InteriorWallFactory(chunkOdds, platmap.generator.settings.includeDecayedBuildings);
 
 		forceNarrowInteriorMode = chunkOdds.playOdds(context.oddsOfForcedNarrowInteriorMode);
@@ -131,6 +145,24 @@ public abstract class BuildingLot extends ConnectedLot {
 	@Override
 	protected boolean isShaftableLevel(CityWorldGenerator generator, int blockY) {
 		return blockY >= 0 && blockY < generator.streetLevel - basementFloorHeight * depth - 2 - 16;	
+	}
+	
+	protected WallStyle pickWallStyle() {
+		if (wallsWE.isSame(wallsWEAlt))
+			return WallStyle.SAME;
+		else {
+			switch (chunkOdds.getRandomInt(4)) {
+			default:
+			case 0:
+				return WallStyle.ALTFLOORS;
+			case 1:
+				return WallStyle.ALTINDENT;
+			case 2:
+				return WallStyle.RANDOM;
+			case 3:
+				return WallStyle.PENTHOUSE;
+			}
+		}
 	}
 
 	protected RoofStyle pickRoofStyle() {
