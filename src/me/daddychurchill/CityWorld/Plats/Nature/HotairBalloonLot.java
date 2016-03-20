@@ -42,24 +42,20 @@ public class HotairBalloonLot extends ConstructLot {
 		// place snow
 		generateSurface(generator, chunk, false);
 		
-		// something to do?
-		if (generator.settings.includeAirborneStructures) {
-			
-			// where is the surface?
-			int atY = getBottomY(generator);
-			
-			// saucer?
-			if (atY < chunk.height / 2 && chunkOdds.playOdds(Odds.oddsTremendouslyUnlikely)) {
-				reportLocation(generator, "Flying Saucer", chunk);
-				generator.structureInAirProvider.generateSaucer(generator, chunk, (chunk.height - 32) + chunkOdds.getRandomInt(16), false);
-			
-			// or hot air balloon
-			} else {
-				reportLocation(generator, "Hot Air Balloon", chunk);
-				int rangeY = chunk.height - StructureInAirProvider.hotairBalloonHeight - atY;
-				if (rangeY > 1)
-					generator.structureInAirProvider.generateHotairBalloon(generator, chunk, context, atY + chunkOdds.getRandomInt(rangeY), chunkOdds);
-			}
+		// where is the surface?
+		int atY = getBottomY(generator);
+		
+		// saucer?
+		if (atY < chunk.height / 2 && chunkOdds.playOdds(Odds.oddsTremendouslyUnlikely)) {
+			reportLocation(generator, "Flying Saucer", chunk);
+			generator.structureInAirProvider.generateSaucer(generator, chunk, (chunk.height - 32) + chunkOdds.getRandomInt(16), false);
+		
+		// or hot air balloon
+		} else {
+			reportLocation(generator, "Hot Air Balloon", chunk);
+			int rangeY = chunk.height - StructureInAirProvider.hotairBalloonHeight - atY;
+			if (rangeY > 1)
+				generator.structureInAirProvider.generateHotairBalloon(generator, chunk, context, atY + chunkOdds.getRandomInt(rangeY), chunkOdds);
 		}
 	}
 }

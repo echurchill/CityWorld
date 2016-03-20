@@ -458,7 +458,7 @@ public class CityWorldSettings {
 			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
 			break;
 		case MAZE:
-			includeRoads = true; // This has too be true in order for things to generate correctly
+			includeRoads = true; // This has to be true in order for things to generate correctly
 			includeRoundabouts = false; // DIFFERENT
 			includeMines = false; // DIFFERENT
 			includeBunkers = false; // DIFFERENT

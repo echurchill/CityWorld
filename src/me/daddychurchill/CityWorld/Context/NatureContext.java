@@ -166,7 +166,7 @@ public class NatureContext extends UncivilizedContext {
 					current = new OilPlatformLot(platmap, platmap.originX + x, platmap.originZ + z);
 				break;
 			case SEA:
-				if (generator.settings.includeBuildings && !generator.settings.includeDecayedBuildings) {
+				if (generator.settings.includeAirborneStructures) {
 					if (platmap.getOddsGenerator().playOdds(Odds.oddsSomewhatUnlikely))
 
 						// Hotair balloons
@@ -178,7 +178,7 @@ public class NatureContext extends UncivilizedContext {
 //			case BUILDING:
 //				break;
 			case LOWLAND:
-				if (generator.settings.includeBuildings && !generator.settings.includeDecayedBuildings) {
+				if (generator.settings.includeAirborneStructures) {
 					if (platmap.getOddsGenerator().playOdds(Odds.oddsSomewhatUnlikely))
 
 						// Hotair balloons

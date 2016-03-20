@@ -47,6 +47,23 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		floorsBuilt = chunkOdds.getRandomInt(height);
 		
 	}
+	
+	@Override
+	public boolean makeConnected(PlatLot relative) {
+		boolean result = super.makeConnected(relative);
+
+		// other bits
+		if (result && relative instanceof UnfinishedBuildingLot) {
+			UnfinishedBuildingLot relativebuilding = (UnfinishedBuildingLot) relative;
+			
+			this.girderMaterial = relativebuilding.girderMaterial;
+			if (neighborsHaveIdenticalHeights) {
+				this.unfinishedBasementOnly = relativebuilding.unfinishedBasementOnly;
+				this.floorsBuilt = relativebuilding.floorsBuilt;
+			}
+		}
+		return result;
+	}
 
 	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {

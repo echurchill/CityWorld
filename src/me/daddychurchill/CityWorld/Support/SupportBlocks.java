@@ -702,6 +702,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		
 		// vertical bit
 		setBlocks(x, y, y + 8, z, Material.IRON_FENCE);
+		setBlocks(x - 1, y, y + 8, z, Material.IRON_FENCE); // 1.9 shows iron fences very thin now
 		setBlocks(x, y + 8, y + 10, z, Material.DOUBLE_STEP);
 		setBlocks(x - 1, y + 8, y + 10, z, Material.STEP);
 		setBlockTypeAndDirection(x, y + 10, z, context.torchMat, BlockFace.UP);

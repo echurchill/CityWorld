@@ -36,14 +36,15 @@ public class HouseLot extends IsolatedLot {
 
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
-		if (blockYs.averageHeight >= generator.streetLevel + 1) {
-			
-			// ground please
-			if (generator.settings.includeDecayedNature)
-				chunk.setLayer(generator.streetLevel, Material.SAND);
-			else
-				chunk.setLayer(generator.streetLevel, generator.oreProvider.surfaceMaterial);
-		}
+		// make room
+		if (blockYs.maxHeight > generator.streetLevel)
+			chunk.clearBlocks(0, 16, generator.streetLevel + 1, blockYs.maxHeight + 1, 0, 16);
+		
+		// ground please
+		if (generator.settings.includeDecayedNature)
+			chunk.setLayer(generator.streetLevel, Material.SAND);
+		else
+			chunk.setLayer(generator.streetLevel, generator.oreProvider.surfaceMaterial);
 	}
 	
 	@Override
