@@ -4,7 +4,7 @@ Not any town will do, how about one that goes on forever or multiple ones separa
 But what is under those mountains? 
 There is an entire world to explore, have fun!
 
-===== //Version 3.002// ===== 
+===== //Version 3.004// ===== 
 
 {{http://dev.bukkit.org/media/images/42/720/2012-07-04_11.31.52.jpg|CityWorld}}
 
@@ -13,6 +13,7 @@ More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|
 v3.004
 Cranes now render correctly in 1.9 again, Mojang changed how Iron Fences rendered
 Unfinished buildings now follow similar rules to normal buildings
+Even more styles of buildings, woot! 
 
 v3.003
 Fixed a bug in Woodframe lots that would sometimes cause exceptions
