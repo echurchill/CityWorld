@@ -5,6 +5,7 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Factories.CurvedWallFactory;
 import me.daddychurchill.CityWorld.Factories.InteriorWallFactory;
 import me.daddychurchill.CityWorld.Factories.MaterialFactory;
+import me.daddychurchill.CityWorld.Factories.MaterialFactory.HorizontalStyle;
 import me.daddychurchill.CityWorld.Factories.OutsideNSWallFactory;
 import me.daddychurchill.CityWorld.Factories.OutsideWEWallFactory;
 import me.daddychurchill.CityWorld.Plats.Urban.ConcreteLot;
@@ -47,8 +48,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	
 	private MaterialFactory wallsInterior;
 	
-	protected enum RoofStyle {FLATTOP, EDGED, PEAK, TENT_NORTHSOUTH, TENT_WESTEAST, INSET_BOX, BOXED, RAISED_BOX};//, SLANT_NORTH, SLANT_SOUTH, SLANT_WEST, SLANT_EAST};
-	protected enum RoofFeature {ANTENNAS, CONDITIONERS, TILE, SKYLIGHT, SKYPEAK, SKYLIGHT_NS, SKYLIGHT_WE};
+	protected enum RoofStyle {FLATTOP, EDGED, PEAK, BOXED, TENT_NORTHSOUTH, TENT_WESTEAST, INSET_BOX, RAISED_BOX, OUTSET_BOX, INSET_RIDGEBOX};//, SLANT_NORTH, SLANT_SOUTH, SLANT_WEST, SLANT_EAST};
+	protected enum RoofFeature {ANTENNAS, CONDITIONERS, TILE, SKYLIGHT, SKYPEAK, ALTPEAK, SKYLIGHT_NS, SKYLIGHT_WE, SKYLIGHT_BOX};
 	protected RoofStyle roofStyle;
 	protected RoofFeature roofFeature;
 	protected int roofScale;
@@ -304,6 +305,33 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 							   insetCeilingWE == insetCeilingNS &&
 							   neighborFloors.isRoundable();
 		
+		// insetting the inset
+		int localInsetWallWE = insetWallWE;
+		int localInsetWallNS = insetWallNS;
+		int localInsetCeilingWE = insetCeilingWE;
+		int localInsetCeilingNS = insetCeilingNS;
+		
+		// inverted inset?
+		if (insetInverted) {
+			int inset = 0;
+			if (insetInsetMidAt > 1)
+				inset++;
+			if (insetInsetHighAt > 1)
+				inset++;
+			
+			localInsetWallWE += inset;
+			localInsetWallNS += inset;
+			localInsetCeilingWE += inset;
+			localInsetCeilingNS += inset;
+		}
+		
+		// validate the materials
+		if (localInsetWallNS > 0 || localInsetWallWE > 0)
+			if (wallMaterial.hasGravity())
+				wallMaterial = Material.STONE;
+		if (ceilingMaterial.hasGravity())
+			ceilingMaterial = Material.STONE;
+
 		// starting with the bottom
 		int lowestY = getBottomY(generator);
 		
@@ -331,26 +359,6 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			}
 		} else {
 			chunk.setLayer(lowestY + 1, ceilingMaterial);
-		}
-
-		// insetting the inset
-		int localInsetWallWE = insetWallWE;
-		int localInsetWallNS = insetWallNS;
-		int localInsetCeilingWE = insetCeilingWE;
-		int localInsetCeilingNS = insetCeilingNS;
-		
-		// inverted inset?
-		if (insetInverted) {
-			int inset = 0;
-			if (insetInsetMidAt > 1)
-				inset++;
-			if (insetInsetHighAt > 1)
-				inset++;
-			
-			localInsetWallWE += inset;
-			localInsetWallNS += inset;
-			localInsetCeilingWE += inset;
-			localInsetCeilingNS += inset;
 		}
 
 		// above ground
@@ -446,6 +454,12 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			}
 			break;
 		}
+		
+		// the first floor is different, it can't support random horizontal styles
+		if (floor == 0 && 
+			(floorWallsWE.horizontalStyle == HorizontalStyle.RANDOM || floorWallsNS.horizontalStyle == HorizontalStyle.RANDOM))
+			outsetEffect = false;
+			
 		
 		// rounded and square inset and there are exactly two neighbors?
 		if (allowRounded) {// && rounded) { 
@@ -665,6 +679,30 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				insetCeilingWE == insetCeilingNS &&
 				neighborFloors.isRoundable();
 		
+		// insetting the inset
+		int localInsetWallWE = insetWallWE;
+		int localInsetWallNS = insetWallNS;
+
+		// inverted inset?
+		if (insetInverted) {
+			int inset = 0;
+			if (insetInsetMidAt > 1)
+				inset++;
+			if (insetInsetHighAt > 1)
+				inset++;
+			
+			localInsetWallWE += inset;
+			localInsetWallNS += inset;
+		}
+
+		// validate the materials
+		if (localInsetWallNS > 0 || localInsetWallWE > 0)
+			if (wallMaterial.hasGravity())
+				wallMaterial = Material.STONE;
+		if (ceilingMaterial.hasGravity())
+			ceilingMaterial = Material.STONE;
+
+		// where are the stairs?
 		StairWell stairLocation = getStairWellLocation(allowRounded, neighborFloors);
 		if (!needStairsUp)
 			stairLocation = StairWell.NONE;
@@ -704,22 +742,6 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			}
 		}
 		
-		// insetting the inset
-		int localInsetWallWE = insetWallWE;
-		int localInsetWallNS = insetWallNS;
-
-		// inverted inset?
-		if (insetInverted) {
-			int inset = 0;
-			if (insetInsetMidAt > 1)
-				inset++;
-			if (insetInsetHighAt > 1)
-				inset++;
-			
-			localInsetWallWE += inset;
-			localInsetWallNS += inset;
-		}
-
 		// now the above ground floors
 		aboveFloorHeight = firstFloorHeight;
 		for (int floor = 0; floor < height; floor++) {
@@ -784,6 +806,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			int y1 = generator.streetLevel + 2;
 			int y2 = y1 + aboveFloorHeight * height;
 			switch (roofStyle) {
+			default:
 			case EDGED:
 			case FLATTOP:
 				if (roofFeature == RoofFeature.ANTENNAS)
@@ -795,6 +818,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			case BOXED:
 			case INSET_BOX:
 			case RAISED_BOX:
+			case INSET_RIDGEBOX:
+			case OUTSET_BOX:
 				y2 += aboveFloorHeight;
 				break;
 			}
@@ -1752,6 +1777,22 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			drawWallParts(generator, chunk, context, y1 + 1, 2, insetNS, insetWE, floor, 
 					allowRounded, false, material, heights);
 			break;
+		case INSET_RIDGEBOX:
+			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, false, heights);
+			drawWallParts(generator, chunk, context, y1, 1, insetNS, insetWE, floor, 
+					allowRounded, false, material, heights);
+			drawWallParts(generator, chunk, context, y1, 1, insetNS + 1, insetWE + 1, floor, 
+					allowRounded, false, material, heights);
+			drawWallParts(generator, chunk, context, y1 + 1, 3, insetNS + 2, insetWE + 2, floor, 
+					allowRounded, false, material, heights);
+			drawWallParts(generator, chunk, context, y1 + 3, 1, insetNS + 1, insetWE + 1, floor, 
+					allowRounded, false, material, heights);
+			break;
+		case OUTSET_BOX:
+			drawEdgedRoof(generator, chunk, context, y1, insetNS - 1, insetWE - 1, floor, allowRounded, material, true, heights);
+			drawWallParts(generator, chunk, context, y1, 2, insetNS - 1, insetWE - 1, floor, 
+					allowRounded, false, material, heights);
+			break;
 		}
 	}
 	
@@ -1763,17 +1804,17 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		if (doEdge)
 			drawWallParts(generator, chunk, context, y1, 1, insetNS, insetWE, floor, 
 					allowRounded, false, material, heights);
+		if (roofFeature == RoofFeature.ANTENNAS && heights.getCompleteNeighborCount() != 0)
+			roofFeature = RoofFeature.CONDITIONERS;
 		
 		// add the special features
 		switch (roofFeature) {
 		case ANTENNAS:
-			if (heights.getNeighborCount() == 0) {
-				drawAntenna(chunk, 6, y1, 6);
-				drawAntenna(chunk, 6, y1, 9);
-				drawAntenna(chunk, 9, y1, 6);
-				drawAntenna(chunk, 9, y1, 9);
-				break;
-			} // else fall into the conditioners block
+			drawAntenna(chunk, 6, y1, 6);
+			drawAntenna(chunk, 6, y1, 9);
+			drawAntenna(chunk, 9, y1, 6);
+			drawAntenna(chunk, 9, y1, 9);
+			break;
 		case CONDITIONERS:
 			drawConditioner(chunk, 6, y1, 6);
 			drawConditioner(chunk, 6, y1, 9);
@@ -1786,9 +1827,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		case SKYLIGHT:
 			chunk.setBlocks(5, 6, y1 - 1, 6, 10, Material.GLASS);
 			chunk.setBlocks(10, 11, y1 - 1, 6, 10, Material.GLASS);
-			chunk.setBlocks(6, 10, y1 - 1, 5, 6, Material.GLASS);
-			chunk.setBlocks(6, 10, y1 - 1, 10, 11, Material.GLASS);
-			chunk.setBlocks(6, 10, y1 - 1, 6, 10, Material.GLASS);
+			chunk.setBlocks(6, 10, y1 - 1, 5, 11, Material.GLASS);
 			break;
 		case SKYPEAK:
 			chunk.setBlocks(5, 6, y1 - 1, 6, 10, Material.GLASS);
@@ -1800,6 +1839,16 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			chunk.setWalls(6, 10, y1, y1 + 1, 6, 10, Material.GLASS);
 			chunk.setBlocks(7, 9, y1 + 1, y1 + 2, 7, 9, Material.GLASS);
 			break;
+		case ALTPEAK:
+			chunk.setBlocks(5, 6, y1 - 1, 6, 10, Material.GLASS);
+			chunk.setBlocks(10, 11, y1 - 1, 6, 10, Material.GLASS);
+			chunk.setBlocks(6, 10, y1 - 1, 5, 6, Material.GLASS);
+			chunk.setBlocks(6, 10, y1 - 1, 10, 11, Material.GLASS);
+			chunk.setBlocks(6, 10, y1 - 1, 6, 10, Material.AIR);
+
+			chunk.setWalls(6, 10, y1, y1 + 1, 6, 10, material);
+			chunk.setBlocks(7, 9, y1 + 1, y1 + 2, 7, 9, Material.GLASS);
+			break;
 		case SKYLIGHT_NS:
 			chunk.setBlocks(6, 10, y1 - 1, 6, 7, Material.GLASS);
 			chunk.setBlocks(6, 10, y1 - 1, 9, 10, Material.GLASS);
@@ -1807,6 +1856,12 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		case SKYLIGHT_WE:
 			chunk.setBlocks(6, 7, y1 - 1, 6, 10, Material.GLASS);
 			chunk.setBlocks(9, 10, y1 - 1, 6, 10, Material.GLASS);
+			break;
+		case SKYLIGHT_BOX:
+			chunk.setBlocks(5, 6, y1 - 1, 6, 10, Material.GLASS);
+			chunk.setBlocks(10, 11, y1 - 1, 6, 10, Material.GLASS);
+			chunk.setBlocks(6, 10, y1 - 1, 5, 6, Material.GLASS);
+			chunk.setBlocks(6, 10, y1 - 1, 10, 11, Material.GLASS);
 			break;
 		}
 	}
@@ -2116,7 +2171,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	}
 
 	protected RoofStyle pickRoofStyle() {
-		switch (chunkOdds.getRandomInt(8)) {
+		switch (chunkOdds.getRandomInt(10)) {
 		default:
 		case 0:
 			return RoofStyle.FLATTOP;
@@ -2134,11 +2189,15 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			return RoofStyle.TENT_NORTHSOUTH;
 		case 7:
 			return RoofStyle.TENT_WESTEAST;
+		case 8:
+			return RoofStyle.INSET_RIDGEBOX;
+		case 9:
+			return RoofStyle.OUTSET_BOX;
 		}
 	}
 	
 	protected RoofFeature pickRoofFeature() {
-		switch (chunkOdds.getRandomInt(7)) {
+		switch (chunkOdds.getRandomInt(9)) {
 		case 0:
 		default:
 			return RoofFeature.TILE;
@@ -2154,6 +2213,10 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			return RoofFeature.SKYLIGHT_NS;
 		case 6:
 			return RoofFeature.SKYLIGHT_WE;
+		case 7:
+			return RoofFeature.SKYLIGHT_BOX;
+		case 8:
+			return RoofFeature.ALTPEAK;
 		}
 	}
 	

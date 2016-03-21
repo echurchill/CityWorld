@@ -4,7 +4,6 @@ import org.bukkit.Material;
 import org.bukkit.World.Environment;
 import org.bukkit.block.BlockFace;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
-
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConnectedLot;
@@ -52,7 +51,9 @@ public class FarmLot extends ConnectedLot {
 		BROWN_MUSHROOM, RED_MUSHROOM, NETHERWART,
 		SHORT_FLOWERS, TALL_FLOWERS, ALL_FLOWERS,
 		SHORT_PLANTS, TALL_PLANTS, ALL_PLANTS,
-		EDIBLE_PLANTS, NETHER_PLANTS, DECAY_PLANTS};
+		EDIBLE_PLANTS, NETHER_PLANTS, DECAY_PLANTS,
+		
+		PADDOCK};
 	protected CropType cropType;
 
 	private boolean directionNorthSouth;
@@ -178,6 +179,23 @@ public class FarmLot extends ConnectedLot {
 		Material fallowMaterial = getAirMaterial(generator, croplevel - 1);
 		
 		switch (cropType) {
+		case PADDOCK:
+			chunk.setWalls(1, 15, generator.streetLevel + 1, generator.streetLevel + 2, 1, 15, Material.FENCE);
+			
+			// TODO: I fix the gates one of these days
+			if (chunkOdds.flipCoin())
+				chunk.setBlock(7, generator.streetLevel + 1, 1, Material.AIR);
+//				chunk.setBlock(7, generator.streetLevel + 1, 1, Material.FENCE_GATE);
+			if (chunkOdds.flipCoin())
+				chunk.setBlock(7, generator.streetLevel + 1, 14, Material.AIR);
+//				chunk.setBlock(7, generator.streetLevel + 1, 14, Material.FENCE_GATE);
+			if (chunkOdds.flipCoin())
+				chunk.setBlock(1, generator.streetLevel + 1, 7, Material.AIR);
+//				chunk.setBlock(1, generator.streetLevel + 1, 7, Material.FENCE_GATE);
+			if (chunkOdds.flipCoin())
+				chunk.setBlock(14, generator.streetLevel + 1, 7, Material.AIR);
+//				chunk.setBlock(14, generator.streetLevel + 1, 7, Material.FENCE_GATE);
+			break;
 		case TRELLIS:
 		case VINES:
 			buildVineyard(chunk, croplevel);
@@ -277,6 +295,8 @@ public class FarmLot extends ConnectedLot {
 		else {
 		
 			switch (cropType) {
+			case PADDOCK:
+			case FALLOW:
 			case TRELLIS:
 				break;
 			case VINES:
@@ -440,8 +460,6 @@ public class FarmLot extends ConnectedLot {
 				break;
 			case DECAY_PLANTS:
 				plantField(generator, chunk, croplevel, CoverageSets.DECAY_PLANTS, 1, 2);
-				break;
-			case FALLOW:
 				break;
 			}
 		}
@@ -651,7 +669,8 @@ public class FarmLot extends ConnectedLot {
 		CropType.SHORT_PLANTS,
 		CropType.TALL_PLANTS,
 //		CropType.ALL_PLANTS,
-		CropType.EDIBLE_PLANTS
+		CropType.EDIBLE_PLANTS,
+		CropType.PADDOCK
 		};
 	
 	protected CropType setNormalCrop() {
@@ -664,7 +683,8 @@ public class FarmLot extends ConnectedLot {
 		CropType.DEAD_BUSH,
 		CropType.BROWN_MUSHROOM,
 		CropType.RED_MUSHROOM,
-		CropType.DECAY_PLANTS
+		CropType.DECAY_PLANTS,
+		CropType.PADDOCK
 		};
 	
 	protected CropType setDecayedNormalCrop() {
@@ -678,7 +698,8 @@ public class FarmLot extends ConnectedLot {
 		CropType.BROWN_MUSHROOM,
 		CropType.RED_MUSHROOM,
 		CropType.NETHERWART,
-		CropType.NETHER_PLANTS
+		CropType.NETHER_PLANTS,
+		CropType.PADDOCK
 		};
 	
 	protected CropType setNetherCrop() {
