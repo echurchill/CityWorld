@@ -206,9 +206,13 @@ public class NatureContext extends UncivilizedContext {
 				break;
 			}
 			
-			if (current != null)
+			if (current != null) {
 				platmap.setLot(x, z, current);
-		}
+//				generator.reportMessage("Made: " + current.toString() + " AT " 
+//						+ RealBlocks.getBlockX(platmap.originX + x, 8) + ", " 
+//						+ RealBlocks.getBlockZ(platmap.originZ + z, 8));
+			}
+		} 
 	}
 
 	public void validateMap(CityWorldGenerator generator, PlatMap platmap) {

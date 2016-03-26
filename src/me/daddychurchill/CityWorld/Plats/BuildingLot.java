@@ -616,6 +616,28 @@ public abstract class BuildingLot extends ConnectedLot {
 			chunk.setBlocks(11, 13, y1, y2, 11, 13, wallMaterial);
 	}
 	
+	protected boolean willBeRounded(boolean allowRounded, Surroundings heights) {
+		// rounded and square inset and there are exactly two neighbors?
+		if (allowRounded) {// && rounded) { 
+			
+			// do the sides
+			if (heights.toSouth()) {
+				if (heights.toWest()) {
+					return true;
+				} else if (heights.toEast()) {
+					return true;
+				}
+			} else if (heights.toNorth()) {
+				if (heights.toWest()) {
+					return true;
+				} else if (heights.toEast()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	protected void drawWallParts(CityWorldGenerator generator, InitialBlocks byteChunk, DataContext context, 
 			int y1, int height, int insetNS, int insetWE, int floor, 
 			boolean allowRounded, boolean outsetEffect, Material wallMaterial, Surroundings heights) {

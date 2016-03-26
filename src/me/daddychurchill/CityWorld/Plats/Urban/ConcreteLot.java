@@ -44,6 +44,13 @@ public class ConcreteLot extends BuildingLot {
 			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
 			int platZ) {
 		int groundY = getBottomY(generator);
+		
+//		chunk.setWalls(5, 10, groundY + 2, groundY + 3, 5, 10, Material.ENDER_PORTAL_FRAME);
+//		chunk.clearBlock(5, groundY + 2, 5);
+//		chunk.clearBlock(5, groundY + 2, 9);
+//		chunk.clearBlock(9, groundY + 2, 5);
+//		chunk.clearBlock(9, groundY + 2, 9);
+//		chunk.setBlocks(6, 9, groundY + 2, 6, 9, Material.ENDER_PORTAL);
 
 		// it looked so nice for a moment... but the moment has passed
 		if (generator.settings.includeDecayedBuildings)

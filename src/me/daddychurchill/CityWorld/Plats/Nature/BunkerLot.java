@@ -16,6 +16,7 @@ import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.BadMagic;
+import me.daddychurchill.CityWorld.Support.BadMagic.TrapDoor;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
@@ -361,13 +362,23 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setCircle(8, 8, 5, topOfBunker, blockYs.maxHeight + 1, Material.AIR, true);
 		chunk.setCircle(8, 8, 6, topOfBunker, blockYs.minHeight + 1, materials.building, false);
 		chunk.setCircle(8, 8, 6, blockYs.minHeight, blockYs.averageHeight + 1, Material.STAINED_CLAY, false);
-		chunk.setCircle(8, 8, 5, blockYs.averageHeight - 1, Material.STAINED_CLAY, true);
 		
 		// camo the exit
 		chunk.camoClay(1, 15, blockYs.minHeight, blockYs.averageHeight + 1, 1, 15, odds);
 		
+		// lid & crack
+		int lidY = blockYs.averageHeight - 1;
+		chunk.setCircle(8, 8, 5, lidY, Material.STONE, true);
+		for (int x = 3; x < 14; x += 2)
+			chunk.setTrapDoor(x, lidY, 7, TrapDoor.TOP_NORTH);
+		for (int x = 2; x < 15; x += 2)
+			chunk.setTrapDoor(x, lidY, 8, TrapDoor.TOP_SOUTH);
+		chunk.setLadder(2, topOfBunker, lidY, 8, BlockFace.WEST);
+		chunk.setWalls(2, 14, topOfBunker - 1, topOfBunker, 2, 14, materials.crosswalk);
+		
 		// place it then
-		generator.structureInAirProvider.generateSaucer(generator, chunk, 8, y1, 8, true);
+		if (odds.flipCoin())
+			generator.structureInAirProvider.generateSaucer(generator, chunk, 8, y1, 8, true);
 		
 		// lift the surface?
 		return 7;

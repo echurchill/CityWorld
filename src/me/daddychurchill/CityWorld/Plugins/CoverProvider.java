@@ -444,13 +444,11 @@ public abstract class CoverProvider extends Provider {
 			break;
 		case CARROTS:
 			chunk.setBlockIfNot(x, y - 1, z, Material.SOIL);
-//			chunk.setBlock(x, y, z, Material.CARROT, getRandomCropState());
-			BlackMagic.setBlock(chunk, x, y, z, Material.CARROT, odds.getRandomInt(8));
+			chunk.setBlock(x, y, z, Material.CARROT, getRandomCropState());
 			break;
 		case POTATO:
 			chunk.setBlockIfNot(x, y - 1, z, Material.SOIL);
-//			chunk.setBlock(x, y, z, Material.POTATO, getRandomCroxpState());
-			BlackMagic.setBlock(chunk, x, y, z, Material.POTATO, odds.getRandomInt(8));
+			chunk.setBlock(x, y, z, Material.POTATO, getRandomCropState());
 			break;
 		case MELON:
 			chunk.setBlockIfNot(x, y - 1, z, Material.SOIL);
