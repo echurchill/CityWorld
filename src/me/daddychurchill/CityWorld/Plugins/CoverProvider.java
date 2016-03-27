@@ -58,7 +58,8 @@ public abstract class CoverProvider extends Provider {
 		GENERAL_SAPLINGS, ALL_SAPLINGS, 
 		OAK_TREES, PINE_TREES, BIRCH_TREES, 
 		JUNGLE_TREES, ACACIA_TREES, SWAMP_TREES, 
-		EDIBLE_PLANTS, SHORT_MUSHROOMS, 
+		SHORT_TREES, MEDIUM_TREES, TALL_TREES, ALL_TREES,
+		PRARIE_PLANTS, EDIBLE_PLANTS, SHORT_MUSHROOMS, 
 		NETHER_PLANTS, DECAY_PLANTS};
 								
 	private final static CoverageType[] ShortFlowers = {
@@ -87,14 +88,31 @@ public abstract class CoverProvider extends Provider {
 	private final static CoverageType[] TallPlants = {
 		CoverageType.CACTUS, CoverageType.REED,
 		CoverageType.TALL_GRASS, CoverageType.TALL_FERN,
+		CoverageType.SUNFLOWER, CoverageType.LILAC,
 		CoverageType.EMERALD_GREEN};
 	
 	private final static CoverageType[] AllPlants = {
 		CoverageType.GRASS, CoverageType.FERN,
 		CoverageType.CACTUS, CoverageType.REED,
 		CoverageType.TALL_GRASS, CoverageType.TALL_FERN,
+		CoverageType.ROSE_BUSH, CoverageType.PEONY,
 		CoverageType.EMERALD_GREEN};
 
+	private final static CoverageType[] PrariePlants = {
+		CoverageType.GRASS, CoverageType.GRASS,
+		CoverageType.GRASS, CoverageType.GRASS,
+		CoverageType.DANDELION, CoverageType.POPPY, 
+		CoverageType.GRASS, CoverageType.GRASS,
+//		CoverageType.BLUE_ORCHID, CoverageType.ALLIUM, 
+		CoverageType.GRASS, CoverageType.GRASS,
+//		CoverageType.AZURE_BLUET, CoverageType.OXEYE_DAISY,
+		CoverageType.GRASS, CoverageType.GRASS,
+		CoverageType.RED_TULIP, CoverageType.ORANGE_TULIP, 
+		CoverageType.GRASS, CoverageType.GRASS,
+		CoverageType.WHITE_TULIP, CoverageType.PINK_TULIP,
+		CoverageType.GRASS, CoverageType.GRASS,
+		CoverageType.GRASS, CoverageType.GRASS};
+			
 	private final static CoverageType[] EdiblePlants = {
 		CoverageType.WHEAT, CoverageType.CARROTS,
 		CoverageType.POTATO, CoverageType.BEETROOT,
@@ -129,8 +147,30 @@ public abstract class CoverProvider extends Provider {
 		CoverageType.ACACIA_SAPLING, CoverageType.ACACIA_TREE};
 	
 	private final static CoverageType[] SwampTrees = {
-		CoverageType.SWAMP_TREE};
+			CoverageType.SWAMP_TREE};
+		
+	private final static CoverageType[] ShortTrees = {
+		CoverageType.SHORT_BIRCH_TREE, CoverageType.SHORT_JUNGLE_TREE,
+		CoverageType.SHORT_OAK_TREE, CoverageType.SHORT_PINE_TREE};
 	
+	private final static CoverageType[] MediumTrees = {
+		CoverageType.BIRCH_TREE, CoverageType.JUNGLE_TREE,
+		CoverageType.OAK_TREE,CoverageType.PINE_TREE};
+		
+	private final static CoverageType[] TallTrees = {
+		CoverageType.TALL_BIRCH_TREE, CoverageType.TALL_JUNGLE_TREE,
+		CoverageType.TALL_OAK_TREE,CoverageType.TALL_PINE_TREE,
+		CoverageType.ACACIA_TREE, CoverageType.SWAMP_TREE};
+		
+	private final static CoverageType[] AllTrees = {
+		CoverageType.SHORT_BIRCH_TREE, CoverageType.SHORT_JUNGLE_TREE,
+		CoverageType.SHORT_OAK_TREE, CoverageType.SHORT_PINE_TREE,
+		CoverageType.BIRCH_TREE, CoverageType.JUNGLE_TREE,
+		CoverageType.OAK_TREE,CoverageType.PINE_TREE,
+		CoverageType.TALL_BIRCH_TREE, CoverageType.TALL_JUNGLE_TREE,
+		CoverageType.TALL_OAK_TREE,CoverageType.TALL_PINE_TREE,
+		CoverageType.ACACIA_TREE, CoverageType.SWAMP_TREE};
+		
 	private final static CoverageType[] ShortMushrooms = {
 		CoverageType.BROWN_MUSHROOM, CoverageType.RED_MUSHROOM};
 
@@ -172,6 +212,9 @@ public abstract class CoverProvider extends Provider {
 		case ALL_SAPLINGS:
 			generateRandomCoverage(generator, chunk, x, y, z, AllSaplings);
 			break;
+		case PRARIE_PLANTS:
+			generateRandomCoverage(generator, chunk, x, y, z, PrariePlants);
+			break;
 		case EDIBLE_PLANTS:
 			generateRandomCoverage(generator, chunk, x, y, z, EdiblePlants);
 			break;
@@ -196,6 +239,19 @@ public abstract class CoverProvider extends Provider {
 		case SWAMP_TREES:
 			generateRandomCoverage(generator, chunk, x, y, z, SwampTrees);
 			break;
+		case SHORT_TREES:
+			generateRandomCoverage(generator, chunk, x, y, z, ShortTrees);
+			break;
+		case MEDIUM_TREES:
+			generateRandomCoverage(generator, chunk, x, y, z, MediumTrees);
+			break;
+		case TALL_TREES:
+			generateRandomCoverage(generator, chunk, x, y, z, TallTrees);
+			break;
+		case ALL_TREES:
+			generateRandomCoverage(generator, chunk, x, y, z, AllTrees);
+			break;
+			
 		case NETHER_PLANTS:
 			generateRandomCoverage(generator, chunk, x, y, z, NetherPlants);
 			break;

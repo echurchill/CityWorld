@@ -51,7 +51,7 @@ public class FarmLot extends ConnectedLot {
 		BROWN_MUSHROOM, RED_MUSHROOM, NETHERWART,
 		SHORT_FLOWERS, TALL_FLOWERS, ALL_FLOWERS,
 		SHORT_PLANTS, TALL_PLANTS, ALL_PLANTS,
-		EDIBLE_PLANTS, NETHER_PLANTS, DECAY_PLANTS,
+		PRARIE_PLANTS, EDIBLE_PLANTS, NETHER_PLANTS, DECAY_PLANTS,
 		
 		PADDOCK};
 	protected CropType cropType;
@@ -232,6 +232,7 @@ public class FarmLot extends ConnectedLot {
 			else 
 				fallowField = true;
 			break;
+		case PRARIE_PLANTS:
 		case OAK_SAPLING:
 //		case SPRUCE_SAPLING:
 		case BIRCH_SAPLING:
@@ -451,6 +452,10 @@ public class FarmLot extends ConnectedLot {
 				break;
 			case ALL_PLANTS:
 				plantField(generator, chunk, croplevel, CoverageSets.ALL_PLANTS, 2, 2);
+				break;
+			case PRARIE_PLANTS:
+				
+				plantField(generator, chunk, croplevel, CoverageSets.PRARIE_PLANTS, 1, 3);
 				break;
 			case EDIBLE_PLANTS:
 				plantField(generator, chunk, croplevel, CoverageSets.EDIBLE_PLANTS, 1, 3);

@@ -72,6 +72,7 @@ public class RoadLot extends ConnectedLot {
 	protected boolean roundaboutRoad;
 	private int bottomOfRoad;
 	private int topOfRoad;
+	public static int sewerDepth = 32; 
 	
 	public RoadLot(PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey, boolean roundaboutPart) {
 		super(platmap, chunkX, chunkZ);
@@ -110,7 +111,7 @@ public class RoadLot extends ConnectedLot {
 
 	@Override
 	protected boolean isShaftableLevel(CityWorldGenerator generator, int blockY) {
-		return (blockY < bottomOfRoad - 32 || blockY > topOfRoad + 16 ) && super.isShaftableLevel(generator, blockY);
+		return (blockY < bottomOfRoad - sewerDepth || blockY > topOfRoad + 16 ) && super.isShaftableLevel(generator, blockY);
 	}
 	
 	private boolean sewerCenterBit;

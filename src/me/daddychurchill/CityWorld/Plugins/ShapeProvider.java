@@ -57,6 +57,7 @@ public abstract class ShapeProvider extends Provider {
 			
 			// place and validate the roads
 			if (generator.settings.includeRoads) {
+				platmap.context = getContext(platmap);
 				platmap.populateRoads(); // this will see the platmap's context as natural since it hasn't been re-set yet, see below
 				platmap.validateRoads();
 	
@@ -64,7 +65,7 @@ public abstract class ShapeProvider extends Provider {
 				if (generator.settings.includeBuildings) {
 		
 					// recalculate the context based on the "natural-ness" of the platmap
-					platmap.context = getContext(platmap);
+//					platmap.context = getContext(platmap);
 					platmap.context.populateMap(generator, platmap);
 					platmap.context.validateMap(generator, platmap);
 				}

@@ -5,6 +5,7 @@ import org.bukkit.util.noise.NoiseGenerator;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageSets;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
@@ -64,12 +65,13 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 				} else if (primary < foliageOdds) {
 					
 					// what to pepper about
-					if (secondary < flowerRedOdds)
-						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.POPPY);
-					else if (secondary < flowerYellowOdds)
-						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.DANDELION);
-					else 
-						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.GRASS);
+					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageSets.PRARIE_PLANTS);
+//					if (secondary < flowerRedOdds)
+//						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.POPPY);
+//					else if (secondary < flowerYellowOdds)
+//						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.DANDELION);
+//					else 
+//						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.GRASS);
 				}
 				
 			// regular trees, grass and some evergreen trees... no flowers
