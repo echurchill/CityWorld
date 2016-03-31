@@ -518,8 +518,8 @@ public abstract class CoverProvider extends Provider {
 			break;
 		case BEETROOT:
 			chunk.setBlockIfNot(x, y - 1, z, Material.SOIL);
-//			chunk.setBlock(x, y, z, Material.BEETROOT_BLOCK, getRandomCropState());
-			BlackMagic.setBlock(chunk, x, y, z, Material.BEETROOT_BLOCK, odds.getRandomInt(4));
+			chunk.setBlock(x, y, z, Material.BEETROOT_BLOCK, getRandomCropState(4));
+//			BlackMagic.setBlock(chunk, x, y, z, Material.BEETROOT_BLOCK, odds.getRandomInt(4));
 			break;
 		case DEAD_BUSH:
 			chunk.setBlockIfNot(x, y - 1, z, Material.SAND, Material.DIRT, Material.HARD_CLAY);
@@ -547,7 +547,11 @@ public abstract class CoverProvider extends Provider {
 	}
 	
 	private Crops getRandomCropState() {
-		return new Crops(CropState.values()[odds.getRandomInt(CropState.values().length)]);
+		return getRandomCropState(CropState.values().length);
+	}
+	
+	private Crops getRandomCropState(int max) {
+		return new Crops(CropState.values()[odds.getRandomInt(max)]);
 	}
 	
 	private NetherWarts getRandomNetherWartState() {

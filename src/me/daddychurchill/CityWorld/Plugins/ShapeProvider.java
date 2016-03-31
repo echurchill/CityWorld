@@ -186,20 +186,22 @@ public abstract class ShapeProvider extends Provider {
 		return provider;
 	}
 	
+	private static int bottomOfWorld = 0;
+	
 	protected void actualGenerateStratas(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, int x, int z, Material substratumMaterial, Material stratumMaterial,
 			int stratumY, Material subsurfaceMaterial, int subsurfaceY, Material surfaceMaterial,
 			boolean surfaceCaves) {
 
 		// make the base
-		chunk.setBlock(x, 0, z, substratumMaterial);
-		chunk.setBlock(x, 1, z, stratumMaterial);
+		chunk.setBlock(x, bottomOfWorld, z, substratumMaterial);
+		chunk.setBlock(x, bottomOfWorld + 1, z, stratumMaterial);
 
 		// compute the world block coordinates
 		int blockX = chunk.sectionX * chunk.width + x;
 		int blockZ = chunk.sectionZ * chunk.width + z;
 		
 		// stony bits
-		for (int y = 2; y < stratumY; y++)
+		for (int y = bottomOfWorld + 2; y < stratumY; y++)
 			if (lot.isValidStrataY(generator, blockX, y, blockZ) && generator.shapeProvider.notACave(generator, blockX, y, blockZ))
 				chunk.setBlock(x, y, z, stratumMaterial);
 			else if (y <= OreProvider.lavaFieldLevel && generator.settings.includeLavaFields)
