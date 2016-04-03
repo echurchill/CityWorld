@@ -23,7 +23,7 @@ public class GravelMineLot extends GravelLot {
 	protected void generateActualBlocks(CityWorldGenerator generator,
 			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
 			int platZ) {
-		generateHole(generator, chunk, 14, 16);
+		generateHole(generator, chunkOdds, chunk, generator.streetLevel, 14, 16);
 		
 		// place snow
 		generateSurface(generator, chunk, false);

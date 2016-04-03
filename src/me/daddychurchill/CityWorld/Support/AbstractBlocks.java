@@ -136,4 +136,37 @@ public abstract class AbstractBlocks {
 						clearBlock(x, y, z);
 	}
 	
+	public void pepperBlocks(int x, int y1, int y2, int z, Odds odds, Material material) {
+		pepperBlocks(x, y1, y2, z, odds, Odds.oddsLikely, material);
+	}
+
+	public void pepperBlocks(int x1, int x2, int y, int z1, int z2, Odds odds, Material material) {
+		pepperBlocks(x1, x2, y, z1, z2, odds, Odds.oddsLikely, material);
+	}
+	
+	public void pepperBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds, Material material) {
+		pepperBlocks(x1, x2, y1, y2, z1, z2, odds, Odds.oddsLikely, material);
+	}
+	
+	public void pepperBlocks(int x, int y1, int y2, int z, Odds odds, double theOdds, Material material) {
+		for (int y = y1; y < y2; y++)
+			if (odds.playOdds(theOdds))
+				setBlock(x, y, z, material);
+	}
+
+	public void pepperBlocks(int x1, int x2, int y, int z1, int z2, Odds odds, double theOdds, Material material) {
+		for (int x = x1; x < x2; x++)
+			for (int z = z1; z < z2; z++)
+				if (odds.playOdds(theOdds))
+					setBlock(x, y, z, material);
+	}
+	
+	public void pepperBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds, double theOdds, Material material) {
+		for (int x = x1; x < x2; x++)
+			for (int z = z1; z < z2; z++)
+				for (int y = y1; y < y2; y++)
+					if (odds.playOdds(theOdds))
+						setBlock(x, y, z, material);
+	}
+	
 }

@@ -79,8 +79,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	protected int insetWallNS;
 	protected int insetCeilingWE;
 	protected int insetCeilingNS;
-	protected boolean insetInsetted;
-	protected boolean insetInverted;
+	protected enum InsetStyle {STRAIGHT, BIGTOSMALL, SMALLTOBIG, UNDULATEIN, UNDULATEOUT}; // combinations like SmallToUndulating
+	protected InsetStyle insetStyle;
 	protected int insetInsetMidAt;
 	protected int insetInsetHighAt;
 	protected boolean outsetColumns;
@@ -189,19 +189,23 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 		
 		// nudge in a bit more as we go up
-		int insetSegment = height / 4;
 		insetInsetMidAt = 1;
 		insetInsetHighAt = 1;
-//		insetInsetted = height >= context.buildingWallInsettedMinLowPoint && chunkOdds.playOdds(context.oddsOfBuildingWallInset);
-		insetInsetted = insetSegment > 1 && chunkOdds.playOdds(context.oddsOfBuildingWallInset);
-		if (insetInsetted) {
-//			insetInsetMidAt = Math.max(context.buildingWallInsettedMinMidPoint, 
-//					chunkOdds.getRandomInt(context.buildingWallInsettedMinLowPoint));
-//			insetInsetHighAt = Math.max(insetInsetMidAt + 1, chunkOdds.getRandomInt(context.buildingWallInsettedMinLowPoint));
+		int insetSegment = height / 4;
+		insetStyle = InsetStyle.STRAIGHT;
+		if (insetSegment > 1 && chunkOdds.playOdds(context.oddsOfBuildingWallInset)) {
 			insetInsetMidAt = chunkOdds.getRandomInt(insetSegment, insetSegment * 2);
 			insetInsetHighAt = chunkOdds.getRandomInt(insetInsetMidAt + 1, insetSegment * 3);
+			if (chunkOdds.flipCoin())
+				insetStyle = InsetStyle.BIGTOSMALL; // 50% of the time
+			else if (chunkOdds.flipCoin())
+				insetStyle = InsetStyle.SMALLTOBIG; // 25%
+			else if (chunkOdds.flipCoin())
+				insetStyle = InsetStyle.UNDULATEIN; // 12.5%
+			else
+				insetStyle = InsetStyle.UNDULATEOUT; // 12.5%
+			
 		}
-		insetInverted = insetInsetted && chunkOdds.playOdds(Odds.oddsSomewhatLikely); 
 		outsetColumns = chunkOdds.playOdds(Odds.oddsSomewhatLikely); 
 		outsetColumnsDivisor = chunkOdds.getRandomInt(1, 5); 
 
@@ -256,10 +260,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			insetCeilingNS = relativebuilding.insetCeilingNS;
 			
 			// nudge in a bit more as we go up
-			insetInsetted = relativebuilding.insetInsetted;
+			insetStyle = relativebuilding.insetStyle;
 			insetInsetMidAt = relativebuilding.insetInsetMidAt;
 			insetInsetHighAt = relativebuilding.insetInsetHighAt;
-			insetInverted = relativebuilding.insetInverted;
 			outsetColumns = relativebuilding.outsetColumns;
 			outsetColumnsDivisor = relativebuilding.outsetColumnsDivisor;
 			
@@ -294,6 +297,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		return generator.streetLevel + firstFloorHeight + (height * aboveFloorHeight);
 	}
 	
+	private static int minimumInset = 0;
+	private static int maximumInset = 2;
+	
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 
@@ -312,19 +318,26 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		int localInsetWallNS = insetWallNS;
 		int localInsetCeilingWE = insetCeilingWE;
 		int localInsetCeilingNS = insetCeilingNS;
+		int currentInset = minimumInset;
+		int deltaInset = 1;
 		
-		// inverted inset?
-		if (insetInverted) {
-			int inset = 0;
+		// make it small initially?
+		switch (insetStyle) {
+		case SMALLTOBIG:
+		case UNDULATEOUT:
 			if (insetInsetMidAt > 1)
-				inset++;
+				currentInset++;
 			if (insetInsetHighAt > 1)
-				inset++;
+				currentInset++;
 			
-			localInsetWallWE += inset;
-			localInsetWallNS += inset;
-			localInsetCeilingWE += inset;
-			localInsetCeilingNS += inset;
+			localInsetWallWE += currentInset;
+			localInsetWallNS += currentInset;
+			localInsetCeilingWE += currentInset;
+			localInsetCeilingNS += currentInset;
+			deltaInset = -1;
+			break;
+		default:
+			break;
 		}
 		
 		// validate the materials
@@ -371,21 +384,38 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			boolean inMiddleSection = floor >= insetInsetMidAt && floor < insetInsetHighAt;
 			allowRounded = allowRounded && neighborFloors.isRoundable();
 
-			// breath in?
-			if (insetInsetted) {
+			// inset?
+			switch (insetStyle) {
+			case STRAIGHT:
+				break;
+			case BIGTOSMALL:
 				if (floor == insetInsetMidAt || floor == insetInsetHighAt) {
-					if (insetInverted) {
-						localInsetWallWE--;
-						localInsetWallNS--;
-						localInsetCeilingWE--;
-						localInsetCeilingNS--;
-					} else {
-						localInsetWallWE++;
-						localInsetWallNS++;
-						localInsetCeilingWE++;
-						localInsetCeilingNS++;
-					}
+					localInsetWallWE++;
+					localInsetWallNS++;
+					localInsetCeilingWE++;
+					localInsetCeilingNS++;
 				}
+				break;
+			case SMALLTOBIG:
+				if (floor == insetInsetMidAt || floor == insetInsetHighAt) {
+					localInsetWallWE--;
+					localInsetWallNS--;
+					localInsetCeilingWE--;
+					localInsetCeilingNS--;
+				}
+				break;
+			case UNDULATEIN:
+			case UNDULATEOUT:
+				if (floor > 0) {
+					if (currentInset == minimumInset || currentInset == maximumInset)
+						deltaInset = -deltaInset;
+					currentInset = currentInset + deltaInset;
+					localInsetWallWE = insetWallWE + currentInset;
+					localInsetWallNS = insetWallNS + currentInset;
+					localInsetCeilingWE = insetCeilingWE + currentInset;
+					localInsetCeilingNS = insetCeilingNS + currentInset;
+				}
+				break;
 			}
 			
 			// columns?
@@ -686,19 +716,26 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		// insetting the inset
 		int localInsetWallWE = insetWallWE;
 		int localInsetWallNS = insetWallNS;
-
-		// inverted inset?
-		if (insetInverted) {
-			int inset = 0;
+		int currentInset = minimumInset;
+		int deltaInset = 1;
+		
+		// make it small initially?
+		switch (insetStyle) {
+		case SMALLTOBIG:
+		case UNDULATEOUT:
 			if (insetInsetMidAt > 1)
-				inset++;
+				currentInset++;
 			if (insetInsetHighAt > 1)
-				inset++;
+				currentInset++;
 			
-			localInsetWallWE += inset;
-			localInsetWallNS += inset;
+			localInsetWallWE += currentInset;
+			localInsetWallNS += currentInset;
+			deltaInset = -1;
+			break;
+		default:
+			break;
 		}
-
+		
 		// validate the materials
 		if (localInsetWallNS > 0 || localInsetWallWE > 0)
 			if (wallMaterial.hasGravity())
@@ -755,17 +792,32 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 //			if (!needStairsUp || floor == height - 1)
 //				stairLocation = StairWell.NONE;
 			
-			// breath in?
-			if (insetInsetted) {
+			// inset?
+			switch (insetStyle) {
+			case STRAIGHT:
+				break;
+			case BIGTOSMALL:
 				if (floor == insetInsetMidAt || floor == insetInsetHighAt) {
-					if (insetInverted) {
-						localInsetWallWE--;
-						localInsetWallNS--;
-					} else {
-						localInsetWallWE++;
-						localInsetWallNS++;
-					}
+					localInsetWallWE++;
+					localInsetWallNS++;
 				}
+				break;
+			case SMALLTOBIG:
+				if (floor == insetInsetMidAt || floor == insetInsetHighAt) {
+					localInsetWallWE--;
+					localInsetWallNS--;
+				}
+				break;
+			case UNDULATEIN:
+			case UNDULATEOUT:
+				if (floor > 0) {
+					if (currentInset == minimumInset || currentInset == maximumInset)
+						deltaInset = -deltaInset;
+					currentInset = currentInset + deltaInset;
+					localInsetWallWE = insetWallWE + currentInset;
+					localInsetWallNS = insetWallNS + currentInset;
+				}
+				break;
 			}
 			
 			// inside walls

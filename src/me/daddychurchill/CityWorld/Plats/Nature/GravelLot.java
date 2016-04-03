@@ -27,11 +27,11 @@ public abstract class GravelLot extends ConstructLot {
 		
 	}
 
-	protected void generateTailings(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int z1, int z2) {
-		generateTailings(generator, chunk, x1, x2, generator.streetLevel, z1, z2);
+	protected static void generateTailings(CityWorldGenerator generator, Odds odds, RealBlocks chunk, int x1, int x2, int z1, int z2) {
+		generateTailings(generator, odds, chunk, x1, x2, generator.streetLevel, z1, z2);
 	}
 	
-	protected void generateTailings(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int y, int z1, int z2) {
+	protected static void generateTailings(CityWorldGenerator generator, Odds odds, RealBlocks chunk, int x1, int x2, int y, int z1, int z2) {
 		
 		// clear out some room above the tailings
 		if (x1 + 1 < x2 - 1 && z1 + 1 < z2 - 1)
@@ -49,7 +49,7 @@ public abstract class GravelLot extends ConstructLot {
 				else
 					yOffset = 2;
 				
-				switch (chunkOdds.getRandomInt(3)) {
+				switch (odds.getRandomInt(3)) {
 				case 0:
 					chunk.setSlab(x, y - yOffset, z, Material.COBBLESTONE, false);
 					chunk.setBlock(x, y - 1 - yOffset, z, Material.COBBLESTONE);
@@ -81,10 +81,10 @@ public abstract class GravelLot extends ConstructLot {
 		}
 	}
 
-	protected void generatePile(CityWorldGenerator generator, RealBlocks chunk, int x, int z, int width) {
-		Material specialMaterial = generator.settings.materials.itemsSelectMaterial_QuaryPiles.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
+	public static void generatePile(CityWorldGenerator generator, Odds odds, RealBlocks chunk, int x, int z, int width) {
+		Material specialMaterial = generator.settings.materials.itemsSelectMaterial_QuaryPiles.getRandomMaterial(odds, Material.COBBLESTONE);
 		int y = generator.streetLevel + 1;
-		if (chunkOdds.playOdds(Odds.oddsPrettyLikely)) {
+		if (odds.playOdds(Odds.oddsPrettyLikely)) {
 			for (int a = 0; a < width; a++) {
 				for (int b = 0; b < width; b++) {
 					int base = 2;
@@ -92,21 +92,25 @@ public abstract class GravelLot extends ConstructLot {
 						base--;
 					if (b == 0 || b == width - 1)
 						base--;
-					int height = chunkOdds.getRandomInt(base, 3);
+					int height = odds.getRandomInt(base, 3);
 					for (int c = 0; c < height; c++)
-						chunk.setBlock(x + a, y + c, z + b, chunkOdds.playOdds(Odds.oddsVeryUnlikely) ? specialMaterial : Material.COBBLESTONE);
+						chunk.setBlock(x + a, y + c, z + b, odds.playOdds(Odds.oddsVeryUnlikely) ? specialMaterial : Material.COBBLESTONE);
 				}
 			}
 		}
 	}
 	
-	protected void generateHole(CityWorldGenerator generator, RealBlocks chunk, int width, int lowestY) {
+	public static void generateHole(CityWorldGenerator generator, Odds odds, RealBlocks chunk, int highestY, int width, int lowestY) {
+		generateHole(generator, odds, chunk, highestY, width, lowestY, true);
+	}
+	
+	public static void generateHole(CityWorldGenerator generator, Odds odds, RealBlocks chunk, int highestY, int width, int lowestY, boolean doTailings) {
 		width = (width / 2) * 2; // make sure width is even
 		
 		// get ready to dig
 		int xz = (chunk.width - width) / 2;
 		int depth = chunk.width - (xz * 2) - 1;
-		int sectionTop = generator.streetLevel;
+		int sectionTop = highestY;
 		int y = sectionTop;
 		
 		// while the hole is wide enough
@@ -144,7 +148,8 @@ public abstract class GravelLot extends ConstructLot {
 			if (y <= lowestY) {
 				
 				// rough up the bottom
-				generateTailings(generator, chunk, origin + 1, origin + depth, y, origin + 1, origin + depth);
+				if (doTailings)
+					generateTailings(generator, odds, chunk, origin + 1, origin + depth, y, origin + 1, origin + depth);
 				
 				// all done
 				break;
@@ -182,14 +187,14 @@ public abstract class GravelLot extends ConstructLot {
 //		generateTailings(generator, chunk, 15, 16, 1, 15);
 	}
 	
-	private void generateStep(RealBlocks chunk, int x, int y1, int y2, int z, Material step, Stair directionTop, Stair directionBottom) {
+	private static void generateStep(RealBlocks chunk, int x, int y1, int y2, int z, Material step, Stair directionTop, Stair directionBottom) {
 		chunk.setStair(x, y1, z, step, directionTop);
 		if (chunk.isEmpty(x, y1 - 1, z))
 			chunk.setStair(x, y1 - 1, z, step, directionBottom);
 		chunk.setBlocks(x, y1 + 1, y2 + 1, z, Material.AIR);
 	}
 
-	private void generateLanding(RealBlocks chunk, int x, int y1, int y2, int z, Material landing) {
+	private static void generateLanding(RealBlocks chunk, int x, int y1, int y2, int z, Material landing) {
 		chunk.setBlock(x, y1, z, landing);
 		chunk.setBlocks(x, y1 + 1, y2 + 1, z, Material.AIR);
 	}

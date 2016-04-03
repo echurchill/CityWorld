@@ -4,6 +4,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.IsolatedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plats.Nature.GravelLot;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageSets;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -54,20 +55,27 @@ public class RoundaboutCenterLot extends IsolatedLot {
 	
 	@Override
 	public boolean isValidStrataY(CityWorldGenerator generator, int blockX, int blockY, int blockZ) {
-		return blockY < generator.streetLevel - 5;
+		return blockY < generator.streetLevel;
 	}
 
 	@Override
 	protected boolean isShaftableLevel(CityWorldGenerator generator, int blockY) {
-		return blockY < generator.streetLevel - 5;
+		return blockY < generator.streetLevel - (generator.streetLevel / 2);
 	}
 	
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		
 		// where to start?
+		int y0 = generator.streetLevel - 1;
 		int y1 = generator.streetLevel + 1;
+		
+		// clear out underneath
 		chunk.setLayer(y1, curbMaterial);
+		chunk.pepperBlocks(0, 16, y0, 0, 16, chunkOdds, generator.oreProvider.stratumMaterial); // replace some dirt with stone
+		chunk.clearBlocks(0, 16, y0 - 1, 0, 16, chunkOdds); // remove some dirt
+		chunk.pepperBlocks(0, 16, y0 - 1, 0, 16, chunkOdds, generator.oreProvider.stratumMaterial); // replace some dirt or air with stone
+		chunk.clearBlocks(0, 16, y0 - 5, y0 - 1, 0, 16); // remove the rest of the stone
 		
 		// what to build?
 		switch (statueBase) {
@@ -118,7 +126,64 @@ public class RoundaboutCenterLot extends IsolatedLot {
 		boolean somethingInTheCenter = chunkOdds.playOdds(context.oddsOfArt);
 		
 		// where to start?
-		int y1 = generator.streetLevel + 2;
+		int y0 = generator.streetLevel - 1;
+		int y1 = generator.streetLevel + 1;
+		
+		// bricks around the edges
+		chunk.setWalls(0, 16, y0 - 6, y0 - 5, 0, 16, Material.SMOOTH_BRICK);
+		
+		// bottom of the world
+		int yN = 29;
+		GravelLot.generateHole(generator, chunkOdds, chunk, y0 - 6, 14, yN, false);
+		
+		// dry pit?
+		if (chunkOdds.flipCoin()) {
+			chunk.setBlocks(4, 12, yN - 2, 4, 12, Material.STATIONARY_LAVA);
+			chunk.clearBlocks(4, 12, yN - 1, 4, 12);
+			chunk.pepperBlocks(4, 12, yN - 1, 4, 12, chunkOdds, Material.LAVA);
+			
+		// water pit?
+		} else {
+			int y2 = y1 - 9;
+			
+			// half pipes leading across
+			chunk.setBlocks(6, 10, y2, 1, 15, Material.SMOOTH_BRICK);
+			chunk.setBlocks(1, 15, y2, 6, 10, Material.SMOOTH_BRICK);
+			chunk.setBlocks(7, 9, y2 - 1, 1, 15, Material.SMOOTH_BRICK);
+			chunk.setBlocks(1, 15, y2 - 1, 7, 9, Material.SMOOTH_BRICK);
+			
+			// pipe leading down
+			chunk.setBlocks(7, 9, y2 - 5, y2 - 1, 6, 7, Material.SMOOTH_BRICK);
+			chunk.setBlocks(7, 9, y2 - 5, y2 - 1, 9, 10, Material.SMOOTH_BRICK);
+			chunk.setBlocks(6, 7, y2 - 5, y2 - 1, 7, 9, Material.SMOOTH_BRICK);
+			chunk.setBlocks(9, 10, y2 - 5, y2 - 1, 7, 9, Material.SMOOTH_BRICK);
+			
+			// round things out a bit on the edges
+			chunk.setSlab(6, y2 + 1, 1, Material.SMOOTH_BRICK, false);
+			chunk.setSlab(9, y2 + 1, 1, Material.SMOOTH_BRICK, false);
+			chunk.setSlab(6, y2 + 1, 14, Material.SMOOTH_BRICK, false);
+			chunk.setSlab(9, y2 + 1, 14, Material.SMOOTH_BRICK, false);
+			chunk.setSlab(1, y2 + 1, 6, Material.SMOOTH_BRICK, false);
+			chunk.setSlab(1, y2 + 1, 9, Material.SMOOTH_BRICK, false);
+			chunk.setSlab(14, y2 + 1, 6, Material.SMOOTH_BRICK, false);
+			chunk.setSlab(14, y2 + 1, 9, Material.SMOOTH_BRICK, false);
+			
+			// notch the sides a bit
+			chunk.clearBlocks(7, 9, y2 + 1, 0, 1);
+			chunk.clearBlocks(7, 9, y2 + 1, 15, 16);
+			chunk.clearBlocks(0, 1, y2 + 1, 7, 9);
+			chunk.clearBlocks(15, 16, y2 + 1, 7, 9);
+			
+			// clear out the half pipe
+			chunk.clearBlocks(7, 9, y2, 1, 15);
+			chunk.clearBlocks(1, 15, y2, 7, 9);
+			chunk.clearBlocks(7, 9, y2 - 1, 7, 9);
+			
+			// fill the pool
+			chunk.setBlocks(4, 12, 8, yN, 4, 12, generator.oreProvider.fluidMaterial);
+			chunk.pepperBlocks(4, 12, 7, 4, 12, chunkOdds, Odds.oddsUnlikely, Material.SEA_LANTERN);
+		}
+		
 		
 		// making a fountain?
 		switch (statueBase) {
@@ -161,14 +226,6 @@ public class RoundaboutCenterLot extends IsolatedLot {
 						generator.coverProvider.generateCoverage(generator, chunk, x, y1, z, CoverageSets.PRARIE_PLANTS);
 				}
 			}
-//			for (int x = 4; x < 12; x++) {
-//				for (int z = 4; z < 12; z++) {
-//					if (chunkOdds.playOdds(0.40)) {
-//						generator.coverProvider.generateCoverage(generator, chunk, x, y1, z, CoverageType.GRASS);
-//					}
-//				}
-//			}
-			
 			break;
 		case PEDESTAL:
 			

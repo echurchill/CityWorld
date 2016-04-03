@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.TreeSpecies;
 import org.bukkit.block.BlockFace;
 
 public class Odds {
@@ -39,7 +40,7 @@ public class Odds {
 		super();
 		random = new Random();
 	}
-	
+
 	public Odds(long seed) {
 		super();
 		random = new Random(seed);
@@ -134,6 +135,11 @@ public class Odds {
 	
 	public int getRandomWoodType() {
 		return getRandomInt(4);
+	}
+	
+	public TreeSpecies getRandomWoodSpecies() {
+		TreeSpecies[] values = TreeSpecies.values();
+		return values[getRandomInt(values.length)];
 	}
 	
 	public Material getRandomWoodenDoorType() {

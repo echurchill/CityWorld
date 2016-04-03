@@ -42,7 +42,7 @@ public class GravelworksLot extends GravelLot {
 			
 			// hole please
 			generateBase(generator, chunk);
-			generateHole(generator, chunk, chunkOdds.getRandomInt(6, 7), generator.streetLevel - chunkOdds.getRandomInt(5, 48));
+			generateHole(generator, chunkOdds, chunk, generator.streetLevel, chunkOdds.getRandomInt(6, 7), generator.streetLevel - chunkOdds.getRandomInt(5, 48));
 			break;
 		
 		case 1:
@@ -62,17 +62,17 @@ public class GravelworksLot extends GravelLot {
 			generateBase(generator, chunk);
 			int x = chunkOdds.getRandomInt(3);
 			int z = chunkOdds.getRandomInt(3);
-			generateTailings(generator, chunk, x, 15 - x, z, 15 - z);
+			generateTailings(generator, chunkOdds, chunk, x, 15 - x, z, 15 - z);
 			break;
 			
 		default:
 			
 			// create some piles of stuff
 			generateBase(generator, chunk);
-			generatePile(generator, chunk, 3 + chunkOdds.getShimmy(), 3 + chunkOdds.getShimmy(), 4);
-			generatePile(generator, chunk, 3 + chunkOdds.getShimmy(), 9 + chunkOdds.getShimmy(), 4);
-			generatePile(generator, chunk, 9 + chunkOdds.getShimmy(), 3 + chunkOdds.getShimmy(), 4);
-			generatePile(generator, chunk, 9 + chunkOdds.getShimmy(), 9 + chunkOdds.getShimmy(), 4);
+			generatePile(generator, chunkOdds, chunk, 3 + chunkOdds.getShimmy(), 3 + chunkOdds.getShimmy(), 4);
+			generatePile(generator, chunkOdds, chunk, 3 + chunkOdds.getShimmy(), 9 + chunkOdds.getShimmy(), 4);
+			generatePile(generator, chunkOdds, chunk, 9 + chunkOdds.getShimmy(), 3 + chunkOdds.getShimmy(), 4);
+			generatePile(generator, chunkOdds, chunk, 9 + chunkOdds.getShimmy(), 9 + chunkOdds.getShimmy(), 4);
 			
 			break;
 		}

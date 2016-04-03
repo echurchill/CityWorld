@@ -59,7 +59,7 @@ public class MuseumBuildingLot extends FinishedBuildingLot {
 		// nudge in a bit more as we go up
 		insetInsetMidAt = 1;
 		insetInsetHighAt = 1;
-		insetInsetted = false;
+		insetStyle = InsetStyle.STRAIGHT;
 	}
 
 	@Override
