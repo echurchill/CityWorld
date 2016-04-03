@@ -9,7 +9,7 @@ public abstract class SpawnProvider extends Provider {
 
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	
-	public enum SpawnerLocation {SEWER, MINE, BUNKER, HOUSE};
+	public enum SpawnerLocation {SEWER, MINE, BUNKER, HOUSE, WATERPIT, LAVAPIT};
 	
 	public abstract EntityType getEntity(CityWorldGenerator generator, Odds odds, SpawnerLocation location);
 
