@@ -352,7 +352,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		
 		// bottom most floor
 		chunk.setLayer(lowestY - 1, Material.STONE);
-		drawCeilings(generator, chunk, context, lowestY, 1, 0, 0, false, ceilingMaterial, neighborBasements);
+		drawCeilings(generator, chunk, context, lowestY, 1, 0, 0, false, false, ceilingMaterial, neighborBasements);
 		//chunk.setBlocks(0, chunk.width, lowestY, lowestY + 1, 0, chunk.width, (byte) ceilingMaterial.getId());
 		
 		// below ground
@@ -367,7 +367,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				drawWallParts(generator, chunk, context, floorAt, basementFloorHeight - 1, 0, 0, floor, 
 						false, false, wallMaterial, neighborBasements);
 				drawCeilings(generator, chunk, context, floorAt + basementFloorHeight - 1, 1, 0, 0,
-						false, ceilingMaterial, neighborBasements);
+						false, false, ceilingMaterial, neighborBasements);
 				
 				// one down, more to go
 				neighborBasements.decrement();
@@ -419,6 +419,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				}
 				break;
 			}
+			boolean needOutsetEffect = localInsetWallWE != localInsetCeilingWE || localInsetWallNS != localInsetCeilingNS;
 			
 			// columns?
 			boolean localOutsetColumns = outsetColumns && (localInsetCeilingNS > 0 || localInsetCeilingWE > 0);
@@ -429,7 +430,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			drawExteriorParts(generator, chunk, context, floorAt, aboveFloorHeight - 1, localInsetWallNS, localInsetWallWE, floor, onTopFloor, inMiddleSection,
 					cornerWallStyle, allowRounded, localOutsetColumns, wallMaterial, glassMaterial, neighborFloors);
 			drawCeilings(generator, chunk, context, floorAt + aboveFloorHeight - 1, 
-					1, localInsetCeilingNS, localInsetCeilingWE, allowRounded, ceilingMaterial, neighborFloors);
+					1, localInsetCeilingNS, localInsetCeilingWE, allowRounded, needOutsetEffect, ceilingMaterial, neighborFloors);
 			
 			// final floor is done... how about a roof then?
 			if (onTopFloor)
@@ -508,25 +509,17 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			if (heights.toSouth()) {
 				if (heights.toWest()) {
 					drawCornerLotSouthWest(byteChunk, cornerLotStyle, inset, y1, y2, wallMaterial, glassMaterial, floorWallsCurved, !heights.toSouthWest(), false, false);
-//					if ()
-//						byteChunk.setBlocks(insetWE, y1, y2, byteChunk.width - insetNS - 1, wallMaterial, glassMaterial, floorWallsCurved);
 					stillNeedWalls = false;
 				} else if (heights.toEast()) {
 					drawCornerLotSouthEast(byteChunk, cornerLotStyle, inset, y1, y2, wallMaterial, glassMaterial, floorWallsCurved, !heights.toSouthEast(), false, false);
-//					if ()
-//						byteChunk.setBlocks(byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, wallMaterial, glassMaterial, floorWallsCurved);
 					stillNeedWalls = false;
 				}
 			} else if (heights.toNorth()) {
 				if (heights.toWest()) {
 					drawCornerLotNorthWest(byteChunk, cornerLotStyle, inset, y1, y2, wallMaterial, glassMaterial, floorWallsCurved, !heights.toNorthWest(), false, false);
-//					if ()
-//						byteChunk.setBlocks(insetWE, y1, y2, insetNS, wallMaterial, glassMaterial, floorWallsCurved);
 					stillNeedWalls = false;
 				} else if (heights.toEast()) {
 					drawCornerLotNorthEast(byteChunk, cornerLotStyle, inset, y1, y2, wallMaterial, glassMaterial, floorWallsCurved, !heights.toNorthEast(), false, false);
-//					if ()
-//						byteChunk.setBlocks(byteChunk.width - insetWE - 1, y1, y2, insetNS, wallMaterial, glassMaterial, floorWallsCurved);
 					stillNeedWalls = false;
 				}
 			}
@@ -1750,11 +1743,11 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	protected void drawRoof(CityWorldGenerator generator, InitialBlocks chunk, DataContext context, 
 			int y1, int insetNS, int insetWE, int floor, 
 			boolean allowRounded, Material material, Surroundings heights) {
-		drawRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, heights, roofStyle);
+		drawRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, false, material, heights, roofStyle);
 	}
 	
 	protected void drawRoof(CityWorldGenerator generator, InitialBlocks chunk, DataContext context, 
-			int y1, int insetNS, int insetWE, int floor, boolean allowRounded, 
+			int y1, int insetNS, int insetWE, int floor, boolean allowRounded, boolean outsetEffect,
 			Material material, Surroundings heights, RoofStyle thisStyle) {
 		
 		// protect ourselves from really tall floors
@@ -1765,36 +1758,36 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		// what type of roof are we talking about?
 		switch (thisStyle) {
 		case EDGED:
-			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, material, true, heights);
+			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, outsetEffect, material, true, heights);
 			break;
 		case FLATTOP:
-			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, material, false, heights);
+			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, outsetEffect, material, false, heights);
 			break;
 		case PEAK:
 			if (heights.getNeighborCount() == 0) { 
 				for (int i = 0; i < maxHeight; i++) {
 					if (i == maxHeight - 2)
-						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE + i, allowRounded, material, heights, true);
+						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE + i, allowRounded, outsetEffect, material, heights);
 					else
 						drawWallParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE + i, floor, 
-								allowRounded, false, material, heights, true);
+								allowRounded, true, material, heights);
 				}
 			} else {
-				drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, material, false, heights);
+				drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, outsetEffect, material, false, heights);
 				for (int i = 0; i < 4; i++)
 					drawWallParts(generator, chunk, context, y1 + i, 1, insetNS + i, insetWE + i, floor, 
-							allowRounded, false, material, heights, true);
+							allowRounded, true, material, heights);
 			}
 			break;
 		case PEAKS:
-			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, material, false, heights);
+			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, outsetEffect, material, false, heights);
 			if (!isRounded) {
 				for (int i = 0; i < 3; i++)
 					chunk.setWalls(inset + 1 + i, 16 - inset - 1 - i, y1 + i, y1 + 1 + i, inset + 1 + i, 16 - inset - 1 - i, material);
 			}
 			break;
 		case DUPLOS:
-			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, RoofFeature.SKYLIGHT, allowRounded, material, false, heights);
+			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, RoofFeature.SKYLIGHT, allowRounded, outsetEffect, material, false, heights);
 			if (!isRounded) {
 				for (int i = 0; i < 3; i++)
 					chunk.setWalls(inset + 1 + i, 16 - inset - 1 - i, y1, y1 + 2, inset + 1 + i, 16 - inset - 1 - i, material);
@@ -1805,13 +1798,13 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			if (heights.getNeighborCount() == 0) { 
 				for (int i = 0; i < maxHeight; i++) {
 					if (i == maxHeight - 2)
-						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE, allowRounded, material, heights, true);
+						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE, allowRounded, outsetEffect, material, heights);
 					else
 						drawWallParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS + i, insetWE, floor, 
-								allowRounded, false, material, heights, true);
+								allowRounded, true, material, heights);
 				}
 			} else {
-				drawRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, heights, RoofStyle.INSET_BOX);
+				drawRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, outsetEffect, material, heights, RoofStyle.INSET_BOX);
 //				drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, false, heights);
 //				for (int i = 0; i < 3; i++)
 //					drawExteriorParts(generator, chunk, context, y1 + i, 1, insetNS + i, insetWE, floor, 
@@ -1822,13 +1815,13 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			if (heights.getNeighborCount() == 0) { 
 				for (int i = 0; i < maxHeight; i++) {
 					if (i == maxHeight - 2)
-						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS, insetWE + i, allowRounded, material, heights, true);
+						drawCeilings(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS, insetWE + i, allowRounded, outsetEffect, material, heights);
 					else
 						drawWallParts(generator, chunk, context, y1 + i * roofScale, roofScale, insetNS, insetWE + i, floor, 
-								allowRounded, false, material, heights, true);
+								allowRounded, true, material, heights);
 				}
 			} else {
-				drawRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, heights, RoofStyle.RAISED_BOX);
+				drawRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, outsetEffect, material, heights, RoofStyle.RAISED_BOX);
 //				drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, allowRounded, material, false, heights);
 //				for (int i = 0; i < 3; i++)
 //					drawExteriorParts(generator, chunk, context, y1 + i, 1, insetNS, insetWE + i, floor, 
@@ -1836,71 +1829,71 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			}
 			break;
 		case BOXED:
-			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, material, false, heights);
+			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, outsetEffect, material, false, heights);
 			drawWallParts(generator, chunk, context, y1, 2, insetNS, insetWE, floor, 
-					allowRounded, false, material, heights, true);
+					allowRounded, true, material, heights);
 			break;
 		case INSET_BOX:
-			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, material, false, heights);
+			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, outsetEffect, material, false, heights);
 			drawWallParts(generator, chunk, context, y1, 1, insetNS, insetWE, floor, 
-					allowRounded, false, material, heights, true);
+					allowRounded, true, material, heights);
 			drawWallParts(generator, chunk, context, y1 + 1, 2, insetNS + 1, insetWE + 1, floor, 
-					allowRounded, false, material, heights, true);
+					allowRounded, true, material, heights);
 			break;
 		case INSET_BOXES:
-			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, material, false, heights);
+			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, outsetEffect, material, false, heights);
 			if (!isRounded) {
 				chunk.setWalls(inset + 1, 16 - inset - 1, y1, y1 + 2, inset + 1, 16 - inset - 1, material);
 			}
 			break;
 		case RAISED_BOX:
-			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, material, false, heights);
+			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, outsetEffect, material, false, heights);
 			drawWallParts(generator, chunk, context, y1, 1, insetNS + 1, insetWE + 1, floor, 
-					allowRounded, false, material, heights, true);
+					allowRounded, true, material, heights);
 			drawWallParts(generator, chunk, context, y1 + 1, 2, insetNS, insetWE, floor, 
-					allowRounded, false, material, heights, true);
+					allowRounded, true, material, heights);
 			break;
 		case RAISED_BOXES:
-			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, material, false, heights);
+			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, outsetEffect, material, false, heights);
 			if (!isRounded) {
 				chunk.setWalls(inset + 1, 16 - inset - 1, y1, y1 + 1, inset + 1, 16 - inset - 1, material);
 				chunk.setWalls(inset, 16 - inset, y1 + 1, y1 + 3, inset, 16 - inset, material);
 			}
 			break;
 		case INSET_RIDGEBOX:
-			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, material, false, heights);
+			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, outsetEffect, material, false, heights);
 			drawWallParts(generator, chunk, context, y1, 1, insetNS, insetWE, floor, 
-					allowRounded, false, material, heights, true);
+					allowRounded, true, material, heights);
 			drawWallParts(generator, chunk, context, y1, 1, insetNS + 1, insetWE + 1, floor, 
-					allowRounded, false, material, heights, true);
+					allowRounded, true, material, heights);
 			drawWallParts(generator, chunk, context, y1 + 1, 3, insetNS + 2, insetWE + 2, floor, 
-					allowRounded, false, material, heights, true);
+					allowRounded, true, material, heights);
 			drawWallParts(generator, chunk, context, y1 + 3, 1, insetNS + 1, insetWE + 1, floor, 
-					allowRounded, false, material, heights, true);
+					allowRounded, true, material, heights);
 			break;
 		case INSET_RIDGEBOXES:
-			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, material, false, heights);
+			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, outsetEffect, material, false, heights);
 			if (!isRounded) {
 				chunk.setWalls(inset + 2, 16 - inset - 2, y1, y1 + 3, inset + 2, 16 - inset - 2, material);
 				chunk.setWalls(inset + 1, 16 - inset - 1, y1 + 2, y1 + 3, inset + 1, 16 - inset - 1, material);
 			}
 			break;
 		case OUTSET_BOX:
-			drawEdgedRoof(generator, chunk, context, y1, insetNS - 1, insetWE - 1, floor, roofFeature, allowRounded, material, true, heights);
+			drawEdgedRoof(generator, chunk, context, y1, insetNS - 1, insetWE - 1, floor, roofFeature, allowRounded, outsetEffect, material, true, heights);
 			drawWallParts(generator, chunk, context, y1, 2, insetNS - 1, insetWE - 1, floor, 
-					allowRounded, false, material, heights, true);
+					allowRounded, true, material, heights);
 			break;
 		}
 	}
 	
 	private void drawEdgedRoof(CityWorldGenerator generator, InitialBlocks chunk, DataContext context, 
 			int y1, int insetNS, int insetWE, int floor, RoofFeature features,
-			boolean allowRounded, Material material, boolean doEdge, Surroundings heights) {
+			boolean allowRounded, boolean outsetEffect, Material material, boolean doEdge, Surroundings heights) {
 		
 		// a little bit of edge 
 		if (doEdge)
 			drawWallParts(generator, chunk, context, y1, 1, insetNS, insetWE, floor, 
-					allowRounded, false, material, heights, true);
+					allowRounded, true, material, heights);
 		if (features == RoofFeature.ANTENNAS && heights.getCompleteNeighborCount() != 0)
 			features = RoofFeature.CONDITIONERS;
 		
@@ -1922,7 +1915,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			drawConditioner(chunk, 9, y1, 9);
 			break;
 		case TILE:
-			drawCeilings(generator, chunk, context, y1, 1, insetNS + 1, insetWE + 1, allowRounded, tileMaterial, heights);
+			drawCeilings(generator, chunk, context, y1, 1, insetNS + 1, insetWE + 1, allowRounded, outsetEffect, tileMaterial, heights);
 			break;
 		case SKYLIGHT:
 			chunk.setBlocks(5, 6, y1 - 1, 6, 10, Material.GLASS);

@@ -48,7 +48,7 @@ public class CornerBlocks {
 			{FLR, FLR, FLR, FLR, FLR, WGG, opt},
 			{FLR, FLR, FLR, FLR, WWW, opt, non},
 			{FLR, FLR, FLR, FLR, FLR, WGW, non},
-			{FLR, FLR, WWW, opt, FLR, FLR, WGW},
+			{FLR, FLR, WWW, FLR, FLR, FLR, WGW},
 			{FLR, WGG, opt, WGW, FLR, WGW, opt},
 			{WWW, opt, non, non, WGW, opt, non},
 	};
@@ -135,9 +135,9 @@ public class CornerBlocks {
 	private byte[][] FinsSE;
 	
 	public CornerBlocksStyle pickCornerStyle(Odds odds) {
-		return CornerBlocksStyle.OUTNOTCH;
-//		CornerLotStyle[] values = CornerLotStyle.values();
-//		return values[chunkOdds.getRandomInt(values.length)];
+//		return CornerBlocksStyle.DIAGONAL;
+		CornerBlocksStyle[] values = CornerBlocksStyle.values();
+		return values[odds.getRandomInt(values.length)];
 	}
 	
 	public CornerBlocks() {
@@ -189,18 +189,18 @@ public class CornerBlocks {
 		
 	}
 	
-	public void drawVerticals(CornerDirections direction, CornerBlocksStyle style, AbstractBlocks blocks, int inset, int y1, int y2, 
-			Material primary, Material secondary) {
+	public void drawVerticals(CornerDirections direction, CornerBlocksStyle style, AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
+			Material primary, Material secondary, boolean outsetEffect) {
 		byte[][] data = getStyleData(direction, style);
 		if (data != null)
-			setVerticals(data, blocks, inset, y1, y2, primary, secondary);
+			setVerticals(data, blocks, xInset, y1, y2, zInset, primary, secondary, outsetEffect);
 	}
 	
-	public void drawHorizontals(CornerDirections direction, CornerBlocksStyle style, AbstractBlocks blocks, int inset, int y1, int y2, 
-			Material primary, Material secondary, boolean backfill) {
+	public void drawHorizontals(CornerDirections direction, CornerBlocksStyle style, AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
+			Material primary, Material secondary, boolean outsetEffect) {
 		byte[][] data = getStyleData(direction, style);
 		if (data != null)
-			setHorizontals(data, blocks, inset, y1, y2, primary, secondary, backfill);
+			setHorizontals(data, blocks, xInset, y1, y2, zInset, primary, secondary, outsetEffect);
 	}
 	
 	private byte[][] getStyleData(CornerDirections direction, CornerBlocksStyle style) {
@@ -320,27 +320,30 @@ public class CornerBlocks {
 		}
 	}
 	
-	private void setVerticals(byte[][] source, AbstractBlocks blocks, int inset, int y1, int y2, Material primary, Material secondary) {
+	private void setVerticals(byte[][] source, AbstractBlocks blocks, int xInset, int y1, int y2, int zInset, Material primary, Material secondary, boolean outsetEffect) {
 		for (int x = 0; x < CornerWidth; x++) {
 			for (int z = 0; z < CornerWidth; z++) {
 				switch (source[x][z]) {
 				case WWW:
-					blocks.setBlocks(inset + x, y1, y2, inset + z, primary);
+					blocks.setBlocks(xInset + x, y1, y2, zInset + z, primary);
 					break;
 				case GGG:
-					blocks.setBlocks(inset + x, y1, y2, inset + z, secondary);
+					blocks.setBlocks(xInset + x, y1, y2, zInset + z, secondary);
 					break;
 				case WGG:
-					blocks.setBlock(inset + x, y1, inset + z, primary);
-					blocks.setBlocks(inset + x, y1 + 1, y2, inset + z, secondary);
+					blocks.setBlock(xInset + x, y1, zInset + z, primary);
+					blocks.setBlocks(xInset + x, y1 + 1, y2, zInset + z, secondary);
 					break;
 				case WGW:
-					blocks.setBlock(inset + x, y1, inset + z, primary);
-					blocks.setBlocks(inset + x, y1 + 1, y2 - 1, inset + z, secondary);
-					blocks.setBlock(inset + x, y2 - 1, inset + z, primary);
+					blocks.setBlock(xInset + x, y1, zInset + z, primary);
+					blocks.setBlocks(xInset + x, y1 + 1, y2 - 1, zInset + z, secondary);
+					blocks.setBlock(xInset + x, y2 - 1, zInset + z, primary);
+					break;
+				case opt:
+					if (outsetEffect)
+						blocks.setBlocks(xInset + x, y1, y2, zInset + z, primary);
 					break;
 				case non:
-				case opt:
 				case FLR:
 				default:
 					break;
@@ -349,21 +352,21 @@ public class CornerBlocks {
 		}
 	}
 	
-	private void setHorizontals(byte[][] source, AbstractBlocks blocks, int inset, int y1, int y2, Material primary, Material secondary, boolean backfill) {
+	private void setHorizontals(byte[][] source, AbstractBlocks blocks, int xInset, int y1, int y2, int zInset, Material primary, Material secondary, boolean outsetEffect) {
 		for (int x = 0; x < CornerWidth; x++) {
 			for (int z = 0; z < CornerWidth; z++) {
 				switch (source[x][z]) {
 				case non:
-					blocks.setBlocks(inset + x, y1, y2, inset + z, secondary);
+					blocks.setBlocks(xInset + x, y1, y2, zInset + z, secondary);
 					break;
 				case opt:
-					if (backfill)
-						blocks.setBlocks(inset + x, y1, y2, inset + z, primary);
+					if (outsetEffect)
+						blocks.setBlocks(xInset + x, y1, y2, zInset + z, primary);
 					else
-						blocks.setBlocks(inset + x, y1, y2, inset + z, secondary);
+						blocks.setBlocks(xInset + x, y1, y2, zInset + z, secondary);
 					break;
 				default:
-					blocks.setBlocks(inset + x, y1, y2, inset + z, primary);
+					blocks.setBlocks(xInset + x, y1, y2, zInset + z, primary);
 					break;
 				}
 			}
