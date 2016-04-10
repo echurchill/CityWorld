@@ -18,13 +18,13 @@ public class CornerBlocks {
 	public enum CornerDirections { NW, NE, SW, SE };
 	
 	private final byte[][] DiagonalNW = {
-			{FLR, FLR, FLR, FLR, FLR, opt, WWW},
-			{FLR, FLR, FLR, FLR, opt, WGG, non},
-			{FLR, FLR, FLR, opt, WGG, non, non},
-			{FLR, FLR, opt, WWW, non, non, non},
-			{FLR, opt, WGG, non, non, non, non},
-			{opt, WGG, non, non, non, non, non},
-			{WWW, non, non, non, non, non, non},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, WGG, opt},
+			{FLR, FLR, FLR, FLR, WGG, opt, non},
+			{FLR, FLR, FLR, WWW, opt, non, non},
+			{FLR, FLR, WGG, opt, non, non, non},
+			{FLR, WGG, opt, non, non, non, non},
+			{WWW, opt, non, non, non, non, non},
 	};
 	private byte[][] DiagonalNE;
 	private byte[][] DiagonalSW;
@@ -44,13 +44,13 @@ public class CornerBlocks {
 	private byte[][] InNotchSE;
 	
 	private final byte[][] OutNotchNW = {
-			{FLR, FLR, FLR, FLR, FLR, opt, WWW},
-			{FLR, FLR, FLR, FLR, opt, WGG, non},
-			{FLR, FLR, FLR, opt, WWW, non, non},
-			{FLR, FLR, opt, opt, opt, WGW, non},
-			{FLR, opt, WWW, opt, opt, opt, WGW},
-			{opt, WGG, non, WGW, opt, WGW, non},
-			{WWW, non, non, non, WGW, non, non},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, WGG, opt},
+			{FLR, FLR, FLR, FLR, WWW, opt, non},
+			{FLR, FLR, FLR, FLR, FLR, WGW, non},
+			{FLR, FLR, WWW, opt, FLR, FLR, WGW},
+			{FLR, WGG, opt, WGW, FLR, WGW, opt},
+			{WWW, opt, non, non, WGW, opt, non},
 	};
 	private byte[][] OutNotchNE;
 	private byte[][] OutNotchSW;
@@ -70,13 +70,13 @@ public class CornerBlocks {
 	private byte[][] DoubleNotchSE;
 	
 	private final byte[][] OutBubbleNW = {
+			{FLR, FLR, FLR, FLR, FLR, WGG, opt},
 			{FLR, FLR, FLR, FLR, FLR, WGG, non},
-			{FLR, FLR, FLR, FLR, FLR, WGG, non},
-			{FLR, FLR, FLR, FLR, opt, WWW, non},
-			{FLR, FLR, FLR, opt, WGG, non, non},
-			{FLR, FLR, opt, WGG, non, non, non},
-			{WGG, WGG, WWW, non, non, non, non},
-			{non, non, non, non, non, non, non},
+			{FLR, FLR, FLR, FLR, FLR, WWW, non},
+			{FLR, FLR, FLR, FLR, WGG, opt, non},
+			{FLR, FLR, FLR, WGG, opt, non, non},
+			{WGG, WGG, WWW, opt, non, non, non},
+			{opt, non, non, non, non, non, non},
 	};
 	private byte[][] OutBubbleNE;
 	private byte[][] OutBubbleSW;
@@ -86,8 +86,8 @@ public class CornerBlocks {
 			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
 			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
 			{FLR, FLR, FLR, FLR, WGG, WGG, WGW},
-			{FLR, FLR, FLR, WGG, non, non, non},
-			{FLR, FLR, WGG, non, non, non, non},
+			{FLR, FLR, FLR, WGG, opt, non, non},
+			{FLR, FLR, WGG, opt, non, non, non},
 			{FLR, FLR, WGG, non, non, non, non},
 			{WWW, WWW, WGW, non, non, non, non},
 	};
@@ -110,11 +110,11 @@ public class CornerBlocks {
 	
 	private final byte[][] BraceNW = {
 			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
-			{FLR, FLR, FLR, FLR, opt, GGG, WWW},
-			{FLR, FLR, FLR, FLR, GGG, non, non},
+			{FLR, FLR, FLR, FLR, FLR, GGG, WWW},
+			{FLR, FLR, FLR, FLR, GGG, opt, non},
 			{FLR, FLR, FLR, WWW, WWW, non, non},
-			{FLR, opt, GGG, WWW, WWW, WWW, non},
-			{FLR, GGG, non, non, WWW, WWW, WWW},
+			{FLR, FLR, GGG, WWW, WWW, WWW, non},
+			{FLR, GGG, opt, non, WWW, WWW, WWW},
 			{WWW, WWW, non, non, non, WWW, WWW},
 	};
 	private byte[][] BraceNE;
@@ -190,17 +190,17 @@ public class CornerBlocks {
 	}
 	
 	public void drawVerticals(CornerDirections direction, CornerBlocksStyle style, AbstractBlocks blocks, int inset, int y1, int y2, 
-			Material primary, Material secondary, boolean backfill) {
-		byte[][] data = getStyleData(direction, style);
-		if (data != null)
-			setVerticals(data, blocks, inset, y1, y2, primary, secondary, backfill);
-	}
-	
-	public void drawHorizontals(CornerDirections direction, CornerBlocksStyle style, AbstractBlocks blocks, int inset, int y1, int y2, 
 			Material primary, Material secondary) {
 		byte[][] data = getStyleData(direction, style);
 		if (data != null)
-			setHorizontals(data, blocks, inset, y1, y2, primary, secondary);
+			setVerticals(data, blocks, inset, y1, y2, primary, secondary);
+	}
+	
+	public void drawHorizontals(CornerDirections direction, CornerBlocksStyle style, AbstractBlocks blocks, int inset, int y1, int y2, 
+			Material primary, Material secondary, boolean backfill) {
+		byte[][] data = getStyleData(direction, style);
+		if (data != null)
+			setHorizontals(data, blocks, inset, y1, y2, primary, secondary, backfill);
 	}
 	
 	private byte[][] getStyleData(CornerDirections direction, CornerBlocksStyle style) {
@@ -320,16 +320,10 @@ public class CornerBlocks {
 		}
 	}
 	
-	private void setVerticals(byte[][] source, AbstractBlocks blocks, int inset, int y1, int y2, Material primary, Material secondary, boolean backfill) {
+	private void setVerticals(byte[][] source, AbstractBlocks blocks, int inset, int y1, int y2, Material primary, Material secondary) {
 		for (int x = 0; x < CornerWidth; x++) {
 			for (int z = 0; z < CornerWidth; z++) {
 				switch (source[x][z]) {
-				case non:
-					break;
-				case opt:
-					if (backfill)
-						blocks.setBlocks(inset + x, y1, y2, inset + z, primary);
-					break;
 				case WWW:
 					blocks.setBlocks(inset + x, y1, y2, inset + z, primary);
 					break;
@@ -345,17 +339,28 @@ public class CornerBlocks {
 					blocks.setBlocks(inset + x, y1 + 1, y2 - 1, inset + z, secondary);
 					blocks.setBlock(inset + x, y2 - 1, inset + z, primary);
 					break;
+				case non:
+				case opt:
+				case FLR:
+				default:
+					break;
 				}
 			}
 		}
 	}
 	
-	private void setHorizontals(byte[][] source, AbstractBlocks blocks, int inset, int y1, int y2, Material primary, Material secondary) {
+	private void setHorizontals(byte[][] source, AbstractBlocks blocks, int inset, int y1, int y2, Material primary, Material secondary, boolean backfill) {
 		for (int x = 0; x < CornerWidth; x++) {
 			for (int z = 0; z < CornerWidth; z++) {
 				switch (source[x][z]) {
 				case non:
 					blocks.setBlocks(inset + x, y1, y2, inset + z, secondary);
+					break;
+				case opt:
+					if (backfill)
+						blocks.setBlocks(inset + x, y1, y2, inset + z, primary);
+					else
+						blocks.setBlocks(inset + x, y1, y2, inset + z, secondary);
 					break;
 				default:
 					blocks.setBlocks(inset + x, y1, y2, inset + z, primary);
