@@ -201,7 +201,7 @@ public final class InitialBlocks extends AbstractBlocks {
 		setArcSouthEast(inset, y1, y2, primary, secondary, maker, false);
 	}
 	
-	protected void setArcNorthWest(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean fill) {
+	public void setArcNorthWest(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean fill) {
 		// Ref: Notes/BCircle.PDF
 		int cx = inset;
 		int cz = inset;
@@ -237,7 +237,7 @@ public final class InitialBlocks extends AbstractBlocks {
 		}
 	}
 	
-	protected void setArcSouthWest(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean fill) {
+	public void setArcSouthWest(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean fill) {
 		// Ref: Notes/BCircle.PDF
 		int cx = inset;
 		int cz = width - inset;
@@ -273,7 +273,7 @@ public final class InitialBlocks extends AbstractBlocks {
 		}
 	}
 	
-	protected void setArcNorthEast(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean fill) {
+	public void setArcNorthEast(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean fill) {
 		// Ref: Notes/BCircle.PDF
 		int cx = width - inset;
 		int cz = inset;
@@ -309,7 +309,7 @@ public final class InitialBlocks extends AbstractBlocks {
 		}
 	}
 	
-	protected void setArcSouthEast(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean fill) {
+	public void setArcSouthEast(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean fill) {
 		// Ref: Notes/BCircle.PDF
 		int cx = width - inset;
 		int cz = width - inset;

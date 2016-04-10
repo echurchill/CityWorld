@@ -66,8 +66,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	protected Material interiorDoorMaterial;
 	protected Material exteriorDoorMaterial;
 	
-	private enum CornerStyle {EMPTY, FILLED, WOODCOLUMN, STONECOLUMN, FILLEDTHENEMPTY, WOODTHENFILLED, STONETHENFILLED};
-	private CornerStyle cornerStyle;
+	private enum CornerWallStyle {EMPTY, FILLED, WOODCOLUMN, STONECOLUMN, FILLEDTHENEMPTY, WOODTHENFILLED, STONETHENFILLED};
+	private CornerWallStyle cornerWallStyle;
 	
 	protected int navLightX = 0;
 	protected int navLightY = 0;
@@ -209,7 +209,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		outsetColumns = chunkOdds.playOdds(Odds.oddsSomewhatLikely); 
 		outsetColumnsDivisor = chunkOdds.getRandomInt(1, 5); 
 
-		cornerStyle = pickCornerStyle();
+		cornerWallStyle = pickCornerStyle();
 	}
 	
 	protected void validateOptions() {
@@ -221,7 +221,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			insetCeilingNS = Math.min(insetCeilingNS, insetWallNS);
 			if (wallMaterial == Material.DOUBLE_STEP)
 				glassMaterial = Material.GLASS;
-			cornerStyle = CornerStyle.FILLED;
+			cornerWallStyle = CornerWallStyle.FILLED;
 		}
 	}
 
@@ -279,7 +279,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			roofMaterial = relativebuilding.roofMaterial;
 			exteriorDoorMaterial = relativebuilding.exteriorDoorMaterial;
 			interiorDoorMaterial = relativebuilding.interiorDoorMaterial;
-			cornerStyle = relativebuilding.cornerStyle;
+			cornerWallStyle = relativebuilding.cornerWallStyle;
 		}
 		return result;
 	}
@@ -407,8 +407,10 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			case UNDULATEIN:
 			case UNDULATEOUT:
 				if (floor > 0) {
-					if (currentInset == minimumInset || currentInset == maximumInset)
-						deltaInset = -deltaInset;
+					if (currentInset <= minimumInset)
+						deltaInset = 1;
+					else if (currentInset >= maximumInset)
+						deltaInset = -1;
 					currentInset = currentInset + deltaInset;
 					localInsetWallWE = insetWallWE + currentInset;
 					localInsetWallNS = insetWallNS + currentInset;
@@ -425,7 +427,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			
 			// one floor please
 			drawExteriorParts(generator, chunk, context, floorAt, aboveFloorHeight - 1, localInsetWallNS, localInsetWallWE, floor, onTopFloor, inMiddleSection,
-					cornerStyle, allowRounded, localOutsetColumns, wallMaterial, glassMaterial, neighborFloors);
+					cornerWallStyle, allowRounded, localOutsetColumns, wallMaterial, glassMaterial, neighborFloors);
 			drawCeilings(generator, chunk, context, floorAt + aboveFloorHeight - 1, 
 					1, localInsetCeilingNS, localInsetCeilingWE, allowRounded, ceilingMaterial, neighborFloors);
 			
@@ -444,7 +446,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	
 	protected void drawExteriorParts(CityWorldGenerator generator, InitialBlocks byteChunk, DataContext context, 
 			int y1, int height, int insetNS, int insetWE, int floor, boolean onTopFloor, boolean inMiddleSection,
-			CornerStyle cornerStyle, boolean allowRounded, boolean outsetEffect, Material wallMaterial, Material glassMaterial, Surroundings heights) {
+			CornerWallStyle cornerStyle, boolean allowRounded, boolean outsetEffect, Material wallMaterial, Material glassMaterial, Surroundings heights) {
 		
 		// precalculate
 		int y2 = y1 + height;
@@ -505,30 +507,26 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			// do the sides
 			if (heights.toSouth()) {
 				if (heights.toWest()) {
-					byteChunk.setArcSouthWest(inset, y1, y2, wallMaterial, glassMaterial, floorWallsCurved);
-					if (!heights.toSouthWest()) {
-						byteChunk.setBlocks(insetWE, y1, y2, byteChunk.width - insetNS - 1, wallMaterial, glassMaterial, floorWallsCurved);
-					}
+					drawCornerLotSouthWest(byteChunk, cornerLotStyle, inset, y1, y2, wallMaterial, glassMaterial, floorWallsCurved, !heights.toSouthWest(), false);
+//					if ()
+//						byteChunk.setBlocks(insetWE, y1, y2, byteChunk.width - insetNS - 1, wallMaterial, glassMaterial, floorWallsCurved);
 					stillNeedWalls = false;
 				} else if (heights.toEast()) {
-					byteChunk.setArcSouthEast(inset, y1, y2, wallMaterial, glassMaterial, floorWallsCurved);
-					if (!heights.toSouthEast()) {
-						byteChunk.setBlocks(byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, wallMaterial, glassMaterial, floorWallsCurved);
-					}
+					drawCornerLotSouthEast(byteChunk, cornerLotStyle, inset, y1, y2, wallMaterial, glassMaterial, floorWallsCurved, !heights.toSouthEast(), false);
+//					if ()
+//						byteChunk.setBlocks(byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, wallMaterial, glassMaterial, floorWallsCurved);
 					stillNeedWalls = false;
 				}
 			} else if (heights.toNorth()) {
 				if (heights.toWest()) {
-					byteChunk.setArcNorthWest(inset, y1, y2, wallMaterial, glassMaterial, floorWallsCurved);
-					if (!heights.toNorthWest()) {
-						byteChunk.setBlocks(insetWE, y1, y2, insetNS, wallMaterial, glassMaterial, floorWallsCurved);
-					}
+					drawCornerLotNorthWest(byteChunk, cornerLotStyle, inset, y1, y2, wallMaterial, glassMaterial, floorWallsCurved, !heights.toNorthWest(), false);
+//					if ()
+//						byteChunk.setBlocks(insetWE, y1, y2, insetNS, wallMaterial, glassMaterial, floorWallsCurved);
 					stillNeedWalls = false;
 				} else if (heights.toEast()) {
-					byteChunk.setArcNorthEast(inset, y1, y2, wallMaterial, glassMaterial, floorWallsCurved);
-					if (!heights.toNorthEast()) {
-						byteChunk.setBlocks(byteChunk.width - insetWE - 1, y1, y2, insetNS, wallMaterial, glassMaterial, floorWallsCurved);
-					}
+					drawCornerLotNorthEast(byteChunk, cornerLotStyle, inset, y1, y2, wallMaterial, glassMaterial, floorWallsCurved, !heights.toNorthEast(), false);
+//					if ()
+//						byteChunk.setBlocks(byteChunk.width - insetWE - 1, y1, y2, insetNS, wallMaterial, glassMaterial, floorWallsCurved);
 					stillNeedWalls = false;
 				}
 			}
@@ -546,40 +544,40 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			// corner columns
 			if (!heights.toNorthWest()) {
 				if (heights.toNorth() || heights.toWest()) {
-					drawCornerBit(byteChunk, CornerStyle.FILLED, insetWE, y1, y2, insetNS, floor, wallMaterial);
+					drawCornerBit(byteChunk, CornerWallStyle.FILLED, insetWE, y1, y2, insetNS, floor, wallMaterial);
 					if (outsetEffect) {
-						drawCornerBit(byteChunk, CornerStyle.FILLED, insetWE, y1, y2 + 1, insetNS - 1, floor, outsetMaterial);
-						drawCornerBit(byteChunk, CornerStyle.FILLED, insetWE - 1, y1, y2 + 1, insetNS, floor, outsetMaterial);
+						drawCornerBit(byteChunk, CornerWallStyle.FILLED, insetWE, y1, y2 + 1, insetNS - 1, floor, outsetMaterial);
+						drawCornerBit(byteChunk, CornerWallStyle.FILLED, insetWE - 1, y1, y2 + 1, insetNS, floor, outsetMaterial);
 					}
 				} else
 					drawCornerBit(byteChunk, cornerStyle, insetWE, y1, y2, insetNS, floor, wallMaterial);
 			}
 			if (!heights.toSouthWest()) {
 				if (heights.toSouth() || heights.toWest()) {
-					drawCornerBit(byteChunk, CornerStyle.FILLED, insetWE, y1, y2, byteChunk.width - insetNS - 1, floor, wallMaterial);
+					drawCornerBit(byteChunk, CornerWallStyle.FILLED, insetWE, y1, y2, byteChunk.width - insetNS - 1, floor, wallMaterial);
 					if (outsetEffect) {
-						drawCornerBit(byteChunk, CornerStyle.FILLED, insetWE, y1, y2 + 1, byteChunk.width - insetNS, floor, outsetMaterial);
-						drawCornerBit(byteChunk, CornerStyle.FILLED, insetWE - 1, y1, y2 + 1, byteChunk.width - insetNS - 1, floor, outsetMaterial);
+						drawCornerBit(byteChunk, CornerWallStyle.FILLED, insetWE, y1, y2 + 1, byteChunk.width - insetNS, floor, outsetMaterial);
+						drawCornerBit(byteChunk, CornerWallStyle.FILLED, insetWE - 1, y1, y2 + 1, byteChunk.width - insetNS - 1, floor, outsetMaterial);
 					}
 				} else
 					drawCornerBit(byteChunk, cornerStyle, insetWE, y1, y2, byteChunk.width - insetNS - 1, floor, wallMaterial);
 			}
 			if (!heights.toNorthEast()) {
 				if (heights.toNorth() || heights.toEast()) {
-					drawCornerBit(byteChunk, CornerStyle.FILLED, byteChunk.width - insetWE - 1, y1, y2, insetNS, floor, wallMaterial);
+					drawCornerBit(byteChunk, CornerWallStyle.FILLED, byteChunk.width - insetWE - 1, y1, y2, insetNS, floor, wallMaterial);
 					if (outsetEffect) {
-						drawCornerBit(byteChunk, CornerStyle.FILLED, byteChunk.width - insetWE - 1, y1, y2 + 1, insetNS - 1, floor, outsetMaterial);
-						drawCornerBit(byteChunk, CornerStyle.FILLED, byteChunk.width - insetWE, y1, y2 + 1, insetNS, floor, outsetMaterial);
+						drawCornerBit(byteChunk, CornerWallStyle.FILLED, byteChunk.width - insetWE - 1, y1, y2 + 1, insetNS - 1, floor, outsetMaterial);
+						drawCornerBit(byteChunk, CornerWallStyle.FILLED, byteChunk.width - insetWE, y1, y2 + 1, insetNS, floor, outsetMaterial);
 					}
 				} else
 					drawCornerBit(byteChunk, cornerStyle, byteChunk.width - insetWE - 1, y1, y2, insetNS, floor, wallMaterial);
 			}
 			if (!heights.toSouthEast()) {
 				if (heights.toSouth() || heights.toEast()) {
-					drawCornerBit(byteChunk, CornerStyle.FILLED, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, floor, wallMaterial);
+					drawCornerBit(byteChunk, CornerWallStyle.FILLED, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, floor, wallMaterial);
 					if (outsetEffect) {
-						drawCornerBit(byteChunk, CornerStyle.FILLED, byteChunk.width - insetWE - 1, y1, y2 + 1, byteChunk.width - insetNS, floor, outsetMaterial);
-						drawCornerBit(byteChunk, CornerStyle.FILLED, byteChunk.width - insetWE, y1, y2 + 1, byteChunk.width - insetNS - 1, floor, outsetMaterial);
+						drawCornerBit(byteChunk, CornerWallStyle.FILLED, byteChunk.width - insetWE - 1, y1, y2 + 1, byteChunk.width - insetNS, floor, outsetMaterial);
+						drawCornerBit(byteChunk, CornerWallStyle.FILLED, byteChunk.width - insetWE, y1, y2 + 1, byteChunk.width - insetNS - 1, floor, outsetMaterial);
 					}
 				} else
 					drawCornerBit(byteChunk, cornerStyle, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, floor, wallMaterial);
@@ -664,26 +662,26 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 	}
 	
-	private void drawCornerBit(InitialBlocks blocks, CornerStyle style, int x, int y1, int y2, int z, int floor, Material wallMaterial) {
+	private void drawCornerBit(InitialBlocks blocks, CornerWallStyle style, int x, int y1, int y2, int z, int floor, Material wallMaterial) {
 		boolean firstFloor = floor == 0;
 		switch (style) {
 		case FILLEDTHENEMPTY:
 			if (firstFloor)
-				drawCornerBit(blocks, CornerStyle.FILLED, x, y1, y2, z, floor, wallMaterial);
+				drawCornerBit(blocks, CornerWallStyle.FILLED, x, y1, y2, z, floor, wallMaterial);
 			else
-				drawCornerBit(blocks, CornerStyle.EMPTY, x, y1, y2, z, floor, wallMaterial);
+				drawCornerBit(blocks, CornerWallStyle.EMPTY, x, y1, y2, z, floor, wallMaterial);
 			break;
 		case STONETHENFILLED:
 			if (firstFloor)
-				drawCornerBit(blocks, CornerStyle.STONECOLUMN, x, y1, y2, z, floor, wallMaterial);
+				drawCornerBit(blocks, CornerWallStyle.STONECOLUMN, x, y1, y2, z, floor, wallMaterial);
 			else
-				drawCornerBit(blocks, CornerStyle.FILLED, x, y1, y2, z, floor, wallMaterial);
+				drawCornerBit(blocks, CornerWallStyle.FILLED, x, y1, y2, z, floor, wallMaterial);
 			break;
 		case WOODTHENFILLED:
 			if (firstFloor)
-				drawCornerBit(blocks, CornerStyle.WOODCOLUMN, x, y1, y2, z, floor, wallMaterial);
+				drawCornerBit(blocks, CornerWallStyle.WOODCOLUMN, x, y1, y2, z, floor, wallMaterial);
 			else
-				drawCornerBit(blocks, CornerStyle.FILLED, x, y1, y2, z, floor, wallMaterial);
+				drawCornerBit(blocks, CornerWallStyle.FILLED, x, y1, y2, z, floor, wallMaterial);
 			break;
 		case EMPTY:
 			break;
@@ -811,8 +809,10 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			case UNDULATEIN:
 			case UNDULATEOUT:
 				if (floor > 0) {
-					if (currentInset == minimumInset || currentInset == maximumInset)
-						deltaInset = -deltaInset;
+					if (currentInset <= minimumInset)
+						deltaInset = 1;
+					else if (currentInset >= maximumInset)
+						deltaInset = -1;
 					currentInset = currentInset + deltaInset;
 					localInsetWallWE = insetWallWE + currentInset;
 					localInsetWallNS = insetWallNS + currentInset;
@@ -2311,25 +2311,25 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 	}
 	
-	protected CornerStyle pickCornerStyle() {
+	protected CornerWallStyle pickCornerStyle() {
 		switch (chunkOdds.getRandomInt(16)) {
 		case 0:
-			return CornerStyle.WOODCOLUMN;
+			return CornerWallStyle.WOODCOLUMN;
 		case 1:
-			return CornerStyle.WOODTHENFILLED;
+			return CornerWallStyle.WOODTHENFILLED;
 		case 2:
-			return CornerStyle.STONECOLUMN;
+			return CornerWallStyle.STONECOLUMN;
 		case 3:
-			return CornerStyle.STONETHENFILLED;
+			return CornerWallStyle.STONETHENFILLED;
 		case 4:
-			return CornerStyle.FILLEDTHENEMPTY;
+			return CornerWallStyle.FILLEDTHENEMPTY;
 		case 5:
 		case 6:
 		case 7:
 		case 8:
-			return CornerStyle.EMPTY;
+			return CornerWallStyle.EMPTY;
 		default:
-			return CornerStyle.FILLED;
+			return CornerWallStyle.FILLED;
 		}
 	}
 	

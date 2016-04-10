@@ -20,7 +20,7 @@ public abstract class DataContext {
 	
 	public double oddsOfIdenticalBuildingHeights = Odds.oddsNeverGoingToHappen; // similar height 1/n of the time
 	public double oddsOfSimilarBuildingHeights = Odds.oddsNeverGoingToHappen; // identical height 1/n of the time
-	public double oddsOfRoundedBuilding = Odds.oddsLikely; // how naturally rounded are buildings that can be rounded
+	public double oddsOfRoundedBuilding = Odds.oddsEnormouslyLikely;//Odds.oddsLikely; // how naturally rounded are buildings that can be rounded
 	public double oddsOfSimilarBuildingRounding = Odds.oddsNeverGoingToHappen; // like rounding 1/n of the time
 	public double oddsOfStairWallMaterialIsWallMaterial = Odds.oddsNeverGoingToHappen; // stair walls are the same as walls 1/n of the time
 //	public int buildingWallInsettedMinLowPoint; // minimum building height before insetting is allowed
