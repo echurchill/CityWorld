@@ -70,7 +70,7 @@ public class RoadLot extends ConnectedLot {
 	protected boolean roundaboutRoad;
 	private int bottomOfRoad;
 	private int topOfRoad;
-	public static int sewerDepth = 32; 
+	public final static int sewerDepth = 32; 
 	
 	public RoadLot(PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey, boolean roundaboutPart) {
 		super(platmap, chunkX, chunkZ);

@@ -14,9 +14,10 @@ public class CornerBlocks {
 	private final static byte WGG = 5;
 	private final static byte WGW = 6;
 	
-	public static int CornerWidth = 7;
+	public final static int CornerWidth = 7;
 	
-	public enum CornerBlocksStyle { ROUND, LARGEDIAGONAL, SMALLDIAGONAL, INNOTCH, OUTNOTCH, DOUBLENOTCH, OUTBUBBLE, INBUBBLE, COLUMN, BRACE, FINS, CASTLE, INSET}; 
+	public enum CornerBlocksStyle { ROUND, LARGEDIAGONAL, SMALLDIAGONAL, INNOTCH, OUTNOTCH, DOUBLENOTCH, OUTBUBBLE, INBUBBLE, 
+		COLUMN, BRACE, FINS, CASTLE, INDENT, INOUTDENT}; 
 	public enum CornerDirections { NW, NE, SW, SE };
 	
 	private final byte[][] LargeDiagonalNW = {
@@ -162,7 +163,7 @@ public class CornerBlocks {
 	private byte[][] CastleSW;
 	private byte[][] CastleSE;
 	
-	private final byte[][] InsetNW = {
+	private final byte[][] IndentNW = {
 			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
 			{FLR, FLR, FLR, FLR, FLR, WGG, non},
 			{FLR, FLR, FLR, FLR, FLR, WGG, non},
@@ -171,12 +172,25 @@ public class CornerBlocks {
 			{WWW, WGG, WGG, WGG, WGG, WGG, non},
 			{WWW, non, non, non, non, non, non},
 	};
-	private byte[][] InsetNE;
-	private byte[][] InsetSW;
-	private byte[][] InsetSE;
+	private byte[][] IndentNE;
+	private byte[][] IndentSW;
+	private byte[][] IndentSE;
+	
+	private final byte[][] InOutDentNW = {
+			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
+			{FLR, FLR, FLR, FLR, FLR, WGG, non},
+			{FLR, FLR, FLR, FLR, FLR, WGG, non},
+			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WGG},
+			{WWW, WGG, WGG, WWW, FLR, FLR, WGG},
+			{WWW, non, non, WWW, WGG, WGG, WGG},
+	};
+	private byte[][] InOutDentNE;
+	private byte[][] InOutDentSW;
+	private byte[][] InOutDentSE;
 	
 	public CornerBlocksStyle pickCornerStyle(Odds odds) {
-//		return CornerBlocksStyle.DIAGONAL;
+//		return CornerBlocksStyle.INOUTDENT;
 		CornerBlocksStyle[] values = CornerBlocksStyle.values();
 		return values[odds.getRandomInt(values.length)];
 	}
@@ -238,10 +252,15 @@ public class CornerBlocks {
 		CastleSE = flipNS(CastleNE);
 		CastleSW = flipNS(CastleNW);
 		
-		// InsetSW already done
-		InsetNE = flipWE(InsetNW);
-		InsetSE = flipNS(InsetNE);
-		InsetSW = flipNS(InsetNW);
+		// IndentSW already done
+		IndentNE = flipWE(IndentNW);
+		IndentSE = flipNS(IndentNE);
+		IndentSW = flipNS(IndentNW);
+		
+		// InOutDentSW already done
+		InOutDentNE = flipWE(InOutDentNW);
+		InOutDentSE = flipNS(InOutDentNE);
+		InOutDentSW = flipNS(InOutDentNW);
 		
 	}
 	
@@ -397,17 +416,29 @@ public class CornerBlocks {
 			case SW:
 				return CastleSW;
 			}
-		case INSET:
+		case INDENT:
 			switch (direction) {
 			default:
 			case NE:
-				return InsetNE;
+				return IndentNE;
 			case NW:
-				return InsetNW;
+				return IndentNW;
 			case SE:
-				return InsetSE;
+				return IndentSE;
 			case SW:
-				return InsetSW;
+				return IndentSW;
+			}
+		case INOUTDENT:
+			switch (direction) {
+			default:
+			case NE:
+				return InOutDentNE;
+			case NW:
+				return InOutDentNW;
+			case SE:
+				return InOutDentSE;
+			case SW:
+				return InOutDentSW;
 			}
 		}
 	}
