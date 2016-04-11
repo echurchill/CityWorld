@@ -983,11 +983,14 @@ public class RoadLot extends ConnectedLot {
 		} else {
 			Material sidewalkMaterial = getSidewalkMaterial();
 			
-			// draw pavement and clear out a bit
-			paveRoadLot(generator, chunk, pavementLevel);
+			// clear out a bit and draw pavement
+			Material emptyMaterial = getAirMaterial(generator, sidewalkLevel);
+//			if (blockYs.maxHeight < pavementLevel + 6) //TODO: random height here, do something smarter
+//				chunk.setLayer(pavementLevel, blockYs.maxHeight - pavementLevel, emptyMaterial);
+//			else 
 			if (pavementLevel != sidewalkLevel)
-				chunk.setLayer(sidewalkLevel, getAirMaterial(generator, sidewalkLevel));
-			Material emptyMaterial = getAirMaterial(generator, sidewalkLevel + 1);
+				chunk.setLayer(sidewalkLevel, emptyMaterial);
+			paveRoadLot(generator, chunk, pavementLevel);
 			
 			// sidewalk corners
 			chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkMaterial);

@@ -3,6 +3,8 @@ package me.daddychurchill.CityWorld.Support;
 import org.bukkit.Material;
 
 public class CornerBlocks {
+	
+	//TODO: so now that the general mechanics works I need to convert this over to a plug in model
 
 	private final static byte non = 0;
 	private final static byte opt = 1;
@@ -14,10 +16,10 @@ public class CornerBlocks {
 	
 	public static int CornerWidth = 7;
 	
-	public enum CornerBlocksStyle { ROUND, DIAGONAL, INNOTCH, OUTNOTCH, DOUBLENOTCH, OUTBUBBLE, INBUBBLE, COLUMN, BRACE, FINS}; 
+	public enum CornerBlocksStyle { ROUND, LARGEDIAGONAL, SMALLDIAGONAL, INNOTCH, OUTNOTCH, DOUBLENOTCH, OUTBUBBLE, INBUBBLE, COLUMN, BRACE, FINS, CASTLE, INSET}; 
 	public enum CornerDirections { NW, NE, SW, SE };
 	
-	private final byte[][] DiagonalNW = {
+	private final byte[][] LargeDiagonalNW = {
 			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
 			{FLR, FLR, FLR, FLR, FLR, WGG, opt},
 			{FLR, FLR, FLR, FLR, WGG, opt, non},
@@ -26,9 +28,22 @@ public class CornerBlocks {
 			{FLR, WGG, opt, non, non, non, non},
 			{WWW, opt, non, non, non, non, non},
 	};
-	private byte[][] DiagonalNE;
-	private byte[][] DiagonalSW;
-	private byte[][] DiagonalSE;
+	private byte[][] LargeDiagonalNE;
+	private byte[][] LargeDiagonalSW;
+	private byte[][] LargeDiagonalSE;
+	
+	private final byte[][] SmallDiagonalNW = {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WGG},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WGG},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WGG},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, WGG, opt},
+			{FLR, FLR, FLR, FLR, WGG, opt, non},
+			{WGG, WGG, WGG, WWW, opt, non, non},
+	};
+	private byte[][] SmallDiagonalNE;
+	private byte[][] SmallDiagonalSW;
+	private byte[][] SmallDiagonalSE;
 	
 	private final byte[][] InNotchNW = {
 			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
@@ -134,6 +149,32 @@ public class CornerBlocks {
 	private byte[][] FinsSW;
 	private byte[][] FinsSE;
 	
+	private final byte[][] CastleNW = {
+			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
+			{FLR, FLR, FLR, FLR, FLR, WGW, non},
+			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WGW},
+			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
+			{WWW, WGW, WWW, FLR, WWW, non, non},
+			{WWW, non, WWW, WGW, WWW, non, non},
+	};
+	private byte[][] CastleNE;
+	private byte[][] CastleSW;
+	private byte[][] CastleSE;
+	
+	private final byte[][] InsetNW = {
+			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
+			{FLR, FLR, FLR, FLR, FLR, WGG, non},
+			{FLR, FLR, FLR, FLR, FLR, WGG, non},
+			{FLR, FLR, FLR, FLR, FLR, WGG, non},
+			{FLR, FLR, FLR, FLR, FLR, WGG, non},
+			{WWW, WGG, WGG, WGG, WGG, WGG, non},
+			{WWW, non, non, non, non, non, non},
+	};
+	private byte[][] InsetNE;
+	private byte[][] InsetSW;
+	private byte[][] InsetSE;
+	
 	public CornerBlocksStyle pickCornerStyle(Odds odds) {
 //		return CornerBlocksStyle.DIAGONAL;
 		CornerBlocksStyle[] values = CornerBlocksStyle.values();
@@ -142,10 +183,15 @@ public class CornerBlocks {
 	
 	public CornerBlocks() {
 		
-		// DiagonalSW already done
-		DiagonalNE = flipWE(DiagonalNW);
-		DiagonalSE = flipNS(DiagonalNE);
-		DiagonalSW = flipNS(DiagonalNW);
+		// LargeDiagonalSW already done
+		LargeDiagonalNE = flipWE(LargeDiagonalNW);
+		LargeDiagonalSE = flipNS(LargeDiagonalNE);
+		LargeDiagonalSW = flipNS(LargeDiagonalNW);
+		
+		// SmallDiagonalSW already done
+		SmallDiagonalNE = flipWE(SmallDiagonalNW);
+		SmallDiagonalSE = flipNS(SmallDiagonalNE);
+		SmallDiagonalSW = flipNS(SmallDiagonalNW);
 		
 		// InNotchSW already done
 		InNotchNE = flipWE(InNotchNW);
@@ -187,6 +233,16 @@ public class CornerBlocks {
 		FinsSE = flipNS(FinsNE);
 		FinsSW = flipNS(FinsNW);
 		
+		// CastleSW already done
+		CastleNE = flipWE(CastleNW);
+		CastleSE = flipNS(CastleNE);
+		CastleSW = flipNS(CastleNW);
+		
+		// InsetSW already done
+		InsetNE = flipWE(InsetNW);
+		InsetSE = flipNS(InsetNE);
+		InsetSW = flipNS(InsetNW);
+		
 	}
 	
 	public void drawVerticals(CornerDirections direction, CornerBlocksStyle style, AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
@@ -209,17 +265,29 @@ public class CornerBlocks {
 		case ROUND:
 			// legacy style, handled a different way
 			return null;
-		case DIAGONAL:
+		case LARGEDIAGONAL:
 			switch (direction) {
 			default:
 			case NE:
-				return DiagonalNE;
+				return LargeDiagonalNE;
 			case NW:
-				return DiagonalNW;
+				return LargeDiagonalNW;
 			case SE:
-				return DiagonalSE;
+				return LargeDiagonalSE;
 			case SW:
-				return DiagonalSW;
+				return LargeDiagonalSW;
+			}
+		case SMALLDIAGONAL:
+			switch (direction) {
+			default:
+			case NE:
+				return SmallDiagonalNE;
+			case NW:
+				return SmallDiagonalNW;
+			case SE:
+				return SmallDiagonalSE;
+			case SW:
+				return SmallDiagonalSW;
 			}
 		case INNOTCH:
 			switch (direction) {
@@ -316,6 +384,30 @@ public class CornerBlocks {
 				return FinsSE;
 			case SW:
 				return FinsSW;
+			}
+		case CASTLE:
+			switch (direction) {
+			default:
+			case NE:
+				return CastleNE;
+			case NW:
+				return CastleNW;
+			case SE:
+				return CastleSE;
+			case SW:
+				return CastleSW;
+			}
+		case INSET:
+			switch (direction) {
+			default:
+			case NE:
+				return InsetNE;
+			case NW:
+				return InsetNW;
+			case SE:
+				return InsetSE;
+			case SW:
+				return InsetSW;
 			}
 		}
 	}

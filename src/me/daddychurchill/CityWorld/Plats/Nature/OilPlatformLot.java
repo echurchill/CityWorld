@@ -116,7 +116,7 @@ public class OilPlatformLot extends ConstructLot {
 		chunk.setBlocks(2, y3, y3 + 2, 13, supportMaterial);
 		
 		// drill down
-		chunk.setBlocks(8, 1, y4 + 3, 8, drillMaterial); 
+		chunk.setBlocks(8, generator.deepseaLevel, y4 + 3, 8, drillMaterial); 
 		
 		// extra drill bits
 		chunk.setBlocks(5, y2 + 2, y3 + 2, 1, drillMaterial);
@@ -130,17 +130,17 @@ public class OilPlatformLot extends ConstructLot {
 		chunk.setLadder(12, y0 + 1, y4 + 2, 11, BlockFace.SOUTH);
 		
 		// now draw the crane
-		chunk.setStair(2, y4 - 2, 2, topperMaterial, BadMagic.Stair.EAST);
 		chunk.setStair(2, y4 - 2, 3, topperMaterial, BadMagic.Stair.EAST);
 		chunk.clearBlock(2, y4 - 1, 2);
 		chunk.clearBlock(2, y4 - 1, 3);
 		chunk.setStair(3, y4 - 1, 3, topperMaterial, BadMagic.Stair.NORTH);
+		chunk.setBlocks(2, y4 - 2, y4, 2, Material.IRON_FENCE);
 		chunk.drawCrane(context, chunkOdds, 3, y4, 2);
 		
 		// bleed off
-		chunk.setBlocks(13, y4 + 3, y4 + 8, 13, Material.IRON_FENCE);
-		chunk.setBlock(13, y4 + 8, 13, Material.NETHERRACK);
-		chunk.setBlock(13, y4 + 9, 13, Material.FIRE);
+		chunk.setBlocks(12, 14, y4 + 3, y4 + 8, 12, 14, Material.IRON_FENCE);
+		chunk.setBlocks(12, 14, y4 + 8, 12, 14, Material.NETHERRACK);
+		chunk.setBlocks(12, 14, y4 + 9, 12, 14, Material.FIRE);
 
 		// it looked so nice for a moment... but the moment has passed
 		if (generator.settings.includeDecayedBuildings) {

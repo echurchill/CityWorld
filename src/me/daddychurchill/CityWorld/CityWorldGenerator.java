@@ -86,6 +86,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 		SANDDUNES,		// traditional terrain and cities but covered with sand dunes
 		ASTRAL,			// alien landscape 
 		MAZE,			// mazes with smaller cities
+		NATURE,			// just nature, no constructs anywhere
 		//MOON,			// lunar landscape with lunar bases
 		//UNDERWATER,	// traditional terrain with raised sea level with under water cities
 		//WESTERN,		// desert landscape with sparse western styled towns and ranches

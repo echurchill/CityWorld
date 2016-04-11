@@ -257,15 +257,15 @@ public class RoundaboutCenterLot extends IsolatedLot {
 			
 			// tree can be art too, you know!
 			if (somethingInTheCenter && chunkOdds.playOdds(context.oddsOfNaturalArt)) {
-				generator.coverProvider.generateCoverage(generator, chunk, 7, ySurface, 7, CoverageSets.TALL_TREES);
+				generator.coverProvider.generateCoverage(generator, chunk, 7, ySurface + 1, 7, CoverageSets.TALL_TREES);
 				somethingInTheCenter = false;
 			}
 			
 			// backfill with grass
-			for (int x = 3; x < 13; x++) {
-				for (int z = 3; z < 13; z++) {
+			for (int x = 2; x < 14; x++) {
+				for (int z = 2; z < 14; z++) {
 					if (generator.coverProvider.isPlantable(generator, chunk, x, ySurface, z))
-						generator.coverProvider.generateCoverage(generator, chunk, x, ySurface, z, CoverageSets.PRARIE_PLANTS);
+						generator.coverProvider.generateCoverage(generator, chunk, x, ySurface + 1, z, CoverageSets.PRARIE_PLANTS);
 				}
 			}
 			break;

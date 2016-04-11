@@ -62,6 +62,7 @@ public abstract class SurfaceProvider extends Provider {
 		case MAZE:
 			provider = new SurfaceProvider_Maze(odds);
 			break;
+		case NATURE:
 		case DESTROYED:
 		case NORMAL:
 			provider = new SurfaceProvider_Normal(odds);

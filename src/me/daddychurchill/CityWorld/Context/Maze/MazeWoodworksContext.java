@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Context.Maze;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plats.Nature.MountainTentLot;
+import me.daddychurchill.CityWorld.Plats.Nature.CampgroundLot;
 import me.daddychurchill.CityWorld.Plats.Nature.WoodframeLot;
 import me.daddychurchill.CityWorld.Plats.Nature.WoodworksLot;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -23,14 +23,14 @@ public class MazeWoodworksContext extends MazeConstructContext {
 	@Override
 	protected PlatLot generateNormalLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		if (odds.playOdds(Odds.oddsUnlikely))
-			return new MountainTentLot(platmap, chunkX, chunkZ);
+			return new CampgroundLot(platmap, chunkX, chunkZ);
 		else
 			return new WoodworksLot(platmap, chunkX, chunkZ);
 	}
 	
 	@Override
 	protected PlatLot generateSpecialTooLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
-		return new MountainTentLot(platmap, chunkX, chunkZ);
+		return new CampgroundLot(platmap, chunkX, chunkZ);
 	}
 
 }

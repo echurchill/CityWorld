@@ -4,10 +4,10 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
+import me.daddychurchill.CityWorld.Plats.Nature.CampgroundLot;
 import me.daddychurchill.CityWorld.Plats.Nature.GravelMineLot;
 import me.daddychurchill.CityWorld.Plats.Nature.GravelworksLot;
 import me.daddychurchill.CityWorld.Plats.Nature.MineEntranceLot;
-import me.daddychurchill.CityWorld.Plats.Nature.MountainTentLot;
 import me.daddychurchill.CityWorld.Plats.Nature.WoodframeLot;
 import me.daddychurchill.CityWorld.Plats.Nature.WoodworksLot;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
@@ -108,7 +108,7 @@ public class OutlandContext extends RuralContext {
 									current = new WoodframeLot(platmap, chunkX, chunkZ);
 									singletonOneUsed = true;
 								} else if (!singletonTwoUsed && platmapOdds.playOdds(Odds.oddsSomewhatUnlikely)) {
-									current = new MountainTentLot(platmap, chunkX, chunkZ);
+									current = new CampgroundLot(platmap, chunkX, chunkZ);
 									singletonTwoUsed = true;
 								} else
 									current = new WoodworksLot(platmap, chunkX, chunkZ);

@@ -177,6 +177,7 @@ public abstract class ShapeProvider extends Provider {
 		case MAZE:
 			provider = new ShapeProvider_Maze(generator, odds);
 			break;
+		case NATURE:
 		case DESTROYED:
 		case NORMAL:
 			provider = new ShapeProvider_Normal(generator, odds);

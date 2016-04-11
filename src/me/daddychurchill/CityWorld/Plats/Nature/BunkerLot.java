@@ -205,7 +205,8 @@ public class BunkerLot extends ConnectedLot {
 		int yTop2 = yTop4 - bunkerSegment; 
 		int yTop1 = yTop2 - 2;
 		int yPlatform = calcSegmentOrigin(yBottom) + 6;
-		int yRange = (yTop2 - yPlatform) / 3;
+//		int yRange = (yTop2 - yPlatform) / 3; //TODO: this sometimes returns 0 - level-seed=-34393919603997097
+		int yRange = Math.max(1, (yTop2 - yPlatform) / 3); 
 		int yPlatformTop = Math.min(Math.max(yPlatform + bunkerSegment * 2, odds.getRandomInt(yRange) + yRange * 2), yTop1);
 		
 		// bottom
@@ -368,7 +369,7 @@ public class BunkerLot extends ConnectedLot {
 		
 		// lid & crack
 		int lidY = blockYs.averageHeight - 1;
-		chunk.setCircle(8, 8, 5, lidY, Material.STONE, true);
+		chunk.setCircle(8, 8, 5, lidY, Material.HARD_CLAY, true);
 		for (int x = 3; x < 14; x += 2)
 			chunk.setTrapDoor(x, lidY, 7, TrapDoor.TOP_NORTH);
 		for (int x = 2; x < 15; x += 2)
