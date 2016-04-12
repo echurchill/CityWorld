@@ -36,6 +36,7 @@ public class GravelworksLot extends GravelLot {
 			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
 			int platZ) {
 		
+		flattenLot(generator, chunk, 4);
 		
 		switch (chunkOdds.getRandomInt(10)) {
 		case 0:

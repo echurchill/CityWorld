@@ -207,8 +207,10 @@ public class StructureOnGroundProvider extends Provider {
 	
 			// and the fire itself
 			chunk.setBlock(11, baseY - 1, 11, matFireBase);
-			if (odds.playOdds(Odds.oddsPrettyLikely))
+			if (odds.playOdds(Odds.oddsPrettyLikely)) {
+				chunk.clearBlocks(9, 14, baseY, 9, 14); // we do this to keep the grass and such away from the fire so it doesn't go firebug on us
 				chunk.setBlock(11, baseY, 11, matFire);
+			}
 		}
 		
 		// and the logs

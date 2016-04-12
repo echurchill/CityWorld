@@ -35,11 +35,11 @@ public class CampgroundLot extends ConstructLot {
 			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
 			int platZ) {
 		
-		// now make a tent
-		generator.structureOnGroundProvider.generateCampground(generator, chunk, context, chunkOdds, generator.streetLevel + 1);
-
 		// place snow
 		generateSurface(generator, chunk, false);
 		
+		// now make a tent
+		generator.structureOnGroundProvider.generateCampground(generator, chunk, context, chunkOdds, generator.streetLevel + 1);
+
 	}
 }

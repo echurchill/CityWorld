@@ -402,8 +402,8 @@ public class ParkLot extends ConnectedLot {
 			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
 				int lowestY = generator.streetLevel - cisternDepth + 1 + waterDepth;
 				chunk.setBlocks(4, 7, lowestY, lowestY + 1, 1, 2, ledgeMaterial);
-				chunk.setLadder(5, lowestY + 1, surfaceY + 1, 1, BlockFace.NORTH);
-				chunk.setTrapDoor(5, surfaceY, 1, BadMagic.TrapDoor.EAST);
+				chunk.setLadder(5, lowestY + 1, surfaceY, 1, BlockFace.NORTH);
+				chunk.setTrapDoor(5, surfaceY - 1, 1, BadMagic.TrapDoor.TOP_EAST);
 			}
 		}
 	}

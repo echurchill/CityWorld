@@ -985,9 +985,7 @@ public class RoadLot extends ConnectedLot {
 			
 			// clear out a bit and draw pavement
 			Material emptyMaterial = getAirMaterial(generator, sidewalkLevel);
-//			if (blockYs.maxHeight < pavementLevel + 6) //TODO: random height here, do something smarter
-//				chunk.setLayer(pavementLevel, blockYs.maxHeight - pavementLevel, emptyMaterial);
-//			else 
+			flattenLot(generator, chunk, 4);
 			if (pavementLevel != sidewalkLevel)
 				chunk.setLayer(sidewalkLevel, emptyMaterial);
 			paveRoadLot(generator, chunk, pavementLevel);
@@ -1359,10 +1357,10 @@ public class RoadLot extends ConnectedLot {
 				vaultNorthWest = true;
 				
 				// place the manhole
-				chunk.setTrapDoor(3, sidewalkLevel, 2, BadMagic.TrapDoor.WEST);
+				chunk.setTrapDoor(3, sidewalkLevel - 1, 2, BadMagic.TrapDoor.TOP_WEST);
 				
 				// ladder
-				chunk.setLadder(3, sewerY, sidewalkLevel, 2, BlockFace.EAST);
+				chunk.setLadder(3, sewerY, sidewalkLevel - 1, 2, BlockFace.EAST);
 			}
 			
 			// figure out the center

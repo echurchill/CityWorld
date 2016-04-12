@@ -108,14 +108,14 @@ public abstract class PlatLot {
 		return blockYs == null ? 0 : blockYs.getBlockY(x, z);
 	}
 	
-	public double getAverageY() {
-		return blockYs == null ? 0 : blockYs.averageHeight;
-	}
-	
-	protected double getPerciseY(int x, int z) {
-		return blockYs == null ? 0 : blockYs.getPerciseY(x, z);
-	}
-	
+//	public double getAverageY() {
+//		return blockYs == null ? 0 : blockYs.averageHeight;
+//	}
+//	
+//	protected double getPerciseY(int x, int z) {
+//		return blockYs == null ? 0 : blockYs.getPerciseY(x, z);
+//	}
+//	
 	protected int getSurfaceAtY(int x, int z) {
 		return getSurfaceAtY(x, 15 - x, z, 15 - z);
 	}
@@ -135,12 +135,12 @@ public abstract class PlatLot {
 //	private static int totalNumberOfGeneratedChunks = 0;
 	private int generateBlocksCallCountForThisLot = 0;
 	
-//	protected void burp(CityWorldGenerator generator, int i, boolean report) {
-//		int realY = generator.shapeProvider.findBlockY(generator, AbstractBlocks.getBlockX(chunkX, 0), AbstractBlocks.getBlockZ(chunkZ, 0));
-//		int cacheY = blockYs.getBlockY(0, 0);
-//		if (report || realY != cacheY)
-//			generator.reportFormatted(">>>>>%d> chunk %d,%d [0][0] real = %4d, cached = %4d", i, chunkX, chunkZ, realY, cacheY);
-//	}
+	protected void flattenLot(CityWorldGenerator generator, AbstractBlocks chunk, int maxLayersToDo) {
+		if (blockYs.maxHeight > generator.streetLevel & blockYs.maxHeight <= generator.streetLevel + maxLayersToDo) {
+			chunk.setLayer(generator.streetLevel + 1, Math.min(blockYs.maxHeight - generator.streetLevel + 1, maxLayersToDo), 
+					getAirMaterial(generator, generator.streetLevel + 1));
+		}
+	}
 		
 	public void generateChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 //		if (chunk.sectionX != chunkX || chunk.sectionZ != chunkZ)
