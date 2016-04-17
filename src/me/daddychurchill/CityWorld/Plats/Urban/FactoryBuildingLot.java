@@ -7,16 +7,21 @@ import org.bukkit.block.BlockFace;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plugins.RoomProvider;
+import me.daddychurchill.CityWorld.Rooms.Populators.FactoryWithStuff;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
+import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
 
 public class FactoryBuildingLot extends IndustrialBuildingLot {
 	
+	private static RoomProvider contentsStuff = new FactoryWithStuff();
+	
 	private final static double oddsOfSimilarContent = Odds.oddsUnlikely;
 
-	private enum ContentStyle {TANK, TANKS, PIT, SMOKESTACK, OFFICE}; 
+	private enum ContentStyle {TANK, STUFF, PIT, SMOKESTACK, OFFICE}; 
 	private ContentStyle contentStyle;
 	
 	public FactoryBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
@@ -34,6 +39,16 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 	public ContentStyle pickContentStyle(Odds odds) {
 		ContentStyle[] values = ContentStyle.values();
 		return values[odds.getRandomInt(values.length)];
+	}
+	
+	@Override
+	public int getTopY(CityWorldGenerator generator) {
+		return Math.max(super.getTopY(generator), generator.structureLevel + aboveFloorHeight * 10);
+	}
+	
+	@Override
+	protected boolean isShaftableLevel(CityWorldGenerator generator, int blockY) {
+		return blockY < generator.structureLevel - 10;
 	}
 	
 	@Override
@@ -75,27 +90,30 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 		int skywalkAt = groundY + skywalkHeight;
 		
 		Material airMat = generator.shapeProvider.findAtmosphereMaterialAt(generator, groundY);
-		Material wallMat = generator.settings.materials.itemsSelectMaterial_Factories.getRandomMaterial(chunkOdds, Material.SMOOTH_BRICK);
-		Material officeMat = generator.settings.materials.itemsSelectMaterial_Factories.getRandomMaterial(chunkOdds, Material.SMOOTH_BRICK);
-		Material supportMat = generator.settings.materials.itemsSelectMaterial_Factories.getRandomMaterial(chunkOdds, Material.CLAY);
-		Material smokestackMat = generator.settings.materials.itemsSelectMaterial_Factories.getRandomMaterial(chunkOdds, Material.CLAY);
+		Material wallMat = generator.settings.materials.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_BRICK);
+		Material officeMat = generator.settings.materials.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_BRICK);
+		Material supportMat = generator.settings.materials.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.CLAY);
+		Material smokestackMat = generator.settings.materials.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.CLAY);
 		Material fluidMat = generator.settings.materials.itemsSelectMaterial_FactoryTanks.getRandomMaterial(chunkOdds, Material.STATIONARY_WATER);
-		int amountOfContent = chunkOdds.getRandomInt(1, 3);
 
 		switch (contentStyle) {
 		case OFFICE:
+			
+			// bottom floor
 			chunk.setWalls(3, 13, groundY, groundY + 1, 3, 13, officeMat);
 			chunk.setWalls(3, 13, groundY + 1, groundY + 2, 3, 13, Material.THIN_GLASS);
 			chunk.setWalls(3, 13, groundY + 2, skywalkAt, 3, 13, officeMat);
 			chunk.setBlocks(3, 13, skywalkAt, 3, 13, officeMat);
 			generateOpenings(chunk, groundY);
 			
-			if (skywalkAt - groundY > aboveFloorHeight) {
+			// room for middle floor?
+			if (groundY + aboveFloorHeight <= skywalkAt - aboveFloorHeight) {
 				int secondY = groundY + aboveFloorHeight;
 				chunk.setBlocks(3, 13, secondY, 3, 13, officeMat);
-				chunk.setWalls(3, 13, secondY + 1, secondY + 2, 3, 13, Material.THIN_GLASS);
+				chunk.setWalls(3, 13, secondY + 2, secondY + 3, 3, 13, Material.THIN_GLASS);
 			}
 
+			// top floor at skywalk level
 			chunk.setWalls(3, 13, skywalkAt + 1, skywalkAt + 2, 3, 13, officeMat);
 			chunk.setWalls(3, 13, skywalkAt + 2, skywalkAt + 3, 3, 13, Material.THIN_GLASS);
 			chunk.setWalls(3, 13, skywalkAt + 3, skywalkAt + 4, 3, 13, officeMat);
@@ -108,22 +126,24 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			generateSkyWalkBits(generator, chunk, neighborFloors, skywalkAt);
 			break;
 		case PIT:
-			int topOfPit = groundY + 3;
-			int bottomOfPit = topOfPit - 8;
+			int topOfPit = groundY + 1;
+			int bottomOfPit = topOfPit - 6;
+			int pitLevel = topOfPit - chunkOdds.getRandomInt(3) - 1;
 			
-			chunk.setCircle(8, 8, 5, bottomOfPit - 1, wallMat, true);
-			chunk.setCircle(8, 8, 5, bottomOfPit + amountOfContent, topOfPit + 1, airMat, true);
-			chunk.setCircle(8, 8, 5, bottomOfPit, bottomOfPit + amountOfContent, fluidMat, true);
-			chunk.setCircle(8, 8, 5, bottomOfPit, topOfPit + 1, wallMat); // put the wall up quick!
+			chunk.setCircle(8, 8, 4, bottomOfPit - 1, wallMat, true);
+			chunk.setCircle(8, 8, 4, bottomOfPit, topOfPit, airMat, true);
+			chunk.setCircle(8, 8, 4, bottomOfPit, pitLevel, fluidMat, true);
+			chunk.setCircle(8, 8, 4, bottomOfPit, topOfPit, wallMat); // put the wall up quick!
 
 			generateSkyWalkCross(generator, chunk, neighborFloors, skywalkAt);
 			break;
 		case TANK:
-			int bottomOfTank = groundY + 4;
 			int topOfTank = skywalkAt + 2;
+			int bottomOfTank = groundY + 4;
+			int tankLevel = topOfTank - chunkOdds.getRandomInt(3) - 1;
 			
 			chunk.setCircle(8, 8, 4, bottomOfTank - 1, wallMat, true);
-			chunk.setCircle(8, 8, 4, bottomOfTank, bottomOfTank + amountOfContent, fluidMat, true);
+			chunk.setCircle(8, 8, 4, bottomOfTank, tankLevel, fluidMat, true);
 			chunk.setCircle(8, 8, 4, bottomOfTank, topOfTank, wallMat); // put the wall up quick!
 
 			chunk.setBlocks(4, 6, groundY, bottomOfTank + 1, 4, 6, supportMat);
@@ -133,52 +153,74 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			
 			generateSkyWalkBits(generator, chunk, neighborFloors, skywalkAt);
 			break;
-		case TANKS:
+		case STUFF:
+			generateStuff(generator, chunk, 2, groundY, 2, 3, 3);
+			if (neighborFloors.toNorth())
+				generateStuff(generator, chunk, 6, groundY, 2, 4, 3);
+			generateStuff(generator, chunk, 11, groundY, 2, 3, 3);
 
-			chunk.setWool(3, 5, groundY, skywalkAt + chunkOdds.getRandomInt(5), 3, 5, chunkOdds.getRandomColor());
-			chunk.setWool(11, 13, groundY, skywalkAt + chunkOdds.getRandomInt(5), 3, 5, chunkOdds.getRandomColor());
-			chunk.setWool(3, 5, groundY, skywalkAt + chunkOdds.getRandomInt(5), 11, 13, chunkOdds.getRandomColor());
-			chunk.setWool(11, 13, groundY, skywalkAt + chunkOdds.getRandomInt(5), 11, 13, chunkOdds.getRandomColor());
+			if (neighborFloors.toWest())
+				generateStuff(generator, chunk, 2, groundY, 6, 3, 4);
+			generateStuff(generator, chunk, 6, groundY, 6, 4, 4);
+			if (neighborFloors.toEast())
+				generateStuff(generator, chunk, 11, groundY, 6, 3, 4);
 			
-			if (!neighborFloors.toNorth())
-				chunk.setWool(7, 9, groundY, skywalkAt + chunkOdds.getRandomInt(5), 3, 5, chunkOdds.getRandomColor());
-			if (!neighborFloors.toSouth())
-				chunk.setWool(7, 9, groundY, skywalkAt + chunkOdds.getRandomInt(5), 11, 13, chunkOdds.getRandomColor());
-			if (!neighborFloors.toWest())
-				chunk.setWool(3, 5, groundY, skywalkAt + chunkOdds.getRandomInt(5), 7, 9, chunkOdds.getRandomColor());
-			if (!neighborFloors.toEast())
-				chunk.setWool(11, 13, groundY, skywalkAt + chunkOdds.getRandomInt(5), 7, 9, chunkOdds.getRandomColor());
-			
-			
+			generateStuff(generator, chunk, 2, groundY, 11, 3, 3);
+			if (neighborFloors.toSouth())
+				generateStuff(generator, chunk, 6, groundY, 11, 4, 3);
+			generateStuff(generator, chunk, 11, groundY, 11, 3, 3);
+
+//			chunk.setWool(3, 5, groundY, skywalkAt + chunkOdds.getRandomInt(5), 3, 5, chunkOdds.getRandomColor());
+//			chunk.setWool(11, 13, groundY, skywalkAt + chunkOdds.getRandomInt(5), 3, 5, chunkOdds.getRandomColor());
+//			chunk.setWool(3, 5, groundY, skywalkAt + chunkOdds.getRandomInt(5), 11, 13, chunkOdds.getRandomColor());
+//			chunk.setWool(11, 13, groundY, skywalkAt + chunkOdds.getRandomInt(5), 11, 13, chunkOdds.getRandomColor());
+//			
+//			if (!neighborFloors.toNorth())
+//				chunk.setWool(7, 9, groundY, skywalkAt + chunkOdds.getRandomInt(5), 3, 5, chunkOdds.getRandomColor());
+//			if (!neighborFloors.toSouth())
+//				chunk.setWool(7, 9, groundY, skywalkAt + chunkOdds.getRandomInt(5), 11, 13, chunkOdds.getRandomColor());
+//			if (!neighborFloors.toWest())
+//				chunk.setWool(3, 5, groundY, skywalkAt + chunkOdds.getRandomInt(5), 7, 9, chunkOdds.getRandomColor());
+//			if (!neighborFloors.toEast())
+//				chunk.setWool(11, 13, groundY, skywalkAt + chunkOdds.getRandomInt(5), 7, 9, chunkOdds.getRandomColor());
+//			
 			generateSkyWalkCross(generator, chunk, neighborFloors, skywalkAt);
 			break;
 		case SMOKESTACK:
-			chunk.setWalls(3, 13, groundY, skywalkAt + 3, 3, 13, officeMat);
-			chunk.setBlocks(3, 13, skywalkAt + 3, 3, 13, officeMat);
+			chunk.setWalls(3, 13, groundY, skywalkAt - 1, 3, 13, officeMat);
+			chunk.setWalls(4, 12, skywalkAt - 1, skywalkAt, 4, 12, officeMat);
+			chunk.setBlocks(3, 13, skywalkAt, 3, 13, officeMat);
 			generateOpenings(chunk, groundY);
 
 			int smokestackY1 = skywalkAt + aboveFloorHeight * chunkOdds.getRandomInt(1, 3);
 			int smokestackY2 = smokestackY1 + aboveFloorHeight * chunkOdds.getRandomInt(1, 3);
 			int smokestackY3 = smokestackY2 + aboveFloorHeight * chunkOdds.getRandomInt(1, 3);
-			chunk.setCircle(8, 8, 2, groundY - 3, smokestackMat, true);
-			chunk.setCircle(8, 8, 2, groundY - 2, smokestackY1, Material.AIR, true);
-			chunk.setCircle(8, 8, 2, groundY - 2, groundY, smokestackMat);
-			chunk.setCircle(8, 8, 1, groundY - 2, Material.NETHERRACK, true);
-			chunk.setCircle(8, 8, 1, groundY - 1, Material.FIRE, true);
-			chunk.setCircle(8, 8, 2, groundY, smokestackY1, smokestackMat);
+			
+			chunk.setBlocks(6, 10, groundY - 3, 6, 10, smokestackMat);
+			chunk.clearBlocks(6, 10, groundY - 2, smokestackY1, 6, 10);
+			chunk.setWalls(5, 11, groundY - 2, groundY, 5, 11, smokestackMat);
+			chunk.setBlocks(6, 10, groundY - 2, 6, 10, Material.NETHERRACK);
+			chunk.setBlocks(6, 10, groundY - 1, 6, 10, Material.FIRE);
+			chunk.setWalls(5, 11, groundY, groundY + 6, 5, 11, smokestackMat);
+
+			chunk.setThinGlass(8, groundY + 1, 5, DyeColor.RED);
+			chunk.setThinGlass(7, groundY + 1, 10, DyeColor.RED);
+			chunk.setThinGlass(5, groundY + 1, 8, DyeColor.RED);
+			chunk.setThinGlass(10, groundY + 1, 7, DyeColor.RED);
+			
+			chunk.setCircle(8, 8, 2, groundY + 6, smokestackY1, smokestackMat);
 			chunk.setWalls(6, 10, smokestackY1, smokestackY2, 6, 10, smokestackMat);
 			chunk.setCircle(8, 8, 1, smokestackY2, smokestackY3, smokestackMat);
 			
-			chunk.pepperBlocks(7, 9, smokestackY2, smokestackY3 + 6, 7, 9, chunkOdds, Material.WEB);
-			
-			chunk.setGlass(8, groundY + 1, 5, DyeColor.RED);
-			chunk.setGlass(7, groundY + 1, 10, DyeColor.RED);
-			chunk.setGlass(5, groundY + 1, 8, DyeColor.RED);
-			chunk.setGlass(10, groundY + 1, 7, DyeColor.RED);
+			chunk.pepperBlocks(7, 9, smokestackY3 - 2, smokestackY3 + 6, 7, 9, chunkOdds, Material.WEB);
 			
 			generateSkyWalkBits(generator, chunk, neighborFloors, skywalkAt);
 			break;
 		}
+	}
+	
+	protected void generateStuff(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z, int width, int depth) {
+		contentsStuff.drawFixtures(generator, chunk, chunkOdds, 1, x, y, z, width, aboveFloorHeight, depth, Facing.NORTH, Material.STONE, Material.GLASS);
 	}
 	
 	protected void generateOpenings(RealBlocks chunk, int y) {

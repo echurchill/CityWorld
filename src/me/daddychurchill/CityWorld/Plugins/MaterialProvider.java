@@ -474,13 +474,17 @@ public class MaterialProvider {
 			Material.STAINED_CLAY,
 			Material.STAINED_CLAY);
 
-	public final static String tagSelectMaterial_Factories = "Materials_For_Factories";
-	public MaterialList itemsSelectMaterial_Factories = createList(tagSelectMaterial_Factories,
+	public final static String tagSelectMaterial_FactoryInsides = "Materials_For_FactoryInsides";
+	public MaterialList itemsSelectMaterial_FactoryInsides = createList(tagSelectMaterial_FactoryInsides,
+			Material.STONE,
 			Material.SMOOTH_BRICK,
+			Material.DOUBLE_STEP,
+			Material.DOUBLE_STONE_SLAB2,
+			Material.QUARTZ_BLOCK,
 			Material.CLAY,
 			Material.STAINED_CLAY,
 			Material.STONE);
-
+	
 	public final static String tagSelectMaterial_FactoryTanks = "Materials_For_FactoryTanks";
 	public MaterialList itemsSelectMaterial_FactoryTanks = createList(tagSelectMaterial_FactoryTanks,
 			Material.STATIONARY_LAVA,

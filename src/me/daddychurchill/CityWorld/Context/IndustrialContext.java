@@ -43,16 +43,15 @@ public class IndustrialContext extends UrbanContext {
 			return new StorageLot(platmap, chunkX, chunkZ);
 		else
 			return new FactoryBuildingLot(platmap, chunkX, chunkZ);
-//			return super.getPark(generator, platmap, odds, chunkX, chunkZ, waterDepth);
 	}
 	
 	@Override
 	protected PlatLot getBuilding(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
-//		if (generator.settings.includeBones && odds.playOdds(Odds.oddsUnlikely))
-//			return new MuseumBuildingLot(platmap, chunkX, chunkZ);
-//		else if (odds.playOdds(Odds.oddsSomewhatLikely))
-//			return new WarehouseBuildingLot(platmap, chunkX, chunkZ);
-//		else
+		if (generator.settings.includeBones && odds.playOdds(Odds.oddsExtremelyUnlikely))
+			return new MuseumBuildingLot(platmap, chunkX, chunkZ);
+		else if (odds.playOdds(Odds.oddsSomewhatUnlikely))
+			return new WarehouseBuildingLot(platmap, chunkX, chunkZ);
+		else
 			return new FactoryBuildingLot(platmap, chunkX, chunkZ);
 	}
 }

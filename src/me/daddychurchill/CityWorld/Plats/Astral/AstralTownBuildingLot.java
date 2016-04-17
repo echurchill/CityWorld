@@ -46,7 +46,7 @@ public class AstralTownBuildingLot extends AstralTownEmptyLot {
 		
 		int levelY = generator.seaLevel + aboveSeaLevel;
 		int segmentY = (context.buildingMaximumY - levelY) / 6;
-		int topY = chunkOdds.getRandomInt(segmentY * 2, segmentY * 4) + levelY;
+		int topY = chunkOdds.calcRandomRange(segmentY * 2, segmentY * 4) + levelY;
 		
 		switch (buildingType) {
 		case BALLSY:

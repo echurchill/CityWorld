@@ -195,8 +195,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		int insetSegment = height / 4;
 		insetStyle = InsetStyle.STRAIGHT;
 		if (insetSegment > 1 && chunkOdds.playOdds(context.oddsOfBuildingWallInset)) {
-			insetInsetMidAt = chunkOdds.getRandomInt(insetSegment, insetSegment * 2);
-			insetInsetHighAt = chunkOdds.getRandomInt(insetInsetMidAt + 1, insetSegment * 3);
+			insetInsetMidAt = chunkOdds.calcRandomRange(insetSegment, insetSegment * 2);
+			insetInsetHighAt = chunkOdds.calcRandomRange(insetInsetMidAt + 1, insetSegment * 3);
 			if (chunkOdds.flipCoin())
 				insetStyle = InsetStyle.BIGTOSMALL; // 50% of the time
 			else if (chunkOdds.flipCoin())
