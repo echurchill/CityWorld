@@ -163,6 +163,9 @@ public class ShapeProvider_Normal extends ShapeProvider {
 			else
 				return highriseContext;
 		}
+
+// current attempt
+		else if (nature < 0.80)
 //		else if (nature < 0.10)
 //			return constructionContext;
 //		else if (nature < 0.20)
@@ -170,7 +173,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 //		else if (nature < 0.30)
 //			return municipalContext;
 //		else if (nature < 0.40)
-//			return industrialContext;
+			return industrialContext;
 //		else if (nature < 0.50)
 //			return lowriseContext;
 //		else if (nature < 0.60)
@@ -179,22 +182,26 @@ public class ShapeProvider_Normal extends ShapeProvider {
 //			return farmContext;
 //		else if (nature < 0.80)
 //			return outlandContext;
-		else if (nature < 0.05)
-			return constructionContext;
-		else if (nature < 0.10)
-			return midriseContext;
-		else if (nature < 0.20)
-			return municipalContext;
-		else if (nature < 0.30)
-			return industrialContext;
-		else if (nature < 0.40)
-			return lowriseContext;
-		else if (nature < 0.50)
-			return neighborhoodContext;
-		else if (nature < 0.65 && platmap.generator.settings.includeFarms)
-			return farmContext;
-		else if (nature < 0.80)
-			return outlandContext;
+
+// second attempt
+//		else if (nature < 0.05)
+//			return constructionContext;
+//		else if (nature < 0.10)
+//			return midriseContext;
+//		else if (nature < 0.20)
+//			return municipalContext;
+//		else if (nature < 0.30)
+//			return industrialContext;
+//		else if (nature < 0.40)
+//			return lowriseContext;
+//		else if (nature < 0.50)
+//			return neighborhoodContext;
+//		else if (nature < 0.65 && platmap.generator.settings.includeFarms)
+//			return farmContext;
+//		else if (nature < 0.80)
+//			return outlandContext;
+
+// original dist
 //		else if (nature < 0.15)
 //			return constructionContext;
 //		else if (nature < 0.25)

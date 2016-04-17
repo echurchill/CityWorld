@@ -1116,28 +1116,21 @@ public class StructureOnGroundProvider extends Provider {
 		}
 		
 		if (topMat == Material.STAINED_CLAY) {
-			chunk.setCircle(x + 4, x + 4, 3, y3 - 1, Material.STAINED_CLAY, topColor, true);
-			chunk.setCircle(x + 4, x + 4, 5, y3, Material.STAINED_CLAY, platformColor, true);
-			chunk.setCircle(x + 4, x + 4, 4, y3 + 1, Material.STAINED_CLAY, tankColor, false);
-			chunk.setCircle(x + 4, x + 4, 4, y3 + 2, Material.STAINED_CLAY, tankColor, false);
-			chunk.setCircle(x + 4, x + 4, 4, y3 + 3, Material.STAINED_CLAY, tankColor, false);
-			chunk.setCircle(x + 4, x + 4, 4, y3 + 4, Material.STAINED_CLAY, tankColor, false);
-			chunk.setCircle(x + 4, x + 4, 4, y3 + 5, Material.STAINED_CLAY, tankColor, true);
-			chunk.setCircle(x + 4, x + 4, 3, y3 + 6, Material.STAINED_CLAY, topColor, true);
+			chunk.setCircle(x + 4, x + 4, 3, y3 - 1, topMat, topColor, true);
+			chunk.setCircle(x + 4, x + 4, 5, y3, topMat, platformColor, true);
+			chunk.setCircle(x + 4, x + 4, 4, y3 + 1, y3 + 5, topMat, tankColor, false);
+			chunk.setCircle(x + 4, x + 4, 4, y3 + 5, topMat, tankColor, true);
+			chunk.setCircle(x + 4, x + 4, 3, y3 + 6, topMat, topColor, true);
 		} else {
 			chunk.setCircle(x + 4, x + 4, 3, y3 - 1, topMat, true);
 			chunk.setCircle(x + 4, x + 4, 5, y3, topMat, true);
-			chunk.setCircle(x + 4, x + 4, 4, y3 + 1, topMat, false);
-			chunk.setCircle(x + 4, x + 4, 4, y3 + 2, topMat, false);
-			chunk.setCircle(x + 4, x + 4, 4, y3 + 3, topMat, false);
-			chunk.setCircle(x + 4, x + 4, 4, y3 + 4, topMat, false);
+			chunk.setCircle(x + 4, x + 4, 4, y3 + 1, y3 + 5, topMat, false);
 			chunk.setCircle(x + 4, x + 4, 4, y3 + 5, topMat, true);
 			chunk.setCircle(x + 4, x + 4, 3, y3 + 6, topMat, true);
 		}
 
 		if (generator.settings.includeAbovegroundFluids) {
-			chunk.setCircle(x + 4, x + 4, 3, y3 + 2, Material.WATER, true);
-			chunk.setCircle(x + 4, x + 4, 3, y3 + 3, Material.WATER, true);
+			chunk.setCircle(x + 4, x + 4, 3, y3 + 1, y3 + 2 + odds.getRandomInt(3), generator.oreProvider.fluidFluidMaterial, true);
 		}
 	}
 }

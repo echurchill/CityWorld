@@ -37,8 +37,7 @@ public class HouseLot extends IsolatedLot {
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		// make room
-		if (blockYs.maxHeight > generator.streetLevel)
-			chunk.clearBlocks(0, 16, generator.streetLevel + 1, blockYs.maxHeight + 1, 0, 16);
+		flattenLot(generator, chunk, 16);
 		
 		// ground please
 		if (generator.settings.includeDecayedNature)

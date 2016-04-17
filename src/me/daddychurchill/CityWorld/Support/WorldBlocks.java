@@ -124,7 +124,7 @@ public final class WorldBlocks extends SupportBlocks {
 		disperseCircle(cx, cz, r, cy, debris);
 	}
 	
-	private static double oddsOfDebris = Odds.oddsPrettyLikely;
+	private static double oddsOfDebris = Odds.oddsLikely;//Odds.oddsPrettyLikely; // Reduced the amount of debris to speed things up
 	private void sprinkleDebris(int cx, int cy, int cz, int radius, Stack<debrisItem> debris) {
 
 		// calculate a few things

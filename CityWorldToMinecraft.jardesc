@@ -10,7 +10,7 @@
             <packagesToUnSeal/>
         </sealing>
     </manifest>
-    <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
+    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
         <file path="/CityWorld/.project"/>
         <file path="/CityWorld/plugin.yml"/>
         <javaElement handleIdentifier="=CityWorld/src"/>

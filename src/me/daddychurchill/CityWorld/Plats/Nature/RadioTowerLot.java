@@ -10,6 +10,7 @@ import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.BadMagic;
+import me.daddychurchill.CityWorld.Support.Point;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
@@ -61,8 +62,9 @@ public class RadioTowerLot extends ConstructLot {
 		
 		// compute offset to start of chunk
 		int platformOffset = platformWidth / 2;
-		int originX = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, blockYs.maxHeightX));
-		int originZ = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, blockYs.maxHeightZ));
+		Point highPoint = blockYs.getHighPoint();
+		int originX = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, highPoint.getX()));
+		int originZ = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, highPoint.getZ()));
 		int platformY = getBottomY(generator);
 		
 		// base
@@ -98,8 +100,9 @@ public class RadioTowerLot extends ConstructLot {
 
 		// compute offset to start of chunk
 		int platformOffset = platformWidth / 2;
-		int originX = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, blockYs.maxHeightX));
-		int originZ = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, blockYs.maxHeightZ));
+		Point highPoint = blockYs.getHighPoint();
+		int originX = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, highPoint.getX()));
+		int originZ = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, highPoint.getZ()));
 		int platformY = getBottomY(generator);
 		
 		// place snow

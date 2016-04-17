@@ -1,0 +1,5 @@
+UNDO before being done
+
+IndustrialContext enable the other lot types
+
+Restore current attempt in ShapeProvider_Normal

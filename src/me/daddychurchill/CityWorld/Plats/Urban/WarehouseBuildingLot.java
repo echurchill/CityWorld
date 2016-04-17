@@ -1,8 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Urban;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
-import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Plats.FinishedBuildingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Rooms.Populators.WarehouseWithBooks;
@@ -13,7 +11,7 @@ import me.daddychurchill.CityWorld.Rooms.Populators.WarehouseWithStacks;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
-public class WarehouseBuildingLot extends FinishedBuildingLot {
+public class WarehouseBuildingLot extends IndustrialBuildingLot {
 	
 	private static RoomProvider contentsRandom = new WarehouseWithRandom();
 	private static RoomProvider contentsBooks = new WarehouseWithBooks();
@@ -28,28 +26,13 @@ public class WarehouseBuildingLot extends FinishedBuildingLot {
 	public WarehouseBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
-		firstFloorHeight = firstFloorHeight * 2;
-		height = 1;
-		depth = 0;
-		roofStyle = chunkOdds.flipCoin() ? RoofStyle.EDGED : RoofStyle.FLATTOP;
-		roofFeature = roofFeature == RoofFeature.ANTENNAS ? RoofFeature.CONDITIONERS : roofFeature;
-		
 		contentStyle = pickContentStyle();
+		firstFloorHeight = aboveFloorHeight * 2;
 	}
 	
 	protected ContentStyle pickContentStyle() {
-		switch (chunkOdds.getRandomInt(5)) {
-		case 1:
-			return ContentStyle.BOOKS;
-		case 2:
-			return ContentStyle.BOXES;
-		case 3:
-			return ContentStyle.STACKS;
-		case 4:
-			return ContentStyle.RANDOM;
-		default: 
-			return ContentStyle.EMPTY;
-		}
+		ContentStyle[] values = ContentStyle.values();
+		return values[chunkOdds.getRandomInt(values.length)];
 	}
 	
 	@Override
@@ -88,24 +71,6 @@ public class WarehouseBuildingLot extends FinishedBuildingLot {
 		}
 	}
 	
-	@Override
-	protected void calculateOptions(DataContext context) {
-		super.calculateOptions(context);
-		
-		// how do the walls inset?
-		insetWallWE = 1;
-		insetWallNS = 1;
-		
-		// what about the ceiling?
-		insetCeilingWE = insetWallWE;
-		insetCeilingNS = insetWallNS;
-		
-		// nudge in a bit more as we go up
-		insetInsetMidAt = 1;
-		insetInsetHighAt = 1;
-		insetStyle = InsetStyle.STRAIGHT;
-	}
-
 	@Override
 	protected InteriorStyle pickInteriorStyle() {
 		switch (chunkOdds.getRandomInt(10)) {

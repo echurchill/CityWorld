@@ -652,7 +652,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	
 	protected void drawWallParts(CityWorldGenerator generator, InitialBlocks byteChunk, DataContext context, 
 			int y1, int height, int insetNS, int insetWE, int floor, 
-			boolean allowRounded, boolean outsetEffect, Material wallMaterial, Surroundings heights) {
+			boolean allowRounded, boolean outsetEffect, boolean onRoof, Material wallMaterial, Surroundings heights) {
 		// precalculate
 		int y2 = y1 + height;
 		boolean stillNeedWalls = true;
@@ -664,18 +664,18 @@ public abstract class BuildingLot extends ConnectedLot {
 			// do the sides
 			if (heights.toSouth()) {
 				if (heights.toWest()) {
-					drawCornerLotSouthWest(byteChunk, cornerLotStyle, inset, y1, y2, wallMaterial, wallMaterial, !heights.toSouthWest(), false, outsetEffect);
+					drawCornerLotSouthWest(byteChunk, cornerLotStyle, inset, y1, y2, wallMaterial, wallMaterial, !heights.toSouthWest(), false, outsetEffect, onRoof);
 					stillNeedWalls = false;
 				} else if (heights.toEast()) {
-					drawCornerLotSouthEast(byteChunk, cornerLotStyle, inset, y1, y2, wallMaterial, wallMaterial, !heights.toSouthEast(), false, outsetEffect);
+					drawCornerLotSouthEast(byteChunk, cornerLotStyle, inset, y1, y2, wallMaterial, wallMaterial, !heights.toSouthEast(), false, outsetEffect, onRoof);
 					stillNeedWalls = false;
 				}
 			} else if (heights.toNorth()) {
 				if (heights.toWest()) {
-					drawCornerLotNorthWest(byteChunk, cornerLotStyle, inset, y1, y2, wallMaterial, wallMaterial, !heights.toNorthWest(), false, outsetEffect);
+					drawCornerLotNorthWest(byteChunk, cornerLotStyle, inset, y1, y2, wallMaterial, wallMaterial, !heights.toNorthWest(), false, outsetEffect, onRoof);
 					stillNeedWalls = false;
 				} else if (heights.toEast()) {
-					drawCornerLotNorthEast(byteChunk, cornerLotStyle, inset, y1, y2, wallMaterial, wallMaterial, !heights.toNorthEast(), false, outsetEffect);
+					drawCornerLotNorthEast(byteChunk, cornerLotStyle, inset, y1, y2, wallMaterial, wallMaterial, !heights.toNorthEast(), false, outsetEffect, onRoof);
 					stillNeedWalls = false;
 				}
 			}
@@ -814,7 +814,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 
 	protected void drawCeilings(CityWorldGenerator generator, InitialBlocks byteChunk, DataContext context, int y1, 
-			int height, int insetNS, int insetWE, boolean allowRounded, boolean outsetEffect,
+			int height, int insetNS, int insetWE, boolean allowRounded, boolean outsetEffect, boolean onRoof,
 			Material ceilingMaterial, Surroundings heights) {
 		// precalculate
 		Material emptyMaterial = getAirMaterial(generator, y1);
@@ -827,18 +827,18 @@ public abstract class BuildingLot extends ConnectedLot {
 //			int innerCorner = (byteChunk.width - inset * 2) + inset;
 			if (heights.toNorth()) {
 				if (heights.toEast()) {
-					drawCornerLotNorthEast(byteChunk, cornerLotStyle, inset, y1, y2, ceilingMaterial, emptyMaterial, !heights.toNorthEast(), true, outsetEffect);
+					drawCornerLotNorthEast(byteChunk, cornerLotStyle, inset, y1, y2, ceilingMaterial, emptyMaterial, !heights.toNorthEast(), true, outsetEffect, onRoof);
 					stillNeedCeiling = false;
 				} else if (heights.toWest()) {
-					drawCornerLotNorthWest(byteChunk, cornerLotStyle, inset, y1, y2, ceilingMaterial, emptyMaterial, !heights.toNorthWest(), true, outsetEffect);
+					drawCornerLotNorthWest(byteChunk, cornerLotStyle, inset, y1, y2, ceilingMaterial, emptyMaterial, !heights.toNorthWest(), true, outsetEffect, onRoof);
 					stillNeedCeiling = false;
 				}
 			} else if (heights.toSouth()) {
 				if (heights.toEast()) {
-					drawCornerLotSouthEast(byteChunk, cornerLotStyle, inset, y1, y2, ceilingMaterial, emptyMaterial, !heights.toSouthEast(), true, outsetEffect);
+					drawCornerLotSouthEast(byteChunk, cornerLotStyle, inset, y1, y2, ceilingMaterial, emptyMaterial, !heights.toSouthEast(), true, outsetEffect, onRoof);
 					stillNeedCeiling = false;
 				} else if (heights.toWest()) {
-					drawCornerLotSouthWest(byteChunk, cornerLotStyle, inset, y1, y2, ceilingMaterial, emptyMaterial, !heights.toSouthWest(), true, outsetEffect);
+					drawCornerLotSouthWest(byteChunk, cornerLotStyle, inset, y1, y2, ceilingMaterial, emptyMaterial, !heights.toSouthWest(), true, outsetEffect, onRoof);
 					stillNeedCeiling = false;
 				}
 			}
@@ -880,7 +880,7 @@ public abstract class BuildingLot extends ConnectedLot {
 	protected void drawFence(CityWorldGenerator generator, InitialBlocks chunk, DataContext context, int inset, int y1, int floor, Surroundings neighbors) {
 		
 		// actual fence
-		drawWallParts(generator, chunk, context, y1, fenceHeight, inset, inset, floor, false, false, fenceMaterial, neighbors);
+		drawWallParts(generator, chunk, context, y1, fenceHeight, inset, inset, floor, false, false, false, fenceMaterial, neighbors);
 		
 		// holes in fence
 		int i = 4 + chunkOdds.getRandomInt(chunk.width / 2);
@@ -897,27 +897,36 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 
 	protected void drawCornerLotNorthWest(InitialBlocks chunk, CornerBlocksStyle cornerLotStyle, 
-			int inset, int y1, int y2, Material primary, Material secondary, boolean doInnerWall, boolean doFill, boolean outsetEffect) {
-		drawCornerLotNorthWest(chunk, cornerLotStyle, inset, y1, y2, primary, secondary, null, doInnerWall, doFill, outsetEffect);
+			int inset, int y1, int y2, Material primary, Material secondary, 
+			boolean doInnerWall, boolean doFill, boolean outsetEffect, boolean onRoof) {
+		drawCornerLotNorthWest(chunk, cornerLotStyle, inset, y1, y2, primary, secondary, null, 
+				doInnerWall, doFill, outsetEffect, onRoof);
 	}
 	
 	protected void drawCornerLotSouthWest(InitialBlocks chunk, CornerBlocksStyle cornerLotStyle, 
-			int inset, int y1, int y2, Material primary, Material secondary, boolean doInnerWall, boolean doFill, boolean outsetEffect) {
-		drawCornerLotSouthWest(chunk, cornerLotStyle, inset, y1, y2, primary, secondary, null, doInnerWall, doFill, outsetEffect);
+			int inset, int y1, int y2, Material primary, Material secondary, 
+			boolean doInnerWall, boolean doFill, boolean outsetEffect, boolean onRoof) {
+		drawCornerLotSouthWest(chunk, cornerLotStyle, inset, y1, y2, primary, secondary, null, 
+				doInnerWall, doFill, outsetEffect, onRoof);
 	}
 	
 	protected void drawCornerLotNorthEast(InitialBlocks chunk, CornerBlocksStyle cornerLotStyle, 
-			int inset, int y1, int y2, Material primary, Material secondary, boolean doInnerWall, boolean doFill, boolean outsetEffect) {
-		drawCornerLotNorthEast(chunk, cornerLotStyle, inset, y1, y2, primary, secondary, null, doInnerWall, doFill, outsetEffect);
+			int inset, int y1, int y2, Material primary, Material secondary, 
+			boolean doInnerWall, boolean doFill, boolean outsetEffect, boolean onRoof) {
+		drawCornerLotNorthEast(chunk, cornerLotStyle, inset, y1, y2, primary, secondary, null, 
+				doInnerWall, doFill, outsetEffect, onRoof);
 	}
 	
 	protected void drawCornerLotSouthEast(InitialBlocks chunk, CornerBlocksStyle cornerLotStyle, 
-			int inset, int y1, int y2, Material primary, Material secondary, boolean doInnerWall, boolean doFill, boolean outsetEffect) {
-		drawCornerLotSouthEast(chunk, cornerLotStyle, inset, y1, y2, primary, secondary, null, doInnerWall, doFill, outsetEffect);
+			int inset, int y1, int y2, Material primary, Material secondary, 
+			boolean doInnerWall, boolean doFill, boolean outsetEffect, boolean onRoof) {
+		drawCornerLotSouthEast(chunk, cornerLotStyle, inset, y1, y2, primary, secondary, null, 
+				doInnerWall, doFill, outsetEffect, onRoof);
 	}
 	
 	protected void drawCornerLotNorthWest(InitialBlocks chunk, CornerBlocksStyle cornerLotStyle, 
-			int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean doInnerWall, boolean doFill, boolean outsetEffect) {
+			int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, 
+			boolean doInnerWall, boolean doFill, boolean outsetEffect, boolean onRoof) {
 		switch (cornerLotStyle) {
 		case ROUND:
 			if (doFill) {
@@ -942,7 +951,7 @@ public abstract class BuildingLot extends ConnectedLot {
 				chunk.setBlocks(0, xCenter, y1, y2, inset, 16 - inset, primary);//2
 				if (doInnerWall)
 					chunk.setBlocks(0, inset, y1, y2, 0, inset, secondary);//3
-				cornerBlocks.drawHorizontals(CornerDirections.NW, cornerLotStyle, chunk, xCenter, y1, y2, zCenter, primary, secondary, outsetEffect);
+				cornerBlocks.drawHorizontals(CornerDirections.NW, cornerLotStyle, chunk, xCenter, y1, y2, zCenter, primary, secondary, outsetEffect, onRoof);
 			} else {
 				if (maker == null) {
 					chunk.setBlocks(16 - inset - 1, 16 - inset, y1, y2, 0, zCenter, primary);//A
@@ -959,14 +968,15 @@ public abstract class BuildingLot extends ConnectedLot {
 						chunk.setBlocks(0, inset, y1, y2, inset, inset + 1, primary, secondary, maker);//D
 					}
 				}
-				cornerBlocks.drawVerticals(CornerDirections.NW, cornerLotStyle, chunk, xCenter, y1, y2, zCenter, primary, secondary, outsetEffect); 
+				cornerBlocks.drawVerticals(CornerDirections.NW, cornerLotStyle, chunk, xCenter, y1, y2, zCenter, primary, secondary, outsetEffect, onRoof); 
 			}
 			break;
 		}
 	}
 	
 	protected void drawCornerLotSouthWest(InitialBlocks chunk, CornerBlocksStyle cornerLotStyle, 
-			int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean doInnerWall, boolean doFill, boolean outsetEffect) {
+			int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, 
+			boolean doInnerWall, boolean doFill, boolean outsetEffect, boolean onRoof) {
 		switch (cornerLotStyle) {
 		case ROUND:
 			if (doFill) {
@@ -987,7 +997,7 @@ public abstract class BuildingLot extends ConnectedLot {
 				chunk.setBlocks(0, xCenter, y1, y2, inset, 16 - inset, primary);//2
 				if (doInnerWall)
 					chunk.setBlocks(0, inset, y1, y2, 16 - inset, 16, secondary);//3
-				cornerBlocks.drawHorizontals(CornerDirections.SW, cornerLotStyle, chunk, xCenter, y1, y2, inset, primary, secondary, outsetEffect);
+				cornerBlocks.drawHorizontals(CornerDirections.SW, cornerLotStyle, chunk, xCenter, y1, y2, inset, primary, secondary, outsetEffect, onRoof);
 			} else {
 				if (maker == null) {
 					chunk.setBlocks(16 - inset - 1, 16 - inset, y1, y2, zCenter, 16, primary);//A
@@ -1004,14 +1014,15 @@ public abstract class BuildingLot extends ConnectedLot {
 						chunk.setBlocks(0, inset, y1, y2, 16 - inset - 1, 16 - inset, primary, secondary, maker);//D
 					}
 				}
-				cornerBlocks.drawVerticals(CornerDirections.SW, cornerLotStyle, chunk, xCenter, y1, y2, inset, primary, secondary, outsetEffect); 
+				cornerBlocks.drawVerticals(CornerDirections.SW, cornerLotStyle, chunk, xCenter, y1, y2, inset, primary, secondary, outsetEffect, onRoof); 
 			}
 			break;
 		}
 	}
 	
 	protected void drawCornerLotNorthEast(InitialBlocks chunk, CornerBlocksStyle cornerLotStyle, 
-			int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean doInnerWall, boolean doFill, boolean outsetEffect) {
+			int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, 
+			boolean doInnerWall, boolean doFill, boolean outsetEffect, boolean onRoof) {
 		switch (cornerLotStyle) {
 		case ROUND:
 			if (doFill) {
@@ -1032,7 +1043,7 @@ public abstract class BuildingLot extends ConnectedLot {
 				chunk.setBlocks(xCenter, 16, y1, y2, inset, 16 - inset, primary);//2
 				if (doInnerWall)
 					chunk.setBlocks(16 - inset, 16, y1, y2, 0, inset, secondary);//3
-				cornerBlocks.drawHorizontals(CornerDirections.NE, cornerLotStyle, chunk, inset, y1, y2, zCenter, primary, secondary, outsetEffect);
+				cornerBlocks.drawHorizontals(CornerDirections.NE, cornerLotStyle, chunk, inset, y1, y2, zCenter, primary, secondary, outsetEffect, onRoof);
 			} else {
 				if (maker == null) {
 					chunk.setBlocks(inset, inset + 1, y1, y2, 0, zCenter, primary);//A
@@ -1049,14 +1060,15 @@ public abstract class BuildingLot extends ConnectedLot {
 						chunk.setBlocks(16 - inset - 1, 16, y1, y2, inset, inset + 1, primary, secondary, maker);//D
 					}
 				}
-				cornerBlocks.drawVerticals(CornerDirections.NE, cornerLotStyle, chunk, inset, y1, y2, zCenter, primary, secondary, outsetEffect); 
+				cornerBlocks.drawVerticals(CornerDirections.NE, cornerLotStyle, chunk, inset, y1, y2, zCenter, primary, secondary, outsetEffect, onRoof); 
 			}
 			break;
 		}
 	}
 	
 	protected void drawCornerLotSouthEast(InitialBlocks chunk, CornerBlocksStyle cornerLotStyle, 
-			int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean doInnerWall, boolean doFill, boolean outsetEffect) {
+			int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, 
+			boolean doInnerWall, boolean doFill, boolean outsetEffect, boolean onRoof) {
 		switch (cornerLotStyle) {
 		case ROUND:
 			if (doFill) {
@@ -1077,7 +1089,7 @@ public abstract class BuildingLot extends ConnectedLot {
 				chunk.setBlocks(xCenter, 16, y1, y2, inset, 16 - inset, primary);//2
 				if (doInnerWall)
 					chunk.setBlocks(16 - inset, 16, y1, y2, 16 - inset, 16, secondary);//3
-				cornerBlocks.drawHorizontals(CornerDirections.SE, cornerLotStyle, chunk, inset, y1, y2, inset, primary, secondary, outsetEffect);
+				cornerBlocks.drawHorizontals(CornerDirections.SE, cornerLotStyle, chunk, inset, y1, y2, inset, primary, secondary, outsetEffect, onRoof);
 			} else {
 				if (maker == null) {
 					chunk.setBlocks(inset, inset + 1, y1, y2, zCenter, 16, primary);//A
@@ -1094,7 +1106,7 @@ public abstract class BuildingLot extends ConnectedLot {
 						chunk.setBlocks(16 - inset - 1, 16, y1, y2, 16 - inset - 1, 16 - inset, primary, secondary, maker);//D
 					}
 				}
-				cornerBlocks.drawVerticals(CornerDirections.SE, cornerLotStyle, chunk, inset, y1, y2, inset, primary, secondary, outsetEffect); 
+				cornerBlocks.drawVerticals(CornerDirections.SE, cornerLotStyle, chunk, inset, y1, y2, inset, primary, secondary, outsetEffect, onRoof); 
 			}
 			break;
 		}

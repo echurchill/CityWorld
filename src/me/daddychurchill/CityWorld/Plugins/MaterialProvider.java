@@ -474,6 +474,25 @@ public class MaterialProvider {
 			Material.STAINED_CLAY,
 			Material.STAINED_CLAY);
 
+	public final static String tagSelectMaterial_Factories = "Materials_For_Factories";
+	public MaterialList itemsSelectMaterial_Factories = createList(tagSelectMaterial_Factories,
+			Material.SMOOTH_BRICK,
+			Material.CLAY,
+			Material.STAINED_CLAY,
+			Material.STONE);
+
+	public final static String tagSelectMaterial_FactoryTanks = "Materials_For_FactoryTanks";
+	public MaterialList itemsSelectMaterial_FactoryTanks = createList(tagSelectMaterial_FactoryTanks,
+			Material.STATIONARY_LAVA,
+			Material.ICE,
+			Material.PACKED_ICE,
+			Material.SNOW_BLOCK,
+			Material.SLIME_BLOCK,
+			Material.COAL_BLOCK,
+			Material.SAND,
+			Material.GLASS,
+			Material.STATIONARY_WATER);
+
 	public final static String tagSelectMaterial_BunkerBuildings = "Materials_For_BunkerBuildings";
 	public MaterialList itemsSelectMaterial_BunkerBuildings = createList(tagSelectMaterial_BunkerBuildings,
 			Material.CLAY,

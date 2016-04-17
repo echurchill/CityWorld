@@ -74,7 +74,7 @@ public abstract class DataContext {
 		}
 		
 		// where is the ground
-		buildingMaximumY = Math.min(126 + FudgeFloorsAbove * FloorHeight, generator.height);
+		buildingMaximumY = Math.min(192 + FudgeFloorsAbove * FloorHeight, generator.height);
 		absoluteMaximumFloorsBelow = Math.max(Math.min(generator.streetLevel / FloorHeight - FudgeFloorsBelow, absoluteAbsoluteMaximumFloorsBelow), 0);
 		absoluteMaximumFloorsAbove = Math.max(Math.min((buildingMaximumY - generator.streetLevel) / FloorHeight - FudgeFloorsAbove, absoluteAbsoluteMaximumFloorsAbove), absoluteMinimumFloorsAbove);
 		

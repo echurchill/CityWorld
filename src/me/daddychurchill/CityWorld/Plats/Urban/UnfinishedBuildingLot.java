@@ -91,7 +91,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		int lowestY = getBottomY(generator);
 		
 		// bottom most floor
-		drawCeilings(generator, chunk, context, lowestY, 1, 0, 0, false, false, ceilingMaterial, neighborBasements);
+		drawCeilings(generator, chunk, context, lowestY, 1, 0, 0, false, false, false, ceilingMaterial, neighborBasements);
 		
 		// below ground
 		for (int floor = 0; floor < depth; floor++) {
@@ -106,14 +106,14 @@ public class UnfinishedBuildingLot extends BuildingLot {
 			
 			// one floor please
 			drawWallParts(generator, chunk, context, floorAt, FloorHeight, 0, 0, floor,
-					false, false, dirtMaterial, neighborBasements);
+					false, false, false, dirtMaterial, neighborBasements);
 			drawWallParts(generator, chunk, context, floorAt, FloorHeight, 1, 1, floor,
-					false, false, wallMaterial, neighborBasements);
+					false, false, false, wallMaterial, neighborBasements);
 			
 			// ceilings if needed
 			if (!unfinishedBasementOnly) {
 				drawCeilings(generator, chunk, context, floorAt + FloorHeight - 1, 1, 1, 1,
-						false, false, ceilingMaterial, neighborBasements);
+						false, false, false, ceilingMaterial, neighborBasements);
 			} else {
 				drawHorizontalGirders(chunk, floorAt + FloorHeight - 1, neighborBasements);
 			}
@@ -138,7 +138,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 					
 					// the floor of the next floor
 					drawCeilings(generator, chunk, context, floorAt + FloorHeight - 1, 1, 1, 1,
-							false, false, ceilingMaterial, neighborFloors);
+							false, false, false, ceilingMaterial, neighborFloors);
 				} else {
 					
 					// sometimes the top most girders aren't there quite yet

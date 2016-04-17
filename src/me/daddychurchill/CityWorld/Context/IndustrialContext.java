@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Context;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plats.Urban.FactoryBuildingLot;
 import me.daddychurchill.CityWorld.Plats.Urban.MuseumBuildingLot;
 import me.daddychurchill.CityWorld.Plats.Urban.StorageLot;
 import me.daddychurchill.CityWorld.Plats.Urban.WarehouseBuildingLot;
@@ -41,16 +42,17 @@ public class IndustrialContext extends UrbanContext {
 		if (odds.playOdds(Odds.oddsLikely))
 			return new StorageLot(platmap, chunkX, chunkZ);
 		else
-			return super.getPark(generator, platmap, odds, chunkX, chunkZ, waterDepth);
+			return new FactoryBuildingLot(platmap, chunkX, chunkZ);
+//			return super.getPark(generator, platmap, odds, chunkX, chunkZ, waterDepth);
 	}
 	
 	@Override
 	protected PlatLot getBuilding(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
-		if (generator.settings.includeBones && odds.playOdds(Odds.oddsUnlikely))
-			return new MuseumBuildingLot(platmap, chunkX, chunkZ);
-		else if (odds.playOdds(Odds.oddsSomewhatLikely))
-			return new WarehouseBuildingLot(platmap, chunkX, chunkZ);
-		else
-			return super.getBuilding(generator, platmap, odds, chunkX, chunkZ);
+//		if (generator.settings.includeBones && odds.playOdds(Odds.oddsUnlikely))
+//			return new MuseumBuildingLot(platmap, chunkX, chunkZ);
+//		else if (odds.playOdds(Odds.oddsSomewhatLikely))
+//			return new WarehouseBuildingLot(platmap, chunkX, chunkZ);
+//		else
+			return new FactoryBuildingLot(platmap, chunkX, chunkZ);
 	}
 }

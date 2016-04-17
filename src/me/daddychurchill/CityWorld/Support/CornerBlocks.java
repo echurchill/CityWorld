@@ -14,10 +14,19 @@ public class CornerBlocks {
 	private final static byte WGG = 5;
 	private final static byte WGW = 6;
 	
+	// these won't show up on the roof
+	private final static byte BRR = 7; // balcony just below floor and railing topped with nothing above
+	private final static byte BNN = 8; // balcony just below floor and nothing above
+	private final static byte BDD = 9; // balcony just below floor and door topped with a wall block 
+	private final static byte BWW = 10; // WWW 
+	private final static byte BGG = 11; // WGG 
+	private final static byte BGW = 12; // WGW 
+	
 	public final static int CornerWidth = 7;
 	
 	public enum CornerBlocksStyle { ROUND, LARGEDIAGONAL, SMALLDIAGONAL, INNOTCH, OUTNOTCH, DOUBLENOTCH, OUTBUBBLE, INBUBBLE, 
-		COLUMN, BRACE, FINS, CASTLE, INDENT, INOUTDENT}; 
+		COLUMN, BRACE, FINS, CASTLE, INDENT, INOUTDENT, 
+		ONEBALCONY, TWOBALCONY, ROUNDEDBALCONY, CORNERBALCONY, ANOTHERCORNERBALCONY, OUTBALCONY}; 
 	public enum CornerDirections { NW, NE, SW, SE };
 	
 	private final byte[][] LargeDiagonalNW = {
@@ -189,6 +198,84 @@ public class CornerBlocks {
 	private byte[][] InOutDentSW;
 	private byte[][] InOutDentSE;
 	
+	private final byte[][] OneBalconyNW = {
+			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
+			{FLR, FLR, FLR, FLR, WGW, BNN, BRR},
+			{FLR, FLR, FLR, FLR, BDD, BNN, BRR},
+			{FLR, FLR, FLR, FLR, WGG, BNN, BRR},
+			{WWW, WGW, BDD, WGG, WGG, BNN, BRR},
+			{WWW, BNN, BNN, BNN, BNN, BNN, BRR},
+			{WWW, BRR, BRR, BRR, BRR, BRR, BWW},
+	};
+	private byte[][] OneBalconyNE;
+	private byte[][] OneBalconySW;
+	private byte[][] OneBalconySE;
+	
+	private final byte[][] TwoBalconyNW = {
+			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
+			{FLR, FLR, FLR, FLR, BGW, BNN, BRR},
+			{FLR, FLR, FLR, FLR, BDD, BNN, BRR},
+			{FLR, FLR, FLR, FLR, BGW, BNN, BRR},
+			{WWW, BGW, BDD, BGW, BWW, BNN, BRR},
+			{WWW, BNN, BNN, BNN, BNN, BWW, BWW},
+			{WWW, BRR, BRR, BRR, BRR, BWW, non},
+	};
+	private byte[][] TwoBalconyNE;
+	private byte[][] TwoBalconySW;
+	private byte[][] TwoBalconySE;
+	
+	private final byte[][] RoundedBalconyNW = {
+			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
+			{FLR, FLR, FLR, FLR, BGW, BNN, BRR},
+			{FLR, FLR, FLR, FLR, BDD, BNN, BRR},
+			{FLR, FLR, FLR, FLR, BGG, BNN, BRR},
+			{WWW, BGW, BDD, BGG, BNN, BNN, WWW}, // yep those are WWW, just to be different
+			{WWW, BNN, BNN, BNN, BNN, BWW, opt},
+			{WWW, BRR, BRR, BRR, WWW, opt, non},
+	};
+	private byte[][] RoundedBalconyNE;
+	private byte[][] RoundedBalconySW;
+	private byte[][] RoundedBalconySE;
+	
+	private final byte[][] CornerBalconyNW = {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WGG},
+			{FLR, FLR, FLR, BWW, BWW, BDD, WWW},
+			{FLR, FLR, BWW, BNN, BNN, BNN, BRR},
+			{FLR, FLR, BWW, BNN, BNN, BNN, BRR},
+			{FLR, FLR, BDD, BNN, BNN, BNN, BRR},
+			{WWW, WGG, WWW, BRR, BRR, BRR, BRR},
+	};
+	private byte[][] CornerBalconyNE;
+	private byte[][] CornerBalconySW;
+	private byte[][] CornerBalconySE;
+	
+	private final byte[][] AnotherCornerBalconyNW = {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WGG},
+			{FLR, FLR, FLR, BWW, BWW, BDD, WWW},
+			{FLR, FLR, BWW, BNN, BNN, BNN, BRR},
+			{FLR, FLR, BWW, BNN, BNN, BNN, WWW}, // yep those are WWW, just to be different
+			{FLR, FLR, BDD, BNN, BNN, BNN, BRR},
+			{WWW, WGG, WWW, BRR, WWW, BRR, BWW},
+	};
+	private byte[][] AnotherCornerBalconyNE;
+	private byte[][] AnotherCornerBalconySW;
+	private byte[][] AnotherCornerBalconySE;
+	
+	private final byte[][] OutBalconyNW = {
+			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
+			{FLR, FLR, FLR, FLR, FLR, WGG, non},
+			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
+			{FLR, FLR, FLR, BDD, BNN, BNN, BRR},
+			{FLR, FLR, WWW, BNN, BNN, BNN, BRR},
+			{WWW, WGG, WWW, BNN, BNN, BNN, BRR},
+			{WWW, non, WWW, BRR, BRR, BRR, BRR},
+	};
+	private byte[][] OutBalconyNE;
+	private byte[][] OutBalconySW;
+	private byte[][] OutBalconySE;
+	
 	public CornerBlocksStyle pickCornerStyle(Odds odds) {
 //		return CornerBlocksStyle.INOUTDENT;
 		CornerBlocksStyle[] values = CornerBlocksStyle.values();
@@ -262,22 +349,53 @@ public class CornerBlocks {
 		InOutDentSE = flipNS(InOutDentNE);
 		InOutDentSW = flipNS(InOutDentNW);
 		
+		// OneBalconySW already done
+		OneBalconyNE = flipWE(OneBalconyNW);
+		OneBalconySE = flipNS(OneBalconyNE);
+		OneBalconySW = flipNS(OneBalconyNW);
+		
+		// TwoBalconySW already done
+		TwoBalconyNE = flipWE(TwoBalconyNW);
+		TwoBalconySE = flipNS(TwoBalconyNE);
+		TwoBalconySW = flipNS(TwoBalconyNW);
+		
+		// RoundedBalconySW already done
+		RoundedBalconyNE = flipWE(RoundedBalconyNW);
+		RoundedBalconySE = flipNS(RoundedBalconyNE);
+		RoundedBalconySW = flipNS(RoundedBalconyNW);
+		
+		// CornerBalconySW already done
+		CornerBalconyNE = flipWE(CornerBalconyNW);
+		CornerBalconySE = flipNS(CornerBalconyNE);
+		CornerBalconySW = flipNS(CornerBalconyNW);
+		
+		// AnotherCornerBalconySW already done
+		AnotherCornerBalconyNE = flipWE(AnotherCornerBalconyNW);
+		AnotherCornerBalconySE = flipNS(AnotherCornerBalconyNE);
+		AnotherCornerBalconySW = flipNS(AnotherCornerBalconyNW);
+		
+		// OutBalconySW already done
+		OutBalconyNE = flipWE(OutBalconyNW);
+		OutBalconySE = flipNS(OutBalconyNE);
+		OutBalconySW = flipNS(OutBalconyNW);
+		
 	}
 	
 	public void drawVerticals(CornerDirections direction, CornerBlocksStyle style, AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
-			Material primary, Material secondary, boolean outsetEffect) {
+			Material primary, Material secondary, boolean outsetEffect, boolean onRoof) {
 		byte[][] data = getStyleData(direction, style);
 		if (data != null)
-			setVerticals(data, blocks, xInset, y1, y2, zInset, primary, secondary, outsetEffect);
+			setVerticals(data, blocks, xInset, y1, y2, zInset, primary, secondary, outsetEffect, onRoof);
 	}
 	
 	public void drawHorizontals(CornerDirections direction, CornerBlocksStyle style, AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
-			Material primary, Material secondary, boolean outsetEffect) {
+			Material primary, Material secondary, boolean outsetEffect, boolean onRoof) {
 		byte[][] data = getStyleData(direction, style);
 		if (data != null)
-			setHorizontals(data, blocks, xInset, y1, y2, zInset, primary, secondary, outsetEffect);
+			setHorizontals(data, blocks, xInset, y1, y2, zInset, primary, secondary, outsetEffect, onRoof);
 	}
 	
+	//TODO this is really stupidly done, I need to refactor this quite a bit
 	private byte[][] getStyleData(CornerDirections direction, CornerBlocksStyle style) {
 		switch (style) {
 		default:
@@ -440,10 +558,83 @@ public class CornerBlocks {
 			case SW:
 				return InOutDentSW;
 			}
+		case ONEBALCONY:
+			switch (direction) {
+			default:
+			case NE:
+				return OneBalconyNE;
+			case NW:
+				return OneBalconyNW;
+			case SE:
+				return OneBalconySE;
+			case SW:
+				return OneBalconySW;
+			}
+		case TWOBALCONY:
+			switch (direction) {
+			default:
+			case NE:
+				return TwoBalconyNE;
+			case NW:
+				return TwoBalconyNW;
+			case SE:
+				return TwoBalconySE;
+			case SW:
+				return TwoBalconySW;
+			}
+		case ROUNDEDBALCONY:
+			switch (direction) {
+			default:
+			case NE:
+				return RoundedBalconyNE;
+			case NW:
+				return RoundedBalconyNW;
+			case SE:
+				return RoundedBalconySE;
+			case SW:
+				return RoundedBalconySW;
+			}
+		case CORNERBALCONY:
+			switch (direction) {
+			default:
+			case NE:
+				return CornerBalconyNE;
+			case NW:
+				return CornerBalconyNW;
+			case SE:
+				return CornerBalconySE;
+			case SW:
+				return CornerBalconySW;
+			}
+		case ANOTHERCORNERBALCONY:
+			switch (direction) {
+			default:
+			case NE:
+				return AnotherCornerBalconyNE;
+			case NW:
+				return AnotherCornerBalconyNW;
+			case SE:
+				return AnotherCornerBalconySE;
+			case SW:
+				return AnotherCornerBalconySW;
+			}
+		case OUTBALCONY:
+			switch (direction) {
+			default:
+			case NE:
+				return OutBalconyNE;
+			case NW:
+				return OutBalconyNW;
+			case SE:
+				return OutBalconySE;
+			case SW:
+				return OutBalconySW;
+			}
 		}
 	}
 	
-	private void setVerticals(byte[][] source, AbstractBlocks blocks, int xInset, int y1, int y2, int zInset, Material primary, Material secondary, boolean outsetEffect) {
+	private void setVerticals(byte[][] source, AbstractBlocks blocks, int xInset, int y1, int y2, int zInset, 
+			Material primary, Material secondary, boolean outsetEffect, boolean onRoof) {
 		for (int x = 0; x < CornerWidth; x++) {
 			for (int z = 0; z < CornerWidth; z++) {
 				switch (source[x][z]) {
@@ -462,11 +653,43 @@ public class CornerBlocks {
 					blocks.setBlocks(xInset + x, y1 + 1, y2 - 1, zInset + z, secondary);
 					blocks.setBlock(xInset + x, y2 - 1, zInset + z, primary);
 					break;
+				case BWW:
+					if (!onRoof) {
+						blocks.setBlocks(xInset + x, y1, y2, zInset + z, primary);
+					}
+					break;
+				case BGG:
+					if (!onRoof) {
+						blocks.setBlock(xInset + x, y1, zInset + z, primary);
+						blocks.setBlocks(xInset + x, y1 + 1, y2, zInset + z, secondary);
+					}
+					break;
+				case BGW:
+					if (!onRoof) {
+						blocks.setBlock(xInset + x, y1, zInset + z, primary);
+						blocks.setBlocks(xInset + x, y1 + 1, y2 - 1, zInset + z, secondary);
+						blocks.setBlock(xInset + x, y2 - 1, zInset + z, primary);
+					}
+					break;
+				case BDD:
+					if (!onRoof) {
+						//TODO: need to put a door here
+						blocks.setBlocks(xInset + x, y1 + 2, y2, zInset + z, primary);
+					}
+					break;
+				case BRR:
+					if (onRoof) {
+						blocks.setBlocks(xInset + x, y1, y2, zInset + z, primary);
+					} else {
+						blocks.setBlock(xInset + x, y1, zInset + z, Material.IRON_FENCE);
+					}
+					break;
 				case opt:
 					if (outsetEffect)
 						blocks.setBlocks(xInset + x, y1, y2, zInset + z, primary);
 					break;
 				case non:
+				case BNN:
 				case FLR:
 				default:
 					break;
@@ -475,7 +698,8 @@ public class CornerBlocks {
 		}
 	}
 	
-	private void setHorizontals(byte[][] source, AbstractBlocks blocks, int xInset, int y1, int y2, int zInset, Material primary, Material secondary, boolean outsetEffect) {
+	private void setHorizontals(byte[][] source, AbstractBlocks blocks, int xInset, int y1, int y2, int zInset, 
+			Material primary, Material secondary, boolean outsetEffect, boolean onRoof) {
 		for (int x = 0; x < CornerWidth; x++) {
 			for (int z = 0; z < CornerWidth; z++) {
 				switch (source[x][z]) {
@@ -488,6 +712,17 @@ public class CornerBlocks {
 					else
 						blocks.setBlocks(xInset + x, y1, y2, zInset + z, secondary);
 					break;
+				case FLR:
+				case WWW:
+				case GGG:
+				case WGG:
+				case WGW:
+				case BNN:
+				case BDD:
+				case BRR:
+				case BWW:
+				case BGW:
+				case BGG:
 				default:
 					blocks.setBlocks(xInset + x, y1, y2, zInset + z, primary);
 					break;

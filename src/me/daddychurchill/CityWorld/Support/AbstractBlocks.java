@@ -85,6 +85,16 @@ public abstract class AbstractBlocks {
 		setCircle(cx, cz, r, cy, material, fill);
 	}
 
+	public void setBlocksUpward(int x, int y1, int z, Material material) {
+		int y2 = findLastEmptyAbove(x, y1, z);
+		setBlocks(x, y1, y2 + 1, z, material);
+	}
+	
+	public void setBlocksDownward(int x, int y2, int z, Material material) {
+		int y1 = findLastEmptyBelow(x, y2, z);
+		setBlocks(x, y1, y2, z, material);
+	}
+	
 	public final void setBlocks(int x, int y1, int y2, int z, Material primary, Material secondary, MaterialFactory maker) {
 		maker.placeMaterial(this, primary, secondary, x, y1, y2, z);
 	}

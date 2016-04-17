@@ -7,14 +7,14 @@ import org.bukkit.util.noise.NoiseGenerator;
 public class CachedYs {
 	
 	// extremes
-	public int averageHeight;
 	public int minHeight = Integer.MAX_VALUE;
-	public int minHeightX = 0;
-	public int minHeightZ = 0;
+	private int minHeightX = 0;
+	private int minHeightZ = 0;
 	public int maxHeight = Integer.MIN_VALUE;
-	public int maxHeightX = 0;
-	public int maxHeightZ = 0;
-	public int segmentWidth = 1;
+	private int maxHeightX = 0;
+	private int maxHeightZ = 0;
+	public int averageHeight;
+	public int segmentWidth;
 	
 	protected final static int width = AbstractBlocks.sectionBlockWidth;
 	protected double[][] blockYs = new double[width][width];
@@ -65,6 +65,14 @@ public class CachedYs {
 	
 	public double getPerciseY(int x, int z) {
 		return blockYs[x][z];
+	}
+	
+	public Point getHighPoint() {
+		return new Point(maxHeightX, maxHeight, maxHeightZ);
+	}
+	
+	public Point getLowPoint() {
+		return new Point(minHeightX, minHeight, minHeightZ);
 	}
 	
 	public int getSegment(int x, int z) {
