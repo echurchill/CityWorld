@@ -854,7 +854,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		// nope, let's destroy our work!
 		} else {
 			int y1 = generator.streetLevel + 2;
-			int y2 = y1 + aboveFloorHeight * height;
+			int y2 = y1 + firstFloorHeight + aboveFloorHeight * (height - 1);
 			switch (roofStyle) {
 			case EDGED:
 			case FLATTOP:

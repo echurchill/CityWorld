@@ -202,7 +202,6 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			chunk.clearBlocks(6, 10, groundY - 2, smokestackY1, 6, 10);
 			chunk.setWalls(5, 11, groundY - 2, groundY, 5, 11, smokestackMat);
 			chunk.setBlocks(6, 10, groundY - 2, 6, 10, Material.NETHERRACK);
-			chunk.setBlocks(6, 10, groundY - 1, 6, 10, Material.FIRE);
 			chunk.setWalls(5, 11, groundY, groundY + 6, 5, 11, smokestackMat);
 
 			chunk.setThinGlass(8, groundY + 1, 5, DyeColor.RED);
@@ -214,12 +213,19 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			chunk.setWalls(6, 10, smokestackY1, smokestackY2, 6, 10, smokestackMat);
 			chunk.setCircle(8, 8, 1, smokestackY2, smokestackY3, smokestackMat);
 			
-			chunk.pepperBlocks(7, 9, smokestackY3 - 2, smokestackY3 + 6, 7, 9, chunkOdds, Material.WEB);
-			
-			
 			if (generator.settings.includeDecayedBuildings) {
-				//TODO: nick up the smokestack and make smoke come out
+
+				//TODO: nick up the smokestack and make smoke come out... maybe
 				
+				//TODO: half the time it doesn't have smoke 
+//				if (chunkOdds.flipCoin()) {
+//					chunk.setBlocks(6, 10, groundY - 1, 6, 10, Material.FIRE);
+//					chunk.pepperBlocks(7, 9, smokestackY3 - 2, smokestackY3 + 6, 7, 9, chunkOdds, Material.WEB);
+//				}
+				
+			} else {
+				chunk.setBlocks(6, 10, groundY - 1, 6, 10, Material.FIRE);
+				chunk.pepperBlocks(7, 9, smokestackY3 - 2, smokestackY3 + 6, 7, 9, chunkOdds, Material.WEB);
 			}
 			
 			generateSkyWalkBits(generator, chunk, heights, skywalkAt);
@@ -228,7 +234,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 	}
 	
 	protected void generateStuff(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z, int width, int depth) {
-		contentsStuff.drawFixtures(generator, chunk, chunkOdds, 1, x, y, z, width, aboveFloorHeight, depth, Facing.NORTH, Material.STONE, Material.GLASS);
+		contentsStuff.drawFixtures(generator, chunk, chunkOdds, 1, x, y, z, width, DataContext.FloorHeight, depth, Facing.NORTH, Material.STONE, Material.GLASS);
 	}
 	
 	protected void generateOpenings(RealBlocks chunk, int y) {
