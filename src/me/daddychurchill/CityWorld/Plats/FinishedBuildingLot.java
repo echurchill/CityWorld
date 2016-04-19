@@ -2207,8 +2207,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			return Material.DOUBLE_STEP;
 			
 		case ACACIA_STAIRS:
-			return Material.GRAVEL;
-			
+//			return Material.GRAVEL;
+//			
 		case JUNGLE_WOOD_STAIRS:
 			return Material.WOOD;
 

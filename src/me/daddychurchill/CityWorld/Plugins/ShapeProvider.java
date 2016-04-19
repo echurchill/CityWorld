@@ -50,7 +50,7 @@ public abstract class ShapeProvider extends Provider {
 		try {
 			allocateContexts(generator);
 
-			// assume everything is natural for the moment 
+			// assume everything is natural for the moment Rosetta
 			platmap.context = natureContext;
 			natureContext.populateMap(generator, platmap);
 			natureContext.validateMap(generator, platmap);
@@ -178,6 +178,11 @@ public abstract class ShapeProvider extends Provider {
 			provider = new ShapeProvider_Maze(generator, odds);
 			break;
 		case NATURE:
+			provider = new ShapeProvider_Nature(generator, odds);
+			break;
+		case METRO:
+			provider = new ShapeProvider_Metro(generator, odds);
+			break;
 		case DESTROYED:
 		case NORMAL:
 			provider = new ShapeProvider_Normal(generator, odds);

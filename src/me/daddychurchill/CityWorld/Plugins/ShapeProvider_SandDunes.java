@@ -68,6 +68,7 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 			industrialContext = lowriseContext;
 			neighborhoodContext = new SandDunesNeighborhoodContext(generator);
 			farmContext = new SandDunesFarmContext(generator);
+			outlandContext = farmContext;
 			
 			contextInitialized = true;
 		}

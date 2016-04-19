@@ -12,8 +12,9 @@ import me.daddychurchill.CityWorld.Rooms.Populators.FactoryWithStuff;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
-import me.daddychurchill.CityWorld.Support.SurroundingFloors;
+import me.daddychurchill.CityWorld.Support.Surroundings;
 import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
+import me.daddychurchill.CityWorld.Support.BadMagic.StairWell;
 
 public class FactoryBuildingLot extends IndustrialBuildingLot {
 	
@@ -27,7 +28,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 	public FactoryBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
-		firstFloorHeight = aboveFloorHeight * (chunkOdds.getRandomInt(3) + 3);
+		firstFloorHeight = DataContext.FloorHeight * (chunkOdds.getRandomInt(3) + 3);
 		insetWallNS = 1;
 		insetWallWE = 1;
 		insetCeilingNS = 1;
@@ -43,7 +44,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 	
 	@Override
 	public int getTopY(CityWorldGenerator generator) {
-		return Math.max(super.getTopY(generator), generator.structureLevel + aboveFloorHeight * 10);
+		return Math.max(super.getTopY(generator), generator.structureLevel + DataContext.FloorHeight * 10);
 	}
 	
 	@Override
@@ -80,10 +81,11 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 	}
 	
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
-			DataContext context, int platX, int platZ) {
-		super.generateActualBlocks(generator, platmap, chunk, context, platX, platZ);
-		SurroundingFloors neighborFloors = getNeighboringFloorCounts(platmap, platX, platZ);
+	protected void drawInteriorParts(CityWorldGenerator generator, RealBlocks chunk, DataContext context,
+			RoomProvider rooms, int floor, int floorAt, int floorHeight, int insetNS, int insetWE, boolean allowRounded,
+			Material materialWall, Material materialGlass, StairWell stairLocation, Material materialStair,
+			Material materialStairWall, Material materialPlatform, boolean drawStairWall, boolean drawStairs,
+			boolean topFloor, boolean singleFloor, Surroundings heights) {
 		
 		int groundY = generator.structureLevel + 2;
 		int skywalkHeight = firstFloorHeight / 2;
@@ -123,7 +125,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			chunk.setBlocks(5, groundY, skywalkAt + 2, 5, officeMat);
 			chunk.setLadder(5, groundY, skywalkAt + 2, 6, BlockFace.NORTH);
 
-			generateSkyWalkBits(generator, chunk, neighborFloors, skywalkAt);
+			generateSkyWalkBits(generator, chunk, heights, skywalkAt);
 			break;
 		case PIT:
 			int topOfPit = groundY + 1;
@@ -135,7 +137,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			chunk.setCircle(8, 8, 4, bottomOfPit, pitLevel, fluidMat, true);
 			chunk.setCircle(8, 8, 4, bottomOfPit, topOfPit, wallMat); // put the wall up quick!
 
-			generateSkyWalkCross(generator, chunk, neighborFloors, skywalkAt);
+			generateSkyWalkCross(generator, chunk, heights, skywalkAt);
 			break;
 		case TANK:
 			int topOfTank = skywalkAt + 2;
@@ -151,22 +153,22 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			chunk.setBlocks(4, 6, groundY, bottomOfTank + 1, 10, 12, supportMat);
 			chunk.setBlocks(10, 12, groundY, bottomOfTank + 1, 10, 12, supportMat);
 			
-			generateSkyWalkBits(generator, chunk, neighborFloors, skywalkAt);
+			generateSkyWalkBits(generator, chunk, heights, skywalkAt);
 			break;
 		case STUFF:
 			generateStuff(generator, chunk, 2, groundY, 2, 3, 3);
-			if (neighborFloors.toNorth())
+			if (heights.toNorth())
 				generateStuff(generator, chunk, 6, groundY, 2, 4, 3);
 			generateStuff(generator, chunk, 11, groundY, 2, 3, 3);
 
-			if (neighborFloors.toWest())
+			if (heights.toWest())
 				generateStuff(generator, chunk, 2, groundY, 6, 3, 4);
 			generateStuff(generator, chunk, 6, groundY, 6, 4, 4);
-			if (neighborFloors.toEast())
+			if (heights.toEast())
 				generateStuff(generator, chunk, 11, groundY, 6, 3, 4);
 			
 			generateStuff(generator, chunk, 2, groundY, 11, 3, 3);
-			if (neighborFloors.toSouth())
+			if (heights.toSouth())
 				generateStuff(generator, chunk, 6, groundY, 11, 4, 3);
 			generateStuff(generator, chunk, 11, groundY, 11, 3, 3);
 
@@ -184,7 +186,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 //			if (!neighborFloors.toEast())
 //				chunk.setWool(11, 13, groundY, skywalkAt + chunkOdds.getRandomInt(5), 7, 9, chunkOdds.getRandomColor());
 //			
-			generateSkyWalkCross(generator, chunk, neighborFloors, skywalkAt);
+			generateSkyWalkCross(generator, chunk, heights, skywalkAt);
 			break;
 		case SMOKESTACK:
 			chunk.setWalls(3, 13, groundY, skywalkAt - 1, 3, 13, officeMat);
@@ -192,9 +194,9 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			chunk.setBlocks(3, 13, skywalkAt, 3, 13, officeMat);
 			generateOpenings(chunk, groundY);
 
-			int smokestackY1 = skywalkAt + aboveFloorHeight * chunkOdds.getRandomInt(1, 3);
-			int smokestackY2 = smokestackY1 + aboveFloorHeight * chunkOdds.getRandomInt(1, 3);
-			int smokestackY3 = smokestackY2 + aboveFloorHeight * chunkOdds.getRandomInt(1, 3);
+			int smokestackY1 = skywalkAt + firstFloorHeight;
+			int smokestackY2 = smokestackY1 + chunkOdds.calcRandomRange(10, firstFloorHeight);
+			int smokestackY3 = smokestackY2 + chunkOdds.calcRandomRange(10, firstFloorHeight);
 			
 			chunk.setBlocks(6, 10, groundY - 3, 6, 10, smokestackMat);
 			chunk.clearBlocks(6, 10, groundY - 2, smokestackY1, 6, 10);
@@ -214,7 +216,13 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			
 			chunk.pepperBlocks(7, 9, smokestackY3 - 2, smokestackY3 + 6, 7, 9, chunkOdds, Material.WEB);
 			
-			generateSkyWalkBits(generator, chunk, neighborFloors, skywalkAt);
+			
+			if (generator.settings.includeDecayedBuildings) {
+				//TODO: nick up the smokestack and make smoke come out
+				
+			}
+			
+			generateSkyWalkBits(generator, chunk, heights, skywalkAt);
 			break;
 		}
 	}
@@ -230,7 +238,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 		chunk.clearBlocks(12, y, y + 2, 7 + chunkOdds.getRandomInt(2));
 	}
 	
-	protected void generateSkyWalkBits(CityWorldGenerator generator, RealBlocks chunk, SurroundingFloors neighbors, int skywalkAt) {
+	protected void generateSkyWalkBits(CityWorldGenerator generator, RealBlocks chunk, Surroundings neighbors, int skywalkAt) {
 		boolean doNorthward = neighbors.toNorth();
 		boolean doSouthward = neighbors.toSouth();
 		boolean doWestward = neighbors.toWest();
@@ -263,7 +271,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 		chunk.setBlocks(x, x + 3, skywalkAt + 1, z + 3, z + 4, Material.IRON_FENCE);
 	}
 
-	protected void generateSkyWalkCross(CityWorldGenerator generator, RealBlocks chunk, SurroundingFloors neighbors, 
+	protected void generateSkyWalkCross(CityWorldGenerator generator, RealBlocks chunk, Surroundings neighbors, 
 			int skywalkAt) {
 		boolean doNorthward = neighbors.toNorth();
 		boolean doSouthward = neighbors.toSouth();

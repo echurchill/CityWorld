@@ -49,6 +49,7 @@ public class ShapeProvider_Maze extends ShapeProvider_Normal {
 			industrialContext = new MazeMineContext(generator);
 			parkContext = new MazeParkContext(generator);
 			farmContext = new MazeFarmContext(generator);
+			outlandContext = farmContext;
 			
 			contextInitialized = true;
 		}

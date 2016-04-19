@@ -447,7 +447,12 @@ public class CityWorldSettings {
 		// anything commented out is up for user modification
 		switch (generator.worldStyle) {
 		case NORMAL:
+		case METRO:
 			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
+			break;
+		case NATURE:
+			includeRoads = false; // DIFFERENT
+			includeRoundabouts = false; // DIFFERENT
 			break;
 		case DESTROYED:
 			includeDecayedRoads = true; // DIFFERENT
@@ -456,31 +461,6 @@ public class CityWorldSettings {
 			includeAirborneStructures = false; // DIFFERENT;
 			
 			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
-			break;
-		case NATURE:
-			includeRoads = false; // DIFFERENT
-			includeRoundabouts = false; // DIFFERENT
-			includeSewers = false; // DIFFERENT
-			includeCisterns = false; // DIFFERENT
-			includeBasements = false; // DIFFERENT
-			includeMines = false; // DIFFERENT
-			includeBunkers = false; // DIFFERENT
-			includeBuildings = false; // DIFFERENT
-			includeHouses = false; // DIFFERENT
-			includeFarms = false; // DIFFERENT
-			includeAirborneStructures = false; // DIFFERENT
-
-			spawnersInBunkers = false; // DIFFERENT
-			spawnersInMines = false; // DIFFERENT
-			spawnersInSewers = false; // DIFFERENT
-			
-			treasuresInBunkers = false; // DIFFERENT
-			treasuresInMines = false; // DIFFERENT
-			treasuresInSewers = false; // DIFFERENT
-			
-			includeWorkingLights = false; // DIFFERENT
-			includeNamedRoads = false; // DIFFERENT
-			includeBuildingInteriors = false; // DIFFERENT
 			break;
 		case MAZE:
 			includeRoads = true; // This has to be true in order for things to generate correctly

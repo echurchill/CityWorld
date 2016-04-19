@@ -55,6 +55,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 			lowriseContext = new LowriseContext(generator);
 			neighborhoodContext = new NeighborhoodContext(generator);
 			farmContext = new FarmContext(generator);
+			outlandContext = farmContext;
 			
 			contextInitialized = true;
 		}

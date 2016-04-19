@@ -309,101 +309,107 @@ public class ParkLot extends ConnectedLot {
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
 		int surfaceY = generator.streetLevel + 1;
 		
-		// draw center bits
-		switch (centerStyle) {
-		case CIRCLE_PATH:
-			generator.coverProvider.generateRandomCoverage(generator, chunk, 7, surfaceY, 7, tallTrees);
-			break;
-		case WATER_TOWER:
-			generator.structureOnGroundProvider.drawWaterTower(generator, chunk, 4, surfaceY, 4, chunkOdds);
-			break;
-		case LABYRINTH_MAZE:
-			chunk.setClay(1, 15, surfaceY - 1, 1, 15, DyeColor.BLUE);
-			startLabyrinth(chunk, 6, surfaceY - 1, 14, DyeColor.CYAN); //a
-			contLabyrinth(chunk, 1, 14); //b
-			contLabyrinth(chunk, 1, 1); //c
-			contLabyrinth(chunk, 14, 1); //d
-			contLabyrinth(chunk, 14, 14); //e
-			contLabyrinth(chunk, 8, 14); //f
-			contLabyrinth(chunk, 8, 12); //g
-			contLabyrinth(chunk, 3, 12); //h
-			contLabyrinth(chunk, 3, 3); //i
-			contLabyrinth(chunk, 12, 3); //j
-			contLabyrinth(chunk, 12, 12); //k
-			contLabyrinth(chunk, 10, 12); //l
-			contLabyrinth(chunk, 10, 10); //m
-			contLabyrinth(chunk, 5, 10); //n
-			contLabyrinth(chunk, 5, 5); //o
-			contLabyrinth(chunk, 10, 5); //p
-			contLabyrinth(chunk, 10, 8); //q
-			contLabyrinth(chunk, 7, 8); //r
-			contLabyrinth(chunk, 7, 7); //s
-			changeColor(DyeColor.LIGHT_BLUE);
-			contLabyrinth(chunk, 8, 7); //t
-			break;
-		case CIRCLE_MAZE:
-			chunk.setWalls(2, 14, surfaceY - 1, surfaceY, 2, 14, Material.LOG);
-			chunk.setWalls(4, 12, surfaceY - 1, surfaceY, 4, 12, Material.LOG);
-			chunk.setWalls(6, 10, surfaceY - 1, surfaceY, 6, 10, Material.LOG);
-			chunk.setWalls(2, 14, surfaceY, surfaceY + 2, 2, 14, Material.LEAVES);
-			chunk.setWalls(4, 12, surfaceY, surfaceY + 3, 4, 12, Material.LEAVES);
-			chunk.setWalls(6, 10, surfaceY, surfaceY + 4, 6, 10, Material.LEAVES);
-			
-			pokeHoleSomewhere(chunk, 3, 13, surfaceY, 2, 3);
-			pokeHoleSomewhere(chunk, 5, 11, surfaceY, 4, 5);
-			pokeHoleSomewhere(chunk, 7, 9, surfaceY, 6, 7);
-			pokeHoleSomewhere(chunk, 7, 9, surfaceY, 9, 10);
-			pokeHoleSomewhere(chunk, 5, 11, surfaceY, 11, 12);
-			pokeHoleSomewhere(chunk, 3, 13, surfaceY, 13, 14);
-
-			pokeHoleSomewhere(chunk, 2, 3, surfaceY, 3, 13);
-			pokeHoleSomewhere(chunk, 4, 5, surfaceY, 5, 11);
-			pokeHoleSomewhere(chunk, 6, 7,  surfaceY, 7, 9);
-			pokeHoleSomewhere(chunk, 9, 10,  surfaceY, 7, 9);
-			pokeHoleSomewhere(chunk, 11, 12, surfaceY, 5, 11);
-			pokeHoleSomewhere(chunk, 13, 14, surfaceY, 3, 13);
-
-			break;
-		case HEDGE_MAZE:
-			MazeArray maze = new MazeArray(chunkOdds, 11, 11);
-			for (int x = 1; x < 6; x++)
-				for (int z = 1; z < 6; z++) {
-					int x1 = (x - 1) * 3 + 1;
-					int x2 = x * 3;
-					int z1 = (z - 1) * 3 + 1;
-					int z2 = z * 3;
-					int xWall = x * 2;
-					int zWall = z * 2;
-					if ((x < 5) && (maze.getBit(xWall, zWall - 1) == MazeBit.WALL)) {
-						chunk.setBlocks(x2, x2 + 1, surfaceY - 1, surfaceY, z1, z2, Material.LOG);
-						chunk.setBlocks(x2, x2 + 1, surfaceY, surfaceY + 3, z1, z2, Material.LEAVES);
+		// if things are bad
+		if (generator.settings.includeDecayedBuildings) {
+			destroyLot(generator, surfaceY - 2, surfaceY + 2);
+		} else {
+		
+			// draw center bits
+			switch (centerStyle) {
+			case CIRCLE_PATH:
+				generator.coverProvider.generateRandomCoverage(generator, chunk, 7, surfaceY, 7, tallTrees);
+				break;
+			case WATER_TOWER:
+				generator.structureOnGroundProvider.drawWaterTower(generator, chunk, 4, surfaceY, 4, chunkOdds);
+				break;
+			case LABYRINTH_MAZE:
+				chunk.setClay(1, 15, surfaceY - 1, 1, 15, DyeColor.BLUE);
+				startLabyrinth(chunk, 6, surfaceY - 1, 14, DyeColor.CYAN); //a
+				contLabyrinth(chunk, 1, 14); //b
+				contLabyrinth(chunk, 1, 1); //c
+				contLabyrinth(chunk, 14, 1); //d
+				contLabyrinth(chunk, 14, 14); //e
+				contLabyrinth(chunk, 8, 14); //f
+				contLabyrinth(chunk, 8, 12); //g
+				contLabyrinth(chunk, 3, 12); //h
+				contLabyrinth(chunk, 3, 3); //i
+				contLabyrinth(chunk, 12, 3); //j
+				contLabyrinth(chunk, 12, 12); //k
+				contLabyrinth(chunk, 10, 12); //l
+				contLabyrinth(chunk, 10, 10); //m
+				contLabyrinth(chunk, 5, 10); //n
+				contLabyrinth(chunk, 5, 5); //o
+				contLabyrinth(chunk, 10, 5); //p
+				contLabyrinth(chunk, 10, 8); //q
+				contLabyrinth(chunk, 7, 8); //r
+				contLabyrinth(chunk, 7, 7); //s
+				changeColor(DyeColor.LIGHT_BLUE);
+				contLabyrinth(chunk, 8, 7); //t
+				break;
+			case CIRCLE_MAZE:
+				chunk.setWalls(2, 14, surfaceY - 1, surfaceY, 2, 14, Material.LOG);
+				chunk.setWalls(4, 12, surfaceY - 1, surfaceY, 4, 12, Material.LOG);
+				chunk.setWalls(6, 10, surfaceY - 1, surfaceY, 6, 10, Material.LOG);
+				chunk.setWalls(2, 14, surfaceY, surfaceY + 2, 2, 14, Material.LEAVES);
+				chunk.setWalls(4, 12, surfaceY, surfaceY + 3, 4, 12, Material.LEAVES);
+				chunk.setWalls(6, 10, surfaceY, surfaceY + 4, 6, 10, Material.LEAVES);
+				
+				pokeHoleSomewhere(chunk, 3, 13, surfaceY, 2, 3);
+				pokeHoleSomewhere(chunk, 5, 11, surfaceY, 4, 5);
+				pokeHoleSomewhere(chunk, 7, 9, surfaceY, 6, 7);
+				pokeHoleSomewhere(chunk, 7, 9, surfaceY, 9, 10);
+				pokeHoleSomewhere(chunk, 5, 11, surfaceY, 11, 12);
+				pokeHoleSomewhere(chunk, 3, 13, surfaceY, 13, 14);
+	
+				pokeHoleSomewhere(chunk, 2, 3, surfaceY, 3, 13);
+				pokeHoleSomewhere(chunk, 4, 5, surfaceY, 5, 11);
+				pokeHoleSomewhere(chunk, 6, 7,  surfaceY, 7, 9);
+				pokeHoleSomewhere(chunk, 9, 10,  surfaceY, 7, 9);
+				pokeHoleSomewhere(chunk, 11, 12, surfaceY, 5, 11);
+				pokeHoleSomewhere(chunk, 13, 14, surfaceY, 3, 13);
+	
+				break;
+			case HEDGE_MAZE:
+				MazeArray maze = new MazeArray(chunkOdds, 11, 11);
+				for (int x = 1; x < 6; x++)
+					for (int z = 1; z < 6; z++) {
+						int x1 = (x - 1) * 3 + 1;
+						int x2 = x * 3;
+						int z1 = (z - 1) * 3 + 1;
+						int z2 = z * 3;
+						int xWall = x * 2;
+						int zWall = z * 2;
+						if ((x < 5) && (maze.getBit(xWall, zWall - 1) == MazeBit.WALL)) {
+							chunk.setBlocks(x2, x2 + 1, surfaceY - 1, surfaceY, z1, z2, Material.LOG);
+							chunk.setBlocks(x2, x2 + 1, surfaceY, surfaceY + 3, z1, z2, Material.LEAVES);
+						}
+						if ((z < 5) && (maze.getBit(xWall - 1, zWall) == MazeBit.WALL)) {
+							chunk.setBlocks(x1, x2, surfaceY - 1, surfaceY, z2, z2 + 1, Material.LOG);
+							chunk.setBlocks(x1, x2, surfaceY, surfaceY + 3, z2, z2 + 1, Material.LEAVES_2);
+						}
+						if ((x < 5) && (z < 5)) {
+							chunk.setBlocks(x2, surfaceY - 1, surfaceY, z2, Material.LOG);
+							chunk.setBlocks(x2, surfaceY, surfaceY + 3, z2, Material.LEAVES_2);
+						}
 					}
-					if ((z < 5) && (maze.getBit(xWall - 1, zWall) == MazeBit.WALL)) {
-						chunk.setBlocks(x1, x2, surfaceY - 1, surfaceY, z2, z2 + 1, Material.LOG);
-						chunk.setBlocks(x1, x2, surfaceY, surfaceY + 3, z2, z2 + 1, Material.LEAVES_2);
-					}
-					if ((x < 5) && (z < 5)) {
-						chunk.setBlocks(x2, surfaceY - 1, surfaceY, z2, Material.LOG);
-						chunk.setBlocks(x2, surfaceY, surfaceY + 3, z2, Material.LEAVES_2);
-					}
+				break;
+			case CROSS_PATH:
+			default:
+				for (int x = 4; x < 12; x += 7)
+					for (int z = 4; z < 12; z += 7)
+						generator.coverProvider.generateRandomCoverage(generator, chunk, x, surfaceY, z, smallTrees);
+				break;
+			}
+	
+			// way down?
+			if (generator.settings.includeCisterns) {
+				SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
+				if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
+					int lowestY = generator.streetLevel - cisternDepth + 1 + waterDepth;
+					chunk.setBlocks(4, 7, lowestY, lowestY + 1, 1, 2, ledgeMaterial);
+					chunk.setLadder(5, lowestY + 1, surfaceY, 1, BlockFace.NORTH);
+					chunk.setTrapDoor(5, surfaceY - 1, 1, BadMagic.TrapDoor.TOP_EAST);
 				}
-			break;
-		case CROSS_PATH:
-		default:
-			for (int x = 4; x < 12; x += 7)
-				for (int z = 4; z < 12; z += 7)
-					generator.coverProvider.generateRandomCoverage(generator, chunk, x, surfaceY, z, smallTrees);
-			break;
-		}
-
-		// way down?
-		if (generator.settings.includeCisterns) {
-			SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
-			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
-				int lowestY = generator.streetLevel - cisternDepth + 1 + waterDepth;
-				chunk.setBlocks(4, 7, lowestY, lowestY + 1, 1, 2, ledgeMaterial);
-				chunk.setLadder(5, lowestY + 1, surfaceY, 1, BlockFace.NORTH);
-				chunk.setTrapDoor(5, surfaceY - 1, 1, BadMagic.TrapDoor.TOP_EAST);
 			}
 		}
 	}
