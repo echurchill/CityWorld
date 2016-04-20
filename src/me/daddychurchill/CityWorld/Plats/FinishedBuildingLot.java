@@ -60,7 +60,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	protected enum InteriorStyle {EMPTY, COLUMNS_ONLY, WALLS_ONLY, COLUMNS_OFFICES, WALLS_OFFICES, RANDOM};
 	protected InteriorStyle interiorStyle;
 	protected double oddsOfAnInteriorDoor = Odds.oddsExtremelyLikely;
-	protected double oddsOfAnExteriorDoor = Odds.oddsSomewhatLikely;
+	protected double oddsOfAnExteriorDoor = Odds.oddsHalvedPrettyLikely;
 	protected Material columnMaterial;
 	protected boolean forceNarrowInteriorMode = false;
 	protected double differentInteriorModes = Odds.oddsUnlikely;
@@ -1019,6 +1019,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		DoorStyle drawExteriorDoors = floor == 0 ? DoorStyle.WOOD : DoorStyle.NONE;
 		if (drawExteriorDoors == DoorStyle.WOOD && generator.settings.includeDecayedBuildings)
 			drawExteriorDoors = chunkOdds.flipCoin() ? DoorStyle.HOLE : DoorStyle.WOOD;
+		
 		if (drawExteriorDoors != DoorStyle.NONE)
 			drawExteriorDoors(generator, chunk, context, drawExteriorDoors,
 					floor, floorAt, floorHeight, insetNS, insetWE, 
@@ -1721,23 +1722,35 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	}
 	
 	private void drawExteriorNSDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
-		if (chunkOdds.playOdds(oddsOfAnExteriorDoor))
+		if (chunkOdds.playOdds(oddsOfAnExteriorDoor)) {
 			drawDoor(chunk, x, x, x, y1, y2, z, z + 1, z + 2, Door.WESTBYNORTHWEST, doorStyle, wall, exteriorDoorMaterial);
+			chunk.clearBlocks(x + 1, y1, y1 + 2, z + 1);
+			chunk.clearBlocks(x - 1, y1, y1 + 2, z + 1);
+		}
 	}
 	
 	private void drawExteriorSNDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
-		if (chunkOdds.playOdds(oddsOfAnExteriorDoor))
+		if (chunkOdds.playOdds(oddsOfAnExteriorDoor)) {
 			drawDoor(chunk, x, x, x, y1, y2, z, z + 1, z + 2, Door.EASTBYNORTHEAST, doorStyle, wall, exteriorDoorMaterial);
+			chunk.clearBlocks(x + 1, y1, y1 + 2, z + 1);
+			chunk.clearBlocks(x - 1, y1, y1 + 2, z + 1);
+		}
 	}
 
 	private void drawExteriorWEDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
-		if (chunkOdds.playOdds(oddsOfAnExteriorDoor))
+		if (chunkOdds.playOdds(oddsOfAnExteriorDoor)) {
 			drawDoor(chunk, x, x + 1, x + 2, y1, y2, z, z, z, Door.NORTHBYNORTHWEST, doorStyle, wall, exteriorDoorMaterial);
+			chunk.clearBlocks(x + 1, y1, y1 + 2, z + 1);
+			chunk.clearBlocks(x + 1, y1, y1 + 2, z - 1);
+		}
 	}
 	
 	private void drawExteriorEWDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
-		if (chunkOdds.playOdds(oddsOfAnExteriorDoor))
+		if (chunkOdds.playOdds(oddsOfAnExteriorDoor)) {
 			drawDoor(chunk, x, x + 1, x + 2, y1, y2, z, z, z, Door.SOUTHBYSOUTHEAST, doorStyle, wall, exteriorDoorMaterial);
+			chunk.clearBlocks(x + 1, y1, y1 + 2, z + 1);
+			chunk.clearBlocks(x + 1, y1, y1 + 2, z - 1);
+		}
 	}
 	
 	//TODO roof fixtures (peak, helipad, air conditioning, stairwells access, penthouse, castle trim, etc.

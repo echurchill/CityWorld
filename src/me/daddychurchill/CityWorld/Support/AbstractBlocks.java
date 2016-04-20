@@ -179,4 +179,31 @@ public abstract class AbstractBlocks {
 						setBlock(x, y, z, material);
 	}
 	
+	public void pepperBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds, double bottomOdds,
+			double topOdds, Material material) {
+		if (bottomOdds == topOdds)
+			pepperBlocks(x1, x2, y1, y2, z1, z2, odds, bottomOdds, material);
+		else {
+			// calculate odds stepper
+			int atStep = 0;
+			int steps = y2 - y1;
+			double stepOdds = 0;
+			if (topOdds > bottomOdds)
+				stepOdds = (topOdds - bottomOdds) / steps;
+			else
+				stepOdds = (bottomOdds - topOdds) / steps;
+
+			// now do it
+			for (int y = y1; y < y2; y++) {
+				double theOdds = bottomOdds + atStep * stepOdds;
+				for (int x = x1; x < x2; x++) {
+					for (int z = z1; z < z2; z++) {
+						if (odds.playOdds(theOdds))
+							setBlock(x, y, z, material);
+					}
+				}
+				atStep++;
+			}
+		}
+	}
 }

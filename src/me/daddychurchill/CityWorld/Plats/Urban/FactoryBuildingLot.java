@@ -209,29 +209,23 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			chunk.setThinGlass(5, groundY + 1, 8, DyeColor.RED);
 			chunk.setThinGlass(10, groundY + 1, 7, DyeColor.RED);
 			
-			
+			// too bad I have to goof it up now
 			if (generator.settings.includeDecayedBuildings) {
-
-				//TODO: nick up the smokestack and make smoke come out... maybe
-
 				if (chunkOdds.playOdds(Odds.oddsLikely)) {
 					chunk.setCircle(8, 8, 2, groundY + 6, smokestackY1, smokestackMat);
-					chunk.pepperBlocks(5, 11, groundY, smokestackY1, 5, 11, chunkOdds, Odds.oddsPrettyUnlikely, Material.AIR);
+					chunk.pepperBlocks(5, 11, groundY, smokestackY1, 5, 11, chunkOdds, Odds.oddsPrettyUnlikely,
+							Odds.oddsSomewhatUnlikely, Material.AIR);
 					if (chunkOdds.playOdds(Odds.oddsSomewhatLikely)) {
 						chunk.setWalls(6, 10, smokestackY1, smokestackY2, 6, 10, smokestackMat);
-						chunk.pepperBlocks(6, 10, smokestackY1, smokestackY2, 6, 10, chunkOdds, Odds.oddsPrettyUnlikely, Material.AIR);
-						if (chunkOdds.playOdds(Odds.oddsSomewhatLikely)) {
+						chunk.pepperBlocks(6, 10, smokestackY1, smokestackY2, 6, 10, chunkOdds,
+								Odds.oddsSomewhatUnlikely, Odds.oddsLikely, Material.AIR);
+						if (chunkOdds.playOdds(Odds.oddsSomewhatUnlikely)) {
 							chunk.setCircle(8, 8, 1, smokestackY2, smokestackY3, smokestackMat);
-							chunk.pepperBlocks(7, 9, smokestackY2, smokestackY3, 7, 9, chunkOdds, Odds.oddsPrettyUnlikely, Material.AIR);
+							chunk.pepperBlocks(7, 9, smokestackY2, smokestackY3, 7, 9, chunkOdds, Odds.oddsLikely,
+									Odds.oddsExtremelyLikely, Material.AIR);
 						}
 					}
 				}
-				
-				//TODO: half the time it doesn't have smoke 
-//				if (chunkOdds.flipCoin()) {
-//					chunk.setBlocks(6, 10, groundY - 1, 6, 10, Material.FIRE);
-//					chunk.pepperBlocks(7, 9, smokestackY3 - 2, smokestackY3 + 6, 7, 9, chunkOdds, Material.WEB);
-//				}
 				
 			} else {
 				chunk.setBlocks(6, 10, groundY - 1, 6, 10, Material.FIRE);
