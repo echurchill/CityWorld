@@ -14,17 +14,25 @@ public class CornerBlocks {
 	private final static byte WWW = 3;
 	private final static byte GGG = 4;
 	private final static byte WGG = 5;
-	private final static byte WGW = 6;
-	private final static byte nWn = 7;
+	private final static byte GGW = 6;
+	private final static byte WWG = 7;
+	private final static byte WGW = 8;
+	private final static byte GWW = 9;
+	private final static byte GWG = 10;
 	
 	// these won't show up on the roof
-	private final static byte BRR = 10; // balcony just below floor and railing topped with nothing above
-	private final static byte BNN = 11; // balcony just below floor and nothing above
-	private final static byte BDD = 12; // balcony just below floor and door topped with a wall block 
-	private final static byte BWW = 13; // WWW 
-	private final static byte BGG = 14; // WGG 
-	private final static byte BGW = 15; // WGW 
+	private final static byte BRR = 20; // balcony just below floor and iron railing topped with nothing above
+	private final static byte Brr = 21; // balcony just below floor and wood fence topped with nothing above
+	private final static byte BNN = 22; // balcony just below floor and nothing above
+	private final static byte BDD = 23; // balcony just below floor and door topped with a wall block 
+	private final static byte BWW = 24; // WWW 
+	private final static byte BGG = 25; // WGG 
+	private final static byte BGW = 26; // WGW 
 
+	private final static byte Wnn = 30;
+	private final static byte nWn = 31;
+	private final static byte nnW = 32;
+	
 	public boolean isOldRoundedCorner(int i) {
 		return i == 0; // should always be the first one
 	}
@@ -44,7 +52,7 @@ public class CornerBlocks {
 		
 //		corners.add(new CustomCorner(new byte[][] {
 //		}));
-//
+
 		corners.add(new CustomCorner(new byte[][] {
 			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
 			{FLR, FLR, FLR, FLR, FLR, WGG, opt},
@@ -138,6 +146,76 @@ public class CornerBlocks {
 		corners.add(new CustomCorner(new byte[][] {
 			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
 			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, GWG, GWG, GWG, GWG, GWG},
+			{FLR, FLR, GWG, nWn, nWn, nWn, nWn},
+			{FLR, FLR, GWG, nWn, non, non, non},
+			{FLR, FLR, GWG, nWn, non, non, non},
+			{WWW, WWW, GWG, nWn, non, non, non},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, GWG, GWG, GWG, GWG, GWG},
+			{FLR, FLR, GWG, nWn, nWn, nWn, WWW},
+			{FLR, FLR, GWG, nWn, non, non, non},
+			{FLR, FLR, GWG, nWn, non, non, non},
+			{WWW, WWW, GWG, WWW, non, non, non},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, GGW},
+			{FLR, FLR, GGW, GGW, GGW, GGW, GGW},
+			{FLR, FLR, GGW, non, non, non, non},
+			{FLR, FLR, GGW, non, non, non, non},
+			{FLR, FLR, GGW, non, non, non, non},
+			{WWW, GGW, GGW, non, non, non, non},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, GGW, GGW, GGW, GGW, nnW},
+			{FLR, FLR, GGW, nnW, nnW, nnW, nnW},
+			{FLR, FLR, GGW, nnW, non, non, non},
+			{FLR, FLR, GGW, nnW, non, non, non},
+			{WWW, WWW, nnW, nnW, non, non, non},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, WGG, Wnn},
+			{FLR, FLR, FLR, FLR, FLR, WGG, Wnn},
+			{FLR, FLR, FLR, FLR, WGG, Wnn, non},
+			{FLR, FLR, FLR, WGG, Wnn, non, non},
+			{FLR, FLR, WGG, Wnn, non, non, non},
+			{WGG, WGG, Wnn, non, non, non, non},
+			{Wnn, Wnn, non, non, non, non, non},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, GGG, GGG, GGG, GGG, WGW},
+			{FLR, FLR, GGG, non, non, non, WWW},
+			{FLR, FLR, GGG, non, non, non, non},
+			{FLR, FLR, GGG, non, non, non, non},
+			{WWW, WWW, WGW, WWW, non, non, non},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWG},
+			{FLR, FLR, FLR, FLR, FLR, WGW, non},
+			{FLR, FLR, FLR, FLR, GWW, non, non},
+			{FLR, FLR, FLR, GWW, non, non, non},
+			{FLR, FLR, WGW, non, non, non, non},
+			{WWW, WWG, non, non, non, non, non},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
 			{FLR, FLR, WGG, WGG, WGG, WGG, WGG},
 			{FLR, FLR, WGG, non, non, non, non},
 			{FLR, FLR, WGG, non, nWn, nWn, nWn},
@@ -153,6 +231,36 @@ public class CornerBlocks {
 			{FLR, FLR, WGG, non, WWW, non, WWW},
 			{FLR, FLR, WGG, non, non, non, WWW},
 			{WWW, WWW, WGG, non, WWW, WWW, WWW},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, WGG, WGG, WGG, WGG, WGG},
+			{FLR, FLR, WGG, non, non, non, non},
+			{FLR, FLR, WGG, non, WWW, WWW, WWW},
+			{FLR, FLR, WGG, non, WWW, non, non},
+			{WWW, WWW, WGG, non, WWW, non, non},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, WGG, WGG, WGG, WGG, WGG},
+			{FLR, FLR, WGG, opt, opt, non, non},
+			{FLR, FLR, WGG, opt, opt, opt, WWW},
+			{FLR, FLR, WGG, non, opt, WWW, non},
+			{WWW, WWW, WGG, non, WWW, non, non},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, WGG, WGG, WGG, WGG, WGG},
+			{FLR, FLR, WGG, non, non, non, opt},
+			{FLR, FLR, WGG, non, non, non, WWW},
+			{FLR, FLR, WGG, non, non, non, opt},
+			{WWW, WWW, WGG, opt, WWW, opt, WWW},
 		}));
 
 		corners.add(new CustomCorner(new byte[][] {
@@ -255,6 +363,56 @@ public class CornerBlocks {
 			{WWW, non, WWW, BRR, BRR, BRR, BRR},
 		}));
 
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
+			{FLR, FLR, FLR, FLR, WGW, BNN, Brr},
+			{FLR, FLR, FLR, FLR, BDD, BNN, Brr},
+			{FLR, FLR, FLR, FLR, WGG, BNN, Brr},
+			{WWW, WGW, BDD, WGG, WGG, BNN, Brr},
+			{WWW, BNN, BNN, BNN, BNN, BNN, Brr},
+			{WWW, Brr, Brr, Brr, Brr, Brr, BWW},
+		}));
+		
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
+			{FLR, FLR, FLR, FLR, BGW, BNN, Brr},
+			{FLR, FLR, FLR, FLR, BDD, BNN, Brr},
+			{FLR, FLR, FLR, FLR, BGW, BNN, Brr},
+			{WWW, BGW, BDD, BGW, BWW, BNN, Brr},
+			{WWW, BNN, BNN, BNN, BNN, BWW, BWW},
+			{WWW, Brr, Brr, Brr, Brr, BWW, non},
+		}));
+		
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
+			{FLR, FLR, FLR, FLR, BGW, BNN, Brr},
+			{FLR, FLR, FLR, FLR, BDD, BNN, Brr},
+			{FLR, FLR, FLR, FLR, BGG, BNN, Brr},
+			{WWW, BGW, BDD, BGG, BNN, BNN, WWW}, // yep those are WWW, just to be different
+			{WWW, BNN, BNN, BNN, BNN, BWW, opt},
+			{WWW, Brr, Brr, Brr, WWW, opt, non},
+		}));
+		
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WGG},
+			{FLR, FLR, FLR, BWW, BWW, BDD, WWW},
+			{FLR, FLR, BWW, BNN, BNN, BNN, Brr},
+			{FLR, FLR, BWW, BNN, BNN, BNN, Brr},
+			{FLR, FLR, BDD, BNN, BNN, BNN, Brr},
+			{WWW, WGG, WWW, Brr, Brr, Brr, Brr},
+		}));
+		
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
+			{FLR, FLR, FLR, FLR, FLR, WGG, non},
+			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
+			{FLR, FLR, FLR, BDD, BNN, BNN, Brr},
+			{FLR, FLR, WWW, BNN, BNN, BNN, Brr},
+			{WWW, WGG, WWW, BNN, BNN, BNN, Brr},
+			{WWW, non, WWW, Brr, Brr, Brr, Brr},
+		}));
+		
 //		corners.add(new CustomCorner(new byte[][] {
 //		}));
 //
@@ -457,9 +615,6 @@ public class CornerBlocks {
 					case WWW:
 						blocks.setBlocks(xInset + x, y1, y2, zInset + z, primary);
 						break;
-					case nWn:
-						blocks.setBlocks(xInset + x, y1 + 1, y2 - 1, zInset + z, primary);
-						break;
 					case GGG:
 						blocks.setBlocks(xInset + x, y1, y2, zInset + z, secondary);
 						break;
@@ -467,11 +622,29 @@ public class CornerBlocks {
 						blocks.setBlock(xInset + x, y1, zInset + z, primary);
 						blocks.setBlocks(xInset + x, y1 + 1, y2, zInset + z, secondary);
 						break;
+					case GWW:
+						blocks.setBlock(xInset + x, y1, zInset + z, secondary);
+						blocks.setBlocks(xInset + x, y1 + 1, y2, zInset + z, primary);
+						break;
 					case WGW:
 						blocks.setBlock(xInset + x, y1, zInset + z, primary);
 						blocks.setBlocks(xInset + x, y1 + 1, y2 - 1, zInset + z, secondary);
 						blocks.setBlock(xInset + x, y2 - 1, zInset + z, primary);
 						break;
+					case WWG:
+						blocks.setBlocks(xInset + x, y1, y2 - 1, zInset + z, primary);
+						blocks.setBlock(xInset + x, y2 - 1, zInset + z, secondary);
+						break;
+					case GGW:
+						blocks.setBlocks(xInset + x, y1, y2 - 1, zInset + z, secondary);
+						blocks.setBlock(xInset + x, y2 - 1, zInset + z, primary);
+						break;
+					case GWG:
+						blocks.setBlock(xInset + x, y1, zInset + z, secondary);
+						blocks.setBlocks(xInset + x, y1 + 1, y2 - 1, zInset + z, primary);
+						blocks.setBlock(xInset + x, y2 - 1, zInset + z, secondary);
+						break;
+						
 					case BWW:
 						if (!onRoof) {
 							blocks.setBlocks(xInset + x, y1, y2, zInset + z, primary);
@@ -503,6 +676,24 @@ public class CornerBlocks {
 							blocks.setBlock(xInset + x, y1, zInset + z, Material.IRON_FENCE);
 						}
 						break;
+					case Brr:
+						if (onRoof) {
+							blocks.setBlocks(xInset + x, y1, y2, zInset + z, primary);
+						} else {
+							blocks.setBlock(xInset + x, y1, zInset + z, Material.FENCE);
+						}
+						break;
+
+					case Wnn:
+						blocks.setBlock(xInset + x, y1, zInset + z, primary);
+						break;
+					case nWn:
+						blocks.setBlocks(xInset + x, y1 + 1, y2 - 1, zInset + z, primary);
+						break;
+					case nnW:
+						blocks.setBlock(xInset + x, y2 - 1, zInset + z, primary);
+						break;
+						
 					case opt:
 						if (outsetEffect)
 							blocks.setBlocks(xInset + x, y1, y2, zInset + z, primary);
@@ -533,15 +724,22 @@ public class CornerBlocks {
 						break;
 					case FLR:
 					case WWW:
+					case GWG:
 					case GGG:
 					case WGG:
+					case GGW:
+					case GWW:
 					case WGW:
+					case WWG:
 					case BNN:
 					case BDD:
 					case BRR:
 					case BWW:
 					case BGW:
 					case BGG:
+					case Wnn:
+					case nWn:
+					case nnW:
 					default:
 						blocks.setBlocks(xInset + x, y1, y2, zInset + z, primary);
 						break;

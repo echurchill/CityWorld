@@ -10,7 +10,14 @@ There is an entire world to explore, have fun!
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
-v3.005
+v3.007
+Refactored the corner of building code to make it much easier to maintain 
+Made it so that external doors in buildings don't get covered up anymore
+Fixed some destroyed and factory building issues
+Added METRO to easy world styles
+Minecraft (as of 1.9.2) and Spigot (as of 4/23) happy and... now with more corners
+
+v3.006 and before
 Whole lot more styles of buildings (more balconies, corners, roofs, indents, etc.)
 Roundabouts are back, they disappeared about 2 to 3 years ago... why didn't anyone (including me) notice?
 Fixed up bunkers, campgrounds and oil rig platforms
@@ -19,9 +26,6 @@ Touched up roads, man holes and made the sewers slightly crazier
 Fixed an issue that prevented Hotair balloons from being found out in the wild
 Added factories (of a sort) to the industrial areas
 Added NATURE to the easy world styles
-Minecraft (as of 1.9.2) and Spigot (as of 4/17) happy and... now with Beet Roots
-
-v3.004 and before
 Cranes now render correctly in 1.9 again, Mojang changed how Iron Fences rendered
 Unfinished buildings now follow similar rules to normal buildings
 Even more styles of buildings, woot! 
