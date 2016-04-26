@@ -4,20 +4,21 @@ Not any town will do, how about one that goes on forever or multiple ones separa
 But what is under those mountains? 
 There is an entire world to explore, have fun!
 
-===== //Version 3.005// ===== 
+===== //Version 3.008// ===== 
 
 {{http://dev.bukkit.org/media/images/42/720/2012-07-04_11.31.52.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
-v3.007
+v3.008
+Fixed a bug where factory skywalk supports would go too far up in a destroyed world
+Minecraft (as of 1.9.2) and Spigot (as of 4/25) happy 
+
+v3.006 and before
 Refactored the corner of building code to make it much easier to maintain 
 Made it so that external doors in buildings don't get covered up anymore
 Fixed some destroyed and factory building issues
 Added METRO to easy world styles
-Minecraft (as of 1.9.2) and Spigot (as of 4/23) happy and... now with more corners
-
-v3.006 and before
 Whole lot more styles of buildings (more balconies, corners, roofs, indents, etc.)
 Roundabouts are back, they disappeared about 2 to 3 years ago... why didn't anyone (including me) notice?
 Fixed up bunkers, campgrounds and oil rig platforms
