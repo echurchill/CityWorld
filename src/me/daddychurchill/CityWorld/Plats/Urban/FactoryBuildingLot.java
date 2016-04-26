@@ -90,6 +90,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 		int groundY = generator.structureLevel + 2;
 		int skywalkHeight = firstFloorHeight / 2;
 		int skywalkAt = groundY + skywalkHeight;
+		int roofAt = skywalkAt + skywalkHeight;
 		
 		Material airMat = generator.shapeProvider.findAtmosphereMaterialAt(generator, groundY);
 		Material wallMat = generator.settings.materials.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_BRICK);
@@ -125,7 +126,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			chunk.setBlocks(5, groundY, skywalkAt + 2, 5, officeMat);
 			chunk.setLadder(5, groundY, skywalkAt + 2, 6, BlockFace.NORTH);
 
-			generateSkyWalkBits(generator, chunk, heights, skywalkAt);
+			generateSkyWalkBits(generator, chunk, heights, skywalkAt, roofAt);
 			break;
 		case PIT:
 			int topOfPit = groundY + 1;
@@ -137,7 +138,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			chunk.setCircle(8, 8, 4, bottomOfPit, pitLevel, fluidMat, true);
 			chunk.setCircle(8, 8, 4, bottomOfPit, topOfPit, wallMat); // put the wall up quick!
 
-			generateSkyWalkCross(generator, chunk, heights, skywalkAt);
+			generateSkyWalkCross(generator, chunk, heights, skywalkAt, roofAt);
 			break;
 		case TANK:
 			int topOfTank = skywalkAt + 2;
@@ -153,7 +154,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			chunk.setBlocks(4, 6, groundY, bottomOfTank + 1, 10, 12, supportMat);
 			chunk.setBlocks(10, 12, groundY, bottomOfTank + 1, 10, 12, supportMat);
 			
-			generateSkyWalkBits(generator, chunk, heights, skywalkAt);
+			generateSkyWalkBits(generator, chunk, heights, skywalkAt, roofAt);
 			break;
 		case STUFF:
 			generateStuff(generator, chunk, 2, groundY, 2, 3, 3);
@@ -186,7 +187,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 //			if (!neighborFloors.toEast())
 //				chunk.setWool(11, 13, groundY, skywalkAt + chunkOdds.getRandomInt(5), 7, 9, chunkOdds.getRandomColor());
 //			
-			generateSkyWalkCross(generator, chunk, heights, skywalkAt);
+			generateSkyWalkCross(generator, chunk, heights, skywalkAt, roofAt);
 			break;
 		case SMOKESTACK:
 			chunk.setWalls(3, 13, groundY, skywalkAt - 1, 3, 13, officeMat);
@@ -237,7 +238,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 				chunk.pepperBlocks(7, 9, smokestackY3 - 2, smokestackY3 + 6, 7, 9, chunkOdds, Material.WEB);
 			}
 			
-			generateSkyWalkBits(generator, chunk, heights, skywalkAt);
+			generateSkyWalkBits(generator, chunk, heights, skywalkAt, roofAt);
 			break;
 		}
 	}
@@ -253,7 +254,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 		chunk.clearBlocks(12, y, y + 2, 7 + chunkOdds.getRandomInt(2));
 	}
 	
-	protected void generateSkyWalkBits(CityWorldGenerator generator, RealBlocks chunk, Surroundings neighbors, int skywalkAt) {
+	protected void generateSkyWalkBits(CityWorldGenerator generator, RealBlocks chunk, Surroundings neighbors, int skywalkAt, int roofAt) {
 		boolean doNorthward = neighbors.toNorth();
 		boolean doSouthward = neighbors.toSouth();
 		boolean doWestward = neighbors.toWest();
@@ -287,20 +288,20 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 	}
 
 	protected void generateSkyWalkCross(CityWorldGenerator generator, RealBlocks chunk, Surroundings neighbors, 
-			int skywalkAt) {
+			int skywalkAt, int roofAt) {
 		boolean doNorthward = neighbors.toNorth();
 		boolean doSouthward = neighbors.toSouth();
 		boolean doWestward = neighbors.toWest();
 		boolean doEastward = neighbors.toEast();
 		
 		if (doNorthward)
-			generateSkyWalkNS(chunk, 6, 0, skywalkAt);
+			generateSkyWalkNS(chunk, 6, 0, skywalkAt, roofAt);
 		if (doSouthward)
-			generateSkyWalkNS(chunk, 6, 10, skywalkAt);
+			generateSkyWalkNS(chunk, 6, 10, skywalkAt, roofAt);
 		if (doWestward)
-			generateSkyWalkWE(chunk, 0, 6, skywalkAt);
+			generateSkyWalkWE(chunk, 0, 6, skywalkAt, roofAt);
 		if (doEastward)
-			generateSkyWalkWE(chunk, 10, 6, skywalkAt);
+			generateSkyWalkWE(chunk, 10, 6, skywalkAt, roofAt);
 		
 		chunk.setBlocks(6, 10, skywalkAt, 6, 10, ceilingMaterial);
 		
@@ -313,25 +314,25 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 		if (!doEastward)
 			chunk.setBlocks(9, 10, skywalkAt + 1, 7, 9, Material.IRON_FENCE);
 		
-		chunk.setBlocksUpward(6, skywalkAt + 1, 6, Material.IRON_FENCE);
-		chunk.setBlocksUpward(6, skywalkAt + 1, 9, Material.IRON_FENCE);
-		chunk.setBlocksUpward(9, skywalkAt + 1, 6, Material.IRON_FENCE);
-		chunk.setBlocksUpward(9, skywalkAt + 1, 9, Material.IRON_FENCE);
+		chunk.setBlocksUpward(6, skywalkAt + 1, 6, roofAt, Material.IRON_FENCE);
+		chunk.setBlocksUpward(6, skywalkAt + 1, 9, roofAt, Material.IRON_FENCE);
+		chunk.setBlocksUpward(9, skywalkAt + 1, 6, roofAt, Material.IRON_FENCE);
+		chunk.setBlocksUpward(9, skywalkAt + 1, 9, roofAt, Material.IRON_FENCE);
 	}
 	
-	private void generateSkyWalkNS(RealBlocks chunk, int x, int z, int skywalkAt) {
+	private void generateSkyWalkNS(RealBlocks chunk, int x, int z, int skywalkAt, int roofAt) {
 		chunk.setBlocks(x, x + 4, skywalkAt, z, z + 6, ceilingMaterial);
 		chunk.setBlocks(x, x + 1, skywalkAt + 1, z, z + 6, Material.IRON_FENCE);
 		chunk.setBlocks(x + 3, x + 4, skywalkAt + 1, z, z + 6, Material.IRON_FENCE);
-		chunk.setBlocksUpward(x, skywalkAt + 2, z + 2, Material.IRON_FENCE);
-		chunk.setBlocksUpward(x + 3, skywalkAt + 2, z + 2, Material.IRON_FENCE);
+		chunk.setBlocksUpward(x, skywalkAt + 2, z + 2, roofAt, Material.IRON_FENCE);
+		chunk.setBlocksUpward(x + 3, skywalkAt + 2, z + 2, roofAt, Material.IRON_FENCE);
 	}
 
-	private void generateSkyWalkWE(RealBlocks chunk, int x, int z, int skywalkAt) {
+	private void generateSkyWalkWE(RealBlocks chunk, int x, int z, int skywalkAt, int roofAt) {
 		chunk.setBlocks(x, x + 6, skywalkAt, z, z + 4, ceilingMaterial);
 		chunk.setBlocks(x, x + 6, skywalkAt + 1, z, z + 1, Material.IRON_FENCE);
 		chunk.setBlocks(x, x + 6, skywalkAt + 1, z + 3, z + 4, Material.IRON_FENCE);
-		chunk.setBlocksUpward(x + 2, skywalkAt + 2, z, Material.IRON_FENCE);
-		chunk.setBlocksUpward(x + 2, skywalkAt + 2, z + 3, Material.IRON_FENCE);
+		chunk.setBlocksUpward(x + 2, skywalkAt + 2, z, roofAt, Material.IRON_FENCE);
+		chunk.setBlocksUpward(x + 2, skywalkAt + 2, z + 3, roofAt, Material.IRON_FENCE);
 	}
 }

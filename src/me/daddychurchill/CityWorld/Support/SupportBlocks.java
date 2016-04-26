@@ -114,13 +114,14 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			setBlock(x, y, z, types[0]);
 	}
 	
+	@Override
 	public final boolean isEmpty(int x, int y, int z) {
-		return isType(x, y, z, Material.AIR);
+		return getActualBlock(x, y, z).isEmpty();
 	}
 	
 	public final boolean isPartiallyEmpty(int x, int y1, int y2, int z) {
 		for (int y = y1; y < y2; y++) {
-			if (isType(x, y, z, Material.AIR))
+			if (isEmpty(x, y, z))
 				return true;
 		}
 		return false;
@@ -130,7 +131,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
-					if (isType(x, y, z, Material.AIR))
+					if (isEmpty(x, y, z))
 						return true;
 				}
 			}
@@ -277,43 +278,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 					block.setType(material);
 			}
 		}
-	}
-	
-	@Override
-	public final int findFirstEmpty(int x, int y, int z) {
-		if (getActualBlock(x, y, z).isEmpty())
-			return findLastEmptyBelow(x, y, z);
-		else
-			return findFirstEmptyAbove(x, y, z);
-	}
-	
-	@Override
-	public final int findFirstEmptyAbove(int x, int y, int z) {
-		int y1 = y;
-		while (y1 < height - 1) {
-			if (getActualBlock(x, y1, z).isEmpty())
-				return y1;
-			y1++;
-		}
-		return height - 1;
-	}
-	
-	@Override
-	public final int findLastEmptyAbove(int x, int y, int z) {
-		int y1 = y;
-		while (y1 < height - 1 && getActualBlock(x, y1 + 1, z).isEmpty()) {
-			y1++;
-		}
-		return y1;
-	}
-	
-	@Override
-	public final int findLastEmptyBelow(int x, int y, int z) {
-		int y1 = y;
-		while (y1 > 0 && getActualBlock(x, y1 - 1, z).isEmpty()) {
-			y1--;
-		}
-		return y1;
 	}
 	
 	private void drawCircleBlocks(int cx, int cz, int x, int z, int y, Material material) {

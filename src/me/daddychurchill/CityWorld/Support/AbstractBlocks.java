@@ -58,14 +58,11 @@ public abstract class AbstractBlocks {
 	public abstract int setLayer(int blocky, int height, Material material);
 	public abstract int setLayer(int blocky, int height, int inset, Material material);
 	
+	public abstract boolean isEmpty(int x, int y, int z);
 	public abstract void clearBlock(int x, int y, int z);
 	public abstract boolean setEmptyBlock(int x, int y, int z, Material material);
 	public abstract void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, Material material);
-	public abstract int findFirstEmpty(int x, int y, int z);
-	public abstract int findFirstEmptyAbove(int x, int y, int z);
-	public abstract int findLastEmptyAbove(int x, int y, int z);
-	public abstract int findLastEmptyBelow(int x, int y, int z);
-
+	
 	public abstract void setCircle(int cx, int cz, int r, int y, Material material, boolean fill);
 	public abstract void setCircle(int cx, int cz, int r, int y1, int y2, Material material, boolean fill);
 	
@@ -85,13 +82,62 @@ public abstract class AbstractBlocks {
 		setCircle(cx, cz, r, cy, material, fill);
 	}
 
-	public void setBlocksUpward(int x, int y1, int z, Material material) {
-		int y2 = findLastEmptyAbove(x, y1, z);
+	public int findFirstEmpty(int x, int y, int z) {
+		return findFirstEmpty(x, y, z, 0, height);
+	}
+	
+	public final int findFirstEmpty(int x, int y, int z, int minY, int maxY) {
+		if (isEmpty(x, y, z))
+			return findLastEmptyBelow(x, y, z, minY);
+		else
+			return findFirstEmptyAbove(x, y, z, maxY);
+	}
+	
+	public int findFirstEmptyAbove(int x, int y, int z) {
+		return findFirstEmptyAbove(x, y, z, height);
+	}
+	
+	public final int findFirstEmptyAbove(int x, int y, int z, int maxY) {
+		int y1 = y;
+		while (y1 < maxY - 1) {
+			if (isEmpty(x, y1, z))
+				return y1;
+			y1++;
+		}
+		return height - 1;
+	}
+	
+	public int findLastEmptyAbove(int x, int y, int z) {
+		return findLastEmptyAbove(x, y, z, height);
+	}
+	
+	public final int findLastEmptyAbove(int x, int y, int z, int maxY) {
+		int y1 = y;
+		while (y1 < maxY - 1 && isEmpty(x, y1 + 1, z)) {
+			y1++;
+		}
+		return y1;
+	}
+	
+	public int findLastEmptyBelow(int x, int y, int z) {
+		return findLastEmptyBelow(x, y, z, 0);
+	}
+	
+	public final int findLastEmptyBelow(int x, int y, int z, int minY) {
+		int y1 = y;
+		while (y1 > minY && isEmpty(x, y1 - 1, z)) {
+			y1--;
+		}
+		return y1;
+	}
+	
+	public void setBlocksUpward(int x, int y1, int z, int maxY, Material material) {
+		int y2 = findLastEmptyAbove(x, y1, z, maxY);
 		setBlocks(x, y1, y2 + 1, z, material);
 	}
 	
-	public void setBlocksDownward(int x, int y2, int z, Material material) {
-		int y1 = findLastEmptyBelow(x, y2, z);
+	public void setBlocksDownward(int x, int y2, int z, int minY, Material material) {
+		int y1 = findLastEmptyBelow(x, y2, z, minY);
 		setBlocks(x, y1, y2, z, material);
 	}
 	

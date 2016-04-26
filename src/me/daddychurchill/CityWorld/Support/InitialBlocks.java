@@ -34,6 +34,7 @@ public final class InitialBlocks extends AbstractBlocks {
 		return false;
 	}
 	
+	@Override
 	public boolean isEmpty(int x, int y, int z) {
 		return chunkData.getType(x, y, z).equals(Material.AIR);
 	}
@@ -130,43 +131,6 @@ public final class InitialBlocks extends AbstractBlocks {
 					setBlock(x, y, z, material);
 			}
 		}
-	}
-	
-	@Override
-	public final int findFirstEmpty(int x, int y, int z) {
-		if (isEmpty(x, y, z))
-			return findLastEmptyBelow(x, y, z);
-		else
-			return findFirstEmptyAbove(x, y, z);
-	}
-	
-	@Override
-	public final int findFirstEmptyAbove(int x, int y, int z) {
-		int y1 = y;
-		while (y1 < height - 1) {
-			if (isEmpty(x, y1, z))
-				return y1;
-			y1++;
-		}
-		return height - 1;
-	}
-	
-	@Override
-	public int findLastEmptyAbove(int x, int y, int z) {
-		int y1 = y;
-		while (y1 < height - 1 && isEmpty(x, y1 + 1, z)) {
-			y1++;
-		}
-		return y1;
-	}
-	
-	@Override
-	public int findLastEmptyBelow(int x, int y, int z) {
-		int y1 = y;
-		while (y1 > 0 && isEmpty(x, y1 - 1, z)) {
-			y1--;
-		}
-		return y1;
 	}
 	
 	public void setArcNorthWest(int inset, int y1, int y2, Material primary, boolean fill) {
