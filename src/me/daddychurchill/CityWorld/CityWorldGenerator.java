@@ -134,8 +134,8 @@ public class CityWorldGenerator extends ChunkGenerator {
 			reportMessage("*****************************************************");
 			reportException("Needs " + minVersion + " or better", new Exception(getPluginName()));
 		}
-//		else
-//			reportMessage("Found " + this.minecraftVer + ", all is swell");
+		else
+			reportMessage("Found " + this.minecraftVer + ", CityWorld is compatible - WOOT!");
 		
 		// parse the style string
 		if (worldStyle != null) {
@@ -169,7 +169,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 		deltaSeed++;
 		return worldSeed + deltaSeed;
 	}
-
+	
 	@Override
 	public List<BlockPopulator> getDefaultPopulators(World world) {
 		return Arrays.asList((BlockPopulator) new CityWorldBlockPopulator(this));

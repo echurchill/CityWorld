@@ -135,7 +135,10 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			
 			chunk.setCircle(8, 8, 4, bottomOfPit - 1, wallMat, true);
 			chunk.setCircle(8, 8, 4, bottomOfPit, topOfPit, airMat, true);
-			chunk.setCircle(8, 8, 4, bottomOfPit, pitLevel, fluidMat, true);
+			if (fluidMat == Material.STAINED_CLAY || fluidMat == Material.STAINED_GLASS)
+				chunk.setCircle(8, 8, 4, bottomOfPit, pitLevel, fluidMat, chunkOdds.getRandomColor(), true);
+			else
+				chunk.setCircle(8, 8, 4, bottomOfPit, pitLevel, fluidMat, true);
 			chunk.setCircle(8, 8, 4, bottomOfPit, topOfPit, wallMat); // put the wall up quick!
 
 			generateSkyWalkCross(generator, chunk, heights, skywalkAt, roofAt);
@@ -146,7 +149,10 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			int tankLevel = topOfTank - chunkOdds.getRandomInt(3) - 1;
 			
 			chunk.setCircle(8, 8, 4, bottomOfTank - 1, wallMat, true);
-			chunk.setCircle(8, 8, 4, bottomOfTank, tankLevel, fluidMat, true);
+			if (fluidMat == Material.STAINED_CLAY || fluidMat == Material.STAINED_GLASS)
+				chunk.setCircle(8, 8, 4, bottomOfTank, tankLevel, fluidMat, chunkOdds.getRandomColor(), true);
+			else
+				chunk.setCircle(8, 8, 4, bottomOfTank, tankLevel, fluidMat, true);
 			chunk.setCircle(8, 8, 4, bottomOfTank, topOfTank, wallMat); // put the wall up quick!
 
 			chunk.setBlocks(4, 6, groundY, bottomOfTank + 1, 4, 6, supportMat);

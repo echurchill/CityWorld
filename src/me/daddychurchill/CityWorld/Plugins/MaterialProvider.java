@@ -307,6 +307,10 @@ public class MaterialProvider {
 			Material.ENDER_STONE,
 			Material.STONE,
 			Material.RED_SANDSTONE,
+			Material.PRISMARINE,
+			Material.PURPUR_BLOCK,
+			Material.PURPUR_PILLAR,
+			Material.END_BRICKS,
 			Material.DOUBLE_STONE_SLAB2);
 
 	public final static String tagSelectMaterial_BuildingCeilings = "Materials_For_BuildingCeilings";
@@ -330,6 +334,10 @@ public class MaterialProvider {
 			Material.ENDER_STONE,
 			Material.STONE,
 			Material.RED_SANDSTONE,
+			Material.PRISMARINE,
+			Material.PURPUR_BLOCK,
+			Material.PURPUR_PILLAR,
+			Material.END_BRICKS,
 			Material.DOUBLE_STONE_SLAB2);
 
 	public final static String tagSelectMaterial_BuildingRoofs = "Materials_For_BuildingRoofs";
@@ -353,6 +361,10 @@ public class MaterialProvider {
 			Material.ENDER_STONE,
 			Material.STONE,
 			Material.RED_SANDSTONE,
+			Material.PRISMARINE,
+			Material.PURPUR_BLOCK,
+			Material.PURPUR_PILLAR,
+			Material.END_BRICKS,
 			Material.DOUBLE_STONE_SLAB2);
 
 	public final static String tagSelectMaterial_UnfinishedBuildings = "Materials_For_UnfinishedBuildings";
@@ -378,6 +390,9 @@ public class MaterialProvider {
 			Material.NETHER_BRICK,
 			Material.BRICK,
 			Material.CLAY,
+			Material.PRISMARINE,
+			Material.PURPUR_BLOCK,
+			Material.END_BRICKS,
 			Material.WOOD);
 	
 	public final static String tagSelectMaterial_HouseFloors = "Materials_For_HouseFloors";
@@ -495,6 +510,8 @@ public class MaterialProvider {
 			Material.COAL_BLOCK,
 			Material.SAND,
 			Material.GLASS,
+			Material.STAINED_CLAY,
+			Material.STAINED_GLASS,
 			Material.STATIONARY_WATER);
 
 	public final static String tagSelectMaterial_BunkerBuildings = "Materials_For_BunkerBuildings";

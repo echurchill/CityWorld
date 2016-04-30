@@ -51,8 +51,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	protected enum RoofStyle {FLATTOP, EDGED, PEAK, PEAKS, DUPLOS, BOXED, TENT_NORTHSOUTH, TENT_WESTEAST, 
 		INSET_BOX, INSET_BOXES, RAISED_BOX, RAISED_BOXES, OUTSET_BOX, INSET_RIDGEBOX, INSET_RIDGEBOXES};
 		//, SLANT_NORTH, SLANT_SOUTH, SLANT_WEST, SLANT_EAST};
-	protected enum RoofFeature {PLAIN, ANTENNAS, CONDITIONERS, TILE, SKYLIGHT, SKYPEAK, ALTPEAK, 
-		SKYLIGHT_NS, SKYLIGHT_WE, SKYLIGHT_BOX, SKYLIGHT_TINY, SKYLIGHT_CHECKERS};
+	protected enum RoofFeature {PLAIN, ANTENNAS, CONDITIONERS, TILE, SKYLIGHT, SKYPEAK, ALTPEAK, ALTPEAK2, 
+		SKYLIGHT_NS, SKYLIGHT_WE, SKYLIGHT_BOX, SKYLIGHT_TINY, SKYLIGHT_CHECKERS, SKYLIGHT_CROSS};
 	protected RoofStyle roofStyle;
 	protected RoofFeature roofFeature;
 	protected int roofScale;
@@ -1956,6 +1956,16 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			chunk.setWalls(6, 10, y1, y1 + 1, 6, 10, material);
 			chunk.setBlocks(7, 9, y1 + 1, y1 + 2, 7, 9, Material.GLASS);
 			break;
+		case ALTPEAK2:
+			chunk.setBlocks(5, 6, y1 - 1, 6, 10, material);
+			chunk.setBlocks(10, 11, y1 - 1, 6, 10, material);
+			chunk.setBlocks(6, 10, y1 - 1, 5, 6, material);
+			chunk.setBlocks(6, 10, y1 - 1, 10, 11, material);
+			chunk.setBlocks(6, 10, y1 - 1, 6, 10, Material.AIR);
+
+			chunk.setWalls(6, 10, y1, y1 + 1, 6, 10, material);
+			chunk.setBlocks(7, 9, y1 + 1, y1 + 2, 7, 9, Material.GLASS);
+			break;
 		case SKYLIGHT_NS:
 			chunk.setBlocks(6, 10, y1 - 1, 6, 7, Material.GLASS); //TODO these should only create class if the surrounding blocks are set to something
 			chunk.setBlocks(6, 10, y1 - 1, 9, 10, Material.GLASS);
@@ -1982,6 +1992,10 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			chunk.setBlock(8, y1 - 1, 8, Material.GLASS);
 			chunk.setBlock(7, y1 - 1, 9, Material.GLASS);
 			chunk.setBlock(9, y1 - 1, 9, Material.GLASS);
+			break;
+		case SKYLIGHT_CROSS:
+			chunk.setBlocks(7, 9, y1 - 1, 6, 10, Material.GLASS);
+			chunk.setBlocks(6, 10, y1 - 1, 7, 9, Material.GLASS);
 			break;
 		}
 	}
