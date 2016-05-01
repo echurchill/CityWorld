@@ -2,10 +2,18 @@ package me.daddychurchill.CityWorld.Support;
 
 public class BadMagic {
 	public enum Facing { // clockwise starting with South
-		SOUTH, // 0 - increasing Z
-		WEST,  // 1 - decreasing X
-		NORTH, // 2 - decreasing Z 
-		EAST   // 3 - increasing X
+		SOUTH(0), // 0 - increasing Z
+		WEST(1),  // 1 - decreasing X
+		NORTH(2), // 2 - decreasing Z 
+		EAST(3);  // 3 - increasing X
+		
+		private byte data;
+		private Facing(int d) {
+			data = (byte) d;
+		}
+		public byte getData() {
+			return data;
+		}
 	};
 
 // Retired 12/28/15
@@ -38,7 +46,7 @@ public class BadMagic {
 	};
 
 	public enum TrapDoor {
-		SOUTH(0), NORTH(1), EAST(2), WEST(3),
+		SOUTH(0), NORTH(1), EAST(2), WEST(3), // these are the same as Facing's values
 		SOUTH_UP(4 + 0), NORTH_UP(4 + 1), EAST_UP(4 + 2), WEST_UP(4 + 3),
 		TOP_SOUTH(8 + 0), TOP_NORTH(8 + 1), TOP_EAST(8 + 2), TOP_WEST(8 + 3),
 		TOP_SOUTH_DOWN(8 + 4 + 0), TOP_NORTH_DOWN(8 + 4 + 1), TOP_EAST_DOWN(8 + 4 + 2), TOP_WEST_DOWN(8 + 4 + 3);

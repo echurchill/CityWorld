@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plats.Rural;
 
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
@@ -54,8 +55,10 @@ public class HouseLot extends IsolatedLot {
 		// not a happy place?
 		if (generator.settings.includeDecayedBuildings)
 			destroyBuilding(generator, generator.streetLevel + 1, floors);
-		else
+		else {
 			generateSurface(generator, chunk, false);
+			chunk.spawnEntity(chunkOdds, generator.settings.spawnBuddies, 5, generator.streetLevel + 1, 5, EntityType.VILLAGER);
+		}
 	}
 
 }

@@ -413,6 +413,16 @@ public class CornerBlocks {
 			{WWW, non, WWW, Brr, Brr, Brr, Brr},
 		}));
 		
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WGG},
+			{FLR, FLR, FLR, BWW, BWW, BDD, WWW},
+			{FLR, FLR, BWW, BNN, BNN, BNN, Brr},
+			{FLR, FLR, BWW, BNN, BNN, BNN, Brr},
+			{FLR, FLR, BDD, BNN, BNN, BNN, Brr},
+			{WWW, WGG, WWW, Brr, Brr, Brr, WWW},
+		}));
+		
 //		corners.add(new CustomCorner(new byte[][] {
 //		}));
 //

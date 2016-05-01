@@ -5,6 +5,7 @@ import me.daddychurchill.CityWorld.Plugins.SurfaceProvider_Floating;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider_Floating.SubSurfaceStyle;
 import me.daddychurchill.CityWorld.Plugins.TreeProvider;
 import me.daddychurchill.CityWorld.Plugins.TreeProvider.TreeStyle;
+import me.daddychurchill.CityWorld.Support.AbstractBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
 
 import org.bukkit.configuration.ConfigurationSection;
@@ -36,6 +37,10 @@ public class CityWorldSettings {
 	public boolean includeOres = true;
 	public boolean includeBones = true;
 	
+	public double spawnBuddies = Odds.oddsLikely;
+	public double spawnEnemies = Odds.oddsLikely;
+	public double spawnAnimals = Odds.oddsLikely;
+	
 	public boolean spawnersInBunkers = true;
 	public boolean spawnersInMines = true;
 	public boolean spawnersInSewers = true;
@@ -61,13 +66,14 @@ public class CityWorldSettings {
 	public TreeStyle treeStyle = TreeStyle.NORMAL;
 	public SubSurfaceStyle subSurfaceStyle = SubSurfaceStyle.LAND;
 
+	public final static int maxRadius = 30000000 / AbstractBlocks.sectionBlockWidth; // 1875000 is the actual maximum chunk limit for today's minecraft world format
 	public int centerPointOfChunkRadiusX = 0;
 	public int centerPointOfChunkRadiusZ = 0;
-	public int constructChunkRadius = Integer.MAX_VALUE;
+	public int constructChunkRadius = maxRadius;
 	public boolean checkConstructRange = false;
-	public int roadChunkRadius = Integer.MAX_VALUE;
+	public int roadChunkRadius = maxRadius;
 	public boolean checkRoadRange = false;
-	public int cityChunkRadius = Integer.MAX_VALUE;
+	public int cityChunkRadius = maxRadius;
 	public boolean checkCityRange = false;
 	public boolean buildOutsideRadius = false;
 	
@@ -99,6 +105,10 @@ public class CityWorldSettings {
 	public final static String tagIncludeMountains = "IncludeMountains";
 	public final static String tagIncludeOres = "IncludeOres";
 	public final static String tagIncludeBones = "IncludeBones";
+	
+	public final static String tagSpawnBuddies = "SpawnBuddies";
+	public final static String tagSpawnEnemies = "SpawnEnemies";
+	public final static String tagSpawnAnimals = "SpawnAnimals";
 	
 	public final static String tagSpawnersInBunkers = "SpawnersInBunkers";
 	public final static String tagSpawnersInMines = "SpawnersInMines";
@@ -230,6 +240,10 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeOres, includeOres);
 			section.addDefault(tagIncludeBones, includeBones);
 			
+			section.addDefault(tagSpawnBuddies, spawnBuddies);
+			section.addDefault(tagSpawnEnemies, spawnEnemies);
+			section.addDefault(tagSpawnAnimals, spawnAnimals);
+			
 			section.addDefault(tagSpawnersInBunkers, spawnersInBunkers);
 			section.addDefault(tagSpawnersInMines, spawnersInMines);
 			section.addDefault(tagSpawnersInSewers, spawnersInSewers);
@@ -281,13 +295,17 @@ public class CityWorldSettings {
 			includeOres = section.getBoolean(tagIncludeOres, includeOres);
 			includeBones = section.getBoolean(tagIncludeBones, includeBones);
 
-			spawnersInSewers = section.getBoolean(tagSpawnersInSewers, spawnersInSewers);
-			spawnersInMines = section.getBoolean(tagSpawnersInMines, spawnersInMines);
+			spawnBuddies = limitTo(section.getDouble(tagSpawnBuddies, spawnBuddies), 0, 1);
+			spawnEnemies = limitTo(section.getDouble(tagSpawnEnemies, spawnEnemies), 0, 1);
+			spawnAnimals = limitTo(section.getDouble(tagSpawnAnimals, spawnAnimals), 0, 1);
+
 			spawnersInBunkers = section.getBoolean(tagSpawnersInBunkers, spawnersInBunkers);
+			spawnersInMines = section.getBoolean(tagSpawnersInMines, spawnersInMines);
+			spawnersInSewers = section.getBoolean(tagSpawnersInSewers, spawnersInSewers);
 			
-			treasuresInSewers = section.getBoolean(tagTreasuresInSewers, treasuresInSewers);
-			treasuresInMines = section.getBoolean(tagTreasuresInMines, treasuresInMines);
 			treasuresInBunkers = section.getBoolean(tagTreasuresInBunkers, treasuresInBunkers);
+			treasuresInMines = section.getBoolean(tagTreasuresInMines, treasuresInMines);
+			treasuresInSewers = section.getBoolean(tagTreasuresInSewers, treasuresInSewers);
 
 			materials.read(generator, section);
 			
@@ -316,9 +334,9 @@ public class CityWorldSettings {
 			centerPointOfChunkRadiusX = section.getInt(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
 			centerPointOfChunkRadiusZ = section.getInt(tagCenterPointOfChunkRadiusZ, centerPointOfChunkRadiusZ);
 			centerPointOfChunkRadius = new Vector(centerPointOfChunkRadiusX, 0, centerPointOfChunkRadiusZ);
-			constructChunkRadius = Math.max(0, section.getInt(tagConstructChunkRadius, constructChunkRadius));
-			roadChunkRadius = Math.max(0, section.getInt(tagRoadChunkRadius, roadChunkRadius));
-			cityChunkRadius = Math.max(0, section.getInt(tagCityChunkRadius, cityChunkRadius));
+			constructChunkRadius = limitTo(section.getInt(tagConstructChunkRadius, constructChunkRadius), 0, maxRadius);
+			roadChunkRadius = limitTo(section.getInt(tagRoadChunkRadius, roadChunkRadius), 0, maxRadius);
+			cityChunkRadius = limitTo(section.getInt(tagCityChunkRadius, cityChunkRadius), 0, maxRadius);
 			buildOutsideRadius = section.getBoolean(tagBuildOutsideRadius, buildOutsideRadius);
 			
 			// validate the range values
@@ -392,6 +410,10 @@ public class CityWorldSettings {
 			section.set(tagIncludeMountains, includeMountains);
 			section.set(tagIncludeOres, includeOres);
 			section.set(tagIncludeBones, includeBones);
+			
+			section.set(tagSpawnBuddies, spawnBuddies);
+			section.set(tagSpawnEnemies, spawnEnemies);
+			section.set(tagSpawnAnimals, spawnAnimals);
 			
 			section.set(tagSpawnersInBunkers, spawnersInBunkers);
 			section.set(tagSpawnersInMines, spawnersInMines);
@@ -685,6 +707,14 @@ public class CityWorldSettings {
 	private void deprecateOption(ConfigurationSection section, String oldOption, String message) {
 		if (section.contains(oldOption))
 			section.set(oldOption, message);
+	}
+	
+	private double limitTo(double value, double min, double max) {
+		return Math.max(min, Math.max(max, value));
+	}
+	
+	private int limitTo(int value, int min, int max) {
+		return Math.max(min, Math.max(max, value));
 	}
 	
 	private Vector centerPointOfChunkRadius;

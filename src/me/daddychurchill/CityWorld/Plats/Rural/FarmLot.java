@@ -17,6 +17,7 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 import me.daddychurchill.CityWorld.Support.SurroundingLots;
+import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
 
 public class FarmLot extends ConnectedLot {
 
@@ -177,24 +178,21 @@ public class FarmLot extends ConnectedLot {
 		
 		boolean fallowField = false;
 		Material fallowMaterial = getAirMaterial(generator, croplevel - 1);
+		int cropY = generator.streetLevel + 1;
 		
 		switch (cropType) {
 		case PADDOCK:
-			chunk.setWalls(1, 15, generator.streetLevel + 1, generator.streetLevel + 2, 1, 15, Material.FENCE);
+			chunk.setWalls(1, 15, cropY, cropY + 1, 1, 15, Material.FENCE);
 			
 			// TODO: I fix the gates one of these days
 			if (chunkOdds.flipCoin())
-				chunk.setBlock(7, generator.streetLevel + 1, 1, Material.AIR);
-//				chunk.setBlock(7, generator.streetLevel + 1, 1, Material.FENCE_GATE);
+				BlackMagic.setBlock(chunk, 7, cropY, 1, Material.FENCE_GATE, Facing.NORTH.getData()); // face north
 			if (chunkOdds.flipCoin())
-				chunk.setBlock(7, generator.streetLevel + 1, 14, Material.AIR);
-//				chunk.setBlock(7, generator.streetLevel + 1, 14, Material.FENCE_GATE);
+				BlackMagic.setBlock(chunk, 7, cropY, 14, Material.FENCE_GATE, Facing.SOUTH.getData()); // face south
 			if (chunkOdds.flipCoin())
-				chunk.setBlock(1, generator.streetLevel + 1, 7, Material.AIR);
-//				chunk.setBlock(1, generator.streetLevel + 1, 7, Material.FENCE_GATE);
+				BlackMagic.setBlock(chunk, 1, cropY, 7, Material.FENCE_GATE, Facing.WEST.getData()); // face west
 			if (chunkOdds.flipCoin())
-				chunk.setBlock(14, generator.streetLevel + 1, 7, Material.AIR);
-//				chunk.setBlock(14, generator.streetLevel + 1, 7, Material.FENCE_GATE);
+				BlackMagic.setBlock(chunk, 14, cropY, 7, Material.FENCE_GATE, Facing.EAST.getData()); // face east
 			break;
 		case TRELLIS:
 		case VINES:
@@ -297,6 +295,11 @@ public class FarmLot extends ConnectedLot {
 		
 			switch (cropType) {
 			case PADDOCK:
+				if (!generator.settings.includeDecayedBuildings) {
+					
+					chunk.spawnVeneryOfAnimals(generator, chunkOdds, 7, cropY, 7);
+				}
+				break;
 			case FALLOW:
 			case TRELLIS:
 				break;
@@ -675,6 +678,14 @@ public class FarmLot extends ConnectedLot {
 		CropType.TALL_PLANTS,
 //		CropType.ALL_PLANTS,
 		CropType.EDIBLE_PLANTS,
+		CropType.PADDOCK,
+		CropType.PADDOCK,
+		CropType.PADDOCK,
+		CropType.PADDOCK,
+		CropType.PADDOCK,
+		CropType.PADDOCK,
+		CropType.PADDOCK,
+		CropType.PADDOCK,
 		CropType.PADDOCK
 		};
 	

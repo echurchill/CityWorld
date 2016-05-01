@@ -877,6 +877,66 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 	
+	// https://en.wikipedia.org/wiki/List_of_English_terms_of_venery,_by_animal
+	public final void spawnVeneryOfAnimals(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
+		switch (odds.getRandomInt(14)) {
+		default:
+		case 0:
+		case 1:
+			spawnTwoAnimals(generator, odds, x, y, z, EntityType.HORSE);
+			break;
+		case 2:
+		case 3:
+			spawnTwoAnimals(generator, odds, x, y, z, EntityType.COW);
+			break;
+		case 4:
+		case 5:
+			spawnTwoAnimals(generator, odds, x, y, z, EntityType.SHEEP);
+			break;
+		case 6:
+		case 7:
+			spawnTwoAnimals(generator, odds, x, y, z, EntityType.PIG);
+			break;
+		case 8:
+		case 9:
+			spawnSixAnimals(generator, odds, x, y, z, EntityType.CHICKEN);
+			break;
+		case 10:
+		case 11:
+			spawnFourAnimals(generator, odds, x, y, z, EntityType.RABBIT);
+			break;
+		case 12:
+			spawnTwoAnimals(generator, odds, x, y, z, EntityType.WOLF);
+			break;
+		case 13:
+			spawnTwoAnimals(generator, odds, x, y, z, EntityType.OCELOT);
+			break;
+		}
+	}
+	
+	public final void spawnSixAnimals(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
+		spawnTwoAnimals(generator, odds, x, y, z - 1, entity);
+		spawnTwoAnimals(generator, odds, x, y, z, entity);
+		spawnTwoAnimals(generator, odds, x, y, z + 1, entity);
+	}
+	
+	public final void spawnFourAnimals(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
+		spawnTwoAnimals(generator, odds, x, y, z, entity);
+		spawnTwoAnimals(generator, odds, x, y, z + 1, entity);
+	}
+	
+	public final void spawnTwoAnimals(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
+		spawnEntity(odds, generator.settings.spawnAnimals, x, y, z, entity);
+		spawnEntity(odds, generator.settings.spawnAnimals, x + 1, y, z, entity);
+	}
+	
+	public final void spawnEntity(Odds odds, double chances, int x, int y, int z, EntityType entity) {
+		if (odds.playOdds(chances)) {
+			clearBlocks(x, y, y + 2, z);
+			world.spawnEntity(getBlockLocation(x, y, z), entity);
+		}
+	}
+	
 	public final void setBed(int x, int y, int z, Facing direction) {
 		switch (direction) {
 		case EAST:

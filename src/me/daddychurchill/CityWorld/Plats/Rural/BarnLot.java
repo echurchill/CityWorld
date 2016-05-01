@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Plats.Rural;
 import org.bukkit.Material;
 import org.bukkit.TreeSpecies;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.EntityType;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Wood;
@@ -12,10 +13,14 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.IsolatedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
+import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
 import me.daddychurchill.CityWorld.Support.BadMagic.General;
+import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class BarnLot extends IsolatedLot {
 
@@ -92,10 +97,50 @@ public class BarnLot extends IsolatedLot {
 		if (!firstDoor && !secondDoor)
 			firstDoor = true;
 		
+		// paddocks
+		boolean firstPaddock = chunkOdds.playOdds(Odds.oddsSomewhatUnlikely);
+		boolean secondPaddock = chunkOdds.playOdds(Odds.oddsSomewhatUnlikely);
+		
 		// NORTH/SOUTH or EAST/WEST
 		if (chunkOdds.flipCoin()) {
-			hayPile(chunk, 2, 5, y1, 2, 14);
-			hayPile(chunk, 11, 14, y1, 2, 14);
+			
+			// bottom stuff
+			if (firstPaddock) {
+
+				// generate fence & gate
+				chunk.setBlocks(4, 5, y1, 2, 6, Material.FENCE);
+				chunk.setBlocks(4, 5, y1, 10, 14, Material.FENCE);
+				chunk.setBlocks(5, 6, y1, 5, 11, Material.FENCE);
+				BlackMagic.setBlocks(chunk, 5, 6, y1, 7, 9, Material.FENCE_GATE, Facing.EAST.getData()); // open east
+
+				// hay & water please
+				chunk.setBlock(2, y1, 2, Material.HAY_BLOCK);
+				BlackMagic.setBlock(chunk, 2, y1, 13, Material.CAULDRON, chunkOdds.calcRandomRange(1, 3));
+				
+				// spawn horses
+				spawnHorses(generator, chunk, 2, y1, 7);
+			} else
+				// or just a pile of hay
+				hayPile(chunk, 2, 5, y1, 2, 14);
+			if (secondPaddock) {
+				
+				// generate fence & gate
+				chunk.setBlocks(11, 12, y1, 2, 6, Material.FENCE);
+				chunk.setBlocks(11, 12, y1, 10, 14, Material.FENCE);
+				chunk.setBlocks(10, 11, y1, 5, 11, Material.FENCE);
+				BlackMagic.setBlocks(chunk, 10, 11, y1, 7, 9, Material.FENCE_GATE, Facing.WEST.getData()); // open west
+
+				// hay & water please
+				chunk.setBlock(13, y1, 2, Material.HAY_BLOCK);
+				BlackMagic.setBlock(chunk, 13, y1, 13, Material.CAULDRON, chunkOdds.calcRandomRange(1, 3));
+				
+				// spawn horses
+				spawnHorses(generator, chunk, 12, y1, 7);
+			} else
+				// or just a pile of hay
+				hayPile(chunk, 11, 14, y1, 2, 14);
+			
+			// top stuff
 			hayLoft(chunk, 2, 5, y2, 2, 14);
 			hayLoft(chunk, 11, 14, y2, 2, 14);
 
@@ -160,8 +205,43 @@ public class BarnLot extends IsolatedLot {
 			punchWindows(chunk, 7, y3 + 2, 14);
 			punchWindows(chunk, 8, y3 + 2, 14);
 		} else {
-			hayPile(chunk, 2, 14, y1, 2, 5);
-			hayPile(chunk, 2, 14, y1, 11, 14);
+			// bottom stuff
+			if (firstPaddock) {
+				
+				// generate fence & gate
+				chunk.setBlocks(2, 6, y1, 4, 5, Material.FENCE);
+				chunk.setBlocks(10, 14, y1, 4, 5, Material.FENCE);
+				chunk.setBlocks(5, 11, y1, 5, 6, Material.FENCE);
+				BlackMagic.setBlocks(chunk, 7, 9, y1, 5, 6, Material.FENCE_GATE, Facing.SOUTH.getData()); // open south
+
+				// hay & water please
+				chunk.setBlock(2, y1, 2, Material.HAY_BLOCK);
+				BlackMagic.setBlock(chunk, 13, y1, 2, Material.CAULDRON, chunkOdds.calcRandomRange(1, 3));
+				
+				// spawn horses
+				spawnHorses(generator, chunk, 7, y1, 2);
+			} else
+				// or just a pile of hay
+				hayPile(chunk, 2, 14, y1, 2, 5);
+			if (secondPaddock) {
+				
+				// generate fence & gate
+				chunk.setBlocks(2, 6, y1, 11, 12, Material.FENCE);
+				chunk.setBlocks(10, 14, y1, 11, 12, Material.FENCE);
+				chunk.setBlocks(5, 11, y1, 10, 11, Material.FENCE);
+				BlackMagic.setBlocks(chunk, 7, 9, y1, 10, 11, Material.FENCE_GATE, Facing.NORTH.getData()); // open north
+
+				// hay & water please
+				chunk.setBlock(2, y1, 13, Material.HAY_BLOCK);
+				BlackMagic.setBlock(chunk, 13, y1, 13, Material.CAULDRON, chunkOdds.calcRandomRange(1, 3));
+				
+				// spawn horses
+				spawnHorses(generator, chunk, 7, y1, 13);
+			} else
+				// or just a pile of hay
+				hayPile(chunk, 2, 14, y1, 11, 14);
+			
+			// top stuff
 			hayLoft(chunk, 2, 14, y2, 2, 5);
 			hayLoft(chunk, 2, 14, y2, 11, 14);
 
@@ -229,7 +309,11 @@ public class BarnLot extends IsolatedLot {
 		
 		// not a happy place?
 		if (generator.settings.includeDecayedBuildings)
-			destroyBuilding(generator, generator.streetLevel + 1, 3);
+			destroyBuilding(generator, y1, 3);
+	}
+	
+	private void spawnHorses(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
+		chunk.spawnTwoAnimals(generator, chunkOdds, x, y, z, EntityType.HORSE);
 	}
 	
 	private void punchWindows(RealBlocks chunk, int y) {
