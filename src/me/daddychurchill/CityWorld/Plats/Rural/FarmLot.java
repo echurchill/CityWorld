@@ -295,8 +295,8 @@ public class FarmLot extends ConnectedLot {
 		
 			switch (cropType) {
 			case PADDOCK:
+				generateSurface(generator, chunk, false);
 				if (!generator.settings.includeDecayedBuildings) {
-					
 					chunk.spawnVeneryOfAnimals(generator, chunkOdds, 7, cropY, 7);
 				}
 				break;
@@ -377,12 +377,14 @@ public class FarmLot extends ConnectedLot {
 				break;
 			case OAK_SAPLING:
 				plantSaplings(generator, chunk, croplevel, CoverageType.OAK_SAPLING);
+				generateSurface(generator, chunk, false);
 				break;
 //			case SPRUCE_SAPLING:
 //				plantSaplings(generator, chunk, croplevel, CoverageType.SPRUCE_SAPLING);
 //				break;
 			case BIRCH_SAPLING:
 				plantSaplings(generator, chunk, croplevel, CoverageType.BIRCH_SAPLING);
+				generateSurface(generator, chunk, false);
 				break;
 //			case JUNGLE_SAPLING:
 //				plantSaplings(generator, chunk, croplevel, CoverageType.JUNGLE_SAPLING);
@@ -395,12 +397,14 @@ public class FarmLot extends ConnectedLot {
 //				break;
 			case OAK_TREE:
 				plantTrees(generator, chunk, croplevel, CoverageSets.OAK_TREES);
+				generateSurface(generator, chunk, false);
 				break;
 //			case PINE_TREE:
 //				plantTrees(generator, chunk, croplevel, CoverageSets.PINE_TREES);
 //				break;
 			case BIRCH_TREE:
 				plantTrees(generator, chunk, croplevel, CoverageSets.BIRCH_TREES);
+				generateSurface(generator, chunk, false);
 				break;
 //			case JUNGLE_TREE:
 //				plantTrees(generator, chunk, croplevel, CoverageSets.JUNGLE_TREES);
@@ -457,7 +461,6 @@ public class FarmLot extends ConnectedLot {
 				plantField(generator, chunk, croplevel, CoverageSets.ALL_PLANTS, 2, 2);
 				break;
 			case PRARIE_PLANTS:
-				
 				plantField(generator, chunk, croplevel, CoverageSets.PRARIE_PLANTS, 1, 3);
 				break;
 			case EDIBLE_PLANTS:

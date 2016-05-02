@@ -37,8 +37,8 @@ public class ParkLot extends ConnectedLot {
 	//TODO park benches
 	//TODO gazebos
 	
-	private enum centerStyles {CROSS_PATH, CIRCLE_PATH, WATER_TOWER, HEDGE_MAZE, CIRCLE_MAZE, LABYRINTH_MAZE};
-	private centerStyles centerStyle;
+	public enum CenterStyles {CROSS_PATH, CIRCLE_PATH, WATER_TOWER, HEDGE_MAZE, CIRCLE_MAZE, LABYRINTH_MAZE};
+	private CenterStyles centerStyle;
 	
 	protected int waterDepth;
 	
@@ -54,19 +54,19 @@ public class ParkLot extends ConnectedLot {
 		waterDepth = depth;
 	}
 	
-	private centerStyles getRandomCenterStyle() {
+	private CenterStyles getRandomCenterStyle() {
 		if (chunkOdds.playOdds(Odds.oddsExtremelyUnlikely))
-			return centerStyles.LABYRINTH_MAZE;
+			return CenterStyles.LABYRINTH_MAZE;
 		else if (chunkOdds.playOdds(Odds.oddsExtremelyUnlikely))
-			return centerStyles.HEDGE_MAZE;
+			return CenterStyles.HEDGE_MAZE;
 		else if (chunkOdds.playOdds(Odds.oddsExtremelyUnlikely))
-			return centerStyles.CIRCLE_MAZE;
+			return CenterStyles.CIRCLE_MAZE;
 		else if (chunkOdds.playOdds(Odds.oddsExtremelyUnlikely))
-			return centerStyles.WATER_TOWER;
+			return CenterStyles.WATER_TOWER;
 		else if (chunkOdds.playOdds(Odds.oddsSomewhatLikely))
-			return centerStyles.CIRCLE_PATH;
+			return CenterStyles.CIRCLE_PATH;
 		else
-			return centerStyles.CROSS_PATH;
+			return CenterStyles.CROSS_PATH;
 	}
 	
 	public static int getWaterDepth(Odds odds) {
@@ -318,9 +318,11 @@ public class ParkLot extends ConnectedLot {
 			switch (centerStyle) {
 			case CIRCLE_PATH:
 				generator.coverProvider.generateRandomCoverage(generator, chunk, 7, surfaceY, 7, tallTrees);
+				generateSurface(generator, chunk, false);
 				break;
 			case WATER_TOWER:
 				generator.structureOnGroundProvider.drawWaterTower(generator, chunk, 4, surfaceY, 4, chunkOdds);
+				generateSurface(generator, chunk, false);
 				break;
 			case LABYRINTH_MAZE:
 				chunk.setClay(1, 15, surfaceY - 1, 1, 15, DyeColor.BLUE);
@@ -398,6 +400,7 @@ public class ParkLot extends ConnectedLot {
 				for (int x = 4; x < 12; x += 7)
 					for (int z = 4; z < 12; z += 7)
 						generator.coverProvider.generateRandomCoverage(generator, chunk, x, surfaceY, z, smallTrees);
+				generateSurface(generator, chunk, false);
 				break;
 			}
 	

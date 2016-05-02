@@ -2173,10 +2173,13 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		case SANDSTONE:
 			return Material.SANDSTONE_STAIRS;
 			
-		case ENDER_STONE:
+		case END_BRICKS:
 		case BRICK:
 			return Material.BRICK_STAIRS;
 		
+		case ENDER_STONE:
+			return Material.PURPUR_STAIRS;
+			
 		case QUARTZ_BLOCK:
 			return Material.QUARTZ_STAIRS;
 			
@@ -2184,12 +2187,14 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		case COAL_BLOCK:
 			return Material.BIRCH_WOOD_STAIRS;
 			
+		case PURPUR_BLOCK:
 		case DOUBLE_STEP:
 		case HARD_CLAY:
 			return Material.DARK_OAK_STAIRS;
 			
 		case GRAVEL:
 		case SOUL_SAND:
+		case PURPUR_PILLAR:
 			return Material.ACACIA_STAIRS;
 			
 		case WOOD:
@@ -2244,6 +2249,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 
 		case RED_SANDSTONE_STAIRS:
 			return Material.RED_SANDSTONE;
+			
+		case PURPUR_STAIRS:
+			return Material.PURPUR_BLOCK;
 
 		default:
 			return Material.SMOOTH_BRICK;

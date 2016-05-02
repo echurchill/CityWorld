@@ -50,14 +50,15 @@ public class HouseLot extends IsolatedLot {
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
 		// now make a house
-		int floors = generator.structureOnGroundProvider.generateHouse(generator, chunk, context, chunkOdds, generator.streetLevel + 1, 2);
+		int atY = generator.streetLevel + 1;
+		int floors = generator.structureOnGroundProvider.generateHouse(generator, chunk, context, chunkOdds, atY, 2);
 		
 		// not a happy place?
 		if (generator.settings.includeDecayedBuildings)
-			destroyBuilding(generator, generator.streetLevel + 1, floors);
+			destroyBuilding(generator, atY, floors);
 		else {
 			generateSurface(generator, chunk, false);
-			chunk.spawnEntity(chunkOdds, generator.settings.spawnBuddies, 5, generator.streetLevel + 1, 5, EntityType.VILLAGER);
+			chunk.spawnEntity(chunkOdds, generator.settings.spawnBuddies, 5, atY, 5, EntityType.VILLAGER);
 		}
 	}
 

@@ -37,6 +37,7 @@ public class WaterTowerLot extends IsolatedLot {
 			destroyLot(generator, generator.streetLevel - 2, generator.streetLevel + 2);
 		} else {
 			generator.structureOnGroundProvider.drawWaterTower(generator, chunk, 4, generator.streetLevel + 1, 4, chunkOdds);
+			generateSurface(generator, chunk, false);
 		}
 	}
 	

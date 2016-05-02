@@ -1,5 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Nature;
 
+import org.bukkit.entity.EntityType;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
@@ -53,6 +54,7 @@ public class GravelworksLot extends GravelLot {
 			generateBase(generator, chunk);
 			generator.structureOnGroundProvider.generateShed(generator, chunk, context, chunkOdds, 7, generator.streetLevel + 1, 7, 
 					chunkOdds.getRandomInt(2, 2), LootLocation.STONEWORKS, LootLocation.STONEWORKSOUTPUT);
+			chunk.spawnEntity(chunkOdds, generator.settings.spawnBuddies, 7, generator.streetLevel + 1, 7, EntityType.VILLAGER);
 			break;
 			
 		case 3:

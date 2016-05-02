@@ -1,5 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Nature;
 
+import org.bukkit.entity.EntityType;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
@@ -35,11 +36,16 @@ public class MountainShackLot extends MountainFlatLot {
 		reportLocation(generator, "Shack", chunk);
 
 		// now make a shack
+		int atY = blockYs.averageHeight + 1;
 		int floors = generator.structureOnGroundProvider.generateRuralShack(generator, chunk, context, chunkOdds, 
-				blockYs.averageHeight + 1, 5);
+				atY, 5);
 		
 		// not a happy place?
 		if (generator.settings.includeDecayedBuildings)
-			destroyBuilding(generator, blockYs.averageHeight + 1, floors);
+			destroyBuilding(generator, atY, floors);
+		else {
+			generateSurface(generator, chunk, false);
+			chunk.spawnEntity(chunkOdds, generator.settings.spawnBuddies, 5, atY, 5, EntityType.VILLAGER);
+		}
 	}
 }

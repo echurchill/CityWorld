@@ -11,6 +11,7 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SurroundingLots;
 
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class StorageLot extends BuildingLot {
@@ -79,6 +80,7 @@ public class StorageLot extends BuildingLot {
 			break;
 		case SHED:
 			generator.structureOnGroundProvider.generateShed(generator, chunk, context, chunkOdds, 7, groundY, 7, 2 + chunkOdds.getRandomInt(2), LootLocation.STORAGESHED);
+			chunk.spawnEntity(chunkOdds, generator.settings.spawnBuddies, 7, groundY, 7, EntityType.VILLAGER);
 			break;
 		case TANK:
 			Material wallMat = generator.settings.materials.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_BRICK);
