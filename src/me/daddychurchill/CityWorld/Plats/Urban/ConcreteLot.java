@@ -145,6 +145,6 @@ public class ConcreteLot extends BuildingLot {
 
 	private void randomFountain(RealBlocks chunk, int x, int y, int z, Material fluid) {
 		if (chunkOdds.flipCoin())
-			chunk.setBlock(x, y + 2, z, fluid);
+			chunk.setBlocks(x, y, y + chunkOdds.calcRandomRange(2, 4), z, fluid);
 	}
 }
