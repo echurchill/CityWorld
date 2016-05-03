@@ -4,17 +4,23 @@ Not any town will do, how about one that goes on forever or multiple ones separa
 But what is under those mountains? 
 There is an entire world to explore, have fun!
 
-===== //Version 3.008// ===== 
+===== //Version 3.009// ===== 
 
 {{http://dev.bukkit.org/media/images/42/720/2012-07-04_11.31.52.jpg|CityWorld}}
 
 More pictures can be found [[http://dev.bukkit.org/server-mods/cityworld/images|here]].
 
-v3.008
-Fixed a bug where factory skywalk supports would go too far up in a destroyed world
-Minecraft (as of 1.9.2) and Spigot (as of 4/25) happy 
+v3.009
+Finally added villagers (in houses) and animal spawning (in farms)
+Finally added stuff to concrete lots, think urban non-parks parks
+Fixed a glitch that prevented grass and flowers in certain lots that should have had them
+More roof styles
+More default wall & ceiling material for buildings
+More vat & pit materials in factories
+Minecraft (as of 1.9.2) and Spigot (as of 5/2) happy 
 
-v3.006 and before
+And before that
+Fixed a bug where factory skywalk supports would go too far up in a destroyed world
 Refactored the corner of building code to make it much easier to maintain 
 Made it so that external doors in buildings don't get covered up anymore
 Fixed some destroyed and factory building issues

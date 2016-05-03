@@ -109,7 +109,8 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			chunk.setWalls(3, 13, groundY + 2, skywalkAt, 3, 13, officeMat);
 			chunk.setBlocks(3, 13, skywalkAt, 3, 13, officeMat);
 			generateOpenings(chunk, groundY);
-			chunk.spawnEntity(chunkOdds, generator.settings.spawnBuddies, 7, groundY, 7, EntityType.VILLAGER);
+			if (!generator.settings.includeDecayedBuildings)
+				chunk.spawnEntity(chunkOdds, generator.settings.spawnBuddies, 7, groundY, 7, EntityType.VILLAGER);
 			
 			// room for middle floor?
 			if (groundY + aboveFloorHeight <= skywalkAt - aboveFloorHeight) {
@@ -124,7 +125,8 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			chunk.setWalls(3, 13, skywalkAt + 3, skywalkAt + 4, 3, 13, officeMat);
 			chunk.setBlocks(3, 13, skywalkAt + 4, 3, 13, officeMat);
 			generateOpenings(chunk, skywalkAt + 1);
-			chunk.spawnEntity(chunkOdds, generator.settings.spawnBuddies, 7, skywalkAt + 1, 7, EntityType.VILLAGER);
+			if (!generator.settings.includeDecayedBuildings)
+				chunk.spawnEntity(chunkOdds, generator.settings.spawnBuddies, 7, skywalkAt + 1, 7, EntityType.VILLAGER);
 			
 			chunk.setBlocks(5, groundY, skywalkAt + 2, 5, officeMat);
 			chunk.setLadder(5, groundY, skywalkAt + 2, 6, BlockFace.NORTH);

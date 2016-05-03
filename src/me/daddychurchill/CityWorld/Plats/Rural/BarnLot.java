@@ -313,7 +313,8 @@ public class BarnLot extends IsolatedLot {
 	}
 	
 	private void spawnHorses(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
-		chunk.spawnTwoAnimals(generator, chunkOdds, x, y, z, EntityType.HORSE);
+		if (!generator.settings.includeDecayedBuildings)
+			chunk.spawnTwoAnimals(generator, chunkOdds, x, y, z, EntityType.HORSE);
 	}
 	
 	private void punchWindows(RealBlocks chunk, int y) {

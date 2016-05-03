@@ -55,6 +55,8 @@ If you are wanting to create a particular [[http://dev.bukkit.org/server-mods/ci
 
 === Trick or Treat ===
 |=Option|=Description|
+|SpawnBuddies|0.0 to 1.0 percentage chance of a villager being spawned|
+|SpawnAnimals|0.0 to 1.0 percentage chance of an animal being spawned|
 |SpawnersInSewers|If there are sewers then include spawners in them|
 |SpawnersInMines|If there are mines then include spawners in them|
 |SpawnersInBunkers|If there are bunkers then include spawners in them|

@@ -38,7 +38,7 @@ public class CityWorldSettings {
 	public boolean includeBones = true;
 	
 	public double spawnBuddies = Odds.oddsLikely;
-	public double spawnEnemies = Odds.oddsLikely;
+//	public double spawnEnemies = Odds.oddsLikely;
 	public double spawnAnimals = Odds.oddsLikely;
 	
 	public boolean spawnersInBunkers = true;
@@ -107,7 +107,7 @@ public class CityWorldSettings {
 	public final static String tagIncludeBones = "IncludeBones";
 	
 	public final static String tagSpawnBuddies = "SpawnBuddies";
-	public final static String tagSpawnEnemies = "SpawnEnemies";
+//	public final static String tagSpawnEnemies = "SpawnEnemies";
 	public final static String tagSpawnAnimals = "SpawnAnimals";
 	
 	public final static String tagSpawnersInBunkers = "SpawnersInBunkers";
@@ -241,7 +241,7 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeBones, includeBones);
 			
 			section.addDefault(tagSpawnBuddies, spawnBuddies);
-			section.addDefault(tagSpawnEnemies, spawnEnemies);
+//			section.addDefault(tagSpawnEnemies, spawnEnemies);
 			section.addDefault(tagSpawnAnimals, spawnAnimals);
 			
 			section.addDefault(tagSpawnersInBunkers, spawnersInBunkers);
@@ -296,7 +296,7 @@ public class CityWorldSettings {
 			includeBones = section.getBoolean(tagIncludeBones, includeBones);
 
 			spawnBuddies = limitTo(section.getDouble(tagSpawnBuddies, spawnBuddies), 0, 1);
-			spawnEnemies = limitTo(section.getDouble(tagSpawnEnemies, spawnEnemies), 0, 1);
+//			spawnEnemies = limitTo(section.getDouble(tagSpawnEnemies, spawnEnemies), 0, 1);
 			spawnAnimals = limitTo(section.getDouble(tagSpawnAnimals, spawnAnimals), 0, 1);
 
 			spawnersInBunkers = section.getBoolean(tagSpawnersInBunkers, spawnersInBunkers);
@@ -412,7 +412,7 @@ public class CityWorldSettings {
 			section.set(tagIncludeBones, includeBones);
 			
 			section.set(tagSpawnBuddies, spawnBuddies);
-			section.set(tagSpawnEnemies, spawnEnemies);
+//			section.set(tagSpawnEnemies, spawnEnemies);
 			section.set(tagSpawnAnimals, spawnAnimals);
 			
 			section.set(tagSpawnersInBunkers, spawnersInBunkers);

@@ -8,7 +8,9 @@ import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
+import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
 
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
@@ -16,7 +18,7 @@ public class ConcreteLot extends BuildingLot {
 
 	// flat shallow pond, inverted pyramid pond, water maze, dented in quiet zone, checkered water, water labyrinth 
 //	private enum CenterStyle {EMPTY, QUIET_ZONE, ART_ZONE, SHALLOW_POND, PYRAMID_POND, WATER_MAZE, WATER_CHECKER, WATER_CIRCLE, WATER_LABYRINTH};
-	private enum CenterStyle {EMPTY, SHALLOW_POND, ROUND_POND, PYRAMID_POND};
+	private enum CenterStyle {EMPTY, QUIET_ZONE, ART_ZONE, CHECKER_ART, SHALLOW_POND, ROUND_POND, PYRAMID_POND, CHECKER_POND};
 	private CenterStyle centerStyle;
 	
 	public ConcreteLot(PlatMap platmap, int chunkX, int chunkZ) {
@@ -29,7 +31,8 @@ public class ConcreteLot extends BuildingLot {
 	}
 
 	private CenterStyle getRandomCenterStyle() {
-		if (chunkOdds.playOdds(Odds.oddsSomewhatLikely))
+//		return CenterStyle.CHECKER_POND;
+		if (chunkOdds.playOdds(Odds.oddsUnlikely))
 			return CenterStyle.EMPTY;
 		else {
 			CenterStyle[] values = CenterStyle.values();
@@ -67,28 +70,39 @@ public class ConcreteLot extends BuildingLot {
 		case EMPTY:
 			// nothing needed here
 			break;
-//		case QUIET_ZONE:
-//			// 
-//			break;
-//		case ART_ZONE:
-//			// quiet zone with art/fountain
-//			break;
-		case SHALLOW_POND:
-			chunk.setLayer(sidewalkLevel - 2, 2, underneath);
-			chunk.setBlocks(2, 14, sidewalkLevel, 2, 14, atmosphere);
-			chunk.setBlocks(4, 12, sidewalkLevel - 1, sidewalkLevel, 4, 12, fluid);
+		case QUIET_ZONE:
+			generateSittingArea(chunk, sidewalkLevel, atmosphere, underneath);
+			chunk.setBlocks(5, 11, sidewalkLevel - 1, 5, 11, fluid);
 			randomFountain(chunk, 6, sidewalkLevel, 6, fluid);
 			randomFountain(chunk, 6, sidewalkLevel, 9, fluid);
 			randomFountain(chunk, 9, sidewalkLevel, 6, fluid);
 			randomFountain(chunk, 9, sidewalkLevel, 9, fluid);
 			break;
+		case ART_ZONE:
+			generateSittingArea(chunk, sidewalkLevel, atmosphere, underneath);
+			chunk.setBlocks(6, 10, sidewalkLevel, 6, 10, Material.QUARTZ_BLOCK);
+			RoundaboutCenterLot.generateArt(chunk, chunkOdds, 6, sidewalkLevel, 6, Material.QUARTZ_BLOCK);
+			break;
+		case SHALLOW_POND:
+			chunk.setLayer(sidewalkLevel - 2, 2, underneath);
+			chunk.setWalls(3, 13, sidewalkLevel, 3, 13, underneath);
+			chunk.setBlocks(4, 12, sidewalkLevel, 4, 12, fluid);
+			if (chunkOdds.playOdds(Odds.oddsPrettyLikely)) {
+				randomFountain(chunk, 6, sidewalkLevel, 6, fluid);
+				randomFountain(chunk, 6, sidewalkLevel, 9, fluid);
+				randomFountain(chunk, 9, sidewalkLevel, 6, fluid);
+				randomFountain(chunk, 9, sidewalkLevel, 9, fluid);
+			} else {
+				RoundaboutCenterLot.generateArt(chunk, chunkOdds, 6, sidewalkLevel, 6, Material.QUARTZ_BLOCK);
+			}
+			break;
 		case PYRAMID_POND:
-			int y = sidewalkLevel;
+			int y = sidewalkLevel + 1;
 			for (int i = 0; i < 6; i++) {
 				if (i == 0) {
 					chunk.setBlocks(2 + i, 14 - i, y, 2 + i, 14 - i, atmosphere);
 				} else {
-					chunk.setWalls(1 + i, 15 - i, y, y + 1, 1 + i, 15 - i, underneath);
+					chunk.setWalls(1 + i, 15 - i, y, 1 + i, 15 - i, underneath);
 					chunk.setBlocks(2 + i, 14 - i, y, 2 + i, 14 - i, fluid);
 					if (i == 5)
 						chunk.setBlocks(3 + i, 13 - i, y - 1, 3 + i, 13 - i, underneath);
@@ -101,31 +115,47 @@ public class ConcreteLot extends BuildingLot {
 			randomFountain(chunk, 9, sidewalkLevel, 9, fluid);
 			break;
 		case ROUND_POND:
-			chunk.setLayer(sidewalkLevel - 2, 2, underneath);
-			chunk.setCircle(8, 8, 5, sidewalkLevel, atmosphere, true);
-			chunk.setCircle(8, 8, 3, sidewalkLevel - 1, fluid, true);
-			randomFountain(chunk, 6, sidewalkLevel, 6, fluid);
-			randomFountain(chunk, 6, sidewalkLevel, 9, fluid);
-			randomFountain(chunk, 9, sidewalkLevel, 6, fluid);
-			randomFountain(chunk, 9, sidewalkLevel, 9, fluid);
+			chunk.setLayer(sidewalkLevel - 1, 1, underneath);
+			chunk.setCircle(8, 8, 5, sidewalkLevel, underneath, true);
+			chunk.setCircle(8, 8, 4, sidewalkLevel, fluid, true);
+			if (chunkOdds.playOdds(Odds.oddsPrettyLikely)) {
+				randomFountain(chunk, 6, sidewalkLevel, 6, fluid);
+				randomFountain(chunk, 6, sidewalkLevel, 9, fluid);
+				randomFountain(chunk, 9, sidewalkLevel, 6, fluid);
+				randomFountain(chunk, 9, sidewalkLevel, 9, fluid);
+			} else {
+				RoundaboutCenterLot.generateArt(chunk, chunkOdds, 6, sidewalkLevel, 6, Material.QUARTZ_BLOCK);
+			}
 			break;
-//		case WATER_CHECKER:
-//			chunk.setLayer(sidewalkLevel - 2, 2, underneath);
-//			int z = 2;
-//			for (int i = 2; i < 14; i += 2) {
-//				chunk.setBlock(i, sidewalkLevel, z, atmosphere);
-//				chunk.setBlock(i, sidewalkLevel - 1, z, fluid);
-//				chunk.setBlock(i + 1, sidewalkLevel, z + 1, atmosphere);
-//				chunk.setBlock(i + 1, sidewalkLevel - 1, z + 1, fluid);
-//				z += 2;
-//				if (z > 14)
-//					break;
-//			}
-//			break;
-//		case WATER_LABYRINTH:
-//			break;
-//		case WATER_MAZE:
-//			break;
+		case CHECKER_POND: 
+			chunk.setLayer(sidewalkLevel - 2, 2, underneath);
+			chunk.clearBlocks(2, 14, sidewalkLevel, 2, 14);
+			boolean skip = false;
+			for (int x = 2; x < 14; x += 3) {
+				skip = !skip;
+				for (int z = 2; z < 14; z += 3) {
+					skip = !skip;
+					if (!skip) {
+						chunk.setBlocks(x, x + 3, sidewalkLevel - 1, z, z + 3, fluid);
+						randomFountain(chunk, x + 1, sidewalkLevel - 1, z + 1, fluid);
+					}
+				}
+			}
+			break;
+		case CHECKER_ART: 
+			chunk.setLayer(sidewalkLevel - 2, 2, underneath);
+			chunk.clearBlocks(2, 14, sidewalkLevel, 2, 14);
+			boolean randomColor = chunkOdds.playOdds(Odds.oddsSomewhatUnlikely);
+			DyeColor color = chunkOdds.getRandomColor();
+			int inset = 0;
+			for (int z = 3; z < 13; z++) {
+				inset = inset == 1 ? 0 : 1;
+				for (int x = 3; x < 13; x += 2) {
+					chunk.setGlass(x + inset, x + inset + 1, sidewalkLevel - 1, sidewalkLevel + chunkOdds.calcRandomRange(3, 5), z, z + 1, color);
+					if (randomColor)
+						color = chunkOdds.getRandomColor();
+				}
+			}
 		}
 		
 		// it looked so nice for a moment... but the moment has passed
@@ -144,7 +174,33 @@ public class ConcreteLot extends BuildingLot {
 	}
 
 	private void randomFountain(RealBlocks chunk, int x, int y, int z, Material fluid) {
-		if (chunkOdds.flipCoin())
+		if (chunkOdds.playOdds(Odds.oddsNearlyAlwaysGoingToHappen))
 			chunk.setBlocks(x, y, y + chunkOdds.calcRandomRange(2, 4), z, fluid);
+	}
+	
+	private void generateSittingArea(RealBlocks chunk, int y, Material atmosphere, Material underneath) {
+		chunk.setLayer(y - 2, 2, underneath);
+		chunk.setBlocks(3, 13, y, y + 1, 3, 13, atmosphere);
+		if (chunkOdds.flipCoin()) {
+			for (int i = 5; i < 11; i++) {
+				chunk.setStair(i, y, 3, Material.QUARTZ_STAIRS, Stair.NORTH);
+				chunk.setStair(i, y, 12, Material.QUARTZ_STAIRS, Stair.SOUTH);
+				chunk.setStair(3, y, i, Material.QUARTZ_STAIRS, Stair.WEST);
+				chunk.setStair(12, y, i, Material.QUARTZ_STAIRS, Stair.EAST);
+			}
+		} else {
+			for (int i = 3; i < 7; i++) {
+				chunk.setStair(i, y, 3, Material.QUARTZ_STAIRS, Stair.NORTH);
+				chunk.setStair(15 - i, y, 3, Material.QUARTZ_STAIRS, Stair.NORTH);
+				chunk.setStair(i, y, 12, Material.QUARTZ_STAIRS, Stair.SOUTH);
+				chunk.setStair(15 - i, y, 12, Material.QUARTZ_STAIRS, Stair.SOUTH);
+				if (i != 3) {
+					chunk.setStair(3, y, i, Material.QUARTZ_STAIRS, Stair.WEST);
+					chunk.setStair(3, y, 15 - i, Material.QUARTZ_STAIRS, Stair.WEST);
+					chunk.setStair(12, y, i, Material.QUARTZ_STAIRS, Stair.EAST);
+					chunk.setStair(12, y, 15 - i, Material.QUARTZ_STAIRS, Stair.EAST);
+				}
+			}
+		}
 	}
 }

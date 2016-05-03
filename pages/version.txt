@@ -11,6 +11,26 @@
 ----
 == Versions
 
+v3.009
+* Finally added villagers (in houses) and animal spawning (in farms)
+* Finally added stuff to concrete lots, think urban non-parks parks
+* Fixed a glitch that prevented grass and flowers in certain lots that should have had them
+* More roof styles
+* More default wall & ceiling material for buildings
+* More vat & pit materials in factories
+
+v3.008
+* Fixed a bug where factory skywalk supports would go too far up in a destroyed world
+
+v3.007
+* Refactored the corner of building code to make it much easier to maintain
+* Made it so that external doors in buildings don't get covered up anymore
+* Fixed some destroyed and factory building issues
+* Added METRO to easy world styles
+
+v3.006
+* Bad pointer leads to bad things
+
 v3.005
 * Whole lot more styles of buildings (more balconies, corners, roofs, indents, etc.)
 * Roundabouts are back, they disappeared about 2 to 3 years ago... why didn't anyone (including me) notice?
@@ -20,7 +40,6 @@ v3.005
 * Fixed an issue that prevented Hotair balloons from being found out in the wild
 * Added factories (of a sort) to the industrial areas
 * Added NATURE to the easy world styles
-* Minecraft (as of 1.9.2) and Spigot (as of 4/17) happy and... now with Beet Roots
 
 v3.004
 * Cranes now render correctly in 1.9 again, Mojang changed how Iron Fences rendered

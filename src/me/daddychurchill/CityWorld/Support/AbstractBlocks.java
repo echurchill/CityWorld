@@ -54,6 +54,10 @@ public abstract class AbstractBlocks {
 	public abstract void setBlocks(int x1, int x2, int y, int z1, int z2, Material material);
 	public abstract void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material);
 	
+	public void setWalls(int x1, int x2, int y, int z1, int z2, Material material) {
+		setWalls(x1, x2, y, y + 1, z1, z2, material);
+	}
+	
 	public abstract int setLayer(int blocky, Material material);
 	public abstract int setLayer(int blocky, int height, Material material);
 	public abstract int setLayer(int blocky, int height, int inset, Material material);

@@ -296,9 +296,7 @@ public class FarmLot extends ConnectedLot {
 			switch (cropType) {
 			case PADDOCK:
 				generateSurface(generator, chunk, false);
-				if (!generator.settings.includeDecayedBuildings) {
-					chunk.spawnVeneryOfAnimals(generator, chunkOdds, 7, cropY, 7);
-				}
+				chunk.spawnVeneryOfAnimals(generator, chunkOdds, 7, cropY, 7);
 				break;
 			case FALLOW:
 			case TRELLIS:

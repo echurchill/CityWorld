@@ -11,6 +11,7 @@ import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -278,59 +279,115 @@ public class RoundaboutCenterLot extends IsolatedLot {
 		// if we have not placed something in the center... place a "ART!" like thingy
 		if (somethingInTheCenter && !generator.settings.includeDecayedRoads) {
 			
-			// simple glass or colored blocks?
-			boolean woolArt = chunkOdds.playOdds(Odds.oddsUnlikely);
-			DyeColor solidColor = chunkOdds.getRandomColor();
-			boolean multiColorArt = chunkOdds.playOdds(Odds.oddsLikely);
-			
-			// base art
-			if (chunkOdds.flipCoin() || woolArt) {
-			
-				// now the "art"
-				for (int x = 6; x < 10; x++) 
-					for (int y = ySurface + 4; y < ySurface + 8; y++) 
-						for (int z = 6; z < 10; z++) {
-							
-							// pick a color
-							DyeColor blockColor = multiColorArt ? chunkOdds.getRandomColor() : solidColor;
-							
-							// place a block
-							if (chunkOdds.flipCoin())
-								chunk.setThinGlass(x, y, z, blockColor);
-							else
-								if (woolArt)
-									chunk.setWool(x, y, z, blockColor);
-								else
-									chunk.setGlass(x, y, z, blockColor);
-						}
-				
-				// now put the base in
-				chunk.setBlocks(7, 9, ySurface - 1, ySurface + 5, 7, 9, baseMaterial);
-			
-			// else spire art
-			} else {
-				// now put the base in
-				chunk.setBlocks(6, 10, ySurface - 1, ySurface, 6, 10, baseMaterial);
-			
-				// now for the art
-				for (int x = 6; x < 10; x++) 
-					for (int z = 6; z < 10; z++) {
-						
-						// height
-						int y2 = ySurface + chunkOdds.getRandomInt(5) + 1;
-						int y3 = y2 + chunkOdds.getRandomInt(5) + 1;
-						
-						// pick a color
-						DyeColor blockColor = multiColorArt ? chunkOdds.getRandomColor() : solidColor;
-						
-						// place a block
-						for (int y = ySurface; y < y2; y++)
-							chunk.setGlass(x, y, z, blockColor);
-						for (int y = y2; y < y3; y++)
-							chunk.setThinGlass(x, y, z, blockColor);
-					}
-			}
+			generateArt(chunk, chunkOdds, 6, ySurface, 6, baseMaterial);
+//			// simple glass or colored blocks?
+//			boolean woolArt = chunkOdds.playOdds(Odds.oddsUnlikely);
+//			DyeColor solidColor = chunkOdds.getRandomColor();
+//			boolean multiColorArt = chunkOdds.playOdds(Odds.oddsLikely);
+//			
+//			// base art
+//			if (chunkOdds.flipCoin() || woolArt) {
+//			
+//				// now the "art"
+//				for (int x = 6; x < 10; x++) 
+//					for (int y = ySurface + 4; y < ySurface + 8; y++) 
+//						for (int z = 6; z < 10; z++) {
+//							
+//							// pick a color
+//							DyeColor blockColor = multiColorArt ? chunkOdds.getRandomColor() : solidColor;
+//							
+//							// place a block
+//							if (chunkOdds.flipCoin())
+//								chunk.setThinGlass(x, y, z, blockColor);
+//							else
+//								if (woolArt)
+//									chunk.setWool(x, y, z, blockColor);
+//								else
+//									chunk.setGlass(x, y, z, blockColor);
+//						}
+//				
+//				// now put the base in
+//				chunk.setBlocks(7, 9, ySurface - 1, ySurface + 5, 7, 9, baseMaterial);
+//			
+//			// else spire art
+//			} else {
+//				// now put the base in
+//				chunk.setBlocks(6, 10, ySurface - 1, ySurface, 6, 10, baseMaterial);
+//			
+//				// now for the art
+//				for (int x = 6; x < 10; x++) 
+//					for (int z = 6; z < 10; z++) {
+//						
+//						// height
+//						int y2 = ySurface + chunkOdds.getRandomInt(5) + 1;
+//						int y3 = y2 + chunkOdds.getRandomInt(5) + 1;
+//						
+//						// pick a color
+//						DyeColor blockColor = multiColorArt ? chunkOdds.getRandomColor() : solidColor;
+//						
+//						// place a block
+//						for (int y = ySurface; y < y2; y++)
+//							chunk.setGlass(x, y, z, blockColor);
+//						for (int y = y2; y < y3; y++)
+//							chunk.setThinGlass(x, y, z, blockColor);
+//					}
+//			}
 		}
 	}
 	
+	public final static void generateArt(SupportBlocks chunk, Odds odds, int atX, int atY, int atZ, Material base) {
+		
+		// simple glass or colored blocks?
+		boolean woolArt = odds.playOdds(Odds.oddsUnlikely);
+		DyeColor solidColor = odds.getRandomColor();
+		boolean multiColorArt = odds.playOdds(Odds.oddsLikely);
+		
+		// base art
+		if (odds.flipCoin() || woolArt) {
+		
+			// now the "art"
+			for (int x = atX; x < atX + 4; x++) 
+				for (int y = atY + 4; y < atY + 8; y++) 
+					for (int z = atZ; z < atZ + 4; z++) {
+						
+						// pick a color
+						DyeColor blockColor = multiColorArt ? odds.getRandomColor() : solidColor;
+						
+						// place a block
+						if (odds.flipCoin())
+							chunk.setThinGlass(x, y, z, blockColor);
+						else
+							if (woolArt)
+								chunk.setWool(x, y, z, blockColor);
+							else
+								chunk.setGlass(x, y, z, blockColor);
+					}
+			
+			// now put the base in
+			chunk.setBlocks(atX + 1, atX + 3, atY - 1, atY + 5, atZ + 1, atZ + 3, base);
+		
+		// else spire art
+		} else {
+			// now put the base in
+			chunk.setBlocks(atX, atX + 4, atY - 1, atY, atZ, atZ + 4, base);
+		
+			// now for the art
+			for (int x = atX; x < atX + 4; x++) 
+				for (int z = atZ; z < atZ + 4; z++) {
+					
+					// height
+					int y2 = atY + odds.getRandomInt(5) + 1;
+					int y3 = y2 + odds.getRandomInt(5) + 1;
+					
+					// pick a color
+					DyeColor blockColor = multiColorArt ? odds.getRandomColor() : solidColor;
+					
+					// place a block
+					for (int y = atY; y < y2; y++)
+						chunk.setGlass(x, y, z, blockColor);
+					for (int y = y2; y < y3; y++)
+						chunk.setThinGlass(x, y, z, blockColor);
+				}
+		}
+	}
 }

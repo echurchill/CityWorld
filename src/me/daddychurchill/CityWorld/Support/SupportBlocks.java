@@ -234,6 +234,10 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material);
 	}
 	
+	public final void setWalls(int x1, int x2, int y, int z1, int z2, Material material, MaterialData data) {
+		setWalls(x1, x2, y, y + 1, z1, z2, material, data);
+	}
+	
 	public final void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material, MaterialData data) {
 		setBlocks(x1, x2, y1, y2, z1, z1 + 1, material, data);
 		setBlocks(x1, x2, y1, y2, z2 - 1, z2, material, data);
@@ -879,39 +883,40 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	
 	// https://en.wikipedia.org/wiki/List_of_English_terms_of_venery,_by_animal
 	public final void spawnVeneryOfAnimals(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
-		switch (odds.getRandomInt(14)) {
-		default:
-		case 0:
-		case 1:
-			spawnTwoAnimals(generator, odds, x, y, z, EntityType.HORSE);
-			break;
-		case 2:
-		case 3:
-			spawnTwoAnimals(generator, odds, x, y, z, EntityType.COW);
-			break;
-		case 4:
-		case 5:
-			spawnTwoAnimals(generator, odds, x, y, z, EntityType.SHEEP);
-			break;
-		case 6:
-		case 7:
-			spawnTwoAnimals(generator, odds, x, y, z, EntityType.PIG);
-			break;
-		case 8:
-		case 9:
-			spawnSixAnimals(generator, odds, x, y, z, EntityType.CHICKEN);
-			break;
-		case 10:
-		case 11:
-			spawnFourAnimals(generator, odds, x, y, z, EntityType.RABBIT);
-			break;
-		case 12:
-			spawnTwoAnimals(generator, odds, x, y, z, EntityType.WOLF);
-			break;
-		case 13:
-			spawnTwoAnimals(generator, odds, x, y, z, EntityType.OCELOT);
-			break;
-		}
+		if (!generator.settings.includeDecayedBuildings)
+			switch (odds.getRandomInt(14)) {
+			default:
+			case 0:
+			case 1:
+				spawnTwoAnimals(generator, odds, x, y, z, EntityType.HORSE);
+				break;
+			case 2:
+			case 3:
+				spawnTwoAnimals(generator, odds, x, y, z, EntityType.COW);
+				break;
+			case 4:
+			case 5:
+				spawnTwoAnimals(generator, odds, x, y, z, EntityType.SHEEP);
+				break;
+			case 6:
+			case 7:
+				spawnTwoAnimals(generator, odds, x, y, z, EntityType.PIG);
+				break;
+			case 8:
+			case 9:
+				spawnSixAnimals(generator, odds, x, y, z, EntityType.CHICKEN);
+				break;
+			case 10:
+			case 11:
+				spawnFourAnimals(generator, odds, x, y, z, EntityType.RABBIT);
+				break;
+			case 12:
+				spawnTwoAnimals(generator, odds, x, y, z, EntityType.WOLF);
+				break;
+			case 13:
+				spawnTwoAnimals(generator, odds, x, y, z, EntityType.OCELOT);
+				break;
+			}
 	}
 	
 	public final void spawnSixAnimals(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
