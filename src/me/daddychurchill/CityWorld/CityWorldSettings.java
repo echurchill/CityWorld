@@ -714,7 +714,7 @@ public class CityWorldSettings {
 	}
 	
 	private int limitTo(int value, int min, int max) {
-		return Math.max(min, Math.max(max, value));
+		return Math.max(min, Math.min(max, value));
 	}
 	
 	private Vector centerPointOfChunkRadius;
