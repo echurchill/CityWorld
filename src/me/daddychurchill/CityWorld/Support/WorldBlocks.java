@@ -37,10 +37,10 @@ public final class WorldBlocks extends SupportBlocks {
 	}
 	
 	@Override
-	public boolean isSurroundedByWater(int x, int y, int z) {
-		return isWater(x - 1, y, z) && 
-				isWater(x + 1, y, z) &&
-				isWater(x, y, z - 1) && 
+	public boolean isByWater(int x, int y, int z) {
+		return isWater(x - 1, y, z) || 
+				isWater(x + 1, y, z) ||
+				isWater(x, y, z - 1) || 
 				isWater(x, y, z + 1);
 	}
 	

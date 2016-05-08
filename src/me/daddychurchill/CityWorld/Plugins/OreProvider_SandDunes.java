@@ -13,6 +13,6 @@ public class OreProvider_SandDunes extends OreProvider_Normal {
 		fluidFluidMaterial = Material.SAND;
 		fluidSurfaceMaterial = Material.SAND;
 		fluidSubsurfaceMaterial = Material.SANDSTONE;
-		fluidFrozenMaterial = Material.SNOW_BLOCK;
+		fluidFrozenMaterial = Material.SANDSTONE;
 	}
 }

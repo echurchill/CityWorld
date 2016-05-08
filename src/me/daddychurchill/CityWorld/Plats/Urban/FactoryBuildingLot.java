@@ -207,8 +207,8 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			generateOpenings(chunk, groundY);
 
 			int smokestackY1 = skywalkAt + firstFloorHeight;
-			int smokestackY2 = smokestackY1 + chunkOdds.calcRandomRange(10, firstFloorHeight);
-			int smokestackY3 = smokestackY2 + chunkOdds.calcRandomRange(10, firstFloorHeight);
+			int smokestackY2 = smokestackY1 + chunkOdds.calcRandomRange(4, firstFloorHeight - 3);
+			int smokestackY3 = smokestackY2 + chunkOdds.calcRandomRange(4, firstFloorHeight - 3);
 			
 			chunk.setBlocks(6, 10, groundY - 3, 6, 10, smokestackMat);
 			chunk.clearBlocks(6, 10, groundY - 2, smokestackY1, 6, 10);

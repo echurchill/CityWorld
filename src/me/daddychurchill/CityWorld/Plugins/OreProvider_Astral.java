@@ -18,9 +18,9 @@ public class OreProvider_Astral extends OreProvider_Normal {
 		
 		fluidMaterial = Material.STATIONARY_LAVA;
 		fluidFluidMaterial = Material.LAVA;
-		fluidSurfaceMaterial = Material.GOLD_BLOCK;
-		fluidSubsurfaceMaterial = Material.DIAMOND_BLOCK;
-		fluidFrozenMaterial = Material.IRON_BLOCK;
+		fluidSurfaceMaterial = Material.FROSTED_ICE;
+		fluidSubsurfaceMaterial = Material.FROSTED_ICE;
+		fluidFrozenMaterial = Material.FROSTED_ICE;
 	}
 
 	@Override

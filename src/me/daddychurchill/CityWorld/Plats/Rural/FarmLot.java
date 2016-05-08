@@ -106,9 +106,6 @@ public class FarmLot extends ConnectedLot {
 	protected Material waterMaterial = Material.STATIONARY_WATER;
 	protected final static Material cropNone = Material.DIRT;
 	
-	private final static Material isolationNormalMaterial = Material.LOG;
-	private final static Material isolationNetherMaterial = Material.NETHER_BRICK;
-	
 	private final static Material soilMaterial = Material.SOIL;
 	private final static Material sandMaterial = Material.SAND;
 	private final static Material mycelMaterial = Material.MYCEL;
@@ -137,40 +134,57 @@ public class FarmLot extends ConnectedLot {
 		chunk.setLayer(generator.streetLevel - 1, 2, generator.oreProvider.surfaceMaterial);
 		
 		// in-between bits bits
-		Material dividerMaterial = isolationNormalMaterial;
+		Material dividerMaterial = Material.GRASS_PATH;
 		if (generator.worldEnvironment == Environment.NETHER) {
-			dividerMaterial = isolationNetherMaterial;
+			dividerMaterial = Material.SOUL_SAND;
 		}
 		
 		// draw the isolation blocks
-		if (!farms.toNorth()) {
+//		if (!farms.toNorth()) {
+//			chunk.setBlocks(1, 15, generator.streetLevel, 0, 1, dividerMaterial);
+//			if (farms.toWest())
+//				chunk.setBlock(0, generator.streetLevel, 0, dividerMaterial);
+//			if (farms.toEast())
+//				chunk.setBlock(15, generator.streetLevel, 0, dividerMaterial);
+//		}
+//		if (!farms.toSouth()) {
+//			chunk.setBlocks(1, 15, generator.streetLevel, 15, 16, dividerMaterial);
+//			if (farms.toWest())
+//				chunk.setBlock(0, generator.streetLevel, 15, dividerMaterial);
+//			if (farms.toEast())
+//				chunk.setBlock(15, generator.streetLevel, 15, dividerMaterial);
+//		}
+//		if (!farms.toWest()) {
+//			chunk.setBlocks(0, 1, generator.streetLevel, 1, 15, dividerMaterial);
+//			if (farms.toNorth())
+//				chunk.setBlock(0, generator.streetLevel, 0, dividerMaterial);
+//			if (farms.toSouth())
+//				chunk.setBlock(0, generator.streetLevel, 15, dividerMaterial);
+//		}
+//		if (!farms.toEast()) {
+//			chunk.setBlocks(15, 16, generator.streetLevel, 1, 15, dividerMaterial);
+//			if (farms.toNorth())
+//				chunk.setBlock(15, generator.streetLevel, 0, dividerMaterial);
+//			if (farms.toSouth())
+//				chunk.setBlock(15, generator.streetLevel, 15, dividerMaterial);
+//		}
+
+		if (!farms.toNorth())
 			chunk.setBlocks(1, 15, generator.streetLevel, 0, 1, dividerMaterial);
-			if (farms.toWest())
-				chunk.setBlock(0, generator.streetLevel, 0, dividerMaterial);
-			if (farms.toEast())
-				chunk.setBlock(15, generator.streetLevel, 0, dividerMaterial);
-		}
-		if (!farms.toSouth()) {
+		if (!farms.toSouth())
 			chunk.setBlocks(1, 15, generator.streetLevel, 15, 16, dividerMaterial);
-			if (farms.toWest())
-				chunk.setBlock(0, generator.streetLevel, 15, dividerMaterial);
-			if (farms.toEast())
-				chunk.setBlock(15, generator.streetLevel, 15, dividerMaterial);
-		}
-		if (!farms.toWest()) {
+		if (!farms.toWest())
 			chunk.setBlocks(0, 1, generator.streetLevel, 1, 15, dividerMaterial);
-			if (farms.toNorth())
-				chunk.setBlock(0, generator.streetLevel, 0, dividerMaterial);
-			if (farms.toSouth())
-				chunk.setBlock(0, generator.streetLevel, 15, dividerMaterial);
-		}
-		if (!farms.toEast()) {
+		if (!farms.toEast())
 			chunk.setBlocks(15, 16, generator.streetLevel, 1, 15, dividerMaterial);
-			if (farms.toNorth())
-				chunk.setBlock(15, generator.streetLevel, 0, dividerMaterial);
-			if (farms.toSouth())
-				chunk.setBlock(15, generator.streetLevel, 15, dividerMaterial);
-		}
+		if (!farms.toNorthWest())
+			chunk.setBlock(0, generator.streetLevel, 0, dividerMaterial);
+		if (!farms.toNorthEast())
+			chunk.setBlock(15, generator.streetLevel, 0, dividerMaterial);
+		if (!farms.toSouthWest())
+			chunk.setBlock(0, generator.streetLevel, 15, dividerMaterial);
+		if (!farms.toSouthEast())
+			chunk.setBlock(15, generator.streetLevel, 15, dividerMaterial);
 	}
 	
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
@@ -472,6 +486,9 @@ public class FarmLot extends ConnectedLot {
 				break;
 			}
 		}
+		
+		if (generator.settings.includeDecayedNature)
+			destroyLot(generator, croplevel - 3, croplevel + 3);
 	}
 
 	private void plowField(SupportBlocks chunk, int croplevel, 

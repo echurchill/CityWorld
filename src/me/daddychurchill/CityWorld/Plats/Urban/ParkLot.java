@@ -13,6 +13,7 @@ import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.SurroundingLots;
+import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 import org.bukkit.DyeColor;
@@ -28,7 +29,8 @@ public class ParkLot extends ConnectedLot {
 	private final static Material cisternMaterial = Material.CLAY;
 	private final static Material fenceMaterial = Material.FENCE;
 	private final static Material columnMaterial = Material.SMOOTH_BRICK;
-	private final static Material pathMaterial = Material.SAND;
+	private final static Material grassMaterial = Material.GRASS;
+	private final static Material pathMaterial = Material.GRASS_PATH;
 	private final static Material stepMaterial = Material.STEP;
 	private final static Material ledgeMaterial = Material.CLAY;
 	
@@ -189,7 +191,7 @@ public class ParkLot extends ConnectedLot {
 				chunk.setBlocks(7, 9, surfaceY, surfaceY + 1, 0, 1, stepMaterial);
 				chunk.setBlocks(9, surfaceY, surfaceY + 2, 0, columnMaterial);
 			} else if (neighbors.toNorth()) {
-				chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 0, 1, Material.GRASS);
+				chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 0, 1, grassMaterial);
 				chunk.clearBlocks(7, 9, surfaceY, surfaceY + 3, 0, 1);
 			}
 			if (!neighbors.toSouth() && HeightInfo.isBuildableToSouth(generator, chunk)) {
@@ -198,7 +200,7 @@ public class ParkLot extends ConnectedLot {
 				chunk.setBlocks(7, 9, surfaceY, surfaceY + 1, 15, 16, stepMaterial);
 				chunk.setBlocks(9, surfaceY, surfaceY + 2, 15, columnMaterial);
 			} else if (neighbors.toSouth()) {
-				chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 15, 16, Material.GRASS);
+				chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 15, 16, grassMaterial);
 				chunk.clearBlocks(7, 9, surfaceY, surfaceY + 3, 15, 16);
 			}
 			if (!neighbors.toWest() && HeightInfo.isBuildableToWest(generator, chunk)) {
@@ -207,7 +209,7 @@ public class ParkLot extends ConnectedLot {
 				chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 7, 9, stepMaterial);
 				chunk.setBlocks(0, surfaceY, surfaceY + 2, 9, columnMaterial);
 			} else if (neighbors.toWest()) {
-				chunk.setBlocks(0, 1, surfaceY - 1, surfaceY, 7, 9, Material.GRASS);
+				chunk.setBlocks(0, 1, surfaceY - 1, surfaceY, 7, 9, grassMaterial);
 				chunk.clearBlocks(0, 1, surfaceY, surfaceY + 3, 7, 9);
 			}
 			if (!neighbors.toEast() && HeightInfo.isBuildableToEast(generator, chunk)) {
@@ -216,7 +218,7 @@ public class ParkLot extends ConnectedLot {
 				chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 7, 9, stepMaterial);
 				chunk.setBlocks(15, surfaceY, surfaceY + 2, 9, columnMaterial);
 			} else if (neighbors.toEast()) {
-				chunk.setBlocks(0, 1, surfaceY - 1, surfaceY, 7, 9, Material.GRASS);
+				chunk.setBlocks(0, 1, surfaceY - 1, surfaceY, 7, 9, grassMaterial);
 				chunk.clearBlocks(0, 1, surfaceY, surfaceY + 3, 7, 9);
 			}
 			break;
@@ -316,10 +318,6 @@ public class ParkLot extends ConnectedLot {
 		
 			// draw center bits
 			switch (centerStyle) {
-			case CIRCLE_PATH:
-				generator.coverProvider.generateRandomCoverage(generator, chunk, 7, surfaceY, 7, tallTrees);
-				generateSurface(generator, chunk, false);
-				break;
 			case WATER_TOWER:
 				generator.structureOnGroundProvider.drawWaterTower(generator, chunk, 4, surfaceY, 4, chunkOdds);
 				generateSurface(generator, chunk, false);
@@ -395,7 +393,12 @@ public class ParkLot extends ConnectedLot {
 						}
 					}
 				break;
+			case CIRCLE_PATH:
+				generateTreePark(generator, chunk, surfaceY, 6, true);
+				break;
 			case CROSS_PATH:
+				generateTreePark(generator, chunk, surfaceY, 7, false);
+				break;
 			default:
 				for (int x = 4; x < 12; x += 7)
 					for (int z = 4; z < 12; z += 7)
@@ -417,10 +420,57 @@ public class ParkLot extends ConnectedLot {
 		}
 	}
 	
+	private void generateTreePark(CityWorldGenerator generator, RealBlocks chunk, 
+			int surfaceY, int benchEnd, boolean singleTree) {
+		boolean NW = chunkOdds.flipCoin();
+		boolean NE = chunkOdds.flipCoin();
+		boolean SW = chunkOdds.flipCoin();
+		boolean SE = chunkOdds.flipCoin();
+		
+		int benchStart = chunkOdds.getRandomInt(3, 3);
+		if (chunkOdds.flipCoin())
+			benchEnd--;
+		
+		for (int i = benchStart; i < benchEnd; i++) {
+			if (NW)
+				chunk.setStair(i, surfaceY, 3, Material.WOOD_STAIRS, Stair.NORTH);
+			if (NE)
+				chunk.setStair(15 - i, surfaceY, 3, Material.WOOD_STAIRS, Stair.NORTH);
+			if (SW)
+				chunk.setStair(i, surfaceY, 12, Material.WOOD_STAIRS, Stair.SOUTH);
+			if (SE)
+				chunk.setStair(15 - i, surfaceY, 12, Material.WOOD_STAIRS, Stair.SOUTH);
+			
+			if (i != 3) { // corner bit needs to be skipped
+				if (NW)
+					chunk.setStair(3, surfaceY, i, Material.WOOD_STAIRS, Stair.WEST);
+				if (SW)
+					chunk.setStair(3, surfaceY, 15 - i, Material.WOOD_STAIRS, Stair.WEST);
+				if (NE)
+					chunk.setStair(12, surfaceY, i, Material.WOOD_STAIRS, Stair.EAST);
+				if (SE)
+					chunk.setStair(12, surfaceY, 15 - i, Material.WOOD_STAIRS, Stair.EAST);
+			}
+		}
+		if (singleTree) {
+			generator.coverProvider.generateRandomCoverage(generator, chunk, 7, surfaceY, 7, tallTrees);
+		} else {
+			if (!NW)
+				generator.coverProvider.generateRandomCoverage(generator, chunk, 4, surfaceY, 4, smallTrees);
+			if (!NE)
+				generator.coverProvider.generateRandomCoverage(generator, chunk, 11, surfaceY, 4, smallTrees);
+			if (!SW)
+				generator.coverProvider.generateRandomCoverage(generator, chunk, 4, surfaceY, 11, smallTrees);
+			if (!SE)
+				generator.coverProvider.generateRandomCoverage(generator, chunk, 11, surfaceY, 11, smallTrees);
+		}
+		generateSurface(generator, chunk, false);
+	}
+	
 	private void pokeHoleSomewhere(RealBlocks chunk, int x1, int x2, int y, int z1, int z2) {
 		int x = chunkOdds.getRandomInt(x1, x2 - x1);
 		int z = chunkOdds.getRandomInt(z1, z2 - z1);
-		chunk.setBlock(x, y - 1, z, Material.GRASS);
+		chunk.setBlock(x, y - 1, z, grassMaterial);
 		chunk.clearBlocks(x, y, y + 4, z);
 	}
 	

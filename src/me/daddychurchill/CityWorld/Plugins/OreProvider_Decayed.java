@@ -12,6 +12,9 @@ public class OreProvider_Decayed extends OreProvider_Normal {
 		if (generator.settings.includeLavaFields) {
 			fluidMaterial = Material.STATIONARY_LAVA;
 			fluidFluidMaterial = Material.LAVA;
+			fluidFrozenMaterial = Material.OBSIDIAN;
+			fluidSubsurfaceMaterial = Material.LAVA;
+			fluidSurfaceMaterial = Material.LAVA;
 		}
 		surfaceMaterial = Material.SAND;
 		subsurfaceMaterial = Material.SANDSTONE;

@@ -149,7 +149,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		return getActualBlock(x, y, z).isLiquid();
 	}
 
-	public abstract boolean isSurroundedByWater(int x, int y, int z);
+	public abstract boolean isByWater(int x, int y, int z);
 	
 	public final Location getBlockLocation(int x, int y, int z) {
 		return getActualBlock(x, y, z).getLocation();
@@ -411,17 +411,79 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			}
 		}
 	}
-
+	
 	public final boolean isNonstackableBlock(Block block) { // either because it really isn't or it just doesn't look good
-		return isType(block, Material.STEP, Material.WOOD_STEP, 
-				 			 Material.GLASS, Material.THIN_GLASS,
-							 Material.SNOW, Material.CARPET, Material.SIGN, 
-							 Material.WOOD_DOOR, Material.TRAP_DOOR, 
-							 Material.STAINED_GLASS, Material.STAINED_GLASS_PANE,
-							 Material.FENCE, Material.FENCE_GATE,
-							 Material.STONE_PLATE, Material.WOOD_PLATE,
-							 Material.TRIPWIRE, Material.TRIPWIRE_HOOK,
-							 Material.IRON_DOOR_BLOCK, Material.IRON_FENCE);
+		switch (block.getType()) {
+		default: 
+			return true;
+		case STONE:
+		case GRASS:
+		case DIRT:
+		case COBBLESTONE:
+		case WOOD:
+		case SAND:
+		case GRAVEL:
+		case COAL_ORE:
+		case DIAMOND_ORE:
+		case EMERALD_ORE:
+		case GOLD_ORE:
+		case IRON_ORE:
+		case LAPIS_ORE:
+		case QUARTZ_ORE:
+		case REDSTONE_ORE:
+		case COAL_BLOCK:
+		case DIAMOND_BLOCK:
+		case EMERALD_BLOCK:
+		case GOLD_BLOCK:
+		case HAY_BLOCK:
+		case IRON_BLOCK:
+		case LAPIS_BLOCK:
+		case PURPUR_BLOCK:
+		case QUARTZ_BLOCK:
+		case SLIME_BLOCK:
+		case SNOW_BLOCK:
+		case LOG:
+		case LOG_2:
+		case SPONGE:
+		case SANDSTONE:
+		case RED_SANDSTONE:
+		case SOUL_SAND:
+		case STAINED_CLAY:
+		case HARD_CLAY:
+		case CLAY:
+		case WOOL:
+		case DOUBLE_STEP:
+		case WOOD_DOUBLE_STEP:
+		case DOUBLE_STONE_SLAB2:
+		case PURPUR_DOUBLE_SLAB:
+		case BRICK:
+		case END_BRICKS:
+		case NETHER_BRICK:
+		case SMOOTH_BRICK:
+		case BOOKSHELF:
+		case MOSSY_COBBLESTONE:
+		case OBSIDIAN:
+		case SOIL:
+		case ICE:
+		case PACKED_ICE:
+		case FROSTED_ICE:
+		case NETHERRACK:
+		case ENDER_STONE:
+		case MYCEL:
+		case PRISMARINE:
+		case GRASS_PATH:
+		case BEDROCK:
+			return false;
+		}
+//		return isType(block, Material.STEP, Material.WOOD_STEP, 
+//				 			 Material.GLASS, Material.THIN_GLASS,
+//							 Material.SNOW, Material.CARPET, Material.SIGN, 
+//							 Material.WOOD_DOOR, Material.TRAP_DOOR, 
+//							 Material.STAINED_GLASS, Material.STAINED_GLASS_PANE,
+//							 Material.FENCE, Material.FENCE_GATE,
+//							 Material.STONE_PLATE, Material.WOOD_PLATE,
+//							 Material.TRIPWIRE, Material.TRIPWIRE_HOOK,
+//							 Material.IRON_DOOR_BLOCK, Material.IRON_FENCE);
 	}
 	
 	public final boolean isNonstackableBlock(int x, int y, int z) {

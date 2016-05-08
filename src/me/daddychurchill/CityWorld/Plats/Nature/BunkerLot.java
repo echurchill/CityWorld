@@ -737,6 +737,31 @@ public class BunkerLot extends ConnectedLot {
 		generateTrick(generator, chunk, odds, 12, y1, 3);
 		generateTrick(generator, chunk, odds, 3, y1, 12);
 		
+		if (odds.playOdds(Odds.oddsVeryLikely)) {
+			int yB = y1 - 1;
+			chunk.setWalls(6, 10, yB, 6, 10, Material.OBSIDIAN);
+			chunk.setBlocks(6, yB + 1, yB + 4, 6, Material.OBSIDIAN);
+			chunk.setBlocks(9, yB + 1, yB + 4, 6, Material.OBSIDIAN);
+			chunk.setBlocks(6, yB + 1, yB + 4, 9, Material.OBSIDIAN);
+			chunk.setBlocks(9, yB + 1, yB + 4, 9, Material.OBSIDIAN);
+			chunk.setWalls(6, 10, yB + 4, 6, 10, Material.OBSIDIAN);
+//			if (odds.flipCoin()) {
+////				chunk.setBlocks(6, 9, yB, 5, 6, Material.ENDER_PORTAL_FRAME);
+////				chunk.setBlocks(9, 10, yB, 6, 9, Material.ENDER_PORTAL_FRAME);
+////				chunk.setBlocks(6, 9, yB, 9, 10, Material.ENDER_PORTAL_FRAME);
+////				chunk.setBlocks(5, 6, yB, 6, 9, Material.ENDER_PORTAL_FRAME);
+//				chunk.setBlocks(7, 8, yB, 6, 10, Material.OBSIDIAN);
+//				chunk.setBlocks(7, 8, yB, y1 + 4, 6, 7, Material.OBSIDIAN);
+//				chunk.setBlocks(7, 8, yB, y1 + 4, 9, 10, Material.OBSIDIAN);
+//				chunk.setBlocks(7, 8, y1 + 4, 6, 10, Material.OBSIDIAN);
+//			} else {
+//				chunk.setBlocks(6, 10, yB, 7, 8, Material.OBSIDIAN);
+//				chunk.setBlocks(6, 7, yB, y1 + 4, 7, 8, Material.OBSIDIAN);
+//				chunk.setBlocks(9, 10, yB, y1 + 4, 7, 8, Material.OBSIDIAN);
+//				chunk.setBlocks(6, 10, y1 + 4, 7, 8, Material.OBSIDIAN);
+//			}
+		}
+		
 		// lift the surface? NOPE
 		return 0;
 	}

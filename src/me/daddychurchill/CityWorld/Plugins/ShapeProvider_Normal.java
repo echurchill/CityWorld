@@ -167,13 +167,13 @@ public class ShapeProvider_Normal extends ShapeProvider {
 // current attempt
 		else if (nature < 0.10)
 			return constructionContext;
-		else if (nature < 0.20)
+		else if (nature < 0.18) // was 0.20
 			return midriseContext;
 		else if (nature < 0.30)
 			return municipalContext;
-		else if (nature < 0.40)
+		else if (nature < 0.42) // was 0.40
 			return industrialContext;
-		else if (nature < 0.50)
+		else if (nature < 0.48) // was 0.50
 			return lowriseContext;
 		else if (nature < 0.60)
 			return neighborhoodContext;

@@ -133,7 +133,7 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 					if (generator.settings.includeAbovegroundFluids) {
 						if (primary < reedOdds)
 							if (chunk.isType(x, y, z, Material.SAND))
-								if (chunk.isSurroundedByWater(x, y, z))
+								if (chunk.isByWater(x, y, z))
 									foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.REED);
 					} else {
 						

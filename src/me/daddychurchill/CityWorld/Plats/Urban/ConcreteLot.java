@@ -18,7 +18,7 @@ public class ConcreteLot extends BuildingLot {
 
 	// flat shallow pond, inverted pyramid pond, water maze, dented in quiet zone, checkered water, water labyrinth 
 //	private enum CenterStyle {EMPTY, QUIET_ZONE, ART_ZONE, SHALLOW_POND, PYRAMID_POND, WATER_MAZE, WATER_CHECKER, WATER_CIRCLE, WATER_LABYRINTH};
-	private enum CenterStyle {EMPTY, QUIET_ZONE, ART_ZONE, CHECKER_ART, SHALLOW_POND, ROUND_POND, PYRAMID_POND, CHECKER_POND};
+	private enum CenterStyle {EMPTY, QUIET_ZONE, ART_ZONE, CHECKER_ART, SHALLOW_POND, ROUND_POND, PYRAMID_POND, CHECKER_POND, UPWARD_POND, DOWNWARD_POND};
 	private CenterStyle centerStyle;
 	
 	public ConcreteLot(PlatMap platmap, int chunkX, int chunkZ) {
@@ -31,7 +31,10 @@ public class ConcreteLot extends BuildingLot {
 	}
 
 	private CenterStyle getRandomCenterStyle() {
-//		return CenterStyle.CHECKER_POND;
+//		if (chunkOdds.flipCoin())
+//			return CenterStyle.UPWARD_POND;
+//		else
+//			return CenterStyle.DOWNWARD_POND;
 		if (chunkOdds.playOdds(Odds.oddsUnlikely))
 			return CenterStyle.EMPTY;
 		else {
@@ -82,6 +85,28 @@ public class ConcreteLot extends BuildingLot {
 			generateSittingArea(chunk, sidewalkLevel, atmosphere, underneath);
 			chunk.setBlocks(6, 10, sidewalkLevel, 6, 10, Material.QUARTZ_BLOCK);
 			RoundaboutCenterLot.generateArt(chunk, chunkOdds, 6, sidewalkLevel, 6, Material.QUARTZ_BLOCK);
+			break;
+		case UPWARD_POND:
+			chunk.setBlocks(3, 13, sidewalkLevel, 3, 13, Material.DOUBLE_STEP);
+			chunk.setBlocks(4, 12, sidewalkLevel + 1, 4, 12, Material.STEP);
+			chunk.setBlocks(5, 11, sidewalkLevel + 1, 5, 11, Material.DOUBLE_STEP);
+			chunk.setBlocks(6, 10, sidewalkLevel + 2, 6, 10, Material.STEP);
+			
+			chunk.clearBlocks(7, 9, sidewalkLevel + 2, 7, 9);
+			chunk.setBlocks(7, 9, sidewalkLevel + 1, 7, 9, fluid);
+			break;
+		case DOWNWARD_POND:
+			chunk.setBlocks(3, 13, sidewalkLevel - 1, 3, 13, Material.DOUBLE_STEP);
+			chunk.setBlocks(4, 12, sidewalkLevel - 1, 4, 12, Material.STEP);
+			chunk.setBlocks(5, 11, sidewalkLevel - 2, 5, 11, Material.DOUBLE_STEP);
+			chunk.setBlocks(6, 10, sidewalkLevel - 2, 6, 10, Material.STEP);
+			
+			chunk.clearBlocks(3, 13, sidewalkLevel, 3, 13);
+			chunk.clearBlocks(5, 11, sidewalkLevel - 1, 5, 11);
+			chunk.clearBlocks(7, 9, sidewalkLevel - 2, 7, 9);
+			
+			chunk.setBlocks(6, 10, sidewalkLevel - 4, sidewalkLevel - 2, 6, 10, underneath);
+			chunk.setBlocks(7, 9, sidewalkLevel - 3, 7, 9, fluid);
 			break;
 		case SHALLOW_POND:
 			chunk.setLayer(sidewalkLevel - 2, 2, underneath);

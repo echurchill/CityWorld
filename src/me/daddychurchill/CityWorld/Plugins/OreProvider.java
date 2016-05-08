@@ -43,8 +43,8 @@ public abstract class OreProvider extends Provider {
 		fluidMaterial = Material.STATIONARY_WATER;
 		fluidFluidMaterial = Material.WATER;
 		fluidSurfaceMaterial = Material.SAND;
-		fluidSubsurfaceMaterial = Material.SANDSTONE;
-		fluidFrozenMaterial = Material.ICE;
+		fluidSubsurfaceMaterial = Material.GRAVEL;
+		fluidFrozenMaterial = Material.PACKED_ICE;
 	}
 	
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)

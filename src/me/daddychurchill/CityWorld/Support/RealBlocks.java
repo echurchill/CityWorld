@@ -31,11 +31,11 @@ public final class RealBlocks extends SupportBlocks {
 	}
 
 	@Override
-	public boolean isSurroundedByWater(int x, int y, int z) {
+	public boolean isByWater(int x, int y, int z) {
 		return (x > 0 && x < 15 && z > 0 && z < 15) && 
-			   (isWater(x - 1, y, z) && 
-				isWater(x + 1, y, z) &&
-				isWater(x, y, z - 1) && 
+			   (isWater(x - 1, y, z) || 
+				isWater(x + 1, y, z) ||
+				isWater(x, y, z - 1) || 
 				isWater(x, y, z + 1));
 	}
 }

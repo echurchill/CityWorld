@@ -13,6 +13,12 @@ public class OreProvider_TheEnd extends OreProvider {
 		surfaceMaterial = Material.ENDER_STONE;
 		subsurfaceMaterial = Material.ENDER_STONE;
 		stratumMaterial = Material.ENDER_STONE;
+
+		fluidMaterial = Material.FROSTED_ICE;
+		fluidFluidMaterial = Material.SNOW_BLOCK;
+		fluidSurfaceMaterial = Material.PACKED_ICE;
+		fluidSubsurfaceMaterial = Material.PACKED_ICE;
+		fluidFrozenMaterial = Material.PACKED_ICE;
 		
 		ore_types.add(generator.settings.materials.itemsMaterialListFor_TheEndOres.getNthMaterial(0, Material.WATER));
 		ore_types.add(generator.settings.materials.itemsMaterialListFor_TheEndOres.getNthMaterial(1, Material.LAVA));

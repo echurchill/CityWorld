@@ -16,9 +16,11 @@ public class OreProvider_Nether extends OreProvider {
 		stratumMaterial = Material.NETHERRACK;
 		
 		fluidMaterial = Material.STATIONARY_LAVA;
-		fluidSubsurfaceMaterial = Material.NETHERRACK;
-		fluidSurfaceMaterial = Material.NETHERRACK;
-
+		fluidFluidMaterial = Material.LAVA;
+		fluidFrozenMaterial = Material.OBSIDIAN;
+		fluidSubsurfaceMaterial = Material.LAVA;
+		fluidSurfaceMaterial = Material.LAVA;
+		
 		ore_types.add(generator.settings.materials.itemsMaterialListFor_NetherOres.getNthMaterial(0, Material.LAVA));
 		ore_types.add(generator.settings.materials.itemsMaterialListFor_NetherOres.getNthMaterial(1, Material.LAVA));
 		ore_types.add(generator.settings.materials.itemsMaterialListFor_NetherOres.getNthMaterial(2, Material.SOUL_SAND));
