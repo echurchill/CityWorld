@@ -176,7 +176,7 @@ public class FloatingRoadLot extends RoadLot {
 		}
 		
 		// light posts
-		if (cityRoad) {
+		if (inACity) {
 			boolean lightPostNW = generateLightPost(generator, chunk, context, sidewalkLevel, sidewalkWidth - 1, sidewalkWidth - 1);
 			boolean lightPostSE = generateLightPost(generator, chunk, context, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
 			

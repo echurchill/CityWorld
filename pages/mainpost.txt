@@ -17,7 +17,8 @@ Changed the paths in parks and buried logs in farms with Grass Paths (what good 
 Fixed villager spawning on oil rigs and hot air balloons
 Reeds are back near the shores, they disappeared about a year ago
 Fixed up some fluid generation issues (generalized version of the above nether world fix)
-Enhanced Parks a bit more
+Enhanced Parks a bit more and made country roads a bit more country-ish
+Made things camouflage better in the mountains
 Tweaked the factory big chimney's height a bit, now they aren't quite a tall
 Minecraft (as of 1.9.2) and Spigot (as of 5/7) happy 
 

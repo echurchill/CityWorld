@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Plugins;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
+import me.daddychurchill.CityWorld.Support.Odds.ColorSet;
 
 public class CoverProvider_Decayed extends CoverProvider {
 	
@@ -10,6 +11,11 @@ public class CoverProvider_Decayed extends CoverProvider {
 	
 	public CoverProvider_Decayed(Odds odds) {
 		super(odds);
+	}
+	
+	@Override
+	public ColorSet getDefaultColorSet() {
+		return ColorSet.TAN;
 	}
 	
 	@Override

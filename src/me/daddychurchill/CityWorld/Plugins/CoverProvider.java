@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
+import me.daddychurchill.CityWorld.Support.Odds.ColorSet;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
@@ -562,6 +563,10 @@ public abstract class CoverProvider extends Provider {
 		return !generator.settings.darkEnvironment || odds.playOdds(oddsOfDarkCover);
 	}
 	
+	public ColorSet getDefaultColorSet() {
+		return ColorSet.GREEN;
+	}
+	
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
 	public static CoverProvider loadProvider(CityWorldGenerator generator, Odds odds) {
 
@@ -574,6 +579,12 @@ public abstract class CoverProvider extends Provider {
 			switch (generator.worldStyle) {
 			case FLOODED:
 				provider = new CoverProvider_Flooded(odds);
+				break;
+			case SANDDUNES:
+				provider = new CoverProvider_SandDunes(odds);
+				break;
+			case SNOWDUNES:
+				provider = new CoverProvider_SnowDunes(odds);
 				break;
 			default:
 				switch (generator.worldEnvironment) {

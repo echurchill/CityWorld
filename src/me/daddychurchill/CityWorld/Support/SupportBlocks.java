@@ -6,6 +6,7 @@ import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
 import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
+import me.daddychurchill.CityWorld.Support.Odds.ColorSet;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
@@ -614,11 +615,11 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		setBlocksTypeAndColor(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, Material.STAINED_CLAY, color);
 	}
 	
-	public final void camoClay(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds) {
+	public final void camoClay(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds, ColorSet colors) {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
-					setBlockIfTypeThenColor(x, y, z, Material.STAINED_CLAY, odds.getRandomCamoColor());
+					setBlockIfTypeThenColor(x, y, z, Material.STAINED_CLAY, odds.getRandomColor(colors));
 				}
 			}
 		}

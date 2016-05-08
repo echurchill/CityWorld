@@ -32,6 +32,7 @@ public abstract class PlatLot {
 	public enum LotStyle {NATURE, STRUCTURE, ROAD, ROUNDABOUT};
 	public LotStyle style;
 	public boolean trulyIsolated;
+	public boolean inACity;
 	
 	public PlatLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super();
@@ -39,6 +40,7 @@ public abstract class PlatLot {
 		this.chunkZ = chunkZ;
 		this.style = LotStyle.NATURE;
 		this.trulyIsolated = false;
+		this.inACity = platmap.generator.settings.inCityRange(chunkX, chunkZ);
 		
 		initializeDice(platmap, chunkX, chunkZ);
 
@@ -101,7 +103,10 @@ public abstract class PlatLot {
 	}
 	
 	protected Material getSidewalkMaterial() {
-		return Material.STEP;
+		if (inACity)
+			return Material.STEP;
+		else
+			return Material.GRASS_PATH;
 	}
 	
 	protected int getBlockY(int x, int z) {

@@ -60,13 +60,15 @@ public class RoadLot extends ConnectedLot {
 	protected final static Material bridgeEdgeMaterial = Material.SMOOTH_BRICK;
 	protected final static Material bridgeRailMaterial = Material.FENCE;
 	
-	protected boolean pavementIsClay;
 	protected Material pavementMat;
 	protected Material linesMat;
+	protected boolean pavementIsClay;
 	protected final static DyeColor pavementColor = DyeColor.CYAN;
 //	protected final static DyeColor crosswalkColor = DyeColor.YELLOW;
+	protected Material dirtroadMat;
+	protected final static DyeColor dirtroadColor = DyeColor.LIME;
+	protected boolean dirtroadIsClay;
 	
-	protected boolean cityRoad;
 	protected boolean roundaboutRoad;
 	private int bottomOfRoad;
 	private int topOfRoad;
@@ -77,7 +79,6 @@ public class RoadLot extends ConnectedLot {
 		
 		style = LotStyle.ROAD;
 		connectedkey = globalconnectionkey;
-		cityRoad = platmap.generator.settings.inCityRange(chunkX, chunkZ);
 		roundaboutRoad = roundaboutPart;
 		
 		bottomOfRoad = platmap.generator.streetLevel - 1;
@@ -89,7 +90,10 @@ public class RoadLot extends ConnectedLot {
 		
 		pavementMat = platmap.generator.settings.materials.itemsMaterialListFor_Roads.getNthMaterial(0, Material.STAINED_CLAY);
 		linesMat = platmap.generator.settings.materials.itemsMaterialListFor_Roads.getNthMaterial(1, Material.QUARTZ_BLOCK);
+		dirtroadMat = platmap.generator.settings.materials.itemsMaterialListFor_Roads.getNthMaterial(2, Material.STAINED_CLAY);
+
 		pavementIsClay = pavementMat == Material.STAINED_CLAY;
+		dirtroadIsClay = pavementMat == Material.STAINED_CLAY;
 	}
 	
 	@Override
@@ -165,438 +169,7 @@ public class RoadLot extends ConnectedLot {
 	
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
-		
-//		// random bits
-//		sewerCenterBit = chunkOdds.flipCoin();
-//		sewerNorthWestBias = chunkOdds.flipCoin();
-//		sewerNorthEastBias = chunkOdds.flipCoin();
-//		sewerSouthWestBias = chunkOdds.flipCoin();
-//		sewerSouthEastBias = chunkOdds.flipCoin();
-//		
-//		// compute offset to start of chunk
-//		int originX = chunk.getOriginX();
-//		int originZ = chunk.getOriginZ();
-//		
-//		// where do we start
-//		int base1Y = generator.streetLevel - DataContext.FloorHeight * 2 + 1;
-//		int sewerY = base1Y + 1;
-//		int base2Y = base1Y + DataContext.FloorHeight + 1;
-//		int pavementLevel = generator.streetLevel;
-//		int sidewalkLevel = getSidewalkLevel(generator);
-//		Material sidewalkMaterial = getSidewalkMaterial();
-//		boolean doSewer = generator.settings.includeSewers && cityRoad;
-//		
-//		// look around
-//		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);
-//		
-//		// ok, deep enough for a bridge
-//		if (HeightInfo.getHeightsFast(generator, originX, originZ).isSea()) {
-//			doSewer = false;
-//
-//			// clear a little space
-//			chunk.setLayer(sidewalkLevel, 2, getAirMaterial(generator, sidewalkLevel));
-//			
-//			// bridge to the east/west
-//			if (roads.toWest() && roads.toEast()) {
-//				
-//				// more bridge beside this one?
-//				boolean toWest = HeightInfo.getHeightsFast(generator, originX - chunk.width, originZ).isSea();
-//				boolean toEast = HeightInfo.getHeightsFast(generator, originX + chunk.width, originZ).isSea();
-//				
-//				if (toWest) {
-//					
-//					// tall span
-//					if (toEast) {
-//						placeWBridgeColumns(chunk, sidewalkLevel + 4);
-//						placeEWBridgePartA(chunk, 0, sidewalkLevel + 4);
-//						placeEWBridgePartA(chunk, 2, sidewalkLevel + 4);
-//						placeEWBridgePartA(chunk, 4, sidewalkLevel + 4);
-//						placeEWBridgePartA(chunk, 6, sidewalkLevel + 4);
-//						placeEWBridgePartA(chunk, 8, sidewalkLevel + 4);
-//						placeEWBridgePartA(chunk, 10, sidewalkLevel + 4);
-//						placeEWBridgePartA(chunk, 12, sidewalkLevel + 4);
-//						placeEWBridgePartA(chunk, 14, sidewalkLevel + 4);
-//						placeEBridgeColumns(chunk, sidewalkLevel + 4);
-//						
-//						
-//					// ramp down
-//					} else {
-//						placeEWBridgeCap(chunk, 14, base1Y, sidewalkLevel);
-//						placeEWBridgePartA(chunk, 14, sidewalkLevel);
-//						placeEWBridgePartB(chunk, 12, sidewalkLevel);
-//						placeEWBridgePartA(chunk, 10, sidewalkLevel + 1);
-//						placeEWBridgePartB(chunk, 8, sidewalkLevel + 1);
-//						placeEWBridgePartA(chunk, 6, sidewalkLevel + 2);
-//						placeEWBridgePartB(chunk, 4, sidewalkLevel + 2);
-//						placeEWBridgePartA(chunk, 2, sidewalkLevel + 3);
-//						placeEWBridgePartB(chunk, 0, sidewalkLevel + 3);
-//						placeWBridgeColumns(chunk, sidewalkLevel + 3);
-//					}
-//						
-//					
-//				} else {
-//					
-//					// ramp up
-//					if (toEast) {
-//						placeEWBridgeCap(chunk, 0, base1Y, sidewalkLevel);
-//						placeEWBridgePartA(chunk, 0, sidewalkLevel);
-//						placeEWBridgePartB(chunk, 2, sidewalkLevel);
-//						placeEWBridgePartA(chunk, 4, sidewalkLevel + 1);
-//						placeEWBridgePartB(chunk, 6, sidewalkLevel + 1);
-//						placeEWBridgePartA(chunk, 8, sidewalkLevel + 2);
-//						placeEWBridgePartB(chunk, 10, sidewalkLevel + 2);
-//						placeEWBridgePartA(chunk, 12, sidewalkLevel + 3);
-//						placeEWBridgePartB(chunk, 14, sidewalkLevel + 3);
-//						placeEBridgeColumns(chunk, sidewalkLevel + 3);
-//						
-//					// short span
-//					} else {
-//						placeEWBridgeCap(chunk, 0, base1Y, sidewalkLevel);
-//						placeEWBridgePartA(chunk, 0, sidewalkLevel);
-//						placeEWBridgePartB(chunk, 2, sidewalkLevel);
-//						placeEWBridgePartA(chunk, 4, sidewalkLevel + 1);
-//						placeEWBridgePartA(chunk, 6, sidewalkLevel + 1);
-//						placeEWBridgePartA(chunk, 8, sidewalkLevel + 1);
-//						placeEWBridgePartA(chunk, 10, sidewalkLevel + 1);
-//						placeEWBridgePartB(chunk, 12, sidewalkLevel);
-//						placeEWBridgePartA(chunk, 14, sidewalkLevel);
-//						placeEWBridgeCap(chunk, 14, base1Y, sidewalkLevel);
-//					}
-//				}
-//				
-//			} else if (roads.toNorth() && roads.toSouth()) {
-//				
-//				// more bridge beside this one?
-//				boolean toNorth = HeightInfo.getHeightsFast(generator, originX, originZ - chunk.width).isSea();
-//				boolean toSouth = HeightInfo.getHeightsFast(generator, originX, originZ + chunk.width).isSea();
-//				
-//				if (toNorth) {
-//					
-//					// tall span
-//					if (toSouth) {
-//						placeNBridgeColumns(chunk, sidewalkLevel + 4);
-//						placeNSBridgePartA(chunk, 0, sidewalkLevel + 4);
-//						placeNSBridgePartA(chunk, 2, sidewalkLevel + 4);
-//						placeNSBridgePartA(chunk, 4, sidewalkLevel + 4);
-//						placeNSBridgePartA(chunk, 6, sidewalkLevel + 4);
-//						placeNSBridgePartA(chunk, 8, sidewalkLevel + 4);
-//						placeNSBridgePartA(chunk, 10, sidewalkLevel + 4);
-//						placeNSBridgePartA(chunk, 12, sidewalkLevel + 4);
-//						placeNSBridgePartA(chunk, 14, sidewalkLevel + 4);
-//						placeSBridgeColumns(chunk, sidewalkLevel + 4);
-//						
-//					// ramp down
-//					} else {
-//						placeNSBridgeCap(chunk, 14, base1Y, sidewalkLevel);
-//						placeNSBridgePartA(chunk, 14, sidewalkLevel);
-//						placeNSBridgePartB(chunk, 12, sidewalkLevel);
-//						placeNSBridgePartA(chunk, 10, sidewalkLevel + 1);
-//						placeNSBridgePartB(chunk, 8, sidewalkLevel + 1);
-//						placeNSBridgePartA(chunk, 6, sidewalkLevel + 2);
-//						placeNSBridgePartB(chunk, 4, sidewalkLevel + 2);
-//						placeNSBridgePartA(chunk, 2, sidewalkLevel + 3);
-//						placeNSBridgePartB(chunk, 0, sidewalkLevel + 3);
-//						placeNBridgeColumns(chunk, sidewalkLevel + 3);
-//					}
-//					
-//				} else {
-//					
-//					// ramp up
-//					if (toSouth) {
-//						placeNSBridgeCap(chunk, 0, base1Y, sidewalkLevel);
-//						placeNSBridgePartA(chunk, 0, sidewalkLevel);
-//						placeNSBridgePartB(chunk, 2, sidewalkLevel);
-//						placeNSBridgePartA(chunk, 4, sidewalkLevel + 1);
-//						placeNSBridgePartB(chunk, 6, sidewalkLevel + 1);
-//						placeNSBridgePartA(chunk, 8, sidewalkLevel + 2);
-//						placeNSBridgePartB(chunk, 10, sidewalkLevel + 2);
-//						placeNSBridgePartA(chunk, 12, sidewalkLevel + 3);
-//						placeNSBridgePartB(chunk, 14, sidewalkLevel + 3);
-//						placeSBridgeColumns(chunk, sidewalkLevel + 3);
-//						
-//					// short span
-//					} else {
-//						placeNSBridgeCap(chunk, 0, base1Y, sidewalkLevel);
-//						placeNSBridgePartA(chunk, 0, sidewalkLevel);
-//						placeNSBridgePartB(chunk, 2, sidewalkLevel);
-//						placeNSBridgePartA(chunk, 4, sidewalkLevel + 1);
-//						placeNSBridgePartA(chunk, 6, sidewalkLevel + 1);
-//						placeNSBridgePartA(chunk, 8, sidewalkLevel + 1);
-//						placeNSBridgePartA(chunk, 10, sidewalkLevel + 1);
-//						placeNSBridgePartB(chunk, 12, sidewalkLevel);
-//						placeNSBridgePartA(chunk, 14, sidewalkLevel);
-//						placeNSBridgeCap(chunk, 14, base1Y, sidewalkLevel);
-//					}
-//				}
-//			}
-//			
-//		} else {
-//			// draw pavement and clear out a bit
-//			chunk.setLayer(pavementLevel, pavementId);
-//			if (pavementLevel != sidewalkLevel)
-//				chunk.setLayer(sidewalkLevel, getAirMaterial(generator, sidewalkLevel));
-//			Material emptyMaterial = getAirMaterial(generator, sidewalkLevel + 1);
-//			
-//			// sidewalk corners
-//			chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkMaterial);
-//			chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, chunk.width - sidewalkWidth, chunk.width, sidewalkMaterial);
-//			chunk.setBlocks(chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkMaterial);
-//			chunk.setBlocks(chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkLevel + 1, chunk.width - sidewalkWidth, chunk.width, sidewalkMaterial);
-//			
-//			// sidewalk edges
-//			if (!roads.toWest())
-//				chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkMaterial);
-//			if (!roads.toEast())
-//				chunk.setBlocks(chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkLevel + 1, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkMaterial);
-//			if (!roads.toNorth())
-//				chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkMaterial);
-//			if (!roads.toSouth())
-//				chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, chunk.width - sidewalkWidth, chunk.width, sidewalkMaterial);
-//			
-//			// crosswalks?
-//			if (cityRoad && !generator.settings.includeWoolRoads) {
-//				calculateCrosswalks(roads);
-//				
-//				// draw the crosswalk bits
-//				if (crosswalkNorth)
-//					generateNSCrosswalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth);
-//				if (crosswalkSouth)
-//					generateNSCrosswalk(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width);
-//				if (crosswalkWest)
-//					generateWECrosswalk(chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth);
-//				if (crosswalkEast)
-//					generateWECrosswalk(chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth);
-//			}
-//			
-//			// tunnel walls please
-//			if (blockYs.maxHeight > sidewalkLevel + tunnelHeight) {
-//				doSewer = false;
-//				
-//				// draw pavement
-//				chunk.setLayer(pavementLevel - 1, 2, pavementId);
-//				
-//				// tunnel to the east/west
-//				if (roads.toWest() && roads.toEast()) {
-//					
-//					// carve out the tunnel
-//					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + 6, 2, 14, emptyMaterial);
-//					
-//					// place the arches
-//					placeEWTunnelArch(generator, chunk, 0, sidewalkLevel, tunnelWallMaterial, tunnelWallMaterial, tunnelWallMaterial);
-//					for (int x = 1; x < chunk.width - 1; x++) {
-//						placeEWTunnelArch(generator, chunk, x, sidewalkLevel, tunnelWallMaterial, tunnelTileMaterial, tunnelCeilingMaterial);
-//					}
-//					placeEWTunnelArch(generator, chunk, 15, sidewalkLevel, tunnelWallMaterial, tunnelWallMaterial, tunnelWallMaterial);
-//					
-//				} else if (roads.toNorth() && roads.toSouth()) {
-//					
-//					// carve out the tunnel
-//					chunk.setBlocks(2, 14, sidewalkLevel + 1, sidewalkLevel + 6, 0, 16, emptyMaterial);
-//					
-//					// place the arches
-//					placeNSTunnelArch(generator, chunk, 0, sidewalkLevel, tunnelWallMaterial, tunnelWallMaterial, tunnelWallMaterial);
-//					for (int z = 1; z < chunk.width - 1; z++) {
-//						placeNSTunnelArch(generator, chunk, z, sidewalkLevel, tunnelWallMaterial, tunnelTileMaterial, tunnelCeilingMaterial);
-//					}
-//					placeNSTunnelArch(generator, chunk, 15, sidewalkLevel, tunnelWallMaterial, tunnelWallMaterial, tunnelWallMaterial);
-//				}
-//				
-//			// retaining walls please
-//			} else if (blockYs.maxHeight > sidewalkLevel) {
-//				
-//				// wall to the east/west
-//				if (roads.toWest() && roads.toEast()) {
-//					
-//					// carve out the tunnel
-//					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + tunnelHeight + 1, 0, 16, emptyMaterial);
-//					
-//					// walls please, this will find the Y the hard way since we are looking at the next chunk over
-//					for (int x = 0; x < chunk.width; x++) {
-//						placeRetainingWall(chunk, x, 0, sidewalkLevel, generator.getFarBlockY(originX + x, originZ - 1));
-//						placeRetainingWall(chunk, x, 15, sidewalkLevel, generator.getFarBlockY(originX + x, originZ + 16));
-//					}
-//				} else if (roads.toNorth() && roads.toSouth()) {
-//
-//					// carve out the tunnel
-//					chunk.setBlocks(0, 16, sidewalkLevel + 1, sidewalkLevel + tunnelHeight + 1, 0, 16, emptyMaterial);
-//
-//					// walls please, this will find the Y the hard way since we are looking at the next chunk over
-//					for (int z = 0; z < chunk.width; z++) {
-//						placeRetainingWall(chunk, 0, z, sidewalkLevel, generator.getFarBlockY(originX - 1, originZ + z));
-//						placeRetainingWall(chunk, 15, z, sidewalkLevel, generator.getFarBlockY(originX + 16, originZ + z));
-//					}
-//				}
-//							
-//			// stuff that only can happen outside of tunnels and bridges
-//			} else {
-//				
-//				// round things out
-//				if (!roads.toWest() && roads.toEast() && !roads.toNorth() && roads.toSouth())
-//					generateRoundedOut(generator, context, chunk, sidewalkWidth, sidewalkWidth, 
-//							false, false);
-//				if (!roads.toWest() && roads.toEast() && roads.toNorth() && !roads.toSouth())
-//					generateRoundedOut(generator, context, chunk, sidewalkWidth, chunk.width - sidewalkWidth - 4, 
-//							false, true);
-//				if (roads.toWest() && !roads.toEast() && !roads.toNorth() && roads.toSouth())
-//					generateRoundedOut(generator, context, chunk, chunk.width - sidewalkWidth - 4, sidewalkWidth, 
-//							true, false);
-//				if (roads.toWest() && !roads.toEast() && roads.toNorth() && !roads.toSouth())
-//					generateRoundedOut(generator, context, chunk, chunk.width - sidewalkWidth - 4, chunk.width - sidewalkWidth - 4, 
-//							true, true);
-//			}
-//		}
-//		
-//		// sewer or not?
-//		if (doSewer) {
-//			
-//			// empty out the sewer
-//			chunk.setLayer(base1Y, base2Y - base1Y, getAirMaterial(generator, base1Y));
-//			Material emptyMaterial = getAirMaterial(generator, sewerY - 1);
-//					
-//			// draw the floor of the sewer
-//			chunk.setLayer(sewerY - 1, 1, sewerFloorMaterial);
-//			chunk.setBlocks(crossDitchEdge, chunk.width - crossDitchEdge, 
-//							sewerY - 1, sewerY, 
-//							crossDitchEdge, chunk.width - crossDitchEdge, emptyMaterial);
-//			
-//			// corner bits
-//			chunk.setBlocks(0, 6, sewerY, base2Y, 0, 1, sewerWallMaterial);
-//			chunk.setBlocks(0, 1, sewerY, base2Y, 1, 6, sewerWallMaterial);
-//			chunk.setBlocks(10, 16, sewerY, base2Y, 0, 1, sewerWallMaterial);
-//			chunk.setBlocks(15, 16, sewerY, base2Y, 1, 6, sewerWallMaterial);
-//			chunk.setBlocks(0, 6, sewerY, base2Y, 15, 16, sewerWallMaterial);
-//			chunk.setBlocks(0, 1, sewerY, base2Y, 10, 15, sewerWallMaterial);
-//			chunk.setBlocks(10, 16, sewerY, base2Y, 15, 16, sewerWallMaterial);
-//			chunk.setBlocks(15, 16, sewerY, base2Y, 10, 15, sewerWallMaterial);
-//			
-//			// cross beams
-//			chunk.setBlocks(6, 10, base2Y - 1, base2Y, 0, 1, sewerCeilingMaterial);
-//			chunk.setBlocks(6, 10, base2Y - 1, base2Y, 15, 16, sewerCeilingMaterial);
-//			chunk.setBlocks(0, 1, base2Y - 1, base2Y, 6, 10, sewerCeilingMaterial);
-//			chunk.setBlocks(15, 16, base2Y - 1, base2Y, 6, 10, sewerCeilingMaterial);
-//			
-//			// cardinal directions known walls and ditches
-//			if (!roads.toNorth()) {
-//				chunk.setBlocks(5, 11, sewerY, base2Y, 0, 1, sewerWallMaterial);
-//				chunk.setBlocks(5, 11, base2Y - 1, base2Y, 1, 2, sewerCeilingMaterial);
-//			} else {
-//				chunk.setBlocks(7, 9, sewerY - 1, sewerY, 0, 7, emptyMaterial);
-//			}
-//			if (!roads.toSouth()) {
-//				chunk.setBlocks(5, 11, sewerY, base2Y, 15, 16, sewerWallMaterial);
-//				chunk.setBlocks(5, 11, base2Y - 1, base2Y, 14, 15, sewerCeilingMaterial);
-//			} else {
-//				chunk.setBlocks(7, 9, sewerY - 1, sewerY, 9, 16, emptyMaterial);
-//			}
-//			if (!roads.toWest()) {
-//				chunk.setBlocks(0, 1, sewerY, base2Y, 5, 11, sewerWallMaterial);
-//				chunk.setBlocks(1, 2, base2Y - 1, base2Y, 5, 11, sewerCeilingMaterial);
-//			} else {
-//				chunk.setBlocks(0, 7, sewerY - 1, sewerY, 7, 9, emptyMaterial);
-//			}
-//			if (!roads.toEast()) {
-//				chunk.setBlocks(15, 16, sewerY, base2Y, 5, 11, sewerWallMaterial);
-//				chunk.setBlocks(14, 15, base2Y - 1, base2Y, 5, 11, sewerCeilingMaterial);
-//			} else {
-//				chunk.setBlocks(9, 16, sewerY - 1, sewerY, 7, 9, emptyMaterial);
-//			}
-//			
-//			// defaults
-//			boolean vaultNorthWest = false;
-//			boolean vaultSouthWest = false;
-//			boolean vaultNorthEast = false;
-//			boolean vaultSouthEast = false;
-//			boolean centerNorth = !roads.toNorth();
-//			boolean centerSouth = !roads.toSouth();
-//			boolean centerWest = !roads.toWest();
-//			boolean centerEast = !roads.toEast();
-//			
-//			// show our bias
-//			if (roads.toNorth()) {
-//				vaultNorthWest = sewerNorthWestBias;
-//				vaultNorthEast = sewerNorthEastBias;
-//			}
-//			if (roads.toSouth()) {
-//				vaultSouthWest = sewerSouthWestBias;
-//				vaultSouthEast = sewerSouthEastBias;
-//			}
-//			if (roads.toWest()) {
-//				vaultNorthWest = sewerNorthWestBias;
-//				vaultSouthWest = sewerSouthWestBias;
-//			}
-//			if (roads.toEast()) {
-//				vaultNorthEast = sewerNorthEastBias;
-//				vaultSouthEast = sewerSouthEastBias;
-//			}
-//			
-//			// make sure there is a way down
-//			if (roads.toNorth() && roads.toWest()) {
-//				vaultNorthWest = true;
-//			}
-//			
-//			// figure out the center
-//			if (!(vaultNorthWest && vaultNorthEast && vaultSouthWest && vaultSouthEast)) {
-//				centerNorth = sewerCenterBit || (vaultNorthWest && vaultNorthEast);
-//				centerSouth = sewerCenterBit || (vaultSouthWest && vaultSouthEast);
-//				centerWest = sewerCenterBit || (vaultNorthWest && vaultSouthWest);
-//				centerEast = sewerCenterBit || (vaultNorthEast && vaultSouthEast);
-//			}
-//			
-//			// show the vaults
-//			if (vaultNorthWest) {
-//				chunk.setBlocks(4, 5, sewerY, base2Y - 1, 1, 4, sewerWallMaterial);
-//				chunk.setBlocks(1, 4, sewerY, base2Y - 1, 4, 5, sewerWallMaterial);
-//				chunk.setBlocks(1, 6, base2Y - 1, base2Y, 1, 6, sewerCeilingMaterial);
-//			} else {
-//				chunk.setBlocks(1, 6, base2Y - 1, base2Y, 1, 2, sewerCeilingMaterial);
-//				chunk.setBlocks(1, 2, base2Y - 1, base2Y, 2, 6, sewerCeilingMaterial);
-//			}
-//			if (vaultSouthWest) {
-//				chunk.setBlocks(4, 5, sewerY, base2Y - 1, 12, 15, sewerWallMaterial);
-//				chunk.setBlocks(1, 4, sewerY, base2Y - 1, 11, 12, sewerWallMaterial);
-//				chunk.setBlocks(1, 6, base2Y - 1, base2Y, 10, 15, sewerCeilingMaterial);
-//			} else {
-//				chunk.setBlocks(1, 6, base2Y - 1, base2Y, 14, 15, sewerCeilingMaterial);
-//				chunk.setBlocks(1, 2, base2Y - 1, base2Y, 10, 14, sewerCeilingMaterial);
-//			}
-//			if (vaultNorthEast) {
-//				chunk.setBlocks(11, 12, sewerY, base2Y - 1, 1, 4, sewerWallMaterial);
-//				chunk.setBlocks(12, 15, sewerY, base2Y - 1, 4, 5, sewerWallMaterial);
-//				chunk.setBlocks(10, 15, base2Y - 1, base2Y, 1, 6, sewerCeilingMaterial);
-//			} else {
-//				chunk.setBlocks(10, 15, base2Y - 1, base2Y, 1, 2, sewerCeilingMaterial);
-//				chunk.setBlocks(14, 15, base2Y - 1, base2Y, 2, 6, sewerCeilingMaterial);
-//			}
-//			if (vaultSouthEast) {
-//				chunk.setBlocks(11, 12, sewerY, base2Y - 1, 12, 15, sewerWallMaterial);
-//				chunk.setBlocks(12, 15, sewerY, base2Y - 1, 11, 12, sewerWallMaterial);
-//				chunk.setBlocks(10, 15, base2Y - 1, base2Y, 10, 15, sewerCeilingMaterial);
-//			} else {
-//				chunk.setBlocks(10, 15, base2Y - 1, base2Y, 14, 15, sewerCeilingMaterial);
-//				chunk.setBlocks(14, 15, base2Y - 1, base2Y, 10, 14, sewerCeilingMaterial);
-//			}
-//			
-//			// show the center center
-//			if (centerNorth) {
-//				chunk.setBlocks(4, 12, sewerY, base2Y - 1, 4, 5, sewerWallMaterial);
-//				chunk.setBlocks(3, 13, base2Y - 1, base2Y, 3, 6, sewerCeilingMaterial);
-//			}
-//			if (centerSouth) {
-//				chunk.setBlocks(4, 12, sewerY, base2Y - 1, 11, 12, sewerWallMaterial);
-//				chunk.setBlocks(3, 13, base2Y - 1, base2Y, 10, 13, sewerCeilingMaterial);
-//			} 
-//			if (centerWest) {
-//				chunk.setBlocks(4, 5, sewerY, base2Y - 1, 4, 12, sewerWallMaterial);
-//				chunk.setBlocks(3, 6, base2Y - 1, base2Y, 3, 13, sewerCeilingMaterial);
-//			}
-//			if (centerEast) {
-//				chunk.setBlocks(11, 12, sewerY, base2Y - 1, 4, 12, sewerWallMaterial);
-//				chunk.setBlocks(10, 13, base2Y - 1, base2Y, 3, 13, sewerCeilingMaterial);
-//			}
-//			
-//			// ceiling please
-//			chunk.setLayer(base2Y, 2, sewerCeilingMaterial);
-//		}
+		// moved to other chunk generator
 	}
 	
 	private void placeEWBridgeCap(AbstractBlocks chunk, int x, int baseY, int topY) {
@@ -805,7 +378,7 @@ public class RoadLot extends ConnectedLot {
 		int base2Y = base1Y + DataContext.FloorHeight + 1;
 		int pavementLevel = generator.streetLevel;
 		int sidewalkLevel = pavementLevel + 1;
-		boolean doSewer = generator.settings.includeSewers && cityRoad;
+		boolean doSewer = generator.settings.includeSewers && inACity;
 		
 		//chunk.setBlocks(6, 10, pavementLevel + 32, 6, 10, Material.GLOWSTONE);
 		
@@ -955,7 +528,7 @@ public class RoadLot extends ConnectedLot {
 
 			// draw a bridge bits
 			// bridge to the east/west
-			if (cityRoad) {
+			if (inACity) {
 				if (roads.toWest() && roads.toEast()) {
 					if (HeightInfo.getHeightsFast(generator, originX - chunk.width, originZ).isSea() &&
 						HeightInfo.getHeightsFast(generator, originX + chunk.width, originZ).isSea()) {
@@ -1007,7 +580,7 @@ public class RoadLot extends ConnectedLot {
 				chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, chunk.width - sidewalkWidth, chunk.width, sidewalkMaterial);
 			
 			// crosswalks?
-			if (cityRoad) {
+			if (inACity) {
 				calculateCrosswalks(roads);
 				
 				// draw the crosswalk bits
@@ -1162,7 +735,7 @@ public class RoadLot extends ConnectedLot {
 			} else {
 				
 				// light posts
-				if (cityRoad) {
+				if (inACity) {
 					boolean lightPostNW = generateLightPost(generator, chunk, context, sidewalkLevel, sidewalkWidth - 1, sidewalkWidth - 1);
 					boolean lightPostSE = generateLightPost(generator, chunk, context, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
 					
@@ -1538,10 +1111,16 @@ public class RoadLot extends ConnectedLot {
 	}
 	
 	protected void paveRoadArea(CityWorldGenerator generator, SupportBlocks chunk, int x1, int x2, int y, int z1, int z2) {
-		if (pavementIsClay)
-			chunk.setClay(x1, x2, y, z1, z2, pavementColor);
+		if (inACity)
+			if (pavementIsClay)
+				chunk.setClay(x1, x2, y, z1, z2, pavementColor);
+			else
+				chunk.setBlocks(x1, x2, y, z1, z2, pavementMat);
 		else
-			chunk.setBlocks(x1, x2, y, z1, z2, pavementMat);
+			if (dirtroadIsClay)
+				chunk.setClay(x1, x2, y, z1, z2, dirtroadColor);
+			else
+				chunk.setBlocks(x1, x2, y, z1, z2, dirtroadMat);
 	}
 	
 	protected void paveRoadLot(CityWorldGenerator generator, SupportBlocks chunk, int y) {
@@ -1550,7 +1129,7 @@ public class RoadLot extends ConnectedLot {
 	}
 	
 	protected void generateNSCrosswalk(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
-		if (cityRoad) {
+		if (inACity) {
 			paveRoadArea(generator, chunk, x1, x2, y, z1, z2);
 			if (crosswalk) {
 				chunk.setBlocks(x1 + 1, x1 + 2, y, z1, z2, linesMat);
@@ -1566,7 +1145,7 @@ public class RoadLot extends ConnectedLot {
 	}
 
 	protected void generateWECrosswalk(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
-		if (cityRoad) {
+		if (inACity) {
 			paveRoadArea(generator, chunk, x1, x2, y, z1, z2);
 			if (crosswalk) {
 				chunk.setBlocks(x1, x2, y, z1 + 1, z1 + 2, linesMat);

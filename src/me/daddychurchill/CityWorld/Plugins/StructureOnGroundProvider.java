@@ -11,6 +11,7 @@ import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
+import me.daddychurchill.CityWorld.Support.Odds.ColorSet;
 
 public class StructureOnGroundProvider extends Provider {
 
@@ -230,25 +231,10 @@ public class StructureOnGroundProvider extends Provider {
 	
 	private DyeColor getTentColor(Odds odds, DyeColor baseColor, boolean camoMode) {
 		if (camoMode) {
-			if (baseColor == DyeColor.PINK) {
-				switch (odds.getRandomInt(3)) {
-				case 1:
-					return DyeColor.PINK;
-				case 2:
-					return DyeColor.SILVER;
-				default:
-					return DyeColor.RED;
-				}
-			} else {
-				switch (odds.getRandomInt(3)) {
-				case 1:
-					return DyeColor.BROWN;
-				case 2:
-					return DyeColor.GRAY;
-				default:
-					return DyeColor.GREEN;
-				}
-			}
+			if (baseColor == DyeColor.PINK)
+				return odds.getRandomColor(ColorSet.PINK);
+			else 
+				return odds.getRandomColor(ColorSet.GREEN);
 		} else
 			return baseColor;
 	}

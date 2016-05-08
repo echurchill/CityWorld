@@ -323,7 +323,7 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setBlocks(7, 9, surfaceY + 5, surfaceY + 6, 7, 9, materials.building);
 		
 		// camo
-		chunk.camoClay(5, 11, surfaceY - 2, surfaceY + 6, 5, 11, odds);
+		chunk.camoClay(5, 11, surfaceY - 2, surfaceY + 6, 5, 11, odds, generator.coverProvider.getDefaultColorSet());
 		
 		// bottom doors
 		chunk.setBlocks(7, 9, y1, y1 + 2, 5, 6, Material.AIR);
@@ -364,9 +364,6 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setCircle(8, 8, 6, topOfBunker, blockYs.minHeight + 1, materials.building, false);
 		chunk.setCircle(8, 8, 6, blockYs.minHeight, blockYs.averageHeight + 1, Material.STAINED_CLAY, false);
 		
-		// camo the exit
-		chunk.camoClay(1, 15, blockYs.minHeight, blockYs.averageHeight + 1, 1, 15, odds);
-		
 		// lid & crack
 		int lidY = blockYs.averageHeight - 1;
 		chunk.setCircle(8, 8, 5, lidY, Material.HARD_CLAY, true);
@@ -376,6 +373,9 @@ public class BunkerLot extends ConnectedLot {
 			chunk.setTrapDoor(x, lidY, 8, TrapDoor.TOP_SOUTH);
 		chunk.setLadder(2, topOfBunker, lidY, 8, BlockFace.WEST);
 		chunk.setWalls(2, 14, topOfBunker - 1, topOfBunker, 2, 14, materials.crosswalk);
+		
+		// camo the exit
+		chunk.camoClay(1, 15, blockYs.minHeight, lidY + 2, 1, 15, odds, generator.coverProvider.getDefaultColorSet());
 		
 		// place it then
 		if (odds.flipCoin())

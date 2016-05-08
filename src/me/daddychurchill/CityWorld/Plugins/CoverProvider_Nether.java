@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Plugins;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
+import me.daddychurchill.CityWorld.Support.Odds.ColorSet;
 
 public class CoverProvider_Nether extends CoverProvider_Decayed {
 
@@ -73,6 +74,11 @@ public class CoverProvider_Nether extends CoverProvider_Decayed {
 //			return false;
 //	}
 
+	@Override
+	public ColorSet getDefaultColorSet() {
+		return ColorSet.NETHER;
+	}
+	
 	@Override
 	protected void setCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, CoverageType coverageType) {
 		switch (coverageType) {

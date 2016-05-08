@@ -36,6 +36,8 @@ public class Odds {
 	public final static double oddsThricedSomewhatUnlikely = 	oddsSomewhatUnlikely * 3; // 60.0%
 	public final static double oddsHalvedPrettyLikely = 		oddsPrettyLikely / 2;     // 40.0%
 	
+	public enum ColorSet {ALL, GREEN, WHITE, TAN, PINK, NETHER, THEEND, DARK, LIGHT};
+	
 	public Odds() {
 		super();
 		random = new Random();
@@ -105,28 +107,57 @@ public class Odds {
 	}
 	
 	public DyeColor getRandomColor() {
-		return getRandomColor(
-				DyeColor.WHITE, DyeColor.ORANGE, DyeColor.MAGENTA, DyeColor.LIGHT_BLUE,
-				DyeColor.YELLOW, DyeColor.LIME, DyeColor.PINK, DyeColor.GRAY, 
-				DyeColor.SILVER, DyeColor.CYAN, DyeColor.PURPLE, DyeColor.BLUE,
-				DyeColor.BROWN, DyeColor.GREEN, DyeColor.RED, DyeColor.BLACK);
+		return getRandomColor(ColorSet.ALL);
 	}
 	
 	public DyeColor getRandomLightColor() {
-		return getRandomColor(
-				DyeColor.WHITE, DyeColor.ORANGE, DyeColor.MAGENTA, DyeColor.LIGHT_BLUE,
-				DyeColor.YELLOW, DyeColor.LIME, DyeColor.PINK, DyeColor.SILVER);
+		return getRandomColor(ColorSet.LIGHT);
 	}
 	
 	public DyeColor getRandomDarkColor() {
-		return getRandomColor(
-				DyeColor.GRAY, DyeColor.CYAN, DyeColor.PURPLE, DyeColor.BLUE,
-				DyeColor.BROWN, DyeColor.GREEN, DyeColor.RED, DyeColor.BLACK);
+		return getRandomColor(ColorSet.DARK);
 	}
 	
 	public DyeColor getRandomCamoColor() {
-		return getRandomColor(
-				DyeColor.BROWN, DyeColor.GREEN, DyeColor.GRAY);
+		return getRandomColor(ColorSet.GREEN);
+	}
+	
+	public DyeColor getRandomColor(ColorSet set) {
+		switch (set) {
+		case ALL:
+		default:
+			return getRandomColor(
+					DyeColor.WHITE, DyeColor.ORANGE, DyeColor.MAGENTA, DyeColor.LIGHT_BLUE,
+					DyeColor.YELLOW, DyeColor.LIME, DyeColor.PINK, DyeColor.GRAY, 
+					DyeColor.SILVER, DyeColor.CYAN, DyeColor.PURPLE, DyeColor.BLUE,
+					DyeColor.BROWN, DyeColor.GREEN, DyeColor.RED, DyeColor.BLACK);
+		case GREEN:
+			return getRandomColor(
+					DyeColor.BROWN, DyeColor.GREEN, DyeColor.GRAY);
+		case DARK:
+			return getRandomColor(
+					DyeColor.GRAY, DyeColor.CYAN, DyeColor.PURPLE, DyeColor.BLUE,
+					DyeColor.BROWN, DyeColor.GREEN, DyeColor.RED, DyeColor.BLACK);
+		case LIGHT:
+			return getRandomColor(
+					DyeColor.WHITE, DyeColor.ORANGE, DyeColor.MAGENTA, DyeColor.LIGHT_BLUE,
+					DyeColor.YELLOW, DyeColor.LIME, DyeColor.PINK, DyeColor.SILVER);
+		case NETHER:
+			return getRandomColor(
+					DyeColor.RED, DyeColor.BROWN, DyeColor.PURPLE, DyeColor.BLACK, DyeColor.GRAY);
+		case TAN:
+			return getRandomColor(
+					DyeColor.ORANGE, DyeColor.YELLOW);
+		case PINK:
+			return getRandomColor(
+					DyeColor.PINK, DyeColor.SILVER, DyeColor.RED);
+		case WHITE:
+			return getRandomColor(
+					DyeColor.WHITE, DyeColor.SILVER);
+		case THEEND:
+			return getRandomColor(
+					DyeColor.WHITE, DyeColor.SILVER, DyeColor.PINK);
+		}
 	}
 	
 	public int getCauldronLevel() {
