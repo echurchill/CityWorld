@@ -31,7 +31,7 @@ public abstract class CivilizedContext extends DataContext {
 		
 		//TODO oddsOfMissingRoad is current not used... I need to fix this
 		//oddsOfMissingRoad = oddsLikely; 
-		oddsOfRoundAbouts = Odds.oddsLikely; 
+		oddsOfRoundAbouts = Odds.oddsSomewhatLikely; 
 		
 		oddsOfArt = Odds.oddsExtremelyLikely; 
 		oddsOfNaturalArt = Odds.oddsExtremelyLikely; 
