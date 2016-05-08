@@ -12,7 +12,7 @@ prefix: CityWorld
 commands:
   cityworld:
     description: Teleports you to/from the default CityWorld
-    usage: /cityworld [leave] [normal|destroyed|maze|astral|sanddunes|snowdunes|flooded|floating] [normal|nether|the_end]
+    usage: /cityworld [leave] [normal|destroyed|maze|astral|sanddunes|snowdunes|flooded|floating|nature|metro] [normal|nether|the_end]
     permission: cityworld.command
   citychunk:
     description: Performs specific maintenance on chunks of CityWorld

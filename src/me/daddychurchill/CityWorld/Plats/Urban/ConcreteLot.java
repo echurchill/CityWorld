@@ -6,6 +6,7 @@ import me.daddychurchill.CityWorld.Plats.BuildingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
+import me.daddychurchill.CityWorld.Support.Odds.ColorSet;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
@@ -18,7 +19,7 @@ public class ConcreteLot extends BuildingLot {
 
 	// flat shallow pond, inverted pyramid pond, water maze, dented in quiet zone, checkered water, water labyrinth 
 //	private enum CenterStyle {EMPTY, QUIET_ZONE, ART_ZONE, SHALLOW_POND, PYRAMID_POND, WATER_MAZE, WATER_CHECKER, WATER_CIRCLE, WATER_LABYRINTH};
-	private enum CenterStyle {EMPTY, QUIET_ZONE, ART_ZONE, CHECKER_ART, SHALLOW_POND, ROUND_POND, PYRAMID_POND, CHECKER_POND, UPWARD_POND, DOWNWARD_POND};
+	public enum CenterStyle {EMPTY, QUIET_ZONE, ART_ZONE, CHECKER_ART, SHALLOW_POND, ROUND_POND, PYRAMID_POND, CHECKER_POND, UPWARD_POND, DOWNWARD_POND};
 	private CenterStyle centerStyle;
 	
 	public ConcreteLot(PlatMap platmap, int chunkX, int chunkZ) {
@@ -39,7 +40,10 @@ public class ConcreteLot extends BuildingLot {
 			return CenterStyle.EMPTY;
 		else {
 			CenterStyle[] values = CenterStyle.values();
-			return values[chunkOdds.getRandomInt(values.length)];
+			CenterStyle result = values[chunkOdds.getRandomInt(values.length)];
+			if (result == CenterStyle.CHECKER_ART) // reduce the chances of checker art
+				result = values[chunkOdds.getRandomInt(values.length)];
+			return result;
 		}
 	}
 	
@@ -57,6 +61,7 @@ public class ConcreteLot extends BuildingLot {
 
 		// top it off
 		chunk.setLayer(sidewalkLevel, sidewalkMaterial);
+		flattenLot(generator, chunk, 4);
 	}
 
 	@Override
@@ -171,14 +176,15 @@ public class ConcreteLot extends BuildingLot {
 			chunk.setLayer(sidewalkLevel - 2, 2, underneath);
 			chunk.clearBlocks(2, 14, sidewalkLevel, 2, 14);
 			boolean randomColor = chunkOdds.playOdds(Odds.oddsSomewhatUnlikely);
-			DyeColor color = chunkOdds.getRandomColor();
+			ColorSet colors = chunkOdds.getRandomColorSet();
+			DyeColor color = chunkOdds.getRandomColor(colors);
 			int inset = 0;
 			for (int z = 3; z < 13; z++) {
 				inset = inset == 1 ? 0 : 1;
 				for (int x = 3; x < 13; x += 2) {
 					chunk.setGlass(x + inset, x + inset + 1, sidewalkLevel - 1, sidewalkLevel + chunkOdds.calcRandomRange(3, 5), z, z + 1, color);
 					if (randomColor)
-						color = chunkOdds.getRandomColor();
+						color = chunkOdds.getRandomColor(colors);
 				}
 			}
 		}

@@ -703,12 +703,14 @@ public class FarmLot extends ConnectedLot {
 		CropType.PADDOCK,
 		CropType.PADDOCK,
 		CropType.PADDOCK,
-		CropType.PADDOCK,
 		CropType.PADDOCK
 		};
 	
 	protected CropType setNormalCrop() {
-		return pickACrop(normalCrops);
+		CropType result = pickACrop(normalCrops);
+		if (result == CropType.CACTUS) // make cactus less frequent
+			result = pickACrop(normalCrops);
+		return result;
 	}
 
 	private final static CropType[] decayCrops = {

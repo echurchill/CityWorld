@@ -28,6 +28,6 @@ public class SandDunesRoadLot extends RoadLot {
 	
 	@Override
 	protected int getSidewalkLevel(CityWorldGenerator generator) {
-		return generator.streetLevel;
+		return super.getSidewalkLevel(generator);
 	}
 }

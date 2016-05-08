@@ -37,7 +37,7 @@ public class FloatingRoadLot extends RoadLot {
 
 		// where do we start
 		int pavementLevel = generator.streetLevel;
-		int sidewalkLevel = pavementLevel + 1;
+		int sidewalkLevel = getSidewalkLevel(generator);
 		Material sidewalkMaterial = getSidewalkMaterial();
 		
 		// look around
@@ -50,20 +50,20 @@ public class FloatingRoadLot extends RoadLot {
 		chunk.setLayer(sidewalkLevel, getAirMaterial(generator, sidewalkLevel));
 		
 		// sidewalk corners
-		chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkMaterial);
-		chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, chunk.width - sidewalkWidth, chunk.width, sidewalkMaterial);
-		chunk.setBlocks(chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkMaterial);
-		chunk.setBlocks(chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkLevel + 1, chunk.width - sidewalkWidth, chunk.width, sidewalkMaterial);
+		chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, 0, sidewalkWidth, sidewalkMaterial);
+		chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width, sidewalkMaterial);
+		chunk.setBlocks(chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, 0, sidewalkWidth, sidewalkMaterial);
+		chunk.setBlocks(chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width, sidewalkMaterial);
 		
 		// sidewalk edges
 		if (!roads.toWest())
-			chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkMaterial);
+			chunk.setBlocks(0, sidewalkWidth, sidewalkLevel, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkMaterial);
 		if (!roads.toEast())
-			chunk.setBlocks(chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkLevel + 1, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkMaterial);
+			chunk.setBlocks(chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkMaterial);
 		if (!roads.toNorth())
-			chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, 0, sidewalkWidth, sidewalkMaterial);
+			chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, 0, sidewalkWidth, sidewalkMaterial);
 		if (!roads.toSouth())
-			chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, sidewalkLevel + 1, chunk.width - sidewalkWidth, chunk.width, sidewalkMaterial);
+			chunk.setBlocks(sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width, sidewalkMaterial);
 		
 		// round things out
 		if (!roads.toWest() && roads.toEast() && !roads.toNorth() && roads.toSouth())

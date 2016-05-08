@@ -366,7 +366,7 @@ public class BunkerLot extends ConnectedLot {
 		
 		// lid & crack
 		int lidY = blockYs.averageHeight - 1;
-		chunk.setCircle(8, 8, 5, lidY, Material.HARD_CLAY, true);
+		chunk.setCircle(8, 8, 5, lidY, Material.STAINED_CLAY, true);
 		for (int x = 3; x < 14; x += 2)
 			chunk.setTrapDoor(x, lidY, 7, TrapDoor.TOP_NORTH);
 		for (int x = 2; x < 15; x += 2)

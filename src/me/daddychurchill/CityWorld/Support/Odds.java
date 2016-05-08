@@ -106,6 +106,11 @@ public class Odds {
 		return colors[getRandomInt(colors.length)];
 	}
 	
+	public ColorSet getRandomColorSet() {
+		ColorSet[] values = ColorSet.values();
+		return values[getRandomInt(values.length)];
+	}
+	
 	public DyeColor getRandomColor() {
 		return getRandomColor(ColorSet.ALL);
 	}

@@ -99,14 +99,18 @@ public abstract class PlatLot {
 	}
 	
 	protected int getSidewalkLevel(CityWorldGenerator generator) {
-		return generator.streetLevel + 1;
+		int result = generator.streetLevel;
+		if (inACity)
+			return result + 1;
+		else
+			return result;
 	}
 	
 	protected Material getSidewalkMaterial() {
 		if (inACity)
 			return Material.STEP;
 		else
-			return Material.GRASS_PATH;
+			return Material.STAINED_CLAY;
 	}
 	
 	protected int getBlockY(int x, int z) {

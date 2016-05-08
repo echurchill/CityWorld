@@ -22,7 +22,7 @@ public class FarmContext extends RuralContext {
 		super(generator);
 		
 
-		oddsOfIsolatedLots = Odds.oddsVeryLikely;
+		oddsOfIsolatedLots = Odds.oddsLikely;
 		
 		schematicFamily = SchematicFamily.FARM;
 	}

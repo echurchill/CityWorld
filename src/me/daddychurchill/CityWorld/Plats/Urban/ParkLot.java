@@ -57,17 +57,18 @@ public class ParkLot extends ConnectedLot {
 	}
 	
 	private CenterStyles getRandomCenterStyle() {
-		if (chunkOdds.playOdds(Odds.oddsExtremelyUnlikely))
-			return CenterStyles.LABYRINTH_MAZE;
-		else if (chunkOdds.playOdds(Odds.oddsExtremelyUnlikely))
-			return CenterStyles.HEDGE_MAZE;
-		else if (chunkOdds.playOdds(Odds.oddsExtremelyUnlikely))
-			return CenterStyles.CIRCLE_MAZE;
-		else if (chunkOdds.playOdds(Odds.oddsExtremelyUnlikely))
-			return CenterStyles.WATER_TOWER;
-		else if (chunkOdds.playOdds(Odds.oddsSomewhatLikely))
-			return CenterStyles.CIRCLE_PATH;
-		else
+		if (chunkOdds.playOdds(Odds.oddsSomewhatLikely)) {
+			if (chunkOdds.playOdds(Odds.oddsExtremelyUnlikely))
+				return CenterStyles.LABYRINTH_MAZE;
+			else if (chunkOdds.playOdds(Odds.oddsExtremelyUnlikely))
+				return CenterStyles.HEDGE_MAZE;
+			else if (chunkOdds.playOdds(Odds.oddsExtremelyUnlikely))
+				return CenterStyles.CIRCLE_MAZE;
+			else if (chunkOdds.playOdds(Odds.oddsExtremelyUnlikely))
+				return CenterStyles.WATER_TOWER;
+			else
+				return CenterStyles.CIRCLE_PATH;
+		} else
 			return CenterStyles.CROSS_PATH;
 	}
 	
