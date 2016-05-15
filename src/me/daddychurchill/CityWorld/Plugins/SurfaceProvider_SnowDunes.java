@@ -1,14 +1,13 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import org.bukkit.Material;
-import org.bukkit.util.noise.NoiseGenerator;
-
+import org.bukkit.entity.EntityType;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
-public class SurfaceProvider_SnowDunes extends SurfaceProvider_Normal {
+public class SurfaceProvider_SnowDunes extends SurfaceProvider_Flooded {
 
 	public SurfaceProvider_SnowDunes(Odds odds) {
 		super(odds);
@@ -18,26 +17,16 @@ public class SurfaceProvider_SnowDunes extends SurfaceProvider_Normal {
 	private final static double snowmanOdds = Odds.oddsNearlyNeverGoingToHappen;
 	
 	@Override
-	public void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CoverProvider foliage, 
-			int x, double perciseY, int z, boolean includeTrees) {
-		int y = NoiseGenerator.floor(generator.shapeProvider.findFloodY(generator, x, z));
-		
-		// roll the dice
-		double primary = odds.getRandomDouble();
+	protected void generateFloodedPoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, 
+			CoverProvider foliage, int x, int y, int z, int floodY) {
 		
 		// snowman?
-		if (primary < snowmanOdds) {
-			if (chunk.isType(x, y, z, Material.SNOW_BLOCK)) {
+		if (odds.playOdds(snowmanOdds)) {
 				
-				// find the top of the snow dune
-				while (!chunk.isEmpty(x, y, z))
-					y++;
-				
-				// ok create a snowman
-				chunk.setBlock(x, y + 1, z, Material.SNOW_BLOCK);
-				chunk.setBlock(x, y + 2, z, Material.SNOW_BLOCK);
-				chunk.setBlock(x, y + 3, z, Material.PUMPKIN);
-			}			
-		}
+			// ok create a snowman above the snow
+			int manY = chunk.findFirstEmptyAbove(x, floodY - 1, z);
+			if (chunk.isType(x, manY - 1, z, Material.SNOW_BLOCK))
+				chunk.spawnEntity(odds, generator.settings.spawnBuddies, x, manY + 1, z, EntityType.SNOWMAN);
+		}			
 	}
 }

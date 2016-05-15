@@ -66,12 +66,6 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 					
 					// what to pepper about
 					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageSets.PRARIE_PLANTS);
-//					if (secondary < flowerRedOdds)
-//						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.POPPY);
-//					else if (secondary < flowerYellowOdds)
-//						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.DANDELION);
-//					else 
-//						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.GRASS);
 				}
 				
 			// regular trees, grass and some evergreen trees... no flowers

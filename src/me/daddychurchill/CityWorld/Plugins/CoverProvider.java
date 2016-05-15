@@ -22,7 +22,7 @@ import org.bukkit.material.Tree;
 public abstract class CoverProvider extends Provider {
 	
 	public enum CoverageType {
-		GRASS, FERN, DEAD_GRASS, DANDELION, DEAD_BUSH, 
+		NOTHING, GRASS, FERN, DEAD_GRASS, DANDELION, DEAD_BUSH, 
 		
 		POPPY, BLUE_ORCHID, ALLIUM, AZURE_BLUET, OXEYE_DAISY,
 		RED_TULIP, ORANGE_TULIP, WHITE_TULIP, PINK_TULIP,
@@ -40,17 +40,17 @@ public abstract class CoverProvider extends Provider {
 		MINI_JUNGLE_TREE, SHORT_JUNGLE_TREE, JUNGLE_TREE, TALL_JUNGLE_TREE,
 		MINI_SWAMP_TREE, SWAMP_TREE,
 		MINI_ACACIA_TREE, ACACIA_TREE,
-//		TALL_BROWN_MUSHROOM, TALL_RED_MUSHROOM,
 		  
-		MINI_OAK_TRUNK, OAK_TRUNK, 
-		MINI_PINE_TRUNK, PINE_TRUNK, 
-		MINI_BIRCH_TRUNK, BIRCH_TRUNK, 
-		MINI_JUNGLE_TRUNK, JUNGLE_TRUNK,
-		MINI_SWAMP_TRUNK, SWAMP_TRUNK,
-		MINI_ACACIA_TRUNK, ACACIA_TRUNK,
+		MINI_OAK_TRUNK, OAK_TRUNK, TALL_OAK_TRUNK, 
+		MINI_PINE_TRUNK, PINE_TRUNK, TALL_PINE_TRUNK, 
+		MINI_BIRCH_TRUNK, BIRCH_TRUNK, TALL_BIRCH_TRUNK, 
+		MINI_JUNGLE_TRUNK, JUNGLE_TRUNK, TALL_JUNGLE_TRUNK,
+		MINI_SWAMP_TRUNK, SWAMP_TRUNK, TALL_SWAMP_TRUNK,
+		MINI_ACACIA_TRUNK, ACACIA_TRUNK, TALL_ACACIA_TRUNK,
 		
 		WHEAT, CARROTS, POTATO, MELON, PUMPKIN, BEETROOT,
 
+//		TALL_BROWN_MUSHROOM, TALL_RED_MUSHROOM,
 		BROWN_MUSHROOM, RED_MUSHROOM, NETHERWART,
 		FIRE};
 	
@@ -278,17 +278,20 @@ public abstract class CoverProvider extends Provider {
 	}
 	
 	protected void setCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, CoverageType coverageType) {
+		Material topsoil = generator.oreProvider.surfaceMaterial;
 		switch (coverageType) {
+		case NOTHING:
+			break;
 		case GRASS:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT, Material.SOIL);
 			chunk.setBlock(x, y, z, Material.LONG_GRASS, new LongGrass(GrassSpecies.NORMAL));
 			break;
 		case FERN:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT, Material.SOIL);
 			chunk.setBlock(x, y, z, Material.LONG_GRASS, new LongGrass(GrassSpecies.FERN_LIKE)); 
 			break;
 		case DEAD_GRASS:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT, Material.SOIL);
 			chunk.setBlock(x, y, z, Material.LONG_GRASS, new LongGrass(GrassSpecies.DEAD));
 			break;
 		case CACTUS:
@@ -296,104 +299,104 @@ public abstract class CoverProvider extends Provider {
 			chunk.setBlocks(x, y, y + odds.getRandomInt(3) + 2, z, Material.CACTUS);
 			break;
 		case REED:
-			chunk.setBlockIfNot(x, y - 1, z, Material.SAND, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.SAND, Material.GRASS, Material.DIRT, Material.SOIL);
 			chunk.setBlocks(x, y, y + odds.getRandomInt(2) + 2, z, Material.SUGAR_CANE_BLOCK);
 			break;
 		case DANDELION:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT, Material.SOIL);
 			chunk.setBlock(x, y, z, Material.YELLOW_FLOWER);
 			break;
 		case POPPY:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT, Material.SOIL);
 			BlackMagic.setBlock(chunk, x, y, z, Material.RED_ROSE, 0);
 			break;
 		case BLUE_ORCHID:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT, Material.SOIL);
 			BlackMagic.setBlock(chunk, x, y, z, Material.RED_ROSE, 1);
 			break;
 		case ALLIUM:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT, Material.SOIL);
 			BlackMagic.setBlock(chunk, x, y, z, Material.RED_ROSE, 2);
 			break;
 		case AZURE_BLUET:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT, Material.SOIL);
 			BlackMagic.setBlock(chunk, x, y, z, Material.RED_ROSE, 3);
 			break;
 		case OXEYE_DAISY:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT, Material.SOIL);
 			BlackMagic.setBlock(chunk, x, y, z, Material.RED_ROSE, 8);
 			break;
 		case RED_TULIP:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT, Material.SOIL);
 			BlackMagic.setBlock(chunk, x, y, z, Material.RED_ROSE, 4);
 			break;
 		case ORANGE_TULIP:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT, Material.SOIL);
 			BlackMagic.setBlock(chunk, x, y, z, Material.RED_ROSE, 5);
 			break;
 		case WHITE_TULIP:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT, Material.SOIL);
 			BlackMagic.setBlock(chunk, x, y, z, Material.RED_ROSE, 6);
 			break;
 		case PINK_TULIP:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT, Material.SOIL);
 			BlackMagic.setBlock(chunk, x, y, z, Material.RED_ROSE, 7);
 			break;
 		case SUNFLOWER:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT, Material.SOIL);
 			BlackMagic.setBlock(chunk, x, y, z, Material.DOUBLE_PLANT, 0);
 			BlackMagic.setBlock(chunk, x, y + 1, z, Material.DOUBLE_PLANT, 8);
 			break;
 		case LILAC:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT, Material.SOIL);
 			BlackMagic.setBlock(chunk, x, y, z, Material.DOUBLE_PLANT, 1);
 			BlackMagic.setBlock(chunk, x, y + 1, z, Material.DOUBLE_PLANT, 8);
 			break;
 		case TALL_GRASS:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT, Material.SOIL);
 			BlackMagic.setBlock(chunk, x, y, z, Material.DOUBLE_PLANT, 2);
 			BlackMagic.setBlock(chunk, x, y + 1, z, Material.DOUBLE_PLANT, 8);
 			break;
 		case TALL_FERN:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT, Material.SOIL);
 			BlackMagic.setBlock(chunk, x, y, z, Material.DOUBLE_PLANT, 3);
 			BlackMagic.setBlock(chunk, x, y + 1, z, Material.DOUBLE_PLANT, 8);
 			break;
 		case ROSE_BUSH:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT, Material.SOIL);
 			BlackMagic.setBlock(chunk, x, y, z, Material.DOUBLE_PLANT, 4);
 			BlackMagic.setBlock(chunk, x, y + 1, z, Material.DOUBLE_PLANT, 8);
 			break;
 		case PEONY:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT, Material.SOIL);
 			BlackMagic.setBlock(chunk, x, y, z, Material.DOUBLE_PLANT, 5);
 			BlackMagic.setBlock(chunk, x, y + 1, z, Material.DOUBLE_PLANT, 8);
 			break;
 		case EMERALD_GREEN:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT, Material.SOIL);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT, Material.SOIL);
 			chunk.setBlock(x, y, z, Material.LOG, new Tree(TreeSpecies.JUNGLE));
 			Leaves leafData = new Leaves(TreeSpecies.JUNGLE);
 			leafData.setDecayable(false);
 			chunk.setBlocks(x, y + 1, y + odds.getRandomInt(2, 4), z, Material.LEAVES, leafData);
 			break;
 		case OAK_SAPLING:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT);
 			chunk.setBlock(x, y, z, Material.SAPLING, new Sapling(TreeSpecies.GENERIC));
 			break;
 		case BIRCH_SAPLING:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT);
 			chunk.setBlock(x, y, z, Material.SAPLING, new Sapling(TreeSpecies.BIRCH));
 			break;
 		case PINE_SAPLING:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT);
 			chunk.setBlock(x, y, z, Material.SAPLING, new Sapling(TreeSpecies.REDWOOD));
 			break;
 		case JUNGLE_SAPLING:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT);
 			chunk.setBlock(x, y, z, Material.SAPLING, new Sapling(TreeSpecies.JUNGLE));
 			break;
 		case ACACIA_SAPLING:
-			chunk.setBlockIfNot(x, y - 1, z, Material.GRASS, Material.DIRT);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.GRASS, Material.DIRT);
 			chunk.setBlock(x, y, z, Material.SAPLING, new Sapling(TreeSpecies.ACACIA));
 			break;
 			
@@ -403,11 +406,17 @@ public abstract class CoverProvider extends Provider {
 		case OAK_TRUNK:
 			generator.treeProvider.generateNormalTrunk(generator, chunk, x, y, z, TreeType.TREE);
 			break;
+		case TALL_OAK_TRUNK:
+			generator.treeProvider.generateNormalTrunk(generator, chunk, x, y, z, TreeType.BIG_TREE);
+			break;
 		case MINI_PINE_TRUNK:
 			generator.treeProvider.generateMiniTrunk(generator, chunk, x, y, z, TreeType.REDWOOD);
 			break;
 		case PINE_TRUNK:
 			generator.treeProvider.generateNormalTrunk(generator, chunk, x, y, z, TreeType.REDWOOD);
+			break;
+		case TALL_PINE_TRUNK:
+			generator.treeProvider.generateNormalTrunk(generator, chunk, x, y, z, TreeType.TALL_REDWOOD);
 			break;
 		case MINI_BIRCH_TRUNK:
 			generator.treeProvider.generateMiniTrunk(generator, chunk, x, y, z, TreeType.BIRCH);
@@ -415,22 +424,30 @@ public abstract class CoverProvider extends Provider {
 		case BIRCH_TRUNK:
 			generator.treeProvider.generateNormalTrunk(generator, chunk, x, y, z, TreeType.BIRCH);
 			break;
+		case TALL_BIRCH_TRUNK:
+			generator.treeProvider.generateNormalTrunk(generator, chunk, x, y, z, TreeType.TALL_BIRCH);
+			break;
 		case MINI_JUNGLE_TRUNK:
 			generator.treeProvider.generateNormalTrunk(generator, chunk, x, y, z, TreeType.JUNGLE);
 			break;
 		case JUNGLE_TRUNK:
+			generator.treeProvider.generateNormalTrunk(generator, chunk, x, y, z, TreeType.SMALL_JUNGLE);
+			break;
+		case TALL_JUNGLE_TRUNK:
 			generator.treeProvider.generateNormalTrunk(generator, chunk, x, y, z, TreeType.JUNGLE);
 			break;
 		case MINI_SWAMP_TRUNK:
 			generator.treeProvider.generateMiniTrunk(generator, chunk, x, y, z, TreeType.SWAMP);
 			break;
 		case SWAMP_TRUNK:
+		case TALL_SWAMP_TRUNK:
 			generator.treeProvider.generateNormalTrunk(generator, chunk, x, y, z, TreeType.SWAMP);
 			break;
 		case MINI_ACACIA_TRUNK:
 			generator.treeProvider.generateMiniTrunk(generator, chunk, x, y, z, TreeType.ACACIA);
 			break;
 		case ACACIA_TRUNK:
+		case TALL_ACACIA_TRUNK:
 			generator.treeProvider.generateNormalTrunk(generator, chunk, x, y, z, TreeType.ACACIA);
 			break;
 			
@@ -523,7 +540,7 @@ public abstract class CoverProvider extends Provider {
 //			BlackMagic.setBlock(chunk, x, y, z, Material.BEETROOT_BLOCK, odds.getRandomInt(4));
 			break;
 		case DEAD_BUSH:
-			chunk.setBlockIfNot(x, y - 1, z, Material.SAND, Material.DIRT, Material.HARD_CLAY);
+			chunk.setBlockIfNot(x, y - 1, z, topsoil, Material.SAND, Material.DIRT, Material.HARD_CLAY);
 			chunk.setBlock(x, y, z, Material.DEAD_BUSH);
 			break;
 		case BROWN_MUSHROOM:
@@ -655,7 +672,7 @@ public abstract class CoverProvider extends Provider {
 		}
 	}
 	
-	protected CoverageType convertToTrunk(CoverageType coverageType) {
+	protected CoverageType convertToTreeTrunk(CoverageType coverageType) {
 		switch (coverageType) {
 		case MINI_OAK_TREE:
 			return CoverageType.MINI_OAK_TRUNK;
@@ -696,7 +713,7 @@ public abstract class CoverProvider extends Provider {
 			return CoverageType.ACACIA_TRUNK;
 		
 		default:
-			return coverageType;
+			return CoverageType.NOTHING;
 		}
 	}
 }

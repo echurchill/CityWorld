@@ -8,16 +8,16 @@ import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
-public class SurfaceProvider_SandDunes extends SurfaceProvider_Normal {
+public class SurfaceProvider_SandDunes extends SurfaceProvider_Flooded {
 
 	public SurfaceProvider_SandDunes(Odds odds) {
 		super(odds);
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	@Override
-	public void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CoverProvider foliage, 
-			int x, double perciseY, int z, boolean includeTrees) {
+	protected void generateNormalPoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk,
+			CoverProvider foliage, int x, double perciseY, int z, boolean includeTrees) {
 		int y = NoiseGenerator.floor(perciseY);
 		
 		// roll the dice
@@ -42,21 +42,81 @@ public class SurfaceProvider_SandDunes extends SurfaceProvider_Normal {
 					}
 				}
 				
-			// else
+			// regular trees, grass and flowers only
 			} else if (y < generator.treeLevel) {
-				if (primary < foliageOdds) {
+
+				// trees? but only if we are not too close to the edge of the chunk
+				if (includeTrees && primary < treeOdds && x > 0 && x < 15 && z > 0 && z < 15 && x % 2 == 0 && z % 2 != 0) {
+					if (secondary < treeAltTallOdds && x > 5 && x < 11 && z > 5 && z < 11)
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.TALL_OAK_TRUNK);
+					else if (secondary < treeAltOdds)
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.BIRCH_TRUNK);
+					else 
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.OAK_TRUNK);
+				
+				// foliage?
+				} else if (primary < foliageOdds / 3) {
 					
 					// what to pepper about
-					if (secondary < flowerRedOdds)
-						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.DEAD_BUSH);
-					else 
-						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.DEAD_GRASS);
+					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.DEAD_GRASS);
+				}
+				
+			// regular trees, grass and some evergreen trees... no flowers
+			} else if (y < generator.evergreenLevel) {
+
+				// trees? 
+				if (includeTrees && primary < treeOdds && x % 2 == 0 && z % 2 != 0) {
 					
-				} else if (primary < (cactusOdds / 2) && x % 2 == 0 && z % 2 != 0) {
-					if (chunk.isSurroundedByEmpty(x, y + 1, z))
-						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.CACTUS);
+					// range change?
+					if (secondary > ((double) (y - generator.treeLevel) / (double) generator.deciduousRange))
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.OAK_TRUNK);
+					else
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.PINE_TRUNK);
+				
+				}
+				
+			// evergreen and some grass and fallen snow, no regular trees or flowers
+			} else if (y < generator.snowLevel) {
+				
+				// trees? 
+				if (includeTrees && primary < treeOdds && x % 2 == 0 && z % 2 != 0) {
+					if (secondary < treeTallOdds)
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.PINE_TRUNK);
+					else
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.TALL_PINE_TRUNK);
+				
 				}
 			}
 		}
+	}
+	
+	@Override
+	protected void generateShorePoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk,
+			CoverProvider foliage, int x, int y, int z, boolean includeTrees) {
+		
+		// this will do just fine
+		super.generateShorePoint(generator, lot, chunk, foliage, x, y, z, includeTrees);
+	}
+	
+	@Override
+	protected void generateFloodedPoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, 
+			CoverProvider foliage, int x, int y, int z, int floodY) {
+
+		// roll the dice
+		double primary = odds.getRandomDouble();
+		
+		// add plants out there?
+		if (primary < foliageOdds / 4) {
+			if (primary < cactusOdds) {
+				if (x % 2 == 0 && z % 2 != 0 && chunk.isSurroundedByEmpty(x, floodY + 1, z)) {
+//					chunk.setBlock(x, floodY + 3, z, Material.GLOWSTONE);
+					foliage.generateCoverage(generator, chunk, x, floodY, z, CoverageType.CACTUS);
+				}
+			} else {
+//				chunk.setBlock(x, floodY, z, Material.OBSIDIAN);
+				foliage.generateCoverage(generator, chunk, x, floodY, z, CoverageType.DEAD_BUSH);
+			}
+		}
+		
 	}
 }

@@ -13,66 +13,6 @@ public class CoverProvider_Nether extends CoverProvider_Decayed {
 	public CoverProvider_Nether(Odds odds) {
 		super(odds);
 	}
-	
-//NERFED for 1.7.2
-//	private final static Material air = Material.AIR;
-//	private final static Material glow = Material.GLOWSTONE;
-//	private final static Material glass = Material.GLASS;
-//	private final static Material pane = Material.THIN_GLASS;
-//	private final static Material obsidian = Material.OBSIDIAN;
-//	private final static Material clay = Material.CLAY;
-//	private final static Material iron = Material.IRON_FENCE;
-//	
-//	@Override
-//	public boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, LigneousType ligneousType) {
-//		if (likelyCover(generator)) {
-//			Material trunk = log;
-//			Material leaves1 = air;
-//			Material leaves2 = air;
-//			switch (ligneousType) {
-//			case OAK:
-//			case SHORT_OAK:
-//			case TALL_OAK:
-//				//leave trunk alone
-//				if (!generator.settings.includeDecayedNature && odds.playOdds(0.10)) {
-//					leaves1 = iron;
-//					leaves2 = iron;
-//					if (odds.playOdds(0.10)) {
-//						trunk = glow;
-//					}
-//				} 
-//				break;
-//			case BIRCH:
-//			case SHORT_BIRCH:
-//			case TALL_BIRCH:
-//				trunk = clay;
-//				if (!generator.settings.includeDecayedNature && odds.playOdds(0.20)) {
-//					leaves1 = iron;
-//					leaves2 = iron;
-//					if (odds.playOdds(0.10)) {
-//						trunk = glow;
-//					}
-//				} 
-//				break;
-//			case PINE:
-//			case SHORT_PINE:
-//			case TALL_PINE:
-//				trunk = obsidian;
-//				if (!generator.settings.includeDecayedNature && odds.playOdds(0.10)) {
-//					leaves1 = pane;
-//					if (odds.playOdds(0.10))
-//						leaves2 = glow;
-//					else
-//						leaves2 = glass;
-//				}
-//				break;
-//			default:
-//				break;
-//			}
-//			return generateTree(chunk, x, y, z, ligneousType, trunk, leaves1, leaves2);
-//		} else
-//			return false;
-//	}
 
 	@Override
 	public ColorSet getDefaultColorSet() {
@@ -82,6 +22,9 @@ public class CoverProvider_Nether extends CoverProvider_Decayed {
 	@Override
 	protected void setCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, CoverageType coverageType) {
 		switch (coverageType) {
+		case NOTHING:
+			 break;
+
 		case GRASS:
 		case DANDELION:
 		case POPPY:
@@ -107,7 +50,6 @@ public class CoverProvider_Nether extends CoverProvider_Decayed {
 		case PUMPKIN:
 		case BEETROOT:
 		case FERN:
-		case DEAD_GRASS:
 		case CACTUS:
 		case REED:
 
@@ -147,14 +89,21 @@ public class CoverProvider_Nether extends CoverProvider_Decayed {
 		case BIRCH_TRUNK:
 		case JUNGLE_TRUNK:
 		case ACACIA_TRUNK:
+		case SWAMP_TRUNK:
+		case TALL_OAK_TRUNK:
+		case TALL_PINE_TRUNK:
+		case TALL_BIRCH_TRUNK:
+		case TALL_JUNGLE_TRUNK:
+		case TALL_ACACIA_TRUNK:
+		case TALL_SWAMP_TRUNK:
 		case MINI_ACACIA_TRUNK:
 		case MINI_BIRCH_TRUNK:
 		case MINI_JUNGLE_TRUNK:
 		case MINI_OAK_TRUNK:
 		case MINI_PINE_TRUNK:
 		case MINI_SWAMP_TRUNK:
-		case SWAMP_TRUNK:
 		case DEAD_BUSH:
+		case DEAD_GRASS:
 		case BROWN_MUSHROOM:
 		case RED_MUSHROOM:
 		case NETHERWART:

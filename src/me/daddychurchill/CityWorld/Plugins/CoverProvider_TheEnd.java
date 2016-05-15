@@ -11,22 +11,6 @@ public class CoverProvider_TheEnd extends CoverProvider_Normal {
 		super(odds);
 	}
 	
-//NERFED for 1.7.2
-//	@Override
-//	public boolean generateTree(WorldGenerator generator, RealChunk chunk, int x, int y, int z, LigneousType ligneousType) {
-//		if (likelyCover(generator)) {
-//			switch (ligneousType) {
-//			case TALL_BIRCH:
-//			case TALL_OAK:
-//			case TALL_PINE:
-//				return generateTree(chunk, x, y, z, ligneousType, log, Material.THIN_GLASS, Material.GLASS);
-//			default:
-//				return generateTree(chunk, x, y, z, ligneousType);//, log, leaves, leaves);
-//			}
-//		} else
-//			return false;
-//	}
-	
 	@Override
 	public ColorSet getDefaultColorSet() {
 		return ColorSet.THEEND;
@@ -35,6 +19,9 @@ public class CoverProvider_TheEnd extends CoverProvider_Normal {
 	@Override
 	protected void setCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, CoverageType coverageType) {
 		switch (coverageType) {
+		case NOTHING:
+			 break;
+
 		case GRASS:
 		case DANDELION:
 		case POPPY:
@@ -94,13 +81,19 @@ public class CoverProvider_TheEnd extends CoverProvider_Normal {
 		case BIRCH_TRUNK:
 		case JUNGLE_TRUNK:
 		case ACACIA_TRUNK:
+		case SWAMP_TRUNK:
+		case TALL_OAK_TRUNK:
+		case TALL_PINE_TRUNK:
+		case TALL_BIRCH_TRUNK:
+		case TALL_JUNGLE_TRUNK:
+		case TALL_ACACIA_TRUNK:
+		case TALL_SWAMP_TRUNK:
 		case MINI_ACACIA_TRUNK:
 		case MINI_BIRCH_TRUNK:
 		case MINI_JUNGLE_TRUNK:
 		case MINI_OAK_TRUNK:
 		case MINI_PINE_TRUNK:
 		case MINI_SWAMP_TRUNK:
-		case SWAMP_TRUNK:
 		case DEAD_BUSH:
 		case BROWN_MUSHROOM:
 		case RED_MUSHROOM:

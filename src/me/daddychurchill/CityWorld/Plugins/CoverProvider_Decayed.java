@@ -52,8 +52,6 @@ public class CoverProvider_Decayed extends CoverProvider {
 		case MELON:
 		case PUMPKIN:
 		case FERN:
-		case DEAD_GRASS:
-		case CACTUS:
 		case REED:
 		case OAK_SAPLING:
 		case PINE_SAPLING:
@@ -132,6 +130,8 @@ public class CoverProvider_Decayed extends CoverProvider {
 		case RED_MUSHROOM:
 		case NETHERWART:
 		case FIRE:
+		case DEAD_GRASS:
+		case CACTUS:
 			super.setCoverage(generator, chunk, x, y, z, coverageType);
 			break;
 		default:
