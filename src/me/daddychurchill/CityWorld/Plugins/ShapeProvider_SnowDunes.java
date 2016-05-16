@@ -116,6 +116,11 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 //	}
 	
 	@Override
+	public boolean clearAtmosphere(CityWorldGenerator generator) {
+		return false;
+	}
+	
+	@Override
 	public Material findAtmosphereMaterialAt(CityWorldGenerator generator, int blockY) {
 		if (blockY < floodY)
 			return Material.SNOW_BLOCK;

@@ -98,7 +98,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 			int floorAt = generator.streetLevel - FloorHeight * floor - 2;
 			
 			// clear it out
-			chunk.setLayer(floorAt, FloorHeight, getAirMaterial(generator, FloorHeight));
+			chunk.airoutLayer(generator, floorAt, FloorHeight);
 			
 			// at the first floor add a fence to prevent folks from falling in
 			if (floor == 0)

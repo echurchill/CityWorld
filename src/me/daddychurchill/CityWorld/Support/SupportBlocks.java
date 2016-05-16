@@ -142,6 +142,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	
 	public abstract boolean isSurroundedByEmpty(int x, int y, int z);
 	
+	@Deprecated
 	public final boolean isPlantable(int x, int y, int z) {
 		return isOfTypes(x, y, z, Material.GRASS, Material.DIRT, Material.SOIL);
 	}

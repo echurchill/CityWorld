@@ -411,13 +411,12 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 	
 	private void emptyBlock(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z) {
-		chunk.setBlock(x, y, z, getAirMaterial(generator, y));
-		
+		chunk.airoutBlock(generator, x, y, z);
 	}
 	
 	private void emptyBlocks(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int y1, int y2, int z1, int z2) {
 		for (int y = y1; y < y2; y++) {
-			chunk.setBlocks(x1, x2, y, y + 1, z1, z2, getAirMaterial(generator, y));
+			chunk.airoutBlocks(generator, x1, x2, y, y + 1, z1, z2);
 		}
 	}
 
@@ -815,7 +814,7 @@ public abstract class BuildingLot extends ConnectedLot {
 			int height, int insetNS, int insetWE, boolean allowRounded, boolean outsetEffect, boolean onRoof,
 			Material ceilingMaterial, Surroundings heights) {
 		// precalculate
-		Material emptyMaterial = getAirMaterial(generator, y1);
+		Material emptyMaterial = generator.shapeProvider.findAtmosphereMaterialAt(generator, y1);
 		int y2 = y1 + height;
 		boolean stillNeedCeiling = true;
 		int inset = Math.max(insetNS, insetWE);
@@ -883,15 +882,14 @@ public abstract class BuildingLot extends ConnectedLot {
 		// holes in fence
 		int i = 4 + chunkOdds.getRandomInt(chunk.width / 2);
 		int y2 = y1 + fenceHeight;
-		Material emptyMaterial = getAirMaterial(generator, y1);
 		if (chunkOdds.flipCoin() && !neighbors.toWest())
-			chunk.setBlocks(inset, y1, y2, i, emptyMaterial);
+			chunk.airoutBlocks(generator, inset, y1, y2, i);
 		if (chunkOdds.flipCoin() && !neighbors.toEast())
-			chunk.setBlocks(chunk.width - 1 - inset, y1, y2, i, emptyMaterial);
+			chunk.airoutBlocks(generator, chunk.width - 1 - inset, y1, y2, i);
 		if (chunkOdds.flipCoin() && !neighbors.toNorth())
-			chunk.setBlocks(i, y1, y2, inset, emptyMaterial);
+			chunk.airoutBlocks(generator, i, y1, y2, inset);
 		if (chunkOdds.flipCoin() && !neighbors.toSouth())
-			chunk.setBlocks(i, y1, y2, chunk.width - 1 - inset, emptyMaterial);
+			chunk.airoutBlocks(generator, i, y1, y2, chunk.width - 1 - inset);
 	}
 
 	protected void drawCornerLotNorthWest(InitialBlocks chunk, int cornerLotStyle, 

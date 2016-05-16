@@ -146,8 +146,7 @@ public abstract class PlatLot {
 	
 	protected void flattenLot(CityWorldGenerator generator, AbstractBlocks chunk, int maxLayersToDo) {
 		if (blockYs.maxHeight > generator.streetLevel & blockYs.maxHeight <= generator.streetLevel + maxLayersToDo) {
-			chunk.setLayer(generator.streetLevel + 1, Math.min(blockYs.maxHeight - generator.streetLevel + 1, maxLayersToDo), 
-					getAirMaterial(generator, generator.streetLevel + 1));
+			chunk.airoutLayer(generator, generator.streetLevel + 1, Math.min(blockYs.maxHeight - generator.streetLevel + 1, maxLayersToDo));
 		}
 	}
 		
@@ -272,7 +271,7 @@ public abstract class PlatLot {
 
 	private void generateMineShaftSpace(CityWorldGenerator generator, InitialBlocks chunk, int x1, int x2, int y1, int y2, int z1, int z2) {
 		chunk.setEmptyBlocks(x1, x2, y1, z1, z2, shaftBridge);
-		chunk.setBlocks(x1, x2, y1 + 1, y2, z1, z2, getAirMaterial(generator, y1 + 1));
+		chunk.airoutBlocks(generator, x1, x2, y1 + 1, y2, z1, z2);
 	}
 	
 	private void generateMineNSSupport(InitialBlocks chunk, int x, int y, int z) {
@@ -561,10 +560,14 @@ public abstract class PlatLot {
 		generator.surfaceProvider.generateSurface(generator, this, chunk, blockYs, includeTrees);
 	}
 	
-	protected Material getAirMaterial(CityWorldGenerator generator, int y) {
-		if (getTopY(generator) <= y)
-			return Material.AIR;
-		else
-			return generator.shapeProvider.findAtmosphereMaterialAt(generator, y);
+	protected boolean clearAir(CityWorldGenerator generator) {
+		return generator.shapeProvider.clearAtmosphere(generator);
 	}
+	
+//	protected Material getAirMaterial(CityWorldGenerator generator, int y) {
+//		if (getTopY(generator) <= y)
+//			return Material.AIR;
+//		else
+//			return generator.shapeProvider.findAtmosphereMaterialAt(generator, y);
+//	}
 }

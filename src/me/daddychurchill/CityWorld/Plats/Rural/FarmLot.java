@@ -191,7 +191,7 @@ public class FarmLot extends ConnectedLot {
 		int croplevel = generator.streetLevel + 1;
 		
 		boolean fallowField = false;
-		Material fallowMaterial = getAirMaterial(generator, croplevel - 1);
+		Material fallowMaterial = generator.shapeProvider.findAtmosphereMaterialAt(generator, croplevel - 1);
 		int cropY = generator.streetLevel + 1;
 		
 		switch (cropType) {

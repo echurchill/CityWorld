@@ -1,10 +1,10 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import org.bukkit.TreeType;
 import org.bukkit.util.noise.NoiseGenerator;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
@@ -50,12 +50,31 @@ public class SurfaceProvider_Flooded extends SurfaceProvider_Normal {
 		
 		// trees? 
 		if (includeTrees && primary < treeOdds && x % 2 == 0 && z % 2 != 0) {
+			if (secondary < treeAltTallOdds && x > 5 && x < 11 && z > 5 && z < 11)
+				generator.treeProvider.generateNormalTrunk(generator, chunk, x, y + 1, z, TreeType.DARK_OAK);
+			else if (secondary < treeAltOdds)
+				generator.treeProvider.generateNormalTrunk(generator, chunk, x, y + 1, z, TreeType.BIRCH);
+			else 
+				generator.treeProvider.generateNormalTrunk(generator, chunk, x, y + 1, z, TreeType.TREE);
+
+//			chunk.setBlocks(x, y + 10, y + 15, z, Material.OBSIDIAN);
+//		chunk.setBlocks(x, y + 1, y + 5, z, Material.LOG);
+
+		
+//		// roll the dice
+//		double primary = odds.getRandomDouble();
+////		double secondary = odds.getRandomDouble();
+//		
+//		// trees? 
+//		if (includeTrees && primary < treeOdds && x % 2 == 0 && z % 2 != 0) {
+//			
+//			chunk.setBlocks(x, y + 1, y + 5, z, Material.LOG);
 			
-			// range change?
-			if (secondary > ((double) (y - generator.treeLevel) / (double) generator.deciduousRange))
-				foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.OAK_TRUNK);
-			else
-				foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.PINE_TRUNK);
+//			// range change?
+//			if (secondary > ((double) (y - generator.treeLevel) / (double) generator.deciduousRange))
+//				foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.OAK_TRUNK);
+//			else
+//				foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.PINE_TRUNK);
 		}
 	}
 	

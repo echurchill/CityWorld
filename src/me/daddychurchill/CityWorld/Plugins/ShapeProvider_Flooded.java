@@ -71,6 +71,14 @@ public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 	}
 
 	@Override
+	public Material findAtmosphereMaterialAt(CityWorldGenerator generator, int blockY) {
+		if (blockY < floodY)
+			return floodMaterial;
+		else
+			return super.findAtmosphereMaterialAt(generator, blockY);
+	}
+	
+	@Override
 	protected Biome remapBiome(CityWorldGenerator generator, PlatLot lot, Biome biome) {
 		return Biome.OCEAN;
 	}
@@ -106,7 +114,6 @@ public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 	protected void actualGenerateFlood(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, int x, int z, int subsurfaceY) {
 		int y = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 		if (y > subsurfaceY) {
-//			chunk.setBlocks(x, subsurfaceY, y - 2, z, subFloodId);
 			chunk.setBlocks(x, subsurfaceY, y, z, floodMaterial);
 		}
 	}

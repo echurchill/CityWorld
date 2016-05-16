@@ -1,11 +1,7 @@
 package me.daddychurchill.CityWorld.Plats.Flooded;
 
-import org.bukkit.Material;
-
-import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Urban.ParkLot;
-import me.daddychurchill.CityWorld.Plugins.ShapeProvider_Flooded;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class FloodedParkLot extends ParkLot {
@@ -21,8 +17,4 @@ public class FloodedParkLot extends ParkLot {
 		return new FloodedParkLot(platmap, chunkX, chunkZ, connectedkey, waterDepth);
 	}
 	
-	@Override
-	protected Material getAirMaterial(CityWorldGenerator generator, int y) {
-		return ShapeProvider_Flooded.floodMaterial;
-	}
 }

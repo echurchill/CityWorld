@@ -435,8 +435,8 @@ public class MaterialProvider {
 	public final static String tagSelectMaterial_ShackRoofs = "Materials_For_ShackRoofs";
 	public MaterialList itemsSelectMaterial_ShackRoofs = createList(tagSelectMaterial_ShackRoofs,
 			Material.WOOD,
-			Material.STEP,
-			Material.WOOD_STEP);
+			Material.DOUBLE_STEP,
+			Material.DOUBLE_STONE_SLAB2);
 	
 	public final static String tagSelectMaterial_ShedWalls = "Materials_For_ShedWalls";
 	public MaterialList itemsSelectMaterial_ShedWalls = createList(tagSelectMaterial_ShedWalls,

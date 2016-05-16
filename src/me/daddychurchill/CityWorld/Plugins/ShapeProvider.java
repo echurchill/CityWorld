@@ -119,6 +119,10 @@ public abstract class ShapeProvider extends Provider {
 //		return BlackMagic.airId;
 //	}
 	
+	public boolean clearAtmosphere(CityWorldGenerator generator) {
+		return true;
+	}
+	
 	public Material findAtmosphereMaterialAt(CityWorldGenerator generator, int blockY) {
 		return Material.AIR;
 	}

@@ -42,8 +42,7 @@ public abstract class MountainFlatLot extends ConstructLot {
 						chunk.setBlocks(x, y - 2, blockYs.averageHeight, z, generator.oreProvider.subsurfaceMaterial);
 						chunk.setBlock(x, blockYs.averageHeight, z, generator.oreProvider.surfaceMaterial); 
 					}
-					chunk.setBlocks(x, blockYs.averageHeight + 1, blockYs.maxHeight + 1, z, 
-							getAirMaterial(generator, blockYs.averageHeight + 1));
+					chunk.airoutBlocks(generator, x, blockYs.averageHeight + 1, blockYs.maxHeight + 1, z);
 				}
 			}
 		}
@@ -68,8 +67,7 @@ public abstract class MountainFlatLot extends ConstructLot {
 					chunk.setBlocks(x, y - 2, blockYs.averageHeight, z, generator.oreProvider.subsurfaceMaterial);
 					chunk.setBlock(x, blockYs.averageHeight, z, generator.oreProvider.surfaceMaterial); 
 				}
-				chunk.setBlocks(x, blockYs.averageHeight + 1, blockYs.maxHeight + 1, z, 
-						getAirMaterial(generator, blockYs.averageHeight + 1));
+				chunk.airoutBlocks(generator, x, blockYs.averageHeight + 1, blockYs.maxHeight + 1, z);
 			}
 		}
 	}
@@ -102,7 +100,7 @@ public abstract class MountainFlatLot extends ConstructLot {
 			y1 = (y - blockYs.averageHeight) / 2 + blockYs.averageHeight;
 			chunk.setBlocks(x, blockYs.averageHeight - 1, y1, z, generator.oreProvider.subsurfaceMaterial);
 			chunk.setBlock(x, y1, z, generator.oreProvider.surfaceMaterial);
-			chunk.setBlocks(x, y1 + 1, y + 1, z, getAirMaterial(generator, y1 + 1));
+			chunk.airoutBlocks(generator, x, y1 + 1, y + 1, z);
 		}
 	}
 		

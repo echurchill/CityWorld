@@ -627,17 +627,19 @@ public abstract class CoverProvider extends Provider {
 	
 	public boolean isPlantable(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
 		
-		// only if the spot above is empty
-		if (!chunk.isEmpty(x, y + 1, z))
-			return false;
-		
-		// depends on the block's type and what the world is like
-		if (!generator.settings.includeAbovegroundFluids && y <= generator.seaLevel)
-			return chunk.isType(x, y, z, Material.SAND);
-		else
-			return chunk.isPlantable(x, y, z);
+		// only if the spot is empty and the spot above is empty
+		return chunk.isEmpty(x, y + 1, z) && !chunk.isEmpty(x, y, z);
+//		if (!chunk.isEmpty(x, y + 1, z))
+//			return false;
+//		
+//		// depends on the block's type and what the world is like
+//		if (!generator.settings.includeAbovegroundFluids && y <= generator.seaLevel)
+//			return chunk.isType(x, y, z, Material.SAND);
+//		else
+//			return chunk.isPlantable(x, y, z);
 	}
 	
+	@Deprecated
 	protected boolean isATree(CoverageType coverageType) {
 		switch (coverageType) {
 		case MINI_OAK_TREE:
@@ -672,6 +674,7 @@ public abstract class CoverProvider extends Provider {
 		}
 	}
 	
+	@Deprecated
 	protected CoverageType convertToTreeTrunk(CoverageType coverageType) {
 		switch (coverageType) {
 		case MINI_OAK_TREE:

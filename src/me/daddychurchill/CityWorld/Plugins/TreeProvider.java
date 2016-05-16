@@ -104,8 +104,8 @@ public abstract class TreeProvider {
 	}
 	
 	protected void generateTrunkBlock(SupportBlocks chunk, int x, int y, int z, int w, int h, Material material, int data) {
-		if (chunk.isEmpty(x, y, z))
-			BlackMagic.setBlocks(chunk, x, x + w, y, y + h, z, z + w, material, data);
+//		if (chunk.isEmpty(x, y, z))
+		BlackMagic.setBlocks(chunk, x, x + w, y, y + h, z, z + w, material, data);
 	}
 	
 	public boolean generateMiniTrunk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType) {

@@ -362,7 +362,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				int floorAt = generator.streetLevel - basementFloorHeight * floor - 2;
 	
 				// clear it out
-				chunk.setLayer(floorAt, basementFloorHeight, getAirMaterial(generator, floorAt));
+				chunk.airoutLayer(generator, floorAt, basementFloorHeight);
 	
 				// one floor please
 				drawWallParts(generator, chunk, context, floorAt, basementFloorHeight - 1, 0, 0, floor, 

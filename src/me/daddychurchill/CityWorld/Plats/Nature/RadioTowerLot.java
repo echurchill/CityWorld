@@ -89,7 +89,7 @@ public class RadioTowerLot extends ConstructLot {
 		// building
 		if (building) {
 			chunk.setBlocks(originX + 2, originX + platformWidth - 2, platformY, platformY + 2, originZ + 2, originZ + platformWidth - 2, wallMaterial);
-			chunk.setBlocks(originX + 3, originX + platformWidth - 3, platformY, platformY + 2, originZ + 3, originZ + platformWidth - 3, getAirMaterial(generator, platformY));
+			chunk.airoutBlocks(generator, originX + 3, originX + platformWidth - 3, platformY, platformY + 2, originZ + 3, originZ + platformWidth - 3);
 			chunk.setBlocks(originX + 2, originX + platformWidth - 2, platformY + 2, platformY + 3, originZ + 2, originZ + platformWidth - 2, roofMaterial);
 		}
 	}
@@ -124,7 +124,7 @@ public class RadioTowerLot extends ConstructLot {
 			ladderBase--;
 		}
 		chunk.setLadder(originX, ladderBase, platformY, originZ + 4, BlockFace.EAST);
-		chunk.setBlock(originX, platformY, originZ + 4, getAirMaterial(generator, platformY));
+		chunk.airoutBlock(generator, originX, platformY, originZ + 4);
 			
 		// place antennas
 		generateAntenna(generator, chunk, context, originX + 1, platformY, originZ + 1, false);
