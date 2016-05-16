@@ -37,9 +37,9 @@ public class CityWorldSettings {
 	public boolean includeOres = true;
 	public boolean includeBones = true;
 	
-	public double spawnBuddies = Odds.oddsLikely;
-//	public double spawnEnemies = Odds.oddsLikely;
 	public double spawnAnimals = Odds.oddsLikely;
+	public double spawnBuddies = Odds.oddsLikely;
+	public double spawnEnemies = Odds.oddsLikely;
 	
 	public boolean spawnersInBunkers = true;
 	public boolean spawnersInMines = true;
@@ -106,9 +106,9 @@ public class CityWorldSettings {
 	public final static String tagIncludeOres = "IncludeOres";
 	public final static String tagIncludeBones = "IncludeBones";
 	
-	public final static String tagSpawnBuddies = "SpawnBuddies";
-//	public final static String tagSpawnEnemies = "SpawnEnemies";
 	public final static String tagSpawnAnimals = "SpawnAnimals";
+	public final static String tagSpawnBuddies = "SpawnBuddies";
+	public final static String tagSpawnEnemies = "SpawnEnemies";
 	
 	public final static String tagSpawnersInBunkers = "SpawnersInBunkers";
 	public final static String tagSpawnersInMines = "SpawnersInMines";
@@ -240,9 +240,9 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeOres, includeOres);
 			section.addDefault(tagIncludeBones, includeBones);
 			
-			section.addDefault(tagSpawnBuddies, spawnBuddies);
-//			section.addDefault(tagSpawnEnemies, spawnEnemies);
 			section.addDefault(tagSpawnAnimals, spawnAnimals);
+			section.addDefault(tagSpawnBuddies, spawnBuddies);
+			section.addDefault(tagSpawnEnemies, spawnEnemies);
 			
 			section.addDefault(tagSpawnersInBunkers, spawnersInBunkers);
 			section.addDefault(tagSpawnersInMines, spawnersInMines);
@@ -295,9 +295,9 @@ public class CityWorldSettings {
 			includeOres = section.getBoolean(tagIncludeOres, includeOres);
 			includeBones = section.getBoolean(tagIncludeBones, includeBones);
 
-			spawnBuddies = limitTo(section.getDouble(tagSpawnBuddies, spawnBuddies), 0, 1);
-//			spawnEnemies = limitTo(section.getDouble(tagSpawnEnemies, spawnEnemies), 0, 1);
-			spawnAnimals = limitTo(section.getDouble(tagSpawnAnimals, spawnAnimals), 0, 1);
+			spawnAnimals = limitTo(section.getDouble(tagSpawnAnimals, spawnAnimals), 0.0, 1.0);
+			spawnBuddies = limitTo(section.getDouble(tagSpawnBuddies, spawnBuddies), 0.0, 1.0);
+			spawnEnemies = limitTo(section.getDouble(tagSpawnEnemies, spawnEnemies), 0.0, 1.0);
 
 			spawnersInBunkers = section.getBoolean(tagSpawnersInBunkers, spawnersInBunkers);
 			spawnersInMines = section.getBoolean(tagSpawnersInMines, spawnersInMines);
@@ -411,9 +411,9 @@ public class CityWorldSettings {
 			section.set(tagIncludeOres, includeOres);
 			section.set(tagIncludeBones, includeBones);
 			
-			section.set(tagSpawnBuddies, spawnBuddies);
-//			section.set(tagSpawnEnemies, spawnEnemies);
 			section.set(tagSpawnAnimals, spawnAnimals);
+			section.set(tagSpawnBuddies, spawnBuddies);
+			section.set(tagSpawnEnemies, spawnEnemies);
 			
 			section.set(tagSpawnersInBunkers, spawnersInBunkers);
 			section.set(tagSpawnersInMines, spawnersInMines);
@@ -710,7 +710,7 @@ public class CityWorldSettings {
 	}
 	
 	private double limitTo(double value, double min, double max) {
-		return Math.max(min, Math.max(max, value));
+		return Math.max(min, Math.min(max, value));
 	}
 	
 	private int limitTo(int value, int min, int max) {

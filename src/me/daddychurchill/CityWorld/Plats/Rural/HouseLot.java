@@ -1,7 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Rural;
 
 import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
@@ -58,7 +57,7 @@ public class HouseLot extends IsolatedLot {
 			destroyBuilding(generator, atY, floors);
 		else {
 			generateSurface(generator, chunk, false);
-			chunk.spawnEntity(chunkOdds, generator.settings.spawnBuddies, 5, atY, 5, EntityType.VILLAGER);
+			chunk.spawnBuddy(generator, chunkOdds, 5, atY, 5);
 		}
 	}
 

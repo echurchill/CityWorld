@@ -8,7 +8,6 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.World.Environment;
-import org.bukkit.entity.EntityType;
 
 public class StructureInAirProvider extends Provider {
 
@@ -78,7 +77,7 @@ public class StructureInAirProvider extends Provider {
 		chunk.setWalls(5, 11, bottomY + 1, bottomY + 2, 5, 11, Material.HAY_BLOCK);
 
 		if (!generator.settings.includeDecayedBuildings)
-			chunk.spawnEntity(odds, generator.settings.spawnBuddies, 7, bottomY + 1, 7, EntityType.VILLAGER);
+			chunk.spawnBuddy(generator, odds, 7, bottomY + 1, 7);
 		
 		attachString(chunk, 5, bottomY + 2, balloonY1, 5);
 		attachString(chunk, 5, bottomY + 2, balloonY1, 10);

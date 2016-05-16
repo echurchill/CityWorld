@@ -3,8 +3,6 @@ package me.daddychurchill.CityWorld.Plats.Urban;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.EntityType;
-
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -110,7 +108,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			chunk.setBlocks(3, 13, skywalkAt, 3, 13, officeMat);
 			generateOpenings(chunk, groundY);
 			if (!generator.settings.includeDecayedBuildings)
-				chunk.spawnEntity(chunkOdds, generator.settings.spawnBuddies, 7, groundY, 7, EntityType.VILLAGER);
+				chunk.spawnBuddy(generator, chunkOdds, 7, groundY, 7);
 			
 			// room for middle floor?
 			if (groundY + aboveFloorHeight <= skywalkAt - aboveFloorHeight) {
@@ -126,7 +124,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			chunk.setBlocks(3, 13, skywalkAt + 4, 3, 13, officeMat);
 			generateOpenings(chunk, skywalkAt + 1);
 			if (!generator.settings.includeDecayedBuildings)
-				chunk.spawnEntity(chunkOdds, generator.settings.spawnBuddies, 7, skywalkAt + 1, 7, EntityType.VILLAGER);
+				chunk.spawnBuddy(generator, chunkOdds, 7, skywalkAt + 1, 7);
 			
 			chunk.setBlocks(5, groundY, skywalkAt + 2, 5, officeMat);
 			chunk.setLadder(5, groundY, skywalkAt + 2, 6, BlockFace.NORTH);

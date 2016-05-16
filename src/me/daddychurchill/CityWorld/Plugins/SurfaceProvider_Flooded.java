@@ -80,6 +80,6 @@ public class SurfaceProvider_Flooded extends SurfaceProvider_Normal {
 	
 	protected void generateFloodedPoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, 
 			CoverProvider foliage, int x, int y, int z, int floodY) {
-		// spawn fish?
+		// spawn fish, boats, squids, etc?
 	}
 }

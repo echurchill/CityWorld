@@ -945,6 +945,61 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 	
+	public final void setBed(int x, int y, int z, Facing direction) {
+		switch (direction) {
+		case EAST:
+			BlackMagic.setBlockType(getActualBlock(x, y, z), Material.BED_BLOCK, (byte)(0x1 + 0x8), true, false);
+			BlackMagic.setBlockType(getActualBlock(x + 1, y, z), Material.BED_BLOCK, (byte)(0x1), true, true);
+			break;
+		case SOUTH:
+			BlackMagic.setBlockType(getActualBlock(x, y, z), Material.BED_BLOCK, (byte)(0x2 + 0x8), true, false);
+			BlackMagic.setBlockType(getActualBlock(x, y, z + 1), Material.BED_BLOCK, (byte)(0x2), true, true);
+			break;
+		case WEST:
+			BlackMagic.setBlockType(getActualBlock(x, y, z), Material.BED_BLOCK, (byte)(0x3 + 0x8), true, false);
+			BlackMagic.setBlockType(getActualBlock(x + 1, y, z), Material.BED_BLOCK, (byte)(0x3), true, true);
+			break;
+		case NORTH:
+			BlackMagic.setBlockType(getActualBlock(x, y, z), Material.BED_BLOCK, (byte)(0x0 + 0x8), true, false);
+			BlackMagic.setBlockType(getActualBlock(x, y, z + 1), Material.BED_BLOCK, (byte)(0x0), true, true);
+			break;
+		}
+	}
+	
+	private EntityType pickAnimal(Odds odds) {
+		switch (odds.getRandomInt(20)) {
+		default:
+		case 0:
+		case 1:
+			return EntityType.HORSE;
+		case 2:
+		case 3:
+			return EntityType.COW;
+		case 4:
+		case 5:
+			return EntityType.SHEEP;
+		case 6:
+		case 7:
+			return EntityType.PIG;
+		case 8:
+		case 9:
+		case 10:
+		case 11:
+		case 12:
+		case 13:
+			return EntityType.CHICKEN;
+		case 14:
+		case 15:
+		case 16:
+		case 17:
+			return EntityType.RABBIT;
+		case 18:
+			return EntityType.WOLF;
+		case 19:
+			return EntityType.OCELOT;
+		}
+	}
+
 	// https://en.wikipedia.org/wiki/List_of_English_terms_of_venery,_by_animal
 	public final void spawnVeneryOfAnimals(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
 		if (!generator.settings.includeDecayedBuildings)
@@ -995,35 +1050,76 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	}
 	
 	public final void spawnTwoAnimals(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
-		spawnEntity(odds, generator.settings.spawnAnimals, x, y, z, entity);
-		spawnEntity(odds, generator.settings.spawnAnimals, x + 1, y, z, entity);
+		spawnAnimal(generator, odds, x, y, z, entity);
+		spawnAnimal(generator, odds, x + 1, y, z, entity);
 	}
 	
-	public final void spawnEntity(Odds odds, double chances, int x, int y, int z, EntityType entity) {
-		if (odds.playOdds(chances)) {
-			clearBlocks(x, y, y + 2, z);
-			world.spawnEntity(getBlockLocation(x, y, z), entity);
+	public final void spawnAnimal(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
+		spawnAnimal(generator, odds, x, y, z, pickAnimal(odds));
+	}
+
+	public final void spawnAnimal(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
+		if (odds.playOdds(generator.settings.spawnAnimals))
+			spawnEntity(generator, x, y, z, entity, false);
+	}
+
+	private EntityType pickBuddy(Odds odds) {
+		return EntityType.VILLAGER;
+	}
+	
+	public final void spawnBuddy(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
+		spawnBuddy(generator, odds, x, y, z, pickBuddy(odds));
+	}
+
+	public final void spawnBuddy(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
+		if (odds.playOdds(generator.settings.spawnBuddies))
+			spawnEntity(generator, x, y, z, entity, false);
+	}
+
+	private EntityType pickEnemy(Odds odds) {
+		switch (odds.getRandomInt(19)) {
+		default:
+		case 0:
+		case 1:
+		case 2:
+		case 4:
+			return EntityType.CREEPER;
+		case 5:
+		case 6:
+		case 7:
+		case 8:
+			return EntityType.SKELETON;
+		case 9:
+		case 10:
+		case 11:
+		case 12:
+			return EntityType.ZOMBIE;
+		case 13:
+		case 14:
+		case 15:
+			return EntityType.SPIDER;
+		case 16:
+		case 17:
+			return EntityType.WITCH;
+		case 18:
+			return EntityType.ENDERMAN;
 		}
 	}
 	
-	public final void setBed(int x, int y, int z, Facing direction) {
-		switch (direction) {
-		case EAST:
-			BlackMagic.setBlockType(getActualBlock(x, y, z), Material.BED_BLOCK, (byte)(0x1 + 0x8), true, false);
-			BlackMagic.setBlockType(getActualBlock(x + 1, y, z), Material.BED_BLOCK, (byte)(0x1), true, true);
-			break;
-		case SOUTH:
-			BlackMagic.setBlockType(getActualBlock(x, y, z), Material.BED_BLOCK, (byte)(0x2 + 0x8), true, false);
-			BlackMagic.setBlockType(getActualBlock(x, y, z + 1), Material.BED_BLOCK, (byte)(0x2), true, true);
-			break;
-		case WEST:
-			BlackMagic.setBlockType(getActualBlock(x, y, z), Material.BED_BLOCK, (byte)(0x3 + 0x8), true, false);
-			BlackMagic.setBlockType(getActualBlock(x + 1, y, z), Material.BED_BLOCK, (byte)(0x3), true, true);
-			break;
-		case NORTH:
-			BlackMagic.setBlockType(getActualBlock(x, y, z), Material.BED_BLOCK, (byte)(0x0 + 0x8), true, false);
-			BlackMagic.setBlockType(getActualBlock(x, y, z + 1), Material.BED_BLOCK, (byte)(0x0), true, true);
-			break;
+	public final void spawnEnemy(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
+		spawnEnemy(generator, odds, x, y, z, pickEnemy(odds));
+	}
+
+	public final void spawnEnemy(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
+		if (odds.playOdds(generator.settings.spawnEnemies))
+			spawnEntity(generator, x, y, z, entity, false);
+	}
+
+	public final void spawnEntity(CityWorldGenerator generator, int x, int y, int z, EntityType entity, boolean ignoreFlood) {
+		Location at = getBlockLocation(x, y, z);
+		if (ignoreFlood || generator.shapeProvider.findFloodY(generator, at.getBlockX(), at.getBlockZ()) < y) {
+			clearBlocks(x, y, y + 2, z);
+			world.spawnEntity(at, entity);
 		}
 	}
 }

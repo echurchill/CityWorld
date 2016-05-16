@@ -2,6 +2,8 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.util.noise.NoiseGenerator;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -17,6 +19,17 @@ public class SurfaceProvider_SnowDunes extends SurfaceProvider_Flooded {
 	private final static double snowmanOdds = Odds.oddsNearlyNeverGoingToHappen;
 	
 	@Override
+	protected void generateNormalPoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk,
+			CoverProvider foliage, int x, double perciseY, int z, boolean includeTrees) {
+		
+		super.generateNormalPoint(generator, lot, chunk, foliage, x, perciseY, z, includeTrees);
+
+		int y = NoiseGenerator.floor(perciseY);
+		if (!chunk.isOfTypes(x, y, z, Material.SNOW, Material.SNOW_BLOCK))
+			generator.oreProvider.dropSnow(generator, chunk, x, NoiseGenerator.floor(perciseY) + 15, z);
+	}
+	
+	@Override
 	protected void generateFloodedPoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, 
 			CoverProvider foliage, int x, int y, int z, int floodY) {
 		
@@ -26,7 +39,7 @@ public class SurfaceProvider_SnowDunes extends SurfaceProvider_Flooded {
 			// ok create a snowman above the snow
 			int manY = chunk.findFirstEmptyAbove(x, floodY - 1, z);
 			if (chunk.isType(x, manY - 1, z, Material.SNOW_BLOCK))
-				chunk.spawnEntity(odds, generator.settings.spawnBuddies, x, manY + 1, z, EntityType.SNOWMAN);
+				chunk.spawnBuddy(generator, odds, x, manY + 1, z, EntityType.SNOWMAN);
 		}			
 	}
 }

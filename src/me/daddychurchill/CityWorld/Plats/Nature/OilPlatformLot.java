@@ -2,7 +2,6 @@ package me.daddychurchill.CityWorld.Plats.Nature;
 
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
-import org.bukkit.entity.EntityType;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
@@ -157,8 +156,8 @@ public class OilPlatformLot extends ConstructLot {
 			decayEdge(generator, chunk.getBlockX(15) - chunkOdds.getRandomInt(2), y2, chunk.getBlockZ(8) + chunkOdds.getRandomInt(3) - 1);
 			decayEdge(generator, chunk.getBlockX(7), y4, chunk.getBlockZ(12));
 		} else {
-			chunk.spawnEntity(chunkOdds, generator.settings.spawnBuddies, 5, y2 + 1, 5, EntityType.VILLAGER);
-			chunk.spawnEntity(chunkOdds, generator.settings.spawnBuddies, 5, y3 + 1, 5, EntityType.VILLAGER);
+			chunk.spawnBuddy(generator, chunkOdds, 5, y2 + 1, 5);
+			chunk.spawnBuddy(generator, chunkOdds, 5, y3 + 1, 5);
 		}
 	}
 
