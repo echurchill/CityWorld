@@ -460,8 +460,10 @@ public abstract class PlatLot {
 				!chunk.isEmpty(x + 1, y, z + 1)) {
 				chunk.setBlocks(x, x + 2, y + 1, y + 4, z, z + 2, Material.AIR);
 				generateMineCeiling(chunk, x, x + 2, y + 3, z, z + 2);
-				generateMineTrick(generator, chunk, prizeX, y + 1, prizeZ);
-				generateMineTreat(generator, chunk, prizeX, y + 1, prizeZ);
+				if (chunkOdds.flipCoin())
+					generateMineTrick(generator, chunk, prizeX, y + 1, prizeZ);
+				else
+					generateMineTreat(generator, chunk, prizeX, y + 1, prizeZ);
 			}
 		}
 	}
