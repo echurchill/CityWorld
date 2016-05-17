@@ -460,10 +460,8 @@ public abstract class PlatLot {
 				!chunk.isEmpty(x + 1, y, z + 1)) {
 				chunk.setBlocks(x, x + 2, y + 1, y + 4, z, z + 2, Material.AIR);
 				generateMineCeiling(chunk, x, x + 2, y + 3, z, z + 2);
-				if (chunkOdds.playOdds(generator.settings.oddsOfSpawnerInMineAlcove))
-					generateMineTrick(generator, chunk, prizeX, y + 1, prizeZ);
-				else if (chunkOdds.playOdds(generator.settings.oddsOfTreasureInMineAlcove)) 
-					generateMineTreat(generator, chunk, prizeX, y + 1, prizeZ);
+				generateMineTrick(generator, chunk, prizeX, y + 1, prizeZ);
+				generateMineTreat(generator, chunk, prizeX, y + 1, prizeZ);
 			}
 		}
 	}
@@ -505,9 +503,10 @@ public abstract class PlatLot {
 
 	private void generateMineTrick(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z) {
 		// not so cool stuff?
-		if (generator.settings.spawnersInMines && chunkOdds.playOdds(generator.settings.oddsOfSpawnerInMines)) {
-			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, chunkOdds, SpawnerLocation.MINE));
-		}
+		if (generator.settings.spawnersInMines)
+			chunk.setSpawner(generator, chunkOdds, x, y, z, SpawnerLocation.MINE);
+		else
+			chunk.spawnEnemy(generator, chunkOdds, x, y, z);
 	}
 
 	public boolean isValidStrataY(CityWorldGenerator generator, int blockX, int blockY, int blockZ) {

@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plats.Nature;
 
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
@@ -91,7 +92,7 @@ public class OldCastleLot extends ConstructLot {
 		chunk.setBlocks(1, 15, y1 - 2, 1, 15, supportMaterial);
 		
 		// clear things out a bit
-		chunk.airoutBlocks(generator, 0, 16, y1, blockYs.maxHeight + 2, 0, 16);
+		chunk.airoutBlocks(generator, 0, 16, y1, blockYs.maxHeight + 2, 0, 16, true);
 		
 		// add the first layer
 		chunk.setLayer(y1 - 1, platformMaterial);
@@ -166,17 +167,17 @@ public class OldCastleLot extends ConstructLot {
 	
 	private void punchOutWindow(CityWorldGenerator generator, InitialBlocks chunk, int x, int y, int z) {
 		if (chunkOdds.flipCoin())
-			chunk.airoutBlocks(generator, x, y, y + 1 + chunkOdds.getRandomInt(2), z);
+			chunk.airoutBlocks(generator, x, y, y + 1 + chunkOdds.getRandomInt(2), z, true);
 	}
 	
 	private void punchOutNSDoor(CityWorldGenerator generator, InitialBlocks chunk, int x, int y, int z) {
 		if (chunkOdds.flipCoin())
-			chunk.airoutBlocks(generator, x, x + 1, y, y + 3, z, z + 2);
+			chunk.airoutBlocks(generator, x, x + 1, y, y + 3, z, z + 2, true);
 	}
 	
 	private void punchOutWEDoor(CityWorldGenerator generator, InitialBlocks chunk, int x, int y, int z) {
 		if (chunkOdds.flipCoin())
-			chunk.airoutBlocks(generator, x, x + 2, y, y + 3, z, z + 1);
+			chunk.airoutBlocks(generator, x, x + 2, y, y + 3, z, z + 1, true);
 	}
 	
 	private static int insetChaos = 3;
@@ -201,6 +202,7 @@ public class OldCastleLot extends ConstructLot {
 		
 		// ex-castle
 		generator.decayBlocks.destroyWithin(originX + insetChaos, originX + 16 - insetChaos, y1, y3, originZ + insetChaos, originZ + 16 - insetChaos);
+		chunk.spawnEnemy(generator, chunkOdds, 6, y2, 6, EntityType.WITCH);
 //		destroyLot(generator, y1, y3 + floorHeight);
 	}
 }

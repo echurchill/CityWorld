@@ -1318,8 +1318,9 @@ public class RoadLot extends ConnectedLot {
 	private void generateTrick(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z) {
 		
 		// not so cool stuff?
-		if (generator.settings.spawnersInSewers && chunkOdds.playOdds(generator.settings.oddsOfSpawnerInSewers)) {
-			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, chunkOdds, SpawnerLocation.SEWER));
-		}
+		if (generator.settings.spawnersInSewers)
+			chunk.setSpawner(generator, chunkOdds, x, y, z, SpawnerLocation.SEWER);
+		else
+			chunk.spawnEnemy(generator, chunkOdds, x, y, z);
 	}
 }

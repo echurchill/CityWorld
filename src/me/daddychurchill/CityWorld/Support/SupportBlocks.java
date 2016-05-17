@@ -4,6 +4,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
+import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
 import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
 import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
 import me.daddychurchill.CityWorld.Support.Odds.ColorSet;
@@ -905,13 +906,19 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 
-	public final void setSpawner(int x, int y, int z, EntityType aType) {
-		Block block = getActualBlock(x, y, z);
-		if (BlackMagic.setBlockType(block, Material.MOB_SPAWNER)) {
-			if (block.getType() == Material.MOB_SPAWNER) {
-				CreatureSpawner spawner = (CreatureSpawner) block.getState();
-				spawner.setSpawnedType(aType);
-				spawner.update(true);
+	public final void setSpawner(CityWorldGenerator generator, Odds odds, int x, int y, int z, SpawnerLocation location) {
+		setSpawner(generator, odds, x, y, z, generator.spawnProvider.getEntity(generator, odds, location));
+	}
+	
+	public final void setSpawner(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType aType) {
+		if (odds.playOdds(generator.settings.spawnEnemies)) {
+			Block block = getActualBlock(x, y, z);
+			if (BlackMagic.setBlockType(block, Material.MOB_SPAWNER)) {
+				if (block.getType() == Material.MOB_SPAWNER) {
+					CreatureSpawner spawner = (CreatureSpawner) block.getState();
+					spawner.setSpawnedType(aType);
+					spawner.update(true);
+				}
 			}
 		}
 	}

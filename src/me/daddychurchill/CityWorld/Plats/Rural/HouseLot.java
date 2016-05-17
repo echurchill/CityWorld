@@ -37,7 +37,7 @@ public class HouseLot extends IsolatedLot {
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		// make room
-		flattenLot(generator, chunk, 16);
+		chunk.airoutLayer(generator, generator.streetLevel + 1, DataContext.FloorHeight * 2, 2, true);
 		
 		// ground please
 		if (generator.settings.includeDecayedNature)
@@ -53,9 +53,10 @@ public class HouseLot extends IsolatedLot {
 		int floors = generator.structureOnGroundProvider.generateHouse(generator, chunk, context, chunkOdds, atY, 2);
 		
 		// not a happy place?
-		if (generator.settings.includeDecayedBuildings)
+		if (generator.settings.includeDecayedBuildings) {
 			destroyBuilding(generator, atY, floors);
-		else {
+			chunk.spawnEnemy(generator, chunkOdds, 5, atY, 5);
+		} else {
 			generateSurface(generator, chunk, false);
 			chunk.spawnBuddy(generator, chunkOdds, 5, atY, 5);
 		}

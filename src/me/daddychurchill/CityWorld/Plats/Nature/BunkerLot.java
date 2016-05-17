@@ -848,9 +848,10 @@ public class BunkerLot extends ConnectedLot {
 	private static void generateTrick(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y, int z) {
 
 		// not so cool stuff?
-		if (generator.settings.spawnersInBunkers && odds.playOdds(generator.settings.oddsOfSpawnerInBunkers)) {
-			chunk.setSpawner(x, y, z, generator.spawnProvider.getEntity(generator, odds, SpawnerLocation.BUNKER));
-		}
+		if (generator.settings.spawnersInBunkers)
+			chunk.setSpawner(generator, odds, x, y, z, SpawnerLocation.BUNKER);
+		else
+			chunk.spawnEnemy(generator, odds, x, y, z);
 	}
 	
 	private static BunkerType getRandomBunkerType(Odds chunkOdds, boolean firstOne) {

@@ -16,6 +16,7 @@ import me.daddychurchill.CityWorld.Support.Odds.ColorSet;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class RoundaboutCenterLot extends IsolatedLot {
@@ -162,9 +163,9 @@ public class RoundaboutCenterLot extends IsolatedLot {
 			chunk.pepperBlocks(4, 12, yPitBottom - 1, 4, 12, chunkOdds, Material.LAVA);
 
 			// spawner?
-			if (generator.settings.spawnersInSewers && chunkOdds.playOdds(generator.settings.oddsOfSpawnerInSewers)) {
+			if (generator.settings.spawnersInSewers) {
 				chunk.setBlocks(8, yPitBottom - 2, yPitBottom + 4, 8, Material.OBSIDIAN);
-				chunk.setSpawner(8, yPitBottom + 4, 8, generator.spawnProvider.getEntity(generator, chunkOdds, SpawnerLocation.LAVAPIT));
+				chunk.setSpawner(generator, chunkOdds, 8, yPitBottom + 4, 8, SpawnerLocation.LAVAPIT);
 			}
 			
 			break;
@@ -220,9 +221,11 @@ public class RoundaboutCenterLot extends IsolatedLot {
 			chunk.pepperBlocks(4, 12, yWaterBottom + 1, 4, 12, chunkOdds, Material.PRISMARINE);
 			
 			// spawner?
-			if (generator.settings.spawnersInSewers && chunkOdds.playOdds(generator.settings.oddsOfSpawnerInSewers)) {
+			if (generator.settings.spawnersInSewers) {
 				chunk.setBlocks(8, yWaterBottom, yWaterBottom + 4, 8, Material.PRISMARINE);
-				chunk.setSpawner(8, yWaterBottom + 4, 8, generator.spawnProvider.getEntity(generator, chunkOdds, SpawnerLocation.WATERPIT));
+				chunk.setSpawner(generator, chunkOdds, 8, yWaterBottom + 4, 8, SpawnerLocation.WATERPIT);
+			} else {
+				chunk.spawnFourAnimals(generator, chunkOdds, 8, yWaterBottom + 4, 8, EntityType.SQUID);
 			}
 			
 			break;

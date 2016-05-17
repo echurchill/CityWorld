@@ -190,130 +190,130 @@ public class FarmLot extends ConnectedLot {
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
 		int croplevel = generator.streetLevel + 1;
 		
-		boolean fallowField = false;
-		Material fallowMaterial = generator.shapeProvider.findAtmosphereMaterialAt(generator, croplevel - 1);
 		int cropY = generator.streetLevel + 1;
+		Material fallowMaterial = generator.shapeProvider.findAtmosphereMaterialAt(generator, croplevel - 1);
+		boolean fallowField = fallowMaterial == Material.AIR;
 		
-		switch (cropType) {
-		case PADDOCK:
-			chunk.setWalls(1, 15, cropY, cropY + 1, 1, 15, Material.FENCE);
-			
-			// TODO: I fix the gates one of these days
-			if (chunkOdds.flipCoin())
-				BlackMagic.setBlock(chunk, 7, cropY, 1, Material.FENCE_GATE, Facing.NORTH.getData()); // face north
-			if (chunkOdds.flipCoin())
-				BlackMagic.setBlock(chunk, 7, cropY, 14, Material.FENCE_GATE, Facing.SOUTH.getData()); // face south
-			if (chunkOdds.flipCoin())
-				BlackMagic.setBlock(chunk, 1, cropY, 7, Material.FENCE_GATE, Facing.WEST.getData()); // face west
-			if (chunkOdds.flipCoin())
-				BlackMagic.setBlock(chunk, 14, cropY, 7, Material.FENCE_GATE, Facing.EAST.getData()); // face east
-			break;
-		case TRELLIS:
-		case VINES:
-			buildVineyard(chunk, croplevel);
-			break;
-		case GRASS:
-		case FERN:
-		case DEAD_GRASS:
-		case DANDELION:
-		case POPPY:
-		case BLUE_ORCHID:
-		case ALLIUM:
-		case AZURE_BLUET:
-		case OXEYE_DAISY:
-		case RED_TULIP:
-		case ORANGE_TULIP:
-		case WHITE_TULIP:
-		case PINK_TULIP:
-		case SUNFLOWER:
-		case LILAC:
-		case TALL_GRASS:
-		case TALL_FERN:
-		case ROSE_BUSH:
-		case PEONY:
-		case EMERALD_GREEN:
-		case SHORT_FLOWERS:
-		case TALL_FLOWERS:
-		case ALL_FLOWERS:
-		case SHORT_PLANTS:
-		case TALL_PLANTS:
-		case ALL_PLANTS:
-		case DECAY_PLANTS:
-			if (generator.settings.includeAbovegroundFluids)
-				plowField(chunk, croplevel, dirtMaterial, 2, waterMaterial, 2);
-			else 
+		if (!fallowField)
+			switch (cropType) {
+			case PADDOCK:
+				chunk.setWalls(1, 15, cropY, cropY + 1, 1, 15, Material.FENCE);
+				
+				// TODO: I fix the gates one of these days
+				if (chunkOdds.flipCoin())
+					BlackMagic.setBlock(chunk, 7, cropY, 1, Material.FENCE_GATE, Facing.NORTH.getData()); // face north
+				if (chunkOdds.flipCoin())
+					BlackMagic.setBlock(chunk, 7, cropY, 14, Material.FENCE_GATE, Facing.SOUTH.getData()); // face south
+				if (chunkOdds.flipCoin())
+					BlackMagic.setBlock(chunk, 1, cropY, 7, Material.FENCE_GATE, Facing.WEST.getData()); // face west
+				if (chunkOdds.flipCoin())
+					BlackMagic.setBlock(chunk, 14, cropY, 7, Material.FENCE_GATE, Facing.EAST.getData()); // face east
+				break;
+			case TRELLIS:
+			case VINES:
+				buildVineyard(chunk, croplevel);
+				break;
+			case GRASS:
+			case FERN:
+			case DEAD_GRASS:
+			case DANDELION:
+			case POPPY:
+			case BLUE_ORCHID:
+			case ALLIUM:
+			case AZURE_BLUET:
+			case OXEYE_DAISY:
+			case RED_TULIP:
+			case ORANGE_TULIP:
+			case WHITE_TULIP:
+			case PINK_TULIP:
+			case SUNFLOWER:
+			case LILAC:
+			case TALL_GRASS:
+			case TALL_FERN:
+			case ROSE_BUSH:
+			case PEONY:
+			case EMERALD_GREEN:
+			case SHORT_FLOWERS:
+			case TALL_FLOWERS:
+			case ALL_FLOWERS:
+			case SHORT_PLANTS:
+			case TALL_PLANTS:
+			case ALL_PLANTS:
+			case DECAY_PLANTS:
+				if (generator.settings.includeAbovegroundFluids)
+					plowField(chunk, croplevel, dirtMaterial, 2, waterMaterial, 2);
+				else 
+					fallowField = true;
+				break;
+			case PRARIE_PLANTS:
+			case OAK_SAPLING:
+	//		case SPRUCE_SAPLING:
+			case BIRCH_SAPLING:
+	//		case ACACIA_SAPLING:
+	//		case JUNGLE_SAPLING:
+	//		case DARK_OAK_SAPLING:
+			case OAK_TREE:
+	//		case PINE_TREE:
+			case BIRCH_TREE:
+	//		case JUNGLE_TREE:
+	//		case ACACIA_TREE:
+	//		case SWAMP_TREE:
+				// leave the grass alone
+				break;
+			case CACTUS:
+				plowField(chunk, croplevel, sandMaterial, 0, sandMaterial, 2);
+				break;
+			case REED:
+				if (generator.settings.includeAbovegroundFluids)
+					plowField(chunk, croplevel, sandMaterial, 0, waterMaterial, 2);
+				else 
+					fallowField = true;
+				break;
+			case DEAD_BUSH:
+				plowField(chunk, croplevel, dirtMaterial, 1, fallowMaterial, 2);
+				break;
+			case WHEAT:
+			case CARROT:
+			case POTATO:
+			case BEETROOT:
+				if (generator.settings.includeAbovegroundFluids)
+					plowField(chunk, croplevel, soilMaterial, 8, waterMaterial, 2);
+				else 
+					fallowField = true;
+				break;
+			case MELON:
+			case PUMPKIN:
+			case EDIBLE_PLANTS:
+				if (generator.settings.includeAbovegroundFluids)
+					plowField(chunk, croplevel, soilMaterial, 8, waterMaterial, 3);
+				else 
+					fallowField = true;
+				break;
+			case BROWN_MUSHROOM:
+			case RED_MUSHROOM:
+				plowField(chunk, croplevel, mycelMaterial, 0, fallowMaterial, 2);
+				break;
+			case NETHERWART:
+				plowField(chunk, croplevel, soulMaterial, 0, fallowMaterial, 2);
+				break;
+			case NETHER_PLANTS:
+				plowField(chunk, croplevel, soulMaterial, 0, fallowMaterial, 2);
+				break;
+			case FALLOW:
 				fallowField = true;
-			break;
-		case PRARIE_PLANTS:
-		case OAK_SAPLING:
-//		case SPRUCE_SAPLING:
-		case BIRCH_SAPLING:
-//		case ACACIA_SAPLING:
-//		case JUNGLE_SAPLING:
-//		case DARK_OAK_SAPLING:
-		case OAK_TREE:
-//		case PINE_TREE:
-		case BIRCH_TREE:
-//		case JUNGLE_TREE:
-//		case ACACIA_TREE:
-//		case SWAMP_TREE:
-			// leave the grass alone
-			break;
-		case CACTUS:
-			plowField(chunk, croplevel, sandMaterial, 0, sandMaterial, 2);
-			break;
-		case REED:
-			if (generator.settings.includeAbovegroundFluids)
-				plowField(chunk, croplevel, sandMaterial, 0, waterMaterial, 2);
-			else 
-				fallowField = true;
-			break;
-		case DEAD_BUSH:
-			plowField(chunk, croplevel, dirtMaterial, 1, fallowMaterial, 2);
-			break;
-		case WHEAT:
-		case CARROT:
-		case POTATO:
-		case BEETROOT:
-			if (generator.settings.includeAbovegroundFluids)
-				plowField(chunk, croplevel, soilMaterial, 8, waterMaterial, 2);
-			else 
-				fallowField = true;
-			break;
-		case MELON:
-		case PUMPKIN:
-		case EDIBLE_PLANTS:
-			if (generator.settings.includeAbovegroundFluids)
-				plowField(chunk, croplevel, soilMaterial, 8, waterMaterial, 3);
-			else 
-				fallowField = true;
-			break;
-		case BROWN_MUSHROOM:
-		case RED_MUSHROOM:
-			plowField(chunk, croplevel, mycelMaterial, 0, fallowMaterial, 2);
-			break;
-		case NETHERWART:
-			plowField(chunk, croplevel, soulMaterial, 0, fallowMaterial, 2);
-			break;
-		case NETHER_PLANTS:
-			plowField(chunk, croplevel, soulMaterial, 0, fallowMaterial, 2);
-			break;
-		case FALLOW:
-			fallowField = true;
-			break;
-		}
+				break;
+			}
 		
 		if (fallowField)
-			plowField(chunk, croplevel, dirtMaterial, 1, Material.AIR, 2);
+			plowField(chunk, croplevel, dirtMaterial, 1, fallowMaterial, 2);
 		else {
-		
 			switch (cropType) {
+			case FALLOW:
+			case TRELLIS:
+				break;
 			case PADDOCK:
 				generateSurface(generator, chunk, false);
 				chunk.spawnVeneryOfAnimals(generator, chunkOdds, 7, cropY, 7);
-				break;
-			case FALLOW:
-			case TRELLIS:
 				break;
 			case VINES:
 				plantVineyard(chunk, croplevel, Material.VINE);

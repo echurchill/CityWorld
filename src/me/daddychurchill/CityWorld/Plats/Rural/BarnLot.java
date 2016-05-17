@@ -115,7 +115,7 @@ public class BarnLot extends IsolatedLot {
 
 				// hay & water please
 				chunk.setBlock(2, y1, 2, Material.HAY_BLOCK);
-				BlackMagic.setBlock(chunk, 2, y1, 13, Material.CAULDRON, chunkOdds.calcRandomRange(1, 3));
+				chunk.setCauldron(2, y1, 13, chunkOdds);
 				
 				// spawn horses
 				spawnHorses(generator, chunk, 2, y1, 7);
@@ -132,7 +132,7 @@ public class BarnLot extends IsolatedLot {
 
 				// hay & water please
 				chunk.setBlock(13, y1, 2, Material.HAY_BLOCK);
-				BlackMagic.setBlock(chunk, 13, y1, 13, Material.CAULDRON, chunkOdds.calcRandomRange(1, 3));
+				chunk.setCauldron(13, y1, 13, chunkOdds);
 				
 				// spawn horses
 				spawnHorses(generator, chunk, 12, y1, 7);
@@ -216,7 +216,7 @@ public class BarnLot extends IsolatedLot {
 
 				// hay & water please
 				chunk.setBlock(2, y1, 2, Material.HAY_BLOCK);
-				BlackMagic.setBlock(chunk, 13, y1, 2, Material.CAULDRON, chunkOdds.calcRandomRange(1, 3));
+				chunk.setCauldron(13, y1, 2, chunkOdds);
 				
 				// spawn horses
 				spawnHorses(generator, chunk, 7, y1, 2);
@@ -233,7 +233,7 @@ public class BarnLot extends IsolatedLot {
 
 				// hay & water please
 				chunk.setBlock(2, y1, 13, Material.HAY_BLOCK);
-				BlackMagic.setBlock(chunk, 13, y1, 13, Material.CAULDRON, chunkOdds.calcRandomRange(1, 3));
+				chunk.setCauldron(13, y1, 13, chunkOdds);
 				
 				// spawn horses
 				spawnHorses(generator, chunk, 7, y1, 13);

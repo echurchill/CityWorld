@@ -197,18 +197,30 @@ public abstract class AbstractBlocks {
 	}
 	
 	public final void airoutBlock(CityWorldGenerator generator, int x, int y, int z) {
-		if (generator.shapeProvider.clearAtmosphere(generator))
+		airoutBlock(generator, x, y, z, false);
+	}
+
+	public final void airoutBlock(CityWorldGenerator generator, int x, int y, int z, boolean forceIt) {
+		if (forceIt || generator.shapeProvider.clearAtmosphere(generator))
 			setBlock(x, y, z, generator.shapeProvider.findAtmosphereMaterialAt(generator, y));
 	}
 
 	public final void airoutBlocks(CityWorldGenerator generator, int x, int y1, int y2, int z) {
-		if (generator.shapeProvider.clearAtmosphere(generator))
+		airoutBlocks(generator, x, y1, y2, z, false);
+	}
+
+	public final void airoutBlocks(CityWorldGenerator generator, int x, int y1, int y2, int z, boolean forceIt) {
+		if (forceIt || generator.shapeProvider.clearAtmosphere(generator))
 			for (int y = y1; y < y2; y++)
 				setBlock(x, y, z, generator.shapeProvider.findAtmosphereMaterialAt(generator, y));
 	}
 
 	public final void airoutBlocks(CityWorldGenerator generator, int x1, int x2, int y, int z1, int z2) {
-		if (generator.shapeProvider.clearAtmosphere(generator)) {
+		airoutBlocks(generator, x1, x2, y, z1, z2, false);
+	}
+	
+	public final void airoutBlocks(CityWorldGenerator generator, int x1, int x2, int y, int z1, int z2, boolean forceIt) {
+		if (forceIt || generator.shapeProvider.clearAtmosphere(generator)) {
 			Material air = generator.shapeProvider.findAtmosphereMaterialAt(generator, y);
 			for (int x = x1; x < x2; x++)
 				for (int z = z1; z < z2; z++)
@@ -217,7 +229,11 @@ public abstract class AbstractBlocks {
 	}
 	
 	public final void airoutBlocks(CityWorldGenerator generator, int x1, int x2, int y1, int y2, int z1, int z2) {
-		if (generator.shapeProvider.clearAtmosphere(generator))
+		airoutBlocks(generator, x1, x2, y1, y2, z1, z2, false);
+	}
+	
+	public final void airoutBlocks(CityWorldGenerator generator, int x1, int x2, int y1, int y2, int z1, int z2, boolean forceIt) {
+		if (forceIt || generator.shapeProvider.clearAtmosphere(generator))
 			for (int y = y1; y < y2; y++) {
 				Material air = generator.shapeProvider.findAtmosphereMaterialAt(generator, y);
 				for (int x = x1; x < x2; x++)
@@ -227,15 +243,27 @@ public abstract class AbstractBlocks {
 	}
 	
 	public void airoutLayer(CityWorldGenerator generator, int blocky) {
-		airoutBlocks(generator, 0, 16, blocky, 0, 16);
+		airoutBlocks(generator, 0, 16, blocky, 0, 16, false);
+	}
+	
+	public void airoutLayer(CityWorldGenerator generator, int blocky, boolean forceIt) {
+		airoutBlocks(generator, 0, 16, blocky, 0, 16, forceIt);
 	}
 	
 	public void airoutLayer(CityWorldGenerator generator, int blocky, int height) {
-		airoutBlocks(generator, 0, 16, blocky, blocky + height, 0, 16);
+		airoutBlocks(generator, 0, 16, blocky, blocky + height, 0, 16, false);
+	}
+	
+	public void airoutLayer(CityWorldGenerator generator, int blocky, int height, boolean forceIt) {
+		airoutBlocks(generator, 0, 16, blocky, blocky + height, 0, 16, forceIt);
 	}
 	
 	public void airoutLayer(CityWorldGenerator generator, int blocky, int height, int inset) {
-		airoutBlocks(generator, inset, 16 - inset, blocky, blocky + height, inset, 16 - inset);
+		airoutBlocks(generator, inset, 16 - inset, blocky, blocky + height, inset, 16 - inset, false);
+	}
+
+	public void airoutLayer(CityWorldGenerator generator, int blocky, int height, int inset, boolean forceIt) {
+		airoutBlocks(generator, inset, 16 - inset, blocky, blocky + height, inset, 16 - inset, forceIt);
 	}
 
 	public void pepperBlocks(int x, int y1, int y2, int z, Odds odds, Material material) {

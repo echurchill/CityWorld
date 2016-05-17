@@ -20,7 +20,7 @@ Fixed up some fluid generation issues (generalized version of the above nether w
 Enhanced Parks a bit more and made country roads a bit more country-ish
 Made things camouflage better in the mountains
 Tweaked the factory big chimney's height a bit, now they aren't quite a tall
-Minecraft (as of 1.9.2) and Spigot (as of 5/7) happy 
+Minecraft (as of 1.9.4) and Spigot (as of 5/16) happy 
 
 v3.010
 Fixed a code error that goofed up generation range limits 

@@ -81,10 +81,6 @@ public class CityWorldSettings {
 	public double oddsOfTreasureInBunkers = Odds.oddsLikely;
 	public double oddsOfTreasureInMines = Odds.oddsLikely;
 	public double oddsOfTreasureInMineAlcove = Odds.oddsSomewhatLikely;
-	public double oddsOfSpawnerInSewers = Odds.oddsSomewhatUnlikely;
-	public double oddsOfSpawnerInBunkers = Odds.oddsSomewhatUnlikely;
-	public double oddsOfSpawnerInMines = Odds.oddsSomewhatUnlikely;
-	public double oddsOfSpawnerInMineAlcove = Odds.oddsSomewhatLikely;
 	public double oddsOfAlcoveInMines = Odds.oddsVeryLikely;
 	
 	public final static String tagIncludeRoads = "IncludeRoads";
