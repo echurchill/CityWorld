@@ -193,6 +193,8 @@ public class FloatingRoadLot extends RoadLot {
 					generateStreetSign(generator, chunk, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
 			}
 		}
+		
+		generateEntities(generator, chunk, sidewalkLevel);
 	}
 	
 	private final static double oddsOfballoons = Odds.oddsSomewhatLikely;

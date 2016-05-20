@@ -60,8 +60,9 @@ public class ConcreteLot extends BuildingLot {
 		Material sidewalkMaterial = getSidewalkMaterial();
 
 		// top it off
-		chunk.setLayer(sidewalkLevel, sidewalkMaterial);
 		flattenLot(generator, chunk, 4);
+		chunk.setLayer(sidewalkLevel - 1, generator.oreProvider.surfaceMaterial);
+		chunk.setLayer(sidewalkLevel, sidewalkMaterial);
 	}
 
 	@Override
@@ -72,6 +73,9 @@ public class ConcreteLot extends BuildingLot {
 		Material fluid = generator.oreProvider.fluidMaterial;
 		Material atmosphere = generator.shapeProvider.findAtmosphereMaterialAt(generator, sidewalkLevel);
 		Material underneath = generator.settings.materials.itemsSelectMaterial_BuildingWalls.getRandomMaterial(chunkOdds);
+		
+//		chunk.setBlock(8, sidewalkLevel + 20, 8, Material.COBBLESTONE);
+//		chunk.setSignPost(8, sidewalkLevel + 21, 8, BlockFace.NORTH, "Style", centerStyle.toString());
 		
 		switch (centerStyle) {
 		default:

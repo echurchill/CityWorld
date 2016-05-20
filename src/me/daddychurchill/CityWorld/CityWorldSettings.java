@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld;
 
 import me.daddychurchill.CityWorld.Plugins.MaterialProvider;
+import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider_Floating;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider_Floating.SubSurfaceStyle;
 import me.daddychurchill.CityWorld.Plugins.TreeProvider;
@@ -15,6 +16,7 @@ import org.bukkit.util.Vector;
 public class CityWorldSettings {
 	
 	public MaterialProvider materials;
+	public SpawnProvider spawns;
 	
 	public boolean darkEnvironment;
 	
@@ -38,8 +40,9 @@ public class CityWorldSettings {
 	public boolean includeBones = true;
 	
 	public double spawnAnimals = Odds.oddsLikely;
-	public double spawnBuddies = Odds.oddsLikely;
-	public double spawnEnemies = Odds.oddsLikely;
+	public double spawnBeings = Odds.oddsPrettyLikely;
+	public double spawnBaddies = Odds.oddsSomewhatLikely;
+	public double spawnVagrants = Odds.oddsLikely;
 	
 	public boolean spawnersInBunkers = true;
 	public boolean spawnersInMines = true;
@@ -102,8 +105,9 @@ public class CityWorldSettings {
 	public final static String tagIncludeBones = "IncludeBones";
 	
 	public final static String tagSpawnAnimals = "SpawnAnimals";
-	public final static String tagSpawnBuddies = "SpawnBuddies";
-	public final static String tagSpawnEnemies = "SpawnEnemies";
+	public final static String tagSpawnBeings = "SpawnBeings";
+	public final static String tagSpawnBaddies = "SpawnBaddies";
+	public final static String tagSpawnVagrants = "SpawnVagrants";
 	
 	public final static String tagSpawnersInBunkers = "SpawnersInBunkers";
 	public final static String tagSpawnersInMines = "SpawnersInMines";
@@ -167,8 +171,9 @@ public class CityWorldSettings {
 		// Initialize based world style settings
 		validateSettingsAgainstWorldStyle(generator);
 		
-		// stacks of materials
+		// Things that server operators can customize
 		materials = new MaterialProvider(generator, this);
+		spawns = new SpawnProvider(generator, this);
 		
 		//generator.reportMessage("Items.Count = " + itemsTreasureInBunkers.count());
 		
@@ -236,8 +241,9 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeBones, includeBones);
 			
 			section.addDefault(tagSpawnAnimals, spawnAnimals);
-			section.addDefault(tagSpawnBuddies, spawnBuddies);
-			section.addDefault(tagSpawnEnemies, spawnEnemies);
+			section.addDefault(tagSpawnBeings, spawnBeings);
+			section.addDefault(tagSpawnBaddies, spawnBaddies);
+			section.addDefault(tagSpawnVagrants, spawnVagrants);
 			
 			section.addDefault(tagSpawnersInBunkers, spawnersInBunkers);
 			section.addDefault(tagSpawnersInMines, spawnersInMines);
@@ -291,8 +297,9 @@ public class CityWorldSettings {
 			includeBones = section.getBoolean(tagIncludeBones, includeBones);
 
 			spawnAnimals = limitTo(section.getDouble(tagSpawnAnimals, spawnAnimals), 0.0, 1.0);
-			spawnBuddies = limitTo(section.getDouble(tagSpawnBuddies, spawnBuddies), 0.0, 1.0);
-			spawnEnemies = limitTo(section.getDouble(tagSpawnEnemies, spawnEnemies), 0.0, 1.0);
+			spawnBeings = limitTo(section.getDouble(tagSpawnBeings, spawnBeings), 0.0, 1.0);
+			spawnBaddies = limitTo(section.getDouble(tagSpawnBaddies, spawnBaddies), 0.0, 1.0);
+			spawnVagrants = limitTo(section.getDouble(tagSpawnVagrants, spawnVagrants), 0.0, 1.0);
 
 			spawnersInBunkers = section.getBoolean(tagSpawnersInBunkers, spawnersInBunkers);
 			spawnersInMines = section.getBoolean(tagSpawnersInMines, spawnersInMines);
@@ -303,6 +310,7 @@ public class CityWorldSettings {
 			treasuresInSewers = section.getBoolean(tagTreasuresInSewers, treasuresInSewers);
 
 			materials.read(generator, section);
+			spawns.read(generator, section);
 			
 			includeUndergroundFluids = section.getBoolean(tagIncludeUndergroundFluids, includeUndergroundFluids);
 			includeAbovegroundFluids = section.getBoolean(tagIncludeAbovegroundFluids, includeAbovegroundFluids);
@@ -407,8 +415,9 @@ public class CityWorldSettings {
 			section.set(tagIncludeBones, includeBones);
 			
 			section.set(tagSpawnAnimals, spawnAnimals);
-			section.set(tagSpawnBuddies, spawnBuddies);
-			section.set(tagSpawnEnemies, spawnEnemies);
+			section.set(tagSpawnBeings, spawnBeings);
+			section.set(tagSpawnBaddies, spawnBaddies);
+			section.set(tagSpawnVagrants, spawnVagrants);
 			
 			section.set(tagSpawnersInBunkers, spawnersInBunkers);
 			section.set(tagSpawnersInMines, spawnersInMines);
@@ -441,6 +450,7 @@ public class CityWorldSettings {
 			section.set(tagBuildOutsideRadius, buildOutsideRadius);
 			
 			materials.write(generator, section);
+			spawns.write(generator, section);
 			
 			//===========================================================================
 			// note the depreciations
@@ -599,10 +609,10 @@ public class CityWorldSettings {
 			
 			includeUndergroundFluids = false; // DIFFERENT
 			includeAbovegroundFluids = true; // THIS MUST BE SET TO TRUE
-//			includeWorkingLights = true;
+			includeWorkingLights = false; // DIFFERENT
 			includeNamedRoads = false; // DIFFERENT
-//			includeDecayedRoads = false;
-//			includeDecayedBuildings = false;
+			includeDecayedRoads = false; // DIFFERENT
+			includeDecayedBuildings = false; // DIFFERENT
 //			includeDecayedNature = false;
 //			includeBuildingInteriors = true;
 			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT

@@ -12,7 +12,7 @@ public class CoverProvider_SandDunes extends CoverProvider_Decayed {
 
 	@Override
 	public ColorSet getDefaultColorSet() {
-		return ColorSet.WHITE;
+		return ColorSet.TAN;
 	}
 	
 }

@@ -90,9 +90,13 @@ public class MaterialList {
 			for (String name : names) {
 				Material material = null;
 				try {
-					material = Material.getMaterial(name);
+					material = Material.matchMaterial(name);
+
+					// still nothing, so comment about it
+					if (material == null)
+						generator.reportMessage("Ignoring " + generator.worldName + ".Materials." + listName + ": " + name + ", is not known");
 				} catch (Exception e) {
-					generator.reportException("Reading " + generator.worldName + ".Materials." + listName, e);
+					generator.reportException("Reading " + generator.worldName + ".Materials." + listName + ": " + name, e);
 					material = null;
 				}
 				

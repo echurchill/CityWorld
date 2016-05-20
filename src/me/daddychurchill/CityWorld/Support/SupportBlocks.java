@@ -4,7 +4,6 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
-import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
 import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
 import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
 import me.daddychurchill.CityWorld.Support.Odds.ColorSet;
@@ -143,13 +142,9 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	
 	public abstract boolean isSurroundedByEmpty(int x, int y, int z);
 	
-	@Deprecated
-	public final boolean isPlantable(int x, int y, int z) {
-		return isOfTypes(x, y, z, Material.GRASS, Material.DIRT, Material.SOIL);
-	}
-	
 	public final boolean isWater(int x, int y, int z) {
-		return getActualBlock(x, y, z).isLiquid();
+		return isOfTypes(x, y, z, Material.STATIONARY_WATER, Material.WATER);
+//		return getActualBlock(x, y, z).isLiquid();
 	}
 
 	public abstract boolean isByWater(int x, int y, int z);
@@ -906,23 +901,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 
-	public final void setSpawner(CityWorldGenerator generator, Odds odds, int x, int y, int z, SpawnerLocation location) {
-		setSpawner(generator, odds, x, y, z, generator.spawnProvider.getEntity(generator, odds, location));
-	}
-	
-	public final void setSpawner(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType aType) {
-		if (odds.playOdds(generator.settings.spawnEnemies)) {
-			Block block = getActualBlock(x, y, z);
-			if (BlackMagic.setBlockType(block, Material.MOB_SPAWNER)) {
-				if (block.getType() == Material.MOB_SPAWNER) {
-					CreatureSpawner spawner = (CreatureSpawner) block.getState();
-					spawner.setSpawnedType(aType);
-					spawner.update(true);
-				}
-			}
-		}
-	}
-	
 	public final void setWallSign(int x, int y, int z, BadMagic.General direction, String[] text) {
 		Block block = getActualBlock(x, y, z);
 		if (BlackMagic.setBlockType(block, Material.WALL_SIGN, direction.getData())) {
@@ -973,76 +951,25 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 	
-	private EntityType pickAnimal(Odds odds) {
-		switch (odds.getRandomInt(20)) {
-		default:
-		case 0:
-		case 1:
-			return EntityType.HORSE;
-		case 2:
-		case 3:
-			return EntityType.COW;
-		case 4:
-		case 5:
-			return EntityType.SHEEP;
-		case 6:
-		case 7:
-			return EntityType.PIG;
-		case 8:
-		case 9:
-		case 10:
-		case 11:
-		case 12:
-		case 13:
-			return EntityType.CHICKEN;
-		case 14:
-		case 15:
-		case 16:
-		case 17:
-			return EntityType.RABBIT;
-		case 18:
-			return EntityType.WOLF;
-		case 19:
-			return EntityType.OCELOT;
-		}
-	}
-
 	// https://en.wikipedia.org/wiki/List_of_English_terms_of_venery,_by_animal
 	public final void spawnVeneryOfAnimals(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
-		if (!generator.settings.includeDecayedBuildings)
-			switch (odds.getRandomInt(14)) {
-			default:
-			case 0:
-			case 1:
-				spawnTwoAnimals(generator, odds, x, y, z, EntityType.HORSE);
-				break;
+		if (!generator.settings.includeDecayedBuildings) {
+			EntityType entity = generator.settings.spawns.itemsEntities_Animals.getRandomEntity(odds);
+			switch (generator.settings.spawns.itemsEntities_Animals.getHerdSize(entity)) {
 			case 2:
-			case 3:
-				spawnTwoAnimals(generator, odds, x, y, z, EntityType.COW);
+				spawnTwoAnimals(generator, odds, x, y, z, entity);
 				break;
 			case 4:
-			case 5:
-				spawnTwoAnimals(generator, odds, x, y, z, EntityType.SHEEP);
+				spawnFourAnimals(generator, odds, x, y, z, entity);
 				break;
 			case 6:
-			case 7:
-				spawnTwoAnimals(generator, odds, x, y, z, EntityType.PIG);
+				spawnSixAnimals(generator, odds, x, y, z, entity);
 				break;
-			case 8:
-			case 9:
-				spawnSixAnimals(generator, odds, x, y, z, EntityType.CHICKEN);
-				break;
-			case 10:
-			case 11:
-				spawnFourAnimals(generator, odds, x, y, z, EntityType.RABBIT);
-				break;
-			case 12:
-				spawnTwoAnimals(generator, odds, x, y, z, EntityType.WOLF);
-				break;
-			case 13:
-				spawnTwoAnimals(generator, odds, x, y, z, EntityType.OCELOT);
+			default:
+				spawnAnimal(generator, odds, x, y, z, entity);
 				break;
 			}
+		}
 	}
 	
 	public final void spawnSixAnimals(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
@@ -1062,71 +989,128 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	}
 	
 	public final void spawnAnimal(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
-		spawnAnimal(generator, odds, x, y, z, pickAnimal(odds));
+		spawnAnimal(generator, odds, x, y, z, generator.settings.spawns.itemsEntities_Animals.getRandomEntity(odds));
 	}
 
 	public final void spawnAnimal(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
 		if (odds.playOdds(generator.settings.spawnAnimals))
-			spawnEntity(generator, x, y, z, entity, false);
+			spawnEntity(generator, x, y, z, entity, false, true);
 	}
 
-	private EntityType pickBuddy(Odds odds) {
-		return EntityType.VILLAGER;
+	public final void spawnSeaAnimal(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
+		if (isWater(x, y, z) && odds.playOdds(generator.settings.spawnAnimals))
+			spawnEntity(generator, x, y, z, generator.settings.spawns.itemsEntities_SeaAnimals.getRandomEntity(odds), true, false);
+	}
+
+//	public final void spawnBuddy(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
+//		spawnBuddy(generator, odds, x, y, z, generator.settings.spawns.itemsEntities_Buddies.getRandomEntity(odds));
+//	}
+//
+//	public final void spawnBuddy(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
+//	if (odds.playOdds(generator.settings.spawnBuddies))
+//		spawnEntity(generator, x, y, z, entity, false, true);
+//	}
+
+	public final void spawnBaddy(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
+		if (generator.settings.includeDecayedBuildings || odds.playOdds(generator.settings.spawnBaddies))
+			spawnEntity(generator, x, y, z, generator.settings.spawns.itemsEntities_Enemies.getRandomEntity(odds), false, true);
+	}
+
+//	public final void spawnEnemy(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
+//		if (odds.playOdds(generator.settings.spawnEnemies))
+//			spawnEntity(generator, x, y, z, entity, false, true);
+//	}
+	
+//	public final void spawnVagrant(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
+//		spawnVagrant(generator, odds, x, y, z, generator.settings.spawns.itemsEntities_Vagrants.getRandomEntity(odds));
+//	}
+//
+//	public final void spawnVagrant(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
+//		if (odds.playOdds(generator.settings.spawnBeings) && odds.playOdds(generator.settings.spawnVagrants))
+//			spawnEntity(generator, x, y, z, entity, false, true);
+//	}
+
+	public final void spawnVagrant(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
+		if (odds.playOdds(generator.settings.spawnVagrants) && !isEmpty(x, y - 1, z)) 
+			if (generator.settings.includeDecayedBuildings || odds.playOdds(generator.settings.spawnBaddies))
+				spawnEntity(generator, x, y, z, generator.settings.spawns.itemsEntities_Enemies.getRandomEntity(odds), false, true);
+			else
+				spawnEntity(generator, x, y, z, generator.settings.spawns.itemsEntities_Vagrants.getRandomEntity(odds), false, true);
 	}
 	
-	public final void spawnBuddy(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
-		spawnBuddy(generator, odds, x, y, z, pickBuddy(odds));
+	public final void spawnBeing(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
+		spawnBeing(generator, odds, x, y, z, generator.settings.spawns.itemsEntities_Buddies.getRandomEntity(odds),
+											 generator.settings.spawns.itemsEntities_Enemies.getRandomEntity(odds));
+	}
+	
+	public final void spawnBeing(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType buddy, EntityType baddy) {
+		if (odds.playOdds(generator.settings.spawnBeings) && !isEmpty(x, y - 1, z)) 
+			if (generator.settings.includeDecayedBuildings || odds.playOdds(generator.settings.spawnBaddies))
+				spawnEntity(generator, x, y, z, baddy, false, true);
+			else
+				spawnEntity(generator, x, y, z, buddy, false, true);
+	}
+	
+	public final void spawnEntity(CityWorldGenerator generator, int x, int y, int z, EntityType entity) {
+		spawnEntity(generator, x, y, z, entity, false, true);
+	}
+	
+	private final void spawnEntity(CityWorldGenerator generator, int x, int y, int z, EntityType entity, boolean ignoreFlood, boolean ensureSpace) {
+//		String line1 = "<null>";
+//		String line2 = "Not created";
+//		String line3 = "";
+		if (entity != null) {
+//			line1 = entity.toString();
+			if (entity.isAlive()) {
+				Location at = getBlockLocation(x, y, z);
+				
+				// ignore flood level or make sure that we are above it
+				int floodY = generator.shapeProvider.findFloodY(generator, at.getBlockX(), at.getBlockZ());
+				if (ignoreFlood || floodY <= y) {
+					
+					// make sure there is a clear space
+					if (ensureSpace)
+						clearBlocks(x, y, y + 2, z);
+					generator.settings.spawns.setBiomeForEntity(world, at, entity);
+					world.spawnEntity(at, entity);
+//					line2 = "CREATED";
+//				} else {
+//					line2 = "Flooded";
+//					line3 = "Flood " + floodY + "<" + y;
+				}
+//			} else {
+//				line2 = "Not alive";
+			}
+		}
+//		setWalls(x - 1, x + 2, y - 1, z - 1, z + 2, Material.COBBLESTONE);
+//		setBlocks(x - 1, y + 3, y + 11, z, Material.COBBLESTONE);
+//		setSignPost(x - 1, y + 11, z, BlockFace.EAST, line1, line2, line3);
 	}
 
-	public final void spawnBuddy(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
-		if (odds.playOdds(generator.settings.spawnBuddies))
-			spawnEntity(generator, x, y, z, entity, false);
+	public final void setSpawnOrSpawner(CityWorldGenerator generator, Odds odds, int x, int y, int z, boolean doSpawner, EntityList entities) {
+		EntityType entity = entities.getRandomEntity(odds);
+		if (doSpawner)
+			setSpawner(generator, odds, x, y, z, entity);
+		else
+			spawnEntity(generator, x, y, z, entity, false, true);
 	}
 
-	private EntityType pickEnemy(Odds odds) {
-		switch (odds.getRandomInt(19)) {
-		default:
-		case 0:
-		case 1:
-		case 2:
-		case 4:
-			return EntityType.CREEPER;
-		case 5:
-		case 6:
-		case 7:
-		case 8:
-			return EntityType.SKELETON;
-		case 9:
-		case 10:
-		case 11:
-		case 12:
-			return EntityType.ZOMBIE;
-		case 13:
-		case 14:
-		case 15:
-			return EntityType.SPIDER;
-		case 16:
-		case 17:
-			return EntityType.WITCH;
-		case 18:
-			return EntityType.ENDERMAN;
+	public final void setSpawner(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityList list) {
+		setSpawner(generator, odds, x, y, z, list.getRandomEntity(odds));
+	}
+	
+	private final void setSpawner(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
+		if (entity.isAlive() && odds.playOdds(generator.settings.spawnBaddies)) {
+			Block block = getActualBlock(x, y, z);
+			if (BlackMagic.setBlockType(block, Material.MOB_SPAWNER)) {
+				block.getState().update(true); // for good measure
+				if (block.getType() == Material.MOB_SPAWNER) {
+					CreatureSpawner spawner = (CreatureSpawner) block.getState();
+					spawner.setSpawnedType(entity);
+					spawner.update(true);
+				}
+			}
 		}
 	}
 	
-	public final void spawnEnemy(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
-		spawnEnemy(generator, odds, x, y, z, pickEnemy(odds));
-	}
-
-	public final void spawnEnemy(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
-		if (odds.playOdds(generator.settings.spawnEnemies))
-			spawnEntity(generator, x, y, z, entity, false);
-	}
-
-	public final void spawnEntity(CityWorldGenerator generator, int x, int y, int z, EntityType entity, boolean ignoreFlood) {
-		Location at = getBlockLocation(x, y, z);
-		if (ignoreFlood || generator.shapeProvider.findFloodY(generator, at.getBlockX(), at.getBlockZ()) < y) {
-			clearBlocks(x, y, y + 2, z);
-			world.spawnEntity(at, entity);
-		}
-	}
 }

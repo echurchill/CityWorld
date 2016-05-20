@@ -77,15 +77,15 @@ public class FloatingHouseLot extends ConstructLot {
 		// not a happy place?
 		if (generator.settings.includeDecayedBuildings)
 			destroyBuilding(generator, groundLevel + 1, floors);
+		else
+			generateSurface(generator, chunk, false);
+		chunk.spawnBeing(generator, chunkOdds, 5, groundLevel + 1, 5);
 
 		// add balloons on the corners
 		generator.structureInAirProvider.generateBalloon(generator, chunk, context, 2, groundLevel + 2, 2, chunkOdds);
 		generator.structureInAirProvider.generateBalloon(generator, chunk, context, 2, groundLevel + 2, 13, chunkOdds);
 		generator.structureInAirProvider.generateBalloon(generator, chunk, context, 13, groundLevel + 2, 2, chunkOdds);
 		generator.structureInAirProvider.generateBalloon(generator, chunk, context, 13, groundLevel + 2, 13, chunkOdds);
-		
-		// add to the surface
-		generateSurface(generator, chunk, true);
 		
 	}
 }

@@ -40,6 +40,25 @@ public class NatureLot extends IsolatedLot {
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
 		generateSurface(generator, chunk, true);
+		
+		generateEntities(generator, chunk);
+	}
+	
+	private final static int magicSeaSpawnY = 62;
+	
+	protected void generateEntities(CityWorldGenerator generator, RealBlocks chunk) {
+		int x = chunkOdds.getRandomInt(1, 14);
+		int z = chunkOdds.getRandomInt(1, 14);
+			
+		// in the water?
+		if (chunk.isWater(x, magicSeaSpawnY, z)) {
+			chunk.spawnSeaAnimal(generator, chunkOdds, x, magicSeaSpawnY, z);
+		} else {
+			int y = getBlockY(x, z);
+			y = chunk.findFirstEmptyAbove(x, y, z, getTopY(generator));
+			if (!chunk.isWater(x, y - 1, z))
+				chunk.spawnVagrant(generator, chunkOdds, x, y, z);
+		}
 	}
 
 }

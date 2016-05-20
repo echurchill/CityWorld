@@ -53,13 +53,11 @@ public class HouseLot extends IsolatedLot {
 		int floors = generator.structureOnGroundProvider.generateHouse(generator, chunk, context, chunkOdds, atY, 2);
 		
 		// not a happy place?
-		if (generator.settings.includeDecayedBuildings) {
+		if (generator.settings.includeDecayedBuildings)
 			destroyBuilding(generator, atY, floors);
-			chunk.spawnEnemy(generator, chunkOdds, 5, atY, 5);
-		} else {
+		else
 			generateSurface(generator, chunk, false);
-			chunk.spawnBuddy(generator, chunkOdds, 5, atY, 5);
-		}
+		chunk.spawnBeing(generator, chunkOdds, 5, atY, 5);
 	}
 
 }

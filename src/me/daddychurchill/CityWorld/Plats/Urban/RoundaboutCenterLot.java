@@ -6,7 +6,6 @@ import me.daddychurchill.CityWorld.Plats.IsolatedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Nature.GravelLot;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageSets;
-import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -16,7 +15,6 @@ import me.daddychurchill.CityWorld.Support.Odds.ColorSet;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import org.bukkit.entity.EntityType;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class RoundaboutCenterLot extends IsolatedLot {
@@ -165,7 +163,7 @@ public class RoundaboutCenterLot extends IsolatedLot {
 			// spawner?
 			if (generator.settings.spawnersInSewers) {
 				chunk.setBlocks(8, yPitBottom - 2, yPitBottom + 4, 8, Material.OBSIDIAN);
-				chunk.setSpawner(generator, chunkOdds, 8, yPitBottom + 4, 8, SpawnerLocation.LAVAPIT);
+				chunk.setSpawner(generator, chunkOdds, 8, yPitBottom + 4, 8, generator.settings.spawns.itemsEntities_LavaPit);
 			}
 			
 			break;
@@ -223,9 +221,12 @@ public class RoundaboutCenterLot extends IsolatedLot {
 			// spawner?
 			if (generator.settings.spawnersInSewers) {
 				chunk.setBlocks(8, yWaterBottom, yWaterBottom + 4, 8, Material.PRISMARINE);
-				chunk.setSpawner(generator, chunkOdds, 8, yWaterBottom + 4, 8, SpawnerLocation.WATERPIT);
+				chunk.setSpawner(generator, chunkOdds, 8, yWaterBottom + 4, 8, generator.settings.spawns.itemsEntities_WaterPit);
 			} else {
-				chunk.spawnFourAnimals(generator, chunkOdds, 8, yWaterBottom + 4, 8, EntityType.SQUID);
+				chunk.spawnSeaAnimal(generator, chunkOdds, 7, yPitBottom - 2, 7);
+				chunk.spawnSeaAnimal(generator, chunkOdds, 7, yPitBottom - 2, 8);
+				chunk.spawnSeaAnimal(generator, chunkOdds, 8, yPitBottom - 2, 7);
+				chunk.spawnSeaAnimal(generator, chunkOdds, 8, yPitBottom - 2, 8);
 			}
 			
 			break;

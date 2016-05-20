@@ -102,18 +102,13 @@ public class SurfaceProvider_SandDunes extends SurfaceProvider_Flooded {
 	protected void generateFloodedPoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, 
 			CoverProvider foliage, int x, int y, int z, int floodY) {
 
-		// roll the dice
-		double primary = odds.getRandomDouble();
-		
 		// add plants out there?
-		if (primary < foliageOdds / 4) {
-			if (primary < cactusOdds) {
+		if (odds.playOdds(foliageOdds)) {
+			if (odds.playOdds(cactusOdds)) {
 				if (x % 2 == 0 && z % 2 != 0 && chunk.isSurroundedByEmpty(x, floodY + 1, z)) {
-//					chunk.setBlock(x, floodY + 3, z, Material.GLOWSTONE);
 					foliage.generateCoverage(generator, chunk, x, floodY, z, CoverageType.CACTUS);
 				}
 			} else {
-//				chunk.setBlock(x, floodY, z, Material.OBSIDIAN);
 				foliage.generateCoverage(generator, chunk, x, floodY, z, CoverageType.DEAD_BUSH);
 			}
 		}

@@ -14,24 +14,24 @@ public class CornerBlocks {
 	private final static byte WWW = 3;
 	private final static byte GGG = 4;
 	private final static byte WGG = 5;
-	private final static byte GGW = 6;
-	private final static byte WWG = 7;
-	private final static byte WGW = 8;
-	private final static byte GWW = 9;
-	private final static byte GWG = 10;
+	private final static byte GWG = 6;
+	private final static byte GGW = 7;
+	private final static byte GWW = 8;
+	private final static byte WGW = 9;
+	private final static byte WWG = 10;
 	
 	// these won't show up on the roof
-	private final static byte BRR = 20; // balcony just below floor and iron railing topped with nothing above
-	private final static byte Brr = 21; // balcony just below floor and wood fence topped with nothing above
-	private final static byte BNN = 22; // balcony just below floor and nothing above
-	private final static byte BDD = 23; // balcony just below floor and door topped with a wall block 
-	private final static byte BWW = 24; // WWW 
-	private final static byte BGG = 25; // WGG 
-	private final static byte BGW = 26; // WGW 
+	private final static byte BRR = 20; // balcony floor block, iron railing, and nothing above it
+	private final static byte Brr = 21; // balcony floor block, wood fence, and nothing above it
+	private final static byte BDD = 22; // balcony floor block, door (these are just an empty hole right now), and wall blocks above it
+	private final static byte BNN = 23; // balcony floor block, and nothing but air above it
+	private final static byte BWW = 24; // balcony floor block, and wall blocks above it (WWW) 
+	private final static byte BGG = 25; // balcony floor block, and glass above it (WGG)
+	private final static byte BGW = 26; // balcony floor block, glass and wall blocks above it (WGW) 
 
-	private final static byte Wnn = 30;
-	private final static byte nWn = 31;
-	private final static byte nnW = 32;
+	private final static byte Wnn = 30; // single wall block, and nothing but air above it
+	private final static byte nWn = 31; // nothing but air, bunch of glass blocks, topped with nothing but air
+	private final static byte nnW = 32; // nothing but air, topped with a single wall block
 	
 	public boolean isOldRoundedCorner(int i) {
 		return i == 0; // should always be the first one
@@ -675,7 +675,7 @@ public class CornerBlocks {
 						break;
 					case BDD:
 						if (!onRoof) {
-							//TODO: need to put a door here
+							//TODO: need to put a door here. In order to do that though we will have to completely change who calls this
 							blocks.setBlocks(xInset + x, y1 + 2, y2, zInset + z, primary);
 						}
 						break;

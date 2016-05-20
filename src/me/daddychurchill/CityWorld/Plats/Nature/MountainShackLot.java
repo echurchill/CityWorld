@@ -39,12 +39,10 @@ public class MountainShackLot extends MountainFlatLot {
 		int floors = generator.structureOnGroundProvider.generateRuralShack(generator, chunk, context, chunkOdds, atY, 5);
 		
 		// not a happy place?
-		if (generator.settings.includeDecayedBuildings) {
+		if (generator.settings.includeDecayedBuildings)
 			destroyBuilding(generator, atY, floors);
-			chunk.spawnEnemy(generator, chunkOdds, 5, atY, 5);
-		} else {
+		else
 			generateSurface(generator, chunk, false);
-			chunk.spawnBuddy(generator, chunkOdds, 5, atY, 5);
-		}
+		chunk.spawnBeing(generator, chunkOdds, 5, atY, 5);
 	}
 }

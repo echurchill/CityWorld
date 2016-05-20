@@ -11,7 +11,6 @@ import org.bukkit.material.SmoothBrick;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
-import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
 import me.daddychurchill.CityWorld.Support.AbstractBlocks;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
@@ -552,6 +551,10 @@ public class RoadLot extends ConnectedLot {
 			if (generator.settings.includeDecayedRoads)
 				destroyLot(generator, pavementLevel + 5, pavementLevel + 7);
 			
+			
+			// half as likely in the middle of the road
+			generateEntities(generator, chunk, pavementLevel + 6);
+			
 		} else {
 			int sidewalkLevel = getSidewalkLevel(generator);
 			Material sidewalkMaterial = getSidewalkMaterial();
@@ -752,6 +755,9 @@ public class RoadLot extends ConnectedLot {
 							generateStreetSign(generator, chunk, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
 					}
 				}
+				
+				// half as likely in the middle of the road
+				generateEntities(generator, chunk, sidewalkLevel);
 			}
 		}
 		
@@ -1160,6 +1166,12 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 	
+	protected void generateEntities(CityWorldGenerator generator, RealBlocks chunk, int y) {
+		int x = chunkOdds.calcRandomRange(sidewalkWidth, 15 - sidewalkWidth);
+		int z = chunkOdds.calcRandomRange(sidewalkWidth, 15 - sidewalkWidth);
+		chunk.spawnVagrant(generator, chunkOdds, x, y, z);
+	}
+	
 	protected void decayRoad(RealBlocks chunk, int x1, int x2, int y, int z1, int z2) {
 		int amount = (x2 - x1) * (z2 - z1) / 10;
 		while (amount > 0) {
@@ -1318,9 +1330,6 @@ public class RoadLot extends ConnectedLot {
 	private void generateTrick(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z) {
 		
 		// not so cool stuff?
-		if (generator.settings.spawnersInSewers)
-			chunk.setSpawner(generator, chunkOdds, x, y, z, SpawnerLocation.SEWER);
-		else
-			chunk.spawnEnemy(generator, chunkOdds, x, y, z);
+		chunk.setSpawnOrSpawner(generator, chunkOdds, x, y, z, generator.settings.spawnersInSewers, generator.settings.spawns.itemsEntities_Sewers);
 	}
 }

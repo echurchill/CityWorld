@@ -130,8 +130,8 @@ public class CoverProvider_Decayed extends CoverProvider {
 		case RED_MUSHROOM:
 		case NETHERWART:
 		case FIRE:
-		case DEAD_GRASS:
 		case CACTUS:
+		case DEAD_GRASS:
 			super.setCoverage(generator, chunk, x, y, z, coverageType);
 			break;
 		default:

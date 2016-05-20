@@ -69,7 +69,6 @@ public class StorageLot extends BuildingLot {
 			int platZ) {
 		int groundY = getBottomY(generator) + 2;
 		int topY = getTopY(generator);
-		boolean needSomeone = false;
 		
 //		// look around
 //		SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
@@ -94,12 +93,9 @@ public class StorageLot extends BuildingLot {
 		}
 
 		// it looked so nice for a moment... but the moment has passed
-		if (generator.settings.includeDecayedBuildings) {
+		if (generator.settings.includeDecayedBuildings)
 			destroyLot(generator, groundY, groundY + 4);
-			if (needSomeone)
-				chunk.spawnEnemy(generator, chunkOdds, 7, groundY, 7);
-		} else if (needSomeone)
-			chunk.spawnBuddy(generator, chunkOdds, 7, groundY, 7);
+		chunk.spawnBeing(generator, chunkOdds, 7, groundY, 7);
 	}
 
 	@Override

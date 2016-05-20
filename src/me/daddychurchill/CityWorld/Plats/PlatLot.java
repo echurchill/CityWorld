@@ -7,7 +7,6 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
-import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.AbstractBlocks;
 import me.daddychurchill.CityWorld.Support.CachedYs;
@@ -505,10 +504,7 @@ public abstract class PlatLot {
 
 	private void generateMineTrick(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z) {
 		// not so cool stuff?
-		if (generator.settings.spawnersInMines)
-			chunk.setSpawner(generator, chunkOdds, x, y, z, SpawnerLocation.MINE);
-		else
-			chunk.spawnEnemy(generator, chunkOdds, x, y, z);
+		chunk.setSpawnOrSpawner(generator, chunkOdds, x, y, z, generator.settings.spawnersInMines, generator.settings.spawns.itemsEntities_Mine);
 	}
 
 	public boolean isValidStrataY(CityWorldGenerator generator, int blockX, int blockY, int blockZ) {

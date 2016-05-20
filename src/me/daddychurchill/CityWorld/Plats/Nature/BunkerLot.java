@@ -11,7 +11,6 @@ import me.daddychurchill.CityWorld.Plats.ConnectedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
-import me.daddychurchill.CityWorld.Plugins.SpawnProvider.SpawnerLocation;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
@@ -848,10 +847,7 @@ public class BunkerLot extends ConnectedLot {
 	private static void generateTrick(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y, int z) {
 
 		// not so cool stuff?
-		if (generator.settings.spawnersInBunkers)
-			chunk.setSpawner(generator, odds, x, y, z, SpawnerLocation.BUNKER);
-		else
-			chunk.spawnEnemy(generator, odds, x, y, z);
+		chunk.setSpawnOrSpawner(generator, odds, x, y, z, generator.settings.spawnersInBunkers, generator.settings.spawns.itemsEntities_Bunker);
 	}
 	
 	private static BunkerType getRandomBunkerType(Odds chunkOdds, boolean firstOne) {

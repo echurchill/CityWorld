@@ -200,9 +200,13 @@ public class OldCastleLot extends ConstructLot {
 //		int thirdX1 = chunkRandom.nextBoolean() ? secondX1 : secondX1 + 4;
 //		int thirdZ1 = chunkRandom.nextBoolean() ? secondZ1 : secondZ1 + 4;
 		
-		// ex-castle
+		// always an ex-castle
 		generator.decayBlocks.destroyWithin(originX + insetChaos, originX + 16 - insetChaos, y1, y3, originZ + insetChaos, originZ + 16 - insetChaos);
-		chunk.spawnEnemy(generator, chunkOdds, 6, y2, 6, EntityType.WITCH);
-//		destroyLot(generator, y1, y3 + floorHeight);
+		
+		// who is the king of the hill
+		int x = 7;
+		int z = 7;
+		int y = chunk.findFirstEmpty(x, y2, z, y1, y3);
+		chunk.spawnBeing(generator, chunkOdds, x, y, z, EntityType.IRON_GOLEM, EntityType.WITCH);
 	}
 }

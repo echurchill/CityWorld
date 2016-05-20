@@ -1,12 +1,10 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plugins.PhatLoot.LootProvider_Phat;
-import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.MaterialList;
 import me.daddychurchill.CityWorld.Support.Odds;
 
@@ -31,23 +29,6 @@ public abstract class LootProvider extends Provider {
 		}
 	
 		return provider;
-	}
-
-	protected ItemStack[] createTreasures(Odds odds, Material minTreasure, Material maxTreasure, int maxCount, int maxStack) {
-		int minId = BlackMagic.getMaterialIdAsInt(minTreasure);
-		int maxId = BlackMagic.getMaterialIdAsInt(maxTreasure);
-		int rangeId = maxId - minId + 1;
-		int count = maxCount > 0 ? odds.getRandomInt(maxCount) + 1 : 0;
-		
-		// make room
-		ItemStack[] items = new ItemStack[count];
-		
-		// populate
-		for (int i = 0; i < count; i++)
-			items[i] = new ItemStack(BlackMagic.getMaterial(odds.getRandomInt(rangeId) + minId), odds.getRandomInt(maxStack) + 1);
-		
-		// all done
-		return items;
 	}
 	
 	protected ItemStack[] pickFromTreasures(MaterialList materials, Odds odds, int maxCount, int maxStack) {

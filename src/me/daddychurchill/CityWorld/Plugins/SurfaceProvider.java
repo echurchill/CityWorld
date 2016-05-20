@@ -17,8 +17,8 @@ public abstract class SurfaceProvider extends Provider {
 	protected final static double treeTallOdds = Odds.oddsLikely;
 	protected final static double treeAltOdds = Odds.oddsLikely;
 	protected final static double treeAltTallOdds = Odds.oddsVeryUnlikely;
-	protected final static double foliageOdds = Odds.oddsSomewhatUnlikely;
-	protected final static double cactusOdds = Odds.oddsExtremelyUnlikely;
+	protected final static double foliageOdds = Odds.oddsVeryUnlikely;
+	protected final static double cactusOdds = Odds.oddsUnlikely;
 	protected final static double reedOdds = Odds.oddsPrettyUnlikely;
 	protected final static double flowerRedOdds = Odds.oddsVeryUnlikely;
 	protected final static double flowerYellowOdds = Odds.oddsExtremelyUnlikely;

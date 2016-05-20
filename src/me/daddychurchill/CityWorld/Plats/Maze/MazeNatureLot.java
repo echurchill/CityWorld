@@ -56,6 +56,8 @@ public class MazeNatureLot extends NatureLot {
 
 		if (blockYs.averageHeight > generator.streetLevel + mazeHeight)
 			generateSurface(generator, chunk, true);
+
+		generateEntities(generator, chunk);
 	}
 	
 	protected void generateWallPart(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int z1, int z2) {

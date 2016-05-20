@@ -16,17 +16,23 @@ public class SurfaceProvider_SnowDunes extends SurfaceProvider_Flooded {
 		// TODO Auto-generated constructor stub
 	}
 	
-	private final static double snowmanOdds = Odds.oddsNearlyNeverGoingToHappen;
+	private final static double snowmanOdds = Odds.oddsNearlyNeverGoingToHappen / 2;
 	
 	@Override
 	protected void generateNormalPoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk,
 			CoverProvider foliage, int x, double perciseY, int z, boolean includeTrees) {
 		
 		super.generateNormalPoint(generator, lot, chunk, foliage, x, perciseY, z, includeTrees);
-
+		
 		int y = NoiseGenerator.floor(perciseY);
-		if (!chunk.isOfTypes(x, y, z, Material.SNOW, Material.SNOW_BLOCK))
-			generator.oreProvider.dropSnow(generator, chunk, x, NoiseGenerator.floor(perciseY) + 15, z);
+		int topY = chunk.findLastEmptyBelow(x, y + 20, z, y);
+		if (odds.flipCoin() && chunk.isOfTypes(x, topY - 1, z, Material.LEAVES, Material.LEAVES_2, generator.oreProvider.surfaceMaterial))
+			generator.oreProvider.dropSnow(generator, chunk, x, topY, z);
+		
+		
+		//		int y = NoiseGenerator.floor(perciseY);
+//		if (!chunk.isOfTypes(x, y, z, Material.SNOW, Material.SNOW_BLOCK))
+//			generator.oreProvider.dropSnow(generator, chunk, x, NoiseGenerator.floor(perciseY) + 15, z);
 	}
 	
 	@Override
@@ -39,7 +45,7 @@ public class SurfaceProvider_SnowDunes extends SurfaceProvider_Flooded {
 			// ok create a snowman above the snow
 			int manY = chunk.findFirstEmptyAbove(x, floodY - 1, z);
 			if (chunk.isType(x, manY - 1, z, Material.SNOW_BLOCK))
-				chunk.spawnBuddy(generator, odds, x, manY + 1, z, EntityType.SNOWMAN);
+				chunk.spawnEntity(generator, x, manY + 1, z, EntityType.SNOWMAN);
 		}			
 	}
 }

@@ -55,8 +55,10 @@ If you are wanting to create a particular [[http://dev.bukkit.org/server-mods/ci
 
 === Trick or Treat ===
 |=Option|=Description|
-|SpawnBuddies|0.0 to 1.0 percentage chance of a villager being spawned|
-|SpawnAnimals|0.0 to 1.0 percentage chance of an animal being spawned|
+|SpawnBuddies|0.0 to 1.0 percentage chance of a mob being spawned|
+|SpawnBaddies|0.0 to 1.0 percentage chance of a mobs spawned are bad for your health|
+|SpawnAnimals|0.0 to 1.0 percentage chance of an animal mob being spawned|
+|SpawnVagrants|0.0 to 1.0 percentage chance of a roaming mob being spawned|
 |SpawnersInSewers|If there are sewers then include spawners in them|
 |SpawnersInMines|If there are mines then include spawners in them|
 |SpawnersInBunkers|If there are bunkers then include spawners in them|
@@ -136,6 +138,18 @@ Note: that the bridges and tunnels will stop generating abruptly when they hit t
 |Materials_List_For_NetherOres|Ordered list of materials that will be sprinkled in the ground|
 |Materials_List_For_TheEndOres|Ordered list of materials that will be sprinkled in the ground|
 
+|=Option|=Description|
+|Entities_For_Buddies|List of possible entities that are considered "friendly"|
+|Entities_For_Animals|List of possible entities that are considered animals|
+|Entities_For_SeaAnimals|List of possible entities that are considered sea animals and spawned out at sea|
+|Entities_For_Enemies|List of possible entities that are considered enemies|
+|Entities_For_Vagrants|List of possible entities out in nature or around town|
+|Entities_For_Sewers|List of possible entities that might spawn in this place|
+|Entities_For_Mine|List of possible entities that might spawn in this place|
+|Entities_For_Bunker|List of possible entities that might spawn in this place|
+|Entities_For_WaterPit|List of possible entities that might spawn in this place|
+|Entities_For_LavaPit|List of possible entities that might spawn in this place|
+	
 If you want to reset one of the above lists back to its default, simply remove it from the configuration file and the defaults will be written back out.
 
 === Deprecated options ===
