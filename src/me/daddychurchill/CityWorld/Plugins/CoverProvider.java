@@ -303,7 +303,7 @@ public abstract class CoverProvider extends Provider {
 				chunk.setBlock(x, y, z, Material.DEAD_BUSH);
 			
 			// fine, try the other one that looks like this
-			else if (chunk.isOfTypes(x, y - 1, z, Material.GRASS))
+			else if (chunk.isOfTypes(x, y - 1, z, Material.GRASS, Material.SOIL))
 				chunk.setBlock(x, y, z, Material.LONG_GRASS, new LongGrass(GrassSpecies.DEAD));
 			break;
 		case CACTUS:

@@ -1002,42 +1002,11 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			spawnEntity(generator, x, y, z, generator.settings.spawns.itemsEntities_SeaAnimals.getRandomEntity(odds), true, false);
 	}
 
-//	public final void spawnBuddy(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
-//		spawnBuddy(generator, odds, x, y, z, generator.settings.spawns.itemsEntities_Buddies.getRandomEntity(odds));
-//	}
-//
-//	public final void spawnBuddy(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
-//	if (odds.playOdds(generator.settings.spawnBuddies))
-//		spawnEntity(generator, x, y, z, entity, false, true);
-//	}
-
 	public final void spawnBaddy(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
 		if (generator.settings.includeDecayedBuildings || odds.playOdds(generator.settings.spawnBaddies))
 			spawnEntity(generator, x, y, z, generator.settings.spawns.itemsEntities_Enemies.getRandomEntity(odds), false, true);
 	}
 
-//	public final void spawnEnemy(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
-//		if (odds.playOdds(generator.settings.spawnEnemies))
-//			spawnEntity(generator, x, y, z, entity, false, true);
-//	}
-	
-//	public final void spawnVagrant(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
-//		spawnVagrant(generator, odds, x, y, z, generator.settings.spawns.itemsEntities_Vagrants.getRandomEntity(odds));
-//	}
-//
-//	public final void spawnVagrant(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
-//		if (odds.playOdds(generator.settings.spawnBeings) && odds.playOdds(generator.settings.spawnVagrants))
-//			spawnEntity(generator, x, y, z, entity, false, true);
-//	}
-
-	public final void spawnVagrant(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
-		if (odds.playOdds(generator.settings.spawnVagrants) && !isEmpty(x, y - 1, z)) 
-			if (generator.settings.includeDecayedBuildings || odds.playOdds(generator.settings.spawnBaddies))
-				spawnEntity(generator, x, y, z, generator.settings.spawns.itemsEntities_Enemies.getRandomEntity(odds), false, true);
-			else
-				spawnEntity(generator, x, y, z, generator.settings.spawns.itemsEntities_Vagrants.getRandomEntity(odds), false, true);
-	}
-	
 	public final void spawnBeing(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
 		spawnBeing(generator, odds, x, y, z, generator.settings.spawns.itemsEntities_Buddies.getRandomEntity(odds),
 											 generator.settings.spawns.itemsEntities_Enemies.getRandomEntity(odds));
@@ -1049,6 +1018,14 @@ public abstract class SupportBlocks extends AbstractBlocks {
 				spawnEntity(generator, x, y, z, baddy, false, true);
 			else
 				spawnEntity(generator, x, y, z, buddy, false, true);
+	}
+	
+	public final void spawnVagrant(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
+		if (odds.playOdds(generator.settings.spawnVagrants) && !isEmpty(x, y - 1, z)) 
+			if (generator.settings.includeDecayedBuildings || odds.playOdds(generator.settings.spawnBaddies))
+				spawnEntity(generator, x, y, z, generator.settings.spawns.itemsEntities_Enemies.getRandomEntity(odds), false, true);
+			else
+				spawnEntity(generator, x, y, z, generator.settings.spawns.itemsEntities_Vagrants.getRandomEntity(odds), false, true);
 	}
 	
 	public final void spawnEntity(CityWorldGenerator generator, int x, int y, int z, EntityType entity) {

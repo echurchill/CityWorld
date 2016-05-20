@@ -8,6 +8,7 @@ public class CornerBlocks {
 	
 	public final static int CornerWidth = 7;
 	
+	// ideally these would be an ENUM but I haven't figured a way to do that without introducing icky looking mini-schematics
 	private final static byte non = 0;
 	private final static byte opt = 1;
 	private final static byte FLR = 2;
@@ -19,19 +20,23 @@ public class CornerBlocks {
 	private final static byte GWW = 8;
 	private final static byte WGW = 9;
 	private final static byte WWG = 10;
+	private final static byte Wgg = 11;
+	private final static byte ggg = 12;
+	private final static byte ggW = 13;
 	
 	// these won't show up on the roof
-	private final static byte BRR = 20; // balcony floor block, iron railing, and nothing above it
-	private final static byte Brr = 21; // balcony floor block, wood fence, and nothing above it
-	private final static byte BDD = 22; // balcony floor block, door (these are just an empty hole right now), and wall blocks above it
-	private final static byte BNN = 23; // balcony floor block, and nothing but air above it
-	private final static byte BWW = 24; // balcony floor block, and wall blocks above it (WWW) 
-	private final static byte BGG = 25; // balcony floor block, and glass above it (WGG)
-	private final static byte BGW = 26; // balcony floor block, glass and wall blocks above it (WGW) 
+	private final static byte BRR = 20; // balcony floor block, single iron railing, and nothing above it
+	private final static byte Brr = 21; // balcony floor block, single wood fence, and nothing above it
+	private final static byte Bgg = 22; // balcony floor block, single thin glass pane, and nothing above it
+	private final static byte BDD = 23; // balcony floor block, door (these are just an empty hole right now), and wall blocks above it
+	private final static byte BNN = 24; // balcony floor block, and nothing but air above it
+	private final static byte BWW = 25; // balcony floor block, and wall blocks above it (WWW) 
+	private final static byte BGG = 26; // balcony floor block, and glass above it (WGG)
+	private final static byte BGW = 27; // balcony floor block, glass and wall blocks above it (WGW) 
 
-	private final static byte Wnn = 30; // single wall block, and nothing but air above it
-	private final static byte nWn = 31; // nothing but air, bunch of glass blocks, topped with nothing but air
-	private final static byte nnW = 32; // nothing but air, topped with a single wall block
+	private final static byte Wnn = 40; // single wall block, and nothing but air above it
+	private final static byte nWn = 41; // nothing but air, bunch of glass blocks, topped with nothing but air
+	private final static byte nnW = 42; // nothing but air, topped with a single wall block
 	
 	public boolean isOldRoundedCorner(int i) {
 		return i == 0; // should always be the first one
@@ -85,6 +90,16 @@ public class CornerBlocks {
 
 		corners.add(new CustomCorner(new byte[][] {
 			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, Wgg},
+			{FLR, FLR, FLR, FLR, FLR, FLR, Wgg},
+			{FLR, FLR, FLR, WWW, Wgg, Wgg, WWW},
+			{FLR, FLR, FLR, Wgg, non, non, non},
+			{FLR, FLR, FLR, Wgg, non, non, non},
+			{WWW, Wgg, Wgg, WWW, non, non, non},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
 			{FLR, FLR, FLR, FLR, FLR, WGG, opt},
 			{FLR, FLR, FLR, FLR, WWW, opt, non},
 			{FLR, FLR, FLR, FLR, FLR, WGW, non},
@@ -101,6 +116,16 @@ public class CornerBlocks {
 			{FLR, FLR, WWW, GGG, GGG, non, non},
 			{FLR, FLR, GGG, non, non, non, non},
 			{WWW, GGG, GGG, non, non, non, non},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, ggg},
+			{FLR, FLR, FLR, FLR, WWW, ggg, ggg},
+			{FLR, FLR, FLR, FLR, ggg, non, non},
+			{FLR, FLR, WWW, ggg, ggg, non, non},
+			{FLR, FLR, ggg, non, non, non, non},
+			{WWW, ggg, ggg, non, non, non, non},
 		}));
 
 		corners.add(new CustomCorner(new byte[][] {
@@ -146,6 +171,26 @@ public class CornerBlocks {
 		corners.add(new CustomCorner(new byte[][] {
 			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
 			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg},
+			{FLR, FLR, Wgg, non, non, non, non},
+			{FLR, FLR, Wgg, non, WWW, WWW, WWW},
+			{FLR, FLR, Wgg, non, WWW, WWW, WWW},
+			{WWW, WWW, Wgg, non, WWW, WWW, WWW},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg},
+			{FLR, FLR, Wgg, non, non, non, non},
+			{FLR, FLR, Wgg, non, WWW, nWn, WWW},
+			{FLR, FLR, Wgg, non, nWn, WWW, nWn},
+			{WWW, WWW, Wgg, non, WWW, nWn, WWW},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
 			{FLR, FLR, GWG, GWG, GWG, GWG, GWG},
 			{FLR, FLR, GWG, nWn, nWn, nWn, nWn},
 			{FLR, FLR, GWG, nWn, non, non, non},
@@ -184,6 +229,26 @@ public class CornerBlocks {
 		}));
 
 		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, ggW},
+			{FLR, FLR, ggW, ggW, ggW, ggW, ggW},
+			{FLR, FLR, ggW, non, non, non, non},
+			{FLR, FLR, ggW, non, non, non, non},
+			{FLR, FLR, ggW, non, non, non, non},
+			{WWW, ggW, ggW, non, non, non, non},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, ggW, WWW},
+			{FLR, FLR, ggW, ggW, ggW, ggW, nnW},
+			{FLR, FLR, ggW, nnW, nnW, nnW, nnW},
+			{FLR, FLR, ggW, nnW, non, non, non},
+			{FLR, ggW, ggW, nnW, non, non, non},
+			{WWW, WWW, nnW, nnW, non, non, non},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
 			{FLR, FLR, FLR, FLR, FLR, WGG, Wnn},
 			{FLR, FLR, FLR, FLR, FLR, WGG, Wnn},
 			{FLR, FLR, FLR, FLR, WGG, Wnn, non},
@@ -200,6 +265,16 @@ public class CornerBlocks {
 			{FLR, FLR, GGG, non, non, non, WWW},
 			{FLR, FLR, GGG, non, non, non, non},
 			{FLR, FLR, GGG, non, non, non, non},
+			{WWW, WWW, WGW, WWW, non, non, non},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, ggg, ggg, ggg, ggg, WGW},
+			{FLR, FLR, ggg, non, non, non, WWW},
+			{FLR, FLR, ggg, non, non, non, non},
+			{FLR, FLR, ggg, non, non, non, non},
 			{WWW, WWW, WGW, WWW, non, non, non},
 		}));
 
@@ -265,6 +340,56 @@ public class CornerBlocks {
 
 		corners.add(new CustomCorner(new byte[][] {
 			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg},
+			{FLR, FLR, Wgg, non, non, non, non},
+			{FLR, FLR, Wgg, non, nWn, nWn, nWn},
+			{FLR, FLR, Wgg, non, nWn, WWW, nWn},
+			{WWW, WWW, Wgg, non, nWn, nWn, nWn},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg},
+			{FLR, FLR, Wgg, non, non, non, non},
+			{FLR, FLR, Wgg, non, WWW, non, WWW},
+			{FLR, FLR, Wgg, non, non, non, WWW},
+			{WWW, WWW, Wgg, non, WWW, WWW, WWW},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg},
+			{FLR, FLR, Wgg, non, non, non, non},
+			{FLR, FLR, Wgg, non, WWW, WWW, WWW},
+			{FLR, FLR, Wgg, non, WWW, non, non},
+			{WWW, WWW, Wgg, non, WWW, non, non},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg},
+			{FLR, FLR, Wgg, opt, opt, non, non},
+			{FLR, FLR, Wgg, opt, opt, opt, WWW},
+			{FLR, FLR, Wgg, non, opt, WWW, non},
+			{WWW, WWW, Wgg, non, WWW, non, non},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg},
+			{FLR, FLR, Wgg, non, non, non, opt},
+			{FLR, FLR, Wgg, non, non, non, WWW},
+			{FLR, FLR, Wgg, non, non, non, opt},
+			{WWW, WWW, Wgg, opt, WWW, opt, WWW},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
 			{FLR, FLR, FLR, FLR, FLR, GGG, WWW},
 			{FLR, FLR, FLR, FLR, GGG, opt, non},
 			{FLR, FLR, FLR, WWW, WWW, non, non},
@@ -314,6 +439,26 @@ public class CornerBlocks {
 		}));
 
 		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
+			{FLR, FLR, FLR, FLR, FLR, Wgg, non},
+			{FLR, FLR, FLR, FLR, FLR, Wgg, non},
+			{FLR, FLR, FLR, FLR, FLR, Wgg, non},
+			{FLR, FLR, FLR, FLR, FLR, Wgg, non},
+			{WWW, Wgg, Wgg, Wgg, Wgg, Wgg, non},
+			{WWW, non, non, non, non, non, non},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
+			{FLR, FLR, FLR, FLR, FLR, Wgg, non},
+			{FLR, FLR, FLR, FLR, FLR, Wgg, non},
+			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, Wgg},
+			{WWW, Wgg, Wgg, WWW, FLR, FLR, Wgg},
+			{WWW, non, non, WWW, Wgg, Wgg, Wgg},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
 			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
 			{FLR, FLR, FLR, FLR, WGW, BNN, BRR},
 			{FLR, FLR, FLR, FLR, BDD, BNN, BRR},
@@ -360,6 +505,26 @@ public class CornerBlocks {
 			{FLR, FLR, FLR, BDD, BNN, BNN, BRR},
 			{FLR, FLR, WWW, BNN, BNN, BNN, BRR},
 			{WWW, WGG, WWW, BNN, BNN, BNN, BRR},
+			{WWW, non, WWW, BRR, BRR, BRR, BRR},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, Wgg},
+			{FLR, FLR, FLR, BWW, BWW, BDD, WWW},
+			{FLR, FLR, BWW, BNN, BNN, BNN, BRR},
+			{FLR, FLR, BWW, BNN, BNN, BNN, BRR},
+			{FLR, FLR, BDD, BNN, BNN, BNN, BRR},
+			{WWW, Wgg, WWW, BRR, BRR, BRR, BRR},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
+			{FLR, FLR, FLR, FLR, FLR, Wgg, non},
+			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
+			{FLR, FLR, FLR, BDD, BNN, BNN, BRR},
+			{FLR, FLR, WWW, BNN, BNN, BNN, BRR},
+			{WWW, Wgg, WWW, BNN, BNN, BNN, BRR},
 			{WWW, non, WWW, BRR, BRR, BRR, BRR},
 		}));
 
@@ -421,6 +586,127 @@ public class CornerBlocks {
 			{FLR, FLR, BWW, BNN, BNN, BNN, Brr},
 			{FLR, FLR, BDD, BNN, BNN, BNN, Brr},
 			{WWW, WGG, WWW, Brr, Brr, Brr, WWW},
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, Wgg},
+			{FLR, FLR, FLR, BWW, BWW, BDD, WWW},
+			{FLR, FLR, BWW, BNN, BNN, BNN, Brr},
+			{FLR, FLR, BWW, BNN, BNN, BNN, Brr},
+			{FLR, FLR, BDD, BNN, BNN, BNN, Brr},
+			{WWW, Wgg, WWW, Brr, Brr, Brr, Brr},
+		}));
+		
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
+			{FLR, FLR, FLR, FLR, FLR, Wgg, non},
+			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
+			{FLR, FLR, FLR, BDD, BNN, BNN, Brr},
+			{FLR, FLR, WWW, BNN, BNN, BNN, Brr},
+			{WWW, Wgg, WWW, BNN, BNN, BNN, Brr},
+			{WWW, non, WWW, Brr, Brr, Brr, Brr},
+		}));
+		
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, Wgg},
+			{FLR, FLR, FLR, BWW, BWW, BDD, WWW},
+			{FLR, FLR, BWW, BNN, BNN, BNN, Brr},
+			{FLR, FLR, BWW, BNN, BNN, BNN, Brr},
+			{FLR, FLR, BDD, BNN, BNN, BNN, Brr},
+			{WWW, Wgg, WWW, Brr, Brr, Brr, WWW},
+		}));
+
+		
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
+			{FLR, FLR, FLR, FLR, WGW, BNN, Bgg},
+			{FLR, FLR, FLR, FLR, BDD, BNN, Bgg},
+			{FLR, FLR, FLR, FLR, WGG, BNN, Bgg},
+			{WWW, WGW, BDD, WGG, WGG, BNN, Bgg},
+			{WWW, BNN, BNN, BNN, BNN, BNN, Bgg},
+			{WWW, Bgg, Bgg, Bgg, Bgg, Bgg, BWW},
+		}));
+		
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
+			{FLR, FLR, FLR, FLR, BGW, BNN, Bgg},
+			{FLR, FLR, FLR, FLR, BDD, BNN, Bgg},
+			{FLR, FLR, FLR, FLR, BGW, BNN, Bgg},
+			{WWW, BGW, BDD, BGW, BWW, BNN, Bgg},
+			{WWW, BNN, BNN, BNN, BNN, BWW, BWW},
+			{WWW, Bgg, Bgg, Bgg, Bgg, BWW, non},
+		}));
+		
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
+			{FLR, FLR, FLR, FLR, BGW, BNN, Bgg},
+			{FLR, FLR, FLR, FLR, BDD, BNN, Bgg},
+			{FLR, FLR, FLR, FLR, BGG, BNN, Bgg},
+			{WWW, BGW, BDD, BGG, BNN, BNN, WWW}, // yep those are WWW, just to be different
+			{WWW, BNN, BNN, BNN, BNN, BWW, opt},
+			{WWW, Bgg, Bgg, Bgg, WWW, opt, non},
+		}));
+		
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WGG},
+			{FLR, FLR, FLR, BWW, BWW, BDD, WWW},
+			{FLR, FLR, BWW, BNN, BNN, BNN, Bgg},
+			{FLR, FLR, BWW, BNN, BNN, BNN, Bgg},
+			{FLR, FLR, BDD, BNN, BNN, BNN, Bgg},
+			{WWW, WGG, WWW, Bgg, Bgg, Bgg, Bgg},
+		}));
+		
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
+			{FLR, FLR, FLR, FLR, FLR, WGG, non},
+			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
+			{FLR, FLR, FLR, BDD, BNN, BNN, Bgg},
+			{FLR, FLR, WWW, BNN, BNN, BNN, Bgg},
+			{WWW, WGG, WWW, BNN, BNN, BNN, Bgg},
+			{WWW, non, WWW, Bgg, Bgg, Bgg, Bgg},
+		}));
+		
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, WGG},
+			{FLR, FLR, FLR, BWW, BWW, BDD, WWW},
+			{FLR, FLR, BWW, BNN, BNN, BNN, Bgg},
+			{FLR, FLR, BWW, BNN, BNN, BNN, Bgg},
+			{FLR, FLR, BDD, BNN, BNN, BNN, Bgg},
+			{WWW, WGG, WWW, Bgg, Bgg, Bgg, WWW},
+		}));
+		
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, Wgg},
+			{FLR, FLR, FLR, BWW, BWW, BDD, WWW},
+			{FLR, FLR, BWW, BNN, BNN, BNN, Bgg},
+			{FLR, FLR, BWW, BNN, BNN, BNN, Bgg},
+			{FLR, FLR, BDD, BNN, BNN, BNN, Bgg},
+			{WWW, Wgg, WWW, Bgg, Bgg, Bgg, Bgg},
+		}));
+		
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
+			{FLR, FLR, FLR, FLR, FLR, Wgg, non},
+			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
+			{FLR, FLR, FLR, BDD, BNN, BNN, Bgg},
+			{FLR, FLR, WWW, BNN, BNN, BNN, Bgg},
+			{WWW, Wgg, WWW, BNN, BNN, BNN, Bgg},
+			{WWW, non, WWW, Bgg, Bgg, Bgg, Bgg},
+		}));
+		
+		corners.add(new CustomCorner(new byte[][] {
+			{FLR, FLR, FLR, FLR, FLR, FLR, WWW},
+			{FLR, FLR, FLR, FLR, FLR, FLR, Wgg},
+			{FLR, FLR, FLR, BWW, BWW, BDD, WWW},
+			{FLR, FLR, BWW, BNN, BNN, BNN, Bgg},
+			{FLR, FLR, BWW, BNN, BNN, BNN, Bgg},
+			{FLR, FLR, BDD, BNN, BNN, BNN, Bgg},
+			{WWW, Wgg, WWW, Bgg, Bgg, Bgg, WWW},
 		}));
 		
 //		corners.add(new CustomCorner(new byte[][] {
@@ -628,9 +914,16 @@ public class CornerBlocks {
 					case GGG:
 						blocks.setBlocks(xInset + x, y1, y2, zInset + z, secondary);
 						break;
+					case ggg:
+						blocks.setBlocks(xInset + x, y1, y2, zInset + z, Material.THIN_GLASS);
+						break;
 					case WGG:
 						blocks.setBlock(xInset + x, y1, zInset + z, primary);
 						blocks.setBlocks(xInset + x, y1 + 1, y2, zInset + z, secondary);
+						break;
+					case Wgg:
+						blocks.setBlock(xInset + x, y1, zInset + z, primary);
+						blocks.setBlocks(xInset + x, y1 + 1, y2, zInset + z, Material.THIN_GLASS);
 						break;
 					case GWW:
 						blocks.setBlock(xInset + x, y1, zInset + z, secondary);
@@ -647,6 +940,10 @@ public class CornerBlocks {
 						break;
 					case GGW:
 						blocks.setBlocks(xInset + x, y1, y2 - 1, zInset + z, secondary);
+						blocks.setBlock(xInset + x, y2 - 1, zInset + z, primary);
+						break;
+					case ggW:
+						blocks.setBlocks(xInset + x, y1, y2 - 1, zInset + z, Material.THIN_GLASS);
 						blocks.setBlock(xInset + x, y2 - 1, zInset + z, primary);
 						break;
 					case GWG:
@@ -675,7 +972,7 @@ public class CornerBlocks {
 						break;
 					case BDD:
 						if (!onRoof) {
-							//TODO: need to put a door here. In order to do that though we will have to completely change who calls this
+							//TODO: need to put a door here. In order to do that though we will have to completely change who calls this and start passing in SupportBlocks
 							blocks.setBlocks(xInset + x, y1 + 2, y2, zInset + z, primary);
 						}
 						break;
@@ -691,6 +988,13 @@ public class CornerBlocks {
 							blocks.setBlocks(xInset + x, y1, y2, zInset + z, primary);
 						} else {
 							blocks.setBlock(xInset + x, y1, zInset + z, Material.FENCE);
+						}
+						break;
+					case Bgg:
+						if (onRoof) {
+							blocks.setBlocks(xInset + x, y1, y2, zInset + z, primary);
+						} else {
+							blocks.setBlock(xInset + x, y1, zInset + z, Material.THIN_GLASS);
 						}
 						break;
 
@@ -737,13 +1041,18 @@ public class CornerBlocks {
 					case GWG:
 					case GGG:
 					case WGG:
+					case ggg:
+					case Wgg:
 					case GGW:
+					case ggW:
 					case GWW:
 					case WGW:
 					case WWG:
 					case BNN:
 					case BDD:
 					case BRR:
+					case Brr:
+					case Bgg:
 					case BWW:
 					case BGW:
 					case BGG:
