@@ -86,7 +86,9 @@ public class CityWorldGenerator extends ChunkGenerator {
 		ASTRAL,			// alien landscape 
 		MAZE,			// mazes with smaller cities
 		NATURE,			// just nature, no constructs anywhere
-		METRO,			// just buildings, no natures
+		METRO,			// just buildings, no nature
+		//PILLARS		// floating with pillars holding everything up
+		//LAVADUNES		// volcanos everywhere
 		//MOON,			// lunar landscape with lunar bases
 		//UNDERWATER,	// traditional terrain with raised sea level with under water cities
 		//WESTERN,		// desert landscape with sparse western styled towns and ranches

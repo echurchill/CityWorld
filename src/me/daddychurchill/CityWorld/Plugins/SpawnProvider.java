@@ -18,8 +18,8 @@ import org.bukkit.entity.EntityType;
 
 public class SpawnProvider extends Provider {
 
-	public final static String tagEntities_Buddies = "Entities_For_Buddies";
-	public EntityList itemsEntities_Buddies = createList(tagEntities_Buddies,
+	public final static String tagEntities_Goodies = "Entities_For_Goodies";
+	public EntityList itemsEntities_Goodies = createList(tagEntities_Goodies,
 			EntityType.VILLAGER,
 			EntityType.VILLAGER,
 			EntityType.VILLAGER,
@@ -31,8 +31,8 @@ public class SpawnProvider extends Provider {
 			EntityType.VILLAGER,
 			EntityType.WITCH);
 	
-	public final static String tagEntities_Enemies = "Entities_For_Enemies";
-	public EntityList itemsEntities_Enemies = createList(tagEntities_Enemies,
+	public final static String tagEntities_Baddies = "Entities_For_Baddies";
+	public EntityList itemsEntities_Baddies = createList(tagEntities_Baddies,
 			EntityType.CREEPER,
 			EntityType.CREEPER,
 			EntityType.CREEPER,

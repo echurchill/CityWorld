@@ -39,9 +39,9 @@ public class CityWorldSettings {
 	public boolean includeOres = true;
 	public boolean includeBones = true;
 	
-	public double spawnAnimals = Odds.oddsVeryLikely;
 	public double spawnBeings = Odds.oddsLikely;
 	public double spawnBaddies = Odds.oddsPrettyUnlikely;
+	public double spawnAnimals = Odds.oddsVeryLikely;
 	public double spawnVagrants = Odds.oddsSomewhatUnlikely;
 	
 	public boolean spawnersInBunkers = true;

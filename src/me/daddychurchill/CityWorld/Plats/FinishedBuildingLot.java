@@ -11,6 +11,7 @@ import me.daddychurchill.CityWorld.Factories.OutsideNSWallFactory;
 import me.daddychurchill.CityWorld.Factories.OutsideWEWallFactory;
 import me.daddychurchill.CityWorld.Plats.Urban.ConcreteLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
+import me.daddychurchill.CityWorld.Plugins.StructureInAirProvider;
 import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
@@ -50,7 +51,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	private MaterialFactory wallsInterior;
 	
 	protected enum RoofStyle {FLATTOP, EDGED, PEAK, PEAKS, DUPLOS, BOXTOPS, BOXED, TENT_NORTHSOUTH, TENT_WESTEAST, 
-		INSET_BOX, INSET_BOXES, RAISED_BOX, RAISED_BOXES, OUTSET_BOX, INSET_RIDGEBOX, INSET_RIDGEBOXES, BALLOON};
+		INSET_BOX, INSET_BOXES, RAISED_BOX, RAISED_BOXES, OUTSET_BOX, INSET_RIDGEBOX, INSET_RIDGEBOXES, BALLOONS};
 		//, SLANT_NORTH, SLANT_SOUTH, SLANT_WEST, SLANT_EAST};
 	protected enum RoofFeature {PLAIN, ANTENNAS, CONDITIONERS, TILE, SKYLIGHT, SKYPEAK, ALTPEAK, ALTPEAK2, 
 		SKYLIGHT_NS, SKYLIGHT_WE, SKYLIGHT_BOX, SKYLIGHT_TINY, SKYLIGHT_CHECKERS, SKYLIGHT_CROSS};
@@ -149,9 +150,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			if (chunkOdds.flipCoin())
 				roofStyle = pickRoofStyle();
 			else
-				roofStyle = RoofStyle.BALLOON;
+				roofStyle = RoofStyle.BALLOONS;
 			
-			if (roofStyle == RoofStyle.BALLOON)
+			if (roofStyle == RoofStyle.BALLOONS)
 				roofFeature = RoofFeature.PLAIN;
 			else
 				roofFeature = pickRoofFeature();
@@ -877,7 +878,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				if (roofFeature == RoofFeature.ANTENNAS)
 					y2 -= aboveFloorHeight;
 				break;
-			case BALLOON:
+			case BALLOONS:
 			case PEAK:
 			case PEAKS:
 			case DUPLOS:
@@ -1795,21 +1796,26 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		case FLATTOP:
 			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, outsetEffect, material, false, heights);
 			break;
-		case BALLOON:
+		case BALLOONS:
 			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, outsetEffect, material, false, heights);
-//			StructureInAirProvider balloons = generator.structureInAirProvider;
-//			if (isRounded) {
-//				if (chunkOdds.flipCoin())
-//					balloons.generateBigBalloon(generator, chunk, context, generator.streetLevel + 5, chunkOdds);
-//				else
-//					balloons.generateBalloon(generator, chunk, context, 7 + chunkOdds.getRandomInt(2), generator.streetLevel + 5, 3, chunkOdds);
-//			} else {
-//				balloons.generateBalloon(generator, chunk, context, 7 + chunkOdds.getRandomInt(2), generator.streetLevel + 5, 3, chunkOdds);
-//				balloons.generateBalloon(generator, chunk, context, 7 + chunkOdds.getRandomInt(2), generator.streetLevel + 5, 12, chunkOdds);
-//				balloons.generateBalloon(generator, chunk, context, 3, generator.streetLevel + 5, 7 + chunkOdds.getRandomInt(2), chunkOdds);
-//				balloons.generateBalloon(generator, chunk, context, 12, generator.streetLevel + 5, 7 + chunkOdds.getRandomInt(2), chunkOdds);
-//				chunk.setWalls(inset + 1, 16 - inset - 1, y1    , y1 + 3, inset + 1, 16 - inset - 1, material);
-//			}
+			StructureInAirProvider balloons = generator.structureInAirProvider;
+			int y2 = y1;
+			if (isRounded) {
+				balloons.generateBalloon(generator, chunk, context, 7, y2, 7, chunkOdds);
+			} else {
+				if (chunkOdds.flipCoin())
+					balloons.generateBigBalloon(generator, chunk, context, y2, chunkOdds);
+				else {
+					if (chunkOdds.playOdds(Odds.oddsPrettyLikely))
+						balloons.generateBalloon(generator, chunk, context, inset + 2, y2, inset + 2, chunkOdds);
+					if (chunkOdds.playOdds(Odds.oddsPrettyLikely))
+						balloons.generateBalloon(generator, chunk, context, inset + 2, y2, 16 - inset - 2, chunkOdds);
+					if (chunkOdds.playOdds(Odds.oddsPrettyLikely))
+						balloons.generateBalloon(generator, chunk, context, 16 - inset - 2, y2, inset + 2, chunkOdds);
+					if (chunkOdds.playOdds(Odds.oddsPrettyLikely))
+						balloons.generateBalloon(generator, chunk, context, 16 - inset - 2, y2, 16 - inset - 2, chunkOdds);
+				}
+			}
 			break;
 		case PEAK:
 			if (heights.getNeighborCount() == 0) { 
@@ -2358,7 +2364,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 //		return RoofStyle.BOXED;
 		RoofStyle[] values = RoofStyle.values();
 		RoofStyle result = values[chunkOdds.getRandomInt(values.length)];
-		if (result == RoofStyle.BALLOON)
+		if (result == RoofStyle.BALLOONS)
 			result = RoofStyle.PEAK;
 		return result;
 	}

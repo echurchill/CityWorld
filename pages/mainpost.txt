@@ -4,7 +4,7 @@ Not any town will do, how about one that goes on forever or multiple ones separa
 But what is under those mountains? 
 There is an entire world to explore, have fun!
 
-===== //Version 3.009// ===== 
+===== //Version 3.011// ===== 
 
 {{http://dev.bukkit.org/media/images/42/720/2012-07-04_11.31.52.jpg|CityWorld}}
 
@@ -14,7 +14,7 @@ v3.011
 Removed the Enchanting Tables from libraries (meant to get earlier but forgot to)
 Fixed a few glitches in decayed and nether worlds (farms didn't get destroyed, too much water not enough lava, etc.)
 Changed the paths in parks and buried logs in farms with Grass Paths (what good are new materials if I never use them)
-Fixed villager spawning on oil rigs and hot air balloons
+Fixed mobs spawning on oil rigs and hot air balloons
 Enemy generation is now more controllable via SpawnEnemy percentage option
 Reeds are back near the shores, they disappeared about a year ago, like roundabouts - sigh, I wonder what else has gone missing
 Fixed up some fluid generation issues (generalized version of the above nether world fix)
@@ -22,6 +22,7 @@ Enhanced Parks a bit more and made country roads a bit more country-ish
 Made things camouflage better in the mountains
 More corner styles, because why not :-)
 Made buddy, animal, enemy and spawn lists configurable, keep in mind these lists can only contain living entities right now
+Renamed a few settings to make mob spawning more controllable
 Tweaked the factory big chimney's height a bit, now they aren't quite a tall
 Minecraft (as of 1.9.4) and Spigot (as of 5/20) happy 
 
