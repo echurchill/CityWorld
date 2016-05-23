@@ -32,10 +32,6 @@ public class ConcreteLot extends BuildingLot {
 	}
 
 	private CenterStyle getRandomCenterStyle() {
-//		if (chunkOdds.flipCoin())
-//			return CenterStyle.UPWARD_POND;
-//		else
-//			return CenterStyle.DOWNWARD_POND;
 		if (chunkOdds.playOdds(Odds.oddsUnlikely))
 			return CenterStyle.EMPTY;
 		else {
@@ -56,13 +52,13 @@ public class ConcreteLot extends BuildingLot {
 	protected void generateActualChunk(CityWorldGenerator generator,
 			PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes,
 			DataContext context, int platX, int platZ) {
-		int sidewalkLevel = getSidewalkLevel(generator);
-		Material sidewalkMaterial = getSidewalkMaterial();
+//		int sidewalkLevel = getSidewalkLevel(generator);
+//		Material sidewalkMaterial = getSidewalkMaterial();
 
 		// top it off
 		flattenLot(generator, chunk, 4);
-		chunk.setLayer(sidewalkLevel - 1, generator.oreProvider.surfaceMaterial);
-		chunk.setLayer(sidewalkLevel, sidewalkMaterial);
+//		chunk.setLayer(sidewalkLevel - 3, 3, generator.oreProvider.surfaceMaterial);
+//		chunk.setLayer(sidewalkLevel, sidewalkMaterial);
 	}
 
 	@Override
@@ -70,9 +66,13 @@ public class ConcreteLot extends BuildingLot {
 			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
 			int platZ) {
 		int sidewalkLevel = getSidewalkLevel(generator);
+		Material sidewalkMaterial = getSidewalkMaterial();
 		Material fluid = generator.oreProvider.fluidMaterial;
 		Material atmosphere = generator.shapeProvider.findAtmosphereMaterialAt(generator, sidewalkLevel);
-		Material underneath = generator.settings.materials.itemsSelectMaterial_BuildingWalls.getRandomMaterial(chunkOdds);
+		Material underneath = generator.settings.materials.itemsSelectMaterial_BuildingCeilings.getRandomMaterial(chunkOdds);
+		
+		chunk.setLayer(sidewalkLevel - 3, 3, underneath);
+		chunk.setLayer(sidewalkLevel, sidewalkMaterial);
 		
 //		chunk.setBlock(8, sidewalkLevel + 20, 8, Material.COBBLESTONE);
 //		chunk.setSignPost(8, sidewalkLevel + 21, 8, BlockFace.NORTH, "Style", centerStyle.toString());

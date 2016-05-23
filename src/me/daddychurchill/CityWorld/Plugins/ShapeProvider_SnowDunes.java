@@ -176,7 +176,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 	}
 	
 	protected void actualGenerateSnow(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, int x, int z, int y) {
-		int baseY = chunk.findLastEmptyBelow(x, y + 1, z);
+		int baseY = chunk.findLastEmptyBelow(x, y + 1, z, y - 6);
 		int snowY = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 		if (snowY > baseY) 
 			chunk.setBlocks(x, baseY, snowY, z, Material.SNOW_BLOCK);
@@ -195,7 +195,8 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {
 				double snowCoverY = findPerciseFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
-				int snowY = chunk.findFirstEmpty(x, Math.max(topY, NoiseGenerator.floor(snowCoverY)), z);
+				int y = Math.max(topY, NoiseGenerator.floor(snowCoverY));
+				int snowY = chunk.findFirstEmpty(x, y, z, y - 1, y + 6);
 				if (!chunk.isNonstackableBlock(x, snowY - 1, z)) {
 					int snowAmount = NoiseGenerator.floor((snowCoverY - Math.floor(snowCoverY)) * 8.0);
 					if (snowAmount > 3 & !chunk.isType(x, snowY - 1, z, Material.SNOW_BLOCK))

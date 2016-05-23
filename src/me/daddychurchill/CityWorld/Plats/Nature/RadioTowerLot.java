@@ -171,7 +171,8 @@ public class RadioTowerLot extends ConstructLot {
 				if (!generator.settings.includeDecayedBuildings) {
 					if (antennaHeight == heightTallest) {
 						chunk.setBlock(x, y + 2 + antennaHeight, z, capBigMaterial);
-						chunk.setTorch(x, y + 2 + antennaHeight + 1, z, context.torchMat, BadMagic.Torch.FLOOR);
+//						chunk.setTorch(x, y + 2 + antennaHeight + 1, z, context.torchMat, BadMagic.Torch.FLOOR);
+						chunk.setBlock(x, y + 2 + antennaHeight + 1, z, Material.END_ROD);
 					} else
 						chunk.setBlock(x, y + 2 + antennaHeight, z, capTinyMaterial);
 				}

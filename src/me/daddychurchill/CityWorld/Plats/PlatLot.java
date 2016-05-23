@@ -313,7 +313,7 @@ public abstract class PlatLot {
 	}
 	
 	private void generateMineSupport(InitialBlocks chunk, int x, int y, int z) {
-		int aboveSupport = chunk.findLastEmptyAbove(x, y, z);
+		int aboveSupport = chunk.findLastEmptyAbove(x, y, z, blockYs.maxHeight);
 		if (aboveSupport < blockYs.maxHeight)
 			chunk.setBlocks(x, y + 1, aboveSupport + 1, z, shaftSupport);
 	}
@@ -478,7 +478,7 @@ public abstract class PlatLot {
 	}
 	
 	private void generateMineSupport(RealBlocks chunk, int x, int y, int z) {
-		int aboveSupport = chunk.findLastEmptyAbove(x, y, z);
+		int aboveSupport = chunk.findLastEmptyAbove(x, y, z, blockYs.maxHeight);
 		if (aboveSupport < blockYs.maxHeight)
 			chunk.setBlocks(x, y + 1, aboveSupport + 1, z, Material.FENCE);
 	}

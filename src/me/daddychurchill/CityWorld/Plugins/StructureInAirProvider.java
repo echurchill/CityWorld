@@ -3,7 +3,6 @@ package me.daddychurchill.CityWorld.Plugins;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.AbstractBlocks;
-import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
@@ -66,66 +65,6 @@ public class StructureInAirProvider extends Provider {
 			
 			// candle in the middle
 			addLight(chunk, context, balloonX, balloonY2, balloonZ);
-		}
-	}
-
-	public void generateBalloon(CityWorldGenerator generator, InitialBlocks chunk, DataContext context, 
-			int attachX, int attachY, int attachZ, Odds odds) {
-		// where is the balloon
-		int balloonX = attachX;
-		int balloonY1 = attachY + 5 + odds.getRandomInt(10);
-		int balloonY2 = balloonY1 + 8 + odds.getRandomInt(3);
-		int balloonZ = attachZ;
-		
-		// string please
-		if (attachString(chunk, balloonX, attachY, balloonY1, balloonZ)) {
-			
-			// pick the colors
-			Material primaryMaterial = getRandomMaterial(odds);
-			Material secondaryMaterial = getRandomMaterial(odds);
-			
-			// draw the balloon
-			chunk.setBlocks(balloonX, balloonX + 1, balloonY1, balloonY1 + 2, balloonZ, balloonZ + 1, primaryMaterial);
-			
-			chunk.setBlocks(balloonX - 1, balloonX + 2, balloonY1 + 2, balloonY1 + 4, balloonZ - 1, balloonZ + 2, primaryMaterial);
-			chunk.setBlock(balloonX - 1, balloonY1 + 2, balloonZ - 1, Material.AIR);
-			chunk.setBlock(balloonX - 1, balloonY1 + 2, balloonZ + 1, Material.AIR);
-			chunk.setBlock(balloonX + 1, balloonY1 + 2, balloonZ - 1, Material.AIR);
-			chunk.setBlock(balloonX + 1, balloonY1 + 2, balloonZ + 1, Material.AIR);
-			
-			chunk.setBlocks(balloonX - 2, balloonX + 3, balloonY1 + 4, balloonY1 + 6, balloonZ - 2, balloonZ + 3, primaryMaterial);
-			chunk.setBlock(balloonX - 2, balloonY1 + 4, balloonZ - 2, Material.AIR);
-			chunk.setBlock(balloonX - 2, balloonY1 + 4, balloonZ + 2, Material.AIR);
-			chunk.setBlock(balloonX + 2, balloonY1 + 4, balloonZ - 2, Material.AIR);
-			chunk.setBlock(balloonX + 2, balloonY1 + 4, balloonZ + 2, Material.AIR);
-			
-			chunk.setBlocks(balloonX - 2, balloonX + 3, balloonY1 + 6, balloonY2 - 1, balloonZ - 2, balloonZ + 3, secondaryMaterial);
-			
-			chunk.setBlocks(balloonX - 2, balloonX + 3, balloonY2 - 1, balloonY2, balloonZ - 2, balloonZ + 3, primaryMaterial);
-			chunk.setBlocks(balloonX - 1, balloonX + 2, balloonY2, balloonY2 + 1, balloonZ - 1, balloonZ + 2, primaryMaterial);
-			
-			// candle in the middle
-			addLight(chunk, context, balloonX, balloonY2, balloonZ);
-		}
-	}
-	
-	private Material getRandomMaterial(Odds odds) {
-		switch (odds.getRandomInt(7)) {
-		default:
-		case 0:
-			return Material.WOOL;
-		case 1:
-			return Material.SPONGE;
-		case 2:
-			return Material.HUGE_MUSHROOM_1;
-		case 3:
-			return Material.HUGE_MUSHROOM_2;
-		case 4:
-			return Material.HARD_CLAY;
-		case 5:
-			return Material.STAINED_CLAY;
-		case 6:
-			return Material.PURPUR_BLOCK;
 		}
 	}
 
@@ -192,60 +131,6 @@ public class StructureInAirProvider extends Provider {
 		chunk.setCircle(8, 8, 6, balloonY2 - 3, Material.WOOL, primaryColor, true);
 		chunk.setCircle(8, 8, 5, balloonY2 - 2, balloonY2, Material.WOOL, primaryColor, true);
 		chunk.setCircle(8, 8, 4, balloonY2, Material.WOOL, primaryColor, true);
-		
-		// add the lights
-		addLight(chunk, context, 8, balloonY2, 8);
-//		addLight(chunk, context, 7, balloonY2, 4);
-//		addLight(chunk, context, 8, balloonY2, 11);
-//		addLight(chunk, context, 4, balloonY2, 8);
-//		addLight(chunk, context, 11, balloonY2, 7);
-
-	}
-	
-	public void generateBigBalloon(CityWorldGenerator generator, InitialBlocks chunk, DataContext context, 
-			int attachY, Odds odds) {
-		int balloonY1 = attachY + 4 + odds.getRandomInt(4);
-		int balloonY2 = balloonY1 + 15 + odds.getRandomInt(15);
-		
-		// draw the strings
-		boolean strung = attachString(chunk, 7 + odds.getRandomInt(2), attachY, balloonY1 + 5, 2);
-		strung = attachString(chunk, 7 + odds.getRandomInt(2), attachY, balloonY1 + 5, 13) || strung;
-		strung = attachString(chunk, 2, attachY, balloonY1 + 5, 7 + odds.getRandomInt(2)) || strung;
-		strung = attachString(chunk, 13, attachY, balloonY1 + 5, 7 + odds.getRandomInt(2)) || strung;
-		
-		// are we attached?
-		if (strung)
-			generateBigBalloon(generator, chunk, context, balloonY1, balloonY2, odds);
-	}
-	
-	private void generateBigBalloon(CityWorldGenerator generator, InitialBlocks chunk, DataContext context, 
-			int balloonY1, int balloonY2, Odds odds) {
-		
-		// pick the colors
-		Material primaryMaterial = getRandomMaterial(odds);
-		Material secondaryMaterial = getRandomMaterial(odds);
-		
-		// draw the bottom of the blimp
-		chunk.setCircle(8, 8, 3, balloonY1 - 1, primaryMaterial);
-		chunk.setCircle(8, 8, 4, balloonY1, balloonY1 + 3, primaryMaterial, true);
-		chunk.setCircle(8, 8, 5, balloonY1 + 3, balloonY1 + 7, primaryMaterial, true);
-		chunk.setCircle(8, 8, 6, balloonY1 + 7, primaryMaterial, true);
-		
-		// middle of the blimp
-		int step = 2 + odds.getRandomInt(4);
-		int y = balloonY1 + 8;
-		do {
-			Material material = primaryMaterial;
-			if (y % step != 0)
-				material = secondaryMaterial;
-			chunk.setCircle(8, 8, 6, y, material, true);
-			y++;
-		} while (y < balloonY2 - 3);
-		
-		// now the top of the balloon
-		chunk.setCircle(8, 8, 6, balloonY2 - 3, primaryMaterial, true);
-		chunk.setCircle(8, 8, 5, balloonY2 - 2, balloonY2, primaryMaterial, true);
-		chunk.setCircle(8, 8, 4, balloonY2, primaryMaterial, true);
 		
 		// add the lights
 		addLight(chunk, context, 8, balloonY2, 8);

@@ -110,7 +110,7 @@ public abstract class OreProvider extends Provider {
 	}
 	
 	public void dropSnow(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, int level) {
-		y = chunk.findLastEmptyBelow(x, y + 1, z);
+		y = chunk.findLastEmptyBelow(x, y + 1, z, y - 6);
 		if (!chunk.isOfTypes(x, y - 1, z, Material.SNOW))
 			chunk.setSnowCover(x, y, z, level);
 	}

@@ -51,7 +51,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	private MaterialFactory wallsInterior;
 	
 	protected enum RoofStyle {FLATTOP, EDGED, PEAK, PEAKS, DUPLOS, BOXTOPS, BOXED, TENT_NORTHSOUTH, TENT_WESTEAST, 
-		INSET_BOX, INSET_BOXES, RAISED_BOX, RAISED_BOXES, OUTSET_BOX, INSET_RIDGEBOX, INSET_RIDGEBOXES, BALLOONS};
+		INSET_BOX, INSET_BOXES, RAISED_BOX, RAISED_BOXES, OUTSET_BOX, INSET_RIDGEBOX, INSET_RIDGEBOXES};
 		//, SLANT_NORTH, SLANT_SOUTH, SLANT_WEST, SLANT_EAST};
 	protected enum RoofFeature {PLAIN, ANTENNAS, CONDITIONERS, TILE, SKYLIGHT, SKYPEAK, ALTPEAK, ALTPEAK2, 
 		SKYLIGHT_NS, SKYLIGHT_WE, SKYLIGHT_BOX, SKYLIGHT_TINY, SKYLIGHT_CHECKERS, SKYLIGHT_CROSS};
@@ -145,21 +145,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 
 		rounded = chunkOdds.playOdds(context.oddsOfRoundedBuilding);
 		
-		// a hack but it works for me
-		if (platmap.generator.worldStyle == WorldStyle.FLOATING) {
-			if (chunkOdds.flipCoin())
-				roofStyle = pickRoofStyle();
-			else
-				roofStyle = RoofStyle.BALLOONS;
-			
-			if (roofStyle == RoofStyle.BALLOONS)
-				roofFeature = RoofFeature.PLAIN;
-			else
-				roofFeature = pickRoofFeature();
-		} else {
-			roofStyle = pickRoofStyle();
-			roofFeature = pickRoofFeature();
-		}
+		roofStyle = pickRoofStyle();
+		roofFeature = pickRoofFeature();
 		roofScale = 1 + chunkOdds.getRandomInt(2);
 		
 		interiorStyle = pickInteriorStyle();
@@ -868,6 +855,10 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			// maybe draw a navlight?
 			drawNavLight(chunk, context);
 			
+			// add more stuff on top?
+			drawRoof(generator, chunk, context, generator.streetLevel + aboveFloorHeight * height + 2, localInsetWallNS, localInsetWallWE, height, 
+					false, allowRounded, roofMaterial, neighborFloors, roofStyle, roofFeature);
+			
 		// nope, let's destroy our work!
 		} else {
 			int y1 = generator.streetLevel + 2;
@@ -878,7 +869,6 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				if (roofFeature == RoofFeature.ANTENNAS)
 					y2 -= aboveFloorHeight;
 				break;
-			case BALLOONS:
 			case PEAK:
 			case PEAKS:
 			case DUPLOS:
@@ -1796,27 +1786,6 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		case FLATTOP:
 			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, outsetEffect, material, false, heights);
 			break;
-		case BALLOONS:
-			drawEdgedRoof(generator, chunk, context, y1, insetNS, insetWE, floor, roofFeature, allowRounded, outsetEffect, material, false, heights);
-			StructureInAirProvider balloons = generator.structureInAirProvider;
-			int y2 = y1;
-			if (isRounded) {
-				balloons.generateBalloon(generator, chunk, context, 7, y2, 7, chunkOdds);
-			} else {
-				if (chunkOdds.flipCoin())
-					balloons.generateBigBalloon(generator, chunk, context, y2, chunkOdds);
-				else {
-					if (chunkOdds.playOdds(Odds.oddsPrettyLikely))
-						balloons.generateBalloon(generator, chunk, context, inset + 2, y2, inset + 2, chunkOdds);
-					if (chunkOdds.playOdds(Odds.oddsPrettyLikely))
-						balloons.generateBalloon(generator, chunk, context, inset + 2, y2, 16 - inset - 2, chunkOdds);
-					if (chunkOdds.playOdds(Odds.oddsPrettyLikely))
-						balloons.generateBalloon(generator, chunk, context, 16 - inset - 2, y2, inset + 2, chunkOdds);
-					if (chunkOdds.playOdds(Odds.oddsPrettyLikely))
-						balloons.generateBalloon(generator, chunk, context, 16 - inset - 2, y2, 16 - inset - 2, chunkOdds);
-				}
-			}
-			break;
 		case PEAK:
 			if (heights.getNeighborCount() == 0) { 
 				for (int i = 0; i < maxHeight; i++) {
@@ -1948,6 +1917,70 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 	}
 	
+	protected void drawRoof(CityWorldGenerator generator, RealBlocks chunk, DataContext context, 
+			int y1, int insetNS, int insetWE, int floor, boolean allowRounded, boolean outsetEffect,
+			Material material, Surroundings heights, RoofStyle thisStyle, RoofFeature thisFeature) {
+		
+		// protect ourselves from really tall floors
+		boolean isRounded = willBeRounded(allowRounded, heights);
+		int inset = Math.max(insetNS, insetWE);
+		
+		// add some balloons?
+		if (generator.worldStyle == WorldStyle.FLOATING) {
+			switch (thisStyle) {
+			case FLATTOP:
+			case EDGED:
+			case BOXED:
+			case BOXTOPS:
+			case DUPLOS:
+			case INSET_BOX:
+			case INSET_BOXES:
+			case INSET_RIDGEBOX:
+			case INSET_RIDGEBOXES:
+			case RAISED_BOX:
+			case RAISED_BOXES:
+			case OUTSET_BOX:
+				switch (roofFeature) {
+				case CONDITIONERS:
+				case PLAIN:
+				case SKYLIGHT:
+				case SKYLIGHT_BOX:
+				case SKYLIGHT_CHECKERS:
+				case SKYLIGHT_CROSS:
+				case SKYLIGHT_NS:
+				case SKYLIGHT_TINY:
+				case SKYLIGHT_WE:
+					StructureInAirProvider balloons = generator.structureInAirProvider;
+					int y2 = y1;
+					if (isRounded) {
+						balloons.generateBalloon(generator, chunk, context, 7, y2, 7, chunkOdds);
+					} else {
+						if (chunkOdds.flipCoin())
+							balloons.generateBigBalloon(generator, chunk, context, y2, chunkOdds);
+						else {
+							if (chunkOdds.playOdds(Odds.oddsPrettyLikely))
+								balloons.generateBalloon(generator, chunk, context, inset + 2, y2, inset + 2, chunkOdds);
+							if (chunkOdds.playOdds(Odds.oddsPrettyLikely))
+								balloons.generateBalloon(generator, chunk, context, inset + 2, y2, 16 - inset - 2, chunkOdds);
+							if (chunkOdds.playOdds(Odds.oddsPrettyLikely))
+								balloons.generateBalloon(generator, chunk, context, 16 - inset - 2, y2, inset + 2, chunkOdds);
+							if (chunkOdds.playOdds(Odds.oddsPrettyLikely))
+								balloons.generateBalloon(generator, chunk, context, 16 - inset - 2, y2, 16 - inset - 2, chunkOdds);
+						}
+					}
+					break;
+				default:
+					// for the rest of them do nothing
+					break;
+				}
+				break;
+			default:
+				// for the rest of them do nothing
+				break;
+			}
+		}
+	}
+	
 	private void drawEdgedRoof(CityWorldGenerator generator, InitialBlocks chunk, DataContext context, 
 			int y1, int insetNS, int insetWE, int floor, RoofFeature features,
 			boolean allowRounded, boolean outsetEffect, Material material, boolean doEdge, Surroundings heights) {
@@ -2075,20 +2108,20 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			chunk.setBlock(x, y, z, conditioner);
 			chunk.setBlock(x, y + 1, z, conditionerTrim);
 			if (chunkOdds.flipCoin()) {
-				chunk.setBlockIfAir(x - 1, y, z, duct);
-				chunk.setBlockIfAir(x - 2, y, z, duct);
+				chunk.setBlockIfEmpty(x - 1, y, z, duct);
+				chunk.setBlockIfEmpty(x - 2, y, z, duct);
 			}
 			if (chunkOdds.flipCoin()) {
-				chunk.setBlockIfAir(x + 1, y, z, duct);
-				chunk.setBlockIfAir(x + 2, y, z, duct);
+				chunk.setBlockIfEmpty(x + 1, y, z, duct);
+				chunk.setBlockIfEmpty(x + 2, y, z, duct);
 			}
 			if (chunkOdds.flipCoin()) {
-				chunk.setBlockIfAir(x, y, z - 1, duct);
-				chunk.setBlockIfAir(x, y, z - 2, duct);
+				chunk.setBlockIfEmpty(x, y, z - 1, duct);
+				chunk.setBlockIfEmpty(x, y, z - 2, duct);
 			}
 			if (chunkOdds.flipCoin()) {
-				chunk.setBlockIfAir(x, y, z + 1, duct);
-				chunk.setBlockIfAir(x, y, z + 2, duct);
+				chunk.setBlockIfEmpty(x, y, z + 1, duct);
+				chunk.setBlockIfEmpty(x, y, z + 2, duct);
 			}
 			if (chunkOdds.flipCoin()) {
 				chunk.setBlock(x, y, z, conditioner);
@@ -2363,10 +2396,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	protected RoofStyle pickRoofStyle() {
 //		return RoofStyle.BOXED;
 		RoofStyle[] values = RoofStyle.values();
-		RoofStyle result = values[chunkOdds.getRandomInt(values.length)];
-		if (result == RoofStyle.BALLOONS)
-			result = RoofStyle.PEAK;
-		return result;
+		return values[chunkOdds.getRandomInt(values.length)];
 	}
 	
 	protected RoofFeature pickRoofFeature() {

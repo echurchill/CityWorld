@@ -145,25 +145,30 @@ public final class WorldBlocks extends SupportBlocks {
 				// where do we drop it?
 				int x = x1 + odds.getRandomInt(r4);
 				int z = z1 + odds.getRandomInt(r4);
-				int y = findLastEmptyBelow(x, cy, z);
+				int y = findLastEmptyBelow(x, cy, z, cy - 6);
 				
-				// look out for invalid blocks
-				Block block = getActualBlock(x, y - 1, z);
-				
-				// find the bottom of the pool
-				if (block.isLiquid()) {
-					do {
-						y--;
-						block = getActualBlock(x, y - 1, z);
-					} while (block.isLiquid());
-				
-				// partial height blocks?
-				} else if (isNonstackableBlock(block)) {
-					setBlock(block, item.oldMaterial, item.oldData);
-				
-				// other blocks?
-				} else {
-					setBlock(x, y, z, item.oldMaterial, item.oldData);
+				// not too far?
+				//TODO: I think this is a bit wrong. For example we should be removing/ignoring non-stackable blocks as we search for a resting point
+				if (y >= cy - 6) {
+					
+					// look out for invalid blocks
+					Block block = getActualBlock(x, y - 1, z);
+					
+					// find the bottom of the pool
+					if (block.isLiquid()) {
+						do {
+							y--;
+							block = getActualBlock(x, y - 1, z);
+						} while (block.isLiquid());
+					
+					// partial height blocks?
+					} else if (isNonstackableBlock(block)) {
+						setBlock(block, item.oldMaterial, item.oldData);
+					
+					// other blocks?
+					} else {
+						setBlock(x, y, z, item.oldMaterial, item.oldData);
+					}
 				}
 			}
 		}

@@ -48,7 +48,7 @@ public final class InitialBlocks extends AbstractBlocks {
 		chunkData.setBlock(x, y, z, material);
 	}
 
-	public void setBlockIfAir(int x, int y, int z, Material material) {
+	public void setBlockIfEmpty(int x, int y, int z, Material material) {
 		if (isEmpty(x, y, z) && !isEmpty(x, y - 1, z))
 			chunkData.setBlock(x, y, z, material);
 	}

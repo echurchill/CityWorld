@@ -60,7 +60,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	}
 
 	@Override
-	public final void setBlockIfAir(int x, int y, int z, Material material) {
+	public final void setBlockIfEmpty(int x, int y, int z, Material material) {
 		Block block = getActualBlock(x, y, z);
 		if (block.isEmpty() && !getActualBlock(x, y - 1, z).isEmpty())
 			block.setType(material);

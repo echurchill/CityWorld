@@ -47,7 +47,7 @@ public abstract class AbstractBlocks {
 		return sectionZ * width;
 	}
 
-	public abstract void setBlockIfAir(int x, int y, int z, Material material);
+	public abstract void setBlockIfEmpty(int x, int y, int z, Material material);
 	public abstract void setBlock(int x, int y, int z, Material material);
 	public abstract void setBlocks(int x, int y1, int y2, int z, Material material);
 	public abstract void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material);
@@ -86,9 +86,9 @@ public abstract class AbstractBlocks {
 		setCircle(cx, cz, r, cy, material, fill);
 	}
 
-	public int findFirstEmpty(int x, int y, int z) {
-		return findFirstEmpty(x, y, z, 0, height);
-	}
+//	public int findFirstEmpty(int x, int y, int z) {
+//		return findFirstEmpty(x, y, z, 0, height);
+//	}
 	
 	public final int findFirstEmpty(int x, int y, int z, int minY, int maxY) {
 		if (isEmpty(x, y, z))
@@ -97,9 +97,9 @@ public abstract class AbstractBlocks {
 			return findFirstEmptyAbove(x, y, z, maxY);
 	}
 	
-	public int findFirstEmptyAbove(int x, int y, int z) {
-		return findFirstEmptyAbove(x, y, z, height);
-	}
+//	public int findFirstEmptyAbove(int x, int y, int z) {
+//		return findFirstEmptyAbove(x, y, z, height);
+//	}
 	
 	public final int findFirstEmptyAbove(int x, int y, int z, int maxY) {
 		int y1 = y;
@@ -111,9 +111,9 @@ public abstract class AbstractBlocks {
 		return height - 1;
 	}
 	
-	public int findLastEmptyAbove(int x, int y, int z) {
-		return findLastEmptyAbove(x, y, z, height);
-	}
+//	public int findLastEmptyAbove(int x, int y, int z) {
+//		return findLastEmptyAbove(x, y, z, height);
+//	}
 	
 	public final int findLastEmptyAbove(int x, int y, int z, int maxY) {
 		int y1 = y;
@@ -123,9 +123,9 @@ public abstract class AbstractBlocks {
 		return y1;
 	}
 	
-	public int findLastEmptyBelow(int x, int y, int z) {
-		return findLastEmptyBelow(x, y, z, 0);
-	}
+//	public int findLastEmptyBelow(int x, int y, int z) {
+//		return findLastEmptyBelow(x, y, z, 0);
+//	}
 	
 	public final int findLastEmptyBelow(int x, int y, int z, int minY) {
 		int y1 = y;
