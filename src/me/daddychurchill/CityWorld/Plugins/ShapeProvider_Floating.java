@@ -204,6 +204,10 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 			// shape the underworld
 			if (lot.style == LotStyle.STRUCTURE ||
 				lot.style == LotStyle.ROAD) {
+//				int h = (lotBottomY - 1) / 3;
+//				chunk.setBlocks(5, 11, h * 2, lotBottomY, 5, 11, Material.STONE);
+//				chunk.setBlocks(6, 10, h, h * 2, 6, 10, Material.STONE);
+//				chunk.setBlocks(7, 9, 1, h, 7, 9, Material.STONE);
 				for (int x = 0; x < chunk.width; x++) {
 					for (int z = 0; z < chunk.width; z++) {
 						if (odds.playOdds(underworldOdds)) {
