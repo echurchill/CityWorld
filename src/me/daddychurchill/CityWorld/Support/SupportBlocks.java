@@ -1028,6 +1028,16 @@ public abstract class SupportBlocks extends AbstractBlocks {
 				spawnEntity(generator, x, y, z, generator.settings.spawns.itemsEntities_Vagrants.getRandomEntity(odds), false, true);
 	}
 	
+	public final void spawnBeings(CityWorldGenerator generator, Odds odds, int x, int y, int z, int c) {
+		for (int i = 0; i < c; i++)
+			spawnBeing(generator, odds, x + i, y, z + i);
+	}
+	
+	public final void spawnVagrants(CityWorldGenerator generator, Odds odds, int x, int y, int z, int c) {
+		for (int i = 0; i < c; i++)
+			spawnVagrant(generator, odds, x + i, y, z + i);
+	}
+	
 	public final void spawnEntity(CityWorldGenerator generator, int x, int y, int z, EntityType entity) {
 		spawnEntity(generator, x, y, z, entity, false, true);
 	}

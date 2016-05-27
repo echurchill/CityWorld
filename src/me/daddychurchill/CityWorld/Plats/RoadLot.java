@@ -1169,7 +1169,11 @@ public class RoadLot extends ConnectedLot {
 	protected void generateEntities(CityWorldGenerator generator, RealBlocks chunk, int y) {
 		int x = chunkOdds.calcRandomRange(sidewalkWidth, 15 - sidewalkWidth);
 		int z = chunkOdds.calcRandomRange(sidewalkWidth, 15 - sidewalkWidth);
-		chunk.spawnVagrant(generator, chunkOdds, x, y, z);
+		int count = chunkOdds.getRandomInt(1, 3);
+		if (inACity)
+			chunk.spawnBeings(generator, chunkOdds, x, y, z, count);
+		else
+			chunk.spawnVagrants(generator, chunkOdds, x, y, z, count);
 	}
 	
 	protected void decayRoad(RealBlocks chunk, int x1, int x2, int y, int z1, int z2) {
