@@ -146,8 +146,11 @@ public class RoundaboutCenterLot extends IsolatedLot {
 		int yPitBottom = 29;
 		int yWaterBottom = 8;
 		
-		// bricks around the edges
-		chunk.setWalls(0, 16, yPitTop - 6, yPitTop - 5, 0, 16, Material.SMOOTH_BRICK);
+		// bricks around the edges... if we do anything at all
+		if (!generator.settings.includeSewers)
+			pitStyle = PitStyle.UNFINISHED;
+		else
+			chunk.setWalls(0, 16, yPitTop - 6, yPitTop - 5, 0, 16, Material.SMOOTH_BRICK);
 		
 		// pit style
 		switch (pitStyle) {
@@ -169,8 +172,9 @@ public class RoundaboutCenterLot extends IsolatedLot {
 			break;
 			
 		case UNFINISHED:
-			// not quite made yet
-			GravelLot.generateHole(generator, chunkOdds, chunk, yPitTop - 6, 14, yPitTop - chunkOdds.getRandomInt(8, 16), true);
+			// not quite made yet... are we sure?
+			if (!generator.settings.includeSewers)
+				GravelLot.generateHole(generator, chunkOdds, chunk, yPitTop - 6, 14, yPitTop - chunkOdds.getRandomInt(8, 16), true);
 			break;
 			
 		case WATER:
