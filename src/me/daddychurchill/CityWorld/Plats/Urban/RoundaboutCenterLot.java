@@ -136,106 +136,103 @@ public class RoundaboutCenterLot extends IsolatedLot {
 	
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
+		int ySurface = generator.streetLevel + 1;
 		
 		// something got stolen?
 		boolean somethingInTheCenter = chunkOdds.playOdds(context.oddsOfArt);
 		
 		// where to start?
-		int yPitTop = generator.streetLevel - 1;
-		int ySurface = generator.streetLevel + 1;
-		int yPitBottom = 29;
-		int yWaterBottom = 8;
-		
-		// bricks around the edges... if we do anything at all
-		if (!generator.settings.includeSewers)
-			pitStyle = PitStyle.UNFINISHED;
-		else
+		if (generator.settings.includeSewers) {
+			int yPitTop = generator.streetLevel - 1;
+			int yPitBottom = 29;
+			int yWaterBottom = 8;
+			
+			// bricks around the edges... if we do anything at all
 			chunk.setWalls(0, 16, yPitTop - 6, yPitTop - 5, 0, 16, Material.SMOOTH_BRICK);
-		
-		// pit style
-		switch (pitStyle) {
-		case LAVA:
-			// bottom of the world
-			GravelLot.generateHole(generator, chunkOdds, chunk, yPitTop - 6, 14, yPitBottom, false);
 			
-			// fill with lava
-			chunk.setBlocks(4, 12, yPitBottom - 2, 4, 12, Material.STATIONARY_LAVA);
-			chunk.clearBlocks(4, 12, yPitBottom - 1, 4, 12);
-			chunk.pepperBlocks(4, 12, yPitBottom - 1, 4, 12, chunkOdds, Material.LAVA);
+			// pit style
+			switch (pitStyle) {
+			case LAVA:
+				// bottom of the world
+				GravelLot.generateHole(generator, chunkOdds, chunk, yPitTop - 6, 14, yPitBottom, false);
+				
+				// fill with lava
+				chunk.setBlocks(4, 12, yPitBottom - 2, 4, 12, Material.STATIONARY_LAVA);
+				chunk.clearBlocks(4, 12, yPitBottom - 1, 4, 12);
+				chunk.pepperBlocks(4, 12, yPitBottom - 1, 4, 12, chunkOdds, Material.LAVA);
 
-			// spawner?
-			if (generator.settings.spawnersInSewers) {
-				chunk.setBlocks(8, yPitBottom - 2, yPitBottom + 4, 8, Material.OBSIDIAN);
-				chunk.setSpawner(generator, chunkOdds, 8, yPitBottom + 4, 8, generator.settings.spawns.itemsEntities_LavaPit);
-			}
-			
-			break;
-			
-		case UNFINISHED:
-			// not quite made yet... are we sure?
-			if (!generator.settings.includeSewers)
+				// spawner?
+				if (generator.settings.spawnersInSewers) {
+					chunk.setBlocks(8, yPitBottom - 2, yPitBottom + 4, 8, Material.OBSIDIAN);
+					chunk.setSpawner(generator, chunkOdds, 8, yPitBottom + 4, 8, generator.settings.spawns.itemsEntities_LavaPit);
+				}
+				
+				break;
+				
+			case UNFINISHED:
+				// not quite made yet... are we sure?
 				GravelLot.generateHole(generator, chunkOdds, chunk, yPitTop - 6, 14, yPitTop - chunkOdds.getRandomInt(8, 16), true);
-			break;
-			
-		case WATER:
-			
-			// nearly the bottom of the world
-			GravelLot.generateHole(generator, chunkOdds, chunk, yPitTop - 6, 14, yPitBottom, false);
-			
-			// half pipes leading across
-			int yPitPipes = yPitTop - 7;
-			chunk.setBlocks(6, 10, yPitPipes, 1, 15, Material.SMOOTH_BRICK);
-			chunk.setBlocks(1, 15, yPitPipes, 6, 10, Material.SMOOTH_BRICK);
-			chunk.setBlocks(7, 9, yPitPipes - 1, 1, 15, Material.SMOOTH_BRICK);
-			chunk.setBlocks(1, 15, yPitPipes - 1, 7, 9, Material.SMOOTH_BRICK);
-			
-			// pipe leading down
-			chunk.setBlocks(7, 9, yPitPipes - 5, yPitPipes - 1, 6, 7, Material.SMOOTH_BRICK);
-			chunk.setBlocks(7, 9, yPitPipes - 5, yPitPipes - 1, 9, 10, Material.SMOOTH_BRICK);
-			chunk.setBlocks(6, 7, yPitPipes - 5, yPitPipes - 1, 7, 9, Material.SMOOTH_BRICK);
-			chunk.setBlocks(9, 10, yPitPipes - 5, yPitPipes - 1, 7, 9, Material.SMOOTH_BRICK);
-			
-			// round things out a bit on the edges
-			chunk.setSlab(6, yPitPipes + 1, 1, Material.SMOOTH_BRICK, false);
-			chunk.setSlab(9, yPitPipes + 1, 1, Material.SMOOTH_BRICK, false);
-			chunk.setSlab(6, yPitPipes + 1, 14, Material.SMOOTH_BRICK, false);
-			chunk.setSlab(9, yPitPipes + 1, 14, Material.SMOOTH_BRICK, false);
-			chunk.setSlab(1, yPitPipes + 1, 6, Material.SMOOTH_BRICK, false);
-			chunk.setSlab(1, yPitPipes + 1, 9, Material.SMOOTH_BRICK, false);
-			chunk.setSlab(14, yPitPipes + 1, 6, Material.SMOOTH_BRICK, false);
-			chunk.setSlab(14, yPitPipes + 1, 9, Material.SMOOTH_BRICK, false);
-			
-			// notch the sides a bit
-			chunk.clearBlocks(7, 9, yPitPipes + 1, 0, 1);
-			chunk.clearBlocks(7, 9, yPitPipes + 1, 15, 16);
-			chunk.clearBlocks(0, 1, yPitPipes + 1, 7, 9);
-			chunk.clearBlocks(15, 16, yPitPipes + 1, 7, 9);
-			
-			// clear out the half pipe
-			chunk.clearBlocks(7, 9, yPitPipes, 1, 15);
-			chunk.clearBlocks(1, 15, yPitPipes, 7, 9);
-			chunk.clearBlocks(7, 9, yPitPipes - 1, 7, 9);
-			
-			// fill the pool
-			chunk.setBlocks(4, 12, yWaterBottom, yPitBottom, 4, 12, generator.oreProvider.fluidMaterial);
-			chunk.pepperBlocks(4, 12, yWaterBottom, 4, 12, chunkOdds, Material.PRISMARINE);
-			chunk.pepperBlocks(4, 12, yWaterBottom, 4, 12, chunkOdds, Odds.oddsUnlikely, Material.SEA_LANTERN);
-			chunk.pepperBlocks(4, 12, yWaterBottom + 1, 4, 12, chunkOdds, Material.PRISMARINE);
-			
-			// spawner?
-			if (generator.settings.spawnersInSewers) {
-				chunk.setBlocks(8, yWaterBottom, yWaterBottom + 4, 8, Material.PRISMARINE);
-				chunk.setSpawner(generator, chunkOdds, 8, yWaterBottom + 4, 8, generator.settings.spawns.itemsEntities_WaterPit);
-			} else {
-				chunk.spawnSeaAnimal(generator, chunkOdds, 7, yPitBottom - 2, 7);
-				chunk.spawnSeaAnimal(generator, chunkOdds, 7, yPitBottom - 2, 8);
-				chunk.spawnSeaAnimal(generator, chunkOdds, 8, yPitBottom - 2, 7);
-				chunk.spawnSeaAnimal(generator, chunkOdds, 8, yPitBottom - 2, 8);
+				break;
+				
+			case WATER:
+				
+				// nearly the bottom of the world
+				GravelLot.generateHole(generator, chunkOdds, chunk, yPitTop - 6, 14, yPitBottom, false);
+				
+				// half pipes leading across
+				int yPitPipes = yPitTop - 7;
+				chunk.setBlocks(6, 10, yPitPipes, 1, 15, Material.SMOOTH_BRICK);
+				chunk.setBlocks(1, 15, yPitPipes, 6, 10, Material.SMOOTH_BRICK);
+				chunk.setBlocks(7, 9, yPitPipes - 1, 1, 15, Material.SMOOTH_BRICK);
+				chunk.setBlocks(1, 15, yPitPipes - 1, 7, 9, Material.SMOOTH_BRICK);
+				
+				// pipe leading down
+				chunk.setBlocks(7, 9, yPitPipes - 5, yPitPipes - 1, 6, 7, Material.SMOOTH_BRICK);
+				chunk.setBlocks(7, 9, yPitPipes - 5, yPitPipes - 1, 9, 10, Material.SMOOTH_BRICK);
+				chunk.setBlocks(6, 7, yPitPipes - 5, yPitPipes - 1, 7, 9, Material.SMOOTH_BRICK);
+				chunk.setBlocks(9, 10, yPitPipes - 5, yPitPipes - 1, 7, 9, Material.SMOOTH_BRICK);
+				
+				// round things out a bit on the edges
+				chunk.setSlab(6, yPitPipes + 1, 1, Material.SMOOTH_BRICK, false);
+				chunk.setSlab(9, yPitPipes + 1, 1, Material.SMOOTH_BRICK, false);
+				chunk.setSlab(6, yPitPipes + 1, 14, Material.SMOOTH_BRICK, false);
+				chunk.setSlab(9, yPitPipes + 1, 14, Material.SMOOTH_BRICK, false);
+				chunk.setSlab(1, yPitPipes + 1, 6, Material.SMOOTH_BRICK, false);
+				chunk.setSlab(1, yPitPipes + 1, 9, Material.SMOOTH_BRICK, false);
+				chunk.setSlab(14, yPitPipes + 1, 6, Material.SMOOTH_BRICK, false);
+				chunk.setSlab(14, yPitPipes + 1, 9, Material.SMOOTH_BRICK, false);
+				
+				// notch the sides a bit
+				chunk.clearBlocks(7, 9, yPitPipes + 1, 0, 1);
+				chunk.clearBlocks(7, 9, yPitPipes + 1, 15, 16);
+				chunk.clearBlocks(0, 1, yPitPipes + 1, 7, 9);
+				chunk.clearBlocks(15, 16, yPitPipes + 1, 7, 9);
+				
+				// clear out the half pipe
+				chunk.clearBlocks(7, 9, yPitPipes, 1, 15);
+				chunk.clearBlocks(1, 15, yPitPipes, 7, 9);
+				chunk.clearBlocks(7, 9, yPitPipes - 1, 7, 9);
+				
+				// fill the pool
+				chunk.setBlocks(4, 12, yWaterBottom, yPitBottom, 4, 12, generator.oreProvider.fluidMaterial);
+				chunk.pepperBlocks(4, 12, yWaterBottom, 4, 12, chunkOdds, Material.PRISMARINE);
+				chunk.pepperBlocks(4, 12, yWaterBottom, 4, 12, chunkOdds, Odds.oddsUnlikely, Material.SEA_LANTERN);
+				chunk.pepperBlocks(4, 12, yWaterBottom + 1, 4, 12, chunkOdds, Material.PRISMARINE);
+				
+				// spawner?
+				if (generator.settings.spawnersInSewers) {
+					chunk.setBlocks(8, yWaterBottom, yWaterBottom + 4, 8, Material.PRISMARINE);
+					chunk.setSpawner(generator, chunkOdds, 8, yWaterBottom + 4, 8, generator.settings.spawns.itemsEntities_WaterPit);
+				} else {
+					chunk.spawnSeaAnimal(generator, chunkOdds, 7, yPitBottom - 2, 7);
+					chunk.spawnSeaAnimal(generator, chunkOdds, 7, yPitBottom - 2, 8);
+					chunk.spawnSeaAnimal(generator, chunkOdds, 8, yPitBottom - 2, 7);
+					chunk.spawnSeaAnimal(generator, chunkOdds, 8, yPitBottom - 2, 8);
+				}
+				
+				break;
 			}
-			
-			break;
-		}
-		
+		} 
 		
 		// making a fountain?
 		switch (baseStyle) {
