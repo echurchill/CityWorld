@@ -52,12 +52,13 @@ public class NatureLot extends IsolatedLot {
 			
 		// in the water?
 		if (chunk.isWater(x, magicSeaSpawnY, z)) {
-			chunk.spawnSeaAnimal(generator, chunkOdds, x, magicSeaSpawnY, z);
+			chunk.spawnSeaAnimals(generator, chunkOdds, x, magicSeaSpawnY, z);
 		} else {
 			int y = getBlockY(x, z);
 			y = chunk.findFirstEmptyAbove(x, y, z, getTopY(generator));
+			int count = chunkOdds.getRandomInt(1, 3);
 			if (!chunk.isWater(x, y - 1, z))
-				chunk.spawnVagrant(generator, chunkOdds, x, y, z);
+				chunk.spawnVagrants(generator, chunkOdds, x, y, z, count);
 		}
 	}
 

@@ -93,14 +93,21 @@ public class WoodworksLot extends ConstructLot {
 				chunk.setBlock(x + 4, y, z, Material.FURNACE);
 			break;
 		case 9:
+			int chestCount = 0;
 			if (chunkOdds.flipCoin()) {
 				for (int x1 = x + 1; x1 < x + 5; x1++)
-					if (chunkOdds.playOdds(Odds.oddsPrettyLikely))
-						chunk.setChest(generator, x1, y, z, General.NORTH, chunkOdds, generator.lootProvider, LootLocation.WOODWORKSOUTPUT);
+					if (chestCount < 2 && chunkOdds.playOdds(Odds.oddsPrettyLikely)) {
+						chunk.setChest(generator, x1, y, z, General.NORTH, chunkOdds, 
+								generator.lootProvider, LootLocation.WOODWORKSOUTPUT);
+						chestCount++;
+					}
 			} else {
 				for (int z1 = z + 1; z1 < z + 5; z1++)
-					if (chunkOdds.playOdds(Odds.oddsPrettyLikely))
-						chunk.setChest(generator, x + 3, y, z1, General.EAST, chunkOdds, generator.lootProvider, LootLocation.WOODWORKSOUTPUT);
+					if (chestCount < 2 && chunkOdds.playOdds(Odds.oddsPrettyLikely)) {
+						chunk.setChest(generator, x, y, z1, General.EAST, chunkOdds, 
+								generator.lootProvider, LootLocation.WOODWORKSOUTPUT);
+						chestCount++;
+					}
 			}
 			break;
 		case 10:

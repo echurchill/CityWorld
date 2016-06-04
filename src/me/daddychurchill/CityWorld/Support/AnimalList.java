@@ -19,6 +19,7 @@ public class AnimalList extends EntityList {
 			return super.getHerdSize(entity);
 		case WOLF:
 		case OCELOT:
+			return 1;
 		case HORSE:
 		case COW:
 		case MUSHROOM_COW:

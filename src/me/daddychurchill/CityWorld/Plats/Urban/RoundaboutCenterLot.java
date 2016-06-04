@@ -224,10 +224,7 @@ public class RoundaboutCenterLot extends IsolatedLot {
 					chunk.setBlocks(8, yWaterBottom, yWaterBottom + 4, 8, Material.PRISMARINE);
 					chunk.setSpawner(generator, chunkOdds, 8, yWaterBottom + 4, 8, generator.settings.spawns.itemsEntities_WaterPit);
 				} else {
-					chunk.spawnSeaAnimal(generator, chunkOdds, 7, yPitBottom - 2, 7);
-					chunk.spawnSeaAnimal(generator, chunkOdds, 7, yPitBottom - 2, 8);
-					chunk.spawnSeaAnimal(generator, chunkOdds, 8, yPitBottom - 2, 7);
-					chunk.spawnSeaAnimal(generator, chunkOdds, 8, yPitBottom - 2, 8);
+					chunk.spawnSeaAnimals(generator, chunkOdds, 7, yPitBottom - 2, 7);
 				}
 				
 				break;

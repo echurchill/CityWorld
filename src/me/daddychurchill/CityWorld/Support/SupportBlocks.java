@@ -952,54 +952,80 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	}
 	
 	// https://en.wikipedia.org/wiki/List_of_English_terms_of_venery,_by_animal
-	public final void spawnVeneryOfAnimals(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
+	public final void spawnAnimals(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
+		spawnAnimals(generator, odds, x, y, z, 
+				generator.settings.spawns.itemsEntities_Animals.getRandomEntity(odds));
+	}
+	
+	public final void spawnAnimals(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
 		if (!generator.settings.includeDecayedBuildings) {
-			EntityType entity = generator.settings.spawns.itemsEntities_Animals.getRandomEntity(odds);
 			switch (generator.settings.spawns.itemsEntities_Animals.getHerdSize(entity)) {
-			case 2:
-				spawnTwoAnimals(generator, odds, x, y, z, entity);
-				break;
-			case 4:
-				spawnFourAnimals(generator, odds, x, y, z, entity);
-				break;
-			case 6:
-				spawnSixAnimals(generator, odds, x, y, z, entity);
-				break;
 			default:
 				spawnAnimal(generator, odds, x, y, z, entity);
+				break;
+			case 2:
+				spawnAnimal(generator, odds, x, y, z, entity);
+				spawnAnimal(generator, odds, x + 1, y, z, entity);
+				break;
+			case 4:
+				spawnAnimal(generator, odds, x, y, z, entity);
+				spawnAnimal(generator, odds, x + 1, y, z, entity);
+				spawnAnimal(generator, odds, x, y, z + 1, entity);
+				spawnAnimal(generator, odds, x + 1, y, z + 1, entity);
+				break;
+			case 6:
+				spawnAnimal(generator, odds, x, y, z - 1, entity);
+				spawnAnimal(generator, odds, x + 1, y, z - 1, entity);
+				spawnAnimal(generator, odds, x, y, z, entity);
+				spawnAnimal(generator, odds, x + 1, y, z, entity);
+				spawnAnimal(generator, odds, x, y, z + 1, entity);
+				spawnAnimal(generator, odds, x + 1, y, z + 1, entity);
 				break;
 			}
 		}
 	}
 	
-	public final void spawnSixAnimals(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
-		spawnTwoAnimals(generator, odds, x, y, z - 1, entity);
-		spawnTwoAnimals(generator, odds, x, y, z, entity);
-		spawnTwoAnimals(generator, odds, x, y, z + 1, entity);
-	}
-	
-	public final void spawnFourAnimals(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
-		spawnTwoAnimals(generator, odds, x, y, z, entity);
-		spawnTwoAnimals(generator, odds, x, y, z + 1, entity);
-	}
-	
-	public final void spawnTwoAnimals(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
-		spawnAnimal(generator, odds, x, y, z, entity);
-		spawnAnimal(generator, odds, x + 1, y, z, entity);
-	}
-	
-	public final void spawnAnimal(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
-		spawnAnimal(generator, odds, x, y, z, generator.settings.spawns.itemsEntities_Animals.getRandomEntity(odds));
-	}
-
-	public final void spawnAnimal(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
+	private final void spawnAnimal(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
 		if (odds.playOdds(generator.settings.spawnAnimals))
 			spawnEntity(generator, x, y, z, entity, false, true);
 	}
 
-	public final void spawnSeaAnimal(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
+	public final void spawnSeaAnimals(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
+		spawnSeaAnimals(generator, odds, x, y, z, 
+				generator.settings.spawns.itemsEntities_SeaAnimals.getRandomEntity(odds));
+	}
+	
+	public final void spawnSeaAnimals(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
+		if (!generator.settings.includeDecayedBuildings) {
+			switch (generator.settings.spawns.itemsEntities_SeaAnimals.getHerdSize(entity)) {
+			default:
+				spawnSeaAnimal(generator, odds, x, y, z, entity);
+				break;
+			case 2:
+				spawnSeaAnimal(generator, odds, x, y, z, entity);
+				spawnSeaAnimal(generator, odds, x + 1, y, z, entity);
+				break;
+			case 4:
+				spawnSeaAnimal(generator, odds, x, y, z, entity);
+				spawnSeaAnimal(generator, odds, x + 1, y, z, entity);
+				spawnSeaAnimal(generator, odds, x, y, z + 1, entity);
+				spawnSeaAnimal(generator, odds, x + 1, y, z + 1, entity);
+				break;
+			case 6:
+				spawnSeaAnimal(generator, odds, x, y, z - 1, entity);
+				spawnSeaAnimal(generator, odds, x + 1, y, z - 1, entity);
+				spawnSeaAnimal(generator, odds, x, y, z, entity);
+				spawnSeaAnimal(generator, odds, x + 1, y, z, entity);
+				spawnSeaAnimal(generator, odds, x, y, z + 1, entity);
+				spawnSeaAnimal(generator, odds, x + 1, y, z + 1, entity);
+				break;
+			}
+		}
+	}
+	
+	private final void spawnSeaAnimal(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType entity) {
 		if (isWater(x, y, z) && odds.playOdds(generator.settings.spawnAnimals))
-			spawnEntity(generator, x, y, z, generator.settings.spawns.itemsEntities_SeaAnimals.getRandomEntity(odds), true, false);
+			spawnEntity(generator, x, y, z, entity, true, false);
 	}
 
 	public final void spawnBaddy(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
@@ -1012,30 +1038,41 @@ public abstract class SupportBlocks extends AbstractBlocks {
 											 generator.settings.spawns.itemsEntities_Baddies.getRandomEntity(odds));
 	}
 	
+	public final void spawnBeings(CityWorldGenerator generator, Odds odds, int x, int y, int z, int c) {
+		EntityType goodies = generator.settings.spawns.itemsEntities_Goodies.getRandomEntity(odds);
+		EntityType baddies = generator.settings.spawns.itemsEntities_Baddies.getRandomEntity(odds);
+		for (int i = 0; i < c; i++)
+			spawnBeing(generator, odds, x + i, y, z + i, goodies, baddies);
+	}
+	
 	public final void spawnBeing(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType buddy, EntityType baddy) {
-		if (odds.playOdds(generator.settings.spawnBeings) && !isEmpty(x, y - 1, z)) 
-			if (generator.settings.includeDecayedBuildings || odds.playOdds(generator.settings.spawnBaddies))
-				spawnEntity(generator, x, y, z, baddy, false, true);
-			else
-				spawnEntity(generator, x, y, z, buddy, false, true);
+		if (odds.playOdds(generator.settings.spawnBeings)) 
+			spawnGoodOrBad(generator, odds, x, y, z, buddy, baddy);
 	}
 	
 	public final void spawnVagrant(CityWorldGenerator generator, Odds odds, int x, int y, int z) {
-		if (odds.playOdds(generator.settings.spawnVagrants) && !isEmpty(x, y - 1, z)) 
-			if (generator.settings.includeDecayedBuildings || odds.playOdds(generator.settings.spawnBaddies))
-				spawnEntity(generator, x, y, z, generator.settings.spawns.itemsEntities_Baddies.getRandomEntity(odds), false, true);
-			else
-				spawnEntity(generator, x, y, z, generator.settings.spawns.itemsEntities_Vagrants.getRandomEntity(odds), false, true);
-	}
-	
-	public final void spawnBeings(CityWorldGenerator generator, Odds odds, int x, int y, int z, int c) {
-		for (int i = 0; i < c; i++)
-			spawnBeing(generator, odds, x + i, y, z + i);
+		spawnVagrant(generator, odds, x, y, z, generator.settings.spawns.itemsEntities_Vagrants.getRandomEntity(odds),
+											 generator.settings.spawns.itemsEntities_Baddies.getRandomEntity(odds));
 	}
 	
 	public final void spawnVagrants(CityWorldGenerator generator, Odds odds, int x, int y, int z, int c) {
+		EntityType vagrants = generator.settings.spawns.itemsEntities_Vagrants.getRandomEntity(odds);
+		EntityType baddies = generator.settings.spawns.itemsEntities_Baddies.getRandomEntity(odds);
 		for (int i = 0; i < c; i++)
-			spawnVagrant(generator, odds, x + i, y, z + i);
+			spawnVagrant(generator, odds, x + i, y, z + i, vagrants, baddies);
+	}
+	
+	private final void spawnVagrant(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType vagrant, EntityType baddy) {
+		if (odds.playOdds(generator.settings.spawnVagrants))
+			spawnGoodOrBad(generator, odds, x, y, z, vagrant, baddy);
+	}
+	
+	private final void spawnGoodOrBad(CityWorldGenerator generator, Odds odds, int x, int y, int z, EntityType good, EntityType baddy) {
+		if (!isEmpty(x, y, z) && !isEmpty(x, y - 1, z)) 
+			if (generator.settings.includeDecayedBuildings || odds.playOdds(generator.settings.spawnBaddies))
+				spawnEntity(generator, x, y, z, baddy, false, true);
+			else
+				spawnEntity(generator, x, y, z, good, false, true);
 	}
 	
 	public final void spawnEntity(CityWorldGenerator generator, int x, int y, int z, EntityType entity) {

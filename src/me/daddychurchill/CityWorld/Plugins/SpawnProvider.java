@@ -4,6 +4,8 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.CityWorldSettings;
 import me.daddychurchill.CityWorld.Support.AnimalList;
 import me.daddychurchill.CityWorld.Support.EntityList;
+import me.daddychurchill.CityWorld.Support.SeaAnimalList;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -78,7 +80,7 @@ public class SpawnProvider extends Provider {
 			EntityType.OCELOT);
 	
 	public final static String tagEntities_SeaAnimals = "Entities_For_SeaAnimals";
-	public EntityList itemsEntities_SeaAnimals = createList(tagEntities_SeaAnimals,
+	public EntityList itemsEntities_SeaAnimals = createSeaAnimalList(tagEntities_SeaAnimals,
 			EntityType.SQUID,
 			EntityType.SQUID,
 			EntityType.SQUID,
@@ -186,6 +188,10 @@ public class SpawnProvider extends Provider {
 	
 	private EntityList createAnimalList(String name, EntityType ... entities) {
 		return createList(new AnimalList(name, entities));
+	}
+	
+	private EntityList createSeaAnimalList(String name, EntityType ... entities) {
+		return createList(new SeaAnimalList(name, entities));
 	}
 	
 	public void read(CityWorldGenerator generator, ConfigurationSection section) {
