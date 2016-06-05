@@ -79,24 +79,24 @@ public class CachedYs {
 		return 0;
 	}
 	
-	public void lift(int h) {
-		// total height
-		int sumHeight = 0;
-		
-		// change the height
-		for (int x = 0; x < width; x++) {
-			for (int z = 0; z < width; z++) {
-				blockYs[x][z] = blockYs[x][z] + h;
-				
-				// keep the tally going
-				sumHeight += blockYs[x][z];
-				calcTally(blockYs[x][z], x, z);
-			}
-		}
-		
-		// what was the average height
-		averageHeight = sumHeight / (width * width);
-	}
+//	public void lift(int h) {
+//		// total height
+//		int sumHeight = 0;
+//		
+//		// change the height
+//		for (int x = 0; x < width; x++) {
+//			for (int z = 0; z < width; z++) {
+//				blockYs[x][z] = blockYs[x][z] + h;
+//				
+//				// keep the tally going
+//				sumHeight += blockYs[x][z];
+//				calcTally(blockYs[x][z], x, z);
+//			}
+//		}
+//		
+//		// what was the average height
+//		averageHeight = sumHeight / (width * width);
+//	}
 	
 //	public void draw(AbstractBlocks chunk) {
 //		for (int x = 0; x < width; x++) {

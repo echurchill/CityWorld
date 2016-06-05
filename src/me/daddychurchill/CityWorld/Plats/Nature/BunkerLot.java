@@ -156,11 +156,11 @@ public class BunkerLot extends ConnectedLot {
 //		generator.reportMessage("TopOfBunker = " + topOfBunker + " MinHeight = " + minHeight);
 		
 		// do it!
-		blockYs.lift(generateBunker(generator, platmap, chunk, chunkOdds, context, platX, platZ, blockYs,
-									bottomOfBunker, topOfBunker, buildingType));
+		int addTo = generateBunker(generator, platmap, chunk, chunkOdds, context, platX, platZ, blockYs,
+									bottomOfBunker, topOfBunker, buildingType);
 		
 		// add some surface
-		generateSurface(generator, chunk, true);
+		generateSurface(generator, chunk, addTo, true);
 	}
 	
 	private static class BunkerMaterials {

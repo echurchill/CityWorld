@@ -15,7 +15,6 @@ import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.Odds;
 
 public class WoodworksLot extends ConstructLot {
 
@@ -93,21 +92,18 @@ public class WoodworksLot extends ConstructLot {
 				chunk.setBlock(x + 4, y, z, Material.FURNACE);
 			break;
 		case 9:
-			int chestCount = 0;
+			General direction = General.NORTH;
 			if (chunkOdds.flipCoin()) {
-				for (int x1 = x + 1; x1 < x + 5; x1++)
-					if (chestCount < 2 && chunkOdds.playOdds(Odds.oddsPrettyLikely)) {
-						chunk.setChest(generator, x1, y, z, General.NORTH, chunkOdds, 
-								generator.lootProvider, LootLocation.WOODWORKSOUTPUT);
-						chestCount++;
-					}
+				if (chunkOdds.flipCoin())
+					direction = General.SOUTH;
+				chunk.setDoubleChest(generator, chunkOdds.calcRandomRange(x + 1, x + 4), y, z, direction, chunkOdds, 
+							generator.lootProvider, LootLocation.WOODWORKSOUTPUT);
 			} else {
-				for (int z1 = z + 1; z1 < z + 5; z1++)
-					if (chestCount < 2 && chunkOdds.playOdds(Odds.oddsPrettyLikely)) {
-						chunk.setChest(generator, x, y, z1, General.EAST, chunkOdds, 
-								generator.lootProvider, LootLocation.WOODWORKSOUTPUT);
-						chestCount++;
-					}
+				direction = General.WEST;
+				if (chunkOdds.flipCoin())
+					direction = General.EAST;
+				chunk.setDoubleChest(generator, x, y, chunkOdds.calcRandomRange(z + 1, z + 4), direction, chunkOdds, 
+						generator.lootProvider, LootLocation.WOODWORKSOUTPUT);
 			}
 			break;
 		case 10:

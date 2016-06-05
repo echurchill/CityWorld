@@ -552,9 +552,13 @@ public abstract class PlatLot {
 	}
 	
 	public void generateSurface(CityWorldGenerator generator, SupportBlocks chunk, boolean includeTrees) {
+		generateSurface(generator, chunk, 0, includeTrees);
+	}
+	
+	public void generateSurface(CityWorldGenerator generator, SupportBlocks chunk, int addTo, boolean includeTrees) {
 		
-		// plant grass or snow
-		generator.surfaceProvider.generateSurface(generator, this, chunk, blockYs, includeTrees);
+		// plant grass or snow... sometimes we want the sprinker to start a little higher
+		generator.surfaceProvider.generateSurface(generator, this, chunk, blockYs, addTo, includeTrees);
 	}
 	
 	protected boolean clearAir(CityWorldGenerator generator) {

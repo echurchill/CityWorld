@@ -30,10 +30,14 @@ public abstract class SurfaceProvider extends Provider {
 			int x, double perciseY, int z, boolean includeTrees);
 	
 	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CachedYs blockYs, boolean includeTrees) {
+		generateSurface(generator, lot, chunk, blockYs, 0, includeTrees);
+	}
+	
+	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CachedYs blockYs, int addTo, boolean includeTrees) {
 		CoverProvider foliage = generator.coverProvider;
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {
-				generateSurfacePoint(generator, lot, chunk, foliage, x, blockYs.getPerciseY(x, z), z, includeTrees);
+				generateSurfacePoint(generator, lot, chunk, foliage, x, blockYs.getPerciseY(x, z) + addTo, z, includeTrees);
 			}
 		}
 	}
