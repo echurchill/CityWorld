@@ -14,7 +14,7 @@ import org.bukkit.block.Biome;
 
 public abstract class OreProvider extends Provider {
 
-	public final static int lavaFluidLevel = 24;
+//	public final static int lavaFluidLevel = 24;
 	public final static int lavaFieldLevel = 12;
 	protected final static double oreSprinkleOdds = Odds.oddsHalvedPrettyLikely;
 	protected final static double snowSprinkleOdds = Odds.oddsThricedSomewhatUnlikely;

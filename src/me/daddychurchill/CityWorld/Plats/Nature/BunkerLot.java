@@ -159,7 +159,7 @@ public class BunkerLot extends ConnectedLot {
 		int addTo = generateBunker(generator, platmap, chunk, chunkOdds, context, platX, platZ, blockYs,
 									bottomOfBunker, topOfBunker, buildingType);
 		
-		// add some surface
+		// add some surface plus any height required by whatever got created
 		generateSurface(generator, chunk, addTo, true);
 	}
 	
