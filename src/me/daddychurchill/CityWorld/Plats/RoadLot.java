@@ -87,9 +87,9 @@ public class RoadLot extends ConnectedLot {
 		if (blockYs.maxHeight > topOfRoad + tunnelHeight)
 			topOfRoad += tunnelHeight;
 		
-		pavementMat = platmap.generator.settings.materials.itemsMaterialListFor_Roads.getNthMaterial(0, Material.STAINED_CLAY);
-		linesMat = platmap.generator.settings.materials.itemsMaterialListFor_Roads.getNthMaterial(1, Material.QUARTZ_BLOCK);
-		dirtroadMat = platmap.generator.settings.materials.itemsMaterialListFor_Roads.getNthMaterial(2, Material.STAINED_CLAY);
+		pavementMat = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(0, Material.STAINED_CLAY);
+		linesMat = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(1, Material.QUARTZ_BLOCK);
+		dirtroadMat = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(2, Material.STAINED_CLAY);
 
 		pavementIsClay = pavementMat == Material.STAINED_CLAY;
 		dirtroadIsClay = pavementMat == Material.STAINED_CLAY;
@@ -1171,9 +1171,9 @@ public class RoadLot extends ConnectedLot {
 		int z = chunkOdds.calcRandomRange(sidewalkWidth, 15 - sidewalkWidth);
 		int count = chunkOdds.getRandomInt(1, 3);
 		if (inACity)
-			chunk.spawnBeings(generator, chunkOdds, x, y, z, count);
+			generator.spawnProvider.spawnBeings(generator, chunk, chunkOdds, x, y, z, count);
 		else
-			chunk.spawnVagrants(generator, chunkOdds, x, y, z, count);
+			generator.spawnProvider.spawnVagrants(generator, chunk, chunkOdds, x, y, z, count);
 	}
 	
 	protected void decayRoad(RealBlocks chunk, int x1, int x2, int y, int z1, int z2) {
@@ -1334,6 +1334,7 @@ public class RoadLot extends ConnectedLot {
 	private void generateTrick(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z) {
 		
 		// not so cool stuff?
-		chunk.setSpawnOrSpawner(generator, chunkOdds, x, y, z, generator.settings.spawnersInSewers, generator.settings.spawns.itemsEntities_Sewers);
+		generator.spawnProvider.setSpawnOrSpawner(generator, chunk, chunkOdds, x, y, z, 
+				generator.settings.spawnersInSewers, generator.spawnProvider.itemsEntities_Sewers);
 	}
 }

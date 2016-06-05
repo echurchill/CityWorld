@@ -12,9 +12,11 @@ import me.daddychurchill.CityWorld.Plugins.CoverProvider;
 import me.daddychurchill.CityWorld.Plugins.TreeProvider;
 import me.daddychurchill.CityWorld.Plugins.StructureOnGroundProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
+import me.daddychurchill.CityWorld.Plugins.MaterialProvider;
 import me.daddychurchill.CityWorld.Plugins.OdonymProvider;
 import me.daddychurchill.CityWorld.Plugins.OreProvider;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
+import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -45,7 +47,6 @@ public class CityWorldGenerator extends ChunkGenerator {
 	public ShapeProvider shapeProvider;
 	public PasteProvider pasteProvider;
 	public LootProvider lootProvider;
-//	public SpawnProvider spawnProvider;
 	public OreProvider oreProvider;
 	public BonesProvider bonesProvider;
 	public SurfaceProvider surfaceProvider;
@@ -54,6 +55,8 @@ public class CityWorldGenerator extends ChunkGenerator {
 	public StructureInAirProvider structureInAirProvider;
 	public StructureOnGroundProvider structureOnGroundProvider;
 	public TreeProvider treeProvider;
+	public SpawnProvider spawnProvider;
+	public MaterialProvider materialProvider;
 	
 	public WorldBlocks decayBlocks;
 	
@@ -187,7 +190,6 @@ public class CityWorldGenerator extends ChunkGenerator {
 
 			shapeProvider = ShapeProvider.loadProvider(this, new Odds(getRelatedSeed()));
 			lootProvider = LootProvider.loadProvider(this);
-//			spawnProvider = SpawnProvider.loadProvider(this);
 			oreProvider = OreProvider.loadProvider(this);
 			bonesProvider = BonesProvider.loadProvider(this);
 			coverProvider = CoverProvider.loadProvider(this, new Odds(getRelatedSeed()));
@@ -196,6 +198,9 @@ public class CityWorldGenerator extends ChunkGenerator {
 			structureOnGroundProvider = StructureOnGroundProvider.loadProvider(this);
 			structureInAirProvider = StructureInAirProvider.loadProvider(this);
 			treeProvider = TreeProvider.loadProvider(this, new Odds(getRelatedSeed()));
+			spawnProvider = new SpawnProvider(this);
+			materialProvider = new MaterialProvider(this);
+			
 			pasteProvider = PasteProvider.loadProvider(this);
 			decayBlocks = new WorldBlocks(this, new Odds(getRelatedSeed()));
 			

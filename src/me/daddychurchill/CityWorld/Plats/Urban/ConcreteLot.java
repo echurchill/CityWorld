@@ -69,7 +69,7 @@ public class ConcreteLot extends BuildingLot {
 		Material sidewalkMaterial = getSidewalkMaterial();
 		Material fluid = generator.oreProvider.fluidMaterial;
 		Material atmosphere = generator.shapeProvider.findAtmosphereMaterialAt(generator, sidewalkLevel);
-		Material underneath = generator.settings.materials.itemsSelectMaterial_BuildingCeilings.getRandomMaterial(chunkOdds);
+		Material underneath = generator.materialProvider.itemsSelectMaterial_BuildingCeilings.getRandomMaterial(chunkOdds);
 		
 		chunk.setLayer(sidewalkLevel - 3, 3, underneath);
 		chunk.setLayer(sidewalkLevel, sidewalkMaterial);

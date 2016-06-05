@@ -164,7 +164,7 @@ public class RoundaboutCenterLot extends IsolatedLot {
 				// spawner?
 				if (generator.settings.spawnersInSewers) {
 					chunk.setBlocks(8, yPitBottom - 2, yPitBottom + 4, 8, Material.OBSIDIAN);
-					chunk.setSpawner(generator, chunkOdds, 8, yPitBottom + 4, 8, generator.settings.spawns.itemsEntities_LavaPit);
+					generator.spawnProvider.setSpawner(generator, chunk, chunkOdds, 8, yPitBottom + 4, 8, generator.spawnProvider.itemsEntities_LavaPit);
 				}
 				
 				break;
@@ -222,9 +222,9 @@ public class RoundaboutCenterLot extends IsolatedLot {
 				// spawner?
 				if (generator.settings.spawnersInSewers) {
 					chunk.setBlocks(8, yWaterBottom, yWaterBottom + 4, 8, Material.PRISMARINE);
-					chunk.setSpawner(generator, chunkOdds, 8, yWaterBottom + 4, 8, generator.settings.spawns.itemsEntities_WaterPit);
+					generator.spawnProvider.setSpawner(generator, chunk, chunkOdds, 8, yWaterBottom + 4, 8, generator.spawnProvider.itemsEntities_WaterPit);
 				} else {
-					chunk.spawnSeaAnimals(generator, chunkOdds, 7, yPitBottom - 2, 7);
+					generator.spawnProvider.spawnSeaAnimals(generator, chunk, chunkOdds, 7, yPitBottom - 2, 7);
 				}
 				
 				break;

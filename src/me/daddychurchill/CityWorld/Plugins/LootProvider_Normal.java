@@ -29,25 +29,25 @@ public class LootProvider_Normal extends LootProvider {
 		// which mix?
 		switch (lootLocation) {
 		case BUNKER:
-			return pickFromTreasures(generator.settings.materials.itemsRandomMaterials_BunkerChests, odds, 3, 2);
+			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_BunkerChests, odds, 3, 2);
 		case MINE:
-			return pickFromTreasures(generator.settings.materials.itemsRandomMaterials_MineChests, odds, 3, 2);
+			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_MineChests, odds, 3, 2);
 		case SEWER:
-			return pickFromTreasures(generator.settings.materials.itemsRandomMaterials_SewerChests, odds, 3, 2);
+			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_SewerChests, odds, 3, 2);
 		case STORAGESHED:
-			return pickFromTreasures(generator.settings.materials.itemsRandomMaterials_StorageShedChests, odds, 3, 2);
+			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_StorageShedChests, odds, 3, 2);
 		case FARMWORKS:
-			return pickFromTreasures(generator.settings.materials.itemsRandomMaterials_FarmChests, odds, 4, 2);
+			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_FarmChests, odds, 4, 2);
 		case FARMWORKSOUTPUT:
-			return pickFromTreasures(generator.settings.materials.itemsRandomMaterials_FarmOutputChests, odds, 8, 6);
+			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_FarmOutputChests, odds, 8, 6);
 		case WOODWORKS:
-			return pickFromTreasures(generator.settings.materials.itemsRandomMaterials_LumberChests, odds, 4, 2);
+			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_LumberChests, odds, 4, 2);
 		case WOODWORKSOUTPUT:
-			return pickFromTreasures(generator.settings.materials.itemsRandomMaterials_LumberOutputChests, odds, 8, 6);
+			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_LumberOutputChests, odds, 8, 6);
 		case STONEWORKS:
-			return pickFromTreasures(generator.settings.materials.itemsRandomMaterials_QuaryChests, odds, 4, 2);
+			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_QuaryChests, odds, 4, 2);
 		case STONEWORKSOUTPUT:
-			return pickFromTreasures(generator.settings.materials.itemsRandomMaterials_QuaryOutputChests, odds, 10, 6);
+			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_QuaryOutputChests, odds, 10, 6);
 		case RANDOM:
 			lootLocation = LootLocation.values()[odds.getRandomInt(LootLocation.values().length - 1) + 1];
 			return getLoot(generator, odds, lootLocation, block);

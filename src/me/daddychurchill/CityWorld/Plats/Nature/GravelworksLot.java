@@ -53,7 +53,7 @@ public class GravelworksLot extends GravelLot {
 			generateBase(generator, chunk);
 			generator.structureOnGroundProvider.generateShed(generator, chunk, context, chunkOdds, 7, generator.streetLevel + 1, 7, 
 					chunkOdds.getRandomInt(2, 2), LootLocation.STONEWORKS, LootLocation.STONEWORKSOUTPUT);
-			chunk.spawnBeing(generator, chunkOdds, 7, generator.streetLevel + 1, 7);
+			generator.spawnProvider.spawnBeing(generator, chunk, chunkOdds, 7, generator.streetLevel + 1, 7);
 			break;
 			
 		case 3:

@@ -21,17 +21,17 @@ public class OreProvider_Nether extends OreProvider {
 		fluidSubsurfaceMaterial = Material.LAVA;
 		fluidSurfaceMaterial = Material.LAVA;
 		
-		ore_types.add(generator.settings.materials.itemsMaterialListFor_NetherOres.getNthMaterial(0, Material.LAVA));
-		ore_types.add(generator.settings.materials.itemsMaterialListFor_NetherOres.getNthMaterial(1, Material.LAVA));
-		ore_types.add(generator.settings.materials.itemsMaterialListFor_NetherOres.getNthMaterial(2, Material.SOUL_SAND));
-		ore_types.add(generator.settings.materials.itemsMaterialListFor_NetherOres.getNthMaterial(3, Material.SOUL_SAND));
-		ore_types.add(generator.settings.materials.itemsMaterialListFor_NetherOres.getNthMaterial(4, Material.GLOWSTONE));
+		ore_types.add(generator.materialProvider.itemsMaterialListFor_NetherOres.getNthMaterial(0, Material.LAVA));
+		ore_types.add(generator.materialProvider.itemsMaterialListFor_NetherOres.getNthMaterial(1, Material.LAVA));
+		ore_types.add(generator.materialProvider.itemsMaterialListFor_NetherOres.getNthMaterial(2, Material.SOUL_SAND));
+		ore_types.add(generator.materialProvider.itemsMaterialListFor_NetherOres.getNthMaterial(3, Material.SOUL_SAND));
+		ore_types.add(generator.materialProvider.itemsMaterialListFor_NetherOres.getNthMaterial(4, Material.GLOWSTONE));
 		
-		ore_types.add(generator.settings.materials.itemsMaterialListFor_NetherOres.getNthMaterial(5, Material.GLOWSTONE));
-		ore_types.add(generator.settings.materials.itemsMaterialListFor_NetherOres.getNthMaterial(6, Material.QUARTZ_ORE));
-		ore_types.add(generator.settings.materials.itemsMaterialListFor_NetherOres.getNthMaterial(7, Material.SOUL_SAND));
-		ore_types.add(generator.settings.materials.itemsMaterialListFor_NetherOres.getNthMaterial(8, Material.SOUL_SAND));
-		ore_types.add(generator.settings.materials.itemsMaterialListFor_NetherOres.getNthMaterial(9, Material.OBSIDIAN));
+		ore_types.add(generator.materialProvider.itemsMaterialListFor_NetherOres.getNthMaterial(5, Material.GLOWSTONE));
+		ore_types.add(generator.materialProvider.itemsMaterialListFor_NetherOres.getNthMaterial(6, Material.QUARTZ_ORE));
+		ore_types.add(generator.materialProvider.itemsMaterialListFor_NetherOres.getNthMaterial(7, Material.SOUL_SAND));
+		ore_types.add(generator.materialProvider.itemsMaterialListFor_NetherOres.getNthMaterial(8, Material.SOUL_SAND));
+		ore_types.add(generator.materialProvider.itemsMaterialListFor_NetherOres.getNthMaterial(9, Material.OBSIDIAN));
 	}
 
 	@Override

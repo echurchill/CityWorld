@@ -174,11 +174,11 @@ public class BunkerLot extends ConnectedLot {
 		public Material window = Material.GLASS;
 		
 		public BunkerMaterials(CityWorldGenerator generator, Odds odds) {
-			platform = generator.settings.materials.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds, platform);
-			crosswalk = generator.settings.materials.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds, crosswalk);
-			support = generator.settings.materials.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds, support);
-			building = generator.settings.materials.itemsSelectMaterial_BunkerBuildings.getRandomMaterial(odds, building);
-			bilge = generator.settings.materials.itemsSelectMaterial_BunkerBilge.getRandomMaterial(odds, bilge);
+			platform = generator.materialProvider.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds, platform);
+			crosswalk = generator.materialProvider.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds, crosswalk);
+			support = generator.materialProvider.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds, support);
+			building = generator.materialProvider.itemsSelectMaterial_BunkerBuildings.getRandomMaterial(odds, building);
+			bilge = generator.materialProvider.itemsSelectMaterial_BunkerBilge.getRandomMaterial(odds, bilge);
 		}
 	}
 	
@@ -694,7 +694,7 @@ public class BunkerLot extends ConnectedLot {
 		
 		// fill it in
 		chunk.setBlocks(x1, x2, yBottom + 1, yBottom + ((yTop - yBottom) / 3) * 2, z1, z2, 
-				generator.settings.materials.itemsSelectMaterial_BunkerTanks.getRandomMaterial(odds));
+				generator.materialProvider.itemsSelectMaterial_BunkerTanks.getRandomMaterial(odds));
 		
 		// lift the surface? NOPE
 		return 0;
@@ -847,7 +847,8 @@ public class BunkerLot extends ConnectedLot {
 	private static void generateTrick(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y, int z) {
 
 		// not so cool stuff?
-		chunk.setSpawnOrSpawner(generator, odds, x, y, z, generator.settings.spawnersInBunkers, generator.settings.spawns.itemsEntities_Bunker);
+		generator.spawnProvider.setSpawnOrSpawner(generator, chunk, odds, x, y, z, 
+				generator.settings.spawnersInBunkers, generator.spawnProvider.itemsEntities_Bunker);
 	}
 	
 	private static BunkerType getRandomBunkerType(Odds chunkOdds, boolean firstOne) {

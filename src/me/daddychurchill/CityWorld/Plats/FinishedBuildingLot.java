@@ -128,9 +128,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		otherFloorHeight = aboveFloorHeight;
 		
 		// what is it made of?
-		wallMaterial = platmap.generator.settings.materials.itemsSelectMaterial_BuildingWalls.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
-		ceilingMaterial = platmap.generator.settings.materials.itemsSelectMaterial_BuildingCeilings.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
-		roofMaterial = platmap.generator.settings.materials.itemsSelectMaterial_BuildingRoofs.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
+		wallMaterial = platmap.generator.materialProvider.itemsSelectMaterial_BuildingWalls.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
+		ceilingMaterial = platmap.generator.materialProvider.itemsSelectMaterial_BuildingCeilings.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
+		roofMaterial = platmap.generator.materialProvider.itemsSelectMaterial_BuildingRoofs.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
 		columnMaterial = pickColumnMaterial(wallMaterial);
 		stairMaterial = pickStairMaterial(wallMaterial);
 		doorMaterial = pickDoorMaterial(wallMaterial);
@@ -150,7 +150,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		roofScale = 1 + chunkOdds.getRandomInt(2);
 		
 		interiorStyle = pickInteriorStyle();
-		columnMaterial = platmap.generator.settings.materials.itemsSelectMaterial_BuildingWalls.getRandomMaterial(chunkOdds);
+		columnMaterial = platmap.generator.materialProvider.itemsSelectMaterial_BuildingWalls.getRandomMaterial(chunkOdds);
 		
 		wallsWE = new OutsideWEWallFactory(chunkOdds, platmap.generator.settings.includeDecayedBuildings);
 		wallsNS = new OutsideNSWallFactory(wallsWE);

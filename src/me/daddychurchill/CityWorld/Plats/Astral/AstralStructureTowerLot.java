@@ -30,15 +30,15 @@ public abstract class AstralStructureTowerLot extends AstralStructureLot {
 	protected void generateTower(CityWorldGenerator generator, RealBlocks chunk, TowerStyle style) {
 		
 		// set things up for darkness
-		Material wallMaterial = generator.settings.materials.itemsSelectMaterial_AstralTowerDark.getRandomMaterial(chunkOdds, Material.OBSIDIAN);
-		Material trimMaterial = generator.settings.materials.itemsSelectMaterial_AstralTowerTrim.getRandomMaterial(chunkOdds, Material.AIR);
+		Material wallMaterial = generator.materialProvider.itemsSelectMaterial_AstralTowerDark.getRandomMaterial(chunkOdds, Material.OBSIDIAN);
+		Material trimMaterial = generator.materialProvider.itemsSelectMaterial_AstralTowerTrim.getRandomMaterial(chunkOdds, Material.AIR);
 		DyeColor windowPrimaryColor = DyeColor.BLACK;
 		DyeColor windowSecondaryColor = DyeColor.PURPLE;
 		
 		// adjust for lightness
 		if (style == TowerStyle.LIGHT) {
-			wallMaterial = generator.settings.materials.itemsSelectMaterial_AstralTowerLight.getRandomMaterial(chunkOdds, Material.ENDER_STONE);
-			trimMaterial = generator.settings.materials.itemsSelectMaterial_AstralTowerTrim.getRandomMaterial(chunkOdds, Material.GLOWSTONE);
+			wallMaterial = generator.materialProvider.itemsSelectMaterial_AstralTowerLight.getRandomMaterial(chunkOdds, Material.ENDER_STONE);
+			trimMaterial = generator.materialProvider.itemsSelectMaterial_AstralTowerTrim.getRandomMaterial(chunkOdds, Material.GLOWSTONE);
 			windowPrimaryColor = DyeColor.WHITE;
 			windowSecondaryColor = DyeColor.SILVER;
 		}
@@ -132,14 +132,14 @@ public abstract class AstralStructureTowerLot extends AstralStructureLot {
 
 	private Material getSpecialOre(CityWorldGenerator generator) {
 		if (chunkOdds.playOdds(oddsOfSpecialOre))
-			return generator.settings.materials.itemsSelectMaterial_AstralTowerOres.getRandomMaterial(chunkOdds);
+			return generator.materialProvider.itemsSelectMaterial_AstralTowerOres.getRandomMaterial(chunkOdds);
 		else
 			return specialHallMaterial;
 	}
 	
 	private Material getHallMaterial(CityWorldGenerator generator) {
 		if (chunkOdds.playOdds(oddsOfSpecialHall))
-			return generator.settings.materials.itemsSelectMaterial_AstralTowerHalls.getRandomMaterial(chunkOdds, specialHallMaterial);
+			return generator.materialProvider.itemsSelectMaterial_AstralTowerHalls.getRandomMaterial(chunkOdds, specialHallMaterial);
 		else
 			return emptyHallMaterial;
 	}

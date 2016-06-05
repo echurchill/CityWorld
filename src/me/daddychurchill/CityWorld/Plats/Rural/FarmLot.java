@@ -313,7 +313,7 @@ public class FarmLot extends ConnectedLot {
 				break;
 			case PADDOCK:
 				generateSurface(generator, chunk, false);
-				chunk.spawnAnimals(generator, chunkOdds, 7, cropY, 7);
+				generator.spawnProvider.spawnAnimals(generator, chunk, chunkOdds, 7, cropY, 7);
 				break;
 			case VINES:
 				plantVineyard(chunk, croplevel, Material.VINE);

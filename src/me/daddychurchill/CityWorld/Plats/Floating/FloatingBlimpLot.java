@@ -88,7 +88,7 @@ public class FloatingBlimpLot extends IsolatedLot {
 			int platZ) {
 		if (generator.settings.includeDecayedBuildings)
 			destroyLot(generator, generator.streetLevel - 1, generator.streetLevel + 3);
-		chunk.spawnBeing(generator, chunkOdds, 8, generator.streetLevel + 1, 8);
+		generator.spawnProvider.spawnBeing(generator, chunk, chunkOdds, 8, generator.streetLevel + 1, 8);
 		
 		// what type of balloon?
 		StructureInAirProvider balloons = generator.structureInAirProvider;

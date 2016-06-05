@@ -92,11 +92,11 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 		int roofAt = skywalkAt + skywalkHeight;
 		
 		Material airMat = generator.shapeProvider.findAtmosphereMaterialAt(generator, groundY);
-		Material wallMat = generator.settings.materials.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_BRICK);
-		Material officeMat = generator.settings.materials.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_BRICK);
-		Material supportMat = generator.settings.materials.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.CLAY);
-		Material smokestackMat = generator.settings.materials.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.CLAY);
-		Material fluidMat = generator.settings.materials.itemsSelectMaterial_FactoryTanks.getRandomMaterial(chunkOdds, Material.STATIONARY_WATER);
+		Material wallMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_BRICK);
+		Material officeMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_BRICK);
+		Material supportMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.CLAY);
+		Material smokestackMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.CLAY);
+		Material fluidMat = generator.materialProvider.itemsSelectMaterial_FactoryTanks.getRandomMaterial(chunkOdds, Material.STATIONARY_WATER);
 
 		switch (contentStyle) {
 		case OFFICE:
@@ -107,7 +107,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			chunk.setWalls(3, 13, groundY + 2, skywalkAt, 3, 13, officeMat);
 			chunk.setBlocks(3, 13, skywalkAt, 3, 13, officeMat);
 			generateOpenings(chunk, groundY);
-			chunk.spawnBeing(generator, chunkOdds, 7, groundY, 7);
+			generator.spawnProvider.spawnBeing(generator, chunk, chunkOdds, 7, groundY, 7);
 			
 			// room for middle floor?
 			if (groundY + aboveFloorHeight <= skywalkAt - aboveFloorHeight) {
@@ -122,7 +122,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			chunk.setWalls(3, 13, skywalkAt + 3, skywalkAt + 4, 3, 13, officeMat);
 			chunk.setBlocks(3, 13, skywalkAt + 4, 3, 13, officeMat);
 			generateOpenings(chunk, skywalkAt + 1);
-			chunk.spawnBeing(generator, chunkOdds, 7, skywalkAt + 1, 7);
+			generator.spawnProvider.spawnBeing(generator, chunk, chunkOdds, 7, skywalkAt + 1, 7);
 			
 			chunk.setBlocks(5, groundY, skywalkAt + 2, 5, officeMat);
 			chunk.setLadder(5, groundY, skywalkAt + 2, 6, BlockFace.NORTH);

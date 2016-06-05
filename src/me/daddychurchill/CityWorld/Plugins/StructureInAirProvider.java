@@ -77,7 +77,7 @@ public class StructureInAirProvider extends Provider {
 		chunk.setBlocks(6, 10, bottomY, 6, 10, Material.HAY_BLOCK);
 		chunk.setWalls(5, 11, bottomY + 1, bottomY + 2, 5, 11, Material.HAY_BLOCK);
 
-		chunk.spawnBeing(generator, odds, 7, bottomY + 1, 7);
+		generator.spawnProvider.spawnBeing(generator, chunk, odds, 7, bottomY + 1, 7);
 		
 		attachString(chunk, 5, bottomY + 2, balloonY1, 5);
 		attachString(chunk, 5, bottomY + 2, balloonY1, 10);

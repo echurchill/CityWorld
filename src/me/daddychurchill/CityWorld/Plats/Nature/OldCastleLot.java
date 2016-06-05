@@ -24,17 +24,17 @@ public class OldCastleLot extends ConstructLot {
 		
 		trulyIsolated = true;
 		
-		platformMaterial = platmap.generator.settings.materials.itemsSelectMaterial_Castles.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
+		platformMaterial = platmap.generator.materialProvider.itemsSelectMaterial_Castles.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
 		
 		if (chunkOdds.playOdds(Odds.oddsPrettyLikely))
 			wallMaterial = platformMaterial;
 		else
-			wallMaterial = platmap.generator.settings.materials.itemsSelectMaterial_Castles.getRandomMaterial(chunkOdds, platformMaterial);
+			wallMaterial = platmap.generator.materialProvider.itemsSelectMaterial_Castles.getRandomMaterial(chunkOdds, platformMaterial);
 
 		if (chunkOdds.playOdds(Odds.oddsSomewhatLikely))
 			supportMaterial = platformMaterial;
 		else
-			supportMaterial = platmap.generator.settings.materials.itemsSelectMaterial_Castles.getRandomMaterial(chunkOdds, platformMaterial);
+			supportMaterial = platmap.generator.materialProvider.itemsSelectMaterial_Castles.getRandomMaterial(chunkOdds, platformMaterial);
 		
 	}
 	
@@ -207,6 +207,6 @@ public class OldCastleLot extends ConstructLot {
 		int x = 7;
 		int z = 7;
 		int y = chunk.findFirstEmpty(x, y2, z, y1, y3);
-		chunk.spawnBeing(generator, chunkOdds, x, y, z, EntityType.IRON_GOLEM, EntityType.WITCH);
+		generator.spawnProvider.spawnBeing(generator, chunk, chunkOdds, x, y, z, EntityType.IRON_GOLEM, EntityType.WITCH);
 	}
 }

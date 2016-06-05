@@ -504,7 +504,8 @@ public abstract class PlatLot {
 
 	private void generateMineTrick(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z) {
 		// not so cool stuff?
-		chunk.setSpawnOrSpawner(generator, chunkOdds, x, y, z, generator.settings.spawnersInMines, generator.settings.spawns.itemsEntities_Mine);
+		generator.spawnProvider.setSpawnOrSpawner(generator, chunk, chunkOdds, x, y, z, 
+				generator.settings.spawnersInMines, generator.spawnProvider.itemsEntities_Mine);
 	}
 
 	public boolean isValidStrataY(CityWorldGenerator generator, int blockX, int blockY, int blockZ) {

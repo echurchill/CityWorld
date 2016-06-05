@@ -313,7 +313,7 @@ public class BarnLot extends IsolatedLot {
 	}
 	
 	private void spawnHorses(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
-		chunk.spawnAnimals(generator, chunkOdds, x, y, z, EntityType.HORSE);
+		generator.spawnProvider.spawnAnimals(generator, chunk, chunkOdds, x, y, z, EntityType.HORSE);
 	}
 	
 	private void punchWindows(RealBlocks chunk, int y) {

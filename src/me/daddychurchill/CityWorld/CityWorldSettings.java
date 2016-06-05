@@ -1,7 +1,5 @@
 package me.daddychurchill.CityWorld;
 
-import me.daddychurchill.CityWorld.Plugins.MaterialProvider;
-import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider_Floating;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider_Floating.SubSurfaceStyle;
 import me.daddychurchill.CityWorld.Plugins.TreeProvider;
@@ -14,9 +12,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.Vector;
 
 public class CityWorldSettings {
-	
-	public MaterialProvider materials;
-	public SpawnProvider spawns;
 	
 	public boolean darkEnvironment;
 	
@@ -171,10 +166,6 @@ public class CityWorldSettings {
 		// Initialize based world style settings
 		validateSettingsAgainstWorldStyle(generator);
 		
-		// Things that server operators can customize
-		materials = new MaterialProvider(generator, this);
-		spawns = new SpawnProvider(generator, this);
-		
 		//generator.reportMessage("Items.Count = " + itemsTreasureInBunkers.count());
 		
 		// see if the new configuration is out there?
@@ -309,8 +300,8 @@ public class CityWorldSettings {
 			treasuresInMines = section.getBoolean(tagTreasuresInMines, treasuresInMines);
 			treasuresInSewers = section.getBoolean(tagTreasuresInSewers, treasuresInSewers);
 
-			materials.read(generator, section);
-			spawns.read(generator, section);
+			generator.materialProvider.read(generator, section);
+			generator.spawnProvider.read(generator, section);
 			
 			includeUndergroundFluids = section.getBoolean(tagIncludeUndergroundFluids, includeUndergroundFluids);
 			includeAbovegroundFluids = section.getBoolean(tagIncludeAbovegroundFluids, includeAbovegroundFluids);
@@ -449,8 +440,8 @@ public class CityWorldSettings {
 			section.set(tagCityChunkRadius, cityChunkRadius);
 			section.set(tagBuildOutsideRadius, buildOutsideRadius);
 			
-			materials.write(generator, section);
-			spawns.write(generator, section);
+			generator.materialProvider.write(generator, section);
+			generator.spawnProvider.write(generator, section);
 			
 			//===========================================================================
 			// note the depreciations

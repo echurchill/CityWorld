@@ -7,7 +7,6 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
-import me.daddychurchill.CityWorld.CityWorldSettings;
 import me.daddychurchill.CityWorld.Support.MaterialList;
 
 public class MaterialProvider {
@@ -649,7 +648,7 @@ public class MaterialProvider {
 	
 	private List<MaterialList> listOfLists;
 	
-	public MaterialProvider(CityWorldGenerator generator, CityWorldSettings settings) {
+	public MaterialProvider(CityWorldGenerator generator) {
 	}
 	
 	private MaterialList createList(String name, Material ... materials) {

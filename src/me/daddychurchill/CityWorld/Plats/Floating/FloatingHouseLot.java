@@ -79,7 +79,7 @@ public class FloatingHouseLot extends ConstructLot {
 			destroyBuilding(generator, groundLevel + 1, floors);
 		else
 			generateSurface(generator, chunk, false);
-		chunk.spawnBeing(generator, chunkOdds, 5, groundLevel + 1, 5);
+		generator.spawnProvider.spawnBeing(generator, chunk, chunkOdds, 5, groundLevel + 1, 5);
 
 		// add balloons on the corners
 		generator.structureInAirProvider.generateBalloon(generator, chunk, context, 2, groundLevel + 2, 2, chunkOdds);

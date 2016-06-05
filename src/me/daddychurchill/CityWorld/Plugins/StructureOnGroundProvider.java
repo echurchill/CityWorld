@@ -49,8 +49,8 @@ public class StructureOnGroundProvider extends Provider {
 		int xR = x2 - x1 - 2;
 		int zR = z2 - z1 - 2;
 		
-		Material wallMat = generator.settings.materials.itemsSelectMaterial_ShedWalls.getRandomMaterial(odds, Material.COBBLESTONE);
-		Material roofMat = generator.settings.materials.itemsSelectMaterial_ShedRoofs.getRandomMaterial(odds, Material.COBBLESTONE);
+		Material wallMat = generator.materialProvider.itemsSelectMaterial_ShedWalls.getRandomMaterial(odds, Material.COBBLESTONE);
+		Material roofMat = generator.materialProvider.itemsSelectMaterial_ShedRoofs.getRandomMaterial(odds, Material.COBBLESTONE);
 		
 		chunk.setWalls(x1, x2, y1, y2, z1, z2, wallMat);
 		chunk.setBlocks(x1 + 1, x2 - 1, y2, z1 + 1, z2 - 1, roofMat);
@@ -244,9 +244,9 @@ public class StructureOnGroundProvider extends Provider {
 	public int generateRuralShack(CityWorldGenerator generator, RealBlocks chunk, DataContext context, Odds odds, int baseY, int roomWidth) {
 		
 		// what are we made of?
-		Material matWall = generator.settings.materials.itemsSelectMaterial_ShackWalls.getRandomMaterial(odds, Material.COBBLESTONE);
-		Material matFloor = generator.settings.materials.itemsSelectMaterial_ShackWalls.getRandomMaterial(odds, Material.COBBLESTONE);
-		Material matRoof = generator.settings.materials.itemsSelectMaterial_ShackRoofs.getRandomMaterial(odds, Material.COBBLESTONE);
+		Material matWall = generator.materialProvider.itemsSelectMaterial_ShackWalls.getRandomMaterial(odds, Material.COBBLESTONE);
+		Material matFloor = generator.materialProvider.itemsSelectMaterial_ShackWalls.getRandomMaterial(odds, Material.COBBLESTONE);
+		Material matRoof = generator.materialProvider.itemsSelectMaterial_ShackRoofs.getRandomMaterial(odds, Material.COBBLESTONE);
 		Material matCeiling = matRoof;
 		HouseRoofStyle styleRoof = HouseRoofStyle.FLAT;
 		int floors = 1;
@@ -261,10 +261,10 @@ public class StructureOnGroundProvider extends Provider {
 	public int generateHouse(CityWorldGenerator generator, RealBlocks chunk, DataContext context, Odds odds, int baseY, int maxFloors, int maxRoomWidth) {
 		
 		// what are we made of?
-		Material matWall = generator.settings.materials.itemsSelectMaterial_HouseWalls.getRandomMaterial(odds, Material.COBBLESTONE);
-		Material matFloor = generator.settings.materials.itemsSelectMaterial_HouseFloors.getRandomMaterial(odds, Material.COBBLESTONE);
-		Material matCeiling = generator.settings.materials.itemsSelectMaterial_HouseCeilings.getRandomMaterial(odds, Material.COBBLESTONE);
-		Material matRoof = generator.settings.materials.itemsSelectMaterial_HouseRoofs.getRandomMaterial(odds, Material.COBBLESTONE);
+		Material matWall = generator.materialProvider.itemsSelectMaterial_HouseWalls.getRandomMaterial(odds, Material.COBBLESTONE);
+		Material matFloor = generator.materialProvider.itemsSelectMaterial_HouseFloors.getRandomMaterial(odds, Material.COBBLESTONE);
+		Material matCeiling = generator.materialProvider.itemsSelectMaterial_HouseCeilings.getRandomMaterial(odds, Material.COBBLESTONE);
+		Material matRoof = generator.materialProvider.itemsSelectMaterial_HouseRoofs.getRandomMaterial(odds, Material.COBBLESTONE);
 		HouseRoofStyle styleRoof = pickRoofStyle(odds);
 		int floors = odds.getRandomInt(maxFloors) + 1;
 		
@@ -1066,8 +1066,8 @@ public class StructureOnGroundProvider extends Provider {
 		int y2 = y1 + 7;
 		int y3 = y2 + 6;
 
-		Material legMat = generator.settings.materials.itemsSelectMaterial_WaterTowers.getRandomMaterial(odds, Material.CLAY);
-		Material topMat = generator.settings.materials.itemsSelectMaterial_WaterTowers.getRandomMaterial(odds, Material.STAINED_CLAY);
+		Material legMat = generator.materialProvider.itemsSelectMaterial_WaterTowers.getRandomMaterial(odds, Material.CLAY);
+		Material topMat = generator.materialProvider.itemsSelectMaterial_WaterTowers.getRandomMaterial(odds, Material.STAINED_CLAY);
 		
 		DyeColor platformColor = odds.getRandomDarkColor();
 		DyeColor tankColor = odds.getRandomLightColor();

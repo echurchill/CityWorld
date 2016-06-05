@@ -30,11 +30,11 @@ public class MazeNatureLot extends NatureLot {
 	protected final static int mazeDepth = 3;
 	
 	protected Material getWallMaterial(CityWorldGenerator generator) {
-		return generator.settings.materials.itemsMaterialListFor_MazeWalls.getNthMaterial(0, Material.OBSIDIAN);
+		return generator.materialProvider.itemsMaterialListFor_MazeWalls.getNthMaterial(0, Material.OBSIDIAN);
 	}
 	
 	protected Material getLaymentMaterial(CityWorldGenerator generator) {
-		return generator.settings.materials.itemsMaterialListFor_MazeWalls.getNthMaterial(1, Material.OBSIDIAN);
+		return generator.materialProvider.itemsMaterialListFor_MazeWalls.getNthMaterial(1, Material.OBSIDIAN);
 	}
 	
 	@Override

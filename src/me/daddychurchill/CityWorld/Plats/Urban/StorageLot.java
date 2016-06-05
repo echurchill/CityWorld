@@ -57,7 +57,7 @@ public class StorageLot extends BuildingLot {
 		}
 
 		// top it off
-		Material floorMat = generator.settings.materials.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_BRICK);
+		Material floorMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_BRICK);
 		chunk.setLayer(groundY, 2, floorMat);
 //		chunk.setLayer(groundY + 1, RoadLot.pavementId);
 		
@@ -81,8 +81,8 @@ public class StorageLot extends BuildingLot {
 			generator.structureOnGroundProvider.generateShed(generator, chunk, context, chunkOdds, 7, groundY, 7, 2 + chunkOdds.getRandomInt(2), LootLocation.STORAGESHED);
 			break;
 		case TANK:
-			Material wallMat = generator.settings.materials.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_BRICK);
-			Material fluidMat = generator.settings.materials.itemsSelectMaterial_FactoryTanks.getRandomMaterial(chunkOdds, Material.STATIONARY_WATER);
+			Material wallMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_BRICK);
+			Material fluidMat = generator.materialProvider.itemsSelectMaterial_FactoryTanks.getRandomMaterial(chunkOdds, Material.STATIONARY_WATER);
 			
 			chunk.setCircle(8, 8, 6, groundY + 1, groundY + 2 + chunkOdds.getRandomInt(6), fluidMat, true);
 			chunk.setCircle(8, 8, 6, groundY, topY - 3, wallMat);
@@ -95,7 +95,7 @@ public class StorageLot extends BuildingLot {
 		// it looked so nice for a moment... but the moment has passed
 		if (generator.settings.includeDecayedBuildings)
 			destroyLot(generator, groundY, groundY + 4);
-		chunk.spawnBeing(generator, chunkOdds, 7, groundY, 7);
+		generator.spawnProvider.spawnBeing(generator, chunk, chunkOdds, 7, groundY, 7);
 	}
 
 	@Override
