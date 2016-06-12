@@ -33,8 +33,8 @@ public abstract class PlatLot {
 	public boolean trulyIsolated;
 	public boolean inACity;
 	
-	private Material pavementSidewalk;
-	private Material dirtroadSidewalk;
+	protected Material pavementSidewalk;
+	protected Material dirtroadSidewalk;
 	
 	public PlatLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super();
