@@ -45,7 +45,7 @@ public class SurfaceProvider_SnowDunes extends SurfaceProvider_Flooded {
 			// ok create a snowman above the snow
 			int manY = chunk.findFirstEmptyAbove(x, floodY - 1, z, floodY + 6);
 			if (chunk.isType(x, manY - 1, z, Material.SNOW_BLOCK))
-				generator.spawnProvider.spawnBeing(generator, chunk, odds, x, manY + 1, z, EntityType.SNOWMAN, EntityType.SLIME);
+				generator.spawnProvider.spawnBeing(generator, chunk, odds, x, manY + 1, z, EntityType.SNOWMAN, EntityType.POLAR_BEAR);
 		}			
 	}
 }

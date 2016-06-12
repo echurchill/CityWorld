@@ -33,6 +33,9 @@ public abstract class PlatLot {
 	public boolean trulyIsolated;
 	public boolean inACity;
 	
+	private Material pavementSidewalk;
+	private Material dirtroadSidewalk;
+	
 	public PlatLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super();
 		this.chunkX = chunkX;
@@ -40,6 +43,12 @@ public abstract class PlatLot {
 		this.style = LotStyle.NATURE;
 		this.trulyIsolated = false;
 		this.inACity = platmap.generator.settings.inCityRange(chunkX, chunkZ);
+
+		// pavement is 0, read in RoadLot
+		// lines is 1, read in RoadLot
+		pavementSidewalk = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(2, Material.STEP);
+		// dirt is 3, read in RoadLot
+		dirtroadSidewalk = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(4, Material.DIRT);
 		
 		initializeDice(platmap, chunkX, chunkZ);
 
@@ -107,9 +116,9 @@ public abstract class PlatLot {
 	
 	protected Material getSidewalkMaterial() {
 		if (inACity)
-			return Material.STEP;
+			return pavementSidewalk;
 		else
-			return Material.STAINED_CLAY;
+			return dirtroadSidewalk;
 	}
 	
 	protected int getBlockY(int x, int z) {

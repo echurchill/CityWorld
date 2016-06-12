@@ -89,10 +89,12 @@ public class RoadLot extends ConnectedLot {
 		
 		pavementMat = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(0, Material.STAINED_CLAY);
 		linesMat = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(1, Material.QUARTZ_BLOCK);
-		dirtroadMat = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(2, Material.STAINED_CLAY);
+		// paved sidewalk is 2, read in PlatLot
+		dirtroadMat = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(3, Material.DIRT);
+		// dirt sidewalk is 4, read in PlatLot
 
 		pavementIsClay = pavementMat == Material.STAINED_CLAY;
-		dirtroadIsClay = pavementMat == Material.STAINED_CLAY;
+		dirtroadIsClay = dirtroadMat == Material.STAINED_CLAY;
 	}
 	
 	@Override
@@ -1125,6 +1127,8 @@ public class RoadLot extends ConnectedLot {
 		else
 			if (dirtroadIsClay)
 				chunk.setClay(x1, x2, y, z1, z2, dirtroadColor);
+			else if (dirtroadMat == Material.DIRT)
+				BlackMagic.setBlocks(chunk, x1, x2, y, z1, z2, dirtroadMat, 1); // Coarse dirt
 			else
 				chunk.setBlocks(x1, x2, y, z1, z2, dirtroadMat);
 	}
@@ -1169,11 +1173,11 @@ public class RoadLot extends ConnectedLot {
 	protected void generateEntities(CityWorldGenerator generator, RealBlocks chunk, int y) {
 		int x = chunkOdds.calcRandomRange(sidewalkWidth, 15 - sidewalkWidth);
 		int z = chunkOdds.calcRandomRange(sidewalkWidth, 15 - sidewalkWidth);
-		int count = chunkOdds.getRandomInt(1, 3);
+//		chunk.setBlock(x, y + 30, z, Material.GLOWSTONE);
 		if (inACity)
-			generator.spawnProvider.spawnBeings(generator, chunk, chunkOdds, x, y, z, count);
+			generator.spawnProvider.spawnBeings(generator, chunk, chunkOdds, x, y, z);
 		else
-			generator.spawnProvider.spawnVagrants(generator, chunk, chunkOdds, x, y, z, count);
+			generator.spawnProvider.spawnVagrants(generator, chunk, chunkOdds, x, y, z);
 	}
 	
 	protected void decayRoad(RealBlocks chunk, int x1, int x2, int y, int z1, int z2) {

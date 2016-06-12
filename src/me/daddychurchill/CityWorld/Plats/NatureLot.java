@@ -28,7 +28,7 @@ public class NatureLot extends IsolatedLot {
 	
 	@Override
 	public int getTopY(CityWorldGenerator generator) {
-		return generator.seaLevel + generator.landRange;
+		return generator.seaLevel;// + generator.landRange;
 	}
 	
 	@Override
@@ -40,7 +40,6 @@ public class NatureLot extends IsolatedLot {
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
 		generateSurface(generator, chunk, true);
-		
 		generateEntities(generator, chunk);
 	}
 	
@@ -49,16 +48,23 @@ public class NatureLot extends IsolatedLot {
 	protected void generateEntities(CityWorldGenerator generator, RealBlocks chunk) {
 		int x = chunkOdds.getRandomInt(1, 14);
 		int z = chunkOdds.getRandomInt(1, 14);
+		int y = getBlockY(x, z);
 			
 		// in the water?
-		if (chunk.isWater(x, magicSeaSpawnY, z)) {
+		if (y < magicSeaSpawnY) {
 			generator.spawnProvider.spawnSeaAnimals(generator, chunk, chunkOdds, x, magicSeaSpawnY, z);
+//			chunk.setBlock(x, 100, z, Material.LAPIS_BLOCK);
 		} else {
-			int y = getBlockY(x, z);
-			y = chunk.findFirstEmptyAbove(x, y, z, getTopY(generator));
-			int count = chunkOdds.getRandomInt(1, 3);
-			if (!chunk.isWater(x, y - 1, z))
-				generator.spawnProvider.spawnVagrants(generator, chunk, chunkOdds, x, y, z, count);
+//			int origY = getBlockY(x, z);
+//			int topY = getTopY(generator);
+//			int y = chunk.findFirstEmptyAbove(x, origY, z, topY);
+//			chunk.setSignPost(x, 101, z, BlockFace.NORTH, "Y = " + y, "origY = " + origY, "TopY = " + topY);
+			if (!chunk.isWater(x, y - 1, z)) {
+				generator.spawnProvider.spawnVagrants(generator, chunk, chunkOdds, x, y, z);
+//				chunk.setBlock(x, 100, z, Material.IRON_BLOCK);
+//			} else {
+//				chunk.setBlock(x, 100, z, Material.DIAMOND_BLOCK);
+			}
 		}
 	}
 

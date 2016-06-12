@@ -108,7 +108,7 @@ public abstract class AbstractBlocks {
 				return y1;
 			y1++;
 		}
-		return height - 1;
+		return y1;
 	}
 	
 //	public int findLastEmptyAbove(int x, int y, int z) {

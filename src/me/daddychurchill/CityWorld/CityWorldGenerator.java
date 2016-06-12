@@ -33,7 +33,7 @@ import org.bukkit.generator.ChunkGenerator;
 
 public class CityWorldGenerator extends ChunkGenerator {
 	
-	private final static double minVersion = 1.9;
+	private final static double minVersion = 1.10; // 1.10 Minecraft or better
 
 	private CityWorld plugin;
 	private World world;
@@ -79,8 +79,6 @@ public class CityWorldGenerator extends ChunkGenerator {
 	public long connectedKeyForPavedRoads;
 	public long connectedKeyForParks;
 	
-	public double minecraftVer;
-	
 	public enum WorldStyle {
 		FLOATING,		// very low terrain with floating houses and cities
 		FLOODED,		// traditional terrain and cities but with raised sea level
@@ -114,32 +112,55 @@ public class CityWorldGenerator extends ChunkGenerator {
 //		}
 		return style;
 	}
+	
+	public String minecraftVersionRaw;
+	public double minecraftVersion;
+	
+	private boolean checkVersion() {
+		minecraftVersion = 0.0;
+		minecraftVersionRaw = plugin.getServer().getVersion();
+		try {
+			int mcAt = minecraftVersionRaw.indexOf("MC: ");
+			if (mcAt != -1) {
+				minecraftVersionRaw = minecraftVersionRaw.substring(mcAt + 4, minecraftVersionRaw.length() - 1);
+				String[] parts = minecraftVersionRaw.split("[.)]", 4);
+				
+				if (parts.length > 0) // found major
+					minecraftVersion = Double.valueOf(parts[0]);
+				if (parts.length > 1) // found minor
+					minecraftVersion = minecraftVersion + Double.valueOf(parts[1]) / 100;
+				if (parts.length > 2) // found micro
+					minecraftVersion = minecraftVersion + Double.valueOf(parts[2]) / 10000;
+			}
+		} catch (NumberFormatException e) {
+			minecraftVersion = 0.0;
+		}
+		
+		// what version did we end up with?
+		if (minecraftVersion < minVersion) {
+			reportMessage("******************************************************");
+			reportMessage("** WARNING, RUNNING ON AN OLD VERSION OF MINECRAFT  **");
+			reportMessage("******************************************************");
+			reportException("Needs " + minVersion + " or better, found " + minecraftVersionRaw + 
+					", parsed from " + plugin.getServer().getVersion(), new Exception(getPluginName()));
+			reportMessage("******************************************************");
+			reportMessage("** CITYWORLD MIGHT NOT RUN CORRECTLY, PLEASE UPDATE **");
+			reportMessage("******************************************************");
+			return false;
+		}
+		else {
+			reportMessage("Found Minecraft v" + minecraftVersionRaw + ", CityWorld is compatible - WOOT!");
+			return true;
+		}
+	}
+	
 		
 	public CityWorldGenerator(CityWorld plugin, String worldName, String worldStyle) {
 		this.plugin = plugin;
 		this.worldName = worldName;
 		this.worldStyle = WorldStyle.NORMAL;
 		
-		// new enough?
-		try {
-			String versionTxt = plugin.getServer().getVersion();
-			int mcAt = versionTxt.indexOf("MC: ");
-			if (mcAt != -1) {
-				versionTxt = versionTxt.substring(mcAt + 4, mcAt + 7);
-				this.minecraftVer = Double.parseDouble(versionTxt);
-			} else
-				this.minecraftVer = 0;
-		} catch (NumberFormatException e) {
-			this.minecraftVer = 0;
-		}
-		if (this.minecraftVer < minVersion) {
-			reportMessage("*****************************************************");
-			reportMessage("** WARNING, RUNNING ON AN OLD VERSION OF MINECRAFT **");
-			reportMessage("*****************************************************");
-			reportException("Needs " + minVersion + " or better", new Exception(getPluginName()));
-		}
-		else
-			reportMessage("Found " + this.minecraftVer + ", CityWorld is compatible - WOOT!");
+		checkVersion();
 		
 		// parse the style string
 		if (worldStyle != null) {
@@ -184,6 +205,11 @@ public class CityWorldGenerator extends ChunkGenerator {
 		// initialize the shaping logic
 		if (world == null) {
 			world = aWorld;
+
+			spawnProvider = new SpawnProvider(this);
+			materialProvider = new MaterialProvider(this);
+			odonymProvider = OdonymProvider.loadProvider(this, new Odds(getRelatedSeed()));
+			
 			settings = new CityWorldSettings(this);
 			worldSeed = world.getSeed();
 			connectionKeyGen = new Odds(getRelatedSeed());
@@ -193,13 +219,10 @@ public class CityWorldGenerator extends ChunkGenerator {
 			oreProvider = OreProvider.loadProvider(this);
 			bonesProvider = BonesProvider.loadProvider(this);
 			coverProvider = CoverProvider.loadProvider(this, new Odds(getRelatedSeed()));
-			odonymProvider = OdonymProvider.loadProvider(this, new Odds(getRelatedSeed()));
 			surfaceProvider = SurfaceProvider.loadProvider(this, new Odds(getRelatedSeed()));
 			structureOnGroundProvider = StructureOnGroundProvider.loadProvider(this);
 			structureInAirProvider = StructureInAirProvider.loadProvider(this);
 			treeProvider = TreeProvider.loadProvider(this, new Odds(getRelatedSeed()));
-			spawnProvider = new SpawnProvider(this);
-			materialProvider = new MaterialProvider(this);
 			
 			pasteProvider = PasteProvider.loadProvider(this);
 			decayBlocks = new WorldBlocks(this, new Odds(getRelatedSeed()));

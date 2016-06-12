@@ -35,9 +35,20 @@ public abstract class SurfaceProvider extends Provider {
 	
 	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CachedYs blockYs, int addTo, boolean includeTrees) {
 		CoverProvider foliage = generator.coverProvider;
+		int topY = lot.getTopY(generator);
+			
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {
-				generateSurfacePoint(generator, lot, chunk, foliage, x, blockYs.getPerciseY(x, z) + addTo, z, includeTrees);
+				double y = blockYs.getPerciseY(x, z) + addTo;
+//				if (x == 0 && z == 0) {
+//					int inty = NoiseGenerator.floor(y);
+//					chunk.setBlock(x, inty + 9, z, Material.STONE);
+//					chunk.setBlock(x + 1, inty + 9, z, Material.STONE);
+//					chunk.setBlock(x, inty + 9, z + 1, Material.STONE);
+//					chunk.setSignPost(x, inty + 10, z, BlockFace.SOUTH, "topY = " + topY, "inty = " + inty);
+//				} else
+				if (topY < y)
+					generateSurfacePoint(generator, lot, chunk, foliage, x, y, z, includeTrees);
 			}
 		}
 	}

@@ -348,6 +348,7 @@ public class PlatMap {
 				// are all the surrounding chunks empty (connecting roads shouldn't be there yet)
 //				generator.reportMessage("Roundabout? " + generator.settings.includeRoundabouts + ", odds: " + context.oddsOfRoundAbouts + " context: " + context.toString());
 				if (generator.settings.includeRoundabouts && 
+					generator.settings.inCityRange(originX + x, originZ + z) && 
 					generator.shapeProvider.isRoundaboutAt(originX + x, originZ + z, context.oddsOfRoundAbouts) &&
 					isEmptyLot(x - 1, z - 1) && isEmptyLot(x - 1, z) &&	isEmptyLot(x - 1, z + 1) &&
 					isEmptyLot(x, z - 1) &&	isEmptyLot(x, z + 1) &&

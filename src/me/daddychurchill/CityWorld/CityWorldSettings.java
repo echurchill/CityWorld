@@ -38,6 +38,8 @@ public class CityWorldSettings {
 	public double spawnBaddies = Odds.oddsPrettyUnlikely;
 	public double spawnAnimals = Odds.oddsVeryLikely;
 	public double spawnVagrants = Odds.oddsSomewhatUnlikely;
+	public boolean nameVillagers = true;
+	public boolean showVillagersNames = true;
 	
 	public boolean spawnersInBunkers = true;
 	public boolean spawnersInMines = true;
@@ -103,6 +105,8 @@ public class CityWorldSettings {
 	public final static String tagSpawnBeings = "SpawnBeings";
 	public final static String tagSpawnBaddies = "SpawnBaddies";
 	public final static String tagSpawnVagrants = "SpawnVagrants";
+	public final static String tagNameVillagers = "NameVillagers";
+	public final static String tagShowVillagersNames = "ShowVillagersNames";
 	
 	public final static String tagSpawnersInBunkers = "SpawnersInBunkers";
 	public final static String tagSpawnersInMines = "SpawnersInMines";
@@ -235,6 +239,8 @@ public class CityWorldSettings {
 			section.addDefault(tagSpawnBeings, spawnBeings);
 			section.addDefault(tagSpawnBaddies, spawnBaddies);
 			section.addDefault(tagSpawnVagrants, spawnVagrants);
+			section.addDefault(tagNameVillagers, nameVillagers);
+			section.addDefault(tagShowVillagersNames, showVillagersNames);
 			
 			section.addDefault(tagSpawnersInBunkers, spawnersInBunkers);
 			section.addDefault(tagSpawnersInMines, spawnersInMines);
@@ -291,6 +297,8 @@ public class CityWorldSettings {
 			spawnBeings = limitTo(section.getDouble(tagSpawnBeings, spawnBeings), 0.0, 1.0);
 			spawnBaddies = limitTo(section.getDouble(tagSpawnBaddies, spawnBaddies), 0.0, 1.0);
 			spawnVagrants = limitTo(section.getDouble(tagSpawnVagrants, spawnVagrants), 0.0, 1.0);
+			nameVillagers = section.getBoolean(tagNameVillagers, nameVillagers);
+			showVillagersNames = section.getBoolean(tagShowVillagersNames, showVillagersNames);
 
 			spawnersInBunkers = section.getBoolean(tagSpawnersInBunkers, spawnersInBunkers);
 			spawnersInMines = section.getBoolean(tagSpawnersInMines, spawnersInMines);
@@ -302,6 +310,7 @@ public class CityWorldSettings {
 
 			generator.materialProvider.read(generator, section);
 			generator.spawnProvider.read(generator, section);
+			generator.odonymProvider.read(generator, section);
 			
 			includeUndergroundFluids = section.getBoolean(tagIncludeUndergroundFluids, includeUndergroundFluids);
 			includeAbovegroundFluids = section.getBoolean(tagIncludeAbovegroundFluids, includeAbovegroundFluids);
@@ -409,6 +418,8 @@ public class CityWorldSettings {
 			section.set(tagSpawnBeings, spawnBeings);
 			section.set(tagSpawnBaddies, spawnBaddies);
 			section.set(tagSpawnVagrants, spawnVagrants);
+			section.set(tagNameVillagers, nameVillagers);
+			section.set(tagShowVillagersNames, showVillagersNames);
 			
 			section.set(tagSpawnersInBunkers, spawnersInBunkers);
 			section.set(tagSpawnersInMines, spawnersInMines);
@@ -442,6 +453,7 @@ public class CityWorldSettings {
 			
 			generator.materialProvider.write(generator, section);
 			generator.spawnProvider.write(generator, section);
+			generator.odonymProvider.write(generator, section);
 			
 			//===========================================================================
 			// note the depreciations

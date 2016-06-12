@@ -86,7 +86,7 @@ public class RoundaboutCenterLot extends IsolatedLot {
 		int ySurface = generator.streetLevel + 1;
 		
 		// clear out underneath
-		chunk.setLayer(ySurface, curbMaterial);
+		chunk.setLayer(ySurface - 1, 2, curbMaterial);
 		chunk.pepperBlocks(0, 16, yPitTop, 0, 16, chunkOdds, generator.oreProvider.stratumMaterial); // replace some dirt with stone
 		chunk.clearBlocks(0, 16, yPitTop - 1, 0, 16, chunkOdds); // remove some dirt
 		chunk.pepperBlocks(0, 16, yPitTop - 1, 0, 16, chunkOdds, generator.oreProvider.stratumMaterial); // replace some dirt or air with stone
@@ -240,18 +240,19 @@ public class RoundaboutCenterLot extends IsolatedLot {
 				Material liquid = Material.WATER;
 				if (generator.settings.includeDecayedNature)
 					liquid = Material.LAVA;
+				int fountianY = ySurface + 1;
 				
 				// four little fountains?
 				if (chunkOdds.flipCoin()) {
-					chunk.setBlocks(5, ySurface, ySurface + 1 + chunkOdds.getRandomInt(3), 5, liquid);
-					chunk.setBlocks(5, ySurface, ySurface + 1 + chunkOdds.getRandomInt(3), 10, liquid);
-					chunk.setBlocks(10, ySurface, ySurface + 1 + chunkOdds.getRandomInt(3), 5, liquid);
-					chunk.setBlocks(10, ySurface, ySurface + 1 + chunkOdds.getRandomInt(3), 10, liquid);
+					chunk.setBlocks(5, fountianY, fountianY + chunkOdds.getRandomInt(4), 5, liquid);
+					chunk.setBlocks(5, fountianY, fountianY + chunkOdds.getRandomInt(4), 10, liquid);
+					chunk.setBlocks(10, fountianY, fountianY + chunkOdds.getRandomInt(4), 5, liquid);
+					chunk.setBlocks(10, fountianY, fountianY + chunkOdds.getRandomInt(4), 10, liquid);
 				}
 				
 				// water can be art too, you know?
 				if (somethingInTheCenter && chunkOdds.playOdds(context.oddsOfNaturalArt)) {
-					chunk.setBlocks(7, 9, ySurface, ySurface + 4 + chunkOdds.getRandomInt(4), 7, 9, liquid);
+					chunk.setBlocks(7, 9, fountianY, fountianY + 4 + chunkOdds.getRandomInt(5), 7, 9, liquid);
 					somethingInTheCenter = false;
 				}
 			}

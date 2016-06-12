@@ -30,7 +30,7 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 		// top of the world?
 		if (y >= generator.snowLevel) {
 			ores.dropSnow(generator, chunk, x, y, z, (byte) NoiseGenerator.floor((perciseY - Math.floor(perciseY)) * 8.0));
-		
+			
 		// are on a plantable spot?
 		} else if (foliage.isPlantable(generator, chunk, x, y, z)) {
 			

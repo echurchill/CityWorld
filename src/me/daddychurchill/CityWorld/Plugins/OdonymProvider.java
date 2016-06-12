@@ -2,6 +2,8 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import java.util.Random;
 
+import org.bukkit.configuration.ConfigurationSection;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
 
@@ -10,6 +12,10 @@ public abstract class OdonymProvider extends Provider {
 	public abstract String[] generateFossilOdonym(CityWorldGenerator generator, Odds odds);
 	public abstract String[] generateNorthSouthStreetOdonym(CityWorldGenerator generator, int x, int z);
 	public abstract String[] generateWestEastStreetOdonym(CityWorldGenerator generator, int x, int z);
+	public abstract String generateVillagerName(CityWorldGenerator generator, Odds odds);
+	
+	public abstract void read(CityWorldGenerator generator, ConfigurationSection section);
+	public abstract void write(CityWorldGenerator generator, ConfigurationSection section);
 	
 	// yep it is a little one... we will make it bigger in a moment
 	int baseSeed;
