@@ -69,7 +69,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	protected Material interiorDoorMaterial;
 	protected Material exteriorDoorMaterial;
 	
-	private enum CornerWallStyle {EMPTY, FILLED, WOODCOLUMN, STONECOLUMN, FILLEDTHENEMPTY, WOODTHENFILLED, STONETHENFILLED};
+	protected enum CornerWallStyle {EMPTY, FILLED, WOODCOLUMN, STONECOLUMN, FILLEDTHENEMPTY, WOODTHENFILLED, STONETHENFILLED};
 	private CornerWallStyle cornerWallStyle;
 	
 	protected int navLightX = 0;

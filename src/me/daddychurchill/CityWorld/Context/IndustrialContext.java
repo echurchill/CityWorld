@@ -4,7 +4,6 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Urban.FactoryBuildingLot;
-import me.daddychurchill.CityWorld.Plats.Urban.MuseumBuildingLot;
 import me.daddychurchill.CityWorld.Plats.Urban.StorageLot;
 import me.daddychurchill.CityWorld.Plats.Urban.WarehouseBuildingLot;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -47,9 +46,7 @@ public class IndustrialContext extends UrbanContext {
 	
 	@Override
 	protected PlatLot getBuilding(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
-		if (generator.settings.includeBones && odds.playOdds(Odds.oddsExtremelyUnlikely))
-			return new MuseumBuildingLot(platmap, chunkX, chunkZ);
-		else if (odds.playOdds(Odds.oddsSomewhatUnlikely))
+		if (odds.playOdds(Odds.oddsSomewhatUnlikely))
 			return new WarehouseBuildingLot(platmap, chunkX, chunkZ);
 		else
 			return new FactoryBuildingLot(platmap, chunkX, chunkZ);

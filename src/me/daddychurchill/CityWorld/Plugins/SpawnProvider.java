@@ -294,8 +294,24 @@ public class SpawnProvider extends Provider {
 		if (entity != null && entity.isAlive()) {
 				
 			// make sure we have room
-			if (ensureSpace)
-				y = blocks.findFirstEmptyAbove(x, y, z, y + 3);
+			if (ensureSpace) {
+				boolean foundSpot = false;
+				int countDown = 10;
+				while (countDown > 0) {
+					int emptyY = blocks.findFirstEmptyAbove(x, y, z, y + 3);
+					if (blocks.isEmpty(x, y, z) && blocks.isEmpty(x, y + 1, z)) {
+						y = emptyY;
+						foundSpot = true;
+						break;
+					} else
+						countDown--;
+					x = x + odds.calcRandomRange(-2, 2);
+					z = z + odds.calcRandomRange(-2, 2);
+				}
+				if (!foundSpot)
+					return;
+//				y = blocks.findFirstEmptyAbove(x, y, z, y + 3);
+			}
 			Location at = blocks.getBlockLocation(x, y, z);
 			
 			// ignore flood level or make sure that we are above it

@@ -49,9 +49,6 @@ public abstract class BuildingLot extends ConnectedLot {
 
 	protected int cornerLotStyle; 
 	
-	private final static Material fenceMaterial = Material.IRON_FENCE;
-	private final static int fenceHeight = 3;
-	
 	public RoomProvider roomProviderForFloor(CityWorldGenerator generator, SupportBlocks chunk, int floor, int floorY) {
 		return contentsNothing;
 	}
@@ -874,7 +871,8 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 	
-	protected void drawFence(CityWorldGenerator generator, InitialBlocks chunk, DataContext context, int inset, int y1, int floor, Surroundings neighbors) {
+	protected void drawFence(CityWorldGenerator generator, InitialBlocks chunk, DataContext context, int inset, int y1, int floor, Surroundings neighbors,
+			Material fenceMaterial, int fenceHeight) {
 		
 		// actual fence
 		drawWallParts(generator, chunk, context, y1, fenceHeight, inset, inset, floor, false, false, false, fenceMaterial, neighbors);

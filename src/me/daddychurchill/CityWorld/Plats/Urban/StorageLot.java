@@ -50,7 +50,7 @@ public class StorageLot extends BuildingLot {
 		switch (contentType) {
 		case EMPTY:
 		case SHED:
-			drawFence(generator, chunk, context, 1, groundY + 2, 0, neighbors);
+			drawFence(generator, chunk, context, 1, groundY + 2, 0, neighbors, Material.IRON_FENCE, 3);
 			break;
 		case TANK:
 			break;
@@ -84,7 +84,7 @@ public class StorageLot extends BuildingLot {
 			Material wallMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_BRICK);
 			Material fluidMat = generator.materialProvider.itemsSelectMaterial_FactoryTanks.getRandomMaterial(chunkOdds, Material.STATIONARY_WATER);
 			
-			chunk.setCircle(8, 8, 6, groundY + 1, groundY + 2 + chunkOdds.getRandomInt(6), fluidMat, true);
+			chunk.setCircle(8, 8, 6, groundY, groundY + 2 + chunkOdds.getRandomInt(6), fluidMat, true);
 			chunk.setCircle(8, 8, 6, groundY, topY - 3, wallMat);
 			chunk.setCircle(8, 8, 6, topY - 3, wallMat, true);
 			chunk.setCircle(8, 8, 4, topY - 3, Material.AIR, true);

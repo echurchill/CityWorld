@@ -102,7 +102,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 			
 			// at the first floor add a fence to prevent folks from falling in
 			if (floor == 0)
-				drawFence(generator, chunk, context, 0, generator.streetLevel + 1, floor, neighborBasements);
+				drawFence(generator, chunk, context, 0, generator.streetLevel + 1, floor, neighborBasements, Material.IRON_FENCE, 3);
 			
 			// one floor please
 			drawWallParts(generator, chunk, context, floorAt, FloorHeight, 0, 0, floor,

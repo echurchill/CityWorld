@@ -629,12 +629,13 @@ public class RoadLot extends ConnectedLot {
 				
 			// retaining walls please
 			} else if (blockYs.maxHeight > pavementLevel + 1) {
+				int offset = inACity ? 2 : 1;
 				
 				// wall to the east/west
 				if (roads.toWest() && roads.toEast()) {
 					
 					// carve out the tunnel
-					chunk.airoutBlocks(generator, 0, 16, pavementLevel + 1, pavementLevel + tunnelHeight + 2, 0, 16);
+					chunk.airoutBlocks(generator, 0, 16, pavementLevel + offset, pavementLevel + tunnelHeight + 2, 0, 16);
 					
 					// walls please, this will find the Y the hard way since we are looking at the next chunk over
 					for (int x = 0; x < chunk.width; x++) {
@@ -644,7 +645,7 @@ public class RoadLot extends ConnectedLot {
 				} else if (roads.toNorth() && roads.toSouth()) {
 
 					// carve out the tunnel
-					chunk.airoutBlocks(generator, 0, 16, pavementLevel + 1, pavementLevel + tunnelHeight + 2, 0, 16);
+					chunk.airoutBlocks(generator, 0, 16, pavementLevel + offset, pavementLevel + tunnelHeight + 2, 0, 16);
 
 					// walls please, this will find the Y the hard way since we are looking at the next chunk over
 					for (int z = 0; z < chunk.width; z++) {
