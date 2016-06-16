@@ -13,10 +13,10 @@ public class OreProvider_Decayed extends OreProvider_Normal {
 			fluidMaterial = Material.STATIONARY_LAVA;
 			fluidFluidMaterial = Material.LAVA;
 			fluidFrozenMaterial = Material.OBSIDIAN;
-			fluidSubsurfaceMaterial = Material.MAGMA;
+			fluidSubsurfaceMaterial = Material.LAVA;
 			fluidSurfaceMaterial = Material.LAVA;
 		}
-		surfaceMaterial = Material.MAGMA;
-		subsurfaceMaterial = Material.MAGMA;
+		surfaceMaterial = Material.SAND;
+		subsurfaceMaterial = Material.SANDSTONE;
 	}
 }

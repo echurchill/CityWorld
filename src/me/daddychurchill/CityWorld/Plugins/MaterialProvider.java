@@ -625,14 +625,14 @@ public class MaterialProvider {
 	public MaterialList itemsMaterialListFor_NetherOres = createList(tagMaterialListFor_NetherOres,
 			Material.LAVA,			// liquid ore
 			Material.LAVA,			// alt liquid ore
-			Material.MAGMA,			// gravel ore
+			Material.SOUL_SAND,		// SHOULD BE MAGMA // gravel ore 
 			Material.SOUL_SAND,		// most frequent ore
 			Material.GLOWSTONE,
 
 			Material.GLOWSTONE,
 			Material.QUARTZ_ORE,
+			Material.SOUL_SAND,		// SHOULD BE MAGMA 
 			Material.SOUL_SAND,
-			Material.MAGMA,
 			Material.OBSIDIAN);		// least frequent ore
 
 	public final static String tagMaterialListFor_TheEndOres = "Materials_List_For_TheEndOres";

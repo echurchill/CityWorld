@@ -33,8 +33,6 @@ import org.bukkit.generator.ChunkGenerator;
 
 public class CityWorldGenerator extends ChunkGenerator {
 	
-	private final static double minVersion = 1.10; // 1.10 Minecraft or better
-
 	private CityWorld plugin;
 	private World world;
 	private long worldSeed;
@@ -90,6 +88,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 		METRO,			// just buildings, no nature
 		//PILLARS		// floating with pillars holding everything up
 		//LAVADUNES		// volcanos everywhere
+		//GLACERS		// glacers everywhere
 		//MOON,			// lunar landscape with lunar bases
 		//UNDERWATER,	// traditional terrain with raised sea level with under water cities
 		//WESTERN,		// desert landscape with sparse western styled towns and ranches
@@ -115,6 +114,11 @@ public class CityWorldGenerator extends ChunkGenerator {
 	
 	public String minecraftVersionRaw;
 	public double minecraftVersion;
+	private final static double minVersion = calcVersion(1, 9, 4); // 1.9.4 Minecraft or better
+	
+	private static double calcVersion(double major, double minor, double micro) {
+		return major + minor / 100 + micro / 10000;
+	}
 	
 	private boolean checkVersion() {
 		minecraftVersion = 0.0;
@@ -125,12 +129,24 @@ public class CityWorldGenerator extends ChunkGenerator {
 				minecraftVersionRaw = minecraftVersionRaw.substring(mcAt + 4, minecraftVersionRaw.length() - 1);
 				String[] parts = minecraftVersionRaw.split("[.)]", 4);
 				
+//				reportMessage("minVersion = " + String.format("%.4f", minVersion));
+//				reportMessage("minecraftVersionRaw = " + minecraftVersionRaw);
+//				for (int i = 0; i < parts.length; i++)
+//					reportMessage(">" + parts[i] + "<");
+				
+				int major = 0;
+				int minor = 0;
+				int micro = 0;
 				if (parts.length > 0) // found major
-					minecraftVersion = Double.valueOf(parts[0]);
+					major = Integer.parseUnsignedInt(parts[0]);
 				if (parts.length > 1) // found minor
-					minecraftVersion = minecraftVersion + Double.valueOf(parts[1]) / 100;
+					minor = Integer.parseUnsignedInt(parts[1]);
 				if (parts.length > 2) // found micro
-					minecraftVersion = minecraftVersion + Double.valueOf(parts[2]) / 10000;
+					micro = Integer.parseUnsignedInt(parts[2]);
+
+				minecraftVersion = calcVersion(major, minor, micro);
+//				reportMessage("MMM = " + major + ", " + minor + ", " + micro);
+//				reportMessage("minecraftVersion = " + String.format("%.4f", minecraftVersion));
 			}
 		} catch (NumberFormatException e) {
 			minecraftVersion = 0.0;
@@ -141,15 +157,18 @@ public class CityWorldGenerator extends ChunkGenerator {
 			reportMessage("******************************************************");
 			reportMessage("** WARNING, RUNNING ON AN OLD VERSION OF MINECRAFT  **");
 			reportMessage("******************************************************");
-			reportException("Needs " + minVersion + " or better, found " + minecraftVersionRaw + 
-					", parsed from " + plugin.getServer().getVersion(), new Exception(getPluginName()));
+//			reportException("Needs " + String.format("%.4f", minVersion) + " or better, found " + 
+//					String.format("%.4f", minecraftVersion) +
+//					", parsed from " + minecraftVersionRaw, new Exception(getPluginName()));
+			reportMessage("Needs " + String.format("%.4f", minVersion) + " or better, found " + 
+					String.format("%.4f", minecraftVersion) + ", parsed from " + minecraftVersionRaw);
 			reportMessage("******************************************************");
 			reportMessage("** CITYWORLD MIGHT NOT RUN CORRECTLY, PLEASE UPDATE **");
 			reportMessage("******************************************************");
 			return false;
 		}
 		else {
-			reportMessage("Found Minecraft v" + minecraftVersionRaw + ", CityWorld is compatible - WOOT!");
+			reportMessage("Found Minecraft v" + String.format("%.4f", minecraftVersion) + ", CityWorld is compatible - WOOT!");
 			return true;
 		}
 	}
