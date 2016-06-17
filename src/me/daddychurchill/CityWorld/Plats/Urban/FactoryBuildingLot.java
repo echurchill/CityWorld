@@ -542,8 +542,8 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			chunk.clearBlock(x, y2 + 1, z);	
 		}
 		
-		chunk.setBlock(x, y2 + 10, z, Material.STONE);
-		chunk.setSignPost(x, y2 + 11, z, facing, "X, Z = " + getChunkX() + ", " + getChunkZ(), "XEven = " + chunkXEven, "ZEven = " + chunkZEven, "Ladder = " + doLadder);
+//		chunk.setBlock(x, y2 + 10, z, Material.STONE);
+//		chunk.setSignPost(x, y2 + 11, z, facing, "X, Z = " + getChunkX() + ", " + getChunkZ(), "XEven = " + chunkXEven, "ZEven = " + chunkZEven, "Ladder = " + doLadder);
 	}
 	
 	private void generateSkyWalkNS(RealBlocks chunk, int x, int z, int skywalkAt, int roofAt) {
