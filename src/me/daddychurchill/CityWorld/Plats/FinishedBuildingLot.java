@@ -1730,8 +1730,25 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			drawDoor(chunk, x, x + 1, x + 2, y1, y2, z, z, z, Door.NORTHBYNORTHWEST, doorStyle, wall, interiorDoorMaterial);
 	}
 	
+	private boolean doExteriorDoor(RealBlocks chunk, Door direction) {
+		boolean chunkXEven = getChunkX() % 2 == 0;
+		boolean chunkZEven = getChunkZ() % 2 == 0;
+		
+		switch (direction) {
+		default:
+		case WESTBYNORTHWEST:
+		case EASTBYNORTHEAST:
+			return (chunkXEven && chunkZEven) || (chunkXEven && !chunkZEven);
+		case NORTHBYNORTHWEST:
+		case SOUTHBYSOUTHEAST:
+			return (!chunkXEven && chunkZEven) || (!chunkXEven && !chunkZEven);
+		}
+		
+	}
+	
 	private void drawExteriorNSDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
-		if (chunkOdds.playOdds(oddsOfAnExteriorDoor)) {
+		if (doExteriorDoor(chunk, Door.WESTBYNORTHWEST)) {
+//			if (chunkOdds.playOdds(oddsOfAnExteriorDoor)) {
 			drawDoor(chunk, x, x, x, y1, y2, z, z + 1, z + 2, Door.WESTBYNORTHWEST, doorStyle, wall, exteriorDoorMaterial);
 			chunk.clearBlocks(x + 1, y1, y1 + 2, z + 1);
 			chunk.clearBlocks(x - 1, y1, y1 + 2, z + 1);
@@ -1739,7 +1756,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	}
 	
 	private void drawExteriorSNDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
-		if (chunkOdds.playOdds(oddsOfAnExteriorDoor)) {
+		if (doExteriorDoor(chunk, Door.EASTBYNORTHEAST)) {
+//			if (chunkOdds.playOdds(oddsOfAnExteriorDoor)) {
 			drawDoor(chunk, x, x, x, y1, y2, z, z + 1, z + 2, Door.EASTBYNORTHEAST, doorStyle, wall, exteriorDoorMaterial);
 			chunk.clearBlocks(x + 1, y1, y1 + 2, z + 1);
 			chunk.clearBlocks(x - 1, y1, y1 + 2, z + 1);
@@ -1747,7 +1765,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	}
 
 	private void drawExteriorWEDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
-		if (chunkOdds.playOdds(oddsOfAnExteriorDoor)) {
+		if (doExteriorDoor(chunk, Door.NORTHBYNORTHWEST)) {
+//			if (chunkOdds.playOdds(oddsOfAnExteriorDoor)) {
 			drawDoor(chunk, x, x + 1, x + 2, y1, y2, z, z, z, Door.NORTHBYNORTHWEST, doorStyle, wall, exteriorDoorMaterial);
 			chunk.clearBlocks(x + 1, y1, y1 + 2, z + 1);
 			chunk.clearBlocks(x + 1, y1, y1 + 2, z - 1);
@@ -1755,7 +1774,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	}
 	
 	private void drawExteriorEWDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
-		if (chunkOdds.playOdds(oddsOfAnExteriorDoor)) {
+		if (doExteriorDoor(chunk, Door.SOUTHBYSOUTHEAST)) {
+//			if (chunkOdds.playOdds(oddsOfAnExteriorDoor)) {
 			drawDoor(chunk, x, x + 1, x + 2, y1, y2, z, z, z, Door.SOUTHBYSOUTHEAST, doorStyle, wall, exteriorDoorMaterial);
 			chunk.clearBlocks(x + 1, y1, y1 + 2, z + 1);
 			chunk.clearBlocks(x + 1, y1, y1 + 2, z - 1);
