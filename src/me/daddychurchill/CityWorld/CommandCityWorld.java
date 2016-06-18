@@ -47,7 +47,16 @@ public class CommandCityWorld implements CommandExecutor {
 					else try {
 						style = WorldStyle.valueOf(split[n].trim().toUpperCase());
 					} catch (IllegalArgumentException e) {
-						CityWorld.log.info("[Generator] Unknown world style " + split[n]);
+						CityWorld.log.info("[CityWorld] Unknown world style " + split[n]);
+						
+						WorldStyle[] styles = WorldStyle.values();
+						StringBuilder worldStyles = new StringBuilder();
+						for (WorldStyle worldStyle : styles) {
+							if (worldStyles.length() != 0)
+								worldStyles.append("|");
+							worldStyles.append(worldStyle.toString().toLowerCase());
+						}
+						CityWorld.log.info("[CityWorld] this version knows about these styles: " + worldStyles.toString());
 						style  = WorldStyle.NORMAL;
 						error = true;
 						break;

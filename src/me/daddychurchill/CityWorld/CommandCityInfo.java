@@ -43,16 +43,20 @@ public class CommandCityInfo implements CommandExecutor {
 				
 				// fetch full info hash
 				HashMap<String, String> info = api.getFullInfo(chunk);
+				if (info == null) {
+					return false;
+				} else {
 				
-				// write a message to player for each line
-				for (Entry<String, String> entry : info.entrySet()) {
-					String message = entry.getKey() + ": " + entry.getValue();
-					player.sendMessage(message);
-					CityWorld.log.info(message); // tweaked to match the docs
+					// write a message to player for each line
+					for (Entry<String, String> entry : info.entrySet()) {
+						String message = entry.getKey() + ": " + entry.getValue();
+						player.sendMessage(message);
+						CityWorld.log.info(message); // tweaked to match the docs
+					}
+	
+					// all done
+					return true;
 				}
-
-				// all done
-				return true;
 
 			} else {
 				sender.sendMessage("You do not have permission to use this command");
