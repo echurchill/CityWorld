@@ -21,7 +21,9 @@ public class MuseumBuildingLot extends FinishedBuildingLot {
 		firstFloorHeight = firstFloorHeight * 5;
 		height = 1;
 		depth = 0;
+		rounded = false;
 		roofFeature = roofFeature == RoofFeature.ANTENNAS ? RoofFeature.CONDITIONERS : roofFeature;
+		interiorStyle = InteriorStyle.EMPTY;
 	}
 
 	@Override
@@ -60,11 +62,6 @@ public class MuseumBuildingLot extends FinishedBuildingLot {
 		insetInsetMidAt = 1;
 		insetInsetHighAt = 1;
 		insetStyle = InsetStyle.STRAIGHT;
-	}
-
-	@Override
-	protected InteriorStyle pickInteriorStyle() {
-		return InteriorStyle.EMPTY;
 	}
 
 	@Override

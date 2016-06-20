@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Context;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plats.Urban.GovernmentBuildingLot;
 import me.daddychurchill.CityWorld.Plats.Urban.MuseumBuildingLot;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -12,7 +13,7 @@ public class MunicipalContext extends UrbanContext {
 	public MunicipalContext(CityWorldGenerator generator) {
 		super(generator);
 
-		oddsOfParks = Odds.oddsLikely;
+		oddsOfParks = Odds.oddsExceedinglyUnlikely;
 		oddsOfIsolatedLots = Odds.oddsVeryLikely;
 		oddsOfIdenticalBuildingHeights = Odds.oddsAlwaysGoingToHappen;
 		oddsOfSimilarBuildingHeights = Odds.oddsAlwaysGoingToHappen;
@@ -23,9 +24,9 @@ public class MunicipalContext extends UrbanContext {
 		oddsOfRoundAbouts = Odds.oddsVeryLikely;
 		 
 		oddsOfStairWallMaterialIsWallMaterial = Odds.oddsAlwaysGoingToHappen;
-		oddsOfFlatWalledBuildings = Odds.oddsVeryLikely;
-		oddsOfSimilarInsetBuildings = Odds.oddsVeryLikely;
-		oddsOfBuildingWallInset = Odds.oddsVeryLikely;
+		oddsOfFlatWalledBuildings = Odds.oddsAlwaysGoingToHappen;
+		oddsOfSimilarInsetBuildings = Odds.oddsAlwaysGoingToHappen;
+		oddsOfBuildingWallInset = Odds.oddsAlwaysGoingToHappen;
 		rangeOfWallInset = 1;
 		
 		schematicFamily = SchematicFamily.MUNICIPAL;
@@ -39,6 +40,6 @@ public class MunicipalContext extends UrbanContext {
 		if (generator.settings.includeBones && odds.playOdds(Odds.oddsSomewhatUnlikely))
 			return new MuseumBuildingLot(platmap, chunkX, chunkZ);
 		else
-			return super.getBuilding(generator, platmap, odds, chunkX, chunkZ);
+			return new GovernmentBuildingLot(platmap, chunkX, chunkZ);
 	}
 }

@@ -25,6 +25,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 	private final static Material stairPlatformMaterial = Material.WOOD;
 	private final static Material wallMaterial = Material.SMOOTH_BRICK;
 	private final static Material ceilingMaterial = Material.STONE;
+	private final static Material floorMaterial = ceilingMaterial;
 	
 	protected final static int inset = 2;
 	
@@ -91,7 +92,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		int lowestY = getBottomY(generator);
 		
 		// bottom most floor
-		drawCeilings(generator, chunk, context, lowestY, 1, 0, 0, false, false, false, ceilingMaterial, neighborBasements);
+		drawFoundation(generator, chunk, context, lowestY, 1, false, false, floorMaterial, neighborBasements);
 		
 		// below ground
 		for (int floor = 0; floor < depth; floor++) {

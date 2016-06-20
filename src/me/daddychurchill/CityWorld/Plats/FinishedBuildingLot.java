@@ -30,6 +30,7 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 public abstract class FinishedBuildingLot extends BuildingLot {
 
 	protected Material wallMaterial;
+	protected Material foundationMaterial;
 	protected Material ceilingMaterial;
 	protected Material glassMaterial;
 	protected Material stairMaterial;
@@ -70,7 +71,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	protected Material exteriorDoorMaterial;
 	
 	protected enum CornerWallStyle {EMPTY, FILLED, WOODCOLUMN, STONECOLUMN, FILLEDTHENEMPTY, WOODTHENFILLED, STONETHENFILLED};
-	private CornerWallStyle cornerWallStyle;
+	protected CornerWallStyle cornerWallStyle;
 	
 	protected int navLightX = 0;
 	protected int navLightY = 0;
@@ -86,8 +87,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	protected InsetStyle insetStyle;
 	protected int insetInsetMidAt;
 	protected int insetInsetHighAt;
-	protected boolean outsetColumns;
-	protected int outsetColumnsDivisor;
+	protected boolean outsetEffects;
+	protected int outsetEffectDivisor;
 	
 	protected int firstFloorHeight;
 	protected int otherFloorHeight;
@@ -119,38 +120,11 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		super(platmap, chunkX, chunkZ);
 		
 		DataContext context = platmap.context;
+		
+		loadMaterials(platmap);
 
 		// calculate the defaults
 		calculateOptions(context);
-		
-		// floorheight
-		firstFloorHeight = aboveFloorHeight;
-		otherFloorHeight = aboveFloorHeight;
-		
-		// what is it made of?
-		wallMaterial = platmap.generator.materialProvider.itemsSelectMaterial_BuildingWalls.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
-		ceilingMaterial = platmap.generator.materialProvider.itemsSelectMaterial_BuildingCeilings.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
-		roofMaterial = platmap.generator.materialProvider.itemsSelectMaterial_BuildingRoofs.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
-		columnMaterial = pickColumnMaterial(wallMaterial);
-		stairMaterial = pickStairMaterial(wallMaterial);
-		doorMaterial = pickDoorMaterial(wallMaterial);
-		stairPlatformMaterial = pickStairPlatformMaterial(stairMaterial);
-		glassMaterial = pickGlassMaterial();
-		
-		// what are the walls of the stairs made of?
-		if (chunkOdds.playOdds(context.oddsOfStairWallMaterialIsWallMaterial))
-			stairWallMaterial = wallMaterial;
-		else
-			stairWallMaterial = pickStairWallMaterial(wallMaterial);
-
-		rounded = chunkOdds.playOdds(context.oddsOfRoundedBuilding);
-		
-		roofStyle = pickRoofStyle();
-		roofFeature = pickRoofFeature();
-		roofScale = 1 + chunkOdds.getRandomInt(2);
-		
-		interiorStyle = pickInteriorStyle();
-		columnMaterial = platmap.generator.materialProvider.itemsSelectMaterial_BuildingWalls.getRandomMaterial(chunkOdds);
 		
 		wallsWE = new OutsideWEWallFactory(chunkOdds, platmap.generator.settings.includeDecayedBuildings);
 		wallsNS = new OutsideNSWallFactory(wallsWE);
@@ -163,13 +137,18 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		
 		wallsInterior = new InteriorWallFactory(chunkOdds, platmap.generator.settings.includeDecayedBuildings);
 
-		forceNarrowInteriorMode = chunkOdds.playOdds(context.oddsOfForcedNarrowInteriorMode);
-		differentInteriorModes = context.oddsOfDifferentInteriorModes;
-		interiorDoorMaterial = chunkOdds.getRandomWoodenDoorType();
-		exteriorDoorMaterial = chunkOdds.getRandomWoodenDoorType();
-		
 		// final validation
 		validateOptions();
+	}
+	
+	protected void loadMaterials(PlatMap platmap) {
+
+		// what is it made of?
+		wallMaterial = platmap.generator.materialProvider.itemsSelectMaterial_BuildingWalls.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
+		foundationMaterial = platmap.generator.materialProvider.itemsSelectMaterial_BuildingFoundation.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
+		ceilingMaterial = platmap.generator.materialProvider.itemsSelectMaterial_BuildingCeilings.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
+		roofMaterial = platmap.generator.materialProvider.itemsSelectMaterial_BuildingRoofs.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
+		columnMaterial = platmap.generator.materialProvider.itemsSelectMaterial_BuildingWalls.getRandomMaterial(chunkOdds, pickColumnMaterial(wallMaterial));
 	}
 	
 	protected void calculateOptions(DataContext context) {
@@ -211,10 +190,39 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				insetStyle = InsetStyle.UNDULATEOUT; // 12.5%
 			
 		}
-		outsetColumns = chunkOdds.playOdds(Odds.oddsSomewhatLikely); 
-		outsetColumnsDivisor = chunkOdds.getRandomInt(1, 5); 
+		outsetEffects = chunkOdds.playOdds(Odds.oddsSomewhatLikely); 
+		outsetEffectDivisor = chunkOdds.getRandomInt(1, 5); 
 
 		cornerWallStyle = pickCornerStyle();
+
+		// floorheight
+		firstFloorHeight = aboveFloorHeight;
+		otherFloorHeight = aboveFloorHeight;
+		
+		stairMaterial = pickStairMaterial(wallMaterial);
+		doorMaterial = pickDoorMaterial(wallMaterial);
+		stairPlatformMaterial = pickStairPlatformMaterial(stairMaterial);
+		glassMaterial = pickGlassMaterial();
+		
+		// what are the walls of the stairs made of?
+		if (chunkOdds.playOdds(context.oddsOfStairWallMaterialIsWallMaterial))
+			stairWallMaterial = wallMaterial;
+		else
+			stairWallMaterial = pickStairWallMaterial(wallMaterial);
+
+		rounded = chunkOdds.playOdds(context.oddsOfRoundedBuilding);
+		
+		roofStyle = pickRoofStyle();
+		roofFeature = pickRoofFeature();
+		roofScale = 1 + chunkOdds.getRandomInt(2);
+		
+		interiorStyle = pickInteriorStyle();
+		
+		forceNarrowInteriorMode = chunkOdds.playOdds(context.oddsOfForcedNarrowInteriorMode);
+		differentInteriorModes = context.oddsOfDifferentInteriorModes;
+		interiorDoorMaterial = chunkOdds.getRandomWoodenDoorType();
+		exteriorDoorMaterial = chunkOdds.getRandomWoodenDoorType();
+		
 	}
 	
 	protected void validateOptions() {
@@ -268,11 +276,12 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			insetStyle = relativebuilding.insetStyle;
 			insetInsetMidAt = relativebuilding.insetInsetMidAt;
 			insetInsetHighAt = relativebuilding.insetInsetHighAt;
-			outsetColumns = relativebuilding.outsetColumns;
-			outsetColumnsDivisor = relativebuilding.outsetColumnsDivisor;
+			outsetEffects = relativebuilding.outsetEffects;
+			outsetEffectDivisor = relativebuilding.outsetEffectDivisor;
 			
 			// what is it made of?
 			wallMaterial = relativebuilding.wallMaterial;
+			foundationMaterial = relativebuilding.foundationMaterial;
 			ceilingMaterial = relativebuilding.ceilingMaterial;
 			glassMaterial = relativebuilding.glassMaterial;
 			//stairStyle can be different for each chunk
@@ -357,7 +366,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		
 		// bottom most floor
 		chunk.setLayer(lowestY - 1, Material.STONE);
-		drawCeilings(generator, chunk, context, lowestY, 1, 0, 0, false, false, false, ceilingMaterial, neighborBasements);
+		drawFoundation(generator, chunk, context, lowestY, 1, false, false, foundationMaterial, neighborBasements);
 		//chunk.setBlocks(0, chunk.width, lowestY, lowestY + 1, 0, chunk.width, (byte) ceilingMaterial.getId());
 		
 		// below ground
@@ -378,7 +387,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				neighborBasements.decrement();
 			}
 		} else {
-			chunk.setLayer(lowestY + 1, ceilingMaterial);
+			drawFoundation(generator, chunk, context, lowestY + 1, 1, false, false, foundationMaterial, neighborBasements);
+//			chunk.setLayer(lowestY + 1, ceilingMaterial);
 		}
 
 		// above ground
@@ -427,22 +437,24 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			boolean needOutsetEffect = localInsetWallWE != localInsetCeilingWE || localInsetWallNS != localInsetCeilingNS;
 			
 			// columns?
-			boolean localOutsetColumns = outsetColumns && (localInsetCeilingNS > 0 || localInsetCeilingWE > 0);
-			if (outsetColumnsDivisor > 1 && floor % outsetColumnsDivisor == 0)
-				localOutsetColumns = false;
+			boolean localOutsetEffect = outsetEffects && (localInsetCeilingNS > 0 || localInsetCeilingWE > 0);
+			if (outsetEffectDivisor > 1 && floor % outsetEffectDivisor == 0)
+				localOutsetEffect = false;
 			
 			// one floor please
 			drawExteriorParts(generator, chunk, context, floorAt, aboveFloorHeight - 1, localInsetWallNS, localInsetWallWE, floor, onTopFloor, inMiddleSection,
-					cornerWallStyle, allowRounded, localOutsetColumns, wallMaterial, glassMaterial, neighborFloors);
-			drawCeilings(generator, chunk, context, floorAt + aboveFloorHeight - 1, 
-					1, localInsetCeilingNS, localInsetCeilingWE, allowRounded, needOutsetEffect, false, ceilingMaterial, neighborFloors);
+					cornerWallStyle, allowRounded, localOutsetEffect, wallMaterial, glassMaterial, neighborFloors);
 			
 			// final floor is done... how about a roof then?
-			if (onTopFloor)
+			if (onTopFloor) {
+				drawCeilings(generator, chunk, context, floorAt + aboveFloorHeight - 1, 
+						1, localInsetCeilingNS, localInsetCeilingWE, allowRounded, needOutsetEffect, true, ceilingMaterial, neighborFloors);
 				drawRoof(generator, chunk, context, generator.streetLevel + aboveFloorHeight * (floor + 1) + 2, localInsetWallNS, localInsetWallWE, floor, 
 						allowRounded, roofMaterial, neighborFloors);
-//				drawRoof(generator, chunk, context, floorAt + aboveFloorHeight, localInsetWallNS, localInsetWallWE, floor, 
-//						allowRounded, roofMaterial, neighborFloors);
+			} else {
+				drawCeilings(generator, chunk, context, floorAt + aboveFloorHeight - 1, 
+						1, localInsetCeilingNS, localInsetCeilingWE, allowRounded, needOutsetEffect, false, ceilingMaterial, neighborFloors);
+			}
 
 			// one down, more to go
 			neighborFloors.decrement();
@@ -2316,7 +2328,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 	}
 
-	private Material pickStairPlatformMaterial(Material stair) {
+	protected Material pickStairPlatformMaterial(Material stair) {
 		switch (stair) {
 		case COBBLESTONE_STAIRS:
 			return Material.COBBLESTONE;

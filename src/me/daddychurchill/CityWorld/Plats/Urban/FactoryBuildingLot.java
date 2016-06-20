@@ -34,15 +34,30 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 		super(platmap, chunkX, chunkZ);
 		
 		firstFloorHeight = DataContext.FloorHeight * (chunkOdds.getRandomInt(3) + 3);
-		insetWallNS = 1;
-		insetWallWE = 1;
-		insetCeilingNS = 1;
-		insetCeilingWE = 1;
 		
+	}
+	
+	@Override
+	protected void calculateOptions(DataContext context) {
+		super.calculateOptions(context);
+		
+		// how do the walls inset?
+		insetWallWE = 1;
+		insetWallNS = 1;
+		
+		// what about the ceiling?
+		insetCeilingWE = insetWallWE;
+		insetCeilingNS = insetWallNS;
+		
+		// nudge in a bit more as we go up
+		insetInsetMidAt = 1;
+		insetInsetHighAt = 1;
+		insetStyle = InsetStyle.STRAIGHT;
+
 		contentStyle = pickContentStyle(chunkOdds);
 		wallStyle = pickWallStyle(chunkOdds);
 	}
-	
+
 	protected ContentStyle pickContentStyle(Odds odds) {
 		ContentStyle[] values = ContentStyle.values();
 		return values[odds.getRandomInt(values.length)];
@@ -165,82 +180,84 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			Material materialStairWall, Material materialPlatform, boolean drawStairWall, boolean drawStairs,
 			boolean topFloor, boolean singleFloor, Surroundings heights) {
 		
-		int groundY = generator.structureLevel + 2;
-		int skywalkHeight = firstFloorHeight / 2;
-		int skywalkAt = groundY + skywalkHeight;
-		int roofAt = skywalkAt + skywalkHeight;
-		int extendedAt = ((roofAt - groundY) / 2) * 3 + groundY;
-		
-		Material airMat = generator.shapeProvider.findAtmosphereMaterialAt(generator, groundY);
-		Material wallMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_BRICK);
-		Material officeMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_BRICK);
-		Material supportMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.CLAY);
-		Material smokestackMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.CLAY);
-		Material fluidMat = generator.materialProvider.itemsSelectMaterial_FactoryTanks.getRandomMaterial(chunkOdds, Material.STATIONARY_WATER);
-
-		switch (contentStyle) {
-		case BUILDING_SMOKESTACK:
-			generateSkyWalkBits(generator, chunk, heights, skywalkAt, roofAt);
-			generateSmokeStackArea(generator, chunk, heights, groundY, skywalkAt, roofAt, officeMat, smokestackMat);
-			break;
-		case BUILDING_OFFICE:
-			generateSkyWalkBits(generator, chunk, heights, skywalkAt, roofAt);
-			generateOfficeArea(generator, chunk, groundY, skywalkAt, officeMat);
-			break;
-		case SIMPLE_PIT:
-			generateSkyWalkCross(generator, chunk, heights, skywalkAt, roofAt);
-			generatePitArea(generator, chunk, heights, groundY, skywalkAt, roofAt, airMat, wallMat, fluidMat);
-			break;
-		case SIMPLE_TANK:
-			generateSkyWalkBits(generator, chunk, heights, skywalkAt, roofAt);
-			generateTankArea(generator, chunk, heights, groundY, skywalkAt, roofAt, wallMat, supportMat, fluidMat);
-			break;
-		case STACKED_STUFF:
-			generateSkyWalkCross(generator, chunk, heights, skywalkAt, roofAt);
-			generateStuffArea(generator, chunk, heights, groundY, skywalkAt, roofAt);
-			break;
-		case BUNKER_RECALL:
-			generateSkyWalkBits(generator, chunk, heights, skywalkAt, roofAt);
-			if (wallStyle == WallStyle.BUILDING)
-				BunkerLot.generateRecallBunker(generator, context, chunk, chunkOdds, groundY, roofAt);
-			else
-				BunkerLot.generateRecallBunker(generator, context, chunk, chunkOdds, groundY, extendedAt);
-			break;
-		case BUNKER_TANK:
-			generateSkyWalkBits(generator, chunk, heights, skywalkAt, roofAt);
-			if (wallStyle == WallStyle.BUILDING)
-				BunkerLot.generateTankBunker(generator, context, chunk, chunkOdds, groundY, roofAt - 2);
-			else
-				BunkerLot.generateTankBunker(generator, context, chunk, chunkOdds, groundY, extendedAt);
-			break;
-		case BUNKER_BALLS:
-			generateSkyWalkCross(generator, chunk, heights, skywalkAt, roofAt);
-			if (wallStyle == WallStyle.BUILDING)
-				BunkerLot.generateBallsyBunker(generator, context, chunk, chunkOdds, groundY, roofAt);
-			else
-				BunkerLot.generateBallsyBunker(generator, context, chunk, chunkOdds, groundY, extendedAt);
-			break;
-		case BUNKER_QUAD:
-			generateSkyWalkCross(generator, chunk, heights, skywalkAt, roofAt);
-			if (wallStyle == WallStyle.BUILDING)
-				BunkerLot.generateQuadBunker(generator, context, chunk, chunkOdds, groundY - 2, roofAt);
-			else
-				BunkerLot.generateQuadBunker(generator, context, chunk, chunkOdds, groundY - 2, extendedAt);
-			break;
-//		case BUNKER_FLOORED:
-//			generateSkyWalkBits(generator, chunk, heights, skywalkAt, roofAt);
-//			if (wallStyle == WallStyle.BUILDING)
-//				BunkerLot.generateFlooredBunker(generator, context, chunk, chunkOdds, groundY, roofAt);
-//			else
-//				BunkerLot.generateFlooredBunker(generator, context, chunk, chunkOdds, groundY, extendedAt);
-//			break;
-		case BUNKER_GROWING:
-			generateSkyWalkBits(generator, chunk, heights, skywalkAt, roofAt);
-			if (wallStyle == WallStyle.BUILDING)
-				BunkerLot.generateGrowingBunker(generator, context, chunk, chunkOdds, groundY, roofAt);
-			else
-				BunkerLot.generateGrowingBunker(generator, context, chunk, chunkOdds, groundY, extendedAt);
-			break;
+		if (singleFloor) {
+			int groundY = generator.structureLevel + 2;
+			int skywalkHeight = firstFloorHeight / 2;
+			int skywalkAt = groundY + skywalkHeight;
+			int roofAt = skywalkAt + skywalkHeight;
+			int extendedAt = ((roofAt - groundY) / 2) * 3 + groundY;
+			
+			Material airMat = generator.shapeProvider.findAtmosphereMaterialAt(generator, groundY);
+			Material wallMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_BRICK);
+			Material officeMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_BRICK);
+			Material supportMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.CLAY);
+			Material smokestackMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.CLAY);
+			Material fluidMat = generator.materialProvider.itemsSelectMaterial_FactoryTanks.getRandomMaterial(chunkOdds, Material.STATIONARY_WATER);
+	
+			switch (contentStyle) {
+			case BUILDING_SMOKESTACK:
+				generateSkyWalkBits(generator, chunk, heights, skywalkAt, roofAt);
+				generateSmokeStackArea(generator, chunk, heights, groundY, skywalkAt, roofAt, officeMat, smokestackMat);
+				break;
+			case BUILDING_OFFICE:
+				generateSkyWalkBits(generator, chunk, heights, skywalkAt, roofAt);
+				generateOfficeArea(generator, chunk, groundY, skywalkAt, officeMat);
+				break;
+			case SIMPLE_PIT:
+				generateSkyWalkCross(generator, chunk, heights, skywalkAt, roofAt);
+				generatePitArea(generator, chunk, heights, groundY, skywalkAt, roofAt, airMat, wallMat, fluidMat);
+				break;
+			case SIMPLE_TANK:
+				generateSkyWalkBits(generator, chunk, heights, skywalkAt, roofAt);
+				generateTankArea(generator, chunk, heights, groundY, skywalkAt, roofAt, wallMat, supportMat, fluidMat);
+				break;
+			case STACKED_STUFF:
+				generateSkyWalkCross(generator, chunk, heights, skywalkAt, roofAt);
+				generateStuffArea(generator, chunk, heights, groundY, skywalkAt, roofAt);
+				break;
+			case BUNKER_RECALL:
+				generateSkyWalkBits(generator, chunk, heights, skywalkAt, roofAt);
+				if (wallStyle == WallStyle.BUILDING)
+					BunkerLot.generateRecallBunker(generator, context, chunk, chunkOdds, groundY, roofAt);
+				else
+					BunkerLot.generateRecallBunker(generator, context, chunk, chunkOdds, groundY, extendedAt);
+				break;
+			case BUNKER_TANK:
+				generateSkyWalkBits(generator, chunk, heights, skywalkAt, roofAt);
+				if (wallStyle == WallStyle.BUILDING)
+					BunkerLot.generateTankBunker(generator, context, chunk, chunkOdds, groundY, roofAt - 2);
+				else
+					BunkerLot.generateTankBunker(generator, context, chunk, chunkOdds, groundY, extendedAt);
+				break;
+			case BUNKER_BALLS:
+				generateSkyWalkCross(generator, chunk, heights, skywalkAt, roofAt);
+				if (wallStyle == WallStyle.BUILDING)
+					BunkerLot.generateBallsyBunker(generator, context, chunk, chunkOdds, groundY, roofAt);
+				else
+					BunkerLot.generateBallsyBunker(generator, context, chunk, chunkOdds, groundY, extendedAt);
+				break;
+			case BUNKER_QUAD:
+				generateSkyWalkCross(generator, chunk, heights, skywalkAt, roofAt);
+				if (wallStyle == WallStyle.BUILDING)
+					BunkerLot.generateQuadBunker(generator, context, chunk, chunkOdds, groundY - 2, roofAt);
+				else
+					BunkerLot.generateQuadBunker(generator, context, chunk, chunkOdds, groundY - 2, extendedAt);
+				break;
+//			case BUNKER_FLOORED:
+//				generateSkyWalkBits(generator, chunk, heights, skywalkAt, roofAt);
+//				if (wallStyle == WallStyle.BUILDING)
+//					BunkerLot.generateFlooredBunker(generator, context, chunk, chunkOdds, groundY, roofAt);
+//				else
+//					BunkerLot.generateFlooredBunker(generator, context, chunk, chunkOdds, groundY, extendedAt);
+//				break;
+			case BUNKER_GROWING:
+				generateSkyWalkBits(generator, chunk, heights, skywalkAt, roofAt);
+				if (wallStyle == WallStyle.BUILDING)
+					BunkerLot.generateGrowingBunker(generator, context, chunk, chunkOdds, groundY, roofAt);
+				else
+					BunkerLot.generateGrowingBunker(generator, context, chunk, chunkOdds, groundY, extendedAt);
+				break;
+			}
 		}
 	}
 

@@ -807,6 +807,12 @@ public abstract class BuildingLot extends ConnectedLot {
 		blocks.setBlocks(x, y1, y2, z, wallMaterial);
 	}
 
+	protected void drawFoundation(CityWorldGenerator generator, InitialBlocks byteChunk, DataContext context, int y1, 
+			int height, boolean allowRounded, boolean outsetEffect,
+			Material foundationMaterial, Surroundings heights) {
+		byteChunk.setLayer(y1, height, foundationMaterial);
+	}
+	
 	protected void drawCeilings(CityWorldGenerator generator, InitialBlocks byteChunk, DataContext context, int y1, 
 			int height, int insetNS, int insetWE, boolean allowRounded, boolean outsetEffect, boolean onRoof,
 			Material ceilingMaterial, Surroundings heights) {

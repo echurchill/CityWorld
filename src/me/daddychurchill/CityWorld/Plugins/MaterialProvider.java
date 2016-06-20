@@ -312,6 +312,33 @@ public class MaterialProvider {
 			Material.END_BRICKS,
 			Material.DOUBLE_STONE_SLAB2);
 
+	public final static String tagSelectMaterial_BuildingFoundation = "Materials_For_BuildingFoundation";
+	public MaterialList itemsSelectMaterial_BuildingFoundation = createList(tagSelectMaterial_BuildingFoundation,
+			Material.COBBLESTONE,
+			Material.WOOD,
+			Material.SANDSTONE,
+			Material.WOOL,
+			Material.DOUBLE_STEP,
+			Material.BRICK,
+			Material.MOSSY_COBBLESTONE,
+			Material.CLAY,
+			Material.NETHERRACK,
+//			Material.SOUL_SAND,
+			Material.SMOOTH_BRICK,
+			Material.NETHER_BRICK,
+			Material.QUARTZ_BLOCK,
+			Material.HARD_CLAY,
+			Material.STAINED_CLAY,
+			Material.COAL_BLOCK,
+			Material.ENDER_STONE,
+			Material.STONE,
+			Material.RED_SANDSTONE,
+			Material.PRISMARINE,
+			Material.PURPUR_BLOCK,
+			Material.PURPUR_PILLAR,
+			Material.END_BRICKS,
+			Material.DOUBLE_STONE_SLAB2);
+
 	public final static String tagSelectMaterial_BuildingCeilings = "Materials_For_BuildingCeilings";
 	public MaterialList itemsSelectMaterial_BuildingCeilings = createList(tagSelectMaterial_BuildingCeilings,
 			Material.COBBLESTONE,
@@ -378,6 +405,21 @@ public class MaterialProvider {
 			Material.STONE,
 			Material.WOOD);
 
+	public final static String tagSelectMaterial_GovernmentWalls = "Materials_For_GovernmentWalls";
+	public MaterialList itemsSelectMaterial_GovernmentWalls = createList(tagSelectMaterial_GovernmentWalls,
+			Material.QUARTZ_BLOCK,
+			Material.WOOL);
+	
+	public final static String tagSelectMaterial_GovernmentFoundations = "Materials_For_GovernmentFoundations";
+	public MaterialList itemsSelectMaterial_GovernmentFoundations = createList(tagSelectMaterial_GovernmentFoundations,
+			Material.QUARTZ_BLOCK,
+			Material.WOOL);
+	
+	public final static String tagSelectMaterial_GovernmentCeilings = "Materials_For_GovernmentCeilings";
+	public MaterialList itemsSelectMaterial_GovernmentCeilings = createList(tagSelectMaterial_GovernmentCeilings,
+			Material.QUARTZ_BLOCK,
+			Material.WOOL);
+	
 	public final static String tagSelectMaterial_HouseWalls = "Materials_For_HouseWalls";
 	public MaterialList itemsSelectMaterial_HouseWalls = createList(tagSelectMaterial_HouseWalls,
 			Material.COBBLESTONE,

@@ -81,11 +81,19 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	public final void setBlock(int x, int y, int z, Material material) {
 		if (doClearData) {
 			BlockState state = getActualBlock(x, y, z).getState();
-			state.setType(material);
-			state.setData(new MaterialData(material));
-			state.update(true, doPhysics);
-		} else
+//			if (state.getType() != material) {
+				state.setType(material);
+				state.setData(new MaterialData(material));
+				state.update(true, doPhysics);
+//			}
+		} else {
 			getActualBlock(x, y, z).setType(material);
+//			BlockState state = getActualBlock(x, y, z).getState();
+//			if (state.getType() != material) {
+//				state.setType(material);
+//				state.update(true, doPhysics);
+//			}
+		}
 	}
 
 	public final void setBlock(int x, int y, int z, Material material, MaterialData data) {
@@ -276,66 +284,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 				Block block = getActualBlock(x, y, z);
 				if (block.isEmpty())
 					block.setType(material);
-			}
-		}
-	}
-	
-	private void drawCircleBlocks(int cx, int cz, int x, int z, int y, Material material) {
-		// Ref: Notes/BCircle.PDF
-		setBlock(cx + x, y, cz + z, material); // point in octant 1
-		setBlock(cx + z, y, cz + x, material); // point in octant 2
-		setBlock(cx - z - 1, y, cz + x, material); // point in octant 3
-		setBlock(cx - x - 1, y, cz + z, material); // point in octant 4
-		setBlock(cx - x - 1, y, cz - z - 1, material); // point in octant 5
-		setBlock(cx - z - 1, y, cz - x - 1, material); // point in octant 6
-		setBlock(cx + z, y, cz - x - 1, material); // point in octant 7
-		setBlock(cx + x, y, cz - z - 1, material); // point in octant 8
-	}
-	
-	private void drawCircleBlocks(int cx, int cz, int x, int z, int y1, int y2, Material material) {
-		for (int y = y1; y < y2; y++) {
-			drawCircleBlocks(cx, cz, x, z, y, material);
-		}
-	}
-	
-	private void fillCircleBlocks(int cx, int cz, int x, int z, int y, Material material) {
-		// Ref: Notes/BCircle.PDF
-		setBlocks(cx - x - 1, cx - x, y, cz - z - 1, cz + z + 1, material); // point in octant 5
-		setBlocks(cx - z - 1, cx - z, y, cz - x - 1, cz + x + 1, material); // point in octant 6
-		setBlocks(cx + z, cx + z + 1, y, cz - x - 1, cz + x + 1, material); // point in octant 7
-		setBlocks(cx + x, cx + x + 1, y, cz - z - 1, cz + z + 1, material); // point in octant 8
-	}
-	
-	private void fillCircleBlocks(int cx, int cz, int x, int z, int y1, int y2, Material material) {
-		for (int y = y1; y < y2; y++) {
-			fillCircleBlocks(cx, cz, x, z, y, material);
-		}
-	}
-	
-	public final void setCircle(int cx, int cz, int r, int y, Material material, boolean fill) {
-		setCircle(cx, cz, r, y, y + 1, material, fill);
-	}
-	
-	public final void setCircle(int cx, int cz, int r, int y1, int y2, Material material, boolean fill) {
-		// Ref: Notes/BCircle.PDF
-		int x = r;
-		int z = 0;
-		int xChange = 1 - 2 * r;
-		int zChange = 1;
-		int rError = 0;
-		
-		while (x >= z) {
-			if (fill)
-				fillCircleBlocks(cx, cz, x, z, y1, y2, material);
-			else
-				drawCircleBlocks(cx, cz, x, z, y1, y2, material);
-			z++;
-			rError += zChange;
-			zChange += 2;
-			if (2 * rError + xChange > 0) {
-				x--;
-				rError += xChange;
-				xChange += 2;
 			}
 		}
 	}

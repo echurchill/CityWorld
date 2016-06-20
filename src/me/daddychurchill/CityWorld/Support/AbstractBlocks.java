@@ -67,8 +67,65 @@ public abstract class AbstractBlocks {
 	public abstract boolean setEmptyBlock(int x, int y, int z, Material material);
 	public abstract void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, Material material);
 	
-	public abstract void setCircle(int cx, int cz, int r, int y, Material material, boolean fill);
-	public abstract void setCircle(int cx, int cz, int r, int y1, int y2, Material material, boolean fill);
+	private void drawCircleBlocks(int cx, int cz, int x, int z, int y, Material material) {
+		// Ref: Notes/BCircle.PDF
+		setBlock(cx + x, y, cz + z, material); // point in octant 1
+		setBlock(cx + z, y, cz + x, material); // point in octant 2
+		setBlock(cx - z - 1, y, cz + x, material); // point in octant 3
+		setBlock(cx - x - 1, y, cz + z, material); // point in octant 4
+		setBlock(cx - x - 1, y, cz - z - 1, material); // point in octant 5
+		setBlock(cx - z - 1, y, cz - x - 1, material); // point in octant 6
+		setBlock(cx + z, y, cz - x - 1, material); // point in octant 7
+		setBlock(cx + x, y, cz - z - 1, material); // point in octant 8
+	}
+	
+	private void drawCircleBlocks(int cx, int cz, int x, int z, int y1, int y2, Material material) {
+		for (int y = y1; y < y2; y++) {
+			drawCircleBlocks(cx, cz, x, z, y, material);
+		}
+	}
+	
+	private void fillCircleBlocks(int cx, int cz, int x, int z, int y, Material material) {
+		// Ref: Notes/BCircle.PDF
+		setBlocks(cx - x - 1, cx - x, y, cz - z - 1, cz + z + 1, material); // point in octant 5
+		setBlocks(cx - z - 1, cx - z, y, cz - x - 1, cz + x + 1, material); // point in octant 6
+		setBlocks(cx + z, cx + z + 1, y, cz - x - 1, cz + x + 1, material); // point in octant 7
+		setBlocks(cx + x, cx + x + 1, y, cz - z - 1, cz + z + 1, material); // point in octant 8
+	}
+	
+	private void fillCircleBlocks(int cx, int cz, int x, int z, int y1, int y2, Material material) {
+		for (int y = y1; y < y2; y++) {
+			fillCircleBlocks(cx, cz, x, z, y, material);
+		}
+	}
+	
+	public void setCircle(int cx, int cz, int r, int y, Material material, boolean fill) {
+		setCircle(cx, cz, r, y, y + 1, material, fill);
+	}
+	
+	public void setCircle(int cx, int cz, int r, int y1, int y2, Material material, boolean fill) {
+		// Ref: Notes/BCircle.PDF
+		int x = r;
+		int z = 0;
+		int xChange = 1 - 2 * r;
+		int zChange = 1;
+		int rError = 0;
+		
+		while (x >= z) {
+			if (fill)
+				fillCircleBlocks(cx, cz, x, z, y1, y2, material);
+			else
+				drawCircleBlocks(cx, cz, x, z, y1, y2, material);
+			z++;
+			rError += zChange;
+			zChange += 2;
+			if (2 * rError + xChange > 0) {
+				x--;
+				rError += xChange;
+				xChange += 2;
+			}
+		}
+	}
 	
 	public final void setCircle(int cx, int cz, int r, int y, Material material) {
 		setCircle(cx, cz, r, y, material, false);
@@ -326,4 +383,181 @@ public abstract class AbstractBlocks {
 			}
 		}
 	}
+
+	public void setArcNorthWest(int inset, int y1, int y2, Material primary, boolean fill) {
+		setArcNorthWest(inset, y1, y2, primary, primary, null, fill);
+	}
+
+	public void setArcSouthWest(int inset, int y1, int y2, Material primary, boolean fill) {
+		setArcSouthWest(inset, y1, y2, primary, primary, null, fill);
+	}
+
+	public void setArcNorthEast(int inset, int y1, int y2, Material primary, boolean fill) {
+		setArcNorthEast(inset, y1, y2, primary, primary, null, fill);
+	}
+	
+	public void setArcSouthEast(int inset, int y1, int y2, Material primary, boolean fill) {
+		setArcSouthEast(inset, y1, y2, primary, primary, null, fill);
+	}
+
+	public void setArcNorthWest(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker) {
+		setArcNorthWest(inset, y1, y2, primary, secondary, maker, false);
+	}
+	
+	public void setArcSouthWest(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker) {
+		setArcSouthWest(inset, y1, y2, primary, secondary, maker, false);
+	}
+	
+	public void setArcNorthEast(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker) {
+		setArcNorthEast(inset, y1, y2, primary, secondary, maker, false);
+	}
+	
+	public void setArcSouthEast(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker) {
+		setArcSouthEast(inset, y1, y2, primary, secondary, maker, false);
+	}
+	
+	public void setArcNorthWest(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean fill) {
+		// Ref: Notes/BCircle.PDF
+		int cx = inset;
+		int cz = inset;
+		int r = width - inset * 2 - 1;
+		int x = r;
+		int z = 0;
+		int xChange = 1 - 2 * r;
+		int zChange = 1;
+		int rError = 0;
+		
+		while (x >= z) {
+			if (fill) {
+				setBlocks(cx, cx + x + 1, y1, y2, cz + z, cz + z + 1, primary); // point in octant 1 ENE
+				setBlocks(cx, cx + z + 1, y1, y2, cz + x, cz + x + 1, primary); // point in octant 2 NNE
+			} else if (maker != null) {
+				maker.placeMaterial(this, primary, secondary, cx + x, y1, y2, cz + z); // point in octant 1 ENE
+				maker.placeMaterial(this, primary, secondary, cx + z, y1, y2, cz + x); // point in octant 2 NNE
+			} else {
+				setBlock(cx + x, y1, cz + z, primary); // point in octant 1 ENE
+				setBlocks(cx + x, y1 + 1, y2, cz + z, secondary); // point in octant 1 ENE
+				setBlock(cx + z, y1, cz + x, primary); // point in octant 2 NNE
+				setBlocks(cx + z, y1 + 1, y2, cz + x, secondary); // point in octant 2 NNE
+			}
+			
+			z++;
+			rError += zChange;
+			zChange += 2;
+			if (2 * rError + xChange > 0) {
+				x--;
+				rError += xChange;
+				xChange += 2;
+			}
+		}
+	}
+	
+	public void setArcSouthWest(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean fill) {
+		// Ref: Notes/BCircle.PDF
+		int cx = inset;
+		int cz = width - inset;
+		int r = width - inset * 2 - 1;
+		int x = r;
+		int z = 0;
+		int xChange = 1 - 2 * r;
+		int zChange = 1;
+		int rError = 0;
+		
+		while (x >= z) {
+			if (fill) {
+				setBlocks(cx, cx + z + 1, y1, y2, cz - x - 1, cz - x, primary); // point in octant 7 WNW
+				setBlocks(cx, cx + x + 1, y1, y2, cz - z - 1, cz - z, primary); // point in octant 8 NNW
+			} else if (maker != null) {
+				maker.placeMaterial(this, primary, secondary, cx + z, y1, y2, cz - x - 1); // point in octant 7 WNW
+				maker.placeMaterial(this, primary, secondary, cx + x, y1, y2, cz - z - 1); // point in octant 8 NNW
+			} else {
+				setBlock(cx + z, y1, cz - x - 1, primary); // point in octant 7 WNW
+				setBlocks(cx + z, y1 + 1, y2, cz - x - 1, secondary); // point in octant 7 WNW
+				setBlock(cx + x, y1, cz - z - 1, primary); // point in octant 8 NNW
+				setBlocks(cx + x, y1 + 1, y2, cz - z - 1, secondary); // point in octant 8 NNW
+			}
+			
+			z++;
+			rError += zChange;
+			zChange += 2;
+			if (2 * rError + xChange > 0) {
+				x--;
+				rError += xChange;
+				xChange += 2;
+			}
+		}
+	}
+	
+	public void setArcNorthEast(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean fill) {
+		// Ref: Notes/BCircle.PDF
+		int cx = width - inset;
+		int cz = inset;
+		int r = width - inset * 2 - 1;
+		int x = r;
+		int z = 0;
+		int xChange = 1 - 2 * r;
+		int zChange = 1;
+		int rError = 0;
+		
+		while (x >= z) {
+			if (fill) {
+				setBlocks(cx - z - 1, cx, y1, y2, cz + x, cz + x + 1, primary); // point in octant 3 ESE
+				setBlocks(cx - x - 1, cx, y1, y2, cz + z, cz + z + 1, primary); // point in octant 4 SSE
+			} else if (maker != null) {
+				maker.placeMaterial(this, primary, secondary, cx - z - 1, y1, y2, cz + x); // point in octant 3 ESE
+				maker.placeMaterial(this, primary, secondary, cx - x - 1, y1, y2, cz + z); // point in octant 4 SSE
+			} else {
+				setBlock(cx - z - 1, y1, cz + x, primary); // point in octant 3 ESE
+				setBlocks(cx - z - 1, y1 + 1, y2, cz + x, secondary); // point in octant 3 ESE
+				setBlock(cx - x - 1, y1, cz + z, primary); // point in octant 4 SSE
+				setBlocks(cx - x - 1, y1 + 1, y2, cz + z, secondary); // point in octant 4 SSE
+			}
+			
+			z++;
+			rError += zChange;
+			zChange += 2;
+			if (2 * rError + xChange > 0) {
+				x--;
+				rError += xChange;
+				xChange += 2;
+			}
+		}
+	}
+	
+	public void setArcSouthEast(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean fill) {
+		// Ref: Notes/BCircle.PDF
+		int cx = width - inset;
+		int cz = width - inset;
+		int r = width - inset * 2 - 1;
+		int x = r;
+		int z = 0;
+		int xChange = 1 - 2 * r;
+		int zChange = 1;
+		int rError = 0;
+		
+		while (x >= z) {
+			if (fill) {
+				setBlocks(cx - x - 1, cx, y1, y2, cz - z - 1, cz - z, primary); // point in octant 5 SSW
+				setBlocks(cx - z - 1, cx, y1, y2, cz - x - 1, cz - x, primary); // point in octant 6 WSW
+			} else if (maker != null) {
+				maker.placeMaterial(this, primary, secondary, cx - x - 1, y1, y2, cz - z - 1); // point in octant 5 SSW
+				maker.placeMaterial(this, primary, secondary, cx - z - 1, y1, y2, cz - x - 1); // point in octant 6 WSW
+			} else {
+				setBlock(cx - x - 1, y1, cz - z - 1, primary); // point in octant 5 SSW
+				setBlocks(cx - x - 1, y1 + 1, y2, cz - z - 1, secondary); // point in octant 5 SSW
+				setBlock(cx - z - 1, y1, cz - x - 1, primary); // point in octant 6 WSW
+				setBlocks(cx - z - 1, y1 + 1, y2, cz - x - 1, secondary); // point in octant 6 WSW
+			}
+			
+			z++;
+			rError += zChange;
+			zChange += 2;
+			if (2 * rError + xChange > 0) {
+				x--;
+				rError += xChange;
+				xChange += 2;
+			}
+		}
+	}
+	
 }
