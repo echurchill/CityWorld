@@ -826,6 +826,29 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		BlackMagic.setBlock(this, x, y, z, material, direction.getData());
 	}
 
+	public final void setStairs(int x1, int x2, int y, int z1, int z2, Material material, BadMagic.Stair direction) {
+		for (int x = x1; x < x2; x++)
+			for (int z = z1; z < z2; z++)
+				setStair(x, y, z, material, direction);
+	}
+	
+	public static final Material filterStairMaterial(Material material) {
+		switch (material) {
+		case BRICK:
+		case COBBLESTONE:
+		case NETHER_BRICK:
+		case PURPUR_STAIRS:
+		case RED_SANDSTONE:
+		case SANDSTONE:
+		case WOOD:
+		case QUARTZ:
+		case SMOOTH_BRICK:
+			return material;
+		default:
+			return Material.WOOD;
+		}
+	}
+
 	public final void setVine(int x, int y, int z, BadMagic.Vine direction) {
 		BlackMagic.setBlock(this, x, y, z, Material.VINE, direction.getData());
 	}

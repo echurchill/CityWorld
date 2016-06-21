@@ -11,6 +11,7 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 import me.daddychurchill.CityWorld.Support.Surroundings;
+import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
 import me.daddychurchill.CityWorld.Support.BadMagic.StairWell;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 
@@ -33,7 +34,10 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 		ceilingMaterial = platmap.generator.materialProvider.itemsSelectMaterial_GovernmentCeilings.getRandomMaterial(chunkOdds, Material.WOOL);
 		roofMaterial = platmap.generator.materialProvider.itemsSelectMaterial_GovernmentCeilings.getRandomMaterial(chunkOdds, Material.WOOL);
 		columnMaterial = platmap.generator.materialProvider.itemsSelectMaterial_GovernmentWalls.getRandomMaterial(chunkOdds, pickColumnMaterial(wallMaterial));
+		foundationSteps = SupportBlocks.filterStairMaterial(foundationMaterial);
 	}
+	
+	private Material foundationSteps;
 	
 	private static int higher = 2;
 	private static int deeper = 3;
@@ -123,22 +127,94 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 				drawStairs, topFloor, singleFloor, heights);
 		
 		if (floor == 0) {
-			drawFoundationSteps(blocks, floorAt, 1, heights);
-			drawFoundationSteps(blocks, floorAt + 1, 2, heights);
+			drawFoundationSteps(blocks, floorAt, floorAt + 2, heights);
 			//drawFoundationColumns(blocks, floorAt + 1, 1, heights);
 		} 
 //		drawFoundationColumns(blocks, floorAt + higher - 1, DataContext.FloorHeight, heights);
 	};
 	
-	private void drawFoundationSteps(SupportBlocks blocks, int y1, int inset, Surroundings heights) {
-		int x1 = heights.toWest() ? 0 : inset;
-		int x2 = heights.toEast() ? 16 : 16 - inset;
-		int z1 = heights.toNorth() ? 0 : inset;
-		int z2 = heights.toSouth() ? 16 : 16 - inset;
+	private void drawFoundationSteps(SupportBlocks blocks, int y1, int y2, Surroundings heights) {
+		blocks.setBlocks(3, 13, y1, y2, 3, 13, foundationMaterial);
 		
-		blocks.setBlocks(x1, x2, y1, z1, z2, foundationMaterial);
+		if (heights.toNorth()) {
+			blocks.setBlocks(3, 13, y1, y2, 0, 3, foundationMaterial);
+		} else {
+			blocks.setStairs(3, 13, y1, 1, 2, foundationSteps, Stair.SOUTH);
+			blocks.setBlocks(3, 13, y1, 2, 3, foundationMaterial);
+			blocks.setStairs(3, 13, y1 + 1, 2, 3, foundationSteps, Stair.SOUTH);
+		}
 		
+		if (heights.toSouth()) {
+			blocks.setBlocks(3, 13, y1, y2, 13, 16, foundationMaterial);
+		} else {
+			blocks.setStairs(3, 13, y1, 14, 15, foundationSteps, Stair.NORTH);
+			blocks.setBlocks(3, 13, y1, 13, 14, foundationMaterial);
+			blocks.setStairs(3, 13, y1 + 1, 13, 14, foundationSteps, Stair.NORTH);
+		}
 		
+		if (heights.toWest()) {
+			blocks.setBlocks(0, 3, y1, y2, 3, 13, foundationMaterial);
+		} else {
+			blocks.setStairs(1, 2, y1, 3, 13, foundationSteps, Stair.EAST);
+			blocks.setBlocks(2, 3, y1, 3, 13, foundationMaterial);
+			blocks.setStairs(2, 3, y1 + 1, 3, 13, foundationSteps, Stair.EAST);
+		}
+		
+		if (heights.toEast()) {
+			blocks.setBlocks(13, 16, y1, y2, 3, 13, foundationMaterial);
+		} else {
+			blocks.setStairs(14, 15, y1, 3, 13, foundationSteps, Stair.WEST);
+			blocks.setBlocks(13, 14, y1, 3, 13, foundationMaterial);
+			blocks.setStairs(13, 14, y1 + 1, 3, 13, foundationSteps, Stair.WEST);
+		}
+		
+		if (heights.toNorth() && !heights.toWest()) {
+			// small bit leaning east
+		} else if (heights.toWest() && !heights.toNorth()) {
+			// small bit leaning south
+		} else if (heights.toNorth() && heights.toWest()) {
+//			if (heights.toNorthWest()) {
+				blocks.setBlocks(0, 3, y1, y2, 0, 3, foundationMaterial);
+//			} else {
+//				// small bit leaning south east
+//			}
+		}
+		
+		if (heights.toNorth() && !heights.toEast()) {
+			// small bit leaning west
+		} else if (heights.toEast() && !heights.toNorth()) {
+			// small bit leaning south
+		} else if (heights.toNorth() && heights.toEast()) {
+//			if (heights.toNorthEast()) {
+				blocks.setBlocks(13, 16, y1, y2, 0, 3, foundationMaterial);
+//			} else {
+//				// small bit leaning south west
+//			}
+		}
+		
+		if (heights.toSouth() && !heights.toWest()) {
+			// small bit leaning east
+		} else if (heights.toWest() && !heights.toSouth()) {
+			// small bit leaning south
+		} else if (heights.toSouth() && heights.toWest()) {
+//			if (heights.toSouthWest()) {
+				blocks.setBlocks(0, 3, y1, y2, 13, 16, foundationMaterial);
+//			} else {
+//				// small bit leaning south east
+//			}
+		}
+		
+		if (heights.toSouth() && !heights.toEast()) {
+			// small bit leaning west
+		} else if (heights.toEast() && !heights.toSouth()) {
+			// small bit leaning south
+		} else if (heights.toSouth() && heights.toEast()) {
+//			if (heights.toSouthEast()) {
+				blocks.setBlocks(13, 16, y1, y2, 13, 16, foundationMaterial);
+//			} else {
+//				// small bit leaning south west
+//			}
+		}
 	}
 	
 //	private void drawFoundationColumns(SupportBlocks blocks, int y1, int height, Surroundings heights) {
