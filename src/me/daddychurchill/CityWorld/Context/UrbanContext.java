@@ -79,6 +79,8 @@ public abstract class UrbanContext extends CivilizedContext {
 								toSouthEast = current.newLike(platmap, platmap.originX + x + 1, platmap.originZ + z + 1);
 								toSouthEast.makeConnected(current);
 								platmap.setLot(x + 1, z + 1, toSouthEast);
+								
+								// @@@@ go for a 2x3, 3x2 or even a 3x3
 							}
 						}
 					}

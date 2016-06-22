@@ -77,6 +77,8 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 			GovernmentBuildingLot relativebuilding = (GovernmentBuildingLot) relative;
 
 			columnStep = relativebuilding.columnStep;
+			foundationMaterial = relativebuilding.foundationMaterial;
+			foundationSteps = relativebuilding.foundationSteps;
 		}
 		return result;
 	}
@@ -169,9 +171,9 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 		}
 		
 		if (heights.toNorth() && !heights.toWest()) {
-			// small bit leaning east
+			drawFoundationHeadingEastBit(blocks, 0, y1, 0);
 		} else if (heights.toWest() && !heights.toNorth()) {
-			// small bit leaning south
+			drawFoundationHeadingSouthBit(blocks, 0, y1, 0);
 		} else if (heights.toNorth() && heights.toWest()) {
 //			if (heights.toNorthWest()) {
 				blocks.setBlocks(0, 3, y1, y2, 0, 3, foundationMaterial);
@@ -181,9 +183,9 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 		}
 		
 		if (heights.toNorth() && !heights.toEast()) {
-			// small bit leaning west
+			drawFoundationHeadingWestBit(blocks, 13, y1, 0);
 		} else if (heights.toEast() && !heights.toNorth()) {
-			// small bit leaning south
+			drawFoundationHeadingSouthBit(blocks, 13, y1, 0);
 		} else if (heights.toNorth() && heights.toEast()) {
 //			if (heights.toNorthEast()) {
 				blocks.setBlocks(13, 16, y1, y2, 0, 3, foundationMaterial);
@@ -193,9 +195,9 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 		}
 		
 		if (heights.toSouth() && !heights.toWest()) {
-			// small bit leaning east
+			drawFoundationHeadingEastBit(blocks, 0, y1, 13);
 		} else if (heights.toWest() && !heights.toSouth()) {
-			// small bit leaning south
+			drawFoundationHeadingNorthBit(blocks, 0, y1, 13);
 		} else if (heights.toSouth() && heights.toWest()) {
 //			if (heights.toSouthWest()) {
 				blocks.setBlocks(0, 3, y1, y2, 13, 16, foundationMaterial);
@@ -205,9 +207,9 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 		}
 		
 		if (heights.toSouth() && !heights.toEast()) {
-			// small bit leaning west
+			drawFoundationHeadingWestBit(blocks, 13, y1, 13);
 		} else if (heights.toEast() && !heights.toSouth()) {
-			// small bit leaning south
+			drawFoundationHeadingNorthBit(blocks, 13, y1, 13);
 		} else if (heights.toSouth() && heights.toEast()) {
 //			if (heights.toSouthEast()) {
 				blocks.setBlocks(13, 16, y1, y2, 13, 16, foundationMaterial);
@@ -215,6 +217,30 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 //				// small bit leaning south west
 //			}
 		}
+	}
+	
+	private void drawFoundationHeadingNorthBit(SupportBlocks blocks, int x, int y, int z) {
+		blocks.setStairs(x, x + 3, y    , z + 1, z + 2, foundationSteps, Stair.NORTH);
+		blocks.setBlocks(x, x + 3, y    , z    , z + 1, foundationMaterial);
+		blocks.setStairs(x, x + 3, y + 1, z    , z + 1, foundationSteps, Stair.NORTH);
+	}
+	
+	private void drawFoundationHeadingSouthBit(SupportBlocks blocks, int x, int y, int z) {
+		blocks.setStairs(x, x + 3, y    , z + 1, z + 2, foundationSteps, Stair.SOUTH);
+		blocks.setBlocks(x, x + 3, y    , z + 2, z + 3, foundationMaterial);
+		blocks.setStairs(x, x + 3, y + 1, z + 2, z + 3, foundationSteps, Stair.SOUTH);
+	}
+	
+	private void drawFoundationHeadingWestBit(SupportBlocks blocks, int x, int y, int z) {
+		blocks.setStairs(x + 1, x + 2, y    , z, z + 3, foundationSteps, Stair.WEST);
+		blocks.setBlocks(x    , x + 1, y    , z, z + 3, foundationMaterial);
+		blocks.setStairs(x    , x + 1, y + 1, z, z + 3, foundationSteps, Stair.WEST);
+	}
+	
+	private void drawFoundationHeadingEastBit(SupportBlocks blocks, int x, int y, int z) {
+		blocks.setStairs(x + 1, x + 2, y    , z, z + 3, foundationSteps, Stair.EAST);
+		blocks.setBlocks(x + 2, x + 3, y    , z, z + 3, foundationMaterial);
+		blocks.setStairs(x + 2, x + 3, y + 1, z, z + 3, foundationSteps, Stair.EAST);
 	}
 	
 //	private void drawFoundationColumns(SupportBlocks blocks, int y1, int height, Surroundings heights) {

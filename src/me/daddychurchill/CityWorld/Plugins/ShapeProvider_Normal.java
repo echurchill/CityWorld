@@ -164,65 +164,65 @@ public class ShapeProvider_Normal extends ShapeProvider {
 				return highriseContext;
 		}
 
-// current attempt
-		else if (nature < 0.10)
-			return constructionContext;
-		else if (nature < 0.18) // was 0.20
-			return midriseContext;
-		else if (nature < 0.30)
-			return municipalContext;
-		else if (nature < 0.42) // was 0.40
-			return industrialContext;
-		else if (nature < 0.48) // was 0.50
-			return lowriseContext;
-		else if (nature < 0.60)
-			return neighborhoodContext;
-		else if (nature < 0.70 && platmap.generator.settings.includeFarms)
-			return farmContext;
-		else if (nature < 0.80)
-			return outlandContext;
-
-// second attempt
-//		else if (nature < 0.05)
+//		else if (nature < 0.10) // 10
 //			return constructionContext;
-//		else if (nature < 0.10)
+//		else if (nature < 0.15) // 5 %%%%%
+		else if (nature < 0.80)
+			return municipalContext;
+//		else if (nature < 0.25) // 10
 //			return midriseContext;
-//		else if (nature < 0.20)
-//			return municipalContext;
-//		else if (nature < 0.30)
+//		else if (nature < 0.40) // 15
 //			return industrialContext;
-//		else if (nature < 0.40)
+//		else if (nature < 0.50) // 10
 //			return lowriseContext;
-//		else if (nature < 0.50)
+//		else if (nature < 0.60) // 10
 //			return neighborhoodContext;
-//		else if (nature < 0.65 && platmap.generator.settings.includeFarms)
+//		else if (nature < 0.70 && platmap.generator.settings.includeFarms)
 //			return farmContext;
 //		else if (nature < 0.80)
 //			return outlandContext;
 
-// original dist
-//		else if (nature < 0.15)
-//			return constructionContext;
-//		else if (nature < 0.25)
-//			return midriseContext;
-//		else if (nature < 0.37)
-//			return municipalContext;
-//		else if (nature < 0.50)
-//			return industrialContext;
-//		else if (nature < 0.65)
-//			return lowriseContext;
-//		else if (nature < 0.75)
-//			return neighborhoodContext;
-//		else if (nature < 0.90 && platmap.generator.settings.includeFarms)
-//			return farmContext;
-//		else if (nature < 1.0)
-//			return outlandContext;
 		
 		// otherwise just keep what we have
 		else
 			return natureContext;
 	}
 
+	// second attempt
+//	else if (nature < 0.05)
+//		return constructionContext;
+//	else if (nature < 0.10)
+//		return midriseContext;
+//	else if (nature < 0.20)
+//		return municipalContext;
+//	else if (nature < 0.30)
+//		return industrialContext;
+//	else if (nature < 0.40)
+//		return lowriseContext;
+//	else if (nature < 0.50)
+//		return neighborhoodContext;
+//	else if (nature < 0.65 && platmap.generator.settings.includeFarms)
+//		return farmContext;
+//	else if (nature < 0.80)
+//		return outlandContext;
+
+//original dist
+//	else if (nature < 0.15)
+//		return constructionContext;
+//	else if (nature < 0.25)
+//		return midriseContext;
+//	else if (nature < 0.37)
+//		return municipalContext;
+//	else if (nature < 0.50)
+//		return industrialContext;
+//	else if (nature < 0.65)
+//		return lowriseContext;
+//	else if (nature < 0.75)
+//		return neighborhoodContext;
+//	else if (nature < 0.90 && platmap.generator.settings.includeFarms)
+//		return farmContext;
+//	else if (nature < 1.0)
+//		return outlandContext;
 	@Override
 	public String getCollectionName() {
 		return "Normal";

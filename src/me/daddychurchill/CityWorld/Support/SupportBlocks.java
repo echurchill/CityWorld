@@ -835,17 +835,38 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	public static final Material filterStairMaterial(Material material) {
 		switch (material) {
 		case BRICK:
+		case BRICK_STAIRS:
+			return Material.BRICK_STAIRS;
 		case COBBLESTONE:
+		case MOSSY_COBBLESTONE:
+		case COBBLESTONE_STAIRS:
+			return Material.COBBLESTONE_STAIRS;
+		case NETHERRACK:
 		case NETHER_BRICK:
+		case NETHER_BRICK_STAIRS:
+			return Material.NETHER_BRICK_STAIRS;
+		case PURPUR_BLOCK:
+		case PURPUR_SLAB:
+		case PURPUR_DOUBLE_SLAB:
 		case PURPUR_STAIRS:
+			return Material.PURPUR_STAIRS;
 		case RED_SANDSTONE:
+		case RED_SANDSTONE_STAIRS:
+			return Material.RED_SANDSTONE_STAIRS;
+		case SAND:
 		case SANDSTONE:
-		case WOOD:
-		case QUARTZ:
+		case SANDSTONE_STAIRS:
+			return Material.SANDSTONE_STAIRS;
 		case SMOOTH_BRICK:
-			return material;
+		case SMOOTH_STAIRS:
+			return Material.SMOOTH_STAIRS;
+		case WOOL: // it is white too!
+		case QUARTZ_BLOCK:
+		case QUARTZ_STAIRS:
+			return Material.QUARTZ_STAIRS;
 		default:
-			return Material.WOOD;
+//		case WOOD:
+			return Material.WOOD_STAIRS;
 		}
 	}
 

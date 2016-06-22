@@ -37,7 +37,7 @@ public class MunicipalContext extends UrbanContext {
 	
 	@Override
 	protected PlatLot getBuilding(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
-		if (generator.settings.includeBones && odds.playOdds(Odds.oddsSomewhatUnlikely))
+		if (generator.settings.includeBones && odds.playOdds(Odds.oddsVeryUnlikely))
 			return new MuseumBuildingLot(platmap, chunkX, chunkZ);
 		else
 			return new GovernmentBuildingLot(platmap, chunkX, chunkZ);
