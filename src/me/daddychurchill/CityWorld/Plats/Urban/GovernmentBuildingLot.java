@@ -89,9 +89,10 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 			CornerWallStyle cornerStyle, boolean allowRounded, boolean outsetEffect, Material wallMaterial,
 			Material glassMaterial, Surroundings heights) {
 		
-		super.drawExteriorParts(generator, byteChunk, context, y1 + higher, height, insetNS, insetWE, floor, onTopFloor, inMiddleSection,
-				cornerStyle, allowRounded, outsetEffect, wallMaterial, glassMaterial, heights);
-		
+		if (heights.adjacentNeighbors()) {
+			super.drawExteriorParts(generator, byteChunk, context, y1 + higher, height, insetNS, insetWE, floor, onTopFloor, inMiddleSection,
+					cornerStyle, allowRounded, outsetEffect, wallMaterial, glassMaterial, heights);
+		}
 	}
 	
 	@Override
@@ -99,12 +100,14 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 			int height, int insetNS, int insetWE, boolean allowRounded, boolean outsetEffect, boolean onRoof,
 			Material ceilingMaterial, Surroundings heights) {
 
-		if (onRoof)
-			super.drawCeilings(generator, byteChunk, context, y1 + higher, height, insetNS - deeper + 1, insetWE - deeper + 1, allowRounded, outsetEffect, onRoof,
-					ceilingMaterial, heights);
-		else
-			super.drawCeilings(generator, byteChunk, context, y1 + higher, height, insetNS, insetWE, allowRounded, outsetEffect, onRoof,
-					ceilingMaterial, heights);
+		if (heights.adjacentNeighbors()) {
+			if (onRoof)
+				super.drawCeilings(generator, byteChunk, context, y1 + higher, height, insetNS - deeper + 1, insetWE - deeper + 1, allowRounded, outsetEffect, onRoof,
+						ceilingMaterial, heights);
+			else
+				super.drawCeilings(generator, byteChunk, context, y1 + higher, height, insetNS, insetWE, allowRounded, outsetEffect, onRoof,
+						ceilingMaterial, heights);
+		}
 	}
 	
 	@Override
@@ -112,7 +115,9 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 			int y1, int insetNS, int insetWE, int floor, 
 			boolean allowRounded, Material roofMaterial, Surroundings heights) {
 
-		super.drawRoof(generator, chunk, context, y1 + higher, insetNS - deeper + 1, insetWE - deeper + 1, floor, allowRounded, roofMaterial, heights);
+		if (heights.adjacentNeighbors()) {
+			super.drawRoof(generator, chunk, context, y1 + higher, insetNS - deeper + 1, insetWE - deeper + 1, floor, allowRounded, roofMaterial, heights);
+		}
 	}
 	
 	
@@ -123,124 +128,183 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 			Material materialStairWall, Material materialPlatform, boolean drawStairWall, boolean drawStairs,
 			boolean topFloor, boolean singleFloor, Surroundings heights) {
 		
-		// TODO Auto-generated method stub
-		super.drawInteriorParts(generator, blocks, context, rooms, floor, floorAt + higher, floorHeight, insetNS, insetWE, allowRounded,
-				materialWall, materialGlass, stairLocation, materialStair, materialStairWall, materialPlatform, drawStairWall,
-				drawStairs, topFloor, singleFloor, heights);
-		
-		if (floor == 0) {
-			drawFoundationSteps(blocks, floorAt, floorAt + 2, heights);
-			//drawFoundationColumns(blocks, floorAt + 1, 1, heights);
-		} 
-//		drawFoundationColumns(blocks, floorAt + higher - 1, DataContext.FloorHeight, heights);
+		if (heights.adjacentNeighbors()) {
+			// TODO Auto-generated method stub
+			super.drawInteriorParts(generator, blocks, context, rooms, floor, floorAt + higher, floorHeight, insetNS, insetWE, allowRounded,
+					materialWall, materialGlass, stairLocation, materialStair, materialStairWall, materialPlatform, drawStairWall,
+					drawStairs, topFloor, singleFloor, heights);
+			
+			if (floor == 0) {
+				drawFoundationSteps(blocks, floorAt, floorAt + 2, heights);
+				//drawFoundationColumns(blocks, floorAt + 1, 1, heights);
+			} 
+//			drawFoundationColumns(blocks, floorAt + higher - 1, DataContext.FloorHeight, heights);
+		} else {
+//			double or triple the height
+			if (topFloor) {
+				blocks.setBlocks(6, 10, floorAt, floorAt + 1, 6, 10, materialWall);
+				blocks.setBlocks(7, 9, floorAt + 1, floorAt + 2, 7, 9, materialWall);
+			} else {
+				blocks.setBlocks(5, 11, floorAt, floorAt + floorHeight + 1, 5, 11, materialWall);
+			}
+		}
 	};
 	
 	private void drawFoundationSteps(SupportBlocks blocks, int y1, int y2, Surroundings heights) {
-		blocks.setBlocks(3, 13, y1, y2, 3, 13, foundationMaterial);
-		
+		// NorthWest
 		if (heights.toNorth()) {
+			if (heights.toWest()) {
+				if (heights.toNorthWest()) {
+					// 33
+					blocks.setBlocks(0, 3, y1, y2, 0, 3, foundationMaterial);
+				} else {
+					// 11
+				}
+			} else {
+				// 
+				drawFoundationHeadingEastBit(blocks, 0, y1, 0, 3);
+			}
+		} else {
+			if (heights.toWest()) {
+				//
+				drawFoundationHeadingSouthBit(blocks, 0, y1, 0, 3);
+			} else {
+				// 1
+			}
+		}
+		
+		// North
+		if (heights.toNorth())
+			// 12
 			blocks.setBlocks(3, 13, y1, y2, 0, 3, foundationMaterial);
+		else
+			// 2
+			drawFoundationHeadingSouthBit(blocks, 3, y1, 0, 10);
+		
+		// NorthEast
+		if (heights.toNorth()) {
+			if (heights.toEast()) {
+				if (heights.toNorthEast()) {
+					// 32
+					blocks.setBlocks(13, 16, y1, y2, 0, 3, foundationMaterial);
+				} else {
+					// 13
+				}
+			} else {
+				// 26
+				drawFoundationHeadingWestBit(blocks, 13, y1, 0, 3);
+			}
 		} else {
-			blocks.setStairs(3, 13, y1, 1, 2, foundationSteps, Stair.SOUTH);
-			blocks.setBlocks(3, 13, y1, 2, 3, foundationMaterial);
-			blocks.setStairs(3, 13, y1 + 1, 2, 3, foundationSteps, Stair.SOUTH);
+			if (heights.toEast()) {
+				// 10
+				drawFoundationHeadingSouthBit(blocks, 13, y1, 0, 3);
+			} else {
+				// 3
+			}
 		}
 		
-		if (heights.toSouth()) {
-			blocks.setBlocks(3, 13, y1, y2, 13, 16, foundationMaterial);
-		} else {
-			blocks.setStairs(3, 13, y1, 14, 15, foundationSteps, Stair.NORTH);
-			blocks.setBlocks(3, 13, y1, 13, 14, foundationMaterial);
-			blocks.setStairs(3, 13, y1 + 1, 13, 14, foundationSteps, Stair.NORTH);
-		}
-		
+		// West
 		if (heights.toWest()) {
+			// 16
 			blocks.setBlocks(0, 3, y1, y2, 3, 13, foundationMaterial);
 		} else {
-			blocks.setStairs(1, 2, y1, 3, 13, foundationSteps, Stair.EAST);
-			blocks.setBlocks(2, 3, y1, 3, 13, foundationMaterial);
-			blocks.setStairs(2, 3, y1 + 1, 3, 13, foundationSteps, Stair.EAST);
+			// 4
+			drawFoundationHeadingEastBit(blocks, 0, y1, 3, 10);
 		}
 		
+		// Center
+		// 5
+		blocks.setBlocks(3, 13, y1, y2, 3, 13, foundationMaterial);
+		
+		// East
 		if (heights.toEast()) {
+			// 15
 			blocks.setBlocks(13, 16, y1, y2, 3, 13, foundationMaterial);
 		} else {
-			blocks.setStairs(14, 15, y1, 3, 13, foundationSteps, Stair.WEST);
-			blocks.setBlocks(13, 14, y1, 3, 13, foundationMaterial);
-			blocks.setStairs(13, 14, y1 + 1, 3, 13, foundationSteps, Stair.WEST);
+			// 6
+			drawFoundationHeadingWestBit(blocks, 13, y1, 3, 10);
 		}
 		
-		if (heights.toNorth() && !heights.toWest()) {
-			drawFoundationHeadingEastBit(blocks, 0, y1, 0);
-		} else if (heights.toWest() && !heights.toNorth()) {
-			drawFoundationHeadingSouthBit(blocks, 0, y1, 0);
-		} else if (heights.toNorth() && heights.toWest()) {
-//			if (heights.toNorthWest()) {
-				blocks.setBlocks(0, 3, y1, y2, 0, 3, foundationMaterial);
-//			} else {
-//				// small bit leaning south east
-//			}
+		// SouthWest
+		if (heights.toSouth()) {
+			if (heights.toWest()) {
+				if (heights.toSouthWest()) {
+					// 31
+					blocks.setBlocks(0, 3, y1, y2, 13, 16, foundationMaterial);
+				} else {
+					// 20
+				}
+			} else {
+				// 7
+				drawFoundationHeadingEastBit(blocks, 0, y1, 13, 3);
+			}
+		} else {
+			if (heights.toWest()) {
+				// 22
+				drawFoundationHeadingNorthBit(blocks, 0, y1, 13, 3);
+			} else {
+				// 17
+			}
 		}
 		
-		if (heights.toNorth() && !heights.toEast()) {
-			drawFoundationHeadingWestBit(blocks, 13, y1, 0);
-		} else if (heights.toEast() && !heights.toNorth()) {
-			drawFoundationHeadingSouthBit(blocks, 13, y1, 0);
-		} else if (heights.toNorth() && heights.toEast()) {
-//			if (heights.toNorthEast()) {
-				blocks.setBlocks(13, 16, y1, y2, 0, 3, foundationMaterial);
-//			} else {
-//				// small bit leaning south west
-//			}
+		// South
+		if (heights.toSouth()) {
+			// 8
+			blocks.setBlocks(3, 13, y1, y2, 13, 16, foundationMaterial);
+		} else {
+			// 18
+			drawFoundationHeadingNorthBit(blocks, 3, y1, 13, 10);
 		}
 		
-		if (heights.toSouth() && !heights.toWest()) {
-			drawFoundationHeadingEastBit(blocks, 0, y1, 13);
-		} else if (heights.toWest() && !heights.toSouth()) {
-			drawFoundationHeadingNorthBit(blocks, 0, y1, 13);
-		} else if (heights.toSouth() && heights.toWest()) {
-//			if (heights.toSouthWest()) {
-				blocks.setBlocks(0, 3, y1, y2, 13, 16, foundationMaterial);
-//			} else {
-//				// small bit leaning south east
-//			}
+		// SouthEast
+		if (heights.toSouth()) {
+			if (heights.toEast()) {
+				if (heights.toSouthEast()) {
+					// 30
+					blocks.setBlocks(13, 16, y1, y2, 13, 16, foundationMaterial);
+				} else {
+					// 21
+				}
+			} else {
+				// 9
+				drawFoundationHeadingWestBit(blocks, 13, y1, 13, 3);
+			}
+		} else {
+			if (heights.toEast()) {
+				// 19
+				drawFoundationHeadingNorthBit(blocks, 13, y1, 13, 3);
+			} else {
+				// 23
+			}
 		}
+	}
 		
-		if (heights.toSouth() && !heights.toEast()) {
-			drawFoundationHeadingWestBit(blocks, 13, y1, 13);
-		} else if (heights.toEast() && !heights.toSouth()) {
-			drawFoundationHeadingNorthBit(blocks, 13, y1, 13);
-		} else if (heights.toSouth() && heights.toEast()) {
-//			if (heights.toSouthEast()) {
-				blocks.setBlocks(13, 16, y1, y2, 13, 16, foundationMaterial);
-//			} else {
-//				// small bit leaning south west
-//			}
-		}
+	// 18 & 19
+	private void drawFoundationHeadingNorthBit(SupportBlocks blocks, int x, int y, int z, int l) {
+		blocks.setStairs(x, x + l, y    , z + 1, z + 2, foundationSteps, Stair.NORTH);
+		blocks.setBlocks(x, x + l, y    , z    , z + 1, foundationMaterial);
+		blocks.setStairs(x, x + l, y + 1, z    , z + 1, foundationSteps, Stair.NORTH);
 	}
 	
-	private void drawFoundationHeadingNorthBit(SupportBlocks blocks, int x, int y, int z) {
-		blocks.setStairs(x, x + 3, y    , z + 1, z + 2, foundationSteps, Stair.NORTH);
-		blocks.setBlocks(x, x + 3, y    , z    , z + 1, foundationMaterial);
-		blocks.setStairs(x, x + 3, y + 1, z    , z + 1, foundationSteps, Stair.NORTH);
+	// 2 & 10
+	private void drawFoundationHeadingSouthBit(SupportBlocks blocks, int x, int y, int z, int l) {
+		blocks.setStairs(x, x + l, y    , z + 1, z + 2, foundationSteps, Stair.SOUTH);
+		blocks.setBlocks(x, x + l, y    , z + 2, z + 3, foundationMaterial);
+		blocks.setStairs(x, x + l, y + 1, z + 2, z + 3, foundationSteps, Stair.SOUTH);
 	}
 	
-	private void drawFoundationHeadingSouthBit(SupportBlocks blocks, int x, int y, int z) {
-		blocks.setStairs(x, x + 3, y    , z + 1, z + 2, foundationSteps, Stair.SOUTH);
-		blocks.setBlocks(x, x + 3, y    , z + 2, z + 3, foundationMaterial);
-		blocks.setStairs(x, x + 3, y + 1, z + 2, z + 3, foundationSteps, Stair.SOUTH);
-	}
+	// 6 & 9
+	private void drawFoundationHeadingWestBit(SupportBlocks blocks, int x, int y, int z, int l) {
+		blocks.setStairs(x + 1, x + 2, y    , z, z + l, foundationSteps, Stair.WEST);
+		blocks.setBlocks(x    , x + 1, y    , z, z + l, foundationMaterial);
+		blocks.setStairs(x    , x + 1, y + 1, z, z + l, foundationSteps, Stair.WEST);
+	} 
 	
-	private void drawFoundationHeadingWestBit(SupportBlocks blocks, int x, int y, int z) {
-		blocks.setStairs(x + 1, x + 2, y    , z, z + 3, foundationSteps, Stair.WEST);
-		blocks.setBlocks(x    , x + 1, y    , z, z + 3, foundationMaterial);
-		blocks.setStairs(x    , x + 1, y + 1, z, z + 3, foundationSteps, Stair.WEST);
-	}
-	
-	private void drawFoundationHeadingEastBit(SupportBlocks blocks, int x, int y, int z) {
-		blocks.setStairs(x + 1, x + 2, y    , z, z + 3, foundationSteps, Stair.EAST);
-		blocks.setBlocks(x + 2, x + 3, y    , z, z + 3, foundationMaterial);
-		blocks.setStairs(x + 2, x + 3, y + 1, z, z + 3, foundationSteps, Stair.EAST);
+	// 4 & 7
+	private void drawFoundationHeadingEastBit(SupportBlocks blocks, int x, int y, int z, int l) {
+		blocks.setStairs(x + 1, x + 2, y    , z, z + l, foundationSteps, Stair.EAST);
+		blocks.setBlocks(x + 2, x + 3, y    , z, z + l, foundationMaterial);
+		blocks.setStairs(x + 2, x + 3, y + 1, z, z + l, foundationSteps, Stair.EAST);
 	}
 	
 //	private void drawFoundationColumns(SupportBlocks blocks, int y1, int height, Surroundings heights) {

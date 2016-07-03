@@ -33,6 +33,9 @@ public class MunicipalContext extends UrbanContext {
 
 		maximumFloorsAbove = 5;
 		maximumFloorsBelow = 2;
+		
+		oddsOfFloodFill = Odds.oddsPrettyLikely;
+		oddsOfFloodDecay = Odds.oddsPrettyLikely;
 	}
 	
 	@Override

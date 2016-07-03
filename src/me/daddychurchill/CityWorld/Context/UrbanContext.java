@@ -14,6 +14,9 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public abstract class UrbanContext extends CivilizedContext {
 
+	protected double oddsOfFloodFill = Odds.oddsVeryLikely;
+	protected double oddsOfFloodDecay = Odds.oddsLikely;
+	
 	public UrbanContext(CityWorldGenerator generator) {
 		super(generator);
 
@@ -62,26 +65,28 @@ public abstract class UrbanContext extends CivilizedContext {
 							
 						// 2 by 2 at a minimum if at all possible
 						} else if (!buildPark && x < PlatMap.Width - 1 && z < PlatMap.Width - 1) {
-							
-							// is there room?
-							PlatLot toEast = platmap.getLot(x + 1, z);
-							PlatLot toSouth = platmap.getLot(x, z + 1);
-							PlatLot toSouthEast = platmap.getLot(x + 1, z + 1);
-							if (toEast == null && toSouth == null && toSouthEast == null) {
-								toEast = current.newLike(platmap, platmap.originX + x + 1, platmap.originZ + z);
-								toEast.makeConnected(current);
-								platmap.setLot(x + 1, z, toEast);
-
-								toSouth = current.newLike(platmap, platmap.originX + x, platmap.originZ + z + 1);
-								toSouth.makeConnected(current);
-								platmap.setLot(x, z + 1, toSouth);
-
-								toSouthEast = current.newLike(platmap, platmap.originX + x + 1, platmap.originZ + z + 1);
-								toSouthEast.makeConnected(current);
-								platmap.setLot(x + 1, z + 1, toSouthEast);
-								
-								// @@@@ go for a 2x3, 3x2 or even a 3x3
-							}
+							floodFill(generator, platmap, platmapOdds, oddsOfFloodFill, current, x + 1, z);
+							floodFill(generator, platmap, platmapOdds, oddsOfFloodFill, current, x, z + 1);
+						   
+//							// is there room?
+//							PlatLot toEast = platmap.getLot(x + 1, z);
+//							PlatLot toSouth = platmap.getLot(x, z + 1);
+//							PlatLot toSouthEast = platmap.getLot(x + 1, z + 1);
+//							if (toEast == null && toSouth == null && toSouthEast == null) {
+//								toEast = current.newLike(platmap, platmap.originX + x + 1, platmap.originZ + z);
+//								toEast.makeConnected(current);
+//								platmap.setLot(x + 1, z, toEast);
+//
+//								toSouth = current.newLike(platmap, platmap.originX + x, platmap.originZ + z + 1);
+//								toSouth.makeConnected(current);
+//								platmap.setLot(x, z + 1, toSouth);
+//
+//								toSouthEast = current.newLike(platmap, platmap.originX + x + 1, platmap.originZ + z + 1);
+//								toSouthEast.makeConnected(current);
+//								platmap.setLot(x + 1, z + 1, toSouthEast);
+//								
+//								// @@@@ go for a 2x3, 3x2 or even a 3x3
+//							}
 						}
 					}
 
@@ -103,6 +108,19 @@ public abstract class UrbanContext extends CivilizedContext {
 				}
 			}
 		}
+	}
+	
+	private boolean floodFill(CityWorldGenerator generator, PlatMap platmap, Odds odds, double theOdds, PlatLot source, int x, int z) {
+		if (odds.playOdds(oddsOfFloodFill) && platmap.inBounds(x, z) && platmap.isEmptyLot(x, z)) {
+			PlatLot destination = source.newLike(platmap, platmap.originX + x, platmap.originZ + z);
+			destination.makeConnected(source);
+			platmap.setLot(x, z, destination);
+			return //floodFill(generator, platmap, odds, source, x - 1, z) ||
+				   floodFill(generator, platmap, odds, theOdds * oddsOfFloodDecay, source, x + 1, z) ||
+				   //floodFill(generator, platmap, odds, source, x, z - 1) ||
+				   floodFill(generator, platmap, odds, theOdds * oddsOfFloodDecay, source, x, z + 1);
+		} else
+			return false;
 	}
 	
 	@Override

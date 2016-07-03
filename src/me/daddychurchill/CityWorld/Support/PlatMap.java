@@ -110,7 +110,7 @@ public class PlatMap {
 	}
 	
 	public PlatLot getLot(int x, int z) {
-		if (x >= 0 && x < Width && z >= 0 && z < Width)
+		if (inBounds(x, z))
 			return platLots[x][z];
 		else
 			return null;
@@ -121,14 +121,18 @@ public class PlatMap {
 		int platZ = chunkZ - originZ;
 		
 		// range check
-		if (platX >= 0 && platX < Width && platZ >= 0 && platZ < Width)
+		if (inBounds(platX, platZ))
 			return platLots[platX][platZ];
 		else
 			throw new IndexOutOfBoundsException("Location specified is not in this PlatMap");
 	}
 	
+	public boolean inBounds(int x, int z) {
+		return x >= 0 && x < Width && z >= 0 && z < Width;
+	}
+	
 	public boolean isEmptyLot(int x, int z) {
-		if (x >= 0 && x < Width && z >= 0 && z < Width)
+		if (inBounds(x, z))
 			return platLots[x][z] == null;
 		else
 			return true;
@@ -148,21 +152,21 @@ public class PlatMap {
 	}
 	
 	public boolean isNaturalLot(int x, int z) {
-		if (x >= 0 && x < Width && z >= 0 && z < Width)
+		if (inBounds(x, z))
 			return platLots[x][z] == null || platLots[x][z].style == LotStyle.NATURE;
 		else
 			return true;
 	}
 	
 	public boolean isStructureLot(int x, int z) {
-		if (x >= 0 && x < Width && z >= 0 && z < Width)
+		if (inBounds(x, z))
 			return platLots[x][z] != null && platLots[x][z].style == LotStyle.STRUCTURE;
 		else
 			return false;
 	}
 	
 	public boolean isExistingRoad(int x, int z) {
-		if (x >= 0 && x < Width && z >= 0 && z < Width)
+		if (inBounds(x, z))
 			return isRoad(x, z);
 		else
 			return false;
