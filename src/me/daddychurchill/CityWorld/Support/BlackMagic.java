@@ -6,6 +6,7 @@ import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
+import org.bukkit.generator.ChunkGenerator.ChunkData;
 import org.bukkit.material.MaterialData;
 
 @SuppressWarnings("deprecation")
@@ -72,6 +73,18 @@ public abstract class BlackMagic {
 	
 	public static final boolean setBlock(SupportBlocks chunk, int x, int y, int z, Material material, int data) {
 		return setBlockType(chunk.getActualBlock(x, y, z), material, data);
+	}
+	
+	public static final void setBlockTypeAndData(ChunkData chunk, int x, int y, int z, Material material, byte data) {
+		chunk.setBlock(x, y, z, material.getId(), data);
+	}
+	
+	public static final void setBlockTypeAndColor(ChunkData chunk, int x, int y, int z, Material material, DyeColor color) {
+		setBlockTypeAndData(chunk, x, y, z, material, color.getData());
+	}
+	
+	public static final void setBlock(InitialBlocks chunk, int x, int y, int z, Material material, int data) {
+		chunk.chunkData.setBlock(x, y, z, material.getId(), (byte)data);
 	}
 	
 	public static final void setBlocks(SupportBlocks chunk, int x, int y1, int y2, int z, Material material, int data) {

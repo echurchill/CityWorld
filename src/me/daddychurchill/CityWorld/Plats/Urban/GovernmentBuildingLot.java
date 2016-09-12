@@ -7,6 +7,7 @@ import me.daddychurchill.CityWorld.Plats.FinishedBuildingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
@@ -17,7 +18,6 @@ import me.daddychurchill.CityWorld.Support.BlackMagic;
 
 public class GovernmentBuildingLot extends FinishedBuildingLot {
 
-	private int columnStep;
 	public GovernmentBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
@@ -37,6 +37,9 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 		foundationSteps = SupportBlocks.filterStairMaterial(foundationMaterial);
 	}
 	
+	private enum MonumentStyle {COLUMN, PYRAMID, PEDESTAL, CHICKEN};
+	private MonumentStyle monumentStyle;
+		
 	private Material foundationSteps;
 	
 	private static int higher = 2;
@@ -56,11 +59,11 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 		insetStyle = InsetStyle.STRAIGHT;
 		interiorStyle = InteriorStyle.COLUMNS_ONLY;
 		rounded = false;
-		roofStyle = RoofStyle.PEAKS;
+//		roofStyle = RoofStyle.PEAKS;
 		roofFeature = RoofFeature.PLAIN;
 		outsetEffects = false;
-		columnStep = chunkOdds.calcRandomRange(2, 4);
 		cornerWallStyle = CornerWallStyle.FILLED;
+		monumentStyle = pickMonumentStyle();
 	}
 
 	@Override
@@ -76,11 +79,20 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 		if (result && relative instanceof GovernmentBuildingLot) {
 			GovernmentBuildingLot relativebuilding = (GovernmentBuildingLot) relative;
 
-			columnStep = relativebuilding.columnStep;
 			foundationMaterial = relativebuilding.foundationMaterial;
 			foundationSteps = relativebuilding.foundationSteps;
 		}
 		return result;
+	}
+	
+	private boolean doBuilding(Surroundings heights) {
+//		return false;
+		return heights.adjacentNeighbors();
+	}
+	
+	protected MonumentStyle pickMonumentStyle() {
+		MonumentStyle[] values = MonumentStyle.values();
+		return values[chunkOdds.getRandomInt(values.length)];
 	}
 	
 	@Override
@@ -89,9 +101,88 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 			CornerWallStyle cornerStyle, boolean allowRounded, boolean outsetEffect, Material wallMaterial,
 			Material glassMaterial, Surroundings heights) {
 		
-		if (heights.adjacentNeighbors()) {
+		if (doBuilding(heights)) {
 			super.drawExteriorParts(generator, byteChunk, context, y1 + higher, height, insetNS, insetWE, floor, onTopFloor, inMiddleSection,
 					cornerStyle, allowRounded, outsetEffect, wallMaterial, glassMaterial, heights);
+		} else if (floor == 0){
+			switch (monumentStyle) {
+			case COLUMN:
+				drawColumn(generator, byteChunk, y1, chunkOdds.flipCoin());
+				break;
+			case PYRAMID:
+				drawPyramid(generator, byteChunk, y1, chunkOdds.getRandomInt(1, 3));
+				break;
+			case PEDESTAL:
+				drawPedestal(generator, byteChunk, y1, chunkOdds.flipCoin());
+				break;
+			case CHICKEN:
+				drawChicken(generator, byteChunk, y1, chunkOdds.playOdds(Odds.oddsLikely));
+				break;
+			}
+		}
+	}
+	
+	private void drawColumn(CityWorldGenerator generator, InitialBlocks byteChunk, int y1, boolean doTop) {
+		int columnHeight = height * firstFloorHeight * 2;
+		byteChunk.setBlocks(5, 11, y1, y1 + columnHeight, 5, 11, wallMaterial);
+		byteChunk.setBlocks(6, 10, y1 + columnHeight, 6, 10, wallMaterial);
+		if (doTop) {
+			byteChunk.setBlocks(7, 9, y1 + columnHeight + 1, 7, 9, wallMaterial);
+		}
+	}
+	
+	private void drawChicken(CityWorldGenerator generator, InitialBlocks byteChunk, int y1, boolean doTop) {
+		int columnHeight = height * firstFloorHeight * 2;
+		byteChunk.setBlocks(6, 10, y1, y1 + columnHeight, 5, 11, wallMaterial);
+		byteChunk.setBlocks(5, 6, y1, y1 + columnHeight, 6, 10, wallMaterial);
+		byteChunk.setBlocks(10, 11, y1, y1 + columnHeight, 6, 10, wallMaterial);
+		byteChunk.setBlocks(4, 12, y1 + columnHeight, 4, 12, wallMaterial);
+		if (doTop) {
+			generator.thingProvider.generateChicken(byteChunk, 1, y1 + columnHeight + 1, 4);
+//			byteChunk.setBlock(4, y1 + columnHeight + 1, 4, Material.GLASS);
+//			byteChunk.setBlock(5, y1 + columnHeight + 1, 4, Material.GOLD_BLOCK);
+//			byteChunk.setBlock(3, y1 + columnHeight + 1, 6, Material.DIAMOND_BLOCK);
+		}
+	}
+	
+	private void drawPyramid(CityWorldGenerator generator, InitialBlocks byteChunk, int y, int scaleFactor) {
+		for (int i = 0; i < 7; i++) {
+			int xy1 = 2 + i;
+			int xy2 = 15 - i;
+			int y1 = y + i * scaleFactor;
+			int y2 = y1 + (i == 6 ? 1 : scaleFactor);
+			byteChunk.setBlocks(xy1, xy2, y1, y2, xy1, xy2, wallMaterial);
+		}
+	}
+	
+	private void drawPedestal(CityWorldGenerator generator, InitialBlocks byteChunk, int y1, boolean doTop) {
+		int columnHeight = height * firstFloorHeight;
+		int y2 = y1 + columnHeight;
+		byteChunk.setBlocks(5, 10, y1, y2, 5, 10, wallMaterial);
+		if (chunkOdds.flipCoin()) {
+			y1 = y2;
+			y2 = y2 + firstFloorHeight;
+			byteChunk.setBlocks(5, y1, y2, 5, wallMaterial);
+			byteChunk.setBlocks(5, y1, y2, 7, wallMaterial);
+			byteChunk.setBlocks(5, y1, y2, 9, wallMaterial);
+			
+			byteChunk.setBlocks(7, y1, y2, 5, wallMaterial);
+			byteChunk.setBlocks(7, y1, y2, 9, wallMaterial);
+			
+			byteChunk.setBlocks(9, y1, y2, 5, wallMaterial);
+			byteChunk.setBlocks(9, y1, y2, 7, wallMaterial);
+			byteChunk.setBlocks(9, y1, y2, 9, wallMaterial);
+			
+		} else {
+			y1 = y2;
+			y2 = y2 + columnHeight;
+			byteChunk.setBlocks(6, 9, y1, y2, 6, 9, wallMaterial);
+		}
+		byteChunk.setBlocks(5, 10, y2, 5, 10, wallMaterial);
+		if (doTop) {
+			generator.thingProvider.generateStatue(byteChunk, chunkOdds, 7, y2 + 1, 7);
+		} else {
+			byteChunk.setBlocks(6, 9, y2 + 1, 6, 9, wallMaterial);
 		}
 	}
 	
@@ -100,9 +191,9 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 			int height, int insetNS, int insetWE, boolean allowRounded, boolean outsetEffect, boolean onRoof,
 			Material ceilingMaterial, Surroundings heights) {
 
-		if (heights.adjacentNeighbors()) {
+		if (doBuilding(heights)) {
 			if (onRoof)
-				super.drawCeilings(generator, byteChunk, context, y1 + higher, height, insetNS - deeper + 1, insetWE - deeper + 1, allowRounded, outsetEffect, onRoof,
+				super.drawCeilings(generator, byteChunk, context, y1 + higher, height, insetNS - deeper, insetWE - deeper, allowRounded, outsetEffect, onRoof,
 						ceilingMaterial, heights);
 			else
 				super.drawCeilings(generator, byteChunk, context, y1 + higher, height, insetNS, insetWE, allowRounded, outsetEffect, onRoof,
@@ -115,8 +206,8 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 			int y1, int insetNS, int insetWE, int floor, 
 			boolean allowRounded, Material roofMaterial, Surroundings heights) {
 
-		if (heights.adjacentNeighbors()) {
-			super.drawRoof(generator, chunk, context, y1 + higher, insetNS - deeper + 1, insetWE - deeper + 1, floor, allowRounded, roofMaterial, heights);
+		if (doBuilding(heights)) {
+			super.drawRoof(generator, chunk, context, y1 + higher, insetNS - deeper, insetWE - deeper, floor, allowRounded, roofMaterial, heights);
 		}
 	}
 	
@@ -128,7 +219,7 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 			Material materialStairWall, Material materialPlatform, boolean drawStairWall, boolean drawStairs,
 			boolean topFloor, boolean singleFloor, Surroundings heights) {
 		
-		if (heights.adjacentNeighbors()) {
+		if (doBuilding(heights)) {
 			// TODO Auto-generated method stub
 			super.drawInteriorParts(generator, blocks, context, rooms, floor, floorAt + higher, floorHeight, insetNS, insetWE, allowRounded,
 					materialWall, materialGlass, stairLocation, materialStair, materialStairWall, materialPlatform, drawStairWall,
@@ -136,17 +227,10 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 			
 			if (floor == 0) {
 				drawFoundationSteps(blocks, floorAt, floorAt + 2, heights);
-				//drawFoundationColumns(blocks, floorAt + 1, 1, heights);
+				drawFoundationColumns(blocks, floorAt, 1, heights);
 			} 
-//			drawFoundationColumns(blocks, floorAt + higher - 1, DataContext.FloorHeight, heights);
+			drawFoundationColumns(blocks, floorAt + higher - 1, DataContext.FloorHeight, heights);
 		} else {
-//			double or triple the height
-			if (topFloor) {
-				blocks.setBlocks(6, 10, floorAt, floorAt + 1, 6, 10, materialWall);
-				blocks.setBlocks(7, 9, floorAt + 1, floorAt + 2, 7, 9, materialWall);
-			} else {
-				blocks.setBlocks(5, 11, floorAt, floorAt + floorHeight + 1, 5, 11, materialWall);
-			}
 		}
 	};
 	
@@ -159,17 +243,21 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 					blocks.setBlocks(0, 3, y1, y2, 0, 3, foundationMaterial);
 				} else {
 					// 11
+					// should be steps
+					blocks.setBlocks(0, 3, y1, y2, 0, 3, foundationMaterial);
 				}
 			} else {
-				// 
+				// 24
 				drawFoundationHeadingEastBit(blocks, 0, y1, 0, 3);
 			}
 		} else {
 			if (heights.toWest()) {
-				//
+				// 14
 				drawFoundationHeadingSouthBit(blocks, 0, y1, 0, 3);
 			} else {
-				// 1
+				// 1 
+				// should be steps
+				blocks.setBlocks(0, 3, y1, y2, 0, 3, foundationMaterial);
 			}
 		}
 		
@@ -189,6 +277,8 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 					blocks.setBlocks(13, 16, y1, y2, 0, 3, foundationMaterial);
 				} else {
 					// 13
+					// should be steps
+					blocks.setBlocks(13, 16, y1, y2, 0, 3, foundationMaterial);
 				}
 			} else {
 				// 26
@@ -200,6 +290,8 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 				drawFoundationHeadingSouthBit(blocks, 13, y1, 0, 3);
 			} else {
 				// 3
+				// should be steps
+				blocks.setBlocks(13, 16, y1, y2, 0, 3, foundationMaterial);
 			}
 		}
 		
@@ -233,6 +325,8 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 					blocks.setBlocks(0, 3, y1, y2, 13, 16, foundationMaterial);
 				} else {
 					// 20
+					// should be steps
+					blocks.setBlocks(0, 3, y1, y2, 13, 16, foundationMaterial);
 				}
 			} else {
 				// 7
@@ -244,6 +338,8 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 				drawFoundationHeadingNorthBit(blocks, 0, y1, 13, 3);
 			} else {
 				// 17
+				// should be steps
+				blocks.setBlocks(0, 3, y1, y2, 13, 16, foundationMaterial);
 			}
 		}
 		
@@ -264,6 +360,8 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 					blocks.setBlocks(13, 16, y1, y2, 13, 16, foundationMaterial);
 				} else {
 					// 21
+					// should be steps
+					blocks.setBlocks(13, 16, y1, y2, 13, 16, foundationMaterial);
 				}
 			} else {
 				// 9
@@ -275,6 +373,8 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 				drawFoundationHeadingNorthBit(blocks, 13, y1, 13, 3);
 			} else {
 				// 23
+				// should be steps
+				blocks.setBlocks(13, 16, y1, y2, 13, 16, foundationMaterial);
 			}
 		}
 	}
@@ -307,46 +407,57 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 		blocks.setStairs(x + 2, x + 3, y + 1, z, z + l, foundationSteps, Stair.EAST);
 	}
 	
-//	private void drawFoundationColumns(SupportBlocks blocks, int y1, int height, Surroundings heights) {
-//		int x1 = heights.toWest() ? 0 : 1;
-//		int x2 = heights.toEast() ? 16 : 16 - 1;
-//		int z1 = heights.toNorth() ? 0 : 1;
-//		int z2 = heights.toSouth() ? 16 : 16 - 1;
-//		int y2 = y1 + height;
-//		
-//		int step = 0;
-//		for (int x = x1; x < x2; x++) {
-//			if (step % columnStep == 0) {
-//				if (!heights.toNorth())
-//					drawColumn(blocks, x, y1, y2, 1);
-//				if (!heights.toSouth())
-//					drawColumn(blocks, 15 - x, y1, y2, 14);
-//			}
-//			step++;
-//		}
-//
-//		step = 0;
-//		for (int z = z1; z < z2; z++) {
-//			if (step % columnStep == 0) {
-//				if (!heights.toWest())
-//					drawColumn(blocks, 1, y1, y2, z);
-//				if (!heights.toEast())
-//					drawColumn(blocks, 14, y1, y2, 15 - z);
-//			}
-//			step++;
-//		}
-//	}
-//	
-//	private void drawColumn(SupportBlocks blocks, int x, int y1, int y2, int z) {
-//		switch (columnMaterial) {
-//		case QUARTZ_BLOCK:
-//			BlackMagic.setBlocks(blocks, x, y1, y2, z, Material.QUARTZ_BLOCK, 2);
-//			break;
-//		default:
-//			blocks.setBlocks(x, y1, y2, z, columnMaterial);
-//			break;
-//		}
-//	}
+	private void drawFoundationColumns(SupportBlocks blocks, int y1, int height, Surroundings heights) {
+		int y2 = y1 + height;
+		
+		if (!heights.toNorthWest())
+			drawColumn(blocks, 1, y1, y2, 1);
+		if (!heights.toNorthEast())
+			drawColumn(blocks, 14, y1, y2, 1);
+		if (!heights.toSouthWest())
+			drawColumn(blocks, 1, y1, y2, 14);
+		if (!heights.toSouthEast())
+			drawColumn(blocks, 14, y1, y2, 14);
+		
+		if (!heights.toNorth()) {
+			drawColumn(blocks, 4, y1, y2, 1);
+			drawColumn(blocks, 6, y1, y2, 1);
+			drawColumn(blocks, 9, y1, y2, 1);
+			drawColumn(blocks, 11, y1, y2, 1);
+		}
+		
+		if (!heights.toSouth()) {
+			drawColumn(blocks, 4, y1, y2, 14);
+			drawColumn(blocks, 6, y1, y2, 14);
+			drawColumn(blocks, 9, y1, y2, 14);
+			drawColumn(blocks, 11, y1, y2, 14);
+		}
+		
+		if (!heights.toWest()) {
+			drawColumn(blocks, 1, y1, y2, 4);
+			drawColumn(blocks, 1, y1, y2, 6);
+			drawColumn(blocks, 1, y1, y2, 9);
+			drawColumn(blocks, 1, y1, y2, 11);
+		}
+		
+		if (!heights.toEast()) {
+			drawColumn(blocks, 14, y1, y2, 4);
+			drawColumn(blocks, 14, y1, y2, 6);
+			drawColumn(blocks, 14, y1, y2, 9);
+			drawColumn(blocks, 14, y1, y2, 11);
+		}
+	}
+	
+	private void drawColumn(SupportBlocks blocks, int x, int y1, int y2, int z) {
+		switch (columnMaterial) {
+		case QUARTZ_BLOCK:
+			BlackMagic.setBlocks(blocks, x, y1, y2, z, Material.QUARTZ_BLOCK, 2);
+			break;
+		default:
+			blocks.setBlocks(x, y1, y2, z, columnMaterial);
+			break;
+		}
+	}
 	
 	@Override
 	protected void drawRoof(CityWorldGenerator generator, RealBlocks chunk, DataContext context, int y1, int insetNS,

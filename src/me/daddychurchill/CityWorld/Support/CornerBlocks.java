@@ -822,7 +822,7 @@ public class CornerBlocks {
 		}
 	}
 	
-	private class CustomCorner extends Corner {
+	public class CustomCorner extends Corner {
 		private CustomCorner(byte[][] source) {
 			NW = source;
 			NE = flipWE(NW);

@@ -95,6 +95,11 @@ public abstract class SupportBlocks extends AbstractBlocks {
 //			}
 		}
 	}
+	
+	@Override
+	public void setBlock(int x, int y, int z, MaterialData material) {
+		setBlock(getActualBlock(x, y, z), material.getItemType(), material);
+	}
 
 	public final void setBlock(int x, int y, int z, Material material, MaterialData data) {
 		setBlock(getActualBlock(x, y, z), material, data);

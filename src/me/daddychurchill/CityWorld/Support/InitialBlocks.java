@@ -1,8 +1,10 @@
 package me.daddychurchill.CityWorld.Support;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
+
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
+import org.bukkit.material.MaterialData;
 
 public final class InitialBlocks extends AbstractBlocks {
 	public ChunkData chunkData;
@@ -92,6 +94,21 @@ public final class InitialBlocks extends AbstractBlocks {
 		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material);
 		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material);
 	}
+	
+	@Override
+	public void setBlock(int x, int y, int z, MaterialData material) {
+		chunkData.setBlock(x, y, z, material);
+	}
+	
+//	@Override
+//	public void setBlockTypeAndColor(int x, int y, int z, Material material, DyeColor color) {
+//		BlackMagic.setBlockTypeAndColor(chunkData, x, y, z, material, color);
+//	}
+//	
+//	@Override
+//	public final void setStair(int x, int y, int z, Material material, BadMagic.Stair direction) {
+//		BlackMagic.setBlockTypeAndData(chunkData, x, y, z, material, direction.getData());
+//	}
 	
 	//================ Layers
 	@Override

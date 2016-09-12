@@ -2,6 +2,8 @@ package me.daddychurchill.CityWorld.Support;
 
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.material.MaterialData;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Factories.MaterialFactory;
 
@@ -53,6 +55,10 @@ public abstract class AbstractBlocks {
 	public abstract void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material);
 	public abstract void setBlocks(int x1, int x2, int y, int z1, int z2, Material material);
 	public abstract void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material);
+	
+	public abstract void setBlock(int x, int y, int z, MaterialData material);
+//	public abstract void setStair(int x, int y, int z, Material material, BadMagic.Stair direction);
+//	public abstract void setBlockTypeAndColor(int x, int y, int z, Material material, DyeColor color);
 	
 	public void setWalls(int x1, int x2, int y, int z1, int z2, Material material) {
 		setWalls(x1, x2, y, y + 1, z1, z2, material);

@@ -105,7 +105,7 @@ public class MuseumBuildingLot extends FinishedBuildingLot {
 			if (placeBones) {
 				int sidewalkLevel = getSidewalkLevel(generator);
 				chunk.setBlocksTypeAndColor(3, 13, sidewalkLevel + 1, 3, 13, Material.CARPET, chunkOdds.getRandomColor());
-				generator.bonesProvider.generateBones(generator, this, chunk, 7, sidewalkLevel + 1, 11, chunkOdds, true);
+				generator.thingProvider.generateBones(generator, this, chunk, 7, sidewalkLevel + 1, 11, chunkOdds, true);
 				
 				// it looked so nice for a moment... but the moment has passed
 				if (generator.settings.includeDecayedBuildings) {

@@ -525,7 +525,7 @@ public abstract class PlatLot {
 
 		// fossils?
 		if (generator.settings.includeBones && chunkOdds.playOdds(Odds.oddsExceedinglyUnlikely))
-			generator.bonesProvider.generateBones(generator, this, chunk, blockYs, chunkOdds);
+			generator.thingProvider.generateBones(generator, this, chunk, blockYs, chunkOdds);
 	}
 	
 	public void generateOres(CityWorldGenerator generator, RealBlocks chunk) {
