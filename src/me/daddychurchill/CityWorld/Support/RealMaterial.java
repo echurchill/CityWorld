@@ -1,5 +1,8 @@
 package me.daddychurchill.CityWorld.Support;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.TreeSpecies;
@@ -325,7 +328,26 @@ public enum RealMaterial{
 		return this.data;
 	}
 	
-	public final MaterialData getData(String name) {
+	public final MaterialData getMaterialData(String name) {
+		Material material = Material.getMaterial(name);
+		if (material != null) {
+			return new MaterialData(material);
+		} else {
+			RealMaterial realMaterial = list.get(name);
+			if (realMaterial != null)
+				return realMaterial.getData();
+		}
 		return null;
+	}
+
+	private static final Map<String, RealMaterial> list;
+	
+	static {
+		list = new TreeMap<String, RealMaterial>();
+		RealMaterial[] materials = values();
+		int count = materials.length;
+		for (int i = 0; i < count; i++) {
+			list.put(materials[i].name(), materials[i]);
+		}
 	}
 }

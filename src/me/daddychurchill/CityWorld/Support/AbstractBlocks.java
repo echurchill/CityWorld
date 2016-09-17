@@ -57,6 +57,10 @@ public abstract class AbstractBlocks {
 	public abstract void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material);
 	
 	public abstract void setBlock(int x, int y, int z, MaterialData material);
+	public void setBlock(int x, int y, int z, RealMaterial material) {
+		setBlock(x, y, z, material.getData());
+	}
+	
 //	public abstract void setStair(int x, int y, int z, Material material, BadMagic.Stair direction);
 //	public abstract void setBlockTypeAndColor(int x, int y, int z, Material material, DyeColor color);
 	

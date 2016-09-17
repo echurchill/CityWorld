@@ -7,8 +7,8 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.AbstractBlocks;
 import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
 import me.daddychurchill.CityWorld.Support.CachedYs;
-import me.daddychurchill.CityWorld.Support.MaterialMagic;
 import me.daddychurchill.CityWorld.Support.Odds;
+import me.daddychurchill.CityWorld.Support.RealMaterial;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class ThingProvider extends Provider {
@@ -196,18 +196,18 @@ public class ThingProvider extends Provider {
 					break;
 				case WHT:
 //					if (cI % 2 == 0)
-						chunk.setBlock(x + xI, y, z + zI, MaterialMagic.Wool_White);
+						chunk.setBlock(x + xI, y, z + zI, RealMaterial.WOOL_WHITE);
 //					else 
 //						chunk.setBlock(x + xI, y, z + zI, Material.WOOL, DyeColor.SILVER);
 					break;
 				case YEL:
-					chunk.setBlock(x + xI, y, z + zI, MaterialMagic.Wool_Yellow);
+					chunk.setBlock(x + xI, y, z + zI, RealMaterial.WOOL_YELLOW);
 					break;
 				case RED:
-					chunk.setBlock(x + xI, y, z + zI, MaterialMagic.Wool_Red);
+					chunk.setBlock(x + xI, y, z + zI, RealMaterial.WOOL_RED);
 					break;
 				case BLK:
-					chunk.setBlock(x + xI, y, z + zI, MaterialMagic.Wool_Black);
+					chunk.setBlock(x + xI, y, z + zI, RealMaterial.WOOL_BLACK);
 					break;
 				}
 			}
