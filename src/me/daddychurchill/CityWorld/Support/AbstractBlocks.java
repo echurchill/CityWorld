@@ -58,7 +58,7 @@ public abstract class AbstractBlocks {
 	
 	public abstract void setBlock(int x, int y, int z, MaterialData material);
 	public void setBlock(int x, int y, int z, RealMaterial material) {
-		setBlock(x, y, z, material.getData());
+		setBlock(x, y, z, material);
 	}
 	
 //	public abstract void setStair(int x, int y, int z, Material material, BadMagic.Stair direction);
