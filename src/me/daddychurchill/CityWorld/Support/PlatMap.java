@@ -138,6 +138,14 @@ public class PlatMap {
 			return true;
 	}
 	
+	public boolean isEmptyLots(int x, int z, int width, int length) {
+		for (int a = x; a < x + width; a++)
+			for (int b = z; b < z + length; b++)
+				if (!isEmptyLot(a, b))
+					return false;
+		return true;
+	}
+	
 	public boolean isInnerReallyEmptyLot(int centerX, int centerZ) {
 		if (centerX >= 1 && centerX < Width - 1 && centerZ >= 1 && centerZ < Width - 1) {
 			for (int x = centerX - 1; x < centerX + 2; x++) {

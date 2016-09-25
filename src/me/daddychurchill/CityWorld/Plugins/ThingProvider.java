@@ -54,11 +54,11 @@ public class ThingProvider extends Provider {
 		chunk.setBlock(x, y1 + 2, z, matBlock);
 	}
 	
-	private final byte NON = 0;
-	private final byte WHT = 1;
-	private final byte YEL = 2;
-	private final byte RED = 3;
-	private final byte BLK = 4;
+	private static final byte NON = 0;
+	private static final byte WHT = 1;
+	private static final byte YEL = 2;
+	private static final byte RED = 3;
+	private static final byte BLK = 4;
 	
 	private final byte[][] chickenFeet = new byte[][] {
 		//0    1    2    3    4    5    6    7
@@ -192,6 +192,7 @@ public class ThingProvider extends Provider {
 		for (int xI = 0; xI < 12; xI++) {
 			for (int zI = 0; zI < 8; zI++) {
 				switch (layer[xI][zI]) {
+				default:
 				case NON:
 					break;
 				case WHT:

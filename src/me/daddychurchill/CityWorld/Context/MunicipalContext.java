@@ -4,7 +4,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Urban.GovernmentBuildingLot;
-import me.daddychurchill.CityWorld.Plats.Urban.MuseumBuildingLot;
+import me.daddychurchill.CityWorld.Plats.Urban.GovernmentMonumentLot;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
@@ -34,15 +34,17 @@ public class MunicipalContext extends UrbanContext {
 		maximumFloorsAbove = 5;
 		maximumFloorsBelow = 2;
 		
-		oddsOfFloodFill = Odds.oddsPrettyLikely;
-		oddsOfFloodDecay = Odds.oddsPrettyLikely;
+		oddsOfFloodFill = Odds.oddsAlwaysGoingToHappen;
+		oddsOfFloodDecay = Odds.oddsAlwaysGoingToHappen;
 	}
 	
 	@Override
 	protected PlatLot getBuilding(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
-		if (generator.settings.includeBones && odds.playOdds(Odds.oddsVeryUnlikely))
-			return new MuseumBuildingLot(platmap, chunkX, chunkZ);
+		if (odds.playOdds(Odds.oddsVeryUnlikely))
+			return new GovernmentMonumentLot(platmap, chunkX, chunkZ);
 		else
 			return new GovernmentBuildingLot(platmap, chunkX, chunkZ);
 	}
+	
+
 }

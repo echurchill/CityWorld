@@ -1,5 +1,3 @@
 UNDO before being done
 
-Adjust the muni range in ShapeProvider_Normal - look for %%%%%
-Rework the @@@@ code in UrbanContext to allow for initial creation of 3x2, 2x3 and even possibly 3x3 structures based on some odds
 Verify Bears and Husks

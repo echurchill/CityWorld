@@ -63,7 +63,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	protected enum InteriorStyle {EMPTY, COLUMNS_ONLY, WALLS_ONLY, COLUMNS_OFFICES, WALLS_OFFICES, RANDOM};
 	protected InteriorStyle interiorStyle;
 	protected double oddsOfAnInteriorDoor = Odds.oddsExtremelyLikely;
-	protected double oddsOfAnExteriorDoor = Odds.oddsHalvedPrettyLikely;
+//	protected double oddsOfAnExteriorDoor = Odds.oddsHalvedPrettyLikely;
 	protected Material columnMaterial;
 	protected boolean forceNarrowInteriorMode = false;
 	protected double differentInteriorModes = Odds.oddsUnlikely;

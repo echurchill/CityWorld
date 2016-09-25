@@ -481,117 +481,126 @@ public final class RealMaterial{
 	public final static MaterialData STRUCTURE_BLOCK = define(Material.STRUCTURE_BLOCK, 0); //TODO: data variant
 
 	@SuppressWarnings("deprecation")
-	private static MaterialData define(Material material) {
-		assert(material.getId() > 255);
-		return new MaterialData(material);
-	}
-	
-	@SuppressWarnings("deprecation")
-	private static MaterialData define(Material material, int data) {
+	private final static MaterialData createData(Material material, int data) {
 		assert(material.getId() > 255);
 		return new MaterialData(material, (byte)data);
 	}
 	
+	private static MaterialData define(Material material) {
+		return createData(material, 0);
+	}
+	
+	private static MaterialData define(Material material, int data) {
+		return createData(material, (byte)data);
+	}
+	
 	@SuppressWarnings("deprecation")
 	private static MaterialData define(Material material, DyeColor color) {
-		assert(material.getId() > 255);
-		return new MaterialData(material, color.getData());
+		return createData(material, color.getData());
 	}
 	
 	private static MaterialData define (Material material, TreeSpecies species) {
 		switch (material) {
 		case WOOD:
+		case SAPLING:
 			switch (species) {
 			case GENERIC:
-				return define(Material.WOOD, 0);
+				return createData(Material.WOOD, 0);
 			case REDWOOD:
-				return define(Material.WOOD, 1);
+				return createData(Material.WOOD, 1);
 			case BIRCH:
-				return define(Material.WOOD, 2);
+				return createData(Material.WOOD, 2);
 			case JUNGLE:
-				return define(Material.WOOD, 3);
+				return createData(Material.WOOD, 3);
 			case ACACIA:
-				return define(Material.WOOD, 4);
+				return createData(Material.WOOD, 4);
 			case DARK_OAK:
-				return define(Material.WOOD, 5);
+				return createData(Material.WOOD, 5);
 			default:
-				return null;
+				break;
 			}
 		case LOG:
 		case LOG_2:
 			switch (species) {
 			case GENERIC:
-				return define(Material.LOG, 0);
+				return createData(Material.LOG, 0);
 			case REDWOOD:
-				return define(Material.LOG, 1);
+				return createData(Material.LOG, 1);
 			case BIRCH:
-				return define(Material.LOG, 2);
+				return createData(Material.LOG, 2);
 			case JUNGLE:
-				return define(Material.LOG, 3);
+				return createData(Material.LOG, 3);
 			case ACACIA:
-				return define(Material.LOG_2, 0);
+				return createData(Material.LOG_2, 0);
 			case DARK_OAK:
-				return define(Material.LOG_2, 1);
+				return createData(Material.LOG_2, 1);
 			default:
-				return null;
+				break;
 			}
 		case LEAVES:
 		case LEAVES_2:
 			switch (species) {
 			case GENERIC:
-				return define(Material.LEAVES, 0);
+				return createData(Material.LEAVES, 0);
 			case REDWOOD:
-				return define(Material.LEAVES, 1);
+				return createData(Material.LEAVES, 1);
 			case BIRCH:
-				return define(Material.LEAVES, 2);
+				return createData(Material.LEAVES, 2);
 			case JUNGLE:
-				return define(Material.LEAVES, 3);
+				return createData(Material.LEAVES, 3);
 			case ACACIA:
-				return define(Material.LEAVES_2, 0);
+				return createData(Material.LEAVES_2, 0);
 			case DARK_OAK:
-				return define(Material.LEAVES_2, 1);
+				return createData(Material.LEAVES_2, 1);
 			default:
-				return null;
+				break;
 			}
 		case WOOD_STEP:
 		case STEP: // this will be converted to the above
 			switch (species) {
 			case GENERIC:
-				return define(Material.WOOD_STEP, 0);
+				return createData(Material.WOOD_STEP, 0);
 			case REDWOOD:
-				return define(Material.WOOD_STEP, 1);
+				return createData(Material.WOOD_STEP, 1);
 			case BIRCH:
-				return define(Material.WOOD_STEP, 2);
+				return createData(Material.WOOD_STEP, 2);
 			case JUNGLE:
-				return define(Material.WOOD_STEP, 3);
+				return createData(Material.WOOD_STEP, 3);
 			case ACACIA:
-				return define(Material.WOOD_STEP, 4);
+				return createData(Material.WOOD_STEP, 4);
 			case DARK_OAK:
-				return define(Material.WOOD_STEP, 5);
+				return createData(Material.WOOD_STEP, 5);
 			default:
-				return null;
+				break;
 			}
 		case WOOD_DOUBLE_STEP:
 		case DOUBLE_STEP: // this will be converted to the above
 			switch (species) {
 			case GENERIC:
-				return define(Material.WOOD_DOUBLE_STEP, 0);
+				return createData(Material.WOOD_DOUBLE_STEP, 0);
 			case REDWOOD:
-				return define(Material.WOOD_DOUBLE_STEP, 1);
+				return createData(Material.WOOD_DOUBLE_STEP, 1);
 			case BIRCH:
-				return define(Material.WOOD_DOUBLE_STEP, 2);
+				return createData(Material.WOOD_DOUBLE_STEP, 2);
 			case JUNGLE:
-				return define(Material.WOOD_DOUBLE_STEP, 3);
+				return createData(Material.WOOD_DOUBLE_STEP, 3);
 			case ACACIA:
-				return define(Material.WOOD_DOUBLE_STEP, 4);
+				return createData(Material.WOOD_DOUBLE_STEP, 4);
 			case DARK_OAK:
-				return define(Material.WOOD_DOUBLE_STEP, 5);
+				return createData(Material.WOOD_DOUBLE_STEP, 5);
 			default:
-				return null;
+				break;
 			}
 		default:
-		    throw new IllegalArgumentException("Invalid block type for tree species");
+			break;
 		}
+		
+		// if we got here, something went wrong
+	    throw new IllegalArgumentException("Invalid block type for tree species");
+	}
+	
+	public static MaterialData getStainedGlass(Odds odds) {
+		return define(Material.STAINED_GLASS, odds.getRandomColor());
 	}
 	
 //	public final MaterialData getData() {
