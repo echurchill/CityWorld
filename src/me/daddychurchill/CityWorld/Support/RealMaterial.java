@@ -5,515 +5,738 @@ import org.bukkit.Material;
 import org.bukkit.TreeSpecies;
 import org.bukkit.material.MaterialData;
 
-public final class RealMaterial{
+public enum RealMaterial{
 
 	// THESE REALLY SHOULD FOLLOW A BETTER NAMING SCHEME
 	// <Material>[_<MaterialModifier>[[<FormModifier>_]_<Form>]]
 	
-	public final static MaterialData AIR = define(Material.AIR);
+	AIR(Material.AIR),
 
-	public final static MaterialData STONE = define(Material.STONE);
-	public final static MaterialData GRANITE = define(Material.STONE, 1);
-	public final static MaterialData GRANITE_POLISHED = define(Material.STONE, 2);
-	public final static MaterialData DIORITE = define(Material.STONE, 3);
-	public final static MaterialData DIORIDE_POLISHED = define(Material.STONE, 4);
-	public final static MaterialData ANDESITE = define(Material.STONE, 5);
-	public final static MaterialData ANDESIDE_POLISHED = define(Material.STONE, 6);
+	STONE(Material.STONE),
+	GRANITE(Material.STONE, 1),
+	GRANITE_POLISHED(Material.STONE, 2),
+	DIORITE(Material.STONE, 3),
+	DIORIDE_POLISHED(Material.STONE, 4),
+	ANDESITE(Material.STONE, 5),
+	ANDESIDE_POLISHED(Material.STONE, 6),
 
-	public final static MaterialData GRASS = define(Material.GRASS);
+	GRASS(Material.GRASS),
 
-	public final static MaterialData DIRT = define(Material.DIRT);
-	public final static MaterialData DIRT_COARSE = define(Material.DIRT, 1);
-	public final static MaterialData PODZOL = define(Material.DIRT, 2);
+	DIRT(Material.DIRT),
+	DIRT_COARSE(Material.DIRT, 1),
+	PODZOL(Material.DIRT, 2),
 
-	public final static MaterialData COBBLESTONE = define(Material.COBBLESTONE);
+	COBBLESTONE(Material.COBBLESTONE),
 
-	public final static MaterialData WOOD = define(Material.WOOD);
-	public final static MaterialData WOOD_OAK = define(Material.WOOD, TreeSpecies.GENERIC);
-	public final static MaterialData WOOD_REDWOOD = define(Material.WOOD, TreeSpecies.REDWOOD);
-	public final static MaterialData WOOD_BIRCH = define(Material.WOOD, TreeSpecies.BIRCH);
-	public final static MaterialData WOOD_JUNGLE = define(Material.WOOD, TreeSpecies.JUNGLE);
-	public final static MaterialData WOOD_ACACIA = define(Material.WOOD, TreeSpecies.ACACIA);
-	public final static MaterialData WOOD_DARK_OAK = define(Material.WOOD, TreeSpecies.DARK_OAK);
+	WOOD(Material.WOOD),
+	WOOD_OAK(Material.WOOD, TreeSpecies.GENERIC),
+	WOOD_REDWOOD(Material.WOOD, TreeSpecies.REDWOOD),
+	WOOD_BIRCH(Material.WOOD, TreeSpecies.BIRCH),
+	WOOD_JUNGLE(Material.WOOD, TreeSpecies.JUNGLE),
+	WOOD_ACACIA(Material.WOOD, TreeSpecies.ACACIA),
+	WOOD_DARK_OAK(Material.WOOD, TreeSpecies.DARK_OAK),
 
-	public final static MaterialData SAPLING = define(Material.SAPLING);
-	public final static MaterialData SAPLING_OAK = define(Material.SAPLING, TreeSpecies.GENERIC);
-	public final static MaterialData SAPLING_REDWOOD = define(Material.SAPLING, TreeSpecies.REDWOOD);
-	public final static MaterialData SAPLING_BIRCH = define(Material.SAPLING, TreeSpecies.BIRCH);
-	public final static MaterialData SAPLING_JUNGLE = define(Material.SAPLING, TreeSpecies.JUNGLE);
-	public final static MaterialData SAPLING_ACACIA = define(Material.SAPLING, TreeSpecies.ACACIA);
-	public final static MaterialData SAPLING_DARK_OAK = define(Material.SAPLING, TreeSpecies.DARK_OAK);
+	SAPLING(Material.SAPLING),
+	SAPLING_OAK(Material.SAPLING, TreeSpecies.GENERIC),
+	SAPLING_REDWOOD(Material.SAPLING, TreeSpecies.REDWOOD),
+	SAPLING_BIRCH(Material.SAPLING, TreeSpecies.BIRCH),
+	SAPLING_JUNGLE(Material.SAPLING, TreeSpecies.JUNGLE),
+	SAPLING_ACACIA(Material.SAPLING, TreeSpecies.ACACIA),
+	SAPLING_DARK_OAK(Material.SAPLING, TreeSpecies.DARK_OAK),
 
-	public final static MaterialData BEDROCK = define(Material.BEDROCK);
+	BEDROCK(Material.BEDROCK),
 
-	public final static MaterialData FLOWING_WATER = define(Material.WATER, 0); //TODO: wrong name; data variant
-	public final static MaterialData WATER = define(Material.STATIONARY_WATER, 0); //TODO: wrong name; data variant
-	public final static MaterialData FLOWING_LAVA = define(Material.LAVA, 0); //TODO: wrong name; data variant
-	public final static MaterialData LAVA = define(Material.STATIONARY_LAVA, 0); //TODO: wrong name; data variant
+	@Deprecated // Use STATIONARY_WATER instead
+	WATER(Material.STATIONARY_WATER, 0),
+	@Deprecated // Use STATIONARY_WATER instead
+	LAVA(Material.STATIONARY_LAVA, 0),
+	@Deprecated // Use STATIONARY_WATER instead
+	STATIONARY_WATER(Material.STATIONARY_WATER, 0),
+	@Deprecated // Use STATIONARY_WATER instead
+	STATIONARY_LAVA(Material.STATIONARY_LAVA, 0),
+	WATER_FLOWING(Material.WATER, 0), //TODO: wrong name; data variant
+	WATER_STATIONARY(Material.STATIONARY_WATER, 0), //TODO: wrong name; data variant
+	LAVA_FLOWING(Material.LAVA, 0), //TODO: wrong name; data variant
+	LAVA_STATIONARY(Material.STATIONARY_LAVA, 0), //TODO: wrong name; data variant
 
-	public final static MaterialData SAND = define(Material.SAND);
-	public final static MaterialData SAND_RED = define(Material.SAND, 1);
+	SAND(Material.SAND),
+	SAND_RED(Material.SAND, 1),
 
-	public final static MaterialData GRAVEL = define(Material.GRAVEL);
+	GRAVEL(Material.GRAVEL),
 
-	public final static MaterialData GOLD_ORE = define(Material.GOLD_ORE);
-	public final static MaterialData IRON_ORE = define(Material.IRON_ORE);
-	public final static MaterialData COAL_ORE = define(Material.COAL_ORE);
+	GOLD_ORE(Material.GOLD_ORE),
+	IRON_ORE(Material.IRON_ORE),
+	COAL_ORE(Material.COAL_ORE),
 
-	public final static MaterialData LOG = define(Material.LOG);
-	public final static MaterialData LOG_OAK = define(Material.LOG, TreeSpecies.GENERIC);
-	public final static MaterialData LOG_REDWOOD = define(Material.LOG, TreeSpecies.REDWOOD);
-	public final static MaterialData LOG_BIRCH = define(Material.LOG, TreeSpecies.BIRCH);
-	public final static MaterialData LOG_JUNGLE = define(Material.LOG, TreeSpecies.JUNGLE);
-	public final static MaterialData LOG_ACACIA = define(Material.LOG, TreeSpecies.ACACIA);
-	public final static MaterialData LOG_DARK_OAK = define(Material.LOG, TreeSpecies.DARK_OAK);
+	LOG(Material.LOG),
+	LOG_OAK(Material.LOG, TreeSpecies.GENERIC),
+	LOG_REDWOOD(Material.LOG, TreeSpecies.REDWOOD),
+	LOG_BIRCH(Material.LOG, TreeSpecies.BIRCH),
+	LOG_JUNGLE(Material.LOG, TreeSpecies.JUNGLE),
+	LOG_ACACIA(Material.LOG, TreeSpecies.ACACIA),
+	LOG_DARK_OAK(Material.LOG, TreeSpecies.DARK_OAK),
 
-	public final static MaterialData LEAVES = define(Material.LEAVES);
-	public final static MaterialData LEAVES_OAK = define(Material.LEAVES, TreeSpecies.GENERIC);
-	public final static MaterialData LEAVES_REDWOOD = define(Material.LEAVES, TreeSpecies.REDWOOD);
-	public final static MaterialData LEAVES_BIRCH = define(Material.LEAVES, TreeSpecies.BIRCH);
-	public final static MaterialData LEAVES_JUNGLE = define(Material.LEAVES, TreeSpecies.JUNGLE);
-	public final static MaterialData LEAVES_ACACIA = define(Material.LEAVES, TreeSpecies.ACACIA);
-	public final static MaterialData LEAVES_DARK_OAK = define(Material.LEAVES, TreeSpecies.DARK_OAK);
+	LEAVES(Material.LEAVES),
+	LEAVES_OAK(Material.LEAVES, TreeSpecies.GENERIC),
+	LEAVES_REDWOOD(Material.LEAVES, TreeSpecies.REDWOOD),
+	LEAVES_BIRCH(Material.LEAVES, TreeSpecies.BIRCH),
+	LEAVES_JUNGLE(Material.LEAVES, TreeSpecies.JUNGLE),
+	LEAVES_ACACIA(Material.LEAVES, TreeSpecies.ACACIA),
+	LEAVES_DARK_OAK(Material.LEAVES, TreeSpecies.DARK_OAK),
 
-	public final static MaterialData SPONGE = define(Material.SPONGE);
-	public final static MaterialData SPONGE_WET = define(Material.SPONGE, 1);
+	SPONGE(Material.SPONGE),
+	SPONGE_WET(Material.SPONGE, 1),
 
-	public final static MaterialData GLASS = define(Material.GLASS);
-	public final static MaterialData LAPIS_ORE = define(Material.LAPIS_ORE);
-	public final static MaterialData LAPIS_BLOCK = define(Material.LAPIS_BLOCK);
+	GLASS(Material.GLASS),
+	LAPIS_ORE(Material.LAPIS_ORE),
+	LAPIS_BLOCK(Material.LAPIS_BLOCK),
 
-	public final static MaterialData DISPENSER = define(Material.DISPENSER, 0); //TODO: data variant
+	DISPENSER(Material.DISPENSER, 0), //TODO: data variant
 
-	public final static MaterialData SANDSTONE = define(Material.SANDSTONE);
-	public final static MaterialData SANDSTONE_CHISELED = define(Material.RED_SANDSTONE, 1);
-	public final static MaterialData SANDSTONE_SMOOTH = define(Material.RED_SANDSTONE, 2);
+	SANDSTONE(Material.SANDSTONE),
+	SANDSTONE_CHISELED(Material.RED_SANDSTONE, 1),
+	SANDSTONE_SMOOTH(Material.RED_SANDSTONE, 2),
 
-	public final static MaterialData NOTE_BLOCK = define(Material.NOTE_BLOCK); //TODO: wrong name
+	NOTE_BLOCK(Material.NOTE_BLOCK), //TODO: wrong name
 
-	public final static MaterialData BED = define(Material.BED, 0); //TODO: data variant
-	public final static MaterialData POWERED_RAIL = define(Material.POWERED_RAIL, 0); //TODO: data variant
-	public final static MaterialData DETECTOR_RAIL = define(Material.DETECTOR_RAIL, 0); //TODO: data variant
-	public final static MaterialData STICKY_PISTON_BASE = define(Material.PISTON_STICKY_BASE, 0); //TODO: data variant
+	BED_BLOCK(Material.BED_BLOCK, 0), //TODO: wrong name, data variant
+	POWERED_RAIL(Material.POWERED_RAIL, 0), //TODO: data variant
+	DETECTOR_RAIL(Material.DETECTOR_RAIL, 0), //TODO: data variant
+	STICKY_PISTON_BASE(Material.PISTON_STICKY_BASE, 0), //TODO: data variant
 
-	public final static MaterialData WEB = define(Material.WEB);
+	WEB(Material.WEB),
 
 	@Deprecated // Use TALL_GRASS instead
-	public final static MaterialData LONG_GRASS = define(Material.LONG_GRASS);
-	public final static MaterialData SHRUB = define(Material.LONG_GRASS, 0);
-	public final static MaterialData TALL_GRASS = define(Material.LONG_GRASS, 1);
-	public final static MaterialData FERN = define(Material.LONG_GRASS, 2);
+	LONG_GRASS(Material.LONG_GRASS),
+	SHRUB(Material.LONG_GRASS, 0),
+	TALL_GRASS(Material.LONG_GRASS, 1),
+	FERN(Material.LONG_GRASS, 2),
 
-	public final static MaterialData DEAD_BUSH = define(Material.DEAD_BUSH);
+	DEAD_BUSH(Material.DEAD_BUSH),
 
-	public final static MaterialData PISTON_BASE = define(Material.PISTON_BASE, 0); //TODO: wrong name; data variant
-	public final static MaterialData PISTON_EXTENSION = define(Material.PISTON_EXTENSION, 0); //TODO: wrong name; data variant
+	PISTON_BASE(Material.PISTON_BASE, 0), //TODO: wrong name; data variant
+	PISTON_EXTENSION(Material.PISTON_EXTENSION, 0), //TODO: wrong name; data variant
 
-	public final static MaterialData WOOL = define(Material.WOOL);
-	public final static MaterialData WOOL_WHITE = define(Material.WOOL ,DyeColor.WHITE);
-	public final static MaterialData WOOL_ORANGE = define(Material.WOOL ,DyeColor.ORANGE);
-	public final static MaterialData WOOL_MAGENTA = define(Material.WOOL ,DyeColor.MAGENTA);
-	public final static MaterialData WOOL_LIGHT_BLUE = define(Material.WOOL ,DyeColor.LIGHT_BLUE);
-	public final static MaterialData WOOL_YELLOW = define(Material.WOOL ,DyeColor.YELLOW);
-	public final static MaterialData WOOL_LIME = define(Material.WOOL ,DyeColor.LIME);
-	public final static MaterialData WOOL_PINK = define(Material.WOOL ,DyeColor.PINK);
-	public final static MaterialData WOOL_GRAY = define(Material.WOOL ,DyeColor.GRAY);
-	public final static MaterialData WOOL_SILVER = define(Material.WOOL ,DyeColor.SILVER);
-	public final static MaterialData WOOL_CYAN = define(Material.WOOL ,DyeColor.CYAN);
-	public final static MaterialData WOOL_PURPLE = define(Material.WOOL ,DyeColor.PURPLE);
-	public final static MaterialData WOOL_BLUE = define(Material.WOOL ,DyeColor.BLUE);
-	public final static MaterialData WOOL_BROWN = define(Material.WOOL ,DyeColor.BROWN);
-	public final static MaterialData WOOL_GREEN = define(Material.WOOL ,DyeColor.GREEN);
-	public final static MaterialData WOOL_RED = define(Material.WOOL ,DyeColor.RED);
-	public final static MaterialData WOOL_BLACK = define(Material.WOOL ,DyeColor.BLACK);
+	WOOL(Material.WOOL),
+	WOOL_WHITE(Material.WOOL ,DyeColor.WHITE),
+	WOOL_ORANGE(Material.WOOL ,DyeColor.ORANGE),
+	WOOL_MAGENTA(Material.WOOL ,DyeColor.MAGENTA),
+	WOOL_LIGHT_BLUE(Material.WOOL ,DyeColor.LIGHT_BLUE),
+	WOOL_YELLOW(Material.WOOL ,DyeColor.YELLOW),
+	WOOL_LIME(Material.WOOL ,DyeColor.LIME),
+	WOOL_PINK(Material.WOOL ,DyeColor.PINK),
+	WOOL_GRAY(Material.WOOL ,DyeColor.GRAY),
+	WOOL_SILVER(Material.WOOL ,DyeColor.SILVER),
+	WOOL_CYAN(Material.WOOL ,DyeColor.CYAN),
+	WOOL_PURPLE(Material.WOOL ,DyeColor.PURPLE),
+	WOOL_BLUE(Material.WOOL ,DyeColor.BLUE),
+	WOOL_BROWN(Material.WOOL ,DyeColor.BROWN),
+	WOOL_GREEN(Material.WOOL ,DyeColor.GREEN),
+	WOOL_RED(Material.WOOL ,DyeColor.RED),
+	WOOL_BLACK(Material.WOOL ,DyeColor.BLACK),
 
-	public final static MaterialData PISTON_MOVING_PIECE = define(Material.PISTON_MOVING_PIECE, 0); //TODO: wrong name; data variant
+	PISTON_MOVING_PIECE(Material.PISTON_MOVING_PIECE, 0), //TODO: wrong name; data variant
 	
 	@Deprecated // Use FLOWER_DANDELION instead
-	public final static MaterialData YELLOW_FLOWER = define(Material.YELLOW_FLOWER);
-	public final static MaterialData FLOWER_DANDELION = define(Material.YELLOW_FLOWER);
+	YELLOW_FLOWER(Material.YELLOW_FLOWER),
+	FLOWER_DANDELION(Material.YELLOW_FLOWER),
 
 	@Deprecated // Use FLOWER_POPPY instead
-	public final static MaterialData RED_ROSE = define(Material.RED_ROSE);
-	public final static MaterialData FLOWER_POPPY = define(Material.RED_ROSE, 0);
-	public final static MaterialData FLOWER_BLUE_ORCHID = define(Material.RED_ROSE, 1);
-	public final static MaterialData FLOWER_ALLIUM = define(Material.RED_ROSE, 2);
-	public final static MaterialData FLOWER_AZURE_BLUET = define(Material.RED_ROSE, 3);
-	public final static MaterialData FLOWER_RED_TULIP = define(Material.RED_ROSE, 4);
-	public final static MaterialData FLOWER_ORANGE_TULIP = define(Material.RED_ROSE, 5);
-	public final static MaterialData FLOWER_WHITE_TULIP = define(Material.RED_ROSE, 6);
-	public final static MaterialData FLOWER_PINK_TULIP = define(Material.RED_ROSE, 7);
-	public final static MaterialData FLOWER_OXEYE_DAISY = define(Material.RED_ROSE, 8);
+	RED_ROSE(Material.RED_ROSE),
+	FLOWER_POPPY(Material.RED_ROSE, 0),
+	FLOWER_BLUE_ORCHID(Material.RED_ROSE, 1),
+	FLOWER_ALLIUM(Material.RED_ROSE, 2),
+	FLOWER_AZURE_BLUET(Material.RED_ROSE, 3),
+	FLOWER_RED_TULIP(Material.RED_ROSE, 4),
+	FLOWER_ORANGE_TULIP(Material.RED_ROSE, 5),
+	FLOWER_WHITE_TULIP(Material.RED_ROSE, 6),
+	FLOWER_PINK_TULIP(Material.RED_ROSE, 7),
+	FLOWER_OXEYE_DAISY(Material.RED_ROSE, 8),
 	
 	@Deprecated // Use MUSHROOM_BROWN instead
-	public final static MaterialData BROWN_MUSHROOM = define(Material.BROWN_MUSHROOM);
-	public final static MaterialData MUSHROOM_BROWN = define(Material.BROWN_MUSHROOM);
+	BROWN_MUSHROOM(Material.BROWN_MUSHROOM),
+	MUSHROOM_BROWN(Material.BROWN_MUSHROOM),
 	@Deprecated // Use MUSHROOM_RED instead
-	public final static MaterialData RED_MUSHROOM = define(Material.RED_MUSHROOM);
-	public final static MaterialData MUSHROOM_RED = define(Material.RED_MUSHROOM);
-	public final static MaterialData GOLD_BLOCK = define(Material.GOLD_BLOCK);
-	public final static MaterialData IRON_BLOCK = define(Material.IRON_BLOCK);
+	RED_MUSHROOM(Material.RED_MUSHROOM),
+	MUSHROOM_RED(Material.RED_MUSHROOM),
+	GOLD_BLOCK(Material.GOLD_BLOCK),
+	IRON_BLOCK(Material.IRON_BLOCK),
 	
 	@Deprecated // Use STONE_DOUBLE_SLAB instead
-	public final static MaterialData DOUBLE_STEP = define(Material.DOUBLE_STEP, 0); //TODO: wrong name; data variant
-	public final static MaterialData STONE_DOUBLE_SLAB = define(Material.DOUBLE_STEP, 0);
-	public final static MaterialData SANDSTONE_DOUBLE_SLAB = define(Material.DOUBLE_STEP, 1);
-	public final static MaterialData STONEWOOD_DOUBLE_SLAB = define(Material.DOUBLE_STEP, 2);
-	public final static MaterialData COBBLESTONE_DOUBLE_SLAB = define(Material.DOUBLE_STEP, 3);
-	public final static MaterialData BRICK_DOUBLE_SLAB = define(Material.DOUBLE_STEP, 4);
-	public final static MaterialData SMOOTH_BRICK_DOUBLE_SLAB = define(Material.DOUBLE_STEP, 5);
-	public final static MaterialData NETHER_BRICK_DOUBLE_SLAB = define(Material.DOUBLE_STEP, 6);
-	public final static MaterialData QUARTZ_DOUBLE_SLAB = define(Material.DOUBLE_STEP, 7);
-	public final static MaterialData SANDSTONE_RED_DOUBLE_SLAB = define(Material.DOUBLE_STONE_SLAB2, 0);
+	DOUBLE_STEP(Material.DOUBLE_STEP, 0), //TODO: wrong name; data variant
+	STONE_DOUBLE_SLAB(Material.DOUBLE_STEP, 0),
+	SANDSTONE_DOUBLE_SLAB(Material.DOUBLE_STEP, 1),
+	STONEWOOD_DOUBLE_SLAB(Material.DOUBLE_STEP, 2),
+	COBBLESTONE_DOUBLE_SLAB(Material.DOUBLE_STEP, 3),
+	BRICK_DOUBLE_SLAB(Material.DOUBLE_STEP, 4),
+	SMOOTH_BRICK_DOUBLE_SLAB(Material.DOUBLE_STEP, 5),
+	NETHER_BRICK_DOUBLE_SLAB(Material.DOUBLE_STEP, 6),
+	QUARTZ_DOUBLE_SLAB(Material.DOUBLE_STEP, 7),
+	SANDSTONE_RED_DOUBLE_SLAB(Material.DOUBLE_STONE_SLAB2, 0),
 	
 	@Deprecated // Use STONE_SLAB instead
-	public final static MaterialData STEP = define(Material.STEP, 0); //TODO: wrong name; data variant
-	public final static MaterialData STONE_SLAB = define(Material.STEP, 0);
-	public final static MaterialData SANDSTONE_SLAB = define(Material.STEP, 1);
-	public final static MaterialData STONEWOOD_SLAB = define(Material.STEP, 2);
-	public final static MaterialData COBBLESTONE_SLAB = define(Material.STEP, 3);
-	public final static MaterialData BRICK_SLAB = define(Material.STEP, 4);
-	public final static MaterialData SMOOTH_BRICK_SLAB = define(Material.STEP, 5);
-	public final static MaterialData NETHER_BRICK_SLAB = define(Material.STEP, 6);
-	public final static MaterialData QUARTZ_SLAB = define(Material.STEP, 7);
-	public final static MaterialData SANDSTONE_RED_SLAB = define(Material.STONE_SLAB2, 0);
-	public final static MaterialData STONE_UPPER_SLAB = define(Material.STEP, 0 + 8);
-	public final static MaterialData SANDSTONE_UPPER_SLAB = define(Material.STEP, 1 + 8);
-	public final static MaterialData STONEWOOD_UPPER_SLAB = define(Material.STEP, 2 + 8);
-	public final static MaterialData COBBLESTONE_UPPER_SLAB = define(Material.STEP, 3 + 8);
-	public final static MaterialData BRICK_UPPER_SLAB = define(Material.STEP, 4 + 8);
-	public final static MaterialData SMOOTH_BRICK_UPPER_SLAB = define(Material.STEP, 5 + 8);
-	public final static MaterialData NETHER_BRICK_UPPER_SLAB = define(Material.STEP, 6 + 8);
-	public final static MaterialData QUARTZ_UPPER_SLAB = define(Material.STEP, 7 + 8);
-	public final static MaterialData SANDSTONE_RED_UPPER_SLAB = define(Material.STONE_SLAB2, 0 + 8);
+	STEP(Material.STEP, 0), //TODO: wrong name; data variant
+	STONE_SLAB(Material.STEP, 0),
+	SANDSTONE_SLAB(Material.STEP, 1),
+	STONEWOOD_SLAB(Material.STEP, 2),
+	COBBLESTONE_SLAB(Material.STEP, 3),
+	BRICK_SLAB(Material.STEP, 4),
+	SMOOTH_BRICK_SLAB(Material.STEP, 5),
+	NETHER_BRICK_SLAB(Material.STEP, 6),
+	QUARTZ_SLAB(Material.STEP, 7),
+	SANDSTONE_RED_SLAB(Material.STONE_SLAB2, 0),
+	STONE_UPPER_SLAB(Material.STEP, 0 + 8),
+	SANDSTONE_UPPER_SLAB(Material.STEP, 1 + 8),
+	STONEWOOD_UPPER_SLAB(Material.STEP, 2 + 8),
+	COBBLESTONE_UPPER_SLAB(Material.STEP, 3 + 8),
+	BRICK_UPPER_SLAB(Material.STEP, 4 + 8),
+	SMOOTH_BRICK_UPPER_SLAB(Material.STEP, 5 + 8),
+	NETHER_BRICK_UPPER_SLAB(Material.STEP, 6 + 8),
+	QUARTZ_UPPER_SLAB(Material.STEP, 7 + 8),
+	SANDSTONE_RED_UPPER_SLAB(Material.STONE_SLAB2, 0 + 8),
 
-	public final static MaterialData BRICK = define(Material.BRICK); //TODO: wrong name
-	public final static MaterialData TNT = define(Material.TNT);
-	public final static MaterialData BOOKSHELF = define(Material.BOOKSHELF);
+	BRICK(Material.BRICK), //TODO: wrong name
+	TNT(Material.TNT),
+	BOOKSHELF(Material.BOOKSHELF),
 
-	public final static MaterialData MOSSY_COBBLESTONE = define(Material.MOSSY_COBBLESTONE, 0); //TODO: wrong name; data variant
-	public final static MaterialData OBSIDIAN = define(Material.OBSIDIAN);
-	public final static MaterialData TORCH = define(Material.TORCH, 0); //TODO: data variant
-	public final static MaterialData FIRE = define(Material.FIRE, 0); //TODO: data variant
-	public final static MaterialData MOB_SPAWNER = define(Material.MOB_SPAWNER, 0); //TODO: data variant
-	public final static MaterialData WOOD_STAIRS = define(Material.WOOD_STAIRS, 0); //TODO: wrong name; data variant
-	public final static MaterialData CHEST = define(Material.CHEST, 0); //TODO: data variant
-	public final static MaterialData REDSTONE_WIRE = define(Material.REDSTONE_WIRE, 0); //TODO: data variant
+	MOSSY_COBBLESTONE(Material.MOSSY_COBBLESTONE, 0), //TODO: wrong name; data variant
+	OBSIDIAN(Material.OBSIDIAN),
+	TORCH(Material.TORCH, 0), //TODO: data variant
+	FIRE(Material.FIRE, 0), //TODO: data variant
+	MOB_SPAWNER(Material.MOB_SPAWNER, 0), //TODO: data variant
+	WOOD_STAIRS(Material.WOOD_STAIRS, 0), //TODO: wrong name; data variant
+	CHEST(Material.CHEST, 0), //TODO: data variant
+	REDSTONE_WIRE(Material.REDSTONE_WIRE, 0), //TODO: data variant
 	
-	public final static MaterialData DIAMOND_ORE = define(Material.DIAMOND_ORE);
-	public final static MaterialData DIAMOND_BLOCK = define(Material.DIAMOND_BLOCK);
-	public final static MaterialData WORKBENCH = define(Material.WORKBENCH); //TODO: wrong name
-	public final static MaterialData CROPS = define(Material.CROPS, 0); //TODO: wrong name; data variant
-	public final static MaterialData SOIL = define(Material.SOIL, 0); //TODO: wrong name; data variant
-	public final static MaterialData FURNACE = define(Material.FURNACE, 0); //TODO: data variant
-	public final static MaterialData BURNING_FURNACE = define(Material.BURNING_FURNACE, 0); //TODO: wrong name; data variant
-	public final static MaterialData SIGN_POST = define(Material.SIGN_POST, 0); //TODO: wrong name; data variant
-	public final static MaterialData WOODEN_DOOR = define(Material.WOODEN_DOOR, 0); //TODO: data variant
-	public final static MaterialData LADDER = define(Material.LADDER, 0); //TODO: data variant
-	public final static MaterialData RAILS = define(Material.RAILS, 0); //TODO: wrong name; data variant
-	public final static MaterialData COBBLESTONE_STAIRS = define(Material.COBBLESTONE_STAIRS, 0); //TODO: wrong name; data variant
-	public final static MaterialData WALL_SIGN = define(Material.WALL_SIGN, 0); //TODO: data variant
-	public final static MaterialData LEVER = define(Material.LEVER, 0); //TODO: data variant
-	public final static MaterialData STONE_PLATE = define(Material.STONE_PLATE, 0); //TODO: wrong name; data variant
-	public final static MaterialData IRON_DOOR_BLOCK = define(Material.IRON_DOOR_BLOCK, 0); //TODO: wrong name; data variant
-	public final static MaterialData WOODEN_PLATE = define(Material.WOOD_PLATE, 0); //TODO: wrong name; data variant
-	public final static MaterialData REDSTONE_ORE = define(Material.REDSTONE_ORE);
-	public final static MaterialData GLOWING_REDSTONE_ORE = define(Material.GLOWING_REDSTONE_ORE); //TODO: wrong name
-	public final static MaterialData REDSTONE_TORCH_OFF = define(Material.REDSTONE_TORCH_OFF, 0); //TODO: wrong name; data variant
-	public final static MaterialData REDSTONE_TORCH_ON = define(Material.REDSTONE_TORCH_ON, 0); //TODO: wrong name; data variant
-	public final static MaterialData STONE_BUTTON = define(Material.STONE_BUTTON, 0); //TODO: wrong name; data variant
-	public final static MaterialData SNOW = define(Material.SNOW, 0); //TODO: wrong name; data variant
-	public final static MaterialData ICE = define(Material.ICE);
-	public final static MaterialData SNOW_BLOCK = define(Material.SNOW_BLOCK); //TODO: wrong name
-	public final static MaterialData CACTUS = define(Material.CACTUS, 0); //TODO: data variant
-	public final static MaterialData CLAY = define(Material.CLAY);
-	public final static MaterialData SUGAR_CANE_BLOCK = define(Material.SUGAR_CANE_BLOCK, 0); //TODO: wrong name; data variant
-	public final static MaterialData JUKEBOX = define(Material.JUKEBOX, 0); //TODO: data variant
-	public final static MaterialData FENCE = define(Material.FENCE);
-	public final static MaterialData PUMPKIN = define(Material.PUMPKIN, 0); //TODO: data variant
-	public final static MaterialData NETHERRACK = define(Material.NETHERRACK);
-	public final static MaterialData SOUL_SAND = define(Material.SOUL_SAND, 0); //TODO: data variant
-	public final static MaterialData GLOWSTONE = define(Material.GLOWSTONE);
-	public final static MaterialData PORTAL = define(Material.PORTAL);
-	public final static MaterialData JACK_O_LATERN = define(Material.JACK_O_LANTERN, 0); //TODO: wrong name; data variant
-	public final static MaterialData CAKE_BLOCK = define(Material.CAKE_BLOCK, 0); //TODO: wrong name; data variant
-	public final static MaterialData DIODE_BLOCK_OFF = define(Material.DIODE_BLOCK_OFF, 0); //TODO: wrong name; data variant
-	public final static MaterialData DIODE_BLOCK_ON = define(Material.DIODE_BLOCK_ON, 0); //TODO: wrong name; data variant
-	
-	public final static MaterialData STAINED_GLASS = define(Material.STAINED_GLASS);
-	public final static MaterialData STAINED_GLASS_WHITE = define(Material.STAINED_GLASS ,DyeColor.WHITE);
-	public final static MaterialData STAINED_GLASS_ORANGE = define(Material.STAINED_GLASS ,DyeColor.ORANGE);
-	public final static MaterialData STAINED_GLASS_MAGENTA = define(Material.STAINED_GLASS ,DyeColor.MAGENTA);
-	public final static MaterialData STAINED_GLASS_LIGHT_BLUE = define(Material.STAINED_GLASS ,DyeColor.LIGHT_BLUE);
-	public final static MaterialData STAINED_GLASS_YELLOW = define(Material.STAINED_GLASS ,DyeColor.YELLOW);
-	public final static MaterialData STAINED_GLASS_LIME = define(Material.STAINED_GLASS ,DyeColor.LIME);
-	public final static MaterialData STAINED_GLASS_PINK = define(Material.STAINED_GLASS ,DyeColor.PINK);
-	public final static MaterialData STAINED_GLASS_GRAY = define(Material.STAINED_GLASS ,DyeColor.GRAY);
-	public final static MaterialData STAINED_GLASS_SILVER = define(Material.STAINED_GLASS ,DyeColor.SILVER);
-	public final static MaterialData STAINED_GLASS_CYAN = define(Material.STAINED_GLASS ,DyeColor.CYAN);
-	public final static MaterialData STAINED_GLASS_PURPLE = define(Material.STAINED_GLASS ,DyeColor.PURPLE);
-	public final static MaterialData STAINED_GLASS_BLUE = define(Material.STAINED_GLASS ,DyeColor.BLUE);
-	public final static MaterialData STAINED_GLASS_BROWN = define(Material.STAINED_GLASS ,DyeColor.BROWN);
-	public final static MaterialData STAINED_GLASS_GREEN = define(Material.STAINED_GLASS ,DyeColor.GREEN);
-	public final static MaterialData STAINED_GLASS_RED = define(Material.STAINED_GLASS ,DyeColor.RED);
-	public final static MaterialData STAINED_GLASS_BLACK = define(Material.STAINED_GLASS ,DyeColor.BLACK);
-	
-	public final static MaterialData TRAP_DOOR = define(Material.TRAP_DOOR, 0); //TODO: wrong name; data variant
-	public final static MaterialData MONSTER_EGGS = define(Material.MONSTER_EGGS, 0); //TODO: wrong name; data variant
+	DIAMOND_ORE(Material.DIAMOND_ORE),
+	DIAMOND_BLOCK(Material.DIAMOND_BLOCK),
+	WORKBENCH(Material.WORKBENCH), //TODO: wrong name
+	CROPS(Material.CROPS, 0), //TODO: wrong name; data variant
+	SOIL(Material.SOIL, 0), //TODO: wrong name; data variant
+	FURNACE(Material.FURNACE, 0), //TODO: data variant
+	BURNING_FURNACE(Material.BURNING_FURNACE, 0), //TODO: wrong name; data variant
+	SIGN_POST(Material.SIGN_POST, 0), //TODO: wrong name; data variant
+	WOODEN_DOOR(Material.WOODEN_DOOR, 0), //TODO: data variant
+	LADDER(Material.LADDER, 0), //TODO: data variant
+	RAILS(Material.RAILS, 0), //TODO: wrong name; data variant
+	COBBLESTONE_STAIRS(Material.COBBLESTONE_STAIRS, 0), //TODO: wrong name; data variant
+	WALL_SIGN(Material.WALL_SIGN, 0), //TODO: data variant
+	LEVER(Material.LEVER, 0), //TODO: data variant
+	STONE_PLATE(Material.STONE_PLATE, 0), //TODO: wrong name; data variant
+	IRON_DOOR_BLOCK(Material.IRON_DOOR_BLOCK, 0), //TODO: wrong name; data variant
 
-	public final static MaterialData SMOOTH_BRICK = define(Material.SMOOTH_BRICK);
-	public final static MaterialData SMOOTH_BRICK_MOSSY = define(Material.SMOOTH_BRICK, 1);
-	public final static MaterialData SMOOTH_BRICK_CRACKED = define(Material.SMOOTH_BRICK, 2);
-	public final static MaterialData SMOOTH_BRICK_CHISELED = define(Material.SMOOTH_BRICK, 3);
+	@Deprecated
+	WOOD_PLATE(Material.WOOD_PLATE, 0), //TODO: wrong name; data variant
+	WOODEN_PLATE(Material.WOOD_PLATE, 0), //TODO: wrong name; data variant
 
-	public final static MaterialData HUGE_MUSHROOM_1 = define(Material.HUGE_MUSHROOM_1, 0); //TODO: wrong name; data variant
-	public final static MaterialData HUGE_MUSHROOM_2 = define(Material.HUGE_MUSHROOM_2, 0); //TODO: wrong name; data variant
-	public final static MaterialData IRON_FENCE = define(Material.IRON_FENCE); //TODO: wrong name
-	public final static MaterialData THIN_GLASS = define(Material.THIN_GLASS); //TODO: wrong name
-	public final static MaterialData MELON_BLOCK = define(Material.MELON_BLOCK);
-	public final static MaterialData PUMPKIN_STEM = define(Material.PUMPKIN_STEM, 0); //TODO: data variant
-	public final static MaterialData MELON_STEM = define(Material.MELON_STEM, 0); //TODO: data variant
-	public final static MaterialData VINE = define(Material.VINE, 0); //TODO: data variant
-	public final static MaterialData FENCE_GATE = define(Material.FENCE_GATE, 0); //TODO: data variant
-	public final static MaterialData BRICK_STAIRS = define(Material.BRICK_STAIRS, 0); //TODO: data variant
-	public final static MaterialData SMOOTH_STAIRS = define(Material.SMOOTH_STAIRS, 0); //TODO: wrong name; data variant
-	public final static MaterialData MYCEL = define(Material.MYCEL); //TODO: wrong name
-	public final static MaterialData WATER_LILY = define(Material.WATER_LILY); //TODO: wrong name
-	public final static MaterialData NETHER_BRICK = define(Material.NETHER_BRICK);
-	public final static MaterialData NETHER_FENCE = define(Material.NETHER_FENCE); //TODO: wrong name
-	public final static MaterialData NETHER_BRICK_STAIRS = define(Material.NETHER_BRICK_STAIRS, 0); //TODO: data variant
-	public final static MaterialData NETHER_WARTS = define(Material.NETHER_WARTS, 0); //TODO: wrong name; data variant
-	public final static MaterialData ENCHANTMENT_TABLE = define(Material.ENCHANTMENT_TABLE); //TODO: wrong name
-	public final static MaterialData BREWING_STAND = define(Material.BREWING_STAND, 0); //TODO: data variant
-	public final static MaterialData CAULDRON = define(Material.CAULDRON, 0); //TODO: data variant
-	public final static MaterialData ENDER_PORTAL = define(Material.ENDER_PORTAL); //TODO: wrong name
-	public final static MaterialData ENDER_PORTAL_FRAME = define(Material.ENDER_PORTAL_FRAME, 0); //TODO: wrong name; data variant
-	public final static MaterialData ENDER_STONE = define(Material.ENDER_STONE, 0); //TODO: wrong name; data variant
-	public final static MaterialData DRAGON_EGG = define(Material.DRAGON_EGG);
-	public final static MaterialData REDSTONE_LAMP_OFF = define(Material.REDSTONE_LAMP_OFF); //TODO: wrong name
-	public final static MaterialData REDSTONE_LAMP_ON = define(Material.REDSTONE_LAMP_ON); //TODO: wrong name
+	REDSTONE_ORE(Material.REDSTONE_ORE),
+	GLOWING_REDSTONE_ORE(Material.GLOWING_REDSTONE_ORE), //TODO: wrong name
+	REDSTONE_TORCH_OFF(Material.REDSTONE_TORCH_OFF, 0), //TODO: wrong name; data variant
+	REDSTONE_TORCH_ON(Material.REDSTONE_TORCH_ON, 0), //TODO: wrong name; data variant
+	STONE_BUTTON(Material.STONE_BUTTON, 0), //TODO: wrong name; data variant
+	SNOW(Material.SNOW, 0), //TODO: wrong name; data variant
+	ICE(Material.ICE),
+	SNOW_BLOCK(Material.SNOW_BLOCK), //TODO: wrong name
+	CACTUS(Material.CACTUS, 0), //TODO: data variant
+	CLAY(Material.CLAY),
+	SUGAR_CANE_BLOCK(Material.SUGAR_CANE_BLOCK, 0), //TODO: wrong name; data variant
+	JUKEBOX(Material.JUKEBOX, 0), //TODO: data variant
+	FENCE(Material.FENCE),
+	PUMPKIN(Material.PUMPKIN, 0), //TODO: data variant
+	NETHERRACK(Material.NETHERRACK),
+	SOUL_SAND(Material.SOUL_SAND, 0), //TODO: data variant
+	GLOWSTONE(Material.GLOWSTONE),
+	PORTAL(Material.PORTAL),
+	JACK_O_LATERN(Material.JACK_O_LANTERN, 0), //TODO: wrong name; data variant
+	CAKE_BLOCK(Material.CAKE_BLOCK, 0), //TODO: wrong name; data variant
+	DIODE_BLOCK_OFF(Material.DIODE_BLOCK_OFF, 0), //TODO: wrong name; data variant
+	DIODE_BLOCK_ON(Material.DIODE_BLOCK_ON, 0), //TODO: wrong name; data variant
+	
+	STAINED_GLASS(Material.STAINED_GLASS),
+	STAINED_GLASS_WHITE(Material.STAINED_GLASS ,DyeColor.WHITE),
+	STAINED_GLASS_ORANGE(Material.STAINED_GLASS ,DyeColor.ORANGE),
+	STAINED_GLASS_MAGENTA(Material.STAINED_GLASS ,DyeColor.MAGENTA),
+	STAINED_GLASS_LIGHT_BLUE(Material.STAINED_GLASS ,DyeColor.LIGHT_BLUE),
+	STAINED_GLASS_YELLOW(Material.STAINED_GLASS ,DyeColor.YELLOW),
+	STAINED_GLASS_LIME(Material.STAINED_GLASS ,DyeColor.LIME),
+	STAINED_GLASS_PINK(Material.STAINED_GLASS ,DyeColor.PINK),
+	STAINED_GLASS_GRAY(Material.STAINED_GLASS ,DyeColor.GRAY),
+	STAINED_GLASS_SILVER(Material.STAINED_GLASS ,DyeColor.SILVER),
+	STAINED_GLASS_CYAN(Material.STAINED_GLASS ,DyeColor.CYAN),
+	STAINED_GLASS_PURPLE(Material.STAINED_GLASS ,DyeColor.PURPLE),
+	STAINED_GLASS_BLUE(Material.STAINED_GLASS ,DyeColor.BLUE),
+	STAINED_GLASS_BROWN(Material.STAINED_GLASS ,DyeColor.BROWN),
+	STAINED_GLASS_GREEN(Material.STAINED_GLASS ,DyeColor.GREEN),
+	STAINED_GLASS_RED(Material.STAINED_GLASS ,DyeColor.RED),
+	STAINED_GLASS_BLACK(Material.STAINED_GLASS ,DyeColor.BLACK),
+	
+	TRAP_DOOR(Material.TRAP_DOOR, 0), //TODO: wrong name; data variant
+	MONSTER_EGGS(Material.MONSTER_EGGS, 0), //TODO: wrong name; data variant
+
+	SMOOTH_BRICK(Material.SMOOTH_BRICK),
+	SMOOTH_BRICK_MOSSY(Material.SMOOTH_BRICK, 1),
+	SMOOTH_BRICK_CRACKED(Material.SMOOTH_BRICK, 2),
+	SMOOTH_BRICK_CHISELED(Material.SMOOTH_BRICK, 3),
+
+	HUGE_MUSHROOM_1(Material.HUGE_MUSHROOM_1, 0), //TODO: wrong name; data variant
+	HUGE_MUSHROOM_2(Material.HUGE_MUSHROOM_2, 0), //TODO: wrong name; data variant
+	IRON_FENCE(Material.IRON_FENCE), //TODO: wrong name
+	THIN_GLASS(Material.THIN_GLASS), //TODO: wrong name
+	MELON_BLOCK(Material.MELON_BLOCK),
+	PUMPKIN_STEM(Material.PUMPKIN_STEM, 0), //TODO: data variant
+	MELON_STEM(Material.MELON_STEM, 0), //TODO: data variant
+	VINE(Material.VINE, 0), //TODO: data variant
+	FENCE_GATE(Material.FENCE_GATE, 0), //TODO: data variant
+	BRICK_STAIRS(Material.BRICK_STAIRS, 0), //TODO: data variant
+	SMOOTH_STAIRS(Material.SMOOTH_STAIRS, 0), //TODO: wrong name; data variant
+	MYCEL(Material.MYCEL), //TODO: wrong name
+	WATER_LILY(Material.WATER_LILY), //TODO: wrong name
+	NETHER_BRICK(Material.NETHER_BRICK),
+	NETHER_FENCE(Material.NETHER_FENCE), //TODO: wrong name
+	NETHER_BRICK_STAIRS(Material.NETHER_BRICK_STAIRS, 0), //TODO: data variant
+	NETHER_WARTS(Material.NETHER_WARTS, 0), //TODO: wrong name; data variant
+	ENCHANTMENT_TABLE(Material.ENCHANTMENT_TABLE), //TODO: wrong name
+	BREWING_STAND(Material.BREWING_STAND, 0), //TODO: data variant
+	CAULDRON(Material.CAULDRON, 0), //TODO: data variant
+	ENDER_PORTAL(Material.ENDER_PORTAL), //TODO: wrong name
+	ENDER_PORTAL_FRAME(Material.ENDER_PORTAL_FRAME, 0), //TODO: wrong name; data variant
+	ENDER_STONE(Material.ENDER_STONE, 0), //TODO: wrong name; data variant
+	DRAGON_EGG(Material.DRAGON_EGG),
+	REDSTONE_LAMP_OFF(Material.REDSTONE_LAMP_OFF), //TODO: wrong name
+	REDSTONE_LAMP_ON(Material.REDSTONE_LAMP_ON), //TODO: wrong name
 
 	@Deprecated // Use WOOD_OAK_DOUBLE_SLAB instead
-	public final static MaterialData WOOD_DOUBLE_STEP = define(Material.WOOD_DOUBLE_STEP);
-	//public final static MaterialData WOOD_DOUBLE_SLAB = define(Material.WOOD_DOUBLE_STEP);
-	public final static MaterialData WOOD_OAK_DOUBLE_SLAB = define(Material.WOOD_DOUBLE_STEP, TreeSpecies.GENERIC);
-	public final static MaterialData WOOD_REDWOOD_DOUBLE_SLAB = define(Material.WOOD_DOUBLE_STEP, TreeSpecies.REDWOOD);
-	public final static MaterialData WOOD_BIRCH_DOUBLE_SLAB = define(Material.WOOD_DOUBLE_STEP, TreeSpecies.BIRCH);
-	public final static MaterialData WOOD_JUNGLE_DOUBLE_SLAB = define(Material.WOOD_DOUBLE_STEP, TreeSpecies.JUNGLE);
-	public final static MaterialData WOOD_ACACIA_DOUBLE_SLAB = define(Material.WOOD_DOUBLE_STEP, TreeSpecies.ACACIA);
-	public final static MaterialData WOOD_DARK_OAK_DOUBLE_SLAB = define(Material.WOOD_DOUBLE_STEP, TreeSpecies.DARK_OAK);
+	WOOD_DOUBLE_STEP(Material.WOOD_DOUBLE_STEP),
+	//WOOD_DOUBLE_SLAB(Material.WOOD_DOUBLE_STEP),
+	WOOD_OAK_DOUBLE_SLAB(Material.WOOD_DOUBLE_STEP, TreeSpecies.GENERIC),
+	WOOD_REDWOOD_DOUBLE_SLAB(Material.WOOD_DOUBLE_STEP, TreeSpecies.REDWOOD),
+	WOOD_BIRCH_DOUBLE_SLAB(Material.WOOD_DOUBLE_STEP, TreeSpecies.BIRCH),
+	WOOD_JUNGLE_DOUBLE_SLAB(Material.WOOD_DOUBLE_STEP, TreeSpecies.JUNGLE),
+	WOOD_ACACIA_DOUBLE_SLAB(Material.WOOD_DOUBLE_STEP, TreeSpecies.ACACIA),
+	WOOD_DARK_OAK_DOUBLE_SLAB(Material.WOOD_DOUBLE_STEP, TreeSpecies.DARK_OAK),
 
 	@Deprecated // Use WOOD_OAK_SLAB instead
-	public final static MaterialData WOOD_STEP = define(Material.WOOD_STEP);
-	//public final static MaterialData WOOD_SLAB = define(Material.WOOD_STEP);
-	public final static MaterialData WOOD_OAK_SLAB = define(Material.WOOD_STEP, TreeSpecies.GENERIC);
-	public final static MaterialData WOOD_REDWOOD_SLAB = define(Material.WOOD_STEP, TreeSpecies.REDWOOD);
-	public final static MaterialData WOOD_BIRCH_SLAB = define(Material.WOOD_STEP, TreeSpecies.BIRCH);
-	public final static MaterialData WOOD_JUNGLE_SLAB = define(Material.WOOD_STEP, TreeSpecies.JUNGLE);
-	public final static MaterialData WOOD_ACACIA_SLAB = define(Material.WOOD_STEP, TreeSpecies.ACACIA);
-	public final static MaterialData WOOD_DARK_OAK_SLAB = define(Material.WOOD_STEP, TreeSpecies.DARK_OAK);
+	WOOD_STEP(Material.WOOD_STEP),
+	//WOOD_SLAB(Material.WOOD_STEP),
+	WOOD_OAK_SLAB(Material.WOOD_STEP, TreeSpecies.GENERIC),
+	WOOD_REDWOOD_SLAB(Material.WOOD_STEP, TreeSpecies.REDWOOD),
+	WOOD_BIRCH_SLAB(Material.WOOD_STEP, TreeSpecies.BIRCH),
+	WOOD_JUNGLE_SLAB(Material.WOOD_STEP, TreeSpecies.JUNGLE),
+	WOOD_ACACIA_SLAB(Material.WOOD_STEP, TreeSpecies.ACACIA),
+	WOOD_DARK_OAK_SLAB(Material.WOOD_STEP, TreeSpecies.DARK_OAK),
 
-	public final static MaterialData COCOA = define(Material.COCOA, 0); //TODO: wrong name; data variant
-	public final static MaterialData SANDSTONE_STAIRS = define(Material.SANDSTONE_STAIRS, 0); //TODO: data variant
-	public final static MaterialData EMERALD_ORE = define(Material.EMERALD_ORE);
-	public final static MaterialData ENDER_CHEST = define(Material.ENDER_CHEST, 0); //TODO: data variant
-	public final static MaterialData TRIPWIRE_HOOK = define(Material.TRIPWIRE_HOOK, 0); //TODO: data variant
-	public final static MaterialData TRIPWIRE = define(Material.TRIPWIRE, 0); //TODO: data variant
-	public final static MaterialData EMERALD_BLOCK = define(Material.EMERALD_BLOCK);
-	public final static MaterialData SPRUCE_WOOD_STAIRS = define(Material.SPRUCE_WOOD_STAIRS, 0); //TODO: wrong name; data variant
-	public final static MaterialData BIRCH_WOOD_STAIRS = define(Material.BIRCH_WOOD_STAIRS, 0); //TODO: wrong name; data variant
-	public final static MaterialData JUNGLE_WOOD_STAIRS = define(Material.JUNGLE_WOOD_STAIRS, 0); //TODO: wrong name; data variant
-	public final static MaterialData COMMAND = define(Material.COMMAND); //TODO: wrong name
-	public final static MaterialData BEACON = define(Material.BEACON);
+	COCOA(Material.COCOA, 0), //TODO: wrong name; data variant
+	SANDSTONE_STAIRS(Material.SANDSTONE_STAIRS, 0), //TODO: data variant
+	EMERALD_ORE(Material.EMERALD_ORE),
+	ENDER_CHEST(Material.ENDER_CHEST, 0), //TODO: data variant
+	TRIPWIRE_HOOK(Material.TRIPWIRE_HOOK, 0), //TODO: data variant
+	TRIPWIRE(Material.TRIPWIRE, 0), //TODO: data variant
+	EMERALD_BLOCK(Material.EMERALD_BLOCK),
+	SPRUCE_WOOD_STAIRS(Material.SPRUCE_WOOD_STAIRS, 0), //TODO: wrong name; data variant
+	BIRCH_WOOD_STAIRS(Material.BIRCH_WOOD_STAIRS, 0), //TODO: wrong name; data variant
+	JUNGLE_WOOD_STAIRS(Material.JUNGLE_WOOD_STAIRS, 0), //TODO: wrong name; data variant
+	COMMAND(Material.COMMAND), //TODO: wrong name
+	BEACON(Material.BEACON),
 
-	public final static MaterialData COBBLE_WALL = define(Material.COBBLE_WALL);
-	public final static MaterialData COBBLE_WALL_MOSSY = define(Material.COBBLE_WALL, 1);
+	COBBLE_WALL(Material.COBBLE_WALL),
+	COBBLE_WALL_MOSSY(Material.COBBLE_WALL, 1),
 
-	public final static MaterialData FLOWER_POT = define(Material.FLOWER_POT, 0); //TODO: data variant
-	public final static MaterialData CARROT = define(Material.CARROT, 0); //TODO: wrong name; data variant
-	public final static MaterialData POTATO = define(Material.POTATO, 0); //TODO: wrong name; data variant
-	public final static MaterialData WOOD_BUTTON = define(Material.WOOD_BUTTON, 0); //TODO: wrong name; data variant
-	public final static MaterialData SKULL = define(Material.SKULL, 0); //TODO: data variant
-	public final static MaterialData ANVIL = define(Material.ANVIL, 0); //TODO: data variant
-	public final static MaterialData TRAPPED_CHEST = define(Material.TRAPPED_CHEST, 0); //TODO: data variant
-	public final static MaterialData GOLD_PLATE = define(Material.GOLD_PLATE, 0); //TODO: wrong name; data variant
-	public final static MaterialData IRON_PLATE = define(Material.IRON_PLATE, 0); //TODO: wrong name; data variant
-	public final static MaterialData REDSTONE_COMPARATOR_OFF = define(Material.REDSTONE_COMPARATOR_OFF, 0); //TODO: wrong name; data variant
-	public final static MaterialData REDSTONE_COMPARATOR_ON = define(Material.REDSTONE_COMPARATOR_OFF, 0); //TODO: wrong name; data variant
-	public final static MaterialData DAYLIGHT_DETECTOR = define(Material.DAYLIGHT_DETECTOR, 0); //TODO: data variant
-	public final static MaterialData REDSTONE_BLOCK = define(Material.REDSTONE_BLOCK);
-	public final static MaterialData QUARTZ_ORE = define(Material.QUARTZ_ORE);
-	public final static MaterialData HOPPER = define(Material.HOPPER, 0); //TODO: data variant
+	FLOWER_POT(Material.FLOWER_POT, 0), //TODO: data variant
+	CARROT(Material.CARROT, 0), //TODO: wrong name; data variant
+	POTATO(Material.POTATO, 0), //TODO: wrong name; data variant
+	WOOD_BUTTON(Material.WOOD_BUTTON, 0), //TODO: wrong name; data variant
+	SKULL(Material.SKULL, 0), //TODO: data variant
+	ANVIL(Material.ANVIL, 0), //TODO: data variant
+	TRAPPED_CHEST(Material.TRAPPED_CHEST, 0), //TODO: data variant
+	GOLD_PLATE(Material.GOLD_PLATE, 0), //TODO: wrong name; data variant
+	IRON_PLATE(Material.IRON_PLATE, 0), //TODO: wrong name; data variant
+	REDSTONE_COMPARATOR_OFF(Material.REDSTONE_COMPARATOR_OFF, 0), //TODO: wrong name; data variant
+	REDSTONE_COMPARATOR_ON(Material.REDSTONE_COMPARATOR_OFF, 0), //TODO: wrong name; data variant
+	DAYLIGHT_DETECTOR(Material.DAYLIGHT_DETECTOR, 0), //TODO: data variant
+	REDSTONE_BLOCK(Material.REDSTONE_BLOCK),
+	QUARTZ_ORE(Material.QUARTZ_ORE),
+	HOPPER(Material.HOPPER, 0), //TODO: data variant
 
-	public final static MaterialData QUARTZ_BLOCK = define(Material.QUARTZ_BLOCK);
-	public final static MaterialData QUARTZ_CHISELED = define(Material.QUARTZ_BLOCK, 1);
-	public final static MaterialData QUARTZ_PILLAR = define(Material.QUARTZ_BLOCK, 2);
-	public final static MaterialData QUARTZ_PILLAR_NS = define(Material.QUARTZ_BLOCK, 3);
-	public final static MaterialData QUARTZ_PILLAR_EW = define(Material.QUARTZ_BLOCK, 4);
+	QUARTZ_BLOCK(Material.QUARTZ_BLOCK),
+	QUARTZ_CHISELED(Material.QUARTZ_BLOCK, 1),
+	QUARTZ_PILLAR(Material.QUARTZ_BLOCK, 2),
+	QUARTZ_PILLAR_NS(Material.QUARTZ_BLOCK, 3),
+	QUARTZ_PILLAR_EW(Material.QUARTZ_BLOCK, 4),
 
-	public final static MaterialData QUARTZ_STAIRS = define(Material.QUARTZ_STAIRS, 0); //TODO: data variant
-	public final static MaterialData ACTIVATOR_RAIL = define(Material.ACTIVATOR_RAIL, 0); //TODO: data variant
-	public final static MaterialData DROPPER = define(Material.DROPPER, 0); //TODO: data variant
+	QUARTZ_STAIRS(Material.QUARTZ_STAIRS, 0), //TODO: data variant
+	ACTIVATOR_RAIL(Material.ACTIVATOR_RAIL, 0), //TODO: data variant
+	DROPPER(Material.DROPPER, 0), //TODO: data variant
 
-	public final static MaterialData STAINED_CLAY = define(Material.STAINED_CLAY); //TODO: wrong name
-	public final static MaterialData STAINED_CLAY_WHITE = define(Material.STAINED_CLAY ,DyeColor.WHITE); //TODO: wrong name
-	public final static MaterialData STAINED_CLAY_ORANGE = define(Material.STAINED_CLAY ,DyeColor.ORANGE); //TODO: wrong name
-	public final static MaterialData STAINED_CLAY_MAGENTA = define(Material.STAINED_CLAY ,DyeColor.MAGENTA); //TODO: wrong name
-	public final static MaterialData STAINED_CLAY_LIGHT_BLUE = define(Material.STAINED_CLAY ,DyeColor.LIGHT_BLUE); //TODO: wrong name
-	public final static MaterialData STAINED_CLAY_YELLOW = define(Material.STAINED_CLAY ,DyeColor.YELLOW); //TODO: wrong name
-	public final static MaterialData STAINED_CLAY_LIME = define(Material.STAINED_CLAY ,DyeColor.LIME); //TODO: wrong name
-	public final static MaterialData STAINED_CLAY_PINK = define(Material.STAINED_CLAY ,DyeColor.PINK); //TODO: wrong name
-	public final static MaterialData STAINED_CLAY_GRAY = define(Material.STAINED_CLAY ,DyeColor.GRAY); //TODO: wrong name
-	public final static MaterialData STAINED_CLAY_SILVER = define(Material.STAINED_CLAY ,DyeColor.SILVER); //TODO: wrong name
-	public final static MaterialData STAINED_CLAY_CYAN = define(Material.STAINED_CLAY ,DyeColor.CYAN); //TODO: wrong name
-	public final static MaterialData STAINED_CLAY_PURPLE = define(Material.STAINED_CLAY ,DyeColor.PURPLE); //TODO: wrong name
-	public final static MaterialData STAINED_CLAY_BLUE = define(Material.STAINED_CLAY ,DyeColor.BLUE); //TODO: wrong name
-	public final static MaterialData STAINED_CLAY_BROWN = define(Material.STAINED_CLAY ,DyeColor.BROWN); //TODO: wrong name
-	public final static MaterialData STAINED_CLAY_GREEN = define(Material.STAINED_CLAY ,DyeColor.GREEN); //TODO: wrong name
-	public final static MaterialData STAINED_CLAY_RED = define(Material.STAINED_CLAY ,DyeColor.RED); //TODO: wrong name
-	public final static MaterialData STAINED_CLAY_BLACK = define(Material.STAINED_CLAY ,DyeColor.BLACK); //TODO: wrong name
+	STAINED_CLAY(Material.STAINED_CLAY), //TODO: wrong name
+	STAINED_CLAY_WHITE(Material.STAINED_CLAY ,DyeColor.WHITE), //TODO: wrong name
+	STAINED_CLAY_ORANGE(Material.STAINED_CLAY ,DyeColor.ORANGE), //TODO: wrong name
+	STAINED_CLAY_MAGENTA(Material.STAINED_CLAY ,DyeColor.MAGENTA), //TODO: wrong name
+	STAINED_CLAY_LIGHT_BLUE(Material.STAINED_CLAY ,DyeColor.LIGHT_BLUE), //TODO: wrong name
+	STAINED_CLAY_YELLOW(Material.STAINED_CLAY ,DyeColor.YELLOW), //TODO: wrong name
+	STAINED_CLAY_LIME(Material.STAINED_CLAY ,DyeColor.LIME), //TODO: wrong name
+	STAINED_CLAY_PINK(Material.STAINED_CLAY ,DyeColor.PINK), //TODO: wrong name
+	STAINED_CLAY_GRAY(Material.STAINED_CLAY ,DyeColor.GRAY), //TODO: wrong name
+	STAINED_CLAY_SILVER(Material.STAINED_CLAY ,DyeColor.SILVER), //TODO: wrong name
+	STAINED_CLAY_CYAN(Material.STAINED_CLAY ,DyeColor.CYAN), //TODO: wrong name
+	STAINED_CLAY_PURPLE(Material.STAINED_CLAY ,DyeColor.PURPLE), //TODO: wrong name
+	STAINED_CLAY_BLUE(Material.STAINED_CLAY ,DyeColor.BLUE), //TODO: wrong name
+	STAINED_CLAY_BROWN(Material.STAINED_CLAY ,DyeColor.BROWN), //TODO: wrong name
+	STAINED_CLAY_GREEN(Material.STAINED_CLAY ,DyeColor.GREEN), //TODO: wrong name
+	STAINED_CLAY_RED(Material.STAINED_CLAY ,DyeColor.RED), //TODO: wrong name
+	STAINED_CLAY_BLACK(Material.STAINED_CLAY ,DyeColor.BLACK), //TODO: wrong name
 
-	public final static MaterialData STAINED_GLASS_PANE = define(Material.STAINED_GLASS_PANE);
-	public final static MaterialData STAINED_GLASS_PANE_WHITE = define(Material.STAINED_GLASS_PANE ,DyeColor.WHITE);
-	public final static MaterialData STAINED_GLASS_PANE_ORANGE = define(Material.STAINED_GLASS_PANE ,DyeColor.ORANGE);
-	public final static MaterialData STAINED_GLASS_PANE_MAGENTA = define(Material.STAINED_GLASS_PANE ,DyeColor.MAGENTA);
-	public final static MaterialData STAINED_GLASS_PANE_LIGHT_BLUE = define(Material.STAINED_GLASS_PANE ,DyeColor.LIGHT_BLUE);
-	public final static MaterialData STAINED_GLASS_PANE_YELLOW = define(Material.STAINED_GLASS_PANE ,DyeColor.YELLOW);
-	public final static MaterialData STAINED_GLASS_PANE_LIME = define(Material.STAINED_GLASS_PANE ,DyeColor.LIME);
-	public final static MaterialData STAINED_GLASS_PANE_PINK = define(Material.STAINED_GLASS_PANE ,DyeColor.PINK);
-	public final static MaterialData STAINED_GLASS_PANE_GRAY = define(Material.STAINED_GLASS_PANE ,DyeColor.GRAY);
-	public final static MaterialData STAINED_GLASS_PANE_SILVER = define(Material.STAINED_GLASS_PANE ,DyeColor.SILVER);
-	public final static MaterialData STAINED_GLASS_PANE_CYAN = define(Material.STAINED_GLASS_PANE ,DyeColor.CYAN);
-	public final static MaterialData STAINED_GLASS_PANE_PURPLE = define(Material.STAINED_GLASS_PANE ,DyeColor.PURPLE);
-	public final static MaterialData STAINED_GLASS_PANE_BLUE = define(Material.STAINED_GLASS_PANE ,DyeColor.BLUE);
-	public final static MaterialData STAINED_GLASS_PANE_BROWN = define(Material.STAINED_GLASS_PANE ,DyeColor.BROWN);
-	public final static MaterialData STAINED_GLASS_PANE_GREEN = define(Material.STAINED_GLASS_PANE ,DyeColor.GREEN);
-	public final static MaterialData STAINED_GLASS_PANE_RED = define(Material.STAINED_GLASS_PANE ,DyeColor.RED);
-	public final static MaterialData STAINED_GLASS_PANE_BLACK = define(Material.STAINED_GLASS_PANE ,DyeColor.BLACK);
+	STAINED_GLASS_PANE(Material.STAINED_GLASS_PANE),
+	STAINED_GLASS_PANE_WHITE(Material.STAINED_GLASS_PANE ,DyeColor.WHITE),
+	STAINED_GLASS_PANE_ORANGE(Material.STAINED_GLASS_PANE ,DyeColor.ORANGE),
+	STAINED_GLASS_PANE_MAGENTA(Material.STAINED_GLASS_PANE ,DyeColor.MAGENTA),
+	STAINED_GLASS_PANE_LIGHT_BLUE(Material.STAINED_GLASS_PANE ,DyeColor.LIGHT_BLUE),
+	STAINED_GLASS_PANE_YELLOW(Material.STAINED_GLASS_PANE ,DyeColor.YELLOW),
+	STAINED_GLASS_PANE_LIME(Material.STAINED_GLASS_PANE ,DyeColor.LIME),
+	STAINED_GLASS_PANE_PINK(Material.STAINED_GLASS_PANE ,DyeColor.PINK),
+	STAINED_GLASS_PANE_GRAY(Material.STAINED_GLASS_PANE ,DyeColor.GRAY),
+	STAINED_GLASS_PANE_SILVER(Material.STAINED_GLASS_PANE ,DyeColor.SILVER),
+	STAINED_GLASS_PANE_CYAN(Material.STAINED_GLASS_PANE ,DyeColor.CYAN),
+	STAINED_GLASS_PANE_PURPLE(Material.STAINED_GLASS_PANE ,DyeColor.PURPLE),
+	STAINED_GLASS_PANE_BLUE(Material.STAINED_GLASS_PANE ,DyeColor.BLUE),
+	STAINED_GLASS_PANE_BROWN(Material.STAINED_GLASS_PANE ,DyeColor.BROWN),
+	STAINED_GLASS_PANE_GREEN(Material.STAINED_GLASS_PANE ,DyeColor.GREEN),
+	STAINED_GLASS_PANE_RED(Material.STAINED_GLASS_PANE ,DyeColor.RED),
+	STAINED_GLASS_PANE_BLACK(Material.STAINED_GLASS_PANE ,DyeColor.BLACK),
 	
 	@Deprecated
-	public final static MaterialData LEAVES_2 = define(Material.LEAVES_2);
+	LEAVES_2(Material.LEAVES_2),
 	@Deprecated
-	public final static MaterialData LOG_2 = define(Material.LOG_2);
+	LOG_2(Material.LOG_2),
 	
-	public final static MaterialData ACACIA_STAIRS = define(Material.ACACIA_STAIRS, 0); //TODO: data variant
-	public final static MaterialData DARK_OAK_STAIRS = define(Material.DARK_OAK_STAIRS, 0); //TODO: data variant
-	public final static MaterialData SLIME_BLOCK = define(Material.SLIME_BLOCK); //TODO: wrong name
-	public final static MaterialData BARRIER = define(Material.BARRIER);
-	public final static MaterialData IRON_TRAPDOOR = define(Material.IRON_TRAPDOOR, 0); //TODO: data variant
+	ACACIA_STAIRS(Material.ACACIA_STAIRS, 0), //TODO: data variant
+	DARK_OAK_STAIRS(Material.DARK_OAK_STAIRS, 0), //TODO: data variant
+	SLIME_BLOCK(Material.SLIME_BLOCK), //TODO: wrong name
+	BARRIER(Material.BARRIER),
+	IRON_TRAPDOOR(Material.IRON_TRAPDOOR, 0), //TODO: data variant
 
-	public final static MaterialData PRISMARINE = define(Material.PRISMARINE);
-	public final static MaterialData PRISMARINE_BRICKS = define(Material.PRISMARINE, 1);
-	public final static MaterialData PRISMARINE_DARK = define(Material.PRISMARINE, 2);
+	PRISMARINE(Material.PRISMARINE),
+	PRISMARINE_BRICKS(Material.PRISMARINE, 1),
+	PRISMARINE_DARK(Material.PRISMARINE, 2),
 
-	public final static MaterialData SEA_LANTERN = define(Material.SEA_LANTERN);
-	public final static MaterialData HAY_BLOCK = define(Material.HAY_BLOCK, 0); //TODO: data variant
+	SEA_LANTERN(Material.SEA_LANTERN),
+	HAY_BLOCK(Material.HAY_BLOCK, 0), //TODO: data variant
 
-	public final static MaterialData CARPET = define(Material.CARPET);
-	public final static MaterialData CARPET_WHITE = define(Material.CARPET ,DyeColor.WHITE);
-	public final static MaterialData CARPET_ORANGE = define(Material.CARPET ,DyeColor.ORANGE);
-	public final static MaterialData CARPET_MAGENTA = define(Material.CARPET ,DyeColor.MAGENTA);
-	public final static MaterialData CARPET_LIGHT_BLUE = define(Material.CARPET ,DyeColor.LIGHT_BLUE);
-	public final static MaterialData CARPET_YELLOW = define(Material.CARPET ,DyeColor.YELLOW);
-	public final static MaterialData CARPET_LIME = define(Material.CARPET ,DyeColor.LIME);
-	public final static MaterialData CARPET_PINK = define(Material.CARPET ,DyeColor.PINK);
-	public final static MaterialData CARPET_GRAY = define(Material.CARPET ,DyeColor.GRAY);
-	public final static MaterialData CARPET_SILVER = define(Material.CARPET ,DyeColor.SILVER);
-	public final static MaterialData CARPET_CYAN = define(Material.CARPET ,DyeColor.CYAN);
-	public final static MaterialData CARPET_PURPLE = define(Material.CARPET ,DyeColor.PURPLE);
-	public final static MaterialData CARPET_BLUE = define(Material.CARPET ,DyeColor.BLUE);
-	public final static MaterialData CARPET_BROWN = define(Material.CARPET ,DyeColor.BROWN);
-	public final static MaterialData CARPET_GREEN = define(Material.CARPET ,DyeColor.GREEN);
-	public final static MaterialData CARPET_RED = define(Material.CARPET ,DyeColor.RED);
-	public final static MaterialData CARPET_BLACK = define(Material.CARPET ,DyeColor.BLACK);
+	CARPET(Material.CARPET),
+	CARPET_WHITE(Material.CARPET ,DyeColor.WHITE),
+	CARPET_ORANGE(Material.CARPET ,DyeColor.ORANGE),
+	CARPET_MAGENTA(Material.CARPET ,DyeColor.MAGENTA),
+	CARPET_LIGHT_BLUE(Material.CARPET ,DyeColor.LIGHT_BLUE),
+	CARPET_YELLOW(Material.CARPET ,DyeColor.YELLOW),
+	CARPET_LIME(Material.CARPET ,DyeColor.LIME),
+	CARPET_PINK(Material.CARPET ,DyeColor.PINK),
+	CARPET_GRAY(Material.CARPET ,DyeColor.GRAY),
+	CARPET_SILVER(Material.CARPET ,DyeColor.SILVER),
+	CARPET_CYAN(Material.CARPET ,DyeColor.CYAN),
+	CARPET_PURPLE(Material.CARPET ,DyeColor.PURPLE),
+	CARPET_BLUE(Material.CARPET ,DyeColor.BLUE),
+	CARPET_BROWN(Material.CARPET ,DyeColor.BROWN),
+	CARPET_GREEN(Material.CARPET ,DyeColor.GREEN),
+	CARPET_RED(Material.CARPET ,DyeColor.RED),
+	CARPET_BLACK(Material.CARPET ,DyeColor.BLACK),
 
-	public final static MaterialData HARD_CLAY = define(Material.HARD_CLAY); //TODO: wrong name
-	public final static MaterialData COAL_BLOCK = define(Material.COAL_BLOCK);
-	public final static MaterialData PACKED_ICE = define(Material.PACKED_ICE);
-	public final static MaterialData DOUBLE_PLANT = define(Material.DOUBLE_PLANT, 0); //TODO: data variant
-	public final static MaterialData STANDING_BANNER = define(Material.STANDING_BANNER, 0); //TODO: data variant
-	public final static MaterialData WALL_BANNER = define(Material.WALL_BANNER, 0); //TODO: data variant
-	public final static MaterialData DAYLIGHT_DETECTOR_INVERTED = define(Material.DAYLIGHT_DETECTOR_INVERTED, 0); //TODO: data variant
+	HARD_CLAY(Material.HARD_CLAY), //TODO: wrong name
+	COAL_BLOCK(Material.COAL_BLOCK),
+	PACKED_ICE(Material.PACKED_ICE),
+	DOUBLE_PLANT(Material.DOUBLE_PLANT, 0), //TODO: data variant
+	STANDING_BANNER(Material.STANDING_BANNER, 0), //TODO: data variant
+	WALL_BANNER(Material.WALL_BANNER, 0), //TODO: data variant
+	DAYLIGHT_DETECTOR_INVERTED(Material.DAYLIGHT_DETECTOR_INVERTED, 0), //TODO: data variant
 	
-	public final static MaterialData RED_SANDSTONE = define(Material.RED_SANDSTONE);
-	public final static MaterialData RED_SANDSTONE_CHISELED = define(Material.RED_SANDSTONE, 1);
-	public final static MaterialData RED_SANDSTONE_SMOOTH = define(Material.RED_SANDSTONE, 2);
+	RED_SANDSTONE(Material.RED_SANDSTONE),
+	RED_SANDSTONE_CHISELED(Material.RED_SANDSTONE, 1),
+	RED_SANDSTONE_SMOOTH(Material.RED_SANDSTONE, 2),
 
-	public final static MaterialData RED_SANDSTONE_STAIRS = define(Material.RED_SANDSTONE_STAIRS, 0); //TODO: data variant
-	public final static MaterialData DOUBLE_STONE_SLAB2 = define(Material.DOUBLE_STONE_SLAB2, 0); //TODO: data variant
-	public final static MaterialData STONE_SLAB2 = define(Material.STONE_SLAB2, 0); //TODO: data variant
-	public final static MaterialData SPRUCE_FENCE_GATE = define(Material.SPRUCE_FENCE_GATE);
-	public final static MaterialData BIRCH_FENCE_GATE = define(Material.BIRCH_FENCE_GATE);
-	public final static MaterialData JUNGLE_FENCE_GATE = define(Material.JUNGLE_FENCE_GATE);
-	public final static MaterialData DARK_OAK_FENCE_GATE = define(Material.DARK_OAK_FENCE_GATE);
-	public final static MaterialData ACACIA_FENCE_GATE = define(Material.ACACIA_FENCE_GATE);
-	public final static MaterialData SPRUCE_FENCE = define(Material.SPRUCE_FENCE);
-	public final static MaterialData BIRCH_FENCE = define(Material.BIRCH_FENCE);
-	public final static MaterialData JUNGLE_FENCE = define(Material.JUNGLE_FENCE);
-	public final static MaterialData DARK_OAK_FENCE = define(Material.DARK_OAK_FENCE);
-	public final static MaterialData ACACIA_FENCE = define(Material.ACACIA_FENCE);
-	public final static MaterialData SPRUCE_DOOR = define(Material.SPRUCE_DOOR, 0); //TODO: data variant
-	public final static MaterialData BIRCH_DOOR = define(Material.BIRCH_DOOR, 0); //TODO: data variant
-	public final static MaterialData JUNGLE_DOOR = define(Material.JUNGLE_DOOR, 0); //TODO: data variant
-	public final static MaterialData ACACIA_DOOR = define(Material.ACACIA_DOOR, 0); //TODO: data variant
-	public final static MaterialData DARK_OAK_DOOR = define(Material.DARK_OAK_DOOR, 0); //TODO: data variant
+	RED_SANDSTONE_STAIRS(Material.RED_SANDSTONE_STAIRS, 0), //TODO: data variant
+	DOUBLE_STONE_SLAB2(Material.DOUBLE_STONE_SLAB2, 0), //TODO: data variant
+	STONE_SLAB2(Material.STONE_SLAB2, 0), //TODO: data variant
+	SPRUCE_FENCE_GATE(Material.SPRUCE_FENCE_GATE),
+	BIRCH_FENCE_GATE(Material.BIRCH_FENCE_GATE),
+	JUNGLE_FENCE_GATE(Material.JUNGLE_FENCE_GATE),
+	DARK_OAK_FENCE_GATE(Material.DARK_OAK_FENCE_GATE),
+	ACACIA_FENCE_GATE(Material.ACACIA_FENCE_GATE),
+	SPRUCE_FENCE(Material.SPRUCE_FENCE),
+	BIRCH_FENCE(Material.BIRCH_FENCE),
+	JUNGLE_FENCE(Material.JUNGLE_FENCE),
+	DARK_OAK_FENCE(Material.DARK_OAK_FENCE),
+	ACACIA_FENCE(Material.ACACIA_FENCE),
+	SPRUCE_DOOR(Material.SPRUCE_DOOR, 0), //TODO: data variant
+	BIRCH_DOOR(Material.BIRCH_DOOR, 0), //TODO: data variant
+	JUNGLE_DOOR(Material.JUNGLE_DOOR, 0), //TODO: data variant
+	ACACIA_DOOR(Material.ACACIA_DOOR, 0), //TODO: data variant
+	DARK_OAK_DOOR(Material.DARK_OAK_DOOR, 0), //TODO: data variant
 
-	public final static MaterialData END_ROD = define(Material.END_ROD);
-	public final static MaterialData CHORUS_PLANT = define(Material.CHORUS_PLANT);
-	public final static MaterialData CHORUS_FLOWER = define(Material.CHORUS_FLOWER);
-	public final static MaterialData PURPUR_BLOCK = define(Material.PURPUR_BLOCK);
-	public final static MaterialData PURPUR_PILLAR = define(Material.PURPUR_PILLAR);
-	public final static MaterialData PURPUR_STAIRS = define(Material.PURPUR_STAIRS, 0); //TODO: data variant
-	public final static MaterialData PURPUR_DOUBLE_SLAB = define(Material.PURPUR_DOUBLE_SLAB, 0); //TODO: data variant
-	public final static MaterialData PURPUR_SLAB = define(Material.PURPUR_SLAB, 0); //TODO: data variant
-	public final static MaterialData END_BRICKS = define(Material.END_BRICKS, 0); //TODO: data variant
-	public final static MaterialData BEETROOT_BLOCK = define(Material.BEETROOT_BLOCK, 0); //TODO: wrong name; data variant
-	public final static MaterialData GRASS_PATH = define(Material.GRASS_PATH);
-	public final static MaterialData END_GATEWAY = define(Material.END_GATEWAY);
-	public final static MaterialData COMMAND_REPEATING = define(Material.COMMAND_REPEATING); //TODO: wrong name
-	public final static MaterialData COMMAND_CHAIN = define(Material.COMMAND_CHAIN); //TODO: wrong name
-	public final static MaterialData FROSTED_ICE = define(Material.FROSTED_ICE, 0); //TODO: data variant
-	public final static MaterialData MAGMA = define(Material.MAGMA);
-	public final static MaterialData NETHER_WART_BLOCK = define(Material.NETHER_WART_BLOCK);
-	public final static MaterialData RED_NETHER_BRICK = define(Material.RED_NETHER_BRICK);
-	public final static MaterialData BONE_BLOCK = define(Material.BONE_BLOCK);
-	public final static MaterialData STRUCTURE_VOID = define(Material.STRUCTURE_VOID);
-	public final static MaterialData STRUCTURE_BLOCK = define(Material.STRUCTURE_BLOCK, 0); //TODO: data variant
+	END_ROD(Material.END_ROD),
+	CHORUS_PLANT(Material.CHORUS_PLANT),
+	CHORUS_FLOWER(Material.CHORUS_FLOWER),
+	PURPUR_BLOCK(Material.PURPUR_BLOCK),
+	PURPUR_PILLAR(Material.PURPUR_PILLAR),
+	PURPUR_STAIRS(Material.PURPUR_STAIRS, 0), //TODO: data variant
+	PURPUR_DOUBLE_SLAB(Material.PURPUR_DOUBLE_SLAB, 0), //TODO: data variant
+	PURPUR_SLAB(Material.PURPUR_SLAB, 0), //TODO: data variant
+	END_BRICKS(Material.END_BRICKS, 0), //TODO: data variant
+	BEETROOT_BLOCK(Material.BEETROOT_BLOCK, 0), //TODO: wrong name; data variant
+	GRASS_PATH(Material.GRASS_PATH),
+	END_GATEWAY(Material.END_GATEWAY),
+	COMMAND_REPEATING(Material.COMMAND_REPEATING), //TODO: wrong name
+	COMMAND_CHAIN(Material.COMMAND_CHAIN), //TODO: wrong name
+	FROSTED_ICE(Material.FROSTED_ICE, 0), //TODO: data variant
+	MAGMA(Material.MAGMA),
+	NETHER_WART_BLOCK(Material.NETHER_WART_BLOCK),
+	RED_NETHER_BRICK(Material.RED_NETHER_BRICK),
+	BONE_BLOCK(Material.BONE_BLOCK),
+	STRUCTURE_VOID(Material.STRUCTURE_VOID),
+	STRUCTURE_BLOCK(Material.STRUCTURE_BLOCK, 0), //TODO: data variant
 
+	// ITEMS from here on down
+	IRON_SPADE(Material.IRON_SPADE),
+	IRON_PICKAXE(Material.IRON_PICKAXE),
+	IRON_AXE(Material.IRON_AXE),
+	FLINT_AND_STEEL(Material.FLINT_AND_STEEL),
+	APPLE(Material.APPLE),
+	BOW(Material.BOW),
+	ARROW(Material.ARROW),
+	COAL(Material.COAL),
+	DIAMOND(Material.DIAMOND),
+	IRON_INGOT(Material.IRON_INGOT),
+	GOLD_INGOT(Material.GOLD_INGOT),
+	IRON_SWORD(Material.IRON_SWORD),
+	WOOD_SWORD(Material.WOOD_SWORD),
+	WOOD_SPADE(Material.WOOD_SPADE),
+	WOOD_PICKAXE(Material.WOOD_PICKAXE),
+	WOOD_AXE(Material.WOOD_AXE),
+	STONE_SWORD(Material.STONE_SWORD),
+	STONE_SPADE(Material.STONE_SPADE),
+	STONE_PICKAXE(Material.STONE_PICKAXE),
+	STONE_AXE(Material.STONE_AXE),
+	DIAMOND_SWORD(Material.DIAMOND_SWORD),
+	DIAMOND_SPADE(Material.DIAMOND_SPADE),
+	DIAMOND_PICKAXE(Material.DIAMOND_PICKAXE),
+	DIAMOND_AXE(Material.DIAMOND_AXE),
+	STICK(Material.STICK),
+	BOWL(Material.BOWL),
+	MUSHROOM_SOUP(Material.MUSHROOM_SOUP),
+	GOLD_SWORD(Material.GOLD_SWORD),
+	GOLD_SPADE(Material.GOLD_SPADE),
+	GOLD_PICKAXE(Material.GOLD_PICKAXE),
+	GOLD_AXE(Material.GOLD_AXE),
+	STRING(Material.STRING),
+	FEATHER(Material.FEATHER),
+	SULPHUR(Material.SULPHUR),
+	WOOD_HOE(Material.WOOD_HOE),
+	STONE_HOE(Material.STONE_HOE),
+	IRON_HOE(Material.IRON_HOE),
+	DIAMOND_HOE(Material.DIAMOND_HOE),
+	GOLD_HOE(Material.GOLD_HOE),
+	SEEDS(Material.SEEDS),
+	WHEAT(Material.WHEAT),
+	BREAD(Material.BREAD),
+	LEATHER_HELMET(Material.LEATHER_HELMET),
+	LEATHER_CHESTPLATE(Material.LEATHER_CHESTPLATE),
+	LEATHER_LEGGINGS(Material.LEATHER_LEGGINGS),
+	LEATHER_BOOTS(Material.LEATHER_BOOTS),
+	CHAINMAIL_HELMET(Material.CHAINMAIL_HELMET),
+	CHAINMAIL_CHESTPLATE(Material.CHAINMAIL_CHESTPLATE),
+	CHAINMAIL_LEGGINGS(Material.CHAINMAIL_LEGGINGS),
+	CHAINMAIL_BOOTS(Material.CHAINMAIL_BOOTS),
+	IRON_HELMET(Material.IRON_HELMET),
+	IRON_CHESTPLATE(Material.IRON_CHESTPLATE),
+	IRON_LEGGINGS(Material.IRON_LEGGINGS),
+	IRON_BOOTS(Material.IRON_BOOTS),
+	DIAMOND_HELMET(Material.DIAMOND_HELMET),
+	DIAMOND_CHESTPLATE(Material.DIAMOND_CHESTPLATE),
+	DIAMOND_LEGGINGS(Material.DIAMOND_LEGGINGS),
+	DIAMOND_BOOTS(Material.DIAMOND_BOOTS),
+	GOLD_HELMET(Material.GOLD_HELMET),
+	GOLD_CHESTPLATE(Material.GOLD_CHESTPLATE),
+	GOLD_LEGGINGS(Material.GOLD_LEGGINGS),
+	GOLD_BOOTS(Material.GOLD_BOOTS),
+	FLINT(Material.FLINT),
+	PORK(Material.PORK),
+	GRILLED_PORK(Material.GRILLED_PORK),
+	PAINTING(Material.PAINTING),
+	GOLDEN_APPLE(Material.GOLDEN_APPLE),
+	SIGN(Material.SIGN),
+	WOOD_DOOR(Material.WOOD_DOOR),
+	BUCKET(Material.BUCKET),
+	WATER_BUCKET(Material.WATER_BUCKET),
+	LAVA_BUCKET(Material.LAVA_BUCKET),
+	MINECART(Material.MINECART),
+	SADDLE(Material.SADDLE),
+	IRON_DOOR(Material.IRON_DOOR),
+	REDSTONE(Material.REDSTONE),
+	SNOW_BALL(Material.SNOW_BALL),
+	BOAT(Material.BOAT),
+	LEATHER(Material.LEATHER),
+	MILK_BUCKET(Material.MILK_BUCKET),
+	CLAY_BRICK(Material.CLAY_BRICK),
+	CLAY_BALL(Material.CLAY_BALL),
+	SUGAR_CANE(Material.SUGAR_CANE),
+	PAPER(Material.PAPER),
+	BOOK(Material.BOOK),
+	SLIME_BALL(Material.SLIME_BALL),
+	STORAGE_MINECART(Material.STORAGE_MINECART),
+	POWERED_MINECART(Material.POWERED_MINECART),
+	EGG(Material.EGG),
+	COMPASS(Material.COMPASS),
+	FISHING_ROD(Material.FISHING_ROD),
+	WATCH(Material.WATCH),
+	GLOWSTONE_DUST(Material.GLOWSTONE_DUST),
+	RAW_FISH(Material.RAW_FISH),
+	COOKED_FISH(Material.COOKED_FISH),
+	INK_SACK(Material.INK_SACK),
+	BONE(Material.BONE),
+	SUGAR(Material.SUGAR),
+	CAKE(Material.CAKE),
+	BED(Material.BED),
+	DIODE(Material.DIODE),
+	COOKIE(Material.COOKIE),
+	MAP(Material.MAP),
+	SHEARS(Material.SHEARS),
+	MELON(Material.MELON),
+	PUMPKIN_SEEDS(Material.PUMPKIN_SEEDS),
+	MELON_SEEDS(Material.MELON_SEEDS),
+	RAW_BEEF(Material.RAW_BEEF),
+	COOKED_BEEF(Material.COOKED_BEEF),
+	RAW_CHICKEN(Material.RAW_CHICKEN),
+	COOKED_CHICKEN(Material.COOKED_CHICKEN),
+	ROTTEN_FLESH(Material.ROTTEN_FLESH),
+	ENDER_PEARL(Material.ENDER_PEARL),
+	BLAZE_ROD(Material.BLAZE_ROD),
+	GHAST_TEAR(Material.GHAST_TEAR),
+	GOLD_NUGGET(Material.GOLD_NUGGET),
+	NETHER_STALK(Material.NETHER_STALK),
+	POTION(Material.POTION),
+	GLASS_BOTTLE(Material.GLASS_BOTTLE),
+	SPIDER_EYE(Material.SPIDER_EYE),
+	FERMENTED_SPIDER_EYE(Material.FERMENTED_SPIDER_EYE),
+	BLAZE_POWDER(Material.BLAZE_POWDER),
+	MAGMA_CREAM(Material.MAGMA_CREAM),
+	BREWING_STAND_ITEM(Material.BREWING_STAND_ITEM),
+	CAULDRON_ITEM(Material.CAULDRON_ITEM),
+	EYE_OF_ENDER(Material.EYE_OF_ENDER),
+	SPECKLED_MELON(Material.SPECKLED_MELON),
+	MONSTER_EGG(Material.MONSTER_EGG),
+	EXP_BOTTLE(Material.EXP_BOTTLE),
+	FIREBALL(Material.FIREBALL),
+	BOOK_AND_QUILL(Material.BOOK_AND_QUILL),
+	WRITTEN_BOOK(Material.WRITTEN_BOOK),
+	EMERALD(Material.EMERALD),
+	ITEM_FRAME(Material.ITEM_FRAME),
+	FLOWER_POT_ITEM(Material.FLOWER_POT_ITEM),
+	CARROT_ITEM(Material.CARROT_ITEM),
+	POTATO_ITEM(Material.POTATO_ITEM),
+	BAKED_POTATO(Material.BAKED_POTATO),
+	POISONOUS_POTATO(Material.POISONOUS_POTATO),
+	EMPTY_MAP(Material.EMPTY_MAP),
+	GOLDEN_CARROT(Material.GOLDEN_CARROT),
+	SKULL_ITEM(Material.SKULL_ITEM),
+	CARROT_STICK(Material.CARROT_STICK),
+	NETHER_STAR(Material.NETHER_STAR),
+	PUMPKIN_PIE(Material.PUMPKIN_PIE),
+	FIREWORK(Material.FIREWORK),
+	FIREWORK_CHARGE(Material.FIREWORK_CHARGE),
+	ENCHANTED_BOOK(Material.ENCHANTED_BOOK),
+	REDSTONE_COMPARATOR(Material.REDSTONE_COMPARATOR),
+	NETHER_BRICK_ITEM(Material.NETHER_BRICK_ITEM),
+	QUARTZ(Material.QUARTZ),
+	EXPLOSIVE_MINECART(Material.EXPLOSIVE_MINECART),
+	HOPPER_MINECART(Material.HOPPER_MINECART),
+	PRISMARINE_SHARD(Material.PRISMARINE_SHARD),
+	PRISMARINE_CRYSTALS(Material.PRISMARINE_CRYSTALS),
+	RABBIT(Material.RABBIT),
+	COOKED_RABBIT(Material.COOKED_RABBIT),
+	RABBIT_STEW(Material.RABBIT_STEW),
+	RABBIT_FOOT(Material.RABBIT_FOOT),
+	RABBIT_HIDE(Material.RABBIT_HIDE),
+	ARMOR_STAND(Material.ARMOR_STAND),
+	IRON_BARDING(Material.IRON_BARDING),
+	GOLD_BARDING(Material.GOLD_BARDING),
+	DIAMOND_BARDING(Material.DIAMOND_BARDING),
+	LEASH(Material.LEASH),
+	NAME_TAG(Material.NAME_TAG),
+	COMMAND_MINECART(Material.COMMAND_MINECART),
+	MUTTON(Material.MUTTON),
+	COOKED_MUTTON(Material.COOKED_MUTTON),
+	BANNER(Material.BANNER),
+	END_CRYSTAL(Material.END_CRYSTAL),
+	SPRUCE_DOOR_ITEM(Material.SPRUCE_DOOR_ITEM),
+	BIRCH_DOOR_ITEM(Material.BIRCH_DOOR_ITEM),
+	JUNGLE_DOOR_ITEM(Material.JUNGLE_DOOR_ITEM),
+	ACACIA_DOOR_ITEM(Material.ACACIA_DOOR_ITEM),
+	DARK_OAK_DOOR_ITEM(Material.DARK_OAK_DOOR_ITEM),
+	CHORUS_FRUIT(Material.CHORUS_FRUIT),
+	CHORUS_FRUIT_POPPED(Material.CHORUS_FRUIT_POPPED),
+	BEETROOT(Material.BEETROOT),
+	BEETROOT_SEEDS(Material.BEETROOT_SEEDS),
+	BEETROOT_SOUP(Material.BEETROOT_SOUP),
+	DRAGONS_BREATH(Material.DRAGONS_BREATH),
+	SPLASH_POTION(Material.SPLASH_POTION),
+	SPECTRAL_ARROW(Material.SPECTRAL_ARROW),
+	TIPPED_ARROW(Material.TIPPED_ARROW),
+	LINGERING_POTION(Material.LINGERING_POTION),
+	SHIELD(Material.SHIELD),
+	ELYTRA(Material.ELYTRA),
+	BOAT_SPRUCE(Material.BOAT_SPRUCE),
+	BOAT_BIRCH(Material.BOAT_BIRCH),
+	BOAT_JUNGLE(Material.BOAT_JUNGLE),
+	BOAT_ACACIA(Material.BOAT_ACACIA),
+	BOAT_DARK_OAK(Material.BOAT_DARK_OAK),
+	GOLD_RECORD(Material.GOLD_RECORD),
+	GREEN_RECORD(Material.GREEN_RECORD),
+	RECORD_3(Material.RECORD_3),
+	RECORD_4(Material.RECORD_4),
+	RECORD_5(Material.RECORD_5),
+	RECORD_6(Material.RECORD_6),
+	RECORD_7(Material.RECORD_7),
+	RECORD_8(Material.RECORD_8),
+	RECORD_9(Material.RECORD_9),
+	RECORD_10(Material.RECORD_10),
+	RECORD_11(Material.RECORD_11),
+	RECORD_12(Material.RECORD_12);
+	
 	@SuppressWarnings("deprecation")
-	private static MaterialData define(Material material) {
-		assert(material.getId() > 255);
-		return new MaterialData(material);
-	}
-	
-	@SuppressWarnings("deprecation")
-	private static MaterialData define(Material material, int data) {
-		assert(material.getId() > 255);
+	private static MaterialData createData(Material material, int data) {
 		return new MaterialData(material, (byte)data);
 	}
 	
-	@SuppressWarnings("deprecation")
-	private static MaterialData define(Material material, DyeColor color) {
-		assert(material.getId() > 255);
-		return new MaterialData(material, color.getData());
+	private RealMaterial(Material material) {
+		this.data = createData(material, 0);
 	}
 	
-	private static MaterialData define (Material material, TreeSpecies species) {
+	private RealMaterial(Material material, int data) {
+		this.data = createData(material, data);
+	}
+	
+	@SuppressWarnings("deprecation")
+	private RealMaterial(Material material, DyeColor color) {
+		this.data = createData(material, color.getData());
+	}
+	
+	private RealMaterial(Material material, TreeSpecies species) {
+		this.data = decodeTrees(material, species);
+	}
+	
+	private static MaterialData decodeTrees(Material material, TreeSpecies species) {
 		switch (material) {
 		case WOOD:
 			switch (species) {
 			case GENERIC:
-				return define(Material.WOOD, 0);
+				return createData(Material.WOOD, 0);
 			case REDWOOD:
-				return define(Material.WOOD, 1);
+				return createData(Material.WOOD, 1);
 			case BIRCH:
-				return define(Material.WOOD, 2);
+				return createData(Material.WOOD, 2);
 			case JUNGLE:
-				return define(Material.WOOD, 3);
+				return createData(Material.WOOD, 3);
 			case ACACIA:
-				return define(Material.WOOD, 4);
+				return createData(Material.WOOD, 4);
 			case DARK_OAK:
-				return define(Material.WOOD, 5);
+				return createData(Material.WOOD, 5);
 			default:
 				return null;
 			}
@@ -521,17 +744,17 @@ public final class RealMaterial{
 		case LOG_2:
 			switch (species) {
 			case GENERIC:
-				return define(Material.LOG, 0);
+				return createData(Material.LOG, 0);
 			case REDWOOD:
-				return define(Material.LOG, 1);
+				return createData(Material.LOG, 1);
 			case BIRCH:
-				return define(Material.LOG, 2);
+				return createData(Material.LOG, 2);
 			case JUNGLE:
-				return define(Material.LOG, 3);
+				return createData(Material.LOG, 3);
 			case ACACIA:
-				return define(Material.LOG_2, 0);
+				return createData(Material.LOG_2, 0);
 			case DARK_OAK:
-				return define(Material.LOG_2, 1);
+				return createData(Material.LOG_2, 1);
 			default:
 				return null;
 			}
@@ -539,17 +762,17 @@ public final class RealMaterial{
 		case LEAVES_2:
 			switch (species) {
 			case GENERIC:
-				return define(Material.LEAVES, 0);
+				return createData(Material.LEAVES, 0);
 			case REDWOOD:
-				return define(Material.LEAVES, 1);
+				return createData(Material.LEAVES, 1);
 			case BIRCH:
-				return define(Material.LEAVES, 2);
+				return createData(Material.LEAVES, 2);
 			case JUNGLE:
-				return define(Material.LEAVES, 3);
+				return createData(Material.LEAVES, 3);
 			case ACACIA:
-				return define(Material.LEAVES_2, 0);
+				return createData(Material.LEAVES_2, 0);
 			case DARK_OAK:
-				return define(Material.LEAVES_2, 1);
+				return createData(Material.LEAVES_2, 1);
 			default:
 				return null;
 			}
@@ -557,17 +780,17 @@ public final class RealMaterial{
 		case STEP: // this will be converted to the above
 			switch (species) {
 			case GENERIC:
-				return define(Material.WOOD_STEP, 0);
+				return createData(Material.WOOD_STEP, 0);
 			case REDWOOD:
-				return define(Material.WOOD_STEP, 1);
+				return createData(Material.WOOD_STEP, 1);
 			case BIRCH:
-				return define(Material.WOOD_STEP, 2);
+				return createData(Material.WOOD_STEP, 2);
 			case JUNGLE:
-				return define(Material.WOOD_STEP, 3);
+				return createData(Material.WOOD_STEP, 3);
 			case ACACIA:
-				return define(Material.WOOD_STEP, 4);
+				return createData(Material.WOOD_STEP, 4);
 			case DARK_OAK:
-				return define(Material.WOOD_STEP, 5);
+				return createData(Material.WOOD_STEP, 5);
 			default:
 				return null;
 			}
@@ -575,17 +798,17 @@ public final class RealMaterial{
 		case DOUBLE_STEP: // this will be converted to the above
 			switch (species) {
 			case GENERIC:
-				return define(Material.WOOD_DOUBLE_STEP, 0);
+				return createData(Material.WOOD_DOUBLE_STEP, 0);
 			case REDWOOD:
-				return define(Material.WOOD_DOUBLE_STEP, 1);
+				return createData(Material.WOOD_DOUBLE_STEP, 1);
 			case BIRCH:
-				return define(Material.WOOD_DOUBLE_STEP, 2);
+				return createData(Material.WOOD_DOUBLE_STEP, 2);
 			case JUNGLE:
-				return define(Material.WOOD_DOUBLE_STEP, 3);
+				return createData(Material.WOOD_DOUBLE_STEP, 3);
 			case ACACIA:
-				return define(Material.WOOD_DOUBLE_STEP, 4);
+				return createData(Material.WOOD_DOUBLE_STEP, 4);
 			case DARK_OAK:
-				return define(Material.WOOD_DOUBLE_STEP, 5);
+				return createData(Material.WOOD_DOUBLE_STEP, 5);
 			default:
 				return null;
 			}
@@ -593,44 +816,13 @@ public final class RealMaterial{
 		    throw new IllegalArgumentException("Invalid block type for tree species");
 		}
 	}
-	
-//	public final MaterialData getData() {
-//		this.getClass().getDeclaredFields()[0].getType().is
-//		this.getClass().getDeclaredMethods()[0].getReturnType() == MaterialData;
-//		this.getClass().getDeclaredMethods()[0].getParameterCount() == 0;
-//		return this.data;
-//	}
-	
-//	private static final Map<String, MaterialData> list;
-	
-	public final MaterialData getMaterialData(String name) {
-//		if (list == null) {
-//			list = new TreeMap<String, MaterialData>();
-//			Field[] fields = getClass().getDeclaredFields();
-//			for (int i = 0; i < fields.length; i++) {
-//				fields[i].getAnnotation(java.lang.);
-//				list.put(fields[i].getName(), fields[i].)
-//			}
-//		}
-//TODO: Open include standard ones?
-//		Material material = Material.getMaterial(name);
-//		if (material != null) {
-//			return new MaterialData(material);
-//		} else {
-//			RealMaterial realMaterial = list.get(name);
-//			if (realMaterial != null) {
-//				return realMaterial.getData();
-//			}
-//		}
-		return null;
-	}
 
-//	static {
-//		get
-//		int count = materials.length;
-//		for (int i = 0; i < count; i++) {
-//			list.put(materials[i].name(), materials[i]);
-//		}
-//		
-//	}
+	private MaterialData data;
+	public final MaterialData getData() {
+		return this.data;
+	}
+	
+	public final boolean isItem() {
+		return !this.data.getItemType().isBlock();
+	}
 }

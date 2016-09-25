@@ -3,23 +3,22 @@ package me.daddychurchill.CityWorld.Support;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 public class RealMaterialList {
 
 	public String listName;
-	private List<ItemStack> items;
+	private List<RealMaterial> items;
 	
 	public RealMaterialList(String name) {
 		super();
 		listName = name;
 	}
 
-	public RealMaterialList(String name, Material ... materials) {
+	public RealMaterialList(String name, RealMaterial ... materials) {
 		super();
 		listName = name;
 		add(materials);
@@ -27,57 +26,57 @@ public class RealMaterialList {
 
 	private void init(boolean clear) {
 		if (items == null)
-			items = new ArrayList<ItemStack>();
+			items = new ArrayList<RealMaterial>();
 		else if (clear)
 			items.clear();
 	}
 	
-	public void add(Material ... materials) {
+	public void add(RealMaterial ... materials) {
 		init(false);
-		for (Material material : materials) {
-			items.add(new ItemStack(material));
+		for (RealMaterial material : materials) {
+			items.add(material);
 		}
 	}
 	
-	public void add(Material material) {
+	public void add(RealMaterial material) {
 		init(false);
-		items.add(new ItemStack(material));
+		items.add(material);
 	}
 	
-	public void remove(Material material) {
-		if (items != null)
-			for (int i = items.size() - 1; i >= 0; i--)
-				if (items.get(i).getType() == material)
-					items.remove(i);
-	}
+//	public void remove(RealMaterial material) {
+//		if (items != null)
+//			for (int i = items.size() - 1; i >= 0; i--)
+//				if (items.get(i).getType() == material)
+//					items.remove(i);
+//	}
 	
 	public int count() {
 		return items == null ? 0 : items.size();
 	}
 	
-	public Material getRandomMaterial(Odds odds) {
-		return getRandomMaterial(odds, Material.AIR);
+	public MaterialData getRandomMaterial(Odds odds) {
+		return getRandomMaterial(odds, RealMaterial.AIR);
 	}
 	
-	public Material getRandomMaterial(Odds odds, Material defaultMaterial) {
+	public MaterialData getRandomMaterial(Odds odds, RealMaterial defaultMaterial) {
 		if (items == null || count() == 0)
-			return defaultMaterial;
+			return defaultMaterial.getData();
 		else
-			return items.get(odds.getRandomInt(count())).getType();
+			return items.get(odds.getRandomInt(count())).getData();
 	}
 
-	public Material getNthMaterial(int index, Material defaultMaterial) {
+	public MaterialData getNthMaterial(int index, RealMaterial defaultMaterial) {
 		if (items == null || count() == 0 || index > count() - 1)
-			return defaultMaterial;
+			return defaultMaterial.getData();
 		else
-			return items.get(index).getType();
+			return items.get(index).getData();
 	}
 
 	public void write(CityWorldGenerator generator, ConfigurationSection section) {
 		List<String> names = new ArrayList<String>();
 		if (items != null) {
-			for (ItemStack item : items) {
-				names.add(item.getType().name());
+			for (RealMaterial item : items) {
+				names.add(item.name());
 			}
 		}
 		section.set(listName, names);
@@ -88,9 +87,9 @@ public class RealMaterialList {
 			init(true);
 			List<String> names = section.getStringList(listName);
 			for (String name : names) {
-				Material material = null;
+				RealMaterial material = null;
 				try {
-					material = Material.matchMaterial(name);
+					material = RealMaterial.valueOf(name);
 
 					// still nothing, so comment about it
 					if (material == null)

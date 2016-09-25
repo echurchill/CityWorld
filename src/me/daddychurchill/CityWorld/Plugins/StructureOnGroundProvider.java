@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Plugins;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
+import org.bukkit.material.MaterialData;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
@@ -11,6 +12,7 @@ import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
+import me.daddychurchill.CityWorld.Support.RealMaterial;
 import me.daddychurchill.CityWorld.Support.Odds.ColorSet;
 
 public class StructureOnGroundProvider extends Provider {
@@ -49,8 +51,8 @@ public class StructureOnGroundProvider extends Provider {
 		int xR = x2 - x1 - 2;
 		int zR = z2 - z1 - 2;
 		
-		Material wallMat = generator.materialProvider.itemsSelectMaterial_ShedWalls.getRandomMaterial(odds, Material.COBBLESTONE);
-		Material roofMat = generator.materialProvider.itemsSelectMaterial_ShedRoofs.getRandomMaterial(odds, Material.COBBLESTONE);
+		MaterialData wallMat = generator.materialProvider.itemsSelectMaterial_ShedWalls.getRandomMaterial(odds, RealMaterial.COBBLESTONE);
+		MaterialData roofMat = generator.materialProvider.itemsSelectMaterial_ShedRoofs.getRandomMaterial(odds, RealMaterial.COBBLESTONE);
 		
 		chunk.setWalls(x1, x2, y1, y2, z1, z2, wallMat);
 		chunk.setBlocks(x1 + 1, x2 - 1, y2, z1 + 1, z2 - 1, roofMat);

@@ -5,8 +5,8 @@ import org.bukkit.inventory.ItemStack;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plugins.PhatLoot.LootProvider_Phat;
-import me.daddychurchill.CityWorld.Support.MaterialList;
 import me.daddychurchill.CityWorld.Support.Odds;
+import me.daddychurchill.CityWorld.Support.RealMaterialList;
 
 public abstract class LootProvider extends Provider {
 
@@ -31,7 +31,7 @@ public abstract class LootProvider extends Provider {
 		return provider;
 	}
 	
-	protected ItemStack[] pickFromTreasures(MaterialList materials, Odds odds, int maxCount, int maxStack) {
+	protected ItemStack[] pickFromTreasures(RealMaterialList materials, Odds odds, int maxCount, int maxStack) {
 		int count = maxCount > 0 ? odds.getRandomInt(maxCount) + 1 : 0;
 		
 		// make room
@@ -39,7 +39,7 @@ public abstract class LootProvider extends Provider {
 		
 		// populate
 		for (int i = 0; i < count; i++) {
-			items[i] = new ItemStack(materials.getRandomMaterial(odds), odds.getRandomInt(maxStack) + 1);
+			items[i] = new ItemStack(materials.getRandomMaterial(odds).getItemType(), odds.getRandomInt(maxStack) + 1);
 		}
 		
 		// all done
