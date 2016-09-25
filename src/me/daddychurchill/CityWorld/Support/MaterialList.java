@@ -9,17 +9,17 @@ import org.bukkit.inventory.ItemStack;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 
-public class RealMaterialList {
+public class MaterialList {
 
 	public String listName;
 	private List<ItemStack> items;
 	
-	public RealMaterialList(String name) {
+	public MaterialList(String name) {
 		super();
 		listName = name;
 	}
 
-	public RealMaterialList(String name, Material ... materials) {
+	public MaterialList(String name, Material ... materials) {
 		super();
 		listName = name;
 		add(materials);

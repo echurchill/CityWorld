@@ -64,14 +64,15 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			block.setType(material);
 	}
 	
-	public final void setBlockIfAir(int x, int y, int z, MaterialData data) {
+	public final void setBlockIfAir(int x, int y, int z, Material material, MaterialData data) {
 		Block block = getActualBlock(x, y, z);
 		if (block.isEmpty() && !getActualBlock(x, y - 1, z).isEmpty())
-			setBlock(block, data);
+			setBlock(block, material, data);
 	}
 	
-	public final void setBlock(Block block, MaterialData data) {
+	public final void setBlock(Block block, Material material, MaterialData data) {
 		BlockState state = block.getState();
+		state.setType(material);
 		state.setData(data);
 		state.update(true, doPhysics);
 	}
@@ -242,15 +243,15 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material);
 	}
 	
-	public final void setWalls(int x1, int x2, int y, int z1, int z2, MaterialData data) {
-		setWalls(x1, x2, y, y + 1, z1, z2, data);
+	public final void setWalls(int x1, int x2, int y, int z1, int z2, Material material, MaterialData data) {
+		setWalls(x1, x2, y, y + 1, z1, z2, material, data);
 	}
 	
-	public final void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, MaterialData data) {
-		setBlocks(x1, x2, y1, y2, z1, z1 + 1, data);
-		setBlocks(x1, x2, y1, y2, z2 - 1, z2, data);
-		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, data);
-		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, data);
+	public final void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material, MaterialData data) {
+		setBlocks(x1, x2, y1, y2, z1, z1 + 1, material, data);
+		setBlocks(x1, x2, y1, y2, z2 - 1, z2, material, data);
+		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material, data);
+		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material, data);
 	}
 	
 	@Override

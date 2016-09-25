@@ -8,7 +8,7 @@ import me.daddychurchill.CityWorld.Support.AbstractBlocks;
 import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.RealMaterial_Via_Fields;
+import me.daddychurchill.CityWorld.Support.RealMaterial;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class ThingProvider extends Provider {
@@ -196,18 +196,18 @@ public class ThingProvider extends Provider {
 					break;
 				case WHT:
 //					if (cI % 2 == 0)
-						chunk.setBlock(x + xI, y, z + zI, RealMaterial_Via_Fields.WOOL_WHITE);
+						chunk.setBlock(x + xI, y, z + zI, RealMaterial.WOOL_WHITE);
 //					else 
 //						chunk.setBlock(x + xI, y, z + zI, Material.WOOL, DyeColor.SILVER);
 					break;
 				case YEL:
-					chunk.setBlock(x + xI, y, z + zI, RealMaterial_Via_Fields.WOOL_YELLOW);
+					chunk.setBlock(x + xI, y, z + zI, RealMaterial.WOOL_YELLOW);
 					break;
 				case RED:
-					chunk.setBlock(x + xI, y, z + zI, RealMaterial_Via_Fields.WOOL_RED);
+					chunk.setBlock(x + xI, y, z + zI, RealMaterial.WOOL_RED);
 					break;
 				case BLK:
-					chunk.setBlock(x + xI, y, z + zI, RealMaterial_Via_Fields.WOOL_BLACK);
+					chunk.setBlock(x + xI, y, z + zI, RealMaterial.WOOL_BLACK);
 					break;
 				}
 			}
