@@ -59,7 +59,7 @@ public class GovernmentMonumentLot extends ConstructLot {
 			drawColumn(generator, chunk, sidewalkLevel, chunkOdds.playOdds(Odds.oddsPrettyLikely));
 			break;
 		case PYRAMID:
-			drawPyramid(generator, chunk, sidewalkLevel, chunkOdds.getRandomInt(1, 3));
+			drawPyramid(generator, chunk, sidewalkLevel, chunkOdds.getRandomInt(2, 4));
 			break;
 		case PEDESTAL:
 			drawPedestal(generator, chunk, sidewalkLevel, chunkOdds.playOdds(Odds.oddsPrettyLikely));

@@ -117,7 +117,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 	private final static double minVersion = calcVersion(1, 9, 4); // 1.9.4 Minecraft or better
 	
 	private static double calcVersion(double major, double minor, double micro) {
-		return major + minor / 100 + micro / 10000;
+		return major + minor / 100 + micro / 1000;
 	}
 	
 	private boolean checkVersion() {
@@ -129,7 +129,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 				minecraftVersionRaw = minecraftVersionRaw.substring(mcAt + 4, minecraftVersionRaw.length() - 1);
 				String[] parts = minecraftVersionRaw.split("[.)]", 4);
 				
-//				reportMessage("minVersion = " + String.format("%.4f", minVersion));
+//				reportMessage("minVersion = " + String.format("%.3f", minVersion));
 //				reportMessage("minecraftVersionRaw = " + minecraftVersionRaw);
 //				for (int i = 0; i < parts.length; i++)
 //					reportMessage(">" + parts[i] + "<");
@@ -146,7 +146,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 
 				minecraftVersion = calcVersion(major, minor, micro);
 //				reportMessage("MMM = " + major + ", " + minor + ", " + micro);
-//				reportMessage("minecraftVersion = " + String.format("%.4f", minecraftVersion));
+//				reportMessage("minecraftVersion = " + String.format("%.3f", minecraftVersion));
 			}
 		} catch (NumberFormatException e) {
 			minecraftVersion = 0.0;
@@ -157,18 +157,18 @@ public class CityWorldGenerator extends ChunkGenerator {
 			reportMessage("******************************************************");
 			reportMessage("** WARNING, RUNNING ON AN OLD VERSION OF MINECRAFT  **");
 			reportMessage("******************************************************");
-//			reportException("Needs " + String.format("%.4f", minVersion) + " or better, found " + 
-//					String.format("%.4f", minecraftVersion) +
+//			reportException("Needs " + String.format("%.3f", minVersion) + " or better, found " + 
+//					String.format("%.3f", minecraftVersion) +
 //					", parsed from " + minecraftVersionRaw, new Exception(getPluginName()));
-			reportMessage("Needs " + String.format("%.4f", minVersion) + " or better, found " + 
-					String.format("%.4f", minecraftVersion) + ", parsed from " + minecraftVersionRaw);
+			reportMessage("Needs " + String.format("%.3f", minVersion) + " or better, found " + 
+					String.format("%.3f", minecraftVersion) + ", parsed from " + minecraftVersionRaw);
 			reportMessage("******************************************************");
 			reportMessage("** CITYWORLD MIGHT NOT RUN CORRECTLY, PLEASE UPDATE **");
 			reportMessage("******************************************************");
 			return false;
 		}
 		else {
-			reportMessage("Found Minecraft v" + String.format("%.4f", minecraftVersion) + ", CityWorld is compatible - WOOT!");
+			reportMessage("Found Minecraft v" + String.format("%.3f", minecraftVersion) + ", CityWorld is compatible - WOOT!");
 			return true;
 		}
 	}

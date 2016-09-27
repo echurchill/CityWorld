@@ -26,6 +26,7 @@ public class MidriseContext extends UrbanContext {
 		rangeOfWallInset = 2;
 		
 		schematicFamily = SchematicFamily.MIDRISE;
+		minSizeOfBuilding = 2;
 		
 		maximumFloorsAbove = absoluteMaximumFloorsAbove / 2;
 		maximumFloorsBelow = 3;

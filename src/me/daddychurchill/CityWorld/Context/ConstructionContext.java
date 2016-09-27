@@ -29,6 +29,8 @@ public class ConstructionContext extends UrbanContext {
 		rangeOfWallInset = 2;
 		
 		schematicFamily = SchematicFamily.CONSTRUCTION;
+		
+		minSizeOfBuilding = 2;
 
 		maximumFloorsAbove = absoluteMaximumFloorsAbove;
 		maximumFloorsBelow = 3;

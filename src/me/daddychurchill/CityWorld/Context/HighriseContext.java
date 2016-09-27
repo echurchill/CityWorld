@@ -27,6 +27,8 @@ public class HighriseContext extends UrbanContext {
 		
 		schematicFamily = SchematicFamily.HIGHRISE;
 
+		minSizeOfBuilding = 2;
+
 		maximumFloorsAbove = absoluteMaximumFloorsAbove;
 		maximumFloorsBelow = 3;
 	}

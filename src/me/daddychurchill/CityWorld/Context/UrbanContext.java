@@ -16,6 +16,7 @@ public abstract class UrbanContext extends CivilizedContext {
 
 	protected double oddsOfFloodFill = Odds.oddsVeryLikely;
 	protected double oddsOfFloodDecay = Odds.oddsLikely;
+	protected int minSizeOfBuilding = 1;
 	
 	public UrbanContext(CityWorldGenerator generator) {
 		super(generator);
@@ -65,7 +66,10 @@ public abstract class UrbanContext extends CivilizedContext {
 							
 						// 2 by 2 at a minimum if at all possible
 						} else if (!buildPark && x < PlatMap.Width - 1 && z < PlatMap.Width - 1) {
-							if (platmap.isEmptyLots(x, z, 2, 2)) {
+							if (minSizeOfBuilding == 1) {
+								fillOutBuilding(generator, platmap, platmapOdds, oddsOfFloodFill, current, x, z + 1);
+								fillOutBuilding(generator, platmap, platmapOdds, oddsOfFloodFill, current, x + 1, z);
+							} else if (platmap.isEmptyLots(x, z, minSizeOfBuilding, minSizeOfBuilding)) {
 								boolean madeOne = false;
 								int newZ = z;
 								while (platmap.inBounds(x, newZ) && platmap.isEmptyLot(x, newZ)) {
