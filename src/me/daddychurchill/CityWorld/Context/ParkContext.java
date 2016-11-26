@@ -25,6 +25,6 @@ public class ParkContext extends UrbanContext {
 		oddsOfSimilarInsetBuildings = Odds.oddsNeverGoingToHappen;
 		rangeOfWallInset = 1;
 		
-		schematicFamily = SchematicFamily.PARK;
+		setSchematicFamily(SchematicFamily.PARK);
 	}
 }

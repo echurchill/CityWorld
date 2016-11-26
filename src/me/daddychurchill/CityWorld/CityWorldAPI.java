@@ -68,7 +68,7 @@ public class CityWorldAPI {
 		PlatLot lot = platmap.getMapLot(chunkX, chunkZ);
 
 		// add context type to returned hashmap
-		info.put("context", platmap.context.schematicFamily.toString());
+		info.put("context", platmap.context.getSchematicFamily().toString());
 
 		// add last part of context classname to hashmap
 		classname = platmap.context.getClass().getName();
@@ -125,7 +125,7 @@ public class CityWorldAPI {
 		if (platmap == null)
 			throw new IllegalArgumentException("PlatMap not found for specified chunk");
 
-		return platmap.context.schematicFamily.toString();
+		return platmap.context.getSchematicFamily().toString();
 	}
 
 	public DataContext getContext(Chunk c) throws IllegalArgumentException {

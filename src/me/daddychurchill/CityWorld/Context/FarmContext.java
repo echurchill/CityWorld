@@ -24,7 +24,7 @@ public class FarmContext extends RuralContext {
 
 		oddsOfIsolatedLots = Odds.oddsLikely;
 		
-		schematicFamily = SchematicFamily.FARM;
+		setSchematicFamily(SchematicFamily.FARM);
 	}
 
 	@Override

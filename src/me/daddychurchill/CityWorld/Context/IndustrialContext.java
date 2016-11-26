@@ -30,7 +30,7 @@ public class IndustrialContext extends UrbanContext {
 		oddsOfSimilarInsetBuildings = Odds.oddsExtremelyLikely;
 		rangeOfWallInset = 2;
 		
-		schematicFamily = SchematicFamily.INDUSTRIAL;
+		setSchematicFamily(SchematicFamily.INDUSTRIAL);
 
 		maximumFloorsAbove = 2;
 		maximumFloorsBelow = 1;

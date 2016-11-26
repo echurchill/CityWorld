@@ -25,7 +25,7 @@ public class HighriseContext extends UrbanContext {
 		oddsOfSimilarInsetBuildings = Odds.oddsExtremelyLikely;
 		rangeOfWallInset = 1;
 		
-		schematicFamily = SchematicFamily.HIGHRISE;
+		setSchematicFamily(SchematicFamily.HIGHRISE);
 
 		minSizeOfBuilding = 2;
 

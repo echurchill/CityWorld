@@ -12,7 +12,7 @@ public class NeighborhoodContext extends RuralContext {
 	public NeighborhoodContext(CityWorldGenerator generator) {
 		super(generator);
 
-		schematicFamily = SchematicFamily.NEIGHBORHOOD;
+		setSchematicFamily(SchematicFamily.NEIGHBORHOOD);
 	}
 	
 	@Override

@@ -28,7 +28,7 @@ public class ConstructionContext extends UrbanContext {
 		oddsOfSimilarInsetBuildings = Odds.oddsExtremelyLikely;
 		rangeOfWallInset = 2;
 		
-		schematicFamily = SchematicFamily.CONSTRUCTION;
+		setSchematicFamily(SchematicFamily.CONSTRUCTION);
 		
 		minSizeOfBuilding = 2;
 

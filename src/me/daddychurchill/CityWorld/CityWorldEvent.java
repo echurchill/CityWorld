@@ -77,7 +77,7 @@ public class CityWorldEvent extends Event {
 	 * @return the chunk's CityWorld general schematic family name
 	 */
 	public String getContextName() {
-		return platmap.context.schematicFamily.toString();
+		return platmap.context.getSchematicFamily().toString();
 	}
 
 	/**

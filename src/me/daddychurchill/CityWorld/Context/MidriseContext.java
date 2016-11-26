@@ -25,7 +25,7 @@ public class MidriseContext extends UrbanContext {
 		oddsOfSimilarInsetBuildings = Odds.oddsExtremelyLikely;
 		rangeOfWallInset = 2;
 		
-		schematicFamily = SchematicFamily.MIDRISE;
+		setSchematicFamily(SchematicFamily.MIDRISE);
 		minSizeOfBuilding = 2;
 		
 		maximumFloorsAbove = absoluteMaximumFloorsAbove / 2;

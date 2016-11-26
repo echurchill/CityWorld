@@ -80,7 +80,7 @@ public abstract class BlackMagic {
 	}
 	
 	public static final void setBlockTypeAndColor(ChunkData chunk, int x, int y, int z, Material material, DyeColor color) {
-		setBlockTypeAndData(chunk, x, y, z, material, color.getData());
+		setBlockTypeAndData(chunk, x, y, z, material, color.getDyeData());
 	}
 	
 	public static final void setBlock(InitialBlocks chunk, int x, int y, int z, Material material, int data) {

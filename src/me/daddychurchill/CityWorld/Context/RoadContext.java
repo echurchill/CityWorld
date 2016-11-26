@@ -17,9 +17,7 @@ public class RoadContext extends UrbanContext {
 	public RoadContext(CityWorldGenerator generator) {
 		super(generator);
 		
-		schematicFamily = SchematicFamily.ROUNDABOUT;
-		schematicMaxX = 1;
-		schematicMaxZ = 1;
+		setSchematicFamily(SchematicFamily.ROUNDABOUT, 1);
 	}
 
 	@Override

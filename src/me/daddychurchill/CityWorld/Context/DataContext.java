@@ -46,9 +46,11 @@ public abstract class DataContext {
 	
 	public Material lightMat;
 	public Material torchMat;
-	public SchematicFamily schematicFamily = SchematicFamily.NATURE;
-	public int schematicMaxX = 4;
-	public int schematicMaxZ = 4;
+	
+	private static int schematicMax = 4;
+	private SchematicFamily schematicFamily = SchematicFamily.NATURE;
+	private int schematicMaxX = schematicMax;
+	private int schematicMaxZ = schematicMax;
 
 	public static final int FloorHeight = 4;
 	public static final int FudgeFloorsBelow = 2;
@@ -95,9 +97,26 @@ public abstract class DataContext {
 	private ClipboardList mapsSchematics;
 	public double oddsOfUnfinishedBuildings = Odds.oddsNeverGoingToHappen;
 	protected ClipboardList getSchematics(CityWorldGenerator generator) {
-		if (mapsSchematics == null)
+		if (mapsSchematics == null) {
+//			CityWorld.log.info("LOADING SCHEMATIC FAMILY = " + schematicFamily.toString());
 			mapsSchematics = generator.pasteProvider.getFamilyClips(generator, schematicFamily, schematicMaxX, schematicMaxZ);
+		}
 		return mapsSchematics;
+	}
+	
+	public void setSchematicFamily(SchematicFamily family) {
+		setSchematicFamily(family, schematicMax);
+	}
+	
+	public void setSchematicFamily(SchematicFamily family, int maxWidth) {
+//		CityWorld.log.info("SET SCHEMATIC FAMILY = " + family.toString());
+		schematicFamily = family;
+		schematicMaxX = maxWidth;
+		schematicMaxZ = maxWidth;
+	}
+	
+	public SchematicFamily getSchematicFamily() {
+		return schematicFamily;
 	}
 	
 	public PlatLot createNaturalLot(CityWorldGenerator generator, PlatMap platmap, int x, int z) {

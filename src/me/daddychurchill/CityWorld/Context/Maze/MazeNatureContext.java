@@ -30,7 +30,7 @@ public class MazeNatureContext extends NatureContext {
 		oddsOfSimilarInsetBuildings = Odds.oddsExtremelyLikely;
 		rangeOfWallInset = 2;
 		
-		schematicFamily = SchematicFamily.MIDRISE;
+		setSchematicFamily(SchematicFamily.MIDRISE);
 		
 		maximumFloorsAbove = absoluteMaximumFloorsAbove / 3;
 		maximumFloorsBelow = 2;

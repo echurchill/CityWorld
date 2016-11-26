@@ -30,7 +30,7 @@ public class MunicipalContext extends UrbanContext {
 		oddsOfBuildingWallInset = Odds.oddsAlwaysGoingToHappen;
 		rangeOfWallInset = 1;
 		
-		schematicFamily = SchematicFamily.MUNICIPAL;
+		setSchematicFamily(SchematicFamily.MUNICIPAL);
 
 		maximumFloorsAbove = 5;
 		maximumFloorsBelow = 2;

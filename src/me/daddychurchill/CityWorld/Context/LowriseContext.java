@@ -25,7 +25,7 @@ public class LowriseContext extends UrbanContext {
 		oddsOfSimilarInsetBuildings = Odds.oddsExtremelyLikely;
 		rangeOfWallInset = 2;
 		
-		schematicFamily = SchematicFamily.LOWRISE;
+		setSchematicFamily(SchematicFamily.LOWRISE);
 
 		maximumFloorsAbove = 3;
 		maximumFloorsBelow = 1;

@@ -154,7 +154,17 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	
 	@Override
 	public DataContext getContext(PlatMap platmap) {
-		
+//		DataContext context = internalGetContext(platmap);
+//		if (context == null)
+//			CityWorld.log.info("GET SCHEMATIC FAMILY = NULL");
+//		else
+//			CityWorld.log.info("GET CONTEXT SCHEMATIC FAMILY = " + context.getSchematicFamily().toString());
+//		
+//		return context;
+//	}
+//	
+//	public DataContext internalGetContext(PlatMap platmap) {
+	
 		// how natural is this platmap?
 		float nature = platmap.getNaturePercent();
 		if (nature == 0.0) {
@@ -164,7 +174,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 				return highriseContext;
 		}
 
-		else if (nature < 0.5)				// 5
+		else if (nature < 0.05)				// 5
 			return highriseContext;
 		else if (nature < 0.10)				// 5
 			return constructionContext;

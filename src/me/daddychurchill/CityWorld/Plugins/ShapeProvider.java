@@ -50,7 +50,7 @@ public abstract class ShapeProvider extends Provider {
 		try {
 			allocateContexts(generator);
 
-			// assume everything is natural for the moment Rosetta
+			// assume everything is natural for the moment
 			platmap.context = natureContext;
 			natureContext.populateMap(generator, platmap);
 			natureContext.validateMap(generator, platmap);

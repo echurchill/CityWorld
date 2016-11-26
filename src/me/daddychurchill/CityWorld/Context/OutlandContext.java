@@ -22,7 +22,7 @@ public class OutlandContext extends RuralContext {
 
 		oddsOfIsolatedLots = Odds.oddsVeryLikely;
 		
-		schematicFamily = SchematicFamily.OUTLAND;
+		setSchematicFamily(SchematicFamily.OUTLAND);
 	}
 
 	@Override
