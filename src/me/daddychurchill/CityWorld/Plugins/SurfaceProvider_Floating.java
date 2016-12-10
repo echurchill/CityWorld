@@ -56,7 +56,7 @@ public class SurfaceProvider_Floating extends SurfaceProvider {
 		if (foliage.isPlantable(generator, chunk, x, y, z)) {
 			
 			// trees? but only if we are not too close to the edge
-			if (includeTrees && primary < treeOdds && x > 0 && x < 15 && z > 0 && z < 15 && x % 2 == 0 && z % 2 != 0) {
+			if (includeTrees && primary < treeOdds && inTreeRange(x, z)) {
 				if (secondary < treePineOdds)
 					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.MINI_PINE_TREE);
 				else if (secondary < treeBirchOdds)

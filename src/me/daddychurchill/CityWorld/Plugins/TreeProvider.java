@@ -1,5 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.TreeSpecies;
 import org.bukkit.TreeType;
@@ -98,7 +99,8 @@ public abstract class TreeProvider {
 		}
 	}
 	
-	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, int data) {
+	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, int data, DyeColor specialColor) {
+		// this variant does nothing with the special color
 		if (chunk.isEmpty(x, y, z))
 			BlackMagic.setBlock(chunk, x, y, z, material, data);
 	}
@@ -208,14 +210,17 @@ public abstract class TreeProvider {
 			// do the trunk
 			generateTrunkBlock(blocks, x, y, z, 1, trunkHeight, trunkMaterial, trunkBlackMagicData);
 	
+			// for that special case
+			DyeColor leafColor = odds.getRandomColor();
+			
 			// and then do the leaves... maybe
 			if (includeLeaves) {
 				int leavesHeight = trunkHeight - 1;
-				generateLeavesBlock(blocks, x - 1, y + leavesHeight, z, leavesMaterial, trunkBlackMagicData);
-				generateLeavesBlock(blocks, x + 1, y + leavesHeight, z, leavesMaterial, trunkBlackMagicData);
-				generateLeavesBlock(blocks, x, y + leavesHeight, z - 1, leavesMaterial, trunkBlackMagicData);
-				generateLeavesBlock(blocks, x, y + leavesHeight, z + 1, leavesMaterial, trunkBlackMagicData);
-				generateLeavesBlock(blocks, x, y + trunkHeight, z, leavesMaterial, trunkBlackMagicData);
+				generateLeavesBlock(blocks, x - 1, y + leavesHeight, z, leavesMaterial, trunkBlackMagicData, leafColor);
+				generateLeavesBlock(blocks, x + 1, y + leavesHeight, z, leavesMaterial, trunkBlackMagicData, leafColor);
+				generateLeavesBlock(blocks, x, y + leavesHeight, z - 1, leavesMaterial, trunkBlackMagicData, leafColor);
+				generateLeavesBlock(blocks, x, y + leavesHeight, z + 1, leavesMaterial, trunkBlackMagicData, leafColor);
+				generateLeavesBlock(blocks, x, y + trunkHeight, z, leavesMaterial, trunkBlackMagicData, leafColor);
 			}
 			
 			return true;
@@ -455,6 +460,10 @@ public abstract class TreeProvider {
 			Material leavesMaterial, int leavesData, int trunkWidth, int trunkHeight, 
 			int start, int end, double width, double delta) {
 		
+		// for that special case
+		DyeColor leafColor = odds.getRandomColor();
+		boolean randomColor = odds.playOdds(Odds.oddsPrettyUnlikely);
+		
 		// from the bottom up
 		double widthAt = width;
 		int minY = trunkY + trunkHeight + start;
@@ -472,7 +481,7 @@ public abstract class TreeProvider {
 				for (int z = minZ; z < maxZ; z++) {
 					
 					// odds of leaves
-					double leavesOdds = 1.00;
+					double leavesOdds = Odds.oddsExceedinglyLikely;
 					
 					// extremes
 					if (x == minX || x == maxX - 1) {
@@ -493,27 +502,17 @@ public abstract class TreeProvider {
 					}
 					
 					// worth doing?
-					if (leavesOdds > 0.00 && odds.playOdds(leavesOdds))
-						generateLeavesBlock(chunk, x, y, z, leavesMaterial, leavesData);
-					
-//					if (leavesOdds > 0.00)
-//						generateLeavesBlock(chunk, x, y, z, leavesMaterial, leavesData);
-//					else
-//						chunk.setBlock(x, y, z, Material.DIRT);
-						
+					if (leavesOdds > 0.00 && odds.playOdds(leavesOdds)) {
+						generateLeavesBlock(chunk, x, y, z, leavesMaterial, leavesData, leafColor);
+						if (randomColor)
+							leafColor = odds.getRandomColor();
+					}
 				}
 			}
 			
 			// make it smaller as we go higher
 			widthAt = widthAt - delta;
 		}
-		
-//		int leavesHeight = trunkHeight - 1;
-//		generateLeaves(chunk, x - 1, y + leavesHeight, z, leavesMaterial, trunkBlackMagicData);
-//		generateLeaves(chunk, x + 1, y + leavesHeight, z, leavesMaterial, trunkBlackMagicData);
-//		generateLeaves(chunk, x, y + leavesHeight, z - 1, leavesMaterial, trunkBlackMagicData);
-//		generateLeaves(chunk, x, y + leavesHeight, z + 1, leavesMaterial, trunkBlackMagicData);
-//		generateLeaves(chunk, x, y + trunkHeight, z, leavesMaterial, trunkBlackMagicData);
 	}
 	
 }

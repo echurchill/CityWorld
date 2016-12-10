@@ -49,8 +49,8 @@ public class SurfaceProvider_Flooded extends SurfaceProvider_Normal {
 		double secondary = odds.getRandomDouble();
 		
 		// trees? 
-		if (includeTrees && primary < treeOdds && x % 2 == 0 && z % 2 != 0) {
-			if (secondary < treeAltTallOdds && x > 5 && x < 11 && z > 5 && z < 11)
+		if (includeTrees && primary < treeOdds && inTreeRange(x, z)) {
+			if (secondary < treeAltTallOdds)
 				generator.treeProvider.generateNormalTrunk(generator, chunk, x, y + 1, z, TreeType.DARK_OAK);
 			else if (secondary < treeAltOdds)
 				generator.treeProvider.generateNormalTrunk(generator, chunk, x, y + 1, z, TreeType.BIRCH);

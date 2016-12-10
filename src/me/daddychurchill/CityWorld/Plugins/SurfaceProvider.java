@@ -33,6 +33,14 @@ public abstract class SurfaceProvider extends Provider {
 		generateSurface(generator, lot, chunk, blockYs, 0, includeTrees);
 	}
 	
+	protected boolean inTreeRange(int x, int z) {
+		return x > 4 && x < 15 && z > 4 && z < 15;// && x % 2 == 0 && z % 2 != 0;
+	}
+	
+	protected boolean inBigTreeRange(int x, int z) {
+		return x > 4 && x < 11 && z > 4 && z < 11 && x % 2 == 0 && z % 2 != 0;
+	}
+	
 	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CachedYs blockYs, int addTo, boolean includeTrees) {
 		CoverProvider foliage = generator.coverProvider;
 		int topY = lot.getTopY(generator);

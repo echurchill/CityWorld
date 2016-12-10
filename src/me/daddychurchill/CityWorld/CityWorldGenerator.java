@@ -175,6 +175,8 @@ public class CityWorldGenerator extends ChunkGenerator {
 	
 		
 	public CityWorldGenerator(CityWorld plugin, String worldName, String worldStyle) {
+		CityWorld.log.info("CityWorld creating world " + worldName);
+		
 		this.plugin = plugin;
 		this.worldName = worldName;
 		this.worldStyle = WorldStyle.NORMAL;
@@ -300,7 +302,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 			// figure out what everything looks like
 			PlatMap platmap = getPlatMap(x, z);
 			if (platmap != null) {
-				//CityWorld.reportMessage("generate X,Z = " + chunkX + "," + chunkZ);
+//				reportMessage("generate X,Z = " + x + "," + z);
 				platmap.generateChunk(initialBlocks, biome);
 			}
 			
@@ -411,7 +413,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 		public CityWorldBlockPopulator(CityWorldGenerator chunkGen) {
 			this.chunkGen = chunkGen;
 		}
-
+		
 		@Override
 		public void populate(World aWorld, Random random, Chunk chunk) {
 			try {

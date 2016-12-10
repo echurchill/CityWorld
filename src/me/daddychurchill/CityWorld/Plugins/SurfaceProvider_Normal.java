@@ -53,8 +53,8 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 			} else if (y < generator.treeLevel) {
 
 				// trees? but only if we are not too close to the edge of the chunk
-				if (includeTrees && primary < treeOdds && x > 0 && x < 15 && z > 0 && z < 15 && x % 2 == 0 && z % 2 != 0) {
-					if (secondary < treeAltTallOdds && x > 5 && x < 11 && z > 5 && z < 11)
+				if (includeTrees && primary < treeOdds && inTreeRange(x, z)) {
+					if (secondary < treeAltTallOdds && inBigTreeRange(x, z))
 						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.TALL_OAK_TREE);
 					else if (secondary < treeAltOdds)
 						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.BIRCH_TREE);
@@ -72,7 +72,7 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 			} else if (y < generator.evergreenLevel) {
 
 				// trees? 
-				if (includeTrees && primary < treeOdds && x % 2 == 0 && z % 2 != 0) {
+				if (includeTrees && primary < treeOdds && inTreeRange(x, z)) {
 					
 					// range change?
 					if (secondary > ((double) (y - generator.treeLevel) / (double) generator.deciduousRange))

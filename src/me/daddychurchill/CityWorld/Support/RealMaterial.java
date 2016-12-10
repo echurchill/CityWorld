@@ -74,10 +74,10 @@ public final class RealMaterial{
 //	public final static MaterialData LEAVES_JUNGLE = define(Material.LEAVES, TreeSpecies.JUNGLE);
 //	public final static MaterialData LEAVES_ACACIA = define(Material.LEAVES, TreeSpecies.ACACIA);
 //	public final static MaterialData LEAVES_DARK_OAK = define(Material.LEAVES, TreeSpecies.DARK_OAK);
-//
-//	public final static MaterialData SPONGE = define(Material.SPONGE);
-//	public final static MaterialData SPONGE_WET = define(Material.SPONGE, 1);
-//
+
+	public final static MaterialData SPONGE = define(Material.SPONGE);
+	public final static MaterialData SPONGE_WET = define(Material.SPONGE, 1);
+
 //	public final static MaterialData GLASS = define(Material.GLASS);
 //	public final static MaterialData LAPIS_ORE = define(Material.LAPIS_ORE);
 //	public final static MaterialData LAPIS_BLOCK = define(Material.LAPIS_BLOCK);
@@ -485,13 +485,13 @@ public final class RealMaterial{
 		return new MaterialData(material, (byte)data);
 	}
 	
-//	private static MaterialData define(Material material) {
-//		return createData(material, 0);
-//	}
-//	
-//	private static MaterialData define(Material material, int data) {
-//		return createData(material, (byte)data);
-//	}
+	private static MaterialData define(Material material) {
+		return createData(material, 0);
+	}
+	
+	private static MaterialData define(Material material, int data) {
+		return createData(material, (byte)data);
+	}
 	
 	@SuppressWarnings("deprecation")
 	private static MaterialData define(Material material, DyeColor color) {
