@@ -67,7 +67,7 @@ public class LootProvider_Phat extends LootProvider {
 	}
 
 	private static String name = "PhatLoots";
-	public static LootProvider loadPhatLoots() {
+	public static LootProvider loadPhatLoots(CityWorldGenerator generator) {
 
 		PhatLoots phatLoots = null;
 
@@ -95,6 +95,7 @@ public class LootProvider_Phat extends LootProvider {
 			return new LootProvider_Phat();
 			
 		} catch (Exception e) {
+			generator.reportMessage("[LootProvider] Problem loading PhatLoots (" + e.getMessage() + ")");
 			//CityWorld.reportException(String.format("[LootProvider] Failed to enable %s.", name), e);
 			return null;
 		}

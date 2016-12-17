@@ -113,12 +113,8 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 
 		try {
 			PluginManager pm = Bukkit.getServer().getPluginManager();
-			worldEditPlugin = (WorldEditPlugin) pm.getPlugin(pluginName);
+			worldEditPlugin = (WorldEditPlugin)pm.getPlugin(pluginName);
 			
-			// not there? darn
-			if (worldEditPlugin == null)
-				return null;
-
 			// got the right version?
 			if (!isPlugInVersionOrBetter(generator, worldEditPlugin, pluginMinVersion))
 				
@@ -141,9 +137,8 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 			generator.reportMessage("[PasteProvider] Found WorldEdit v" + worldEditPlugin.getDescription().getVersion() + ", enabling its schematics");
 			
 			return new PasteProvider_WorldEdit(generator);
-			
 		} catch (Exception e) {
-			generator.reportException("[PasteProvider] Problem with WorldEdit", e);
+			generator.reportMessage("[PasteProvider] Problem loading WorldEdit (" + e.getMessage() + ")");
 			return null;
 		}
 	}

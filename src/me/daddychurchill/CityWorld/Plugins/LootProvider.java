@@ -10,7 +10,8 @@ import me.daddychurchill.CityWorld.Support.Odds;
 
 public abstract class LootProvider extends Provider {
 
-	public enum LootLocation {RANDOM, SEWER, MINE, BUNKER, STORAGESHED, FARMWORKS, FARMWORKSOUTPUT, WOODWORKS, WOODWORKSOUTPUT, STONEWORKS, STONEWORKSOUTPUT};
+	public enum LootLocation {RANDOM, SEWER, MINE, BUNKER, STORAGESHED, FARMWORKS, FARMWORKSOUTPUT, 
+		WOODWORKS, WOODWORKSOUTPUT, STONEWORKS, STONEWORKSOUTPUT};
 	
 	public abstract void setLoot(CityWorldGenerator generator, Odds odds, String worldPrefix, LootLocation chestLocation, Block block);
 	public abstract void saveLoots();
@@ -21,7 +22,7 @@ public abstract class LootProvider extends Provider {
 		LootProvider provider = null;
 		
 		// try PhatLoots...
-		provider = LootProvider_Phat.loadPhatLoots();
+		provider = LootProvider_Phat.loadPhatLoots(generator);
 		
 		// default to stock LootProvider
 		if (provider == null) {
