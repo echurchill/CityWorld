@@ -71,21 +71,22 @@ public class LootProvider_Phat extends LootProvider {
 
 		PhatLoots phatLoots = null;
 
-		PluginManager pm = Bukkit.getServer().getPluginManager();
-
 		try {
-			phatLoots = (PhatLoots) pm.getPlugin(name);
-		} catch (Exception e) {
-			//Exception(String.format("[LootProvider] Bad Version %s.", name), e);
-		}
 
-		if (phatLoots == null)
-			return null;
-
-		//CityWorld.(String.format("[LootProvider] Found %s.", name));
+			PluginManager pm = Bukkit.getServer().getPluginManager();
+			if (pm != null) {
+				Plugin plugin = pm.getPlugin(name);
+				if (plugin != null)
+					phatLoots = (PhatLoots) plugin;
+			}
+	
+			if (phatLoots == null) {
+				generator.reportMessage("[PasteProvider] Problem loading PhatLoots, could not find it");
+				return null;
+			}
+	
+			//CityWorld.(String.format("[LootProvider] Found %s.", name));
 		
-		try {
-
 			if (!pm.isPluginEnabled(phatLoots)) {
 				//CityWorld.reportMessage(String.format("[LootProvider] Enabling %s.", name));
 				pm.enablePlugin(phatLoots);
@@ -96,7 +97,6 @@ public class LootProvider_Phat extends LootProvider {
 			
 		} catch (Exception e) {
 			generator.reportMessage("[LootProvider] Problem loading PhatLoots (" + e.getMessage() + ")");
-			//CityWorld.reportException(String.format("[LootProvider] Failed to enable %s.", name), e);
 			return null;
 		}
 	}

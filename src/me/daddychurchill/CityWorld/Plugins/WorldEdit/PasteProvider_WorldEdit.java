@@ -11,6 +11,7 @@ import me.daddychurchill.CityWorld.Clipboard.PasteProvider;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -113,8 +114,17 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 
 		try {
 			PluginManager pm = Bukkit.getServer().getPluginManager();
-			worldEditPlugin = (WorldEditPlugin)pm.getPlugin(pluginName);
+			if (pm != null) {
+				Plugin plugin = pm.getPlugin(pluginName);
+				if (plugin != null)
+					worldEditPlugin = (WorldEditPlugin)plugin;
+			}
 			
+			if (worldEditPlugin == null) {
+				generator.reportMessage("[PasteProvider] Problem loading WorldEdit, could not find it");
+				return null;
+			}
+						
 			// got the right version?
 			if (!isPlugInVersionOrBetter(generator, worldEditPlugin, pluginMinVersion))
 				
