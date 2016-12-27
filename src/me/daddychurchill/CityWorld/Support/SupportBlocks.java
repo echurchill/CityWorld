@@ -923,22 +923,23 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 
-	public final void setSignPost(int x, int y, int z, BlockFace direction, String ... text) {
-		Block block = getActualBlock(x, y, z);
-		block.setType(Material.SIGN_POST);
-		if (block.getType() == Material.SIGN_POST) {
-			Sign signState = (Sign) block.getState();
-			
-			org.bukkit.material.Sign signDirection = new org.bukkit.material.Sign();
-			signDirection.setFacingDirection(direction);
-			signState.setData(signDirection);
-			
-			for (int i = 0; i < text.length && i < 4; i++) 
-				signState.setLine(i, text[i]);
-
-			signState.update(true);
-		}
-	}
+// WE SHOULD BE USING THIS, INSTEAD OF setWallSign
+//	public final void setSignPost(int x, int y, int z, BlockFace direction, String ... text) {
+//		Block block = getActualBlock(x, y, z);
+//		block.setType(Material.SIGN_POST);
+//		if (block.getType() == Material.SIGN_POST) {
+//			Sign signState = (Sign) block.getState();
+//			
+//			org.bukkit.material.Sign signDirection = new org.bukkit.material.Sign();
+//			signDirection.setFacingDirection(direction);
+//			signState.setData(signDirection);
+//			
+//			for (int i = 0; i < text.length && i < 4; i++) 
+//				signState.setLine(i, text[i]);
+//
+//			signState.update();
+//		}
+//	}
 	
 	public final void setBed(int x, int y, int z, Facing direction) {
 		switch (direction) {
