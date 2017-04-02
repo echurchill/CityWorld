@@ -16,6 +16,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
+import org.bukkit.material.Chest;
 import org.bukkit.material.Colorable;
 import org.bukkit.material.Directional;
 import org.bukkit.material.Ladder;
@@ -75,6 +76,12 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		state.setType(material);
 		state.setData(data);
 		state.update(true, doPhysics);
+	}
+	
+	public final Block getActualBlock(int x, int y, int z, MaterialData data) {
+		Block block = getActualBlock(x, y, z);
+		setBlock(block, data.getItemType(), data);
+		return block;
 	}
 	
 	@Override
@@ -894,6 +901,24 @@ public abstract class SupportBlocks extends AbstractBlocks {
 				lootProvider.setLoot(generator, odds, world.getName(), lootLocation, block);
 			}
 		}
+	}
+	
+//	public final void setVine(int x, int y, int z, BlockFace ... facing) {
+//		setBlock(x, y, z, new Vine(facing));
+//	}
+//
+//	public final void setTorch(int x, int y, int z, Material material, BlockFace facing) {
+//		setBlock(x, y, z, new Torch(material, facing));
+//	}
+//	
+//	public final void setFurnace(int x, int y, int z, BlockFace facing) {
+//		setBlock(x, y, z, new Furnace(facing));
+//	}
+
+	public final void setChest(CityWorldGenerator generator, int x, int y, int z, BlockFace facing, Odds odds, LootProvider lootProvider, LootLocation lootLocation) {
+		Block block = getActualBlock(x, y, z, new Chest(facing));
+		if (isType(block, Material.CHEST))
+			lootProvider.setLoot(generator, odds, world.getName(), lootLocation, block);
 	}
 	
 	public final void setDoubleChest(CityWorldGenerator generator, int x, int y, int z, BadMagic.General direction, Odds odds, LootProvider lootProvider, LootLocation lootLocation) {

@@ -48,6 +48,7 @@ public class CityWorldSettings {
 	public boolean treasuresInBunkers = true;
 	public boolean treasuresInMines = true;
 	public boolean treasuresInSewers = true;
+	public boolean treasuresInBuildings = true;
 	
 	public boolean includeUndergroundFluids = true;
 	public boolean includeAbovegroundFluids = true;
@@ -80,6 +81,7 @@ public class CityWorldSettings {
 	public double oddsOfTreasureInSewers = Odds.oddsLikely;
 	public double oddsOfTreasureInBunkers = Odds.oddsLikely;
 	public double oddsOfTreasureInMines = Odds.oddsLikely;
+	public double oddsOfTreasureInBuildings = Odds.oddsAlwaysGoingToHappen;//Odds.oddsLikely;
 	public double oddsOfAlcoveInMines = Odds.oddsVeryLikely;
 	
 	public final static String tagIncludeRoads = "IncludeRoads";
@@ -115,6 +117,7 @@ public class CityWorldSettings {
 	public final static String tagTreasuresInBunkers = "TreasuresInBunkers";
 	public final static String tagTreasuresInMines = "TreasuresInMines";
 	public final static String tagTreasuresInSewers = "TreasuresInSewers";
+	public final static String tagTreasuresInBuildings = "TreasuresInBuildings";
 
 	public final static String tagIncludeUndergroundFluids = "IncludeUndergroundFluids";
 	public final static String tagIncludeAbovegroundFluids = "IncludeAbovegroundFluids";
@@ -249,6 +252,7 @@ public class CityWorldSettings {
 			section.addDefault(tagTreasuresInBunkers, treasuresInBunkers);
 			section.addDefault(tagTreasuresInMines, treasuresInMines);
 			section.addDefault(tagTreasuresInSewers, treasuresInSewers);
+			section.addDefault(tagTreasuresInBuildings, treasuresInBuildings);
 			
 			section.addDefault(tagIncludeUndergroundFluids, includeUndergroundFluids);
 			section.addDefault(tagIncludeAbovegroundFluids, includeAbovegroundFluids);
@@ -307,6 +311,7 @@ public class CityWorldSettings {
 			treasuresInBunkers = section.getBoolean(tagTreasuresInBunkers, treasuresInBunkers);
 			treasuresInMines = section.getBoolean(tagTreasuresInMines, treasuresInMines);
 			treasuresInSewers = section.getBoolean(tagTreasuresInSewers, treasuresInSewers);
+			treasuresInBuildings = section.getBoolean(tagTreasuresInBuildings, treasuresInBuildings);
 
 			generator.materialProvider.read(generator, section);
 			generator.spawnProvider.read(generator, section);
@@ -428,6 +433,7 @@ public class CityWorldSettings {
 			section.set(tagTreasuresInBunkers, treasuresInBunkers);
 			section.set(tagTreasuresInMines, treasuresInMines);
 			section.set(tagTreasuresInSewers, treasuresInSewers);
+			section.set(tagTreasuresInBuildings, treasuresInBuildings);
 			
 			section.set(tagIncludeUndergroundFluids, includeUndergroundFluids);
 			section.set(tagIncludeAbovegroundFluids, includeAbovegroundFluids);
@@ -506,24 +512,17 @@ public class CityWorldSettings {
 			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
 			break;
 		case ASTRAL:
-//			includeRoads = true;
 			includeRoundabouts = false; // DIFFERENT
 			includeSewers = false; // DIFFERENT
 			includeCisterns = false; // DIFFERENT
 			includeBasements = false; // DIFFERENT
 			includeMines = false; // DIFFERENT
 			includeBunkers = false; // DIFFERENT
-//			includeBuildings = true;
-//			includeHouses = true;
 			includeFarms = false; // DIFFERENT
 			includeAirborneStructures = false; // DIFFERENT;
 
-//			includeCaves = false;
-//			includeLavaFields = false;
 			includeSeas = true; // THIS MUST BE SET TO TRUE
 			includeMountains = true; // THIS MUST BE SET TO TRUE
-//			includeOres = false; 
-//			includeBones = false;
 			
 			spawnersInBunkers = false; // DIFFERENT
 			spawnersInMines = false; // DIFFERENT
@@ -535,25 +534,11 @@ public class CityWorldSettings {
 			
 			includeUndergroundFluids = false; // THIS MUST BE SET TO FALSE
 			includeAbovegroundFluids = false; // THIS MUST BE SET TO FALSE
-//			includeWorkingLights = true;
-//			includeNamedRoads = true;
-//			includeDecayedRoads = false;
-//			includeDecayedBuildings = false;
-//			includeDecayedNature = false;
-//			includeBuildingInteriors = true;
 			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
 			break;
 		case FLOATING:
-//			includeRoads = true;
-//			includeRoundabouts = true;
-//			includeSewers = true;
-//			includeCisterns = true;
-//			includeBasements = true;
 			includeMines = false; // DIFFERENT
 			includeBunkers = false; // DIFFERENT
-//			includeBuildings = true;
-//			includeHouses = true;
-//			includeFarms = true;
 			includeAirborneStructures = false; // DIFFERENT;
 
 			includeCaves = false; // DIFFERENT
@@ -573,34 +558,19 @@ public class CityWorldSettings {
 			
 			includeUndergroundFluids = false; // DIFFERENT
 			includeAbovegroundFluids = true; // THIS MUST BE SET TO TRUE
-//			includeWorkingLights = true;
-//			includeNamedRoads = true;
-//			includeDecayedRoads = false;
-//			includeDecayedBuildings = false;
-//			includeDecayedNature = false;
-//			includeBuildingInteriors = true;
-//			subSurfaceStyle = SubSurfaceStyle.LAND; 
 
 			break;
 		case FLOODED:
-//			includeRoads = true;
 			includeRoundabouts = false; // DIFFERENT
 			includeSewers = false; // DIFFERENT
-//			includeCisterns = true;
-//			includeBasements = true;
 			includeMines = false; // DIFFERENT
 			includeBunkers = false; // DIFFERENT
-//			includeBuildings = true;
-//			includeHouses = true;
-//			includeFarms = true; 
 			includeAirborneStructures = false; // DIFFERENT;
 
 			includeCaves = false; // DIFFERENT
 			includeLavaFields = false; // DIFFERENT
 			includeSeas = true; // THIS MUST BE SET TO TRUE
 			includeMountains = true; // THIS MUST BE SET TO TRUE
-//			includeOres = true;
-//			includeBones = false;
 			
 			spawnersInBunkers = false; // DIFFERENT
 			spawnersInMines = false; // DIFFERENT
@@ -616,29 +586,19 @@ public class CityWorldSettings {
 			includeNamedRoads = false; // DIFFERENT
 			includeDecayedRoads = false; // DIFFERENT
 			includeDecayedBuildings = false; // DIFFERENT
-//			includeDecayedNature = false;
-//			includeBuildingInteriors = true;
 			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
 			break;
 		case SANDDUNES:
-//			includeRoads = true;
 			includeRoundabouts = false; // DIFFERENT
 			includeSewers = false; // DIFFERENT
-//			includeCisterns = true;
-//			includeBasements = true;
 			includeMines = false; // DIFFERENT
 			includeBunkers = false; // DIFFERENT
-//			includeBuildings = true;
-//			includeHouses = true;
-//			includeFarms = true;
 			includeAirborneStructures = false; // DIFFERENT;
 
 			includeCaves = false; // DIFFERENT
 			includeLavaFields = false; // DIFFERENT
 			includeSeas = true; // THIS MUST BE SET TO TRUE
 			includeMountains = true; // THIS MUST BE SET TO TRUE
-//			includeOres = true;
-//			includeBones = false;
 			
 			spawnersInBunkers = false; // DIFFERENT
 			spawnersInMines = false; // DIFFERENT
@@ -648,35 +608,23 @@ public class CityWorldSettings {
 			treasuresInMines = false; // DIFFERENT
 			treasuresInSewers = false; // DIFFERENT
 			
-//			includeUndergroundFluids = false; 
 			includeAbovegroundFluids = false; // THIS MUST BE SET TO FALSE
 			includeWorkingLights = false; // DIFFERENT
 			includeNamedRoads = false; // DIFFERENT
-//			includeDecayedRoads = false;
-//			includeDecayedBuildings = false;
 			includeDecayedNature = true; // DIFFERENT
-//			includeBuildingInteriors = true;
 			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
 			break;
 		case SNOWDUNES:
-//			includeRoads = true;
 			includeRoundabouts = false; // DIFFERENT
 			includeSewers = false; // DIFFERENT
-//			includeCisterns = true;
-//			includeBasements = true;
 			includeMines = false; // DIFFERENT
 			includeBunkers = false; // DIFFERENT
-//			includeBuildings = true;
-//			includeHouses = true;
-//			includeFarms = true;
 			includeAirborneStructures = false; // DIFFERENT;
 
 			includeCaves = false; // DIFFERENT
 			includeLavaFields = false; // DIFFERENT
 			includeSeas = true; // THIS MUST BE SET TO TRUE
 			includeMountains = true; // THIS MUST BE SET TO TRUE
-//			includeOres = true;
-//			includeBones = false;
 			
 			spawnersInBunkers = false; // DIFFERENT
 			spawnersInMines = false; // DIFFERENT
@@ -686,14 +634,9 @@ public class CityWorldSettings {
 			treasuresInMines = false; // DIFFERENT
 			treasuresInSewers = false; // DIFFERENT
 			
-//			includeUndergroundFluids = false; 
 			includeAbovegroundFluids = true; // THIS MUST BE SET TO TRUE
 			includeWorkingLights = false; // DIFFERENT
 			includeNamedRoads = false; // DIFFERENT
-//			includeDecayedRoads = false;
-//			includeDecayedBuildings = false;
-//			includeDecayedNature = false;
-//			includeBuildingInteriors = true;
 			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
 			break;
 		}

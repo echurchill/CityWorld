@@ -85,10 +85,124 @@ public class MaterialProvider {
 			Material.COMPASS,
 			Material.WATCH,
 			Material.FLINT_AND_STEEL,
+			Material.FIREWORK,
 
 			Material.COAL,
 
 			Material.APPLE,
+			Material.ROTTEN_FLESH);
+	
+	public final static String tagRandomMaterials_BuildingChests = "Random_Materials_For_Building_Chests";
+	public MaterialList itemsRandomMaterials_BuildingChests = createList(tagRandomMaterials_BuildingChests, 
+			
+			Material.STRING,
+			Material.TORCH,	
+			Material.COMPASS,
+			Material.WATCH,
+			Material.SHEARS,
+			
+			Material.BOWL,
+			Material.BUCKET,
+			Material.GLASS_BOTTLE,
+			Material.FLOWER_POT,
+			
+			Material.PAINTING,
+			Material.ITEM_FRAME,
+			Material.BANNER,
+			
+			Material.FEATHER,
+			Material.PAPER,
+			Material.BOOK,
+			Material.BOOK_AND_QUILL,
+			Material.EMPTY_MAP,
+			Material.NAME_TAG,
+			
+			Material.ROTTEN_FLESH);
+	
+	public final static String tagRandomMaterials_StoreChests = "Random_Materials_For_Store_Chests";
+	public MaterialList itemsRandomMaterials_StoreChests = createList(tagRandomMaterials_StoreChests, 
+			
+			Material.FLINT_AND_STEEL,
+			
+			Material.RABBIT_FOOT,
+			Material.RABBIT_HIDE,
+			Material.LEATHER,
+
+			Material.LEATHER_BOOTS,
+			Material.LEATHER_CHESTPLATE,
+			Material.LEATHER_HELMET,
+			Material.LEATHER_LEGGINGS,
+			Material.CHAINMAIL_BOOTS,
+			Material.CHAINMAIL_CHESTPLATE,
+			Material.CHAINMAIL_HELMET,
+			Material.CHAINMAIL_LEGGINGS,
+			Material.IRON_BOOTS,
+			Material.IRON_CHESTPLATE,
+			Material.IRON_HELMET,
+			Material.IRON_LEGGINGS,
+			
+			Material.STONE_HOE,
+			Material.STONE_AXE,
+			Material.STONE_PICKAXE,
+			Material.STONE_SWORD,
+			
+			Material.LEASH,
+			Material.CARROT_STICK,
+			Material.FISHING_ROD,
+			Material.TOTEM,
+			
+			Material.GREEN_RECORD,
+			Material.GOLD_RECORD,
+			Material.RECORD_3,
+			Material.RECORD_4,
+			Material.RECORD_5,
+			Material.RECORD_6,
+			Material.RECORD_7,
+			Material.RECORD_8,
+			Material.RECORD_9,
+			Material.RECORD_10,
+			Material.RECORD_11,
+			Material.RECORD_12,
+			
+			Material.ROTTEN_FLESH);
+	
+	public final static String tagRandomMaterials_FoodChests = "Random_Materials_For_Food_Chests";
+	public MaterialList itemsRandomMaterials_FoodChests = createList(tagRandomMaterials_FoodChests, 
+			
+			Material.SUGAR,
+			Material.CAKE,
+			Material.COOKIE,
+			Material.EGG,
+			Material.APPLE,
+			Material.MELON,
+			Material.SPECKLED_MELON,
+			Material.CARROT,
+			Material.BREAD,
+			
+			Material.RAW_BEEF,
+			Material.RAW_CHICKEN,
+			Material.RAW_FISH,
+			Material.MUTTON,
+			Material.RABBIT,
+			Material.POTATO,
+			Material.POISONOUS_POTATO,
+			Material.PUMPKIN,
+			Material.BROWN_MUSHROOM,
+			Material.RED_MUSHROOM,
+			Material.BEETROOT,
+			
+			Material.COOKED_BEEF,
+			Material.COOKED_CHICKEN,
+			Material.COOKED_FISH,
+			Material.COOKED_MUTTON,
+			Material.COOKED_RABBIT,
+			Material.BAKED_POTATO,
+			Material.PUMPKIN_PIE,
+			Material.MUSHROOM_SOUP,
+			Material.BEETROOT_SOUP,
+			
+			Material.GOLDEN_CARROT,
+			Material.GOLDEN_APPLE,
 			Material.ROTTEN_FLESH);
 	
 	public final static String tagRandomMaterials_StorageShedChests = "Random_Materials_For_Storage_Shed_Chests";

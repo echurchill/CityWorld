@@ -41,8 +41,8 @@ public class StorageFilledChestsRoom extends StorageRoom {
 	protected void drawChest(RealBlocks chunk, int x, int y, int z) {
 //		
 //		// cool stuff?
-//		if (generator.settings.treasuresInSewers && chunkOdds.playOdds(generator.settings.oddsOfTreasureInSewers)) {
-//			 chunk.setChest(x, y, z, Direction.General.NORTH, chunkOdds, generator.lootProvider, LootLocation.SEWER);
+//		if (generator.settings.treasuresInBuildings && chunkOdds.playOdds(generator.settings.oddsOfTreasureInBuildings)) {
+//			 chunk.setChest(x, y, z, Direction.General.NORTH, chunkOdds, generator.lootProvider, LootLocation.BUILDING);
 //		}
 	}
 
