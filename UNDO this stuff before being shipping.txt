@@ -1,3 +1,12 @@
 UNDO before being done
 
-Verify Bears and Husks
+Attempt Polar_Bears // should work
+Attempt Chests in warehouses
+Attempt Husks
+Verify Version
+Fixtures on roofs
+Attempt Glaciers and Lava
+Attempt Concrete and Concrete_Powder
+Attempt Colored Concrete and Concrete_Powder
+Attempt Central Park Zoo
+Make Tree (and folage) generation odds based and configurable
