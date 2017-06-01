@@ -313,7 +313,10 @@ public class BarnLot extends IsolatedLot {
 	}
 	
 	private void spawnHorses(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
-		generator.spawnProvider.spawnAnimals(generator, chunk, chunkOdds, x, y, z, EntityType.HORSE);
+		EntityType animal = EntityType.HORSE;
+		if (chunkOdds.playOdds(Odds.oddsUnlikely))
+			animal = EntityType.DONKEY;
+		generator.spawnProvider.spawnAnimals(generator, chunk, chunkOdds, x, y, z, animal);
 	}
 	
 	private void punchWindows(RealBlocks chunk, int y) {
@@ -340,7 +343,7 @@ public class BarnLot extends IsolatedLot {
 		if (chunkOdds.flipCoin())
 			for (int x = x1; x < x2; x++)
 				for (int z = z1; z < z2; z++)
-						chunk.setBlocks(x, y, y + chunkOdds.getRandomInt(3), z, Material.HAY_BLOCK);
+					chunk.setBlocks(x, y, y + chunkOdds.getRandomInt(3), z, Material.HAY_BLOCK);
 	}
 	
 	private void placeChest(CityWorldGenerator generator, RealBlocks chunk, 

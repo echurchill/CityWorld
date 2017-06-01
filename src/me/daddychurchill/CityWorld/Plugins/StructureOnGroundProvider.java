@@ -434,6 +434,11 @@ public class StructureOnGroundProvider extends Provider {
 			int entryX = -1;
 			int entryZ = -1;
 			
+			// floor material?
+			Material thisFloor = matFloor;
+			if (f > 0)
+				thisFloor = matCeiling;
+			
 			// do the rooms
 			for (int x = 0; x < 2; x++) {
 				for (int z = 0; z < 2; z++) {
@@ -443,13 +448,13 @@ public class StructureOnGroundProvider extends Provider {
 						entryX = x;
 						entryZ = z;
 					} else
-						drawRoom(generator, chunk, context, odds, rooms, f, floors, x, z, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
+						drawRoom(generator, chunk, context, odds, rooms, f, floors, x, z, roomOffsetX, roomOffsetZ, baseY, thisFloor, matWall, matCeiling, matRoof);
 				}
 			}
 			
 			// found an entry
 			if (entryX != -1) {
-				drawRoom(generator, chunk, context, odds, rooms, f, floors, entryX, entryZ, roomOffsetX, roomOffsetZ, baseY, matFloor, matWall, matCeiling, matRoof);
+				drawRoom(generator, chunk, context, odds, rooms, f, floors, entryX, entryZ, roomOffsetX, roomOffsetZ, baseY, thisFloor, matWall, matCeiling, matRoof);
 			}
 		}
 		

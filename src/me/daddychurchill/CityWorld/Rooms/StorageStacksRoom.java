@@ -23,7 +23,7 @@ public class StorageStacksRoom extends StorageTypeRoom {
 		int minheight = odds.getRandomInt(height / 2);
 		for (int x1 = x; x1 < x + width; x1++) {
 			for (int z1 = z; z1 < z + depth; z1++) {
-				setStorageBlocks(chunk, x1, y, y + Math.max(minheight, odds.getRandomInt(height - 1)), z1);
+				setStorageBlocks(generator, chunk, odds, x1, y, y + Math.max(minheight, odds.getRandomInt(height - 1)), z1);
 			}
 		}
 	}

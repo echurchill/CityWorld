@@ -114,10 +114,27 @@ public class CityWorldGenerator extends ChunkGenerator {
 	
 	public String minecraftVersionRaw;
 	public double minecraftVersion;
-	private final static double minVersion = calcVersion(1, 9, 4); // 1.9.4 Minecraft or better
+	private final static double minVersion = calcVersion(1, 12, 0); // 1.12.0 Minecraft or better
 	
 	private static double calcVersion(double major, double minor, double micro) {
 		return major + minor / 100 + micro / 1000;
+	}
+	
+	private double parseVersionPart(int index, String[] parts, boolean normalize) {
+		double result = 0.0;
+		if (parts.length > index) try { // found the part
+			int part = Integer.parseUnsignedInt(parts[index]);
+			if (normalize)
+				result = part / Math.pow(10, parts[index].length());
+			else
+				result = part;
+			
+		} catch (NumberFormatException e) {
+			// it is already 0
+//			reportMessage("Part [" + index + "] didn't parse: '" + parts[index] + "'");
+//			reportMessage("Error was: " + e.getMessage());
+		}
+		return result;
 	}
 	
 	private boolean checkVersion() {
@@ -127,44 +144,35 @@ public class CityWorldGenerator extends ChunkGenerator {
 			int mcAt = minecraftVersionRaw.indexOf("MC: ");
 			if (mcAt != -1) {
 				minecraftVersionRaw = minecraftVersionRaw.substring(mcAt + 4, minecraftVersionRaw.length() - 1);
-				String[] parts = minecraftVersionRaw.split("[.)]", 4);
+				String[] parts = minecraftVersionRaw.split("[^0-9]", 4);
 				
-//				reportMessage("minVersion = " + String.format("%.3f", minVersion));
-//				reportMessage("minecraftVersionRaw = " + minecraftVersionRaw);
-//				for (int i = 0; i < parts.length; i++)
-//					reportMessage(">" + parts[i] + "<");
-				
-				int major = 0;
-				int minor = 0;
-				int micro = 0;
-				if (parts.length > 0) // found major
-					major = Integer.parseUnsignedInt(parts[0]);
-				if (parts.length > 1) // found minor
-					minor = Integer.parseUnsignedInt(parts[1]);
-				if (parts.length > 2) // found micro
-					micro = Integer.parseUnsignedInt(parts[2]);
+				double major = parseVersionPart(0, parts, false);
+				double minor = parseVersionPart(1, parts, true);
+				double micro = parseVersionPart(2, parts, true);
 
 				minecraftVersion = calcVersion(major, minor, micro);
-//				reportMessage("MMM = " + major + ", " + minor + ", " + micro);
-//				reportMessage("minecraftVersion = " + String.format("%.3f", minecraftVersion));
+				reportMessage("MMM = " + major + ", " + minor + ", " + micro);
+				reportMessage("minecraftVersion = " + String.format("%.3f", minecraftVersion));
 			}
 		} catch (NumberFormatException e) {
 			minecraftVersion = 0.0;
+//			reportMessage("Some other error occured while parsing version");
+//			reportMessage("Error was: " + e.getMessage());
 		}
 		
 		// what version did we end up with?
 		if (minecraftVersion < minVersion) {
-			reportMessage("******************************************************");
-			reportMessage("** WARNING, RUNNING ON AN OLD VERSION OF MINECRAFT  **");
-			reportMessage("******************************************************");
+			reportMessage("**********************************************************");
+			reportMessage("** WARNING, RUNNING ON AN STRANGE VERSION OF MINECRAFT  **");
+			reportMessage("**********************************************************");
 //			reportException("Needs " + String.format("%.3f", minVersion) + " or better, found " + 
 //					String.format("%.3f", minecraftVersion) +
 //					", parsed from " + minecraftVersionRaw, new Exception(getPluginName()));
 			reportMessage("Needs " + String.format("%.3f", minVersion) + " or better, found " + 
 					String.format("%.3f", minecraftVersion) + ", parsed from " + minecraftVersionRaw);
-			reportMessage("******************************************************");
-			reportMessage("** CITYWORLD MIGHT NOT RUN CORRECTLY, PLEASE UPDATE **");
-			reportMessage("******************************************************");
+			reportMessage("**********************************************************");
+			reportMessage("** CITYWORLD MIGHT NOT RUN CORRECTLY, PLEASE UPDATE     **");
+			reportMessage("**********************************************************");
 			return false;
 		}
 		else {
@@ -172,7 +180,6 @@ public class CityWorldGenerator extends ChunkGenerator {
 			return true;
 		}
 	}
-	
 		
 	public CityWorldGenerator(CityWorld plugin, String worldName, String worldStyle) {
 		CityWorld.log.info("CityWorld creating world " + worldName);

@@ -3,6 +3,8 @@ package me.daddychurchill.CityWorld.Rooms;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 
+import me.daddychurchill.CityWorld.CityWorldGenerator;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public abstract class StorageTypeRoom extends StorageRoom {
@@ -14,7 +16,7 @@ public abstract class StorageTypeRoom extends StorageRoom {
 		materialType = type;
 	}
 	
-	protected void setStorageBlocks(SupportBlocks chunk, int x, int y1, int y2, int z) {
+	protected void setStorageBlocks(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y1, int y2, int z) {
 		switch (materialType) {
 		case PISTON_BASE:
 			chunk.setBlocksTypeAndDirection(x, x + 1, y1, y2, z, z + 1, materialType, BlockFace.UP);

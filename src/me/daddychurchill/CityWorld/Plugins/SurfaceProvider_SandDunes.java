@@ -1,5 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import org.bukkit.entity.EntityType;
 import org.bukkit.util.noise.NoiseGenerator;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
@@ -111,6 +112,8 @@ public class SurfaceProvider_SandDunes extends SurfaceProvider_Flooded {
 			} else {
 				foliage.generateCoverage(generator, chunk, x, floodY, z, CoverageType.DEAD_BUSH);
 			}
+		} else if (odds.playOdds(vagrantOdds)) {
+			generator.spawnProvider.spawnVagrant(generator, chunk, odds, x, floodY, z, EntityType.WOLF, EntityType.SKELETON_HORSE);
 		}
 		
 	}

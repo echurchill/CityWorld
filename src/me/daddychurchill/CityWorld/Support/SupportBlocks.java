@@ -446,20 +446,37 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		return isNonstackableBlock(getActualBlock(x, y, z));
 	}
 	
+	private boolean isColorable(Material material) {
+		switch (material) {
+		default:
+			return false;
+		case STAINED_CLAY:
+		case STAINED_GLASS:
+		case STAINED_GLASS_PANE:
+		case WOOL:
+		case CARPET:
+		case CONCRETE:
+		case CONCRETE_POWDER:
+			return true;
+		}
+	}
+	
 	public void setBlockTypeAndColor(int x, int y, int z, Material material, DyeColor color) {
 		BlockState state = getActualBlock(x, y, z).getState();
 		state.setType(material);
-		MaterialData data = state.getData();
-		if (data instanceof Colorable)
-			((Colorable)state.getData()).setColor(color);
-		else
-			BlackMagic.setBlockStateColor(state, color); //BUKKIT: none of the newly colorable blocks materials are colorable
-		state.update(true, doPhysics);
+		if (isColorable(material)) {
+			MaterialData data = state.getData();
+			if (data instanceof Colorable)
+				((Colorable)state.getData()).setColor(color);
+			else
+				BlackMagic.setBlockStateColor(state, color); //BUKKIT: none of the newly colorable blocks materials are colorable
+			state.update(true, doPhysics);
+		}
 	}
 	
 	public void setBlockIfTypeThenColor(int x, int y, int z, Material material, DyeColor color) {
 		BlockState state = getActualBlock(x, y, z).getState();
-		if (state.getType() == material) {
+		if (state.getType() == material && isColorable(material)) {
 			MaterialData data = state.getData();
 			if (data instanceof Colorable)
 				((Colorable)state.getData()).setColor(color);
@@ -470,26 +487,35 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	}
 	
 	public void setBlocksTypeAndColor(int x, int y1, int y2, int z, Material material, DyeColor color) {
-		for (int y = y1; y < y2; y++)
-			setBlockTypeAndColor(x, y, z, material, color);
+		if (isColorable(material))
+			for (int y = y1; y < y2; y++)
+				setBlockTypeAndColor(x, y, z, material, color);
+		else
+			setBlocks(x, y1, y2, z, material);
 	}
 	
 	public void setBlocksTypeAndColor(int x1, int x2, int y, int z1, int z2, Material material, DyeColor color) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				setBlockTypeAndColor(x, y, z, material, color);
-			}
-		}
-	}
-	
-	public void setBlocksTypeAndColor(int x1, int x2, int y1, int y2, int z1, int z2, Material material, DyeColor color) {
-		for (int x = x1; x < x2; x++) {
-			for (int y = y1; y < y2; y++) {
+		if (isColorable(material))
+			for (int x = x1; x < x2; x++) {
 				for (int z = z1; z < z2; z++) {
 					setBlockTypeAndColor(x, y, z, material, color);
 				}
 			}
-		}
+		else
+			setBlocks(x1, x2, y, z1, z2, material);
+	}
+	
+	public void setBlocksTypeAndColor(int x1, int x2, int y1, int y2, int z1, int z2, Material material, DyeColor color) {
+		if (isColorable(material))
+			for (int x = x1; x < x2; x++) {
+				for (int y = y1; y < y2; y++) {
+					for (int z = z1; z < z2; z++) {
+						setBlockTypeAndColor(x, y, z, material, color);
+					}
+				}
+			}
+		else
+			setBlocks(x1, x2, y1, y2, z1, z2, material);
 	}
 	
 	public void setBlockTypeAndDirection(int x, int y, int z, Material material, BlockFace facing) {
@@ -916,6 +942,8 @@ public abstract class SupportBlocks extends AbstractBlocks {
 //	}
 
 	public final void setChest(CityWorldGenerator generator, int x, int y, int z, BlockFace facing, Odds odds, LootProvider lootProvider, LootLocation lootLocation) {
+		
+		
 		Block block = getActualBlock(x, y, z, new Chest(facing));
 		if (isType(block, Material.CHEST))
 			lootProvider.setLoot(generator, odds, world.getName(), lootLocation, block);

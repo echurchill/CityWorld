@@ -61,6 +61,9 @@ public class SurfaceProvider_Flooded extends SurfaceProvider_Normal {
 	
 	protected void generateFloodedPoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, 
 			CoverProvider foliage, int x, int y, int z, int floodY) {
-		// spawn fish, boats, squids, etc?
+		
+		if (odds.playOdds(vagrantOdds)) {
+			generator.spawnProvider.spawnSeaAnimals(generator, chunk, odds, x, floodY, z);
+		}
 	}
 }

@@ -24,6 +24,8 @@ public abstract class SurfaceProvider extends Provider {
 	protected final static double flowerYellowOdds = Odds.oddsExtremelyUnlikely;
 	protected final static double flowerFernOdds = Odds.oddsSomewhatLikely;
 	
+	protected final static double vagrantOdds = Odds.oddsTremendouslyUnlikely;
+	
 	protected Odds odds;
 	
 	public abstract void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CoverProvider foliage, 

@@ -65,6 +65,8 @@ public class SpawnProvider extends Provider {
 	public EntityList itemsEntities_Animals = createAnimalList(tagEntities_Animals,
 			EntityType.HORSE,
 			EntityType.HORSE,
+			EntityType.DONKEY,
+			EntityType.LLAMA,
 			EntityType.COW,
 			EntityType.COW,
 			EntityType.SHEEP,
@@ -107,8 +109,13 @@ public class SpawnProvider extends Provider {
 			EntityType.WOLF,
 			EntityType.OCELOT,
 			EntityType.OCELOT,
+			EntityType.HORSE,
+			EntityType.DONKEY,
+			EntityType.LLAMA,
 			EntityType.VILLAGER,
 			EntityType.VILLAGER,
+			EntityType.PARROT,
+			EntityType.POLAR_BEAR,
 			EntityType.SPIDER,
 			EntityType.CREEPER);
 	
@@ -276,7 +283,7 @@ public class SpawnProvider extends Provider {
 			spawnVagrant(generator, blocks, odds, x + i, y, z + i, goodies, baddies);
 	}
 	
-	private final void spawnVagrant(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z, EntityType goody, EntityType baddy) {
+	public final void spawnVagrant(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z, EntityType goody, EntityType baddy) {
 		if (odds.playOdds(generator.settings.spawnVagrants))
 			spawnGoodOrBad(generator, blocks, odds, x, y, z, goody, baddy);
 	}

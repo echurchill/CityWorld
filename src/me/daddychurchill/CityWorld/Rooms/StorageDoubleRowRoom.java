@@ -20,35 +20,35 @@ public class StorageDoubleRowRoom extends StorageSingleRowRoom {
 			Facing sideWithWall, Material materialWall, Material materialGlass) {
 		switch (sideWithWall) {
 		case SOUTH:
-			drawNSMaterialShelves(chunk, odds, x, y, z, width, height, depth, depth - 1);
+			drawNSMaterialShelves(generator, chunk, odds, x, y, z, width, height, depth, depth - 1);
 			break;
 		case NORTH:
-			drawNSMaterialShelves(chunk, odds, x, y, z, width, height, depth, 0);
+			drawNSMaterialShelves(generator, chunk, odds, x, y, z, width, height, depth, 0);
 			break;
 		case EAST:
-			drawWEMaterialShelves(chunk, odds, x, y, z, width, height, depth, width - 1);
+			drawWEMaterialShelves(generator, chunk, odds, x, y, z, width, height, depth, width - 1);
 			break;
 		case WEST:
-			drawWEMaterialShelves(chunk, odds, x, y, z, width, height, depth, 0);
+			drawWEMaterialShelves(generator, chunk, odds, x, y, z, width, height, depth, 0);
 			break;
 		}
 	}
 	
-	public void drawNSMaterialShelves(RealBlocks chunk, Odds odds, int x, int y, int z, int width, int height, int depth, int i) {
+	public void drawNSMaterialShelves(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int x, int y, int z, int width, int height, int depth, int i) {
 		int minheight = odds.getRandomInt(height - 1);
 		for (int offset = 0; offset < width; offset += 2) {
 			drawNSEmptyShelve(chunk, x + offset, y, z, 1, depth);
 			for (int run = 0; run < depth; run++)
-				setStorageBlocks(chunk, x + offset, y + 1, y + 1 + Math.max(minheight, odds.getRandomInt(height - 1)), z + run);
+				setStorageBlocks(generator, chunk, odds, x + offset, y + 1, y + 1 + Math.max(minheight, odds.getRandomInt(height - 1)), z + run);
 		}
 	}
 	
-	public void drawWEMaterialShelves(RealBlocks chunk, Odds odds, int x, int y, int z, int width, int height, int depth, int i) {
+	public void drawWEMaterialShelves(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int x, int y, int z, int width, int height, int depth, int i) {
 		int minheight = odds.getRandomInt(height - 1);
 		for (int offset = 0; offset < depth; offset += 2) {
 			drawWEEmptyShelve(chunk, x, y, z + offset, 1, width);
 			for (int run = 0; run < depth; run++)
-				setStorageBlocks(chunk, x + run, y + 1, y + 1 + Math.max(minheight, odds.getRandomInt(height - 1)), z + offset);
+				setStorageBlocks(generator, chunk, odds, x + run, y + 1, y + 1 + Math.max(minheight, odds.getRandomInt(height - 1)), z + offset);
 		}
 	}
 

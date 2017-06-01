@@ -16,8 +16,6 @@ public class SurfaceProvider_SnowDunes extends SurfaceProvider_Flooded {
 		// TODO Auto-generated constructor stub
 	}
 	
-	private final static double snowmanOdds = Odds.oddsNearlyNeverGoingToHappen / 2;
-	
 	@Override
 	protected void generateNormalPoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk,
 			CoverProvider foliage, int x, double perciseY, int z, boolean includeTrees) {
@@ -40,12 +38,12 @@ public class SurfaceProvider_SnowDunes extends SurfaceProvider_Flooded {
 			CoverProvider foliage, int x, int y, int z, int floodY) {
 		
 		// snowman?
-		if (odds.playOdds(snowmanOdds)) {
+		if (odds.playOdds(vagrantOdds)) {
 				
 			// ok create a snowman above the snow
 			int manY = chunk.findFirstEmptyAbove(x, floodY - 1, z, floodY + 6);
 			if (chunk.isType(x, manY - 1, z, Material.SNOW_BLOCK))
-				generator.spawnProvider.spawnBeing(generator, chunk, odds, x, manY + 1, z, EntityType.SNOWMAN, EntityType.SLIME);
+				generator.spawnProvider.spawnVagrant(generator, chunk, odds, x, manY + 1, z, EntityType.SNOWMAN, EntityType.POLAR_BEAR);
 		}			
 	}
 }
