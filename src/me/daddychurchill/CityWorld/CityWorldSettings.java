@@ -65,6 +65,8 @@ public class CityWorldSettings {
 	public boolean broadcastSpecialPlaces = false;
 	
 	public TreeStyle treeStyle = TreeStyle.NORMAL;
+	public double spawnTrees = Odds.oddsAlwaysGoingToHappen;
+//	public double oddsOfFoliage = Odds.oddsAlwaysGoingToHappen;
 	public SubSurfaceStyle subSurfaceStyle = SubSurfaceStyle.LAND;
 
 	public final static int maxRadius = 30000000 / AbstractBlocks.sectionBlockWidth; // 1875000 is the actual maximum chunk limit for today's minecraft world format
@@ -81,7 +83,7 @@ public class CityWorldSettings {
 	public double oddsOfTreasureInSewers = Odds.oddsLikely;
 	public double oddsOfTreasureInBunkers = Odds.oddsLikely;
 	public double oddsOfTreasureInMines = Odds.oddsLikely;
-	public double oddsOfTreasureInBuildings = Odds.oddsAlwaysGoingToHappen;//Odds.oddsLikely;
+	public double oddsOfTreasureInBuildings = Odds.oddsLikely;
 	public double oddsOfAlcoveInMines = Odds.oddsVeryLikely;
 	
 	public final static String tagIncludeRoads = "IncludeRoads";
@@ -133,6 +135,8 @@ public class CityWorldSettings {
 	public final static String tagBroadcastSpecialPlaces = "BroadcastSpecialPlaces";
 	
 	public final static String tagTreeStyle = "TreeStyle";
+	public final static String tagSpawnTrees = "SpawnTrees";
+//	public final static String tagOddsOfFoliage = "OddsOfFoliage";
 	public final static String tagSubSurfaceStyle = "SubSurfaceStyle";
 	
 	public final static String tagCenterPointOfChunkRadiusX = "CenterPointOfChunkRadiusX";
@@ -141,6 +145,12 @@ public class CityWorldSettings {
 	public final static String tagRoadChunkRadius = "RoadChunkRadius";
 	public final static String tagCityChunkRadius = "CityChunkRadius";
 	public final static String tagBuildOutsideRadius = "BuildOutsideRadius";
+	
+//	public final static String tagOddsOfTreasureInSewers = "OddsOfTreasureInSewers";
+//	public final static String tagOddsOfTreasureInBunkers = "OddsOfTreasureInBunkers";
+//	public final static String tagOddsOfTreasureInMines = "OddsOfTreasureInMines";
+//	public final static String tagOddsOfTreasureInBuildings = "OddsOfTreasureInBuildings";
+//	public final static String tagOddsOfAlcovesInMines = "OddsOfAlcovesInMines";
 	
 	public CityWorldSettings(CityWorldGenerator generator) {
 		super();
@@ -267,6 +277,8 @@ public class CityWorldSettings {
 			section.addDefault(tagBroadcastSpecialPlaces, broadcastSpecialPlaces);
 
 			section.addDefault(tagTreeStyle, TreeStyle.NORMAL.name());
+			section.addDefault(tagSpawnTrees, spawnTrees);
+//			section.addDefault(tagOddsOfFoliage, oddsOfFoliage);
 			section.addDefault(tagSubSurfaceStyle, SubSurfaceStyle.LAND.name());
 			
 			section.addDefault(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);
@@ -330,6 +342,8 @@ public class CityWorldSettings {
 			broadcastSpecialPlaces = section.getBoolean(tagBroadcastSpecialPlaces, broadcastSpecialPlaces);
 			
 			treeStyle = TreeProvider.toTreeStyle(section.getString(tagTreeStyle, treeStyle.name()), treeStyle);
+			spawnTrees = limitTo(section.getDouble(tagSpawnTrees, spawnTrees), 0.0, 1.0);
+//			oddsOfFoliage = limitTo(section.getDouble(tagOddsOfFoliage, oddsOfFoliage), 0.0, 1.0);
 			
 			if (section.contains(tagSubSurfaceStyle)) { // are we using the next property yet?
 				subSurfaceStyle = SurfaceProvider_Floating.toSubSurfaceStyle(section.getString(tagSubSurfaceStyle, subSurfaceStyle.name()), subSurfaceStyle);
@@ -448,6 +462,8 @@ public class CityWorldSettings {
 			section.set(tagBroadcastSpecialPlaces, broadcastSpecialPlaces);
 			
 			section.set(tagTreeStyle, treeStyle.name());
+			section.set(tagSpawnTrees, spawnTrees);
+//			section.set(tagOddsOfFoliage, oddsOfFoliage);
 			section.set(tagSubSurfaceStyle, subSurfaceStyle.name());
 
 			section.set(tagCenterPointOfChunkRadiusX, centerPointOfChunkRadiusX);

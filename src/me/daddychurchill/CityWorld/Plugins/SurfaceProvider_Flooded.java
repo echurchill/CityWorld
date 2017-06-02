@@ -1,10 +1,10 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import org.bukkit.TreeType;
 import org.bukkit.util.noise.NoiseGenerator;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
@@ -51,11 +51,11 @@ public class SurfaceProvider_Flooded extends SurfaceProvider_Normal {
 		// trees? 
 		if (includeTrees && primary < treeOdds && inTreeRange(x, z)) {
 			if (secondary < treeAltTallOdds)
-				generator.treeProvider.generateNormalTrunk(generator, chunk, x, y + 1, z, TreeType.DARK_OAK);
+				generator.coverProvider.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.OAK_TRUNK);
 			else if (secondary < treeAltOdds)
-				generator.treeProvider.generateNormalTrunk(generator, chunk, x, y + 1, z, TreeType.BIRCH);
+				generator.coverProvider.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.BIRCH_TRUNK);
 			else 
-				generator.treeProvider.generateNormalTrunk(generator, chunk, x, y + 1, z, TreeType.TREE);
+				generator.coverProvider.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.PINE_TRUNK);
 		}
 	}
 	
