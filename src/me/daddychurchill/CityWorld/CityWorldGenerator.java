@@ -114,11 +114,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 	
 	public String minecraftVersionRaw;
 	public double minecraftVersion;
-	private final static double minVersion = calcVersion(1, 12, 0); // 1.12.0 Minecraft or better
-	
-	private static double calcVersion(double major, double minor, double micro) {
-		return major + minor / 100 + micro / 1000;
-	}
+	private final static double minVersion = 1.12; // 1.12.0 Minecraft or better
 	
 	private double parseVersionPart(int index, String[] parts, boolean normalize) {
 		double result = 0.0;
@@ -148,11 +144,12 @@ public class CityWorldGenerator extends ChunkGenerator {
 				
 				double major = parseVersionPart(0, parts, false);
 				double minor = parseVersionPart(1, parts, true);
-				double micro = parseVersionPart(2, parts, true);
+//				double micro = parseVersionPart(2, parts, true);
 
-				minecraftVersion = calcVersion(major, minor, micro);
-				reportMessage("MMM = " + major + ", " + minor + ", " + micro);
-				reportMessage("minecraftVersion = " + String.format("%.3f", minecraftVersion));
+				minecraftVersion = major + minor;
+//				minecraftVersion = calcVersion(major, minor, micro);
+//				reportMessage("MMM = " + major + ", " + minor + ", " + micro);
+//				reportMessage("minecraftVersion = " + String.format("%.3f", minecraftVersion));
 			}
 		} catch (NumberFormatException e) {
 			minecraftVersion = 0.0;

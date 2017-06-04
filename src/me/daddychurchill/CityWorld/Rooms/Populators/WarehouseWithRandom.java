@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Rooms.StorageDoubleRowRoom;
 import me.daddychurchill.CityWorld.Rooms.StorageDoubleShelvesRoom;
+import me.daddychurchill.CityWorld.Rooms.StorageEmptyChestsRoom;
 import me.daddychurchill.CityWorld.Rooms.StorageFilledChestsRoom;
 
 public class WarehouseWithRandom extends RoomProvider {
@@ -17,8 +18,6 @@ public class WarehouseWithRandom extends RoomProvider {
 		roomTypes.add(new StorageDoubleRowRoom(Material.PISTON_BASE));
 		roomTypes.add(new StorageDoubleRowRoom(Material.WORKBENCH));
 		roomTypes.add(new StorageFilledChestsRoom());
-		// shelves (some with chests)
-		// tables
-		// workbench
+		roomTypes.add(new StorageEmptyChestsRoom());
 	}
 }

@@ -15,7 +15,8 @@ public class LootProvider_Normal extends LootProvider {
 		Inventory inv = chest.getInventory();
 		inv.clear();
 		ItemStack[] items = getLoot(generator, odds, lootLocation, block);
-		inv.addItem(items);
+		if (items != null)
+			inv.addItem(items);
 		chest.update(true);
 	}
 	
@@ -28,6 +29,8 @@ public class LootProvider_Normal extends LootProvider {
 		
 		// which mix?
 		switch (lootLocation) {
+		case EMPTY:
+			return null;
 		case BUNKER:
 			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_BunkerChests, odds, 3, 2);
 		case MINE:

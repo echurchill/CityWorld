@@ -5,6 +5,7 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Rooms.Populators.WarehouseWithBooks;
 import me.daddychurchill.CityWorld.Rooms.Populators.WarehouseWithBoxes;
+import me.daddychurchill.CityWorld.Rooms.Populators.WarehouseWithChests;
 import me.daddychurchill.CityWorld.Rooms.Populators.WarehouseWithNothing;
 import me.daddychurchill.CityWorld.Rooms.Populators.WarehouseWithRandom;
 import me.daddychurchill.CityWorld.Rooms.Populators.WarehouseWithStacks;
@@ -17,10 +18,10 @@ public class WarehouseBuildingLot extends IndustrialBuildingLot {
 	private static RoomProvider contentsBooks = new WarehouseWithBooks();
 	private static RoomProvider contentsBoxes = new WarehouseWithBoxes();
 	private static RoomProvider contentsEmpty = new WarehouseWithNothing();
-//	private static RoomProvider contentsChests = new WarehouseWithChests();
+	private static RoomProvider contentsChests = new WarehouseWithChests();
 	private static RoomProvider contentsStacks = new WarehouseWithStacks();
 	
-	public enum ContentStyle {RANDOM, BOOKS, BOXES, EMPTY, STACKS}; // CHESTS
+	public enum ContentStyle {RANDOM, BOOKS, BOXES, EMPTY, STACKS, CHESTS};
 	private ContentStyle contentStyle;
 
 	public WarehouseBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
@@ -58,16 +59,19 @@ public class WarehouseBuildingLot extends IndustrialBuildingLot {
 	@Override
 	public RoomProvider roomProviderForFloor(CityWorldGenerator generator, SupportBlocks chunk, int floor, int floorY) {
 		switch (contentStyle) {
-		case BOOKS:
-			return contentsBooks;
-		case BOXES:
-			return contentsBoxes;
-		case STACKS:
-			return contentsStacks;
-		case RANDOM:
-			return contentsRandom;
 		default:
-			return contentsEmpty;
+//		case RANDOM:
+//			return contentsRandom;
+//		case BOOKS:
+//			return contentsBooks;
+//		case BOXES:
+//			return contentsBoxes;
+//		case EMPTY:
+//			return contentsEmpty;
+//		case STACKS:
+//			return contentsStacks;
+		case CHESTS:
+			return contentsChests;
 		}
 	}
 	

@@ -10,6 +10,8 @@ public class WarehouseWithChests extends RoomProvider {
 		super();
 
 		roomTypes.add(new StorageFilledChestsRoom());
+		roomTypes.add(new StorageFilledChestsRoom());
+		roomTypes.add(new StorageFilledChestsRoom());
 		roomTypes.add(new StorageEmptyChestsRoom());
 	}
 
