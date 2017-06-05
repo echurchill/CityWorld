@@ -60,16 +60,16 @@ public class WarehouseBuildingLot extends IndustrialBuildingLot {
 	public RoomProvider roomProviderForFloor(CityWorldGenerator generator, SupportBlocks chunk, int floor, int floorY) {
 		switch (contentStyle) {
 		default:
-//		case RANDOM:
-//			return contentsRandom;
-//		case BOOKS:
-//			return contentsBooks;
-//		case BOXES:
-//			return contentsBoxes;
-//		case EMPTY:
-//			return contentsEmpty;
-//		case STACKS:
-//			return contentsStacks;
+		case RANDOM:
+			return contentsRandom;
+		case BOOKS:
+			return contentsBooks;
+		case BOXES:
+			return contentsBoxes;
+		case EMPTY:
+			return contentsEmpty;
+		case STACKS:
+			return contentsStacks;
 		case CHESTS:
 			return contentsChests;
 		}

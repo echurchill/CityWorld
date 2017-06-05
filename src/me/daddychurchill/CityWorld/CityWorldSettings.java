@@ -65,7 +65,7 @@ public class CityWorldSettings {
 	public boolean broadcastSpecialPlaces = false;
 	
 	public TreeStyle treeStyle = TreeStyle.NORMAL;
-	public double spawnTrees = Odds.oddsAlwaysGoingToHappen;
+	public double spawnTrees = Odds.oddsLikely;
 //	public double oddsOfFoliage = Odds.oddsAlwaysGoingToHappen;
 	public SubSurfaceStyle subSurfaceStyle = SubSurfaceStyle.LAND;
 

@@ -36,7 +36,7 @@ public abstract class SurfaceProvider extends Provider {
 	}
 	
 	protected boolean inTreeRange(int x, int z) {
-		return x > 4 && x < 15 && z > 4 && z < 15;// && x % 2 == 0 && z % 2 != 0;
+		return x > 2 && x < 15 && z > 2 && z < 15;// && x % 2 == 0 && z % 2 != 0;
 	}
 	
 	protected boolean inBigTreeRange(int x, int z) {
