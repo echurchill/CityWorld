@@ -1,14 +1,14 @@
 UNDO before being done
 
 Attempt Polar_Bears // should work
-Attempt Chests in warehouses
+Attempt Chests in warehouses // should work
 Attempt Husks
-Verify Version
+Verify Version // should work
 Fixtures on roofs
 Attempt Glaciers and Lava
 Attempt Concrete and Concrete_Powder
 Attempt Colored Concrete and Concrete_Powder
 Attempt Central Park Zoo
-Make Tree (and folage) generation odds based and configurable
+Make Tree (and folage) generation odds based and configurable // should work
 And some more stuff
 Another one

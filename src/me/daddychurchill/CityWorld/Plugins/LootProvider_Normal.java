@@ -40,7 +40,7 @@ public class LootProvider_Normal extends LootProvider {
 		case BUILDING:
 			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_BuildingChests, odds, 5, 3);
 		case WAREHOUSE:
-			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_WarehouseChests, odds, 5, 3);
+			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_WarehouseChests, odds, 1, 32);
 		case FOOD:
 			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_FoodChests, odds, 5, 3);
 		case STORAGESHED:
