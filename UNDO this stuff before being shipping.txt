@@ -9,6 +9,7 @@ Attempt Glaciers and Lava
 Attempt Concrete and Concrete_Powder
 Attempt Colored Concrete and Concrete_Powder
 Attempt Central Park Zoo
+Add Bats to the Mines and Sewers
 Make Tree (and folage) generation odds based and configurable // should work
 And some more stuff
 Another one
