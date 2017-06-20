@@ -98,17 +98,17 @@ public class CityWorldGenerator extends ChunkGenerator {
 		NORMAL};   		// traditional terrain and cities
 	
 	public static WorldStyle validateStyle(WorldStyle style) {
-//		switch (style) {
-//		case FLOATING:
-////		case MAZE:
-////		case ASTRAL:
-////		case FLOODED:
-////		case SANDDUNES:
-////		case SNOWDUNES:
-//			CityWorld.log.info("[Generator] " + style + " worlds unavailable due to performance issues, switching to NORMAL");
-//			return WorldStyle.NORMAL;
-//		default:
-//		}
+		switch (style) {
+		case FLOATING:
+//		case MAZE:
+//		case ASTRAL:
+//		case FLOODED:
+//		case SANDDUNES:
+//		case SNOWDUNES:
+			CityWorld.log.info("[Generator] " + style + " worlds unavailable due to performance issues, switching to NORMAL");
+			return WorldStyle.NORMAL;
+		default:
+		}
 		return style;
 	}
 	

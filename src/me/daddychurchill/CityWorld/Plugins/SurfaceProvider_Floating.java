@@ -32,11 +32,20 @@ public class SurfaceProvider_Floating extends SurfaceProvider {
 		if (generator.settings.subSurfaceStyle == SubSurfaceStyle.LAND) {
 			ShapeProvider shape = generator.shapeProvider;
 			CoverProvider foliage = generator.coverProvider;
-			for (int x = 0; x < chunk.width; x++) {
-				for (int z = 0; z < chunk.width; z++) {
-					generateSurfacePoint(generator, lot, chunk, foliage, x, shape.findGroundY(generator, chunk.getBlockX(x), chunk.getBlockZ(z)), z, includeTrees);
+			int iX = odds.calcRandomRange(1, 3);
+			int iZ = odds.calcRandomRange(1, 3);
+			int n = 0;
+			for (int x = 0; x < chunk.width; x = x + iX) {
+				for (int z = 0; z < chunk.width; z = x + iZ) {
+					int y = shape.findGroundY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
+					if (chunk.isEmpty(x, y, z) && !chunk.isEmpty(x, y - 1, z)) {
+						generateSurfacePoint(generator, lot, chunk, foliage, x, y, z, includeTrees);
+					} else
+						n++;
 				}
 			}
+			if (n > 0)
+				generator.reportMessage("Found " + n + " place we can't build");
 		}
 	}
 

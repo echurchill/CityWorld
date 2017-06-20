@@ -122,8 +122,12 @@ public class SpawnProvider extends Provider {
 	public final static String tagEntities_Sewers = "Entities_For_Sewers";
 	public EntityList itemsEntities_Sewers = createList(tagEntities_Sewers,
 			EntityType.ZOMBIE,
+			EntityType.ZOMBIE,
 			EntityType.CREEPER,
 			EntityType.SPIDER,
+			EntityType.BAT,
+			EntityType.BAT,
+			EntityType.BAT,
 			EntityType.BAT);
 	
 	public final static String tagEntities_Mine = "Entities_For_Mine";
@@ -146,7 +150,9 @@ public class SpawnProvider extends Provider {
 	public EntityList itemsEntities_Bunker = createList(tagEntities_Bunker,
 			EntityType.PIG_ZOMBIE,
 			EntityType.ENDERMAN,
-			EntityType.SLIME,
+			EntityType.BAT,
+			EntityType.BAT,
+			EntityType.BAT,
 			EntityType.BLAZE);
 	
 	public final static String tagEntities_WaterPit = "Entities_For_WaterPit";
