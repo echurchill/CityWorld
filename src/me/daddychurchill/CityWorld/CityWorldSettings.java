@@ -60,6 +60,7 @@ public class CityWorldSettings {
 	public boolean includeBuildingInteriors = true;
 //	public boolean includeFloatingSubsurface = false; // not needed anymore
 //	public boolean includeFloatingSubclouds = true;
+//	public double spawnCities = Odds.oddsAlwaysGoingToHappen;
 	
 	public boolean forceLoadWorldEdit = false;
 	public boolean broadcastSpecialPlaces = false;

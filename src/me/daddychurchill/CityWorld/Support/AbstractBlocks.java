@@ -64,7 +64,7 @@ public abstract class AbstractBlocks {
 //	public abstract void setStair(int x, int y, int z, Material material, BadMagic.Stair direction);
 //	public abstract void setBlockTypeAndColor(int x, int y, int z, Material material, DyeColor color);
 	
-	public void setWalls(int x1, int x2, int y, int z1, int z2, Material material) {
+	public final void setWalls(int x1, int x2, int y, int z1, int z2, Material material) {
 		setWalls(x1, x2, y, y + 1, z1, z2, material);
 	}
 	
@@ -109,11 +109,11 @@ public abstract class AbstractBlocks {
 		}
 	}
 	
-	public void setCircle(int cx, int cz, int r, int y, Material material, boolean fill) {
+	public final void setCircle(int cx, int cz, int r, int y, Material material, boolean fill) {
 		setCircle(cx, cz, r, y, y + 1, material, fill);
 	}
 	
-	public void setCircle(int cx, int cz, int r, int y1, int y2, Material material, boolean fill) {
+	public final void setCircle(int cx, int cz, int r, int y1, int y2, Material material, boolean fill) {
 		// Ref: Notes/BCircle.PDF
 		int x = r;
 		int z = 0;
@@ -202,12 +202,12 @@ public abstract class AbstractBlocks {
 		return y1;
 	}
 	
-	public void setBlocksUpward(int x, int y1, int z, int maxY, Material material) {
+	public final void setBlocksUpward(int x, int y1, int z, int maxY, Material material) {
 		int y2 = findLastEmptyAbove(x, y1, z, maxY);
 		setBlocks(x, y1, y2 + 1, z, material);
 	}
 	
-	public void setBlocksDownward(int x, int y2, int z, int minY, Material material) {
+	public final void setBlocksDownward(int x, int y2, int z, int minY, Material material) {
 		int y1 = findLastEmptyBelow(x, y2, z, minY);
 		setBlocks(x, y1, y2, z, material);
 	}
@@ -224,38 +224,38 @@ public abstract class AbstractBlocks {
 		}
 	}
 
-	public void clearBlocks(int x, int y1, int y2, int z) {
+	public final void clearBlocks(int x, int y1, int y2, int z) {
 		for (int y = y1; y < y2; y++)
 			clearBlock(x, y, z);
 	}
 
-	public void clearBlocks(int x1, int x2, int y, int z1, int z2) {
+	public final void clearBlocks(int x1, int x2, int y, int z1, int z2) {
 		for (int x = x1; x < x2; x++)
 			for (int z = z1; z < z2; z++)
 				clearBlock(x, y, z);
 	}
 	
-	public void clearBlocks(int x1, int x2, int y1, int y2, int z1, int z2) {
+	public final void clearBlocks(int x1, int x2, int y1, int y2, int z1, int z2) {
 		for (int x = x1; x < x2; x++)
 			for (int z = z1; z < z2; z++)
 				for (int y = y1; y < y2; y++)
 					clearBlock(x, y, z);
 	}
 	
-	public void clearBlocks(int x, int y1, int y2, int z, Odds odds) {
+	public final void clearBlocks(int x, int y1, int y2, int z, Odds odds) {
 		for (int y = y1; y < y2; y++)
 			if (odds.flipCoin())
 				clearBlock(x, y, z);
 	}
 
-	public void clearBlocks(int x1, int x2, int y, int z1, int z2, Odds odds) {
+	public final void clearBlocks(int x1, int x2, int y, int z1, int z2, Odds odds) {
 		for (int x = x1; x < x2; x++)
 			for (int z = z1; z < z2; z++)
 				if (odds.flipCoin())
 					clearBlock(x, y, z);
 	}
 	
-	public void clearBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds) {
+	public final void clearBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds) {
 		for (int x = x1; x < x2; x++)
 			for (int z = z1; z < z2; z++)
 				for (int y = y1; y < y2; y++)
@@ -309,56 +309,56 @@ public abstract class AbstractBlocks {
 			}
 	}
 	
-	public void airoutLayer(CityWorldGenerator generator, int blocky) {
+	public final void airoutLayer(CityWorldGenerator generator, int blocky) {
 		airoutBlocks(generator, 0, 16, blocky, 0, 16, false);
 	}
 	
-	public void airoutLayer(CityWorldGenerator generator, int blocky, boolean forceIt) {
+	public final void airoutLayer(CityWorldGenerator generator, int blocky, boolean forceIt) {
 		airoutBlocks(generator, 0, 16, blocky, 0, 16, forceIt);
 	}
 	
-	public void airoutLayer(CityWorldGenerator generator, int blocky, int height) {
+	public final void airoutLayer(CityWorldGenerator generator, int blocky, int height) {
 		airoutBlocks(generator, 0, 16, blocky, blocky + height, 0, 16, false);
 	}
 	
-	public void airoutLayer(CityWorldGenerator generator, int blocky, int height, boolean forceIt) {
+	public final void airoutLayer(CityWorldGenerator generator, int blocky, int height, boolean forceIt) {
 		airoutBlocks(generator, 0, 16, blocky, blocky + height, 0, 16, forceIt);
 	}
 	
-	public void airoutLayer(CityWorldGenerator generator, int blocky, int height, int inset) {
+	public final void airoutLayer(CityWorldGenerator generator, int blocky, int height, int inset) {
 		airoutBlocks(generator, inset, 16 - inset, blocky, blocky + height, inset, 16 - inset, false);
 	}
 
-	public void airoutLayer(CityWorldGenerator generator, int blocky, int height, int inset, boolean forceIt) {
+	public final void airoutLayer(CityWorldGenerator generator, int blocky, int height, int inset, boolean forceIt) {
 		airoutBlocks(generator, inset, 16 - inset, blocky, blocky + height, inset, 16 - inset, forceIt);
 	}
 
-	public void pepperBlocks(int x, int y1, int y2, int z, Odds odds, Material material) {
+	public final void pepperBlocks(int x, int y1, int y2, int z, Odds odds, Material material) {
 		pepperBlocks(x, y1, y2, z, odds, Odds.oddsLikely, material);
 	}
 
-	public void pepperBlocks(int x1, int x2, int y, int z1, int z2, Odds odds, Material material) {
+	public final void pepperBlocks(int x1, int x2, int y, int z1, int z2, Odds odds, Material material) {
 		pepperBlocks(x1, x2, y, z1, z2, odds, Odds.oddsLikely, material);
 	}
 	
-	public void pepperBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds, Material material) {
+	public final void pepperBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds, Material material) {
 		pepperBlocks(x1, x2, y1, y2, z1, z2, odds, Odds.oddsLikely, material);
 	}
 	
-	public void pepperBlocks(int x, int y1, int y2, int z, Odds odds, double theOdds, Material material) {
+	public final void pepperBlocks(int x, int y1, int y2, int z, Odds odds, double theOdds, Material material) {
 		for (int y = y1; y < y2; y++)
 			if (odds.playOdds(theOdds))
 				setBlock(x, y, z, material);
 	}
 
-	public void pepperBlocks(int x1, int x2, int y, int z1, int z2, Odds odds, double theOdds, Material material) {
+	public final void pepperBlocks(int x1, int x2, int y, int z1, int z2, Odds odds, double theOdds, Material material) {
 		for (int x = x1; x < x2; x++)
 			for (int z = z1; z < z2; z++)
 				if (odds.playOdds(theOdds))
 					setBlock(x, y, z, material);
 	}
 	
-	public void pepperBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds, double theOdds, Material material) {
+	public final void pepperBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds, double theOdds, Material material) {
 		for (int x = x1; x < x2; x++)
 			for (int z = z1; z < z2; z++)
 				for (int y = y1; y < y2; y++)
@@ -366,7 +366,7 @@ public abstract class AbstractBlocks {
 						setBlock(x, y, z, material);
 	}
 	
-	public void pepperBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds, double bottomOdds,
+	public final void pepperBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds, double bottomOdds,
 			double topOdds, Material material) {
 		if (bottomOdds == topOdds)
 			pepperBlocks(x1, x2, y1, y2, z1, z2, odds, bottomOdds, material);
@@ -394,39 +394,39 @@ public abstract class AbstractBlocks {
 		}
 	}
 
-	public void setArcNorthWest(int inset, int y1, int y2, Material primary, boolean fill) {
+	public final void setArcNorthWest(int inset, int y1, int y2, Material primary, boolean fill) {
 		setArcNorthWest(inset, y1, y2, primary, primary, null, fill);
 	}
 
-	public void setArcSouthWest(int inset, int y1, int y2, Material primary, boolean fill) {
+	public final void setArcSouthWest(int inset, int y1, int y2, Material primary, boolean fill) {
 		setArcSouthWest(inset, y1, y2, primary, primary, null, fill);
 	}
 
-	public void setArcNorthEast(int inset, int y1, int y2, Material primary, boolean fill) {
+	public final void setArcNorthEast(int inset, int y1, int y2, Material primary, boolean fill) {
 		setArcNorthEast(inset, y1, y2, primary, primary, null, fill);
 	}
 	
-	public void setArcSouthEast(int inset, int y1, int y2, Material primary, boolean fill) {
+	public final void setArcSouthEast(int inset, int y1, int y2, Material primary, boolean fill) {
 		setArcSouthEast(inset, y1, y2, primary, primary, null, fill);
 	}
 
-	public void setArcNorthWest(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker) {
+	public final void setArcNorthWest(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker) {
 		setArcNorthWest(inset, y1, y2, primary, secondary, maker, false);
 	}
 	
-	public void setArcSouthWest(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker) {
+	public final void setArcSouthWest(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker) {
 		setArcSouthWest(inset, y1, y2, primary, secondary, maker, false);
 	}
 	
-	public void setArcNorthEast(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker) {
+	public final void setArcNorthEast(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker) {
 		setArcNorthEast(inset, y1, y2, primary, secondary, maker, false);
 	}
 	
-	public void setArcSouthEast(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker) {
+	public final void setArcSouthEast(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker) {
 		setArcSouthEast(inset, y1, y2, primary, secondary, maker, false);
 	}
 	
-	public void setArcNorthWest(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean fill) {
+	public final void setArcNorthWest(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean fill) {
 		// Ref: Notes/BCircle.PDF
 		int cx = inset;
 		int cz = inset;
@@ -462,7 +462,7 @@ public abstract class AbstractBlocks {
 		}
 	}
 	
-	public void setArcSouthWest(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean fill) {
+	public final void setArcSouthWest(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean fill) {
 		// Ref: Notes/BCircle.PDF
 		int cx = inset;
 		int cz = width - inset;
@@ -498,7 +498,7 @@ public abstract class AbstractBlocks {
 		}
 	}
 	
-	public void setArcNorthEast(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean fill) {
+	public final void setArcNorthEast(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean fill) {
 		// Ref: Notes/BCircle.PDF
 		int cx = width - inset;
 		int cz = inset;
@@ -534,7 +534,7 @@ public abstract class AbstractBlocks {
 		}
 	}
 	
-	public void setArcSouthEast(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean fill) {
+	public final void setArcSouthEast(int inset, int y1, int y2, Material primary, Material secondary, MaterialFactory maker, boolean fill) {
 		// Ref: Notes/BCircle.PDF
 		int cx = width - inset;
 		int cz = width - inset;
