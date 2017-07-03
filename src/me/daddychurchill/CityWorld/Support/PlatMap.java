@@ -51,8 +51,8 @@ public class PlatMap {
 		}
 	}
 	
-	public float getNaturePercent() {
-		return naturalPlats / (Width * Width);
+	public double getNaturePercent() {
+		return naturalPlats / (Width * Width) + generator.settings.ruralnessLevel;
 	}
 	
 	public Odds getOddsGenerator() {

@@ -166,7 +166,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 //	public DataContext internalGetContext(PlatMap platmap) {
 	
 		// how natural is this platmap?
-		float nature = platmap.getNaturePercent();
+		double nature = platmap.getNaturePercent();
 		if (nature == 0.0) {
 			if (platmap.getOddsGenerator().playOdds(oddsOfCentralPark))
 				return parkContext;
@@ -190,7 +190,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 			return neighborhoodContext;
 		else if (nature < 0.70 && platmap.generator.settings.includeFarms) // 10
 			return farmContext;
-		else if (nature < 0.80)				// 20
+		else if (nature < 0.75)				// 5
 			return outlandContext;
 
 		

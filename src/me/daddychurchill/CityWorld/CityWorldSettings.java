@@ -6,7 +6,6 @@ import me.daddychurchill.CityWorld.Plugins.TreeProvider;
 import me.daddychurchill.CityWorld.Plugins.TreeProvider.TreeStyle;
 import me.daddychurchill.CityWorld.Support.AbstractBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
-
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.util.Vector;
@@ -74,12 +73,16 @@ public class CityWorldSettings {
 	public int centerPointOfChunkRadiusX = 0;
 	public int centerPointOfChunkRadiusZ = 0;
 	public int constructChunkRadius = maxRadius;
-	public boolean checkConstructRange = false;
+	private boolean checkConstructRange = false;
 	public int roadChunkRadius = maxRadius;
-	public boolean checkRoadRange = false;
+	private boolean checkRoadRange = false;
 	public int cityChunkRadius = maxRadius;
-	public boolean checkCityRange = false;
-	public boolean buildOutsideRadius = false;
+	private boolean checkCityRange = false;
+	private boolean buildOutsideRadius = false;
+	
+	public int minInbetweenChunkDistanceOfCities = 0;
+	private boolean checkMinInbetweenChunkDistanceOfCities = false;
+	public double ruralnessLevel = 0.0;
 	
 	public double oddsOfTreasureInSewers = Odds.oddsLikely;
 	public double oddsOfTreasureInBunkers = Odds.oddsLikely;
@@ -146,6 +149,9 @@ public class CityWorldSettings {
 	public final static String tagRoadChunkRadius = "RoadChunkRadius";
 	public final static String tagCityChunkRadius = "CityChunkRadius";
 	public final static String tagBuildOutsideRadius = "BuildOutsideRadius";
+	
+	public final static String tagMinInbetweenChunkDistanceOfCities = "MinInbetweenChunkDistanceOfCities";
+	public final static String tagRuralnessLevel = "RuralnessLevel";
 	
 //	public final static String tagOddsOfTreasureInSewers = "OddsOfTreasureInSewers";
 //	public final static String tagOddsOfTreasureInBunkers = "OddsOfTreasureInBunkers";
@@ -288,7 +294,10 @@ public class CityWorldSettings {
 			section.addDefault(tagRoadChunkRadius, roadChunkRadius);
 			section.addDefault(tagCityChunkRadius, cityChunkRadius);
 			section.addDefault(tagBuildOutsideRadius, buildOutsideRadius);
-			
+
+			section.addDefault(tagMinInbetweenChunkDistanceOfCities, minInbetweenChunkDistanceOfCities);
+			section.addDefault(tagRuralnessLevel, ruralnessLevel);
+
 			//===========================================================================
 			// now read the bits
 			includeRoads = section.getBoolean(tagIncludeRoads, includeRoads);
@@ -362,6 +371,9 @@ public class CityWorldSettings {
 			cityChunkRadius = limitTo(section.getInt(tagCityChunkRadius, cityChunkRadius), 0, maxRadius);
 			buildOutsideRadius = section.getBoolean(tagBuildOutsideRadius, buildOutsideRadius);
 			
+			minInbetweenChunkDistanceOfCities = limitTo(section.getInt(tagMinInbetweenChunkDistanceOfCities, minInbetweenChunkDistanceOfCities), 0, maxRadius);
+			ruralnessLevel = limitTo(section.getDouble(tagRuralnessLevel, ruralnessLevel), 0.0, 1.0);
+			
 			// validate the range values
 			if (buildOutsideRadius) {
 				constructChunkRadius = Math.max(0, constructChunkRadius);
@@ -408,6 +420,7 @@ public class CityWorldSettings {
 					includeFarms = false;
 				}
 			}
+			checkMinInbetweenChunkDistanceOfCities = minInbetweenChunkDistanceOfCities > 0;
 
 			//===========================================================================
 			// validate settings against world style settings
@@ -473,6 +486,9 @@ public class CityWorldSettings {
 			section.set(tagRoadChunkRadius, roadChunkRadius);
 			section.set(tagCityChunkRadius, cityChunkRadius);
 			section.set(tagBuildOutsideRadius, buildOutsideRadius);
+			
+			section.set(tagMinInbetweenChunkDistanceOfCities, minInbetweenChunkDistanceOfCities);
+			section.set(tagRuralnessLevel, ruralnessLevel);
 			
 			generator.materialProvider.write(generator, section);
 			generator.spawnProvider.write(generator, section);
@@ -686,31 +702,51 @@ public class CityWorldSettings {
 	}
 	
 	private Vector centerPointOfChunkRadius;
+	private Vector getCenterPoint(int x, int z) {
+		if (checkMinInbetweenChunkDistanceOfCities)
+			return new Vector(calcOrigin(x, centerPointOfChunkRadiusX), 0, calcOrigin(z, centerPointOfChunkRadiusZ));
+		else
+			return centerPointOfChunkRadius;
+	}
+	
+	// Supporting code used by getPlatMap
+	private int calcOrigin(int i, int offset) {
+		i = i - offset;
+		if (i >= 0) {
+			i = i / minInbetweenChunkDistanceOfCities * minInbetweenChunkDistanceOfCities;
+		} else {
+			i = -((Math.abs(i + 1) / minInbetweenChunkDistanceOfCities * minInbetweenChunkDistanceOfCities) + minInbetweenChunkDistanceOfCities);
+		}
+		return i + offset;
+	}
 	
 	public boolean inConstructRange(int x, int z) {
 		if (checkConstructRange) {
+			Vector centerPoint = getCenterPoint(x, z);
 			if (buildOutsideRadius)
-				return centerPointOfChunkRadius.distance(new Vector(x, 0, z)) > constructChunkRadius;
+				return centerPoint.distance(new Vector(x, 0, z)) > constructChunkRadius;
 			else
-				return centerPointOfChunkRadius.distance(new Vector(x, 0, z)) <= constructChunkRadius;
+				return centerPoint.distance(new Vector(x, 0, z)) <= constructChunkRadius;
 		} return true;
 	}
 	
 	public boolean inRoadRange(int x, int z) {
 		if (checkRoadRange) {
+			Vector centerPoint = getCenterPoint(x, z);
 			if (buildOutsideRadius)
-				return centerPointOfChunkRadius.distance(new Vector(x, 0, z)) > roadChunkRadius;
+				return centerPoint.distance(new Vector(x, 0, z)) > roadChunkRadius;
 			else
-				return centerPointOfChunkRadius.distance(new Vector(x, 0, z)) <= roadChunkRadius;
+				return centerPoint.distance(new Vector(x, 0, z)) <= roadChunkRadius;
 		} return true;
 	}
 	
 	public boolean inCityRange(int x, int z) {
 		if (checkCityRange) {
+			Vector centerPoint = getCenterPoint(x, z);
 			if (buildOutsideRadius)
-				return centerPointOfChunkRadius.distance(new Vector(x, 0, z)) > cityChunkRadius;
+				return centerPoint.distance(new Vector(x, 0, z)) > cityChunkRadius;
 			else
-				return centerPointOfChunkRadius.distance(new Vector(x, 0, z)) <= cityChunkRadius;
+				return centerPoint.distance(new Vector(x, 0, z)) <= cityChunkRadius;
 		} return true;
 	}
 }

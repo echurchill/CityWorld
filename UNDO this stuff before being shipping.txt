@@ -5,7 +5,7 @@ Attempt Chests in warehouses // should work
 Verify Version // should work
 Add Bats to the Mines and Sewers // should work
 Make Tree generation odds based and configurable // should work
-Make non-tree foliage generation odds based and configurable // should work
+Make non-tree foliage generation odds based and configurable // might work
 Make city generation odds based and configurable
 Attempt Husks
 Fixtures on roofs
