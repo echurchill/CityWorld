@@ -90,7 +90,7 @@ public class RoadLot extends ConnectedLot {
 		pavementMat = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(0, Material.STAINED_CLAY);
 		linesMat = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(1, Material.QUARTZ_BLOCK);
 		// paved sidewalk is 2, read in PlatLot
-		dirtroadMat = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(3, Material.DIRT);
+		dirtroadMat = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(3, Material.GRASS_PATH);
 		// dirt sidewalk is 4, read in PlatLot
 
 		pavementIsClay = pavementMat == Material.STAINED_CLAY;
@@ -559,29 +559,30 @@ public class RoadLot extends ConnectedLot {
 			
 		} else {
 			int sidewalkLevel = getSidewalkLevel(generator);
+			boolean doingTunnel = blockYs.maxHeight > pavementLevel + tunnelHeight + 1;
 			
 			// clear out a bit and draw pavement
 //			Material emptyMaterial = getAirMaterial(generator, sidewalkLevel);
 			flattenLot(generator, chunk, 4);
 			if (pavementLevel != sidewalkLevel)
 				chunk.airoutLayer(generator, sidewalkLevel);
-			paveRoadLot(generator, chunk, pavementLevel);
+			paveRoadLot(generator, chunk, pavementLevel, doingTunnel);
 			
 			// sidewalk corners
-			paveSidewalk(generator, chunk, 0, sidewalkWidth, sidewalkLevel, 0, sidewalkWidth);
-			paveSidewalk(generator, chunk, 0, sidewalkWidth, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width);
-			paveSidewalk(generator, chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, 0, sidewalkWidth);
-			paveSidewalk(generator, chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width);
+			paveSidewalk(generator, chunk, 0, sidewalkWidth, sidewalkLevel, 0, sidewalkWidth, doingTunnel);
+			paveSidewalk(generator, chunk, 0, sidewalkWidth, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width, doingTunnel);
+			paveSidewalk(generator, chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, 0, sidewalkWidth, doingTunnel);
+			paveSidewalk(generator, chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width, doingTunnel);
 			
 			// sidewalk edges
 			if (!roads.toWest())
-				paveSidewalk(generator, chunk, 0, sidewalkWidth, sidewalkLevel, sidewalkWidth, chunk.width - sidewalkWidth);
+				paveSidewalk(generator, chunk, 0, sidewalkWidth, sidewalkLevel, sidewalkWidth, chunk.width - sidewalkWidth, doingTunnel);
 			if (!roads.toEast())
-				paveSidewalk(generator, chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkWidth, chunk.width - sidewalkWidth);
+				paveSidewalk(generator, chunk, chunk.width - sidewalkWidth, chunk.width, sidewalkLevel, sidewalkWidth, chunk.width - sidewalkWidth, doingTunnel);
 			if (!roads.toNorth())
-				paveSidewalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, 0, sidewalkWidth);
+				paveSidewalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, 0, sidewalkWidth, doingTunnel);
 			if (!roads.toSouth())
-				paveSidewalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width);
+				paveSidewalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, sidewalkLevel, chunk.width - sidewalkWidth, chunk.width, doingTunnel);
 			
 			// crosswalks?
 			if (inACity) {
@@ -595,7 +596,7 @@ public class RoadLot extends ConnectedLot {
 			}
 			
 			// tunnel walls please
-			if (blockYs.maxHeight > pavementLevel + tunnelHeight + 1) {
+			if (doingTunnel) {
 				doSewer = false;
 				
 //				// draw pavement
@@ -1120,7 +1121,24 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 	
-	protected void paveRoadArea(CityWorldGenerator generator, SupportBlocks chunk, int x1, int x2, int y, int z1, int z2) {
+	private void pepperPlants(CityWorldGenerator generator, SupportBlocks chunk, int x1, int x2, int y, int z1, int z2, double chances, Material manMade, boolean doingTunnel) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				if (chunkOdds.playOdds(chances)) {
+					generator.coverProvider.makePlantable(generator, chunk, x, y, z);
+					
+					if (doingTunnel)
+						generator.surfaceProvider.generateSurface(generator, this, chunk, x, y, z, false);
+					else
+						generator.surfaceProvider.generateSurface(generator, this, chunk, x, y, z, true);
+				} else {
+					chunk.setBlock(x, y, z, manMade);
+				}
+			}
+		}
+	}
+	
+	protected void paveRoadArea(CityWorldGenerator generator, SupportBlocks chunk, int x1, int x2, int y, int z1, int z2, boolean doingTunnel) {
 		if (inACity)
 			if (pavementIsClay)
 				chunk.setClay(x1, x2, y, z1, z2, pavementColor);
@@ -1129,40 +1147,47 @@ public class RoadLot extends ConnectedLot {
 		else
 			if (dirtroadIsClay)
 				chunk.setClay(x1, x2, y, z1, z2, dirtroadColor);
-			else if (dirtroadMat == Material.DIRT)
-				BlackMagic.setBlocks(chunk, x1, x2, y, z1, z2, dirtroadMat, 2); // Podzol dirt
-			else
-				chunk.setBlocks(x1, x2, y, z1, z2, dirtroadMat);
+			else {
+//				if (dirtroadMat == Material.DIRT)
+//					BlackMagic.setBlocks(chunk, x1, x2, y, z1, z2, dirtroadMat, 2); // Podzol dirt
+//				else
+//					chunk.setBlocks(x1, x2, y, z1, z2, dirtroadMat);
+				pepperPlants(generator, chunk, x1, x2, y, z1, z2, Odds.oddsSomewhatLikely, dirtroadMat, doingTunnel);
+			}
 	}
 	
-	protected void paveSidewalk(CityWorldGenerator generator, SupportBlocks chunk, int x1, int x2, int y, int z1, int z2) {
+	protected void paveSidewalk(CityWorldGenerator generator, SupportBlocks chunk, int x1, int x2, int y, int z1, int z2, boolean doingTunnel) {
 		if (inACity)
 			chunk.setBlocks(x1, x2, y, z1, z2, pavementSidewalk);
-		else
-			if (dirtroadSidewalk == Material.DIRT)
-				BlackMagic.setBlocks(chunk, x1, x2, y, z1, z2, dirtroadSidewalk, 1); // Coarse dirt
-			else
-				chunk.setBlocks(x1, x2, y, z1, z2, dirtroadSidewalk);
+		else {
+//			if (dirtroadSidewalk == Material.DIRT)
+//				BlackMagic.setBlocks(chunk, x1, x2, y, z1, z2, dirtroadSidewalk, 1); // Coarse dirt
+//			else
+//				chunk.setBlocks(x1, x2, y, z1, z2, dirtroadSidewalk);
+			pepperPlants(generator, chunk, x1, x2, y, z1, z2, Odds.oddsPrettyLikely, dirtroadSidewalk, doingTunnel);
+		}
 	}
 	
-	protected void paveSidewalk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
+	protected void paveSidewalk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, boolean doingTunnel) {
 		if (inACity)
 			chunk.setBlock(x, y, z, pavementSidewalk);
-		else
-			if (dirtroadSidewalk == Material.DIRT)
-				BlackMagic.setBlock(chunk, x, y, z, dirtroadSidewalk, 1); // Coarse dirt
-			else
-				chunk.setBlock(x, y, z, dirtroadSidewalk);
+		else {
+//			if (dirtroadSidewalk == Material.DIRT)
+//				BlackMagic.setBlock(chunk, x, y, z, dirtroadSidewalk, 1); // Coarse dirt
+//			else
+//				chunk.setBlock(x, y, z, dirtroadSidewalk);
+			pepperPlants(generator, chunk, x, x + 1, y, z, z + 1, Odds.oddsPrettyLikely, dirtroadSidewalk, doingTunnel);
+		}
 	}
 	
-	protected void paveRoadLot(CityWorldGenerator generator, SupportBlocks chunk, int y) {
-		paveRoadArea(generator, chunk, 0, 16, y - 1, 0, 16);
-		paveRoadArea(generator, chunk, 0, 16, y, 0, 16);
+	protected void paveRoadLot(CityWorldGenerator generator, SupportBlocks chunk, int y, boolean doingTunnel) {
+		paveRoadArea(generator, chunk, 0, 16, y - 1, 0, 16, doingTunnel);
+		paveRoadArea(generator, chunk, 0, 16, y, 0, 16, doingTunnel);
 	}
 	
 	protected void generateNSCrosswalk(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
 		if (inACity) {
-			paveRoadArea(generator, chunk, x1, x2, y, z1, z2);
+			paveRoadArea(generator, chunk, x1, x2, y, z1, z2, false);
 			if (crosswalk) {
 				chunk.setBlocks(x1 + 1, x1 + 2, y, z1, z2, linesMat);
 				chunk.setBlocks(x1 + 3, x1 + 4, y, z1, z2, linesMat);
@@ -1178,7 +1203,7 @@ public class RoadLot extends ConnectedLot {
 
 	protected void generateWECrosswalk(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
 		if (inACity) {
-			paveRoadArea(generator, chunk, x1, x2, y, z1, z2);
+			paveRoadArea(generator, chunk, x1, x2, y, z1, z2, false);
 			if (crosswalk) {
 				chunk.setBlocks(x1, x2, y, z1 + 1, z1 + 2, linesMat);
 				chunk.setBlocks(x1, x2, y, z1 + 3, z1 + 4, linesMat);
@@ -1207,11 +1232,13 @@ public class RoadLot extends ConnectedLot {
 		while (amount > 0) {
 			int x = x1 + chunkOdds.getRandomInt(x2 - x1);
 			int z = z1 + chunkOdds.getRandomInt(z2 - z1);
-			if (chunkOdds.flipCoin())
-				chunk.setBlock(x, y, z, Material.COBBLESTONE);
-			else
-				BlackMagic.setBlock(chunk, x, y, z, Material.STEP, 3);
-			amount--;
+			if (chunk.isEmpty(x, y + 1, z)) {
+				if (chunkOdds.flipCoin())
+					chunk.setBlock(x, y, z, Material.COBBLESTONE);
+				else
+					BlackMagic.setBlock(chunk, x, y, z, Material.STEP, 3);
+				amount--;
+			}
 		}
 	}
 	
@@ -1220,11 +1247,13 @@ public class RoadLot extends ConnectedLot {
 		while (amount > 0) {
 			int x = x1 + chunkOdds.getRandomInt(x2 - x1);
 			int z = z1 + chunkOdds.getRandomInt(z2 - z1);
-			if (chunkOdds.flipCoin())
-				chunk.airoutBlock(generator, x, y, z);
-			else
-				BlackMagic.setBlock(chunk, x, y, z, Material.STEP, 3);
-			amount--;
+			if (chunk.isEmpty(x, y + 1, z)) {
+				if (chunkOdds.flipCoin())
+					chunk.airoutBlock(generator, x, y, z);
+				else
+					BlackMagic.setBlock(chunk, x, y, z, Material.STEP, 3);
+				amount--;
+			}
 		}
 	}
 	
@@ -1337,12 +1366,12 @@ public class RoadLot extends ConnectedLot {
 		
 		// long bits
 		for (int i = 0; i < 4; i++) {
-			paveSidewalk(generator, chunk, toNorth ? x + 3 : x, sidewalkLevel, z + i);
-			paveSidewalk(generator, chunk, x + i, sidewalkLevel, toEast ? z + 3 : z);
+			paveSidewalk(generator, chunk, toNorth ? x + 3 : x, sidewalkLevel, z + i, false);
+			paveSidewalk(generator, chunk, x + i, sidewalkLevel, toEast ? z + 3 : z, false);
 		}
 		
 		// little notch
-		paveSidewalk(generator, chunk, toNorth ? x + 2 : x + 1, sidewalkLevel, toEast ? z + 2 : z + 1); 
+		paveSidewalk(generator, chunk, toNorth ? x + 2 : x + 1, sidewalkLevel, toEast ? z + 2 : z + 1, false); 
 	}
 	
 	private void generateTreat(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {

@@ -650,6 +650,11 @@ public abstract class CoverProvider extends Provider {
 		return provider;
 	}
 	
+	public void makePlantable(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
+		chunk.setBlock(x, y, z, Material.GRASS);
+		chunk.clearBlock(x, y + 1, z);
+	}
+	
 	public boolean isPlantable(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
 		
 		// only if the spot is empty and the spot above is empty

@@ -28,7 +28,7 @@ public abstract class SurfaceProvider extends Provider {
 	
 	protected Odds odds;
 	
-	public abstract void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CoverProvider foliage, 
+	protected abstract void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CoverProvider foliage, 
 			int x, double perciseY, int z, boolean includeTrees);
 	
 	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CachedYs blockYs, boolean includeTrees) {
@@ -41,6 +41,22 @@ public abstract class SurfaceProvider extends Provider {
 	
 	protected boolean inBigTreeRange(int x, int z) {
 		return x > 4 && x < 11 && z > 4 && z < 11 && x % 2 == 0 && z % 2 != 0;
+	}
+	
+	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, int x, int y, int z, boolean includeTrees) {
+		CoverProvider foliage = generator.coverProvider;
+			
+		generateSurfacePoint(generator, lot, chunk, foliage, x, y, z, includeTrees);
+	}
+	
+	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, int x1, int x2, int y, int z1, int z2, boolean includeTrees) {
+		CoverProvider foliage = generator.coverProvider;
+			
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				generateSurfacePoint(generator, lot, chunk, foliage, x, y, z, includeTrees);
+			}
+		}
 	}
 	
 	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CachedYs blockYs, int addTo, boolean includeTrees) {

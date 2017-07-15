@@ -11,9 +11,9 @@ Giant pyramid in the middle of the park? or munipal area
 And some more stuff
 Another one
 
-Roads should not be limited by Construction
-Roads outside of construction should be a random speckeled pattern with grass and trees
-Roads outside of construction should not generate bridges or tunnels
+Roads should not be limited by Construct
+Roads outside of construct should be a random speckeled pattern with grass and trees
+Roads outside of construct should not generate bridges or tunnels
 Roads within construction but outside of cities should not generate bridges 
 Roads within construction but outside of cities should generate very primitive tunnels
 Roads within construction but outside of cities should be dirt roads... ideally path material with rough edges

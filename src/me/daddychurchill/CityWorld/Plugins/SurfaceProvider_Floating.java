@@ -31,7 +31,6 @@ public class SurfaceProvider_Floating extends SurfaceProvider {
 	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CachedYs blockYs, boolean includeTrees) {
 		if (generator.settings.subSurfaceStyle == SubSurfaceStyle.LAND) {
 			ShapeProvider shape = generator.shapeProvider;
-			CoverProvider foliage = generator.coverProvider;
 			int iX = odds.calcRandomRange(1, 3);
 			int iZ = odds.calcRandomRange(1, 3);
 			int n = 0;
@@ -39,7 +38,7 @@ public class SurfaceProvider_Floating extends SurfaceProvider {
 				for (int z = 0; z < chunk.width; z = x + iZ) {
 					int y = shape.findGroundY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 					if (chunk.isEmpty(x, y, z) && !chunk.isEmpty(x, y - 1, z)) {
-						generateSurfacePoint(generator, lot, chunk, foliage, x, y, z, includeTrees);
+						generateSurface(generator, lot, chunk, x, y, z, includeTrees);
 					} else
 						n++;
 				}

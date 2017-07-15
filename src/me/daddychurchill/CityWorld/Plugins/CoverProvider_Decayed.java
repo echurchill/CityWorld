@@ -140,6 +140,12 @@ public class CoverProvider_Decayed extends CoverProvider {
 	}
 	
 	@Override
+	public void makePlantable(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
+//		chunk.setBlock(x, y, z, Material.GRASS); // Honey Badger don't care!
+		chunk.clearBlock(x, y + 1, z);
+	}
+	
+	@Override
 	public boolean isPlantable(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
 		
 		// only if the spot above is empty

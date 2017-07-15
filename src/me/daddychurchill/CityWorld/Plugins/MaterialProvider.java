@@ -798,7 +798,7 @@ public class MaterialProvider {
 			Material.STAINED_CLAY, // Pavement
 			Material.QUARTZ_BLOCK, // Lines
 			Material.STEP,		   // Sidewalks
-			Material.DIRT,		   // Dirt roads
+			Material.GRASS_PATH,   // Dirt roads
 			Material.DIRT);		   // Dirt sidewalks
 	
 	public final static String tagMaterialListFor_NormalOres = "Materials_List_For_NormalOres";
