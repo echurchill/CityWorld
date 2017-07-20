@@ -5,7 +5,7 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Plats.ConstructLot;
+import me.daddychurchill.CityWorld.Plats.ConnectedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -13,7 +13,7 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.RealMaterial;
 
-public class GovernmentMonumentLot extends ConstructLot {
+public class GovernmentMonumentLot extends ConnectedLot {
 
 	public GovernmentMonumentLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
@@ -162,15 +162,24 @@ public class GovernmentMonumentLot extends ConstructLot {
 	}
 
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
-			DataContext context, int platX, int platZ) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
 		return new GovernmentMonumentLot(platmap, chunkX, chunkZ);
 	}
-	
+
+	@Override
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
+			DataContext context, int platX, int platZ) {
+		// Don't need anything here
+	}
+
+	@Override
+	public int getBottomY(CityWorldGenerator generator) {
+		return generator.streetLevel - sectionHeight;
+	}
+
+	@Override
+	public int getTopY(CityWorldGenerator generator) {
+		return generator.streetLevel + botHeight * sectionHeight + topHeight * sectionHeight;
+	}
+
 }

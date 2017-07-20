@@ -519,6 +519,17 @@ public class CityWorldSettings {
 		case METRO:
 			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
 			break;
+		case SPARSE:
+			centerPointOfChunkRadiusX = 0; // DIFFERENT
+			centerPointOfChunkRadiusZ = 0; // DIFFERENT
+			constructChunkRadius = 150; // DIFFERENT
+			roadChunkRadius = 150; // DIFFERENT
+			cityChunkRadius = 50; // DIFFERENT
+			buildOutsideRadius = false; // DIFFERENT
+			minInbetweenChunkDistanceOfCities = 100; // DIFFERENT
+			
+			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT
+			break;
 		case NATURE:
 			includeRoads = false; // DIFFERENT
 			includeRoundabouts = false; // DIFFERENT

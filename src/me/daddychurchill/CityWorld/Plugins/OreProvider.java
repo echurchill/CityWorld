@@ -71,6 +71,7 @@ public abstract class OreProvider extends Provider {
 			case MAZE:
 			case NATURE:
 			case METRO:
+			case SPARSE:
 			case NORMAL:
 				switch (generator.worldEnvironment) {
 				case NETHER:

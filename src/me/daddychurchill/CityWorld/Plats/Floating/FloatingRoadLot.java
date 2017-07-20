@@ -132,7 +132,7 @@ public class FloatingRoadLot extends RoadLot {
 		calculateCrosswalks(roads);
 		
 		// center bit
-		paveRoadArea(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, false);
+		paveRoadArea(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, false, false);
 	
 		// finally draw the crosswalks
 		generateNSCrosswalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth, crosswalkNorth);

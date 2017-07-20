@@ -86,6 +86,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 		MAZE,			// mazes with smaller cities
 		NATURE,			// just nature, no constructs anywhere
 		METRO,			// just buildings, no nature
+		SPARSE, 	    // a world of cities but away from each other
 		//PILLARS		// floating with pillars holding everything up
 		//LAVADUNES		// volcanos everywhere
 		//GLACERS		// glacers everywhere

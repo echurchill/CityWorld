@@ -46,7 +46,7 @@ public class HotairBalloonLot extends ConstructLot {
 		int atY = getBottomY(generator);
 		
 		// saucer?
-		if (atY < chunk.height / 2 && chunkOdds.playOdds(Odds.oddsTremendouslyUnlikely)) {
+		if (atY < chunk.height / 2 && chunkOdds.playOdds(Odds.oddsEnormouslyUnlikely)) {
 			reportLocation(generator, "Flying Saucer", chunk);
 			generator.structureInAirProvider.generateSaucer(generator, chunk, (chunk.height - 32) + chunkOdds.getRandomInt(16), false);
 		
