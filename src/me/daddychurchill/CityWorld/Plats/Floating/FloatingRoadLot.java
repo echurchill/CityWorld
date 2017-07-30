@@ -93,8 +93,8 @@ public class FloatingRoadLot extends RoadLot {
 		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);
 		
 //		// draw pavement and clear out a bit
-//		chunk.setLayer(pavementLevel - 1, bridgeEdgeMaterial);
-		paveRoadLot(generator, chunk, pavementLevel, false);
+		chunk.setLayer(pavementLevel - 1, bridgeEdgeMaterial);
+//		paveRoadLot(generator, chunk, pavementLevel, false);
 ////		chunk.setLayer(pavementLevel, pavementId);
 //		chunk.setLayer(sidewalkLevel, getAirMaterial(generator, sidewalkLevel));
 //		
@@ -132,13 +132,13 @@ public class FloatingRoadLot extends RoadLot {
 		calculateCrosswalks(roads);
 		
 		// center bit
-		paveRoadArea(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, false, false);
+//		paveRoadArea(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, false, false);
 	
 		// finally draw the crosswalks
-		generateNSCrosswalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth, crosswalkNorth);
-		generateNSCrosswalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width, crosswalkSouth);
-		generateWECrosswalk(generator, chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalkWest);
-		generateWECrosswalk(generator, chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalkEast);
+		generateNSCrosswalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth, crosswalkNorth, false);
+		generateNSCrosswalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width, crosswalkSouth, false);
+		generateWECrosswalk(generator, chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalkWest, false);
+		generateWECrosswalk(generator, chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalkEast, false);
 		
 		// decay please
 		if (generator.settings.includeDecayedRoads) {

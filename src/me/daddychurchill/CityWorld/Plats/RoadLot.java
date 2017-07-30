@@ -575,10 +575,34 @@ public class RoadLot extends ConnectedLot {
 			// clear out a bit and draw pavement
 			if (!doingTunnel) {
 				if (inACity & pavementLevel != sidewalkLevel) {
-					flattenLot(generator, chunk, 4); //@@@
+					flattenLot(generator, chunk, 4);
 					chunk.airoutLayer(generator, sidewalkLevel);
 				}
+			} else {
+				if (roads.toWest() && roads.toEast()) {
+					if (inACity) {
+
+						// carve out the tunnel
+						chunk.airoutBlocks(generator, 0, 16, pavementLevel + 1, pavementLevel + 7, 2, 14);
+					} else {
+						chunk.airoutBlocks(generator, 0, 16, pavementLevel + 1, pavementLevel + 4, 3, 13);
+						chunk.airoutBlocks(generator, 0, 16, pavementLevel + 4, 5, 11);
+						chunk.pepperBlocks(0, 16, pavementLevel + 5, 5, 11, chunkOdds, generator.shapeProvider.findAtmosphereMaterialAt(generator, pavementLevel + 5));
+					}
+				} else if (roads.toNorth() && roads.toSouth()) {
+					if (inACity) {
+						
+						// carve out the tunnel
+						chunk.airoutBlocks(generator, 2, 14, pavementLevel + 1, pavementLevel + 7, 0, 16);
+					} else {
+						chunk.airoutBlocks(generator, 3, 13, pavementLevel + 1, pavementLevel + 4, 0, 16);
+						chunk.airoutBlocks(generator, 5, 11, pavementLevel + 4, 0, 16);
+						chunk.pepperBlocks(5, 11, pavementLevel + 5, 0, 16, chunkOdds, generator.shapeProvider.findAtmosphereMaterialAt(generator, pavementLevel + 5));
+					}
+				}
 			}
+			
+			// now the bottom bit
 			paveRoadLot(generator, chunk, pavementLevel, doingTunnel);
 			
 			// sidewalk corners
@@ -602,10 +626,10 @@ public class RoadLot extends ConnectedLot {
 				calculateCrosswalks(roads);
 				
 				// draw the crosswalk bits
-				generateNSCrosswalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth, crosswalkNorth);
-				generateNSCrosswalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width, crosswalkSouth);
-				generateWECrosswalk(generator, chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalkWest);
-				generateWECrosswalk(generator, chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalkEast);
+				generateNSCrosswalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth, crosswalkNorth, doingTunnel);
+				generateNSCrosswalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width, crosswalkSouth, doingTunnel);
+				generateWECrosswalk(generator, chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalkWest, doingTunnel);
+				generateWECrosswalk(generator, chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalkEast, doingTunnel);
 			}
 			
 			
@@ -613,34 +637,20 @@ public class RoadLot extends ConnectedLot {
 			if (doingTunnel) {
 				doSewer = false;
 				
-//				// draw pavement
-//				chunk.setLayer(pavementLevel - 1, 2, pavementId);
-				
 				// tunnel to the east/west
 				if (roads.toWest() && roads.toEast()) {
 					if (inACity) {
 
-						// carve out the tunnel
-						chunk.airoutBlocks(generator, 0, 16, pavementLevel + 2, pavementLevel + 7, 2, 14);
-						
 						// place the arches
 						placeEWTunnelArch(generator, chunk, 0, pavementLevel + 1, tunnelWallMaterial, tunnelWallMaterial, tunnelWallMaterial);
 						for (int x = 1; x < chunk.width - 1; x++) {
 							placeEWTunnelArch(generator, chunk, x, pavementLevel + 1, tunnelWallMaterial, tunnelTileMaterial, tunnelCeilingMaterial);
 						}
 						placeEWTunnelArch(generator, chunk, 15, pavementLevel + 1, tunnelWallMaterial, tunnelWallMaterial, tunnelWallMaterial);
-					} else {
-//						chunk.setBlocks(0, 16, pavementLevel + 1, pavementLevel + 4, 3, 13, Material.DIAMOND_BLOCK);
-//						chunk.setBlocks(0, 16, pavementLevel + 4, pavementLevel + 6, 5, 11, Material.EMERALD_BLOCK);
-						chunk.airoutBlocks(generator, 0, 16, pavementLevel + 1, pavementLevel + 4, 3, 13);
-						chunk.airoutBlocks(generator, 0, 16, pavementLevel + 4, pavementLevel + 6, 5, 11);
 					}
 					
 				} else if (roads.toNorth() && roads.toSouth()) {
 					if (inACity) {
-					
-						// carve out the tunnel
-						chunk.airoutBlocks(generator, 2, 14, pavementLevel + 2, pavementLevel + 7, 0, 16);
 						
 						// place the arches
 						placeNSTunnelArch(generator, chunk, 0, pavementLevel + 1, tunnelWallMaterial, tunnelWallMaterial, tunnelWallMaterial);
@@ -648,11 +658,6 @@ public class RoadLot extends ConnectedLot {
 							placeNSTunnelArch(generator, chunk, z, pavementLevel + 1, tunnelWallMaterial, tunnelTileMaterial, tunnelCeilingMaterial);
 						}
 						placeNSTunnelArch(generator, chunk, 15, pavementLevel + 1, tunnelWallMaterial, tunnelWallMaterial, tunnelWallMaterial);
-					} else {
-//						chunk.setBlocks(3, 13, pavementLevel + 1, pavementLevel + 4, 0, 16, Material.COAL_BLOCK);
-//						chunk.setBlocks(5, 11, pavementLevel + 4, pavementLevel + 6, 0, 16, Material.DIAMOND_BLOCK);
-						chunk.airoutBlocks(generator, 3, 13, pavementLevel + 1, pavementLevel + 4, 0, 16);
-						chunk.airoutBlocks(generator, 5, 11, pavementLevel + 4, pavementLevel + 6, 0, 16);
 					}
 				}
 				
@@ -734,10 +739,10 @@ public class RoadLot extends ConnectedLot {
 //			chunk.setClay(sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, pavementColor);
 		
 			// draw the crosswalk bits
-			generateNSCrosswalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth, crosswalkNorth);
-			generateNSCrosswalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width, crosswalkSouth);
-			generateWECrosswalk(generator, chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalkWest);
-			generateWECrosswalk(generator, chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalkEast);
+			generateNSCrosswalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, 0, sidewalkWidth, crosswalkNorth, doingTunnel);
+			generateNSCrosswalk(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, chunk.width - sidewalkWidth, chunk.width, crosswalkSouth, doingTunnel);
+			generateWECrosswalk(generator, chunk, 0, sidewalkWidth, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalkWest, doingTunnel);
+			generateWECrosswalk(generator, chunk, chunk.width - sidewalkWidth, chunk.width, pavementLevel, sidewalkWidth, chunk.width - sidewalkWidth, crosswalkEast, doingTunnel);
 			
 			// decay please
 			if (generator.settings.includeDecayedRoads) {
@@ -1175,16 +1180,19 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 	
-	private void pepperPlants(CityWorldGenerator generator, SupportBlocks chunk, int x1, int x2, int y, int z1, int z2, double chances, Material manMade, boolean doingTunnel) {
+	private void pepperPlants(CityWorldGenerator generator, SupportBlocks chunk, int x1, int x2, int y, int z1, int z2, double chances, Material manMade, boolean doingFolage, boolean doingTunnel) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				if (chunkOdds.playOdds(chances) & !chunk.isEmpty(x, y, z) & chunk.isEmpty(x, y + 1, z)) {
-					generator.coverProvider.makePlantable(generator, chunk, x, y, z);
-					
-					if (doingTunnel) {
-//						generator.surfaceProvider.generateSurface(generator, this, chunk, x, y, z, false);
-					} else {
-						generator.surfaceProvider.generateSurface(generator, this, chunk, x, y, z, true);
+				if (doingFolage & chunkOdds.playOdds(chances)) {
+					if (!chunk.isEmpty(x, y, z) & chunk.isEmpty(x, y + 1, z)) {
+						generator.coverProvider.makePlantable(generator, chunk, x, y, z);
+						if (!doingTunnel)
+							generator.surfaceProvider.generateSurface(generator, this, chunk, x, y, z, true);
+//							chunk.setSlab(x, y + 1, z, Material.STEP, true);
+//						else
+//							chunk.setBlock(x, y + 1, z, Material.PURPUR_BLOCK);
+//					} else {
+//						chunk.setBlock(x, y, z, Material.COAL_BLOCK);
 					}
 				} else {
 					chunk.setBlock(x, y, z, manMade);
@@ -1202,10 +1210,20 @@ public class RoadLot extends ConnectedLot {
 		else
 			if (dirtroadIsClay)
 				chunk.setClay(x1, x2, y, z1, z2, dirtroadColor);
-			else if (doingFolage) 
-				pepperPlants(generator, chunk, x1, x2, y, z1, z2, Odds.oddsSomewhatLikely, dirtroadMat, doingTunnel);
-			else
-				chunk.setBlocks(x1, x2, y, z1, z2, dirtroadMat);
+			else {
+//				pepperPlants(generator, chunk, x1, x2, y, z1, z2, Odds.oddsLikely, 
+//						doingFolage ? Material.BONE_BLOCK : Material.DIAMOND_BLOCK, doingTunnel);
+				pepperPlants(generator, chunk, x1, x2, y, z1, z2, Odds.oddsVeryLikely, 
+						dirtroadMat, doingFolage, doingTunnel);
+			}
+//		
+//		
+//			else if (doingFolage) 
+////				pepperPlants(generator, chunk, x1, x2, y, z1, z2, Odds.oddsSomewhatLikely, dirtroadMat, doingTunnel);
+//				pepperPlants(generator, chunk, x1, x2, y, z1, z2, Odds.oddsSomewhatLikely, Material.BONE_BLOCK, doingTunnel);
+//			else
+////				chunk.setBlocks(x1, x2, y, z1, z2, dirtroadMat);
+//				chunk.setBlocks(x1, x2, y, z1, z2, Material.DIAMOND_BLOCK);
 	}
 	
 	protected void paveSidewalk(CityWorldGenerator generator, SupportBlocks chunk, int x1, int x2, int y, int z1, int z2, boolean doingTunnel) {
@@ -1216,8 +1234,9 @@ public class RoadLot extends ConnectedLot {
 //				BlackMagic.setBlocks(chunk, x1, x2, y, z1, z2, dirtroadSidewalk, 1); // Coarse dirt
 //			else
 //				chunk.setBlocks(x1, x2, y, z1, z2, dirtroadSidewalk);
-			if (!doinsgTunnel)
-				pepperPlants(generator, chunk, x1, x2, y, z1, z2, Odds.oddsPrettyLikely, dirtroadSidewalk, doingTunnel);
+//			if (!doingTunnel)
+//				pepperPlants(generator, chunk, x1, x2, y, z1, z2, Odds.oddsSomewhatLikely, Material.EMERALD_BLOCK, doingTunnel);
+				pepperPlants(generator, chunk, x1, x2, y, z1, z2, Odds.oddsSomewhatLikely, dirtroadSidewalk, !inACity, doingTunnel);
 		}
 	}
 	
@@ -1229,18 +1248,19 @@ public class RoadLot extends ConnectedLot {
 //				BlackMagic.setBlock(chunk, x, y, z, dirtroadSidewalk, 1); // Coarse dirt
 //			else
 //				chunk.setBlock(x, y, z, dirtroadSidewalk);
-			if (!doingTunnel)
-				pepperPlants(generator, chunk, x, x + 1, y, z, z + 1, Odds.oddsPrettyLikely, dirtroadSidewalk, doingTunnel);
+//			if (!doingTunnel)
+//				pepperPlants(generator, chunk, x, x + 1, y, z, z + 1, Odds.oddsSomewhatLikely, Material.GOLD_BLOCK, doingTunnel);
+				pepperPlants(generator, chunk, x, x + 1, y, z, z + 1, Odds.oddsSomewhatLikely, dirtroadSidewalk, !inACity, doingTunnel);
 		}
 	}
 	
 	protected void paveRoadLot(CityWorldGenerator generator, SupportBlocks chunk, int y, boolean doingTunnel) {
 		paveRoadArea(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, y - 1, sidewalkWidth, chunk.width - sidewalkWidth, false, doingTunnel);
-		paveRoadArea(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, y, sidewalkWidth, chunk.width - sidewalkWidth, true, doingTunnel);
+		paveRoadArea(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, y, sidewalkWidth, chunk.width - sidewalkWidth, !inACity, doingTunnel);
 	}
 	
-	protected void generateNSCrosswalk(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
-		paveRoadArea(generator, chunk, x1, x2, y, z1, z2, true, false);
+	protected void generateNSCrosswalk(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk, boolean doingTunnel) {
+		paveRoadArea(generator, chunk, x1, x2, y, z1, z2, !inACity, doingTunnel);
 		if (inACity) {
 			if (crosswalk) {
 				chunk.setBlocks(x1 + 1, x1 + 2, y, z1, z2, linesMat);
@@ -1255,8 +1275,8 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 
-	protected void generateWECrosswalk(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk) {
-		paveRoadArea(generator, chunk, x1, x2, y, z1, z2, true, false);
+	protected void generateWECrosswalk(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int y, int z1, int z2, boolean crosswalk, boolean doingTunnel) {
+		paveRoadArea(generator, chunk, x1, x2, y, z1, z2, !inACity, doingTunnel);
 		if (inACity) {
 			if (crosswalk) {
 				chunk.setBlocks(x1, x2, y, z1 + 1, z1 + 2, linesMat);

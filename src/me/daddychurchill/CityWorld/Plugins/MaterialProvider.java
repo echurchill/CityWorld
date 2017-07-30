@@ -799,7 +799,7 @@ public class MaterialProvider {
 			Material.QUARTZ_BLOCK, // Lines
 			Material.STEP,		   // Sidewalks
 			Material.GRASS_PATH,   // Dirt roads
-			Material.DIRT);		   // Dirt sidewalks
+			Material.GRASS_PATH);  // Dirt sidewalks
 	
 	public final static String tagMaterialListFor_NormalOres = "Materials_List_For_NormalOres";
 	public MaterialList itemsMaterialListFor_NormalOres = createList(tagMaterialListFor_NormalOres,
