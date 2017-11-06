@@ -36,11 +36,15 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 			
 			// below sea level and plantable.. then cactus?
 			if (y <= generator.seaLevel) {
-				
+
 				// trees? but only if we are not too close to the edge
 				if (includeTrees) {
 					if (generator.settings.includeAbovegroundFluids) {
-
+						if (primary < reedOdds) {
+							if (chunk.isType(x, y, z, Material.SAND)) {
+								foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.REED);
+							}
+						}
 					} else {
 						if (primary < cactusOdds && x % 2 == 0 && z % 2 != 0) {
 							if (chunk.isSurroundedByEmpty(x, y + 1, z))
@@ -117,18 +121,16 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 		} else {
 			
 			// below sea level?
-			if (y < generator.seaLevel) {
-				
-			// at sea level?	
-			} else if (y == generator.seaLevel) {
+			if (y <= generator.seaLevel) {
 				
 				// trees? but only if we are not too close to the edge
 				if (includeTrees) {
 					if (generator.settings.includeAbovegroundFluids) {
-						if (primary < reedOdds)
-							if (chunk.isType(x, y, z, Material.SAND))
-								if (chunk.isByWater(x, y, z))
-									foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.REED);
+						if (primary < reedOdds) {
+							if (chunk.isType(x, y, z, Material.SAND)) {
+								foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.REED);
+							}
+						}
 					} else {
 						
 					}

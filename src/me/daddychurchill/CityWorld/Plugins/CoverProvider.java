@@ -338,7 +338,7 @@ public abstract class CoverProvider extends Provider {
 //			BlackMagic.setBlock(chunk, x, y, z, Material.BEETROOT_BLOCK, odds.getRandomInt(4));
 			break;
 		case REED:
-			if (chunk.isByWater(x, y, z)) {
+			if (chunk.isByWater(x, y - 1, z)) {
 			    chunk.setBlock(x, y - 1, z, Material.SAND);
 				chunk.setBlocks(x, y, y + odds.getRandomInt(2) + 2, z, Material.SUGAR_CANE_BLOCK);
 			}

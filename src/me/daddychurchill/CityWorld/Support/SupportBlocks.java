@@ -68,10 +68,10 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	public final void setBlockIfAir(int x, int y, int z, Material material, MaterialData data) {
 		Block block = getActualBlock(x, y, z);
 		if (block.isEmpty() && !getActualBlock(x, y - 1, z).isEmpty())
-			setBlock(block, material, data);
+			setActualBlock(block, material, data);
 	}
 	
-	public final void setBlock(Block block, Material material, MaterialData data) {
+	public final void setActualBlock(Block block, Material material, MaterialData data) {
 		BlockState state = block.getState();
 		state.setType(material);
 		state.setData(data);
@@ -80,7 +80,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	
 	public final Block getActualBlock(int x, int y, int z, MaterialData data) {
 		Block block = getActualBlock(x, y, z);
-		setBlock(block, data.getItemType(), data);
+		setActualBlock(block, data.getItemType(), data);
 		return block;
 	}
 	
@@ -105,11 +105,11 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	
 	@Override
 	public void setBlock(int x, int y, int z, MaterialData material) {
-		setBlock(getActualBlock(x, y, z), material.getItemType(), material);
+		setActualBlock(getActualBlock(x, y, z), material.getItemType(), material);
 	}
 
 	public final void setBlock(int x, int y, int z, Material material, MaterialData data) {
-		setBlock(getActualBlock(x, y, z), material, data);
+		setActualBlock(getActualBlock(x, y, z), material, data);
 	}
 	
 	protected final boolean isType(Block block, Material ... types) {
@@ -647,7 +647,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 					vines.putOnFace(face);
 				state.update();
 			} else
-				setBlock(getActualBlock(x, y, z), Material.VINE, data);
+				setActualBlock(getActualBlock(x, y, z), Material.VINE, data);
 		}
 	}
 	

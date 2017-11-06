@@ -49,16 +49,6 @@ public abstract class SurfaceProvider extends Provider {
 		generateSurfacePoint(generator, lot, chunk, foliage, x, y, z, includeTrees);
 	}
 	
-	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, int x1, int x2, int y, int z1, int z2, boolean includeTrees) {
-		CoverProvider foliage = generator.coverProvider;
-			
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				generateSurfacePoint(generator, lot, chunk, foliage, x, y, z, includeTrees);
-			}
-		}
-	}
-	
 	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CachedYs blockYs, int addTo, boolean includeTrees) {
 		CoverProvider foliage = generator.coverProvider;
 		int topY = lot.getTopY(generator);
@@ -66,15 +56,9 @@ public abstract class SurfaceProvider extends Provider {
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {
 				double y = blockYs.getPerciseY(x, z) + addTo;
-//				if (x == 0 && z == 0) {
-//					int inty = NoiseGenerator.floor(y);
-//					chunk.setBlock(x, inty + 9, z, Material.STONE);
-//					chunk.setBlock(x + 1, inty + 9, z, Material.STONE);
-//					chunk.setBlock(x, inty + 9, z + 1, Material.STONE);
-//					chunk.setSignPost(x, inty + 10, z, BlockFace.SOUTH, "topY = " + topY, "inty = " + inty);
-//				} else
-				if (topY < y)
+				if (topY <= y) {
 					generateSurfacePoint(generator, lot, chunk, foliage, x, y, z, includeTrees);
+				}
 			}
 		}
 	}

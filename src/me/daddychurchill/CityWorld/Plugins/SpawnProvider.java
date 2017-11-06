@@ -115,7 +115,7 @@ public class SpawnProvider extends Provider {
 			EntityType.VILLAGER,
 			EntityType.VILLAGER,
 			EntityType.PARROT,
-			EntityType.POLAR_BEAR,
+//			EntityType.POLAR_BEAR,
 			EntityType.SPIDER,
 			EntityType.CREEPER);
 	

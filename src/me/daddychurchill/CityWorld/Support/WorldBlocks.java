@@ -165,7 +165,7 @@ public final class WorldBlocks extends SupportBlocks {
 					
 					// partial height blocks?
 					} else if (isNonstackableBlock(block)) {
-						setBlock(block, item.oldMaterial, item.oldData);
+						setActualBlock(block, item.oldMaterial, item.oldData);
 					
 					// other blocks?
 					} else {
