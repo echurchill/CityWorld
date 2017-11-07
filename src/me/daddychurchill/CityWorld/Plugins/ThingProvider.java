@@ -197,18 +197,18 @@ public class ThingProvider extends Provider {
 					break;
 				case WHT:
 //					if (cI % 2 == 0)
-						chunk.setBlock(x + xI, y, z + zI, RealMaterial.WOOL_WHITE);
+						chunk.setBlock(x + xI, y, z + zI, RealMaterial.WHITE_WOOL);
 //					else 
 //						chunk.setBlock(x + xI, y, z + zI, Material.WOOL, DyeColor.SILVER);
 					break;
 				case YEL:
-					chunk.setBlock(x + xI, y, z + zI, RealMaterial.WOOL_YELLOW);
+					chunk.setBlock(x + xI, y, z + zI, RealMaterial.YELLOW_WOOL);
 					break;
 				case RED:
-					chunk.setBlock(x + xI, y, z + zI, RealMaterial.WOOL_RED);
+					chunk.setBlock(x + xI, y, z + zI, RealMaterial.RED_WOOL);
 					break;
 				case BLK:
-					chunk.setBlock(x + xI, y, z + zI, RealMaterial.WOOL_BLACK);
+					chunk.setBlock(x + xI, y, z + zI, RealMaterial.BLACK_WOOL);
 					break;
 				}
 			}

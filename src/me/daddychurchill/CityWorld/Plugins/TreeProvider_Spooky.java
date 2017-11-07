@@ -27,9 +27,9 @@ public class TreeProvider_Spooky extends TreeProvider {
 		case 3:
 			if (chunk.isEmpty(x, y, z))
 				if (odds.playOdds(Odds.oddsLikely))
-					chunk.setBlock(x, y, z, RealMaterial.SPONGE);
+					chunk.setBlock(x, y, z, RealMaterial.DRY_SPONGE);
 				else
-					chunk.setBlock(x, y, z, RealMaterial.SPONGE_WET);
+					chunk.setBlock(x, y, z, RealMaterial.WET_SPONGE);
 			break;
 		case 4:
 			if (chunk.isEmpty(x, y - 1, z))

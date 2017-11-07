@@ -74,7 +74,7 @@ public class GovernmentMonumentLot extends ConnectedLot {
 		int y2 = y1 + botHeight * sectionHeight;
 		int y3 = y2 + topHeight * sectionHeight;
 		chunk.setBlocks(5, 11, y1, y2, 5, 11, columnMaterial);
-		chunk.setWalls(6, 10, y2, y3, 6, 10, RealMaterial.getStainedGlass(chunkOdds));
+		chunk.setWalls(6, 10, y2, y3, 6, 10, RealMaterial.getRandomStainedGlass(chunkOdds));
 		if (chunkOdds.flipCoin())
 			chunk.setBlocks(7, 9, y2, y3, 7, 9, columnMaterial);
 		if (doTop) {
@@ -92,7 +92,7 @@ public class GovernmentMonumentLot extends ConnectedLot {
 			if (chunkOdds.playOdds(Odds.oddsSomewhatUnlikely))
 				generator.thingProvider.generateChicken(chunk, 1, y2 + 1, 4);
 			else
-				chunk.setBlocks(5, 11, y2 + 1, y2 + chunkOdds.calcRandomRange(3, 8), 5, 11, RealMaterial.getStainedGlass(chunkOdds));
+				chunk.setBlocks(5, 11, y2 + 1, y2 + chunkOdds.calcRandomRange(3, 8), 5, 11, RealMaterial.getRandomStainedGlass(chunkOdds));
 		}
 	}
 	
@@ -147,11 +147,11 @@ public class GovernmentMonumentLot extends ConnectedLot {
 				if (chunkOdds.flipCoin())
 					chunk.setBlocks(7, y2, y3, 7, columnMaterial);
 				else
-					chunk.setBlocks(6, 9, y2, yT, 6, 9, RealMaterial.getStainedGlass(chunkOdds));
+					chunk.setBlocks(6, 9, y2, yT, 6, 9, RealMaterial.getRandomStainedGlass(chunkOdds));
 			}
 			
 		} else {
-			chunk.setBlocks(6, 9, y2, y3, 6, 9, RealMaterial.getStainedGlass(chunkOdds));
+			chunk.setBlocks(6, 9, y2, y3, 6, 9, RealMaterial.getRandomStainedGlass(chunkOdds));
 		}
 		chunk.setBlocks(5, 10, y3, 5, 10, columnMaterial);
 		if (doTop) {
