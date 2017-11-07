@@ -18,6 +18,7 @@ import org.bukkit.material.Leaves;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Sandstone;
 import org.bukkit.material.Sapling;
+import org.bukkit.material.Stairs;
 import org.bukkit.material.TexturedMaterial;
 import org.bukkit.material.Wood;
 import org.bukkit.material.Wool;
@@ -218,7 +219,7 @@ public class RealMaterial {
 	public final static MaterialData TORCH = define("TORCH", false, false, Material.TORCH);
 	public final static MaterialData FIRE = define("FIRE", false, false, Material.FIRE);
 	public final static MaterialData MOB_SPAWNER = define("MOB_SPAWNER", false, false, Material.MOB_SPAWNER);
-	public final static MaterialData WOOD_STAIRS = define("WOOD_STAIRS", false, false, Material.WOOD_STAIRS); //@@@
+	public final static MaterialData WOOD_STAIRS = define("WOOD_STAIRS", false, false, new Stairs(Material.WOOD_STAIRS));
 	public final static MaterialData CHEST = define("CHEST", false, false, Material.CHEST);
 	public final static MaterialData REDSTONE_WIRE = define("REDSTONE_WIRE", false, false, Material.REDSTONE_WIRE);
 	public final static MaterialData DIAMOND_ORE = define("DIAMOND_ORE", true, false, Material.DIAMOND_ORE);
@@ -232,7 +233,7 @@ public class RealMaterial {
 	public final static MaterialData WOODEN_DOOR = define("WOODEN_DOOR", false, false, Material.WOODEN_DOOR);
 	public final static MaterialData LADDER = define("LADDER", false, false, Material.LADDER);
 	public final static MaterialData RAILS = define("RAILS", false, false, Material.RAILS);
-	public final static MaterialData COBBLESTONE_STAIRS = define("COBBLESTONE_STAIRS", false, false, Material.COBBLESTONE_STAIRS); //@@@
+	public final static MaterialData COBBLESTONE_STAIRS = define("COBBLESTONE_STAIRS", false, false,  new Stairs(Material.COBBLESTONE_STAIRS));
 	public final static MaterialData WALL_SIGN = define("WALL_SIGN", false, false, Material.WALL_SIGN);
 	public final static MaterialData LEVER = define("LEVER", false, false, Material.LEVER);
 	public final static MaterialData STONE_PLATE = define("STONE_PLATE", false, false, Material.STONE_PLATE);
@@ -300,13 +301,13 @@ public class RealMaterial {
 	public final static MaterialData MELON_STEM = define("MELON_STEM", false, false, Material.MELON_STEM);
 	public final static MaterialData VINE = define("VINE", false, false, Material.VINE);
 	public final static MaterialData FENCE_GATE = define("FENCE_GATE", false, false, Material.FENCE_GATE);
-	public final static MaterialData BRICK_STAIRS = define("BRICK_STAIRS", false, false, Material.BRICK_STAIRS); //@@@
-	public final static MaterialData SMOOTH_STAIRS = define("SMOOTH_STAIRS", false, false, Material.SMOOTH_STAIRS); //@@@
+	public final static MaterialData BRICK_STAIRS = define("BRICK_STAIRS", false, false,  new Stairs(Material.BRICK_STAIRS));
+	public final static MaterialData SMOOTH_STAIRS = define("SMOOTH_STAIRS", false, false, new Stairs(Material.SMOOTH_STAIRS));
 	public final static MaterialData MYCEL = define("MYCEL", true, false, Material.MYCEL);
 	public final static MaterialData WATER_LILY = define("WATER_LILY", false, false, Material.WATER_LILY);
 	public final static MaterialData NETHER_BRICK = define("NETHER_BRICK", true, false, Material.NETHER_BRICK);
 	public final static MaterialData NETHER_FENCE = define("NETHER_FENCE", false, false, Material.NETHER_FENCE);
-	public final static MaterialData NETHER_BRICK_STAIRS = define("NETHER_BRICK_STAIRS", false, false, Material.NETHER_BRICK_STAIRS); //@@@
+	public final static MaterialData NETHER_BRICK_STAIRS = define("NETHER_BRICK_STAIRS", false, false, new Stairs(Material.NETHER_BRICK_STAIRS));
 	public final static MaterialData NETHER_WARTS = define("NETHER_WARTS", false, false, Material.NETHER_WARTS);
 	public final static MaterialData ENCHANTMENT_TABLE = define("ENCHANTMENT_TABLE", false, false, Material.ENCHANTMENT_TABLE);
 	public final static MaterialData BREWING_STAND = define("BREWING_STAND", false, false, Material.BREWING_STAND);
@@ -341,16 +342,16 @@ public class RealMaterial {
 	public final static MaterialData DARK_OAK_SLAB = define("DARK_OAK_SLAB", false, false, new Wood_Slab(TreeSpecies.DARK_OAK));
 
 	public final static MaterialData COCOA = define("COCOA", false, false, Material.COCOA);
-	public final static MaterialData SANDSTONE_STAIRS = define("SANDSTONE_STAIRS", false, false, Material.SANDSTONE_STAIRS); //@@@
+	public final static MaterialData SANDSTONE_STAIRS = define("SANDSTONE_STAIRS", false, false, new Stairs(Material.SANDSTONE_STAIRS));
 	public final static MaterialData EMERALD_ORE = define("EMERALD_ORE", true, false, Material.EMERALD_ORE);
 
 	public final static MaterialData ENDER_CHEST = define("ENDER_CHEST", false, false, Material.ENDER_CHEST);
 	public final static MaterialData TRIPWIRE_HOOK = define("TRIPWIRE_HOOK", false, false, Material.TRIPWIRE_HOOK);
 	public final static MaterialData TRIPWIRE = define("TRIPWIRE", false, false, Material.TRIPWIRE);
 	public final static MaterialData EMERALD_BLOCK = define("EMERALD_BLOCK", true, false, Material.EMERALD_BLOCK);
-	public final static MaterialData SPRUCE_WOOD_STAIRS = define("SPRUCE_WOOD_STAIRS", false, false, Material.SPRUCE_WOOD_STAIRS); //@@@
-	public final static MaterialData BIRCH_WOOD_STAIRS = define("BIRCH_WOOD_STAIRS", false, false, Material.BIRCH_WOOD_STAIRS); //@@@
-	public final static MaterialData JUNGLE_WOOD_STAIRS = define("JUNGLE_WOOD_STAIRS", false, false, Material.JUNGLE_WOOD_STAIRS); //@@@
+	public final static MaterialData SPRUCE_WOOD_STAIRS = define("SPRUCE_WOOD_STAIRS", false, false, new Stairs(Material.SPRUCE_WOOD_STAIRS));
+	public final static MaterialData BIRCH_WOOD_STAIRS = define("BIRCH_WOOD_STAIRS", false, false, new Stairs(Material.BIRCH_WOOD_STAIRS));
+	public final static MaterialData JUNGLE_WOOD_STAIRS = define("JUNGLE_WOOD_STAIRS", false, false, new Stairs(Material.JUNGLE_WOOD_STAIRS));
 	public final static MaterialData COMMAND = define("COMMAND", false, false, Material.COMMAND);
 	public final static MaterialData BEACON = define("BEACON", false, false, Material.BEACON);
 	public final static MaterialData COBBLE_WALL = define("COBBLE_WALL", false, false, Material.COBBLE_WALL);
@@ -370,7 +371,7 @@ public class RealMaterial {
 	public final static MaterialData QUARTZ_ORE = define("QUARTZ_ORE", true, false, Material.QUARTZ_ORE);
 	public final static MaterialData HOPPER = define("HOPPER", false, false, Material.HOPPER);
 	public final static MaterialData QUARTZ_BLOCK = define("QUARTZ_BLOCK", true, false, Material.QUARTZ_BLOCK);
-	public final static MaterialData QUARTZ_STAIRS = define("QUARTZ_STAIRS", false, false, Material.QUARTZ_STAIRS); //@@@
+	public final static MaterialData QUARTZ_STAIRS = define("QUARTZ_STAIRS", false, false, new Stairs(Material.QUARTZ_STAIRS));
 	public final static MaterialData ACTIVATOR_RAIL = define("ACTIVATOR_RAIL", false, false, Material.ACTIVATOR_RAIL);
 	public final static MaterialData DROPPER = define("DROPPER", false, false, Material.DROPPER);
 
@@ -417,8 +418,8 @@ public class RealMaterial {
 	@Deprecated
 	public final static MaterialData LOG_2 = define("LOG_2", false, true, Material.LOG_2);
 
-	public final static MaterialData ACACIA_STAIRS = define("ACACIA_STAIRS", false, false, Material.ACACIA_STAIRS); //@@@
-	public final static MaterialData DARK_OAK_STAIRS = define("DARK_OAK_STAIRS", false, false, Material.DARK_OAK_STAIRS); //@@@
+	public final static MaterialData ACACIA_STAIRS = define("ACACIA_STAIRS", false, false, new Stairs(Material.ACACIA_STAIRS));
+	public final static MaterialData DARK_OAK_STAIRS = define("DARK_OAK_STAIRS", false, false, new Stairs(Material.DARK_OAK_STAIRS));
 	public final static MaterialData SLIME_BLOCK = define("SLIME_BLOCK", false, false, Material.SLIME_BLOCK);
 	public final static MaterialData BARRIER = define("BARRIER", false, false, Material.BARRIER);
 	public final static MaterialData IRON_TRAPDOOR = define("IRON_TRAPDOOR", false, false, Material.IRON_TRAPDOOR);
@@ -461,7 +462,7 @@ public class RealMaterial {
 	public final static MaterialData CRACKED_RED_SANDSTONE = define("CRACKED_RED_SANDSTONE", true, false, new Red_Sandstone(SandstoneType.CRACKED));
 	public final static MaterialData GLYPHED_RED_SANDSTONE = define("GLYPHED_RED_SANDSTONE", true, false, new Red_Sandstone(SandstoneType.GLYPHED));
 
-	public final static MaterialData RED_SANDSTONE_STAIRS = define("RED_SANDSTONE_STAIRS", false, false, Material.RED_SANDSTONE_STAIRS); //@@@
+	public final static MaterialData RED_SANDSTONE_STAIRS = define("RED_SANDSTONE_STAIRS", false, false, new Stairs(Material.RED_SANDSTONE_STAIRS));
 
 	@Deprecated
 	public final static MaterialData DOUBLE_STONE_SLAB2 = define("DOUBLE_STONE_SLAB2", false, true, Material.DOUBLE_STONE_SLAB2);
@@ -488,7 +489,7 @@ public class RealMaterial {
 	public final static MaterialData CHORUS_FLOWER = define("CHORUS_FLOWER", false, false, Material.CHORUS_FLOWER);
 	public final static MaterialData PURPUR_BLOCK = define("PURPUR_BLOCK", true, false, Material.PURPUR_BLOCK);
 	public final static MaterialData PURPUR_PILLAR = define("PURPUR_PILLAR", true, false, Material.PURPUR_PILLAR);
-	public final static MaterialData PURPUR_STAIRS = define("PURPUR_STAIRS", false, false, Material.PURPUR_STAIRS); //@@@
+	public final static MaterialData PURPUR_STAIRS = define("PURPUR_STAIRS", false, false, new Stairs(Material.PURPUR_STAIRS));
 	public final static MaterialData PURPUR_DOUBLE_SLAB = define("PURPUR_DOUBLE_SLAB", true, false, Material.PURPUR_DOUBLE_SLAB);
 	public final static MaterialData PURPUR_SLAB = define("PURPUR_SLAB", false, false, Material.PURPUR_SLAB);
 
