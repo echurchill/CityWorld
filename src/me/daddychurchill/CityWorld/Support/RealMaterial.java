@@ -931,6 +931,17 @@ public class RealMaterial {
 		return result;
 	}
 	
+	public final static MaterialData adjust(MaterialData material, BlockFace face, boolean invert) {
+		MaterialData result = null;
+		if (material instanceof Stairs) {
+			result = material.clone();
+			((Stairs)result).setFacingDirection(face);
+			((Stairs)result).setInverted(invert);
+		} 
+		assert(result != null);
+		return result;
+	}
+	
 	public final static MaterialData getRandomStainedGlass(Odds odds) {
 		return getRandomStainedGlass(odds, ColorSet.ALL);
 	}
