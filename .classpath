@@ -8,6 +8,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/eddie/Minecraft/linked plugins/PhatLoots-bukkit-4.1.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/eddie/Minecraft/craftbukkit.jar"/>
+	<classpathentry kind="lib" path="C:/Users/eddie/Minecraft/craftbukkit.jar" sourcepath="C:/Users/eddie/Minecraft/Spigot/Via CMD/Bukkit/src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

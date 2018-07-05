@@ -13,7 +13,6 @@ import me.daddychurchill.CityWorld.Plats.Urban.ConcreteLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Plugins.StructureInAirProvider;
 import me.daddychurchill.CityWorld.Support.BadMagic;
-import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.BadMagic.Door;
 import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
@@ -1725,11 +1724,11 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	}
 	
 	private void drawInteriorNSWall(RealBlocks chunk, int x, int y1, int y2, int z1, int z2, Material wallMaterial, Material glassMaterial) {
-		BlackMagic.setBlocks(chunk, x, x + 1, y1, y2, z1, z2, wallMaterial, glassMaterial, wallsInterior);
+		chunk.setBlocks(x, x + 1, y1, y2, z1, z2, wallMaterial, glassMaterial, wallsInterior);
 	}
 	
 	private void drawInteriorWEWall(RealBlocks chunk, int x1, int x2, int y1, int y2, int z, Material wallMaterial, Material glassMaterial) {
-		BlackMagic.setBlocks(chunk, x1, x2, y1, y2, z, z + 1, wallMaterial, glassMaterial, wallsInterior);
+		chunk.setBlocks(x1, x2, y1, y2, z, z + 1, wallMaterial, glassMaterial, wallsInterior);
 	}
 	
 	private void drawInteriorNSDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {

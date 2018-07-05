@@ -2,7 +2,6 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.AnimalList;
-import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.EntityList;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SeaAnimalList;
@@ -377,13 +376,12 @@ public class SpawnProvider extends Provider {
 	private final void setSpawner(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z, EntityType entity) {
 		if (entity.isAlive() && odds.playOdds(generator.settings.spawnBaddies)) {
 			Block block = blocks.getActualBlock(x, y, z);
-			if (BlackMagic.setBlockType(block, Material.MOB_SPAWNER)) {
-				block.getState().update(true); // for good measure
-				if (block.getType() == Material.MOB_SPAWNER) {
-					CreatureSpawner spawner = (CreatureSpawner) block.getState();
-					spawner.setSpawnedType(entity);
-					spawner.update(true);
-				}
+			block.setType(Material.MOB_SPAWNER);
+			block.getState().update(true); // for good measure
+			if (block.getType() == Material.MOB_SPAWNER) { // make sure it happened!
+				CreatureSpawner spawner = (CreatureSpawner) block.getState();
+				spawner.setSpawnedType(entity);
+				spawner.update(true);
 			}
 		}
 	}
