@@ -75,6 +75,6 @@ public class AstralWhiteZoneContext extends AstralDataContext {
 
 	@Override
 	public Material getMapRepresentation() {
-		return Material.WOOL;
+		return Material.WHITE_WOOL;
 	}
 }

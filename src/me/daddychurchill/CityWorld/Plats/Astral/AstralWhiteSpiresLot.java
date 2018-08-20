@@ -43,22 +43,22 @@ public class AstralWhiteSpiresLot extends AstralNatureLot {
 		x = shiftAround(x);
 		z = shiftAround(z);
 		
-		chunk.setBlocks(x, y - 8, y + 6, z, Material.ENDER_STONE);
+		chunk.setBlocks(x, y - 8, y + 6, z, Material.END_STONE);
 
-		chunk.setBlocks(x - 1, y, y + 6, z, Material.ENDER_STONE);
-		chunk.setBlocks(x + 1, y, y + 6, z, Material.ENDER_STONE);
-		chunk.setBlocks(x, y, y + 6, z - 1, Material.ENDER_STONE);
-		chunk.setBlocks(x, y, y + 6, z + 1, Material.ENDER_STONE);
+		chunk.setBlocks(x - 1, y, y + 6, z, Material.END_STONE);
+		chunk.setBlocks(x + 1, y, y + 6, z, Material.END_STONE);
+		chunk.setBlocks(x, y, y + 6, z - 1, Material.END_STONE);
+		chunk.setBlocks(x, y, y + 6, z + 1, Material.END_STONE);
 		
-		chunk.setBlocks(x - 1, y + 2, y + 6, z - 1, Material.ENDER_STONE);
-		chunk.setBlocks(x + 1, y + 2, y + 6, z - 1, Material.ENDER_STONE);
-		chunk.setBlocks(x - 1, y + 2, y + 6, z + 1, Material.ENDER_STONE);
-		chunk.setBlocks(x + 1, y + 2, y + 6, z + 1, Material.ENDER_STONE);
+		chunk.setBlocks(x - 1, y + 2, y + 6, z - 1, Material.END_STONE);
+		chunk.setBlocks(x + 1, y + 2, y + 6, z - 1, Material.END_STONE);
+		chunk.setBlocks(x - 1, y + 2, y + 6, z + 1, Material.END_STONE);
+		chunk.setBlocks(x + 1, y + 2, y + 6, z + 1, Material.END_STONE);
 		
-		chunk.setBlocks(x - 2, y + 4, y + 8, z, Material.ENDER_STONE);
-		chunk.setBlocks(x + 2, y + 4, y + 8, z, Material.ENDER_STONE);
-		chunk.setBlocks(x, y + 4, y + 8, z - 2, Material.ENDER_STONE);
-		chunk.setBlocks(x, y + 4, y + 8, z + 2, Material.ENDER_STONE);
+		chunk.setBlocks(x - 2, y + 4, y + 8, z, Material.END_STONE);
+		chunk.setBlocks(x + 2, y + 4, y + 8, z, Material.END_STONE);
+		chunk.setBlocks(x, y + 4, y + 8, z - 2, Material.END_STONE);
+		chunk.setBlocks(x, y + 4, y + 8, z + 2, Material.END_STONE);
 		
 		chunk.setThinGlass(x - 1, y + 7, z, DyeColor.YELLOW);
 		chunk.setThinGlass(x + 1, y + 7, z, DyeColor.YELLOW);

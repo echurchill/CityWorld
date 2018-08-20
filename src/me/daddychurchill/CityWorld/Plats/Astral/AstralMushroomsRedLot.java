@@ -14,7 +14,7 @@ public class AstralMushroomsRedLot extends AstralMushroomsLot {
 		
 	}
 
-	private Material mushroomMaterial = Material.HUGE_MUSHROOM_2;
+	private Material mushroomMaterial = Material.RED_MUSHROOM_BLOCK;
 
 	private final static double oddsOfTallMushroom = Odds.oddsSomewhatLikely;
 	private final static double oddsOfNarrowMushroom = Odds.oddsSomewhatUnlikely;

@@ -134,7 +134,7 @@ public class Odds {
 			return getRandomColor(
 					DyeColor.WHITE, DyeColor.ORANGE, DyeColor.MAGENTA, DyeColor.LIGHT_BLUE,
 					DyeColor.YELLOW, DyeColor.LIME, DyeColor.PINK, DyeColor.GRAY, 
-					DyeColor.SILVER, DyeColor.CYAN, DyeColor.PURPLE, DyeColor.BLUE,
+					DyeColor.LIGHT_GRAY, DyeColor.CYAN, DyeColor.PURPLE, DyeColor.BLUE,
 					DyeColor.BROWN, DyeColor.GREEN, DyeColor.RED, DyeColor.BLACK);
 		case GREEN:
 			return getRandomColor(
@@ -146,7 +146,7 @@ public class Odds {
 		case LIGHT:
 			return getRandomColor(
 					DyeColor.WHITE, DyeColor.ORANGE, DyeColor.MAGENTA, DyeColor.LIGHT_BLUE,
-					DyeColor.YELLOW, DyeColor.LIME, DyeColor.PINK, DyeColor.SILVER);
+					DyeColor.YELLOW, DyeColor.LIME, DyeColor.PINK, DyeColor.LIGHT_GRAY);
 		case NETHER:
 			return getRandomColor(
 					DyeColor.RED, DyeColor.BROWN, DyeColor.PURPLE, DyeColor.BLACK, DyeColor.GRAY);
@@ -155,23 +155,23 @@ public class Odds {
 					DyeColor.ORANGE, DyeColor.YELLOW);
 		case PINK:
 			return getRandomColor(
-					DyeColor.PINK, DyeColor.SILVER, DyeColor.RED);
+					DyeColor.PINK, DyeColor.LIGHT_GRAY, DyeColor.RED);
 		case WHITE:
 			return getRandomColor(
-					DyeColor.WHITE, DyeColor.SILVER);
+					DyeColor.WHITE, DyeColor.LIGHT_GRAY);
 		case THEEND:
 			return getRandomColor(
-					DyeColor.WHITE, DyeColor.SILVER, DyeColor.PINK);
+					DyeColor.WHITE, DyeColor.LIGHT_GRAY, DyeColor.PINK);
 		}
 	}
 	
-	public int getCauldronLevel() {
-		return getRandomInt(BlackMagic.maxCauldronLevel + 1);
-	}
-	
-	public int getRandomWoodType() {
-		return getRandomInt(4);
-	}
+//	public int getCauldronLevel() {
+//		return getRandomInt(BlackMagic.maxCauldronLevel + 1);
+//	}
+//	
+//	public int getRandomWoodType() {
+//		return getRandomInt(4);
+//	}
 	
 	public TreeSpecies getRandomWoodSpecies() {
 		TreeSpecies[] values = TreeSpecies.values();
@@ -192,7 +192,7 @@ public class Odds {
 			return Material.SPRUCE_DOOR;
 		case 0:
 		default:
-			return Material.WOODEN_DOOR;
+			return Material.OAK_DOOR;
 		}
 	}
 	

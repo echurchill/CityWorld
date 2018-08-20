@@ -38,4 +38,10 @@ public final class RealBlocks extends SupportBlocks {
 				isWater(x, y, z - 1) || 
 				isWater(x, y, z + 1));
 	}
+	
+//	public static Material DOUBLE_ACACIA_SLAB = DoubleIt(Material.ACACIA_SLAB);
+//	
+//	private static Material DoubleIt(Material material) {
+//		return Slab
+//	}
 }

@@ -27,8 +27,8 @@ public class OilPlatformLot extends ConstructLot {
 	}
 
 	private final static Material platformMaterial = Material.DOUBLE_STEP;
-	private final static Material headMaterial = Material.STEP;
-	private final static Material railingMaterial = Material.IRON_FENCE;
+	private final static Material headMaterial = Material.STONE_SLAB;
+	private final static Material railingMaterial = Material.IRON_BARS;
 	private final static Material drillMaterial = Material.NETHER_FENCE;
 	private final static Material supportMaterial = Material.NETHER_BRICK;
 	private final static Material topperMaterial = Material.NETHER_BRICK_STAIRS;
@@ -134,11 +134,11 @@ public class OilPlatformLot extends ConstructLot {
 		chunk.clearBlock(2, y4 - 1, 2);
 		chunk.clearBlock(2, y4 - 1, 3);
 		chunk.setStair(3, y4 - 1, 3, topperMaterial, BadMagic.Stair.NORTH);
-		chunk.setBlocks(2, y4 - 2, y4, 2, Material.IRON_FENCE);
+		chunk.setBlocks(2, y4 - 2, y4, 2, Material.IRON_BARS);
 		chunk.drawCrane(context, chunkOdds, 3, y4, 2);
 		
 		// bleed off
-		chunk.setBlocks(12, 14, y4 + 3, y4 + 8, 12, 14, Material.IRON_FENCE);
+		chunk.setBlocks(12, 14, y4 + 3, y4 + 8, 12, 14, Material.IRON_BARS);
 		chunk.setBlocks(12, 14, y4 + 8, 12, 14, Material.NETHERRACK);
 		chunk.setBlocks(12, 14, y4 + 9, 12, 14, Material.FIRE);
 

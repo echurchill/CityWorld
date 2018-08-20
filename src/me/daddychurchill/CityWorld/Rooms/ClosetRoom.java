@@ -69,7 +69,7 @@ public class ClosetRoom extends FilledRoom {
 	private Material getShelveMaterial(Material wall) {
 		switch (wall) {
 		case QUARTZ_BLOCK:
-			return Material.STEP;
+			return Material.STONE_SLAB;
 		
 		default: // WOOD
 			return Material.WOOD_STEP;

@@ -5,7 +5,6 @@ import me.daddychurchill.CityWorld.Support.MazeArray;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
-import me.daddychurchill.CityWorld.Support.BadMagic.TrapDoor;
 import me.daddychurchill.CityWorld.Support.MazeArray.MazeBit;
 
 import org.bukkit.DyeColor;
@@ -37,10 +36,10 @@ public abstract class AstralStructureTowerLot extends AstralStructureLot {
 		
 		// adjust for lightness
 		if (style == TowerStyle.LIGHT) {
-			wallMaterial = generator.materialProvider.itemsSelectMaterial_AstralTowerLight.getRandomMaterial(chunkOdds, Material.ENDER_STONE);
+			wallMaterial = generator.materialProvider.itemsSelectMaterial_AstralTowerLight.getRandomMaterial(chunkOdds, Material.END_STONE);
 			trimMaterial = generator.materialProvider.itemsSelectMaterial_AstralTowerTrim.getRandomMaterial(chunkOdds, Material.GLOWSTONE);
 			windowPrimaryColor = DyeColor.WHITE;
-			windowSecondaryColor = DyeColor.SILVER;
+			windowSecondaryColor = DyeColor.LIGHT_GRAY;
 		}
 		
 		// calculate a few things

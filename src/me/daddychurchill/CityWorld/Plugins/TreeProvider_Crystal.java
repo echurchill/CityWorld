@@ -30,7 +30,7 @@ public class TreeProvider_Crystal extends TreeProvider {
 		case 1:
 			if (chunk.isEmpty(x, y, z))
 				if (odds.playOdds(Odds.oddsExtremelyLikely))
-					chunk.setBlock(x, y, z, Material.THIN_GLASS);
+					chunk.setBlock(x, y, z, Material.GLASS_PANE);
 				else
 					chunk.setBlock(x, y, z, Material.GLASS);
 			break;
@@ -41,23 +41,23 @@ public class TreeProvider_Crystal extends TreeProvider {
 		case 3:
 			if (chunk.isEmpty(x, y, z))
 				if (odds.playOdds(Odds.oddsExtremelyLikely))
-					chunk.setBlockTypeAndColor(x, y, z, Material.STAINED_GLASS, specialColor);
+					chunk.setBlockTypeAndColor(x, y, z, Material.WHITE_STAINED_GLASS, specialColor);
 				else
-					chunk.setBlockTypeAndColor(x, y, z, Material.STAINED_GLASS_PANE, specialColor);
+					chunk.setBlockTypeAndColor(x, y, z, Material.WHITE_STAINED_GLASS_PANE, specialColor);
 			break;
 		case 4:
 			if (chunk.isEmpty(x, y, z))
 				if (odds.playOdds(Odds.oddsExtremelyLikely))
-					chunk.setBlockTypeAndColor(x, y, z, Material.STAINED_GLASS_PANE, specialColor);
+					chunk.setBlockTypeAndColor(x, y, z, Material.WHITE_STAINED_GLASS_PANE, specialColor);
 				else
-					chunk.setBlockTypeAndColor(x, y, z, Material.STAINED_GLASS, specialColor);
+					chunk.setBlockTypeAndColor(x, y, z, Material.WHITE_STAINED_GLASS, specialColor);
 			break;
 		default:
 			if (chunk.isEmpty(x, y, z))
 				if (odds.playOdds(Odds.oddsExtremelyLikely))
 					chunk.setBlock(x, y, z, Material.GLASS);
 				else
-					chunk.setBlock(x, y, z, Material.THIN_GLASS);
+					chunk.setBlock(x, y, z, Material.GLASS_PANE);
 			break;
 		}
 	}

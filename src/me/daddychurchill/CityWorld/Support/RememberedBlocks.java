@@ -4,7 +4,6 @@ import java.util.Stack;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.material.MaterialData;
 
 public class RememberedBlocks {
 	
@@ -18,21 +17,19 @@ public class RememberedBlocks {
 	
 	private static class rememberedBlock {
 		private Material origMaterial;
-		private MaterialData origData;
 		private int origX;
 		private int origY;
 		private int origZ;
 		
 		public rememberedBlock(Block block, int x, int y, int z) {
 			origMaterial = block.getType();
-			origData = block.getState().getData().clone();
 			origX = x;
 			origY = y;
 			origZ = z;
 		}
 		
 		public void restoreBlock(SupportBlocks blocks) {
-			blocks.setBlock(origX, origY, origZ, origMaterial, origData);
+			blocks.setBlock(origX, origY, origZ, origMaterial);
 		}
 	}
 	

@@ -167,7 +167,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 						int topY = seaLevel + thickness;
 						int midY = topY - 5;
 						if (midY > bottomY) {
-							chunk.setBlocks(x, bottomY, midY, z, Material.WOOL);
+							chunk.setBlocks(x, bottomY, midY, z, Material.WHITE_WOOL);
 							chunk.setBlocks(x, midY, topY, z, Material.WEB);
 						} else
 							chunk.setBlocks(x, bottomY, topY, z, Material.WEB);

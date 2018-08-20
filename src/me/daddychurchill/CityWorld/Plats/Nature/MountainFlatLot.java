@@ -10,7 +10,7 @@ import org.bukkit.Material;
 
 public abstract class MountainFlatLot extends ConstructLot {
 
-	private final static Material retainingWallMaterial = Material.SMOOTH_BRICK;
+	private final static Material retainingWallMaterial = Material.SMOOTH_STONE;
 	
 	public MountainFlatLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);

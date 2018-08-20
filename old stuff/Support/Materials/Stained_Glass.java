@@ -3,14 +3,14 @@ package me.daddychurchill.CityWorld.Support.Materials;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 
-public class Stained_Clay extends Stained_Block {
+public class Stained_Glass extends Stained_Block {
 
-	public Stained_Clay()
+	public Stained_Glass()
 	{
-		super(Material.STAINED_CLAY);
+		super(Material.WHITE_STAINED_GLASS);
 	}
 
-	public Stained_Clay(DyeColor color)
+	public Stained_Glass(DyeColor color)
 	{
 		this();
 		setColor(color);

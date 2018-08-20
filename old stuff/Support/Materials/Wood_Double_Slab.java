@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Support.Materials;
 
 import org.bukkit.Material;
 import org.bukkit.TreeSpecies;
-import org.bukkit.material.Wood;
+import org.bukkit.Material.SPRUCE_WOOD;
 
 public class Wood_Double_Slab extends Wood {
 	

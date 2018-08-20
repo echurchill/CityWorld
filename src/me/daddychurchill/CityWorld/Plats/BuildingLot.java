@@ -36,12 +36,12 @@ public abstract class BuildingLot extends ConnectedLot {
 	protected boolean needStairsDown;
 	
 	protected final static Material antennaBase = Material.CLAY;
-	protected final static Material antenna = Material.FENCE;
+	protected final static Material antenna = Material.SPRUCE_FENCE;
 	protected final static Material conditioner = Material.DOUBLE_STEP;
-	protected final static Material conditionerTrim = Material.STONE_PLATE;
+	protected final static Material conditionerTrim = Material.STONE_PRESSURE_PLATE;
 	protected final static Material conditionerGrill = Material.RAILS;
-	protected final static Material duct = Material.STEP;
-	protected final static Material tileMaterial = Material.STEP;
+	protected final static Material duct = Material.STONE_SLAB;
+	protected final static Material tileMaterial = Material.STONE_SLAB;
 	
 	public enum StairStyle {STUDIO_A, CROSSED, LANDING, CORNER};
 	protected StairStyle stairStyle;

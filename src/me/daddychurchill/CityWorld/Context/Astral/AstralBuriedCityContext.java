@@ -75,6 +75,6 @@ public class AstralBuriedCityContext extends AstralDataContext {
 
 	@Override
 	public Material getMapRepresentation() {
-		return Material.STEP;
+		return Material.STONE_SLAB;
 	}
 }

@@ -111,10 +111,10 @@ public class StructureInAirProvider extends Provider {
 		DyeColor secondaryColor = getSecondaryColor(generator, odds);
 		
 		// draw the bottom of the blimp
-		chunk.setCircle(8, 8, 3, balloonY1 - 1, Material.WOOL, primaryColor);
-		chunk.setCircle(8, 8, 4, balloonY1, balloonY1 + 3, Material.WOOL, primaryColor, true);
-		chunk.setCircle(8, 8, 5, balloonY1 + 3, balloonY1 + 7, Material.WOOL, primaryColor, true);
-		chunk.setCircle(8, 8, 6, balloonY1 + 7, Material.WOOL, primaryColor, true);
+		chunk.setCircle(8, 8, 3, balloonY1 - 1, Material.WHITE_WOOL, primaryColor);
+		chunk.setCircle(8, 8, 4, balloonY1, balloonY1 + 3, Material.WHITE_WOOL, primaryColor, true);
+		chunk.setCircle(8, 8, 5, balloonY1 + 3, balloonY1 + 7, Material.WHITE_WOOL, primaryColor, true);
+		chunk.setCircle(8, 8, 6, balloonY1 + 7, Material.WHITE_WOOL, primaryColor, true);
 		
 		// middle of the blimp
 		int step = 2 + odds.getRandomInt(4);
@@ -123,14 +123,14 @@ public class StructureInAirProvider extends Provider {
 			DyeColor color = primaryColor;
 			if (y % step != 0)
 				color = secondaryColor;
-			chunk.setCircle(8, 8, 6, y, Material.WOOL, color, true);
+			chunk.setCircle(8, 8, 6, y, Material.WHITE_WOOL, color, true);
 			y++;
 		} while (y < balloonY2 - 3);
 		
 		// now the top of the balloon
-		chunk.setCircle(8, 8, 6, balloonY2 - 3, Material.WOOL, primaryColor, true);
-		chunk.setCircle(8, 8, 5, balloonY2 - 2, balloonY2, Material.WOOL, primaryColor, true);
-		chunk.setCircle(8, 8, 4, balloonY2, Material.WOOL, primaryColor, true);
+		chunk.setCircle(8, 8, 6, balloonY2 - 3, Material.WHITE_WOOL, primaryColor, true);
+		chunk.setCircle(8, 8, 5, balloonY2 - 2, balloonY2, Material.WHITE_WOOL, primaryColor, true);
+		chunk.setCircle(8, 8, 4, balloonY2, Material.WHITE_WOOL, primaryColor, true);
 		
 		// add the lights
 		addLight(chunk, context, 8, balloonY2, 8);
@@ -144,7 +144,7 @@ public class StructureInAirProvider extends Provider {
 	private boolean attachString(AbstractBlocks chunk, int x, int y1, int y2, int z) {
 		boolean result = !chunk.isEmpty(x, y1 - 1, z);
 		if (result)
-			chunk.setBlocks(x, y1, y2, z, Material.FENCE);
+			chunk.setBlocks(x, y1, y2, z, Material.SPRUCE_FENCE);
 		return result;
 	}
 	

@@ -6,7 +6,7 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import org.bukkit.material.MaterialData;
-import org.bukkit.material.Wood;
+import org.bukkit.Material.SPRUCE_WOOD;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
@@ -35,11 +35,11 @@ public class BarnLot extends IsolatedLot {
 		
 		style = LotStyle.STRUCTURE;
 		
-		wallMat = Material.WOOD;
+		wallMat = Material.SPRUCE_WOOD;
 		wallData = new Wood(TreeSpecies.ACACIA);
-		roofMat = Material.WOOD;
+		roofMat = Material.SPRUCE_WOOD;
 		roofData = new Wood(TreeSpecies.BIRCH);
-		windowsMat = Material.THIN_GLASS;
+		windowsMat = Material.GLASS_PANE;
 	}
 
 	@Override
@@ -75,7 +75,7 @@ public class BarnLot extends IsolatedLot {
 //			blockYs.report(generator, "*******");
 
 		// ground please
-		chunk.setWalls(0, 16, generator.streetLevel, generator.streetLevel + 1, 0, 16, Material.GRASS);
+		chunk.setWalls(0, 16, generator.streetLevel, generator.streetLevel + 1, 0, 16, Material.GRASS_BLOCK);
 		chunk.setBlocks(1, 15, generator.streetLevel, 1, 15, Material.SANDSTONE);
 	}
 
@@ -108,10 +108,10 @@ public class BarnLot extends IsolatedLot {
 			if (firstPaddock) {
 
 				// generate fence & gate
-				chunk.setBlocks(4, 5, y1, 2, 6, Material.FENCE);
-				chunk.setBlocks(4, 5, y1, 10, 14, Material.FENCE);
-				chunk.setBlocks(5, 6, y1, 5, 11, Material.FENCE);
-				BlackMagic.setBlocks(chunk, 5, 6, y1, 7, 9, Material.FENCE_GATE, Facing.EAST.getData()); // open east
+				chunk.setBlocks(4, 5, y1, 2, 6, Material.SPRUCE_FENCE);
+				chunk.setBlocks(4, 5, y1, 10, 14, Material.SPRUCE_FENCE);
+				chunk.setBlocks(5, 6, y1, 5, 11, Material.SPRUCE_FENCE);
+				BlackMagic.setBlocks(chunk, 5, 6, y1, 7, 9, Material.SPRUCE_FENCE_GATE, Facing.EAST.getData()); // open east
 
 				// hay & water please
 				chunk.setBlock(2, y1, 2, Material.HAY_BLOCK);
@@ -125,10 +125,10 @@ public class BarnLot extends IsolatedLot {
 			if (secondPaddock) {
 				
 				// generate fence & gate
-				chunk.setBlocks(11, 12, y1, 2, 6, Material.FENCE);
-				chunk.setBlocks(11, 12, y1, 10, 14, Material.FENCE);
-				chunk.setBlocks(10, 11, y1, 5, 11, Material.FENCE);
-				BlackMagic.setBlocks(chunk, 10, 11, y1, 7, 9, Material.FENCE_GATE, Facing.WEST.getData()); // open west
+				chunk.setBlocks(11, 12, y1, 2, 6, Material.SPRUCE_FENCE);
+				chunk.setBlocks(11, 12, y1, 10, 14, Material.SPRUCE_FENCE);
+				chunk.setBlocks(10, 11, y1, 5, 11, Material.SPRUCE_FENCE);
+				BlackMagic.setBlocks(chunk, 10, 11, y1, 7, 9, Material.SPRUCE_FENCE_GATE, Facing.WEST.getData()); // open west
 
 				// hay & water please
 				chunk.setBlock(13, y1, 2, Material.HAY_BLOCK);
@@ -209,10 +209,10 @@ public class BarnLot extends IsolatedLot {
 			if (firstPaddock) {
 				
 				// generate fence & gate
-				chunk.setBlocks(2, 6, y1, 4, 5, Material.FENCE);
-				chunk.setBlocks(10, 14, y1, 4, 5, Material.FENCE);
-				chunk.setBlocks(5, 11, y1, 5, 6, Material.FENCE);
-				BlackMagic.setBlocks(chunk, 7, 9, y1, 5, 6, Material.FENCE_GATE, Facing.SOUTH.getData()); // open south
+				chunk.setBlocks(2, 6, y1, 4, 5, Material.SPRUCE_FENCE);
+				chunk.setBlocks(10, 14, y1, 4, 5, Material.SPRUCE_FENCE);
+				chunk.setBlocks(5, 11, y1, 5, 6, Material.SPRUCE_FENCE);
+				BlackMagic.setBlocks(chunk, 7, 9, y1, 5, 6, Material.SPRUCE_FENCE_GATE, Facing.SOUTH.getData()); // open south
 
 				// hay & water please
 				chunk.setBlock(2, y1, 2, Material.HAY_BLOCK);
@@ -226,10 +226,10 @@ public class BarnLot extends IsolatedLot {
 			if (secondPaddock) {
 				
 				// generate fence & gate
-				chunk.setBlocks(2, 6, y1, 11, 12, Material.FENCE);
-				chunk.setBlocks(10, 14, y1, 11, 12, Material.FENCE);
-				chunk.setBlocks(5, 11, y1, 10, 11, Material.FENCE);
-				BlackMagic.setBlocks(chunk, 7, 9, y1, 10, 11, Material.FENCE_GATE, Facing.NORTH.getData()); // open north
+				chunk.setBlocks(2, 6, y1, 11, 12, Material.SPRUCE_FENCE);
+				chunk.setBlocks(10, 14, y1, 11, 12, Material.SPRUCE_FENCE);
+				chunk.setBlocks(5, 11, y1, 10, 11, Material.SPRUCE_FENCE);
+				BlackMagic.setBlocks(chunk, 7, 9, y1, 10, 11, Material.SPRUCE_FENCE_GATE, Facing.NORTH.getData()); // open north
 
 				// hay & water please
 				chunk.setBlock(2, y1, 13, Material.HAY_BLOCK);

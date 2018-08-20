@@ -38,14 +38,14 @@ public class RadioTowerLot extends ConstructLot {
 	private boolean antennaBuilt = false;
 	private boolean tallestBuilt = false;
 
-	private final static Material platformMaterial = Material.SMOOTH_BRICK;
+	private final static Material platformMaterial = Material.SMOOTH_STONE;
 	private final static Material supportMaterial = Material.COBBLESTONE;
 	private final static Material wallMaterial = Material.DOUBLE_STEP;
-	private final static Material roofMaterial = Material.STEP;
+	private final static Material roofMaterial = Material.STONE_SLAB;
 	private final static Material baseMaterial = Material.CLAY;
-	private final static Material antennaMaterial = Material.IRON_FENCE;
+	private final static Material antennaMaterial = Material.IRON_BARS;
 	private final static Material capBigMaterial = Material.DOUBLE_STEP;
-	private final static Material capTinyMaterial = Material.STEP;
+	private final static Material capTinyMaterial = Material.STONE_SLAB;
 	
 	@Override
 	public int getBottomY(CityWorldGenerator generator) {

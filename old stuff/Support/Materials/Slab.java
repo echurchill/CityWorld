@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
-import org.bukkit.material.Step;
+import org.bukkit.Material.STONE_SLAB;
 
 import com.google.common.collect.Maps;
 
@@ -39,13 +39,13 @@ public class Slab extends Step {
 			case SANDSTONE:
 				return Material.SANDSTONE;
 			case WOODSTONE:
-				return Material.WOOD;
+				return Material.SPRUCE_WOOD;
 			case COBBLESTONE:
 				return Material.COBBLESTONE;
 			case BRICK:
 				return Material.BRICK;
 			case SMOOTH_BRICK:
-				return Material.SMOOTH_BRICK;
+				return Material.SMOOTH_STONE;
 			case NETHER_BRICK:
 				return Material.NETHER_BRICK;
 			case QUARTZ:

@@ -21,7 +21,7 @@ public class AstralBuriedRoadLot extends AstralBuriedCityLot {
 	}
 	
 	private static DyeColor roadColor = DyeColor.BLACK;
-	private static Material sidewalkMaterial = Material.DOUBLE_STEP;
+	private static Material sidewalkMaterial = Material.slab DOUBLE_STEP;
 	private static double oddsOfLandedSaucer = Odds.oddsEnormouslyUnlikely;
 
 	@Override

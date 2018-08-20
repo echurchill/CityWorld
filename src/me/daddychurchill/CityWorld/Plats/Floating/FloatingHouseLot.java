@@ -28,9 +28,9 @@ public class FloatingHouseLot extends ConstructLot {
 		return new FloatingHouseLot(platmap, chunkX, chunkZ, groundLevel);
 	}
 
-	private final static Material platform = Material.SMOOTH_BRICK;
+	private final static Material platform = Material.SMOOTH_STONE;
 	private final static Material dirt = Material.DIRT;
-	private final static Material grass = Material.GRASS;
+	private final static Material grass = Material.GRASS_BLOCK;
 
 	@Override
 	public int getBottomY(CityWorldGenerator generator) {

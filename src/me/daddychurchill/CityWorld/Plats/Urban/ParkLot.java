@@ -27,11 +27,11 @@ public class ParkLot extends ConnectedLot {
 	private final static int groundDepth = 2;
 	
 	private final static Material cisternMaterial = Material.CLAY;
-	private final static Material fenceMaterial = Material.FENCE;
-	private final static Material columnMaterial = Material.SMOOTH_BRICK;
-	private final static Material grassMaterial = Material.GRASS;
+	private final static Material fenceMaterial = Material.SPRUCE_FENCE;
+	private final static Material columnMaterial = Material.SMOOTH_STONE;
+	private final static Material grassMaterial = Material.GRASS_BLOCK;
 	private final static Material pathMaterial = Material.GRASS_PATH;
-	private final static Material stepMaterial = Material.STEP;
+	private final static Material stepMaterial = Material.STONE_SLAB;
 	private final static Material ledgeMaterial = Material.CLAY;
 	
 	//TODO NW/SE quarter partial circle sidewalks
@@ -184,8 +184,8 @@ public class ParkLot extends ConnectedLot {
 		case LABYRINTH_MAZE:
 		case HEDGE_MAZE:
 		case CIRCLE_MAZE:
-			chunk.setWalls(0, 16, surfaceY - 1, surfaceY, 0, 16, Material.LOG);
-			chunk.setWalls(0, 16, surfaceY, surfaceY + 3, 0, 16, Material.LEAVES);
+			chunk.setWalls(0, 16, surfaceY - 1, surfaceY, 0, 16, Material.SPRUCE_LOG);
+			chunk.setWalls(0, 16, surfaceY, surfaceY + 3, 0, 16, Material.BIRCH_LEAVES);
 			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
 				chunk.clearBlocks(6, 10, surfaceY, surfaceY + 3, 0, 1);
 				chunk.setBlocks(6, surfaceY, surfaceY + 2, 0, columnMaterial);
@@ -348,12 +348,12 @@ public class ParkLot extends ConnectedLot {
 				contLabyrinth(chunk, 8, 7); //t
 				break;
 			case CIRCLE_MAZE:
-				chunk.setWalls(2, 14, surfaceY - 1, surfaceY, 2, 14, Material.LOG);
-				chunk.setWalls(4, 12, surfaceY - 1, surfaceY, 4, 12, Material.LOG);
-				chunk.setWalls(6, 10, surfaceY - 1, surfaceY, 6, 10, Material.LOG);
-				chunk.setWalls(2, 14, surfaceY, surfaceY + 2, 2, 14, Material.LEAVES);
-				chunk.setWalls(4, 12, surfaceY, surfaceY + 3, 4, 12, Material.LEAVES);
-				chunk.setWalls(6, 10, surfaceY, surfaceY + 4, 6, 10, Material.LEAVES);
+				chunk.setWalls(2, 14, surfaceY - 1, surfaceY, 2, 14, Material.SPRUCE_LOG);
+				chunk.setWalls(4, 12, surfaceY - 1, surfaceY, 4, 12, Material.SPRUCE_LOG);
+				chunk.setWalls(6, 10, surfaceY - 1, surfaceY, 6, 10, Material.SPRUCE_LOG);
+				chunk.setWalls(2, 14, surfaceY, surfaceY + 2, 2, 14, Material.BIRCH_LEAVES);
+				chunk.setWalls(4, 12, surfaceY, surfaceY + 3, 4, 12, Material.BIRCH_LEAVES);
+				chunk.setWalls(6, 10, surfaceY, surfaceY + 4, 6, 10, Material.BIRCH_LEAVES);
 				
 				pokeHoleSomewhere(chunk, 3, 13, surfaceY, 2, 3);
 				pokeHoleSomewhere(chunk, 5, 11, surfaceY, 4, 5);
@@ -381,15 +381,15 @@ public class ParkLot extends ConnectedLot {
 						int xWall = x * 2;
 						int zWall = z * 2;
 						if ((x < 5) && (maze.getBit(xWall, zWall - 1) == MazeBit.WALL)) {
-							chunk.setBlocks(x2, x2 + 1, surfaceY - 1, surfaceY, z1, z2, Material.LOG);
-							chunk.setBlocks(x2, x2 + 1, surfaceY, surfaceY + 3, z1, z2, Material.LEAVES);
+							chunk.setBlocks(x2, x2 + 1, surfaceY - 1, surfaceY, z1, z2, Material.SPRUCE_LOG);
+							chunk.setBlocks(x2, x2 + 1, surfaceY, surfaceY + 3, z1, z2, Material.BIRCH_LEAVES);
 						}
 						if ((z < 5) && (maze.getBit(xWall - 1, zWall) == MazeBit.WALL)) {
-							chunk.setBlocks(x1, x2, surfaceY - 1, surfaceY, z2, z2 + 1, Material.LOG);
+							chunk.setBlocks(x1, x2, surfaceY - 1, surfaceY, z2, z2 + 1, Material.SPRUCE_LOG);
 							chunk.setBlocks(x1, x2, surfaceY, surfaceY + 3, z2, z2 + 1, Material.LEAVES_2);
 						}
 						if ((x < 5) && (z < 5)) {
-							chunk.setBlocks(x2, surfaceY - 1, surfaceY, z2, Material.LOG);
+							chunk.setBlocks(x2, surfaceY - 1, surfaceY, z2, Material.SPRUCE_LOG);
 							chunk.setBlocks(x2, surfaceY, surfaceY + 3, z2, Material.LEAVES_2);
 						}
 					}

@@ -89,10 +89,10 @@ public class AstralMushroomContext extends AstralDataContext {
 			return Material.SPONGE;
 		case BROWN:
 		case REDBROWN:
-			return Material.HUGE_MUSHROOM_1;
+			return Material.BROWN_MUSHROOM_BLOCK;
 		case RED:
 		default:
-			return Material.HUGE_MUSHROOM_2;
+			return Material.RED_MUSHROOM_BLOCK;
 		}
 	}
 }

@@ -11,8 +11,8 @@ public class WarehouseWithStacks extends RoomProvider {
 		super();
 
 		roomTypes.add(new StorageStacksRoom(Material.BOOKSHELF));
-		roomTypes.add(new StorageStacksRoom(Material.PISTON_BASE));
-		roomTypes.add(new StorageStacksRoom(Material.WORKBENCH));
+		roomTypes.add(new StorageStacksRoom(Material.PISTON));
+		roomTypes.add(new StorageStacksRoom(Material.CRAFTING_TABLE));
 	}
 
 }

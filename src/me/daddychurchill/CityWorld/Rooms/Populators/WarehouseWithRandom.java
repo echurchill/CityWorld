@@ -15,8 +15,8 @@ public class WarehouseWithRandom extends RoomProvider {
 
 		roomTypes.add(new StorageDoubleShelvesRoom());
 		roomTypes.add(new StorageDoubleRowRoom(Material.BOOKSHELF));
-		roomTypes.add(new StorageDoubleRowRoom(Material.PISTON_BASE));
-		roomTypes.add(new StorageDoubleRowRoom(Material.WORKBENCH));
+		roomTypes.add(new StorageDoubleRowRoom(Material.PISTON));
+		roomTypes.add(new StorageDoubleRowRoom(Material.CRAFTING_TABLE));
 		roomTypes.add(new StorageFilledChestsRoom());
 		roomTypes.add(new StorageEmptyChestsRoom());
 	}

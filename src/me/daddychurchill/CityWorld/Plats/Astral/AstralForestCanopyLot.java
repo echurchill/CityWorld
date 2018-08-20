@@ -21,7 +21,7 @@ public class AstralForestCanopyLot extends AstralForestLot {
 			int blockX, int blockY, int blockZ, int snowY) {
 		
 		// Buried bit
-		blocks.setLogs(blockX, blockX + 2, blockY, blockY + snowY, blockZ, blockZ + 2, Material.LOG, TreeSpecies.GENERIC, BlockFace.UP);
+		blocks.setLogs(blockX, blockX + 2, blockY, blockY + snowY, blockZ, blockZ + 2, Material.SPRUCE_LOG, TreeSpecies.GENERIC, BlockFace.UP);
 		blockY += snowY;
 		
 		// how tall is it?
@@ -30,7 +30,7 @@ public class AstralForestCanopyLot extends AstralForestLot {
 		int treeTop = blockY + treeSegment + chunkOdds.getRandomInt(treeSegment * 3);
 		
 		// more trunk!
-		blocks.setLogs(blockX, blockX + 2, blockY, treeTop, blockZ, blockZ + 2, Material.LOG, TreeSpecies.GENERIC, BlockFace.UP);
+		blocks.setLogs(blockX, blockX + 2, blockY, treeTop, blockZ, blockZ + 2, Material.SPRUCE_LOG, TreeSpecies.GENERIC, BlockFace.UP);
 		
 		// now add the canopy bit
 		for (int x = blockX - 3; x < blockX + 5; x++) {

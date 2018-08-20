@@ -9,14 +9,14 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.material.Colorable;
 import org.bukkit.material.Directional;
-import org.bukkit.material.Leaves;
+import org.bukkit.Material.BIRCH_LEAVES;
 import org.bukkit.material.MaterialData;
 import org.bukkit.material.Sandstone;
 import org.bukkit.material.Sapling;
 import org.bukkit.material.Stairs;
 import org.bukkit.material.TexturedMaterial;
-import org.bukkit.material.Wood;
-import org.bukkit.material.Wool;
+import org.bukkit.Material.SPRUCE_WOOD;
+import org.bukkit.Material.WHITE_WOOL;
 
 import me.daddychurchill.CityWorld.Support.Odds.ColorSet;
 import me.daddychurchill.CityWorld.Support.Materials.Carpet;
@@ -58,7 +58,7 @@ public class RealMaterial {
 	public final static MaterialData POLISHED_DIORITE = define(true, false, new Stone(StoneType.POLISHED_DIORITE));
 	public final static MaterialData POLISHED_ANDESITE = define(true, false, new Stone(StoneType.POLISHED_ANDESITE));
 
-	public final static MaterialData GRASS = define(false, false, Material.GRASS);
+	public final static MaterialData GRASS = define(false, false, Material.GRASS_BLOCK);
 
 	public final static MaterialData DIRT = define(true, false, new Dirt(DirtType.DIRT));
 	public final static MaterialData COARSE_DIRT = define(true, false, new Dirt(DirtType.COARSE_DIRT));
@@ -67,7 +67,7 @@ public class RealMaterial {
 	public final static MaterialData COBBLESTONE = define(true, false, Material.COBBLESTONE);
 
 	@Deprecated
-	public final static MaterialData WOOD = define(false, true, Material.WOOD);
+	public final static MaterialData WOOD = define(false, true, Material.SPRUCE_WOOD);
 	@Deprecated
 	public final static MaterialData REDWOOD_WOOD = define(true, true, new Wood(TreeSpecies.REDWOOD));
 	public final static MaterialData OAK_WOOD = define(true, false, new Wood(TreeSpecies.GENERIC));
@@ -109,7 +109,7 @@ public class RealMaterial {
 	public final static MaterialData COAL_ORE = define(true, false, Material.COAL_ORE);
 
 	@Deprecated
-	public final static MaterialData LOG = define(false, true, Material.LOG);
+	public final static MaterialData LOG = define(false, true, Material.SPRUCE_LOG);
 	@Deprecated
 	public final static MaterialData REDWOOD_LOG = define(true, true, new Log(TreeSpecies.REDWOOD));
 	public final static MaterialData OAK_LOG = define(true, false, new Log(TreeSpecies.GENERIC));
@@ -120,7 +120,7 @@ public class RealMaterial {
 	public final static MaterialData DARK_OAK_LOG = define(true, false, new Log(TreeSpecies.DARK_OAK));
 
 	@Deprecated
-	public final static MaterialData LEAVES = define(false, true, Material.LEAVES);
+	public final static MaterialData LEAVES = define(false, true, Material.BIRCH_LEAVES);
 	@Deprecated
 	public final static MaterialData REDWOOD_LEAVES = define(false, true, new Leaves(TreeSpecies.REDWOOD));
 	public final static MaterialData OAK_LEAVES = define(false, false, new Leaves(TreeSpecies.GENERIC));
@@ -152,11 +152,11 @@ public class RealMaterial {
 	public final static MaterialData WEB = define(false, false, Material.WEB);
 	public final static MaterialData LONG_GRASS = define(false, false, Material.LONG_GRASS);
 	public final static MaterialData DEAD_BUSH = define(false, false, Material.DEAD_BUSH);
-	public final static MaterialData PISTON_BASE = define(false, false, Material.PISTON_BASE);
+	public final static MaterialData PISTON_BASE = define(false, false, Material.PISTON);
 	public final static MaterialData PISTON_EXTENSION = define(false, false, Material.PISTON_EXTENSION);
 
 	@Deprecated
-	public final static MaterialData WOOL = define(false, true, Material.WOOL);
+	public final static MaterialData WOOL = define(false, true, Material.WHITE_WOOL);
 	public final static MaterialData WHITE_WOOL = define(true, false, new Wool(DyeColor.WHITE));
 	public final static MaterialData ORANGE_WOOL = define(true, false, new Wool(DyeColor.ORANGE));
 	public final static MaterialData MAGENTA_WOOL = define(true, false, new Wool(DyeColor.MAGENTA));
@@ -165,7 +165,7 @@ public class RealMaterial {
 	public final static MaterialData LIME_WOOL = define(true, false, new Wool(DyeColor.LIME));
 	public final static MaterialData PINK_WOOL = define(true, false, new Wool(DyeColor.PINK));
 	public final static MaterialData GRAY_WOOL = define(true, false, new Wool(DyeColor.GRAY));
-	public final static MaterialData SILVER_WOOL = define(true, false, new Wool(DyeColor.SILVER));
+	public final static MaterialData SILVER_WOOL = define(true, false, new Wool(DyeColor.LIGHT_GRAY));
 	public final static MaterialData CYAN_WOOL = define(true, false, new Wool(DyeColor.CYAN));
 	public final static MaterialData PURPLE_WOOL = define(true, false, new Wool(DyeColor.PURPLE));
 	public final static MaterialData BLUE_WOOL = define(true, false, new Wool(DyeColor.BLUE));
@@ -196,7 +196,7 @@ public class RealMaterial {
 	public final static MaterialData QUARTZ_DOUBLE_SLAB = define(true, false, new Double_Slab(SlabType.QUARTZ));
 
 	@Deprecated
-	public final static MaterialData STEP = define(false, true, Material.STEP);
+	public final static MaterialData STEP = define(false, true, Material.STONE_SLAB);
 	public final static MaterialData STONE_SLAB = define(false, false, new Slab(SlabType.STONE));
 	public final static MaterialData SANDSTONE_SLAB = define(false, false, new Slab(SlabType.SANDSTONE));
 	public final static MaterialData WOODSTONE_SLAB = define(false, false, new Slab(SlabType.WOODSTONE));
@@ -219,19 +219,19 @@ public class RealMaterial {
 	public final static MaterialData REDSTONE_WIRE = define(false, false, Material.REDSTONE_WIRE);
 	public final static MaterialData DIAMOND_ORE = define(true, false, Material.DIAMOND_ORE);
 	public final static MaterialData DIAMOND_BLOCK = define(true, false, Material.DIAMOND_BLOCK);
-	public final static MaterialData WORKBENCH = define(false, false, Material.WORKBENCH);
+	public final static MaterialData WORKBENCH = define(false, false, Material.CRAFTING_TABLE);
 	public final static MaterialData CROPS = define(false, false, Material.CROPS);
-	public final static MaterialData SOIL = define(false, false, Material.SOIL);
+	public final static MaterialData SOIL = define(false, false, Material.FARMLAND);
 	public final static MaterialData FURNACE = define(false, false, Material.FURNACE);
 	public final static MaterialData BURNING_FURNACE = define(false, false, Material.BURNING_FURNACE);
 	public final static MaterialData SIGN_POST = define(false, false, Material.SIGN_POST);
-	public final static MaterialData WOODEN_DOOR = define(false, false, Material.WOODEN_DOOR);
+	public final static MaterialData WOODEN_DOOR = define(false, false, Material.OAK_DOOR);
 	public final static MaterialData LADDER = define(false, false, Material.LADDER);
 	public final static MaterialData RAILS = define(false, false, Material.RAILS);
 	public final static MaterialData COBBLESTONE_STAIRS = define(false, false,  new Stairs(Material.COBBLESTONE_STAIRS));
 	public final static MaterialData WALL_SIGN = define(false, false, Material.WALL_SIGN);
 	public final static MaterialData LEVER = define(false, false, Material.LEVER);
-	public final static MaterialData STONE_PLATE = define(false, false, Material.STONE_PLATE);
+	public final static MaterialData STONE_PRESSURE_PLATE = define(false, false, Material.STONE_PRESSURE_PLATE);
 	public final static MaterialData IRON_DOOR_BLOCK = define(false, false, Material.IRON_DOOR_BLOCK);
 	public final static MaterialData WOOD_PLATE = define(false, false, Material.WOOD_PLATE);
 	public final static MaterialData REDSTONE_ORE = define(true, false, Material.REDSTONE_ORE);
@@ -246,7 +246,7 @@ public class RealMaterial {
 	public final static MaterialData CLAY = define(true, false, Material.CLAY);
 	public final static MaterialData SUGAR_CANE_BLOCK = define(false, false, Material.SUGAR_CANE_BLOCK);
 	public final static MaterialData JUKEBOX = define(false, false, Material.JUKEBOX);
-	public final static MaterialData FENCE = define(false, false, Material.FENCE);
+	public final static MaterialData FENCE = define(false, false, Material.SPRUCE_FENCE);
 	public final static MaterialData PUMPKIN = define(false, false, Material.PUMPKIN);
 	public final static MaterialData NETHERRACK = define(true, false, Material.NETHERRACK);
 	public final static MaterialData SOUL_SAND = define(true, false, Material.SOUL_SAND);
@@ -258,7 +258,7 @@ public class RealMaterial {
 	public final static MaterialData DIODE_BLOCK_ON = define(false, false, Material.DIODE_BLOCK_ON);
 
 	@Deprecated
-	public final static MaterialData STAINED_GLASS = define(false, true, Material.STAINED_GLASS);
+	public final static MaterialData STAINED_GLASS = define(false, true, Material.WHITE_STAINED_GLASS);
 	public final static MaterialData WHITE_GLASS = define(true, false, new Stained_Glass(DyeColor.WHITE));
 	public final static MaterialData ORANGE_GLASS = define(true, false, new Stained_Glass(DyeColor.ORANGE));
 	public final static MaterialData MAGENTA_GLASS = define(true, false, new Stained_Glass(DyeColor.MAGENTA));
@@ -267,7 +267,7 @@ public class RealMaterial {
 	public final static MaterialData LIME_GLASS = define(true, false, new Stained_Glass(DyeColor.LIME));
 	public final static MaterialData PINK_GLASS = define(true, false, new Stained_Glass(DyeColor.PINK));
 	public final static MaterialData GRAY_GLASS = define(true, false, new Stained_Glass(DyeColor.GRAY));
-	public final static MaterialData SILVER_GLASS = define(true, false, new Stained_Glass(DyeColor.SILVER));
+	public final static MaterialData SILVER_GLASS = define(true, false, new Stained_Glass(DyeColor.LIGHT_GRAY));
 	public final static MaterialData CYAN_GLASS = define(true, false, new Stained_Glass(DyeColor.CYAN));
 	public final static MaterialData PURPLE_GLASS = define(true, false, new Stained_Glass(DyeColor.PURPLE));
 	public final static MaterialData BLUE_GLASS = define(true, false, new Stained_Glass(DyeColor.BLUE));
@@ -285,20 +285,20 @@ public class RealMaterial {
 	public final static MaterialData CHISELED_BRICK = define(true, false, new SmoothBrick(SmoothBrickType.CHISELED));
 
 	//TODO I need to figure out how to deal with HUGE_MUSHROOM
-	public final static MaterialData HUGE_MUSHROOM_1 = define(false, false, Material.HUGE_MUSHROOM_1);
-	public final static MaterialData HUGE_MUSHROOM_2 = define(false, false, Material.HUGE_MUSHROOM_2);
+	public final static MaterialData HUGE_MUSHROOM_1 = define(false, false, Material.BROWN_MUSHROOM_BLOCK);
+	public final static MaterialData HUGE_MUSHROOM_2 = define(false, false, Material.RED_MUSHROOM_BLOCK);
 
-	public final static MaterialData IRON_FENCE = define(false, false, Material.IRON_FENCE);
-	public final static MaterialData THIN_GLASS = define(true, false, Material.THIN_GLASS);
+	public final static MaterialData IRON_FENCE = define(false, false, Material.IRON_BARS);
+	public final static MaterialData THIN_GLASS = define(true, false, Material.GLASS_PANE);
 
 	public final static MaterialData MELON_BLOCK = define(false, false, Material.MELON_BLOCK);
 	public final static MaterialData PUMPKIN_STEM = define(false, false, Material.PUMPKIN_STEM);
 	public final static MaterialData MELON_STEM = define(false, false, Material.MELON_STEM);
 	public final static MaterialData VINE = define(false, false, Material.VINE);
-	public final static MaterialData FENCE_GATE = define(false, false, Material.FENCE_GATE);
+	public final static MaterialData FENCE_GATE = define(false, false, Material.SPRUCE_FENCE_GATE);
 	public final static MaterialData BRICK_STAIRS = define(false, false,  new Stairs(Material.BRICK_STAIRS));
-	public final static MaterialData SMOOTH_STAIRS = define(false, false, new Stairs(Material.SMOOTH_STAIRS));
-	public final static MaterialData MYCEL = define(true, false, Material.MYCEL);
+	public final static MaterialData STONE_BRICK_STAIRS = define(false, false, new Stairs(Material.STONE_BRICK_STAIRS));
+	public final static MaterialData MYCEL = define(true, false, Material.MYCELIUM);
 	public final static MaterialData WATER_LILY = define(false, false, Material.WATER_LILY);
 	public final static MaterialData NETHER_BRICK = define(true, false, Material.NETHER_BRICK);
 	public final static MaterialData NETHER_FENCE = define(false, false, Material.NETHER_FENCE);
@@ -309,9 +309,9 @@ public class RealMaterial {
 	public final static MaterialData CAULDRON = define(false, false, Material.CAULDRON);
 	public final static MaterialData ENDER_PORTAL = define(false, false, Material.ENDER_PORTAL);
 	public final static MaterialData ENDER_PORTAL_FRAME = define(false, false, Material.ENDER_PORTAL_FRAME);
-	public final static MaterialData ENDER_STONE = define(false, false, Material.ENDER_STONE);
+	public final static MaterialData ENDER_STONE = define(false, false, Material.END_STONE);
 	public final static MaterialData DRAGON_EGG = define(false, false, Material.DRAGON_EGG);
-	public final static MaterialData REDSTONE_LAMP_OFF = define(false, false, Material.REDSTONE_LAMP_OFF);
+	public final static MaterialData REDSTONE_LAMP_OFF = define(false, false, Material.REDSTONE_LAMP);
 	public final static MaterialData REDSTONE_LAMP_ON = define(false, false, Material.REDSTONE_LAMP_ON);
 
 	@Deprecated
@@ -371,7 +371,7 @@ public class RealMaterial {
 	public final static MaterialData DROPPER = define(false, false, Material.DROPPER);
 
 	@Deprecated
-	public final static MaterialData STAINED_CLAY = define(false, true, Material.STAINED_CLAY);
+	public final static MaterialData STAINED_CLAY = define(false, true, Material.WHITE_TERRACOTTA);
 	public final static MaterialData WHITE_CLAY = define(true, false, new Stained_Clay(DyeColor.WHITE));
 	public final static MaterialData ORANGE_CLAY = define(true, false, new Stained_Clay(DyeColor.ORANGE));
 	public final static MaterialData MAGENTA_CLAY = define(true, false, new Stained_Clay(DyeColor.MAGENTA));
@@ -380,7 +380,7 @@ public class RealMaterial {
 	public final static MaterialData LIME_CLAY = define(true, false, new Stained_Clay(DyeColor.LIME));
 	public final static MaterialData PINK_CLAY = define(true, false, new Stained_Clay(DyeColor.PINK));
 	public final static MaterialData GRAY_CLAY = define(true, false, new Stained_Clay(DyeColor.GRAY));
-	public final static MaterialData SILVER_CLAY = define(true, false, new Stained_Clay(DyeColor.SILVER));
+	public final static MaterialData SILVER_CLAY = define(true, false, new Stained_Clay(DyeColor.LIGHT_GRAY));
 	public final static MaterialData CYAN_CLAY = define(true, false, new Stained_Clay(DyeColor.CYAN));
 	public final static MaterialData PURPLE_CLAY = define(true, false, new Stained_Clay(DyeColor.PURPLE));
 	public final static MaterialData BLUE_CLAY = define(true, false, new Stained_Clay(DyeColor.BLUE));
@@ -390,7 +390,7 @@ public class RealMaterial {
 	public final static MaterialData BLACK_CLAY = define(true, false, new Stained_Clay(DyeColor.BLACK));
 
 	@Deprecated
-	public final static MaterialData STAINED_GLASS_PANE = define(false, true, Material.STAINED_GLASS_PANE);
+	public final static MaterialData STAINED_GLASS_PANE = define(false, true, Material.WHITE_STAINED_GLASS_PANE);
 	public final static MaterialData WHITE_GLASS_PANE = define(true, false, new Stained_Glass_Pane(DyeColor.WHITE));
 	public final static MaterialData ORANGE_GLASS_PANE = define(true, false, new Stained_Glass_Pane(DyeColor.ORANGE));
 	public final static MaterialData MAGENTA_GLASS_PANE = define(true, false, new Stained_Glass_Pane(DyeColor.MAGENTA));
@@ -399,7 +399,7 @@ public class RealMaterial {
 	public final static MaterialData LIME_GLASS_PANE = define(true, false, new Stained_Glass_Pane(DyeColor.LIME));
 	public final static MaterialData PINK_GLASS_PANE = define(true, false, new Stained_Glass_Pane(DyeColor.PINK));
 	public final static MaterialData GRAY_GLASS_PANE = define(true, false, new Stained_Glass_Pane(DyeColor.GRAY));
-	public final static MaterialData SILVER_GLASS_PANE = define(true, false, new Stained_Glass_Pane(DyeColor.SILVER));
+	public final static MaterialData SILVER_GLASS_PANE = define(true, false, new Stained_Glass_Pane(DyeColor.LIGHT_GRAY));
 	public final static MaterialData CYAN_GLASS_PANE = define(true, false, new Stained_Glass_Pane(DyeColor.CYAN));
 	public final static MaterialData PURPLE_GLASS_PANE = define(true, false, new Stained_Glass_Pane(DyeColor.PURPLE));
 	public final static MaterialData BLUE_GLASS_PANE = define(true, false, new Stained_Glass_Pane(DyeColor.BLUE));
@@ -411,7 +411,7 @@ public class RealMaterial {
 	@Deprecated
 	public final static MaterialData LEAVES_2 = define(false, true, Material.LEAVES_2);
 	@Deprecated
-	public final static MaterialData LOG_2 = define(false, true, Material.LOG_2);
+	public final static MaterialData LOG_2 = define(false, true, Material.SPRUCE_LOG_2);
 
 	public final static MaterialData ACACIA_STAIRS = define(false, false, new Stairs(Material.ACACIA_STAIRS));
 	public final static MaterialData DARK_OAK_STAIRS = define(false, false, new Stairs(Material.DARK_OAK_STAIRS));
@@ -436,7 +436,7 @@ public class RealMaterial {
 	public final static MaterialData LIME_CARPET = define(false, false, new Carpet(DyeColor.LIME));
 	public final static MaterialData PINK_CARPET = define(false, false, new Carpet(DyeColor.PINK));
 	public final static MaterialData GRAY_CARPET = define(false, false, new Carpet(DyeColor.GRAY));
-	public final static MaterialData SILVER_CARPET = define(false, false, new Carpet(DyeColor.SILVER));
+	public final static MaterialData SILVER_CARPET = define(false, false, new Carpet(DyeColor.LIGHT_GRAY));
 	public final static MaterialData CYAN_CARPET = define(false, false, new Carpet(DyeColor.CYAN));
 	public final static MaterialData PURPLE_CARPET = define(false, false, new Carpet(DyeColor.PURPLE));
 	public final static MaterialData BLUE_CARPET = define(false, false, new Carpet(DyeColor.BLUE));
@@ -445,7 +445,7 @@ public class RealMaterial {
 	public final static MaterialData RED_CARPET = define(false, false, new Carpet(DyeColor.RED));
 	public final static MaterialData BLACK_CARPET = define(false, false, new Stained_Clay(DyeColor.BLACK));
 
-	public final static MaterialData HARD_CLAY = define(true, false, Material.HARD_CLAY);
+	public final static MaterialData HARD_CLAY = define(true, false, Material.TERRACOTTA);
 	public final static MaterialData COAL_BLOCK = define(true, false, Material.COAL_BLOCK);
 	public final static MaterialData PACKED_ICE = define(false, false, Material.PACKED_ICE);
 	public final static MaterialData DOUBLE_PLANT = define(false, false, Material.DOUBLE_PLANT);
@@ -489,8 +489,8 @@ public class RealMaterial {
 	public final static MaterialData PURPUR_SLAB = define(false, false, Material.PURPUR_SLAB);
 
 	@Deprecated
-	public final static MaterialData END_BRICKS = define(false, true, Material.END_BRICKS);
-	public final static MaterialData END_BRICK = define(true, false, Material.END_BRICKS);
+	public final static MaterialData END_BRICKS = define(false, true, Material.END_STONE_BRICKS);
+	public final static MaterialData END_BRICK = define(true, false, Material.END_STONE_BRICKS);
 
 	public final static MaterialData BEETROOT_BLOCK = define(false, false, Material.BEETROOT_BLOCK);
 	public final static MaterialData GRASS_PATH = define(false, false, Material.GRASS_PATH);
@@ -548,7 +548,7 @@ public class RealMaterial {
 	public final static MaterialData LIME_CONCRETE = define(true, false, new Concrete(DyeColor.LIME));
 	public final static MaterialData PINK_CONCRETE = define(true, false, new Concrete(DyeColor.PINK));
 	public final static MaterialData GRAY_CONCRETE = define(true, false, new Concrete(DyeColor.GRAY));
-	public final static MaterialData SILVER_CONCRETE = define(true, false, new Concrete(DyeColor.SILVER));
+	public final static MaterialData SILVER_CONCRETE = define(true, false, new Concrete(DyeColor.LIGHT_GRAY));
 	public final static MaterialData CYAN_CONCRETE = define(true, false, new Concrete(DyeColor.CYAN));
 	public final static MaterialData PURPLE_CONCRETE = define(true, false, new Concrete(DyeColor.PURPLE));
 	public final static MaterialData BLUE_CONCRETE = define(true, false, new Concrete(DyeColor.BLUE));
@@ -567,7 +567,7 @@ public class RealMaterial {
 	public final static MaterialData LIME_CONCRETE_POWDER = define(true, false, new Concrete_Powder(DyeColor.LIME));
 	public final static MaterialData PINK_CONCRETE_POWDER = define(true, false, new Concrete_Powder(DyeColor.PINK));
 	public final static MaterialData GRAY_CONCRETE_POWDER = define(true, false, new Concrete_Powder(DyeColor.GRAY));
-	public final static MaterialData SILVER_CONCRETE_POWDER = define(true, false, new Concrete_Powder(DyeColor.SILVER));
+	public final static MaterialData SILVER_CONCRETE_POWDER = define(true, false, new Concrete_Powder(DyeColor.LIGHT_GRAY));
 	public final static MaterialData CYAN_CONCRETE_POWDER = define(true, false, new Concrete_Powder(DyeColor.CYAN));
 	public final static MaterialData PURPLE_CONCRETE_POWDER = define(true, false, new Concrete_Powder(DyeColor.PURPLE));
 	public final static MaterialData BLUE_CONCRETE_POWDER = define(true, false, new Concrete_Powder(DyeColor.BLUE));
@@ -579,7 +579,7 @@ public class RealMaterial {
 	public final static MaterialData STRUCTURE_BLOCK = define(false, false, Material.STRUCTURE_BLOCK);
 
 	// List of items
-	public final static MaterialData IRON_SPADE = define(false, false, Material.IRON_SPADE);
+	public final static MaterialData IRON_SPADE = define(false, false,Material.IRON_SHOVEL);
 	public final static MaterialData IRON_PICKAXE = define(false, false, Material.IRON_PICKAXE);
 	public final static MaterialData IRON_AXE = define(false, false, Material.IRON_AXE);
 	public final static MaterialData FLINT_AND_STEEL = define(false, false, Material.FLINT_AND_STEEL);
@@ -596,7 +596,7 @@ public class RealMaterial {
 	public final static MaterialData WOOD_PICKAXE = define(false, false, Material.WOOD_PICKAXE);
 	public final static MaterialData WOOD_AXE = define(false, false, Material.WOOD_AXE);
 	public final static MaterialData STONE_SWORD = define(false, false, Material.STONE_SWORD);
-	public final static MaterialData STONE_SPADE = define(false, false, Material.STONE_SPADE);
+	public final static MaterialData STONE_SPADE = define(false, false,Material.STONE_SHOVEL);
 	public final static MaterialData STONE_PICKAXE = define(false, false, Material.STONE_PICKAXE);
 	public final static MaterialData STONE_AXE = define(false, false, Material.STONE_AXE);
 	public final static MaterialData DIAMOND_SWORD = define(false, false, Material.DIAMOND_SWORD);
@@ -605,20 +605,20 @@ public class RealMaterial {
 	public final static MaterialData DIAMOND_AXE = define(false, false, Material.DIAMOND_AXE);
 	public final static MaterialData STICK = define(false, false, Material.STICK);
 	public final static MaterialData BOWL = define(false, false, Material.BOWL);
-	public final static MaterialData MUSHROOM_SOUP = define(false, false, Material.MUSHROOM_SOUP);
+	public final static MaterialData MUSHROOM_SOUP = define(false, false, Material.MUSHROOM_STEW);
 	public final static MaterialData GOLD_SWORD = define(false, false, Material.GOLD_SWORD);
 	public final static MaterialData GOLD_SPADE = define(false, false, Material.GOLD_SPADE);
 	public final static MaterialData GOLD_PICKAXE = define(false, false, Material.GOLD_PICKAXE);
 	public final static MaterialData GOLD_AXE = define(false, false, Material.GOLD_AXE);
 	public final static MaterialData STRING = define(false, false, Material.STRING);
 	public final static MaterialData FEATHER = define(false, false, Material.FEATHER);
-	public final static MaterialData SULPHUR = define(false, false, Material.SULPHUR);
+	public final static MaterialData SULPHUR = define(false, false, Material.GUNPOWDER);
 	public final static MaterialData WOOD_HOE = define(false, false, Material.WOOD_HOE);
 	public final static MaterialData STONE_HOE = define(false, false, Material.STONE_HOE);
 	public final static MaterialData IRON_HOE = define(false, false, Material.IRON_HOE);
 	public final static MaterialData DIAMOND_HOE = define(false, false, Material.DIAMOND_HOE);
 	public final static MaterialData GOLD_HOE = define(false, false, Material.GOLD_HOE);
-	public final static MaterialData SEEDS = define(false, false, Material.SEEDS);
+	public final static MaterialData SEEDS = define(false, false, Material.WHEAT_SEEDS);
 	public final static MaterialData WHEAT = define(false, false, Material.WHEAT);
 	public final static MaterialData BREAD = define(false, false, Material.BREAD);
 	public final static MaterialData LEATHER_HELMET = define(false, false, Material.LEATHER_HELMET);
@@ -642,8 +642,8 @@ public class RealMaterial {
 	public final static MaterialData GOLD_LEGGINGS = define(false, false, Material.GOLD_LEGGINGS);
 	public final static MaterialData GOLD_BOOTS = define(false, false, Material.GOLD_BOOTS);
 	public final static MaterialData FLINT = define(false, false, Material.FLINT);
-	public final static MaterialData PORK = define(false, false, Material.PORK);
-	public final static MaterialData GRILLED_PORK = define(false, false, Material.GRILLED_PORK);
+	public final static MaterialData PORK = define(false, false, Material.PORKCHOP);
+	public final static MaterialData GRILLED_PORK = define(false, false, Material.COOKED_PORKCHOP);
 	public final static MaterialData PAINTING = define(false, false, Material.PAINTING);
 	public final static MaterialData GOLDEN_APPLE = define(false, false, Material.GOLDEN_APPLE);
 	public final static MaterialData SIGN = define(false, false, Material.SIGN);
@@ -672,8 +672,8 @@ public class RealMaterial {
 	public final static MaterialData FISHING_ROD = define(false, false, Material.FISHING_ROD);
 	public final static MaterialData WATCH = define(false, false, Material.WATCH);
 	public final static MaterialData GLOWSTONE_DUST = define(false, false, Material.GLOWSTONE_DUST);
-	public final static MaterialData RAW_FISH = define(false, false, Material.RAW_FISH);
-	public final static MaterialData COOKED_FISH = define(false, false, Material.COOKED_FISH);
+	public final static MaterialData RAW_FISH = define(false, false, Material.COD);
+	public final static MaterialData COOKED_FISH = define(false, false, Material.COOKED_COD);
 	public final static MaterialData INK_SACK = define(false, false, Material.INK_SACK);
 	public final static MaterialData BONE = define(false, false, Material.BONE);
 	public final static MaterialData SUGAR = define(false, false, Material.SUGAR);
@@ -686,9 +686,9 @@ public class RealMaterial {
 	public final static MaterialData MELON = define(false, false, Material.MELON);
 	public final static MaterialData PUMPKIN_SEEDS = define(false, false, Material.PUMPKIN_SEEDS);
 	public final static MaterialData MELON_SEEDS = define(false, false, Material.MELON_SEEDS);
-	public final static MaterialData RAW_BEEF = define(false, false, Material.RAW_BEEF);
+	public final static MaterialData RAW_BEEF = define(false, false, Material.BEEF);
 	public final static MaterialData COOKED_BEEF = define(false, false, Material.COOKED_BEEF);
-	public final static MaterialData RAW_CHICKEN = define(false, false, Material.RAW_CHICKEN);
+	public final static MaterialData RAW_CHICKEN = define(false, false, Material.CHICKEN);
 	public final static MaterialData COOKED_CHICKEN = define(false, false, Material.COOKED_CHICKEN);
 	public final static MaterialData ROTTEN_FLESH = define(false, false, Material.ROTTEN_FLESH);
 	public final static MaterialData ENDER_PEARL = define(false, false, Material.ENDER_PEARL);
@@ -705,7 +705,7 @@ public class RealMaterial {
 	public final static MaterialData BREWING_STAND_ITEM = define(false, false, Material.BREWING_STAND_ITEM);
 	public final static MaterialData CAULDRON_ITEM = define(false, false, Material.CAULDRON_ITEM);
 	public final static MaterialData EYE_OF_ENDER = define(false, false, Material.EYE_OF_ENDER);
-	public final static MaterialData SPECKLED_MELON = define(false, false, Material.SPECKLED_MELON);
+	public final static MaterialData SPECKLED_MELON = define(false, false, Material.GLISTERING_MELON_SLICE);
 	public final static MaterialData MONSTER_EGG = define(false, false, Material.MONSTER_EGG);
 	public final static MaterialData EXP_BOTTLE = define(false, false, Material.EXP_BOTTLE);
 	public final static MaterialData FIREBALL = define(false, false, Material.FIREBALL);
@@ -714,14 +714,14 @@ public class RealMaterial {
 	public final static MaterialData EMERALD = define(false, false, Material.EMERALD);
 	public final static MaterialData ITEM_FRAME = define(false, false, Material.ITEM_FRAME);
 	public final static MaterialData FLOWER_POT_ITEM = define(false, false, Material.FLOWER_POT_ITEM);
-	public final static MaterialData CARROT_ITEM = define(false, false, Material.CARROT_ITEM);
-	public final static MaterialData POTATO_ITEM = define(false, false, Material.POTATO_ITEM);
+	public final static MaterialData CARROT_ITEM = define(false, false, Material.CARROT);
+	public final static MaterialData POTATO_ITEM = define(false, false, Material.POTATO);
 	public final static MaterialData BAKED_POTATO = define(false, false, Material.BAKED_POTATO);
 	public final static MaterialData POISONOUS_POTATO = define(false, false, Material.POISONOUS_POTATO);
 	public final static MaterialData EMPTY_MAP = define(false, false, Material.EMPTY_MAP);
 	public final static MaterialData GOLDEN_CARROT = define(false, false, Material.GOLDEN_CARROT);
 	public final static MaterialData SKULL_ITEM = define(false, false, Material.SKULL_ITEM);
-	public final static MaterialData CARROT_STICK = define(false, false, Material.CARROT_STICK);
+	public final static MaterialData CARROT_STICK = define(false, false, Material.CARROT_ON_A_STICK);
 	public final static MaterialData NETHER_STAR = define(false, false, Material.NETHER_STAR);
 	public final static MaterialData PUMPKIN_PIE = define(false, false, Material.PUMPKIN_PIE);
 	public final static MaterialData FIREWORK = define(false, false, Material.FIREWORK);
@@ -743,7 +743,7 @@ public class RealMaterial {
 	public final static MaterialData IRON_BARDING = define(false, false, Material.IRON_BARDING);
 	public final static MaterialData GOLD_BARDING = define(false, false, Material.GOLD_BARDING);
 	public final static MaterialData DIAMOND_BARDING = define(false, false, Material.DIAMOND_BARDING);
-	public final static MaterialData LEASH = define(false, false, Material.LEASH);
+	public final static MaterialData LEASH = define(false, false, Material.LEAD);
 	public final static MaterialData NAME_TAG = define(false, false, Material.NAME_TAG);
 	public final static MaterialData COMMAND_MINECART = define(false, false, Material.COMMAND_MINECART);
 	public final static MaterialData MUTTON = define(false, false, Material.MUTTON);

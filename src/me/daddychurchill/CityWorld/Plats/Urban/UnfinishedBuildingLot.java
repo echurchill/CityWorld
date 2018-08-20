@@ -22,8 +22,8 @@ public class UnfinishedBuildingLot extends BuildingLot {
 	
 	private final static Material dirtMaterial = Material.DIRT;
 	private final static Material stairMaterial = Material.WOOD_STAIRS;
-	private final static Material stairPlatformMaterial = Material.WOOD;
-	private final static Material wallMaterial = Material.SMOOTH_BRICK;
+	private final static Material stairPlatformMaterial = Material.SPRUCE_WOOD;
+	private final static Material wallMaterial = Material.SMOOTH_STONE;
 	private final static Material ceilingMaterial = Material.STONE;
 	private final static Material floorMaterial = ceilingMaterial;
 	
@@ -103,7 +103,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 			
 			// at the first floor add a fence to prevent folks from falling in
 			if (floor == 0)
-				drawFence(generator, chunk, context, 0, generator.streetLevel + 1, floor, neighborBasements, Material.IRON_FENCE, 3);
+				drawFence(generator, chunk, context, 0, generator.streetLevel + 1, floor, neighborBasements, Material.IRON_BARS, 3);
 			
 			// one floor please
 			drawWallParts(generator, chunk, context, floorAt, FloorHeight, 0, 0, floor,

@@ -71,8 +71,8 @@ public abstract class DataContext {
 			lightMat = Material.GLOWSTONE;
 			torchMat = Material.TORCH;
 		} else {
-			lightMat = Material.REDSTONE_LAMP_OFF;
-			torchMat = Material.REDSTONE_TORCH_OFF;
+			lightMat = Material.REDSTONE_LAMP;
+			torchMat = Material.REDSTONE_TORCH;
 		}
 		
 		// where is the ground

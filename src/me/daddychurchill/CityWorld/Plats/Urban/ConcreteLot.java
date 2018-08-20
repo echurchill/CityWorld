@@ -97,18 +97,18 @@ public class ConcreteLot extends BuildingLot {
 			break;
 		case UPWARD_POND:
 			chunk.setBlocks(3, 13, sidewalkLevel, 3, 13, Material.DOUBLE_STEP);
-			chunk.setBlocks(4, 12, sidewalkLevel + 1, 4, 12, Material.STEP);
+			chunk.setBlocks(4, 12, sidewalkLevel + 1, 4, 12, Material.STONE_SLAB);
 			chunk.setBlocks(5, 11, sidewalkLevel + 1, 5, 11, Material.DOUBLE_STEP);
-			chunk.setBlocks(6, 10, sidewalkLevel + 2, 6, 10, Material.STEP);
+			chunk.setBlocks(6, 10, sidewalkLevel + 2, 6, 10, Material.STONE_SLAB);
 			
 			chunk.clearBlocks(7, 9, sidewalkLevel + 2, 7, 9);
 			chunk.setBlocks(7, 9, sidewalkLevel + 1, 7, 9, fluid);
 			break;
 		case DOWNWARD_POND:
 			chunk.setBlocks(3, 13, sidewalkLevel - 1, 3, 13, Material.DOUBLE_STEP);
-			chunk.setBlocks(4, 12, sidewalkLevel - 1, 4, 12, Material.STEP);
+			chunk.setBlocks(4, 12, sidewalkLevel - 1, 4, 12, Material.STONE_SLAB);
 			chunk.setBlocks(5, 11, sidewalkLevel - 2, 5, 11, Material.DOUBLE_STEP);
-			chunk.setBlocks(6, 10, sidewalkLevel - 2, 6, 10, Material.STEP);
+			chunk.setBlocks(6, 10, sidewalkLevel - 2, 6, 10, Material.STONE_SLAB);
 			
 			chunk.clearBlocks(3, 13, sidewalkLevel, 3, 13);
 			chunk.clearBlocks(5, 11, sidewalkLevel - 1, 5, 11);

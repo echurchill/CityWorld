@@ -7,7 +7,7 @@ public class Stained_Glass_Pane extends Stained_Block {
 
 	public Stained_Glass_Pane()
 	{
-		super(Material.STAINED_GLASS_PANE);
+		super(Material.WHITE_STAINED_GLASS_PANE);
 	}
 
 	public Stained_Glass_Pane(DyeColor color)

@@ -19,14 +19,14 @@ public class FactoryWithStuff extends RoomProvider {
 		roomTypes.add(new StorageSingleShelvesRoom());
 		roomTypes.add(new StorageDoubleShelvesRoom());
 		roomTypes.add(new StorageSingleRowRoom(Material.BOOKSHELF));
-		roomTypes.add(new StorageSingleRowRoom(Material.PISTON_BASE));
-		roomTypes.add(new StorageSingleRowRoom(Material.WORKBENCH));
+		roomTypes.add(new StorageSingleRowRoom(Material.PISTON));
+		roomTypes.add(new StorageSingleRowRoom(Material.CRAFTING_TABLE));
 		roomTypes.add(new StorageDoubleRowRoom(Material.BOOKSHELF));
-		roomTypes.add(new StorageDoubleRowRoom(Material.PISTON_BASE));
-		roomTypes.add(new StorageDoubleRowRoom(Material.WORKBENCH));
+		roomTypes.add(new StorageDoubleRowRoom(Material.PISTON));
+		roomTypes.add(new StorageDoubleRowRoom(Material.CRAFTING_TABLE));
 		roomTypes.add(new StorageStacksRoom(Material.BOOKSHELF));
-		roomTypes.add(new StorageStacksRoom(Material.PISTON_BASE));
-		roomTypes.add(new StorageStacksRoom(Material.WORKBENCH));
+		roomTypes.add(new StorageStacksRoom(Material.PISTON));
+		roomTypes.add(new StorageStacksRoom(Material.CRAFTING_TABLE));
 	}
 
 }

@@ -23,8 +23,8 @@ public class RoundaboutCenterLot extends IsolatedLot {
 	private enum PitStyle { WATER, LAVA, UNFINISHED };
 	
 	private final static Material curbMaterial = Material.DOUBLE_STEP;
-	private final static Material brickMaterial = Material.SMOOTH_BRICK;
-//	private final static Material fenceMaterial = Material.FENCE;
+	private final static Material brickMaterial = Material.SMOOTH_STONE;
+//	private final static Material fenceMaterial = Material.SPRUCE_FENCE;
 	private final static Material baseMaterial = Material.QUARTZ_BLOCK;
 	
 	private BaseStyle baseStyle;
@@ -148,7 +148,7 @@ public class RoundaboutCenterLot extends IsolatedLot {
 			int yWaterBottom = 8;
 			
 			// bricks around the edges... if we do anything at all
-			chunk.setWalls(0, 16, yPitTop - 6, yPitTop - 5, 0, 16, Material.SMOOTH_BRICK);
+			chunk.setWalls(0, 16, yPitTop - 6, yPitTop - 5, 0, 16, Material.SMOOTH_STONE);
 			
 			// pit style
 			switch (pitStyle) {
@@ -181,26 +181,26 @@ public class RoundaboutCenterLot extends IsolatedLot {
 				
 				// half pipes leading across
 				int yPitPipes = yPitTop - 7;
-				chunk.setBlocks(6, 10, yPitPipes, 1, 15, Material.SMOOTH_BRICK);
-				chunk.setBlocks(1, 15, yPitPipes, 6, 10, Material.SMOOTH_BRICK);
-				chunk.setBlocks(7, 9, yPitPipes - 1, 1, 15, Material.SMOOTH_BRICK);
-				chunk.setBlocks(1, 15, yPitPipes - 1, 7, 9, Material.SMOOTH_BRICK);
+				chunk.setBlocks(6, 10, yPitPipes, 1, 15, Material.SMOOTH_STONE);
+				chunk.setBlocks(1, 15, yPitPipes, 6, 10, Material.SMOOTH_STONE);
+				chunk.setBlocks(7, 9, yPitPipes - 1, 1, 15, Material.SMOOTH_STONE);
+				chunk.setBlocks(1, 15, yPitPipes - 1, 7, 9, Material.SMOOTH_STONE);
 				
 				// pipe leading down
-				chunk.setBlocks(7, 9, yPitPipes - 5, yPitPipes - 1, 6, 7, Material.SMOOTH_BRICK);
-				chunk.setBlocks(7, 9, yPitPipes - 5, yPitPipes - 1, 9, 10, Material.SMOOTH_BRICK);
-				chunk.setBlocks(6, 7, yPitPipes - 5, yPitPipes - 1, 7, 9, Material.SMOOTH_BRICK);
-				chunk.setBlocks(9, 10, yPitPipes - 5, yPitPipes - 1, 7, 9, Material.SMOOTH_BRICK);
+				chunk.setBlocks(7, 9, yPitPipes - 5, yPitPipes - 1, 6, 7, Material.SMOOTH_STONE);
+				chunk.setBlocks(7, 9, yPitPipes - 5, yPitPipes - 1, 9, 10, Material.SMOOTH_STONE);
+				chunk.setBlocks(6, 7, yPitPipes - 5, yPitPipes - 1, 7, 9, Material.SMOOTH_STONE);
+				chunk.setBlocks(9, 10, yPitPipes - 5, yPitPipes - 1, 7, 9, Material.SMOOTH_STONE);
 				
 				// round things out a bit on the edges
-				chunk.setSlab(6, yPitPipes + 1, 1, Material.SMOOTH_BRICK, false);
-				chunk.setSlab(9, yPitPipes + 1, 1, Material.SMOOTH_BRICK, false);
-				chunk.setSlab(6, yPitPipes + 1, 14, Material.SMOOTH_BRICK, false);
-				chunk.setSlab(9, yPitPipes + 1, 14, Material.SMOOTH_BRICK, false);
-				chunk.setSlab(1, yPitPipes + 1, 6, Material.SMOOTH_BRICK, false);
-				chunk.setSlab(1, yPitPipes + 1, 9, Material.SMOOTH_BRICK, false);
-				chunk.setSlab(14, yPitPipes + 1, 6, Material.SMOOTH_BRICK, false);
-				chunk.setSlab(14, yPitPipes + 1, 9, Material.SMOOTH_BRICK, false);
+				chunk.setSlab(6, yPitPipes + 1, 1, Material.SMOOTH_STONE, false);
+				chunk.setSlab(9, yPitPipes + 1, 1, Material.SMOOTH_STONE, false);
+				chunk.setSlab(6, yPitPipes + 1, 14, Material.SMOOTH_STONE, false);
+				chunk.setSlab(9, yPitPipes + 1, 14, Material.SMOOTH_STONE, false);
+				chunk.setSlab(1, yPitPipes + 1, 6, Material.SMOOTH_STONE, false);
+				chunk.setSlab(1, yPitPipes + 1, 9, Material.SMOOTH_STONE, false);
+				chunk.setSlab(14, yPitPipes + 1, 6, Material.SMOOTH_STONE, false);
+				chunk.setSlab(14, yPitPipes + 1, 9, Material.SMOOTH_STONE, false);
 				
 				// notch the sides a bit
 				chunk.clearBlocks(7, 9, yPitPipes + 1, 0, 1);

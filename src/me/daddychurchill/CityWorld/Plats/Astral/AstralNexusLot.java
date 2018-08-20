@@ -59,7 +59,7 @@ public class AstralNexusLot extends AstralStructureLot {
 	//TODO Spawn room (where you arrive)
 	
 	private void generateNorthWest(CityWorldGenerator generator, RealBlocks chunk, int y) {
-//		chunk.setBlocks(0, 16, y - 5, y + 20, 0, 16, Material.STAINED_GLASS);
+//		chunk.setBlocks(0, 16, y - 5, y + 20, 0, 16, Material.WHITE_STAINED_GLASS);
 		for (int i = 0; i < 16; i++) {
 			Material material = getRoofMaterial(i);
 			chunk.setBlocks(i, 16, y + i + 1, i, i + 1, material);
@@ -70,7 +70,7 @@ public class AstralNexusLot extends AstralStructureLot {
 			if (i == 0) {
 				chunk.setBlocks(i, 16, y + i, i, i + 1, AstralTownEmptyLot.materialBase);
 				chunk.setBlocks(i, i + 1, y + i, i, 16, AstralTownEmptyLot.materialBase);
-				chunk.setBlocks(i + 1, 16, y + i, i + 1, 16, Material.STAINED_GLASS);
+				chunk.setBlocks(i + 1, 16, y + i, i + 1, 16, Material.WHITE_STAINED_GLASS);
 				
 				chunk.setBlocks(i, 16, y + i - 2, y + i, i, i + 1, AstralTownEmptyLot.materialCross);
 				chunk.setBlocks(i, i + 1, y + i - 2, y + i, i, 16, AstralTownEmptyLot.materialCross);
@@ -96,7 +96,7 @@ public class AstralNexusLot extends AstralStructureLot {
 	}
 
 	private void generateNorthEast(CityWorldGenerator generator, RealBlocks chunk, int y) {
-//		chunk.setBlocks(0, 16, y - 5, y + 20, 0, 16, Material.STAINED_GLASS);
+//		chunk.setBlocks(0, 16, y - 5, y + 20, 0, 16, Material.WHITE_STAINED_GLASS);
 		for (int i = 0; i < 16; i++) {
 			Material material = getRoofMaterial(i);
 			chunk.setBlocks(0, 16 - i, y + i + 1, i, i + 1, material);
@@ -107,7 +107,7 @@ public class AstralNexusLot extends AstralStructureLot {
 			if (i == 0) {
 				chunk.setBlocks(0, 16 - i, y + i, i, i + 1, AstralTownEmptyLot.materialBase);
 				chunk.setBlocks(15 - i, 16 - i, y + i, i + 1, 16, AstralTownEmptyLot.materialBase);
-				chunk.setBlocks(0, 15 - i, y + i, i + 1, 16, Material.STAINED_GLASS);
+				chunk.setBlocks(0, 15 - i, y + i, i + 1, 16, Material.WHITE_STAINED_GLASS);
 				
 				chunk.setBlocks(0, 16 - i, y + i - 2, y + i, i, i + 1, AstralTownEmptyLot.materialCross);
 				chunk.setBlocks(15 - i, 16 - i, y + i - 2, y + i, i + 1, 16, AstralTownEmptyLot.materialCross);
@@ -133,7 +133,7 @@ public class AstralNexusLot extends AstralStructureLot {
 	}
 
 	private void generateSouthWest(CityWorldGenerator generator, RealBlocks chunk, int y) {
-//		chunk.setBlocks(0, 16, y - 5, y + 20, 0, 16, Material.STAINED_GLASS);
+//		chunk.setBlocks(0, 16, y - 5, y + 20, 0, 16, Material.WHITE_STAINED_GLASS);
 		for (int i = 0; i < 16; i++) {
 			Material material = getRoofMaterial(i);
 			chunk.setBlocks(i, i + 1, y + i + 1, 0, 16 - i, material);
@@ -144,7 +144,7 @@ public class AstralNexusLot extends AstralStructureLot {
 			if (i == 0) {
 				chunk.setBlocks(i, i + 1, y + i, 0, 16 - i, AstralTownEmptyLot.materialBase);
 				chunk.setBlocks(i + 1, 16, y + i, 15 - i, 16 - i, AstralTownEmptyLot.materialBase);
-				chunk.setBlocks(i + 1, 16, y + i, 0, 15 - i, Material.STAINED_GLASS);
+				chunk.setBlocks(i + 1, 16, y + i, 0, 15 - i, Material.WHITE_STAINED_GLASS);
 				
 				chunk.setBlocks(i, i + 1, y + i - 2, y + i, 0, 16 - i, AstralTownEmptyLot.materialCross);
 				chunk.setBlocks(i + 1, 16, y + i - 2, y + i, 15 - i, 16 - i, AstralTownEmptyLot.materialCross);
@@ -170,7 +170,7 @@ public class AstralNexusLot extends AstralStructureLot {
 	}
 	
 	private void generateSouthEast(CityWorldGenerator generator, RealBlocks chunk, int y) {
-//		chunk.setBlocks(0, 16, y - 5, y + 20, 0, 16, Material.STAINED_GLASS);
+//		chunk.setBlocks(0, 16, y - 5, y + 20, 0, 16, Material.WHITE_STAINED_GLASS);
 		for (int i = 0; i < 16; i++) {
 			Material material = getRoofMaterial(i);
 			chunk.setBlocks(15 - i, 16 - i, y + i + 1, 0, 16 - i, material);
@@ -181,7 +181,7 @@ public class AstralNexusLot extends AstralStructureLot {
 			if (i == 0) {
 				chunk.setBlocks(15 - i, 16 - i, y + i, 0, 16 - i, AstralTownEmptyLot.materialBase);
 				chunk.setBlocks(0, 15 - i, y + i, 15 - i, 16 - i, AstralTownEmptyLot.materialBase);
-				chunk.setBlocks(0, 15 - i, y + i, 0, 15 - i, Material.STAINED_GLASS);
+				chunk.setBlocks(0, 15 - i, y + i, 0, 15 - i, Material.WHITE_STAINED_GLASS);
 				
 				chunk.setBlocks(15 - i, 16 - i, y + i - 2, y + i, 0, 16 - i, AstralTownEmptyLot.materialCross);
 				chunk.setBlocks(0, 15 - i, y + i - 2, y + i, 15 - i, 16 - i, AstralTownEmptyLot.materialCross);
@@ -210,6 +210,6 @@ public class AstralNexusLot extends AstralStructureLot {
 		if (i % 3 == 0)
 			return AstralTownEmptyLot.materialCross;
 		else
-			return Material.STAINED_GLASS;
+			return Material.WHITE_STAINED_GLASS;
 	}
 }

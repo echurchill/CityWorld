@@ -35,7 +35,7 @@ public abstract class OreProvider extends Provider {
 	public OreProvider(CityWorldGenerator generator) {
 		super();
 		
-		surfaceMaterial = Material.GRASS;
+		surfaceMaterial = Material.GRASS_BLOCK;
 		subsurfaceMaterial = Material.DIRT;
 		stratumMaterial = Material.STONE;
 		substratumMaterial = Material.BEDROCK;

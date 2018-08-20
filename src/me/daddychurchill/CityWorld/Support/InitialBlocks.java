@@ -4,7 +4,6 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
-import org.bukkit.material.MaterialData;
 
 public final class InitialBlocks extends AbstractBlocks {
 	public ChunkData chunkData;
@@ -95,22 +94,22 @@ public final class InitialBlocks extends AbstractBlocks {
 		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material);
 	}
 	
-	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, MaterialData material) {
-		setBlocks(x1, x2, y1, y2, z1, z1 + 1, material);
-		setBlocks(x1, x2, y1, y2, z2 - 1, z2, material);
-		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material);
-		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material);
-	}
-	
-	@Override
-	public void setBlock(int x, int y, int z, MaterialData material) {
-		chunkData.setBlock(x, y, z, material);
-	}
-	
-	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, MaterialData material) {
-		chunkData.setRegion(x1, y1, z1, x2, y2, z2, material);
-	}
-	
+//	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, MaterialData material) {
+//		setBlocks(x1, x2, y1, y2, z1, z1 + 1, material);
+//		setBlocks(x1, x2, y1, y2, z2 - 1, z2, material);
+//		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material);
+//		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material);
+//	}
+//	
+//	@Override
+//	public void setBlock(int x, int y, int z, MaterialData material) {
+//		chunkData.setBlock(x, y, z, material);
+//	}
+//	
+//	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, MaterialData material) {
+//		chunkData.setRegion(x1, y1, z1, x2, y2, z2, material);
+//	}
+//	
 //	@Override
 //	public void setBlockTypeAndColor(int x, int y, int z, Material material, DyeColor color) {
 //		BlackMagic.setBlockTypeAndColor(chunkData, x, y, z, material, color);

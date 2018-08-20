@@ -14,7 +14,7 @@ public class AstralMushroomsBrownLot extends AstralMushroomsLot {
 		// TODO Auto-generated constructor stub
 	}
 
-	private Material mushroomMaterial = Material.HUGE_MUSHROOM_1;
+	private Material mushroomMaterial = Material.BROWN_MUSHROOM_BLOCK;
 
 	private final static double oddsOfTallMushroom = Odds.oddsSomewhatLikely;
 	private final static double oddsOfNarrowMushroom = Odds.oddsSomewhatUnlikely;

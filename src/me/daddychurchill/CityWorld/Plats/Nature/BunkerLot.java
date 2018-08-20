@@ -167,10 +167,10 @@ public class BunkerLot extends ConnectedLot {
 		public Material support = Material.QUARTZ_BLOCK;
 		public Material platform = Material.QUARTZ_BLOCK;
 		public Material crosswalk = Material.QUARTZ_BLOCK;
-		public Material building = Material.STAINED_CLAY;
+		public Material building = Material.WHITE_TERRACOTTA;
 		public Material bilge = Material.AIR;
 		
-		public Material railing = Material.IRON_FENCE;
+		public Material railing = Material.IRON_BARS;
 		public Material window = Material.GLASS;
 		
 		public BunkerMaterials(CityWorldGenerator generator, Odds odds) {
@@ -361,11 +361,11 @@ public class BunkerLot extends ConnectedLot {
 		// walls
 		chunk.setCircle(8, 8, 5, topOfBunker, blockYs.maxHeight + 1, Material.AIR, true);
 		chunk.setCircle(8, 8, 6, topOfBunker, blockYs.minHeight + 1, materials.building, false);
-		chunk.setCircle(8, 8, 6, blockYs.minHeight, blockYs.averageHeight + 1, Material.STAINED_CLAY, false);
+		chunk.setCircle(8, 8, 6, blockYs.minHeight, blockYs.averageHeight + 1, Material.WHITE_TERRACOTTA, false);
 		
 		// lid & crack
 		int lidY = blockYs.averageHeight - 1;
-		chunk.setCircle(8, 8, 5, lidY, Material.STAINED_CLAY, true);
+		chunk.setCircle(8, 8, 5, lidY, Material.WHITE_TERRACOTTA, true);
 		for (int x = 3; x < 14; x += 2)
 			chunk.setTrapDoor(x, lidY, 7, TrapDoor.TOP_NORTH);
 		for (int x = 2; x < 15; x += 2)

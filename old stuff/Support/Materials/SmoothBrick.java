@@ -9,7 +9,7 @@ import com.google.common.collect.Maps;
 public class SmoothBrick extends MaterialData {
 	
 	public SmoothBrick() {
-		super(Material.SMOOTH_BRICK);
+		super(Material.SMOOTH_STONE);
 	}
 	
 	public SmoothBrick(SmoothBrickType type) {

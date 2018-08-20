@@ -4,8 +4,6 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
-import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
-import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
 import me.daddychurchill.CityWorld.Support.Odds.ColorSet;
 
 import org.bukkit.DyeColor;
@@ -16,13 +14,12 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.material.Chest;
 import org.bukkit.material.Colorable;
 import org.bukkit.material.Directional;
 import org.bukkit.material.Ladder;
-import org.bukkit.material.Leaves;
 import org.bukkit.material.MaterialData;
-import org.bukkit.material.Step;
 import org.bukkit.material.TexturedMaterial;
 import org.bukkit.material.Tree;
 import org.bukkit.material.Vine;
@@ -65,22 +62,21 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			block.setType(material);
 	}
 	
-	public final void setBlockIfAir(int x, int y, int z, Material material, MaterialData data) {
+	public final void setBlockIfAir(int x, int y, int z, Material material) {
 		Block block = getActualBlock(x, y, z);
 		if (block.isEmpty() && !getActualBlock(x, y - 1, z).isEmpty())
-			setActualBlock(block, material, data);
+			setActualBlock(block, material);
 	}
 	
-	public final void setActualBlock(Block block, Material material, MaterialData data) {
+	public final void setActualBlock(Block block, Material material) {
 		BlockState state = block.getState();
 		state.setType(material);
-		state.setData(data);
 		state.update(true, doPhysics);
 	}
 	
-	public final Block getActualBlock(int x, int y, int z, MaterialData data) {
+	public final Block getActualBlock(int x, int y, int z, Material material) {
 		Block block = getActualBlock(x, y, z);
-		setActualBlock(block, data.getItemType(), data);
+		setActualBlock(block, material);
 		return block;
 	}
 	
@@ -90,7 +86,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			BlockState state = getActualBlock(x, y, z).getState();
 //			if (state.getType() != material) {
 				state.setType(material);
-				state.setData(new MaterialData(material));
 				state.update(true, doPhysics);
 //			}
 		} else {
@@ -101,15 +96,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 //				state.update(true, doPhysics);
 //			}
 		}
-	}
-	
-	@Override
-	public void setBlock(int x, int y, int z, MaterialData material) {
-		setActualBlock(getActualBlock(x, y, z), material.getItemType(), material);
-	}
-
-	public final void setBlock(int x, int y, int z, Material material, MaterialData data) {
-		setActualBlock(getActualBlock(x, y, z), material, data);
 	}
 	
 	protected final boolean isType(Block block, Material ... types) {
@@ -161,7 +147,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	public abstract boolean isSurroundedByEmpty(int x, int y, int z);
 	
 	public final boolean isWater(int x, int y, int z) {
-		return isOfTypes(x, y, z, Material.STATIONARY_WATER, Material.WATER);
+		return isOfTypes(x, y, z, Material.WATER);
 //		return getActualBlock(x, y, z).isLiquid();
 	}
 
@@ -183,11 +169,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			setBlock(x, y, z, material);
 	}
 
-	public final void setBlocks(int x, int y1, int y2, int z, Material material, MaterialData data) {
-		for (int y = y1; y < y2; y++)
-			setBlock(x, y, z, material, data);
-	}
-
 	//================ x1, x2, y1, y2, z1, z2
 	@Override
 	public final void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
@@ -195,30 +176,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
 					setBlock(x, y, z, material);
-				}
-			}
-		}
-	}
-
-	public final void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, MaterialData data) {
-		for (int x = x1; x < x2; x++) {
-			for (int y = y1; y < y2; y++) {
-				for (int z = z1; z < z2; z++) {
-					setBlock(x, y, z, material, data);
-				}
-			}
-		}
-	}
-
-	public final void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, 
-			Odds odds, MaterialData data1, MaterialData data2) {
-		for (int x = x1; x < x2; x++) {
-			for (int y = y1; y < y2; y++) {
-				for (int z = z1; z < z2; z++) {
-					if (odds.playOdds(Odds.oddsPrettyLikely))
-						setBlock(x, y, z, material, data1);
-					else
-						setBlock(x, y, z, material, data2);
 				}
 			}
 		}
@@ -234,31 +191,12 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 
-	public final void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, MaterialData data) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				setBlock(x, y, z, material, data);
-			}
-		}
-	}
-
 	@Override
 	public final void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
 		setBlocks(x1, x2, y1, y2, z1, z1 + 1, material);
 		setBlocks(x1, x2, y1, y2, z2 - 1, z2, material);
 		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material);
 		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material);
-	}
-	
-	public final void setWalls(int x1, int x2, int y, int z1, int z2, Material material, MaterialData data) {
-		setWalls(x1, x2, y, y + 1, z1, z2, material, data);
-	}
-	
-	public final void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material, MaterialData data) {
-		setBlocks(x1, x2, y1, y2, z1, z1 + 1, material, data);
-		setBlocks(x1, x2, y1, y2, z2 - 1, z2, material, data);
-		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material, data);
-		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material, data);
 	}
 	
 	@Override
@@ -368,6 +306,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 	
+	//@@ I REALLY NEED TO FIGURE A DIFFERENT WAY TO DO THIS
 	public final boolean isNonstackableBlock(Block block) { // either because it really isn't or it just doesn't look good
 		switch (block.getType()) {
 		default: 
@@ -376,7 +315,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		case GRASS:
 		case DIRT:
 		case COBBLESTONE:
-		case WOOD:
+//		case WOOD:
 		case SAND:
 		case GRAVEL:
 		case COAL_ORE:
@@ -385,7 +324,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		case GOLD_ORE:
 		case IRON_ORE:
 		case LAPIS_ORE:
-		case QUARTZ_ORE:
+//		case QUARTZ_ORE:
 		case REDSTONE_ORE:
 		case COAL_BLOCK:
 		case DIAMOND_BLOCK:
@@ -398,130 +337,100 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		case QUARTZ_BLOCK:
 		case SLIME_BLOCK:
 		case SNOW_BLOCK:
-		case LOG:
-		case LOG_2:
+//		case LOG:
+//		case LOG_2:
 		case SPONGE:
 		case SANDSTONE:
 		case RED_SANDSTONE:
 		case SOUL_SAND:
-		case STAINED_CLAY:
-		case HARD_CLAY:
+//		case STAINED_CLAY:
+//		case HARD_CLAY:
 		case CLAY:
-		case WOOL:
-		case DOUBLE_STEP:
-		case WOOD_DOUBLE_STEP:
-		case DOUBLE_STONE_SLAB2:
-		case PURPUR_DOUBLE_SLAB:
+//		case WOOL:
+//		case DOUBLE_STEP:
+//		case WOOD_DOUBLE_STEP:
+//		case DOUBLE_STONE_SLAB2:
+//		case PURPUR_DOUBLE_SLAB:
 		case BRICK:
-		case END_BRICKS:
+//		case END_BRICKS:
 		case NETHER_BRICK:
-		case SMOOTH_BRICK:
+//		case SMOOTH_BRICK:
 		case BOOKSHELF:
 		case MOSSY_COBBLESTONE:
 		case OBSIDIAN:
-		case SOIL:
+//		case SOIL:
 		case ICE:
 		case PACKED_ICE:
 		case FROSTED_ICE:
 		case NETHERRACK:
-		case ENDER_STONE:
-		case MYCEL:
+//		case ENDER_STONE:
+//		case MYCEL:
 		case PRISMARINE:
 		case GRASS_PATH:
 		case BEDROCK:
 			return false;
 		}
-//		return isType(block, Material.STEP, Material.WOOD_STEP, 
-//				 			 Material.GLASS, Material.THIN_GLASS,
+//		return isType(block, Material.STONE_SLAB, Material.WOOD_STEP, 
+//				 			 Material.GLASS, Material.GLASS_PANE,
 //							 Material.SNOW, Material.CARPET, Material.SIGN, 
 //							 Material.WOOD_DOOR, Material.TRAP_DOOR, 
-//							 Material.STAINED_GLASS, Material.STAINED_GLASS_PANE,
-//							 Material.FENCE, Material.FENCE_GATE,
-//							 Material.STONE_PLATE, Material.WOOD_PLATE,
+//							 Material.WHITE_STAINED_GLASS, Material.WHITE_STAINED_GLASS_PANE,
+//							 Material.SPRUCE_FENCE, Material.SPRUCE_FENCE_GATE,
+//							 Material.STONE_PRESSURE_PLATE, Material.WOOD_PLATE,
 //							 Material.TRIPWIRE, Material.TRIPWIRE_HOOK,
-//							 Material.IRON_DOOR_BLOCK, Material.IRON_FENCE);
+//							 Material.IRON_DOOR_BLOCK, Material.IRON_BARS);
 	}
 	
 	public final boolean isNonstackableBlock(int x, int y, int z) {
 		return isNonstackableBlock(getActualBlock(x, y, z));
 	}
 	
-	private boolean isColorable(Material material) {
-		switch (material) {
-		default:
-			return false;
-		case STAINED_CLAY:
-		case STAINED_GLASS:
-		case STAINED_GLASS_PANE:
-		case WOOL:
-		case CARPET:
-		case CONCRETE:
-		case CONCRETE_POWDER:
-			return true;
-		}
-	}
-	
 	public void setBlockTypeAndColor(int x, int y, int z, Material material, DyeColor color) {
 		BlockState state = getActualBlock(x, y, z).getState();
 		state.setType(material);
-		if (isColorable(material)) {
-			MaterialData data = state.getData();
-			if (data instanceof Colorable)
-				((Colorable)state.getData()).setColor(color);
-			else
-				BlackMagic.setBlockStateColor(state, color); //BUKKIT: none of the newly colorable blocks materials are colorable
-			state.update(true, doPhysics);
-		}
+		BlockData data = state.getBlockData();
+		if (data instanceof Colorable)
+			((Colorable)state.getData()).setColor(color);
+		state.update(true, doPhysics);
 	}
 	
 	public void setBlockIfTypeThenColor(int x, int y, int z, Material material, DyeColor color) {
 		BlockState state = getActualBlock(x, y, z).getState();
-		if (state.getType() == material && isColorable(material)) {
-			MaterialData data = state.getData();
+		if (state.getType() == material) {
+			BlockData data = state.getBlockData();
 			if (data instanceof Colorable)
 				((Colorable)state.getData()).setColor(color);
-			else
-				BlackMagic.setBlockStateColor(state, color); //BUKKIT: none of the newly colorable blocks materials are colorable
 			state.update(true, doPhysics);
 		}
 	}
 	
 	public void setBlocksTypeAndColor(int x, int y1, int y2, int z, Material material, DyeColor color) {
-		if (isColorable(material))
-			for (int y = y1; y < y2; y++)
-				setBlockTypeAndColor(x, y, z, material, color);
-		else
-			setBlocks(x, y1, y2, z, material);
+		for (int y = y1; y < y2; y++)
+			setBlockTypeAndColor(x, y, z, material, color);
 	}
 	
 	public void setBlocksTypeAndColor(int x1, int x2, int y, int z1, int z2, Material material, DyeColor color) {
-		if (isColorable(material))
-			for (int x = x1; x < x2; x++) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				setBlockTypeAndColor(x, y, z, material, color);
+			}
+		}
+	}
+	
+	public void setBlocksTypeAndColor(int x1, int x2, int y1, int y2, int z1, int z2, Material material, DyeColor color) {
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
 					setBlockTypeAndColor(x, y, z, material, color);
 				}
 			}
-		else
-			setBlocks(x1, x2, y, z1, z2, material);
-	}
-	
-	public void setBlocksTypeAndColor(int x1, int x2, int y1, int y2, int z1, int z2, Material material, DyeColor color) {
-		if (isColorable(material))
-			for (int x = x1; x < x2; x++) {
-				for (int y = y1; y < y2; y++) {
-					for (int z = z1; z < z2; z++) {
-						setBlockTypeAndColor(x, y, z, material, color);
-					}
-				}
-			}
-		else
-			setBlocks(x1, x2, y1, y2, z1, z2, material);
+		}
 	}
 	
 	public void setBlockTypeAndDirection(int x, int y, int z, Material material, BlockFace facing) {
 		BlockState state = getActualBlock(x, y, z).getState();
 		state.setType(material);
-		MaterialData data = state.getData();
+		BlockData data = state.getBlockData();
 		if (data instanceof Directional)
 			((Directional)state.getData()).setFacingDirection(facing);
 		state.update(true, doPhysics);
@@ -540,7 +449,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	public void setBlockTypeAndTexture(int x, int y, int z, Material material, Material texture) {
 		BlockState state = getActualBlock(x, y, z).getState();
 		state.setType(material);
-		MaterialData data = state.getData();
+		BlockData data = state.getBlockData();
 		if (data instanceof TexturedMaterial)
 			((TexturedMaterial)state.getData()).setMaterial(texture);
 		state.update(true, doPhysics);
@@ -566,74 +475,74 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	}
 
 	public final void setWool(int x, int y, int z, DyeColor color) {
-		setBlockTypeAndColor(x, y, z, Material.WOOL, color);
+		setBlockTypeAndColor(x, y, z, Material.WHITE_WOOL, color);
 	}
 	
 	public final void setWool(int x1, int x2, int y1, int y2, int z1, int z2, DyeColor color) {
-		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z2, Material.WOOL, color);
+		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z2, Material.WHITE_WOOL, color);
 	}
 	
 	public final void setClay(int x, int y, int z, DyeColor color) {
-		setBlockTypeAndColor(x, y, z, Material.STAINED_CLAY, color);
+		setBlockTypeAndColor(x, y, z, Material.WHITE_TERRACOTTA, color);
 	}
 	
 	public final void setClay(int x, int y1, int y2, int z, DyeColor color) {
-		setBlocksTypeAndColor(x, x + 1, y1, y2, z, z + 1, Material.STAINED_CLAY, color);
+		setBlocksTypeAndColor(x, x + 1, y1, y2, z, z + 1, Material.WHITE_TERRACOTTA, color);
 	}
 	
 	public final void setClay(int x1, int x2, int y, int z1, int z2, DyeColor color) {
-		setBlocksTypeAndColor(x1, x2, y, y + 1, z1, z2, Material.STAINED_CLAY, color);
+		setBlocksTypeAndColor(x1, x2, y, y + 1, z1, z2, Material.WHITE_TERRACOTTA, color);
 	}
 	
 	public final void setClay(int x1, int x2, int y1, int y2, int z1, int z2, DyeColor color) {
-		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z2, Material.STAINED_CLAY, color);
+		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z2, Material.WHITE_TERRACOTTA, color);
 	}
 	
 	public final void setClayWalls(int x1, int x2, int y1, int y2, int z1, int z2, DyeColor color) {
-		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z1 + 1, Material.STAINED_CLAY, color);
-		setBlocksTypeAndColor(x1, x2, y1, y2, z2 - 1, z2, Material.STAINED_CLAY, color);
-		setBlocksTypeAndColor(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, Material.STAINED_CLAY, color);
-		setBlocksTypeAndColor(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, Material.STAINED_CLAY, color);
+		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z1 + 1, Material.WHITE_TERRACOTTA, color);
+		setBlocksTypeAndColor(x1, x2, y1, y2, z2 - 1, z2, Material.WHITE_TERRACOTTA, color);
+		setBlocksTypeAndColor(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, Material.WHITE_TERRACOTTA, color);
+		setBlocksTypeAndColor(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, Material.WHITE_TERRACOTTA, color);
 	}
 	
 	public final void camoClay(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds, ColorSet colors) {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
-					setBlockIfTypeThenColor(x, y, z, Material.STAINED_CLAY, odds.getRandomColor(colors));
+					setBlockIfTypeThenColor(x, y, z, Material.WHITE_TERRACOTTA, odds.getRandomColor(colors));
 				}
 			}
 		}
 	}
 	
 	public final void setGlass(int x, int y, int z, DyeColor color) {
-		setBlockTypeAndColor(x, y, z, Material.STAINED_GLASS, color);
+		setBlockTypeAndColor(x, y, z, Material.WHITE_STAINED_GLASS, color);
 	}
 	
 	public final void setGlass(int x1, int x2, int y1, int y2, int z1, int z2, DyeColor color) {
-		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z2, Material.STAINED_GLASS, color);
+		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z2, Material.WHITE_STAINED_GLASS, color);
 	}
 	
 	public final void setGlassWalls(int x1, int x2, int y1, int y2, int z1, int z2, DyeColor color) {
-		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z1 + 1, Material.STAINED_GLASS, color);
-		setBlocksTypeAndColor(x1, x2, y1, y2, z2 - 1, z2, Material.STAINED_GLASS, color);
-		setBlocksTypeAndColor(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, Material.STAINED_GLASS, color);
-		setBlocksTypeAndColor(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, Material.STAINED_GLASS, color);
+		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z1 + 1, Material.WHITE_STAINED_GLASS, color);
+		setBlocksTypeAndColor(x1, x2, y1, y2, z2 - 1, z2, Material.WHITE_STAINED_GLASS, color);
+		setBlocksTypeAndColor(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, Material.WHITE_STAINED_GLASS, color);
+		setBlocksTypeAndColor(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, Material.WHITE_STAINED_GLASS, color);
 	}
 	
 	public final void setThinGlass(int x, int y, int z, DyeColor color) {
-		setBlockTypeAndColor(x, y, z, Material.STAINED_GLASS_PANE, color);
+		setBlockTypeAndColor(x, y, z, Material.WHITE_STAINED_GLASS_PANE, color);
 	}
 	
 	public final void setThinGlass(int x1, int x2, int y1, int y2, int z1, int z2, DyeColor color) {
-		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z2, Material.STAINED_GLASS_PANE, color);
+		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z2, Material.WHITE_STAINED_GLASS_PANE, color);
 	}
 	
 	public final void setThinGlassWalls(int x1, int x2, int y1, int y2, int z1, int z2, DyeColor color) {
-		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z1 + 1, Material.STAINED_GLASS_PANE, color);
-		setBlocksTypeAndColor(x1, x2, y1, y2, z2 - 1, z2, Material.STAINED_GLASS_PANE, color);
-		setBlocksTypeAndColor(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, Material.STAINED_GLASS_PANE, color);
-		setBlocksTypeAndColor(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, Material.STAINED_GLASS_PANE, color);
+		setBlocksTypeAndColor(x1, x2, y1, y2, z1, z1 + 1, Material.WHITE_STAINED_GLASS_PANE, color);
+		setBlocksTypeAndColor(x1, x2, y1, y2, z2 - 1, z2, Material.WHITE_STAINED_GLASS_PANE, color);
+		setBlocksTypeAndColor(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, Material.WHITE_STAINED_GLASS_PANE, color);
+		setBlocksTypeAndColor(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, Material.WHITE_STAINED_GLASS_PANE, color);
 	}
 	
 	public final void setVines(int x, int y1, int y2, int z, BlockFace... faces) {
@@ -654,25 +563,25 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	public final void setSlab(int x, int y, int z, Material material, boolean inverted) {
 		Step data = new Step(material);
 		data.setInverted(inverted);
-		setBlock(x, y, z, Material.STEP, data);
+		setBlock(x, y, z, Material.STONE_SLAB, data);
 	}
 	
 	public final void setSlabs(int x1, int x2, int y, int z1, int z2, Material material, boolean inverted) {
 		Step data = new Step(material);
 		data.setInverted(inverted);
-		setBlocks(x1, x2, y, z1, z2, Material.STEP, data);
+		setBlocks(x1, x2, y, z1, z2, Material.STONE_SLAB, data);
 	}
 	
 	public final void setSlabs(int x1, int x2, int y1, int y2, int z1, int z2, Material material, boolean inverted) {
 		Step data = new Step(material);
 		data.setInverted(inverted);
-		setBlocks(x1, x2, y1, y2, z1, z2, Material.STEP, data);
+		setBlocks(x1, x2, y1, y2, z1, z2, Material.STONE_SLAB, data);
 	}
 	
 	public final void setSlab(int x, int y, int z, TreeSpecies species, boolean inverted) {
 		WoodenStep data = new WoodenStep(species);
 		data.setInverted(inverted);
-		setBlock(x, y, z, Material.STEP, data);
+		setBlock(x, y, z, Material.STONE_SLAB, data);
 	}
 	
 	public final void setSlabs(int x1, int x2, int y, int z1, int z2, TreeSpecies species, boolean inverted) {
@@ -689,7 +598,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	
 	public final void setWood(int x, int y, int z, TreeSpecies species) {
 		Tree data = new Tree(species);
-		setBlock(x, y, z, Material.WOOD, data);
+		setBlock(x, y, z, Material.SPRUCE_WOOD, data);
 	}
 	
 	public final void setLog(int x, int y, int z, Material material, TreeSpecies species, BlockFace facing) {
@@ -725,38 +634,38 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	public final void drawCrane(DataContext context, Odds odds, int x, int y, int z) {
 		
 		// vertical bit
-		setBlocks(x, y, y + 8, z, Material.IRON_FENCE);
-		setBlocks(x - 1, y, y + 8, z, Material.IRON_FENCE); // 1.9 shows iron fences very thin now
-		setBlocks(x, y + 8, y + 10, z, Material.DOUBLE_STEP);
-		setBlocks(x - 1, y + 8, y + 10, z, Material.STEP);
+		setBlocks(x, y, y + 8, z, Material.IRON_BARS);
+		setBlocks(x - 1, y, y + 8, z, Material.IRON_BARS); // 1.9 shows iron fences very thin now
+		setBlocks(x, y + 8, y + 10, z, Material.STONE);
+		setBlocks(x - 1, y + 8, y + 10, z, Material.STONE_SLAB);
 		setBlockTypeAndDirection(x, y + 10, z, context.torchMat, BlockFace.UP);
 		
 		// horizontal bit
 		setBlock(x + 1, y + 8, z, Material.GLASS);
-		setBlocks(x + 2, x + 11, y + 8, y + 9, z, z + 1, Material.IRON_FENCE);
-		setBlocks(x + 1, x + 10, y + 9, y + 10, z, z + 1, Material.STEP);
-		setStair(x + 10, y + 9, z, Material.SMOOTH_STAIRS, Stair.WEST);
+		setBlocks(x + 2, x + 11, y + 8, y + 9, z, z + 1, Material.IRON_BARS);
+		setBlocks(x + 1, x + 10, y + 9, y + 10, z, z + 1, Material.STONE_SLAB);
+		setStair(x + 10, y + 9, z, Material.STONE_BRICK_STAIRS, Stair.WEST);
 		
 		// counter weight
-		setBlock(x - 2, y + 9, z, Material.STEP);
-		setStair(x - 3, y + 9, z, Material.SMOOTH_STAIRS, Stair.EAST);
+		setBlock(x - 2, y + 9, z, Material.STONE_SLAB);
+		setStair(x - 3, y + 9, z, Material.STONE_BRICK_STAIRS, Stair.EAST);
 		setWool(x - 3, x - 1, y + 7, y + 9, z, z + 1, odds.getRandomColor());
 	}
 	
 	public final void setTable(int x1, int x2, int y, int z1, int z2) {
-		setTable(x1, x2, y, z1, z2, Material.STONE_PLATE);
+		setTable(x1, x2, y, z1, z2, Material.STONE_PRESSURE_PLATE);
 	}
 	
 	public final void setTable(int x, int y, int z) {
-		setTable(x, y, z, Material.STONE_PLATE);
+		setTable(x, y, z, Material.STONE_PRESSURE_PLATE);
 	}
 	
 	public final void setTable(int x1, int x2, int y, int z1, int z2, Material tableTop) {
-		setTable(x1, x2, y, z1, z2, Material.FENCE, tableTop);
+		setTable(x1, x2, y, z1, z2, Material.SPRUCE_FENCE, tableTop);
 	}
 	
 	public final void setTable(int x, int y, int z, Material tableTop) {
-		setTable(x, y, z, Material.FENCE, tableTop);
+		setTable(x, y, z, Material.SPRUCE_FENCE, tableTop);
 	}
 	
 	public final void setTable(int x1, int x2, int y, int z1, int z2, Material tableLeg, Material tableTop) {
@@ -818,7 +727,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	}
 
 	public final void setWoodenDoor(int x, int y, int z, BadMagic.Door direction) {
-		setDoor(x, y, z, Material.WOODEN_DOOR, direction);
+		setDoor(x, y, z, Material.OAK_DOOR, direction);
 	}
 	
 	public final void setIronDoor(int x, int y, int z, BadMagic.Door direction) {
@@ -830,7 +739,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	}
 
 	public final void setStoneSlab(int x, int y, int z, BadMagic.StoneSlab direction) {
-		BlackMagic.setBlock(this, x, y, z, Material.STEP, direction.getData());
+		BlackMagic.setBlock(this, x, y, z, Material.STONE_SLAB, direction.getData());
 	}
 
 	public final void setLadder(int x, int y1, int y2, int z, BlockFace direction) {
@@ -896,8 +805,8 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		case SANDSTONE_STAIRS:
 			return Material.SANDSTONE_STAIRS;
 		case SMOOTH_BRICK:
-		case SMOOTH_STAIRS:
-			return Material.SMOOTH_STAIRS;
+		case STONE_BRICK_STAIRS:
+			return Material.STONE_BRICK_STAIRS;
 		case WOOL: // it is white too!
 		case QUARTZ_BLOCK:
 		case QUARTZ_STAIRS:

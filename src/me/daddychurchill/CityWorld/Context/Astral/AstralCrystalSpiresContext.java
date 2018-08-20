@@ -59,6 +59,6 @@ public class AstralCrystalSpiresContext extends AstralDataContext {
 
 	@Override
 	public Material getMapRepresentation() {
-		return Material.THIN_GLASS;
+		return Material.GLASS_PANE;
 	}
 }

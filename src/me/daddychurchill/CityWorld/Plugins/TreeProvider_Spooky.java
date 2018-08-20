@@ -22,7 +22,7 @@ public class TreeProvider_Spooky extends TreeProvider {
 			break;
 		case 2:
 			if (chunk.isEmpty(x, y, z))
-				chunk.setBlock(x, y, z, Material.IRON_FENCE);
+				chunk.setBlock(x, y, z, Material.IRON_BARS);
 			break;
 		case 3:
 			if (chunk.isEmpty(x, y, z))

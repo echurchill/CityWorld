@@ -102,7 +102,7 @@ public abstract class TreeProvider {
 	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, int data, DyeColor specialColor) {
 		// this variant does nothing with the special color
 		if (chunk.isEmpty(x, y, z))
-			BlackMagic.setBlock(chunk, x, y, z, material, data);
+			chunk.setBlock(x, y, z, material, data);
 	}
 	
 	protected void generateTrunkBlock(SupportBlocks chunk, int x, int y, int z, int w, int h, Material material, int data) {
@@ -119,8 +119,8 @@ public abstract class TreeProvider {
 	}
 	
 	protected boolean generateMiniTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType, Boolean includeLeaves) {
-		Material trunkMaterial = Material.LOG;
-		Material leavesMaterial = Material.LEAVES;
+		Material trunkMaterial = Material.SPRUCE_LOG;
+		Material leavesMaterial = Material.BIRCH_LEAVES;
 		int trunkHeight = 2;
 		int trunkBlackMagicData = 0;
 		
@@ -185,12 +185,12 @@ public abstract class TreeProvider {
 			break;
 			
 		case ACACIA:
-			trunkMaterial = Material.LOG_2;
+			trunkMaterial = Material.SPRUCE_LOG_2;
 			leavesMaterial = Material.LEAVES_2;
 			trunkBlackMagicData = 0;
 			break;
 		case DARK_OAK:
-			trunkMaterial = Material.LOG_2;
+			trunkMaterial = Material.SPRUCE_LOG_2;
 			leavesMaterial = Material.LEAVES_2;
 			trunkBlackMagicData = 1;
 			break;
@@ -237,8 +237,8 @@ public abstract class TreeProvider {
 	}
 	
 	protected boolean generateNormalTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType, boolean includeLeaves) {
-		Material trunkMaterial = Material.LOG;
-		Material leavesMaterial = Material.LEAVES;
+		Material trunkMaterial = Material.SPRUCE_LOG;
+		Material leavesMaterial = Material.BIRCH_LEAVES;
 		int trunkBlackMagicData = 0;
 		int trunkHeight = 2;
 		int trunkWidth = 1;
@@ -411,12 +411,12 @@ public abstract class TreeProvider {
 			break;
 			
 		case ACACIA:
-			trunkMaterial = Material.LOG_2;
+			trunkMaterial = Material.SPRUCE_LOG_2;
 			leavesMaterial = Material.LEAVES_2;
 			trunkBlackMagicData = 4;
 			break;
 		case DARK_OAK:
-			trunkMaterial = Material.LOG_2;
+			trunkMaterial = Material.SPRUCE_LOG_2;
 			leavesMaterial = Material.LEAVES_2;
 			trunkBlackMagicData = 1;
 			break;

@@ -21,7 +21,7 @@ public class AstralForestHedgeLot extends AstralForestLot {
 			int blockX, int blockY, int blockZ, int snowY) {
 		
 		// Buried bit
-		blocks.setLogs(blockX, blockY, blockY + snowY, blockZ, Material.LOG, TreeSpecies.GENERIC, BlockFace.UP);
+		blocks.setLogs(blockX, blockY, blockY + snowY, blockZ, Material.OAK_LOG, TreeSpecies.GENERIC, BlockFace.UP);
 		blockY += snowY;
 		
 		// how tall is it?
@@ -30,7 +30,7 @@ public class AstralForestHedgeLot extends AstralForestLot {
 		int treeTop = blockY + treeSegment + chunkOdds.getRandomInt(treeSegment * 3);
 		
 		// more trunk!
-		blocks.setLogs(blockX, blockY, treeTop, blockZ, Material.LOG, TreeSpecies.GENERIC, BlockFace.UP);
+		blocks.setLogs(blockX, blockY, treeTop, blockZ, Material.SPRUCE_LOG, TreeSpecies.GENERIC, BlockFace.UP);
 		
 		// now add the hedge bit
 		for (int x = blockX - 1; x < blockX + 2; x++) {

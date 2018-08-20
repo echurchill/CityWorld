@@ -4,7 +4,6 @@ import org.bukkit.Material;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.WorldBlocks;
@@ -81,6 +80,6 @@ public abstract class AstralForestLot extends AstralNatureLot {
 	
 	protected void setLeaf(WorldBlocks blocks, int x, int y, int z, int data) {
 		if (blocks.isEmpty(x, y, z))
-			BlackMagic.setBlock(blocks, x, y, z, Material.LEAVES, data);
+			blocks.setBlock(x, y, z, Material.BIRCH_LEAVES, data);
 	}
 }

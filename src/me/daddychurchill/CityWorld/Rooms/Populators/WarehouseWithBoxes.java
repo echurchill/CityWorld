@@ -10,7 +10,7 @@ public class WarehouseWithBoxes extends RoomProvider {
 	public WarehouseWithBoxes() {
 		super();
 
-		roomTypes.add(new StorageDoubleRowRoom(Material.PISTON_BASE));
+		roomTypes.add(new StorageDoubleRowRoom(Material.PISTON));
 	}
 
 }

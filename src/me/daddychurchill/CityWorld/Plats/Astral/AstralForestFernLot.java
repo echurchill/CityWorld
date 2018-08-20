@@ -23,7 +23,7 @@ public class AstralForestFernLot extends AstralForestLot {
 			int blockX, int blockY, int blockZ, int snowY) {
 		
 		// Buried bit
-		blocks.setLogs(blockX, blockY, blockY + snowY, blockZ, Material.LOG, TreeSpecies.GENERIC, BlockFace.UP);
+		blocks.setLogs(blockX, blockY, blockY + snowY, blockZ, Material.SPRUCE_LOG, TreeSpecies.GENERIC, BlockFace.UP);
 		blockY += snowY;
 		
 		// how tall is it?
@@ -32,7 +32,7 @@ public class AstralForestFernLot extends AstralForestLot {
 		int treeTop = blockY + treeSegment + chunkOdds.getRandomInt(treeSegment * 2);
 		
 		// more trunk!
-		blocks.setLogs(blockX, blockY, treeTop, blockZ, Material.LOG, TreeSpecies.GENERIC, BlockFace.UP);
+		blocks.setLogs(blockX, blockY, treeTop, blockZ, Material.SPRUCE_LOG, TreeSpecies.GENERIC, BlockFace.UP);
 		
 		// now add the fern bit
 		setLeaf(blocks, blockX, treeTop + 1, blockZ, lightLeaves);

@@ -14,7 +14,7 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class FloatingBlimpLot extends IsolatedLot {
 
-	protected final static Material base = Material.SMOOTH_BRICK;
+	protected final static Material base = Material.SMOOTH_STONE;
 	protected final static Material underlayment = Material.STONE;
 	protected final static Material pedestal = Material.STONE;
 	

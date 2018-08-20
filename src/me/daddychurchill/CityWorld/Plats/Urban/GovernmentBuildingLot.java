@@ -30,8 +30,8 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 		// what is it made of?
 		wallMaterial = platmap.generator.materialProvider.itemsSelectMaterial_GovernmentWalls.getRandomMaterial(chunkOdds, Material.QUARTZ_BLOCK);
 		foundationMaterial = platmap.generator.materialProvider.itemsSelectMaterial_GovernmentFoundations.getRandomMaterial(chunkOdds, Material.QUARTZ_BLOCK);
-		ceilingMaterial = platmap.generator.materialProvider.itemsSelectMaterial_GovernmentCeilings.getRandomMaterial(chunkOdds, Material.WOOL);
-		roofMaterial = platmap.generator.materialProvider.itemsSelectMaterial_GovernmentCeilings.getRandomMaterial(chunkOdds, Material.WOOL);
+		ceilingMaterial = platmap.generator.materialProvider.itemsSelectMaterial_GovernmentCeilings.getRandomMaterial(chunkOdds, Material.WHITE_WOOL);
+		roofMaterial = platmap.generator.materialProvider.itemsSelectMaterial_GovernmentCeilings.getRandomMaterial(chunkOdds, Material.WHITE_WOOL);
 		columnMaterial = platmap.generator.materialProvider.itemsSelectMaterial_GovernmentWalls.getRandomMaterial(chunkOdds, pickColumnMaterial(wallMaterial));
 		foundationSteps = SupportBlocks.filterStairMaterial(foundationMaterial);
 	}
@@ -361,7 +361,7 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 	private void drawColumn(SupportBlocks blocks, int x, int y1, int y2, int z) {
 		switch (columnMaterial) {
 		case QUARTZ_BLOCK:
-			BlackMagic.setBlocks(blocks, x, y1, y2, z, Material.QUARTZ_BLOCK, 2);
+			blocks.setBlocks(x, y1, y2, z, Material.QUARTZ_BLOCK, 2);
 			break;
 		default:
 			blocks.setBlocks(x, y1, y2, z, columnMaterial);

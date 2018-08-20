@@ -9,7 +9,7 @@ public class Log extends Tree {
 
 	public Log()
 	{
-		super(Material.LOG);
+		super(Material.SPRUCE_LOG);
 	}
 
     public Log(TreeSpecies species) {

@@ -42,8 +42,8 @@ public class ThingProvider extends Provider {
 		chunk.setBlocks(x + 2, y1, y2 - 1, z, matBlock);
 		
 		// shoulders
-//		BlackMagic.setBlock(chunk, x - 2, y2 - 1, z, matBlock, 0);
-//		BlackMagic.setBlock(chunk, x + 2, y2 - 1, z, matBlock, 1);
+//		chunk.setBlock(x - 2, y2 - 1, z, matBlock, 0);
+//		chunk.setBlock(x + 2, y2 - 1, z, matBlock, 1);
 		chunk.setBlock(x - 2, y2 - 1, z, matBlock);
 		chunk.setBlock(x + 2, y2 - 1, z, matBlock);
 
@@ -199,7 +199,7 @@ public class ThingProvider extends Provider {
 //					if (cI % 2 == 0)
 						chunk.setBlock(x + xI, y, z + zI, RealMaterial.WHITE_WOOL);
 //					else 
-//						chunk.setBlock(x + xI, y, z + zI, Material.WOOL, DyeColor.SILVER);
+//						chunk.setBlock(x + xI, y, z + zI, Material.WHITE_WOOL, DyeColor.LIGHT_GRAY);
 					break;
 				case YEL:
 					chunk.setBlock(x + xI, y, z + zI, RealMaterial.YELLOW_WOOL);

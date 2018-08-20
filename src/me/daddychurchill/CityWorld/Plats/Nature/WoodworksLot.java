@@ -69,25 +69,25 @@ public class WoodworksLot extends ConstructLot {
 			int logL = chunkOdds.getRandomInt(3, 3);
 			int logX = x + 6 - logL;
 			if (chunkOdds.flipCoin())
-				BlackMagic.setBlocks(chunk, logX, logX + logL, y, z - 1, z, Material.LOG, 4);
-			BlackMagic.setBlocks(chunk, logX, logX + logL, y, z, z + 1, Material.LOG, 4);
+				BlackMagic.setBlocks(chunk, logX, logX + logL, y, z - 1, z, Material.SPRUCE_LOG, 4);
+			BlackMagic.setBlocks(chunk, logX, logX + logL, y, z, z + 1, Material.SPRUCE_LOG, 4);
 			if (chunkOdds.flipCoin())
-				BlackMagic.setBlocks(chunk, logX, logX + logL, y, z + 1, z + 2, Material.LOG, 4);
+				BlackMagic.setBlocks(chunk, logX, logX + logL, y, z + 1, z + 2, Material.SPRUCE_LOG, 4);
 			break;
 		case 6:
 		case 7:
 			if (chunkOdds.flipCoin())
-				chunk.setBlocks(x + 1, x + 5, y, y + chunkOdds.getRandomInt(1, 2), z - 1, z, Material.WOOD);
-			chunk.setBlocks(x + 1, x + 5, y, y + chunkOdds.getRandomInt(1, 2), z, z + 1, Material.WOOD);
+				chunk.setBlocks(x + 1, x + 5, y, y + chunkOdds.getRandomInt(1, 2), z - 1, z, Material.SPRUCE_WOOD);
+			chunk.setBlocks(x + 1, x + 5, y, y + chunkOdds.getRandomInt(1, 2), z, z + 1, Material.SPRUCE_WOOD);
 			if (chunkOdds.flipCoin())
-				chunk.setBlocks(x + 1, x + 5, y, y + chunkOdds.getRandomInt(1, 2), z + 1, z + 2, Material.WOOD);
+				chunk.setBlocks(x + 1, x + 5, y, y + chunkOdds.getRandomInt(1, 2), z + 1, z + 2, Material.SPRUCE_WOOD);
 			break;
 		case 8:
 			if (chunkOdds.flipCoin())
 				chunk.setChest(generator, x + 1, y, z, General.SOUTH, chunkOdds, 
 						generator.lootProvider, LootLocation.WOODWORKS);
 			if (chunkOdds.flipCoin())
-				chunk.setBlock(x + 3, y, z, Material.WORKBENCH);
+				chunk.setBlock(x + 3, y, z, Material.CRAFTING_TABLE);
 			if (chunkOdds.flipCoin())
 				chunk.setBlock(x + 4, y, z, Material.FURNACE);
 			break;
@@ -134,8 +134,8 @@ public class WoodworksLot extends ConstructLot {
 	
 	private void generateColumn(RealBlocks chunk, int x, int y, int z) {
 //		if (chunk.isEmpty(x, y - 1, z)) {
-			chunk.setBlock(x, y - floorHeight, z, Material.WOOD);
-			chunk.setBlocks(x, y - floorHeight + 1, y, z, Material.FENCE);
+			chunk.setBlock(x, y - floorHeight, z, Material.SPRUCE_WOOD);
+			chunk.setBlocks(x, y - floorHeight + 1, y, z, Material.SPRUCE_FENCE);
 //		}
 	}
 	

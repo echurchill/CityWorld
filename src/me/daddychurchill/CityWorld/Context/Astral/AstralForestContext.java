@@ -80,12 +80,12 @@ public class AstralForestContext extends AstralDataContext {
 	public Material getMapRepresentation() {
 		switch (style) {
 		case FERN:
-			return Material.LEAVES;
+			return Material.OAK_LEAVES;
 		case HEDGE:
-			return Material.LEAVES_2;
+			return Material.DARK_OAK_LEAVES;
 		case CANOPY:
 		default:
-			return Material.LOG;
+			return Material.OAK_LOG;
 		}
 	}
 

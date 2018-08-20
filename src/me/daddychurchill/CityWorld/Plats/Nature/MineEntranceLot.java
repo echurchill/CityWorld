@@ -58,10 +58,10 @@ public class MineEntranceLot extends ConstructLot {
 		Material center = Material.AIR;
 		switch (chunkOdds.getRandomInt(6)) {
 		case 1:
-			center = Material.IRON_FENCE;
+			center = Material.IRON_BARS;
 			break;
 		case 2:
-			center = Material.FENCE;
+			center = Material.SPRUCE_FENCE;
 			break;
 		case 3:
 			center = Material.COBBLESTONE;

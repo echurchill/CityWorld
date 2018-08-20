@@ -36,28 +36,28 @@ public class RoadLot extends ConnectedLot {
 	protected final static int fenceHeight = 2;
 	
 	protected final static Material lightpostbaseMaterial = Material.DOUBLE_STEP;
-	protected final static Material lightpostMaterial = Material.FENCE;
+	protected final static Material lightpostMaterial = Material.SPRUCE_FENCE;
 	
-	public final static Material sewerMaterial = Material.SMOOTH_BRICK;
+	public final static Material sewerMaterial = Material.SMOOTH_STONE;
 	public final static MaterialData sewerFloorData = new SmoothBrick(Material.STONE);
 	public final static MaterialData sewerWallData = new SmoothBrick(Material.MOSSY_COBBLESTONE);
 	public final static MaterialData sewerCeilingData = new SmoothBrick(Material.COBBLESTONE);
 	
 	//protected final static Material vineMaterial = Material.VINE;
 	
-	protected final static Material retainingWallMaterial = Material.SMOOTH_BRICK;
-	protected final static Material retainingFenceMaterial = Material.IRON_FENCE;
+	protected final static Material retainingWallMaterial = Material.SMOOTH_STONE;
+	protected final static Material retainingFenceMaterial = Material.IRON_BARS;
 
-	protected final static Material tunnelWallMaterial = Material.SMOOTH_BRICK;
+	protected final static Material tunnelWallMaterial = Material.SMOOTH_STONE;
 	protected final static Material tunnelTileMaterial = Material.SANDSTONE;
 	protected final static Material tunnelCeilingMaterial = Material.GLASS;
 	
 	protected final static Material bridgePavement1Material = Material.WOOD_STEP;
 	protected final static Material bridgePavement2Material = Material.WOOD_DOUBLE_STEP;
-	protected final static Material bridgeSidewalk1Material = Material.STEP;
+	protected final static Material bridgeSidewalk1Material = Material.STONE_SLAB;
 	protected final static Material bridgeSidewalk2Material = Material.DOUBLE_STEP;
-	protected final static Material bridgeEdgeMaterial = Material.SMOOTH_BRICK;
-	protected final static Material bridgeRailMaterial = Material.FENCE;
+	protected final static Material bridgeEdgeMaterial = Material.SMOOTH_STONE;
+	protected final static Material bridgeRailMaterial = Material.SPRUCE_FENCE;
 	
 	protected Material pavementMat;
 	protected Material linesMat;
@@ -87,14 +87,14 @@ public class RoadLot extends ConnectedLot {
 		if (blockYs.maxHeight > topOfRoad + tunnelHeight)
 			topOfRoad += tunnelHeight;
 		
-		pavementMat = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(0, Material.STAINED_CLAY);
+		pavementMat = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(0, Material.WHITE_TERRACOTTA);
 		linesMat = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(1, Material.QUARTZ_BLOCK);
 		// paved sidewalk is 2, read in PlatLot
 		dirtroadMat = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(3, Material.GRASS_PATH);
 		// dirt sidewalk is 4, read in PlatLot
 
-		pavementIsClay = pavementMat == Material.STAINED_CLAY;
-		dirtroadIsClay = dirtroadMat == Material.STAINED_CLAY;
+		pavementIsClay = pavementMat == Material.WHITE_TERRACOTTA;
+		dirtroadIsClay = dirtroadMat == Material.WHITE_TERRACOTTA;
 	}
 	
 	@Override
@@ -1188,7 +1188,7 @@ public class RoadLot extends ConnectedLot {
 						generator.coverProvider.makePlantable(generator, chunk, x, y, z);
 						if (!doingTunnel)
 							generator.surfaceProvider.generateSurface(generator, this, chunk, x, y, z, true);
-//							chunk.setSlab(x, y + 1, z, Material.STEP, true);
+//							chunk.setSlab(x, y + 1, z, Material.STONE_SLAB, true);
 //						else
 //							chunk.setBlock(x, y + 1, z, Material.PURPUR_BLOCK);
 //					} else {
@@ -1245,7 +1245,7 @@ public class RoadLot extends ConnectedLot {
 			chunk.setBlock(x, y, z, pavementSidewalk);
 		else {
 //			if (dirtroadSidewalk == Material.DIRT)
-//				BlackMagic.setBlock(chunk, x, y, z, dirtroadSidewalk, 1); // Coarse dirt
+//				chunk.setBlock(x, y, z, dirtroadSidewalk, 1); // Coarse dirt
 //			else
 //				chunk.setBlock(x, y, z, dirtroadSidewalk);
 //			if (!doingTunnel)
@@ -1310,7 +1310,7 @@ public class RoadLot extends ConnectedLot {
 				if (chunkOdds.flipCoin())
 					chunk.setBlock(x, y, z, Material.COBBLESTONE);
 				else
-					BlackMagic.setBlock(chunk, x, y, z, Material.STEP, 3);
+					chunk.setBlock(x, y, z, Material.STONE_SLAB, 3);
 				amount--;
 			}
 		}
@@ -1325,7 +1325,7 @@ public class RoadLot extends ConnectedLot {
 				if (chunkOdds.flipCoin())
 					chunk.airoutBlock(generator, x, y, z);
 				else
-					BlackMagic.setBlock(chunk, x, y, z, Material.STEP, 3);
+					chunk.setBlock(x, y, z, Material.STONE_SLAB, 3);
 				amount--;
 			}
 		}
@@ -1421,7 +1421,7 @@ public class RoadLot extends ConnectedLot {
 			chunk.setBlocks(x, y, y + 2, z, Material.BRICK);
 			break;
 		case 2:
-			chunk.setBlocks(x, y, y + 2, z, Material.IRON_FENCE);
+			chunk.setBlocks(x, y, y + 2, z, Material.IRON_BARS);
 			break;
 		case 3:
 			chunk.setBlocks(x, y, y + 2, z, Material.AIR);

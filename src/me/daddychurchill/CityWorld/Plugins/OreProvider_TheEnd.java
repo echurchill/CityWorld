@@ -10,9 +10,9 @@ public class OreProvider_TheEnd extends OreProvider {
 	public OreProvider_TheEnd(CityWorldGenerator generator) {
 		super(generator);
 
-		surfaceMaterial = Material.ENDER_STONE;
-		subsurfaceMaterial = Material.ENDER_STONE;
-		stratumMaterial = Material.ENDER_STONE;
+		surfaceMaterial = Material.END_STONE;
+		subsurfaceMaterial = Material.END_STONE;
+		stratumMaterial = Material.END_STONE;
 
 		fluidMaterial = Material.FROSTED_ICE;
 		fluidFluidMaterial = Material.SNOW_BLOCK;

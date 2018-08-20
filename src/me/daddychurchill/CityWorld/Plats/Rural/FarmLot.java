@@ -106,13 +106,13 @@ public class FarmLot extends ConnectedLot {
 	protected Material waterMaterial = Material.STATIONARY_WATER;
 	protected final static Material cropNone = Material.DIRT;
 	
-	private final static Material soilMaterial = Material.SOIL;
+	private final static Material soilMaterial = Material.FARMLAND;
 	private final static Material sandMaterial = Material.SAND;
-	private final static Material mycelMaterial = Material.MYCEL;
+	private final static Material mycelMaterial = Material.MYCELIUM;
 	private final static Material dirtMaterial = Material.DIRT;
 	private final static Material soulMaterial = Material.SOUL_SAND;
-	private final static Material poleMaterial = Material.FENCE;
-	private final static Material trellisMaterial = Material.WOOD;
+	private final static Material poleMaterial = Material.SPRUCE_FENCE;
+	private final static Material trellisMaterial = Material.SPRUCE_WOOD;
 
 	@Override
 	public int getBottomY(CityWorldGenerator generator) {
@@ -197,17 +197,17 @@ public class FarmLot extends ConnectedLot {
 		if (!fallowField)
 			switch (cropType) {
 			case PADDOCK:
-				chunk.setWalls(1, 15, cropY, cropY + 1, 1, 15, Material.FENCE);
+				chunk.setWalls(1, 15, cropY, cropY + 1, 1, 15, Material.SPRUCE_FENCE);
 				
 				// TODO: I fix the gates one of these days
 				if (chunkOdds.flipCoin())
-					BlackMagic.setBlock(chunk, 7, cropY, 1, Material.FENCE_GATE, Facing.NORTH.getData()); // face north
+					chunk.setBlock(7, cropY, 1, Material.SPRUCE_FENCE_GATE, Facing.NORTH.getData()); // face north
 				if (chunkOdds.flipCoin())
-					BlackMagic.setBlock(chunk, 7, cropY, 14, Material.FENCE_GATE, Facing.SOUTH.getData()); // face south
+					chunk.setBlock(7, cropY, 14, Material.SPRUCE_FENCE_GATE, Facing.SOUTH.getData()); // face south
 				if (chunkOdds.flipCoin())
-					BlackMagic.setBlock(chunk, 1, cropY, 7, Material.FENCE_GATE, Facing.WEST.getData()); // face west
+					chunk.setBlock(1, cropY, 7, Material.SPRUCE_FENCE_GATE, Facing.WEST.getData()); // face west
 				if (chunkOdds.flipCoin())
-					BlackMagic.setBlock(chunk, 14, cropY, 7, Material.FENCE_GATE, Facing.EAST.getData()); // face east
+					chunk.setBlock(14, cropY, 7, Material.SPRUCE_FENCE_GATE, Facing.EAST.getData()); // face east
 				break;
 			case TRELLIS:
 			case VINES:

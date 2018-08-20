@@ -10,9 +10,7 @@ import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.AbstractBlocks;
 import me.daddychurchill.CityWorld.Support.CachedYs;
-import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
@@ -46,7 +44,7 @@ public abstract class PlatLot {
 
 		// pavement is 0, read in RoadLot
 		// lines is 1, read in RoadLot
-		pavementSidewalk = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(2, Material.STEP);
+		pavementSidewalk = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(2, Material.STONE_SLAB);
 		// dirt is 3, read in RoadLot
 		dirtroadSidewalk = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(4, Material.GRASS_PATH);
 		
@@ -273,9 +271,9 @@ public abstract class PlatLot {
 			generateMineShaftSpace(generator, chunk, 6, 10, y1, y1 + 4, 6, 10);
 	}
 	
-	private final static Material shaftBridge = Material.WOOD; 
-	private final static Material shaftSupport = Material.FENCE;
-	private final static Material shaftBeam = Material.WOOD;
+	private final static Material shaftBridge = Material.SPRUCE_WOOD; 
+	private final static Material shaftSupport = Material.SPRUCE_FENCE;
+	private final static Material shaftBeam = Material.SPRUCE_WOOD;
 
 	private void generateMineShaftSpace(CityWorldGenerator generator, InitialBlocks chunk, int x1, int x2, int y1, int y2, int z1, int z2) {
 		chunk.setEmptyBlocks(x1, x2, y1, z1, z2, shaftBridge);
@@ -489,11 +487,11 @@ public abstract class PlatLot {
 	private void generateMineSupport(RealBlocks chunk, int x, int y, int z) {
 		int aboveSupport = chunk.findLastEmptyAbove(x, y, z, blockYs.maxHeight);
 		if (aboveSupport < blockYs.maxHeight)
-			chunk.setBlocks(x, y + 1, aboveSupport + 1, z, Material.FENCE);
+			chunk.setBlocks(x, y + 1, aboveSupport + 1, z, Material.SPRUCE_FENCE);
 	}
 	private void placeMineStairBase(RealBlocks chunk, int x, int y, int z) {
 		chunk.setBlocks(x, y + 1, y + 4, z, Material.AIR);
-		chunk.setEmptyBlock(x, y, z, Material.WOOD);
+		chunk.setEmptyBlock(x, y, z, Material.SPRUCE_WOOD);
 	}
 	
 	private void placeMineStairStep(RealBlocks chunk, int x, int y, int z, Stair direction, Stair flipDirection) {

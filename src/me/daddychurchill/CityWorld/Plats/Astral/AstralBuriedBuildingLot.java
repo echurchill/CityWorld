@@ -21,8 +21,8 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 	public AstralBuriedBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		
-		wallMaterial = Material.SMOOTH_BRICK;
-		stepMaterial = Material.SMOOTH_STAIRS;
+		wallMaterial = Material.SMOOTH_STONE;
+		stepMaterial = Material.STONE_BRICK_STAIRS;
 		
 		switch (chunkOdds.getRandomInt(10)) {
 		case 1:
@@ -30,7 +30,7 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 			stepMaterial = Material.BRICK_STAIRS;
 			break;
 		case 2:
-			wallMaterial = Material.WOOD;
+			wallMaterial = Material.SPRUCE_WOOD;
 			stepMaterial = Material.WOOD_STAIRS;
 			break;
 		case 3:
@@ -50,13 +50,13 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 			stepMaterial = Material.QUARTZ_STAIRS;
 			break;
 		case 7:
-			wallMaterial = Material.STAINED_CLAY;
+			wallMaterial = Material.WHITE_TERRACOTTA;
 			break;
 		case 8:
 			wallMaterial = Material.DOUBLE_STEP;
 			break;
 		case 9:
-			wallMaterial = Material.WOOL;
+			wallMaterial = Material.WHITE_WOOL;
 			stepMaterial = Material.QUARTZ_STAIRS;
 			break;
 		default:
@@ -64,7 +64,7 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 		}
 	}
 	
-	private final static Material baseMaterial = Material.SMOOTH_BRICK;
+	private final static Material baseMaterial = Material.SMOOTH_STONE;
 	private final static int floorHeight = 4;
 
 	@Override
@@ -140,13 +140,13 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 		
 		// add stuff?
 		if (chunkOdds.playOdds(oddsOfFurniture))
-			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 2, y, 2, 3, 3, 3, Facing.NORTH, Material.CLAY, Material.THIN_GLASS);
+			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 2, y, 2, 3, 3, 3, Facing.NORTH, Material.CLAY, Material.GLASS_PANE);
 		if (chunkOdds.playOdds(oddsOfFurniture))
-			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 11, y, 2, 3, 3, 3, Facing.EAST, Material.CLAY, Material.THIN_GLASS);
+			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 11, y, 2, 3, 3, 3, Facing.EAST, Material.CLAY, Material.GLASS_PANE);
 		if (chunkOdds.playOdds(oddsOfFurniture))
-			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 2, y, 11, 3, 3, 3, Facing.WEST, Material.CLAY, Material.THIN_GLASS);
+			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 2, y, 11, 3, 3, 3, Facing.WEST, Material.CLAY, Material.GLASS_PANE);
 		if (chunkOdds.playOdds(oddsOfFurniture))
-			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 11, y, 11, 3, 3, 3, Facing.SOUTH, Material.CLAY, Material.THIN_GLASS);
+			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 11, y, 11, 3, 3, 3, Facing.SOUTH, Material.CLAY, Material.GLASS_PANE);
 
 		// prep for windows
 		boolean regularWindows = chunkOdds.playOdds(oddsOfWindows);

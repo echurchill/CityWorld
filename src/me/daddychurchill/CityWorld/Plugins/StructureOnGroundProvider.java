@@ -91,9 +91,9 @@ public class StructureOnGroundProvider extends Provider {
 		if (odds.playOdds(oddsOfFurnace))
 			chunk.setFurnace(x, y, z, direction);
 		else if (odds.playOdds(oddsOfCraftingTable))
-			chunk.setBlock(x, y, z, Material.WORKBENCH);
+			chunk.setBlock(x, y, z, Material.CRAFTING_TABLE);
 		else {
-			chunk.setBlock(x, y, z, Material.FENCE);
+			chunk.setBlock(x, y, z, Material.SPRUCE_FENCE);
 			chunk.setBlock(x, y + 1, z, Material.WOOD_PLATE);
 		}
 	}
@@ -116,12 +116,12 @@ public class StructureOnGroundProvider extends Provider {
 		}
 	}
 
-	private final static Material matWindow = Material.THIN_GLASS;
-	private final static Material matPole = Material.FENCE;
+	private final static Material matWindow = Material.GLASS_PANE;
+	private final static Material matPole = Material.SPRUCE_FENCE;
 	private final static Material matFire = Material.FIRE;
 	private final static Material matFireBase = Material.NETHERRACK;
 	private final static Material matFireRing = Material.COBBLESTONE_STAIRS;
-	private final static Material matLog = Material.LOG;
+	private final static Material matLog = Material.SPRUCE_LOG;
 	
 	public void generateCampground(CityWorldGenerator generator, RealBlocks chunk, DataContext context, Odds odds, int baseY) {
 		
@@ -217,12 +217,12 @@ public class StructureOnGroundProvider extends Provider {
 		// and the logs
 		int logType = odds.getRandomWoodType();
 		if (odds.playOdds(Odds.oddsPrettyLikely)) {
-			BlackMagic.setBlock(chunk, 11, baseY, 8, matLog, logType + logWestEast);
-			BlackMagic.setBlock(chunk, 12, baseY, 8, matLog, logType + logWestEast);
+			chunk.setBlock(11, baseY, 8, matLog, logType + logWestEast);
+			chunk.setBlock(12, baseY, 8, matLog, logType + logWestEast);
 		}
 		if (odds.playOdds(Odds.oddsPrettyLikely)) {
-			BlackMagic.setBlock(chunk, 8, baseY, 11, matLog, logType + logNorthSouth);
-			BlackMagic.setBlock(chunk, 8, baseY, 12, matLog, logType + logNorthSouth);
+			chunk.setBlock(8, baseY, 11, matLog, logType + logNorthSouth);
+			chunk.setBlock(8, baseY, 12, matLog, logType + logNorthSouth);
 		}
 	}
 	
@@ -251,7 +251,7 @@ public class StructureOnGroundProvider extends Provider {
 		HouseRoofStyle styleRoof = HouseRoofStyle.FLAT;
 		int floors = 1;
 		
-		//chunk.setWalls(2, 13, baseY, baseY + ContextData.FloorHeight, 2, 13, Material.WOOD);
+		//chunk.setWalls(2, 13, baseY, baseY + ContextData.FloorHeight, 2, 13, Material.SPRUCE_WOOD);
 		generateColonial(generator, chunk, context, odds, baseY, matFloor, matWall, matCeiling, matRoof, floors, roomWidth, roomWidth, styleRoof, false);
 		return floors;
 	}
@@ -668,9 +668,9 @@ public class StructureOnGroundProvider extends Provider {
 	
 	private final static Material materialAir = Material.AIR;
 	private final static Material materialGlass = Material.GLASS;
-	private final static Material materialFence = Material.FENCE;
+	private final static Material materialFence = Material.SPRUCE_FENCE;
 	private final static Material materialStair = Material.WOOD_STAIRS;
-	private final static Material materialUnderStairs = Material.WOOD;
+	private final static Material materialUnderStairs = Material.SPRUCE_WOOD;
 	
 	private final static int MinSize = 4;
 	private final static int MaxSize = 6;
@@ -857,7 +857,7 @@ public class StructureOnGroundProvider extends Provider {
 				break;
 			case DINING:
 				
-//				chunk.setBlock((x2 - x1) / 2 + x1, y1, (z2 - z1) / 2 + z1, Material.FENCE);
+//				chunk.setBlock((x2 - x1) / 2 + x1, y1, (z2 - z1) / 2 + z1, Material.SPRUCE_FENCE);
 //				chunk.setBlock((x2 - x1) / 2 + x1, y1 + 1, (z2 - z1) / 2 + z1, Material.WOOD_PLATE);
 				break;
 			case ENTRY:
@@ -893,7 +893,7 @@ public class StructureOnGroundProvider extends Provider {
 							chunk.setBlock(x1 + 5, y1    , z1 + 1, materialUnderStairs);
 							chunk.setStair(x1 + 5, y1    , z1 + 2, materialStair, BadMagic.Stair.NORTH);
 							
-//							chunk.setBlocks(x1 + 3, y1, y2 + 50, z1 + 3, Material.FENCE);
+//							chunk.setBlocks(x1 + 3, y1, y2 + 50, z1 + 3, Material.SPRUCE_FENCE);
 //							chunk.setBlock(x1 + 3, y2 + 50, z1 + 3, Material.GOLD_BLOCK);
 						} else {
 							chunk.setBlocks(x1 + 1, x1 + 2, y2, z1 + 1, z2, materialAir);
@@ -912,7 +912,7 @@ public class StructureOnGroundProvider extends Provider {
 							chunk.setBlock(x1 + 1, y1    , z2 - 5, materialUnderStairs);
 							chunk.setStair(x1 + 2, y1    , z2 - 5, materialStair, BadMagic.Stair.WEST);
 							
-//							chunk.setBlocks(x1 + 3, y1, y2 + 50, z1 + 3, Material.FENCE);
+//							chunk.setBlocks(x1 + 3, y1, y2 + 50, z1 + 3, Material.SPRUCE_FENCE);
 //							chunk.setBlock(x1 + 3, y2 + 50, z1 + 3, Material.LAPIS_BLOCK);
 						}
 					} else {
@@ -933,7 +933,7 @@ public class StructureOnGroundProvider extends Provider {
 							chunk.setBlock(x2 - 1, y1    , z1 + 5, materialUnderStairs);
 							chunk.setStair(x2 - 2, y1    , z1 + 5, materialStair, BadMagic.Stair.EAST);
 							
-//							chunk.setBlocks(x1 + 3, y1, y2 + 50, z1 + 3, Material.FENCE);
+//							chunk.setBlocks(x1 + 3, y1, y2 + 50, z1 + 3, Material.SPRUCE_FENCE);
 //							chunk.setBlock(x1 + 3, y2 + 50, z1 + 3, Material.DIAMOND_BLOCK);
 						} else {
 							chunk.setBlocks(x1 + 1, x2, y2, z2 - 1, z2, materialAir);
@@ -952,7 +952,7 @@ public class StructureOnGroundProvider extends Provider {
 							chunk.setBlock(x2 - 5, y1    , z2 - 1, materialUnderStairs);
 							chunk.setStair(x2 - 5, y1    , z2 - 2, materialStair, BadMagic.Stair.SOUTH);
 							
-//							chunk.setBlocks(x1 + 3, y1, y2 + 50, z1 + 3, Material.FENCE);
+//							chunk.setBlocks(x1 + 3, y1, y2 + 50, z1 + 3, Material.SPRUCE_FENCE);
 //							chunk.setBlock(x1 + 3, y2 + 50, z1 + 3, Material.GLOWSTONE);
 						}
 					}
@@ -1010,7 +1010,7 @@ public class StructureOnGroundProvider extends Provider {
 //				chunk.setBlock((x2 - x1) / 2 + x1, y1, (z2 - z1) / 2 + z1, Material.DIAMOND_BLOCK);
 				break;
 			case BED:
-//				chunk.setBlock((x2 - x1) / 2 + x1, y1, (z2 - z1) / 2 + z1, Material.WOOL);
+//				chunk.setBlock((x2 - x1) / 2 + x1, y1, (z2 - z1) / 2 + z1, Material.WHITE_WOOL);
 				break;
 			}
 			
@@ -1072,13 +1072,13 @@ public class StructureOnGroundProvider extends Provider {
 		int y3 = y2 + 6;
 
 		Material legMat = generator.materialProvider.itemsSelectMaterial_WaterTowers.getRandomMaterial(odds, Material.CLAY);
-		Material topMat = generator.materialProvider.itemsSelectMaterial_WaterTowers.getRandomMaterial(odds, Material.STAINED_CLAY);
+		Material topMat = generator.materialProvider.itemsSelectMaterial_WaterTowers.getRandomMaterial(odds, Material.WHITE_TERRACOTTA);
 		
 		DyeColor platformColor = odds.getRandomDarkColor();
 		DyeColor tankColor = odds.getRandomLightColor();
 		DyeColor topColor = odds.getRandomColor();
 		
-		if (legMat == Material.STAINED_CLAY) {
+		if (legMat == Material.WHITE_TERRACOTTA) {
 			DyeColor legColor = odds.getRandomColor();
 			chunk.setBlocksTypeAndColor(x, y1, y3, z + 1, legMat, legColor);
 			chunk.setBlocksTypeAndColor(x + 1, y1, y3, z, legMat, legColor);
@@ -1106,7 +1106,7 @@ public class StructureOnGroundProvider extends Provider {
 			chunk.setBlocks(x + 6, y1, y3, z + 7, legMat);
 		}
 		
-		if (topMat == Material.STAINED_CLAY) {
+		if (topMat == Material.WHITE_TERRACOTTA) {
 			chunk.setCircle(x + 4, x + 4, 3, y3 - 1, topMat, topColor, true);
 			chunk.setCircle(x + 4, x + 4, 5, y3, topMat, platformColor, true);
 			chunk.setCircle(x + 4, x + 4, 4, y3 + 1, y3 + 5, topMat, tankColor, false);

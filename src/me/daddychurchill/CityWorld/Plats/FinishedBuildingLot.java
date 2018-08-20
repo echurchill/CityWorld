@@ -228,7 +228,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		// Fix up any material issues
 		// thin glass should not be used with ceiling inset, it looks goofy
 		// thin glass should not be used with double-step walls, the glass does not align correctly
-		if (glassMaterial == Material.THIN_GLASS) {
+		if (glassMaterial == Material.GLASS_PANE) {
 			insetCeilingWE = Math.min(insetCeilingWE, insetWallWE);
 			insetCeilingNS = Math.min(insetCeilingNS, insetWallNS);
 			if (wallMaterial == Material.DOUBLE_STEP)
@@ -518,7 +518,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		if (allowRounded) {// && rounded) { 
 			
 			// hack the glass material if needed
-			if (glassMaterial == Material.THIN_GLASS)
+			if (glassMaterial == Material.GLASS_PANE)
 				glassMaterial = Material.GLASS;
 			
 			// do the sides
@@ -695,7 +695,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		case EMPTY:
 			break;
 		case WOODCOLUMN:
-			blocks.setBlocks(x, y1, y2, z, Material.FENCE);
+			blocks.setBlocks(x, y1, y2, z, Material.SPRUCE_FENCE);
 			break;
 		case STONECOLUMN:
 			blocks.setBlocks(x, y1, y2, z, Material.COBBLE_WALL);
@@ -2228,7 +2228,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			case RED_SANDSTONE:
 			case DOUBLE_STONE_SLAB2:
 			default:
-					return Material.FENCE;
+					return Material.SPRUCE_FENCE;
 			}
 	}
 
@@ -2323,7 +2323,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 
 		case SMOOTH_BRICK:
 		default:
-			return Material.SMOOTH_STAIRS;
+			return Material.STONE_BRICK_STAIRS;
 		}
 	}
 
@@ -2354,7 +2354,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 //			return Material.GRAVEL;
 //			
 		case JUNGLE_WOOD_STAIRS:
-			return Material.WOOD;
+			return Material.SPRUCE_WOOD;
 
 		case SPRUCE_WOOD_STAIRS:
 			return Material.STONE;
@@ -2366,7 +2366,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			return Material.PURPUR_BLOCK;
 
 		default:
-			return Material.SMOOTH_BRICK;
+			return Material.SMOOTH_STONE;
 		}
 	}
 	
@@ -2384,7 +2384,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			case SAND:
 			case SANDSTONE:
 			case ENDER_STONE:
-				return Material.IRON_FENCE;
+				return Material.IRON_BARS;
 	
 			case WOOL:
 			case DOUBLE_STEP:
@@ -2394,7 +2394,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			case NETHERRACK:
 			case NETHER_BRICK:
 			case COAL_BLOCK:
-				return Material.THIN_GLASS;
+				return Material.GLASS_PANE;
 				
 			case GRAVEL:
 			case WOOD:
@@ -2443,9 +2443,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			return Material.GLASS;
 		case 1:
 			if (chunkOdds.playOdds(Odds.oddsExceedinglyUnlikely))
-				return Material.IRON_FENCE;
+				return Material.IRON_BARS;
 			else
-				return Material.THIN_GLASS;
+				return Material.GLASS_PANE;
 		}
 	}
 	
