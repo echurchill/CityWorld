@@ -156,9 +156,9 @@ public class MineEntranceLot extends ConstructLot {
 		
 		// make a step... or not...
 		if (!generator.settings.includeDecayedBuildings || odds.playOdds(oddsOfStairs)) {
-			chunk.setStair(x, y, z, stairs, direction);
+			chunk.setBlock(x, y, z, stairs, direction);
 			if (chunk.isEmpty(x, y - 1, z))
-				chunk.setStair(x, y - 1, z, stairs, underdirection);
+				chunk.setBlock(x, y - 1, z, stairs, underdirection);
 		}
 		
 		// moving on up
@@ -176,7 +176,7 @@ public class MineEntranceLot extends ConstructLot {
 		if (!generator.settings.includeDecayedBuildings || odds.playOdds(oddsOfLanding)) {
 			chunk.setBlock(x, y - 1, z, landing);
 			if (chunk.isEmpty(x, y - 2, z))
-				chunk.setStair(x, y - 2, z, stairs, underdirection);
+				chunk.setBlock(x, y - 2, z, stairs, underdirection);
 		}
 	}
 }

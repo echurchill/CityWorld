@@ -214,7 +214,7 @@ public class RealMaterial {
 	public final static MaterialData TORCH = define(false, false, Material.TORCH);
 	public final static MaterialData FIRE = define(false, false, Material.FIRE);
 	public final static MaterialData MOB_SPAWNER = define(false, false, Material.MOB_SPAWNER);
-	public final static MaterialData WOOD_STAIRS = define(false, false, new Stairs(Material.WOOD_STAIRS));
+	public final static MaterialData WOOD_STAIRS = define(false, false, new Stairs(Material.BIRCH_STAIRS));
 	public final static MaterialData CHEST = define(false, false, Material.CHEST);
 	public final static MaterialData REDSTONE_WIRE = define(false, false, Material.REDSTONE_WIRE);
 	public final static MaterialData DIAMOND_ORE = define(true, false, Material.DIAMOND_ORE);
@@ -233,7 +233,7 @@ public class RealMaterial {
 	public final static MaterialData LEVER = define(false, false, Material.LEVER);
 	public final static MaterialData STONE_PRESSURE_PLATE = define(false, false, Material.STONE_PRESSURE_PLATE);
 	public final static MaterialData IRON_DOOR_BLOCK = define(false, false, Material.IRON_DOOR_BLOCK);
-	public final static MaterialData WOOD_PLATE = define(false, false, Material.WOOD_PLATE);
+	public final static MaterialData WOOD_PLATE = define(false, false, Material.BIRCH_PRESSURE_PLATE);
 	public final static MaterialData REDSTONE_ORE = define(true, false, Material.REDSTONE_ORE);
 	public final static MaterialData GLOWING_REDSTONE_ORE = define(true, false, Material.GLOWING_REDSTONE_ORE);
 	public final static MaterialData REDSTONE_TORCH_OFF = define(false, false, Material.REDSTONE_TORCH_OFF);
@@ -349,7 +349,7 @@ public class RealMaterial {
 	public final static MaterialData JUNGLE_WOOD_STAIRS = define(false, false, new Stairs(Material.JUNGLE_WOOD_STAIRS));
 	public final static MaterialData COMMAND = define(false, false, Material.COMMAND);
 	public final static MaterialData BEACON = define(false, false, Material.BEACON);
-	public final static MaterialData COBBLE_WALL = define(false, false, Material.COBBLE_WALL);
+	public final static MaterialData COBBLE_WALL = define(false, false, Material.COBBLESTONE_WALL);
 	public final static MaterialData FLOWER_POT = define(false, false, Material.FLOWER_POT);
 	public final static MaterialData CARROT = define(false, false, Material.CARROT);
 	public final static MaterialData POTATO = define(false, false, Material.POTATO);

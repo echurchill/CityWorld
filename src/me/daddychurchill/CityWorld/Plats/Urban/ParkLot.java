@@ -13,7 +13,7 @@ import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.SurroundingLots;
-import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
+
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 import org.bukkit.DyeColor;
@@ -434,23 +434,23 @@ public class ParkLot extends ConnectedLot {
 		
 		for (int i = benchStart; i < benchEnd; i++) {
 			if (NW)
-				chunk.setStair(i, surfaceY, 3, Material.WOOD_STAIRS, Stair.NORTH);
+				chunk.setBlock(i, surfaceY, 3, Material.BIRCH_STAIRS, BlockFace.NORTH);
 			if (NE)
-				chunk.setStair(15 - i, surfaceY, 3, Material.WOOD_STAIRS, Stair.NORTH);
+				chunk.setBlock(15 - i, surfaceY, 3, Material.BIRCH_STAIRS, BlockFace.NORTH);
 			if (SW)
-				chunk.setStair(i, surfaceY, 12, Material.WOOD_STAIRS, Stair.SOUTH);
+				chunk.setBlock(i, surfaceY, 12, Material.BIRCH_STAIRS, BlockFace.SOUTH);
 			if (SE)
-				chunk.setStair(15 - i, surfaceY, 12, Material.WOOD_STAIRS, Stair.SOUTH);
+				chunk.setBlock(15 - i, surfaceY, 12, Material.BIRCH_STAIRS, BlockFace.SOUTH);
 			
 			if (i != 3) { // corner bit needs to be skipped
 				if (NW)
-					chunk.setStair(3, surfaceY, i, Material.WOOD_STAIRS, Stair.WEST);
+					chunk.setBlock(3, surfaceY, i, Material.BIRCH_STAIRS, BlockFace.WEST);
 				if (SW)
-					chunk.setStair(3, surfaceY, 15 - i, Material.WOOD_STAIRS, Stair.WEST);
+					chunk.setBlock(3, surfaceY, 15 - i, Material.BIRCH_STAIRS, BlockFace.WEST);
 				if (NE)
-					chunk.setStair(12, surfaceY, i, Material.WOOD_STAIRS, Stair.EAST);
+					chunk.setBlock(12, surfaceY, i, Material.BIRCH_STAIRS, BlockFace.EAST);
 				if (SE)
-					chunk.setStair(12, surfaceY, 15 - i, Material.WOOD_STAIRS, Stair.EAST);
+					chunk.setBlock(12, surfaceY, 15 - i, Material.BIRCH_STAIRS, BlockFace.EAST);
 			}
 		}
 		if (singleTree) {

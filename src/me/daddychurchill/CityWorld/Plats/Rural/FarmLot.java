@@ -17,7 +17,7 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 import me.daddychurchill.CityWorld.Support.SurroundingLots;
-import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
+
 
 public class FarmLot extends ConnectedLot {
 

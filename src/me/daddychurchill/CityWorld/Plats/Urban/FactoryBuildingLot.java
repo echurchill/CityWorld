@@ -14,7 +14,7 @@ import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.Surroundings;
-import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
+
 import me.daddychurchill.CityWorld.Support.BadMagic.StairWell;
 
 public class FactoryBuildingLot extends IndustrialBuildingLot {

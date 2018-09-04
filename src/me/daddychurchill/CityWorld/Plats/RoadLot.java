@@ -5,16 +5,13 @@ import org.bukkit.Material;
 import org.bukkit.TreeSpecies;
 import org.bukkit.block.BlockFace;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
-import org.bukkit.material.MaterialData;
 import org.bukkit.material.SmoothBrick;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Support.AbstractBlocks;
-import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -35,7 +32,7 @@ public class RoadLot extends ConnectedLot {
 	protected final static int tunnelHeight = 8;
 	protected final static int fenceHeight = 2;
 	
-	protected final static Material lightpostbaseMaterial = Material.DOUBLE_STEP;
+	protected final static Material lightpostbaseMaterial = Material.STONE;
 	protected final static Material lightpostMaterial = Material.SPRUCE_FENCE;
 	
 	public final static Material sewerMaterial = Material.SMOOTH_STONE;
@@ -1049,15 +1046,15 @@ public class RoadLot extends ConnectedLot {
 			
 			// add the various doors
 			if (vaultNorthWest) {
-				generateDoor(chunk, 4, sewerY, 1, BadMagic.Door.EASTBYNORTHEAST);
+				generateDoor(chunk, 4, sewerY, 1, BadMagic.Door.EAST_NORTH_EAST);
 				generateDoor(chunk, 1, sewerY, 4, BadMagic.Door.SOUTHBYSOUTHWEST);
 			}
 			if (vaultNorthEast) {
-				generateDoor(chunk, 11, sewerY, 1, BadMagic.Door.WESTBYNORTHWEST);
-				generateDoor(chunk, 14, sewerY, 4, BadMagic.Door.SOUTHBYSOUTHEAST);
+				generateDoor(chunk, 11, sewerY, 1, BadMagic.Door.WEST_NORTH_WEST);
+				generateDoor(chunk, 14, sewerY, 4, BadMagic.Door.SOUTH_SOUTH_EAST);
 			}
 			if (vaultSouthWest) {
-				generateDoor(chunk, 1, sewerY, 11, BadMagic.Door.NORTHBYNORTHWEST);
+				generateDoor(chunk, 1, sewerY, 11, BadMagic.Door.NORTH_NORTH_WEST);
 				generateDoor(chunk, 4, sewerY, 14, BadMagic.Door.EASTBYSOUTHEAST);
 			}
 			if (vaultSouthEast) {
@@ -1087,7 +1084,7 @@ public class RoadLot extends ConnectedLot {
 				chunk.setSlabs(6, 10, sewerY, 10, 11, species, false);
 			} 
 			if (centerWest) {
-				generateDoor(chunk, 4, sewerY, 5, BadMagic.Door.WESTBYNORTHWEST);
+				generateDoor(chunk, 4, sewerY, 5, BadMagic.Door.WEST_NORTH_WEST);
 				chunk.setStoneSlab(4, sewerY, 7, BadMagic.StoneSlab.COBBLESTONEFLIP);
 				chunk.setStoneSlab(4, sewerY, 8, BadMagic.StoneSlab.COBBLESTONEFLIP);
 			} else if (!placedPlank && roads.toWest() && chunkOdds.flipCoin()) {

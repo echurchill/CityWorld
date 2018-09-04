@@ -2,13 +2,13 @@ package me.daddychurchill.CityWorld.Rooms;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
-import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
-import me.daddychurchill.CityWorld.Support.BadMagic.General;
-import me.daddychurchill.CityWorld.Support.BadMagic;
+
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.type.Slab.Type;
 
 public class StorageFilledChestsRoom extends StorageRoom {
 
@@ -16,74 +16,75 @@ public class StorageFilledChestsRoom extends StorageRoom {
 		// TODO Auto-generated constructor stub
 	}
 	
-	private Material matPole = Material.DOUBLE_STEP;
+	private Material matPole = Material.STONE_SLAB;
 
 	@Override
 	public void drawFixture(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int floor, int x,
 			int y, int z, int width, int height, int depth,
-			Facing sideWithWall, Material materialWall, Material materialGlass) {
+			BlockFace sideWithWall, Material materialWall, Material materialGlass) {
 		if (generator.settings.treasuresInBuildings) {
 			switch (sideWithWall) {
+			default:
 			case NORTH:
-				chunk.setBlocks(x, y, y + height - 1, z, matPole);
-				chunk.setBlocks(x + 2, y, y + height - 1, z, matPole);
-				drawChests(generator, chunk, odds, General.EAST, x, y, z + 1, height);
-				drawChests(generator, chunk, odds, General.EAST, x, y, z + 2, height);
-				drawChests(generator, chunk, odds, General.WEST, x + 2, y, z + 1, height);
-				drawChests(generator, chunk, odds, General.WEST, x + 2, y, z + 2, height);
-				chunk.setBlocks(x, y, y + height - 1, z + 3, matPole);
-				chunk.setBlocks(x + 2, y, y + height - 1, z + 3, matPole);
+				chunk.setBlocks(x, y, y + height - 1, z, matPole, Type.DOUBLE);
+				chunk.setBlocks(x + 2, y, y + height - 1, z, matPole, Type.DOUBLE);
+				drawChests(generator, chunk, odds, BlockFace.EAST, x, y, z + 1, height);
+				drawChests(generator, chunk, odds, BlockFace.EAST, x, y, z + 2, height);
+				drawChests(generator, chunk, odds, BlockFace.WEST, x + 2, y, z + 1, height);
+				drawChests(generator, chunk, odds, BlockFace.WEST, x + 2, y, z + 2, height);
+				chunk.setBlocks(x, y, y + height - 1, z + 3, matPole, Type.DOUBLE);
+				chunk.setBlocks(x + 2, y, y + height - 1, z + 3, matPole, Type.DOUBLE);
 				break;
 			case SOUTH:
-				chunk.setBlocks(x, y, y + height - 1, z + 2, matPole);
-				chunk.setBlocks(x + 2, y, y + height - 1, z + 2, matPole);
-				drawChests(generator, chunk, odds, General.EAST, x, y, z, height);
-				drawChests(generator, chunk, odds, General.EAST, x, y, z + 1, height);
-				drawChests(generator, chunk, odds, General.WEST, x + 2, y, z, height);
-				drawChests(generator, chunk, odds, General.WEST, x + 2, y, z + 1, height);
-				chunk.setBlocks(x, y, y + height - 1, z - 1, matPole);
-				chunk.setBlocks(x + 2, y, y + height - 1, z - 1, matPole);
+				chunk.setBlocks(x, y, y + height - 1, z + 2, matPole, Type.DOUBLE);
+				chunk.setBlocks(x + 2, y, y + height - 1, z + 2, matPole, Type.DOUBLE);
+				drawChests(generator, chunk, odds, BlockFace.EAST, x, y, z, height);
+				drawChests(generator, chunk, odds, BlockFace.EAST, x, y, z + 1, height);
+				drawChests(generator, chunk, odds, BlockFace.WEST, x + 2, y, z, height);
+				drawChests(generator, chunk, odds, BlockFace.WEST, x + 2, y, z + 1, height);
+				chunk.setBlocks(x, y, y + height - 1, z - 1, matPole, Type.DOUBLE);
+				chunk.setBlocks(x + 2, y, y + height - 1, z - 1, matPole, Type.DOUBLE);
 				break;
 			case WEST:
-				chunk.setBlocks(x, y, y + height - 1, z, matPole);
-				chunk.setBlocks(x, y, y + height - 1, z + 2, matPole);
-				drawChests(generator, chunk, odds, General.SOUTH, x + 1, y, z, height);
-				drawChests(generator, chunk, odds, General.SOUTH, x + 2, y, z, height);
-				drawChests(generator, chunk, odds, General.NORTH, x + 1, y, z + 2, height);
-				drawChests(generator, chunk, odds, General.NORTH, x + 2, y, z + 2, height);
-				chunk.setBlocks(x + 3, y, y + height - 1, z, matPole);
-				chunk.setBlocks(x + 3, y, y + height - 1, z + 2, matPole);
+				chunk.setBlocks(x, y, y + height - 1, z, matPole, Type.DOUBLE);
+				chunk.setBlocks(x, y, y + height - 1, z + 2, matPole, Type.DOUBLE);
+				drawChests(generator, chunk, odds, BlockFace.SOUTH, x + 1, y, z, height);
+				drawChests(generator, chunk, odds, BlockFace.SOUTH, x + 2, y, z, height);
+				drawChests(generator, chunk, odds, BlockFace.NORTH, x + 1, y, z + 2, height);
+				drawChests(generator, chunk, odds, BlockFace.NORTH, x + 2, y, z + 2, height);
+				chunk.setBlocks(x + 3, y, y + height - 1, z, matPole, Type.DOUBLE);
+				chunk.setBlocks(x + 3, y, y + height - 1, z + 2, matPole, Type.DOUBLE);
 				break;
 			case EAST:
-				chunk.setBlocks(x + 2, y, y + height - 1, z, matPole);
-				chunk.setBlocks(x + 2, y, y + height - 1, z + 2, matPole);
-				drawChests(generator, chunk, odds, General.SOUTH, x, y, z, height);
-				drawChests(generator, chunk, odds, General.SOUTH, x + 1, y, z, height);
-				drawChests(generator, chunk, odds, General.NORTH, x, y, z + 2, height);
-				drawChests(generator, chunk, odds, General.NORTH, x + 1, y, z + 2, height);
-				chunk.setBlocks(x - 1, y, y + height - 1, z, matPole);
-				chunk.setBlocks(x - 1, y, y + height - 1, z + 2, matPole);
+				chunk.setBlocks(x + 2, y, y + height - 1, z, matPole, Type.DOUBLE);
+				chunk.setBlocks(x + 2, y, y + height - 1, z + 2, matPole, Type.DOUBLE);
+				drawChests(generator, chunk, odds, BlockFace.SOUTH, x, y, z, height);
+				drawChests(generator, chunk, odds, BlockFace.SOUTH, x + 1, y, z, height);
+				drawChests(generator, chunk, odds, BlockFace.NORTH, x, y, z + 2, height);
+				drawChests(generator, chunk, odds, BlockFace.NORTH, x + 1, y, z + 2, height);
+				chunk.setBlocks(x - 1, y, y + height - 1, z, matPole, Type.DOUBLE);
+				chunk.setBlocks(x - 1, y, y + height - 1, z + 2, matPole, Type.DOUBLE);
 				break;
 			}
 		}
 	}
 	
-	protected void drawChests(CityWorldGenerator generator, RealBlocks chunk, Odds odds, BadMagic.General direction, int x, int y, int z, int height) {
+	protected void drawChests(CityWorldGenerator generator, RealBlocks chunk, Odds odds, BlockFace direction, int x, int y, int z, int height) {
 		if (odds.playOdds(generator.settings.oddsOfTreasureInBuildings))
 			drawChest(generator, chunk, odds, direction, x, y, z);
 		if (height > 3) {
-			chunk.setSlab(x, y + 1, z, matPole, true);
+			chunk.setBlock(x, y + 1, z, matPole, Type.TOP);
 			if (odds.playOdds(generator.settings.oddsOfTreasureInBuildings))
 				drawChest(generator, chunk, odds, direction, x, y + 2, z);
 			if (height > 5) {
-				chunk.setSlab(x, y + 3, z, matPole, true);
+				chunk.setBlock(x, y + 3, z, matPole, Type.TOP);
 				if (odds.playOdds(generator.settings.oddsOfTreasureInBuildings))
 					drawChest(generator, chunk, odds, direction, x, y + 4, z);
 			}
 		}
 	}
 	
-	protected void drawChest(CityWorldGenerator generator, RealBlocks chunk, Odds odds, BadMagic.General direction, int x, int y, int z) {
+	protected void drawChest(CityWorldGenerator generator, RealBlocks chunk, Odds odds, BlockFace direction, int x, int y, int z) {
 		chunk.setChest(generator, x, y, z, direction, odds, generator.lootProvider, LootLocation.WAREHOUSE);
 	}
 }

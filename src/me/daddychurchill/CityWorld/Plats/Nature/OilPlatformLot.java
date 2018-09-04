@@ -130,10 +130,10 @@ public class OilPlatformLot extends ConstructLot {
 		chunk.setLadder(12, y0 + 1, y4 + 2, 11, BlockFace.SOUTH);
 		
 		// now draw the crane
-		chunk.setStair(2, y4 - 2, 3, topperMaterial, BadMagic.Stair.EAST);
+		chunk.setBlock(2, y4 - 2, 3, topperMaterial, BadMagic.Stair.EAST);
 		chunk.clearBlock(2, y4 - 1, 2);
 		chunk.clearBlock(2, y4 - 1, 3);
-		chunk.setStair(3, y4 - 1, 3, topperMaterial, BadMagic.Stair.NORTH);
+		chunk.setBlock(3, y4 - 1, 3, topperMaterial, BadMagic.Stair.NORTH);
 		chunk.setBlocks(2, y4 - 2, y4, 2, Material.IRON_BARS);
 		chunk.drawCrane(context, chunkOdds, 3, y4, 2);
 		

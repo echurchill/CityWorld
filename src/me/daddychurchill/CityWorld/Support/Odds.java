@@ -178,23 +178,117 @@ public class Odds {
 		return values[getRandomInt(values.length)];
 	}
 	
-	public Material getRandomWoodenDoorType() {
-		switch (getRandomInt(6)) {
-		case 1:
-			return Material.ACACIA_DOOR;
-		case 2:
-			return Material.BIRCH_DOOR;
-		case 3:
-			return Material.DARK_OAK_DOOR;
-		case 4:
-			return Material.JUNGLE_DOOR;
-		case 5:
-			return Material.SPRUCE_DOOR;
-		case 0:
-		default:
-			return Material.OAK_DOOR;
-		}
-	}
+	public static Material[] allWoodenLogs = {
+			Material.ACACIA_LOG, 
+			Material.BIRCH_LOG, 
+			Material.DARK_OAK_LOG, 
+			Material.JUNGLE_LOG, 
+			Material.SPRUCE_LOG, 
+			Material.OAK_LOG};
+	
+	public static Material[] allWoodenSlabs = {
+			Material.ACACIA_SLAB, 
+			Material.BIRCH_SLAB, 
+			Material.DARK_OAK_SLAB, 
+			Material.JUNGLE_SLAB, 
+			Material.SPRUCE_SLAB, 
+			Material.OAK_SLAB};
+	
+	public static Material[] allWoodenDoors = {
+			Material.ACACIA_DOOR, 
+			Material.BIRCH_DOOR, 
+			Material.DARK_OAK_DOOR, 
+			Material.JUNGLE_DOOR, 
+			Material.SPRUCE_DOOR, 
+			Material.OAK_DOOR};
+	
+	public static Material[] allWoolBlocks = {
+			Material.BLACK_WOOL,
+			Material.BLUE_WOOL,
+			Material.BROWN_WOOL,
+			Material.CYAN_WOOL,
+			Material.GRAY_WOOL,
+			Material.GREEN_WOOL,
+			Material.LIGHT_BLUE_WOOL,
+			Material.LIGHT_GRAY_WOOL,
+			Material.LIME_WOOL,
+			Material.MAGENTA_WOOL,
+			Material.ORANGE_WOOL,
+			Material.PINK_WOOL,
+			Material.PURPLE_WOOL,
+			Material.RED_WOOL,
+			Material.WHITE_WOOL,
+			Material.YELLOW_WOOL};
+	
+	public static Material[] allTerracottaBlocks = {
+			Material.BLACK_TERRACOTTA,
+			Material.BLUE_TERRACOTTA,
+			Material.BROWN_TERRACOTTA,
+			Material.CYAN_TERRACOTTA,
+			Material.GRAY_TERRACOTTA,
+			Material.GREEN_TERRACOTTA,
+			Material.LIGHT_BLUE_TERRACOTTA,
+			Material.LIGHT_GRAY_TERRACOTTA,
+			Material.LIME_TERRACOTTA,
+			Material.MAGENTA_TERRACOTTA,
+			Material.ORANGE_TERRACOTTA,
+			Material.PINK_TERRACOTTA,
+			Material.PURPLE_TERRACOTTA,
+			Material.RED_TERRACOTTA,
+			Material.WHITE_TERRACOTTA,
+			Material.YELLOW_TERRACOTTA};
+	
+	public static Material[] allConcretePowderBlocks = {
+			Material.BLACK_CONCRETE_POWDER,
+			Material.BLUE_CONCRETE_POWDER,
+			Material.BROWN_CONCRETE_POWDER,
+			Material.CYAN_CONCRETE_POWDER,
+			Material.GRAY_CONCRETE_POWDER,
+			Material.GREEN_CONCRETE_POWDER,
+			Material.LIGHT_BLUE_CONCRETE_POWDER,
+			Material.LIGHT_GRAY_CONCRETE_POWDER,
+			Material.LIME_CONCRETE_POWDER,
+			Material.MAGENTA_CONCRETE_POWDER,
+			Material.ORANGE_CONCRETE_POWDER,
+			Material.PINK_CONCRETE_POWDER,
+			Material.PURPLE_CONCRETE_POWDER,
+			Material.RED_CONCRETE_POWDER,
+			Material.WHITE_CONCRETE_POWDER,
+			Material.YELLOW_CONCRETE_POWDER};
+	
+	public static Material[] allConcreteBlocks = {
+			Material.BLACK_CONCRETE,
+			Material.BLUE_CONCRETE,
+			Material.BROWN_CONCRETE,
+			Material.CYAN_CONCRETE,
+			Material.GRAY_CONCRETE,
+			Material.GREEN_CONCRETE,
+			Material.LIGHT_BLUE_CONCRETE,
+			Material.LIGHT_GRAY_CONCRETE,
+			Material.LIME_CONCRETE,
+			Material.MAGENTA_CONCRETE,
+			Material.ORANGE_CONCRETE,
+			Material.PINK_CONCRETE,
+			Material.PURPLE_CONCRETE,
+			Material.RED_CONCRETE,
+			Material.WHITE_CONCRETE,
+			Material.YELLOW_CONCRETE};
+	
+//	public Material getRandomWoodenDoorType() {
+//		return getRandomMaterial(allWoodenDoors);
+//	}
+//	
+//	public Material getRandomWool() {
+//		return getRandomMaterial(allWoolBlocks);
+//	}
+//	
+//	public Material getRandomTerracotta() {
+//		return getRandomMaterial(allTerracottaBlocks);
+//	}
+//	
+//	public Material getRandomConcrete() {
+//		return getRandomMaterial(allConcreteBlocks);
+//	}
 	
 	public int getRandomNetherWartGrowth() {
 		return getRandomInt(4);

@@ -9,7 +9,7 @@ import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.Odds.ColorSet;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
-import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
+
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -218,22 +218,22 @@ public class ConcreteLot extends BuildingLot {
 		chunk.setBlocks(3, 13, y, y + 1, 3, 13, atmosphere);
 		if (chunkOdds.flipCoin()) {
 			for (int i = 5; i < 11; i++) {
-				chunk.setStair(i, y, 3, Material.QUARTZ_STAIRS, Stair.NORTH);
-				chunk.setStair(i, y, 12, Material.QUARTZ_STAIRS, Stair.SOUTH);
-				chunk.setStair(3, y, i, Material.QUARTZ_STAIRS, Stair.WEST);
-				chunk.setStair(12, y, i, Material.QUARTZ_STAIRS, Stair.EAST);
+				chunk.setBlock(i, y, 3, Material.QUARTZ_STAIRS, BlockFace.NORTH);
+				chunk.setBlock(i, y, 12, Material.QUARTZ_STAIRS, BlockFace.SOUTH);
+				chunk.setBlock(3, y, i, Material.QUARTZ_STAIRS, BlockFace.WEST);
+				chunk.setBlock(12, y, i, Material.QUARTZ_STAIRS, BlockFace.EAST);
 			}
 		} else {
 			for (int i = 3; i < 7; i++) {
-				chunk.setStair(i, y, 3, Material.QUARTZ_STAIRS, Stair.NORTH);
-				chunk.setStair(15 - i, y, 3, Material.QUARTZ_STAIRS, Stair.NORTH);
-				chunk.setStair(i, y, 12, Material.QUARTZ_STAIRS, Stair.SOUTH);
-				chunk.setStair(15 - i, y, 12, Material.QUARTZ_STAIRS, Stair.SOUTH);
+				chunk.setBlock(i, y, 3, Material.QUARTZ_STAIRS, BlockFace.NORTH);
+				chunk.setBlock(15 - i, y, 3, Material.QUARTZ_STAIRS, BlockFace.NORTH);
+				chunk.setBlock(i, y, 12, Material.QUARTZ_STAIRS, BlockFace.SOUTH);
+				chunk.setBlock(15 - i, y, 12, Material.QUARTZ_STAIRS, BlockFace.SOUTH);
 				if (i != 3) {
-					chunk.setStair(3, y, i, Material.QUARTZ_STAIRS, Stair.WEST);
-					chunk.setStair(3, y, 15 - i, Material.QUARTZ_STAIRS, Stair.WEST);
-					chunk.setStair(12, y, i, Material.QUARTZ_STAIRS, Stair.EAST);
-					chunk.setStair(12, y, 15 - i, Material.QUARTZ_STAIRS, Stair.EAST);
+					chunk.setBlock(3, y, i, Material.QUARTZ_STAIRS, BlockFace.WEST);
+					chunk.setBlock(3, y, 15 - i, Material.QUARTZ_STAIRS, BlockFace.WEST);
+					chunk.setBlock(12, y, i, Material.QUARTZ_STAIRS, BlockFace.EAST);
+					chunk.setBlock(12, y, 15 - i, Material.QUARTZ_STAIRS, BlockFace.EAST);
 				}
 			}
 		}

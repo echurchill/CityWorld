@@ -18,8 +18,8 @@ public abstract class StorageTypeRoom extends StorageRoom {
 	
 	protected void setStorageBlocks(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y1, int y2, int z) {
 		switch (materialType) {
-		case PISTON_BASE:
-			chunk.setBlocksTypeAndDirection(x, x + 1, y1, y2, z, z + 1, materialType, BlockFace.UP);
+		case PISTON:
+			chunk.setBlocks(x, x + 1, y1, y2, z, z + 1, materialType, BlockFace.UP);
 			break;
 		default:
 			chunk.setBlocks(x, x + 1, y1, y2, z, z + 1, materialType);

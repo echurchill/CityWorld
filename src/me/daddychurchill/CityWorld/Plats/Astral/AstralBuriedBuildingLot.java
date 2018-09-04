@@ -10,7 +10,7 @@ import me.daddychurchill.CityWorld.Rooms.Populators.BuriedWithRandom;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
-import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
+
 
 public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 
@@ -31,7 +31,7 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 			break;
 		case 2:
 			wallMaterial = Material.SPRUCE_WOOD;
-			stepMaterial = Material.WOOD_STAIRS;
+			stepMaterial = Material.BIRCH_STAIRS;
 			break;
 		case 3:
 			wallMaterial = Material.SANDSTONE;

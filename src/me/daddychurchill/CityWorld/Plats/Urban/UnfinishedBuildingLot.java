@@ -21,7 +21,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 	private Material girderMaterial;// = Material.CLAY;
 	
 	private final static Material dirtMaterial = Material.DIRT;
-	private final static Material stairMaterial = Material.WOOD_STAIRS;
+	private final static Material stairMaterial = Material.BIRCH_STAIRS;
 	private final static Material stairPlatformMaterial = Material.SPRUCE_WOOD;
 	private final static Material wallMaterial = Material.SMOOTH_STONE;
 	private final static Material ceilingMaterial = Material.STONE;

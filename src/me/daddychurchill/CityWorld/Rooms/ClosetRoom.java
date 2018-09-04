@@ -5,8 +5,7 @@ import org.bukkit.block.BlockFace;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
-import me.daddychurchill.CityWorld.Support.BadMagic.Door;
-import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
+
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
@@ -19,24 +18,26 @@ public class ClosetRoom extends FilledRoom {
 	@Override
 	public void drawFixture(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int floor, int x,
 			int y, int z, int width, int height, int depth,
-			Facing sideWithWall, Material materialWall, Material materialGlass) {
+			BlockFace sideWithWall, Material materialWall, Material materialGlass) {
+		Material door = odds.getRandomMaterial(Odds.allWoodenDoors);
 		
 		switch (sideWithWall) {
+		default:
 		case NORTH:
 			drawShelves(generator, chunk, odds, x, y, z, width, height, depth, materialWall, BlockFace.SOUTH);
-			chunk.setWoodenDoor(x + 1, y, z + depth - 1, Door.SOUTHBYSOUTHEAST);
+			chunk.setDoor(x + 1, y, z + depth - 1, door, BlockFace.SOUTH_SOUTH_EAST);
 			break;
 		case SOUTH:
 			drawShelves(generator, chunk, odds, x, y, z, width, height, depth, materialWall, BlockFace.NORTH);
-			chunk.setWoodenDoor(x + 1, y, z, Door.NORTHBYNORTHWEST);
+			chunk.setDoor(x + 1, y, z, door, BlockFace.NORTH_NORTH_WEST);
 			break;
 		case WEST:
 			drawShelves(generator, chunk, odds, x, y, z, width, height, depth, materialWall, BlockFace.EAST);
-			chunk.setWoodenDoor(x + width - 1, y, z + 1, Door.EASTBYNORTHEAST);
+			chunk.setDoor(x + width - 1, y, z + 1, door, BlockFace.EAST_NORTH_EAST);
 			break;
 		case EAST:
 			drawShelves(generator, chunk, odds, x, y, z, width, height, depth, materialWall, BlockFace.WEST);
-			chunk.setWoodenDoor(x, y, z + 1, Door.WESTBYNORTHWEST);
+			chunk.setDoor(x, y, z + 1, door, BlockFace.WEST_NORTH_WEST);
 			break;
 		}
 	}
@@ -52,7 +53,7 @@ public class ClosetRoom extends FilledRoom {
 		if (odds.playOdds(generator.settings.oddsOfTreasureInBuildings)) {
 			chunk.setChest(generator, x + 1, y, z + 1, facing, odds, generator.lootProvider, LootLocation.BUILDING);
 		} else {
-			Material shelveMaterial = getShelveMaterial(materialWall);
+			Material shelveMaterial = getShelveMaterial(odds, materialWall);
 			drawShelve(chunk, odds, x + 1, y, z + 1, shelveMaterial);
 			drawShelve(chunk, odds, x + 1, y + 1, z + 1, shelveMaterial);
 		}
@@ -66,13 +67,13 @@ public class ClosetRoom extends FilledRoom {
 			chunk.setBlock(x, y, z, Material.BOOKSHELF);
 	}
 	
-	private Material getShelveMaterial(Material wall) {
+	private Material getShelveMaterial(Odds odds, Material wall) {
 		switch (wall) {
 		case QUARTZ_BLOCK:
 			return Material.STONE_SLAB;
 		
 		default: // WOOD
-			return Material.WOOD_STEP;
+			return odds.getRandomMaterial(Odds.allWoodenSlabs);
 		}
 	}
 

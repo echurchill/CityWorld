@@ -4,8 +4,8 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
-import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
-import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
+
+
 import me.daddychurchill.CityWorld.Support.Odds.ColorSet;
 
 import org.bukkit.DyeColor;
@@ -437,7 +437,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 //							 Material.WOOD_DOOR, Material.TRAP_DOOR, 
 //							 Material.WHITE_STAINED_GLASS, Material.WHITE_STAINED_GLASS_PANE,
 //							 Material.SPRUCE_FENCE, Material.SPRUCE_FENCE_GATE,
-//							 Material.STONE_PRESSURE_PLATE, Material.WOOD_PLATE,
+//							 Material.STONE_PRESSURE_PLATE, Material.BIRCH_PRESSURE_PLATE,
 //							 Material.TRIPWIRE, Material.TRIPWIRE_HOOK,
 //							 Material.IRON_DOOR_BLOCK, Material.IRON_BARS);
 	}
@@ -735,11 +735,11 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		setBlock(x + 1, y + 8, z, Material.GLASS);
 		setBlocks(x + 2, x + 11, y + 8, y + 9, z, z + 1, Material.IRON_BARS);
 		setBlocks(x + 1, x + 10, y + 9, y + 10, z, z + 1, Material.STONE_SLAB);
-		setStair(x + 10, y + 9, z, Material.STONE_BRICK_STAIRS, Stair.WEST);
+		setStair(x + 10, y + 9, z, Material.STONE_BRICK_STAIRS, BlockFace.WEST);
 		
 		// counter weight
 		setBlock(x - 2, y + 9, z, Material.STONE_SLAB);
-		setStair(x - 3, y + 9, z, Material.STONE_BRICK_STAIRS, Stair.EAST);
+		setStair(x - 3, y + 9, z, Material.STONE_BRICK_STAIRS, BlockFace.EAST);
 		setWool(x - 3, x - 1, y + 7, y + 9, z, z + 1, odds.getRandomColor());
 	}
 	
@@ -779,18 +779,18 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		// orientation
 		switch (direction) {
 		case NORTHBYNORTHEAST:
-		case NORTHBYNORTHWEST:
+		case NORTH_NORTH_WEST:
 			orentation = 1;
 			break;
-		case SOUTHBYSOUTHEAST:
+		case SOUTH_SOUTH_EAST:
 		case SOUTHBYSOUTHWEST:
 			orentation = 3;
 			break;
-		case WESTBYNORTHWEST:
+		case WEST_NORTH_WEST:
 		case WESTBYSOUTHWEST:
 			orentation = 0;
 			break;
-		case EASTBYNORTHEAST:
+		case EAST_NORTH_EAST:
 		case EASTBYSOUTHEAST:
 			orentation = 2;
 			break;
@@ -798,15 +798,15 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		
 		// hinge?
 		switch (direction) {
-		case SOUTHBYSOUTHEAST:
-		case NORTHBYNORTHWEST:
+		case SOUTH_SOUTH_EAST:
+		case NORTH_NORTH_WEST:
 		case WESTBYSOUTHWEST:
-		case EASTBYNORTHEAST:
+		case EAST_NORTH_EAST:
 			hinge = 8 + 0;
 			break;
 		case NORTHBYNORTHEAST:
 		case SOUTHBYSOUTHWEST:
-		case WESTBYNORTHWEST:
+		case WEST_NORTH_WEST:
 		case EASTBYSOUTHEAST:
 			hinge = 8 + 1;
 			break;
@@ -904,7 +904,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			return Material.QUARTZ_STAIRS;
 		default:
 //		case WOOD:
-			return Material.WOOD_STAIRS;
+			return Material.BIRCH_STAIRS;
 		}
 	}
 

@@ -10,7 +10,7 @@ import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
+
 
 public abstract class GravelLot extends ConstructLot {
 
@@ -121,12 +121,12 @@ public abstract class GravelLot extends ConstructLot {
 			for (int i = 0; i < depth - 1; i++) {
 				
 				// north/south sides
-				generateStep(chunk, origin + i, y, sectionTop, origin, Material.COBBLESTONE_STAIRS, Stair.WEST, Stair.EASTFLIP);
-				generateStep(chunk, origin + depth - i, y, sectionTop, origin + depth, Material.COBBLESTONE_STAIRS, Stair.EAST, Stair.WESTFLIP);
+				generateStep(chunk, origin + i, y, sectionTop, origin, Material.COBBLESTONE_STAIRS, BlockFace.WEST, BlockFace.EASTFLIP);
+				generateStep(chunk, origin + depth - i, y, sectionTop, origin + depth, Material.COBBLESTONE_STAIRS, BlockFace.EAST, BlockFace.WESTFLIP);
 				
 				// east/west sides
-				generateStep(chunk, origin + depth, y, sectionTop, origin + i, Material.COBBLESTONE_STAIRS, Stair.NORTH, Stair.SOUTHFLIP);
-				generateStep(chunk, origin, y, sectionTop, origin + depth - i, Material.COBBLESTONE_STAIRS, Stair.SOUTH, Stair.NORTHFLIP);
+				generateStep(chunk, origin + depth, y, sectionTop, origin + i, Material.COBBLESTONE_STAIRS, BlockFace.NORTH, BlockFace.SOUTHFLIP);
+				generateStep(chunk, origin, y, sectionTop, origin + depth - i, Material.COBBLESTONE_STAIRS, BlockFace.SOUTH, BlockFace.NORTHFLIP);
 				
 				// next level down
 				y = y - 1;
@@ -166,12 +166,12 @@ public abstract class GravelLot extends ConstructLot {
 				if (depth <= 3) {
 					
 					// north/south sides
-					chunk.setStair(origin, y, origin, Material.COBBLESTONE_STAIRS, Stair.WEST);
-					chunk.setStair(origin + depth, y, origin + depth, Material.COBBLESTONE_STAIRS, Stair.EAST);
+					chunk.setBlock(origin, y, origin, Material.COBBLESTONE_STAIRS, BlockFace.WEST);
+					chunk.setBlock(origin + depth, y, origin + depth, Material.COBBLESTONE_STAIRS, BlockFace.EAST);
 					
 					// east/west sides
-					chunk.setStair(origin + depth, y, origin, Material.COBBLESTONE_STAIRS, Stair.NORTH);
-					chunk.setStair(origin, y, origin + depth, Material.COBBLESTONE_STAIRS, Stair.SOUTH);
+					chunk.setBlock(origin + depth, y, origin, Material.COBBLESTONE_STAIRS, BlockFace.NORTH);
+					chunk.setBlock(origin, y, origin + depth, Material.COBBLESTONE_STAIRS, BlockFace.SOUTH);
 					
 					// all done
 					break;
@@ -188,9 +188,9 @@ public abstract class GravelLot extends ConstructLot {
 	}
 	
 	private static void generateStep(RealBlocks chunk, int x, int y1, int y2, int z, Material step, Stair directionTop, Stair directionBottom) {
-		chunk.setStair(x, y1, z, step, directionTop);
+		chunk.setBlock(x, y1, z, step, directionTop);
 		if (chunk.isEmpty(x, y1 - 1, z))
-			chunk.setStair(x, y1 - 1, z, step, directionBottom);
+			chunk.setBlock(x, y1 - 1, z, step, directionBottom);
 		chunk.setBlocks(x, y1 + 1, y2 + 1, z, Material.AIR);
 	}
 

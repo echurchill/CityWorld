@@ -71,7 +71,7 @@ public class StructureOnGroundProvider extends Provider {
 			placeShedChest(generator, chunk, odds, x2, y1, z1 + odds.getRandomInt(zR) + 1, BadMagic.General.EAST, other);
 			break;
 		case 2: // west
-			chunk.setWoodenDoor(x1, y1, z1 + odds.getRandomInt(zR) + 1, BadMagic.Door.WESTBYNORTHWEST);
+			chunk.setWoodenDoor(x1, y1, z1 + odds.getRandomInt(zR) + 1, BadMagic.Door.WEST_NORTH_WEST);
 			chunk.setBlock(x2 - 1, y1 + 1, z1 + odds.getRandomInt(zR) + 1, materialGlass);
 			placeShedTable(generator, chunk, odds, x2 - 2, y1, z1 + odds.getRandomInt(zR) + 1, BadMagic.General.EAST);
 			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z1 - 1, BadMagic.General.NORTH, location);
@@ -94,7 +94,7 @@ public class StructureOnGroundProvider extends Provider {
 			chunk.setBlock(x, y, z, Material.CRAFTING_TABLE);
 		else {
 			chunk.setBlock(x, y, z, Material.SPRUCE_FENCE);
-			chunk.setBlock(x, y + 1, z, Material.WOOD_PLATE);
+			chunk.setBlock(x, y + 1, z, Material.BIRCH_PRESSURE_PLATE);
 		}
 	}
 	
@@ -197,14 +197,14 @@ public class StructureOnGroundProvider extends Provider {
 		
 		// now the fire pit
 		if (odds.playOdds(Odds.oddsPrettyLikely)) {
-			chunk.setStair(11, baseY - 1, 10, matFireRing, BadMagic.Stair.SOUTH);
-			chunk.setStair(12, baseY - 1, 11, matFireRing, BadMagic.Stair.WEST);
-			chunk.setStair(11, baseY - 1, 12, matFireRing, BadMagic.Stair.NORTH);
-			chunk.setStair(10, baseY - 1, 11, matFireRing, BadMagic.Stair.EAST);
-			chunk.setStair(10, baseY - 1, 10, matFireRing, BadMagic.Stair.SOUTH);
-			chunk.setStair(12, baseY - 1, 10, matFireRing, BadMagic.Stair.WEST);
-			chunk.setStair(12, baseY - 1, 12, matFireRing, BadMagic.Stair.NORTH);
-			chunk.setStair(10, baseY - 1, 12, matFireRing, BadMagic.Stair.EAST);
+			chunk.setBlock(11, baseY - 1, 10, matFireRing, BadMagic.Stair.SOUTH);
+			chunk.setBlock(12, baseY - 1, 11, matFireRing, BadMagic.Stair.WEST);
+			chunk.setBlock(11, baseY - 1, 12, matFireRing, BadMagic.Stair.NORTH);
+			chunk.setBlock(10, baseY - 1, 11, matFireRing, BadMagic.Stair.EAST);
+			chunk.setBlock(10, baseY - 1, 10, matFireRing, BadMagic.Stair.SOUTH);
+			chunk.setBlock(12, baseY - 1, 10, matFireRing, BadMagic.Stair.WEST);
+			chunk.setBlock(12, baseY - 1, 12, matFireRing, BadMagic.Stair.NORTH);
+			chunk.setBlock(10, baseY - 1, 12, matFireRing, BadMagic.Stair.EAST);
 	
 			// and the fire itself
 			chunk.setBlock(11, baseY - 1, 11, matFireBase);
@@ -669,7 +669,7 @@ public class StructureOnGroundProvider extends Provider {
 	private final static Material materialAir = Material.AIR;
 	private final static Material materialGlass = Material.GLASS;
 	private final static Material materialFence = Material.SPRUCE_FENCE;
-	private final static Material materialStair = Material.WOOD_STAIRS;
+	private final static Material materialStair = Material.BIRCH_STAIRS;
 	private final static Material materialUnderStairs = Material.SPRUCE_WOOD;
 	
 	private final static int MinSize = 4;
@@ -858,7 +858,7 @@ public class StructureOnGroundProvider extends Provider {
 			case DINING:
 				
 //				chunk.setBlock((x2 - x1) / 2 + x1, y1, (z2 - z1) / 2 + z1, Material.SPRUCE_FENCE);
-//				chunk.setBlock((x2 - x1) / 2 + x1, y1 + 1, (z2 - z1) / 2 + z1, Material.WOOD_PLATE);
+//				chunk.setBlock((x2 - x1) / 2 + x1, y1 + 1, (z2 - z1) / 2 + z1, Material.BIRCH_PRESSURE_PLATE);
 				break;
 			case ENTRY:
 				
@@ -881,17 +881,17 @@ public class StructureOnGroundProvider extends Provider {
 
 							chunk.setBlock(x1 + 1, y1 + 3, z1 + 1, materialUnderStairs);
 
-							chunk.setStair(x1 + 2, y1 + 3, z1 + 1, materialStair, BadMagic.Stair.WEST);
-							chunk.setStair(x1 + 2, y1 + 2, z1 + 1, materialStair, BadMagic.Stair.EASTFLIP);
+							chunk.setBlock(x1 + 2, y1 + 3, z1 + 1, materialStair, BadMagic.Stair.WEST);
+							chunk.setBlock(x1 + 2, y1 + 2, z1 + 1, materialStair, BadMagic.Stair.EASTFLIP);
 
-							chunk.setStair(x1 + 3, y1 + 2, z1 + 1, materialStair, BadMagic.Stair.WEST);
-							chunk.setStair(x1 + 3, y1 + 1, z1 + 1, materialStair, BadMagic.Stair.EASTFLIP);
+							chunk.setBlock(x1 + 3, y1 + 2, z1 + 1, materialStair, BadMagic.Stair.WEST);
+							chunk.setBlock(x1 + 3, y1 + 1, z1 + 1, materialStair, BadMagic.Stair.EASTFLIP);
 							
-							chunk.setStair(x1 + 4, y1 + 1, z1 + 1, materialStair, BadMagic.Stair.WEST);
-							chunk.setStair(x1 + 4, y1    , z1 + 1, materialStair, BadMagic.Stair.EASTFLIP);
+							chunk.setBlock(x1 + 4, y1 + 1, z1 + 1, materialStair, BadMagic.Stair.WEST);
+							chunk.setBlock(x1 + 4, y1    , z1 + 1, materialStair, BadMagic.Stair.EASTFLIP);
 
 							chunk.setBlock(x1 + 5, y1    , z1 + 1, materialUnderStairs);
-							chunk.setStair(x1 + 5, y1    , z1 + 2, materialStair, BadMagic.Stair.NORTH);
+							chunk.setBlock(x1 + 5, y1    , z1 + 2, materialStair, BadMagic.Stair.NORTH);
 							
 //							chunk.setBlocks(x1 + 3, y1, y2 + 50, z1 + 3, Material.SPRUCE_FENCE);
 //							chunk.setBlock(x1 + 3, y2 + 50, z1 + 3, Material.GOLD_BLOCK);
@@ -900,17 +900,17 @@ public class StructureOnGroundProvider extends Provider {
 
 							chunk.setBlock(x1 + 1, y1 + 3, z2 - 1, materialUnderStairs);
 
-							chunk.setStair(x1 + 1, y1 + 3, z2 - 2, materialStair, BadMagic.Stair.SOUTH);
-							chunk.setStair(x1 + 1, y1 + 2, z2 - 2, materialStair, BadMagic.Stair.NORTHFLIP);
+							chunk.setBlock(x1 + 1, y1 + 3, z2 - 2, materialStair, BadMagic.Stair.SOUTH);
+							chunk.setBlock(x1 + 1, y1 + 2, z2 - 2, materialStair, BadMagic.Stair.NORTHFLIP);
 
-							chunk.setStair(x1 + 1, y1 + 2, z2 - 3, materialStair, BadMagic.Stair.SOUTH);
-							chunk.setStair(x1 + 1, y1 + 1, z2 - 3, materialStair, BadMagic.Stair.NORTHFLIP);
+							chunk.setBlock(x1 + 1, y1 + 2, z2 - 3, materialStair, BadMagic.Stair.SOUTH);
+							chunk.setBlock(x1 + 1, y1 + 1, z2 - 3, materialStair, BadMagic.Stair.NORTHFLIP);
 							
-							chunk.setStair(x1 + 1, y1 + 1, z2 - 4, materialStair, BadMagic.Stair.SOUTH);
-							chunk.setStair(x1 + 1, y1    , z2 - 4, materialStair, BadMagic.Stair.NORTHFLIP);
+							chunk.setBlock(x1 + 1, y1 + 1, z2 - 4, materialStair, BadMagic.Stair.SOUTH);
+							chunk.setBlock(x1 + 1, y1    , z2 - 4, materialStair, BadMagic.Stair.NORTHFLIP);
 
 							chunk.setBlock(x1 + 1, y1    , z2 - 5, materialUnderStairs);
-							chunk.setStair(x1 + 2, y1    , z2 - 5, materialStair, BadMagic.Stair.WEST);
+							chunk.setBlock(x1 + 2, y1    , z2 - 5, materialStair, BadMagic.Stair.WEST);
 							
 //							chunk.setBlocks(x1 + 3, y1, y2 + 50, z1 + 3, Material.SPRUCE_FENCE);
 //							chunk.setBlock(x1 + 3, y2 + 50, z1 + 3, Material.LAPIS_BLOCK);
@@ -921,17 +921,17 @@ public class StructureOnGroundProvider extends Provider {
 
 							chunk.setBlock(x2 - 1, y1 + 3, z1 + 1, materialUnderStairs);
 
-							chunk.setStair(x2 - 1, y1 + 3, z1 + 2, materialStair, BadMagic.Stair.NORTH);
-							chunk.setStair(x2 - 1, y1 + 2, z1 + 2, materialStair, BadMagic.Stair.SOUTHFLIP);
+							chunk.setBlock(x2 - 1, y1 + 3, z1 + 2, materialStair, BadMagic.Stair.NORTH);
+							chunk.setBlock(x2 - 1, y1 + 2, z1 + 2, materialStair, BadMagic.Stair.SOUTHFLIP);
 
-							chunk.setStair(x2 - 1, y1 + 2, z1 + 3, materialStair, BadMagic.Stair.NORTH);
-							chunk.setStair(x2 - 1, y1 + 1, z1 + 3, materialStair, BadMagic.Stair.SOUTHFLIP);
+							chunk.setBlock(x2 - 1, y1 + 2, z1 + 3, materialStair, BadMagic.Stair.NORTH);
+							chunk.setBlock(x2 - 1, y1 + 1, z1 + 3, materialStair, BadMagic.Stair.SOUTHFLIP);
 							
-							chunk.setStair(x2 - 1, y1 + 1, z1 + 4, materialStair, BadMagic.Stair.NORTH);
-							chunk.setStair(x2 - 1, y1    , z1 + 4, materialStair, BadMagic.Stair.SOUTHFLIP);
+							chunk.setBlock(x2 - 1, y1 + 1, z1 + 4, materialStair, BadMagic.Stair.NORTH);
+							chunk.setBlock(x2 - 1, y1    , z1 + 4, materialStair, BadMagic.Stair.SOUTHFLIP);
 
 							chunk.setBlock(x2 - 1, y1    , z1 + 5, materialUnderStairs);
-							chunk.setStair(x2 - 2, y1    , z1 + 5, materialStair, BadMagic.Stair.EAST);
+							chunk.setBlock(x2 - 2, y1    , z1 + 5, materialStair, BadMagic.Stair.EAST);
 							
 //							chunk.setBlocks(x1 + 3, y1, y2 + 50, z1 + 3, Material.SPRUCE_FENCE);
 //							chunk.setBlock(x1 + 3, y2 + 50, z1 + 3, Material.DIAMOND_BLOCK);
@@ -940,17 +940,17 @@ public class StructureOnGroundProvider extends Provider {
 
 							chunk.setBlock(x2 - 1, y1 + 3, z2 - 1, materialUnderStairs);
 
-							chunk.setStair(x2 - 2, y1 + 3, z2 - 1, materialStair, BadMagic.Stair.EAST);
-							chunk.setStair(x2 - 2, y1 + 2, z2 - 1, materialStair, BadMagic.Stair.WESTFLIP);
+							chunk.setBlock(x2 - 2, y1 + 3, z2 - 1, materialStair, BadMagic.Stair.EAST);
+							chunk.setBlock(x2 - 2, y1 + 2, z2 - 1, materialStair, BadMagic.Stair.WESTFLIP);
 
-							chunk.setStair(x2 - 3, y1 + 2, z2 - 1, materialStair, BadMagic.Stair.EAST);
-							chunk.setStair(x2 - 3, y1 + 1, z2 - 1, materialStair, BadMagic.Stair.WESTFLIP);
+							chunk.setBlock(x2 - 3, y1 + 2, z2 - 1, materialStair, BadMagic.Stair.EAST);
+							chunk.setBlock(x2 - 3, y1 + 1, z2 - 1, materialStair, BadMagic.Stair.WESTFLIP);
 							
-							chunk.setStair(x2 - 4, y1 + 1, z2 - 1, materialStair, BadMagic.Stair.EAST);
-							chunk.setStair(x2 - 4, y1    , z2 - 1, materialStair, BadMagic.Stair.WESTFLIP);
+							chunk.setBlock(x2 - 4, y1 + 1, z2 - 1, materialStair, BadMagic.Stair.EAST);
+							chunk.setBlock(x2 - 4, y1    , z2 - 1, materialStair, BadMagic.Stair.WESTFLIP);
 
 							chunk.setBlock(x2 - 5, y1    , z2 - 1, materialUnderStairs);
-							chunk.setStair(x2 - 5, y1    , z2 - 2, materialStair, BadMagic.Stair.SOUTH);
+							chunk.setBlock(x2 - 5, y1    , z2 - 2, materialStair, BadMagic.Stair.SOUTH);
 							
 //							chunk.setBlocks(x1 + 3, y1, y2 + 50, z1 + 3, Material.SPRUCE_FENCE);
 //							chunk.setBlock(x1 + 3, y2 + 50, z1 + 3, Material.GLOWSTONE);
@@ -1018,20 +1018,20 @@ public class StructureOnGroundProvider extends Provider {
 			if (roomEast) {
 				if (roomSouth) {
 					if (doorSouth)
-						chunk.setWoodenDoor(x1 + 3,	y1, z2, BadMagic.Door.SOUTHBYSOUTHEAST);
+						chunk.setWoodenDoor(x1 + 3,	y1, z2, BadMagic.Door.SOUTH_SOUTH_EAST);
 					if (doorEast)
 						chunk.setWoodenDoor(x2, y1, z1 + 3, BadMagic.Door.EASTBYSOUTHEAST);
 
 					if (hallNorth)
-						chunk.setWoodenDoor(x1 + 2,	y1, z1,	BadMagic.Door.NORTHBYNORTHWEST); 
+						chunk.setWoodenDoor(x1 + 2,	y1, z1,	BadMagic.Door.NORTH_NORTH_WEST); 
 					if (hallWest)
-						chunk.setWoodenDoor(x1, y1, z1 + 2, BadMagic.Door.WESTBYNORTHWEST); 
+						chunk.setWoodenDoor(x1, y1, z1 + 2, BadMagic.Door.WEST_NORTH_WEST); 
 					
 				} else {
 					if (doorNorth)
 						chunk.setWoodenDoor(x1 + 3, y1, z1, BadMagic.Door.NORTHBYNORTHEAST); 
 					if (doorEast)
-						chunk.setWoodenDoor(x2, y1, z2 - 3, BadMagic.Door.EASTBYNORTHEAST); 
+						chunk.setWoodenDoor(x2, y1, z2 - 3, BadMagic.Door.EAST_NORTH_EAST); 
 
 					if (hallSouth)
 						chunk.setWoodenDoor(x1 + 2, y1, z2, BadMagic.Door.SOUTHBYSOUTHWEST); 
@@ -1049,16 +1049,16 @@ public class StructureOnGroundProvider extends Provider {
 					if (hallNorth)
 						chunk.setWoodenDoor(x2 - 2, y1, z1, BadMagic.Door.NORTHBYNORTHEAST); 
 					if (hallEast)
-						chunk.setWoodenDoor(x2, y1, z1 + 2, BadMagic.Door.EASTBYNORTHEAST); 
+						chunk.setWoodenDoor(x2, y1, z1 + 2, BadMagic.Door.EAST_NORTH_EAST); 
 					
 				} else {
 					if (doorNorth)
-						chunk.setWoodenDoor(x2 - 3, y1, z1, BadMagic.Door.NORTHBYNORTHWEST); 
+						chunk.setWoodenDoor(x2 - 3, y1, z1, BadMagic.Door.NORTH_NORTH_WEST); 
 					if (doorWest)
-						chunk.setWoodenDoor(x1, y1, z2 - 3, BadMagic.Door.WESTBYNORTHWEST); 
+						chunk.setWoodenDoor(x1, y1, z2 - 3, BadMagic.Door.WEST_NORTH_WEST); 
 
 					if (hallSouth)
-						chunk.setWoodenDoor(x2 - 2, y1, z2, BadMagic.Door.SOUTHBYSOUTHEAST); 
+						chunk.setWoodenDoor(x2 - 2, y1, z2, BadMagic.Door.SOUTH_SOUTH_EAST); 
 					if (hallEast)
 						chunk.setWoodenDoor(x2, y1, z2 - 2, BadMagic.Door.EASTBYSOUTHEAST); 
 				}

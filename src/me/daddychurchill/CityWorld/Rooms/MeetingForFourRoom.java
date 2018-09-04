@@ -1,12 +1,13 @@
 package me.daddychurchill.CityWorld.Rooms;
 
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
-import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
-import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
+
+
 
 public class MeetingForFourRoom extends MeetingRoom {
 
@@ -17,28 +18,29 @@ public class MeetingForFourRoom extends MeetingRoom {
 	@Override
 	public void drawFixture(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int floor, int x,
 			int y, int z, int width, int height, int depth,
-			Facing sideWithWall, Material materialWall, Material materialGlass) {
+			BlockFace sideWithWall, Material materialWall, Material materialGlass) {
 
 		switch (sideWithWall) {
+		default:
 		case NORTH:
 		case SOUTH:
-			chunk.setStair(x, y, z, Material.WOOD_STAIRS, Stair.WEST);
-			chunk.setStair(x, y, z + 2, Material.WOOD_STAIRS, Stair.WEST);
+			chunk.setBlock(x, y, z, Material.BIRCH_STAIRS, BlockFace.WEST);
+			chunk.setBlock(x, y, z + 2, Material.BIRCH_STAIRS, BlockFace.WEST);
 
 			chunk.setTable(x + 1, x + 2, y, z, z + 3);
 			
-			chunk.setStair(x + 2, y, z, Material.WOOD_STAIRS, Stair.EAST);
-			chunk.setStair(x + 2, y, z + 2, Material.WOOD_STAIRS, Stair.EAST);
+			chunk.setBlock(x + 2, y, z, Material.BIRCH_STAIRS, BlockFace.EAST);
+			chunk.setBlock(x + 2, y, z + 2, Material.BIRCH_STAIRS, BlockFace.EAST);
 			break;
 		case WEST:
 		case EAST:
-			chunk.setStair(x, y, z, Material.WOOD_STAIRS, Stair.NORTH);
-			chunk.setStair(x + 2, y, z, Material.WOOD_STAIRS, Stair.NORTH);
+			chunk.setBlock(x, y, z, Material.BIRCH_STAIRS, BlockFace.NORTH);
+			chunk.setBlock(x + 2, y, z, Material.BIRCH_STAIRS, BlockFace.NORTH);
 
 			chunk.setTable(x, x + 3, y, z + 1, z + 2);
 
-			chunk.setStair(x, y, z + 2, Material.WOOD_STAIRS, Stair.SOUTH);
-			chunk.setStair(x + 2, y, z + 2, Material.WOOD_STAIRS, Stair.SOUTH);
+			chunk.setBlock(x, y, z + 2, Material.BIRCH_STAIRS, BlockFace.SOUTH);
+			chunk.setBlock(x + 2, y, z + 2, Material.BIRCH_STAIRS, BlockFace.SOUTH);
 			break;
 		}
 	}

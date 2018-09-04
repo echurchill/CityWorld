@@ -11,7 +11,7 @@ import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.BadMagic.General;
-import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
+
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
@@ -141,9 +141,9 @@ public class WoodworksLot extends ConstructLot {
 	
 	protected void generateStairs(RealBlocks chunk, int x, int y, int z) {
 		chunk.setBlocks(x, x + 1, y, z, z + 3, Material.AIR);
-		chunk.setStair(x, y - 1, z    , Material.WOOD_STAIRS, Stair.NORTH);
-		chunk.setStair(x, y - 2, z + 1, Material.WOOD_STAIRS, Stair.NORTH);
-		chunk.setStair(x, y - 3, z + 2, Material.WOOD_STAIRS, Stair.NORTH);
-		chunk.setStair(x, y - 4, z + 3, Material.WOOD_STAIRS, Stair.NORTH);
+		chunk.setBlock(x, y - 1, z    , Material.BIRCH_STAIRS, BlockFace.NORTH);
+		chunk.setBlock(x, y - 2, z + 1, Material.BIRCH_STAIRS, BlockFace.NORTH);
+		chunk.setBlock(x, y - 3, z + 2, Material.BIRCH_STAIRS, BlockFace.NORTH);
+		chunk.setBlock(x, y - 4, z + 3, Material.BIRCH_STAIRS, BlockFace.NORTH);
 	}
 }

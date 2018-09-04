@@ -1,11 +1,12 @@
 package me.daddychurchill.CityWorld.Rooms;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
-import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
+
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 
 public class StorageDoubleShelvesRoom extends StorageRoom {
 
@@ -16,13 +17,14 @@ public class StorageDoubleShelvesRoom extends StorageRoom {
 	@Override
 	public void drawFixture(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int floor, int x,
 			int y, int z, int width, int height, int depth,
-			Facing sideWithWall, Material materialWall, Material materialGlass) {
+			BlockFace sideWithWall, Material materialWall, Material materialGlass) {
 		switch (sideWithWall) {
-		case SOUTH:
-			drawNSEmptyShelves(chunk, x, y, z, width, height - 1, depth, depth - 1);
-			break;
+		default:
 		case NORTH:
 			drawNSEmptyShelves(chunk, x, y, z, width, height - 1, depth, 0);
+			break;
+		case SOUTH:
+			drawNSEmptyShelves(chunk, x, y, z, width, height - 1, depth, depth - 1);
 			break;
 		case EAST:
 			drawWEEmptyShelves(chunk, x, y, z, width, height - 1, depth, width - 1);

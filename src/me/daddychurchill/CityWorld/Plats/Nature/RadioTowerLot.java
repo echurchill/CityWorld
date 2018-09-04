@@ -116,7 +116,7 @@ public class RadioTowerLot extends ConstructLot {
 
 		// place a door but only if everything is "normal"
 		} else if (building)
-			chunk.setWoodenDoor(originX + 2, platformY, originZ + 3, BadMagic.Door.WESTBYNORTHWEST);
+			chunk.setWoodenDoor(originX + 2, platformY, originZ + 3, BadMagic.Door.WEST_NORTH_WEST);
 		
 		// place the ladder
 		int ladderBase = platformY - 2;

@@ -2,6 +2,9 @@ package me.daddychurchill.CityWorld.Plats;
 
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Bisected.Half;
+import org.bukkit.block.data.type.Slab.Type;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
@@ -346,13 +349,13 @@ public abstract class PlatLot {
 				
 				// draw the going down bit
 				placeMineStairBase(chunk, 10, y1	, 15);
-				placeMineStairStep(chunk, 10, y1    , 14, Stair.SOUTH, Stair.NORTHFLIP);
-				placeMineStairStep(chunk, 10, y1 - 1, 13, Stair.SOUTH, Stair.NORTHFLIP);
-				placeMineStairStep(chunk, 10, y1 - 2, 12, Stair.SOUTH, Stair.NORTHFLIP);
-				placeMineStairStep(chunk, 10, y1 - 3, 11, Stair.SOUTH, Stair.NORTHFLIP);
-				placeMineStairStep(chunk, 10, y1 - 4, 10, Stair.SOUTH, Stair.NORTHFLIP);
-				placeMineStairStep(chunk, 10, y1 - 5,  9, Stair.SOUTH, Stair.NORTHFLIP);
-				placeMineStairStep(chunk, 10, y1 - 6,  8, Stair.SOUTH, Stair.NORTHFLIP);
+				placeMineStairStep(chunk, 10, y1    , 14, BlockFace.SOUTH, BlockFace.NORTH);
+				placeMineStairStep(chunk, 10, y1 - 1, 13, BlockFace.SOUTH, BlockFace.NORTH);
+				placeMineStairStep(chunk, 10, y1 - 2, 12, BlockFace.SOUTH, BlockFace.NORTH);
+				placeMineStairStep(chunk, 10, y1 - 3, 11, BlockFace.SOUTH, BlockFace.NORTH);
+				placeMineStairStep(chunk, 10, y1 - 4, 10, BlockFace.SOUTH, BlockFace.NORTH);
+				placeMineStairStep(chunk, 10, y1 - 5,  9, BlockFace.SOUTH, BlockFace.NORTH);
+				placeMineStairStep(chunk, 10, y1 - 6,  8, BlockFace.SOUTH, BlockFace.NORTH);
 				stairsFound = true;
 			}
 			
@@ -362,13 +365,13 @@ public abstract class PlatLot {
 				
 				// draw the going down bit
 				placeMineStairBase(chunk, 15, y1	, 10);
-				placeMineStairStep(chunk, 14, y1    , 10, Stair.EAST, Stair.WESTFLIP);
-				placeMineStairStep(chunk, 13, y1 - 1, 10, Stair.EAST, Stair.WESTFLIP);
-				placeMineStairStep(chunk, 12, y1 - 2, 10, Stair.EAST, Stair.WESTFLIP);
-				placeMineStairStep(chunk, 11, y1 - 3, 10, Stair.EAST, Stair.WESTFLIP);
-				placeMineStairStep(chunk, 10, y1 - 4, 10, Stair.EAST, Stair.WESTFLIP);
-				placeMineStairStep(chunk,  9, y1 - 5, 10, Stair.EAST, Stair.WESTFLIP);
-				placeMineStairStep(chunk,  8, y1 - 6, 10, Stair.EAST, Stair.WESTFLIP);
+				placeMineStairStep(chunk, 14, y1    , 10, BlockFace.EAST, BlockFace.WEST);
+				placeMineStairStep(chunk, 13, y1 - 1, 10, BlockFace.EAST, BlockFace.WEST);
+				placeMineStairStep(chunk, 12, y1 - 2, 10, BlockFace.EAST, BlockFace.WEST);
+				placeMineStairStep(chunk, 11, y1 - 3, 10, BlockFace.EAST, BlockFace.WEST);
+				placeMineStairStep(chunk, 10, y1 - 4, 10, BlockFace.EAST, BlockFace.WEST);
+				placeMineStairStep(chunk,  9, y1 - 5, 10, BlockFace.EAST, BlockFace.WEST);
+				placeMineStairStep(chunk,  8, y1 - 6, 10, BlockFace.EAST, BlockFace.WEST);
 			}
 		}
 		
@@ -382,21 +385,21 @@ public abstract class PlatLot {
 					
 				// draw the going up bit
 				placeMineStairBase(chunk,  5, y1	, 15);
-				placeMineStairStep(chunk,  5, y1 + 1, 14, Stair.NORTH, Stair.SOUTHFLIP);
-				placeMineStairStep(chunk,  5, y1 + 2, 13, Stair.NORTH, Stair.SOUTHFLIP);
-				placeMineStairStep(chunk,  5, y1 + 3, 12, Stair.NORTH, Stair.SOUTHFLIP);
-				placeMineStairStep(chunk,  5, y1 + 4, 11, Stair.NORTH, Stair.SOUTHFLIP);
-				placeMineStairStep(chunk,  5, y1 + 5, 10, Stair.NORTH, Stair.SOUTHFLIP);
-				placeMineStairStep(chunk,  5, y1 + 6,  9, Stair.NORTH, Stair.SOUTHFLIP);
-				placeMineStairStep(chunk,  5, y1 + 7,  8, Stair.NORTH, Stair.SOUTHFLIP);
-				placeMineStairStep(chunk,  5, y1 + 8,  7, Stair.NORTH, Stair.SOUTHFLIP);
+				placeMineStairStep(chunk,  5, y1 + 1, 14, BlockFace.NORTH, BlockFace.SOUTH);
+				placeMineStairStep(chunk,  5, y1 + 2, 13, BlockFace.NORTH, BlockFace.SOUTH);
+				placeMineStairStep(chunk,  5, y1 + 3, 12, BlockFace.NORTH, BlockFace.SOUTH);
+				placeMineStairStep(chunk,  5, y1 + 4, 11, BlockFace.NORTH, BlockFace.SOUTH);
+				placeMineStairStep(chunk,  5, y1 + 5, 10, BlockFace.NORTH, BlockFace.SOUTH);
+				placeMineStairStep(chunk,  5, y1 + 6,  9, BlockFace.NORTH, BlockFace.SOUTH);
+				placeMineStairStep(chunk,  5, y1 + 7,  8, BlockFace.NORTH, BlockFace.SOUTH);
+				placeMineStairStep(chunk,  5, y1 + 8,  7, BlockFace.NORTH, BlockFace.SOUTH);
 				placeMineStairBase(chunk,  5, y1 + 8,  6);
 				placeMineStairBase(chunk,  6, y1 + 8,  6);
 				placeMineStairBase(chunk,  7, y1 + 8,  6);
 				placeMineStairBase(chunk,  8, y1 + 8,  6);
 				placeMineStairBase(chunk,  9, y1 + 8,  6);
 				placeMineStairBase(chunk, 10, y1 + 8,  6);
-				placeMineStairStep(chunk, 10, y1 + 9,  7, Stair.SOUTH, Stair.NORTHFLIP);
+				placeMineStairStep(chunk, 10, y1 + 9,  7, BlockFace.SOUTH, BlockFace.NORTH);
 				
 				generateMineSupport(chunk, 6, y1 + 7, 7);
 				generateMineSupport(chunk, 9, y1 + 7, 7);
@@ -410,21 +413,21 @@ public abstract class PlatLot {
 				
 				// draw the going up bit
 				placeMineStairBase(chunk, 15, y1	,  5);
-				placeMineStairStep(chunk, 14, y1 + 1,  5, Stair.WEST, Stair.EASTFLIP);
-				placeMineStairStep(chunk, 13, y1 + 2,  5, Stair.WEST, Stair.EASTFLIP);
-				placeMineStairStep(chunk, 12, y1 + 3,  5, Stair.WEST, Stair.EASTFLIP);
-				placeMineStairStep(chunk, 11, y1 + 4,  5, Stair.WEST, Stair.EASTFLIP);
-				placeMineStairStep(chunk, 10, y1 + 5,  5, Stair.WEST, Stair.EASTFLIP);
-				placeMineStairStep(chunk,  9, y1 + 6,  5, Stair.WEST, Stair.EASTFLIP);
-				placeMineStairStep(chunk,  8, y1 + 7,  5, Stair.WEST, Stair.EASTFLIP);
-				placeMineStairStep(chunk,  7, y1 + 8,  5, Stair.WEST, Stair.EASTFLIP);
+				placeMineStairStep(chunk, 14, y1 + 1,  5, BlockFace.WEST, BlockFace.EAST);
+				placeMineStairStep(chunk, 13, y1 + 2,  5, BlockFace.WEST, BlockFace.EAST);
+				placeMineStairStep(chunk, 12, y1 + 3,  5, BlockFace.WEST, BlockFace.EAST);
+				placeMineStairStep(chunk, 11, y1 + 4,  5, BlockFace.WEST, BlockFace.EAST);
+				placeMineStairStep(chunk, 10, y1 + 5,  5, BlockFace.WEST, BlockFace.EAST);
+				placeMineStairStep(chunk,  9, y1 + 6,  5, BlockFace.WEST, BlockFace.EAST);
+				placeMineStairStep(chunk,  8, y1 + 7,  5, BlockFace.WEST, BlockFace.EAST);
+				placeMineStairStep(chunk,  7, y1 + 8,  5, BlockFace.WEST, BlockFace.EAST);
 				placeMineStairBase(chunk,  6, y1 + 8,  5);
 				placeMineStairBase(chunk,  6, y1 + 8,  6);
 				placeMineStairBase(chunk,  6, y1 + 8,  7);
 				placeMineStairBase(chunk,  6, y1 + 8,  8);
 				placeMineStairBase(chunk,  6, y1 + 8,  9);
 				placeMineStairBase(chunk,  6, y1 + 8, 10);
-				placeMineStairStep(chunk,  7, y1 + 9, 10, Stair.EAST, Stair.WESTFLIP);
+				placeMineStairStep(chunk,  7, y1 + 9, 10, BlockFace.EAST, BlockFace.WEST);
 				
 				generateMineSupport(chunk, 7, y1 + 7, 6);
 				generateMineSupport(chunk, 7, y1 + 7, 9);
@@ -479,7 +482,7 @@ public abstract class PlatLot {
 			for (int z = z1; z < z2; z++) {
 				if (chunkOdds.flipCoin())
 					if (!chunk.isEmpty(x, y + 1, z) && chunk.isEmpty(x, y, z))
-						chunk.setStoneSlab(x, y, z, BadMagic.StoneSlab.COBBLESTONEFLIP);
+						chunk.setBlock(x, y, z, Material.COBBLESTONE, Type.TOP);
 			}
 		}
 	}
@@ -494,18 +497,18 @@ public abstract class PlatLot {
 		chunk.setEmptyBlock(x, y, z, Material.SPRUCE_WOOD);
 	}
 	
-	private void placeMineStairStep(RealBlocks chunk, int x, int y, int z, Stair direction, Stair flipDirection) {
+	private void placeMineStairStep(RealBlocks chunk, int x, int y, int z, BlockFace direction, BlockFace flipDirection) {
 		chunk.setBlocks(x, y + 1, y + 4, z, Material.AIR);
-		chunk.setStair(x, y, z, Material.WOOD_STAIRS, direction);
+		chunk.setBlock(x, y, z, Material.BIRCH_STAIRS, direction);
 		if (chunk.isEmpty(x, y - 1, z))
-			chunk.setStair(x, y - 1, z, Material.WOOD_STAIRS, flipDirection);
+			chunk.setBlock(x, y - 1, z, Material.BIRCH_STAIRS, flipDirection, Half.TOP);
 	}
 	
 	private void generateMineTreat(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z) {
 
 		// cool stuff?
 		if (generator.settings.treasuresInMines && chunkOdds.playOdds(generator.settings.oddsOfTreasureInMines)) {
-			 chunk.setChest(generator, x, y, z, BadMagic.General.SOUTH, chunkOdds, generator.lootProvider, LootLocation.MINE);
+			 chunk.setChest(generator, x, y, z, BlockFace.SOUTH, chunkOdds, generator.lootProvider, LootLocation.MINE);
 		}
 	}
 

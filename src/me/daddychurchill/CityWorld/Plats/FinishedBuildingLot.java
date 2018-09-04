@@ -12,11 +12,8 @@ import me.daddychurchill.CityWorld.Factories.OutsideWEWallFactory;
 import me.daddychurchill.CityWorld.Plats.Urban.ConcreteLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Plugins.StructureInAirProvider;
-import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.BadMagic.Door;
-import me.daddychurchill.CityWorld.Support.BadMagic.Facing;
-import me.daddychurchill.CityWorld.Support.BadMagic.StairWell;
+
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
@@ -24,6 +21,7 @@ import me.daddychurchill.CityWorld.Support.SurroundingFloors;
 import me.daddychurchill.CityWorld.Support.Surroundings;
 
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public abstract class FinishedBuildingLot extends BuildingLot {
@@ -219,8 +217,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		
 		forceNarrowInteriorMode = chunkOdds.playOdds(context.oddsOfForcedNarrowInteriorMode);
 		differentInteriorModes = context.oddsOfDifferentInteriorModes;
-		interiorDoorMaterial = chunkOdds.getRandomWoodenDoorType();
-		exteriorDoorMaterial = chunkOdds.getRandomWoodenDoorType();
+		interiorDoorMaterial = chunkOdds.getRandomMaterial(Odds.allWoodenDoors);
+		exteriorDoorMaterial = chunkOdds.getRandomMaterial(Odds.allWoodenDoors);
 		
 	}
 	
@@ -231,8 +229,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		if (glassMaterial == Material.GLASS_PANE) {
 			insetCeilingWE = Math.min(insetCeilingWE, insetWallWE);
 			insetCeilingNS = Math.min(insetCeilingNS, insetWallNS);
-			if (wallMaterial == Material.DOUBLE_STEP)
-				glassMaterial = Material.GLASS;
+//			if (wallMaterial == Material.DOUBLE_STEP)
+//				glassMaterial = Material.GLASS;
 			cornerWallStyle = CornerWallStyle.FILLED;
 		}
 	}
@@ -698,7 +696,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			blocks.setBlocks(x, y1, y2, z, Material.SPRUCE_FENCE);
 			break;
 		case STONECOLUMN:
-			blocks.setBlocks(x, y1, y2, z, Material.COBBLE_WALL);
+			blocks.setBlocks(x, y1, y2, z, Material.COBBLESTONE_WALL);
 			break;
 		case FILLED:
 		default:
@@ -1514,34 +1512,34 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				// Northward
 				if (heights.toNorth())
 					drawInteriorRoom(generator, chunk, rooms, floor, 3, y1, 1, height, 
-							Facing.NORTH, materialWall, materialGlass); //1
+							BlockFace.NORTH, materialWall, materialGlass); //1
 				if (insetNS < 2)
 					drawInteriorRoom(generator, chunk, rooms, floor, 8, y1, 2, height, 
-							Facing.WEST, materialWall, materialGlass); //2
+							BlockFace.WEST, materialWall, materialGlass); //2
 					
 				// Eastward
 				if (heights.toEast())
 					drawInteriorRoom(generator, chunk, rooms, floor, 12, y1, 3, height, 
-							Facing.EAST, materialWall, materialGlass); //3
+							BlockFace.EAST, materialWall, materialGlass); //3
 				if (insetWE < 2)
 					drawInteriorRoom(generator, chunk, rooms, floor, 11, y1, 8, height, 
-							Facing.NORTH, materialWall, materialGlass); //4
+							BlockFace.NORTH, materialWall, materialGlass); //4
 				
 				// Southward
 				if (heights.toSouth())
 					drawInteriorRoom(generator, chunk, rooms, floor, 11, y1, 12, height, 
-							Facing.SOUTH, materialWall, materialGlass); //5
+							BlockFace.SOUTH, materialWall, materialGlass); //5
 				if (insetNS < 2)
 					drawInteriorRoom(generator, chunk, rooms, floor, 5, y1, 11, height, 
-							Facing.EAST, materialWall, materialGlass); //6
+							BlockFace.EAST, materialWall, materialGlass); //6
 				
 				// Westward
 				if (heights.toWest())
 					drawInteriorRoom(generator, chunk, rooms, floor, 1, y1, 10, height, 
-							Facing.WEST, materialWall, materialGlass); //7
+							BlockFace.WEST, materialWall, materialGlass); //7
 				if (insetWE < 2)
 					drawInteriorRoom(generator, chunk, rooms, floor, 2, y1, 5, height, 
-							Facing.SOUTH, materialWall, materialGlass); //8
+							BlockFace.SOUTH, materialWall, materialGlass); //8
 			}
 			
 		// if the narrow logic doesn't handle it, try to use the wide logic (two walls in the middle)
@@ -1552,9 +1550,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				if (heights.toNorth() && heights.toWest()) {
 					//1 & 2
 					drawInteriorRoom(generator, chunk, rooms, floor, 1, y1, 0, height, 
-							Facing.EAST, materialWall, materialGlass);
+							BlockFace.EAST, materialWall, materialGlass);
 					drawInteriorRoom(generator, chunk, rooms, floor, 5, y1, 0, height, 
-							Facing.WEST, materialWall, materialGlass);
+							BlockFace.WEST, materialWall, materialGlass);
 				}
 			} else if (includeOuterRooms) {
 				if (heights.toNorth()) {
@@ -1564,9 +1562,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 							stairsLocation != StairWell.WEST) {
 						//n & m
 						drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 1, height, 
-								Facing.SOUTH, materialWall, materialGlass);
+								BlockFace.SOUTH, materialWall, materialGlass);
 						drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 5, height, 
-								Facing.NORTH, materialWall, materialGlass);
+								BlockFace.NORTH, materialWall, materialGlass);
 					}
 				} else {
 					if (heights.toWest() && 
@@ -1574,13 +1572,13 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 								 stairsLocation != StairWell.NORTH)) {
 						//c & d
 						drawInteriorRoom(generator, chunk, rooms, floor, 1, y1, 4, height, 
-								Facing.EAST, materialWall, materialGlass);
+								BlockFace.EAST, materialWall, materialGlass);
 //						drawInteriorRoom(generator, chunk, rooms, floor, 5, y1, 4, height, 
-//								Facing.WEST, materialWall, materialGlass);
+//								BlockFace.WEST, materialWall, materialGlass);
 					} else if (!allowRounded && stairsLocation == StairWell.SOUTHEAST) {
 						//q
 						drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 4, height, 
-								Facing.EAST, materialWall, materialGlass);
+								BlockFace.EAST, materialWall, materialGlass);
 					}
 				}
 			}
@@ -1590,9 +1588,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				if (heights.toNorth() && heights.toEast()) {
 					//3 & 4
 					drawInteriorRoom(generator, chunk, rooms, floor, 13, y1, 1, height, 
-							Facing.SOUTH, materialWall, materialGlass);
+							BlockFace.SOUTH, materialWall, materialGlass);
 					drawInteriorRoom(generator, chunk, rooms, floor, 13, y1, 5, height, 
-							Facing.NORTH, materialWall, materialGlass);
+							BlockFace.NORTH, materialWall, materialGlass);
 				}
 			} else if (includeOuterRooms) {
 				if (heights.toNorth()) {
@@ -1602,9 +1600,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 							stairsLocation != StairWell.EAST) {
 						//g & h
 						drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 1, height, 
-								Facing.SOUTH, materialWall, materialGlass);
+								BlockFace.SOUTH, materialWall, materialGlass);
 //						drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 5, height, 
-//								Facing.NORTH, materialWall, materialGlass);
+//								BlockFace.NORTH, materialWall, materialGlass);
 					}
 				} else {
 					if (heights.toEast() && 
@@ -1612,13 +1610,13 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 							 stairsLocation != StairWell.NORTH)) {
 						//a & b
 						drawInteriorRoom(generator, chunk, rooms, floor, 8, y1, 4, height, 
-								Facing.EAST, materialWall, materialGlass);
+								BlockFace.EAST, materialWall, materialGlass);
 						drawInteriorRoom(generator, chunk, rooms, floor, 12, y1, 4, height, 
-								Facing.WEST, materialWall, materialGlass);
+								BlockFace.WEST, materialWall, materialGlass);
 					} else if (!allowRounded && stairsLocation == StairWell.SOUTHWEST) {
 						//r
 						drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 4, height, 
-								Facing.SOUTH, materialWall, materialGlass);
+								BlockFace.SOUTH, materialWall, materialGlass);
 					}
 				}
 			}
@@ -1628,9 +1626,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				if (heights.toSouth() && heights.toWest()) {
 					//5 & 6
 					drawInteriorRoom(generator, chunk, rooms, floor, 0, y1, 12, height, 
-							Facing.NORTH, materialWall, materialGlass);
+							BlockFace.NORTH, materialWall, materialGlass);
 					drawInteriorRoom(generator, chunk, rooms, floor, 0, y1, 8, height, 
-							Facing.SOUTH, materialWall, materialGlass);
+							BlockFace.SOUTH, materialWall, materialGlass);
 				}
 			} else if (includeOuterRooms) {
 				if (heights.toSouth()) {
@@ -1640,9 +1638,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 							stairsLocation != StairWell.WEST) {
 						//p & o
 //						drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 8, height, 
-//								Facing.SOUTH, materialWall, materialGlass);
+//								BlockFace.SOUTH, materialWall, materialGlass);
 						drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 12, height, 
-								Facing.NORTH, materialWall, materialGlass);
+								BlockFace.NORTH, materialWall, materialGlass);
 					}
 				} else {
 					if (heights.toWest() && 
@@ -1651,13 +1649,13 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 
 						//j & i
 						drawInteriorRoom(generator, chunk, rooms, floor, 1, y1, 9, height, 
-								Facing.EAST, materialWall, materialGlass);
+								BlockFace.EAST, materialWall, materialGlass);
 						drawInteriorRoom(generator, chunk, rooms, floor, 5, y1, 9, height, 
-								Facing.WEST, materialWall, materialGlass);
+								BlockFace.WEST, materialWall, materialGlass);
 					} else if (!allowRounded && stairsLocation == StairWell.NORTHEAST) {
 						//t
 						drawInteriorRoom(generator, chunk, rooms, floor, 4, y1, 9, height, 
-								Facing.NORTH, materialWall, materialGlass);
+								BlockFace.NORTH, materialWall, materialGlass);
 					}
 				}
 			}
@@ -1667,9 +1665,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				if (heights.toSouth() && heights.toEast()) {
 					//7 & 8
 					drawInteriorRoom(generator, chunk, rooms, floor, 12, y1, 13, height, 
-							Facing.WEST, materialWall, materialGlass);
+							BlockFace.WEST, materialWall, materialGlass);
 					drawInteriorRoom(generator, chunk, rooms, floor, 8, y1, 13, height, 
-							Facing.EAST, materialWall, materialGlass);
+							BlockFace.EAST, materialWall, materialGlass);
 				}
 			} else if (includeOuterRooms) {
 				if (heights.toSouth()) {
@@ -1679,9 +1677,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 							stairsLocation != StairWell.EAST) {
 						//e & f
 						drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 8, height, 
-								Facing.SOUTH, materialWall, materialGlass);
+								BlockFace.SOUTH, materialWall, materialGlass);
 						drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 12, height, 
-								Facing.NORTH, materialWall, materialGlass);
+								BlockFace.NORTH, materialWall, materialGlass);
 					}
 				} else {
 					if (heights.toEast() && 
@@ -1690,13 +1688,13 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 
 						//l & k
 //						drawInteriorRoom(generator, chunk, rooms, floor, 8, y1, 9, height, 
-//								Facing.EAST, materialWall, materialGlass);
+//								BlockFace.EAST, materialWall, materialGlass);
 						drawInteriorRoom(generator, chunk, rooms, floor, 12, y1, 9, height, 
-								Facing.WEST, materialWall, materialGlass);
+								BlockFace.WEST, materialWall, materialGlass);
 					} else if (!allowRounded && stairsLocation == StairWell.NORTHWEST) {
 						//s
 						drawInteriorRoom(generator, chunk, rooms, floor, 9, y1, 9, height, 
-								Facing.WEST, materialWall, materialGlass);
+								BlockFace.WEST, materialWall, materialGlass);
 					}
 				}
 			}
@@ -1709,7 +1707,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	
 	private void drawInteriorRoom(CityWorldGenerator generator, RealBlocks chunk, 
 			RoomProvider rooms, int floor, int x, int y, int z, int height, 
-			Facing sideWithWall, Material materialWall, Material materialGlass) {
+			BlockFace sideWithWall, Material materialWall, Material materialGlass) {
 
 		rooms.drawFixtures(generator, chunk, chunkOdds, floor, x, y, z, 
 				roomWidth, height, roomDepth, sideWithWall, materialWall, materialGlass);
@@ -1733,61 +1731,61 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	
 	private void drawInteriorNSDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
 		if (chunkOdds.playOdds(oddsOfAnInteriorDoor))
-			drawDoor(chunk, x, x, x, y1, y2, z, z + 1, z + 2, Door.WESTBYNORTHWEST, doorStyle, wall, interiorDoorMaterial);
+			drawDoor(chunk, x, x, x, y1, y2, z, z + 1, z + 2, BlockFace.WEST_NORTH_WEST, doorStyle, wall, interiorDoorMaterial);
 	}
 	
 	private void drawInteriorWEDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
 		if (chunkOdds.playOdds(oddsOfAnInteriorDoor))
-			drawDoor(chunk, x, x + 1, x + 2, y1, y2, z, z, z, Door.NORTHBYNORTHWEST, doorStyle, wall, interiorDoorMaterial);
+			drawDoor(chunk, x, x + 1, x + 2, y1, y2, z, z, z, BlockFace.NORTH_NORTH_WEST, doorStyle, wall, interiorDoorMaterial);
 	}
 	
-	private boolean doExteriorDoor(RealBlocks chunk, Door direction) {
+	private boolean doExteriorDoor(RealBlocks chunk, BlockFace direction) {
 		boolean chunkXEven = getChunkX() % 2 == 0;
 		boolean chunkZEven = getChunkZ() % 2 == 0;
 		
 		switch (direction) {
 		default:
-		case WESTBYNORTHWEST:
-		case EASTBYNORTHEAST:
+		case WEST_NORTH_WEST:
+		case EAST_NORTH_EAST:
 			return (chunkXEven && chunkZEven) || (chunkXEven && !chunkZEven);
-		case NORTHBYNORTHWEST:
-		case SOUTHBYSOUTHEAST:
+		case NORTH_NORTH_WEST:
+		case SOUTH_SOUTH_EAST:
 			return (!chunkXEven && chunkZEven) || (!chunkXEven && !chunkZEven);
 		}
 		
 	}
 	
 	private void drawExteriorNSDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
-		if (doExteriorDoor(chunk, Door.WESTBYNORTHWEST)) {
+		if (doExteriorDoor(chunk, BlockFace.WEST_NORTH_WEST)) {
 //			if (chunkOdds.playOdds(oddsOfAnExteriorDoor)) {
-			drawDoor(chunk, x, x, x, y1, y2, z, z + 1, z + 2, Door.WESTBYNORTHWEST, doorStyle, wall, exteriorDoorMaterial);
+			drawDoor(chunk, x, x, x, y1, y2, z, z + 1, z + 2, BlockFace.WEST_NORTH_WEST, doorStyle, wall, exteriorDoorMaterial);
 			chunk.clearBlocks(x + 1, y1, y1 + 2, z + 1);
 			chunk.clearBlocks(x - 1, y1, y1 + 2, z + 1);
 		}
 	}
 	
 	private void drawExteriorSNDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
-		if (doExteriorDoor(chunk, Door.EASTBYNORTHEAST)) {
+		if (doExteriorDoor(chunk, BlockFace.EAST_NORTH_EAST)) {
 //			if (chunkOdds.playOdds(oddsOfAnExteriorDoor)) {
-			drawDoor(chunk, x, x, x, y1, y2, z, z + 1, z + 2, Door.EASTBYNORTHEAST, doorStyle, wall, exteriorDoorMaterial);
+			drawDoor(chunk, x, x, x, y1, y2, z, z + 1, z + 2, BlockFace.EAST_NORTH_EAST, doorStyle, wall, exteriorDoorMaterial);
 			chunk.clearBlocks(x + 1, y1, y1 + 2, z + 1);
 			chunk.clearBlocks(x - 1, y1, y1 + 2, z + 1);
 		}
 	}
 
 	private void drawExteriorWEDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
-		if (doExteriorDoor(chunk, Door.NORTHBYNORTHWEST)) {
+		if (doExteriorDoor(chunk, BlockFace.NORTH_NORTH_WEST)) {
 //			if (chunkOdds.playOdds(oddsOfAnExteriorDoor)) {
-			drawDoor(chunk, x, x + 1, x + 2, y1, y2, z, z, z, Door.NORTHBYNORTHWEST, doorStyle, wall, exteriorDoorMaterial);
+			drawDoor(chunk, x, x + 1, x + 2, y1, y2, z, z, z, BlockFace.NORTH_NORTH_WEST, doorStyle, wall, exteriorDoorMaterial);
 			chunk.clearBlocks(x + 1, y1, y1 + 2, z + 1);
 			chunk.clearBlocks(x + 1, y1, y1 + 2, z - 1);
 		}
 	}
 	
 	private void drawExteriorEWDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
-		if (doExteriorDoor(chunk, Door.SOUTHBYSOUTHEAST)) {
+		if (doExteriorDoor(chunk, BlockFace.SOUTH_SOUTH_EAST)) {
 //			if (chunkOdds.playOdds(oddsOfAnExteriorDoor)) {
-			drawDoor(chunk, x, x + 1, x + 2, y1, y2, z, z, z, Door.SOUTHBYSOUTHEAST, doorStyle, wall, exteriorDoorMaterial);
+			drawDoor(chunk, x, x + 1, x + 2, y1, y2, z, z, z, BlockFace.SOUTH_SOUTH_EAST, doorStyle, wall, exteriorDoorMaterial);
 			chunk.clearBlocks(x + 1, y1, y1 + 2, z + 1);
 			chunk.clearBlocks(x + 1, y1, y1 + 2, z - 1);
 		}
@@ -2165,7 +2163,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	}
 	
 	private void drawDoor(RealBlocks chunk, int x1, int x2, int x3, int y1, int y2, int z1, int z2, int z3, 
-			BadMagic.Door direction, DoorStyle doorStyle, Material wallMaterial, Material doorMaterial) {
+			BlockFace direction, DoorStyle doorStyle, Material wallMaterial, Material doorMaterial) {
 		
 		// frame the door
 		chunk.setBlocks(x1, y1, y2, z1, wallMaterial);
@@ -2184,226 +2182,230 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			break;
 		}
 	}
-	
-	
+
+	//@@
 	protected Material pickColumnMaterial(Material wall) {
-		if (chunkOdds.playOdds(Odds.oddsVeryLikely))
+//		if (chunkOdds.playOdds(Odds.oddsVeryLikely))
 			return wall;
-		else
-			switch (wall) {
-			case COBBLESTONE:
-			case MOSSY_COBBLESTONE:
-			case WOOL:
-				return Material.COBBLE_WALL;
-	
-			case NETHERRACK:
-			case BRICK:
-			case NETHER_BRICK:
-			case COAL_BLOCK:
-				return Material.BIRCH_FENCE;
-				
-			case SAND:
-			case SANDSTONE:
-			case ENDER_STONE:
-				return Material.NETHER_FENCE;
-				
-			case SOUL_SAND:
-			case SMOOTH_BRICK:
-			case QUARTZ_BLOCK:
-				return Material.ACACIA_FENCE;
-				
-			case CLAY:
-			case DOUBLE_STEP:
-			case HARD_CLAY:
-				return Material.DARK_OAK_FENCE;
-				
-			case GRAVEL:
-			case WOOD:
-				return Material.JUNGLE_FENCE;
-	
-			case STAINED_CLAY:
-			case STONE:
-				return Material.SPRUCE_FENCE;
-	
-			case RED_SANDSTONE:
-			case DOUBLE_STONE_SLAB2:
-			default:
-					return Material.SPRUCE_FENCE;
-			}
+//		else
+//			switch (wall) {
+//			case COBBLESTONE:
+//			case MOSSY_COBBLESTONE:
+//			//case WOOL:
+//				return Material.COBBLESTONE_WALL;
+//	
+//			case NETHERRACK:
+//			case BRICK:
+//			case NETHER_BRICK:
+//			case COAL_BLOCK:
+//				return Material.BIRCH_FENCE;
+//				
+//			case SAND:
+//			case SANDSTONE:
+//			case ENDER_STONE:
+//				return Material.NETHER_FENCE;
+//				
+//			case SOUL_SAND:
+//			case SMOOTH_BRICK:
+//			case QUARTZ_BLOCK:
+//				return Material.ACACIA_FENCE;
+//				
+//			case CLAY:
+//			case DOUBLE_STEP:
+//			case HARD_CLAY:
+//				return Material.DARK_OAK_FENCE;
+//				
+//			case GRAVEL:
+//			case WOOD:
+//				return Material.JUNGLE_FENCE;
+//	
+//			case STAINED_CLAY:
+//			case STONE:
+//				return Material.SPRUCE_FENCE;
+//	
+//			case RED_SANDSTONE:
+//			case DOUBLE_STONE_SLAB2:
+//			default:
+//					return Material.SPRUCE_FENCE;
+//			}
 	}
 
+	//@@
 	protected Material pickDoorMaterial(Material wall) {
-		switch (wall) {
-		case COBBLESTONE:
-		case MOSSY_COBBLESTONE:
-		case CLAY:
-		case COAL_BLOCK:
-			return Material.DARK_OAK_DOOR;
-			
-		case QUARTZ_BLOCK:
-		case DOUBLE_STEP:
-		case HARD_CLAY:
-			return Material.DARK_OAK_DOOR;
-			
-		case ENDER_STONE:
-		case BRICK:
-		case GRAVEL:
-		case SOUL_SAND:
-			return Material.ACACIA_DOOR;
-			
-		case SAND:
-		case SANDSTONE:
-		case WOOD:
-		case WOOL:
-			return Material.JUNGLE_DOOR;
-
-		case NETHERRACK:
-		case NETHER_BRICK:
-		case STONE:
-		case STAINED_CLAY:
-			return Material.SPRUCE_DOOR;
-
-		case RED_SANDSTONE:
-		case DOUBLE_STONE_SLAB2:
-		case SMOOTH_BRICK:
-		default:
-			return Material.WOOD_DOOR;
-		}
-	}
-
-	protected Material pickStairMaterial(Material wall) {
-		switch (wall) {
-		case COBBLESTONE:
-		case MOSSY_COBBLESTONE:
-			return Material.COBBLESTONE_STAIRS;
-			
-		case NETHERRACK:
-		case NETHER_BRICK:
-			return Material.NETHER_BRICK_STAIRS;
-			
-		case SAND:
-		case SANDSTONE:
-			return Material.SANDSTONE_STAIRS;
-			
-		case END_BRICKS:
-		case BRICK:
-			return Material.BRICK_STAIRS;
-		
-		case ENDER_STONE:
-			return Material.PURPUR_STAIRS;
-			
-		case QUARTZ_BLOCK:
-			return Material.QUARTZ_STAIRS;
-			
-		case CLAY:
-		case COAL_BLOCK:
-			return Material.BIRCH_WOOD_STAIRS;
-			
-		case PURPUR_BLOCK:
-		case DOUBLE_STEP:
-		case HARD_CLAY:
-			return Material.DARK_OAK_STAIRS;
-			
-		case GRAVEL:
-		case SOUL_SAND:
-		case PURPUR_PILLAR:
-			return Material.ACACIA_STAIRS;
-			
-		case WOOD:
-		case WOOL:
-			return Material.JUNGLE_WOOD_STAIRS;
-
-		case STONE:
-		case STAINED_CLAY:
-			return Material.SPRUCE_WOOD_STAIRS;
-
-		case RED_SANDSTONE:
-		case DOUBLE_STONE_SLAB2:
-			return Material.RED_SANDSTONE_STAIRS;
-
-		case SMOOTH_BRICK:
-		default:
-			return Material.STONE_BRICK_STAIRS;
-		}
-	}
-
-	protected Material pickStairPlatformMaterial(Material stair) {
-		switch (stair) {
-		case COBBLESTONE_STAIRS:
-			return Material.COBBLESTONE;
-			
-		case NETHER_BRICK_STAIRS:
-			return Material.NETHERRACK;
-			
-		case SANDSTONE_STAIRS:
-			return Material.SANDSTONE;
-			
-		case BRICK_STAIRS:
-			return Material.BRICK;
-		
-		case QUARTZ_STAIRS:
-			return Material.QUARTZ_BLOCK;
-			
-		case BIRCH_WOOD_STAIRS:
-			return Material.CLAY;
-			
-		case DARK_OAK_STAIRS:
-			return Material.DOUBLE_STEP;
-			
-		case ACACIA_STAIRS:
-//			return Material.GRAVEL;
+//		switch (wall) {
+//		case COBBLESTONE:
+//		case MOSSY_COBBLESTONE:
+//		case CLAY:
+//		case COAL_BLOCK:
+//			return Material.DARK_OAK_DOOR;
 //			
-		case JUNGLE_WOOD_STAIRS:
-			return Material.SPRUCE_WOOD;
-
-		case SPRUCE_WOOD_STAIRS:
-			return Material.STONE;
-
-		case RED_SANDSTONE_STAIRS:
-			return Material.RED_SANDSTONE;
-			
-		case PURPUR_STAIRS:
-			return Material.PURPUR_BLOCK;
-
-		default:
-			return Material.SMOOTH_STONE;
-		}
+//		case QUARTZ_BLOCK:
+//		case DOUBLE_STEP:
+//		case HARD_CLAY:
+//			return Material.DARK_OAK_DOOR;
+//			
+//		case ENDER_STONE:
+//		case BRICK:
+//		case GRAVEL:
+//		case SOUL_SAND:
+//			return Material.ACACIA_DOOR;
+//			
+//		case SAND:
+//		case SANDSTONE:
+//		case WOOD:
+//		case WOOL:
+//			return Material.JUNGLE_DOOR;
+//
+//		case NETHERRACK:
+//		case NETHER_BRICK:
+//		case STONE:
+//		case STAINED_CLAY:
+//			return Material.SPRUCE_DOOR;
+//
+//		case RED_SANDSTONE:
+//		case DOUBLE_STONE_SLAB2:
+//		case SMOOTH_BRICK:
+//		default:
+			return Material.BIRCH_DOOR;
+//		}
 	}
-	
+
+	//@@
+	protected Material pickStairMaterial(Material wall) {
+//		switch (wall) {
+//		case COBBLESTONE:
+//		case MOSSY_COBBLESTONE:
+//			return Material.COBBLESTONE_STAIRS;
+//			
+//		case NETHERRACK:
+//		case NETHER_BRICK:
+//			return Material.NETHER_BRICK_STAIRS;
+//			
+//		case SAND:
+//		case SANDSTONE:
+//			return Material.SANDSTONE_STAIRS;
+//			
+//		case END_BRICKS:
+//		case BRICK:
+//			return Material.BRICK_STAIRS;
+//		
+//		case ENDER_STONE:
+//			return Material.PURPUR_STAIRS;
+//			
+//		case QUARTZ_BLOCK:
+//			return Material.QUARTZ_STAIRS;
+//			
+//		case CLAY:
+//		case COAL_BLOCK:
+//			return Material.BIRCH_WOOD_STAIRS;
+//			
+//		case PURPUR_BLOCK:
+//		case DOUBLE_STEP:
+//		case HARD_CLAY:
+//			return Material.DARK_OAK_STAIRS;
+//			
+//		case GRAVEL:
+//		case SOUL_SAND:
+//		case PURPUR_PILLAR:
+//			return Material.ACACIA_STAIRS;
+//			
+//		case WOOD:
+//		case WOOL:
+//			return Material.JUNGLE_WOOD_STAIRS;
+//
+//		case STONE:
+//		case STAINED_CLAY:
+//			return Material.SPRUCE_WOOD_STAIRS;
+//
+//		case RED_SANDSTONE:
+//		case DOUBLE_STONE_SLAB2:
+//			return Material.RED_SANDSTONE_STAIRS;
+//
+//		case SMOOTH_BRICK:
+//		default:
+			return Material.STONE_BRICK_STAIRS;
+//		}
+	}
+
+	//@@
+	protected Material pickStairPlatformMaterial(Material stair) {
+//		switch (stair) {
+//		case COBBLESTONE_STAIRS:
+//			return Material.COBBLESTONE;
+//			
+//		case NETHER_BRICK_STAIRS:
+//			return Material.NETHERRACK;
+//			
+//		case SANDSTONE_STAIRS:
+//			return Material.SANDSTONE;
+//			
+//		case BRICK_STAIRS:
+//			return Material.BRICK;
+//		
+//		case QUARTZ_STAIRS:
+//			return Material.QUARTZ_BLOCK;
+//			
+//		case BIRCH_WOOD_STAIRS:
+//			return Material.CLAY;
+//			
+//		case DARK_OAK_STAIRS:
+//			return Material.DOUBLE_STEP;
+//			
+//		case ACACIA_STAIRS:
+////			return Material.GRAVEL;
+////			
+//		case JUNGLE_WOOD_STAIRS:
+//			return Material.SPRUCE_WOOD;
+//
+//		case SPRUCE_WOOD_STAIRS:
+//			return Material.STONE;
+//
+//		case RED_SANDSTONE_STAIRS:
+//			return Material.RED_SANDSTONE;
+//			
+//		case PURPUR_STAIRS:
+//			return Material.PURPUR_BLOCK;
+//
+//		default:
+			return Material.SMOOTH_STONE;
+//		}
+	}
+
+	//@@
 	protected Material pickStairWallMaterial(Material wall) {
-		if (chunkOdds.flipCoin())
+//		if (chunkOdds.flipCoin())
 			return pickColumnMaterial(wall);
-		else
-			switch (wall) {
-			case COBBLESTONE:
-			case MOSSY_COBBLESTONE:
-			case STONE:
-			case SMOOTH_BRICK:
-			case SOUL_SAND:
-			case QUARTZ_BLOCK:
-			case SAND:
-			case SANDSTONE:
-			case ENDER_STONE:
-				return Material.IRON_BARS;
-	
-			case WOOL:
-			case DOUBLE_STEP:
-			case HARD_CLAY:
-			case CLAY:
-			case BRICK:
-			case NETHERRACK:
-			case NETHER_BRICK:
-			case COAL_BLOCK:
-				return Material.GLASS_PANE;
-				
-			case GRAVEL:
-			case WOOD:
-			case STAINED_CLAY:
-			case RED_SANDSTONE:
-			case DOUBLE_STONE_SLAB2:
-			default:
-					return Material.GLASS;
-			}
+//		else
+//			switch (wall) {
+//			case COBBLESTONE:
+//			case MOSSY_COBBLESTONE:
+//			case STONE:
+//			case SMOOTH_BRICK:
+//			case SOUL_SAND:
+//			case QUARTZ_BLOCK:
+//			case SAND:
+//			case SANDSTONE:
+//			case ENDER_STONE:
+//				return Material.IRON_BARS;
+//	
+//			case WOOL:
+//			case DOUBLE_STEP:
+//			case HARD_CLAY:
+//			case CLAY:
+//			case BRICK:
+//			case NETHERRACK:
+//			case NETHER_BRICK:
+//			case COAL_BLOCK:
+//				return Material.GLASS_PANE;
+//				
+//			case GRAVEL:
+//			case WOOD:
+//			case STAINED_CLAY:
+//			case RED_SANDSTONE:
+//			case DOUBLE_STONE_SLAB2:
+//			default:
+//					return Material.GLASS;
+//			}
 	}
 
 	protected WallStyle pickWallStyle() {

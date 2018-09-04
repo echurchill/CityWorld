@@ -831,9 +831,9 @@ public class BunkerLot extends ConnectedLot {
 	
 	private static void generateSpringBit(SupportBlocks chunk, Odds odds, int x, int y, int z, 
 			BadMagic.Stair data1, BadMagic.Stair data2, BadMagic.Stair data3) {
-		chunk.setStair(x, y    , z, springMat, data1);
-		chunk.setStair(x, y + 1, z, springMat, data2);
-		chunk.setStair(x, y + 2, z, springMat, data3);
+		chunk.setBlock(x, y    , z, springMat, data1);
+		chunk.setBlock(x, y + 1, z, springMat, data2);
+		chunk.setBlock(x, y + 2, z, springMat, data3);
 	}
 
 	private static void generateTreat(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y, int z) {

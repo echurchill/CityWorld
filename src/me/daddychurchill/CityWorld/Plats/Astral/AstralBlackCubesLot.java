@@ -58,7 +58,7 @@ public class AstralBlackCubesLot extends AstralNatureLot {
 		default:
 			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 1, y + 3, z + 1, z + cubeWidth - 1, Material.TNT);
 			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 3, y + 4, z + 1, z + cubeWidth - 1, Material.STONE);
-			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 4, y + 5, z + 1, z + cubeWidth - 1, Material.WOOD_PLATE);
+			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 4, y + 5, z + 1, z + cubeWidth - 1, Material.BIRCH_PRESSURE_PLATE);
 
 			chunk.setDoPhysics(true);
 			chunk.setBlock(x + 1, y + 4, z + 1, Material.GLOWSTONE);

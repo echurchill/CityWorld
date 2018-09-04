@@ -5,7 +5,7 @@ import org.bukkit.Material;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.AbstractBlocks;
-import me.daddychurchill.CityWorld.Support.BadMagic.Stair;
+
 import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealMaterial;
@@ -296,7 +296,7 @@ public class ThingProvider extends Provider {
 			int tailY = sectionY + backLegHeight;
 			for (int zO = 0; zO < tailLength; zO++) {
 				if (tailY > y && odds.flipCoin()) {
-					chunk.setStair(x, tailY, tailZ + zO, matStair, Stair.NORTH);
+					chunk.setBlock(x, tailY, tailZ + zO, matStair, BlockFace.NORTH);
 					tailY--;
 				}
 				chunk.setBlock(x, tailY, tailZ + zO, matBlock);
@@ -325,20 +325,20 @@ public class ThingProvider extends Provider {
 				
 				// ribs
 				if (zO > 0 && zO % 2 == 0 && zO + 1 < hindLength && odds.playOdds(Odds.oddsPrettyLikely)) {
-					chunk.setStair(x - 1, hindY, hindZ + zO, matStair, Stair.EAST);
-					chunk.setStair(x + 1, hindY, hindZ + zO, matStair, Stair.WEST);
+					chunk.setBlock(x - 1, hindY, hindZ + zO, matStair, BlockFace.EAST);
+					chunk.setBlock(x + 1, hindY, hindZ + zO, matStair, BlockFace.WEST);
 					
 					chunk.setBlock(x - 1, hindY - 1, hindZ + zO, matBlock);
 					chunk.setBlock(x + 1, hindY - 1, hindZ + zO, matBlock);
 					
-					chunk.setStair(x - 1, hindY - 2, hindZ + zO, matStair, Stair.EASTFLIP);
-					chunk.setStair(x + 1, hindY - 2, hindZ + zO, matStair, Stair.WESTFLIP);
+					chunk.setBlock(x - 1, hindY - 2, hindZ + zO, matStair, BlockFace.EASTFLIP);
+					chunk.setBlock(x + 1, hindY - 2, hindZ + zO, matStair, BlockFace.WESTFLIP);
 				}
 				
 				// move down 
 				if (isHindUpright) {
-					chunk.setStair(x, hindY + 1, hindZ + zO, matStair, Stair.NORTH);
-					chunk.setStair(x, hindY - 1, hindZ + zO, matStair, Stair.SOUTHFLIP);
+					chunk.setBlock(x, hindY + 1, hindZ + zO, matStair, BlockFace.NORTH);
+					chunk.setBlock(x, hindY - 1, hindZ + zO, matStair, BlockFace.SOUTHFLIP);
 					hindY--;
 				}
 			}
@@ -352,8 +352,8 @@ public class ThingProvider extends Provider {
 			for (int yO = 0; yO < spineLength; yO++) {
 				chunk.setBlock(x, sectionY + yO, sectionZ, matBlock);
 				if (yO > 0 && yO < spineLength - 1 && showRibs) {
-					chunk.setStair(x - 1, sectionY + yO, sectionZ, matStair, Stair.EAST);
-					chunk.setStair(x + 1, sectionY + yO, sectionZ, matStair, Stair.WEST);
+					chunk.setBlock(x - 1, sectionY + yO, sectionZ, matStair, BlockFace.EAST);
+					chunk.setBlock(x + 1, sectionY + yO, sectionZ, matStair, BlockFace.WEST);
 				}
 			}
 			
@@ -376,8 +376,8 @@ public class ThingProvider extends Provider {
 				for (int yO = 0; yO < neckLength; yO++) {
 					
 					chunk.setBlock(x, sectionY, sectionZ, matBlock);
-					chunk.setStair(x, sectionY + 1, sectionZ, matStair, Stair.NORTH);
-					chunk.setStair(x, sectionY, sectionZ - 1, matStair, Stair.SOUTHFLIP);
+					chunk.setBlock(x, sectionY + 1, sectionZ, matStair, BlockFace.NORTH);
+					chunk.setBlock(x, sectionY, sectionZ - 1, matStair, BlockFace.SOUTHFLIP);
 					
 					sectionY++;
 					sectionZ--;
@@ -402,8 +402,8 @@ public class ThingProvider extends Provider {
 			chunk.setBlocks(x - xO + 1, x, y, z, z + 1, matBlock);
 			chunk.setBlocks(x + 1, x + xO, y, z, z + 1, matBlock);
 			
-			chunk.setStair(x - xO, y, z, matStair, Stair.EAST);
-			chunk.setStair(x + xO, y, z, matStair, Stair.WEST);
+			chunk.setBlock(x - xO, y, z, matStair, BlockFace.EAST);
+			chunk.setBlock(x + xO, y, z, matStair, BlockFace.WEST);
 		}
 		
 		// vertical bits
@@ -417,14 +417,14 @@ public class ThingProvider extends Provider {
 			chunk.setBlock(x + xO, y - yO, z, matBlock);
 		} else {
 			forceToes = true;
-			chunk.setStair(x - xO, y - yO, z, matStair, Stair.NORTHFLIP);
-			chunk.setStair(x + xO, y - yO, z, matStair, Stair.NORTHFLIP);
+			chunk.setBlock(x - xO, y - yO, z, matStair, BlockFace.NORTHFLIP);
+			chunk.setBlock(x + xO, y - yO, z, matStair, BlockFace.NORTHFLIP);
 		}
 		
 		// fingers/toes
 		if (forceToes || odds.flipCoin()) {
-			chunk.setStair(x - xO, y - yO, z - 1, matStair, Stair.SOUTH);
-			chunk.setStair(x + xO, y - yO, z - 1, matStair, Stair.SOUTH);
+			chunk.setBlock(x - xO, y - yO, z - 1, matStair, BlockFace.SOUTH);
+			chunk.setBlock(x + xO, y - yO, z - 1, matStair, BlockFace.SOUTH);
 		}
 	}
 	
@@ -442,46 +442,46 @@ public class ThingProvider extends Provider {
 		
 		// edit the top bit
 		if (odds.flipCoin()) { // rounded tops
-			chunk.setStair(x - 1, y3, z, matStair, Stair.EAST);
-			chunk.setStair(x + 1, y3, z, matStair, Stair.WEST);
+			chunk.setBlock(x - 1, y3, z, matStair, BlockFace.EAST);
+			chunk.setBlock(x + 1, y3, z, matStair, BlockFace.WEST);
 //		} else if (odds.flipCoin()) { // hatish top
-//			chunk.setStair(x - 1, y3, z, matStair, Stair.EASTFLIP);
-//			chunk.setStair(x + 1, y3, z, matStair, Stair.WESTFLIP);
+//			chunk.setBlock(x - 1, y3, z, matStair, BlockFace.EASTFLIP);
+//			chunk.setBlock(x + 1, y3, z, matStair, BlockFace.WESTFLIP);
 		} else if (!cyclopsEye && needEyes && odds.playOdds(Odds.oddsLikely)) {
-			chunk.setStair(x - 1, y3, z, matStair, Stair.SOUTHFLIP);
-			chunk.setStair(x + 1, y3, z, matStair, Stair.SOUTHFLIP);
+			chunk.setBlock(x - 1, y3, z, matStair, BlockFace.SOUTHFLIP);
+			chunk.setBlock(x + 1, y3, z, matStair, BlockFace.SOUTHFLIP);
 			needEyes = false;
 		} 
 		
 		// edit the bottom bit
 		if (odds.flipCoin()) { // rounded bottoms
-			chunk.setStair(x - 1, y1, z, matStair, Stair.EASTFLIP);
-			chunk.setStair(x + 1, y1, z, matStair, Stair.WESTFLIP);
+			chunk.setBlock(x - 1, y1, z, matStair, BlockFace.EASTFLIP);
+			chunk.setBlock(x + 1, y1, z, matStair, BlockFace.WESTFLIP);
 //		} else if (odds.flipCoin()) { // second neck
-//			chunk.setStair(x - 1, y1, z, matStair, Stair.EAST);
-//			chunk.setStair(x + 1, y1, z, matStair, Stair.WEST);
+//			chunk.setBlock(x - 1, y1, z, matStair, BlockFace.EAST);
+//			chunk.setBlock(x + 1, y1, z, matStair, BlockFace.WEST);
 		}
 		
 		// got to eat
 		if (odds.playOdds(Odds.oddsPrettyLikely)) // mouth
-			chunk.setStair(x, y1, z, matStair, Stair.SOUTH);
+			chunk.setBlock(x, y1, z, matStair, BlockFace.SOUTH);
 		else if (!cyclopsEye && odds.flipCoin()) { // snout/beak
-			chunk.setStair(x, y2, z - 1, matStair, Stair.SOUTH);
-			chunk.setStair(x, y1, z - 1, matStair, Stair.SOUTHFLIP);
+			chunk.setBlock(x, y2, z - 1, matStair, BlockFace.SOUTH);
+			chunk.setBlock(x, y1, z - 1, matStair, BlockFace.SOUTHFLIP);
 		}
 		
 		// finalize the eye bits
 		if (cyclopsEye && tallHead) {
-			chunk.setStair(x, y3, z, matStair, Stair.SOUTHFLIP);
-			chunk.setStair(x, y2, z, matStair, Stair.SOUTH);
+			chunk.setBlock(x, y3, z, matStair, BlockFace.SOUTHFLIP);
+			chunk.setBlock(x, y2, z, matStair, BlockFace.SOUTH);
 			needEyes = false;
 		} else if (needEyes) {
 			if (tallHead) {
-				chunk.setStair(x - 1, y2, z, matStair, Stair.SOUTHFLIP);
-				chunk.setStair(x + 1, y2, z, matStair, Stair.SOUTHFLIP);
+				chunk.setBlock(x - 1, y2, z, matStair, BlockFace.SOUTHFLIP);
+				chunk.setBlock(x + 1, y2, z, matStair, BlockFace.SOUTHFLIP);
 			} else {
-				chunk.setStair(x - 1, y2, z, matStair, Stair.SOUTH);
-				chunk.setStair(x + 1, y2, z, matStair, Stair.SOUTH);
+				chunk.setBlock(x - 1, y2, z, matStair, BlockFace.SOUTH);
+				chunk.setBlock(x + 1, y2, z, matStair, BlockFace.SOUTH);
 			}
 			needEyes = false;
 		}
