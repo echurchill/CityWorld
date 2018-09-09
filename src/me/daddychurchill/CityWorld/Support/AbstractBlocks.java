@@ -63,6 +63,19 @@ public abstract class AbstractBlocks {
 //	public abstract void setStair(int x, int y, int z, Material material, BadMagic.Stair direction);
 //	public abstract void setBlockTypeAndColor(int x, int y, int z, Material material, DyeColor color);
 	
+	public final void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds, Material material1, Material material2) {
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
+				for (int z = z1; z < z2; z++) {
+					if (odds.playOdds(Odds.oddsPrettyLikely))
+						setBlock(x, y, z, material1);
+					else
+						setBlock(x, y, z, material2);
+				}
+			}
+		}
+	}
+
 	public final void setWalls(int x1, int x2, int y, int z1, int z2, Material material) {
 		setWalls(x1, x2, y, y + 1, z1, z2, material);
 	}

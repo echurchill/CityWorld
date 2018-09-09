@@ -9,7 +9,6 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
@@ -26,10 +25,10 @@ public class OilPlatformLot extends ConstructLot {
 		return new OilPlatformLot(platmap, chunkX, chunkZ);
 	}
 
-	private final static Material platformMaterial = Material.DOUBLE_STEP;
+	private final static Material platformMaterial = Material.STONE;
 	private final static Material headMaterial = Material.STONE_SLAB;
 	private final static Material railingMaterial = Material.IRON_BARS;
-	private final static Material drillMaterial = Material.NETHER_FENCE;
+	private final static Material drillMaterial = Material.NETHER_BRICK_FENCE;
 	private final static Material supportMaterial = Material.NETHER_BRICK;
 	private final static Material topperMaterial = Material.NETHER_BRICK_STAIRS;
 	
@@ -130,10 +129,10 @@ public class OilPlatformLot extends ConstructLot {
 		chunk.setLadder(12, y0 + 1, y4 + 2, 11, BlockFace.SOUTH);
 		
 		// now draw the crane
-		chunk.setBlock(2, y4 - 2, 3, topperMaterial, BadMagic.Stair.EAST);
+		chunk.setBlock(2, y4 - 2, 3, topperMaterial, BlockFace.EAST);
 		chunk.clearBlock(2, y4 - 1, 2);
 		chunk.clearBlock(2, y4 - 1, 3);
-		chunk.setBlock(3, y4 - 1, 3, topperMaterial, BadMagic.Stair.NORTH);
+		chunk.setBlock(3, y4 - 1, 3, topperMaterial, BlockFace.NORTH);
 		chunk.setBlocks(2, y4 - 2, y4, 2, Material.IRON_BARS);
 		chunk.drawCrane(context, chunkOdds, 3, y4, 2);
 		

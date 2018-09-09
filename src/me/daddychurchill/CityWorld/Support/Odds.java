@@ -165,6 +165,87 @@ public class Odds {
 		}
 	}
 	
+	public Material getColoredGlass(ColorSet set) {
+		return getColoredGlass(getRandomColor(set));
+	}
+	
+	//@@ turn these into a static arrays
+	public Material getColoredGlass(DyeColor color) {
+		switch (color) {
+		default:
+		case BLACK:
+			return Material.BLACK_STAINED_GLASS;
+		case BLUE:
+			return Material.BLUE_STAINED_GLASS;
+		case BROWN:
+			return Material.BROWN_STAINED_GLASS;
+		case CYAN:
+			return Material.CYAN_STAINED_GLASS;
+		case GRAY:
+			return Material.GRAY_STAINED_GLASS;
+		case GREEN:
+			return Material.GREEN_STAINED_GLASS;
+		case LIGHT_BLUE:
+			return Material.LIGHT_BLUE_STAINED_GLASS;
+		case LIGHT_GRAY:
+			return Material.LIGHT_GRAY_STAINED_GLASS;
+		case LIME:
+			return Material.LIME_STAINED_GLASS;
+		case MAGENTA:
+			return Material.MAGENTA_STAINED_GLASS;
+		case ORANGE:
+			return Material.ORANGE_STAINED_GLASS;
+		case PINK:
+			return Material.PINK_STAINED_GLASS;
+		case PURPLE:
+			return Material.PURPLE_STAINED_GLASS;
+		case RED:
+			return Material.RED_STAINED_GLASS;
+		case WHITE:
+			return Material.WHITE_STAINED_GLASS;
+		case YELLOW:
+			return Material.YELLOW_STAINED_GLASS;
+		}
+	}
+	
+	public Material getColoredPane(DyeColor color) {
+		switch (color) {
+		default:
+		case BLACK:
+			return Material.BLACK_STAINED_GLASS_PANE;
+		case BLUE:
+			return Material.BLUE_STAINED_GLASS_PANE;
+		case BROWN:
+			return Material.BROWN_STAINED_GLASS_PANE;
+		case CYAN:
+			return Material.CYAN_STAINED_GLASS_PANE;
+		case GRAY:
+			return Material.GRAY_STAINED_GLASS_PANE;
+		case GREEN:
+			return Material.GREEN_STAINED_GLASS_PANE;
+		case LIGHT_BLUE:
+			return Material.LIGHT_BLUE_STAINED_GLASS_PANE;
+		case LIGHT_GRAY:
+			return Material.LIGHT_GRAY_STAINED_GLASS_PANE;
+		case LIME:
+			return Material.LIME_STAINED_GLASS_PANE;
+		case MAGENTA:
+			return Material.MAGENTA_STAINED_GLASS_PANE;
+		case ORANGE:
+			return Material.ORANGE_STAINED_GLASS_PANE;
+		case PINK:
+			return Material.PINK_STAINED_GLASS_PANE;
+		case PURPLE:
+			return Material.PURPLE_STAINED_GLASS_PANE;
+		case RED:
+			return Material.RED_STAINED_GLASS_PANE;
+		case WHITE:
+			return Material.WHITE_STAINED_GLASS_PANE;
+		case YELLOW:
+			return Material.YELLOW_STAINED_GLASS_PANE;
+		}
+	}
+	
 //	public int getCauldronLevel() {
 //		return getRandomInt(BlackMagic.maxCauldronLevel + 1);
 //	}

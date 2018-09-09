@@ -1,6 +1,8 @@
 package me.daddychurchill.CityWorld.Plats.Nature;
 
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Bisected.Half;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
@@ -51,11 +53,11 @@ public abstract class GravelLot extends ConstructLot {
 				
 				switch (odds.getRandomInt(3)) {
 				case 0:
-					chunk.setSlab(x, y - yOffset, z, Material.COBBLESTONE, false);
+					chunk.setBlock(x, y - yOffset, z, Material.COBBLESTONE_SLAB);
 					chunk.setBlock(x, y - 1 - yOffset, z, Material.COBBLESTONE);
 					break;
 				case 1:
-					chunk.setSlab(x, y + 1 - yOffset, z, Material.COBBLESTONE, false);
+					chunk.setBlock(x, y + 1 - yOffset, z, Material.COBBLESTONE_SLAB);
 					chunk.setBlock(x, y - yOffset, z, Material.COBBLESTONE);
 					chunk.setBlock(x, y - 1 - yOffset, z, Material.COBBLESTONE);
 					break;
@@ -121,12 +123,12 @@ public abstract class GravelLot extends ConstructLot {
 			for (int i = 0; i < depth - 1; i++) {
 				
 				// north/south sides
-				generateStep(chunk, origin + i, y, sectionTop, origin, Material.COBBLESTONE_STAIRS, BlockFace.WEST, BlockFace.EASTFLIP);
-				generateStep(chunk, origin + depth - i, y, sectionTop, origin + depth, Material.COBBLESTONE_STAIRS, BlockFace.EAST, BlockFace.WESTFLIP);
+				generateStep(chunk, origin + i, y, sectionTop, origin, Material.COBBLESTONE_STAIRS, BlockFace.WEST, BlockFace.EAST);
+				generateStep(chunk, origin + depth - i, y, sectionTop, origin + depth, Material.COBBLESTONE_STAIRS, BlockFace.EAST, BlockFace.WEST);
 				
 				// east/west sides
-				generateStep(chunk, origin + depth, y, sectionTop, origin + i, Material.COBBLESTONE_STAIRS, BlockFace.NORTH, BlockFace.SOUTHFLIP);
-				generateStep(chunk, origin, y, sectionTop, origin + depth - i, Material.COBBLESTONE_STAIRS, BlockFace.SOUTH, BlockFace.NORTHFLIP);
+				generateStep(chunk, origin + depth, y, sectionTop, origin + i, Material.COBBLESTONE_STAIRS, BlockFace.NORTH, BlockFace.SOUTH);
+				generateStep(chunk, origin, y, sectionTop, origin + depth - i, Material.COBBLESTONE_STAIRS, BlockFace.SOUTH, BlockFace.NORTH);
 				
 				// next level down
 				y = y - 1;
@@ -187,10 +189,10 @@ public abstract class GravelLot extends ConstructLot {
 //		generateTailings(generator, chunk, 15, 16, 1, 15);
 	}
 	
-	private static void generateStep(RealBlocks chunk, int x, int y1, int y2, int z, Material step, Stair directionTop, Stair directionBottom) {
+	private static void generateStep(RealBlocks chunk, int x, int y1, int y2, int z, Material step, BlockFace directionTop, BlockFace directionBottom) {
 		chunk.setBlock(x, y1, z, step, directionTop);
 		if (chunk.isEmpty(x, y1 - 1, z))
-			chunk.setBlock(x, y1 - 1, z, step, directionBottom);
+			chunk.setBlock(x, y1 - 1, z, step, directionBottom, Half.TOP);
 		chunk.setBlocks(x, y1 + 1, y2 + 1, z, Material.AIR);
 	}
 

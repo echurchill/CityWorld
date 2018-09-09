@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
@@ -53,7 +54,7 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 			wallMaterial = Material.WHITE_TERRACOTTA;
 			break;
 		case 8:
-			wallMaterial = Material.DOUBLE_STEP;
+			wallMaterial = Material.STONE;//@@ DOUBLE_STEP;
 			break;
 		case 9:
 			wallMaterial = Material.WHITE_WOOL;
@@ -140,13 +141,13 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 		
 		// add stuff?
 		if (chunkOdds.playOdds(oddsOfFurniture))
-			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 2, y, 2, 3, 3, 3, Facing.NORTH, Material.CLAY, Material.GLASS_PANE);
+			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 2, y, 2, 3, 3, 3, BlockFace.NORTH, Material.CLAY, Material.GLASS_PANE);
 		if (chunkOdds.playOdds(oddsOfFurniture))
-			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 11, y, 2, 3, 3, 3, Facing.EAST, Material.CLAY, Material.GLASS_PANE);
+			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 11, y, 2, 3, 3, 3, BlockFace.EAST, Material.CLAY, Material.GLASS_PANE);
 		if (chunkOdds.playOdds(oddsOfFurniture))
-			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 2, y, 11, 3, 3, 3, Facing.WEST, Material.CLAY, Material.GLASS_PANE);
+			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 2, y, 11, 3, 3, 3, BlockFace.WEST, Material.CLAY, Material.GLASS_PANE);
 		if (chunkOdds.playOdds(oddsOfFurniture))
-			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 11, y, 11, 3, 3, 3, Facing.SOUTH, Material.CLAY, Material.GLASS_PANE);
+			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 11, y, 11, 3, 3, 3, BlockFace.SOUTH, Material.CLAY, Material.GLASS_PANE);
 
 		// prep for windows
 		boolean regularWindows = chunkOdds.playOdds(oddsOfWindows);

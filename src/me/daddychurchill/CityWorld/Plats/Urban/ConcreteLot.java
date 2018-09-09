@@ -11,14 +11,14 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.type.Slab.Type;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class ConcreteLot extends BuildingLot {
 
-	// flat shallow pond, inverted pyramid pond, water maze, dented in quiet zone, checkered water, water labyrinth 
-//	private enum CenterStyle {EMPTY, QUIET_ZONE, ART_ZONE, SHALLOW_POND, PYRAMID_POND, WATER_MAZE, WATER_CHECKER, WATER_CIRCLE, WATER_LABYRINTH};
+//	more CenterStyles {...WATER_MAZE, WATER_CHECKER, WATER_CIRCLE, WATER_LABYRINTH};
 	public enum CenterStyle {EMPTY, QUIET_ZONE, ART_ZONE, CHECKER_ART, SHALLOW_POND, ROUND_POND, PYRAMID_POND, CHECKER_POND, UPWARD_POND, DOWNWARD_POND};
 	private CenterStyle centerStyle;
 	
@@ -96,18 +96,18 @@ public class ConcreteLot extends BuildingLot {
 			RoundaboutCenterLot.generateArt(chunk, chunkOdds, 6, sidewalkLevel, 6, Material.QUARTZ_BLOCK);
 			break;
 		case UPWARD_POND:
-			chunk.setBlocks(3, 13, sidewalkLevel, 3, 13, Material.DOUBLE_STEP);
+			chunk.setBlocks(3, 13, sidewalkLevel, 3, 13, Material.STONE_SLAB, Type.DOUBLE);
 			chunk.setBlocks(4, 12, sidewalkLevel + 1, 4, 12, Material.STONE_SLAB);
-			chunk.setBlocks(5, 11, sidewalkLevel + 1, 5, 11, Material.DOUBLE_STEP);
+			chunk.setBlocks(5, 11, sidewalkLevel + 1, 5, 11, Material.STONE_SLAB, Type.DOUBLE);
 			chunk.setBlocks(6, 10, sidewalkLevel + 2, 6, 10, Material.STONE_SLAB);
 			
 			chunk.clearBlocks(7, 9, sidewalkLevel + 2, 7, 9);
 			chunk.setBlocks(7, 9, sidewalkLevel + 1, 7, 9, fluid);
 			break;
 		case DOWNWARD_POND:
-			chunk.setBlocks(3, 13, sidewalkLevel - 1, 3, 13, Material.DOUBLE_STEP);
+			chunk.setBlocks(3, 13, sidewalkLevel - 1, 3, 13, Material.STONE_SLAB, Type.DOUBLE);
 			chunk.setBlocks(4, 12, sidewalkLevel - 1, 4, 12, Material.STONE_SLAB);
-			chunk.setBlocks(5, 11, sidewalkLevel - 2, 5, 11, Material.DOUBLE_STEP);
+			chunk.setBlocks(5, 11, sidewalkLevel - 2, 5, 11, Material.STONE_SLAB, Type.DOUBLE);
 			chunk.setBlocks(6, 10, sidewalkLevel - 2, 6, 10, Material.STONE_SLAB);
 			
 			chunk.clearBlocks(3, 13, sidewalkLevel, 3, 13);
@@ -181,14 +181,14 @@ public class ConcreteLot extends BuildingLot {
 			chunk.clearBlocks(2, 14, sidewalkLevel, 2, 14);
 			boolean randomColor = chunkOdds.playOdds(Odds.oddsSomewhatUnlikely);
 			ColorSet colors = chunkOdds.getRandomColorSet();
-			DyeColor color = chunkOdds.getRandomColor(colors);
+			Material color = chunkOdds.getColoredGlass(colors);
 			int inset = 0;
 			for (int z = 3; z < 13; z++) {
 				inset = inset == 1 ? 0 : 1;
 				for (int x = 3; x < 13; x += 2) {
-					chunk.setGlass(x + inset, x + inset + 1, sidewalkLevel - 1, sidewalkLevel + chunkOdds.calcRandomRange(3, 5), z, z + 1, color);
+					chunk.setBlocks(x + inset, x + inset + 1, sidewalkLevel - 1, sidewalkLevel + chunkOdds.calcRandomRange(3, 5), z, z + 1, color);
 					if (randomColor)
-						color = chunkOdds.getRandomColor(colors);
+						color = chunkOdds.getColoredGlass(colors);
 				}
 			}
 		}

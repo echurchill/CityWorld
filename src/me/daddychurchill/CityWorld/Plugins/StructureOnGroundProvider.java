@@ -59,30 +59,30 @@ public class StructureOnGroundProvider extends Provider {
 		case 0: // north
 			chunk.setWoodenDoor(x1 + odds.getRandomInt(xR) + 1, y1, z1, BadMagic.Door.NORTHBYNORTHEAST);
 			chunk.setBlock(x1 + odds.getRandomInt(xR) + 1, y1 + 1, z2 - 1, materialGlass);
-			placeShedTable(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z2 - 2, BadMagic.General.SOUTH);
-			placeShedChest(generator, chunk, odds, x1 - 1, y1, z1 + odds.getRandomInt(zR) + 1, BadMagic.General.WEST, location);
-			placeShedChest(generator, chunk, odds, x2, y1, z1 + odds.getRandomInt(zR) + 1, BadMagic.General.EAST, other);
+			placeShedTable(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z2 - 2, BadMagic.BlockFace.SOUTH);
+			placeShedChest(generator, chunk, odds, x1 - 1, y1, z1 + odds.getRandomInt(zR) + 1, BadMagic.BlockFace.WEST, location);
+			placeShedChest(generator, chunk, odds, x2, y1, z1 + odds.getRandomInt(zR) + 1, BadMagic.BlockFace.EAST, other);
 			break;
 		case 1: // south
 			chunk.setWoodenDoor(x1 + odds.getRandomInt(xR) + 1, y1, z2 - 1, BadMagic.Door.SOUTHBYSOUTHWEST);
 			chunk.setBlock(x1 + odds.getRandomInt(xR) + 1, y1 + 1, z1, materialGlass);
-			placeShedTable(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z1 + 1, BadMagic.General.NORTH);
-			placeShedChest(generator, chunk, odds, x1 - 1, y1, z1 + odds.getRandomInt(zR) + 1, BadMagic.General.WEST, location);
-			placeShedChest(generator, chunk, odds, x2, y1, z1 + odds.getRandomInt(zR) + 1, BadMagic.General.EAST, other);
+			placeShedTable(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z1 + 1, BadMagic.BlockFace.NORTH);
+			placeShedChest(generator, chunk, odds, x1 - 1, y1, z1 + odds.getRandomInt(zR) + 1, BadMagic.BlockFace.WEST, location);
+			placeShedChest(generator, chunk, odds, x2, y1, z1 + odds.getRandomInt(zR) + 1, BadMagic.BlockFace.EAST, other);
 			break;
 		case 2: // west
 			chunk.setWoodenDoor(x1, y1, z1 + odds.getRandomInt(zR) + 1, BadMagic.Door.WEST_NORTH_WEST);
 			chunk.setBlock(x2 - 1, y1 + 1, z1 + odds.getRandomInt(zR) + 1, materialGlass);
-			placeShedTable(generator, chunk, odds, x2 - 2, y1, z1 + odds.getRandomInt(zR) + 1, BadMagic.General.EAST);
-			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z1 - 1, BadMagic.General.NORTH, location);
-			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z2, BadMagic.General.SOUTH, other);
+			placeShedTable(generator, chunk, odds, x2 - 2, y1, z1 + odds.getRandomInt(zR) + 1, BadMagic.BlockFace.EAST);
+			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z1 - 1, BadMagic.BlockFace.NORTH, location);
+			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z2, BadMagic.BlockFace.SOUTH, other);
 			break;
 		default: // east
 			chunk.setWoodenDoor(x1, y1, z1 + odds.getRandomInt(zR) + 1, BadMagic.Door.EASTBYSOUTHEAST);
 			chunk.setBlock(x2 - 1, y1 + 1, z1 + odds.getRandomInt(zR) + 1, materialGlass);
-			placeShedTable(generator, chunk, odds, x1 + 1, y1, z1 + odds.getRandomInt(zR) + 1, BadMagic.General.WEST);
-			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z1 - 1, BadMagic.General.NORTH, location);
-			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z2, BadMagic.General.SOUTH, other);
+			placeShedTable(generator, chunk, odds, x1 + 1, y1, z1 + odds.getRandomInt(zR) + 1, BadMagic.BlockFace.WEST);
+			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z1 - 1, BadMagic.BlockFace.NORTH, location);
+			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z2, BadMagic.BlockFace.SOUTH, other);
 			break;
 		}
 	}

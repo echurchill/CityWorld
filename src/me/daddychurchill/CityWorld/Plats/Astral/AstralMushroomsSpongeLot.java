@@ -1,6 +1,5 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
@@ -72,7 +71,7 @@ public class AstralMushroomsSpongeLot extends AstralNatureLot {
 				
 				// top it off
 				chunk.setBlocks(x, x + 2, topY, topY + 1, z, z + 2, Material.GLOWSTONE);
-				chunk.setThinGlass(x, x + 2, topY + 1, topY + 2, z, z + 2, DyeColor.YELLOW);
+				chunk.setBlocks(x, x + 2, topY + 1, topY + 2, z, z + 2, Material.YELLOW_STAINED_GLASS_PANE);
 			}
 		}
 	}
@@ -131,17 +130,17 @@ public class AstralMushroomsSpongeLot extends AstralNatureLot {
 		case 2:
 		case 3:
 		case 4:
-			blocks.setGlass(x, y, z, DyeColor.BROWN);
+			blocks.setBlock(x, y, z, Material.BROWN_STAINED_GLASS);
 			break;
 		case 5:
 		case 6:
 		case 7:
-			blocks.setGlass(x, y, z, DyeColor.YELLOW);
+			blocks.setBlock(x, y, z, Material.YELLOW_STAINED_GLASS);
 			break;
 		case 8:
 		case 9:
 		case 10:
-			blocks.setGlass(x, y, z, DyeColor.ORANGE);
+			blocks.setBlock(x, y, z, Material.ORANGE_STAINED_GLASS);
 			break;
 		default:
 			blocks.setBlock(x, y, z, Material.SPONGE);

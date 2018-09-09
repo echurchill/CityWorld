@@ -113,7 +113,7 @@ public class MuseumBuildingLot extends FinishedBuildingLot {
 					
 				} else {
 					chunk.setBlocks(7, sidewalkLevel + 1, sidewalkLevel + 3, 4, Material.STONE);
-					chunk.setWallSign(7, sidewalkLevel + 2, 3, General.NORTH, generator.odonymProvider.generateFossilOdonym(generator, chunkOdds));
+					chunk.setWallSign(7, sidewalkLevel + 2, 3, BlockFace.NORTH, generator.odonymProvider.generateFossilOdonym(generator, chunkOdds));
 					chunk.setTorch(7, sidewalkLevel + 2, 5, Material.TORCH, Torch.SOUTH);
 				}
 			}

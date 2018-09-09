@@ -1,6 +1,5 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
@@ -20,8 +19,8 @@ public class AstralBuriedRoadLot extends AstralBuriedCityLot {
 		this.style = style;
 	}
 	
-	private static DyeColor roadColor = DyeColor.BLACK;
-	private static Material sidewalkMaterial = Material.slab DOUBLE_STEP;
+	private static Material roadMaterial = Material.BLACK_TERRACOTTA;
+	private static Material sidewalkMaterial = Material.STONE; //@@ Material.slab DOUBLE_STEP;
 	private static double oddsOfLandedSaucer = Odds.oddsEnormouslyUnlikely;
 
 	@Override
@@ -30,29 +29,29 @@ public class AstralBuriedRoadLot extends AstralBuriedCityLot {
 			int platZ) {
 		
 		if (style == SidewalkStyle.NONE)
-			chunk.setClay(0, 16, StreetLevel, StreetLevel + 1, 0, 16, roadColor);
+			chunk.setBlocks(0, 16, StreetLevel, StreetLevel + 1, 0, 16, roadMaterial);
 		else {
 			chunk.setBlocks(0, 3, StreetLevel, StreetLevel + 1, 0, 3, sidewalkMaterial);
 			chunk.setBlocks(13, 16, StreetLevel, StreetLevel + 1, 0, 3, sidewalkMaterial);
 			chunk.setBlocks(0, 3, StreetLevel, StreetLevel + 1, 13, 16, sidewalkMaterial);
 			chunk.setBlocks(13, 16, StreetLevel, StreetLevel + 1, 13, 16, sidewalkMaterial);
 
-			chunk.setClay(3, 13, StreetLevel, StreetLevel + 1, 3, 13, roadColor);
+			chunk.setBlocks(3, 13, StreetLevel, StreetLevel + 1, 3, 13, roadMaterial);
 			
 			if (style == SidewalkStyle.NORTHSOUTH) {
 				chunk.setBlocks(3, 13, StreetLevel, StreetLevel + 1, 0, 3, sidewalkMaterial);
 				chunk.setBlocks(3, 13, StreetLevel, StreetLevel + 1, 13, 16, sidewalkMaterial);
 			} else {
-				chunk.setClay(3, 13, StreetLevel, StreetLevel + 1, 0, 3, roadColor);
-				chunk.setClay(3, 13, StreetLevel, StreetLevel + 1, 13, 16, roadColor);
+				chunk.setBlocks(3, 13, StreetLevel, StreetLevel + 1, 0, 3, roadMaterial);
+				chunk.setBlocks(3, 13, StreetLevel, StreetLevel + 1, 13, 16, roadMaterial);
 			}
 				
 			if (style == SidewalkStyle.EASTWEST) {
 				chunk.setBlocks(0, 3, StreetLevel, StreetLevel + 1, 3, 13, sidewalkMaterial);
 				chunk.setBlocks(13, 16, StreetLevel, StreetLevel + 1, 3, 13, sidewalkMaterial);
 			} else {
-				chunk.setClay(0, 3, StreetLevel, StreetLevel + 1, 3, 13, roadColor);
-				chunk.setClay(13, 16, StreetLevel, StreetLevel + 1, 3, 13, roadColor);
+				chunk.setBlocks(0, 3, StreetLevel, StreetLevel + 1, 3, 13, roadMaterial);
+				chunk.setBlocks(13, 16, StreetLevel, StreetLevel + 1, 3, 13, roadMaterial);
 			}
 			
 			if (style == SidewalkStyle.INTERSECTION) {

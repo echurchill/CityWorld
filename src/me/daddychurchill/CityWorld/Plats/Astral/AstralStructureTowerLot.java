@@ -7,8 +7,9 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.MazeArray.MazeBit;
 
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Bisected.Half;
 
 public abstract class AstralStructureTowerLot extends AstralStructureLot {
 
@@ -31,15 +32,15 @@ public abstract class AstralStructureTowerLot extends AstralStructureLot {
 		// set things up for darkness
 		Material wallMaterial = generator.materialProvider.itemsSelectMaterial_AstralTowerDark.getRandomMaterial(chunkOdds, Material.OBSIDIAN);
 		Material trimMaterial = generator.materialProvider.itemsSelectMaterial_AstralTowerTrim.getRandomMaterial(chunkOdds, Material.AIR);
-		DyeColor windowPrimaryColor = DyeColor.BLACK;
-		DyeColor windowSecondaryColor = DyeColor.PURPLE;
+		Material windowPrimaryColor = Material.BLACK_STAINED_GLASS;
+		Material windowSecondaryColor = Material.PURPLE_STAINED_GLASS;
 		
 		// adjust for lightness
 		if (style == TowerStyle.LIGHT) {
 			wallMaterial = generator.materialProvider.itemsSelectMaterial_AstralTowerLight.getRandomMaterial(chunkOdds, Material.END_STONE);
 			trimMaterial = generator.materialProvider.itemsSelectMaterial_AstralTowerTrim.getRandomMaterial(chunkOdds, Material.GLOWSTONE);
-			windowPrimaryColor = DyeColor.WHITE;
-			windowSecondaryColor = DyeColor.LIGHT_GRAY;
+			windowPrimaryColor = Material.WHITE_STAINED_GLASS;
+			windowSecondaryColor = Material.LIGHT_GRAY_STAINED_GLASS;
 		}
 		
 		// calculate a few things
@@ -58,7 +59,7 @@ public abstract class AstralStructureTowerLot extends AstralStructureLot {
 				int x = chunkOdds.getRandomInt(mazeWidth / 2) * 4 + 1;
 				int z = chunkOdds.getRandomInt(mazeWidth / 2) * 4 + 1;
 				if (y1 == y2 - 1)
-					chunk.setTrapDoor(x, y1, z, TrapDoor.TOP_NORTH);
+					chunk.setBlock(x, y1, z, Material.BIRCH_TRAPDOOR, BlockFace.NORTH, Half.TOP);
 				else
 					chunk.setBlocks(x, x + 2, y1, y1 + 1, z, z + 2, getHallMaterial(generator));
 			}
@@ -109,19 +110,19 @@ public abstract class AstralStructureTowerLot extends AstralStructureLot {
 		// top windows
 		y1 = y1 - towerFloorHeight + 1;
 		for (int i = 1; i < 15; i += 4) {
-			chunk.setGlass(i, i + 2, y1, y1 + 2, 0, 1, windowPrimaryColor);
-			chunk.setGlass(i, i + 2, y1, y1 + 2, 15, 16, windowPrimaryColor);
-			chunk.setGlass(0, 1, y1, y1 + 2, i, i + 2, windowPrimaryColor);
-			chunk.setGlass(15, 16, y1, y1 + 2, i, i + 2, windowPrimaryColor);
+			chunk.setBlocks(i, i + 2, y1, y1 + 2, 0, 1, windowPrimaryColor);
+			chunk.setBlocks(i, i + 2, y1, y1 + 2, 15, 16, windowPrimaryColor);
+			chunk.setBlocks(0, 1, y1, y1 + 2, i, i + 2, windowPrimaryColor);
+			chunk.setBlocks(15, 16, y1, y1 + 2, i, i + 2, windowPrimaryColor);
 		}
 			
 		// top windows
 		y1 = y1 - towerFloorHeight;
 		for (int i = 5; i < 10; i += 4) {
-			chunk.setGlass(i, i + 2, y1, y1 + 2, 0, 1, windowSecondaryColor);
-			chunk.setGlass(i, i + 2, y1, y1 + 2, 15, 16, windowSecondaryColor);
-			chunk.setGlass(0, 1, y1, y1 + 2, i, i + 2, windowSecondaryColor);
-			chunk.setGlass(15, 16, y1, y1 + 2, i, i + 2, windowSecondaryColor);
+			chunk.setBlocks(i, i + 2, y1, y1 + 2, 0, 1, windowSecondaryColor);
+			chunk.setBlocks(i, i + 2, y1, y1 + 2, 15, 16, windowSecondaryColor);
+			chunk.setBlocks(0, 1, y1, y1 + 2, i, i + 2, windowSecondaryColor);
+			chunk.setBlocks(15, 16, y1, y1 + 2, i, i + 2, windowSecondaryColor);
 		}
 		
 	}

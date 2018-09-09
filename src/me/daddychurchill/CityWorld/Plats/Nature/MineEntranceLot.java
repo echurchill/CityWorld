@@ -5,13 +5,14 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Bisected.Half;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class MineEntranceLot extends ConstructLot {
@@ -102,48 +103,48 @@ public class MineEntranceLot extends ConstructLot {
 		// now do the stair
 		do {
 			shaftY = generateStairs(generator, chunk, odds, offX + 3, shaftY, offZ + 2, 
-					BadMagic.Stair.NORTH, BadMagic.Stair.SOUTHFLIP, stairs);
+					BlockFace.NORTH, BlockFace.SOUTH, stairs);
 			if (shaftY > surfaceY)
 				break;
 			shaftY = generateStairs(generator, chunk, odds, offX + 3, shaftY, offZ + 1, 
-					BadMagic.Stair.NORTH, BadMagic.Stair.EASTFLIP, stairs);
+					BlockFace.NORTH, BlockFace.EAST, stairs);
 			if (shaftY > surfaceY)
 				break;
 			generateLanding(generator, chunk, odds, offX + 3, shaftY, offZ + 0, 
-					BadMagic.Stair.EASTFLIP, stairs, landing);
+					BlockFace.EAST, stairs, landing);
 
 			shaftY = generateStairs(generator, chunk, odds, offX + 2, shaftY, offZ + 0, 
-					BadMagic.Stair.WEST, BadMagic.Stair.EASTFLIP, stairs);
+					BlockFace.WEST, BlockFace.EAST, stairs);
 			if (shaftY > surfaceY)
 				break;
 			shaftY = generateStairs(generator, chunk, odds, offX + 1, shaftY, offZ + 0, 
-					BadMagic.Stair.WEST, BadMagic.Stair.NORTHFLIP, stairs);
+					BlockFace.WEST, BlockFace.NORTH, stairs);
 			if (shaftY > surfaceY)
 				break;
 			generateLanding(generator, chunk, odds, offX + 0, shaftY, offZ + 0, 
-					BadMagic.Stair.NORTHFLIP, stairs, landing);
+					BlockFace.NORTH, stairs, landing);
 
 			shaftY = generateStairs(generator, chunk, odds, offX + 0, shaftY, offZ + 1, 
-					BadMagic.Stair.SOUTH, BadMagic.Stair.NORTHFLIP, stairs);
+					BlockFace.SOUTH, BlockFace.NORTH, stairs);
 			if (shaftY > surfaceY)
 				break;
 			shaftY = generateStairs(generator, chunk, odds, offX + 0, shaftY, offZ + 2, 
-					BadMagic.Stair.SOUTH, BadMagic.Stair.WESTFLIP, stairs);
+					BlockFace.SOUTH, BlockFace.WEST, stairs);
 			if (shaftY > surfaceY)
 				break;
 			generateLanding(generator, chunk, odds, offX + 0, shaftY, offZ + 3, 
-					BadMagic.Stair.WESTFLIP, stairs, landing);
+					BlockFace.WEST, stairs, landing);
 
 			shaftY = generateStairs(generator, chunk, odds, offX + 1, shaftY, offZ + 3, 
-					BadMagic.Stair.EAST, BadMagic.Stair.WESTFLIP, stairs);
+					BlockFace.EAST, BlockFace.WEST, stairs);
 			if (shaftY > surfaceY)
 				break;
 			shaftY = generateStairs(generator, chunk, odds, offX + 2, shaftY, offZ + 3, 
-					BadMagic.Stair.EAST, BadMagic.Stair.SOUTHFLIP, stairs);
+					BlockFace.EAST, BlockFace.SOUTH, stairs);
 			if (shaftY > surfaceY)
 				break;
 			generateLanding(generator, chunk, odds, offX + 3, shaftY, offZ + 3, 
-					BadMagic.Stair.SOUTHFLIP, stairs, landing);
+					BlockFace.SOUTH, stairs, landing);
 		} while (shaftY <= surfaceY);
 		
 //		//TODO remove this flag!
@@ -151,14 +152,14 @@ public class MineEntranceLot extends ConstructLot {
 	}
 	
 	public static int generateStairs(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y, int z, 
-			BadMagic.Stair direction, BadMagic.Stair underdirection, Material stairs) {
+			BlockFace direction, BlockFace underdirection, Material stairs) {
 		chunk.setBlocks(x, y + 1, y + 4, z, Material.AIR);
 		
 		// make a step... or not...
 		if (!generator.settings.includeDecayedBuildings || odds.playOdds(oddsOfStairs)) {
 			chunk.setBlock(x, y, z, stairs, direction);
 			if (chunk.isEmpty(x, y - 1, z))
-				chunk.setBlock(x, y - 1, z, stairs, underdirection);
+				chunk.setBlock(x, y - 1, z, stairs, underdirection, Half.TOP);
 		}
 		
 		// moving on up
@@ -169,14 +170,14 @@ public class MineEntranceLot extends ConstructLot {
 	}
 	
 	public static void generateLanding(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y, int z, 
-			BadMagic.Stair underdirection, Material stairs, Material landing) {
+			BlockFace underdirection, Material stairs, Material landing) {
 		chunk.setBlocks(x, y, y + 3, z, Material.AIR);
 		
 		// make a landing... or not...
 		if (!generator.settings.includeDecayedBuildings || odds.playOdds(oddsOfLanding)) {
 			chunk.setBlock(x, y - 1, z, landing);
 			if (chunk.isEmpty(x, y - 2, z))
-				chunk.setBlock(x, y - 2, z, stairs, underdirection);
+				chunk.setBlock(x, y - 2, z, stairs, underdirection, Half.TOP);
 		}
 	}
 }

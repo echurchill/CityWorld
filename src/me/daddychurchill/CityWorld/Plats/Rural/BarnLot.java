@@ -1,12 +1,9 @@
 package me.daddychurchill.CityWorld.Plats.Rural;
 
 import org.bukkit.Material;
-import org.bukkit.TreeSpecies;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.EntityType;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
-import org.bukkit.material.MaterialData;
-import org.bukkit.Material.SPRUCE_WOOD;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
@@ -14,8 +11,6 @@ import me.daddychurchill.CityWorld.Plats.IsolatedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 
-import me.daddychurchill.CityWorld.Support.BadMagic.General;
-import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -25,9 +20,7 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 public class BarnLot extends IsolatedLot {
 
 	private Material wallMat;
-	private MaterialData wallData;
 	private Material roofMat;
-	private MaterialData roofData;
 	private Material windowsMat;
 	
 	public BarnLot(PlatMap platmap, int chunkX, int chunkZ) {
@@ -35,10 +28,8 @@ public class BarnLot extends IsolatedLot {
 		
 		style = LotStyle.STRUCTURE;
 		
-		wallMat = Material.SPRUCE_WOOD;
-		wallData = new Wood(TreeSpecies.ACACIA);
-		roofMat = Material.SPRUCE_WOOD;
-		roofData = new Wood(TreeSpecies.BIRCH);
+		wallMat = Material.ACACIA_WOOD;
+		roofMat = Material.BIRCH_WOOD;
 		windowsMat = Material.GLASS_PANE;
 	}
 
@@ -87,7 +78,7 @@ public class BarnLot extends IsolatedLot {
 		int y3 = y2 + 4;
 		
 		// walls and windows first
-		chunk.setWalls(1, 15, y1, y3, 1, 15, wallMat, wallData);
+		chunk.setWalls(1, 15, y1, y3, 1, 15, wallMat);
 		punchWindows(chunk, y1 + 1);
 		punchWindows(chunk, y2 + 1);
 
@@ -111,7 +102,7 @@ public class BarnLot extends IsolatedLot {
 				chunk.setBlocks(4, 5, y1, 2, 6, Material.SPRUCE_FENCE);
 				chunk.setBlocks(4, 5, y1, 10, 14, Material.SPRUCE_FENCE);
 				chunk.setBlocks(5, 6, y1, 5, 11, Material.SPRUCE_FENCE);
-				BlackMagic.setBlocks(chunk, 5, 6, y1, 7, 9, Material.SPRUCE_FENCE_GATE, Facing.EAST.getData()); // open east
+				chunk.setBlocks(5, 6, y1, 7, 9, Material.SPRUCE_FENCE_GATE, BlockFace.EAST); // open east
 
 				// hay & water please
 				chunk.setBlock(2, y1, 2, Material.HAY_BLOCK);
@@ -128,7 +119,7 @@ public class BarnLot extends IsolatedLot {
 				chunk.setBlocks(11, 12, y1, 2, 6, Material.SPRUCE_FENCE);
 				chunk.setBlocks(11, 12, y1, 10, 14, Material.SPRUCE_FENCE);
 				chunk.setBlocks(10, 11, y1, 5, 11, Material.SPRUCE_FENCE);
-				BlackMagic.setBlocks(chunk, 10, 11, y1, 7, 9, Material.SPRUCE_FENCE_GATE, Facing.WEST.getData()); // open west
+				chunk.setBlocks(10, 11, y1, 7, 9, Material.SPRUCE_FENCE_GATE, BlockFace.WEST); // open west
 
 				// hay & water please
 				chunk.setBlock(13, y1, 2, Material.HAY_BLOCK);
@@ -145,10 +136,10 @@ public class BarnLot extends IsolatedLot {
 			hayLoft(chunk, 11, 14, y2, 2, 14);
 
 			// columns
-			chunk.setBlocks(4, y1, y2, 4, wallMat, wallData);
-			chunk.setBlocks(11, y1, y2, 4, wallMat, wallData);
-			chunk.setBlocks(4, y1, y2, 11, wallMat, wallData);
-			chunk.setBlocks(11, y1, y2, 11, wallMat, wallData);
+			chunk.setBlocks(4, y1, y2, 4, wallMat);
+			chunk.setBlocks(11, y1, y2, 4, wallMat);
+			chunk.setBlocks(4, y1, y2, 11, wallMat);
+			chunk.setBlocks(11, y1, y2, 11, wallMat);
 			
 			// access and back fill
 			if (firstDoor) {
@@ -160,8 +151,8 @@ public class BarnLot extends IsolatedLot {
 					hayPile(chunk, 5, 11, y1, 11, 14);
 					
 					// treasures
-					placeChest(generator, chunk, 7, y1, 10, General.NORTH);
-					placeChest(generator, chunk, 8, y1, 10, General.NORTH);
+					placeChest(generator, chunk, 7, y1, 10, BlockFace.NORTH);
+					placeChest(generator, chunk, 8, y1, 10, BlockFace.NORTH);
 				}
 			}
 			if (secondDoor) { 
@@ -173,31 +164,31 @@ public class BarnLot extends IsolatedLot {
 					hayPile(chunk, 5, 11, y1, 2, 5);
 
 					// treasures
-					placeChest(generator, chunk, 7, y1, 5, General.SOUTH);
-					placeChest(generator, chunk, 8, y1, 5, General.SOUTH);
+					placeChest(generator, chunk, 7, y1, 5, BlockFace.SOUTH);
+					placeChest(generator, chunk, 8, y1, 5, BlockFace.SOUTH);
 				}
 			}
 			
 			// roof
-			chunk.setBlocks(0, 1, y3 - 1, 0, 16, roofMat, roofData);
-			chunk.setBlocks(1, 2, y3, 0, 16, roofMat, roofData);
-			chunk.setBlocks(2, 3, y3 + 1, 0, 16, roofMat, roofData);
-			chunk.setBlocks(3, 5, y3 + 2, 0, 16, roofMat, roofData);
-			chunk.setBlocks(5, 7, y3 + 3, 0, 16, roofMat, roofData);
-			chunk.setBlocks(7, 9, y3 + 4, 0, 16, roofMat, roofData);
-			chunk.setBlocks(9, 11, y3 + 3, 0, 16, roofMat, roofData);
-			chunk.setBlocks(11, 13, y3 + 2, 0, 16, roofMat, roofData);
-			chunk.setBlocks(13, 14, y3 + 1, 0, 16, roofMat, roofData);
-			chunk.setBlocks(14, 15, y3, 0, 16, roofMat, roofData);
-			chunk.setBlocks(15, 16, y3 - 1, 0, 16, roofMat, roofData);
+			chunk.setBlocks(0, 1, y3 - 1, 0, 16, roofMat);
+			chunk.setBlocks(1, 2, y3, 0, 16, roofMat);
+			chunk.setBlocks(2, 3, y3 + 1, 0, 16, roofMat);
+			chunk.setBlocks(3, 5, y3 + 2, 0, 16, roofMat);
+			chunk.setBlocks(5, 7, y3 + 3, 0, 16, roofMat);
+			chunk.setBlocks(7, 9, y3 + 4, 0, 16, roofMat);
+			chunk.setBlocks(9, 11, y3 + 3, 0, 16, roofMat);
+			chunk.setBlocks(11, 13, y3 + 2, 0, 16, roofMat);
+			chunk.setBlocks(13, 14, y3 + 1, 0, 16, roofMat);
+			chunk.setBlocks(14, 15, y3, 0, 16, roofMat);
+			chunk.setBlocks(15, 16, y3 - 1, 0, 16, roofMat);
 			
 			// end cap
-			chunk.setBlocks(2, 14, y3, 1, 2, wallMat, wallData);
-			chunk.setBlocks(3, 13, y3 + 1, 1, 2, wallMat, wallData);
-			chunk.setBlocks(5, 11, y3 + 2, 1, 2, wallMat, wallData);
-			chunk.setBlocks(2, 14, y3, 14, 15, wallMat, wallData);
-			chunk.setBlocks(3, 13, y3 + 1, 14, 15, wallMat, wallData);
-			chunk.setBlocks(5, 11, y3 + 2, 14, 15, wallMat, wallData);
+			chunk.setBlocks(2, 14, y3, 1, 2, wallMat);
+			chunk.setBlocks(3, 13, y3 + 1, 1, 2, wallMat);
+			chunk.setBlocks(5, 11, y3 + 2, 1, 2, wallMat);
+			chunk.setBlocks(2, 14, y3, 14, 15, wallMat);
+			chunk.setBlocks(3, 13, y3 + 1, 14, 15, wallMat);
+			chunk.setBlocks(5, 11, y3 + 2, 14, 15, wallMat);
 			
 			// a few more windows
 			punchWindows(chunk, 7, y3 + 2, 1);
@@ -212,7 +203,7 @@ public class BarnLot extends IsolatedLot {
 				chunk.setBlocks(2, 6, y1, 4, 5, Material.SPRUCE_FENCE);
 				chunk.setBlocks(10, 14, y1, 4, 5, Material.SPRUCE_FENCE);
 				chunk.setBlocks(5, 11, y1, 5, 6, Material.SPRUCE_FENCE);
-				BlackMagic.setBlocks(chunk, 7, 9, y1, 5, 6, Material.SPRUCE_FENCE_GATE, Facing.SOUTH.getData()); // open south
+				chunk.setBlocks(7, 9, y1, 5, 6, Material.SPRUCE_FENCE_GATE, BlockFace.SOUTH); // open south
 
 				// hay & water please
 				chunk.setBlock(2, y1, 2, Material.HAY_BLOCK);
@@ -229,7 +220,7 @@ public class BarnLot extends IsolatedLot {
 				chunk.setBlocks(2, 6, y1, 11, 12, Material.SPRUCE_FENCE);
 				chunk.setBlocks(10, 14, y1, 11, 12, Material.SPRUCE_FENCE);
 				chunk.setBlocks(5, 11, y1, 10, 11, Material.SPRUCE_FENCE);
-				BlackMagic.setBlocks(chunk, 7, 9, y1, 10, 11, Material.SPRUCE_FENCE_GATE, Facing.NORTH.getData()); // open north
+				chunk.setBlocks(7, 9, y1, 10, 11, Material.SPRUCE_FENCE_GATE, BlockFace.NORTH); // open north
 
 				// hay & water please
 				chunk.setBlock(2, y1, 13, Material.HAY_BLOCK);
@@ -246,10 +237,10 @@ public class BarnLot extends IsolatedLot {
 			hayLoft(chunk, 2, 14, y2, 11, 14);
 
 			// columns
-			chunk.setBlocks(4, y1, y2, 4, wallMat, wallData);
-			chunk.setBlocks(11, y1, y2, 4, wallMat, wallData);
-			chunk.setBlocks(4, y1, y2, 11, wallMat, wallData);
-			chunk.setBlocks(11, y1, y2, 11, wallMat, wallData);
+			chunk.setBlocks(4, y1, y2, 4, wallMat);
+			chunk.setBlocks(11, y1, y2, 4, wallMat);
+			chunk.setBlocks(4, y1, y2, 11, wallMat);
+			chunk.setBlocks(11, y1, y2, 11, wallMat);
 			
 			// access and back fill
 			if (firstDoor) {
@@ -261,8 +252,8 @@ public class BarnLot extends IsolatedLot {
 					hayPile(chunk, 11, 14, y1, 5, 11);
 
 					// treasures
-					placeChest(generator, chunk, 10, y1, 7, General.WEST);
-					placeChest(generator, chunk, 10, y1, 8, General.WEST);
+					placeChest(generator, chunk, 10, y1, 7, BlockFace.WEST);
+					placeChest(generator, chunk, 10, y1, 8, BlockFace.WEST);
 				}
 			}
 			if (secondDoor) {
@@ -274,31 +265,31 @@ public class BarnLot extends IsolatedLot {
 					hayPile(chunk, 2, 5, y1, 5, 11);
 
 					// treasures
-					placeChest(generator, chunk, 5, y1, 7, General.EAST);
-					placeChest(generator, chunk, 5, y1, 8, General.EAST);
+					placeChest(generator, chunk, 5, y1, 7, BlockFace.EAST);
+					placeChest(generator, chunk, 5, y1, 8, BlockFace.EAST);
 				}
 			}
 			
 			// roof
-			chunk.setBlocks(0, 16, y3 - 1, 0, 1, roofMat, roofData);
-			chunk.setBlocks(0, 16, y3, 1, 2, roofMat, roofData);
-			chunk.setBlocks(0, 16, y3 + 1, 2, 3, roofMat, roofData);
-			chunk.setBlocks(0, 16, y3 + 2, 3, 5, roofMat, roofData);
-			chunk.setBlocks(0, 16, y3 + 3, 5, 7, roofMat, roofData);
-			chunk.setBlocks(0, 16, y3 + 4, 7, 9, roofMat, roofData);
-			chunk.setBlocks(0, 16, y3 + 3, 9, 11, roofMat, roofData);
-			chunk.setBlocks(0, 16, y3 + 2, 11, 13, roofMat, roofData);
-			chunk.setBlocks(0, 16, y3 + 1, 13, 14, roofMat, roofData);
-			chunk.setBlocks(0, 16, y3, 14, 15, roofMat, roofData);
-			chunk.setBlocks(0, 16, y3 - 1, 15, 16, roofMat, roofData);
+			chunk.setBlocks(0, 16, y3 - 1, 0, 1, roofMat);
+			chunk.setBlocks(0, 16, y3, 1, 2, roofMat);
+			chunk.setBlocks(0, 16, y3 + 1, 2, 3, roofMat);
+			chunk.setBlocks(0, 16, y3 + 2, 3, 5, roofMat);
+			chunk.setBlocks(0, 16, y3 + 3, 5, 7, roofMat);
+			chunk.setBlocks(0, 16, y3 + 4, 7, 9, roofMat);
+			chunk.setBlocks(0, 16, y3 + 3, 9, 11, roofMat);
+			chunk.setBlocks(0, 16, y3 + 2, 11, 13, roofMat);
+			chunk.setBlocks(0, 16, y3 + 1, 13, 14, roofMat);
+			chunk.setBlocks(0, 16, y3, 14, 15, roofMat);
+			chunk.setBlocks(0, 16, y3 - 1, 15, 16, roofMat);
 
 			// endcaps
-			chunk.setBlocks(1, 2, y3, 2, 14, wallMat, wallData);
-			chunk.setBlocks(1, 2, y3 + 1, 3, 13, wallMat, wallData);
-			chunk.setBlocks(1, 2, y3 + 2, 5, 11, wallMat, wallData);
-			chunk.setBlocks(14, 15, y3, 2, 14, wallMat, wallData);
-			chunk.setBlocks(14, 15, y3 + 1, 3, 13, wallMat, wallData);
-			chunk.setBlocks(14, 15, y3 + 2, 5, 11, wallMat, wallData);
+			chunk.setBlocks(1, 2, y3, 2, 14, wallMat);
+			chunk.setBlocks(1, 2, y3 + 1, 3, 13, wallMat);
+			chunk.setBlocks(1, 2, y3 + 2, 5, 11, wallMat);
+			chunk.setBlocks(14, 15, y3, 2, 14, wallMat);
+			chunk.setBlocks(14, 15, y3 + 1, 3, 13, wallMat);
+			chunk.setBlocks(14, 15, y3 + 2, 5, 11, wallMat);
 
 			// a few more windows
 			punchWindows(chunk, 1, y3 + 2, 7);
@@ -335,7 +326,7 @@ public class BarnLot extends IsolatedLot {
 	}
 	
 	private void hayLoft(RealBlocks chunk, int x1, int x2, int y, int z1, int z2) {
-		chunk.setBlocks(x1, x2, y, y + 1, z1, z2, wallMat, wallData);
+		chunk.setBlocks(x1, x2, y, y + 1, z1, z2, wallMat);
 		hayPile(chunk, x1, x2, y + 1, z1, z2);
 	}
 	
@@ -347,7 +338,7 @@ public class BarnLot extends IsolatedLot {
 	}
 	
 	private void placeChest(CityWorldGenerator generator, RealBlocks chunk, 
-			int x, int y, int z, General towards) {
+			int x, int y, int z, BlockFace towards) {
 		if (chunkOdds.flipCoin()) {
 			chunk.setChest(generator, x, y, z, towards, chunkOdds, 
 					generator.lootProvider, LootLocation.FARMWORKSOUTPUT);

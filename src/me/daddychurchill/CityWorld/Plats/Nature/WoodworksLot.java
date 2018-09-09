@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plats.Nature;
 
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
@@ -9,8 +10,6 @@ import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
-import me.daddychurchill.CityWorld.Support.BlackMagic;
-import me.daddychurchill.CityWorld.Support.BadMagic.General;
 
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
@@ -69,10 +68,10 @@ public class WoodworksLot extends ConstructLot {
 			int logL = chunkOdds.getRandomInt(3, 3);
 			int logX = x + 6 - logL;
 			if (chunkOdds.flipCoin())
-				BlackMagic.setBlocks(chunk, logX, logX + logL, y, z - 1, z, Material.SPRUCE_LOG, 4);
-			BlackMagic.setBlocks(chunk, logX, logX + logL, y, z, z + 1, Material.SPRUCE_LOG, 4);
+				chunk.setBlocks(logX, logX + logL, y, z - 1, z, Material.SPRUCE_LOG); //@@, 4);
+			chunk.setBlocks(logX, logX + logL, y, z, z + 1, Material.SPRUCE_LOG); //@@, 4);
 			if (chunkOdds.flipCoin())
-				BlackMagic.setBlocks(chunk, logX, logX + logL, y, z + 1, z + 2, Material.SPRUCE_LOG, 4);
+				chunk.setBlocks(logX, logX + logL, y, z + 1, z + 2, Material.SPRUCE_LOG); //@@, 4);
 			break;
 		case 6:
 		case 7:
@@ -84,7 +83,7 @@ public class WoodworksLot extends ConstructLot {
 			break;
 		case 8:
 			if (chunkOdds.flipCoin())
-				chunk.setChest(generator, x + 1, y, z, General.SOUTH, chunkOdds, 
+				chunk.setChest(generator, x + 1, y, z, BlockFace.SOUTH, chunkOdds, 
 						generator.lootProvider, LootLocation.WOODWORKS);
 			if (chunkOdds.flipCoin())
 				chunk.setBlock(x + 3, y, z, Material.CRAFTING_TABLE);
@@ -92,16 +91,16 @@ public class WoodworksLot extends ConstructLot {
 				chunk.setBlock(x + 4, y, z, Material.FURNACE);
 			break;
 		case 9:
-			General direction = General.NORTH;
+			BlockFace direction = BlockFace.NORTH;
 			if (chunkOdds.flipCoin()) {
 				if (chunkOdds.flipCoin())
-					direction = General.SOUTH;
+					direction = BlockFace.SOUTH;
 				chunk.setDoubleChest(generator, chunkOdds.calcRandomRange(x + 1, x + 4), y, z, direction, chunkOdds, 
 							generator.lootProvider, LootLocation.WOODWORKSOUTPUT);
 			} else {
-				direction = General.WEST;
+				direction = BlockFace.WEST;
 				if (chunkOdds.flipCoin())
-					direction = General.EAST;
+					direction = BlockFace.EAST;
 				chunk.setDoubleChest(generator, x, y, chunkOdds.calcRandomRange(z + 1, z + 4), direction, chunkOdds, 
 						generator.lootProvider, LootLocation.WOODWORKSOUTPUT);
 			}
@@ -124,7 +123,7 @@ public class WoodworksLot extends ConstructLot {
 	protected final static int floorHeight = 4;
 
 	protected void generateSection(RealBlocks chunk, int x, int y, int z) {
-		chunk.setBlocks(x, x + sectionWidth + 1, y, y + 1, z, z + sectionWidth + 1, Material.WOOD_STEP);
+		chunk.setBlocks(x, x + sectionWidth + 1, y, y + 1, z, z + sectionWidth + 1, Material.BIRCH_SLAB);
 		
 		generateColumn(chunk, x, y, z);
 		generateColumn(chunk, x + sectionWidth, y, z);

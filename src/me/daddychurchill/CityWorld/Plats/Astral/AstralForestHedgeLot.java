@@ -1,7 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
 import org.bukkit.Material;
-import org.bukkit.TreeSpecies;
 import org.bukkit.block.BlockFace;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
@@ -21,7 +20,7 @@ public class AstralForestHedgeLot extends AstralForestLot {
 			int blockX, int blockY, int blockZ, int snowY) {
 		
 		// Buried bit
-		blocks.setLogs(blockX, blockY, blockY + snowY, blockZ, Material.OAK_LOG, TreeSpecies.GENERIC, BlockFace.UP);
+		blocks.setBlocks(blockX, blockY, blockY + snowY, blockZ, Material.OAK_LOG, BlockFace.UP);
 		blockY += snowY;
 		
 		// how tall is it?
@@ -30,7 +29,7 @@ public class AstralForestHedgeLot extends AstralForestLot {
 		int treeTop = blockY + treeSegment + chunkOdds.getRandomInt(treeSegment * 3);
 		
 		// more trunk!
-		blocks.setLogs(blockX, blockY, treeTop, blockZ, Material.SPRUCE_LOG, TreeSpecies.GENERIC, BlockFace.UP);
+		blocks.setBlocks(blockX, blockY, treeTop, blockZ, Material.SPRUCE_LOG, BlockFace.UP);
 		
 		// now add the hedge bit
 		for (int x = blockX - 1; x < blockX + 2; x++) {

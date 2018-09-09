@@ -425,7 +425,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 	}
 	
 	protected void generateStuff(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z, int width, int depth) {
-		contentsStuff.drawFixtures(generator, chunk, chunkOdds, 1, x, y, z, width, DataContext.FloorHeight, depth, Facing.NORTH, Material.STONE, Material.GLASS);
+		contentsStuff.drawFixtures(generator, chunk, chunkOdds, 1, x, y, z, width, DataContext.FloorHeight, depth, BlockFace.NORTH, Material.STONE, Material.GLASS);
 	}
 	
 	protected void generateOpenings(RealBlocks chunk, int y) {

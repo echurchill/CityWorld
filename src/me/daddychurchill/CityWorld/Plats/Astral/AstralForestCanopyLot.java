@@ -1,7 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
 import org.bukkit.Material;
-import org.bukkit.TreeSpecies;
 import org.bukkit.block.BlockFace;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
@@ -21,7 +20,7 @@ public class AstralForestCanopyLot extends AstralForestLot {
 			int blockX, int blockY, int blockZ, int snowY) {
 		
 		// Buried bit
-		blocks.setLogs(blockX, blockX + 2, blockY, blockY + snowY, blockZ, blockZ + 2, Material.SPRUCE_LOG, TreeSpecies.GENERIC, BlockFace.UP);
+		blocks.setBlocks(blockX, blockX + 2, blockY, blockY + snowY, blockZ, blockZ + 2, Material.SPRUCE_LOG, BlockFace.UP);
 		blockY += snowY;
 		
 		// how tall is it?
@@ -30,7 +29,7 @@ public class AstralForestCanopyLot extends AstralForestLot {
 		int treeTop = blockY + treeSegment + chunkOdds.getRandomInt(treeSegment * 3);
 		
 		// more trunk!
-		blocks.setLogs(blockX, blockX + 2, blockY, treeTop, blockZ, blockZ + 2, Material.SPRUCE_LOG, TreeSpecies.GENERIC, BlockFace.UP);
+		blocks.setBlocks(blockX, blockX + 2, blockY, treeTop, blockZ, blockZ + 2, Material.SPRUCE_LOG, BlockFace.UP);
 		
 		// now add the canopy bit
 		for (int x = blockX - 3; x < blockX + 5; x++) {

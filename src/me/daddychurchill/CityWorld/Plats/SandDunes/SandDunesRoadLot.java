@@ -23,7 +23,7 @@ public class SandDunesRoadLot extends RoadLot {
 	
 	@Override
 	protected Material getSidewalkMaterial() {
-		return Material.DOUBLE_STEP;
+		return Material.STONE;
 	}
 	
 	@Override

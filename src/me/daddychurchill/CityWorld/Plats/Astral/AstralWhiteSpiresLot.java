@@ -1,6 +1,5 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
@@ -60,10 +59,10 @@ public class AstralWhiteSpiresLot extends AstralNatureLot {
 		chunk.setBlocks(x, y + 4, y + 8, z - 2, Material.END_STONE);
 		chunk.setBlocks(x, y + 4, y + 8, z + 2, Material.END_STONE);
 		
-		chunk.setThinGlass(x - 1, y + 7, z, DyeColor.YELLOW);
-		chunk.setThinGlass(x + 1, y + 7, z, DyeColor.YELLOW);
-		chunk.setThinGlass(x, y + 7, z - 1, DyeColor.YELLOW);
-		chunk.setThinGlass(x, y + 7, z + 1, DyeColor.YELLOW);
+		chunk.setBlock(x - 1, y + 7, z, Material.YELLOW_STAINED_GLASS);
+		chunk.setBlock(x + 1, y + 7, z, Material.YELLOW_STAINED_GLASS);
+		chunk.setBlock(x, y + 7, z - 1, Material.YELLOW_STAINED_GLASS);
+		chunk.setBlock(x, y + 7, z + 1, Material.YELLOW_STAINED_GLASS);
 		
 		chunk.setDoPhysics(true);
 		chunk.setBlock(x, y + 7, z, Material.GLOWSTONE);

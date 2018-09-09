@@ -793,6 +793,12 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 
+	public final void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, BlockFace facing) {
+		for (int x = x1; x < x2; x++)
+			for (int z = z1; z < z2; z++)
+				setBlock(x, y, z, material, facing);
+	}
+
 	public final void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, BlockFace facing, Half half) {
 		for (int x = x1; x < x2; x++)
 			for (int z = z1; z < z2; z++)

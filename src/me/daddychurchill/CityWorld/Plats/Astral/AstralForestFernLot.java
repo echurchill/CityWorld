@@ -1,7 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
 import org.bukkit.Material;
-import org.bukkit.TreeSpecies;
 import org.bukkit.block.BlockFace;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -23,7 +22,7 @@ public class AstralForestFernLot extends AstralForestLot {
 			int blockX, int blockY, int blockZ, int snowY) {
 		
 		// Buried bit
-		blocks.setLogs(blockX, blockY, blockY + snowY, blockZ, Material.SPRUCE_LOG, TreeSpecies.GENERIC, BlockFace.UP);
+		blocks.setBlocks(blockX, blockY, blockY + snowY, blockZ, Material.SPRUCE_LOG, BlockFace.UP);
 		blockY += snowY;
 		
 		// how tall is it?
@@ -32,7 +31,7 @@ public class AstralForestFernLot extends AstralForestLot {
 		int treeTop = blockY + treeSegment + chunkOdds.getRandomInt(treeSegment * 2);
 		
 		// more trunk!
-		blocks.setLogs(blockX, blockY, treeTop, blockZ, Material.SPRUCE_LOG, TreeSpecies.GENERIC, BlockFace.UP);
+		blocks.setBlocks(blockX, blockY, treeTop, blockZ, Material.SPRUCE_LOG, BlockFace.UP);
 		
 		// now add the fern bit
 		setLeaf(blocks, blockX, treeTop + 1, blockZ, lightLeaves);

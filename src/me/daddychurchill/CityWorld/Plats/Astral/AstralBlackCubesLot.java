@@ -1,11 +1,11 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
-import me.daddychurchill.CityWorld.Support.BadMagic.General;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
@@ -47,9 +47,9 @@ public class AstralBlackCubesLot extends AstralNatureLot {
 		case 0:
 			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 1, y + cubeWidth - 2, z + 1, z + cubeWidth - 1, Material.AIR);
 			if (chunkOdds.playOdds(populationChance))
-				chunk.setChest(generator, x + 3, y + 1, z + 3, General.NORTH, chunkOdds, generator.lootProvider, LootLocation.RANDOM);
+				chunk.setChest(generator, x + 3, y + 1, z + 3, BlockFace.NORTH, chunkOdds, generator.lootProvider, LootLocation.RANDOM);
 			if (chunkOdds.playOdds(populationChance))
-				chunk.setChest(generator, x + 2, y + 1, z + 2, General.NORTH, chunkOdds, generator.lootProvider, LootLocation.RANDOM);
+				chunk.setChest(generator, x + 2, y + 1, z + 2, BlockFace.NORTH, chunkOdds, generator.lootProvider, LootLocation.RANDOM);
 			break;
 		case 1:
 			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 1, y + cubeWidth - 2, z + 1, z + cubeWidth - 1, 
@@ -70,7 +70,7 @@ public class AstralBlackCubesLot extends AstralNatureLot {
 			break;
 		}
 
-		chunk.setSlabs(x + 1, x + cubeWidth - 1, y + 5, y + 6, z + 1, z + cubeWidth - 1, Material.NETHER_BRICK, false);
+		chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 5, y + 6, z + 1, z + cubeWidth - 1, Material.NETHER_BRICK_SLAB);
 		chunk.setBlock(x + 1, y + 5, z + 1, Material.OBSIDIAN);
 		chunk.setBlock(x + cubeWidth - 2, y + 5, z + 1, Material.OBSIDIAN);
 		chunk.setBlock(x + 1, y + 5, z + cubeWidth - 2, Material.OBSIDIAN);

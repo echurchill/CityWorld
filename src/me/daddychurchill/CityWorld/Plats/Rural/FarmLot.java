@@ -10,7 +10,6 @@ import me.daddychurchill.CityWorld.Plats.ConnectedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageSets;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
-import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -103,7 +102,7 @@ public class FarmLot extends ConnectedLot {
 		return result;
 	}
 
-	protected Material waterMaterial = Material.STATIONARY_WATER;
+	protected Material waterMaterial = Material.WATER;
 	protected final static Material cropNone = Material.DIRT;
 	
 	private final static Material soilMaterial = Material.FARMLAND;
@@ -199,15 +198,15 @@ public class FarmLot extends ConnectedLot {
 			case PADDOCK:
 				chunk.setWalls(1, 15, cropY, cropY + 1, 1, 15, Material.SPRUCE_FENCE);
 				
-				// TODO: I fix the gates one of these days
+				//@@ TODO: I fix the gates one of these days
 				if (chunkOdds.flipCoin())
-					chunk.setBlock(7, cropY, 1, Material.SPRUCE_FENCE_GATE, Facing.NORTH.getData()); // face north
+					chunk.setBlock(7, cropY, 1, Material.SPRUCE_FENCE_GATE, BlockFace.NORTH); // face north
 				if (chunkOdds.flipCoin())
-					chunk.setBlock(7, cropY, 14, Material.SPRUCE_FENCE_GATE, Facing.SOUTH.getData()); // face south
+					chunk.setBlock(7, cropY, 14, Material.SPRUCE_FENCE_GATE, BlockFace.SOUTH); // face south
 				if (chunkOdds.flipCoin())
-					chunk.setBlock(1, cropY, 7, Material.SPRUCE_FENCE_GATE, Facing.WEST.getData()); // face west
+					chunk.setBlock(1, cropY, 7, Material.SPRUCE_FENCE_GATE, BlockFace.WEST); // face west
 				if (chunkOdds.flipCoin())
-					chunk.setBlock(14, cropY, 7, Material.SPRUCE_FENCE_GATE, Facing.EAST.getData()); // face east
+					chunk.setBlock(14, cropY, 7, Material.SPRUCE_FENCE_GATE, BlockFace.EAST); // face east
 				break;
 			case TRELLIS:
 			case VINES:
@@ -492,8 +491,7 @@ public class FarmLot extends ConnectedLot {
 	}
 
 	private void plowField(SupportBlocks chunk, int croplevel, 
-			Material matRidge, int datRidge, Material matFurrow, 
-			int stepCol) {
+			Material matRidge, Material matFurrow, int stepCol) {
 		
 		// do the deed
 		if (directionNorthSouth) {
@@ -501,10 +499,7 @@ public class FarmLot extends ConnectedLot {
 				if (x % stepCol == 0)
 					chunk.setBlocks(x, x + 1, croplevel - 1, croplevel, 1, 15, matFurrow);
 				else {
-					if (datRidge != 0)
-						BlackMagic.setBlocks(chunk, x, x + 1, croplevel - 1, croplevel, 1, 15, matRidge, datRidge);
-					else
-						chunk.setBlocks(x, x + 1, croplevel - 1, croplevel, 1, 15, matRidge);
+					chunk.setBlocks(x, x + 1, croplevel - 1, croplevel, 1, 15, matRidge);
 				}
 			}
 		} else {
@@ -512,10 +507,7 @@ public class FarmLot extends ConnectedLot {
 				if (z % stepCol == 0)
 					chunk.setBlocks(1, 15, croplevel - 1, croplevel, z, z + 1, matFurrow);
 				else {
-					if (datRidge != 0)
-						BlackMagic.setBlocks(chunk, 1, 15, croplevel - 1, croplevel, z, z + 1, matRidge, datRidge);
-					else
-						chunk.setBlocks(1, 15, croplevel - 1, croplevel, z, z + 1, matRidge);
+					chunk.setBlocks(1, 15, croplevel - 1, croplevel, z, z + 1, matRidge);
 				}
 			}
 		}

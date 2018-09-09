@@ -9,7 +9,6 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.Point;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -40,11 +39,11 @@ public class RadioTowerLot extends ConstructLot {
 
 	private final static Material platformMaterial = Material.SMOOTH_STONE;
 	private final static Material supportMaterial = Material.COBBLESTONE;
-	private final static Material wallMaterial = Material.DOUBLE_STEP;
+	private final static Material wallMaterial = Material.STONE;
 	private final static Material roofMaterial = Material.STONE_SLAB;
 	private final static Material baseMaterial = Material.CLAY;
 	private final static Material antennaMaterial = Material.IRON_BARS;
-	private final static Material capBigMaterial = Material.DOUBLE_STEP;
+	private final static Material capBigMaterial = Material.STONE;
 	private final static Material capTinyMaterial = Material.STONE_SLAB;
 	
 	@Override
@@ -116,7 +115,7 @@ public class RadioTowerLot extends ConstructLot {
 
 		// place a door but only if everything is "normal"
 		} else if (building)
-			chunk.setWoodenDoor(originX + 2, platformY, originZ + 3, BadMagic.Door.WEST_NORTH_WEST);
+			chunk.setDoor(originX + 2, platformY, originZ + 3, Material.BIRCH_DOOR, BlockFace.WEST_NORTH_WEST);
 		
 		// place the ladder
 		int ladderBase = platformY - 2;

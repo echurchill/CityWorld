@@ -1,12 +1,10 @@
 package me.daddychurchill.CityWorld.Plats;
 
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
-import org.bukkit.TreeSpecies;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Bisected.Half;
+import org.bukkit.block.data.type.Slab.Type;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
-import org.bukkit.material.SmoothBrick;
-
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
@@ -36,9 +34,9 @@ public class RoadLot extends ConnectedLot {
 	protected final static Material lightpostMaterial = Material.SPRUCE_FENCE;
 	
 	public final static Material sewerMaterial = Material.SMOOTH_STONE;
-	public final static MaterialData sewerFloorData = new SmoothBrick(Material.STONE);
-	public final static MaterialData sewerWallData = new SmoothBrick(Material.MOSSY_COBBLESTONE);
-	public final static MaterialData sewerCeilingData = new SmoothBrick(Material.COBBLESTONE);
+	public final static Material sewerFloor = Material.STONE_BRICKS;
+	public final static Material sewerWall = Material.MOSSY_COBBLESTONE;
+	public final static Material sewerCeiling = Material.COBBLESTONE;
 	
 	//protected final static Material vineMaterial = Material.VINE;
 	
@@ -49,20 +47,20 @@ public class RoadLot extends ConnectedLot {
 	protected final static Material tunnelTileMaterial = Material.SANDSTONE;
 	protected final static Material tunnelCeilingMaterial = Material.GLASS;
 	
-	protected final static Material bridgePavement1Material = Material.WOOD_STEP;
-	protected final static Material bridgePavement2Material = Material.WOOD_DOUBLE_STEP;
+	protected final static Material bridgePavement1Material = Material.BIRCH_SLAB;
+	protected final static Material bridgePavement2Material = Material.BIRCH_SLAB;
 	protected final static Material bridgeSidewalk1Material = Material.STONE_SLAB;
-	protected final static Material bridgeSidewalk2Material = Material.DOUBLE_STEP;
+	protected final static Material bridgeSidewalk2Material = Material.STONE_SLAB;
 	protected final static Material bridgeEdgeMaterial = Material.SMOOTH_STONE;
 	protected final static Material bridgeRailMaterial = Material.SPRUCE_FENCE;
 	
 	protected Material pavementMat;
 	protected Material linesMat;
 	protected boolean pavementIsClay;
-	protected final static DyeColor pavementColor = DyeColor.CYAN;
+	protected final static Material pavementClay = Material.CYAN_TERRACOTTA;
 //	protected final static DyeColor crosswalkColor = DyeColor.YELLOW;
 	protected Material dirtroadMat;
-	protected final static DyeColor dirtroadColor = DyeColor.LIME;
+	protected final static Material dirtroadClay = Material.LIME_TERRACOTTA;
 	protected boolean dirtroadIsClay;
 	
 	protected boolean roundaboutRoad;
@@ -841,49 +839,49 @@ public class RoadLot extends ConnectedLot {
 //			Material emptyMaterial = getAirMaterial(generator, sewerY - 1);
 					
 			// draw the floor of the sewer
-			chunk.setBlocks(0, 16, sewerY - 1, sewerY, 0, 16, sewerMaterial, chunkOdds, sewerFloorData, sewerCeilingData);
+			chunk.setBlocks(0, 16, sewerY - 1, sewerY, 0, 16, chunkOdds, sewerFloor, sewerCeiling);
 			chunk.airoutBlocks(generator, crossDitchEdge, chunk.width - crossDitchEdge, 
 										  sewerY - 1, sewerY, 
 										  crossDitchEdge, chunk.width - crossDitchEdge);
 			
 			// corner bits
-			chunk.setBlocks(0, 6, sewerY, base2Y, 0, 1, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-			chunk.setBlocks(0, 1, sewerY, base2Y, 1, 6, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-			chunk.setBlocks(10, 16, sewerY, base2Y, 0, 1, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-			chunk.setBlocks(15, 16, sewerY, base2Y, 1, 6, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-			chunk.setBlocks(0, 6, sewerY, base2Y, 15, 16, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-			chunk.setBlocks(0, 1, sewerY, base2Y, 10, 15, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-			chunk.setBlocks(10, 16, sewerY, base2Y, 15, 16, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-			chunk.setBlocks(15, 16, sewerY, base2Y, 10, 15, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
+			chunk.setBlocks(0, 6, sewerY, base2Y, 0, 1, chunkOdds, sewerWall, sewerFloor);
+			chunk.setBlocks(0, 1, sewerY, base2Y, 1, 6, chunkOdds, sewerWall, sewerFloor);
+			chunk.setBlocks(10, 16, sewerY, base2Y, 0, 1, chunkOdds, sewerWall, sewerFloor);
+			chunk.setBlocks(15, 16, sewerY, base2Y, 1, 6, chunkOdds, sewerWall, sewerFloor);
+			chunk.setBlocks(0, 6, sewerY, base2Y, 15, 16, chunkOdds, sewerWall, sewerFloor);
+			chunk.setBlocks(0, 1, sewerY, base2Y, 10, 15, chunkOdds, sewerWall, sewerFloor);
+			chunk.setBlocks(10, 16, sewerY, base2Y, 15, 16, chunkOdds, sewerWall, sewerFloor);
+			chunk.setBlocks(15, 16, sewerY, base2Y, 10, 15, chunkOdds, sewerWall, sewerFloor);
 			
 			// cross beams
-			chunk.setBlocks(6, 10, base2Y - 1, base2Y, 0, 1, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
-			chunk.setBlocks(6, 10, base2Y - 1, base2Y, 15, 16, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
-			chunk.setBlocks(0, 1, base2Y - 1, base2Y, 6, 10, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
-			chunk.setBlocks(15, 16, base2Y - 1, base2Y, 6, 10, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
+			chunk.setBlocks(6, 10, base2Y - 1, base2Y, 0, 1, chunkOdds, sewerCeiling, sewerWall);
+			chunk.setBlocks(6, 10, base2Y - 1, base2Y, 15, 16, chunkOdds, sewerCeiling, sewerWall);
+			chunk.setBlocks(0, 1, base2Y - 1, base2Y, 6, 10, chunkOdds, sewerCeiling, sewerWall);
+			chunk.setBlocks(15, 16, base2Y - 1, base2Y, 6, 10, chunkOdds, sewerCeiling, sewerWall);
 			
 			// cardinal directions known walls and ditches
 			if (!superConnected && !roads.toNorth()) {
-				chunk.setBlocks(5, 11, sewerY, base2Y, 0, 1, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-				chunk.setBlocks(5, 11, base2Y - 1, base2Y, 1, 2, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
+				chunk.setBlocks(5, 11, sewerY, base2Y, 0, 1, chunkOdds, sewerWall, sewerFloor);
+				chunk.setBlocks(5, 11, base2Y - 1, base2Y, 1, 2, chunkOdds, sewerCeiling, sewerWall);
 			} else {
 				chunk.airoutBlocks(generator, 7, 9, sewerY - 1, sewerY, 0, 7);
 			}
 			if (!superConnected && !roads.toSouth()) {
-				chunk.setBlocks(5, 11, sewerY, base2Y, 15, 16, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-				chunk.setBlocks(5, 11, base2Y - 1, base2Y, 14, 15, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
+				chunk.setBlocks(5, 11, sewerY, base2Y, 15, 16, chunkOdds, sewerWall, sewerFloor);
+				chunk.setBlocks(5, 11, base2Y - 1, base2Y, 14, 15, chunkOdds, sewerCeiling, sewerWall);
 			} else {
 				chunk.airoutBlocks(generator, 7, 9, sewerY - 1, sewerY, 9, 16);
 			}
 			if (!superConnected && !roads.toWest()) {
-				chunk.setBlocks(0, 1, sewerY, base2Y, 5, 11, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-				chunk.setBlocks(1, 2, base2Y - 1, base2Y, 5, 11, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
+				chunk.setBlocks(0, 1, sewerY, base2Y, 5, 11, chunkOdds, sewerWall, sewerFloor);
+				chunk.setBlocks(1, 2, base2Y - 1, base2Y, 5, 11, chunkOdds, sewerCeiling, sewerWall);
 			} else {
 				chunk.airoutBlocks(generator, 0, 7, sewerY - 1, sewerY, 7, 9);
 			}
 			if (!superConnected && !roads.toEast()) {
-				chunk.setBlocks(15, 16, sewerY, base2Y, 5, 11, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-				chunk.setBlocks(14, 15, base2Y - 1, base2Y, 5, 11, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
+				chunk.setBlocks(15, 16, sewerY, base2Y, 5, 11, chunkOdds, sewerWall, sewerFloor);
+				chunk.setBlocks(14, 15, base2Y - 1, base2Y, 5, 11, chunkOdds, sewerCeiling, sewerWall);
 			} else {
 				chunk.airoutBlocks(generator, 9, 16, sewerY - 1, sewerY, 7, 9);
 			}
@@ -921,58 +919,58 @@ public class RoadLot extends ConnectedLot {
 			
 			// show the vaults
 			if (vaultNorthWest) {
-				chunk.setBlocks(4, 5, sewerY, base2Y - 1, 1, 4, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-				chunk.setBlocks(1, 4, sewerY, base2Y - 1, 4, 5, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-				chunk.setBlocks(1, 6, base2Y - 1, base2Y, 1, 6, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
+				chunk.setBlocks(4, 5, sewerY, base2Y - 1, 1, 4, chunkOdds, sewerWall, sewerFloor);
+				chunk.setBlocks(1, 4, sewerY, base2Y - 1, 4, 5, chunkOdds, sewerWall, sewerFloor);
+				chunk.setBlocks(1, 6, base2Y - 1, base2Y, 1, 6, chunkOdds, sewerCeiling, sewerWall);
 			} else {
-				chunk.setBlocks(1, 6, base2Y - 1, base2Y, 1, 2, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
-				chunk.setBlocks(1, 2, base2Y - 1, base2Y, 2, 6, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
+				chunk.setBlocks(1, 6, base2Y - 1, base2Y, 1, 2, chunkOdds, sewerCeiling, sewerWall);
+				chunk.setBlocks(1, 2, base2Y - 1, base2Y, 2, 6, chunkOdds, sewerCeiling, sewerWall);
 			}
 			if (vaultSouthWest) {
-				chunk.setBlocks(4, 5, sewerY, base2Y - 1, 12, 15, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-				chunk.setBlocks(1, 4, sewerY, base2Y - 1, 11, 12, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-				chunk.setBlocks(1, 6, base2Y - 1, base2Y, 10, 15, sewerMaterial, sewerCeilingData);
+				chunk.setBlocks(4, 5, sewerY, base2Y - 1, 12, 15, chunkOdds, sewerWall, sewerFloor);
+				chunk.setBlocks(1, 4, sewerY, base2Y - 1, 11, 12, chunkOdds, sewerWall, sewerFloor);
+				chunk.setBlocks(1, 6, base2Y - 1, base2Y, 10, 15, sewerCeiling);
 			} else {
-				chunk.setBlocks(1, 6, base2Y - 1, base2Y, 14, 15, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
-				chunk.setBlocks(1, 2, base2Y - 1, base2Y, 10, 14, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
+				chunk.setBlocks(1, 6, base2Y - 1, base2Y, 14, 15, chunkOdds, sewerCeiling, sewerWall);
+				chunk.setBlocks(1, 2, base2Y - 1, base2Y, 10, 14, chunkOdds, sewerCeiling, sewerWall);
 			}
 			if (vaultNorthEast) {
-				chunk.setBlocks(11, 12, sewerY, base2Y - 1, 1, 4, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-				chunk.setBlocks(12, 15, sewerY, base2Y - 1, 4, 5, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-				chunk.setBlocks(10, 15, base2Y - 1, base2Y, 1, 6, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
+				chunk.setBlocks(11, 12, sewerY, base2Y - 1, 1, 4, chunkOdds, sewerWall, sewerFloor);
+				chunk.setBlocks(12, 15, sewerY, base2Y - 1, 4, 5, chunkOdds, sewerWall, sewerFloor);
+				chunk.setBlocks(10, 15, base2Y - 1, base2Y, 1, 6, chunkOdds, sewerCeiling, sewerWall);
 			} else {
-				chunk.setBlocks(10, 15, base2Y - 1, base2Y, 1, 2, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
-				chunk.setBlocks(14, 15, base2Y - 1, base2Y, 2, 6, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
+				chunk.setBlocks(10, 15, base2Y - 1, base2Y, 1, 2, chunkOdds, sewerCeiling, sewerWall);
+				chunk.setBlocks(14, 15, base2Y - 1, base2Y, 2, 6, chunkOdds, sewerCeiling, sewerWall);
 			}
 			if (vaultSouthEast) {
-				chunk.setBlocks(11, 12, sewerY, base2Y - 1, 12, 15, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-				chunk.setBlocks(12, 15, sewerY, base2Y - 1, 11, 12, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-				chunk.setBlocks(10, 15, base2Y - 1, base2Y, 10, 15, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
+				chunk.setBlocks(11, 12, sewerY, base2Y - 1, 12, 15, chunkOdds, sewerWall, sewerFloor);
+				chunk.setBlocks(12, 15, sewerY, base2Y - 1, 11, 12, chunkOdds, sewerWall, sewerFloor);
+				chunk.setBlocks(10, 15, base2Y - 1, base2Y, 10, 15, chunkOdds, sewerCeiling, sewerWall);
 			} else {
-				chunk.setBlocks(10, 15, base2Y - 1, base2Y, 14, 15, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
-				chunk.setBlocks(14, 15, base2Y - 1, base2Y, 10, 14, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
+				chunk.setBlocks(10, 15, base2Y - 1, base2Y, 14, 15, chunkOdds, sewerCeiling, sewerWall);
+				chunk.setBlocks(14, 15, base2Y - 1, base2Y, 10, 14, chunkOdds, sewerCeiling, sewerWall);
 			}
 			
 			// show the center center
 			if (centerNorth) {
-				chunk.setBlocks(4, 12, sewerY, base2Y - 1, 4, 5, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-				chunk.setBlocks(3, 13, base2Y - 1, base2Y, 3, 6, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
+				chunk.setBlocks(4, 12, sewerY, base2Y - 1, 4, 5, chunkOdds, sewerWall, sewerFloor);
+				chunk.setBlocks(3, 13, base2Y - 1, base2Y, 3, 6, chunkOdds, sewerCeiling, sewerWall);
 			}
 			if (centerSouth) {
-				chunk.setBlocks(4, 12, sewerY, base2Y - 1, 11, 12, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-				chunk.setBlocks(3, 13, base2Y - 1, base2Y, 10, 13, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
+				chunk.setBlocks(4, 12, sewerY, base2Y - 1, 11, 12, chunkOdds, sewerWall, sewerFloor);
+				chunk.setBlocks(3, 13, base2Y - 1, base2Y, 10, 13, chunkOdds, sewerCeiling, sewerWall);
 			} 
 			if (centerWest) {
-				chunk.setBlocks(4, 5, sewerY, base2Y - 1, 4, 12, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-				chunk.setBlocks(3, 6, base2Y - 1, base2Y, 3, 13, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
+				chunk.setBlocks(4, 5, sewerY, base2Y - 1, 4, 12, chunkOdds, sewerWall, sewerFloor);
+				chunk.setBlocks(3, 6, base2Y - 1, base2Y, 3, 13, chunkOdds, sewerCeiling, sewerWall);
 			}
 			if (centerEast) {
-				chunk.setBlocks(11, 12, sewerY, base2Y - 1, 4, 12, sewerMaterial, chunkOdds, sewerWallData, sewerFloorData);
-				chunk.setBlocks(10, 13, base2Y - 1, base2Y, 3, 13, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
+				chunk.setBlocks(11, 12, sewerY, base2Y - 1, 4, 12, chunkOdds, sewerWall, sewerFloor);
+				chunk.setBlocks(10, 13, base2Y - 1, base2Y, 3, 13, chunkOdds, sewerCeiling, sewerWall);
 			}
 			
 			// ceiling please
-			chunk.setBlocks(0, 16, base2Y, base2Y + 1, 0, 16, sewerMaterial, chunkOdds, sewerCeilingData, sewerWallData);
+			chunk.setBlocks(0, 16, base2Y, base2Y + 1, 0, 16, chunkOdds, sewerCeiling, sewerWall);
 			
 			// show our bias
 			if (roads.toNorth()) {
@@ -997,7 +995,7 @@ public class RoadLot extends ConnectedLot {
 				vaultNorthWest = true;
 				
 				// place the manhole
-				chunk.setTrapDoor(3, pavementLevel, 2, BadMagic.TrapDoor.TOP_WEST);
+				chunk.setBlock(3, pavementLevel, 2, Material.BIRCH_TRAPDOOR, BlockFace.WEST, Half.TOP);
 				
 				// ladder
 				chunk.setLadder(3, sewerY, pavementLevel, 2, BlockFace.EAST);
@@ -1020,25 +1018,25 @@ public class RoadLot extends ConnectedLot {
 					chunk.setBlock(8, sewerY - 1, 2, fluidMaterial);
 					chunk.setBlock(7, sewerY - 1, 3, fluidMaterial);
 					chunk.setBlock(8, sewerY - 1, 4, fluidMaterial);
-					generateEntryVines(chunk, base2Y - 1, BadMagic.Vine.NORTH, 6, 1, 7, 1, 8, 1, 9, 1);
+					generateEntryVines(chunk, base2Y - 1, BlockFace.NORTH, 6, 1, 7, 1, 8, 1, 9, 1);
 				}
 				if (superConnected || roads.toSouth()) {
 					chunk.setBlock(7, sewerY - 1, 11, fluidMaterial);
 					chunk.setBlock(8, sewerY - 1, 12, fluidMaterial);
 					chunk.setBlock(7, sewerY - 1, 13, fluidMaterial);
-					generateEntryVines(chunk, base2Y - 1, BadMagic.Vine.SOUTH, 6, 14, 7, 14, 8, 14, 9, 14);
+					generateEntryVines(chunk, base2Y - 1, BlockFace.SOUTH, 6, 14, 7, 14, 8, 14, 9, 14);
 				}
 				if (superConnected || roads.toWest()) {
 					chunk.setBlock(2, sewerY - 1, 7, fluidMaterial);
 					chunk.setBlock(3, sewerY - 1, 8, fluidMaterial);
 					chunk.setBlock(4, sewerY - 1, 7, fluidMaterial);
-					generateEntryVines(chunk, base2Y - 1, BadMagic.Vine.WEST, 1, 6, 1, 7, 1, 8, 1, 9);
+					generateEntryVines(chunk, base2Y - 1, BlockFace.WEST, 1, 6, 1, 7, 1, 8, 1, 9);
 				}
 				if (superConnected || roads.toEast()) {
 					chunk.setBlock(11, sewerY - 1, 8, fluidMaterial);
 					chunk.setBlock(12, sewerY - 1, 7, fluidMaterial);
 					chunk.setBlock(13, sewerY - 1, 8, fluidMaterial);
-					generateEntryVines(chunk, base2Y - 1, BadMagic.Vine.EAST, 14, 6, 14, 7, 14, 8, 14, 9);
+					generateEntryVines(chunk, base2Y - 1, BlockFace.EAST, 14, 6, 14, 7, 14, 8, 14, 9);
 				}
 			} finally {
 				chunk.setDoPhysics(false);
@@ -1046,58 +1044,58 @@ public class RoadLot extends ConnectedLot {
 			
 			// add the various doors
 			if (vaultNorthWest) {
-				generateDoor(chunk, 4, sewerY, 1, BadMagic.Door.EAST_NORTH_EAST);
-				generateDoor(chunk, 1, sewerY, 4, BadMagic.Door.SOUTHBYSOUTHWEST);
+				generateDoor(chunk, 4, sewerY, 1, BlockFace.EAST_NORTH_EAST);
+				generateDoor(chunk, 1, sewerY, 4, BlockFace.SOUTH_SOUTH_WEST);
 			}
 			if (vaultNorthEast) {
-				generateDoor(chunk, 11, sewerY, 1, BadMagic.Door.WEST_NORTH_WEST);
-				generateDoor(chunk, 14, sewerY, 4, BadMagic.Door.SOUTH_SOUTH_EAST);
+				generateDoor(chunk, 11, sewerY, 1, BlockFace.WEST_NORTH_WEST);
+				generateDoor(chunk, 14, sewerY, 4, BlockFace.SOUTH_SOUTH_EAST);
 			}
 			if (vaultSouthWest) {
-				generateDoor(chunk, 1, sewerY, 11, BadMagic.Door.NORTH_NORTH_WEST);
-				generateDoor(chunk, 4, sewerY, 14, BadMagic.Door.EASTBYSOUTHEAST);
+				generateDoor(chunk, 1, sewerY, 11, BlockFace.NORTH_NORTH_WEST);
+				generateDoor(chunk, 4, sewerY, 14, BlockFace.EAST_SOUTH_EAST);
 			}
 			if (vaultSouthEast) {
-				generateDoor(chunk, 14, sewerY, 11, BadMagic.Door.NORTHBYNORTHEAST);
-				generateDoor(chunk, 11, sewerY, 14, BadMagic.Door.WESTBYSOUTHWEST);
+				generateDoor(chunk, 14, sewerY, 11, BlockFace.NORTH_NORTH_EAST);
+				generateDoor(chunk, 11, sewerY, 14, BlockFace.WEST_SOUTH_WEST);
 			}
 			
 			// we might put down a plank... or maybe not...
 			boolean placedPlank = false;
-			TreeSpecies species = chunkOdds.getRandomWoodSpecies();
+			Material woodSlab = chunkOdds.getRandomMaterial(Odds.allWoodenSlabs);
 			
 			// fancy up the center walls?
 			if (centerNorth) {
-				generateDoor(chunk, 10, sewerY, 4, BadMagic.Door.NORTHBYNORTHEAST);
-				chunk.setStoneSlab(7, sewerY, 4, BadMagic.StoneSlab.COBBLESTONEFLIP);
-				chunk.setStoneSlab(8, sewerY, 4, BadMagic.StoneSlab.COBBLESTONEFLIP);
+				generateDoor(chunk, 10, sewerY, 4, BlockFace.NORTH_NORTH_EAST);
+				chunk.setBlock(7, sewerY, 4, Material.COBBLESTONE, Type.TOP);
+				chunk.setBlock(8, sewerY, 4, Material.COBBLESTONE, Type.TOP);
 			} else if (!placedPlank && roads.toNorth() && chunkOdds.flipCoin()) {
 				placedPlank = true;
-				chunk.setSlabs(6, 10, sewerY, 5, 6, species, false); 
+				chunk.setBlocks(6, 10, sewerY, 5, 6, woodSlab); 
 			}
 			if (centerSouth) {
-				generateDoor(chunk, 5, sewerY, 11, BadMagic.Door.SOUTHBYSOUTHWEST);
-				chunk.setStoneSlab(7, sewerY, 11, BadMagic.StoneSlab.COBBLESTONEFLIP);
-				chunk.setStoneSlab(8, sewerY, 11, BadMagic.StoneSlab.COBBLESTONEFLIP);
+				generateDoor(chunk, 5, sewerY, 11, BlockFace.SOUTH_SOUTH_WEST);
+				chunk.setBlock(7, sewerY, 11, Material.COBBLESTONE, Type.TOP);
+				chunk.setBlock(8, sewerY, 11, Material.COBBLESTONE, Type.TOP);
 			} else if (!placedPlank && roads.toSouth() && chunkOdds.flipCoin()) {
 				placedPlank = true;
-				chunk.setSlabs(6, 10, sewerY, 10, 11, species, false);
+				chunk.setBlocks(6, 10, sewerY, 10, 11, woodSlab);
 			} 
 			if (centerWest) {
-				generateDoor(chunk, 4, sewerY, 5, BadMagic.Door.WEST_NORTH_WEST);
-				chunk.setStoneSlab(4, sewerY, 7, BadMagic.StoneSlab.COBBLESTONEFLIP);
-				chunk.setStoneSlab(4, sewerY, 8, BadMagic.StoneSlab.COBBLESTONEFLIP);
+				generateDoor(chunk, 4, sewerY, 5, BlockFace.WEST_NORTH_WEST);
+				chunk.setBlock(4, sewerY, 7, Material.COBBLESTONE, Type.TOP);
+				chunk.setBlock(4, sewerY, 8, Material.COBBLESTONE, Type.TOP);
 			} else if (!placedPlank && roads.toWest() && chunkOdds.flipCoin()) {
 				placedPlank = true;
-				chunk.setSlabs(5, 6, sewerY, 6, 10, species, false);
+				chunk.setBlocks(5, 6, sewerY, 6, 10, woodSlab);
 			}
 			if (centerEast) { 
-				generateDoor(chunk, 11, sewerY, 10, BadMagic.Door.EASTBYSOUTHEAST);
-				chunk.setStoneSlab(11, sewerY, 7, BadMagic.StoneSlab.COBBLESTONEFLIP);
-				chunk.setStoneSlab(11, sewerY, 8, BadMagic.StoneSlab.COBBLESTONEFLIP);
+				generateDoor(chunk, 11, sewerY, 10, BlockFace.EAST_SOUTH_EAST);
+				chunk.setBlock(11, sewerY, 7, Material.COBBLESTONE, Type.TOP);
+				chunk.setBlock(11, sewerY, 8, Material.COBBLESTONE, Type.TOP);
 			} else if (!placedPlank && roads.toEast() && chunkOdds.flipCoin()) {
 				placedPlank = true;
-				chunk.setSlabs(10, 11, sewerY, 6, 10, species, false);
+				chunk.setBlocks(10, 11, sewerY, 6, 10, woodSlab);
 			}
 			
 			// populate the vaults
@@ -1164,15 +1162,15 @@ public class RoadLot extends ConnectedLot {
 			
 			// now the vines
 			for (int i = 2; i < 14; i++) {
-				generateHangingVine(chunk, base2Y - 1, BadMagic.Vine.NORTH, i, 2, i, 1);
+				generateHangingVine(chunk, base2Y - 1, BlockFace.NORTH, i, 2, i, 1);
 //				generateHangingVine(chunk, base2Y - 1, Direction.Vine.NORTH, i, 5, i, 4);
 //				generateHangingVine(chunk, base2Y - 1, Direction.Vine.SOUTH, i, 10, i, 11);
-				generateHangingVine(chunk, base2Y - 1, BadMagic.Vine.SOUTH, i, 13, i, 14);
+				generateHangingVine(chunk, base2Y - 1, BlockFace.SOUTH, i, 13, i, 14);
 					
-				generateHangingVine(chunk, base2Y - 1, BadMagic.Vine.WEST, 2, i, 1, i);
+				generateHangingVine(chunk, base2Y - 1, BlockFace.WEST, 2, i, 1, i);
 //				generateHangingVine(chunk, base2Y - 1, Direction.Vine.WEST, 5, i, 4, i);
 //				generateHangingVine(chunk, base2Y - 1, Direction.Vine.EAST, 10, i, 11, i);
-				generateHangingVine(chunk, base2Y - 1, BadMagic.Vine.EAST, 13, i, 14, i);
+				generateHangingVine(chunk, base2Y - 1, BlockFace.EAST, 13, i, 14, i);
 			}
 		}
 	}
@@ -1201,12 +1199,12 @@ public class RoadLot extends ConnectedLot {
 	protected void paveRoadArea(CityWorldGenerator generator, SupportBlocks chunk, int x1, int x2, int y, int z1, int z2, boolean doingFolage, boolean doingTunnel) {
 		if (inACity)
 			if (pavementIsClay)
-				chunk.setClay(x1, x2, y, z1, z2, pavementColor);
+				chunk.setBlocks(x1, x2, y, z1, z2, pavementClay);
 			else
 				chunk.setBlocks(x1, x2, y, z1, z2, pavementMat);
 		else
 			if (dirtroadIsClay)
-				chunk.setClay(x1, x2, y, z1, z2, dirtroadColor);
+				chunk.setBlocks(x1, x2, y, z1, z2, dirtroadClay);
 			else {
 //				pepperPlants(generator, chunk, x1, x2, y, z1, z2, Odds.oddsLikely, 
 //						doingFolage ? Material.BONE_BLOCK : Material.DIAMOND_BLOCK, doingTunnel);
@@ -1328,7 +1326,7 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 	
-	private void generateEntryVines(RealBlocks chunk, int y, BadMagic.Vine direction,
+	private void generateEntryVines(RealBlocks chunk, int y, BlockFace direction,
 			int x1, int z1, int x2, int z2, int x3, int z3, int x4, int z4) {
 		if (chunkOdds.flipCoin())
 			chunk.setVine(x1, y, z1, direction);
@@ -1340,7 +1338,7 @@ public class RoadLot extends ConnectedLot {
 			chunk.setVine(x4, y, z4, direction);
 	}
 	
-	private void generateHangingVine(RealBlocks chunk, int y, BadMagic.Vine direction, int x1, int z1, int x2, int z2) {
+	private void generateHangingVine(RealBlocks chunk, int y, BlockFace direction, int x1, int z1, int x2, int z2) {
 		if (chunkOdds.flipCoin() && chunk.isEmpty(x1, y, z1) && !chunk.isEmpty(x2, y, z2))
 			chunk.setVine(x1, y, z1, direction);
 	}
@@ -1381,22 +1379,22 @@ public class RoadLot extends ConnectedLot {
 			if (chunkOdds.playOdds(oddsOfDecayedSign)) {
 				String[] odonym = generator.odonymProvider.generateNorthSouthStreetOdonym(generator, cx, cz);
 				generator.odonymProvider.decaySign(chunkOdds, odonym);
-				chunk.setWallSign(x, y, z - 1, BadMagic.General.NORTH, odonym);
+				chunk.setWallSign(x, y, z - 1, BlockFace.NORTH, odonym);
 			}
 			if (chunkOdds.playOdds(oddsOfDecayedSign)) {
 				String[] odonym = generator.odonymProvider.generateNorthSouthStreetOdonym(generator, cx, cz);
 				generator.odonymProvider.decaySign(chunkOdds, odonym);
-				chunk.setWallSign(x, y, z + 1, BadMagic.General.SOUTH, odonym);
+				chunk.setWallSign(x, y, z + 1, BlockFace.SOUTH, odonym);
 			}
 			if (chunkOdds.playOdds(oddsOfDecayedSign)) {
 				String[] odonym = generator.odonymProvider.generateWestEastStreetOdonym(generator, cx, cz);
 				generator.odonymProvider.decaySign(chunkOdds, odonym);
-				chunk.setWallSign(x - 1, y, z, BadMagic.General.WEST, odonym);
+				chunk.setWallSign(x - 1, y, z, BlockFace.WEST, odonym);
 			}
 			if (chunkOdds.playOdds(oddsOfDecayedSign)) {
 				String[] odonym = generator.odonymProvider.generateWestEastStreetOdonym(generator, cx, cz);
 				generator.odonymProvider.decaySign(chunkOdds, odonym);
-				chunk.setWallSign(x + 1, y, z, BadMagic.General.EAST, odonym);
+				chunk.setWallSign(x + 1, y, z, BlockFace.EAST, odonym);
 			}
 		} else {
 			
@@ -1405,14 +1403,14 @@ public class RoadLot extends ConnectedLot {
 			String[] odonymWestEast = generator.odonymProvider.generateWestEastStreetOdonym(generator, cx, cz);
 			
 			// put the signs up
-			chunk.setWallSign(x, y, z - 1, BadMagic.General.NORTH, odonymNorthSouth);
-			chunk.setWallSign(x, y, z + 1, BadMagic.General.SOUTH, odonymNorthSouth);
-			chunk.setWallSign(x - 1, y, z, BadMagic.General.WEST, odonymWestEast);
-			chunk.setWallSign(x + 1, y, z, BadMagic.General.EAST, odonymWestEast);
+			chunk.setWallSign(x, y, z - 1, BlockFace.NORTH, odonymNorthSouth);
+			chunk.setWallSign(x, y, z + 1, BlockFace.SOUTH, odonymNorthSouth);
+			chunk.setWallSign(x - 1, y, z, BlockFace.WEST, odonymWestEast);
+			chunk.setWallSign(x + 1, y, z, BlockFace.EAST, odonymWestEast);
 		}
 	}
 	
-	private void generateDoor(RealBlocks chunk, int x, int y, int z, BadMagic.Door direction) {
+	private void generateDoor(RealBlocks chunk, int x, int y, int z, BlockFace direction) {
 		switch (chunkOdds.getRandomInt(5)) {
 		case 1:
 			chunk.setBlocks(x, y, y + 2, z, Material.BRICK);
@@ -1427,7 +1425,7 @@ public class RoadLot extends ConnectedLot {
 //			chunk.setIronDoor(x, y, z, direction);
 //			break;
 		default:
-			chunk.setWoodenDoor(x, y, z, direction);
+			chunk.setDoor(x, y, z, Material.BIRCH_DOOR, direction);
 			break;
 		}
 	}
@@ -1449,7 +1447,7 @@ public class RoadLot extends ConnectedLot {
 		
 		// cool stuff?
 		if (generator.settings.treasuresInSewers && chunkOdds.playOdds(generator.settings.oddsOfTreasureInSewers)) {
-			 chunk.setChest(generator, x, y, z, BadMagic.General.NORTH, chunkOdds, generator.lootProvider, LootLocation.SEWER);
+			 chunk.setChest(generator, x, y, z, BlockFace.NORTH, chunkOdds, generator.lootProvider, LootLocation.SEWER);
 		}
 	}
 
