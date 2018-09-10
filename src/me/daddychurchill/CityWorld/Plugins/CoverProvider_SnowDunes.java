@@ -1,7 +1,8 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import org.bukkit.Material;
+
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.Odds.ColorSet;
 
 public class CoverProvider_SnowDunes extends CoverProvider_Normal {
 
@@ -11,8 +12,13 @@ public class CoverProvider_SnowDunes extends CoverProvider_Normal {
 	}
 
 	@Override
-	public ColorSet getDefaultColorSet() {
-		return ColorSet.WHITE;
+	public Material[] getDefaultWoolSet() {
+		return Odds.allWhiteWoolBlocks;
+	}
+	
+	@Override
+	public Material[] getDefaultTerracottaSet() {
+		return Odds.allWhiteTerracottaBlocks;
 	}
 	
 }

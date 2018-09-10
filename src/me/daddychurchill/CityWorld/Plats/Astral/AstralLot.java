@@ -1,10 +1,8 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
 import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Rail.Shape;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
-import org.bukkit.material.PoweredRail;
-
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.IsolatedLot;
@@ -57,13 +55,10 @@ public abstract class AstralLot extends IsolatedLot {
 	@Override
 	public void generateMines(CityWorldGenerator generator, RealBlocks chunk) {
 		int y = generator.seaLevel + AstralTownEmptyLot.aboveSeaLevel - 1;
-		
-		PoweredRail rail = new PoweredRail();
-		rail.setPowered(true);
+		Shape shape = Shape.NORTH_SOUTH;
 		
 		// north/south along where the Nexus is
 		if (chunk.getOriginX() == AstralNexusLot.blockX) {
-			rail.setDirection(BlockFace.NORTH, false);
 			
 			// underlayment
 			for (int z = 0; z < 16; z++)
@@ -74,13 +69,13 @@ public abstract class AstralLot extends IsolatedLot {
 			try {
 				chunk.setDoPhysics(true);
 				
-				// from powersource to end
+				// from power source to end
 				for (int z = specialOffset; z < 16; z++)
-					chunk.setBlock(railOffset, y + 1, z, Material.POWERED_RAIL, rail);
+					chunk.setBlock(railOffset, y + 1, z, Material.POWERED_RAIL, shape, true);
 				
-				// from just before powersource to start
+				// from just before power source to start
 				for (int z = specialOffset - 1; z >= 0; z--)
-					chunk.setBlock(railOffset, y + 1, z, Material.POWERED_RAIL, rail);
+					chunk.setBlock(railOffset, y + 1, z, Material.POWERED_RAIL, shape, true);
 			} finally {
 				chunk.setDoPhysics(false);
 			}
@@ -88,7 +83,7 @@ public abstract class AstralLot extends IsolatedLot {
 		
 		// west/east along where the Nexus is
 		if (chunk.getOriginZ() == AstralNexusLot.blockZ) {
-			rail.setDirection(BlockFace.EAST, false);
+			shape = Shape.EAST_WEST;
 			
 			// underlayment
 			for (int x = 0; x < 16; x++)
@@ -101,11 +96,11 @@ public abstract class AstralLot extends IsolatedLot {
 				
 				// from power source to end
 				for (int x = specialOffset; x < 16; x++)
-					chunk.setBlock(x, y + 1, railOffset, Material.POWERED_RAIL, rail);
+					chunk.setBlock(x, y + 1, railOffset, Material.POWERED_RAIL, shape, true);
 				
 				// from just before power source to start
 				for (int x = specialOffset - 1; x >= 0; x--)
-					chunk.setBlock(x, y + 1, railOffset, Material.POWERED_RAIL, rail);
+					chunk.setBlock(x, y + 1, railOffset, Material.POWERED_RAIL, shape, true);
 			} finally {
 				chunk.setDoPhysics(false);
 			}

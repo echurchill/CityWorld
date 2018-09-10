@@ -15,6 +15,9 @@ import org.bukkit.block.data.Bisected.Half;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.Directional;
 import org.bukkit.block.data.Levelled;
+import org.bukkit.block.data.Powerable;
+import org.bukkit.block.data.Rail;
+import org.bukkit.block.data.Rail.Shape;
 import org.bukkit.block.data.Rotatable;
 import org.bukkit.block.data.type.Slab;
 import org.bukkit.material.Vine;
@@ -570,6 +573,22 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			setVine(x, y, z, faces);
 	}
 	
+	public final void setBlock(int x, int y, int z, Material material, Shape shape, boolean powered) {
+		Block block = getActualBlock(x, y, z);
+		BlockState state = block.getState();
+		try {
+			state.setType(material);
+			BlockData data = block.getBlockData();
+			if (data instanceof Rail)
+				((Rail)data).setShape(shape);
+			if (data instanceof Powerable)
+				((Powerable) data).setPowered(powered);
+			state.setBlockData(data);
+		} finally {
+			state.update(false, doPhysics);
+		}
+	}
+	
 	public final void setBlock(int x, int y, int z, Material material, Slab.Type type) {
 		Block block = getActualBlock(x, y, z);
 		BlockState state = block.getState();
@@ -781,12 +800,10 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		try {
 			state.setType(material);
 			BlockData data = state.getBlockData();
-			if (data instanceof Directional) {
+			if (data instanceof Directional)
 				((Directional)data).setFacing(facing);
-			}
-			if (data instanceof Bisected) {
+			if (data instanceof Bisected)
 				((Bisected)data).setHalf(half);
-			}
 			state.setBlockData(data);
 		} finally {
 			state.update(false, doPhysics);

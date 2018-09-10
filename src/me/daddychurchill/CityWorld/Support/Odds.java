@@ -36,8 +36,6 @@ public class Odds {
 	public final static double oddsThricedSomewhatUnlikely = 	oddsSomewhatUnlikely * 3; // 60.0%
 	public final static double oddsHalvedPrettyLikely = 		oddsPrettyLikely / 2;     // 40.0%
 	
-	public enum ColorSet {ALL, GREEN, WHITE, TAN, PINK, NETHER, THEEND, DARK, LIGHT};
-	
 	public Odds() {
 		super();
 		random = new Random();
@@ -102,72 +100,150 @@ public class Odds {
 		return items[getRandomInt(items.length)];
 	}
 	
-	private DyeColor getRandomColor(DyeColor... colors) {
-		return colors[getRandomInt(colors.length)];
-	}
+//	private DyeColor getRandomColor(DyeColor... colors) {
+//		return colors[getRandomInt(colors.length)];
+//	}
+//	
+//	public ColorSet getRandomColorSet() {
+//		ColorSet[] values = ColorSet.values();
+//		return values[getRandomInt(values.length)];
+//	}
+//	
+//	public DyeColor getRandomColor() {
+//		return getRandomColor(ColorSet.ALL);
+//	}
+//	
+//	public DyeColor getRandomLightColor() {
+//		return getRandomColor(ColorSet.LIGHT);
+//	}
+//	
+//	public DyeColor getRandomDarkColor() {
+//		return getRandomColor(ColorSet.DARK);
+//	}
+//	
+//	public DyeColor getRandomCamoColor() {
+//		return getRandomColor(ColorSet.GREEN);
+//	}
+//	
+	public static Material[] allWoolBlocks = {
+			Material.BLACK_WOOL,
+			Material.BLUE_WOOL,
+			Material.BROWN_WOOL,
+			Material.CYAN_WOOL,
+			Material.GRAY_WOOL,
+			Material.GREEN_WOOL,
+			Material.LIGHT_BLUE_WOOL,
+			Material.LIGHT_GRAY_WOOL,
+			Material.LIME_WOOL,
+			Material.MAGENTA_WOOL,
+			Material.ORANGE_WOOL,
+			Material.PINK_WOOL,
+			Material.PURPLE_WOOL,
+			Material.RED_WOOL,
+			Material.WHITE_WOOL,
+			Material.YELLOW_WOOL};
 	
-	public ColorSet getRandomColorSet() {
-		ColorSet[] values = ColorSet.values();
-		return values[getRandomInt(values.length)];
-	}
+	public static Material[] allGreenWoolBlocks = {
+			Material.BROWN_WOOL,
+			Material.GRAY_WOOL,
+			Material.GREEN_WOOL};
+
+	public static Material[] allDarkWoolBlocks = {
+			Material.BLACK_WOOL,
+			Material.BLUE_WOOL,
+			Material.BROWN_WOOL,
+			Material.CYAN_WOOL,
+			Material.GRAY_WOOL,
+			Material.GREEN_WOOL,
+			Material.PURPLE_WOOL,
+			Material.RED_WOOL};
+
+	public static Material[] allLightWoolBlocks = {
+			Material.LIGHT_BLUE_WOOL,
+			Material.LIGHT_GRAY_WOOL,
+			Material.LIME_WOOL,
+			Material.MAGENTA_WOOL,
+			Material.ORANGE_WOOL,
+			Material.PINK_WOOL,
+			Material.WHITE_WOOL,
+			Material.YELLOW_WOOL};
 	
-	public DyeColor getRandomColor() {
-		return getRandomColor(ColorSet.ALL);
-	}
+	public static Material[] allNetherWoolBlocks = {
+			Material.BLACK_WOOL,
+			Material.BROWN_WOOL,
+			Material.GRAY_WOOL,
+			Material.PURPLE_WOOL,
+			Material.RED_WOOL};
 	
-	public DyeColor getRandomLightColor() {
-		return getRandomColor(ColorSet.LIGHT);
-	}
+	public static Material[] allTanWoolBlocks = {
+			Material.ORANGE_WOOL,
+			Material.YELLOW_WOOL};
 	
-	public DyeColor getRandomDarkColor() {
-		return getRandomColor(ColorSet.DARK);
-	}
+	public static Material[] allPinkWoolBlocks = {
+			Material.LIGHT_GRAY_WOOL,
+			Material.PINK_WOOL,
+			Material.RED_WOOL};
 	
-	public DyeColor getRandomCamoColor() {
-		return getRandomColor(ColorSet.GREEN);
-	}
+	public static Material[] allWhiteWoolBlocks = {
+			Material.LIGHT_GRAY_WOOL,
+			Material.WHITE_WOOL};
 	
-	public DyeColor getRandomColor(ColorSet set) {
-		switch (set) {
-		case ALL:
-		default:
-			return getRandomColor(
-					DyeColor.WHITE, DyeColor.ORANGE, DyeColor.MAGENTA, DyeColor.LIGHT_BLUE,
-					DyeColor.YELLOW, DyeColor.LIME, DyeColor.PINK, DyeColor.GRAY, 
-					DyeColor.LIGHT_GRAY, DyeColor.CYAN, DyeColor.PURPLE, DyeColor.BLUE,
-					DyeColor.BROWN, DyeColor.GREEN, DyeColor.RED, DyeColor.BLACK);
-		case GREEN:
-			return getRandomColor(
-					DyeColor.BROWN, DyeColor.GREEN, DyeColor.GRAY);
-		case DARK:
-			return getRandomColor(
-					DyeColor.GRAY, DyeColor.CYAN, DyeColor.PURPLE, DyeColor.BLUE,
-					DyeColor.BROWN, DyeColor.GREEN, DyeColor.RED, DyeColor.BLACK);
-		case LIGHT:
-			return getRandomColor(
-					DyeColor.WHITE, DyeColor.ORANGE, DyeColor.MAGENTA, DyeColor.LIGHT_BLUE,
-					DyeColor.YELLOW, DyeColor.LIME, DyeColor.PINK, DyeColor.LIGHT_GRAY);
-		case NETHER:
-			return getRandomColor(
-					DyeColor.RED, DyeColor.BROWN, DyeColor.PURPLE, DyeColor.BLACK, DyeColor.GRAY);
-		case TAN:
-			return getRandomColor(
-					DyeColor.ORANGE, DyeColor.YELLOW);
-		case PINK:
-			return getRandomColor(
-					DyeColor.PINK, DyeColor.LIGHT_GRAY, DyeColor.RED);
-		case WHITE:
-			return getRandomColor(
-					DyeColor.WHITE, DyeColor.LIGHT_GRAY);
-		case THEEND:
-			return getRandomColor(
-					DyeColor.WHITE, DyeColor.LIGHT_GRAY, DyeColor.PINK);
-		}
-	}
+	public static Material[] allEndWoolBlocks = {
+			Material.LIGHT_GRAY_WOOL,
+			Material.PINK_WOOL,
+			Material.WHITE_WOOL};
 	
-	public Material getColoredGlass(ColorSet set) {
-		return getColoredGlass(getRandomColor(set));
-	}
+//	public Material[] getWoolBlockSet(ColorSet set) {
+//		switch (set) {
+//		case ALL:
+//		default:
+//			return allWoolBlocks;
+//		case GREEN:
+//			return allGreenWoolBlocks;
+//		case DARK:
+//			return allDarkWoolBlocks;
+//		case LIGHT:
+//			return allLightWoolBlocks;
+//		case NETHER:
+//			return allNetherWoolBlocks;
+//		case TAN:
+//			return allTanWoolBlocks;
+//		case PINK:
+//			return allPinkWoolBlocks;
+//		case WHITE:
+//			return allWhiteWoolBlocks;
+//		case THEEND:
+//			return allEndWoolBlocks;
+//		}
+//	}
+//	
+//	public Material getRandomWool(ColorSet set) {
+//		switch (set) {
+//		case ALL:
+//		default:
+//			return getRandomMaterial(allWoolBlocks);
+//		case GREEN:
+//			return getRandomMaterial(allGreenWoolBlocks);
+//		case DARK:
+//			return getRandomMaterial(allDarkWoolBlocks);
+//		case LIGHT:
+//			return getRandomMaterial(allLightWoolBlocks);
+//		case NETHER:
+//			return getRandomMaterial(allNetherWoolBlocks);
+//		case TAN:
+//			return getRandomMaterial(allTanWoolBlocks);
+//		case PINK:
+//			return getRandomMaterial(allPinkWoolBlocks);
+//		case WHITE:
+//			return getRandomMaterial(allWhiteWoolBlocks);
+//		case THEEND:
+//			return getRandomMaterial(allEndWoolBlocks);
+//		}
+//	}
+//	
+//	public Material getColoredGlass(ColorSet set) {
+//		return getColoredGlass(getRandomColor(set));
+//	}
 	
 	//@@ turn these into a static arrays
 	public Material getColoredGlass(DyeColor color) {
@@ -283,31 +359,13 @@ public class Odds {
 			Material.SPRUCE_DOOR, 
 			Material.OAK_DOOR};
 	
-	public static Material[] allWoodLeaves = {
+	public static Material[] allWoodenLeaves = {
 			Material.ACACIA_LEAVES, 
 			Material.BIRCH_LEAVES, 
 			Material.DARK_OAK_LEAVES, 
 			Material.JUNGLE_LEAVES, 
 			Material.SPRUCE_LEAVES, 
 			Material.OAK_LEAVES};
-	
-	public static Material[] allWoolBlocks = {
-			Material.BLACK_WOOL,
-			Material.BLUE_WOOL,
-			Material.BROWN_WOOL,
-			Material.CYAN_WOOL,
-			Material.GRAY_WOOL,
-			Material.GREEN_WOOL,
-			Material.LIGHT_BLUE_WOOL,
-			Material.LIGHT_GRAY_WOOL,
-			Material.LIME_WOOL,
-			Material.MAGENTA_WOOL,
-			Material.ORANGE_WOOL,
-			Material.PINK_WOOL,
-			Material.PURPLE_WOOL,
-			Material.RED_WOOL,
-			Material.WHITE_WOOL,
-			Material.YELLOW_WOOL};
 	
 	public static Material[] allTerracottaBlocks = {
 			Material.BLACK_TERRACOTTA,
@@ -326,6 +384,74 @@ public class Odds {
 			Material.RED_TERRACOTTA,
 			Material.WHITE_TERRACOTTA,
 			Material.YELLOW_TERRACOTTA};
+	
+	public static Material[] allGreenTerracottaBlocks = {
+			Material.BROWN_TERRACOTTA,
+			Material.GRAY_TERRACOTTA,
+			Material.GREEN_TERRACOTTA};
+
+	public static Material[] allDarkTerracottaBlocks = {
+			Material.BLACK_TERRACOTTA,
+			Material.BLUE_TERRACOTTA,
+			Material.BROWN_TERRACOTTA,
+			Material.CYAN_TERRACOTTA,
+			Material.GRAY_TERRACOTTA,
+			Material.GREEN_TERRACOTTA,
+			Material.PURPLE_TERRACOTTA,
+			Material.RED_TERRACOTTA};
+
+	public static Material[] allLightTerracottaBlocks = {
+			Material.LIGHT_BLUE_TERRACOTTA,
+			Material.LIGHT_GRAY_TERRACOTTA,
+			Material.LIME_TERRACOTTA,
+			Material.MAGENTA_TERRACOTTA,
+			Material.ORANGE_TERRACOTTA,
+			Material.PINK_TERRACOTTA,
+			Material.WHITE_TERRACOTTA,
+			Material.YELLOW_TERRACOTTA};
+	
+	public static Material[] allNetherTerracottaBlocks = {
+			Material.BLACK_TERRACOTTA,
+			Material.BROWN_TERRACOTTA,
+			Material.GRAY_TERRACOTTA,
+			Material.PURPLE_TERRACOTTA,
+			Material.RED_TERRACOTTA};
+	
+	public static Material[] allTanTerracottaBlocks = {
+			Material.ORANGE_TERRACOTTA,
+			Material.YELLOW_TERRACOTTA};
+	
+	public static Material[] allPinkTerracottaBlocks = {
+			Material.LIGHT_GRAY_TERRACOTTA,
+			Material.PINK_TERRACOTTA,
+			Material.RED_TERRACOTTA};
+	
+	public static Material[] allWhiteTerracottaBlocks = {
+			Material.LIGHT_GRAY_TERRACOTTA,
+			Material.WHITE_TERRACOTTA};
+	
+	public static Material[] allEndTerracottaBlocks = {
+			Material.LIGHT_GRAY_TERRACOTTA,
+			Material.PINK_TERRACOTTA,
+			Material.WHITE_TERRACOTTA};
+	
+	public static Material[] allGlazedTerracottaBlocks = {
+			Material.BLACK_GLAZED_TERRACOTTA,
+			Material.BLUE_GLAZED_TERRACOTTA,
+			Material.BROWN_GLAZED_TERRACOTTA,
+			Material.CYAN_GLAZED_TERRACOTTA,
+			Material.GRAY_GLAZED_TERRACOTTA,
+			Material.GREEN_GLAZED_TERRACOTTA,
+			Material.LIGHT_BLUE_GLAZED_TERRACOTTA,
+			Material.LIGHT_GRAY_GLAZED_TERRACOTTA,
+			Material.LIME_GLAZED_TERRACOTTA,
+			Material.MAGENTA_GLAZED_TERRACOTTA,
+			Material.ORANGE_GLAZED_TERRACOTTA,
+			Material.PINK_GLAZED_TERRACOTTA,
+			Material.PURPLE_GLAZED_TERRACOTTA,
+			Material.RED_GLAZED_TERRACOTTA,
+			Material.WHITE_GLAZED_TERRACOTTA,
+			Material.YELLOW_GLAZED_TERRACOTTA};
 	
 	public static Material[] allConcretePowderBlocks = {
 			Material.BLACK_CONCRETE_POWDER,

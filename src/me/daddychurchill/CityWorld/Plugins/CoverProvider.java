@@ -604,8 +604,12 @@ public abstract class CoverProvider extends Provider {
 		return !generator.settings.darkEnvironment || odds.playOdds(oddsOfDarkCover);
 	}
 	
-	public ColorSet getDefaultColorSet() {
-		return ColorSet.GREEN;
+	public Material[] getDefaultWoolSet() {
+		return Odds.allGreenWoolBlocks;
+	}
+	
+	public Material[] getDefaultTerracottaSet() {
+		return Odds.allGreenTerracottaBlocks;
 	}
 	
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)

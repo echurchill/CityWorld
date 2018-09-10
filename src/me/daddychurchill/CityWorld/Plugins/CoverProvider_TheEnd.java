@@ -1,9 +1,10 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import org.bukkit.Material;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
-import me.daddychurchill.CityWorld.Support.Odds.ColorSet;
 
 public class CoverProvider_TheEnd extends CoverProvider_Normal {
 
@@ -12,8 +13,13 @@ public class CoverProvider_TheEnd extends CoverProvider_Normal {
 	}
 	
 	@Override
-	public ColorSet getDefaultColorSet() {
-		return ColorSet.THEEND;
+	public Material[] getDefaultWoolSet() {
+		return Odds.allEndWoolBlocks;
+	}
+	
+	@Override
+	public Material[] getDefaultTerracottaSet() {
+		return Odds.allEndTerracottaBlocks;
 	}
 	
 	@Override

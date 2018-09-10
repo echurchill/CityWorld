@@ -24,7 +24,8 @@ public class SurfaceProvider_SnowDunes extends SurfaceProvider_Flooded {
 		
 		int y = NoiseGenerator.floor(perciseY);
 		int topY = chunk.findLastEmptyBelow(x, y + 20, z, y);
-		if (odds.flipCoin() && chunk.isOfTypes(x, topY - 1, z, Material.BIRCH_LEAVES, Material.LEAVES_2, generator.oreProvider.surfaceMaterial))
+		if (odds.flipCoin() && (chunk.isType(x, topY - 1, z, generator.oreProvider.surfaceMaterial) ||
+								chunk.isOfTypes(x, topY - 1, z, Odds.allWoodenLeaves)))
 			generator.oreProvider.dropSnow(generator, chunk, x, topY, z);
 		
 		

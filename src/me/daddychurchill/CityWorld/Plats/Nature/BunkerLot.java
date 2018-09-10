@@ -1,6 +1,5 @@
 package me.daddychurchill.CityWorld.Plats.Nature;
 
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Bisected.Half;
@@ -322,7 +321,7 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setBlocks(7, 9, surfaceY + 5, surfaceY + 6, 7, 9, materials.building);
 		
 		// camo
-		chunk.setBlocksRandomly(5, 11, surfaceY - 2, surfaceY + 6, 5, 11, odds, generator.coverProvider.getDefaultColorSet());
+		chunk.setBlocksRandomly(5, 11, surfaceY - 2, surfaceY + 6, 5, 11, odds, generator.coverProvider.getDefaultTerracottaSet());
 		
 		// bottom doors
 		chunk.setBlocks(7, 9, y1, y1 + 2, 5, 6, Material.AIR);
@@ -374,7 +373,7 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setWalls(2, 14, topOfBunker - 1, topOfBunker, 2, 14, materials.crosswalk);
 		
 		// camo the exit
-		chunk.camoClay(1, 15, blockYs.minHeight, lidY + 2, 1, 15, odds, generator.coverProvider.getDefaultColorSet());
+		chunk.setBlocksRandomly(1, 15, blockYs.minHeight, lidY + 2, 1, 15, odds, generator.coverProvider.getDefaultTerracottaSet());
 		
 		// place it then
 		if (odds.flipCoin())
