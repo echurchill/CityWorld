@@ -12,7 +12,6 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
 import me.daddychurchill.CityWorld.Support.Surroundings;
-import me.daddychurchill.CityWorld.Support.BadMagic.StairWell;
 
 public class UnfinishedBuildingLot extends BuildingLot {
 

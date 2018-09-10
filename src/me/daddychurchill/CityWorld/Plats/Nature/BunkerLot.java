@@ -162,6 +162,7 @@ public class BunkerLot extends ConnectedLot {
 	}
 	
 	private static class BunkerMaterials {
+		public Material pillar = Material.QUARTZ_PILLAR;
 		public Material support = Material.QUARTZ_BLOCK;
 		public Material platform = Material.QUARTZ_BLOCK;
 		public Material crosswalk = Material.QUARTZ_BLOCK;
@@ -175,6 +176,7 @@ public class BunkerLot extends ConnectedLot {
 			platform = generator.materialProvider.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds, platform);
 			crosswalk = generator.materialProvider.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds, crosswalk);
 			support = generator.materialProvider.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds, support);
+			pillar = generator.materialProvider.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds, pillar);
 			building = generator.materialProvider.itemsSelectMaterial_BunkerBuildings.getRandomMaterial(odds, building);
 			bilge = generator.materialProvider.itemsSelectMaterial_BunkerBilge.getRandomMaterial(odds, bilge);
 		}
@@ -220,14 +222,14 @@ public class BunkerLot extends ConnectedLot {
 		generateSupport(chunk, odds, context, 10, yBottom + 1, 10);
 		
 		// vertical beams
-		chunk.setBlocks(0, 2, yBottom + 1, yTop3, 0, 1, materials.support, 2);
-		chunk.setBlocks(0, yBottom + 1, yTop3, 1, materials.support, 2);
-		chunk.setBlocks(0, 2, yBottom + 1, yTop3, 15, 16, materials.support, 2);
-		chunk.setBlocks(0, yBottom + 1, yTop3, 14, materials.support, 2);
-		chunk.setBlocks(14, 16, yBottom + 1, yTop3, 0, 1, materials.support, 2);
-		chunk.setBlocks(15, yBottom + 1, yTop3, 1, materials.support, 2);
-		chunk.setBlocks(14, 16, yBottom + 1, yTop3, 15, 16, materials.support, 2);
-		chunk.setBlocks(15, yBottom + 1, yTop3, 14, materials.support, 2);
+		chunk.setBlocks(0, 2, yBottom + 1, yTop3, 0, 1, materials.pillar);
+		chunk.setBlocks(0, yBottom + 1, yTop3, 1, materials.pillar);
+		chunk.setBlocks(0, 2, yBottom + 1, yTop3, 15, 16, materials.pillar);
+		chunk.setBlocks(0, yBottom + 1, yTop3, 14, materials.pillar);
+		chunk.setBlocks(14, 16, yBottom + 1, yTop3, 0, 1, materials.pillar);
+		chunk.setBlocks(15, yBottom + 1, yTop3, 1, materials.pillar);
+		chunk.setBlocks(14, 16, yBottom + 1, yTop3, 15, 16, materials.pillar);
+		chunk.setBlocks(15, yBottom + 1, yTop3, 14, materials.pillar);
 		
 		// near top cross beams
 		chunk.setBlocks(0, 16, yTop1, yTop2, 0, 2, materials.support);
@@ -245,7 +247,7 @@ public class BunkerLot extends ConnectedLot {
 //		chunk.setBlocks(2, 14, yTop3, yTop4, 2, 14, airId);
 		
 		// draw platform
-		chunk.setBlocks(2, 14, yPlatform, 2, 14, materials.platform, 1);
+		chunk.setBlocks(2, 14, yPlatform, 2, 14, materials.platform);
 		
 		// draw crosswalks
 		chunk.setBlocks(7, 9, yPlatform, 0, 2, materials.crosswalk);
@@ -320,7 +322,7 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setBlocks(7, 9, surfaceY + 5, surfaceY + 6, 7, 9, materials.building);
 		
 		// camo
-		chunk.camoClay(5, 11, surfaceY - 2, surfaceY + 6, 5, 11, odds, generator.coverProvider.getDefaultColorSet());
+		chunk.setBlocksRandomly(5, 11, surfaceY - 2, surfaceY + 6, 5, 11, odds, generator.coverProvider.getDefaultColorSet());
 		
 		// bottom doors
 		chunk.setBlocks(7, 9, y1, y1 + 2, 5, 6, Material.AIR);
@@ -783,18 +785,18 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setBlocks(15, 16, underStreetY, underStreetY + 1, 2, 14, materials.support);
 		
 		// center support
-		chunk.setBlocks(7, 9, y1, underStreetY + 2, 7, 9, materials.support, 2);
+		chunk.setBlocks(7, 9, y1, underStreetY + 2, 7, 9, materials.pillar);
 		
 		//BUKKIT: simply changing the type of these blocks won't reset the metadata associated with the existing blocks, resulting in cracked bricks
 		// fix up the tunnel walls
-		chunk.setBlocks(0, 2, streetY - 1, streetY + 6, 0, 1, RoadThroughBunkerLot.wallMaterial, 0);
-		chunk.setBlocks(0, streetY - 1, streetY + 6, 1, RoadThroughBunkerLot.wallMaterial, 0);
-		chunk.setBlocks(0, 2, streetY - 1, streetY + 6, 15, 16, RoadThroughBunkerLot.wallMaterial, 0);
-		chunk.setBlocks(0, streetY - 1, streetY + 6, 14, RoadThroughBunkerLot.wallMaterial, 0);
-		chunk.setBlocks(14, 16, streetY - 1, streetY + 6, 0, 1, RoadThroughBunkerLot.wallMaterial, 0);
-		chunk.setBlocks(15, streetY - 1, streetY + 6, 1, RoadThroughBunkerLot.wallMaterial, 0);
-		chunk.setBlocks(14, 16, streetY - 1, streetY + 6, 15, 16, RoadThroughBunkerLot.wallMaterial, 0);
-		chunk.setBlocks(15, streetY - 1, streetY + 6, 14, RoadThroughBunkerLot.wallMaterial, 0);
+		chunk.setBlocks(0, 2, streetY - 1, streetY + 6, 0, 1, RoadThroughBunkerLot.wallMaterial);
+		chunk.setBlocks(0, streetY - 1, streetY + 6, 1, RoadThroughBunkerLot.wallMaterial);
+		chunk.setBlocks(0, 2, streetY - 1, streetY + 6, 15, 16, RoadThroughBunkerLot.wallMaterial);
+		chunk.setBlocks(0, streetY - 1, streetY + 6, 14, RoadThroughBunkerLot.wallMaterial);
+		chunk.setBlocks(14, 16, streetY - 1, streetY + 6, 0, 1, RoadThroughBunkerLot.wallMaterial);
+		chunk.setBlocks(15, streetY - 1, streetY + 6, 1, RoadThroughBunkerLot.wallMaterial);
+		chunk.setBlocks(14, 16, streetY - 1, streetY + 6, 15, 16, RoadThroughBunkerLot.wallMaterial);
+		chunk.setBlocks(15, streetY - 1, streetY + 6, 14, RoadThroughBunkerLot.wallMaterial);
 		
 		// put in a way down?
 		if (odds.playOdds(oddsOfWayDownFromTunnel)) {
@@ -807,31 +809,31 @@ public class BunkerLot extends ConnectedLot {
 	}
 	
 	private final static Material springMat = Material.QUARTZ_STAIRS;
-	private final static Material springBaseMat = Material.QUARTZ_BLOCK;
+	private final static Material springBaseMat = Material.QUARTZ_PILLAR;
 	private final static Material springCoreMat = Material.GLOWSTONE;
 	
 	private static void generateSupport(SupportBlocks chunk, Odds odds, DataContext context, int x, int y, int z) {
-		chunk.setBlocks(x, x + 3, y, z, z + 3, springBaseMat, 2);
+		chunk.setBlocks(x, x + 3, y, z, z + 3, springBaseMat);
 		
-		generateSpringBit(chunk, odds, x    , y + 1, z    , BlockFace.EAST, BlockFace.SOUTHFLIP, BlockFace.EAST);
-		generateSpringBit(chunk, odds, x + 1, y + 1, z    , BlockFace.WESTFLIP, BlockFace.EAST, BlockFace.WESTFLIP);
-		generateSpringBit(chunk, odds, x + 2, y + 1, z    , BlockFace.SOUTH, BlockFace.WESTFLIP, BlockFace.SOUTH);
-		generateSpringBit(chunk, odds, x + 2, y + 1, z + 1, BlockFace.NORTHFLIP, BlockFace.SOUTH, BlockFace.NORTHFLIP);
-		generateSpringBit(chunk, odds, x + 2, y + 1, z + 2, BlockFace.WEST, BlockFace.NORTHFLIP, BlockFace.WEST);
-		generateSpringBit(chunk, odds, x + 1, y + 1, z + 2, BlockFace.EASTFLIP, BlockFace.WEST, BlockFace.EASTFLIP);
-		generateSpringBit(chunk, odds, x    , y + 1, z + 2, BlockFace.NORTH, BlockFace.EASTFLIP, BlockFace.NORTH);
-		generateSpringBit(chunk, odds, x    , y + 1, z + 1, BlockFace.SOUTHFLIP, BlockFace.NORTH, BlockFace.SOUTHFLIP);
+		generateSpringBit(chunk, odds, x    , y + 1, z    , BlockFace.EAST, BlockFace.SOUTH, BlockFace.EAST, false);
+		generateSpringBit(chunk, odds, x + 1, y + 1, z    , BlockFace.WEST, BlockFace.EAST, BlockFace.WEST, true);
+		generateSpringBit(chunk, odds, x + 2, y + 1, z    , BlockFace.SOUTH, BlockFace.WEST, BlockFace.SOUTH, false);
+		generateSpringBit(chunk, odds, x + 2, y + 1, z + 1, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.NORTH, true);
+		generateSpringBit(chunk, odds, x + 2, y + 1, z + 2, BlockFace.WEST, BlockFace.NORTH, BlockFace.WEST, false);
+		generateSpringBit(chunk, odds, x + 1, y + 1, z + 2, BlockFace.EAST, BlockFace.WEST, BlockFace.EAST, true);
+		generateSpringBit(chunk, odds, x    , y + 1, z + 2, BlockFace.NORTH, BlockFace.EAST, BlockFace.NORTH, false);
+		generateSpringBit(chunk, odds, x    , y + 1, z + 1, BlockFace.SOUTH, BlockFace.NORTH, BlockFace.SOUTH, true);
 
 		chunk.setBlocks(x + 1, y + 1, y + 5, z + 1, springCoreMat);
 		
-		chunk.setBlocks(x, x + 3, y + 4, z, z + 3, springBaseMat, 2);
+		chunk.setBlocks(x, x + 3, y + 4, z, z + 3, springBaseMat);
 	}
 	
 	private static void generateSpringBit(SupportBlocks chunk, Odds odds, int x, int y, int z, 
-			BlockFace data1, BlockFace data2, BlockFace data3) {
-		chunk.setBlock(x, y    , z, springMat, data1);
-		chunk.setBlock(x, y + 1, z, springMat, data2);
-		chunk.setBlock(x, y + 2, z, springMat, data3);
+			BlockFace data1, BlockFace data2, BlockFace data3, boolean flip13) {
+		chunk.setBlock(x, y    , z, springMat, data1, flip13 ? Half.TOP : Half.BOTTOM);
+		chunk.setBlock(x, y + 1, z, springMat, data2, flip13 ? Half.BOTTOM : Half.TOP);
+		chunk.setBlock(x, y + 2, z, springMat, data3, flip13 ? Half.TOP : Half.BOTTOM);
 	}
 
 	private static void generateTreat(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y, int z) {

@@ -193,7 +193,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			Material officeMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_STONE);
 			Material supportMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.CLAY);
 			Material smokestackMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.CLAY);
-			Material fluidMat = generator.materialProvider.itemsSelectMaterial_FactoryTanks.getRandomMaterial(chunkOdds, Material.STATIONARY_WATER);
+			Material fluidMat = generator.materialProvider.itemsSelectMaterial_FactoryTanks.getRandomMaterial(chunkOdds, Material.WATER);
 	
 			switch (contentStyle) {
 			case BUILDING_SMOKESTACK:
@@ -352,7 +352,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			chunk.setCircle(8, 8, 1, smokestackY2, smokestackY3, smokestackMat);
 
 			if (onFire)
-				chunk.pepperBlocks(7, 9, smokestackY3 - 2, smokestackY3 + 6, 7, 9, chunkOdds, Material.WEB);
+				chunk.pepperBlocks(7, 9, smokestackY3 - 2, smokestackY3 + 6, 7, 9, chunkOdds, Material.COBWEB);
 		}
 	}
 

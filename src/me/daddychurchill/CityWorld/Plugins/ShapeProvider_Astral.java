@@ -305,7 +305,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 				if (y == 0) {
 					biome = Biome.OCEAN;
 					chunk.setBlock(x, 1, z, ores.fluidMaterial);
-					chunk.setBlocks(x, 2, noiseY + 2, z, Material.WEB);
+					chunk.setBlocks(x, 2, noiseY + 2, z, Material.COBWEB);
 				
 				// On the edge?
 				} else if (y == seaLevel && blockYs.getSegment(x, z) == 0) {

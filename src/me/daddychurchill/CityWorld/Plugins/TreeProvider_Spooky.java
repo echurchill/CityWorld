@@ -1,7 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.RealMaterial;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 import org.bukkit.DyeColor;
@@ -18,7 +17,7 @@ public class TreeProvider_Spooky extends TreeProvider {
 		switch (data) {
 		case 1:
 			if (chunk.isEmpty(x, y, z))
-				chunk.setBlock(x, y, z, Material.WEB);
+				chunk.setBlock(x, y, z, Material.COBWEB);
 			break;
 		case 2:
 			if (chunk.isEmpty(x, y, z))
@@ -27,9 +26,9 @@ public class TreeProvider_Spooky extends TreeProvider {
 		case 3:
 			if (chunk.isEmpty(x, y, z))
 				if (odds.playOdds(Odds.oddsLikely))
-					chunk.setBlock(x, y, z, RealMaterial.DRY_SPONGE);
+					chunk.setBlock(x, y, z, Material.SPONGE);
 				else
-					chunk.setBlock(x, y, z, RealMaterial.WET_SPONGE);
+					chunk.setBlock(x, y, z, Material.WET_SPONGE);
 			break;
 		case 4:
 			if (chunk.isEmpty(x, y - 1, z))

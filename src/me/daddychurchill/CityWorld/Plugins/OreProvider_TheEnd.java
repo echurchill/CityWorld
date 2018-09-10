@@ -35,6 +35,6 @@ public class OreProvider_TheEnd extends OreProvider {
 
 	@Override
 	public Biome remapBiome(Biome biome) {
-		return Biome.SKY;
+		return Biome.END_MIDLANDS;
 	}
 }

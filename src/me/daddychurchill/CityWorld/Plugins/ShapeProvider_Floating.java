@@ -168,9 +168,9 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 						int midY = topY - 5;
 						if (midY > bottomY) {
 							chunk.setBlocks(x, bottomY, midY, z, Material.WHITE_WOOL);
-							chunk.setBlocks(x, midY, topY, z, Material.WEB);
+							chunk.setBlocks(x, midY, topY, z, Material.COBWEB);
 						} else
-							chunk.setBlocks(x, bottomY, topY, z, Material.WEB);
+							chunk.setBlocks(x, bottomY, topY, z, Material.COBWEB);
 					}
 					break;
 				case LAVA:
@@ -179,7 +179,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 					chunk.setBlock(x, 0, z, ores.substratumMaterial);
 					
 					// add the nasty bit
-					chunk.setBlocks(x, 1, groundY, z, Material.STATIONARY_LAVA);
+					chunk.setBlocks(x, 1, groundY, z, Material.LAVA);
 					break;
 				case NONE:
 				default:

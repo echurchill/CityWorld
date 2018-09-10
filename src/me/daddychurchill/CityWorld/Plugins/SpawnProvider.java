@@ -376,9 +376,9 @@ public class SpawnProvider extends Provider {
 	private final void setSpawner(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z, EntityType entity) {
 		if (entity.isAlive() && odds.playOdds(generator.settings.spawnBaddies)) {
 			Block block = blocks.getActualBlock(x, y, z);
-			block.setType(Material.MOB_SPAWNER);
+			block.setType(Material.SPAWNER);
 			block.getState().update(true); // for good measure
-			if (block.getType() == Material.MOB_SPAWNER) { // make sure it happened!
+			if (block.getType() == Material.SPAWNER) { // make sure it happened!
 				CreatureSpawner spawner = (CreatureSpawner) block.getState();
 				spawner.setSpawnedType(entity);
 				spawner.update(true);

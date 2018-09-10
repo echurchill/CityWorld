@@ -102,14 +102,14 @@ public class FarmLot extends ConnectedLot {
 		return result;
 	}
 
-	protected Material waterMaterial = Material.WATER;
 	protected final static Material cropNone = Material.DIRT;
+	protected Material waterMaterial = Material.WATER;
 	
-	private final static Material soilMaterial = Material.FARMLAND;
-	private final static Material sandMaterial = Material.SAND;
-	private final static Material mycelMaterial = Material.MYCELIUM;
-	private final static Material dirtMaterial = Material.DIRT;
-	private final static Material soulMaterial = Material.SOUL_SAND;
+//	private final static Material soilMaterial = Material.FARMLAND;
+//	private final static Material sandMaterial = Material.SAND;
+//	private final static Material mycelMaterial = Material.MYCELIUM;
+//	private final static Material dirtMaterial = Material.DIRT;
+//	private final static Material soulMaterial = Material.SOUL_SAND;
 	private final static Material poleMaterial = Material.SPRUCE_FENCE;
 	private final static Material trellisMaterial = Material.SPRUCE_WOOD;
 
@@ -240,7 +240,7 @@ public class FarmLot extends ConnectedLot {
 			case ALL_PLANTS:
 			case DECAY_PLANTS:
 				if (generator.settings.includeAbovegroundFluids)
-					plowField(chunk, croplevel, dirtMaterial, 2, waterMaterial, 2);
+					plowField(chunk, croplevel, Material.COARSE_DIRT, waterMaterial, 2);
 				else 
 					fallowField = true;
 				break;
@@ -260,23 +260,23 @@ public class FarmLot extends ConnectedLot {
 				// leave the grass alone
 				break;
 			case CACTUS:
-				plowField(chunk, croplevel, sandMaterial, 0, sandMaterial, 2);
+				plowField(chunk, croplevel, Material.SAND, Material.SAND, 2);
 				break;
 			case REED:
 				if (generator.settings.includeAbovegroundFluids)
-					plowField(chunk, croplevel, sandMaterial, 0, waterMaterial, 2);
+					plowField(chunk, croplevel, Material.SAND, waterMaterial, 2);
 				else 
 					fallowField = true;
 				break;
 			case DEAD_BUSH:
-				plowField(chunk, croplevel, dirtMaterial, 1, fallowMaterial, 2);
+				plowField(chunk, croplevel, Material.COARSE_DIRT, fallowMaterial, 2);
 				break;
 			case WHEAT:
 			case CARROT:
 			case POTATO:
 			case BEETROOT:
 				if (generator.settings.includeAbovegroundFluids)
-					plowField(chunk, croplevel, soilMaterial, 8, waterMaterial, 2);
+					plowField(chunk, croplevel, Material.FARMLAND, waterMaterial, 2);
 				else 
 					fallowField = true;
 				break;
@@ -284,19 +284,19 @@ public class FarmLot extends ConnectedLot {
 			case PUMPKIN:
 			case EDIBLE_PLANTS:
 				if (generator.settings.includeAbovegroundFluids)
-					plowField(chunk, croplevel, soilMaterial, 8, waterMaterial, 3);
+					plowField(chunk, croplevel, Material.FARMLAND, waterMaterial, 3);
 				else 
 					fallowField = true;
 				break;
 			case BROWN_MUSHROOM:
 			case RED_MUSHROOM:
-				plowField(chunk, croplevel, mycelMaterial, 0, fallowMaterial, 2);
+				plowField(chunk, croplevel, Material.MYCELIUM, fallowMaterial, 2);
 				break;
 			case NETHERWART:
-				plowField(chunk, croplevel, soulMaterial, 0, fallowMaterial, 2);
+				plowField(chunk, croplevel, Material.SOUL_SAND, fallowMaterial, 2);
 				break;
 			case NETHER_PLANTS:
-				plowField(chunk, croplevel, soulMaterial, 0, fallowMaterial, 2);
+				plowField(chunk, croplevel, Material.SOUL_SAND, fallowMaterial, 2);
 				break;
 			case FALLOW:
 				fallowField = true;
@@ -304,7 +304,7 @@ public class FarmLot extends ConnectedLot {
 			}
 		
 		if (fallowField)
-			plowField(chunk, croplevel, dirtMaterial, 1, fallowMaterial, 2);
+			plowField(chunk, croplevel, Material.COARSE_DIRT, fallowMaterial, 2);
 		else {
 			switch (cropType) {
 			case FALLOW:

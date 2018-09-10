@@ -82,7 +82,7 @@ public class StorageLot extends BuildingLot {
 			break;
 		case TANK:
 			Material wallMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_STONE);
-			Material fluidMat = generator.materialProvider.itemsSelectMaterial_FactoryTanks.getRandomMaterial(chunkOdds, Material.STATIONARY_WATER);
+			Material fluidMat = generator.materialProvider.itemsSelectMaterial_FactoryTanks.getRandomMaterial(chunkOdds, Material.WATER);
 			
 			chunk.setCircle(8, 8, 6, groundY, groundY + 2 + chunkOdds.getRandomInt(6), fluidMat, true);
 			chunk.setCircle(8, 8, 6, groundY, topY - 3, wallMat);

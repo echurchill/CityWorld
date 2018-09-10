@@ -40,7 +40,7 @@ public abstract class OreProvider extends Provider {
 		stratumMaterial = Material.STONE;
 		substratumMaterial = Material.BEDROCK;
 		
-		fluidMaterial = Material.STATIONARY_WATER;
+		fluidMaterial = Material.WATER;
 		fluidFluidMaterial = Material.WATER;
 		fluidSurfaceMaterial = Material.SAND;
 		fluidSubsurfaceMaterial = Material.GRAVEL;

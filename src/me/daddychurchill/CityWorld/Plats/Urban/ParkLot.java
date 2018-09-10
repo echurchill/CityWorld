@@ -9,16 +9,15 @@ import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.MazeArray;
 import me.daddychurchill.CityWorld.Support.MazeArray.MazeBit;
-import me.daddychurchill.CityWorld.Support.BadMagic;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.SurroundingLots;
 
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Bisected.Half;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class ParkLot extends ConnectedLot {
@@ -324,8 +323,8 @@ public class ParkLot extends ConnectedLot {
 				generateSurface(generator, chunk, false);
 				break;
 			case LABYRINTH_MAZE:
-				chunk.setClay(1, 15, surfaceY - 1, 1, 15, DyeColor.BLUE);
-				startLabyrinth(chunk, 6, surfaceY - 1, 14, DyeColor.CYAN); //a
+				chunk.setBlocks(1, 15, surfaceY - 1, 1, 15, Material.BLUE_TERRACOTTA);
+				startLabyrinth(chunk, 6, surfaceY - 1, 14, Material.CYAN_TERRACOTTA); //a
 				contLabyrinth(chunk, 1, 14); //b
 				contLabyrinth(chunk, 1, 1); //c
 				contLabyrinth(chunk, 14, 1); //d
@@ -344,7 +343,7 @@ public class ParkLot extends ConnectedLot {
 				contLabyrinth(chunk, 10, 8); //q
 				contLabyrinth(chunk, 7, 8); //r
 				contLabyrinth(chunk, 7, 7); //s
-				changeColor(DyeColor.LIGHT_BLUE);
+				changeColor(Material.LIGHT_BLUE_TERRACOTTA);
 				contLabyrinth(chunk, 8, 7); //t
 				break;
 			case CIRCLE_MAZE:
@@ -386,11 +385,11 @@ public class ParkLot extends ConnectedLot {
 						}
 						if ((z < 5) && (maze.getBit(xWall - 1, zWall) == MazeBit.WALL)) {
 							chunk.setBlocks(x1, x2, surfaceY - 1, surfaceY, z2, z2 + 1, Material.SPRUCE_LOG);
-							chunk.setBlocks(x1, x2, surfaceY, surfaceY + 3, z2, z2 + 1, Material.LEAVES_2);
+							chunk.setBlocks(x1, x2, surfaceY, surfaceY + 3, z2, z2 + 1, Material.BIRCH_LEAVES);
 						}
 						if ((x < 5) && (z < 5)) {
 							chunk.setBlocks(x2, surfaceY - 1, surfaceY, z2, Material.SPRUCE_LOG);
-							chunk.setBlocks(x2, surfaceY, surfaceY + 3, z2, Material.LEAVES_2);
+							chunk.setBlocks(x2, surfaceY, surfaceY + 3, z2, Material.BIRCH_LEAVES);
 						}
 					}
 				break;
@@ -415,7 +414,7 @@ public class ParkLot extends ConnectedLot {
 					int lowestY = generator.streetLevel - cisternDepth + 1 + waterDepth;
 					chunk.setBlocks(4, 7, lowestY, lowestY + 1, 1, 2, ledgeMaterial);
 					chunk.setLadder(5, lowestY + 1, surfaceY, 1, BlockFace.NORTH);
-					chunk.setTrapDoor(5, surfaceY - 1, 1, BadMagic.TrapDoor.TOP_EAST);
+					chunk.setBlock(5, surfaceY - 1, 1, Material.BIRCH_TRAPDOOR, BlockFace.EAST, Half.TOP);
 				}
 			}
 		}
@@ -478,16 +477,16 @@ public class ParkLot extends ConnectedLot {
 	int lastX;
 	int lastY;
 	int lastZ;
-	DyeColor lastColor;
-	private void startLabyrinth(RealBlocks chunk, int x, int y, int z, DyeColor color) {
+	Material lastColor;
+	private void startLabyrinth(RealBlocks chunk, int x, int y, int z, Material color) {
 		lastX = x;
 		lastY = y;
 		lastZ = z;
 		lastColor = color;
-		chunk.setClay(lastX, lastY, lastZ, lastColor);
+		chunk.setBlock(lastX, lastY, lastZ, lastColor);
 	}
 	
-	private void changeColor(DyeColor color) {
+	private void changeColor(Material color) {
 		lastColor = color;
 	}
 	
@@ -495,23 +494,23 @@ public class ParkLot extends ConnectedLot {
 		if (lastX == newX) {
 			if (lastZ < newZ) {
 				for (int z = lastZ + 1; z < newZ; z++)
-					chunk.setClay(newX, lastY, z, lastColor);
+					chunk.setBlock(newX, lastY, z, lastColor);
 			} else if (lastZ > newZ) {
 				for (int z = newZ + 1; z < lastZ; z++)
-					chunk.setClay(newX, lastY, z, lastColor);
+					chunk.setBlock(newX, lastY, z, lastColor);
 			}
 		}
 		if (lastZ == newZ) {
 			if (lastX < newX) {
 				for (int x = lastX + 1; x < newX; x++)
-					chunk.setClay(x, lastY, newZ, lastColor);
+					chunk.setBlock(x, lastY, newZ, lastColor);
 			} else if (lastX > newX) {
 				for (int x = newX + 1; x < lastX; x++)
-					chunk.setClay(x, lastY, newZ, lastColor);
+					chunk.setBlock(x, lastY, newZ, lastColor);
 			}
 		}
 		lastX = newX;
 		lastZ = newZ;
-		chunk.setClay(lastX, lastY, lastZ, lastColor);
+		chunk.setBlock(lastX, lastY, lastZ, lastColor);
 	}
 }

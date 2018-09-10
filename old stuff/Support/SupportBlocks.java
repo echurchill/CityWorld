@@ -161,7 +161,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	public abstract boolean isSurroundedByEmpty(int x, int y, int z);
 	
 	public final boolean isWater(int x, int y, int z) {
-		return isOfTypes(x, y, z, Material.STATIONARY_WATER, Material.WATER);
+		return isOfTypes(x, y, z, Material.WATER, Material.WATER);
 //		return getActualBlock(x, y, z).isLiquid();
 	}
 

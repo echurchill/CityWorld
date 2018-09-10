@@ -283,6 +283,14 @@ public class Odds {
 			Material.SPRUCE_DOOR, 
 			Material.OAK_DOOR};
 	
+	public static Material[] allWoodLeaves = {
+			Material.ACACIA_LEAVES, 
+			Material.BIRCH_LEAVES, 
+			Material.DARK_OAK_LEAVES, 
+			Material.JUNGLE_LEAVES, 
+			Material.SPRUCE_LEAVES, 
+			Material.OAK_LEAVES};
+	
 	public static Material[] allWoolBlocks = {
 			Material.BLACK_WOOL,
 			Material.BLUE_WOOL,

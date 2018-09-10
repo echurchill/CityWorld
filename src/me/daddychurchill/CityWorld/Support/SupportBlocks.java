@@ -508,16 +508,16 @@ public abstract class SupportBlocks extends AbstractBlocks {
 //		setBlocksTypeAndColor(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, Material.WHITE_TERRACOTTA, color);
 //	}
 //	
-//	public final void camoClay(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds, ColorSet colors) {
-//		for (int x = x1; x < x2; x++) {
-//			for (int y = y1; y < y2; y++) {
-//				for (int z = z1; z < z2; z++) {
-//					setBlockIfTypeThenColor(x, y, z, Material.WHITE_TERRACOTTA, odds.getRandomColor(colors));
-//				}
-//			}
-//		}
-//	}
-//	
+	public final void setBlocksRandomly(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds, Material ... materials) {
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
+				for (int z = z1; z < z2; z++) {
+					setBlock(x, y, z, odds.getRandomMaterial(materials));
+				}
+			}
+		}
+	}
+	
 //	public final void setGlass(int x, int y, int z, DyeColor color) {
 //		setBlockTypeAndColor(x, y, z, Material.WHITE_STAINED_GLASS, color);
 //	}

@@ -15,7 +15,7 @@ public class OreProvider_Nether extends OreProvider {
 		subsurfaceMaterial = Material.NETHERRACK;
 		stratumMaterial = Material.NETHERRACK;
 		
-		fluidMaterial = Material.STATIONARY_LAVA;
+		fluidMaterial = Material.LAVA;
 		fluidFluidMaterial = Material.LAVA;
 		fluidFrozenMaterial = Material.OBSIDIAN;
 		fluidSubsurfaceMaterial = Material.LAVA;

@@ -9,9 +9,6 @@ import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.Surroundings;
-import me.daddychurchill.CityWorld.Support.BadMagic.General;
-import me.daddychurchill.CityWorld.Support.BadMagic.StairWell;
-import me.daddychurchill.CityWorld.Support.BadMagic.Torch;
 
 public class MuseumBuildingLot extends FinishedBuildingLot {
 

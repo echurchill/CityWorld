@@ -16,7 +16,7 @@ public class OreProvider_Astral extends OreProvider_Normal {
 		stratumMaterial = Material.PACKED_ICE;
 		substratumMaterial = Material.BEDROCK;
 		
-		fluidMaterial = Material.STATIONARY_LAVA;
+		fluidMaterial = Material.LAVA;
 		fluidFluidMaterial = Material.LAVA;
 		fluidSurfaceMaterial = Material.FROSTED_ICE;
 		fluidSubsurfaceMaterial = Material.FROSTED_ICE;

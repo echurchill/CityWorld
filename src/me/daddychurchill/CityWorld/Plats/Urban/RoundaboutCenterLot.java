@@ -22,7 +22,7 @@ public class RoundaboutCenterLot extends IsolatedLot {
 	private enum BaseStyle { WATER, GRASS, PEDESTAL };
 	private enum PitStyle { WATER, LAVA, UNFINISHED };
 	
-	private final static Material curbMaterial = Material.DOUBLE_STEP;
+	private final static Material curbMaterial = Material.STONE;
 	private final static Material brickMaterial = Material.SMOOTH_STONE;
 //	private final static Material fenceMaterial = Material.SPRUCE_FENCE;
 	private final static Material baseMaterial = Material.QUARTZ_BLOCK;
@@ -157,7 +157,7 @@ public class RoundaboutCenterLot extends IsolatedLot {
 				GravelLot.generateHole(generator, chunkOdds, chunk, yPitTop - 6, 14, yPitBottom, false);
 				
 				// fill with lava
-				chunk.setBlocks(4, 12, yPitBottom - 2, 4, 12, Material.STATIONARY_LAVA);
+				chunk.setBlocks(4, 12, yPitBottom - 2, 4, 12, Material.LAVA);
 				chunk.clearBlocks(4, 12, yPitBottom - 1, 4, 12);
 				chunk.pepperBlocks(4, 12, yPitBottom - 1, 4, 12, chunkOdds, Material.LAVA);
 
@@ -193,14 +193,14 @@ public class RoundaboutCenterLot extends IsolatedLot {
 				chunk.setBlocks(9, 10, yPitPipes - 5, yPitPipes - 1, 7, 9, Material.SMOOTH_STONE);
 				
 				// round things out a bit on the edges
-				chunk.setSlab(6, yPitPipes + 1, 1, Material.SMOOTH_STONE, false);
-				chunk.setSlab(9, yPitPipes + 1, 1, Material.SMOOTH_STONE, false);
-				chunk.setSlab(6, yPitPipes + 1, 14, Material.SMOOTH_STONE, false);
-				chunk.setSlab(9, yPitPipes + 1, 14, Material.SMOOTH_STONE, false);
-				chunk.setSlab(1, yPitPipes + 1, 6, Material.SMOOTH_STONE, false);
-				chunk.setSlab(1, yPitPipes + 1, 9, Material.SMOOTH_STONE, false);
-				chunk.setSlab(14, yPitPipes + 1, 6, Material.SMOOTH_STONE, false);
-				chunk.setSlab(14, yPitPipes + 1, 9, Material.SMOOTH_STONE, false);
+				chunk.setBlock(6, yPitPipes + 1, 1, Material.SMOOTH_STONE);
+				chunk.setBlock(9, yPitPipes + 1, 1, Material.SMOOTH_STONE);
+				chunk.setBlock(6, yPitPipes + 1, 14, Material.SMOOTH_STONE);
+				chunk.setBlock(9, yPitPipes + 1, 14, Material.SMOOTH_STONE);
+				chunk.setBlock(1, yPitPipes + 1, 6, Material.SMOOTH_STONE);
+				chunk.setBlock(1, yPitPipes + 1, 9, Material.SMOOTH_STONE);
+				chunk.setBlock(14, yPitPipes + 1, 6, Material.SMOOTH_STONE);
+				chunk.setBlock(14, yPitPipes + 1, 9, Material.SMOOTH_STONE);
 				
 				// notch the sides a bit
 				chunk.clearBlocks(7, 9, yPitPipes + 1, 0, 1);

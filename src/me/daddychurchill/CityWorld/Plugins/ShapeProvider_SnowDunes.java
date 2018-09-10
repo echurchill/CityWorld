@@ -146,7 +146,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 	
 	@Override
 	protected Biome remapBiome(CityWorldGenerator generator, PlatLot lot, Biome biome) {
-		return Biome.ICE_MOUNTAINS;
+		return Biome.SNOWY_MOUNTAINS;
 	}
 
 	@Override

@@ -19,7 +19,7 @@ import me.daddychurchill.CityWorld.Support.Odds;
 
 public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 
-	public final static Material floodMaterial = Material.STATIONARY_WATER;
+	public final static Material floodMaterial = Material.WATER;
 	
 	protected int floodY;
 	

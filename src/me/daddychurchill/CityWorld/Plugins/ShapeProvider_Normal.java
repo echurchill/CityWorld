@@ -269,7 +269,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 					// on the beach
 					if (y == generator.seaLevel) {
 						generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 2, ores.fluidSubsurfaceMaterial, y, ores.fluidSurfaceMaterial, generator.settings.includeDecayedNature);
-						biome = Biome.BEACHES;
+						biome = Biome.BEACH;
 
 					// we are in the water! ...or are we?
 					} else if (y < generator.seaLevel) {
@@ -297,7 +297,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 						// regular trees and some evergreen trees
 						} else if (y < generator.evergreenLevel) {
 							generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 2, ores.subsurfaceMaterial, y, ores.surfaceMaterial, surfaceCaves);
-							biome = Biome.FOREST_HILLS;
+							biome = Biome.BIRCH_FOREST_HILLS;
 
 						// evergreen and some of fallen snow
 						} else if (y < generator.snowLevel) {
@@ -310,7 +310,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 								generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 1, ores.stratumMaterial, y, ores.fluidFrozenMaterial, surfaceCaves);
 							else
 								generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 1, ores.stratumMaterial, y, ores.stratumMaterial, surfaceCaves);
-							biome = Biome.ICE_MOUNTAINS;
+							biome = Biome.SNOWY_MOUNTAINS;
 						}
 					}
 				}

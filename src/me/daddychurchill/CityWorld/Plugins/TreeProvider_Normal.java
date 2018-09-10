@@ -129,7 +129,7 @@ public class TreeProvider_Normal extends TreeProvider {
 				if (odds.playOdds(Odds.oddsUnlikely)) {
 					
 					// create the trunk
-					chunk.setLogs(x, x + trunkWidth, rootAt, rootAt + trunkHeight, z, z + trunkWidth, Material.SPRUCE_LOG, getTreeSpecies(treeType), BlockFace.UP);
+					chunk.setBlocks(x, x + trunkWidth, rootAt, rootAt + trunkHeight, z, z + trunkWidth, odds.getRandomMaterial(Odds.allWoodenLogs), BlockFace.UP);
 					
 					// roughen up the top bit
 					if (trunkWidth > 1)

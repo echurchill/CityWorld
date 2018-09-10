@@ -7,7 +7,6 @@ import org.bukkit.TreeType;
 import org.bukkit.util.noise.NoiseGenerator;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
-import me.daddychurchill.CityWorld.Support.BlackMagic;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RelativeBlocks;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;

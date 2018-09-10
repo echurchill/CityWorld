@@ -93,12 +93,12 @@ public class RealMaterial {
 	@Deprecated
 	public final static MaterialData WATER = define(false, true, Material.WATER);
 	public final static MaterialData FLOWING_WATER = define(false, false, Material.WATER);
-	public final static MaterialData STATIONARY_WATER = define(false, false, Material.STATIONARY_WATER);
+	public final static MaterialData STATIONARY_WATER = define(false, false, Material.WATER);
 
 	@Deprecated
 	public final static MaterialData LAVA = define(false, true, Material.LAVA);
 	public final static MaterialData FLOWING_LAVA = define(false, false, Material.LAVA);
-	public final static MaterialData STATIONARY_LAVA = define(false, false, Material.STATIONARY_LAVA);
+	public final static MaterialData STATIONARY_LAVA = define(false, false, Material.LAVA);
 
 	public final static MaterialData SAND = define(true, false, new Sand(SandType.SAND)); /* SHOULD BE DEPRECATED */
 	public final static MaterialData RED_SAND = define(true, false, new Sand(SandType.RED));
@@ -149,7 +149,7 @@ public class RealMaterial {
 	public final static MaterialData POWERED_RAIL = define(false, false, Material.POWERED_RAIL);
 	public final static MaterialData DETECTOR_RAIL = define(false, false, Material.DETECTOR_RAIL);
 	public final static MaterialData PISTON_STICKY_BASE = define(false, false, Material.PISTON_STICKY_BASE);
-	public final static MaterialData WEB = define(false, false, Material.WEB);
+	public final static MaterialData WEB = define(false, false, Material.COBWEB);
 	public final static MaterialData LONG_GRASS = define(false, false, Material.LONG_GRASS);
 	public final static MaterialData DEAD_BUSH = define(false, false, Material.DEAD_BUSH);
 	public final static MaterialData PISTON_BASE = define(false, false, Material.PISTON);

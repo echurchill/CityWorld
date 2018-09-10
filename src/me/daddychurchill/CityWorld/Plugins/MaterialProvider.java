@@ -1159,6 +1159,8 @@ public class MaterialProvider {
 	public MaterialList itemsSelectMaterial_BunkerPlatforms = createList(tagSelectMaterial_BunkerPlatforms,
 			Material.CLAY,
 			Material.QUARTZ_BLOCK,
+			Material.QUARTZ_PILLAR,
+			Material.CHISELED_QUARTZ_BLOCK,
 
 			Material.TERRACOTTA,
 			Material.WHITE_TERRACOTTA,

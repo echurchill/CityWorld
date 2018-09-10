@@ -216,7 +216,7 @@ public abstract class ShapeProvider extends Provider {
 			if (lot.isValidStrataY(generator, blockX, y, blockZ) && generator.shapeProvider.notACave(generator, blockX, y, blockZ))
 				chunk.setBlock(x, y, z, stratumMaterial);
 			else if (y <= OreProvider.lavaFieldLevel && generator.settings.includeLavaFields)
-				chunk.setBlock(x, y, z, Material.STATIONARY_LAVA);
+				chunk.setBlock(x, y, z, Material.LAVA);
 
 		// aggregate bits
 		for (int y = stratumY; y < subsurfaceY - 1; y++)
