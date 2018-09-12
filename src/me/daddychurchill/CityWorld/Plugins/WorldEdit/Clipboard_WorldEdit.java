@@ -3,13 +3,13 @@ package me.daddychurchill.CityWorld.Plugins.WorldEdit;
 import java.io.File;
 import java.io.IOException;
 
+import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.Clipboard;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
-import me.daddychurchill.CityWorld.Support.BlackMagic;
 
 import com.sk89q.worldedit.CuboidClipboard;
 import com.sk89q.worldedit.CuboidClipboard.FlipDirection;
@@ -114,7 +114,7 @@ public class Clipboard_WorldEdit extends Clipboard {
 		//TODO I need to change the edgeMaterial and edgeData types to be Material and MaterialData or something like that
 		// grab the edge block
 		BaseBlock edge = cuboid.getBlock(new Vector(0, groundLevelY, 0));
-		edgeMaterial = BlackMagic.getMaterial(edge.getType());
+		edgeMaterial = Material.getMaterial(edge.getType());
 //		edgeData = edge.getData(); // TODO: One of these days I need to get this working again
 		edgeRise = generator.oreProvider.surfaceMaterial.equals(edgeMaterial) ? 0 : 1;
 		

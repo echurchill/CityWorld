@@ -394,9 +394,9 @@ public class ShapeProvider_Astral extends ShapeProvider {
 					if (y < seaLevel) {
 						
 						// little more snow
-						chunk.setBlocks(x, baseY, y, z, ores.surfaceMaterial);
-						double perciseY = blockYs.getPerciseY(x, z);
-						chunk.setSnowCover(x, y, z, (byte) NoiseGenerator.floor((perciseY - Math.floor(perciseY)) * 8.0));
+//						chunk.setBlocks(x, baseY, y, z, ores.surfaceMaterial);
+//						double perciseY = blockYs.getPerciseY(x, z);
+//						chunk.setBlock(x, y, z, Material.SNOW, perciseY);
 						
 					// backfill mountain
 					} else if (y > seaLevel) {
@@ -412,9 +412,9 @@ public class ShapeProvider_Astral extends ShapeProvider {
 						} else {
 							
 							// little more snow
-							chunk.setBlocks(x, baseY, y, z, ores.surfaceMaterial);
-							double perciseY = blockYs.getPerciseY(x, z);
-							chunk.setSnowCover(x, y, z, (byte) NoiseGenerator.floor((perciseY - Math.floor(perciseY)) * 8.0));
+//							chunk.setBlocks(x, baseY, y, z, ores.surfaceMaterial);
+//							double perciseY = blockYs.getPerciseY(x, z);
+//							chunk.setBlock(x, y, z, Material.SNOW, perciseY);
 						}
 					}
 				}

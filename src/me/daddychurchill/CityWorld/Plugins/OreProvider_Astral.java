@@ -32,6 +32,7 @@ public class OreProvider_Astral extends OreProvider_Normal {
 	}
 	
 	@Override
-	public void dropSnow(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, int level) {
+	public void dropSnow(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, double level) {
+		// do nothing
 	}
 }

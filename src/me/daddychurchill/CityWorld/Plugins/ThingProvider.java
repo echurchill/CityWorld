@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Bisected.Half;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
@@ -197,18 +198,18 @@ public class ThingProvider extends Provider {
 					break;
 				case WHT:
 //					if (cI % 2 == 0)
-						chunk.setBlock(x + xI, y, z + zI, RealMaterial.WHITE_WOOL);
+						chunk.setBlock(x + xI, y, z + zI, Material.WHITE_WOOL);
 //					else 
 //						chunk.setBlock(x + xI, y, z + zI, Material.WHITE_WOOL, DyeColor.LIGHT_GRAY);
 					break;
 				case YEL:
-					chunk.setBlock(x + xI, y, z + zI, RealMaterial.YELLOW_WOOL);
+					chunk.setBlock(x + xI, y, z + zI, Material.YELLOW_WOOL);
 					break;
 				case RED:
-					chunk.setBlock(x + xI, y, z + zI, RealMaterial.RED_WOOL);
+					chunk.setBlock(x + xI, y, z + zI, Material.RED_WOOL);
 					break;
 				case BLK:
-					chunk.setBlock(x + xI, y, z + zI, RealMaterial.BLACK_WOOL);
+					chunk.setBlock(x + xI, y, z + zI, Material.BLACK_WOOL);
 					break;
 				}
 			}
@@ -331,14 +332,14 @@ public class ThingProvider extends Provider {
 					chunk.setBlock(x - 1, hindY - 1, hindZ + zO, matBlock);
 					chunk.setBlock(x + 1, hindY - 1, hindZ + zO, matBlock);
 					
-					chunk.setBlock(x - 1, hindY - 2, hindZ + zO, matStair, BlockFace.EASTFLIP);
-					chunk.setBlock(x + 1, hindY - 2, hindZ + zO, matStair, BlockFace.WESTFLIP);
+					chunk.setBlock(x - 1, hindY - 2, hindZ + zO, matStair, BlockFace.EAST, Half.TOP);
+					chunk.setBlock(x + 1, hindY - 2, hindZ + zO, matStair, BlockFace.WEST, Half.TOP);
 				}
 				
 				// move down 
 				if (isHindUpright) {
 					chunk.setBlock(x, hindY + 1, hindZ + zO, matStair, BlockFace.NORTH);
-					chunk.setBlock(x, hindY - 1, hindZ + zO, matStair, BlockFace.SOUTHFLIP);
+					chunk.setBlock(x, hindY - 1, hindZ + zO, matStair, BlockFace.SOUTH, Half.TOP);
 					hindY--;
 				}
 			}
@@ -377,7 +378,7 @@ public class ThingProvider extends Provider {
 					
 					chunk.setBlock(x, sectionY, sectionZ, matBlock);
 					chunk.setBlock(x, sectionY + 1, sectionZ, matStair, BlockFace.NORTH);
-					chunk.setBlock(x, sectionY, sectionZ - 1, matStair, BlockFace.SOUTHFLIP);
+					chunk.setBlock(x, sectionY, sectionZ - 1, matStair, BlockFace.SOUTH, Half.TOP);
 					
 					sectionY++;
 					sectionZ--;
@@ -417,8 +418,8 @@ public class ThingProvider extends Provider {
 			chunk.setBlock(x + xO, y - yO, z, matBlock);
 		} else {
 			forceToes = true;
-			chunk.setBlock(x - xO, y - yO, z, matStair, BlockFace.NORTHFLIP);
-			chunk.setBlock(x + xO, y - yO, z, matStair, BlockFace.NORTHFLIP);
+			chunk.setBlock(x - xO, y - yO, z, matStair, BlockFace.NORTH, Half.TOP);
+			chunk.setBlock(x + xO, y - yO, z, matStair, BlockFace.NORTH, Half.TOP);
 		}
 		
 		// fingers/toes
@@ -448,15 +449,15 @@ public class ThingProvider extends Provider {
 //			chunk.setBlock(x - 1, y3, z, matStair, BlockFace.EASTFLIP);
 //			chunk.setBlock(x + 1, y3, z, matStair, BlockFace.WESTFLIP);
 		} else if (!cyclopsEye && needEyes && odds.playOdds(Odds.oddsLikely)) {
-			chunk.setBlock(x - 1, y3, z, matStair, BlockFace.SOUTHFLIP);
-			chunk.setBlock(x + 1, y3, z, matStair, BlockFace.SOUTHFLIP);
+			chunk.setBlock(x - 1, y3, z, matStair, BlockFace.SOUTH, Half.TOP);
+			chunk.setBlock(x + 1, y3, z, matStair, BlockFace.SOUTH, Half.TOP);
 			needEyes = false;
 		} 
 		
 		// edit the bottom bit
 		if (odds.flipCoin()) { // rounded bottoms
-			chunk.setBlock(x - 1, y1, z, matStair, BlockFace.EASTFLIP);
-			chunk.setBlock(x + 1, y1, z, matStair, BlockFace.WESTFLIP);
+			chunk.setBlock(x - 1, y1, z, matStair, BlockFace.EAST, Half.TOP);
+			chunk.setBlock(x + 1, y1, z, matStair, BlockFace.WEST, Half.TOP);
 //		} else if (odds.flipCoin()) { // second neck
 //			chunk.setBlock(x - 1, y1, z, matStair, BlockFace.EAST);
 //			chunk.setBlock(x + 1, y1, z, matStair, BlockFace.WEST);
@@ -467,18 +468,18 @@ public class ThingProvider extends Provider {
 			chunk.setBlock(x, y1, z, matStair, BlockFace.SOUTH);
 		else if (!cyclopsEye && odds.flipCoin()) { // snout/beak
 			chunk.setBlock(x, y2, z - 1, matStair, BlockFace.SOUTH);
-			chunk.setBlock(x, y1, z - 1, matStair, BlockFace.SOUTHFLIP);
+			chunk.setBlock(x, y1, z - 1, matStair, BlockFace.SOUTH, Half.TOP);
 		}
 		
 		// finalize the eye bits
 		if (cyclopsEye && tallHead) {
-			chunk.setBlock(x, y3, z, matStair, BlockFace.SOUTHFLIP);
+			chunk.setBlock(x, y3, z, matStair, BlockFace.SOUTH, Half.TOP);
 			chunk.setBlock(x, y2, z, matStair, BlockFace.SOUTH);
 			needEyes = false;
 		} else if (needEyes) {
 			if (tallHead) {
-				chunk.setBlock(x - 1, y2, z, matStair, BlockFace.SOUTHFLIP);
-				chunk.setBlock(x + 1, y2, z, matStair, BlockFace.SOUTHFLIP);
+				chunk.setBlock(x - 1, y2, z, matStair, BlockFace.SOUTH, Half.TOP);
+				chunk.setBlock(x + 1, y2, z, matStair, BlockFace.SOUTH, Half.TOP);
 			} else {
 				chunk.setBlock(x - 1, y2, z, matStair, BlockFace.SOUTH);
 				chunk.setBlock(x + 1, y2, z, matStair, BlockFace.SOUTH);

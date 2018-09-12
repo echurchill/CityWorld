@@ -198,10 +198,10 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 				int y = Math.max(topY, NoiseGenerator.floor(snowCoverY));
 				int snowY = chunk.findFirstEmpty(x, y, z, y - 1, y + 6);
 				if (!chunk.isNonstackableBlock(x, snowY - 1, z)) {
-					int snowAmount = NoiseGenerator.floor((snowCoverY - Math.floor(snowCoverY)) * 8.0);
-					if (snowAmount > 3 & !chunk.isType(x, snowY - 1, z, Material.SNOW_BLOCK))
-						snowAmount = 7 - snowAmount;
-					chunk.setSnowCover(x, snowY, z, snowAmount);
+//					int snowAmount = NoiseGenerator.floor((snowCoverY - Math.floor(snowCoverY)) * 8.0);
+//					if (snowAmount > 3 & !chunk.isType(x, snowY - 1, z, Material.SNOW_BLOCK))
+//						snowAmount = 7 - snowAmount;
+					chunk.setBlock(x, snowY, z, Material.SNOW, snowCoverY);
 				}
 			}
 		}

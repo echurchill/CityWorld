@@ -28,7 +28,7 @@ public class OreProvider_Nether extends OreProvider {
 		ore_types.add(generator.materialProvider.itemsMaterialListFor_NetherOres.getNthMaterial(4, Material.GLOWSTONE));
 		
 		ore_types.add(generator.materialProvider.itemsMaterialListFor_NetherOres.getNthMaterial(5, Material.GLOWSTONE));
-		ore_types.add(generator.materialProvider.itemsMaterialListFor_NetherOres.getNthMaterial(6, Material.QUARTZ_ORE));
+		ore_types.add(generator.materialProvider.itemsMaterialListFor_NetherOres.getNthMaterial(6, Material.NETHER_QUARTZ_ORE));
 		ore_types.add(generator.materialProvider.itemsMaterialListFor_NetherOres.getNthMaterial(7, Material.SOUL_SAND));
 		ore_types.add(generator.materialProvider.itemsMaterialListFor_NetherOres.getNthMaterial(8, Material.SOUL_SAND));
 		ore_types.add(generator.materialProvider.itemsMaterialListFor_NetherOres.getNthMaterial(9, Material.OBSIDIAN));
@@ -36,11 +36,11 @@ public class OreProvider_Nether extends OreProvider {
 
 	@Override
 	public Biome remapBiome(Biome biome) {
-		return Biome.HELL;
+		return Biome.THE_VOID;
 	}
 
 	@Override
-	public void dropSnow(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, int level) {
+	public void dropSnow(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, double level) {
 		
 		// do nothing
 	}
