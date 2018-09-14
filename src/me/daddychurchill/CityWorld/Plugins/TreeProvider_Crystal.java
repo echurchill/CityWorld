@@ -16,49 +16,42 @@ public class TreeProvider_Crystal extends TreeProvider {
 	}
 
 	@Override
-	protected void generateTrunkBlock(SupportBlocks chunk, int x, int y, int z, int w, int h, Material material, int data) {
-		if (odds.playOdds(Odds.oddsSomewhatLikely)) {
+	protected void generateTrunkBlock(SupportBlocks chunk, int x, int y, int z, int w, int h, Material material) {
+		if (odds.playOdds(Odds.oddsSomewhatLikely))
 			material = Material.GLOWSTONE;
-			data = 0;
-		}
-		super.generateTrunkBlock(chunk, x, y, z, w, h, material, data);
+		
+		super.generateTrunkBlock(chunk, x, y, z, w, h, material);
 	}
 	
 	@Override
-	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, int data, DyeColor specialColor) {
-		switch (data) {
-		case 1:
+	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, DyeColor specialColor) {
+		if (material == Material.ACACIA_LEAVES) {
 			if (chunk.isEmpty(x, y, z))
 				if (odds.playOdds(Odds.oddsExtremelyLikely))
 					chunk.setBlock(x, y, z, Material.GLASS_PANE);
 				else
 					chunk.setBlock(x, y, z, Material.GLASS);
-			break;
-		case 2:
+		} else if (material == Material.BIRCH_LEAVES) {
 			if (chunk.isEmpty(x, y - 1, z))
-				chunk.setBlockTypeAndColor(x, y - 1, z, Material.CARPET, specialColor);
-			break;
-		case 3:
+				chunk.setBlock(x, y - 1, z, odds.getColoredCarpet(specialColor));
+		} else if (material == Material.DARK_OAK_LEAVES) {
 			if (chunk.isEmpty(x, y, z))
 				if (odds.playOdds(Odds.oddsExtremelyLikely))
-					chunk.setBlockTypeAndColor(x, y, z, Material.WHITE_STAINED_GLASS, specialColor);
+					chunk.setBlock(x, y, z, odds.getColoredGlass(specialColor));
 				else
-					chunk.setBlockTypeAndColor(x, y, z, Material.WHITE_STAINED_GLASS_PANE, specialColor);
-			break;
-		case 4:
+					chunk.setBlock(x, y, z, odds.getColoredPane(specialColor));
+		} else if (material == Material.JUNGLE_LEAVES) {
 			if (chunk.isEmpty(x, y, z))
 				if (odds.playOdds(Odds.oddsExtremelyLikely))
-					chunk.setBlockTypeAndColor(x, y, z, Material.WHITE_STAINED_GLASS_PANE, specialColor);
+					chunk.setBlock(x, y, z, odds.getColoredPane(specialColor));
 				else
-					chunk.setBlockTypeAndColor(x, y, z, Material.WHITE_STAINED_GLASS, specialColor);
-			break;
-		default:
+					chunk.setBlock(x, y, z, odds.getColoredGlass(specialColor));
+		} else {
 			if (chunk.isEmpty(x, y, z))
 				if (odds.playOdds(Odds.oddsExtremelyLikely))
 					chunk.setBlock(x, y, z, Material.GLASS);
 				else
 					chunk.setBlock(x, y, z, Material.GLASS_PANE);
-			break;
-		}
+		} 
 	}
 }

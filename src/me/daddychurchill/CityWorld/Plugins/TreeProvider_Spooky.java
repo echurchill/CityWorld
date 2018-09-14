@@ -13,30 +13,24 @@ public class TreeProvider_Spooky extends TreeProvider {
 	}
 
 	@Override
-	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, int data, DyeColor specialColor) {
-		switch (data) {
-		case 1:
+	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, DyeColor specialColor) {
+		if (material == Material.ACACIA_LEAVES) {
 			if (chunk.isEmpty(x, y, z))
 				chunk.setBlock(x, y, z, Material.COBWEB);
-			break;
-		case 2:
+		} else if (material == Material.BIRCH_LEAVES) {
 			if (chunk.isEmpty(x, y, z))
 				chunk.setBlock(x, y, z, Material.IRON_BARS);
-			break;
-		case 3:
+		} else if (material == Material.DARK_OAK_LEAVES) {
 			if (chunk.isEmpty(x, y, z))
 				if (odds.playOdds(Odds.oddsLikely))
 					chunk.setBlock(x, y, z, Material.SPONGE);
 				else
 					chunk.setBlock(x, y, z, Material.WET_SPONGE);
-			break;
-		case 4:
+		} else if (material == Material.JUNGLE_LEAVES) {
 			if (chunk.isEmpty(x, y - 1, z))
-				chunk.setBlockTypeAndColor(x, y - 1, z, Material.CARPET, specialColor);
-			break;
-		default:
+				chunk.setBlock(x, y - 1, z, odds.getColoredCarpet(specialColor));
+		} else {
 			//chunk.setBlock(x, y, z, Material.AIR);
-			break;
-		}
+		} 
 	}
 }

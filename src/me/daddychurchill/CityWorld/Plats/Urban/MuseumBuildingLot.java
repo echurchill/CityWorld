@@ -1,6 +1,8 @@
 package me.daddychurchill.CityWorld.Plats.Urban;
 
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.FinishedBuildingLot;
@@ -101,7 +103,7 @@ public class MuseumBuildingLot extends FinishedBuildingLot {
 			// ok... then do it
 			if (placeBones) {
 				int sidewalkLevel = getSidewalkLevel(generator);
-				chunk.setBlocksTypeAndColor(3, 13, sidewalkLevel + 1, 3, 13, Material.CARPET, chunkOdds.getRandomColor());
+				chunk.setBlocks(3, 13, sidewalkLevel + 1, 3, 13, chunkOdds.getColoredWool(chunkOdds.getRandomColor()));
 				generator.thingProvider.generateBones(generator, this, chunk, 7, sidewalkLevel + 1, 11, chunkOdds, true);
 				
 				// it looked so nice for a moment... but the moment has passed
@@ -111,7 +113,7 @@ public class MuseumBuildingLot extends FinishedBuildingLot {
 				} else {
 					chunk.setBlocks(7, sidewalkLevel + 1, sidewalkLevel + 3, 4, Material.STONE);
 					chunk.setWallSign(7, sidewalkLevel + 2, 3, BlockFace.NORTH, generator.odonymProvider.generateFossilOdonym(generator, chunkOdds));
-					chunk.setTorch(7, sidewalkLevel + 2, 5, Material.TORCH, Torch.SOUTH);
+					chunk.setBlock(7, sidewalkLevel + 2, 5, Material.TORCH, BlockFace.SOUTH);
 				}
 			}
 		}

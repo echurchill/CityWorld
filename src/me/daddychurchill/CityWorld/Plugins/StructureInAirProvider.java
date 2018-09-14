@@ -39,18 +39,20 @@ public class StructureInAirProvider extends Provider {
 			
 			// pick the colors
 			DyeColor primaryColor = getPrimaryColor(generator, odds);
+			Material primary = odds.getColoredWool(primaryColor);
 			DyeColor secondaryColor = getSecondaryColor(generator, odds);
+			Material secondary = odds.getColoredWool(secondaryColor);
 			
 			// draw the balloon
-			chunk.setWool(balloonX, balloonX + 1, balloonY1, balloonY1 + 2, balloonZ, balloonZ + 1, primaryColor);
+			chunk.setBlocks(balloonX, balloonX + 1, balloonY1, balloonY1 + 2, balloonZ, balloonZ + 1, primary);
 			
-			chunk.setWool(balloonX - 1, balloonX + 2, balloonY1 + 2, balloonY1 + 4, balloonZ - 1, balloonZ + 2, primaryColor);
+			chunk.setBlocks(balloonX - 1, balloonX + 2, balloonY1 + 2, balloonY1 + 4, balloonZ - 1, balloonZ + 2, primary);
 			chunk.setBlock(balloonX - 1, balloonY1 + 2, balloonZ - 1, Material.AIR);
 			chunk.setBlock(balloonX - 1, balloonY1 + 2, balloonZ + 1, Material.AIR);
 			chunk.setBlock(balloonX + 1, balloonY1 + 2, balloonZ - 1, Material.AIR);
 			chunk.setBlock(balloonX + 1, balloonY1 + 2, balloonZ + 1, Material.AIR);
 			
-			chunk.setWool(balloonX - 2, balloonX + 3, balloonY1 + 4, balloonY1 + 6, balloonZ - 2, balloonZ + 3, primaryColor);
+			chunk.setBlocks(balloonX - 2, balloonX + 3, balloonY1 + 4, balloonY1 + 6, balloonZ - 2, balloonZ + 3, primary);
 			chunk.setBlock(balloonX - 2, balloonY1 + 4, balloonZ - 2, Material.AIR);
 			chunk.setBlock(balloonX - 2, balloonY1 + 4, balloonZ + 2, Material.AIR);
 			chunk.setBlock(balloonX + 2, balloonY1 + 4, balloonZ - 2, Material.AIR);
@@ -58,10 +60,10 @@ public class StructureInAirProvider extends Provider {
 			
 //			for (int y = balloonY1 + 6; y < balloonY2 - 1; y++)
 //				chunk.setWool(balloonX - 2, balloonX + 3, y, y + 1, balloonZ - 2, balloonZ + 3, secondaryColor);
-			chunk.setWool(balloonX - 2, balloonX + 3, balloonY1 + 6, balloonY2 - 1, balloonZ - 2, balloonZ + 3, secondaryColor);
+			chunk.setBlocks(balloonX - 2, balloonX + 3, balloonY1 + 6, balloonY2 - 1, balloonZ - 2, balloonZ + 3, secondary);
 			
-			chunk.setWool(balloonX - 2, balloonX + 3, balloonY2 - 1, balloonY2, balloonZ - 2, balloonZ + 3, primaryColor);
-			chunk.setWool(balloonX - 1, balloonX + 2, balloonY2, balloonY2 + 1, balloonZ - 1, balloonZ + 2, primaryColor);
+			chunk.setBlocks(balloonX - 2, balloonX + 3, balloonY2 - 1, balloonY2, balloonZ - 2, balloonZ + 3, primary);
+			chunk.setBlocks(balloonX - 1, balloonX + 2, balloonY2, balloonY2 + 1, balloonZ - 1, balloonZ + 2, primary);
 			
 			// candle in the middle
 			addLight(chunk, context, balloonX, balloonY2, balloonZ);
@@ -108,29 +110,31 @@ public class StructureInAirProvider extends Provider {
 		
 		// pick the colors
 		DyeColor primaryColor = getPrimaryColor(generator, odds);
+		Material primary = odds.getColoredWool(primaryColor);
 		DyeColor secondaryColor = getSecondaryColor(generator, odds);
+		Material secondary = odds.getColoredWool(secondaryColor);
 		
 		// draw the bottom of the blimp
-		chunk.setCircle(8, 8, 3, balloonY1 - 1, Material.WHITE_WOOL, primaryColor);
-		chunk.setCircle(8, 8, 4, balloonY1, balloonY1 + 3, Material.WHITE_WOOL, primaryColor, true);
-		chunk.setCircle(8, 8, 5, balloonY1 + 3, balloonY1 + 7, Material.WHITE_WOOL, primaryColor, true);
-		chunk.setCircle(8, 8, 6, balloonY1 + 7, Material.WHITE_WOOL, primaryColor, true);
+		chunk.setCircle(8, 8, 3, balloonY1 - 1, primary);
+		chunk.setCircle(8, 8, 4, balloonY1, balloonY1 + 3, primary, true);
+		chunk.setCircle(8, 8, 5, balloonY1 + 3, balloonY1 + 7, primary, true);
+		chunk.setCircle(8, 8, 6, balloonY1 + 7, primary, true);
 		
 		// middle of the blimp
 		int step = 2 + odds.getRandomInt(4);
 		int y = balloonY1 + 8;
 		do {
-			DyeColor color = primaryColor;
+			Material color = primary;
 			if (y % step != 0)
-				color = secondaryColor;
-			chunk.setCircle(8, 8, 6, y, Material.WHITE_WOOL, color, true);
+				color = secondary;
+			chunk.setCircle(8, 8, 6, y, color, true);
 			y++;
 		} while (y < balloonY2 - 3);
 		
 		// now the top of the balloon
-		chunk.setCircle(8, 8, 6, balloonY2 - 3, Material.WHITE_WOOL, primaryColor, true);
-		chunk.setCircle(8, 8, 5, balloonY2 - 2, balloonY2, Material.WHITE_WOOL, primaryColor, true);
-		chunk.setCircle(8, 8, 4, balloonY2, Material.WHITE_WOOL, primaryColor, true);
+		chunk.setCircle(8, 8, 6, balloonY2 - 3, primary, true);
+		chunk.setCircle(8, 8, 5, balloonY2 - 2, balloonY2, primary, true);
+		chunk.setCircle(8, 8, 4, balloonY2, primary, true);
 		
 		// add the lights
 		addLight(chunk, context, 8, balloonY2, 8);
@@ -152,11 +156,11 @@ public class StructureInAirProvider extends Provider {
 		if (generator.worldEnvironment == Environment.NETHER)
 			return getSecondaryColor(generator, odds);
 		else
-			return odds.getRandomLightColor();
+			return odds.getRandomColor();
 	}
 
 	private DyeColor getSecondaryColor(CityWorldGenerator generator, Odds odds) {
-		return odds.getRandomDarkColor();
+		return odds.getRandomColor();
 	}
 	
 	private void addLight(AbstractBlocks chunk, DataContext context, int x, int y, int z) {

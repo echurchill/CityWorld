@@ -100,10 +100,18 @@ public class Odds {
 		return items[getRandomInt(items.length)];
 	}
 	
-//	private DyeColor getRandomColor(DyeColor... colors) {
-//		return colors[getRandomInt(colors.length)];
-//	}
-//	
+	public DyeColor getRandomColor() {
+		return getRandomColor(
+				DyeColor.BLACK, DyeColor.BLUE, DyeColor.BROWN, DyeColor.CYAN,
+				DyeColor.GRAY, DyeColor.GREEN, DyeColor.LIGHT_BLUE, DyeColor.LIGHT_GRAY,
+				DyeColor.LIME, DyeColor.MAGENTA, DyeColor.ORANGE, DyeColor.PINK,
+				DyeColor.PURPLE, DyeColor.RED, DyeColor.WHITE, DyeColor.YELLOW);
+	}
+
+	public DyeColor getRandomColor(DyeColor... colors) {
+		return colors[getRandomInt(colors.length)];
+	}
+	
 //	public ColorSet getRandomColorSet() {
 //		ColorSet[] values = ColorSet.values();
 //		return values[getRandomInt(values.length)];
@@ -193,58 +201,6 @@ public class Odds {
 			Material.PINK_WOOL,
 			Material.WHITE_WOOL};
 	
-//	public Material[] getWoolBlockSet(ColorSet set) {
-//		switch (set) {
-//		case ALL:
-//		default:
-//			return allWoolBlocks;
-//		case GREEN:
-//			return allGreenWoolBlocks;
-//		case DARK:
-//			return allDarkWoolBlocks;
-//		case LIGHT:
-//			return allLightWoolBlocks;
-//		case NETHER:
-//			return allNetherWoolBlocks;
-//		case TAN:
-//			return allTanWoolBlocks;
-//		case PINK:
-//			return allPinkWoolBlocks;
-//		case WHITE:
-//			return allWhiteWoolBlocks;
-//		case THEEND:
-//			return allEndWoolBlocks;
-//		}
-//	}
-//	
-//	public Material getRandomWool(ColorSet set) {
-//		switch (set) {
-//		case ALL:
-//		default:
-//			return getRandomMaterial(allWoolBlocks);
-//		case GREEN:
-//			return getRandomMaterial(allGreenWoolBlocks);
-//		case DARK:
-//			return getRandomMaterial(allDarkWoolBlocks);
-//		case LIGHT:
-//			return getRandomMaterial(allLightWoolBlocks);
-//		case NETHER:
-//			return getRandomMaterial(allNetherWoolBlocks);
-//		case TAN:
-//			return getRandomMaterial(allTanWoolBlocks);
-//		case PINK:
-//			return getRandomMaterial(allPinkWoolBlocks);
-//		case WHITE:
-//			return getRandomMaterial(allWhiteWoolBlocks);
-//		case THEEND:
-//			return getRandomMaterial(allEndWoolBlocks);
-//		}
-//	}
-//	
-//	public Material getColoredGlass(ColorSet set) {
-//		return getColoredGlass(getRandomColor(set));
-//	}
-	
 	//@@ turn these into a static arrays
 	public Material getColoredGlass(DyeColor color) {
 		switch (color) {
@@ -322,13 +278,81 @@ public class Odds {
 		}
 	}
 	
-//	public int getCauldronLevel() {
-//		return getRandomInt(BlackMagic.maxCauldronLevel + 1);
-//	}
-//	
-//	public int getRandomWoodType() {
-//		return getRandomInt(4);
-//	}
+	public Material getColoredCarpet(DyeColor color) {
+		switch (color) {
+		default:
+		case BLACK:
+			return Material.BLACK_CARPET;
+		case BLUE:
+			return Material.BLUE_CARPET;
+		case BROWN:
+			return Material.BROWN_CARPET;
+		case CYAN:
+			return Material.CYAN_CARPET;
+		case GRAY:
+			return Material.GRAY_CARPET;
+		case GREEN:
+			return Material.GREEN_CARPET;
+		case LIGHT_BLUE:
+			return Material.LIGHT_BLUE_CARPET;
+		case LIGHT_GRAY:
+			return Material.LIGHT_GRAY_CARPET;
+		case LIME:
+			return Material.LIME_CARPET;
+		case MAGENTA:
+			return Material.MAGENTA_CARPET;
+		case ORANGE:
+			return Material.ORANGE_CARPET;
+		case PINK:
+			return Material.PINK_CARPET;
+		case PURPLE:
+			return Material.PURPLE_CARPET;
+		case RED:
+			return Material.RED_CARPET;
+		case WHITE:
+			return Material.WHITE_CARPET;
+		case YELLOW:
+			return Material.YELLOW_CARPET;
+		}
+	}
+	
+	public Material getColoredWool(DyeColor color) {
+		switch (color) {
+		default:
+		case BLACK:
+			return Material.BLACK_WOOL;
+		case BLUE:
+			return Material.BLUE_WOOL;
+		case BROWN:
+			return Material.BROWN_WOOL;
+		case CYAN:
+			return Material.CYAN_WOOL;
+		case GRAY:
+			return Material.GRAY_WOOL;
+		case GREEN:
+			return Material.GREEN_WOOL;
+		case LIGHT_BLUE:
+			return Material.LIGHT_BLUE_WOOL;
+		case LIGHT_GRAY:
+			return Material.LIGHT_GRAY_WOOL;
+		case LIME:
+			return Material.LIME_WOOL;
+		case MAGENTA:
+			return Material.MAGENTA_WOOL;
+		case ORANGE:
+			return Material.ORANGE_WOOL;
+		case PINK:
+			return Material.PINK_WOOL;
+		case PURPLE:
+			return Material.PURPLE_WOOL;
+		case RED:
+			return Material.RED_WOOL;
+		case WHITE:
+			return Material.WHITE_WOOL;
+		case YELLOW:
+			return Material.YELLOW_WOOL;
+		}
+	}
 	
 	public TreeSpecies getRandomWoodSpecies() {
 		TreeSpecies[] values = TreeSpecies.values();

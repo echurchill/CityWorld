@@ -355,7 +355,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 
 	@Override
 	public void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, CachedYs blockYs) {
-		OreProvider ores = generator.oreProvider;
+//		OreProvider ores = generator.oreProvider;
 //		boolean surfaceCaves = isSurfaceCaveAt(chunk.chunkX, chunk.chunkZ);
 		int originX = chunk.getOriginX();
 		int originZ = chunk.getOriginZ();
@@ -406,7 +406,8 @@ public class ShapeProvider_Astral extends ShapeProvider {
 							int segmentX = x / blockYs.segmentWidth * blockYs.segmentWidth + originX;
 							int segmentZ = z / blockYs.segmentWidth * blockYs.segmentWidth + originZ;
 							double colorD = noiseShape.noise(segmentX, segmentZ, blockYs.getSegment(x, z), noiseFrequency, noiseAmplitude, true);
-							chunk.setGlass(x, x + 1, baseY, y, z, z + 1, DyeColor.values()[Math.min(15, Math.max(0, NoiseGenerator.floor(colorD * 8) + 8))]);
+							chunk.setBlocks(x, x + 1, baseY, y, z, z + 1, 
+									odds.getColoredGlass(DyeColor.values()[Math.min(15, Math.max(0, NoiseGenerator.floor(colorD * 8) + 8))]));
 						
 						// sprinkle a little bit more snow?
 						} else {

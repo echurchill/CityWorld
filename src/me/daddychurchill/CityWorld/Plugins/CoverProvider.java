@@ -313,35 +313,32 @@ public abstract class CoverProvider extends Provider {
 			break;
 		case WHEAT:
 			chunk.setBlockIfNot(x, y - 1, z, Material.FARMLAND);
-			chunk.setBlock(x, y, z, Material.CROPS, getRandomCropState());
+			chunk.setBlock(x, y, z, Material.WHEAT, odds.getRandomDouble());
 			break;
 		case CARROTS:
 			chunk.setBlockIfNot(x, y - 1, z, Material.FARMLAND);
-			chunk.setBlock(x, y, z, Material.CARROT, getRandomCropState());
+			chunk.setBlock(x, y, z, Material.CARROT, odds.getRandomDouble());
 			break;
 		case POTATO:
 			chunk.setBlockIfNot(x, y - 1, z, Material.FARMLAND);
-			chunk.setBlock(x, y, z, Material.POTATO, getRandomCropState());
+			chunk.setBlock(x, y, z, Material.POTATO, odds.getRandomDouble());
 			break;
 		case MELON:
 			chunk.setBlockIfNot(x, y - 1, z, Material.FARMLAND);
-//			chunk.setBlock(x, y, z, Material.MELON_STEM, getRandomCxropState());
-			chunk.setBlock(x, y, z, Material.MELON_STEM, odds.getRandomInt(8));
+			chunk.setBlock(x, y, z, Material.MELON_STEM, odds.getRandomDouble());
 			break;
 		case PUMPKIN:
 			chunk.setBlockIfNot(x, y - 1, z, Material.FARMLAND);
-//			chunk.setBlock(x, y, z, Material.PUMPKIN_STEM, getRandoxmCropState());
-			chunk.setBlock(x, y, z, Material.PUMPKIN_STEM, odds.getRandomInt(8));
+			chunk.setBlock(x, y, z, Material.PUMPKIN_STEM, odds.getRandomDouble());
 			break;
 		case BEETROOT:
 			chunk.setBlockIfNot(x, y - 1, z, Material.FARMLAND);
-			chunk.setBlock(x, y, z, Material.BEETROOT_BLOCK, getRandomCropState(4));
-//			chunk.setBlock(x, y, z, Material.BEETROOT_BLOCK, odds.getRandomInt(4));
+			chunk.setBlock(x, y, z, Material.BEETROOTS, odds.getRandomDouble());
 			break;
 		case REED:
 			if (chunk.isByWater(x, y - 1, z)) {
 			    chunk.setBlock(x, y - 1, z, Material.SAND);
-				chunk.setBlocks(x, y, y + odds.getRandomInt(2) + 2, z, Material.SUGAR_CANE_BLOCK);
+				chunk.setBlocks(x, y, y + odds.getRandomInt(2) + 2, z, Material.SUGAR_CANE);
 			}
 			break;
 		case DANDELION:

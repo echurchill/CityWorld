@@ -1,6 +1,5 @@
 package me.daddychurchill.CityWorld.Plats.Urban;
 
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
@@ -14,8 +13,6 @@ import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.Surroundings;
-
-import me.daddychurchill.CityWorld.Support.BadMagic.StairWell;
 
 public class FactoryBuildingLot extends IndustrialBuildingLot {
 	
@@ -319,10 +316,10 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 		chunk.setBlocks(6, 10, groundY - 2, 6, 10, Material.NETHERRACK);
 		chunk.setWalls(5, 11, groundY, groundY + 6, 5, 11, smokestackMat);
 
-		chunk.setThinGlass(8, groundY + 1, 5, DyeColor.RED);
-		chunk.setThinGlass(7, groundY + 1, 10, DyeColor.RED);
-		chunk.setThinGlass(5, groundY + 1, 8, DyeColor.RED);
-		chunk.setThinGlass(10, groundY + 1, 7, DyeColor.RED);
+		chunk.setBlock(8, groundY + 1, 5, Material.RED_STAINED_GLASS_PANE);
+		chunk.setBlock(7, groundY + 1, 10, Material.RED_STAINED_GLASS_PANE);
+		chunk.setBlock(5, groundY + 1, 8, Material.RED_STAINED_GLASS_PANE);
+		chunk.setBlock(10, groundY + 1, 7, Material.RED_STAINED_GLASS_PANE);
 		
 		// too bad I have to goof it up now
 		if (generator.settings.includeDecayedBuildings) {
@@ -397,10 +394,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 		int tankLevel = topOfTank - chunkOdds.getRandomInt(3) - 1;
 		
 		chunk.setCircle(8, 8, 4, bottomOfTank - 1, wallMat, true);
-		if (fluidMat == Material.WHITE_TERRACOTTA || fluidMat == Material.WHITE_STAINED_GLASS)
-			chunk.setCircle(8, 8, 4, bottomOfTank, tankLevel, fluidMat, chunkOdds.getRandomColor(), true);
-		else
-			chunk.setCircle(8, 8, 4, bottomOfTank, tankLevel, fluidMat, true);
+		chunk.setCircle(8, 8, 4, bottomOfTank, tankLevel, fluidMat, true);
 		chunk.setCircle(8, 8, 4, bottomOfTank, topOfTank, wallMat); // put the wall up quick!
 
 		chunk.setBlocks(4, 6, groundY, bottomOfTank + 1, 4, 6, supportMat);
@@ -417,10 +411,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 		
 		chunk.setCircle(8, 8, 4, bottomOfPit - 1, wallMat, true);
 		chunk.setCircle(8, 8, 4, bottomOfPit, topOfPit, airMat, true);
-		if (fluidMat == Material.WHITE_TERRACOTTA || fluidMat == Material.WHITE_STAINED_GLASS)
-			chunk.setCircle(8, 8, 4, bottomOfPit, pitLevel, fluidMat, chunkOdds.getRandomColor(), true);
-		else
-			chunk.setCircle(8, 8, 4, bottomOfPit, pitLevel, fluidMat, true);
+		chunk.setCircle(8, 8, 4, bottomOfPit, pitLevel, fluidMat, true);
 		chunk.setCircle(8, 8, 4, bottomOfPit, topOfPit, wallMat); // put the wall up quick!
 	}
 	

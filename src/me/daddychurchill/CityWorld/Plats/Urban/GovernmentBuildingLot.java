@@ -1,6 +1,8 @@
 package me.daddychurchill.CityWorld.Plats.Urban;
 
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.FinishedBuildingLot;
@@ -11,9 +13,6 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 import me.daddychurchill.CityWorld.Support.Surroundings;
-
-import me.daddychurchill.CityWorld.Support.BadMagic.StairWell;
-import me.daddychurchill.CityWorld.Support.BlackMagic;
 
 public class GovernmentBuildingLot extends FinishedBuildingLot {
 
@@ -33,7 +32,7 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 		ceilingMaterial = platmap.generator.materialProvider.itemsSelectMaterial_GovernmentCeilings.getRandomMaterial(chunkOdds, Material.WHITE_WOOL);
 		roofMaterial = platmap.generator.materialProvider.itemsSelectMaterial_GovernmentCeilings.getRandomMaterial(chunkOdds, Material.WHITE_WOOL);
 		columnMaterial = platmap.generator.materialProvider.itemsSelectMaterial_GovernmentWalls.getRandomMaterial(chunkOdds, pickColumnMaterial(wallMaterial));
-		foundationSteps = SupportBlocks.filterStairMaterial(foundationMaterial);
+		//foundationSteps = SupportBlocks.filterStairMaterial(foundationMaterial);
 	}
 	
 	private Material foundationSteps;
@@ -291,30 +290,30 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 		
 	// 18 & 19
 	private void drawFoundationHeadingNorthBit(SupportBlocks blocks, int x, int y, int z, int l) {
-		blocks.setStairs(x, x + l, y    , z + 1, z + 2, foundationSteps, BlockFace.NORTH);
+		blocks.setBlocks(x, x + l, y    , z + 1, z + 2, foundationSteps, BlockFace.NORTH);
 		blocks.setBlocks(x, x + l, y    , z    , z + 1, foundationMaterial);
-		blocks.setStairs(x, x + l, y + 1, z    , z + 1, foundationSteps, BlockFace.NORTH);
+		blocks.setBlocks(x, x + l, y + 1, z    , z + 1, foundationSteps, BlockFace.NORTH);
 	}
 	
 	// 2 & 10
 	private void drawFoundationHeadingSouthBit(SupportBlocks blocks, int x, int y, int z, int l) {
-		blocks.setStairs(x, x + l, y    , z + 1, z + 2, foundationSteps, BlockFace.SOUTH);
+		blocks.setBlocks(x, x + l, y    , z + 1, z + 2, foundationSteps, BlockFace.SOUTH);
 		blocks.setBlocks(x, x + l, y    , z + 2, z + 3, foundationMaterial);
-		blocks.setStairs(x, x + l, y + 1, z + 2, z + 3, foundationSteps, BlockFace.SOUTH);
+		blocks.setBlocks(x, x + l, y + 1, z + 2, z + 3, foundationSteps, BlockFace.SOUTH);
 	}
 	
 	// 6 & 9
 	private void drawFoundationHeadingWestBit(SupportBlocks blocks, int x, int y, int z, int l) {
-		blocks.setStairs(x + 1, x + 2, y    , z, z + l, foundationSteps, BlockFace.WEST);
+		blocks.setBlocks(x + 1, x + 2, y    , z, z + l, foundationSteps, BlockFace.WEST);
 		blocks.setBlocks(x    , x + 1, y    , z, z + l, foundationMaterial);
-		blocks.setStairs(x    , x + 1, y + 1, z, z + l, foundationSteps, BlockFace.WEST);
+		blocks.setBlocks(x    , x + 1, y + 1, z, z + l, foundationSteps, BlockFace.WEST);
 	} 
 	
 	// 4 & 7
 	private void drawFoundationHeadingEastBit(SupportBlocks blocks, int x, int y, int z, int l) {
-		blocks.setStairs(x + 1, x + 2, y    , z, z + l, foundationSteps, BlockFace.EAST);
+		blocks.setBlocks(x + 1, x + 2, y    , z, z + l, foundationSteps, BlockFace.EAST);
 		blocks.setBlocks(x + 2, x + 3, y    , z, z + l, foundationMaterial);
-		blocks.setStairs(x + 2, x + 3, y + 1, z, z + l, foundationSteps, BlockFace.EAST);
+		blocks.setBlocks(x + 2, x + 3, y + 1, z, z + l, foundationSteps, BlockFace.EAST);
 	}
 	
 	private void drawFoundationColumns(SupportBlocks blocks, int y1, int height, Surroundings heights) {
@@ -359,14 +358,7 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 	}
 	
 	private void drawColumn(SupportBlocks blocks, int x, int y1, int y2, int z) {
-		switch (columnMaterial) {
-		case QUARTZ_BLOCK:
-			blocks.setBlocks(x, y1, y2, z, Material.QUARTZ_BLOCK, 2);
-			break;
-		default:
-			blocks.setBlocks(x, y1, y2, z, columnMaterial);
-			break;
-		}
+		blocks.setBlocks(x, y1, y2, z, columnMaterial);
 	}
 	
 	@Override

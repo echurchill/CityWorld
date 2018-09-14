@@ -98,15 +98,15 @@ public abstract class TreeProvider {
 		}
 	}
 	
-	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, int data, DyeColor specialColor) {
+	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, DyeColor specialColor) {
 		// this variant does nothing with the special color
 		if (chunk.isEmpty(x, y, z))
-			chunk.setBlock(x, y, z, material, data);
+			chunk.setBlock(x, y, z, material);
 	}
 	
-	protected void generateTrunkBlock(SupportBlocks chunk, int x, int y, int z, int w, int h, Material material, int data) {
+	protected void generateTrunkBlock(SupportBlocks chunk, int x, int y, int z, int w, int h, Material material) {
 //		if (chunk.isEmpty(x, y, z))
-		BlackMagic.setBlocks(chunk, x, x + w, y, y + h, z, z + w, material, data);
+		chunk.setBlocks(x, x + w, y, y + h, z, z + w, material);
 	}
 	
 	public boolean generateMiniTrunk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType) {
@@ -118,10 +118,7 @@ public abstract class TreeProvider {
 	}
 	
 	protected boolean generateMiniTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType, Boolean includeLeaves) {
-		Material trunkMaterial = Material.SPRUCE_LOG;
-		Material leavesMaterial = Material.BIRCH_LEAVES;
 		int trunkHeight = 2;
-		int trunkBlackMagicData = 0;
 		
 		// Figure out the height
 		switch (treeType) {
@@ -158,40 +155,43 @@ public abstract class TreeProvider {
 		}
 
 		// Figure out the material data
+		Material trunkMaterial = Material.SPRUCE_LOG;
+		Material leavesMaterial = Material.BIRCH_LEAVES;
 		switch (treeType) {
 		default:
 		case TREE:
 		case BIG_TREE:
-		case SWAMP:
-			trunkBlackMagicData = 0;
+//			trunkMaterial = Material.SPRUCE_LOG;
+//			leavesMaterial = Material.SPRUCE_LEAVES;
 			break;
 			
 		case REDWOOD:
 		case TALL_REDWOOD:
 		case MEGA_REDWOOD:
-			trunkBlackMagicData = 1;
+			trunkMaterial = Material.OAK_LOG;
+			leavesMaterial = Material.OAK_LEAVES;
 			break;
 			
 		case BIRCH:
 		case TALL_BIRCH:
-			trunkBlackMagicData = 2;
+			trunkMaterial = Material.BIRCH_LOG;
+			leavesMaterial = Material.BIRCH_LEAVES;
 			break;
 			
 		case JUNGLE_BUSH:
 		case SMALL_JUNGLE:
 		case JUNGLE:
-			trunkBlackMagicData = 3;
+			trunkMaterial = Material.JUNGLE_LOG;
+			leavesMaterial = Material.JUNGLE_LEAVES;
 			break;
 			
 		case ACACIA:
-			trunkMaterial = Material.SPRUCE_LOG_2;
-			leavesMaterial = Material.LEAVES_2;
-			trunkBlackMagicData = 0;
+			trunkMaterial = Material.ACACIA_LOG;
+			leavesMaterial = Material.ACACIA_LEAVES;
 			break;
 		case DARK_OAK:
-			trunkMaterial = Material.SPRUCE_LOG_2;
-			leavesMaterial = Material.LEAVES_2;
-			trunkBlackMagicData = 1;
+			trunkMaterial = Material.DARK_OAK_LOG;
+			leavesMaterial = Material.DARK_OAK_LEAVES;
 			break;
 			
 		case BROWN_MUSHROOM: //TODO: We don't do these yet
@@ -207,7 +207,7 @@ public abstract class TreeProvider {
 			RelativeBlocks blocks = new RelativeBlocks(generator, chunk);
 
 			// do the trunk
-			generateTrunkBlock(blocks, x, y, z, 1, trunkHeight, trunkMaterial, trunkBlackMagicData);
+			generateTrunkBlock(blocks, x, y, z, 1, trunkHeight, trunkMaterial);
 	
 			// for that special case
 			DyeColor leafColor = odds.getRandomColor();
@@ -215,11 +215,11 @@ public abstract class TreeProvider {
 			// and then do the leaves... maybe
 			if (includeLeaves) {
 				int leavesHeight = trunkHeight - 1;
-				generateLeavesBlock(blocks, x - 1, y + leavesHeight, z, leavesMaterial, trunkBlackMagicData, leafColor);
-				generateLeavesBlock(blocks, x + 1, y + leavesHeight, z, leavesMaterial, trunkBlackMagicData, leafColor);
-				generateLeavesBlock(blocks, x, y + leavesHeight, z - 1, leavesMaterial, trunkBlackMagicData, leafColor);
-				generateLeavesBlock(blocks, x, y + leavesHeight, z + 1, leavesMaterial, trunkBlackMagicData, leafColor);
-				generateLeavesBlock(blocks, x, y + trunkHeight, z, leavesMaterial, trunkBlackMagicData, leafColor);
+				generateLeavesBlock(blocks, x - 1, y + leavesHeight, z, leavesMaterial, leafColor);
+				generateLeavesBlock(blocks, x + 1, y + leavesHeight, z, leavesMaterial, leafColor);
+				generateLeavesBlock(blocks, x, y + leavesHeight, z - 1, leavesMaterial, leafColor);
+				generateLeavesBlock(blocks, x, y + leavesHeight, z + 1, leavesMaterial, leafColor);
+				generateLeavesBlock(blocks, x, y + trunkHeight, z, leavesMaterial, leafColor);
 			}
 			
 			return true;
@@ -237,8 +237,8 @@ public abstract class TreeProvider {
 	
 	protected boolean generateNormalTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType, boolean includeLeaves) {
 		Material trunkMaterial = Material.SPRUCE_LOG;
-		Material leavesMaterial = Material.BIRCH_LEAVES;
-		int trunkBlackMagicData = 0;
+		Material leavesMaterial = Material.SPRUCE_LEAVES;
+//		int trunkBlackMagicData = 0;
 		int trunkHeight = 2;
 		int trunkWidth = 1;
 		
@@ -254,7 +254,7 @@ public abstract class TreeProvider {
 		double leaves2width = 2;
 		double leaves2delta = 0;
 		
-		// Figure out the height
+		// Figure out the tree
 		switch (treeType) {
 		default:
 		case TREE:
@@ -389,35 +389,37 @@ public abstract class TreeProvider {
 		default:
 		case TREE:
 		case BIG_TREE:
-			trunkBlackMagicData = 0;
+			trunkMaterial = Material.SPRUCE_LOG;
+			leavesMaterial = Material.SPRUCE_LEAVES;
 			break;
 			
 		case REDWOOD:
 		case TALL_REDWOOD:
 		case MEGA_REDWOOD:
-			trunkBlackMagicData = 1;
+			trunkMaterial = Material.OAK_LOG;
+			leavesMaterial = Material.OAK_LEAVES;
 			break;
 			
 		case BIRCH:
 		case TALL_BIRCH:
-			trunkBlackMagicData = 2;
+			trunkMaterial = Material.BIRCH_LOG;
+			leavesMaterial = Material.BIRCH_LEAVES;
 			break;
 			
 		case JUNGLE_BUSH:
 		case SMALL_JUNGLE:
 		case JUNGLE:
-			trunkBlackMagicData = 3;
+			trunkMaterial = Material.JUNGLE_LOG;
+			leavesMaterial = Material.JUNGLE_LEAVES;
 			break;
 			
 		case ACACIA:
-			trunkMaterial = Material.SPRUCE_LOG_2;
-			leavesMaterial = Material.LEAVES_2;
-			trunkBlackMagicData = 4;
+			trunkMaterial = Material.ACACIA_LOG;
+			leavesMaterial = Material.ACACIA_LEAVES;
 			break;
 		case DARK_OAK:
-			trunkMaterial = Material.SPRUCE_LOG_2;
-			leavesMaterial = Material.LEAVES_2;
-			trunkBlackMagicData = 1;
+			trunkMaterial = Material.DARK_OAK_LOG;
+			leavesMaterial = Material.DARK_OAK_LEAVES;
 			break;
 			
 		case BROWN_MUSHROOM: //TODO: We don't do these yet
@@ -434,16 +436,16 @@ public abstract class TreeProvider {
 			RelativeBlocks blocks = new RelativeBlocks(generator, chunk);
 
 			// do the trunk
-			generateTrunkBlock(blocks, x, y, z, trunkWidth, trunkHeight, trunkMaterial, trunkBlackMagicData);
+			generateTrunkBlock(blocks, x, y, z, trunkWidth, trunkHeight, trunkMaterial);
 	
 			// and then do the leaves... maybe
 			if (includeLeaves) {
 				if (leaves1exist) {
-					addLeaves(blocks, x, y, z, leavesMaterial, trunkBlackMagicData, trunkWidth, trunkHeight,
+					addLeaves(blocks, x, y, z, leavesMaterial, trunkWidth, trunkHeight,
 							leaves1start, leaves1end, leaves1width, leaves1delta);
 					
 					if (leaves2exist) 
-						addLeaves(blocks, x, y, z, leavesMaterial, trunkBlackMagicData, trunkWidth, trunkHeight,
+						addLeaves(blocks, x, y, z, leavesMaterial, trunkWidth, trunkHeight,
 								leaves2start, leaves2end, leaves2width, leaves2delta);
 				}
 			}
@@ -456,7 +458,7 @@ public abstract class TreeProvider {
 	private final static double edgeOdds = 0.00; // Not chance of edge bits
 	
 	private void addLeaves(SupportBlocks chunk, int trunkX, int trunkY, int trunkZ, 
-			Material leavesMaterial, int leavesData, int trunkWidth, int trunkHeight, 
+			Material leavesMaterial, int trunkWidth, int trunkHeight, 
 			int start, int end, double width, double delta) {
 		
 		// for that special case
@@ -502,7 +504,7 @@ public abstract class TreeProvider {
 					
 					// worth doing?
 					if (leavesOdds > 0.00 && odds.playOdds(leavesOdds)) {
-						generateLeavesBlock(chunk, x, y, z, leavesMaterial, leavesData, leafColor);
+						generateLeavesBlock(chunk, x, y, z, leavesMaterial, leafColor);
 						if (randomColor)
 							leafColor = odds.getRandomColor();
 					}

@@ -10,6 +10,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.Bisected;
 import org.bukkit.block.data.Bisected.Half;
 import org.bukkit.block.data.BlockData;
@@ -20,6 +21,7 @@ import org.bukkit.block.data.Rail;
 import org.bukkit.block.data.Rail.Shape;
 import org.bukkit.block.data.Rotatable;
 import org.bukkit.block.data.type.Slab;
+import org.bukkit.block.data.type.Snow;
 import org.bukkit.material.Vine;
 import org.bukkit.util.noise.NoiseGenerator;
 
@@ -301,68 +303,69 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	
 	//@@ I REALLY NEED TO FIGURE A DIFFERENT WAY TO DO THIS
 	public final boolean isNonstackableBlock(Block block) { // either because it really isn't or it just doesn't look good
-		switch (block.getType()) {
-		default: 
-			return true;
-		case STONE:
-		case GRASS:
-		case DIRT:
-		case COBBLESTONE:
-//		case WOOD:
-		case SAND:
-		case GRAVEL:
-		case COAL_ORE:
-		case DIAMOND_ORE:
-		case EMERALD_ORE:
-		case GOLD_ORE:
-		case IRON_ORE:
-		case LAPIS_ORE:
-//		case QUARTZ_ORE:
-		case REDSTONE_ORE:
-		case COAL_BLOCK:
-		case DIAMOND_BLOCK:
-		case EMERALD_BLOCK:
-		case GOLD_BLOCK:
-		case HAY_BLOCK:
-		case IRON_BLOCK:
-		case LAPIS_BLOCK:
-		case PURPUR_BLOCK:
-		case QUARTZ_BLOCK:
-		case SLIME_BLOCK:
-		case SNOW_BLOCK:
-//		case LOG:
-//		case LOG_2:
-		case SPONGE:
-		case SANDSTONE:
-		case RED_SANDSTONE:
-		case SOUL_SAND:
-//		case STAINED_CLAY:
-//		case HARD_CLAY:
-		case CLAY:
-//		case WOOL:
-//		case DOUBLE_STEP:
-//		case WOOD_DOUBLE_STEP:
-//		case DOUBLE_STONE_SLAB2:
-//		case PURPUR_DOUBLE_SLAB:
-		case BRICK:
-//		case END_BRICKS:
-		case NETHER_BRICK:
-//		case SMOOTH_BRICK:
-		case BOOKSHELF:
-		case MOSSY_COBBLESTONE:
-		case OBSIDIAN:
-//		case SOIL:
-		case ICE:
-		case PACKED_ICE:
-		case FROSTED_ICE:
-		case NETHERRACK:
-//		case ENDER_STONE:
-//		case MYCEL:
-		case PRISMARINE:
-		case GRASS_PATH:
-		case BEDROCK:
-			return false;
-		}
+		return !block.getType().isOccluding();
+//		switch (block.getType()) {
+//		default: 
+//			return true;
+//		case STONE:
+//		case GRASS:
+//		case DIRT:
+//		case COBBLESTONE:
+////		case WOOD:
+//		case SAND:
+//		case GRAVEL:
+//		case COAL_ORE:
+//		case DIAMOND_ORE:
+//		case EMERALD_ORE:
+//		case GOLD_ORE:
+//		case IRON_ORE:
+//		case LAPIS_ORE:
+////		case QUARTZ_ORE:
+//		case REDSTONE_ORE:
+//		case COAL_BLOCK:
+//		case DIAMOND_BLOCK:
+//		case EMERALD_BLOCK:
+//		case GOLD_BLOCK:
+//		case HAY_BLOCK:
+//		case IRON_BLOCK:
+//		case LAPIS_BLOCK:
+//		case PURPUR_BLOCK:
+//		case QUARTZ_BLOCK:
+//		case SLIME_BLOCK:
+//		case SNOW_BLOCK:
+////		case LOG:
+////		case LOG_2:
+//		case SPONGE:
+//		case SANDSTONE:
+//		case RED_SANDSTONE:
+//		case SOUL_SAND:
+////		case STAINED_CLAY:
+////		case HARD_CLAY:
+//		case CLAY:
+////		case WOOL:
+////		case DOUBLE_STEP:
+////		case WOOD_DOUBLE_STEP:
+////		case DOUBLE_STONE_SLAB2:
+////		case PURPUR_DOUBLE_SLAB:
+//		case BRICK:
+////		case END_BRICKS:
+//		case NETHER_BRICK:
+////		case SMOOTH_BRICK:
+//		case BOOKSHELF:
+//		case MOSSY_COBBLESTONE:
+//		case OBSIDIAN:
+////		case SOIL:
+//		case ICE:
+//		case PACKED_ICE:
+//		case FROSTED_ICE:
+//		case NETHERRACK:
+////		case ENDER_STONE:
+////		case MYCEL:
+//		case PRISMARINE:
+//		case GRASS_PATH:
+//		case BEDROCK:
+//			return false;
+//		}
 //		return isType(block, Material.STONE_SLAB, Material.WOOD_STEP, 
 //				 			 Material.GLASS, Material.GLASS_PANE,
 //							 Material.SNOW, Material.CARPET, Material.SIGN, 
@@ -449,7 +452,11 @@ public abstract class SupportBlocks extends AbstractBlocks {
 //	}
 	
 	private int clamp(double value, int max) {
-		return NoiseGenerator.floor((value - NoiseGenerator.floor(value)) * max);
+		return clamp(value, 0, max);
+	}
+	
+	private int clamp(double value, int min, int max) {
+		return NoiseGenerator.floor((value - NoiseGenerator.floor(value)) * (max - min)) + min;
 	}
 	
 	public final Block setBlock(int x, int y, int z, Material material, double level) {
@@ -458,9 +465,15 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		try {
 			state.setType(material);
 			BlockData data = state.getBlockData();
-			if (data instanceof Levelled) {
+			if (data instanceof Ageable) {
+				Ageable ageable = (Ageable)data;
+				ageable.setAge(clamp(level, ageable.getMaximumAge()));
+			} else if (data instanceof Levelled) {
 				Levelled levelled = (Levelled)data;
 				levelled.setLevel(clamp(level, levelled.getMaximumLevel()));
+			} else if (data instanceof Snow) {
+				Snow snow = (Snow)data;
+				snow.setLayers(clamp(level, snow.getMinimumLayers(), snow.getMaximumLayers()));
 			}
 			state.setBlockData(data);
 		} finally {

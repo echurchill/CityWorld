@@ -11,7 +11,6 @@ import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
-import me.daddychurchill.CityWorld.Support.Odds.ColorSet;
 
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
@@ -292,8 +291,7 @@ public class RoundaboutCenterLot extends IsolatedLot {
 		// simple glass or colored blocks?
 		boolean woolArt = odds.playOdds(Odds.oddsUnlikely);
 		boolean multiColorArt = odds.playOdds(Odds.oddsLikely);
-		ColorSet colors = odds.getRandomColorSet();
-		DyeColor color = odds.getRandomColor(colors);
+		DyeColor color = odds.getRandomColor();
 		
 		// base art
 		if (odds.flipCoin() || woolArt) {
@@ -305,16 +303,16 @@ public class RoundaboutCenterLot extends IsolatedLot {
 						
 						// pick a color
 						if (multiColorArt)
-							color = odds.getRandomColor(colors);
+							color = odds.getRandomColor();
 						
 						// place a block
 						if (odds.flipCoin())
-							chunk.setThinGlass(x, y, z, color);
+							chunk.setBlock(x, y, z, odds.getColoredPane(color));
 						else
 							if (woolArt)
-								chunk.setWool(x, y, z, color);
+								chunk.setBlock(x, y, z, odds.getColoredWool(color));
 							else
-								chunk.setGlass(x, y, z, color);
+								chunk.setBlock(x, y, z, odds.getColoredGlass(color));
 					}
 			
 			// now put the base in
@@ -335,13 +333,13 @@ public class RoundaboutCenterLot extends IsolatedLot {
 					
 					// pick a color
 					if (multiColorArt)
-						color = odds.getRandomColor(colors);
+						color = odds.getRandomColor();
 					
 					// place a block
 					for (int y = atY; y < y2; y++)
-						chunk.setGlass(x, y, z, color);
+						chunk.setBlock(x, y, z, odds.getColoredGlass(color));
 					for (int y = y2; y < y3; y++)
-						chunk.setThinGlass(x, y, z, color);
+						chunk.setBlock(x, y, z, odds.getColoredPane(color));
 				}
 		}
 	}
