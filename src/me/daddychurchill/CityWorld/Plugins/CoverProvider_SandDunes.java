@@ -1,7 +1,6 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import org.bukkit.Material;
-
+import me.daddychurchill.CityWorld.Support.Colors.ColorSet;
 import me.daddychurchill.CityWorld.Support.Odds;
 
 public class CoverProvider_SandDunes extends CoverProvider_Decayed {
@@ -12,13 +11,8 @@ public class CoverProvider_SandDunes extends CoverProvider_Decayed {
 	}
 
 	@Override
-	public Material[] getDefaultWoolSet() {
-		return Odds.allTanWoolBlocks;
-	}
-	
-	@Override
-	public Material[] getDefaultTerracottaSet() {
-		return Odds.allTanTerracottaBlocks;
+	public ColorSet getColorSet() {
+		return ColorSet.TAN;
 	}
 	
 }

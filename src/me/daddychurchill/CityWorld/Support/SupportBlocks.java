@@ -668,6 +668,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	}
 	
 	public final void drawCrane(DataContext context, Odds odds, int x, int y, int z) {
+		Colors colors = new Colors(odds);
 		
 		// vertical bit
 		setBlocks(x, y, y + 8, z, Material.IRON_BARS);
@@ -685,7 +686,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		// counter weight
 		setBlock(x - 2, y + 9, z, Material.STONE_SLAB);
 		setBlock(x - 3, y + 9, z, Material.STONE_BRICK_STAIRS, BlockFace.EAST);
-		setBlocks(x - 3, x - 1, y + 7, y + 9, z, z + 1, odds.getRandomMaterial(Odds.allConcreteBlocks));
+		setBlocks(x - 3, x - 1, y + 7, y + 9, z, z + 1, colors.getConcrete());
 	}
 	
 	public final void setTable(int x1, int x2, int y, int z1, int z2) {

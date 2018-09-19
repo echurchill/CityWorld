@@ -1,10 +1,9 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import org.bukkit.Material;
-
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
+import me.daddychurchill.CityWorld.Support.Colors.ColorSet;
 
 public class CoverProvider_Nether extends CoverProvider_Decayed {
 
@@ -16,13 +15,8 @@ public class CoverProvider_Nether extends CoverProvider_Decayed {
 	}
 
 	@Override
-	public Material[] getDefaultWoolSet() {
-		return Odds.allNetherWoolBlocks;
-	}
-	
-	@Override
-	public Material[] getDefaultTerracottaSet() {
-		return Odds.allNetherTerracottaBlocks;
+	public ColorSet getColorSet() {
+		return ColorSet.NETHER;
 	}
 	
 	@Override

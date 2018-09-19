@@ -217,8 +217,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		
 		forceNarrowInteriorMode = chunkOdds.playOdds(context.oddsOfForcedNarrowInteriorMode);
 		differentInteriorModes = context.oddsOfDifferentInteriorModes;
-		interiorDoorMaterial = chunkOdds.getRandomMaterial(Odds.allWoodenDoors);
-		exteriorDoorMaterial = chunkOdds.getRandomMaterial(Odds.allWoodenDoors);
+		interiorDoorMaterial = chunkOdds.getRandomWoodDoor();
+		exteriorDoorMaterial = chunkOdds.getRandomWoodDoor();
 		
 	}
 	

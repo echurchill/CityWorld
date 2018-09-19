@@ -8,6 +8,8 @@ import org.bukkit.block.data.Bisected.Half;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
+import me.daddychurchill.CityWorld.Support.Colors;
+import me.daddychurchill.CityWorld.Support.Colors.ColorSet;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
@@ -124,73 +126,80 @@ public class StructureOnGroundProvider extends Provider {
 	public void generateCampground(CityWorldGenerator generator, RealBlocks chunk, DataContext context, Odds odds, int baseY) {
 		
 		// what are we made of?
-		DyeColor matColor = odds.getRandomColor();
 		boolean matCamo = odds.playOdds(Odds.oddsSomewhatUnlikely);
+		Colors colors = new Colors(odds);
+		if (matCamo)
+			if (colors.getRandomColor() == DyeColor.PINK)
+				colors.setColors(ColorSet.PINK);
+			else
+				colors.setColors(ColorSet.GREEN);
+		else
+			colors.fixColor();
 		
 		// direction? 
 		if (odds.flipCoin()) {
 			
 			// north/south tent first
 			for (int z = 3; z < 9; z++) {
-				chunk.setWool(3, baseY, z, getTentColor(odds, matColor, matCamo));
-				chunk.setWool(4, baseY + 1, z, getTentColor(odds, matColor, matCamo));
-				chunk.setWool(5, baseY + 2, z, getTentColor(odds, matColor, matCamo));
-				chunk.setWool(6, baseY + 3, z, getTentColor(odds, matColor, matCamo));
-				chunk.setWool(7, baseY + 2, z, getTentColor(odds, matColor, matCamo));
-				chunk.setWool(8, baseY + 1, z, getTentColor(odds, matColor, matCamo));
-				chunk.setWool(9, baseY, z, getTentColor(odds, matColor, matCamo));
+				chunk.setBlock(3, baseY, z, colors.getWool());
+				chunk.setBlock(4, baseY + 1, z, colors.getWool());
+				chunk.setBlock(5, baseY + 2, z, colors.getWool());
+				chunk.setBlock(6, baseY + 3, z, colors.getWool());
+				chunk.setBlock(7, baseY + 2, z, colors.getWool());
+				chunk.setBlock(8, baseY + 1, z, colors.getWool());
+				chunk.setBlock(9, baseY, z, colors.getWool());
 			}
 			
 			// back wall
-			chunk.setWool(4, baseY, 3, getTentColor(odds, matColor, matCamo));
-			chunk.setWool(5, baseY, 3, getTentColor(odds, matColor, matCamo));
-			chunk.setWool(5, baseY + 1, 3, getTentColor(odds, matColor, matCamo));
-			chunk.setWool(6, baseY, 3, getTentColor(odds, matColor, matCamo));
+			chunk.setBlock(4, baseY, 3, colors.getWool());
+			chunk.setBlock(5, baseY, 3, colors.getWool());
+			chunk.setBlock(5, baseY + 1, 3, colors.getWool());
+			chunk.setBlock(6, baseY, 3, colors.getWool());
 			chunk.setBlock(6, baseY + 1, 3, matWindow);
-			chunk.setWool(6, baseY + 2, 3, getTentColor(odds, matColor, matCamo));
-			chunk.setWool(7, baseY + 1, 3, getTentColor(odds, matColor, matCamo));
-			chunk.setWool(7, baseY, 3, getTentColor(odds, matColor, matCamo));
-			chunk.setWool(8, baseY, 3, getTentColor(odds, matColor, matCamo));
+			chunk.setBlock(6, baseY + 2, 3, colors.getWool());
+			chunk.setBlock(7, baseY + 1, 3, colors.getWool());
+			chunk.setBlock(7, baseY, 3, colors.getWool());
+			chunk.setBlock(8, baseY, 3, colors.getWool());
 					
 			// post
 			chunk.setBlocks(6, baseY, baseY + 3, 8, matPole);
 			
 			// beds
 			if (odds.playOdds(Odds.oddsPrettyLikely))
-				chunk.setBed(5, baseY, 4, Facing.SOUTH);
+				chunk.setBed(5, baseY, 4, BlockFace.SOUTH);
 			if (odds.playOdds(Odds.oddsPrettyLikely))
-				chunk.setBed(7, baseY, 4, Facing.SOUTH);
+				chunk.setBed(7, baseY, 4, BlockFace.SOUTH);
 		} else {
 			// north/south tent first
 			for (int x = 3; x < 9; x++) {
-				chunk.setWool(x, baseY, 3, getTentColor(odds, matColor, matCamo));
-				chunk.setWool(x, baseY + 1, 4, getTentColor(odds, matColor, matCamo));
-				chunk.setWool(x, baseY + 2, 5, getTentColor(odds, matColor, matCamo));
-				chunk.setWool(x, baseY + 3, 6, getTentColor(odds, matColor, matCamo));
-				chunk.setWool(x, baseY + 2, 7, getTentColor(odds, matColor, matCamo));
-				chunk.setWool(x, baseY + 1, 8, getTentColor(odds, matColor, matCamo));
-				chunk.setWool(x, baseY, 9, getTentColor(odds, matColor, matCamo));
+				chunk.setBlock(x, baseY, 3, colors.getWool());
+				chunk.setBlock(x, baseY + 1, 4, colors.getWool());
+				chunk.setBlock(x, baseY + 2, 5, colors.getWool());
+				chunk.setBlock(x, baseY + 3, 6, colors.getWool());
+				chunk.setBlock(x, baseY + 2, 7, colors.getWool());
+				chunk.setBlock(x, baseY + 1, 8, colors.getWool());
+				chunk.setBlock(x, baseY, 9, colors.getWool());
 			}
 			
 			// back wall
-			chunk.setWool(3, baseY, 4, getTentColor(odds, matColor, matCamo));
-			chunk.setWool(3, baseY, 5, getTentColor(odds, matColor, matCamo));
-			chunk.setWool(3, baseY + 1, 5, getTentColor(odds, matColor, matCamo));
-			chunk.setWool(3, baseY, 6, getTentColor(odds, matColor, matCamo));
+			chunk.setBlock(3, baseY, 4, colors.getWool());
+			chunk.setBlock(3, baseY, 5, colors.getWool());
+			chunk.setBlock(3, baseY + 1, 5, colors.getWool());
+			chunk.setBlock(3, baseY, 6, colors.getWool());
 			chunk.setBlock(3, baseY + 1, 6, matWindow);
-			chunk.setWool(3, baseY + 2, 6, getTentColor(odds, matColor, matCamo));
-			chunk.setWool(3, baseY + 1, 7, getTentColor(odds, matColor, matCamo));
-			chunk.setWool(3, baseY, 7, getTentColor(odds, matColor, matCamo));
-			chunk.setWool(3, baseY, 8, getTentColor(odds, matColor, matCamo));
+			chunk.setBlock(3, baseY + 2, 6, colors.getWool());
+			chunk.setBlock(3, baseY + 1, 7, colors.getWool());
+			chunk.setBlock(3, baseY, 7, colors.getWool());
+			chunk.setBlock(3, baseY, 8, colors.getWool());
 					
 			// post
 			chunk.setBlocks(8, baseY, baseY + 3, 6, matPole);
 			
 			// beds
 			if (odds.playOdds(Odds.oddsPrettyLikely))
-				chunk.setBed(4, baseY, 5, Facing.EAST);
+				chunk.setBed(4, baseY, 5, BlockFace.EAST);
 			if (odds.playOdds(Odds.oddsPrettyLikely))
-				chunk.setBed(4, baseY, 7, Facing.EAST);
+				chunk.setBed(4, baseY, 7, BlockFace.EAST);
 		}
 		
 		// now the fire pit
@@ -213,7 +222,7 @@ public class StructureOnGroundProvider extends Provider {
 		}
 		
 		// and the logs
-		Material logMat = odds.getRandomMaterial(Odds.allWoodenLogs);
+		Material logMat = odds.getRandomWoodLog();
 		if (odds.playOdds(Odds.oddsPrettyLikely)) {
 			chunk.setBlock(11, baseY, 8, logMat, BlockFace.EAST);
 			chunk.setBlock(12, baseY, 8, logMat, BlockFace.EAST);
@@ -222,16 +231,6 @@ public class StructureOnGroundProvider extends Provider {
 			chunk.setBlock(8, baseY, 11, logMat, BlockFace.NORTH);
 			chunk.setBlock(8, baseY, 12, logMat, BlockFace.NORTH);
 		}
-	}
-	
-	private DyeColor getTentColor(Odds odds, DyeColor baseColor, boolean camoMode) {
-		if (camoMode) {
-			if (baseColor == DyeColor.PINK)
-				return odds.getRandomColor(ColorSet.PINK);
-			else 
-				return odds.getRandomColor(ColorSet.GREEN);
-		} else
-			return baseColor;
 	}
 	
 	private enum HouseRoofStyle {FLAT, NORTHSOUTH, WESTEAST, ANGLED};
@@ -1068,52 +1067,25 @@ public class StructureOnGroundProvider extends Provider {
 
 		Material legMat = generator.materialProvider.itemsSelectMaterial_WaterTowers.getRandomMaterial(odds, Material.CLAY);
 		Material topMat = generator.materialProvider.itemsSelectMaterial_WaterTowers.getRandomMaterial(odds, Material.WHITE_TERRACOTTA);
+		Material platformMat = generator.materialProvider.itemsSelectMaterial_WaterTowers.getRandomMaterial(odds, topMat);
 		
-		DyeColor platformColor = odds.getRandomDarkColor();
-		DyeColor tankColor = odds.getRandomLightColor();
-		DyeColor topColor = odds.getRandomColor();
+		chunk.setBlocks(x, y1, y3, z + 1, legMat);
+		chunk.setBlocks(x + 1, y1, y3, z, legMat);
 		
-		if (legMat == Material.WHITE_TERRACOTTA) {
-			DyeColor legColor = odds.getRandomColor();
-			chunk.setBlocksTypeAndColor(x, y1, y3, z + 1, legMat, legColor);
-			chunk.setBlocksTypeAndColor(x + 1, y1, y3, z, legMat, legColor);
-			
-			chunk.setBlocksTypeAndColor(x + 6, y1, y3, z, legMat, legColor);
-			chunk.setBlocksTypeAndColor(x + 7, y1, y3, z + 1, legMat, legColor);
-			
-			chunk.setBlocksTypeAndColor(x, y1, y3, z + 6, legMat, legColor);
-			chunk.setBlocksTypeAndColor(x + 1, y1, y3, z + 7, legMat, legColor);
+		chunk.setBlocks(x + 6, y1, y3, z, legMat);
+		chunk.setBlocks(x + 7, y1, y3, z + 1, legMat);
+		
+		chunk.setBlocks(x, y1, y3, z + 6, legMat);
+		chunk.setBlocks(x + 1, y1, y3, z + 7, legMat);
 
-			chunk.setBlocksTypeAndColor(x + 7, y1, y3, z + 6, legMat, legColor);
-			chunk.setBlocksTypeAndColor(x + 6, y1, y3, z + 7, legMat, legColor);
-			
-		} else {
-			chunk.setBlocks(x, y1, y3, z + 1, legMat);
-			chunk.setBlocks(x + 1, y1, y3, z, legMat);
-			
-			chunk.setBlocks(x + 6, y1, y3, z, legMat);
-			chunk.setBlocks(x + 7, y1, y3, z + 1, legMat);
-			
-			chunk.setBlocks(x, y1, y3, z + 6, legMat);
-			chunk.setBlocks(x + 1, y1, y3, z + 7, legMat);
-
-			chunk.setBlocks(x + 7, y1, y3, z + 6, legMat);
-			chunk.setBlocks(x + 6, y1, y3, z + 7, legMat);
-		}
+		chunk.setBlocks(x + 7, y1, y3, z + 6, legMat);
+		chunk.setBlocks(x + 6, y1, y3, z + 7, legMat);
 		
-		if (topMat == Material.WHITE_TERRACOTTA) {
-			chunk.setCircle(x + 4, x + 4, 3, y3 - 1, topMat, topColor, true);
-			chunk.setCircle(x + 4, x + 4, 5, y3, topMat, platformColor, true);
-			chunk.setCircle(x + 4, x + 4, 4, y3 + 1, y3 + 5, topMat, tankColor, false);
-			chunk.setCircle(x + 4, x + 4, 4, y3 + 5, topMat, tankColor, true);
-			chunk.setCircle(x + 4, x + 4, 3, y3 + 6, topMat, topColor, true);
-		} else {
-			chunk.setCircle(x + 4, x + 4, 3, y3 - 1, topMat, true);
-			chunk.setCircle(x + 4, x + 4, 5, y3, topMat, true);
-			chunk.setCircle(x + 4, x + 4, 4, y3 + 1, y3 + 5, topMat, false);
-			chunk.setCircle(x + 4, x + 4, 4, y3 + 5, topMat, true);
-			chunk.setCircle(x + 4, x + 4, 3, y3 + 6, topMat, true);
-		}
+		chunk.setCircle(x + 4, x + 4, 3, y3 - 1, topMat, true);
+		chunk.setCircle(x + 4, x + 4, 5, y3, platformMat, true);
+		chunk.setCircle(x + 4, x + 4, 4, y3 + 1, y3 + 5, topMat, false);
+		chunk.setCircle(x + 4, x + 4, 4, y3 + 5, topMat, true);
+		chunk.setCircle(x + 4, x + 4, 3, y3 + 6, topMat, true);
 
 		if (generator.settings.includeAbovegroundFluids) {
 			chunk.setCircle(x + 4, x + 4, 3, y3 + 1, y3 + 2 + odds.getRandomInt(3), generator.oreProvider.fluidFluidMaterial, true);

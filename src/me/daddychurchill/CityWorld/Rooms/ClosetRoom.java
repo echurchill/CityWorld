@@ -19,7 +19,7 @@ public class ClosetRoom extends FilledRoom {
 	public void drawFixture(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int floor, int x,
 			int y, int z, int width, int height, int depth,
 			BlockFace sideWithWall, Material materialWall, Material materialGlass) {
-		Material door = odds.getRandomMaterial(Odds.allWoodenDoors);
+		Material door = odds.getRandomWoodDoor();
 		
 		switch (sideWithWall) {
 		default:
@@ -73,7 +73,7 @@ public class ClosetRoom extends FilledRoom {
 			return Material.STONE_SLAB;
 		
 		default: // WOOD
-			return odds.getRandomMaterial(Odds.allWoodenSlabs);
+			return odds.getRandomWoodSlab();
 		}
 	}
 

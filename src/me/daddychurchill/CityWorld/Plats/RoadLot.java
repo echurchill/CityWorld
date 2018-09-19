@@ -1062,7 +1062,7 @@ public class RoadLot extends ConnectedLot {
 			
 			// we might put down a plank... or maybe not...
 			boolean placedPlank = false;
-			Material woodSlab = chunkOdds.getRandomMaterial(Odds.allWoodenSlabs);
+			Material woodSlab = chunkOdds.getRandomWoodSlab();
 			
 			// fancy up the center walls?
 			if (centerNorth) {

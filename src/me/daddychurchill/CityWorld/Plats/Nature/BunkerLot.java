@@ -12,6 +12,7 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.Colors;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -321,7 +322,8 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setBlocks(7, 9, surfaceY + 5, surfaceY + 6, 7, 9, materials.building);
 		
 		// camo
-		chunk.setBlocksRandomly(5, 11, surfaceY - 2, surfaceY + 6, 5, 11, odds, generator.coverProvider.getDefaultTerracottaSet());
+		Colors colors = new Colors(odds, generator.coverProvider.getColorSet());
+		chunk.setBlocksRandomly(5, 11, surfaceY - 2, surfaceY + 6, 5, 11, odds, colors.getTerracotta());
 		
 		// bottom doors
 		chunk.setBlocks(7, 9, y1, y1 + 2, 5, 6, Material.AIR);
@@ -373,7 +375,8 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setWalls(2, 14, topOfBunker - 1, topOfBunker, 2, 14, materials.crosswalk);
 		
 		// camo the exit
-		chunk.setBlocksRandomly(1, 15, blockYs.minHeight, lidY + 2, 1, 15, odds, generator.coverProvider.getDefaultTerracottaSet());
+		Colors colors = new Colors(odds, generator.coverProvider.getColorSet());
+		chunk.setBlocksRandomly(1, 15, blockYs.minHeight, lidY + 2, 1, 15, odds, colors.getTerracotta());
 		
 		// place it then
 		if (odds.flipCoin())
@@ -395,9 +398,11 @@ public class BunkerLot extends ConnectedLot {
 		int Height = FloorHeight;
 
 		Material emptyMaterial = Material.AIR;
-		Material coreColor = odds.getRandomMaterial(Odds.allTerracottaBlocks);
-		Material detailColor = odds.getRandomMaterial(Odds.allTerracottaBlocks);
 		boolean firstFloor = true;
+		
+		Colors colors = new Colors(odds);
+		Material coreColor = colors.getTerracotta();
+		Material detailColor = colors.getTerracotta();
 		
 		while (y + Height < y2) {
 			
@@ -436,9 +441,11 @@ public class BunkerLot extends ConnectedLot {
 		int y3 = y2 - 2;
 		
 		Material emptyMaterial = Material.AIR;
-		Material coreColor = odds.getRandomMaterial(Odds.allTerracottaBlocks);
-		Material detailColor = odds.getRandomMaterial(Odds.allTerracottaBlocks);
 		boolean firstFloor = true;
+
+		Colors colors = new Colors(odds);
+		Material coreColor = colors.getTerracotta();
+		Material detailColor = colors.getTerracotta();
 		
 		for (int y = y1; y < y3; y += FloorHeight) {
 			
@@ -479,8 +486,10 @@ public class BunkerLot extends ConnectedLot {
 		int z2 = z1 + buildingWidth;
 		
 		Material emptyMaterial = Material.AIR;
-		Material coreColor = odds.getRandomMaterial(Odds.allTerracottaBlocks);
-		Material detailColor = odds.getRandomMaterial(Odds.allTerracottaBlocks);
+
+		Colors colors = new Colors(odds);
+		Material coreColor = colors.getTerracotta();
+		Material detailColor = colors.getTerracotta();
 		
 		// lower bit
 		chunk.setWalls(x1 + 1, x2 - 1, y1, y1 + 1, z1 + 1, z2 - 1, coreColor);
@@ -536,7 +545,9 @@ public class BunkerLot extends ConnectedLot {
 		int z2 = z1 + 12;
 		int y3 = y2 - 5;
 
-		Material coreColor = odds.getRandomMaterial(Odds.allTerracottaBlocks);
+
+		Colors colors = new Colors(odds);
+		Material coreColor = colors.getTerracotta();
 		
 		// initial pylon
 		chunk.setBlocks(x1 + 4, x2 - 4, y1, y1 + 2, z1 + 4, z2 - 4, coreColor);
@@ -561,7 +572,8 @@ public class BunkerLot extends ConnectedLot {
 	private static void generateBallsyBuildingBall(SupportBlocks chunk, Odds odds, int x, int y, int z) {
 		if (odds.flipCoin()) {
 			
-			Material ballColor = odds.getRandomMaterial(Odds.allTerracottaBlocks);
+			Colors colors = new Colors(odds);
+			Material ballColor = colors.getTerracotta();
 			
 			// bottom
 			chunk.setBlocks(x + 1, x + 4, y, y + 1, z + 1, z + 4, ballColor);
@@ -586,8 +598,9 @@ public class BunkerLot extends ConnectedLot {
 		int yRange = ySegment * 3;
 		int yBase = y1 + ySegment;
 		
-		Material coreColor = odds.getRandomMaterial(Odds.allTerracottaBlocks);
-		Material detailColor = odds.getRandomMaterial(Odds.allTerracottaBlocks);
+		Colors colors = new Colors(odds);
+		Material coreColor = colors.getTerracotta();
+		Material detailColor = colors.getTerracotta();
 		
 		int colY1 = yBase + odds.getRandomInt(yRange);
 		int colY2 = yBase + odds.getRandomInt(yRange);
@@ -633,6 +646,8 @@ public class BunkerLot extends ConnectedLot {
 		int pz1 = z1;
 		int pz2 = z2;
 		
+		Colors colors = new Colors(odds);
+
 		while (py1 < y2) {
 			if (doX) {
 				int lx = px1;
@@ -648,7 +663,7 @@ public class BunkerLot extends ConnectedLot {
 				} while (pz1 == lz);
 			}
 			
-			chunk.setBlocks(px1, px2, py1, py1 + 1, pz1, pz2, odds.getRandomMaterial(Odds.allTerracottaBlocks));
+			chunk.setBlocks(px1, px2, py1, py1 + 1, pz1, pz2, colors.getTerracotta());
 			py1 = py1 + 1;
 		}
 	}
@@ -664,8 +679,9 @@ public class BunkerLot extends ConnectedLot {
 		int yBottom = y1 + 4;
 		int yTop = y2;
 		
-		Material coreColor = odds.getRandomMaterial(Odds.allTerracottaBlocks);
-		Material detailColor = odds.getRandomMaterial(Odds.allTerracottaBlocks);
+		Colors colors = new Colors(odds);
+		Material coreColor = colors.getTerracotta();
+		Material detailColor = colors.getTerracotta();
 		
 		// supports
 		chunk.setBlocks(x1 + 1, x1 + 3, y1, yBottom, z1 + 1, z1 + 3, detailColor);
@@ -708,8 +724,9 @@ public class BunkerLot extends ConnectedLot {
 		int z1 = 2;
 		int z2 = z1 + 12;
 		
-		Material coreColor = odds.getRandomMaterial(Odds.allTerracottaBlocks);
-		Material detailColor = odds.getRandomMaterial(Odds.allTerracottaBlocks);
+		Colors colors = new Colors(odds);
+		Material coreColor = colors.getTerracotta();
+		Material detailColor = colors.getTerracotta();
 		
 		Material emptyMaterial = Material.AIR;
 		for (int i = 0; i < 7; i++) {

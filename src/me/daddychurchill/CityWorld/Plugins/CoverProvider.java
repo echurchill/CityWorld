@@ -2,8 +2,8 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.Odds.ColorSet;
-import me.daddychurchill.CityWorld.Support.BlackMagic;
+import me.daddychurchill.CityWorld.Support.Colors;
+import me.daddychurchill.CityWorld.Support.Colors.ColorSet;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 import org.bukkit.CropState;
@@ -14,7 +14,6 @@ import org.bukkit.TreeSpecies;
 import org.bukkit.TreeType;
 import org.bukkit.material.Crops;
 import org.bukkit.material.Leaves;
-import org.bukkit.Material.BIRCH_LEAVES;
 import org.bukkit.material.LongGrass;
 import org.bukkit.material.NetherWarts;
 import org.bukkit.material.Sapling;
@@ -585,28 +584,24 @@ public abstract class CoverProvider extends Provider {
 		}
 	}
 	
-	private Crops getRandomCropState() {
-		return getRandomCropState(CropState.values().length);
-	}
-	
-	private Crops getRandomCropState(int max) {
-		return new Crops(CropState.values()[odds.getRandomInt(max)]);
-	}
-	
-	private NetherWarts getRandomNetherWartState() {
-		return new NetherWarts(NetherWartsState.values()[odds.getRandomInt(NetherWartsState.values().length)]);
-	}
+//	private Crops getRandomCropState() {
+//		return getRandomCropState(CropState.values().length);
+//	}
+//	
+//	private Crops getRandomCropState(int max) {
+//		return new Crops(CropState.values()[odds.getRandomInt(max)]);
+//	}
+//	
+//	private NetherWarts getRandomNetherWartState() {
+//		return new NetherWarts(NetherWartsState.values()[odds.getRandomInt(NetherWartsState.values().length)]);
+//	}
 	
 	protected boolean likelyCover(CityWorldGenerator generator) {
 		return !generator.settings.darkEnvironment || odds.playOdds(oddsOfDarkCover);
 	}
 	
-	public Material[] getDefaultWoolSet() {
-		return Odds.allGreenWoolBlocks;
-	}
-	
-	public Material[] getDefaultTerracottaSet() {
-		return Odds.allGreenTerracottaBlocks;
+	public ColorSet getColorSet() {
+		return ColorSet.GREEN;
 	}
 	
 	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
@@ -669,84 +664,84 @@ public abstract class CoverProvider extends Provider {
 //			return chunk.isPlantable(x, y, z);
 	}
 	
-	@Deprecated
-	protected boolean isATree(CoverageType coverageType) {
-		switch (coverageType) {
-		case MINI_OAK_TREE:
-		case SHORT_OAK_TREE:
-		case OAK_TREE:
-		case TALL_OAK_TREE:
-			
-		case MINI_PINE_TREE:
-		case SHORT_PINE_TREE:
-		case PINE_TREE:
-		case TALL_PINE_TREE:
-		
-		case MINI_BIRCH_TREE:
-		case SHORT_BIRCH_TREE:
-		case BIRCH_TREE:
-		case TALL_BIRCH_TREE:
-		
-		case MINI_JUNGLE_TREE:
-		case SHORT_JUNGLE_TREE:
-		case JUNGLE_TREE:
-		case TALL_JUNGLE_TREE:
-		
-		case MINI_SWAMP_TREE:
-		case SWAMP_TREE:
-		
-		case MINI_ACACIA_TREE:
-		case ACACIA_TREE:
-			return true;
-		
-		default:
-			return false;
-		}
-	}
-	
-	@Deprecated
-	protected CoverageType convertToTreeTrunk(CoverageType coverageType) {
-		switch (coverageType) {
-		case MINI_OAK_TREE:
-			return CoverageType.MINI_OAK_TRUNK;
-		case SHORT_OAK_TREE:
-		case OAK_TREE:
-		case TALL_OAK_TREE:
-			return CoverageType.OAK_TRUNK;
-			
-		case MINI_PINE_TREE:
-			return CoverageType.MINI_PINE_TRUNK;
-		case SHORT_PINE_TREE:
-		case PINE_TREE:
-		case TALL_PINE_TREE:
-			return CoverageType.PINE_TRUNK;
-		
-		case MINI_BIRCH_TREE:
-			return CoverageType.MINI_BIRCH_TRUNK;
-		case SHORT_BIRCH_TREE:
-		case BIRCH_TREE:
-		case TALL_BIRCH_TREE:
-			return CoverageType.BIRCH_TRUNK;
-		
-		case MINI_JUNGLE_TREE:
-			return CoverageType.MINI_JUNGLE_TRUNK;
-		case SHORT_JUNGLE_TREE:
-		case JUNGLE_TREE:
-		case TALL_JUNGLE_TREE:
-			return CoverageType.JUNGLE_TRUNK;
-		
-		case MINI_SWAMP_TREE:
-			return CoverageType.MINI_SWAMP_TRUNK;
-		case SWAMP_TREE:
-			return CoverageType.SWAMP_TRUNK;
-		
-		case MINI_ACACIA_TREE:
-			return CoverageType.MINI_ACACIA_TRUNK;
-		case ACACIA_TREE:
-			return CoverageType.ACACIA_TRUNK;
-		
-		default:
-			return CoverageType.NOTHING;
-		}
-	}
+//	@Deprecated
+//	protected boolean isATree(CoverageType coverageType) {
+//		switch (coverageType) {
+//		case MINI_OAK_TREE:
+//		case SHORT_OAK_TREE:
+//		case OAK_TREE:
+//		case TALL_OAK_TREE:
+//			
+//		case MINI_PINE_TREE:
+//		case SHORT_PINE_TREE:
+//		case PINE_TREE:
+//		case TALL_PINE_TREE:
+//		
+//		case MINI_BIRCH_TREE:
+//		case SHORT_BIRCH_TREE:
+//		case BIRCH_TREE:
+//		case TALL_BIRCH_TREE:
+//		
+//		case MINI_JUNGLE_TREE:
+//		case SHORT_JUNGLE_TREE:
+//		case JUNGLE_TREE:
+//		case TALL_JUNGLE_TREE:
+//		
+//		case MINI_SWAMP_TREE:
+//		case SWAMP_TREE:
+//		
+//		case MINI_ACACIA_TREE:
+//		case ACACIA_TREE:
+//			return true;
+//		
+//		default:
+//			return false;
+//		}
+//	}
+//	
+//	@Deprecated
+//	protected CoverageType convertToTreeTrunk(CoverageType coverageType) {
+//		switch (coverageType) {
+//		case MINI_OAK_TREE:
+//			return CoverageType.MINI_OAK_TRUNK;
+//		case SHORT_OAK_TREE:
+//		case OAK_TREE:
+//		case TALL_OAK_TREE:
+//			return CoverageType.OAK_TRUNK;
+//			
+//		case MINI_PINE_TREE:
+//			return CoverageType.MINI_PINE_TRUNK;
+//		case SHORT_PINE_TREE:
+//		case PINE_TREE:
+//		case TALL_PINE_TREE:
+//			return CoverageType.PINE_TRUNK;
+//		
+//		case MINI_BIRCH_TREE:
+//			return CoverageType.MINI_BIRCH_TRUNK;
+//		case SHORT_BIRCH_TREE:
+//		case BIRCH_TREE:
+//		case TALL_BIRCH_TREE:
+//			return CoverageType.BIRCH_TRUNK;
+//		
+//		case MINI_JUNGLE_TREE:
+//			return CoverageType.MINI_JUNGLE_TRUNK;
+//		case SHORT_JUNGLE_TREE:
+//		case JUNGLE_TREE:
+//		case TALL_JUNGLE_TREE:
+//			return CoverageType.JUNGLE_TRUNK;
+//		
+//		case MINI_SWAMP_TREE:
+//			return CoverageType.MINI_SWAMP_TRUNK;
+//		case SWAMP_TREE:
+//			return CoverageType.SWAMP_TRUNK;
+//		
+//		case MINI_ACACIA_TREE:
+//			return CoverageType.MINI_ACACIA_TRUNK;
+//		case ACACIA_TREE:
+//			return CoverageType.ACACIA_TRUNK;
+//		
+//		default:
+//			return CoverageType.NOTHING;
+//		}
+//	}
 }

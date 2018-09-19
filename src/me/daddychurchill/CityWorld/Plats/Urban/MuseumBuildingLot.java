@@ -8,6 +8,7 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.FinishedBuildingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
+import me.daddychurchill.CityWorld.Support.Colors;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.Surroundings;
@@ -103,7 +104,8 @@ public class MuseumBuildingLot extends FinishedBuildingLot {
 			// ok... then do it
 			if (placeBones) {
 				int sidewalkLevel = getSidewalkLevel(generator);
-				chunk.setBlocks(3, 13, sidewalkLevel + 1, 3, 13, chunkOdds.getColoredWool(chunkOdds.getRandomColor()));
+				Colors colors = new Colors(chunkOdds);
+				chunk.setBlocks(3, 13, sidewalkLevel + 1, 3, 13, colors.getConcrete());
 				generator.thingProvider.generateBones(generator, this, chunk, 7, sidewalkLevel + 1, 11, chunkOdds, true);
 				
 				// it looked so nice for a moment... but the moment has passed

@@ -4,6 +4,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.BuildingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Support.Colors;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -179,14 +180,15 @@ public class ConcreteLot extends BuildingLot {
 			chunk.setLayer(sidewalkLevel - 2, 2, underneath);
 			chunk.clearBlocks(2, 14, sidewalkLevel, 2, 14);
 			boolean randomColor = chunkOdds.playOdds(Odds.oddsSomewhatUnlikely);
-			Material color = chunkOdds.getColoredGlass(chunkOdds.getRandomColor());
+			Colors colors = new Colors(chunkOdds);
+			Material thing = colors.getGlass();
 			int inset = 0;
 			for (int z = 3; z < 13; z++) {
 				inset = inset == 1 ? 0 : 1;
 				for (int x = 3; x < 13; x += 2) {
-					chunk.setBlocks(x + inset, x + inset + 1, sidewalkLevel - 1, sidewalkLevel + chunkOdds.calcRandomRange(3, 5), z, z + 1, color);
+					chunk.setBlocks(x + inset, x + inset + 1, sidewalkLevel - 1, sidewalkLevel + chunkOdds.calcRandomRange(3, 5), z, z + 1, thing);
 					if (randomColor)
-						color = chunkOdds.getColoredGlass(chunkOdds.getRandomColor());
+						thing = colors.getGlass();
 				}
 			}
 		}

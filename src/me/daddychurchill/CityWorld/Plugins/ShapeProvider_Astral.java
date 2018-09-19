@@ -23,7 +23,6 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SegmentedCachedYs;
 
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
@@ -352,6 +351,16 @@ public class ShapeProvider_Astral extends ShapeProvider {
 //		// mines please
 //		lot.generateMines(generator, chunk);
 	}
+	
+	private static Material[] coloredGlass = {
+			Material.BLACK_STAINED_GLASS, Material.BLUE_STAINED_GLASS, 
+			Material.BROWN_STAINED_GLASS, Material.CYAN_STAINED_GLASS,
+			Material.GRAY_STAINED_GLASS, Material.GREEN_STAINED_GLASS,
+			Material.LIGHT_BLUE_STAINED_GLASS, Material.LIGHT_GRAY_STAINED_GLASS,
+			Material.LIME_STAINED_GLASS, Material.MAGENTA_STAINED_GLASS,
+			Material.ORANGE_STAINED_GLASS, Material.PINK_STAINED_GLASS,
+			Material.PURPLE_STAINED_GLASS, Material.RED_STAINED_GLASS,
+			Material.WHITE_STAINED_GLASS, Material.YELLOW_STAINED_GLASS};
 
 	@Override
 	public void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, CachedYs blockYs) {
@@ -407,7 +416,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 							int segmentZ = z / blockYs.segmentWidth * blockYs.segmentWidth + originZ;
 							double colorD = noiseShape.noise(segmentX, segmentZ, blockYs.getSegment(x, z), noiseFrequency, noiseAmplitude, true);
 							chunk.setBlocks(x, x + 1, baseY, y, z, z + 1, 
-									odds.getColoredGlass(DyeColor.values()[Math.min(15, Math.max(0, NoiseGenerator.floor(colorD * 8) + 8))]));
+									coloredGlass[Math.min(coloredGlass.length - 1, Math.max(0, NoiseGenerator.floor(colorD) * coloredGlass.length))]);
 						
 						// sprinkle a little bit more snow?
 						} else {

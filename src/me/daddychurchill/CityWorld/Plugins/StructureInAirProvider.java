@@ -3,10 +3,11 @@ package me.daddychurchill.CityWorld.Plugins;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.AbstractBlocks;
+import me.daddychurchill.CityWorld.Support.Colors;
+import me.daddychurchill.CityWorld.Support.Colors.ColorSet;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.World.Environment;
 
@@ -38,10 +39,9 @@ public class StructureInAirProvider extends Provider {
 		if (attachString(chunk, balloonX, attachY, balloonY1, balloonZ)) {
 			
 			// pick the colors
-			DyeColor primaryColor = getPrimaryColor(generator, odds);
-			Material primary = odds.getColoredWool(primaryColor);
-			DyeColor secondaryColor = getSecondaryColor(generator, odds);
-			Material secondary = odds.getColoredWool(secondaryColor);
+			Colors colors = new Colors(odds, generator.worldEnvironment == Environment.NETHER ? ColorSet.NETHER : ColorSet.RANDOM);
+			Material primary = colors.getWool();
+			Material secondary = colors.getWool();
 			
 			// draw the balloon
 			chunk.setBlocks(balloonX, balloonX + 1, balloonY1, balloonY1 + 2, balloonZ, balloonZ + 1, primary);
@@ -109,10 +109,9 @@ public class StructureInAirProvider extends Provider {
 			int balloonY1, int balloonY2, Odds odds) {
 		
 		// pick the colors
-		DyeColor primaryColor = getPrimaryColor(generator, odds);
-		Material primary = odds.getColoredWool(primaryColor);
-		DyeColor secondaryColor = getSecondaryColor(generator, odds);
-		Material secondary = odds.getColoredWool(secondaryColor);
+		Colors colors = new Colors(odds, generator.worldEnvironment == Environment.NETHER ? ColorSet.NETHER : ColorSet.RANDOM);
+		Material primary = colors.getWool();
+		Material secondary = colors.getWool();
 		
 		// draw the bottom of the blimp
 		chunk.setCircle(8, 8, 3, balloonY1 - 1, primary);
@@ -124,10 +123,10 @@ public class StructureInAirProvider extends Provider {
 		int step = 2 + odds.getRandomInt(4);
 		int y = balloonY1 + 8;
 		do {
-			Material color = primary;
+			Material strip = primary;
 			if (y % step != 0)
-				color = secondary;
-			chunk.setCircle(8, 8, 6, y, color, true);
+				strip = secondary;
+			chunk.setCircle(8, 8, 6, y, strip, true);
 			y++;
 		} while (y < balloonY2 - 3);
 		
@@ -150,17 +149,6 @@ public class StructureInAirProvider extends Provider {
 		if (result)
 			chunk.setBlocks(x, y1, y2, z, Material.SPRUCE_FENCE);
 		return result;
-	}
-	
-	private DyeColor getPrimaryColor(CityWorldGenerator generator, Odds odds) {
-		if (generator.worldEnvironment == Environment.NETHER)
-			return getSecondaryColor(generator, odds);
-		else
-			return odds.getRandomColor();
-	}
-
-	private DyeColor getSecondaryColor(CityWorldGenerator generator, Odds odds) {
-		return odds.getRandomColor();
 	}
 	
 	private void addLight(AbstractBlocks chunk, DataContext context, int x, int y, int z) {

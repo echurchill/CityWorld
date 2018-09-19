@@ -6,13 +6,13 @@ import me.daddychurchill.CityWorld.Plats.IsolatedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Nature.GravelLot;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageSets;
+import me.daddychurchill.CityWorld.Support.Colors;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
@@ -291,7 +291,10 @@ public class RoundaboutCenterLot extends IsolatedLot {
 		// simple glass or colored blocks?
 		boolean woolArt = odds.playOdds(Odds.oddsUnlikely);
 		boolean multiColorArt = odds.playOdds(Odds.oddsLikely);
-		DyeColor color = odds.getRandomColor();
+		Colors colors = new Colors(odds);
+		if (!multiColorArt)
+			colors.fixColor();
+		
 		
 		// base art
 		if (odds.flipCoin() || woolArt) {
@@ -301,18 +304,14 @@ public class RoundaboutCenterLot extends IsolatedLot {
 				for (int y = atY + 4; y < atY + 8; y++) 
 					for (int z = atZ; z < atZ + 4; z++) {
 						
-						// pick a color
-						if (multiColorArt)
-							color = odds.getRandomColor();
-						
 						// place a block
 						if (odds.flipCoin())
-							chunk.setBlock(x, y, z, odds.getColoredPane(color));
+							chunk.setBlock(x, y, z, colors.getGlassPane());
 						else
 							if (woolArt)
-								chunk.setBlock(x, y, z, odds.getColoredWool(color));
+								chunk.setBlock(x, y, z, colors.getWool());
 							else
-								chunk.setBlock(x, y, z, odds.getColoredGlass(color));
+								chunk.setBlock(x, y, z, colors.getGlass());
 					}
 			
 			// now put the base in
@@ -331,15 +330,11 @@ public class RoundaboutCenterLot extends IsolatedLot {
 					int y2 = atY + odds.getRandomInt(5) + 1;
 					int y3 = y2 + odds.getRandomInt(5) + 1;
 					
-					// pick a color
-					if (multiColorArt)
-						color = odds.getRandomColor();
-					
 					// place a block
 					for (int y = atY; y < y2; y++)
-						chunk.setBlock(x, y, z, odds.getColoredGlass(color));
+						chunk.setBlock(x, y, z, colors.getGlass());
 					for (int y = y2; y < y3; y++)
-						chunk.setBlock(x, y, z, odds.getColoredPane(color));
+						chunk.setBlock(x, y, z, colors.getGlassPane());
 				}
 		}
 	}

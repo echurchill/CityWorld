@@ -7,6 +7,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConnectedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Support.Colors;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -20,14 +21,17 @@ public class GovernmentMonumentLot extends ConnectedLot {
 		botHeight = chunkOdds.calcRandomRange(2, 6);
 		topHeight = chunkOdds.calcRandomRange(1, 3);
 		monumentStyle = pickMonumentStyle();
+		colors = new Colors(chunkOdds);
 		loadMaterials(platmap);
 	}
 	
 	private int botHeight;
 	private int topHeight;
 	private int sectionHeight = 5;
+	
 	private Material foundationMaterial = Material.QUARTZ_BLOCK;
 	private Material columnMaterial = Material.QUARTZ_BLOCK;
+	private Colors colors;
 
 	protected void loadMaterials(PlatMap platmap) {
 
@@ -73,7 +77,7 @@ public class GovernmentMonumentLot extends ConnectedLot {
 		int y2 = y1 + botHeight * sectionHeight;
 		int y3 = y2 + topHeight * sectionHeight;
 		chunk.setBlocks(5, 11, y1, y2, 5, 11, columnMaterial);
-		chunk.setWalls(6, 10, y2, y3, 6, 10, chunkOdds.getColoredGlass(chunkOdds.getRandomColor()));
+		chunk.setWalls(6, 10, y2, y3, 6, 10, colors.getGlass());
 		if (chunkOdds.flipCoin())
 			chunk.setBlocks(7, 9, y2, y3, 7, 9, columnMaterial);
 		if (doTop) {
@@ -91,7 +95,7 @@ public class GovernmentMonumentLot extends ConnectedLot {
 			if (chunkOdds.playOdds(Odds.oddsSomewhatUnlikely))
 				generator.thingProvider.generateChicken(chunk, 1, y2 + 1, 4);
 			else
-				chunk.setBlocks(5, 11, y2 + 1, y2 + chunkOdds.calcRandomRange(3, 8), 5, 11, chunkOdds.getColoredGlass(chunkOdds.getRandomColor()));
+				chunk.setBlocks(5, 11, y2 + 1, y2 + chunkOdds.calcRandomRange(3, 8), 5, 11, colors.getGlass());
 		}
 	}
 	
@@ -146,11 +150,11 @@ public class GovernmentMonumentLot extends ConnectedLot {
 				if (chunkOdds.flipCoin())
 					chunk.setBlocks(7, y2, y3, 7, columnMaterial);
 				else
-					chunk.setBlocks(6, 9, y2, yT, 6, 9, chunkOdds.getColoredGlass(chunkOdds.getRandomColor()));
+					chunk.setBlocks(6, 9, y2, yT, 6, 9, colors.getGlass());
 			}
 			
 		} else {
-			chunk.setBlocks(6, 9, y2, y3, 6, 9, chunkOdds.getColoredGlass(chunkOdds.getRandomColor()));
+			chunk.setBlocks(6, 9, y2, y3, 6, 9, colors.getGlass());
 		}
 		chunk.setBlocks(5, 10, y3, 5, 10, columnMaterial);
 		if (doTop) {
