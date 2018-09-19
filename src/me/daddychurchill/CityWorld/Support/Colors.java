@@ -91,12 +91,13 @@ public class Colors {
 		}
 	}
 	
-	public void setColors(DyeColor ... dyeColors) {
+	private void setColors(DyeColor ... dyeColors) {
 		colors = dyeColors;
 	}
 	
 	public void fixColor() {
-		setColors(getRandomColor());
+		if (colors.length > 1)
+			setColors(getRandomColor());
 	}
 
 	public DyeColor getRandomColor() {
