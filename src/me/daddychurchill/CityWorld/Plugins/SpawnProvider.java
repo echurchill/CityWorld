@@ -270,9 +270,9 @@ public class SpawnProvider extends Provider {
 	public final void spawnBeings(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z) {
 		EntityType goodies = itemsEntities_Goodies.getRandomEntity(odds);
 		EntityType baddies = itemsEntities_Baddies.getRandomEntity(odds);
-		int count = odds.getRandomInt(1, 3);
+		int count = odds.getRandomInt(1, 3); //shimmy
 		for (int i = 0; i < count; i++)
-			spawnBeing(generator, blocks, odds, x + i, y, z + i, goodies, baddies);
+			spawnBeing(generator, blocks, odds, blocks.clampXZ(x + i), y, blocks.clampXZ(z + i), goodies, baddies);
 	}
 	
 	public final void spawnBeing(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z, EntityType goody, EntityType baddy) {
@@ -283,9 +283,9 @@ public class SpawnProvider extends Provider {
 	public final void spawnVagrants(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z) {
 		EntityType goodies = itemsEntities_Vagrants.getRandomEntity(odds);
 		EntityType baddies = itemsEntities_Baddies.getRandomEntity(odds);
-		int count = odds.getRandomInt(1, 3);
+		int count = odds.getRandomInt(1, 3); //shimmy
 		for (int i = 0; i < count; i++)
-			spawnVagrant(generator, blocks, odds, x + i, y, z + i, goodies, baddies);
+			spawnVagrant(generator, blocks, odds, blocks.clampXZ(x + i), y, blocks.clampXZ(z + i), goodies, baddies);
 	}
 	
 	public final void spawnVagrant(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z, EntityType goody, EntityType baddy) {
@@ -317,8 +317,10 @@ public class SpawnProvider extends Provider {
 						break;
 					} else
 						countDown--;
-					x = x + odds.calcRandomRange(-2, 2);
-					z = z + odds.calcRandomRange(-2, 2);
+					
+					// shimmy
+					x = blocks.clampXZ(x + odds.calcRandomRange(-2, 2));
+					z = blocks.clampXZ(z + odds.calcRandomRange(-2, 2));
 				}
 				if (!foundSpot)
 					return;

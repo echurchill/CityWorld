@@ -32,7 +32,7 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 		ceilingMaterial = platmap.generator.materialProvider.itemsSelectMaterial_GovernmentCeilings.getRandomMaterial(chunkOdds, Material.WHITE_WOOL);
 		roofMaterial = platmap.generator.materialProvider.itemsSelectMaterial_GovernmentCeilings.getRandomMaterial(chunkOdds, Material.WHITE_WOOL);
 		columnMaterial = platmap.generator.materialProvider.itemsSelectMaterial_GovernmentWalls.getRandomMaterial(chunkOdds, pickColumnMaterial(wallMaterial));
-		//foundationSteps = SupportBlocks.filterStairMaterial(foundationMaterial);
+		foundationSteps = SupportBlocks.mapStairMaterial(foundationMaterial);
 	}
 	
 	private Material foundationSteps;

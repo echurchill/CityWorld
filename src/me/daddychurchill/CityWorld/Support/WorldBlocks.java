@@ -24,6 +24,11 @@ public final class WorldBlocks extends SupportBlocks {
 	}
 
 	@Override
+	public int clampXZ(int value) {
+		return value;
+	}
+
+	@Override
 	public Block getActualBlock(int x, int y, int z) {
 		return world.getBlockAt(x, y, z);
 	}

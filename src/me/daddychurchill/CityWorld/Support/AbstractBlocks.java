@@ -23,6 +23,14 @@ public abstract class AbstractBlocks {
 		this.height = generator.height;
 	}
 
+	public int clampXZ(int value) {
+		return Math.max(Math.min(value, sectionBlockWidth - 1), 0);
+	}
+	
+	public int clampY(int value) {
+		return Math.max(Math.min(value, height), 0);
+	}
+	
 	public final static int getBlockX(int sectionX, int x) {
 		return sectionX * sectionBlockWidth + x;
 	}

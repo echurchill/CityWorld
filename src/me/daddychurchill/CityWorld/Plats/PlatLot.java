@@ -332,7 +332,7 @@ public abstract class PlatLot {
 		
 		// get shafted!
 		if (generator.settings.includeMines)
-			for (int y = 0; y + 16 < blockYs.minHeight; y += 16) {
+			for (int y = lowestMineSegment; y + 16 < blockYs.minHeight; y += 16) {
 				if (isShaftableLevel(generator, y))
 					generateVerticalMineLevel(generator, chunk, y);
 			}

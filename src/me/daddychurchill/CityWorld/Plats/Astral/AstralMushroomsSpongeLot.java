@@ -37,15 +37,15 @@ public class AstralMushroomsSpongeLot extends AstralNatureLot {
 			int topY = generator.seaLevel - 2;
 			
 			// shimmy a bit, maybe
-			x += chunkOdds.getRandomInt(-1, 3);
-			z += chunkOdds.getRandomInt(-1, 3);
+			x = chunk.clampXZ(x + chunkOdds.getRandomInt(-1, 3));
+			z = chunk.clampXZ(z + chunkOdds.getRandomInt(-1, 3));
 			
 			// down far enough?
 			int y = getSurfaceAtY(x, z);
 			if (y > 0 && y <= topY - belowSurface) {
 
 				// a little more shimmy
-				topY += chunkOdds.getRandomInt(-1, 2);
+				topY = chunk.clampY(topY + chunkOdds.getRandomInt(-1, 2));
 				
 				// normalize
 				int blockX = chunk.getBlockX(x);

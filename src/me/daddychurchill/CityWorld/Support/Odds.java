@@ -88,7 +88,7 @@ public class Odds {
 	}
 	
 	public double calcRandomRange(double min, double max) {
-		return min + random.nextDouble() * (max - min + 1);
+		return min + (random.nextDouble() * (max - min + 1));
 	}
 	
 	public int getShimmy() {

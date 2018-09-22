@@ -1413,7 +1413,7 @@ public class RoadLot extends ConnectedLot {
 	private void generateDoor(RealBlocks chunk, int x, int y, int z, BlockFace direction) {
 		switch (chunkOdds.getRandomInt(5)) {
 		case 1:
-			chunk.setBlocks(x, y, y + 2, z, Material.BRICK);
+			chunk.setBlocks(x, y, y + 2, z, Material.BRICKS);
 			break;
 		case 2:
 			chunk.setBlocks(x, y, y + 2, z, Material.IRON_BARS);

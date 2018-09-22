@@ -29,7 +29,7 @@ public class OilPlatformLot extends ConstructLot {
 	private final static Material headMaterial = Material.STONE_SLAB;
 	private final static Material railingMaterial = Material.IRON_BARS;
 	private final static Material drillMaterial = Material.NETHER_BRICK_FENCE;
-	private final static Material supportMaterial = Material.NETHER_BRICK;
+	private final static Material supportMaterial = Material.NETHER_BRICKS;
 	private final static Material topperMaterial = Material.NETHER_BRICK_STAIRS;
 	
 	private final static int aboveSea = 6;

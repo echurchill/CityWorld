@@ -2340,7 +2340,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 //			return Material.SANDSTONE;
 //			
 //		case BRICK_STAIRS:
-//			return Material.BRICK;
+//			return Material.BRICKS;
 //		
 //		case QUARTZ_STAIRS:
 //			return Material.QUARTZ_BLOCK;

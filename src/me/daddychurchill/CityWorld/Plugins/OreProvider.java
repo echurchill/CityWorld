@@ -180,25 +180,17 @@ public abstract class OreProvider extends Provider {
 			while (oresDone < amountToDo && trysLeft > 0) {
 				
 				// shimmy
-				int x = originX + odds.getRandomInt(Math.max(1, amountToDo / 2)) - amountToDo / 4;
-				int y = originY + odds.getRandomInt(Math.max(1, amountToDo / 4)) - amountToDo / 8;
-				int z = originZ + odds.getRandomInt(Math.max(1, amountToDo / 2)) - amountToDo / 4;
+				int x = chunk.clampXZ(originX + odds.getRandomInt(Math.max(1, amountToDo / 2)) - amountToDo / 4);
+				int y = chunk.clampY(originY + odds.getRandomInt(Math.max(1, amountToDo / 4)) - amountToDo / 8);
+				int z = chunk.clampXZ(originZ + odds.getRandomInt(Math.max(1, amountToDo / 2)) - amountToDo / 4);
 				
-				// in range?
-				if (checkRange(x, 16) && checkRange(y, chunk.height) && checkRange(z, 16)) {
-					
-					// ore it is
-					oresDone += placeOre(generator, chunk, odds, x, y, z, amountToDo - oresDone, material);
-				}
+				// ore it is
+				oresDone += placeOre(generator, chunk, odds, x, y, z, amountToDo - oresDone, material);
 					
 				// one less try to try
 				trysLeft--;
 			}
 		}
-	}
-	
-	private boolean checkRange(int v, int maximum) {
-		return v >= 0 && v < maximum;
 	}
 	
 	private int placeOre(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, 

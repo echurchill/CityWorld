@@ -27,7 +27,7 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 		
 		switch (chunkOdds.getRandomInt(10)) {
 		case 1:
-			wallMaterial = Material.BRICK;
+			wallMaterial = Material.BRICKS;
 			stepMaterial = Material.BRICK_STAIRS;
 			break;
 		case 2:
@@ -39,7 +39,7 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 			stepMaterial = Material.SANDSTONE_STAIRS;
 			break;
 		case 4:
-			wallMaterial = Material.NETHER_BRICK;
+			wallMaterial = Material.NETHER_BRICKS;
 			stepMaterial = Material.NETHER_BRICK_STAIRS;
 			break;
 		case 5:
@@ -51,7 +51,7 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 			stepMaterial = Material.QUARTZ_STAIRS;
 			break;
 		case 7:
-			wallMaterial = Material.WHITE_TERRACOTTA;
+			wallMaterial = Material.TERRACOTTA;
 			break;
 		case 8:
 			wallMaterial = Material.STONE;//@@ DOUBLE_STEP;
