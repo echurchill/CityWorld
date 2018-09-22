@@ -114,7 +114,8 @@ public class Clipboard_WorldEdit extends Clipboard {
 		//TODO I need to change the edgeMaterial and edgeData types to be Material and MaterialData or something like that
 		// grab the edge block
 		BaseBlock edge = cuboid.getBlock(new Vector(0, groundLevelY, 0));
-		edgeMaterial = Material.getMaterial(edge.getType());
+		edgeMaterial = Material.getMaterial(edge.getNbtId(), true);
+//		edgeMaterial = Material.getMaterial(edge.getType());
 //		edgeData = edge.getData(); // TODO: One of these days I need to get this working again
 		edgeRise = generator.oreProvider.surfaceMaterial.equals(edgeMaterial) ? 0 : 1;
 		
@@ -257,11 +258,13 @@ public class Clipboard_WorldEdit extends Clipboard {
 		for (int x = 0; x < sizeX; x++)
 			for (int y = 0; y < sizeY; y++)
 				for (int z = 0; z < sizeZ; z++) {
-					if ((noAir) && (blocks[facing][x][y][z].isAir())) {
-						continue;
+					BaseBlock block = blocks[facing][x][y][z];
+					if (block != null) {
+						if ((noAir) && (block.isAir())) {
+							continue;
+						}
+						editSession.setBlock(new Vector(x, y, z).add(pos), block);
 					}
-					editSession.setBlock(new Vector(x, y, z).add(pos),
-							blocks[facing][x][y][z]);
 				}
 	}
 
@@ -277,10 +280,13 @@ public class Clipboard_WorldEdit extends Clipboard {
 		for (int x = x1; x < x2; x++)
 			for (int y = y1; y < y2; y++)
 				for (int z = z1; z < z2; z++) {
-					if ((noAir) && (blocks[facing][x][y][z].isAir())) {
-						continue;
+					BaseBlock block = blocks[facing][x][y][z];
+					if (block != null) {
+						if ((noAir) && (block.isAir())) {
+							continue;
+						}
+						editSession.setBlock(new Vector(x, y, z).add(pos), block);
 					}
-					editSession.setBlock(new Vector(x, y, z).add(pos), blocks[facing][x][y][z]);
 				}
 	}	
 }

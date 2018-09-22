@@ -84,7 +84,7 @@ public class CommandCityChunk implements CommandExecutor {
 						for (int x = chunkX - radius; x <= chunkX + radius; x++) {
 							for (int z = chunkZ - radius; z <= chunkZ + radius; z++) {
 								player.sendMessage("Regenerating chunk[" + x + ", " + z + "]");
-								world.regenerateChunk(x, z);
+//@@								world.regenerateChunk(x, z);
 							}
 						}
 					}

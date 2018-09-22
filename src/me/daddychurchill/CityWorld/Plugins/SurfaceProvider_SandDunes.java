@@ -59,7 +59,7 @@ public class SurfaceProvider_SandDunes extends SurfaceProvider_Flooded {
 				} else if (primary < foliageOdds / 3) {
 					
 					// what to pepper about
-					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.DEAD_GRASS);
+					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.DEAD_BUSH);
 				}
 				
 			// regular trees, grass and some evergreen trees... no flowers

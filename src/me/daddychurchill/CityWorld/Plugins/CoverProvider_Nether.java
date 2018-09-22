@@ -103,7 +103,7 @@ public class CoverProvider_Nether extends CoverProvider_Decayed {
 		case MINI_PINE_TRUNK:
 		case MINI_SWAMP_TRUNK:
 		case DEAD_BUSH:
-		case DEAD_GRASS:
+//		case DEAD_GRASS:
 		case BROWN_MUSHROOM:
 		case RED_MUSHROOM:
 		case NETHERWART:

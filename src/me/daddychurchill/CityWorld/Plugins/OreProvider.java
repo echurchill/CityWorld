@@ -184,13 +184,21 @@ public abstract class OreProvider extends Provider {
 				int y = originY + odds.getRandomInt(Math.max(1, amountToDo / 4)) - amountToDo / 8;
 				int z = originZ + odds.getRandomInt(Math.max(1, amountToDo / 2)) - amountToDo / 4;
 				
-				// ore it is
-				oresDone += placeOre(generator, chunk, odds, x, y, z, amountToDo - oresDone, material);
-				
+				// in range?
+				if (checkRange(x, 16) && checkRange(y, chunk.height) && checkRange(z, 16)) {
+					
+					// ore it is
+					oresDone += placeOre(generator, chunk, odds, x, y, z, amountToDo - oresDone, material);
+				}
+					
 				// one less try to try
 				trysLeft--;
 			}
 		}
+	}
+	
+	private boolean checkRange(int v, int maximum) {
+		return v >= 0 && v < maximum;
 	}
 	
 	private int placeOre(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, 

@@ -1,12 +1,12 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.TreeSpecies;
 import org.bukkit.TreeType;
 import org.bukkit.util.noise.NoiseGenerator;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
+import me.daddychurchill.CityWorld.Support.Colors;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RelativeBlocks;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
@@ -98,7 +98,7 @@ public abstract class TreeProvider {
 		}
 	}
 	
-	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, DyeColor specialColor) {
+	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, Colors colors) {
 		// this variant does nothing with the special color
 		if (chunk.isEmpty(x, y, z))
 			chunk.setBlock(x, y, z, material);
@@ -210,7 +210,7 @@ public abstract class TreeProvider {
 			generateTrunkBlock(blocks, x, y, z, 1, trunkHeight, trunkMaterial);
 	
 			// for that special case
-			DyeColor leafColor = odds.getRandomColor();
+			Colors leafColor = new Colors(odds);
 			
 			// and then do the leaves... maybe
 			if (includeLeaves) {
@@ -462,8 +462,10 @@ public abstract class TreeProvider {
 			int start, int end, double width, double delta) {
 		
 		// for that special case
-		DyeColor leafColor = odds.getRandomColor();
+		Colors leafColor = new Colors(odds);
 		boolean randomColor = odds.playOdds(Odds.oddsPrettyUnlikely);
+		if (!randomColor)
+			leafColor.fixColor();
 		
 		// from the bottom up
 		double widthAt = width;
@@ -503,11 +505,8 @@ public abstract class TreeProvider {
 					}
 					
 					// worth doing?
-					if (leavesOdds > 0.00 && odds.playOdds(leavesOdds)) {
+					if (leavesOdds > 0.00 && odds.playOdds(leavesOdds)) 
 						generateLeavesBlock(chunk, x, y, z, leavesMaterial, leafColor);
-						if (randomColor)
-							leafColor = odds.getRandomColor();
-					}
 				}
 			}
 			

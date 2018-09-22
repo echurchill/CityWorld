@@ -14,10 +14,13 @@ public class AstralMushroomsBrownLot extends AstralMushroomsLot {
 		// TODO Auto-generated constructor stub
 	}
 
-	private Material mushroomMaterial = Material.BROWN_MUSHROOM_BLOCK;
-
 	private final static double oddsOfTallMushroom = Odds.oddsSomewhatLikely;
 	private final static double oddsOfNarrowMushroom = Odds.oddsSomewhatUnlikely;
+	
+	@Override
+	protected Material getMushroomMaterial() {
+		return Material.BROWN_MUSHROOM_BLOCK;
+	}
 	
 	@Override
 	protected int maxMushrooms() {
@@ -39,7 +42,7 @@ public class AstralMushroomsBrownLot extends AstralMushroomsLot {
 				width--;
 			
 			// start anew
-			startMushroom(blocks, blockX, blockY, blockZ, heightY, mushroomMaterial);
+			startMushroom(blocks, blockX, blockY, blockZ, heightY);
 			
 			// slightly taller one?
 			if (chunkOdds.playOdds(oddsOfTallMushroom)) {

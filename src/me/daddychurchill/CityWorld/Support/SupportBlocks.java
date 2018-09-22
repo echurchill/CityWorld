@@ -807,6 +807,25 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			}
 		}
 	}
+	
+	public final void setTallBlock(int x, int y, int z, Material material) {
+		setBlock(x, y, z, material, Half.BOTTOM);
+		setBlock(x, y + 1, z, material, Half.TOP);
+	}
+
+	public final void setBlock(int x, int y, int z, Material material, Half half) {
+		Block block = getActualBlock(x, y, z);
+		BlockState state = block.getState();
+		try {
+			state.setType(material);
+			BlockData data = state.getBlockData();
+			if (data instanceof Bisected)
+				((Bisected)data).setHalf(half);
+			state.setBlockData(data);
+		} finally {
+			state.update(false, doPhysics);
+		}
+	}
 
 	public final void setBlock(int x, int y, int z, Material material, BlockFace facing, Half half) {
 		Block block = getActualBlock(x, y, z);
@@ -834,6 +853,12 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		for (int x = x1; x < x2; x++)
 			for (int z = z1; z < z2; z++)
 				setBlock(x, y, z, material, facing, half);
+	}
+
+	public final void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, Half half) {
+		for (int x = x1; x < x2; x++)
+			for (int z = z1; z < z2; z++)
+				setBlock(x, y, z, material, half);
 	}
 
 //	public static final Material filterStairMaterial(Material material) {

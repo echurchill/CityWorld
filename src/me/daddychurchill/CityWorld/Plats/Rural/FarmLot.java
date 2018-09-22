@@ -27,7 +27,7 @@ public class FarmLot extends ConnectedLot {
 	//TODO wPPwPPwwPPwPPw based cane/dead/none/fallow
 	
 	public enum CropType {FALLOW, TRELLIS, VINES, 
-		GRASS, FERN, DEAD_GRASS, CACTUS, REED, DANDELION, DEAD_BUSH, 
+		GRASS, FERN, /*DEAD_GRASS,*/ CACTUS, REED, DANDELION, DEAD_BUSH, 
 		POPPY, BLUE_ORCHID, ALLIUM, AZURE_BLUET, OXEYE_DAISY,
 		RED_TULIP, ORANGE_TULIP, WHITE_TULIP, PINK_TULIP,
 		SUNFLOWER, LILAC, TALL_GRASS, TALL_FERN, ROSE_BUSH, PEONY,
@@ -214,7 +214,7 @@ public class FarmLot extends ConnectedLot {
 				break;
 			case GRASS:
 			case FERN:
-			case DEAD_GRASS:
+//			case DEAD_GRASS:
 			case DANDELION:
 			case POPPY:
 			case BLUE_ORCHID:
@@ -323,9 +323,9 @@ public class FarmLot extends ConnectedLot {
 			case FERN:
 				plantField(generator, chunk, croplevel, CoverageType.FERN, 1, 2);
 				break;
-			case DEAD_GRASS:
-				plantField(generator, chunk, croplevel, CoverageType.DEAD_GRASS, 1, 2);
-				break;
+//			case DEAD_GRASS:
+//				plantField(generator, chunk, croplevel, CoverageType.DEAD_GRASS, 1, 2);
+//				break;
 			case CACTUS:
 				plantField(generator, chunk, croplevel, CoverageType.CACTUS, 2, 2);
 				break;
@@ -643,7 +643,7 @@ public class FarmLot extends ConnectedLot {
 		CropType.VINES, 
 		CropType.GRASS, 
 		CropType.FERN, 
-		CropType.DEAD_GRASS, 
+//		CropType.DEAD_GRASS, 
 		CropType.CACTUS, 
 		CropType.REED, 
 		CropType.DANDELION, 

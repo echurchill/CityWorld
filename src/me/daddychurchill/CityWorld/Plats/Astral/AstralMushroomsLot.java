@@ -1,6 +1,9 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.material.types.MushroomBlockTexture;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -67,23 +70,23 @@ public abstract class AstralMushroomsLot extends AstralNatureLot {
 		}
 	}
 	
-	private Material shellMaterial = Material.BROWN_MUSHROOM_BLOCK;
-	private Material fleshMaterial = Material.RED_MUSHROOM_BLOCK;
-	private static final int fleshData = 0;
-	private static final int shellData = 14;
-	private static final int trunkData = 10;
+	private static BlockFace flesh = MushroomBlockTexture.ALL_PORES.getCapFace();
+	private static BlockFace shell = MushroomBlockTexture.ALL_CAP.getCapFace();
+	private static BlockFace trunk = MushroomBlockTexture.STEM_SIDES.getCapFace();
 	
 	private int mushX = 0;
 	private int mushZ = 0;
 	private int layerY = 0;
+	
+	protected abstract Material getMushroomMaterial();
 
-	protected void startMushroom(WorldBlocks blocks, int baseX, int baseY, int baseZ, int heightY, Material material) {
-		shellMaterial = material;
+	protected void startMushroom(WorldBlocks blocks, int baseX, int baseY, int baseZ, int heightY) {
+		
 		mushX = baseX;
 		mushZ = baseZ;
 		layerY = baseY + heightY;
 
-		blocks.setBlocks(mushX, baseY, layerY - 2, mushZ, shellMaterial, trunkData);
+		blocks.setBlocks(mushX, baseY, layerY - 2, mushZ, getMushroomMaterial(), trunk);
 	}
 	
 	protected void nextMushroomLevel() {
@@ -100,37 +103,37 @@ public abstract class AstralMushroomsLot extends AstralNatureLot {
 			prevMushroomLevel();
 			drawMushroomFlesh(blocks, r);
 		} else {
-			blocks.setBlock(mushX, layerY, mushZ, shellMaterial, shellData);
+			blocks.setBlock(mushX, layerY, mushZ, getMushroomMaterial(), shell);
 			nextMushroomLevel();
 		}
 	}
 
 	protected void drawMushroomShell(WorldBlocks blocks, int r) {
 		if (r > 0) {
-			blocks.setBlocks(mushX - r + 1, mushX + r, layerY, layerY + 1, mushZ - r, mushZ - r + 1, shellMaterial, shellData);
-			blocks.setBlocks(mushX - r, mushX - r + 1, layerY, layerY + 1, mushZ - r + 1, mushZ + r, shellMaterial, shellData);
-			blocks.setBlocks(mushX + r, mushX + r + 1, layerY, layerY + 1, mushZ - r + 1, mushZ + r, shellMaterial, shellData);
-			blocks.setBlocks(mushX - r + 1, mushX + r, layerY, layerY + 1, mushZ + r, mushZ + r + 1, shellMaterial, shellData);
+			blocks.setBlocks(mushX - r + 1, mushX + r, layerY, layerY + 1, mushZ - r, mushZ - r + 1, getMushroomMaterial(), shell);
+			blocks.setBlocks(mushX - r, mushX - r + 1, layerY, layerY + 1, mushZ - r + 1, mushZ + r, getMushroomMaterial(), shell);
+			blocks.setBlocks(mushX + r, mushX + r + 1, layerY, layerY + 1, mushZ - r + 1, mushZ + r, getMushroomMaterial(), shell);
+			blocks.setBlocks(mushX - r + 1, mushX + r, layerY, layerY + 1, mushZ + r, mushZ + r + 1, getMushroomMaterial(), shell);
 		} else
-			blocks.setBlock(mushX, layerY, mushZ, shellMaterial, shellData);
+			blocks.setBlock(mushX, layerY, mushZ, getMushroomMaterial(), shell);
 		nextMushroomLevel();
 	}
 
 	protected void drawMushroomTop(WorldBlocks blocks, int r) {
 		if (r > 0)
-			blocks.setBlocks(mushX - r, mushX + r + 1, layerY, layerY + 1, mushZ - r, mushZ + r + 1, shellMaterial, shellData);
+			blocks.setBlocks(mushX - r, mushX + r + 1, layerY, layerY + 1, mushZ - r, mushZ + r + 1, getMushroomMaterial(), shell);
 		else
-			blocks.setBlock(mushX, layerY, mushZ, shellMaterial, shellData);
+			blocks.setBlock(mushX, layerY, mushZ, getMushroomMaterial(), shell);
 		nextMushroomLevel();
 	}
 	
 	protected void drawMushroomFlesh(WorldBlocks blocks, int r) {
 		if (r > 0) {
-			blocks.setBlocks(mushX - r + 1, mushX + r, layerY, layerY + 1, mushZ - r + 1, mushZ + r, fleshMaterial, fleshData);
-			blocks.setBlock(mushX - r + 1, layerY, mushZ - r + 1, shellMaterial, shellData);
-			blocks.setBlock(mushX + r - 1, layerY, mushZ - r + 1, shellMaterial, shellData);
-			blocks.setBlock(mushX - r + 1, layerY, mushZ + r - 1, shellMaterial, shellData);
-			blocks.setBlock(mushX + r - 1, layerY, mushZ + r - 1, shellMaterial, shellData);
+			blocks.setBlocks(mushX - r + 1, mushX + r, layerY, layerY + 1, mushZ - r + 1, mushZ + r, getMushroomMaterial(), flesh);
+			blocks.setBlock(mushX - r + 1, layerY, mushZ - r + 1, getMushroomMaterial(), shell);
+			blocks.setBlock(mushX + r - 1, layerY, mushZ - r + 1, getMushroomMaterial(), shell);
+			blocks.setBlock(mushX - r + 1, layerY, mushZ + r - 1, getMushroomMaterial(), shell);
+			blocks.setBlock(mushX + r - 1, layerY, mushZ + r - 1, getMushroomMaterial(), shell);
 		} 
 		nextMushroomLevel();
 	}

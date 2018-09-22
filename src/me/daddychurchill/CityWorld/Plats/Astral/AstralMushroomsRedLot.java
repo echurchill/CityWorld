@@ -14,10 +14,13 @@ public class AstralMushroomsRedLot extends AstralMushroomsLot {
 		
 	}
 
-	private Material mushroomMaterial = Material.RED_MUSHROOM_BLOCK;
-
 	private final static double oddsOfTallMushroom = Odds.oddsSomewhatLikely;
 	private final static double oddsOfNarrowMushroom = Odds.oddsSomewhatUnlikely;
+	
+	@Override
+	protected Material getMushroomMaterial() {
+		return Material.RED_MUSHROOM_BLOCK;
+	}
 	
 	@Override
 	protected int maxMushrooms() {
@@ -39,7 +42,7 @@ public class AstralMushroomsRedLot extends AstralMushroomsLot {
 				width--;
 			
 			// start anew
-			startMushroom(blocks, blockX, blockY, blockZ, heightY, mushroomMaterial);
+			startMushroom(blocks, blockX, blockY, blockZ, heightY);
 			
 			// slightly taller one?
 			drawMushroomTop(blocks, width - 1);
