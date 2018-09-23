@@ -13,7 +13,7 @@ import me.daddychurchill.CityWorld.Plats.Urban.ConcreteLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Plugins.StructureInAirProvider;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-
+import me.daddychurchill.CityWorld.Support.Mapper;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
@@ -145,7 +145,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		foundationMaterial = platmap.generator.materialProvider.itemsSelectMaterial_BuildingFoundation.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
 		ceilingMaterial = platmap.generator.materialProvider.itemsSelectMaterial_BuildingCeilings.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
 		roofMaterial = platmap.generator.materialProvider.itemsSelectMaterial_BuildingRoofs.getRandomMaterial(chunkOdds, Material.COBBLESTONE);
-		columnMaterial = platmap.generator.materialProvider.itemsSelectMaterial_BuildingWalls.getRandomMaterial(chunkOdds, pickColumnMaterial(wallMaterial));
+		columnMaterial = platmap.generator.materialProvider.itemsSelectMaterial_BuildingWalls.getRandomMaterial(chunkOdds, Mapper.getColumnFor(wallMaterial));
 	}
 	
 	protected void calculateOptions(DataContext context) {
@@ -196,16 +196,16 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		firstFloorHeight = aboveFloorHeight;
 		otherFloorHeight = aboveFloorHeight;
 		
-		stairMaterial = pickStairMaterial(wallMaterial);
-		doorMaterial = pickDoorMaterial(wallMaterial);
-		stairPlatformMaterial = pickStairPlatformMaterial(stairMaterial);
+		stairMaterial = Mapper.getStairsFor(wallMaterial);
+		doorMaterial = Mapper.getDoorsFor(wallMaterial);
+		stairPlatformMaterial = Mapper.getStairPlatformFor(stairMaterial);
 		glassMaterial = pickGlassMaterial();
 		
 		// what are the walls of the stairs made of?
 		if (chunkOdds.playOdds(context.oddsOfStairWallMaterialIsWallMaterial))
 			stairWallMaterial = wallMaterial;
 		else
-			stairWallMaterial = pickStairWallMaterial(wallMaterial);
+			stairWallMaterial = Mapper.getStairWallFor(wallMaterial);
 
 		rounded = chunkOdds.playOdds(context.oddsOfRoundedBuilding);
 		
@@ -2181,231 +2181,6 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		case NONE:
 			break;
 		}
-	}
-
-	//@@
-	protected Material pickColumnMaterial(Material wall) {
-//		if (chunkOdds.playOdds(Odds.oddsVeryLikely))
-			return wall;
-//		else
-//			switch (wall) {
-//			case COBBLESTONE:
-//			case MOSSY_COBBLESTONE:
-//			//case WOOL:
-//				return Material.COBBLESTONE_WALL;
-//	
-//			case NETHERRACK:
-//			case BRICK:
-//			case NETHER_BRICK:
-//			case COAL_BLOCK:
-//				return Material.BIRCH_FENCE;
-//				
-//			case SAND:
-//			case SANDSTONE:
-//			case ENDER_STONE:
-//				return Material.NETHER_FENCE;
-//				
-//			case SOUL_SAND:
-//			case SMOOTH_BRICK:
-//			case QUARTZ_BLOCK:
-//				return Material.ACACIA_FENCE;
-//				
-//			case CLAY:
-//			case DOUBLE_STEP:
-//			case HARD_CLAY:
-//				return Material.DARK_OAK_FENCE;
-//				
-//			case GRAVEL:
-//			case WOOD:
-//				return Material.JUNGLE_FENCE;
-//	
-//			case STAINED_CLAY:
-//			case STONE:
-//				return Material.SPRUCE_FENCE;
-//	
-//			case RED_SANDSTONE:
-//			case DOUBLE_STONE_SLAB2:
-//			default:
-//					return Material.SPRUCE_FENCE;
-//			}
-	}
-
-	//@@
-	protected Material pickDoorMaterial(Material wall) {
-//		switch (wall) {
-//		case COBBLESTONE:
-//		case MOSSY_COBBLESTONE:
-//		case CLAY:
-//		case COAL_BLOCK:
-//			return Material.DARK_OAK_DOOR;
-//			
-//		case QUARTZ_BLOCK:
-//		case DOUBLE_STEP:
-//		case HARD_CLAY:
-//			return Material.DARK_OAK_DOOR;
-//			
-//		case ENDER_STONE:
-//		case BRICK:
-//		case GRAVEL:
-//		case SOUL_SAND:
-//			return Material.ACACIA_DOOR;
-//			
-//		case SAND:
-//		case SANDSTONE:
-//		case WOOD:
-//		case WOOL:
-//			return Material.JUNGLE_DOOR;
-//
-//		case NETHERRACK:
-//		case NETHER_BRICK:
-//		case STONE:
-//		case STAINED_CLAY:
-//			return Material.SPRUCE_DOOR;
-//
-//		case RED_SANDSTONE:
-//		case DOUBLE_STONE_SLAB2:
-//		case SMOOTH_BRICK:
-//		default:
-			return Material.BIRCH_DOOR;
-//		}
-	}
-
-	//@@
-	protected Material pickStairMaterial(Material wall) {
-//		switch (wall) {
-//		case COBBLESTONE:
-//		case MOSSY_COBBLESTONE:
-//			return Material.COBBLESTONE_STAIRS;
-//			
-//		case NETHERRACK:
-//		case NETHER_BRICK:
-//			return Material.NETHER_BRICK_STAIRS;
-//			
-//		case SAND:
-//		case SANDSTONE:
-//			return Material.SANDSTONE_STAIRS;
-//			
-//		case END_BRICKS:
-//		case BRICK:
-//			return Material.BRICK_STAIRS;
-//		
-//		case ENDER_STONE:
-//			return Material.PURPUR_STAIRS;
-//			
-//		case QUARTZ_BLOCK:
-//			return Material.QUARTZ_STAIRS;
-//			
-//		case CLAY:
-//		case COAL_BLOCK:
-//			return Material.BIRCH_WOOD_STAIRS;
-//			
-//		case PURPUR_BLOCK:
-//		case DOUBLE_STEP:
-//		case HARD_CLAY:
-//			return Material.DARK_OAK_STAIRS;
-//			
-//		case GRAVEL:
-//		case SOUL_SAND:
-//		case PURPUR_PILLAR:
-//			return Material.ACACIA_STAIRS;
-//			
-//		case WOOD:
-//		case WOOL:
-//			return Material.JUNGLE_WOOD_STAIRS;
-//
-//		case STONE:
-//		case STAINED_CLAY:
-//			return Material.SPRUCE_WOOD_STAIRS;
-//
-//		case RED_SANDSTONE:
-//		case DOUBLE_STONE_SLAB2:
-//			return Material.RED_SANDSTONE_STAIRS;
-//
-//		case SMOOTH_BRICK:
-//		default:
-			return Material.STONE_BRICK_STAIRS;
-//		}
-	}
-
-	//@@
-	protected Material pickStairPlatformMaterial(Material stair) {
-//		switch (stair) {
-//		case COBBLESTONE_STAIRS:
-//			return Material.COBBLESTONE;
-//			
-//		case NETHER_BRICK_STAIRS:
-//			return Material.NETHERRACK;
-//			
-//		case SANDSTONE_STAIRS:
-//			return Material.SANDSTONE;
-//			
-//		case BRICK_STAIRS:
-//			return Material.BRICKS;
-//		
-//		case QUARTZ_STAIRS:
-//			return Material.QUARTZ_BLOCK;
-//			
-//		case BIRCH_WOOD_STAIRS:
-//			return Material.CLAY;
-//			
-//		case DARK_OAK_STAIRS:
-//			return Material.DOUBLE_STEP;
-//			
-//		case ACACIA_STAIRS:
-////			return Material.GRAVEL;
-////			
-//		case JUNGLE_WOOD_STAIRS:
-//			return Material.SPRUCE_WOOD;
-//
-//		case SPRUCE_WOOD_STAIRS:
-//			return Material.STONE;
-//
-//		case RED_SANDSTONE_STAIRS:
-//			return Material.RED_SANDSTONE;
-//			
-//		case PURPUR_STAIRS:
-//			return Material.PURPUR_BLOCK;
-//
-//		default:
-			return Material.SMOOTH_STONE;
-//		}
-	}
-
-	//@@
-	protected Material pickStairWallMaterial(Material wall) {
-//		if (chunkOdds.flipCoin())
-			return pickColumnMaterial(wall);
-//		else
-//			switch (wall) {
-//			case COBBLESTONE:
-//			case MOSSY_COBBLESTONE:
-//			case STONE:
-//			case SMOOTH_BRICK:
-//			case SOUL_SAND:
-//			case QUARTZ_BLOCK:
-//			case SAND:
-//			case SANDSTONE:
-//			case ENDER_STONE:
-//				return Material.IRON_BARS;
-//	
-//			case WOOL:
-//			case DOUBLE_STEP:
-//			case HARD_CLAY:
-//			case CLAY:
-//			case BRICK:
-//			case NETHERRACK:
-//			case NETHER_BRICK:
-//			case COAL_BLOCK:
-//				return Material.GLASS_PANE;
-//				
-//			case GRAVEL:
-//			case WOOD:
-//			case STAINED_CLAY:
-//			case RED_SANDSTONE:
-//			case DOUBLE_STONE_SLAB2:
-//			default:
-//					return Material.GLASS;
-//			}
 	}
 
 	protected WallStyle pickWallStyle() {

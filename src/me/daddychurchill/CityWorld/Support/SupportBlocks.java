@@ -603,63 +603,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 				setBlock(x, y, z, material, half);
 	}
 
-	public static final Material mapStairMaterial(Material material) {
-		switch (material) {
-		ACACIA_STAIRS
-		BIRCH_STAIRS
-		BRICK_STAIRS
-		COBBLESTONE_STAIRS
-		DARK_OAK_STAIRS
-		DARK_PRISMARINE_STAIRS
-		JUNGLE_STAIRS
-		NETHER_BRICK_STAIRS
-		OAK_STAIRS
-		PRISMARINE_BRICK_STAIRS
-		PRISMARINE_STAIRS
-		PURPUR_STAIRS
-		QUARTZ_STAIRS
-		RED_SANDSTONE_STAIRS
-		SANDSTONE_STAIRS
-		SPRUCE_STAIRS
-		STONE_BRICK_STAIRS
-		
-		case BRICKS:
-			return Material.BRICK_STAIRS;
-			
-		case COBBLESTONE:
-		case MOSSY_COBBLESTONE:
-			return Material.COBBLESTONE_STAIRS;
-			
-		case NETHERRACK:
-		case NETHER_BRICKS:
-			return Material.NETHER_BRICK_STAIRS;
-
-		case PURPUR_BLOCK:
-		case PURPUR_SLAB:
-			return Material.PURPUR_STAIRS;
-
-		case RED_SANDSTONE:
-			return Material.RED_SANDSTONE_STAIRS;
-
-		case SAND:
-		case SANDSTONE:
-			return Material.SANDSTONE_STAIRS;
-
-		case SMOOTH_STONE:
-		case STONE_BRICKS:
-		case STONE_BRICK_STAIRS:
-			return Material.STONE_BRICK_STAIRS;
-
-		case WOOL: // it is white too!
-		case QUARTZ_BLOCK:
-		case QUARTZ_STAIRS:
-			return Material.QUARTZ_STAIRS;
-		default:
-//		case WOOD:
-			return Material.BIRCH_STAIRS;
-		}
-	}
-
 	public final void setChest(CityWorldGenerator generator, int x, int y, int z, BlockFace facing, Odds odds, LootProvider lootProvider, LootLocation lootLocation) {
 		Block block = setBlock(x, y, z, Material.CHEST, facing);
 		if (isType(block, Material.CHEST))
