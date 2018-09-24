@@ -995,10 +995,10 @@ public class RoadLot extends ConnectedLot {
 				vaultNorthWest = true;
 				
 				// place the manhole
-				chunk.setBlock(3, pavementLevel, 2, Material.BIRCH_TRAPDOOR, BlockFace.WEST, Half.TOP);
+				chunk.setBlock(3, pavementLevel, 2, Material.ACACIA_TRAPDOOR, BlockFace.EAST, Half.TOP);
 				
 				// ladder
-				chunk.setLadder(3, sewerY, pavementLevel, 2, BlockFace.EAST);
+				chunk.setLadder(3, sewerY, pavementLevel, 2, BlockFace.WEST);
 			}
 			
 			// figure out the center

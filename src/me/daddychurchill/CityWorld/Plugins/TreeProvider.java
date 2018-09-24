@@ -109,11 +109,11 @@ public abstract class TreeProvider {
 		chunk.setBlocks(x, x + w, y, y + h, z, z + w, material);
 	}
 	
-	public boolean generateMiniTrunk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType) {
+	public final boolean generateMiniTrunk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType) {
 		return generateMiniTree(generator, chunk, x, y, z, treeType, false);
 	}
 	
-	public boolean generateMiniTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType) {
+	public final boolean generateMiniTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType) {
 		return generateMiniTree(generator, chunk, x, y, z, treeType, true);
 	}
 	
@@ -227,11 +227,11 @@ public abstract class TreeProvider {
 			return false;
 	}
 	
-	public boolean generateNormalTrunk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType) {
+	public final boolean generateNormalTrunk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType) {
 		return generateNormalTree(generator, chunk, x, y, z, treeType, false);
 	}
 	
-	public boolean generateNormalTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType) {
+	public final boolean generateNormalTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType) {
 		return generateNormalTree(generator, chunk, x, y, z, treeType, true);
 	}
 	

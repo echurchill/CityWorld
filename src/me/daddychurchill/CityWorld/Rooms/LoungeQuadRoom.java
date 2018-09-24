@@ -25,7 +25,10 @@ public class LoungeQuadRoom extends LoungeRoom {
 		chunk.setBlock(x, y, z + 1, Material.BIRCH_STAIRS, BlockFace.WEST);
 		chunk.setBlock(x + 2, y, z + 1, Material.BIRCH_STAIRS, BlockFace.EAST);
 
-		chunk.setTable(x + 1, y, z + 1);
+		Material tableLeg = getTableLeg(odds);
+		Material tableTop = getTableTop(odds);
+		
+		chunk.setTable(x + 1, y, z + 1, tableLeg, tableTop);
 	}
 
 }

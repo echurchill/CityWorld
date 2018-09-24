@@ -70,6 +70,22 @@ public final class HeightInfo {
 		return isBuildableAt(generator, chunk.getOriginX() + chunk.width, chunk.getOriginZ());
 	}
 	
+	public final static boolean isBuildableToNorthWest(CityWorldGenerator generator, AbstractBlocks chunk) {
+		return isBuildableAt(generator, chunk.getOriginX() - chunk.width, chunk.getOriginZ() - chunk.width);
+	}
+
+	public final static boolean isBuildableToSouthWest(CityWorldGenerator generator, AbstractBlocks chunk) {
+		return isBuildableAt(generator, chunk.getOriginX() - chunk.width, chunk.getOriginZ() + chunk.width);
+	}
+
+	public final static boolean isBuildableToNorthEast(CityWorldGenerator generator, AbstractBlocks chunk) {
+		return isBuildableAt(generator, chunk.getOriginX() + chunk.width, chunk.getOriginZ() - chunk.width);
+	}
+
+	public final static boolean isBuildableToSouthEast(CityWorldGenerator generator, AbstractBlocks chunk) {
+		return isBuildableAt(generator, chunk.getOriginX() + chunk.width, chunk.getOriginZ() + chunk.width);
+	}
+	
 	private final void calcState(CityWorldGenerator generator) {
 		averageHeight = sumHeight / count;
 		if (maxHeight == 0)

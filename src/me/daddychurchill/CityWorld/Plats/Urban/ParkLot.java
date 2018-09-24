@@ -112,6 +112,203 @@ public class ParkLot extends ConnectedLot {
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
 
+//		// look around
+//		SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
+//		
+//		// starting with the bottom
+//		int lowestY = getBottomY(generator);
+//		int highestY = generator.streetLevel - groundDepth - 1;
+//		
+//		// cistern?
+//		if (generator.settings.includeCisterns) {
+//			chunk.setLayer(lowestY, cisternMaterial);
+//			
+//			// fill with water
+//			lowestY++;
+//			if (generator.settings.includeAbovegroundFluids)
+//				chunk.setBlocks(0, chunk.width, lowestY, lowestY + waterDepth, 0, chunk.width, generator.oreProvider.fluidMaterial);
+//			
+//			// clear out the rest
+//			chunk.airoutBlocks(generator, 0, chunk.width, lowestY + waterDepth, highestY + 1, 0, chunk.width, true);
+//			
+//			// outer columns and walls as needed
+//			if (neighbors.toNorth()) {
+//				chunk.setBlocks(3, 5, lowestY, highestY, 0, 1, cisternMaterial);
+//				chunk.setBlocks(11, 13, lowestY, highestY, 0, 1, cisternMaterial);
+//			} else
+//				chunk.setBlocks(0, 16, lowestY, highestY + 1, 0, 1, cisternMaterial);
+//			if (neighbors.toSouth()) {
+//				chunk.setBlocks(3, 5, lowestY, highestY, 15, 16, cisternMaterial);
+//				chunk.setBlocks(11, 13, lowestY, highestY, 15, 16, cisternMaterial);
+//			} else
+//				chunk.setBlocks(0, 16, lowestY, highestY + 1, 15, 16, cisternMaterial);
+//			if (neighbors.toWest()) {
+//				chunk.setBlocks(0, 1, lowestY, highestY, 3, 5, cisternMaterial);
+//				chunk.setBlocks(0, 1, lowestY, highestY, 11, 13, cisternMaterial);
+//			} else
+//				chunk.setBlocks(0, 1, lowestY, highestY + 1, 0, 16, cisternMaterial);
+//			if (neighbors.toEast()) {
+//				chunk.setBlocks(15, 16, lowestY, highestY, 3, 5, cisternMaterial);
+//				chunk.setBlocks(15, 16, lowestY, highestY, 11, 13, cisternMaterial);
+//			} else
+//				chunk.setBlocks(15, 16, lowestY, highestY + 1, 0, 16, cisternMaterial);
+//			
+//			// center columns
+//			chunk.setBlocks(7, 9, lowestY, highestY, 3, 5, cisternMaterial);
+//			chunk.setBlocks(7, 9, lowestY, highestY, 11, 13, cisternMaterial);
+//			chunk.setBlocks(3, 5, lowestY, highestY, 7, 9, cisternMaterial);
+//			chunk.setBlocks(11, 13, lowestY, highestY, 7, 9, cisternMaterial);
+//			
+//			// ceiling supports
+//			chunk.setBlocks(3, 5, highestY, highestY + 1, 0, 16, cisternMaterial);
+//			chunk.setBlocks(11, 13, highestY, highestY + 1, 0, 16, cisternMaterial);
+//			chunk.setBlocks(0, 16, highestY, highestY + 1, 3, 5, cisternMaterial);
+//			chunk.setBlocks(0, 16, highestY, highestY + 1, 11, 13, cisternMaterial);
+//	
+//			// top it off
+//			chunk.setLayer(highestY + 1, cisternMaterial);
+//		} else {
+//			
+//			// backfill with dirt
+//			chunk.setLayer(lowestY, highestY + 2 - lowestY, generator.oreProvider.subsurfaceMaterial);
+//		}
+//		
+//		// top it off
+//		chunk.setLayer(highestY + 2, generator.oreProvider.subsurfaceMaterial);
+//		chunk.setLayer(highestY + 3, generator.oreProvider.surfaceMaterial);
+//		
+//		// surface features
+//		int surfaceY = generator.streetLevel + 1;
+//		switch (centerStyle) {
+//		case LABYRINTH_MAZE:
+//		case HEDGE_MAZE:
+//		case CIRCLE_MAZE:
+//			chunk.setWalls(0, 16, surfaceY - 1, surfaceY, 0, 16, Material.SPRUCE_LOG);
+//			chunk.setWalls(0, 16, surfaceY, surfaceY + 3, 0, 16, Material.BIRCH_LEAVES);
+//			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
+//				chunk.clearBlocks(6, 10, surfaceY, surfaceY + 3, 0, 1);
+//				chunk.setBlocks(6, surfaceY, surfaceY + 2, 0, columnMaterial);
+//				chunk.setBlocks(7, 9, surfaceY, surfaceY + 1, 0, 1, stepMaterial);
+//				chunk.setBlocks(9, surfaceY, surfaceY + 2, 0, columnMaterial);
+//			} else if (neighbors.toNorth()) {
+//				chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 0, 1, grassMaterial);
+//				chunk.clearBlocks(7, 9, surfaceY, surfaceY + 3, 0, 1);
+//			}
+//			if (!neighbors.toSouth() && HeightInfo.isBuildableToSouth(generator, chunk)) {
+//				chunk.clearBlocks(6, 10, surfaceY, surfaceY + 3, 15, 16);
+//				chunk.setBlocks(6, surfaceY, surfaceY + 2, 15, columnMaterial);
+//				chunk.setBlocks(7, 9, surfaceY, surfaceY + 1, 15, 16, stepMaterial);
+//				chunk.setBlocks(9, surfaceY, surfaceY + 2, 15, columnMaterial);
+//			} else if (neighbors.toSouth()) {
+//				chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 15, 16, grassMaterial);
+//				chunk.clearBlocks(7, 9, surfaceY, surfaceY + 3, 15, 16);
+//			}
+//			if (!neighbors.toWest() && HeightInfo.isBuildableToWest(generator, chunk)) {
+//				chunk.clearBlocks(0, 1, surfaceY, surfaceY + 3, 6, 10);
+//				chunk.setBlocks(0, surfaceY, surfaceY + 2, 6, columnMaterial);
+//				chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 7, 9, stepMaterial);
+//				chunk.setBlocks(0, surfaceY, surfaceY + 2, 9, columnMaterial);
+//			} else if (neighbors.toWest()) {
+//				chunk.setBlocks(0, 1, surfaceY - 1, surfaceY, 7, 9, grassMaterial);
+//				chunk.clearBlocks(0, 1, surfaceY, surfaceY + 3, 7, 9);
+//			}
+//			if (!neighbors.toEast() && HeightInfo.isBuildableToEast(generator, chunk)) {
+//				chunk.clearBlocks(15, 16, surfaceY, surfaceY + 3, 6, 10);
+//				chunk.setBlocks(15, surfaceY, surfaceY + 2, 6, columnMaterial);
+//				chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 7, 9, stepMaterial);
+//				chunk.setBlocks(15, surfaceY, surfaceY + 2, 9, columnMaterial);
+//			} else if (neighbors.toEast()) {
+//				chunk.setBlocks(0, 1, surfaceY - 1, surfaceY, 7, 9, grassMaterial);
+//				chunk.clearBlocks(0, 1, surfaceY, surfaceY + 3, 7, 9);
+//			}
+//			break;
+//		case CIRCLE_PATH:
+//		case CROSS_PATH:
+//		case WATER_TOWER:
+//		default:
+//			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
+//				chunk.setBlocks(0, 6, surfaceY, surfaceY + 1, 0, 1, columnMaterial);
+//				chunk.setBlocks(0, 6, surfaceY + 1, surfaceY + 2, 0, 1, fenceMaterial);
+//				chunk.setBlocks(10, 16, surfaceY, surfaceY + 1, 0, 1, columnMaterial);
+//				chunk.setBlocks(10, 16, surfaceY + 1, surfaceY + 2, 0, 1, fenceMaterial);
+//				chunk.setBlocks(6, surfaceY, surfaceY + 2, 0, columnMaterial);
+//				chunk.setBlocks(7, 9, surfaceY, surfaceY + 1, 0, 1, stepMaterial);
+//				chunk.setBlocks(9, surfaceY, surfaceY + 2, 0, columnMaterial);
+//				chunk.setBlock(6, surfaceY, 1, columnMaterial);
+//				chunk.setBlock(9, surfaceY, 1, columnMaterial);
+//			}
+//			if (!neighbors.toSouth() && HeightInfo.isBuildableToSouth(generator, chunk)) {
+//				chunk.setBlocks(0, 6, surfaceY, surfaceY + 1, 15, 16, columnMaterial);
+//				chunk.setBlocks(0, 6, surfaceY + 1, surfaceY + 2, 15, 16, fenceMaterial);
+//				chunk.setBlocks(10, 16, surfaceY, surfaceY + 1, 15, 16, columnMaterial);
+//				chunk.setBlocks(10, 16, surfaceY + 1, surfaceY + 2, 15, 16, fenceMaterial);
+//				chunk.setBlocks(6, surfaceY, surfaceY + 2, 15, columnMaterial);
+//				chunk.setBlocks(7, 9, surfaceY, surfaceY + 1, 15, 16, stepMaterial);
+//				chunk.setBlocks(9, surfaceY, surfaceY + 2, 15, columnMaterial);
+//				chunk.setBlock(6, surfaceY, 14, columnMaterial);
+//				chunk.setBlock(9, surfaceY, 14, columnMaterial);
+//			}
+//			if (!neighbors.toWest() && HeightInfo.isBuildableToWest(generator, chunk)) {
+//				chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 0, 6, columnMaterial);
+//				chunk.setBlocks(0, 1, surfaceY + 1, surfaceY + 2, 0, 6, fenceMaterial);
+//				chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 10, 16, columnMaterial);
+//				chunk.setBlocks(0, 1, surfaceY + 1, surfaceY + 2, 10, 16, fenceMaterial);
+//				chunk.setBlocks(0, surfaceY, surfaceY + 2, 6, columnMaterial);
+//				chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 7, 9, stepMaterial);
+//				chunk.setBlocks(0, surfaceY, surfaceY + 2, 9, columnMaterial);
+//				chunk.setBlock(1, surfaceY, 6, columnMaterial);
+//				chunk.setBlock(1, surfaceY, 9, columnMaterial);
+//			}
+//			if (!neighbors.toEast() && HeightInfo.isBuildableToEast(generator, chunk)) {
+//				chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 0, 6, columnMaterial);
+//				chunk.setBlocks(15, 16, surfaceY + 1, surfaceY + 2, 0, 6, fenceMaterial);
+//				chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 10, 16, columnMaterial);
+//				chunk.setBlocks(15, 16, surfaceY + 1, surfaceY + 2, 10, 16, fenceMaterial);
+//				chunk.setBlocks(15, surfaceY, surfaceY + 2, 6, columnMaterial);
+//				chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 7, 9, stepMaterial);
+//				chunk.setBlocks(15, surfaceY, surfaceY + 2, 9, columnMaterial);
+//				chunk.setBlock(14, surfaceY, 6, columnMaterial);
+//				chunk.setBlock(14, surfaceY, 9, columnMaterial);
+//			} 
+//			break;
+//		}
+//		
+//		// draw center bits
+//		switch (centerStyle) {
+//		case CIRCLE_PATH:
+//			chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 0, 3, pathMaterial);
+//			chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 13, 16, pathMaterial);
+//			chunk.setBlocks(0, 3, surfaceY - 1, surfaceY, 7, 9, pathMaterial);
+//			chunk.setBlocks(13, 16, surfaceY - 1, surfaceY, 7, 9, pathMaterial);
+//			chunk.setCircle(8, 8, 4, surfaceY - 1, pathMaterial, false);
+//			chunk.setCircle(8, 8, 3, surfaceY - 1, pathMaterial, false);
+//			break;
+//		case LABYRINTH_MAZE:
+//		case CIRCLE_MAZE:
+//		case HEDGE_MAZE:
+//			// nothing for this one
+//			break;
+//		case CROSS_PATH:
+//		case WATER_TOWER:
+//		default:
+//			chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 0, 8, pathMaterial);
+//			chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 8, 16, pathMaterial);
+//			chunk.setBlocks(0, 8, surfaceY - 1, surfaceY, 7, 9, pathMaterial);
+//			chunk.setBlocks(8, 16, surfaceY - 1, surfaceY, 7, 9, pathMaterial);
+//			break;
+//		}
+	}
+	
+	private final static CoverageType[] smallTrees = {
+		CoverageType.SHORT_BIRCH_TREE, CoverageType.SHORT_OAK_TREE, 
+		CoverageType.SHORT_PINE_TREE, CoverageType.BIRCH_TREE,
+		CoverageType.OAK_TREE, CoverageType.TALL_BIRCH_TREE};
+	
+	private final static CoverageType[] tallTrees = {
+		CoverageType.TALL_BIRCH_TREE, CoverageType.TALL_OAK_TREE};
+	
+	@Override
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
 		// look around
 		SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
 		
@@ -226,50 +423,115 @@ public class ParkLot extends ConnectedLot {
 		case CROSS_PATH:
 		case WATER_TOWER:
 		default:
+			boolean fenceNorth = false;
+			boolean fenceSouth = false;
+			boolean fenceWest = false;
+			boolean fenceEast = false;
+			
+			// [ ][X][ ]
+			// [ ][ ][ ]
+			// [ ][ ][ ]
 			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
-				chunk.setBlocks(0, 6, surfaceY, surfaceY + 1, 0, 1, columnMaterial);
-				chunk.setBlocks(0, 6, surfaceY + 1, surfaceY + 2, 0, 1, fenceMaterial);
-				chunk.setBlocks(10, 16, surfaceY, surfaceY + 1, 0, 1, columnMaterial);
-				chunk.setBlocks(10, 16, surfaceY + 1, surfaceY + 2, 0, 1, fenceMaterial);
+				chunk.setBlocks(1, 6, surfaceY, surfaceY + 1, 0, 1, columnMaterial);
+				chunk.setBlocks(10, 15, surfaceY, surfaceY + 1, 0, 1, columnMaterial);
+				
 				chunk.setBlocks(6, surfaceY, surfaceY + 2, 0, columnMaterial);
 				chunk.setBlocks(7, 9, surfaceY, surfaceY + 1, 0, 1, stepMaterial);
 				chunk.setBlocks(9, surfaceY, surfaceY + 2, 0, columnMaterial);
 				chunk.setBlock(6, surfaceY, 1, columnMaterial);
 				chunk.setBlock(9, surfaceY, 1, columnMaterial);
-			}
+
+				fenceNorth = true;
+				chunk.setBlocksWithPhysics(1, 6, surfaceY + 1, surfaceY + 2, 0, 1, fenceMaterial);
+				chunk.setBlocksWithPhysics(10, 15, surfaceY + 1, surfaceY + 2, 0, 1, fenceMaterial);
+			} 
+			
+			// [ ][ ][ ]
+			// [ ][ ][ ]
+			// [ ][X][ ]
 			if (!neighbors.toSouth() && HeightInfo.isBuildableToSouth(generator, chunk)) {
-				chunk.setBlocks(0, 6, surfaceY, surfaceY + 1, 15, 16, columnMaterial);
-				chunk.setBlocks(0, 6, surfaceY + 1, surfaceY + 2, 15, 16, fenceMaterial);
-				chunk.setBlocks(10, 16, surfaceY, surfaceY + 1, 15, 16, columnMaterial);
-				chunk.setBlocks(10, 16, surfaceY + 1, surfaceY + 2, 15, 16, fenceMaterial);
+				chunk.setBlocks(1, 6, surfaceY, surfaceY + 1, 15, 16, columnMaterial);
+				chunk.setBlocks(10, 15, surfaceY, surfaceY + 1, 15, 16, columnMaterial);
+				
 				chunk.setBlocks(6, surfaceY, surfaceY + 2, 15, columnMaterial);
 				chunk.setBlocks(7, 9, surfaceY, surfaceY + 1, 15, 16, stepMaterial);
 				chunk.setBlocks(9, surfaceY, surfaceY + 2, 15, columnMaterial);
 				chunk.setBlock(6, surfaceY, 14, columnMaterial);
 				chunk.setBlock(9, surfaceY, 14, columnMaterial);
+
+				fenceSouth = true;
+				chunk.setBlocksWithPhysics(1, 6, surfaceY + 1, surfaceY + 2, 15, 16, fenceMaterial);
+				chunk.setBlocksWithPhysics(10, 15, surfaceY + 1, surfaceY + 2, 15, 16, fenceMaterial);
 			}
+			
+			// [ ][ ][ ]
+			// [X][ ][ ]
+			// [ ][ ][ ]
 			if (!neighbors.toWest() && HeightInfo.isBuildableToWest(generator, chunk)) {
-				chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 0, 6, columnMaterial);
-				chunk.setBlocks(0, 1, surfaceY + 1, surfaceY + 2, 0, 6, fenceMaterial);
-				chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 10, 16, columnMaterial);
-				chunk.setBlocks(0, 1, surfaceY + 1, surfaceY + 2, 10, 16, fenceMaterial);
+				chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 1, 6, columnMaterial);
+				chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 10, 15, columnMaterial);
+				
 				chunk.setBlocks(0, surfaceY, surfaceY + 2, 6, columnMaterial);
 				chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 7, 9, stepMaterial);
 				chunk.setBlocks(0, surfaceY, surfaceY + 2, 9, columnMaterial);
 				chunk.setBlock(1, surfaceY, 6, columnMaterial);
 				chunk.setBlock(1, surfaceY, 9, columnMaterial);
+				
+				fenceWest = true;
+				chunk.setBlocksWithPhysics(0, 1, surfaceY + 1, surfaceY + 2, 1, 6, fenceMaterial);
+				chunk.setBlocksWithPhysics(0, 1, surfaceY + 1, surfaceY + 2, 10, 15, fenceMaterial);
 			}
+			
+			// [ ][ ][ ]
+			// [ ][ ][X]
+			// [ ][ ][ ]
 			if (!neighbors.toEast() && HeightInfo.isBuildableToEast(generator, chunk)) {
-				chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 0, 6, columnMaterial);
-				chunk.setBlocks(15, 16, surfaceY + 1, surfaceY + 2, 0, 6, fenceMaterial);
-				chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 10, 16, columnMaterial);
-				chunk.setBlocks(15, 16, surfaceY + 1, surfaceY + 2, 10, 16, fenceMaterial);
+				chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 1, 6, columnMaterial);
+				chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 10, 15, columnMaterial);
+				
 				chunk.setBlocks(15, surfaceY, surfaceY + 2, 6, columnMaterial);
 				chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 7, 9, stepMaterial);
 				chunk.setBlocks(15, surfaceY, surfaceY + 2, 9, columnMaterial);
 				chunk.setBlock(14, surfaceY, 6, columnMaterial);
 				chunk.setBlock(14, surfaceY, 9, columnMaterial);
+
+				fenceEast = true;
+				chunk.setBlocksWithPhysics(15, 16, surfaceY + 1, surfaceY + 2, 1, 6, fenceMaterial);
+				chunk.setBlocksWithPhysics(15, 16, surfaceY + 1, surfaceY + 2, 10, 15, fenceMaterial);
 			} 
+			
+			// [X][ ][ ]
+			// [ ][ ][ ]
+			// [ ][ ][ ]
+			if (fenceNorth || fenceWest) {
+				chunk.setBlock(0, surfaceY, 0, columnMaterial);
+				chunk.setBlockWithPhysics(0, surfaceY + 1, 0, fenceMaterial);
+			}
+
+			// [ ][ ][ ]
+			// [ ][ ][ ]
+			// [X][ ][ ]
+			if (fenceSouth || fenceWest) {
+				chunk.setBlock(0, surfaceY, 15, columnMaterial);
+				chunk.setBlockWithPhysics(0, surfaceY + 1, 15, fenceMaterial);
+			}
+
+			// [ ][ ][X]
+			// [ ][ ][ ]
+			// [ ][ ][ ]
+			if (fenceNorth || fenceEast) {
+				chunk.setBlock(15, surfaceY, 0, columnMaterial);
+				chunk.setBlockWithPhysics(15, surfaceY + 1, 0, fenceMaterial);
+			}
+
+			// [ ][ ][ ]
+			// [ ][ ][ ]
+			// [ ][ ][X]
+			if (fenceSouth || fenceEast) {
+				chunk.setBlock(15, surfaceY, 15, columnMaterial);
+				chunk.setBlockWithPhysics(15, surfaceY + 1, 15, fenceMaterial);
+			}
+
 			break;
 		}
 		
@@ -297,19 +559,7 @@ public class ParkLot extends ConnectedLot {
 			chunk.setBlocks(8, 16, surfaceY - 1, surfaceY, 7, 9, pathMaterial);
 			break;
 		}
-	}
-	
-	private final static CoverageType[] smallTrees = {
-		CoverageType.SHORT_BIRCH_TREE, CoverageType.SHORT_OAK_TREE, 
-		CoverageType.SHORT_PINE_TREE, CoverageType.BIRCH_TREE,
-		CoverageType.OAK_TREE, CoverageType.TALL_BIRCH_TREE};
-	
-	private final static CoverageType[] tallTrees = {
-		CoverageType.TALL_BIRCH_TREE, CoverageType.TALL_OAK_TREE};
-	
-	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
-		int surfaceY = generator.streetLevel + 1;
+//		int surfaceY = generator.streetLevel + 1;
 		
 		// if things are bad
 		if (generator.settings.includeDecayedBuildings) {
@@ -409,12 +659,13 @@ public class ParkLot extends ConnectedLot {
 	
 			// way down?
 			if (generator.settings.includeCisterns) {
-				SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
+//				SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
 				if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
-					int lowestY = generator.streetLevel - cisternDepth + 1 + waterDepth;
+//					int lowestY = generator.streetLevel - cisternDepth + 1 + waterDepth;
+					lowestY = generator.streetLevel - cisternDepth + 1 + waterDepth;
 					chunk.setBlocks(4, 7, lowestY, lowestY + 1, 1, 2, ledgeMaterial);
-					chunk.setLadder(5, lowestY + 1, surfaceY, 1, BlockFace.NORTH);
-					chunk.setBlock(5, surfaceY - 1, 1, Material.BIRCH_TRAPDOOR, BlockFace.EAST, Half.TOP);
+					chunk.setLadder(5, lowestY + 1, surfaceY, 1, BlockFace.SOUTH);
+					chunk.setBlock(5, surfaceY - 1, 1, Material.ACACIA_TRAPDOOR, BlockFace.WEST, Half.TOP);
 				}
 			}
 		}
@@ -431,6 +682,7 @@ public class ParkLot extends ConnectedLot {
 		if (chunkOdds.flipCoin())
 			benchEnd--;
 		
+		boolean was = chunk.setDoPhysics(true);
 		for (int i = benchStart; i < benchEnd; i++) {
 			if (NW)
 				chunk.setBlock(i, surfaceY, 3, Material.BIRCH_STAIRS, BlockFace.NORTH);
@@ -452,6 +704,8 @@ public class ParkLot extends ConnectedLot {
 					chunk.setBlock(12, surfaceY, 15 - i, Material.BIRCH_STAIRS, BlockFace.EAST);
 			}
 		}
+		chunk.setDoPhysics(was);
+		
 		if (singleTree) {
 			generator.coverProvider.generateRandomCoverage(generator, chunk, 7, surfaceY, 7, tallTrees);
 		} else {

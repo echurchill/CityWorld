@@ -246,7 +246,7 @@ public final class Mapper {
 		case PURPUR_BLOCK:
 		case PURPUR_PILLAR:
 		case PURPUR_SLAB:
-			return Material.PURPUR_STAIRS;
+			return Material.PURPUR_BLOCK;
 
 		case NETHERRACK:
 		case NETHER_BRICK_STAIRS:

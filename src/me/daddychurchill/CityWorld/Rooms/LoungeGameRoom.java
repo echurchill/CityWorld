@@ -22,17 +22,20 @@ public class LoungeGameRoom extends LoungeChairsRoom {
 		super.drawFixture(generator, chunk, odds, floor, x, y, z, width, height, depth,
 				sideWithWall, materialWall, materialGlass);
 		
+		Material tableLeg = getTableLeg(odds);
+		Material tableTop = getTableTop(odds);
+		
 		switch (sideWithWall) {
 		default:
 		case NORTH:
 		case SOUTH:
-			chunk.setTable(x + 1, y, z);
-			chunk.setTable(x + 1, y, z + 2);
+			chunk.setTable(x + 1, y, z, tableLeg, tableTop);
+			chunk.setTable(x + 1, y, z + 2, tableLeg, tableTop);
 			break;
 		case WEST:
 		case EAST:
-			chunk.setTable(x, y, z + 1);
-			chunk.setTable(x + 2, y, z + 1);
+			chunk.setTable(x, y, z + 1, tableLeg, tableTop);
+			chunk.setTable(x + 2, y, z + 1, tableLeg, tableTop);
 			break;
 		}
 	}

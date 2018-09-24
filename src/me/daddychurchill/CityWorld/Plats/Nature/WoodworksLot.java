@@ -55,23 +55,24 @@ public class WoodworksLot extends ConstructLot {
 		default:
 		case 0:
 		case 1:
+			//shimmy
 			generator.coverProvider.generateCoverage(generator, chunk, 
-					x + chunkOdds.getRandomInt(1, 4), y, z, CoverageType.SHORT_OAK_TREE);
+					chunk.clampXZ(x + chunkOdds.getRandomInt(1, 4)), y, z, CoverageType.SHORT_OAK_TREE);
 			break;
 		case 2:
 		case 3:
 			generator.coverProvider.generateCoverage(generator, chunk, 
-					x + chunkOdds.getRandomInt(1, 4), y, z, CoverageType.OAK_TRUNK);
+					chunk.clampXZ(x + chunkOdds.getRandomInt(1, 4)), y, z, CoverageType.OAK_TRUNK);
 			break;
 		case 4:
 		case 5:
 			int logL = chunkOdds.getRandomInt(3, 3);
 			int logX = x + 6 - logL;
 			if (chunkOdds.flipCoin())
-				chunk.setBlocks(logX, logX + logL, y, z - 1, z, Material.SPRUCE_LOG); //@@, 4);
+				chunk.setBlocks(logX, chunk.clampXZ(logX + logL), y, z - 1, z, Material.SPRUCE_LOG); //@@, 4);
 			chunk.setBlocks(logX, logX + logL, y, z, z + 1, Material.SPRUCE_LOG); //@@, 4);
 			if (chunkOdds.flipCoin())
-				chunk.setBlocks(logX, logX + logL, y, z + 1, z + 2, Material.SPRUCE_LOG); //@@, 4);
+				chunk.setBlocks(logX, chunk.clampXZ(logX + logL), y, z + 1, z + 2, Material.SPRUCE_LOG); //@@, 4);
 			break;
 		case 6:
 		case 7:
@@ -95,13 +96,13 @@ public class WoodworksLot extends ConstructLot {
 			if (chunkOdds.flipCoin()) {
 				if (chunkOdds.flipCoin())
 					direction = BlockFace.SOUTH;
-				chunk.setDoubleChest(generator, chunkOdds.calcRandomRange(x + 1, x + 4), y, z, direction, chunkOdds, 
+				chunk.setDoubleChest(generator, chunk.clampXZ(chunkOdds.calcRandomRange(x + 1, x + 4)), y, z, direction, chunkOdds, 
 							generator.lootProvider, LootLocation.WOODWORKSOUTPUT);
 			} else {
 				direction = BlockFace.WEST;
 				if (chunkOdds.flipCoin())
 					direction = BlockFace.EAST;
-				chunk.setDoubleChest(generator, x, y, chunkOdds.calcRandomRange(z + 1, z + 4), direction, chunkOdds, 
+				chunk.setDoubleChest(generator, x, y, chunk.clampXZ(chunkOdds.calcRandomRange(z + 1, z + 4)), direction, chunkOdds, 
 						generator.lootProvider, LootLocation.WOODWORKSOUTPUT);
 			}
 			break;

@@ -19,33 +19,40 @@ public class DeskInternsRoom extends DeskRoom {
 	public void drawFixture(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int floor, int x,
 			int y, int z, int width, int height, int depth,
 			BlockFace sideWithWall, Material materialWall, Material materialGlass) {
+		Material tableLeg = getTableLeg(odds);
+		Material tableTop = getTableTop(odds);
+		
 		switch (sideWithWall) {
 		default:
 		case NORTH:
-			chunk.setTable(x, y, z, Material.BIRCH_PRESSURE_PLATE);
+			chunk.setTable(x, y, z, tableLeg, tableTop);
 			chunk.setBlock(x + 1, y, z, Material.BOOKSHELF);
-			chunk.setTable(x + 2, y, z, Material.BIRCH_PRESSURE_PLATE);
+			chunk.setBlock(x + 1, y + 1, z, tableTop);
+			chunk.setTable(x + 2, y, z, tableLeg, tableTop);
 			chunk.setBlock(x, y, z + 1, Material.BIRCH_STAIRS, BlockFace.SOUTH);
 			chunk.setBlock(x + 2, y, z + 1, Material.BIRCH_STAIRS, BlockFace.SOUTH);
 			break;
 		case SOUTH:
-			chunk.setTable(x, y, z + 2, Material.BIRCH_PRESSURE_PLATE);
+			chunk.setTable(x, y, z + 2, tableLeg, tableTop);
 			chunk.setBlock(x + 1, y, z + 2, Material.BOOKSHELF);
-			chunk.setTable(x + 2, y, z + 2, Material.BIRCH_PRESSURE_PLATE);
+			chunk.setBlock(x + 1, y + 1, z + 2, tableTop);
+			chunk.setTable(x + 2, y, z + 2, tableLeg, tableTop);
 			chunk.setBlock(x, y, z + 1, Material.BIRCH_STAIRS, BlockFace.NORTH);
 			chunk.setBlock(x + 2, y, z + 1, Material.BIRCH_STAIRS, BlockFace.NORTH);
 			break;
 		case WEST:
-			chunk.setTable(x, y, z, Material.BIRCH_PRESSURE_PLATE);
+			chunk.setTable(x, y, z, tableLeg, tableTop);
 			chunk.setBlock(x, y, z + 1, Material.BOOKSHELF);
-			chunk.setTable(x, y, z + 2, Material.BIRCH_PRESSURE_PLATE);
+			chunk.setBlock(x, y + 1, z + 1, tableTop);
+			chunk.setTable(x, y, z + 2, tableLeg, tableTop);
 			chunk.setBlock(x + 1, y, z, Material.BIRCH_STAIRS, BlockFace.EAST);
 			chunk.setBlock(x + 1, y, z + 2, Material.BIRCH_STAIRS, BlockFace.EAST);
 			break;
 		case EAST:
-			chunk.setTable(x + 2, y, z, Material.BIRCH_PRESSURE_PLATE);
+			chunk.setTable(x + 2, y, z, tableLeg, tableTop);
 			chunk.setBlock(x + 2, y, z + 1, Material.BOOKSHELF);
-			chunk.setTable(x + 2, y, z + 2, Material.BIRCH_PRESSURE_PLATE);
+			chunk.setBlock(x + 2, y + 1, z + 1, tableTop);
+			chunk.setTable(x + 2, y, z + 2, tableLeg, tableTop);
 			chunk.setBlock(x + 1, y, z, Material.BIRCH_STAIRS, BlockFace.WEST);
 			chunk.setBlock(x + 1, y, z + 2, Material.BIRCH_STAIRS, BlockFace.WEST);
 			break;

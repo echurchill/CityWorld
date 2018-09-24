@@ -22,6 +22,7 @@ import org.bukkit.block.data.Rail.Shape;
 import org.bukkit.block.data.Rotatable;
 import org.bukkit.block.data.type.Slab;
 import org.bukkit.block.data.type.Snow;
+import org.bukkit.material.Door;
 import org.bukkit.material.Vine;
 import org.bukkit.util.noise.NoiseGenerator;
 
@@ -43,16 +44,20 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		return doPhysics;
 	}
 	
-	public final void setDoPhysics(boolean dophysics) {
+	public final boolean setDoPhysics(boolean dophysics) {
+		boolean was = doPhysics;
 		doPhysics = dophysics;
+		return was;
 	}
 
 	public final boolean getDoClearData() {
 		return doClearData;
 	}
 	
-	public final void setDoClearData(boolean docleardata) {
+	public final boolean setDoClearData(boolean docleardata) {
+		boolean was = doClearData;
 		doClearData = docleardata;
+		return was;
 	}
 
 	@Override
@@ -69,6 +74,12 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	@Override
 	public final void setBlock(int x, int y, int z, Material material) {
 		setActualBlock(getActualBlock(x, y, z), material);
+	}
+	
+	public final void setBlockWithPhysics(int x, int y, int z, Material material) {
+		boolean was = setDoPhysics(true);
+		setBlock(x, y, z, material);
+		setDoPhysics(was);
 	}
 	
 	protected final boolean isType(Block block, Material ... types) {
@@ -154,6 +165,18 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 
+	public final void setBlocksWithPhysics(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
+		boolean was = setDoPhysics(true);
+		for (int x = x1; x < x2; x++) {
+			for (int y = y1; y < y2; y++) {
+				for (int z = z1; z < z2; z++) {
+					setBlock(x, y, z, material);
+				}
+			}
+		}
+		setDoPhysics(was);
+	}
+	
 	//================ x1, x2, y, z1, z2
 	@Override
 	public final void setBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
@@ -452,22 +475,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		setBlocks(x - 3, x - 1, y + 7, y + 9, z, z + 1, colors.getConcrete());
 	}
 	
-	public final void setTable(int x1, int x2, int y, int z1, int z2) {
-		setTable(x1, x2, y, z1, z2, Material.STONE_PRESSURE_PLATE);
-	}
-	
-	public final void setTable(int x, int y, int z) {
-		setTable(x, y, z, Material.STONE_PRESSURE_PLATE);
-	}
-	
-	public final void setTable(int x1, int x2, int y, int z1, int z2, Material tableTop) {
-		setTable(x1, x2, y, z1, z2, Material.SPRUCE_FENCE, tableTop);
-	}
-	
-	public final void setTable(int x, int y, int z, Material tableTop) {
-		setTable(x, y, z, Material.SPRUCE_FENCE, tableTop);
-	}
-	
 	public final void setTable(int x1, int x2, int y, int z1, int z2, Material tableLeg, Material tableTop) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
@@ -482,7 +489,31 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	}
 	
 //@@	public void setDoor(int x, int y, int z, Material material, BadMagic.Door direction) {
-	public void setDoor(int x, int y, int z, Material material, BlockFace direction) {
+	public void setDoor(int x, int y, int z, Material material, BlockFace facing) {
+		Block blockBottom = getActualBlock(x, y, z);
+		Block blockTop = getActualBlock(x, y + 1, z);sssss
+		
+		blockBottom.setType(material, false);
+		blockTop.setType(material, false);
+		
+		BlockData dataBottom = blockBottom.getBlockData();
+		BlockData dataTop = blockTop.getBlockData();
+		try {
+			if (dataBottom instanceof Door)
+			if (dataBottom instanceof Directional)
+				((Directional)dataBottom).setFacing(facing);
+			if (dataTop instanceof Directional)
+				((Directional)dataTop).setFacing(facing);
+			
+			if (dataBottom instanceof Bisected)
+				((Bisected)dataBottom).setHalf(Half.BOTTOM);
+			if (dataTop instanceof Bisected)
+				((Bisected)dataTop).setHalf(Half.TOP);
+		} finally {
+			blockBottom.setBlockData(dataBottom, false);
+			blockTop.setBlockData(dataTop, true);
+		}
+		
 //		byte orentation = 0;
 //		byte hinge = 0; // org.bukkit.block.data.type.Door (hinge), org.bukkit.block.data.Directional, org.bukkit.block.data.Bisected (top/bottom)
 //		
@@ -528,23 +559,27 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	}
 
 	public final void setLadder(int x, int y1, int y2, int z, BlockFace direction) {
+		
+		// this calculates which wall the ladder is on
 		int offsetX = 0;
 		int offsetZ = 0;
 		switch (direction) {
-		case WEST:
+		case EAST:
 			offsetX = -1;
 			break;
-		case EAST:
+		case WEST:
 			offsetX = 1;
 			break;
-		case NORTH:
+		case SOUTH:
 			offsetZ = -1;
 			break;
-		case SOUTH:
+		case NORTH:
 		default:
 			offsetZ = 1;
 			break;
 		}
+		
+		// only put the ladder on the wall (see above) if there is actually a wall
 		for (int y = y1; y < y2; y++) {
 			if (!isEmpty(x + offsetX, y, z + offsetZ)) {
 				setBlock(x, y, z, Material.LADDER, direction);
