@@ -975,24 +975,25 @@ public class StructureOnGroundProvider extends Provider {
 				
 				// the top floor
 				if (floor == floors - 1) {
+					Material trapDoor = odds.getRandomWoodTrapDoor();
 					if (roomEast) {
 						if (roomSouth) {
-							chunk.setLadder(x1 + 1, y1, y1 + 3, z1 + 1, BlockFace.NORTH);
-							chunk.setBlock(x1 + 1, y2, z1 + 1, Material.BIRCH_TRAPDOOR, BlockFace.SOUTH);
+							chunk.setLadder(x1 + 1, y1, y1 + 3, z1 + 1, BlockFace.SOUTH); // fixed
+							chunk.setBlock(x1 + 1, y2, z1 + 1, trapDoor, BlockFace.NORTH);
 							
 						} else {
-							chunk.setLadder(x1 + 1, y1, y1 + 3, z2 - 1, BlockFace.WEST);
-							chunk.setBlock(x1 + 1, y2, z2 - 1, Material.BIRCH_TRAPDOOR, BlockFace.EAST);
+							chunk.setLadder(x1 + 1, y1, y1 + 3, z2 - 1, BlockFace.EAST); // fixed
+							chunk.setBlock(x1 + 1, y2, z2 - 1, trapDoor, BlockFace.WEST);
 
 						}
 					} else {
 						if (roomSouth) {
-							chunk.setLadder(x2 - 1, y1, y1 + 3, z1 + 1, BlockFace.EAST);
-							chunk.setBlock(x2 - 1, y2, z1 + 1, Material.BIRCH_TRAPDOOR, BlockFace.WEST);
+							chunk.setLadder(x2 - 1, y1, y1 + 3, z1 + 1, BlockFace.WEST); // fixed
+							chunk.setBlock(x2 - 1, y2, z1 + 1, trapDoor, BlockFace.EAST);
 	
 						} else {
-							chunk.setLadder(x2 - 1, y1, y1 + 3, z2 - 1, BlockFace.SOUTH);
-							chunk.setBlock(x2 - 1, y2, z2 - 1, Material.BIRCH_TRAPDOOR, BlockFace.NORTH);
+							chunk.setLadder(x2 - 1, y1, y1 + 3, z2 - 1, BlockFace.NORTH); // fixed
+							chunk.setBlock(x2 - 1, y2, z2 - 1, trapDoor, BlockFace.SOUTH);
 						
 						}
 					}

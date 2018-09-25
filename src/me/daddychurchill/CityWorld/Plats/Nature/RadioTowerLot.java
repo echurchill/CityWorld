@@ -122,7 +122,7 @@ public class RadioTowerLot extends ConstructLot {
 		while (chunk.isEmpty(originX, ladderBase, originZ + 4)) {
 			ladderBase--;
 		}
-		chunk.setLadder(originX, ladderBase, platformY, originZ + 4, BlockFace.EAST);
+		chunk.setLadder(originX, ladderBase, platformY, originZ + 4, BlockFace.WEST); // fixed
 		chunk.airoutBlock(generator, originX, platformY, originZ + 4);
 			
 		// place antennas

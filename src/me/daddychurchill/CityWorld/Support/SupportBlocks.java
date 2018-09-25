@@ -22,7 +22,6 @@ import org.bukkit.block.data.Rail.Shape;
 import org.bukkit.block.data.Rotatable;
 import org.bukkit.block.data.type.Slab;
 import org.bukkit.block.data.type.Snow;
-import org.bukkit.material.Door;
 import org.bukkit.material.Vine;
 import org.bukkit.util.noise.NoiseGenerator;
 
@@ -490,29 +489,32 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	
 //@@	public void setDoor(int x, int y, int z, Material material, BadMagic.Door direction) {
 	public void setDoor(int x, int y, int z, Material material, BlockFace facing) {
-		Block blockBottom = getActualBlock(x, y, z);
-		Block blockTop = getActualBlock(x, y + 1, z);sssss
+		clearBlock(x, y, z);
+		clearBlock(x, y + 1, z);
 		
-		blockBottom.setType(material, false);
-		blockTop.setType(material, false);
-		
-		BlockData dataBottom = blockBottom.getBlockData();
-		BlockData dataTop = blockTop.getBlockData();
-		try {
-			if (dataBottom instanceof Door)
-			if (dataBottom instanceof Directional)
-				((Directional)dataBottom).setFacing(facing);
-			if (dataTop instanceof Directional)
-				((Directional)dataTop).setFacing(facing);
-			
-			if (dataBottom instanceof Bisected)
-				((Bisected)dataBottom).setHalf(Half.BOTTOM);
-			if (dataTop instanceof Bisected)
-				((Bisected)dataTop).setHalf(Half.TOP);
-		} finally {
-			blockBottom.setBlockData(dataBottom, false);
-			blockTop.setBlockData(dataTop, true);
-		}
+//		Block blockBottom = getActualBlock(x, y, z);
+//		Block blockTop = getActualBlock(x, y + 1, z);sssss
+//		
+//		blockBottom.setType(material, false);
+//		blockTop.setType(material, false);
+//		
+//		BlockData dataBottom = blockBottom.getBlockData();
+//		BlockData dataTop = blockTop.getBlockData();
+//		try {
+//			if (dataBottom instanceof Door)
+//			if (dataBottom instanceof Directional)
+//				((Directional)dataBottom).setFacing(facing);
+//			if (dataTop instanceof Directional)
+//				((Directional)dataTop).setFacing(facing);
+//			
+//			if (dataBottom instanceof Bisected)
+//				((Bisected)dataBottom).setHalf(Half.BOTTOM);
+//			if (dataTop instanceof Bisected)
+//				((Bisected)dataTop).setHalf(Half.TOP);
+//		} finally {
+//			blockBottom.setBlockData(dataBottom, false);
+//			blockTop.setBlockData(dataTop, true);
+//		}
 		
 //		byte orentation = 0;
 //		byte hinge = 0; // org.bukkit.block.data.type.Door (hinge), org.bukkit.block.data.Directional, org.bukkit.block.data.Bisected (top/bottom)
@@ -649,11 +651,15 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		default:
 		case EAST:
 		case WEST:
+			if (z == 15) // Whoops, too far
+				z = 14;
 			setChest(generator, x, y, z, facing, odds, lootProvider, lootLocation);
 			setChest(generator, x, y, z + 1, facing, odds, lootProvider, lootLocation);
 			break;
 		case NORTH:
 		case SOUTH:
+			if (x == 15) // Whoops, too far
+				x = 14;
 			setChest(generator, x, y, z, facing, odds, lootProvider, lootLocation);
 			setChest(generator, x + 1, y, z, facing, odds, lootProvider, lootLocation);
 			break;

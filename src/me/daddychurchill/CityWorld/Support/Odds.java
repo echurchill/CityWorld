@@ -138,6 +138,16 @@ public class Odds {
 				Material.OAK_DOOR);
 	}
 	
+	public Material getRandomWoodTrapDoor() {
+		return getRandomMaterial(
+				Material.ACACIA_TRAPDOOR, 
+				Material.BIRCH_TRAPDOOR, 
+				Material.DARK_OAK_TRAPDOOR,
+				Material.JUNGLE_TRAPDOOR, 
+				Material.SPRUCE_TRAPDOOR, 
+				Material.OAK_TRAPDOOR);
+	}
+	
 	public Material getRandomWoodLeaves() {
 		return getRandomMaterial(
 				Material.ACACIA_LEAVES, 

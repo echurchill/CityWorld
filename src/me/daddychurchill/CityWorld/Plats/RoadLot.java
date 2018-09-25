@@ -998,7 +998,7 @@ public class RoadLot extends ConnectedLot {
 				chunk.setBlock(3, pavementLevel, 2, Material.ACACIA_TRAPDOOR, BlockFace.EAST, Half.TOP);
 				
 				// ladder
-				chunk.setLadder(3, sewerY, pavementLevel, 2, BlockFace.WEST);
+				chunk.setLadder(3, sewerY, pavementLevel, 2, BlockFace.WEST); // fixed
 			}
 			
 			// figure out the center

@@ -215,11 +215,13 @@ public abstract class TreeProvider {
 			// and then do the leaves... maybe
 			if (includeLeaves) {
 				int leavesHeight = trunkHeight - 1;
+				boolean was = blocks.setDoPhysics(true);
 				generateLeavesBlock(blocks, x - 1, y + leavesHeight, z, leavesMaterial, leafColor);
 				generateLeavesBlock(blocks, x + 1, y + leavesHeight, z, leavesMaterial, leafColor);
 				generateLeavesBlock(blocks, x, y + leavesHeight, z - 1, leavesMaterial, leafColor);
 				generateLeavesBlock(blocks, x, y + leavesHeight, z + 1, leavesMaterial, leafColor);
 				generateLeavesBlock(blocks, x, y + trunkHeight, z, leavesMaterial, leafColor);
+				blocks.setDoPhysics(was);
 			}
 			
 			return true;
@@ -440,6 +442,7 @@ public abstract class TreeProvider {
 	
 			// and then do the leaves... maybe
 			if (includeLeaves) {
+				boolean was = blocks.setDoPhysics(true);
 				if (leaves1exist) {
 					addLeaves(blocks, x, y, z, leavesMaterial, trunkWidth, trunkHeight,
 							leaves1start, leaves1end, leaves1width, leaves1delta);
@@ -448,6 +451,7 @@ public abstract class TreeProvider {
 						addLeaves(blocks, x, y, z, leavesMaterial, trunkWidth, trunkHeight,
 								leaves2start, leaves2end, leaves2width, leaves2delta);
 				}
+				blocks.setDoPhysics(was);
 			}
 			
 			return true;

@@ -144,8 +144,8 @@ public class BarnLot extends IsolatedLot {
 			// access and back fill
 			if (firstDoor) {
 				chunk.clearBlocks(5, 11, y1, y2, 1, 2);
-				chunk.setLadder(5, y1, y2 + 1, 4, BlockFace.WEST);
-				chunk.setLadder(10, y1, y2 + 1, 4, BlockFace.EAST);
+				chunk.setLadder(5, y1, y2 + 1, 4, BlockFace.EAST); // fixed
+				chunk.setLadder(10, y1, y2 + 1, 4, BlockFace.WEST); // fixed
 				if (!secondDoor) {
 					hayLoft(chunk, 5, 11, y2, 11, 14);
 					hayPile(chunk, 5, 11, y1, 11, 14);
@@ -157,8 +157,8 @@ public class BarnLot extends IsolatedLot {
 			}
 			if (secondDoor) { 
 				chunk.clearBlocks(5, 11, y1, y2, 14, 15);
-				chunk.setLadder(5, y1, y2 + 1, 11, BlockFace.WEST);
-				chunk.setLadder(10, y1, y2 + 1, 11, BlockFace.EAST);
+				chunk.setLadder(5, y1, y2 + 1, 11, BlockFace.EAST); // fixed
+				chunk.setLadder(10, y1, y2 + 1, 11, BlockFace.WEST); // fixed
 				if (!firstDoor) {
 					hayLoft(chunk, 5, 11, y2, 2, 5);
 					hayPile(chunk, 5, 11, y1, 2, 5);
@@ -245,8 +245,8 @@ public class BarnLot extends IsolatedLot {
 			// access and back fill
 			if (firstDoor) {
 				chunk.clearBlocks(1, 2, y1, y2, 5, 11);
-				chunk.setLadder(4, y1, y2 + 1, 5, BlockFace.NORTH);
-				chunk.setLadder(4, y1, y2 + 1, 10, BlockFace.SOUTH);
+				chunk.setLadder(4, y1, y2 + 1, 5, BlockFace.SOUTH); // fixed
+				chunk.setLadder(4, y1, y2 + 1, 10, BlockFace.NORTH); // fixed
 				if (!secondDoor) {
 					hayLoft(chunk, 11, 14, y2, 5, 11);
 					hayPile(chunk, 11, 14, y1, 5, 11);
@@ -258,8 +258,8 @@ public class BarnLot extends IsolatedLot {
 			}
 			if (secondDoor) {
 				chunk.clearBlocks(14, 15, y1, y2, 5, 11);
-				chunk.setLadder(11, y1, y2 + 1, 5, BlockFace.NORTH);
-				chunk.setLadder(11, y1, y2 + 1, 10, BlockFace.SOUTH);
+				chunk.setLadder(11, y1, y2 + 1, 5, BlockFace.SOUTH); // fixed
+				chunk.setLadder(11, y1, y2 + 1, 10, BlockFace.NORTH); // fixed
 				if (!firstDoor) {
 					hayLoft(chunk, 2, 5, y2, 5, 11);
 					hayPile(chunk, 2, 5, y1, 5, 11);

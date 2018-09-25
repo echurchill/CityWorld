@@ -664,7 +664,7 @@ public class ParkLot extends ConnectedLot {
 //					int lowestY = generator.streetLevel - cisternDepth + 1 + waterDepth;
 					lowestY = generator.streetLevel - cisternDepth + 1 + waterDepth;
 					chunk.setBlocks(4, 7, lowestY, lowestY + 1, 1, 2, ledgeMaterial);
-					chunk.setLadder(5, lowestY + 1, surfaceY, 1, BlockFace.SOUTH);
+					chunk.setLadder(5, lowestY + 1, surfaceY, 1, BlockFace.SOUTH); // fixed
 					chunk.setBlock(5, surfaceY - 1, 1, Material.ACACIA_TRAPDOOR, BlockFace.WEST, Half.TOP);
 				}
 			}

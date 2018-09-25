@@ -371,7 +371,7 @@ public class BunkerLot extends ConnectedLot {
 			chunk.setBlock(x, lidY, 7, Material.BIRCH_TRAPDOOR, BlockFace.NORTH, Half.TOP);
 		for (int x = 2; x < 15; x += 2)
 			chunk.setBlock(x, lidY, 8, Material.BIRCH_TRAPDOOR, BlockFace.SOUTH, Half.TOP);
-		chunk.setLadder(2, topOfBunker, lidY, 8, BlockFace.WEST);
+		chunk.setLadder(2, topOfBunker, lidY, 8, BlockFace.EAST); // fixed
 		chunk.setWalls(2, 14, topOfBunker - 1, topOfBunker, 2, 14, materials.crosswalk);
 		
 		// camo the exit
@@ -817,7 +817,7 @@ public class BunkerLot extends ConnectedLot {
 		// put in a way down?
 		if (odds.playOdds(oddsOfWayDownFromTunnel)) {
 			chunk.setBlock(6, streetY, 7, Material.BIRCH_TRAPDOOR, BlockFace.WEST, Half.TOP);
-			chunk.setLadder(6, y1, streetY, 7, BlockFace.EAST);
+			chunk.setLadder(6, y1, streetY, 7, BlockFace.WEST); // fixed
 		}
 		
 		// lift the surface? NOPE

@@ -125,8 +125,8 @@ public class OilPlatformLot extends ConstructLot {
 		chunk.setBlocks(13, y4 + 4, y4 + 8, 2, drillMaterial); // bit hanging from the crane
 		
 		// ladder from access level to the balcony
-		chunk.setLadder(3, y0 + 1, y4 - 2, 4, BlockFace.NORTH);
-		chunk.setLadder(12, y0 + 1, y4 + 2, 11, BlockFace.SOUTH);
+		chunk.setLadder(3, y0 + 1, y4 - 2, 4, BlockFace.SOUTH); // fixed
+		chunk.setLadder(12, y0 + 1, y4 + 2, 11, BlockFace.NORTH); // fixed
 		
 		// now draw the crane
 		chunk.setBlock(2, y4 - 2, 3, topperMaterial, BlockFace.EAST);

@@ -296,7 +296,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 		generator.spawnProvider.spawnBeing(generator, chunk, chunkOdds, 7, skywalkAt + 1, 7);
 		
 		chunk.setBlocks(5, groundY, skywalkAt + 2, 5, officeMat);
-		chunk.setLadder(5, groundY, skywalkAt + 2, 6, BlockFace.NORTH);
+		chunk.setLadder(5, groundY, skywalkAt + 2, 6, BlockFace.SOUTH); // fixed
 	}
 
 	private void generateSmokeStackArea(CityWorldGenerator generator, RealBlocks chunk, Surroundings heights,
@@ -436,28 +436,28 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			generateSkyWalkBitsNS(chunk, 6, 0, skywalkAt);
 			if (wallStyle != WallStyle.BUILDING) {
 				chunk.setBlocks(7, 9, generator.structureLevel + 2, skywalkAt, 0, 1, wallMaterial);
-				generateLadder(chunk, 6, generator.structureLevel, skywalkAt, 0, BlockFace.EAST);
+				generateLadder(chunk, 6, generator.structureLevel, skywalkAt, 0, BlockFace.WEST); // fixed
 			}
 		}
 		if (doSouthward) {
 			generateSkyWalkBitsNS(chunk, 6, 12, skywalkAt);
 			if (wallStyle != WallStyle.BUILDING) {
 				chunk.setBlocks(7, 9, generator.structureLevel + 2, skywalkAt, 15, 16, wallMaterial);
-				generateLadder(chunk, 9, generator.structureLevel, skywalkAt, 15, BlockFace.WEST);
+				generateLadder(chunk, 9, generator.structureLevel, skywalkAt, 15, BlockFace.EAST); // fixed
 			}
 		}
 		if (doWestward) {
 			generateSkyWalkBitsWE(chunk, 0, 6, skywalkAt);
 			if (wallStyle != WallStyle.BUILDING) {
 				chunk.setBlocks(0, 1, generator.structureLevel + 2, skywalkAt, 7, 9, wallMaterial);
-				generateLadder(chunk, 0, generator.structureLevel, skywalkAt, 6, BlockFace.SOUTH);
+				generateLadder(chunk, 0, generator.structureLevel, skywalkAt, 6, BlockFace.NORTH); // fixed
 			}
 		}
 		if (doEastward) {
 			generateSkyWalkBitsWE(chunk, 12, 6, skywalkAt);
 			if (wallStyle != WallStyle.BUILDING) {
 				chunk.setBlocks(15, 16, generator.structureLevel + 2, skywalkAt, 7, 9, wallMaterial);
-				generateLadder(chunk, 15, generator.structureLevel, skywalkAt, 9, BlockFace.NORTH);
+				generateLadder(chunk, 15, generator.structureLevel, skywalkAt, 9, BlockFace.SOUTH); // fixed
 			}
 		}
 	}
@@ -519,19 +519,19 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			
 			if (doNorthward) {
 				chunk.setBlocks(7, 9, generator.structureLevel + 2, skywalkAt, 0, 1, wallMaterial);
-				generateLadder(chunk, 6, generator.structureLevel, skywalkAt, 0, BlockFace.EAST);
+				generateLadder(chunk, 6, generator.structureLevel, skywalkAt, 0, BlockFace.WEST); // fixed
 			}
 			if (doSouthward) {
 				chunk.setBlocks(7, 9, generator.structureLevel + 2, skywalkAt, 15, 16, wallMaterial);
-				generateLadder(chunk, 9, generator.structureLevel, skywalkAt, 15, BlockFace.WEST);
+				generateLadder(chunk, 9, generator.structureLevel, skywalkAt, 15, BlockFace.EAST); // fixed
 			}
 			if (doWestward) {
 				chunk.setBlocks(0, 1, generator.structureLevel + 2, skywalkAt, 7, 9, wallMaterial);
-				generateLadder(chunk, 0, generator.structureLevel, skywalkAt, 6, BlockFace.SOUTH);
+				generateLadder(chunk, 0, generator.structureLevel, skywalkAt, 6, BlockFace.NORTH); // fixed
 			}
 			if (doEastward) {
 				chunk.setBlocks(15, 16, generator.structureLevel + 2, skywalkAt, 7, 9, wallMaterial);
-				generateLadder(chunk, 15, generator.structureLevel, skywalkAt, 9, BlockFace.NORTH);
+				generateLadder(chunk, 15, generator.structureLevel, skywalkAt, 9, BlockFace.SOUTH); // fixed
 			}
 		}
 	}
@@ -543,22 +543,22 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 		
 		switch (facing) {
 		default:
-		case NORTH:
+		case SOUTH:
 			doLadder = chunkXEven && chunkZEven;
 			break;
-		case SOUTH:
+		case NORTH:
 			doLadder = chunkXEven && !chunkZEven;
 			break;
-		case WEST:
+		case EAST:
 			doLadder = !chunkXEven && chunkZEven;
 			break;
-		case EAST:
+		case WEST:
 			doLadder = !chunkXEven && !chunkZEven;
 			break;
 		}
 		
 		if (doLadder) {
-			chunk.setLadder(x, y1 + 2, y2 + 1, z, facing);
+			chunk.setLadder(x, y1 + 2, y2 + 1, z, facing); // fixed
 			chunk.clearBlock(x, y2 + 1, z);	
 		}
 		
