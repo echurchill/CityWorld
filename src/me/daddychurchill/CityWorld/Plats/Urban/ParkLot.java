@@ -12,10 +12,11 @@ import me.daddychurchill.CityWorld.Support.MazeArray.MazeBit;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.SurroundingLots;
-
+import me.daddychurchill.CityWorld.Support.Trees;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 import org.bukkit.Material;
+import org.bukkit.TreeSpecies;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Bisected.Half;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
@@ -183,8 +184,8 @@ public class ParkLot extends ConnectedLot {
 //		case LABYRINTH_MAZE:
 //		case HEDGE_MAZE:
 //		case CIRCLE_MAZE:
-//			chunk.setWalls(0, 16, surfaceY - 1, surfaceY, 0, 16, Material.SPRUCE_LOG);
-//			chunk.setWalls(0, 16, surfaceY, surfaceY + 3, 0, 16, Material.BIRCH_LEAVES);
+//			chunk.setWalls(0, 16, surfaceY - 1, surfaceY, 0, 16, logMaterial);
+//			chunk.setWalls(0, 16, surfaceY, surfaceY + 3, 0, 16, leafMaterial);
 //			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
 //				chunk.clearBlocks(6, 10, surfaceY, surfaceY + 3, 0, 1);
 //				chunk.setBlocks(6, surfaceY, surfaceY + 2, 0, columnMaterial);
@@ -374,14 +375,18 @@ public class ParkLot extends ConnectedLot {
 		chunk.setLayer(highestY + 2, generator.oreProvider.subsurfaceMaterial);
 		chunk.setLayer(highestY + 3, generator.oreProvider.surfaceMaterial);
 		
+		TreeSpecies species = chunkOdds.getRandomWoodSpecies();
+		Material logMaterial = Trees.getRandomWoodLog(species);
+		Material leafMaterial = Trees.getRandomWoodLeaves(species);
+		
 		// surface features
 		int surfaceY = generator.streetLevel + 1;
 		switch (centerStyle) {
 		case LABYRINTH_MAZE:
 		case HEDGE_MAZE:
 		case CIRCLE_MAZE:
-			chunk.setWalls(0, 16, surfaceY - 1, surfaceY, 0, 16, Material.SPRUCE_LOG);
-			chunk.setWalls(0, 16, surfaceY, surfaceY + 3, 0, 16, Material.BIRCH_LEAVES);
+			chunk.setWalls(0, 16, surfaceY - 1, surfaceY, 0, 16, logMaterial);
+			chunk.setWalls(0, 16, surfaceY, surfaceY + 3, 0, 16, leafMaterial);
 			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
 				chunk.clearBlocks(6, 10, surfaceY, surfaceY + 3, 0, 1);
 				chunk.setBlocks(6, surfaceY, surfaceY + 2, 0, columnMaterial);
@@ -597,12 +602,12 @@ public class ParkLot extends ConnectedLot {
 				contLabyrinth(chunk, 8, 7); //t
 				break;
 			case CIRCLE_MAZE:
-				chunk.setWalls(2, 14, surfaceY - 1, surfaceY, 2, 14, Material.SPRUCE_LOG);
-				chunk.setWalls(4, 12, surfaceY - 1, surfaceY, 4, 12, Material.SPRUCE_LOG);
-				chunk.setWalls(6, 10, surfaceY - 1, surfaceY, 6, 10, Material.SPRUCE_LOG);
-				chunk.setWalls(2, 14, surfaceY, surfaceY + 2, 2, 14, Material.BIRCH_LEAVES);
-				chunk.setWalls(4, 12, surfaceY, surfaceY + 3, 4, 12, Material.BIRCH_LEAVES);
-				chunk.setWalls(6, 10, surfaceY, surfaceY + 4, 6, 10, Material.BIRCH_LEAVES);
+				chunk.setWalls(2, 14, surfaceY - 1, surfaceY, 2, 14, logMaterial);
+				chunk.setWalls(4, 12, surfaceY - 1, surfaceY, 4, 12, logMaterial);
+				chunk.setWalls(6, 10, surfaceY - 1, surfaceY, 6, 10, logMaterial);
+				chunk.setWalls(2, 14, surfaceY, surfaceY + 2, 2, 14, leafMaterial);
+				chunk.setWalls(4, 12, surfaceY, surfaceY + 3, 4, 12, leafMaterial);
+				chunk.setWalls(6, 10, surfaceY, surfaceY + 4, 6, 10, leafMaterial);
 				
 				pokeHoleSomewhere(chunk, 3, 13, surfaceY, 2, 3);
 				pokeHoleSomewhere(chunk, 5, 11, surfaceY, 4, 5);
@@ -630,16 +635,16 @@ public class ParkLot extends ConnectedLot {
 						int xWall = x * 2;
 						int zWall = z * 2;
 						if ((x < 5) && (maze.getBit(xWall, zWall - 1) == MazeBit.WALL)) {
-							chunk.setBlocks(x2, x2 + 1, surfaceY - 1, surfaceY, z1, z2, Material.SPRUCE_LOG);
-							chunk.setBlocks(x2, x2 + 1, surfaceY, surfaceY + 3, z1, z2, Material.BIRCH_LEAVES);
+							chunk.setBlocks(x2, x2 + 1, surfaceY - 1, surfaceY, z1, z2, logMaterial);
+							chunk.setBlocks(x2, x2 + 1, surfaceY, surfaceY + 3, z1, z2, leafMaterial);
 						}
 						if ((z < 5) && (maze.getBit(xWall - 1, zWall) == MazeBit.WALL)) {
-							chunk.setBlocks(x1, x2, surfaceY - 1, surfaceY, z2, z2 + 1, Material.SPRUCE_LOG);
-							chunk.setBlocks(x1, x2, surfaceY, surfaceY + 3, z2, z2 + 1, Material.BIRCH_LEAVES);
+							chunk.setBlocks(x1, x2, surfaceY - 1, surfaceY, z2, z2 + 1, logMaterial);
+							chunk.setBlocks(x1, x2, surfaceY, surfaceY + 3, z2, z2 + 1, leafMaterial);
 						}
 						if ((x < 5) && (z < 5)) {
-							chunk.setBlocks(x2, surfaceY - 1, surfaceY, z2, Material.SPRUCE_LOG);
-							chunk.setBlocks(x2, surfaceY, surfaceY + 3, z2, Material.BIRCH_LEAVES);
+							chunk.setBlocks(x2, surfaceY - 1, surfaceY, z2, logMaterial);
+							chunk.setBlocks(x2, surfaceY, surfaceY + 3, z2, leafMaterial);
 						}
 					}
 				break;
@@ -678,6 +683,9 @@ public class ParkLot extends ConnectedLot {
 		boolean SW = chunkOdds.flipCoin();
 		boolean SE = chunkOdds.flipCoin();
 		
+		Trees trees = new Trees(chunkOdds);
+		Material stairs = trees.getRandomWoodStairs();
+		
 		int benchStart = chunkOdds.getRandomInt(3, 3);
 		if (chunkOdds.flipCoin())
 			benchEnd--;
@@ -685,23 +693,23 @@ public class ParkLot extends ConnectedLot {
 		boolean was = chunk.setDoPhysics(true);
 		for (int i = benchStart; i < benchEnd; i++) {
 			if (NW)
-				chunk.setBlock(i, surfaceY, 3, Material.BIRCH_STAIRS, BlockFace.NORTH);
+				chunk.setBlock(i, surfaceY, 3, stairs, BlockFace.NORTH);
 			if (NE)
-				chunk.setBlock(15 - i, surfaceY, 3, Material.BIRCH_STAIRS, BlockFace.NORTH);
+				chunk.setBlock(15 - i, surfaceY, 3, stairs, BlockFace.NORTH);
 			if (SW)
-				chunk.setBlock(i, surfaceY, 12, Material.BIRCH_STAIRS, BlockFace.SOUTH);
+				chunk.setBlock(i, surfaceY, 12, stairs, BlockFace.SOUTH);
 			if (SE)
-				chunk.setBlock(15 - i, surfaceY, 12, Material.BIRCH_STAIRS, BlockFace.SOUTH);
+				chunk.setBlock(15 - i, surfaceY, 12, stairs, BlockFace.SOUTH);
 			
 			if (i != 3) { // corner bit needs to be skipped
 				if (NW)
-					chunk.setBlock(3, surfaceY, i, Material.BIRCH_STAIRS, BlockFace.WEST);
+					chunk.setBlock(3, surfaceY, i, stairs, BlockFace.WEST);
 				if (SW)
-					chunk.setBlock(3, surfaceY, 15 - i, Material.BIRCH_STAIRS, BlockFace.WEST);
+					chunk.setBlock(3, surfaceY, 15 - i, stairs, BlockFace.WEST);
 				if (NE)
-					chunk.setBlock(12, surfaceY, i, Material.BIRCH_STAIRS, BlockFace.EAST);
+					chunk.setBlock(12, surfaceY, i, stairs, BlockFace.EAST);
 				if (SE)
-					chunk.setBlock(12, surfaceY, 15 - i, Material.BIRCH_STAIRS, BlockFace.EAST);
+					chunk.setBlock(12, surfaceY, 15 - i, stairs, BlockFace.EAST);
 			}
 		}
 		chunk.setDoPhysics(was);

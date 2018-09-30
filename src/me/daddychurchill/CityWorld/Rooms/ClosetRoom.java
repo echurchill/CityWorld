@@ -8,6 +8,7 @@ import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
+import me.daddychurchill.CityWorld.Support.Trees;
 
 public class ClosetRoom extends FilledRoom {
 
@@ -19,7 +20,8 @@ public class ClosetRoom extends FilledRoom {
 	public void drawFixture(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int floor, int x,
 			int y, int z, int width, int height, int depth,
 			BlockFace sideWithWall, Material materialWall, Material materialGlass) {
-		Material door = odds.getRandomWoodDoor();
+		Trees trees = new Trees(odds);
+		Material door = trees.getRandomWoodDoor();
 		
 		switch (sideWithWall) {
 		default:
@@ -73,7 +75,8 @@ public class ClosetRoom extends FilledRoom {
 			return Material.STONE_SLAB;
 		
 		default: // WOOD
-			return odds.getRandomWoodSlab();
+			Trees trees = new Trees(odds);
+			return trees.getRandomWoodSlab();
 		}
 	}
 

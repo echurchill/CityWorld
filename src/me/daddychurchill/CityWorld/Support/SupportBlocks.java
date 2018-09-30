@@ -20,6 +20,7 @@ import org.bukkit.block.data.Powerable;
 import org.bukkit.block.data.Rail;
 import org.bukkit.block.data.Rail.Shape;
 import org.bukkit.block.data.Rotatable;
+import org.bukkit.block.data.type.Leaves;
 import org.bukkit.block.data.type.Slab;
 import org.bukkit.block.data.type.Snow;
 import org.bukkit.material.Vine;
@@ -707,6 +708,19 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 	
+	public final Block setLeaf(int x, int y, int z, Material material, boolean isPersistent) {
+		Block block = getActualBlock(x, y, z);
+		block.setType(material, false);
+		BlockData data = block.getBlockData();
+		try {
+			if (data instanceof Leaves)
+				((Leaves)data).setPersistent(isPersistent);
+		} finally {
+			block.setBlockData(data, doPhysics);
+		}
+		return block;
+	}
+
 	public final void setBed(int x, int y, int z, BlockFace facing) {
 		switch (facing) {
 		default:

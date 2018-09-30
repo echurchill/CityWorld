@@ -109,7 +109,11 @@ public class Colors {
 	}
 	
 	public Material getGlass() {
-		switch (getRandomColor()) {
+		return getGlass(getRandomColor());
+	}
+	
+	public static Material getGlass(DyeColor color) {
+		switch (color) {
 		default:
 		case BLACK:
 			return Material.BLACK_STAINED_GLASS;
@@ -146,8 +150,13 @@ public class Colors {
 		}
 	}
 	
-	public Material getGlassPane() {
-		switch (getRandomColor()) {
+	public Material getGlassPane() 
+	{
+		return getGlass(getRandomColor());
+	}
+
+	public static Material getGlassPane(DyeColor color) {
+		switch (color) {
 		default:
 		case BLACK:
 			return Material.BLACK_STAINED_GLASS_PANE;
@@ -185,7 +194,11 @@ public class Colors {
 	}
 	
 	public Material getCarpet() {
-		switch (getRandomColor()) {
+		return getCarpet(getRandomColor());
+	}
+	
+	public static Material getCarpet(DyeColor color) {
+		switch (color) {
 		default:
 		case BLACK:
 			return Material.BLACK_CARPET;
@@ -223,7 +236,11 @@ public class Colors {
 	}
 	
 	public Material getWool() {
-		switch (getRandomColor()) {
+		return getWool(getRandomColor());
+	}
+	
+	public static Material getWool(DyeColor color) {
+		switch (color) {
 		default:
 		case BLACK:
 			return Material.BLACK_WOOL;
@@ -261,7 +278,11 @@ public class Colors {
 	}
 	
 	public Material getTerracotta() {
-		switch (getRandomColor()) {
+		return getTerracotta(getRandomColor());
+	}
+	
+	public static Material getTerracotta(DyeColor color) {
+		switch (color) {
 		default:
 		case BLACK:
 			return Material.BLACK_TERRACOTTA;
@@ -299,7 +320,11 @@ public class Colors {
 	}
 	
 	public Material getGlazedTerracotta() {
-		switch (getRandomColor()) {
+		return getGlazedTerracotta(getRandomColor());
+	}
+	
+	public static Material getGlazedTerracotta(DyeColor color) {
+		switch (color) {
 		default:
 		case BLACK:
 			return Material.BLACK_GLAZED_TERRACOTTA;
@@ -337,7 +362,11 @@ public class Colors {
 	}
 	
 	public Material getConcrete() {
-		switch (getRandomColor()) {
+		return getConcrete(getRandomColor());
+	}
+	
+	public static Material getConcrete(DyeColor color) {
+		switch (color) {
 		default:
 		case BLACK:
 			return Material.BLACK_CONCRETE;
@@ -375,7 +404,11 @@ public class Colors {
 	}
 	
 	public Material getConcretePowder() {
-		switch (getRandomColor()) {
+		return getConcretePowder(getRandomColor());
+	}
+	
+	public static Material getConcretePowder(DyeColor color) {
+		switch (color) {
 		default:
 		case BLACK:
 			return Material.BLACK_CONCRETE_POWDER;

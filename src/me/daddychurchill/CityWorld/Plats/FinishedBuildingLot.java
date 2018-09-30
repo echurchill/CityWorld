@@ -19,6 +19,7 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
 import me.daddychurchill.CityWorld.Support.Surroundings;
+import me.daddychurchill.CityWorld.Support.Trees;
 
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
@@ -217,8 +218,10 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		
 		forceNarrowInteriorMode = chunkOdds.playOdds(context.oddsOfForcedNarrowInteriorMode);
 		differentInteriorModes = context.oddsOfDifferentInteriorModes;
-		interiorDoorMaterial = chunkOdds.getRandomWoodDoor();
-		exteriorDoorMaterial = chunkOdds.getRandomWoodDoor();
+		
+		Trees trees = new Trees(chunkOdds);
+		interiorDoorMaterial = trees.getRandomWoodDoor();
+		exteriorDoorMaterial = trees.getRandomWoodDoor();
 		
 	}
 	

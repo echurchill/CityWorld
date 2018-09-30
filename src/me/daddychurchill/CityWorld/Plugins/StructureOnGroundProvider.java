@@ -12,6 +12,7 @@ import me.daddychurchill.CityWorld.Support.Colors;
 import me.daddychurchill.CityWorld.Support.Colors.ColorSet;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
+import me.daddychurchill.CityWorld.Support.Trees;
 
 public class StructureOnGroundProvider extends Provider {
 
@@ -222,7 +223,8 @@ public class StructureOnGroundProvider extends Provider {
 		}
 		
 		// and the logs
-		Material logMat = odds.getRandomWoodLog();
+		Trees trees = new Trees(odds);
+		Material logMat = trees.getRandomWoodLog();
 		if (odds.playOdds(Odds.oddsPrettyLikely)) {
 			chunk.setBlock(11, baseY, 8, logMat, BlockFace.EAST);
 			chunk.setBlock(12, baseY, 8, logMat, BlockFace.EAST);
@@ -975,7 +977,8 @@ public class StructureOnGroundProvider extends Provider {
 				
 				// the top floor
 				if (floor == floors - 1) {
-					Material trapDoor = odds.getRandomWoodTrapDoor();
+					Trees trees = new Trees(odds);
+					Material trapDoor = trees.getRandomWoodTrapDoor();
 					if (roomEast) {
 						if (roomSouth) {
 							chunk.setLadder(x1 + 1, y1, y1 + 3, z1 + 1, BlockFace.SOUTH); // fixed

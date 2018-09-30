@@ -17,6 +17,7 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 import me.daddychurchill.CityWorld.Support.SurroundingRoads;
 import me.daddychurchill.CityWorld.Support.Surroundings;
+import me.daddychurchill.CityWorld.Support.Trees;
 
 public class RoadLot extends ConnectedLot {
 	
@@ -1062,7 +1063,8 @@ public class RoadLot extends ConnectedLot {
 			
 			// we might put down a plank... or maybe not...
 			boolean placedPlank = false;
-			Material woodSlab = chunkOdds.getRandomWoodSlab();
+			Trees trees = new Trees(chunkOdds);
+			Material woodSlab = trees.getRandomWoodSlab();
 			
 			// fancy up the center walls?
 			if (centerNorth) {

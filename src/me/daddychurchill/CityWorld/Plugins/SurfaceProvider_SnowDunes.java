@@ -8,6 +8,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
+import me.daddychurchill.CityWorld.Support.Trees;
 
 public class SurfaceProvider_SnowDunes extends SurfaceProvider_Flooded {
 
@@ -25,7 +26,7 @@ public class SurfaceProvider_SnowDunes extends SurfaceProvider_Flooded {
 		int y = NoiseGenerator.floor(perciseY);
 		int topY = chunk.findLastEmptyBelow(x, y + 20, z, y);
 		if (odds.flipCoin() && (chunk.isType(x, topY - 1, z, generator.oreProvider.surfaceMaterial) ||
-								chunk.isOfTypes(x, topY - 1, z, odds.getRandomWoodLeaves())))
+								chunk.isOfTypes(x, topY - 1, z, Trees.setAllLeaves)))
 			generator.oreProvider.dropSnow(generator, chunk, x, topY, z);
 		
 		

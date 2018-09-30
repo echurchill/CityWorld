@@ -108,66 +108,6 @@ public class Odds {
 		return values[getRandomInt(values.length)];
 	}
 	
-	public Material getRandomWoodLog() {
-		return getRandomMaterial(
-				Material.ACACIA_LOG, 
-				Material.BIRCH_LOG, 
-				Material.DARK_OAK_LOG,
-				Material.JUNGLE_LOG, 
-				Material.SPRUCE_LOG, 
-				Material.OAK_LOG);
-	}
-	
-	public Material getRandomWoodSlab() {
-		return getRandomMaterial(
-				Material.ACACIA_SLAB, 
-				Material.BIRCH_SLAB, 
-				Material.DARK_OAK_SLAB,
-				Material.JUNGLE_SLAB, 
-				Material.SPRUCE_SLAB, 
-				Material.OAK_SLAB);
-	}
-	
-	public Material getRandomWoodDoor() {
-		return getRandomMaterial(
-				Material.ACACIA_DOOR, 
-				Material.BIRCH_DOOR, 
-				Material.DARK_OAK_DOOR,
-				Material.JUNGLE_DOOR, 
-				Material.SPRUCE_DOOR, 
-				Material.OAK_DOOR);
-	}
-	
-	public Material getRandomWoodTrapDoor() {
-		return getRandomMaterial(
-				Material.ACACIA_TRAPDOOR, 
-				Material.BIRCH_TRAPDOOR, 
-				Material.DARK_OAK_TRAPDOOR,
-				Material.JUNGLE_TRAPDOOR, 
-				Material.SPRUCE_TRAPDOOR, 
-				Material.OAK_TRAPDOOR);
-	}
-	
-	public Material getRandomWoodLeaves() {
-		return getRandomMaterial(
-				Material.ACACIA_LEAVES, 
-				Material.BIRCH_LEAVES, 
-				Material.DARK_OAK_LEAVES,
-				Material.JUNGLE_LEAVES, 
-				Material.SPRUCE_LEAVES, 
-				Material.OAK_LEAVES);
-	}
-	
-	public Material getRandomWoodFence() {
-		return getRandomMaterial(
-				Material.ACACIA_FENCE, 
-				Material.BIRCH_FENCE, 
-				Material.DARK_OAK_FENCE,
-				Material.JUNGLE_FENCE, 
-				Material.SPRUCE_FENCE, 
-				Material.OAK_FENCE);
-	}
-	
 	public BlockFace getRandomFacing() {
 		switch (random.nextInt(4)) {
 		case 0:

@@ -3,13 +3,16 @@ package me.daddychurchill.CityWorld.Plugins;
 import org.bukkit.Material;
 import org.bukkit.TreeSpecies;
 import org.bukkit.TreeType;
+import org.bukkit.block.BlockFace;
 import org.bukkit.util.noise.NoiseGenerator;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Colors;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RelativeBlocks;
+import me.daddychurchill.CityWorld.Support.RememberedBlocks;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
+import me.daddychurchill.CityWorld.Support.Trees;
 
 public abstract class TreeProvider {
 	
@@ -101,11 +104,10 @@ public abstract class TreeProvider {
 	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, Colors colors) {
 		// this variant does nothing with the special color
 		if (chunk.isEmpty(x, y, z))
-			chunk.setBlock(x, y, z, material);
+			chunk.setLeaf(x, y, z, material, true);
 	}
 	
 	protected void generateTrunkBlock(SupportBlocks chunk, int x, int y, int z, int w, int h, Material material) {
-//		if (chunk.isEmpty(x, y, z))
 		chunk.setBlocks(x, x + w, y, y + h, z, z + w, material);
 	}
 	
@@ -215,13 +217,11 @@ public abstract class TreeProvider {
 			// and then do the leaves... maybe
 			if (includeLeaves) {
 				int leavesHeight = trunkHeight - 1;
-				boolean was = blocks.setDoPhysics(true);
 				generateLeavesBlock(blocks, x - 1, y + leavesHeight, z, leavesMaterial, leafColor);
 				generateLeavesBlock(blocks, x + 1, y + leavesHeight, z, leavesMaterial, leafColor);
 				generateLeavesBlock(blocks, x, y + leavesHeight, z - 1, leavesMaterial, leafColor);
 				generateLeavesBlock(blocks, x, y + leavesHeight, z + 1, leavesMaterial, leafColor);
 				generateLeavesBlock(blocks, x, y + trunkHeight, z, leavesMaterial, leafColor);
-				blocks.setDoPhysics(was);
 			}
 			
 			return true;
@@ -229,8 +229,106 @@ public abstract class TreeProvider {
 			return false;
 	}
 	
+	private static int maxDepth = 5;
+	protected int generateRootBall(SupportBlocks chunk, RememberedBlocks originalBlocks, int x1, int x2, int y1, int z1, int z2, Material root) {
+		
+		// set things up
+		int y = y1;
+		boolean foundBase = false;
+		while (!foundBase && y > y1 - maxDepth) {
+
+			// assume success
+			boolean partialLevel = false;
+			for (int x = x1; x < x2; x++) {
+				for (int z = z1; z < z2; z++) {
+					if (chunk.isEmpty(x, y, z)) {
+						partialLevel = true;
+					}
+					if (partialLevel)
+						break;
+				}
+				if (partialLevel)
+					break;
+			}
+			
+			// failed? if so move down
+			if (partialLevel) {
+				
+				// clear this level but remember what was there
+				originalBlocks.clearBlocks(x1, x2, y, z1, z2);
+				y--;
+			} else
+				foundBase = true;
+		}
+		
+		// add the root base
+		if (foundBase) {
+			originalBlocks.setBlocks(x1, x2, y, z1, z2, root);
+			
+			// clear a bit of room out above it
+			originalBlocks.clearBlocks(x1, x2, y + 1, y + 3, z1, z2);
+
+			// return just above the root ball
+			return y + 1;
+		} else {
+			return 0;
+		}
+	}
+	
 	public final boolean generateNormalTrunk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType) {
-		return generateNormalTree(generator, chunk, x, y, z, treeType, false);
+
+		// how wide is the trunk?
+		int trunkWidth = 1;
+		int trunkHeight = odds.getRandomInt(3, 6);
+		switch (treeType) {
+		case DARK_OAK:
+		case JUNGLE:
+		case MEGA_REDWOOD:
+			trunkWidth = 2;
+			trunkHeight = trunkHeight * 2;
+
+			// scoot the origin if needed
+			if (x == 15)
+				x = 14;
+			if (z == 15)
+				z = 14;
+			break;
+		default:
+			break;
+		}
+
+		// what is under the trunk?
+		Material root = Material.DIRT;
+		switch (treeType) {
+		case BROWN_MUSHROOM:
+		case RED_MUSHROOM:
+			root = Material.MYCELIUM;
+			break;
+		default:
+			break;
+		}
+		
+		// let try and plant something, or at least give it a whirl
+		RememberedBlocks originalBlocks = new RememberedBlocks(chunk);
+		int rootAt = generateRootBall(chunk, originalBlocks, x, x + trunkWidth, y, z, z + trunkWidth, root);
+		if (rootAt < 1) {
+			return false;
+		}
+		
+		// lets put a trunk on that then
+		else {
+		
+			// create the trunk
+			Trees trees = new Trees(odds);
+			chunk.setBlocks(x, x + trunkWidth, rootAt, rootAt + trunkHeight, z, z + trunkWidth, trees.getRandomWoodLog(), BlockFace.UP);
+			
+			// roughen up the top bit
+			if (trunkWidth > 1)
+				chunk.clearBlocks(x, x + trunkWidth, rootAt + trunkHeight - 1, z, z + trunkWidth, odds);
+
+			// all done then
+			return true;
+		}
 	}
 	
 	public final boolean generateNormalTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType) {
@@ -442,7 +540,6 @@ public abstract class TreeProvider {
 	
 			// and then do the leaves... maybe
 			if (includeLeaves) {
-				boolean was = blocks.setDoPhysics(true);
 				if (leaves1exist) {
 					addLeaves(blocks, x, y, z, leavesMaterial, trunkWidth, trunkHeight,
 							leaves1start, leaves1end, leaves1width, leaves1delta);
@@ -451,7 +548,6 @@ public abstract class TreeProvider {
 						addLeaves(blocks, x, y, z, leavesMaterial, trunkWidth, trunkHeight,
 								leaves2start, leaves2end, leaves2width, leaves2delta);
 				}
-				blocks.setDoPhysics(was);
 			}
 			
 			return true;
