@@ -51,7 +51,7 @@
                 <version>1.13.1-R0.1-SNAPSHOT</version>
                 <scope>provided</scope>
         </dependency>
-         <!--Worldguard dependency-->
+         <!--Worldedit dependency-->
         <dependency>
                 <groupId>com.sk89q.worldedit</groupId>
                 <artifactId>worldedit-bukkit</artifactId>
