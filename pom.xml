@@ -21,11 +21,6 @@
             <id>worldedit-worldguard-repo</id>
             <url>http://maven.sk89q.com/repo/</url>
         </repository>
-        <!--Used to resolve WorldGuard's issue with acquiring Bukkit 1.6.2 for whatever reason. See PR #340 and #343-->
-        <repository>
-            <id>codemc-repo</id>
-            <url>https://repo.codemc.org/repository/maven-public/</url>
-        </repository>
 
     </repositories>
     <build>
