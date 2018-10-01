@@ -93,7 +93,11 @@ public class Odds {
 	}
 	
 	public Vector getRandomVelocity() {
-		return new Vector(random.nextDouble() * 2.0 - 1.0, 0, random.nextDouble() * 2.0 - 1.0);
+		return getRandomVelocity(1.0);
+	}
+	
+	public Vector getRandomVelocity(double delta) {
+		return new Vector((random.nextDouble() * delta * 2) - delta, 0, (random.nextDouble() * delta * 2) - delta);
 	}
 	
 	public int getShimmy() {
