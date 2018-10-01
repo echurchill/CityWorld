@@ -5,6 +5,7 @@ import java.util.Random;
 import org.bukkit.Material;
 import org.bukkit.TreeSpecies;
 import org.bukkit.block.BlockFace;
+import org.bukkit.util.Vector;
 
 public class Odds {
 
@@ -89,6 +90,10 @@ public class Odds {
 	
 	public double calcRandomRange(double min, double max) {
 		return min + (random.nextDouble() * (max - min + 1));
+	}
+	
+	public Vector getRandomVelocity() {
+		return new Vector(random.nextDouble() * 2.0 - 1.0, 0, random.nextDouble() * 2.0 - 1.0);
 	}
 	
 	public int getShimmy() {

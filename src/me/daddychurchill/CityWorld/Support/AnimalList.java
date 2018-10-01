@@ -13,10 +13,10 @@ public class AnimalList extends EntityList {
 	}
 
 	@Override
-	public int getHerdSize(EntityType entity) {
+	public int getHerdSize(Odds odds, EntityType entity) {
 		switch (entity) {
 		default:
-			return super.getHerdSize(entity);
+			return odds.getRandomInt(1, 6);
 		case WOLF:
 		case OCELOT:
 			return 1;
@@ -27,11 +27,7 @@ public class AnimalList extends EntityList {
 		case MUSHROOM_COW:
 		case SHEEP:
 		case PIG:
-			return 2;
-		case RABBIT:
-			return 4;
-		case CHICKEN:
-			return 6;
+			return odds.getRandomInt(1, 3);
 		}
 	}
 	

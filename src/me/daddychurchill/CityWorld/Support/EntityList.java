@@ -55,12 +55,19 @@ public class EntityList {
 		return items == null ? 0 : items.size();
 	}
 	
-	public int getHerdSize(EntityType entity) {
+	public int getHerdSize(Odds odds, EntityType entity) {
 		return 1;
 	}
 	
+	private EntityType getFirstEntity() {
+		if (items == null || count() == 0)
+			return EntityType.UNKNOWN;
+		else
+			return items.get(0);
+	}
+	
 	public EntityType getRandomEntity(Odds odds) {
-		return getRandomEntity(odds, EntityType.UNKNOWN);
+		return getRandomEntity(odds, getFirstEntity());
 	}
 	
 	public EntityType getRandomEntity(Odds odds, EntityType defaultEntity) {

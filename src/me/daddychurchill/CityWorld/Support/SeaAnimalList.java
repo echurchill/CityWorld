@@ -15,14 +15,15 @@ public class SeaAnimalList extends EntityList {
 	}
 
 	@Override
-	public int getHerdSize(EntityType entity) {
+	public int getHerdSize(Odds odds, EntityType entity) {
 		switch (entity) {
 		default:
-			return super.getHerdSize(entity);
-		case GUARDIAN:
-			return 1;
+			return odds.getRandomInt(3, 6);
 		case SQUID:
-			return 4;
+			return odds.getRandomInt(1, 3);
+		case GUARDIAN:
+		case ELDER_GUARDIAN:
+			return 1;
 		}
 	}
 }

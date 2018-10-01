@@ -51,6 +51,8 @@ public class SpawnProvider extends Provider {
 			EntityType.ZOMBIE,
 			EntityType.ZOMBIE,
 			EntityType.ZOMBIE,
+			EntityType.ZOMBIE_HORSE,
+			EntityType.ZOMBIE_VILLAGER,
 			EntityType.SPIDER,
 			EntityType.SPIDER,
 			EntityType.SPIDER,
@@ -58,6 +60,7 @@ public class SpawnProvider extends Provider {
 			EntityType.WITCH,
 			EntityType.PIG_ZOMBIE,
 			EntityType.ENDERMAN,
+			EntityType.PHANTOM,
 			EntityType.BLAZE);
 	
 	public final static String tagEntities_Animals = "Entities_For_Animals";
@@ -72,6 +75,8 @@ public class SpawnProvider extends Provider {
 			EntityType.SHEEP,
 			EntityType.PIG,
 			EntityType.PIG,
+			EntityType.PARROT,
+			EntityType.PARROT,
 			EntityType.CHICKEN,
 			EntityType.CHICKEN,
 			EntityType.CHICKEN,
@@ -87,16 +92,26 @@ public class SpawnProvider extends Provider {
 	
 	public final static String tagEntities_SeaAnimals = "Entities_For_SeaAnimals";
 	public EntityList itemsEntities_SeaAnimals = createSeaAnimalList(tagEntities_SeaAnimals,
+			EntityType.TROPICAL_FISH,
+			EntityType.TROPICAL_FISH,
+			EntityType.TROPICAL_FISH,
+			EntityType.TROPICAL_FISH,
+			EntityType.TROPICAL_FISH,
+			EntityType.PUFFERFISH,
+			EntityType.PUFFERFISH,
+			EntityType.PUFFERFISH,
+			EntityType.SALMON,
+			EntityType.SALMON,
+			EntityType.SALMON,
+			EntityType.DOLPHIN,
+			EntityType.DOLPHIN,
+//			EntityType.GUARDIAN,
+//			EntityType.ELDER_GUARDIAN,
 			EntityType.SQUID,
 			EntityType.SQUID,
-			EntityType.SQUID,
-			EntityType.SQUID,
-			EntityType.SQUID,
-			EntityType.SQUID,
-			EntityType.SQUID,
-			EntityType.SQUID,
-			EntityType.SQUID,
-			EntityType.GUARDIAN);
+			EntityType.COD,
+			EntityType.COD,
+			EntityType.COD);
 	
 	public final static String tagEntities_Vagrants = "Entities_For_Vagrants";
 	public EntityList itemsEntities_Vagrants = createList(tagEntities_Vagrants,
@@ -149,7 +164,8 @@ public class SpawnProvider extends Provider {
 	public EntityList itemsEntities_Bunker = createList(tagEntities_Bunker,
 			EntityType.PIG_ZOMBIE,
 			EntityType.ENDERMAN,
-			EntityType.BAT,
+			EntityType.EVOKER,
+			EntityType.ILLUSIONER,
 			EntityType.BAT,
 			EntityType.BAT,
 			EntityType.BLAZE);
@@ -190,29 +206,19 @@ public class SpawnProvider extends Provider {
 	
 	public final void spawnAnimals(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z, EntityType entity) {
 		if (!generator.settings.includeDecayedBuildings) {
-			switch (itemsEntities_Animals.getHerdSize(entity)) {
-			default:
+			int herdSize = itemsEntities_SeaAnimals.getHerdSize(odds, entity);
+			if (herdSize > 0)
 				spawnAnimal(generator, blocks, odds, x, y, z, entity);
-				break;
-			case 2:
-				spawnAnimal(generator, blocks, odds, x, y, z, entity);
+			if (herdSize > 1)
 				spawnAnimal(generator, blocks, odds, x + 1, y, z, entity);
-				break;
-			case 4:
-				spawnAnimal(generator, blocks, odds, x, y, z, entity);
-				spawnAnimal(generator, blocks, odds, x + 1, y, z, entity);
+			if (herdSize > 2)
 				spawnAnimal(generator, blocks, odds, x, y, z + 1, entity);
+			if (herdSize > 3)
 				spawnAnimal(generator, blocks, odds, x + 1, y, z + 1, entity);
-				break;
-			case 6:
+			if (herdSize > 4)
+				spawnAnimal(generator, blocks, odds, x - 1, y, z, entity);
+			if (herdSize > 5)
 				spawnAnimal(generator, blocks, odds, x, y, z - 1, entity);
-				spawnAnimal(generator, blocks, odds, x + 1, y, z - 1, entity);
-				spawnAnimal(generator, blocks, odds, x, y, z, entity);
-				spawnAnimal(generator, blocks, odds, x + 1, y, z, entity);
-				spawnAnimal(generator, blocks, odds, x, y, z + 1, entity);
-				spawnAnimal(generator, blocks, odds, x + 1, y, z + 1, entity);
-				break;
-			}
 		}
 	}
 	
@@ -228,36 +234,28 @@ public class SpawnProvider extends Provider {
 	
 	private final void spawnSeaAnimals(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z, EntityType entity) {
 		if (!generator.settings.includeDecayedBuildings) {
-			switch (itemsEntities_SeaAnimals.getHerdSize(entity)) {
-			default:
+			int herdSize = itemsEntities_SeaAnimals.getHerdSize(odds, entity);
+			if (herdSize > 0)
 				spawnSeaAnimal(generator, blocks, odds, x, y, z, entity);
-				break;
-			case 2:
-				spawnSeaAnimal(generator, blocks, odds, x, y, z, entity);
+			if (herdSize > 1)
 				spawnSeaAnimal(generator, blocks, odds, x + 1, y, z, entity);
-				break;
-			case 4:
-				spawnSeaAnimal(generator, blocks, odds, x, y, z, entity);
-				spawnSeaAnimal(generator, blocks, odds, x + 1, y, z, entity);
+			if (herdSize > 2)
 				spawnSeaAnimal(generator, blocks, odds, x, y, z + 1, entity);
+			if (herdSize > 3)
 				spawnSeaAnimal(generator, blocks, odds, x + 1, y, z + 1, entity);
-				break;
-			case 6:
+			if (herdSize > 4)
+				spawnSeaAnimal(generator, blocks, odds, x - 1, y, z, entity);
+			if (herdSize > 5)
 				spawnSeaAnimal(generator, blocks, odds, x, y, z - 1, entity);
-				spawnSeaAnimal(generator, blocks, odds, x + 1, y, z - 1, entity);
-				spawnSeaAnimal(generator, blocks, odds, x, y, z, entity);
-				spawnSeaAnimal(generator, blocks, odds, x + 1, y, z, entity);
-				spawnSeaAnimal(generator, blocks, odds, x, y, z + 1, entity);
-				spawnSeaAnimal(generator, blocks, odds, x + 1, y, z + 1, entity);
-				break;
-			}
 		}
 	}
 	
 	private final void spawnSeaAnimal(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z, EntityType entity) {
 		if (odds.playOdds(generator.settings.spawnAnimals) &&
 			blocks.isWater(x, y - 1, z) && blocks.isWater(x, y, z)) {
-//			blocks.setBlock(x, y, z, Material.GLOWSTONE);
+			//@@
+//			blocks.setBlock(x, y + 10, z, Material.GLOWSTONE);
+//			blocks.setSignPost(x, y + 11, z, BlockFace.EAST, "Spawn", entity.name());
 			spawnEntity(generator, blocks, odds, x, y, z, entity, true, false);
 		}
 	}
@@ -345,6 +343,8 @@ public class SpawnProvider extends Provider {
 				// now spawn it!
 				Entity being = world.spawnEntity(at, entity);
 				if (being != null) {
+					being.setVelocity(odds.getRandomVelocity());
+					
 					if (generator.settings.nameVillagers && entity == EntityType.VILLAGER) {
 						String beingName = generator.odonymProvider.generateVillagerName(generator, odds);
 						being.setCustomName(beingName);
