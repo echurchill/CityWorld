@@ -5,6 +5,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.IsolatedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
@@ -47,7 +48,7 @@ public class WaterTowerLot extends IsolatedLot {
 	}
 
 	@Override
-	public int getTopY(CityWorldGenerator generator) {
+	public int getTopY(CityWorldGenerator generator, CachedYs blockYs, int x, int z) {
 		return generator.streetLevel + 15;
 	}
 }

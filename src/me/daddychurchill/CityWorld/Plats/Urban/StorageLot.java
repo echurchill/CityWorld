@@ -5,6 +5,7 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.BuildingLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
+import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
@@ -97,14 +98,18 @@ public class StorageLot extends BuildingLot {
 			destroyLot(generator, groundY, groundY + 4);
 		generator.spawnProvider.spawnBeing(generator, chunk, chunkOdds, 7, groundY, 7);
 	}
-
+	
 	@Override
 	public int getBottomY(CityWorldGenerator generator) {
 		return generator.streetLevel;
 	}
 
 	@Override
-	public int getTopY(CityWorldGenerator generator) {
+	public int getTopY(CityWorldGenerator generator, CachedYs blockYs, int x, int z) {
+		return getTopY(generator);
+	}
+
+	private int getTopY(CityWorldGenerator generator) {
 		return generator.streetLevel + DataContext.FloorHeight * 3 + 1;
 	}
 

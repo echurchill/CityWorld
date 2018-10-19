@@ -126,15 +126,29 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 				// trees? but only if we are not too close to the edge
 				if (includeTrees) {
 					if (generator.settings.includeAbovegroundFluids) {
-						if (primary < reedOdds) {
-							if (chunk.isType(x, y, z, Material.SAND)) {
-								foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.REED);
-							}
+						if (y < generator.seaLevel) {
+//							chunk.setBlocks(x, y, y + 10, z, Material.IRON_BLOCK);
+							foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageSets.SEA_PLANTS);
+							
 						}
 					} else {
-						
+//						chunk.setBlocks(x, y, y + 10, z, Material.GOLD_BLOCK);
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageSets.SEA_PLANTS);
 					}
 				}
+				
+//				// trees? but only if we are not too close to the edge
+//				if (includeTrees) {
+//					if (generator.settings.includeAbovegroundFluids) {
+//						if (primary < reedOdds) {
+//							if (chunk.isType(x, y, z, Material.SAND)) {
+//								foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.REED);
+//							}
+//						}
+//					} else {
+//						
+//					}
+//				}
 				
 			// regular trees, grass and flowers only
 			} else if (y < generator.treeLevel) {

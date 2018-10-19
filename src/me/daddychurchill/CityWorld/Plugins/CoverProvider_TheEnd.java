@@ -99,6 +99,13 @@ public class CoverProvider_TheEnd extends CoverProvider_Normal {
 		case RED_MUSHROOM:
 		case NETHERWART:
 		case FIRE:
+		case BRAIN_CORAL:
+		case BUBBLE_CORAL:
+		case FIRE_CORAL:
+		case HORN_CORAL:
+		case KELP:
+		case SEAGRASS:
+		case TUBE_CORAL:
 			super.setCoverage(generator, chunk, x, y, z, coverageType);
 			break;
 		}

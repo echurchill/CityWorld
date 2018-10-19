@@ -8,6 +8,7 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Rooms.Populators.FactoryWithStuff;
+import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -66,8 +67,8 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 	}
 	
 	@Override
-	public int getTopY(CityWorldGenerator generator) {
-		return Math.max(super.getTopY(generator), generator.structureLevel + DataContext.FloorHeight * 10);
+	public int getTopY(CityWorldGenerator generator, CachedYs blockYs, int x, int z) {
+		return Math.max(super.getTopY(generator, blockYs, x, z), generator.structureLevel + DataContext.FloorHeight * 10);
 	}
 	
 	@Override

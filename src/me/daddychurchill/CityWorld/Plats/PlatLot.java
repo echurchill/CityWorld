@@ -146,7 +146,7 @@ public abstract class PlatLot {
 	}
 	
 	public abstract int getBottomY(CityWorldGenerator generator);
-	public abstract int getTopY(CityWorldGenerator generator);
+	public abstract int getTopY(CityWorldGenerator generator, CachedYs blockYs, int x, int z);
 
 	//TODO: It seems that Spigot is generating the real blocks twice (generateBlocks) for each time the blocks are initialized (generateChunk)
 //	private static int totalNumberOfLotsOverGenerated = 0;

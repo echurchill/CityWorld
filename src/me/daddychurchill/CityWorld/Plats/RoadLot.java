@@ -9,6 +9,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Support.AbstractBlocks;
+import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -161,7 +162,7 @@ public class RoadLot extends ConnectedLot {
 	}
 	
 	@Override
-	public int getTopY(CityWorldGenerator generator) {
+	public int getTopY(CityWorldGenerator generator, CachedYs blockYs, int x, int z) {
 		return generator.streetLevel + DataContext.FloorHeight * 2 + 1; //TODO is this really right?
 	}
 	

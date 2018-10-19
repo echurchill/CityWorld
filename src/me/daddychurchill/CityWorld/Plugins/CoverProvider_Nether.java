@@ -52,6 +52,13 @@ public class CoverProvider_Nether extends CoverProvider_Decayed {
 		case FERN:
 		case CACTUS:
 		case REED:
+		case BRAIN_CORAL:
+		case BUBBLE_CORAL:
+		case FIRE_CORAL:
+		case HORN_CORAL:
+		case KELP:
+		case SEAGRASS:
+		case TUBE_CORAL:
 
 		case OAK_SAPLING:
 		case PINE_SAPLING:

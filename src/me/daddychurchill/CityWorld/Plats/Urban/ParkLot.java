@@ -9,6 +9,7 @@ import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.MazeArray;
 import me.daddychurchill.CityWorld.Support.MazeArray.MazeBit;
+import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.SurroundingLots;
@@ -106,7 +107,7 @@ public class ParkLot extends ConnectedLot {
 	}
 
 	@Override
-	public int getTopY(CityWorldGenerator generator) {
+	public int getTopY(CityWorldGenerator generator, CachedYs blockYs, int x, int z) {
 		return generator.streetLevel + DataContext.FloorHeight * 3 + 1;
 	}
 

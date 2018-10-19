@@ -188,12 +188,10 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 		// let the other guy do it's thing
 		super.postGenerateBlocks(generator, lot, chunk, blockYs);
 		
-		// where to start?
-		int topY = lot.getTopY(generator);
-		
 		// now sprinkle snow
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {
+				int topY = lot.getTopY(generator, blockYs, x, z);
 				double snowCoverY = findPerciseFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 				int y = Math.max(topY, NoiseGenerator.floor(snowCoverY));
 				int snowY = chunk.findFirstEmpty(x, y, z, y - 1, y + 6);

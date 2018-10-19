@@ -12,6 +12,7 @@ import me.daddychurchill.CityWorld.Factories.OutsideWEWallFactory;
 import me.daddychurchill.CityWorld.Plats.Urban.ConcreteLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Plugins.StructureInAirProvider;
+import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Mapper;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -307,7 +308,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	}
 	
 	@Override
-	public int getTopY(CityWorldGenerator generator) {
+	public int getTopY(CityWorldGenerator generator, CachedYs blockYs, int x, int z) {
 		return generator.streetLevel + firstFloorHeight + (height * aboveFloorHeight);
 	}
 	

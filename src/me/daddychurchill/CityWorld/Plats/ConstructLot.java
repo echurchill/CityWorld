@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plats;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
+import me.daddychurchill.CityWorld.Support.CachedYs;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public abstract class ConstructLot extends IsolatedLot {
@@ -26,7 +27,7 @@ public abstract class ConstructLot extends IsolatedLot {
 	}
 
 	@Override
-	public int getTopY(CityWorldGenerator generator) {
+	public int getTopY(CityWorldGenerator generator, CachedYs blockYs, int x, int z) {
 		// TODO Auto-generated method stub
 		return generator.streetLevel;
 	}

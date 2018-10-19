@@ -129,7 +129,7 @@ public class BunkerLot extends ConnectedLot {
 	}
 	
 	@Override
-	public int getTopY(CityWorldGenerator generator) {
+	public int getTopY(CityWorldGenerator generator, CachedYs blockYs, int x, int z) {
 		return topOfBunker;
 	}
 

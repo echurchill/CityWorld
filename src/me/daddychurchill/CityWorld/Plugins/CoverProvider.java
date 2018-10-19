@@ -41,7 +41,23 @@ public abstract class CoverProvider extends Provider {
 
 //		TALL_BROWN_MUSHROOM, TALL_RED_MUSHROOM,
 		BROWN_MUSHROOM, RED_MUSHROOM, NETHERWART,
+		
+		BRAIN_CORAL, BUBBLE_CORAL, FIRE_CORAL, HORN_CORAL, TUBE_CORAL, SEAGRASS, KELP,
+		
 		FIRE};
+		
+	/*
+    BUBBLE_COLUMN(13758, BubbleColumn.class),
+
+
+    SEAGRASS(23942),
+    TALL_SEAGRASS(27189, Bisected.class),
+    
+    SEA_LANTERN(16984),
+    SEA_PICKLE(19562, SeaPickle.class),
+
+
+	 */
 	
 	public enum CoverageSets {SHORT_FLOWERS, TALL_FLOWERS, ALL_FLOWERS,
 		SHORT_PLANTS, TALL_PLANTS, ALL_PLANTS,
@@ -50,7 +66,8 @@ public abstract class CoverProvider extends Provider {
 		JUNGLE_TREES, ACACIA_TREES, SWAMP_TREES, 
 		SHORT_TREES, MEDIUM_TREES, TALL_TREES, ALL_TREES,
 		PRARIE_PLANTS, EDIBLE_PLANTS, SHORT_MUSHROOMS, 
-		NETHER_PLANTS, DECAY_PLANTS};
+		NETHER_PLANTS, DECAY_PLANTS,
+		SEA_PLANTS};
 								
 	private final static CoverageType[] ShortFlowers = {
 		CoverageType.DANDELION, CoverageType.POPPY, 
@@ -173,6 +190,13 @@ public abstract class CoverProvider extends Provider {
 		CoverageType.BROWN_MUSHROOM, CoverageType.RED_MUSHROOM,
 		CoverageType.DEAD_BUSH};
 	
+	private final static CoverageType[] SeaPlants = {
+			CoverageType.BRAIN_CORAL, CoverageType.BUBBLE_CORAL, 
+			CoverageType.FIRE_CORAL, CoverageType.HORN_CORAL, 
+			CoverageType.TUBE_CORAL, CoverageType.SEAGRASS,
+			CoverageType.KELP
+	};
+	
 	protected final static double oddsOfDarkCover = Odds.oddsLikely;
 	protected Odds odds;
 	
@@ -262,6 +286,9 @@ public abstract class CoverProvider extends Provider {
 			break;
 		case TALL_PLANTS:
 			generateRandomCoverage(generator, chunk, x, y, z, TallPlants);
+			break;
+		case SEA_PLANTS:
+			generateRandomCoverage(generator, chunk, x, y, z, SeaPlants);
 			break;
 		}
 	}
@@ -448,6 +475,73 @@ public abstract class CoverProvider extends Provider {
 			chunk.setBlock(x, y, z, Material.FIRE);
 			break;
 			
+		case BRAIN_CORAL:
+			if (y < generator.seaLevel || !generator.settings.includeAbovegroundFluids)
+				generateCoral(generator, chunk, x, y, z, Material.BRAIN_CORAL, Material.BRAIN_CORAL_FAN, Material.BRAIN_CORAL_WALL_FAN, Material.BRAIN_CORAL_BLOCK);
+			else
+				generateCoral(generator, chunk, x, y, z, Material.DEAD_BRAIN_CORAL, Material.DEAD_BRAIN_CORAL_FAN, Material.DEAD_BRAIN_CORAL_WALL_FAN, Material.DEAD_BRAIN_CORAL_BLOCK);
+			break;
+		case BUBBLE_CORAL:
+			if (y < generator.seaLevel || !generator.settings.includeAbovegroundFluids)
+				generateCoral(generator, chunk, x, y, z, Material.BUBBLE_CORAL, Material.BUBBLE_CORAL_FAN, Material.BUBBLE_CORAL_WALL_FAN, Material.BUBBLE_CORAL_BLOCK);
+			else
+				generateCoral(generator, chunk, x, y, z, Material.DEAD_BUBBLE_CORAL, Material.DEAD_BUBBLE_CORAL_FAN, Material.DEAD_BUBBLE_CORAL_WALL_FAN, Material.DEAD_BUBBLE_CORAL_BLOCK);
+			break;
+		case FIRE_CORAL:
+			if (y < generator.seaLevel || !generator.settings.includeAbovegroundFluids)
+				generateCoral(generator, chunk, x, y, z, Material.FIRE_CORAL, Material.FIRE_CORAL_FAN, Material.FIRE_CORAL_WALL_FAN, Material.FIRE_CORAL_BLOCK);
+			else
+				generateCoral(generator, chunk, x, y, z, Material.DEAD_FIRE_CORAL, Material.DEAD_FIRE_CORAL_FAN, Material.DEAD_FIRE_CORAL_WALL_FAN, Material.DEAD_FIRE_CORAL_BLOCK);
+			break;
+		case HORN_CORAL:
+			if (y < generator.seaLevel || !generator.settings.includeAbovegroundFluids)
+				generateCoral(generator, chunk, x, y, z, Material.HORN_CORAL, Material.HORN_CORAL_FAN, Material.HORN_CORAL_WALL_FAN, Material.HORN_CORAL_BLOCK);
+			else
+				generateCoral(generator, chunk, x, y, z, Material.DEAD_HORN_CORAL, Material.DEAD_HORN_CORAL_FAN, Material.DEAD_HORN_CORAL_WALL_FAN, Material.DEAD_HORN_CORAL_BLOCK);
+			break;
+		case TUBE_CORAL:
+			if (y < generator.seaLevel || !generator.settings.includeAbovegroundFluids)
+				generateCoral(generator, chunk, x, y, z, Material.TUBE_CORAL, Material.TUBE_CORAL_FAN, Material.TUBE_CORAL_WALL_FAN, Material.TUBE_CORAL_BLOCK);
+			else
+				generateCoral(generator, chunk, x, y, z, Material.DEAD_TUBE_CORAL, Material.DEAD_TUBE_CORAL_FAN, Material.DEAD_TUBE_CORAL_WALL_FAN, Material.DEAD_TUBE_CORAL_BLOCK);
+			break;
+		case SEAGRASS:
+			if (y < generator.seaLevel) {
+				if (generator.settings.includeAbovegroundFluids) {
+					if (odds.flipCoin())
+						chunk.setBlock(x, y, z, Material.SEAGRASS);
+					else
+						chunk.setTallBlock(x, y, z, Material.TALL_SEAGRASS);
+					} else
+						chunk.setBlock(x, y, z, Material.DEAD_BUSH);
+			}
+			// if under water then
+			//   randomly
+			//     place seagrass or tall seagrass
+			//Material.SEAGRASS;
+			//Material.TALL_SEAGRASS;
+			//Seagrass generates in either its tall or small form in ocean biomes near kelp, 
+			break;
+			
+		case KELP:
+			if (y < generator.seaLevel) {
+				if (generator.settings.includeAbovegroundFluids) {
+					if (odds.flipCoin())
+						chunk.setBlock(x, y, z, Material.KELP);
+					else {
+						int h = generator.seaLevel - y - 1;
+						if (h > 0) {
+							chunk.setBlocks(x, y, y + h - 1, z, Material.KELP_PLANT);
+							chunk.setBlock(x, y + h, z, Material.KELP, 0.50);
+						}
+					}
+				} else
+					chunk.setBlock(x, y, z, Material.DEAD_BUSH);
+			}
+			//Material.KELP;
+			//Kelp naturally generates in any ocean biomes except warm ocean, near and around seagrass.
+			break;
+			
 		default:
 			if (odds.playOdds(generator.settings.spawnTrees))
 				switch (coverageType) {
@@ -568,17 +662,26 @@ public abstract class CoverProvider extends Provider {
 		}
 	}
 	
-//	private Crops getRandomCropState() {
-//		return getRandomCropState(CropState.values().length);
-//	}
-//	
-//	private Crops getRandomCropState(int max) {
-//		return new Crops(CropState.values()[odds.getRandomInt(max)]);
-//	}
-//	
-//	private NetherWarts getRandomNetherWartState() {
-//		return new NetherWarts(NetherWartsState.values()[odds.getRandomInt(NetherWartsState.values().length)]);
-//	}
+	protected void generateCoral(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, 
+			Material coral, Material coralFan, Material coralWall, Material coralBlock) {
+		// if under water then living ones
+		//   if on sand then 
+		//     maybe turn it into a coral block
+		//
+		//   if beside brain coral block then 
+		//     place wall fan
+		//   else randomly 
+		//     place coral or fan coral
+		// else above water
+		//   same as above but dead ones
+//		on dirt, coarse dirt, sand, red sand or gravel underwater
+//		Corals naturally generate in coral reef structures found in warm ocean biomes.
+		if (odds.playOdds(Odds.oddsPrettyLikely))
+			chunk.setBlock(x, y, z, coral);
+		else {
+			chunk.setBlocks(x, y, generator.seaLevel, z, coralBlock);
+		}
+	}
 	
 	protected boolean likelyCover(CityWorldGenerator generator) {
 		return !generator.settings.darkEnvironment || odds.playOdds(oddsOfDarkCover);
