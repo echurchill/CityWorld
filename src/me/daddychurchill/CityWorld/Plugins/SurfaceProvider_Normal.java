@@ -121,22 +121,18 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 		} else {
 			
 			// below sea level?
-			if (y <= generator.seaLevel) {
+			if (y < generator.seaLevel) {
+				if (generator.settings.includeAbovegroundFluids) {
 				
-				// trees? but only if we are not too close to the edge
-				if (includeTrees) {
-					if (generator.settings.includeAbovegroundFluids) {
-						if (y < generator.seaLevel) {
-//							chunk.setBlocks(x, y, y + 10, z, Material.IRON_BLOCK);
-							foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageSets.SEA_PLANTS);
-							
-						}
+					// trees? but only if we are not too close to the edge
+					if (includeTrees && primary < treeOdds && x % 2 == 0 && z % 2 != 0) {
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageSets.SEA_CORALS);
 					} else {
-//						chunk.setBlocks(x, y, y + 10, z, Material.GOLD_BLOCK);
 						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageSets.SEA_PLANTS);
 					}
-				}
-				
+				} else
+					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.DEAD_BUSH);
+					
 //				// trees? but only if we are not too close to the edge
 //				if (includeTrees) {
 //					if (generator.settings.includeAbovegroundFluids) {

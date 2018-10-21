@@ -358,6 +358,10 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 	
+	public final void setBlockRandomly(int x, int y, int z, Odds odds, Material ... materials) {
+		setBlock(x, y, z, odds.getRandomMaterial(materials));
+	}
+	
 	public final void setVine(int x, int y, int z, BlockFace ... faces) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(Material.VINE, false);

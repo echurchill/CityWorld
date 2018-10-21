@@ -7,6 +7,7 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 import org.bukkit.Material;
 import org.bukkit.TreeType;
+import org.bukkit.block.BlockFace;
 
 public abstract class CoverProvider extends Provider {
 	
@@ -67,7 +68,7 @@ public abstract class CoverProvider extends Provider {
 		SHORT_TREES, MEDIUM_TREES, TALL_TREES, ALL_TREES,
 		PRARIE_PLANTS, EDIBLE_PLANTS, SHORT_MUSHROOMS, 
 		NETHER_PLANTS, DECAY_PLANTS,
-		SEA_PLANTS};
+		SEA_PLANTS, SEA_CORALS};
 								
 	private final static CoverageType[] ShortFlowers = {
 		CoverageType.DANDELION, CoverageType.POPPY, 
@@ -191,11 +192,12 @@ public abstract class CoverProvider extends Provider {
 		CoverageType.DEAD_BUSH};
 	
 	private final static CoverageType[] SeaPlants = {
+			CoverageType.SEAGRASS, CoverageType.KELP};
+	
+	private final static CoverageType[] SeaCoral = {
 			CoverageType.BRAIN_CORAL, CoverageType.BUBBLE_CORAL, 
 			CoverageType.FIRE_CORAL, CoverageType.HORN_CORAL, 
-			CoverageType.TUBE_CORAL, CoverageType.SEAGRASS,
-			CoverageType.KELP
-	};
+			CoverageType.TUBE_CORAL};
 	
 	protected final static double oddsOfDarkCover = Odds.oddsLikely;
 	protected Odds odds;
@@ -289,6 +291,9 @@ public abstract class CoverProvider extends Provider {
 			break;
 		case SEA_PLANTS:
 			generateRandomCoverage(generator, chunk, x, y, z, SeaPlants);
+			break;
+		case SEA_CORALS:
+			generateRandomCoverage(generator, chunk, x, y, z, SeaCoral);
 			break;
 		}
 	}
@@ -506,14 +511,16 @@ public abstract class CoverProvider extends Provider {
 				generateCoral(generator, chunk, x, y, z, Material.DEAD_TUBE_CORAL, Material.DEAD_TUBE_CORAL_FAN, Material.DEAD_TUBE_CORAL_WALL_FAN, Material.DEAD_TUBE_CORAL_BLOCK);
 			break;
 		case SEAGRASS:
-			if (y < generator.seaLevel) {
+			if (y < generator.seaLevel && odds.playOdds(Odds.oddsLikely)) {
 				if (generator.settings.includeAbovegroundFluids) {
-					if (odds.flipCoin())
-						chunk.setBlock(x, y, z, Material.SEAGRASS);
-					else
-						chunk.setTallBlock(x, y, z, Material.TALL_SEAGRASS);
-					} else
-						chunk.setBlock(x, y, z, Material.DEAD_BUSH);
+					if (chunk.isWater(x, y, z) && !chunk.isWater(x, y - 1, z)) {
+						if (odds.flipCoin())
+							chunk.setBlock(x, y, z, Material.SEAGRASS);
+						else if (chunk.isWater(x, y + 1, z))
+							chunk.setTallBlock(x, y, z, Material.TALL_SEAGRASS);
+					}
+				} else
+					chunk.setBlock(x, y, z, Material.DEAD_BUSH);
 			}
 			// if under water then
 			//   randomly
@@ -524,15 +531,19 @@ public abstract class CoverProvider extends Provider {
 			break;
 			
 		case KELP:
-			if (y < generator.seaLevel) {
+			if (y < generator.seaLevel && odds.playOdds(Odds.oddsLikely)) {
 				if (generator.settings.includeAbovegroundFluids) {
-					if (odds.flipCoin())
-						chunk.setBlock(x, y, z, Material.KELP);
-					else {
-						int h = generator.seaLevel - y - 1;
-						if (h > 0) {
-							chunk.setBlocks(x, y, y + h - 1, z, Material.KELP_PLANT);
-							chunk.setBlock(x, y + h, z, Material.KELP, 0.50);
+					if (chunk.isWater(x, y, z) && !chunk.isWater(x, y - 1, z)) {
+						if (odds.flipCoin())
+							chunk.setBlock(x, y, z, Material.KELP);
+						else {
+							int h = (generator.seaLevel - y) / 3 * 2;
+							if (h > 0) {
+								h = odds.getRandomInt(h);
+								chunk.setBlocks(x, y, y + h, z, Material.KELP_PLANT);
+								chunk.setBlock(x, y + h, z, Material.KELP, 0.50);
+							} else
+								chunk.setBlock(x, y, z, Material.KELP, 0.50);
 						}
 					}
 				} else
@@ -668,7 +679,7 @@ public abstract class CoverProvider extends Provider {
 		//   if on sand then 
 		//     maybe turn it into a coral block
 		//
-		//   if beside brain coral block then 
+		//   if beside coral block then 
 		//     place wall fan
 		//   else randomly 
 		//     place coral or fan coral
@@ -676,10 +687,56 @@ public abstract class CoverProvider extends Provider {
 		//   same as above but dead ones
 //		on dirt, coarse dirt, sand, red sand or gravel underwater
 //		Corals naturally generate in coral reef structures found in warm ocean biomes.
-		if (odds.playOdds(Odds.oddsPrettyLikely))
-			chunk.setBlock(x, y, z, coral);
-		else {
-			chunk.setBlocks(x, y, generator.seaLevel, z, coralBlock);
+		if (chunk.isWater(x, y, z) && !chunk.isWater(x, y - 1, z)) {
+			if (odds.playOdds(Odds.oddsPrettyLikely))
+				chunk.setBlockRandomly(x, y, z, odds, coral, coralFan);
+			else {
+				int xW = odds.getRandomInt(2, 5);
+				int xH = xW / 2;
+				int zW = odds.getRandomInt(2, 5);
+				int zH = zW / 2;
+				int x1 = chunk.clampXZ(x - xH);
+				int x2 = chunk.clampXZ(x1 + xW);
+				int z1 = chunk.clampXZ(z - zH);
+				int z2 = chunk.clampXZ(z1 + zW);
+				
+				int y1 = y - 1;
+				int y2 = y + odds.getRandomInt(Math.max(2, (generator.seaLevel - y) / 3 * 2));
+
+				// coral itself
+				for (int xI = x1; xI < x2; xI++)
+					for (int zI = z1; zI < z2; zI++) {
+						for (int yI = y1; yI < y2; yI++)
+							if (odds.playOdds(Odds.oddsPrettyLikely))
+								chunk.setBlock(xI, yI, zI, coralBlock);
+						
+						// top fans
+						if (odds.playOdds(Odds.oddsLikely) && chunk.isWater(xI, y2, zI) && chunk.isType(xI, y2 - 1, zI, coralBlock))
+							chunk.setBlockRandomly(xI, y2, zI, odds, coral, coralFan);
+					}
+				
+				// north/south wall fans
+				for (int xI = x1; xI < x2; xI++) 
+					for (int yI = y1; yI < y2; yI++) {
+						if (chunk.insideXZ(z1 - 1))
+							if (odds.playOdds(Odds.oddsLikely) && chunk.isWater(xI, yI, z1 - 1) && chunk.isType(xI, yI, z1, coralBlock))
+								chunk.setBlock(xI, yI, z1 - 1, coralWall, BlockFace.NORTH);
+						if (chunk.insideXZ(z2))
+							if (odds.playOdds(Odds.oddsLikely) && chunk.isWater(xI, yI, z2) && chunk.isType(xI, yI, z2 - 1, coralBlock))
+								chunk.setBlock(xI, yI, z2, coralWall, BlockFace.SOUTH);
+					}
+
+				// west/east wall fans
+				for (int zI = z1; zI < z2; zI++) 
+					for (int yI = y1; yI < y2; yI++) {
+						if (chunk.insideXZ(x1 - 1))
+							if (odds.playOdds(Odds.oddsLikely) && chunk.isWater(x1 - 1, yI, zI) && chunk.isType(x1, yI, zI, coralBlock))
+								chunk.setBlock(x1 - 1, yI, zI, coralWall, BlockFace.WEST);
+						if (chunk.insideXZ(x2))
+							if (odds.playOdds(Odds.oddsLikely) && chunk.isWater(x2, yI, zI) && chunk.isType(x2 - 1, yI, zI, coralBlock))
+								chunk.setBlock(x2, yI, zI, coralWall, BlockFace.EAST);
+					}
+			}
 		}
 	}
 	

@@ -23,6 +23,14 @@ public abstract class AbstractBlocks {
 		this.height = generator.height;
 	}
 
+	public boolean insideXZ(int value) {
+		return value >= 0 && value < width;
+	}
+	
+	public boolean insideY(int value) {
+		return value >= 0 && value < height;
+	}
+	
 	public int clampXZ(int value) {
 		return Math.max(Math.min(value, sectionBlockWidth - 1), 0);
 	}
