@@ -691,12 +691,16 @@ public abstract class CoverProvider extends Provider {
 			if (odds.playOdds(Odds.oddsPrettyLikely))
 				chunk.setBlockRandomly(x, y, z, odds, coral, coralFan);
 			else {
-				int xW = odds.getRandomInt(2, 5);
-				int xH = xW / 2;
-				int zW = odds.getRandomInt(2, 5);
-				int zH = zW / 2;
+				double oddsOfBlocks = odds.calcRandomRange(Odds.oddsSomewhatUnlikely, Odds.oddsPrettyLikely);
+				double oddsOfTrim = odds.calcRandomRange(Odds.oddsSomewhatLikely, Odds.oddsVeryLikely);
+				
+				int xW = odds.getRandomInt(1, 4);
+				int xH = Math.max(1, xW / 2);
 				int x1 = chunk.clampXZ(x - xH);
 				int x2 = chunk.clampXZ(x1 + xW);
+
+				int zW = odds.getRandomInt(1, 4);
+				int zH = Math.max(1, zW / 2);
 				int z1 = chunk.clampXZ(z - zH);
 				int z2 = chunk.clampXZ(z1 + zW);
 				
@@ -707,11 +711,11 @@ public abstract class CoverProvider extends Provider {
 				for (int xI = x1; xI < x2; xI++)
 					for (int zI = z1; zI < z2; zI++) {
 						for (int yI = y1; yI < y2; yI++)
-							if (odds.playOdds(Odds.oddsPrettyLikely))
+							if (odds.playOdds(oddsOfBlocks))
 								chunk.setBlock(xI, yI, zI, coralBlock);
 						
 						// top fans
-						if (odds.playOdds(Odds.oddsLikely) && chunk.isWater(xI, y2, zI) && chunk.isType(xI, y2 - 1, zI, coralBlock))
+						if (odds.playOdds(oddsOfTrim) && chunk.isWater(xI, y2, zI) && chunk.isType(xI, y2 - 1, zI, coralBlock))
 							chunk.setBlockRandomly(xI, y2, zI, odds, coral, coralFan);
 					}
 				
@@ -719,10 +723,10 @@ public abstract class CoverProvider extends Provider {
 				for (int xI = x1; xI < x2; xI++) 
 					for (int yI = y1; yI < y2; yI++) {
 						if (chunk.insideXZ(z1 - 1))
-							if (odds.playOdds(Odds.oddsLikely) && chunk.isWater(xI, yI, z1 - 1) && chunk.isType(xI, yI, z1, coralBlock))
+							if (odds.playOdds(oddsOfTrim) && chunk.isWater(xI, yI, z1 - 1) && chunk.isType(xI, yI, z1, coralBlock))
 								chunk.setBlock(xI, yI, z1 - 1, coralWall, BlockFace.NORTH);
 						if (chunk.insideXZ(z2))
-							if (odds.playOdds(Odds.oddsLikely) && chunk.isWater(xI, yI, z2) && chunk.isType(xI, yI, z2 - 1, coralBlock))
+							if (odds.playOdds(oddsOfTrim) && chunk.isWater(xI, yI, z2) && chunk.isType(xI, yI, z2 - 1, coralBlock))
 								chunk.setBlock(xI, yI, z2, coralWall, BlockFace.SOUTH);
 					}
 
@@ -730,10 +734,10 @@ public abstract class CoverProvider extends Provider {
 				for (int zI = z1; zI < z2; zI++) 
 					for (int yI = y1; yI < y2; yI++) {
 						if (chunk.insideXZ(x1 - 1))
-							if (odds.playOdds(Odds.oddsLikely) && chunk.isWater(x1 - 1, yI, zI) && chunk.isType(x1, yI, zI, coralBlock))
+							if (odds.playOdds(oddsOfTrim) && chunk.isWater(x1 - 1, yI, zI) && chunk.isType(x1, yI, zI, coralBlock))
 								chunk.setBlock(x1 - 1, yI, zI, coralWall, BlockFace.WEST);
 						if (chunk.insideXZ(x2))
-							if (odds.playOdds(Odds.oddsLikely) && chunk.isWater(x2, yI, zI) && chunk.isType(x2 - 1, yI, zI, coralBlock))
+							if (odds.playOdds(oddsOfTrim) && chunk.isWater(x2, yI, zI) && chunk.isType(x2 - 1, yI, zI, coralBlock))
 								chunk.setBlock(x2, yI, zI, coralWall, BlockFace.EAST);
 					}
 			}

@@ -277,6 +277,48 @@ public class Colors {
 		}
 	}
 	
+	public Material getBed() {
+		return getBed(getRandomColor());
+	}
+	
+	public static Material getBed(DyeColor color) {
+		switch (color) {
+		default:
+		case BLACK:
+			return Material.BLACK_BED;
+		case BLUE:
+			return Material.BLUE_BED;
+		case BROWN:
+			return Material.BROWN_BED;
+		case CYAN:
+			return Material.CYAN_BED;
+		case GRAY:
+			return Material.GRAY_BED;
+		case GREEN:
+			return Material.GREEN_BED;
+		case LIGHT_BLUE:
+			return Material.LIGHT_BLUE_BED;
+		case LIGHT_GRAY:
+			return Material.LIGHT_GRAY_BED;
+		case LIME:
+			return Material.LIME_BED;
+		case MAGENTA:
+			return Material.MAGENTA_BED;
+		case ORANGE:
+			return Material.ORANGE_BED;
+		case PINK:
+			return Material.PINK_BED;
+		case PURPLE:
+			return Material.PURPLE_BED;
+		case RED:
+			return Material.RED_BED;
+		case WHITE:
+			return Material.WHITE_BED;
+		case YELLOW:
+			return Material.YELLOW_BED;
+		}
+	}
+	
 	public Material getTerracotta() {
 		return getTerracotta(getRandomColor());
 	}

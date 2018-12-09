@@ -20,6 +20,10 @@ import org.bukkit.block.data.Powerable;
 import org.bukkit.block.data.Rail;
 import org.bukkit.block.data.Rail.Shape;
 import org.bukkit.block.data.Rotatable;
+import org.bukkit.block.data.type.Bed;
+import org.bukkit.block.data.type.Bed.Part;
+import org.bukkit.block.data.type.Door;
+import org.bukkit.block.data.type.Door.Hinge;
 import org.bukkit.block.data.type.Leaves;
 import org.bukkit.block.data.type.Slab;
 import org.bukkit.block.data.type.Snow;
@@ -492,77 +496,81 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		setBlock(x, y + 1, z, tableTop);
 	}
 	
+	private final Block setDoorBlock(int x, int y, int z, Material material, BlockFace facing, Half half, Hinge hinge, boolean doPhysics) {
+		Block block = getActualBlock(x, y, z);
+		block.setType(material, false);
+		BlockData data = block.getBlockData();
+		try {
+			if (data instanceof Door) {
+				((Door)data).setHalf(half);
+				((Door)data).setFacing(facing);
+				((Door)data).setHinge(hinge);
+			}
+		} finally {
+			block.setBlockData(data, doPhysics);
+		}
+		return block;
+	}
+
 //@@	public void setDoor(int x, int y, int z, Material material, BadMagic.Door direction) {
 	public void setDoor(int x, int y, int z, Material material, BlockFace facing) {
 		clearBlock(x, y, z);
 		clearBlock(x, y + 1, z);
 		
-//		Block blockBottom = getActualBlock(x, y, z);
-//		Block blockTop = getActualBlock(x, y + 1, z);sssss
-//		
-//		blockBottom.setType(material, false);
-//		blockTop.setType(material, false);
-//		
-//		BlockData dataBottom = blockBottom.getBlockData();
-//		BlockData dataTop = blockTop.getBlockData();
-//		try {
-//			if (dataBottom instanceof Door)
-//			if (dataBottom instanceof Directional)
-//				((Directional)dataBottom).setFacing(facing);
-//			if (dataTop instanceof Directional)
-//				((Directional)dataTop).setFacing(facing);
-//			
-//			if (dataBottom instanceof Bisected)
-//				((Bisected)dataBottom).setHalf(Half.BOTTOM);
-//			if (dataTop instanceof Bisected)
-//				((Bisected)dataTop).setHalf(Half.TOP);
-//		} finally {
-//			blockBottom.setBlockData(dataBottom, false);
-//			blockTop.setBlockData(dataTop, true);
-//		}
+		Hinge hinge = Hinge.LEFT;
 		
-//		byte orentation = 0;
-//		byte hinge = 0; // org.bukkit.block.data.type.Door (hinge), org.bukkit.block.data.Directional, org.bukkit.block.data.Bisected (top/bottom)
-//		
-//		// orientation
-//		switch (direction) {
-//		case NORTHBYNORTHEAST:
-//		case NORTH_NORTH_WEST:
-//			orentation = 1;
-//			break;
-//		case SOUTH_SOUTH_EAST:
-//		case SOUTHBYSOUTHWEST:
-//			orentation = 3;
-//			break;
-//		case WEST_NORTH_WEST:
-//		case WESTBYSOUTHWEST:
-//			orentation = 0;
-//			break;
-//		case EAST_NORTH_EAST:
-//		case EASTBYSOUTHEAST:
-//			orentation = 2;
-//			break;
-//		}
-//		
-//		// hinge?
-//		switch (direction) {
-//		case SOUTH_SOUTH_EAST:
-//		case NORTH_NORTH_WEST:
-//		case WESTBYSOUTHWEST:
-//		case EAST_NORTH_EAST:
-//			hinge = 8 + 0;
-//			break;
-//		case NORTHBYNORTHEAST:
-//		case SOUTHBYSOUTHWEST:
-//		case WEST_NORTH_WEST:
-//		case EASTBYSOUTHEAST:
-//			hinge = 8 + 1;
-//			break;
-//		}
-//		
-//		// set the door
-//		BlackMagic.setBlockType(getActualBlock(x, y    , z), material, orentation, true, false);
-//		BlackMagic.setBlockType(getActualBlock(x, y + 1, z), material, hinge, true, true);
+		switch (facing) {
+		case EAST_NORTH_EAST:
+			facing = BlockFace.EAST;
+			break;
+		case NORTH_NORTH_EAST:
+			facing = BlockFace.NORTH;
+			break;
+		case SOUTH_SOUTH_EAST:
+			facing = BlockFace.SOUTH;
+			break;
+		case WEST_NORTH_WEST:
+			facing = BlockFace.WEST;
+			break;
+
+		case EAST_SOUTH_EAST:
+			facing = BlockFace.EAST;
+			hinge = Hinge.RIGHT;
+			break;
+		case NORTH_NORTH_WEST:
+			facing = BlockFace.NORTH;
+			hinge = Hinge.RIGHT;
+			break;
+		case SOUTH_SOUTH_WEST:
+			facing = BlockFace.SOUTH;
+			hinge = Hinge.RIGHT;
+			break;
+		case WEST_SOUTH_WEST:
+			facing = BlockFace.WEST;
+			hinge = Hinge.RIGHT;
+			break;
+		
+		case NORTH_EAST:
+			facing = BlockFace.EAST;
+			break;
+		case NORTH_WEST:
+			facing = BlockFace.WEST;
+			break;
+		case SOUTH_EAST:
+			facing = BlockFace.EAST;
+			hinge = Hinge.RIGHT;
+			break;
+		case SOUTH_WEST:
+			facing = BlockFace.WEST;
+			hinge = Hinge.RIGHT;
+			break;
+		
+		default:
+			break;
+		}
+		
+		setDoorBlock(x, y, z, material, facing, Half.BOTTOM, hinge, false);
+		setDoorBlock(x, y + 1, z, material, facing, Half.TOP, hinge, true);
 	}
 
 	public final void setLadder(int x, int y1, int y2, int z, BlockFace direction) {
@@ -725,32 +733,47 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		return block;
 	}
 
-	public final void setBed(int x, int y, int z, BlockFace facing) {
+	private final Block setBedBlock(int x, int y, int z, Material material, BlockFace facing, Part part, boolean doPhysics) {
+		Block block = getActualBlock(x, y, z);
+		block.setType(material, false);
+		BlockData data = block.getBlockData();
+		try {
+			if (data instanceof Bed) {
+				((Bed)data).setFacing(facing);
+				((Bed)data).setPart(part);
+			}
+		} finally {
+			block.setBlockData(data, doPhysics);
+		}
+		return block;
+	}
+
+	public final void setBed(int x, int y, int z, Material material, BlockFace facing) {
 		switch (facing) {
 		default:
-		case EAST:
-			setBlock(x, y, z, Material.BONE_BLOCK);
-			setBlock(x + 1, y, z, Material.COAL_BLOCK);
-//@@			BlackMagic.setBlockType(getActualBlock(x, y, z), Material.BED_BLOCK, (byte)(0x1 + 0x8), true, false);
-//			BlackMagic.setBlockType(getActualBlock(x + 1, y, z), Material.BED_BLOCK, (byte)(0x1), true, true);
+		case NORTH:
+			setBedBlock(x, y, z, material, BlockFace.SOUTH, Part.FOOT, false);
+			setBedBlock(x, y, z + 1, material, BlockFace.SOUTH, Part.HEAD, true);
+//			BlackMagic.setBlockType(getActualBlock(x, y, z), Material.BED_BLOCK, (byte)(0x0 + 0x8), true, false);
+//			BlackMagic.setBlockType(getActualBlock(x, y, z + 1), Material.BED_BLOCK, (byte)(0x0), true, true);
 			break;
 		case SOUTH:
-			setBlock(x, y, z, Material.BONE_BLOCK);
-			setBlock(x, y, z + 1, Material.COAL_BLOCK);
+			setBedBlock(x, y, z + 1, material, BlockFace.NORTH, Part.FOOT, false);
+			setBedBlock(x, y, z, material, BlockFace.NORTH, Part.HEAD, true);
 //			BlackMagic.setBlockType(getActualBlock(x, y, z), Material.BED_BLOCK, (byte)(0x2 + 0x8), true, false);
 //			BlackMagic.setBlockType(getActualBlock(x, y, z + 1), Material.BED_BLOCK, (byte)(0x2), true, true);
 			break;
+		case EAST:
+			setBedBlock(x + 1, y, z, material, BlockFace.WEST, Part.FOOT, false);
+			setBedBlock(x, y, z, material, BlockFace.WEST, Part.HEAD, true);
+//@@			BlackMagic.setBlockType(getActualBlock(x, y, z), Material.BED_BLOCK, (byte)(0x1 + 0x8), true, false);
+//			BlackMagic.setBlockType(getActualBlock(x + 1, y, z), Material.BED_BLOCK, (byte)(0x1), true, true);
+			break;
 		case WEST:
-			setBlock(x, y, z, Material.COAL_BLOCK);
-			setBlock(x + 1, y, z, Material.BONE_BLOCK);
+			setBedBlock(x, y, z, material, BlockFace.EAST, Part.FOOT, false);
+			setBedBlock(x + 1, y, z, material, BlockFace.EAST, Part.HEAD, true);
 //			BlackMagic.setBlockType(getActualBlock(x, y, z), Material.BED_BLOCK, (byte)(0x3 + 0x8), true, false);
 //			BlackMagic.setBlockType(getActualBlock(x + 1, y, z), Material.BED_BLOCK, (byte)(0x3), true, true);
-			break;
-		case NORTH:
-			setBlock(x, y, z, Material.COAL_BLOCK);
-			setBlock(x, y, z + 1, Material.BONE_BLOCK);
-//			BlackMagic.setBlockType(getActualBlock(x, y, z), Material.BED_BLOCK, (byte)(0x0 + 0x8), true, false);
-//			BlackMagic.setBlockType(getActualBlock(x, y, z + 1), Material.BED_BLOCK, (byte)(0x0), true, true);
 			break;
 		}
 //		switch (facing) {

@@ -129,6 +129,7 @@ public class StructureOnGroundProvider extends Provider {
 		// what are we made of?
 		boolean matCamo = odds.playOdds(Odds.oddsSomewhatUnlikely);
 		Colors colors = new Colors(odds);
+		Material matBed = colors.getBed();
 		if (matCamo)
 			if (colors.getRandomColor() == DyeColor.PINK)
 				colors.setColors(ColorSet.PINK);
@@ -167,9 +168,9 @@ public class StructureOnGroundProvider extends Provider {
 			
 			// beds
 			if (odds.playOdds(Odds.oddsPrettyLikely))
-				chunk.setBed(5, baseY, 4, BlockFace.SOUTH);
+				chunk.setBed(5, baseY, 4, matBed, BlockFace.SOUTH);
 			if (odds.playOdds(Odds.oddsPrettyLikely))
-				chunk.setBed(7, baseY, 4, BlockFace.SOUTH);
+				chunk.setBed(7, baseY, 4, matBed, BlockFace.SOUTH);
 		} else {
 			// north/south tent first
 			for (int x = 3; x < 9; x++) {
@@ -198,9 +199,9 @@ public class StructureOnGroundProvider extends Provider {
 			
 			// beds
 			if (odds.playOdds(Odds.oddsPrettyLikely))
-				chunk.setBed(4, baseY, 5, BlockFace.EAST);
+				chunk.setBed(4, baseY, 5, matBed, BlockFace.EAST);
 			if (odds.playOdds(Odds.oddsPrettyLikely))
-				chunk.setBed(4, baseY, 7, BlockFace.EAST);
+				chunk.setBed(4, baseY, 7, matBed, BlockFace.EAST);
 		}
 		
 		// now the fire pit
@@ -252,8 +253,6 @@ public class StructureOnGroundProvider extends Provider {
 		return floors;
 	}
 	
-	private Material matTrapDoor = Material.BIRCH_TRAPDOOR;
-	
 	public int generateHouse(CityWorldGenerator generator, RealBlocks chunk, DataContext context, Odds odds, int baseY, int maxFloors, int maxRoomWidth) {
 		
 		// what are we made of?
@@ -283,6 +282,9 @@ public class StructureOnGroundProvider extends Provider {
 			Material matFloor, Material matWall, Material matCeiling, Material matRoof, 
 			int floors, int minRoomWidth, int maxRoomWidth, HouseRoofStyle styleRoof, boolean allowMissingRooms) {
 		
+		Trees trees = new Trees(odds);
+		Material matTrapDoor = trees.getRandomWoodTrapDoor();
+		
 		// what are the rooms like?
 		Room[][][] rooms = new Room[floors][2][2];
 		for (int f = 0; f < floors; f++) {
@@ -305,7 +307,8 @@ public class StructureOnGroundProvider extends Provider {
 					// create the room
 					rooms[f][x][z] = new Room(thisRoomMissing,
 											  thisRoomWidthZ, thisRoomWidthX,
-											  thisRoomHasWalls, thisRoomStyle);
+											  thisRoomHasWalls, thisRoomStyle,
+											  matTrapDoor);
 					
 					// single floor is a little different
 					if (floors == 1) {
@@ -681,8 +684,9 @@ public class StructureOnGroundProvider extends Provider {
 		public boolean missing;
 		public boolean walls;
 		public Style style; 
+		public Material trapDoor;
 		
-		public Room(boolean aMissing, int aWidthX, int aWidthZ, boolean aWalls, Style aStyle) {
+		public Room(boolean aMissing, int aWidthX, int aWidthZ, boolean aWalls, Style aStyle, Material aTrapDoor) {
 			super();
 			
 			missing = aMissing;
@@ -690,6 +694,7 @@ public class StructureOnGroundProvider extends Provider {
 			widthZ = aWidthZ;
 			walls = aWalls;
 			style = aStyle;
+			trapDoor = aTrapDoor;
 		}
 		
 		// where are we?
@@ -977,8 +982,6 @@ public class StructureOnGroundProvider extends Provider {
 				
 				// the top floor
 				if (floor == floors - 1) {
-					Trees trees = new Trees(odds);
-					Material trapDoor = trees.getRandomWoodTrapDoor();
 					if (roomEast) {
 						if (roomSouth) {
 							chunk.setLadder(x1 + 1, y1, y1 + 3, z1 + 1, BlockFace.SOUTH); // fixed
