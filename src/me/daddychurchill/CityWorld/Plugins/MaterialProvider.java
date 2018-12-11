@@ -1419,11 +1419,13 @@ public class MaterialProvider {
 
 	public final static String tagSelectMaterial_AstralTowerLight = "Materials_For_AstralTowerLight";
 	public MaterialList itemsSelectMaterial_AstralTowerLight = createList(tagSelectMaterial_AstralTowerLight,
-			Material.END_STONE);
+			Material.END_STONE,
+			Material.END_STONE_BRICKS);
 
 	public final static String tagSelectMaterial_AstralTowerDark = "Materials_For_AstralTowerDark";
 	public MaterialList itemsSelectMaterial_AstralTowerDark = createList(tagSelectMaterial_AstralTowerDark,
-			Material.OBSIDIAN);
+			Material.OBSIDIAN,
+			Material.BLACK_CONCRETE);
 
 	public final static String tagSelectMaterial_AstralTowerOres = "Materials_For_AstralTowerOres";
 	public MaterialList itemsSelectMaterial_AstralTowerOres = createList(tagSelectMaterial_AstralTowerOres,
@@ -1459,6 +1461,10 @@ public class MaterialProvider {
 			Material.DIRT, 
 			Material.STONE, 
 			Material.INFESTED_STONE,
+			Material.INFESTED_CHISELED_STONE_BRICKS,
+			Material.INFESTED_COBBLESTONE,
+			Material.INFESTED_CRACKED_STONE_BRICKS,
+			Material.INFESTED_STONE_BRICKS,
 			Material.COBBLESTONE, 
 			Material.SPRUCE_WOOD, 
 			Material.IRON_BLOCK, 
