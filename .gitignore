@@ -2,3 +2,13 @@
 .metadata
 /bin
 Thumbs.db
+.idea
+*.iml
+workspace.xml
+tasks.xml
+.idea/libraries
+.idea/copyright
+out/
+target/
+*.MF
+*.name
