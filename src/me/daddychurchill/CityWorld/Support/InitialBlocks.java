@@ -1,8 +1,10 @@
 package me.daddychurchill.CityWorld.Support;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
-
+import org.bukkit.Axis;
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.*;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 
 public final class InitialBlocks extends AbstractBlocks {
@@ -37,7 +39,61 @@ public final class InitialBlocks extends AbstractBlocks {
 	public boolean isEmpty(int x, int y, int z) {
 		return chunkData.getType(x, y, z).equals(Material.AIR);
 	}
-	
+
+	@Override
+	public void setAtmosphereBlock(int x, int y, int z, Material material) {
+		chunkData.setBlock(x, y, z, material);
+		BlockData blockData;
+		// West
+		if (x > 0) {
+			try {
+				blockData = chunkData.getBlockData(x - 1, y, z);
+				if (blockData instanceof MultipleFacing) {
+					((MultipleFacing) blockData).setFace(BlockFace.EAST, false);
+					chunkData.setBlock(x - 1, y, z, blockData);
+				}
+			} catch (Exception ignored) {
+
+			}
+		}
+		// East
+		if (x < 15) {
+			try {
+				blockData = chunkData.getBlockData(x + 1, y, z);
+				if (blockData instanceof MultipleFacing) {
+					((MultipleFacing) blockData).setFace(BlockFace.WEST, false);
+					chunkData.setBlock(x + 1, y, z, blockData);
+				}
+			} catch (Exception ignored) {
+
+			}
+		}
+		// North
+		if (z > 0) {
+			try {
+				blockData = chunkData.getBlockData(x, y, z - 1);
+				if (blockData instanceof MultipleFacing) {
+					((MultipleFacing) blockData).setFace(BlockFace.SOUTH, false);
+					chunkData.setBlock(x, y, z - 1, blockData);
+				}
+			} catch (Exception ignored) {
+
+			}
+		}
+		// South
+		if (z < 15) {
+			try {
+				blockData = chunkData.getBlockData(x, y, z + 1);
+				if (blockData instanceof MultipleFacing) {
+					((MultipleFacing) blockData).setFace(BlockFace.NORTH, false);
+					chunkData.setBlock(x, y, z + 1, blockData);
+				}
+			} catch (Exception ignored) {
+
+			}
+		}
+	}
+
 	public Material getBlock(int x, int y, int z) {
 		return chunkData.getType(x, y, z);
 	}
@@ -45,6 +101,44 @@ public final class InitialBlocks extends AbstractBlocks {
 	@Override
 	public void setBlock(int x, int y, int z, Material material) {
 		chunkData.setBlock(x, y, z, material);
+	}
+
+	@Override
+	public final void setBlock(int x, int y, int z, Material material, BlockFace facing) {
+		BlockData blockData = material.createBlockData();
+		try {
+			if (blockData instanceof Directional) {
+				((Directional) blockData).setFacing(facing);
+			} else if (blockData instanceof MultipleFacing) {
+				((MultipleFacing) blockData).setFace(facing, true);
+			} else if (blockData instanceof Orientable) {
+				switch (facing) {
+					case NORTH:
+					case SOUTH:
+						((Orientable) blockData).setAxis(Axis.Z);
+						break;
+					case EAST:
+					case WEST:
+						((Orientable) blockData).setAxis(Axis.X);
+						break;
+					default:
+						((Orientable) blockData).setAxis(Axis.Y);
+				}
+			}
+		} finally {
+			chunkData.setBlock(x, y, z, blockData);
+		}
+	}
+
+	@Override
+	public void setBlock(int x, int y, int z, Material material, BlockFace... facing) {
+		BlockData blockData = material.createBlockData();
+		if (blockData instanceof MultipleFacing) {
+			for (BlockFace face : facing) {
+				((MultipleFacing) blockData).setFace(face, true);
+			}
+		}
+		chunkData.setBlock(x, y, z, blockData);
 	}
 
 	@Override
@@ -56,34 +150,6 @@ public final class InitialBlocks extends AbstractBlocks {
 	@Override
 	public void clearBlock(int x, int y, int z) {
 		chunkData.setBlock(x, y, z, Material.AIR);
-	}
-
-	//================ x, y1, y2, z
-	@Override
-	public void setBlocks(int x, int y1, int y2, int z, Material material) {
-		for (int y = y1; y < y2; y++)
-			setBlock(x, y, z, material);
-	}
-	
-	//================ x1, x2, y1, y2, z1, z2
-	@Override
-	public void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				for (int y = y1; y < y2; y++)
-					setBlock(x, y, z, material);
-			}
-		}
-	}
-
-	//================ x1, x2, y, z1, z2
-	@Override
-	public void setBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				setBlock(x, y, z, material);
-			}
-		}
 	}
 
 	//================ Walls
@@ -158,5 +224,31 @@ public final class InitialBlocks extends AbstractBlocks {
 			}
 		}
 	}
-	
+
+	@Override
+	public void setDoor(int x, int y, int z, Material material, BlockFace facing) {
+		clearBlock(x, y, z);
+		clearBlock(x, y + 1, z);
+
+		BlockData dataBottom = material.createBlockData();
+		BlockData dataTop = material.createBlockData();
+
+		facing = fixFacing(facing);
+		facing = facing.getOppositeFace();
+
+		try {
+			if (dataBottom instanceof Directional)
+				((Directional) dataBottom).setFacing(facing);
+			if (dataTop instanceof Directional)
+				((Directional) dataTop).setFacing(facing);
+
+			if (dataBottom instanceof Bisected)
+				((Bisected) dataBottom).setHalf(Bisected.Half.BOTTOM);
+			if (dataTop instanceof Bisected)
+				((Bisected) dataTop).setHalf(Bisected.Half.TOP);
+		} finally {
+			chunkData.setBlock(x, y, z, dataBottom);
+			chunkData.setBlock(x, y + 1, z, dataTop);
+		}
+	}
 }
