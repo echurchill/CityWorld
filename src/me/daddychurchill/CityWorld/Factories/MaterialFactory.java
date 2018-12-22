@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Factories;
 
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 
 import me.daddychurchill.CityWorld.Support.AbstractBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -94,25 +95,25 @@ public abstract class MaterialFactory {
 		}
 	}
 	
-	public abstract void placeMaterial(AbstractBlocks blocks, Material primary, Material secondary, int x, int y1, int y2, int z);
+	public abstract void placeMaterial(AbstractBlocks blocks, Material primary, Material secondary, int x, int y1, int y2, int z, BlockFace... facing);
 	
-	protected void placeMaterial(AbstractBlocks blocks, Material primary, Material secondary, Material glass, int x, int y1, int y2, int z) {
+	protected void placeMaterial(AbstractBlocks blocks, Material primary, Material secondary, Material glass, int x, int y1, int y2, int z, BlockFace... facing) {
 		switch (verticalStyle) {
 		case WGGG:
 			blocks.setBlocks(x, y1, y1 + 1, z, primary);
-			blocks.setBlocks(x, y1 + 1, y2, z, glass);
+			blocks.setBlocks(x, y1 + 1, y2, z, glass, facing);
 			if (glass == secondary)
 				decayMaterial(blocks, x, y1 + 1, y2, z);
 			break;
 		case WGGW:
 			blocks.setBlocks(x, y1, y1 + 1, z, primary);
-			blocks.setBlocks(x, y1 + 1, y2 - 1, z, glass);
+			blocks.setBlocks(x, y1 + 1, y2 - 1, z, glass, facing);
 			blocks.setBlocks(x, y2 - 1, y2, z, primary);
 			if (glass == secondary)
 				decayMaterial(blocks, x, y1 + 1, y2 - 1, z);
 			break;
 		case GGGG:
-			blocks.setBlocks(x, y1, y2, z, glass);
+			blocks.setBlocks(x, y1, y2, z, glass, facing);
 			if (glass == secondary)
 				decayMaterial(blocks, x, y1, y2, z);
 			break;
