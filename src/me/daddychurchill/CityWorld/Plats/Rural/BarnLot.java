@@ -99,10 +99,17 @@ public class BarnLot extends IsolatedLot {
 			if (firstPaddock) {
 
 				// generate fence & gate
-				chunk.setBlocks(4, 5, y1, 2, 6, Material.SPRUCE_FENCE);
-				chunk.setBlocks(4, 5, y1, 10, 14, Material.SPRUCE_FENCE);
-				chunk.setBlocks(5, 6, y1, 5, 11, Material.SPRUCE_FENCE);
-				chunk.setBlocks(5, 6, y1, 7, 9, Material.SPRUCE_FENCE_GATE, BlockFace.EAST); // open east
+				chunk.setBlocks(4, 5, y1, 2, 4, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.SOUTH);
+				chunk.setBlock(4, y1, 5, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.EAST);
+				chunk.setBlock(5, y1, 5, Material.SPRUCE_FENCE, BlockFace.SOUTH, BlockFace.WEST);
+				chunk.setBlock(5, y1, 6, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.SOUTH);
+
+				chunk.setGates(5, 6, y1, 7, 9, Material.SPRUCE_FENCE_GATE, BlockFace.EAST, true); // open east
+
+				chunk.setBlock(5, y1, 9, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.SOUTH);
+				chunk.setBlock(5, y1, 10, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.WEST);
+				chunk.setBlock(4, y1, 10, Material.SPRUCE_FENCE, BlockFace.SOUTH, BlockFace.EAST);
+				chunk.setBlocks(4, 5, y1, 12, 14, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.SOUTH);
 
 				// hay & water please
 				chunk.setBlock(2, y1, 2, Material.HAY_BLOCK);
@@ -116,10 +123,17 @@ public class BarnLot extends IsolatedLot {
 			if (secondPaddock) {
 				
 				// generate fence & gate
-				chunk.setBlocks(11, 12, y1, 2, 6, Material.SPRUCE_FENCE);
-				chunk.setBlocks(11, 12, y1, 10, 14, Material.SPRUCE_FENCE);
-				chunk.setBlocks(10, 11, y1, 5, 11, Material.SPRUCE_FENCE);
-				chunk.setBlocks(10, 11, y1, 7, 9, Material.SPRUCE_FENCE_GATE, BlockFace.WEST); // open west
+				chunk.setBlocks(11, 12, y1, 2, 4, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.SOUTH);
+				chunk.setBlock(11, y1, 5, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.WEST);
+				chunk.setBlock(10, y1, 5, Material.SPRUCE_FENCE, BlockFace.SOUTH, BlockFace.EAST);
+				chunk.setBlock(10, y1, 6, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.SOUTH);
+
+				chunk.setGates(10, 11, y1, 7, 9, Material.SPRUCE_FENCE_GATE, BlockFace.WEST, true); // open west
+
+				chunk.setBlock(10, y1, 9, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.SOUTH);
+				chunk.setBlock(10, y1, 10, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.EAST);
+				chunk.setBlock(11, y1, 10, Material.SPRUCE_FENCE, BlockFace.SOUTH, BlockFace.WEST);
+				chunk.setBlocks(11, 12, y1, 12, 14, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.SOUTH);
 
 				// hay & water please
 				chunk.setBlock(13, y1, 2, Material.HAY_BLOCK);
@@ -191,19 +205,26 @@ public class BarnLot extends IsolatedLot {
 			chunk.setBlocks(5, 11, y3 + 2, 14, 15, wallMat);
 			
 			// a few more windows
-			punchWindows(chunk, 7, y3 + 2, 1);
-			punchWindows(chunk, 8, y3 + 2, 1);
-			punchWindows(chunk, 7, y3 + 2, 14);
-			punchWindows(chunk, 8, y3 + 2, 14);
+			punchWindows(chunk, 7, y3 + 2, 1, BlockFace.EAST, BlockFace.WEST);
+			punchWindows(chunk, 8, y3 + 2, 1, BlockFace.EAST, BlockFace.WEST);
+			punchWindows(chunk, 7, y3 + 2, 14, BlockFace.EAST, BlockFace.WEST);
+			punchWindows(chunk, 8, y3 + 2, 14, BlockFace.EAST, BlockFace.WEST);
 		} else {
 			// bottom stuff
 			if (firstPaddock) {
 				
 				// generate fence & gate
-				chunk.setBlocks(2, 6, y1, 4, 5, Material.SPRUCE_FENCE);
-				chunk.setBlocks(10, 14, y1, 4, 5, Material.SPRUCE_FENCE);
-				chunk.setBlocks(5, 11, y1, 5, 6, Material.SPRUCE_FENCE);
-				chunk.setBlocks(7, 9, y1, 5, 6, Material.SPRUCE_FENCE_GATE, BlockFace.SOUTH); // open south
+				chunk.setBlocks(2, 4, y1, 4, 5, Material.SPRUCE_FENCE, BlockFace.EAST, BlockFace.WEST);
+				chunk.setBlock(5, y1, 4, Material.SPRUCE_FENCE, BlockFace.SOUTH, BlockFace.WEST);
+				chunk.setBlock(5, y1, 5, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.EAST);
+				chunk.setBlock(6, y1, 5, Material.SPRUCE_FENCE, BlockFace.EAST, BlockFace.WEST);
+
+				chunk.setGates(7, 9, y1, 5, 6, Material.SPRUCE_FENCE_GATE, BlockFace.SOUTH, true); // open south
+
+				chunk.setBlock(9, y1, 5, Material.SPRUCE_FENCE, BlockFace.EAST, BlockFace.WEST);
+				chunk.setBlock(10, y1, 5, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.WEST);
+				chunk.setBlock(10, y1, 4, Material.SPRUCE_FENCE, BlockFace.SOUTH, BlockFace.EAST);
+				chunk.setBlocks(12, 14, y1, 4, 5, Material.SPRUCE_FENCE, BlockFace.EAST, BlockFace.WEST);
 
 				// hay & water please
 				chunk.setBlock(2, y1, 2, Material.HAY_BLOCK);
@@ -217,10 +238,17 @@ public class BarnLot extends IsolatedLot {
 			if (secondPaddock) {
 				
 				// generate fence & gate
-				chunk.setBlocks(2, 6, y1, 11, 12, Material.SPRUCE_FENCE);
-				chunk.setBlocks(10, 14, y1, 11, 12, Material.SPRUCE_FENCE);
-				chunk.setBlocks(5, 11, y1, 10, 11, Material.SPRUCE_FENCE);
-				chunk.setBlocks(7, 9, y1, 10, 11, Material.SPRUCE_FENCE_GATE, BlockFace.NORTH); // open north
+				chunk.setBlocks(2, 4, y1, 11, 12, Material.SPRUCE_FENCE, BlockFace.EAST, BlockFace.WEST);
+				chunk.setBlock(5, y1, 11, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.WEST);
+				chunk.setBlock(5, y1, 10, Material.SPRUCE_FENCE, BlockFace.SOUTH, BlockFace.EAST);
+				chunk.setBlock(6, y1, 10, Material.SPRUCE_FENCE, BlockFace.EAST, BlockFace.WEST);
+
+				chunk.setGates(7, 9, y1, 10, 11, Material.SPRUCE_FENCE_GATE, BlockFace.NORTH, true); // open north
+
+				chunk.setBlock(9, y1, 10, Material.SPRUCE_FENCE, BlockFace.EAST, BlockFace.WEST);
+				chunk.setBlock(10, y1, 10, Material.SPRUCE_FENCE, BlockFace.SOUTH, BlockFace.WEST);
+				chunk.setBlock(10, y1, 11, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.EAST);
+				chunk.setBlocks(12, 14, y1, 11, 12, Material.SPRUCE_FENCE, BlockFace.EAST, BlockFace.WEST);
 
 				// hay & water please
 				chunk.setBlock(2, y1, 13, Material.HAY_BLOCK);
@@ -292,10 +320,10 @@ public class BarnLot extends IsolatedLot {
 			chunk.setBlocks(14, 15, y3 + 2, 5, 11, wallMat);
 
 			// a few more windows
-			punchWindows(chunk, 1, y3 + 2, 7);
-			punchWindows(chunk, 1, y3 + 2, 8);
-			punchWindows(chunk, 14, y3 + 2, 7);
-			punchWindows(chunk, 14, y3 + 2, 8);
+			punchWindows(chunk, 1, y3 + 2, 7, BlockFace.SOUTH, BlockFace.NORTH);
+			punchWindows(chunk, 1, y3 + 2, 8, BlockFace.SOUTH, BlockFace.NORTH);
+			punchWindows(chunk, 14, y3 + 2, 7, BlockFace.SOUTH, BlockFace.NORTH);
+			punchWindows(chunk, 14, y3 + 2, 8, BlockFace.SOUTH, BlockFace.NORTH);
 		}
 		
 		// not a happy place?
@@ -311,18 +339,18 @@ public class BarnLot extends IsolatedLot {
 	}
 	
 	private void punchWindows(RealBlocks chunk, int y) {
-		punchWindows(chunk, 3, y, 1);
-		punchWindows(chunk, 1, y, 3);
-		punchWindows(chunk, 12, y, 1);
-		punchWindows(chunk, 1, y, 12);
-		punchWindows(chunk, 14, y, 3);
-		punchWindows(chunk, 3, y, 14);
-		punchWindows(chunk, 12, y, 14);
-		punchWindows(chunk, 14, y, 12);
+		punchWindows(chunk, 3, y, 1, BlockFace.EAST, BlockFace.WEST);
+		punchWindows(chunk, 1, y, 3, BlockFace.SOUTH, BlockFace.NORTH);
+		punchWindows(chunk, 12, y, 1, BlockFace.EAST, BlockFace.WEST);
+		punchWindows(chunk, 1, y, 12, BlockFace.SOUTH, BlockFace.NORTH);
+		punchWindows(chunk, 14, y, 3, BlockFace.SOUTH, BlockFace.NORTH);
+		punchWindows(chunk, 3, y, 14, BlockFace.EAST, BlockFace.WEST);
+		punchWindows(chunk, 12, y, 14, BlockFace.EAST, BlockFace.WEST);
+		punchWindows(chunk, 14, y, 12, BlockFace.SOUTH, BlockFace.NORTH);
 	}
 	
-	private void punchWindows(RealBlocks chunk, int x, int y, int z) {
-		chunk.setBlocks(x, y, y + 2, z, windowsMat);
+	private void punchWindows(RealBlocks chunk, int x, int y, int z, BlockFace... facing) {
+		chunk.setBlocks(x, y, y + 2, z, windowsMat, facing);
 	}
 	
 	private void hayLoft(RealBlocks chunk, int x1, int x2, int y, int z1, int z2) {
