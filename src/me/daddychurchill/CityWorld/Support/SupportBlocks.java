@@ -585,55 +585,8 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		
 		Hinge hinge = Hinge.LEFT;
 		
-		switch (facing) {
-		case EAST_NORTH_EAST:
-			facing = BlockFace.EAST;
-			break;
-		case NORTH_NORTH_EAST:
-			facing = BlockFace.NORTH;
-			break;
-		case SOUTH_SOUTH_EAST:
-			facing = BlockFace.SOUTH;
-			break;
-		case WEST_NORTH_WEST:
-			facing = BlockFace.WEST;
-			break;
-
-		case EAST_SOUTH_EAST:
-			facing = BlockFace.EAST;
-			hinge = Hinge.RIGHT;
-			break;
-		case NORTH_NORTH_WEST:
-			facing = BlockFace.NORTH;
-			hinge = Hinge.RIGHT;
-			break;
-		case SOUTH_SOUTH_WEST:
-			facing = BlockFace.SOUTH;
-			hinge = Hinge.RIGHT;
-			break;
-		case WEST_SOUTH_WEST:
-			facing = BlockFace.WEST;
-			hinge = Hinge.RIGHT;
-			break;
-		
-		case NORTH_EAST:
-			facing = BlockFace.EAST;
-			break;
-		case NORTH_WEST:
-			facing = BlockFace.WEST;
-			break;
-		case SOUTH_EAST:
-			facing = BlockFace.EAST;
-			hinge = Hinge.RIGHT;
-			break;
-		case SOUTH_WEST:
-			facing = BlockFace.WEST;
-			hinge = Hinge.RIGHT;
-			break;
-		
-		default:
-			break;
-		}
+		facing = fixFacing(facing);
+		facing = facing.getOppositeFace();
 		
 		setDoorBlock(x, y, z, material, facing, Half.BOTTOM, hinge, false);
 		setDoorBlock(x, y + 1, z, material, facing, Half.TOP, hinge, true);
