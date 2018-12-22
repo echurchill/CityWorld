@@ -15,6 +15,7 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.type.Slab.Type;
+import org.bukkit.block.data.type.Stairs;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class ConcreteLot extends BuildingLot {
@@ -225,17 +226,20 @@ public class ConcreteLot extends BuildingLot {
 				chunk.setBlock(12, y, i, Material.QUARTZ_STAIRS, BlockFace.EAST);
 			}
 		} else {
-			for (int i = 3; i < 7; i++) {
+			chunk.setStair(3, y, 3, Material.QUARTZ_STAIRS, BlockFace.NORTH, Stairs.Shape.INNER_LEFT);
+			chunk.setStair(12, y, 3, Material.QUARTZ_STAIRS, BlockFace.NORTH, Stairs.Shape.INNER_RIGHT);
+			chunk.setStair(3, y, 12, Material.QUARTZ_STAIRS, BlockFace.SOUTH, Stairs.Shape.INNER_RIGHT);
+			chunk.setStair(12, y, 12, Material.QUARTZ_STAIRS, BlockFace.SOUTH, Stairs.Shape.INNER_LEFT);
+			for (int i = 4; i < 7; i++) {
 				chunk.setBlock(i, y, 3, Material.QUARTZ_STAIRS, BlockFace.NORTH);
 				chunk.setBlock(15 - i, y, 3, Material.QUARTZ_STAIRS, BlockFace.NORTH);
 				chunk.setBlock(i, y, 12, Material.QUARTZ_STAIRS, BlockFace.SOUTH);
 				chunk.setBlock(15 - i, y, 12, Material.QUARTZ_STAIRS, BlockFace.SOUTH);
-				if (i != 3) {
-					chunk.setBlock(3, y, i, Material.QUARTZ_STAIRS, BlockFace.WEST);
-					chunk.setBlock(3, y, 15 - i, Material.QUARTZ_STAIRS, BlockFace.WEST);
-					chunk.setBlock(12, y, i, Material.QUARTZ_STAIRS, BlockFace.EAST);
-					chunk.setBlock(12, y, 15 - i, Material.QUARTZ_STAIRS, BlockFace.EAST);
-				}
+
+				chunk.setBlock(3, y, i, Material.QUARTZ_STAIRS, BlockFace.WEST);
+				chunk.setBlock(3, y, 15 - i, Material.QUARTZ_STAIRS, BlockFace.WEST);
+				chunk.setBlock(12, y, i, Material.QUARTZ_STAIRS, BlockFace.EAST);
+				chunk.setBlock(12, y, 15 - i, Material.QUARTZ_STAIRS, BlockFace.EAST);
 			}
 		}
 	}
