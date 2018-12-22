@@ -104,7 +104,7 @@ public abstract class TreeProvider {
 	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, Colors colors) {
 		// this variant does nothing with the special color
 		if (chunk.isEmpty(x, y, z))
-			chunk.setLeaf(x, y, z, material, true);
+			chunk.setLeaf(x, y, z, material, false);
 	}
 	
 	protected void generateTrunkBlock(SupportBlocks chunk, int x, int y, int z, int w, int h, Material material) {
