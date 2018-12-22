@@ -134,11 +134,11 @@ public class OilPlatformLot extends ConstructLot {
 		chunk.clearBlock(2, y4 - 1, 2);
 		chunk.clearBlock(2, y4 - 1, 3);
 		chunk.setBlock(3, y4 - 1, 3, topperMaterial, BlockFace.NORTH);
-		chunk.setBlocks(2, y4 - 2, y4, 2, Material.IRON_BARS);
+		chunk.setBlocks(2, y4 - 2, y4, 2, Material.IRON_BARS, BlockFace.EAST);
 		chunk.drawCrane(context, chunkOdds, 3, y4, 2);
 		
 		// bleed off
-		chunk.setBlocks(12, 14, y4 + 3, y4 + 8, 12, 14, Material.IRON_BARS);
+		chunk.setWalls(12, 14, y4 + 3, y4 + 8, 12, 14, Material.IRON_BARS);
 		chunk.setBlocks(12, 14, y4 + 8, 12, 14, Material.NETHERRACK);
 		chunk.setBlocks(12, 14, y4 + 9, 12, 14, Material.FIRE);
 
