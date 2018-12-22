@@ -71,7 +71,7 @@ public class AstralMushroomsSpongeLot extends AstralNatureLot {
 				
 				// top it off
 				chunk.setBlocks(x, x + 2, topY, topY + 1, z, z + 2, Material.GLOWSTONE);
-				chunk.setBlocks(x, x + 2, topY + 1, topY + 2, z, z + 2, Material.YELLOW_STAINED_GLASS_PANE);
+				chunk.setWalls(x, x + 2, topY + 1, topY + 2, z, z + 2, Material.YELLOW_STAINED_GLASS_PANE);
 			}
 		}
 	}
