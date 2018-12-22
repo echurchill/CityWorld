@@ -668,65 +668,101 @@ public abstract class BuildingLot extends ConnectedLot {
 			// corner columns
 			if (!heights.toNorthWest()) {
 				if (heights.toNorth() || heights.toWest()) {
-					drawCornerBit(byteChunk, insetWE, y1, y2, insetNS, wallMaterial);
+					if (heights.toNorth() && heights.toWest()) {
+						drawCornerBit(byteChunk, insetWE, y1, y2, insetNS, wallMaterial, BlockFace.NORTH, BlockFace.WEST);
+					} else if (heights.toNorth()) {
+						drawCornerBit(byteChunk, insetWE, y1, y2, insetNS, wallMaterial, BlockFace.NORTH, BlockFace.SOUTH);
+					} else if (heights.toWest()) {
+						drawCornerBit(byteChunk, insetWE, y1, y2, insetNS, wallMaterial, BlockFace.EAST, BlockFace.WEST);
+					}
 					if (outsetEffect) {
 						drawCornerBit(byteChunk, insetWE, y1, y2 + 1, insetNS - 1, outsetMaterial);
 						drawCornerBit(byteChunk, insetWE - 1, y1, y2 + 1, insetNS, outsetMaterial);
 					}
 				} else
-					drawCornerBit(byteChunk, insetWE, y1, y2, insetNS, wallMaterial);
+					drawCornerBit(byteChunk, insetWE, y1, y2, insetNS, wallMaterial, BlockFace.SOUTH, BlockFace.EAST);
 			}
 			if (!heights.toSouthWest()) {
 				if (heights.toSouth() || heights.toWest()) {
-					drawCornerBit(byteChunk, insetWE, y1, y2, byteChunk.width - insetNS - 1, wallMaterial);
+					if (heights.toSouth() && heights.toWest()) {
+						drawCornerBit(byteChunk, insetWE, y1, y2, byteChunk.width - insetNS - 1, wallMaterial, BlockFace.SOUTH, BlockFace.WEST);
+					} else if (heights.toSouth()) {
+						drawCornerBit(byteChunk, insetWE, y1, y2, byteChunk.width - insetNS - 1, wallMaterial, BlockFace.NORTH, BlockFace.SOUTH);
+					} else if (heights.toWest()) {
+						drawCornerBit(byteChunk, insetWE, y1, y2, byteChunk.width - insetNS - 1, wallMaterial, BlockFace.EAST, BlockFace.WEST);
+					}
 					if (outsetEffect) {
 						drawCornerBit(byteChunk, insetWE, y1, y2 + 1, byteChunk.width - insetNS, outsetMaterial);
 						drawCornerBit(byteChunk, insetWE - 1, y1, y2 + 1, byteChunk.width - insetNS - 1, outsetMaterial);
 					}
 				} else
-					drawCornerBit(byteChunk, insetWE, y1, y2, byteChunk.width - insetNS - 1, wallMaterial);
+					drawCornerBit(byteChunk, insetWE, y1, y2, byteChunk.width - insetNS - 1, wallMaterial, BlockFace.NORTH, BlockFace.EAST);
 			}
 			if (!heights.toNorthEast()) {
 				if (heights.toNorth() || heights.toEast()) {
-					drawCornerBit(byteChunk, byteChunk.width - insetWE - 1, y1, y2, insetNS, wallMaterial);
+					if (heights.toNorth() && heights.toEast()) {
+						drawCornerBit(byteChunk, byteChunk.width - insetWE - 1, y1, y2, insetNS, wallMaterial, BlockFace.NORTH, BlockFace.EAST);
+					} else if (heights.toNorth()) {
+						drawCornerBit(byteChunk, byteChunk.width - insetWE - 1, y1, y2, insetNS, wallMaterial, BlockFace.NORTH, BlockFace.SOUTH);
+					} else if (heights.toEast()) {
+						drawCornerBit(byteChunk, byteChunk.width - insetWE - 1, y1, y2, insetNS, wallMaterial, BlockFace.EAST, BlockFace.WEST);
+					}
 					if (outsetEffect) {
 						drawCornerBit(byteChunk, byteChunk.width - insetWE - 1, y1, y2 + 1, insetNS - 1, outsetMaterial);
 						drawCornerBit(byteChunk, byteChunk.width - insetWE, y1, y2 + 1, insetNS, outsetMaterial);
 					}
 				} else
-					drawCornerBit(byteChunk, byteChunk.width - insetWE - 1, y1, y2, insetNS, wallMaterial);
+					drawCornerBit(byteChunk, byteChunk.width - insetWE - 1, y1, y2, insetNS, wallMaterial, BlockFace.SOUTH, BlockFace.WEST);
 			}
 			if (!heights.toSouthEast()) {
 				if (heights.toSouth() || heights.toEast()) {
-					drawCornerBit(byteChunk, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, wallMaterial);
+					if (heights.toSouth() && heights.toEast()) {
+						drawCornerBit(byteChunk, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, wallMaterial, BlockFace.SOUTH, BlockFace.EAST);
+					} else if (heights.toSouth()) {
+						drawCornerBit(byteChunk, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, wallMaterial, BlockFace.NORTH, BlockFace.SOUTH);
+					} else if (heights.toEast()) {
+						drawCornerBit(byteChunk, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, wallMaterial, BlockFace.EAST, BlockFace.WEST);
+					}
 					if (outsetEffect) {
 						drawCornerBit(byteChunk, byteChunk.width - insetWE - 1, y1, y2 + 1, byteChunk.width - insetNS, outsetMaterial);
 						drawCornerBit(byteChunk, byteChunk.width - insetWE, y1, y2 + 1, byteChunk.width - insetNS - 1, outsetMaterial);
 					}
 				} else
-					drawCornerBit(byteChunk, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, wallMaterial);
+					drawCornerBit(byteChunk, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, wallMaterial, BlockFace.NORTH, BlockFace.WEST);
 			}
 			
 			// cardinal walls
 			if (!heights.toWest()) {
-				byteChunk.setBlocks(insetWE,  insetWE + 1, y1, y2, insetNS + 1, byteChunk.width - insetNS - 1, wallMaterial);
-				if (outsetEffect)
-					byteChunk.setBlocks(insetWE - 1,  insetWE, y1, y2 + 1, insetNS + 1, byteChunk.width - insetNS - 1, outsetMaterial);
+				if (!outsetEffect) {
+					byteChunk.setBlocks(insetWE, insetWE + 1, y1, y2, insetNS + 1, byteChunk.width - insetNS - 1, wallMaterial, BlockFace.NORTH, BlockFace.SOUTH);
+				} else {
+					byteChunk.setBlocks(insetWE, insetWE + 1, y1, y2, insetNS + 1, byteChunk.width - insetNS - 1, wallMaterial, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.WEST);
+					byteChunk.setBlocks(insetWE - 1, insetWE, y1, y2 + 1, insetNS + 1, byteChunk.width - insetNS - 1, outsetMaterial, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST);
+				}
 			}
 			if (!heights.toEast()) {
-				byteChunk.setBlocks(byteChunk.width - insetWE - 1,  byteChunk.width - insetWE, y1, y2, insetNS + 1, byteChunk.width - insetNS - 1, wallMaterial);
-				if (outsetEffect)
-					byteChunk.setBlocks(byteChunk.width - insetWE,  byteChunk.width - insetWE + 1, y1, y2 + 1, insetNS + 1, byteChunk.width - insetNS - 1, outsetMaterial);
+				if (!outsetEffect) {
+					byteChunk.setBlocks(byteChunk.width - insetWE - 1, byteChunk.width - insetWE, y1, y2, insetNS + 1, byteChunk.width - insetNS - 1, wallMaterial, BlockFace.NORTH, BlockFace.SOUTH);
+				} else {
+					byteChunk.setBlocks(byteChunk.width - insetWE - 1, byteChunk.width - insetWE, y1, y2, insetNS + 1, byteChunk.width - insetNS - 1, wallMaterial, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST);
+					byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width - insetWE + 1, y1, y2 + 1, insetNS + 1, byteChunk.width - insetNS - 1, outsetMaterial, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.WEST);
+				}
 			}
 			if (!heights.toNorth()) {
-				byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2, insetNS, insetNS + 1, wallMaterial);
-				if (outsetEffect)
-					byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2 + 1, insetNS - 1, insetNS, outsetMaterial);
+				if (!outsetEffect) {
+					byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2, insetNS, insetNS + 1, wallMaterial, BlockFace.EAST, BlockFace.WEST);
+				} else {
+					byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2, insetNS, insetNS + 1, wallMaterial, BlockFace.EAST, BlockFace.WEST, BlockFace.NORTH);
+					byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2 + 1, insetNS - 1, insetNS, outsetMaterial, BlockFace.EAST, BlockFace.WEST, BlockFace.SOUTH);
+				}
 			}
 			if (!heights.toSouth()) {
-				byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, byteChunk.width - insetNS, wallMaterial);
-				if (outsetEffect)
-					byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2 + 1, byteChunk.width - insetNS, byteChunk.width - insetNS + 1, outsetMaterial);
+				if (!outsetEffect) {
+					byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, byteChunk.width - insetNS, wallMaterial, BlockFace.EAST, BlockFace.WEST);
+				} else {
+					byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, byteChunk.width - insetNS, wallMaterial, BlockFace.EAST, BlockFace.WEST, BlockFace.SOUTH);
+					byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2 + 1, byteChunk.width - insetNS, byteChunk.width - insetNS + 1, outsetMaterial, BlockFace.EAST, BlockFace.WEST, BlockFace.NORTH);
+				}
 			}
 			
 		}
@@ -787,6 +823,10 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 	private void drawCornerBit(InitialBlocks blocks, int x, int y1, int y2, int z, Material wallMaterial) {
 		blocks.setBlocks(x, y1, y2, z, wallMaterial);
+	}
+
+	private void drawCornerBit(InitialBlocks blocks, int x, int y1, int y2, int z, Material wallMaterial, BlockFace... facing) {
+		blocks.setBlocks(x, y1, y2, z, wallMaterial, facing);
 	}
 
 	protected void drawFoundation(CityWorldGenerator generator, InitialBlocks byteChunk, DataContext context, int y1, 
@@ -941,11 +981,11 @@ public abstract class BuildingLot extends ConnectedLot {
 						chunk.setBlocks(0, inset, y1, y2, inset, inset + 1, primary);//D
 					}
 				} else {
-					chunk.setBlocks(16 - inset - 1, 16 - inset, y1, y2, 0, zCenter, primary, secondary, maker);//A
-					chunk.setBlocks(0, xCenter, y1, y2, 16 - inset - 1, 16 - inset, primary, secondary, maker);//B
+					chunk.setBlocks(16 - inset - 1, 16 - inset, y1, y2, 0, zCenter, primary, secondary, maker, BlockFace.NORTH, BlockFace.SOUTH);//A
+					chunk.setBlocks(0, xCenter, y1, y2, 16 - inset - 1, 16 - inset, primary, secondary, maker, BlockFace.EAST, BlockFace.WEST);//B
 					if (doInnerWall) {
-						chunk.setBlocks(inset, inset + 1, y1, y2, 0, inset, primary, secondary, maker);//C
-						chunk.setBlocks(0, inset, y1, y2, inset, inset + 1, primary, secondary, maker);//D
+						chunk.setBlocks(inset, inset + 1, y1, y2, 0, inset, primary, secondary, maker, BlockFace.NORTH, BlockFace.SOUTH);//C
+						chunk.setBlocks(0, inset, y1, y2, inset, inset + 1, primary, secondary, maker, BlockFace.EAST, BlockFace.WEST);//D
 					}
 				}
 				cornerBlocks.drawNWVerticals(cornerLotStyle, chunk, xCenter, y1, y2, zCenter, primary, secondary, outsetEffect, onRoof); 
@@ -984,11 +1024,11 @@ public abstract class BuildingLot extends ConnectedLot {
 						chunk.setBlocks(0, inset, y1, y2, 16 - inset - 1, 16 - inset, primary);//D
 					}
 				} else {
-					chunk.setBlocks(16 - inset - 1, 16 - inset, y1, y2, zCenter, 16, primary, secondary, maker);//A
-					chunk.setBlocks(0, xCenter, y1, y2, inset, inset + 1, primary, secondary, maker);//B
+					chunk.setBlocks(16 - inset - 1, 16 - inset, y1, y2, zCenter, 16, primary, secondary, maker, BlockFace.NORTH, BlockFace.SOUTH);//A
+					chunk.setBlocks(0, xCenter, y1, y2, inset, inset + 1, primary, secondary, maker, BlockFace.EAST, BlockFace.WEST);//B
 					if (doInnerWall) {
-						chunk.setBlocks(inset, inset + 1, y1, y2, 16 - inset, 16, primary, secondary, maker);//C
-						chunk.setBlocks(0, inset, y1, y2, 16 - inset - 1, 16 - inset, primary, secondary, maker);//D
+						chunk.setBlocks(inset, inset + 1, y1, y2, 16 - inset, 16, primary, secondary, maker, BlockFace.NORTH, BlockFace.SOUTH);//C
+						chunk.setBlocks(0, inset, y1, y2, 16 - inset - 1, 16 - inset, primary, secondary, maker, BlockFace.EAST, BlockFace.WEST);//D
 					}
 				}
 				cornerBlocks.drawSWVerticals(cornerLotStyle, chunk, xCenter, y1, y2, inset, primary, secondary, outsetEffect, onRoof); 
@@ -1027,11 +1067,11 @@ public abstract class BuildingLot extends ConnectedLot {
 						chunk.setBlocks(16 - inset - 1, 16, y1, y2, inset, inset + 1, primary);//D
 					}
 				} else {
-					chunk.setBlocks(inset, inset + 1, y1, y2, 0, zCenter, primary, secondary, maker);//A
+					chunk.setBlocks(inset, inset + 1, y1, y2, 0, zCenter, primary, secondary, maker, BlockFace.NORTH, BlockFace.SOUTH);//A
 					chunk.setBlocks(xCenter, 16, y1, y2, 16 - inset - 1, 16 - inset, primary, secondary, maker);//B
 					if (doInnerWall) {
-						chunk.setBlocks(16 - inset - 1, 16 - inset, y1, y2, 0, inset, primary, secondary, maker);//C
-						chunk.setBlocks(16 - inset - 1, 16, y1, y2, inset, inset + 1, primary, secondary, maker);//D
+						chunk.setBlocks(16 - inset - 1, 16 - inset, y1, y2, 0, inset, primary, secondary, maker, BlockFace.NORTH, BlockFace.SOUTH);//C
+						chunk.setBlocks(16 - inset - 1, 16, y1, y2, inset, inset + 1, primary, secondary, maker, BlockFace.EAST, BlockFace.WEST);//D
 					}
 				}
 				cornerBlocks.drawNEVerticals(cornerLotStyle, chunk, inset, y1, y2, zCenter, primary, secondary, outsetEffect, onRoof); 
@@ -1070,11 +1110,11 @@ public abstract class BuildingLot extends ConnectedLot {
 						chunk.setBlocks(16 - inset - 1, 16, y1, y2, 16 - inset - 1, 16 - inset, primary);//D
 					}
 				} else {
-					chunk.setBlocks(inset, inset + 1, y1, y2, zCenter, 16, primary, secondary, maker);//A
-					chunk.setBlocks(xCenter, 16, y1, y2, inset, inset + 1, primary, secondary, maker);//B
+					chunk.setBlocks(inset, inset + 1, y1, y2, zCenter, 16, primary, secondary, maker, BlockFace.NORTH, BlockFace.SOUTH);//A
+					chunk.setBlocks(xCenter, 16, y1, y2, inset, inset + 1, primary, secondary, maker, BlockFace.EAST, BlockFace.WEST);//B
 					if (doInnerWall) {
-						chunk.setBlocks(16 - inset - 1, 16 - inset, y1, y2, 16 - inset - 1, 16, primary, secondary, maker);//C
-						chunk.setBlocks(16 - inset - 1, 16, y1, y2, 16 - inset - 1, 16 - inset, primary, secondary, maker);//D
+						chunk.setBlocks(16 - inset - 1, 16 - inset, y1, y2, 16 - inset - 1, 16, primary, secondary, maker, BlockFace.NORTH, BlockFace.SOUTH);//C
+						chunk.setBlocks(16 - inset - 1, 16, y1, y2, 16 - inset - 1, 16 - inset, primary, secondary, maker, BlockFace.EAST, BlockFace.WEST);//D
 					}
 				}
 				cornerBlocks.drawSEVerticals(cornerLotStyle, chunk, inset, y1, y2, inset, primary, secondary, outsetEffect, onRoof); 
