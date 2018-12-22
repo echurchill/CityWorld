@@ -20,6 +20,7 @@ import org.bukkit.Material;
 import org.bukkit.TreeSpecies;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Bisected.Half;
+import org.bukkit.block.data.type.Stairs;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class ParkLot extends ConnectedLot {
@@ -448,8 +449,8 @@ public class ParkLot extends ConnectedLot {
 				chunk.setBlock(9, surfaceY, 1, columnMaterial);
 
 				fenceNorth = true;
-				chunk.setBlocksWithPhysics(1, 6, surfaceY + 1, surfaceY + 2, 0, 1, fenceMaterial);
-				chunk.setBlocksWithPhysics(10, 15, surfaceY + 1, surfaceY + 2, 0, 1, fenceMaterial);
+				chunk.setBlocks(1, 6, surfaceY + 1, surfaceY + 2, 0, 1, fenceMaterial, BlockFace.EAST, BlockFace.WEST);
+				chunk.setBlocks(10, 15, surfaceY + 1, surfaceY + 2, 0, 1, fenceMaterial, BlockFace.EAST, BlockFace.WEST);
 			} 
 			
 			// [ ][ ][ ]
@@ -466,8 +467,8 @@ public class ParkLot extends ConnectedLot {
 				chunk.setBlock(9, surfaceY, 14, columnMaterial);
 
 				fenceSouth = true;
-				chunk.setBlocksWithPhysics(1, 6, surfaceY + 1, surfaceY + 2, 15, 16, fenceMaterial);
-				chunk.setBlocksWithPhysics(10, 15, surfaceY + 1, surfaceY + 2, 15, 16, fenceMaterial);
+				chunk.setBlocks(1, 6, surfaceY + 1, surfaceY + 2, 15, 16, fenceMaterial, BlockFace.EAST, BlockFace.WEST);
+				chunk.setBlocks(10, 15, surfaceY + 1, surfaceY + 2, 15, 16, fenceMaterial, BlockFace.EAST, BlockFace.WEST);
 			}
 			
 			// [ ][ ][ ]
@@ -484,8 +485,8 @@ public class ParkLot extends ConnectedLot {
 				chunk.setBlock(1, surfaceY, 9, columnMaterial);
 				
 				fenceWest = true;
-				chunk.setBlocksWithPhysics(0, 1, surfaceY + 1, surfaceY + 2, 1, 6, fenceMaterial);
-				chunk.setBlocksWithPhysics(0, 1, surfaceY + 1, surfaceY + 2, 10, 15, fenceMaterial);
+				chunk.setBlocks(0, 1, surfaceY + 1, surfaceY + 2, 1, 6, fenceMaterial, BlockFace.NORTH, BlockFace.SOUTH);
+				chunk.setBlocks(0, 1, surfaceY + 1, surfaceY + 2, 10, 15, fenceMaterial, BlockFace.NORTH, BlockFace.SOUTH);
 			}
 			
 			// [ ][ ][ ]
@@ -502,8 +503,8 @@ public class ParkLot extends ConnectedLot {
 				chunk.setBlock(14, surfaceY, 9, columnMaterial);
 
 				fenceEast = true;
-				chunk.setBlocksWithPhysics(15, 16, surfaceY + 1, surfaceY + 2, 1, 6, fenceMaterial);
-				chunk.setBlocksWithPhysics(15, 16, surfaceY + 1, surfaceY + 2, 10, 15, fenceMaterial);
+				chunk.setBlocks(15, 16, surfaceY + 1, surfaceY + 2, 1, 6, fenceMaterial, BlockFace.NORTH, BlockFace.SOUTH);
+				chunk.setBlocks(15, 16, surfaceY + 1, surfaceY + 2, 10, 15, fenceMaterial, BlockFace.NORTH, BlockFace.SOUTH);
 			} 
 			
 			// [X][ ][ ]
@@ -511,7 +512,25 @@ public class ParkLot extends ConnectedLot {
 			// [ ][ ][ ]
 			if (fenceNorth || fenceWest) {
 				chunk.setBlock(0, surfaceY, 0, columnMaterial);
-				chunk.setBlockWithPhysics(0, surfaceY + 1, 0, fenceMaterial);
+				if (fenceNorth && fenceWest) {
+					chunk.setBlock(0, surfaceY + 1, 0, fenceMaterial, BlockFace.EAST, BlockFace.SOUTH);
+				} else if (fenceNorth) {
+					if (neighbors.toWest()) {
+						chunk.setBlock(0, surfaceY + 1, 0, fenceMaterial, BlockFace.EAST, BlockFace.WEST);
+					} else {
+						chunk.setBlock(0, surfaceY + 1, 0, fenceMaterial, BlockFace.EAST);
+					}
+				} else { // fenceWest
+					if (neighbors.toNorth()) {
+						chunk.setBlock(0, surfaceY + 1, 0, fenceMaterial, BlockFace.NORTH, BlockFace.SOUTH);
+					} else {
+						chunk.setBlock(0, surfaceY + 1, 0, fenceMaterial, BlockFace.SOUTH);
+					}
+				}
+			} else if (!neighbors.toNorthWest() && neighbors.toNorth() && neighbors.toWest()) {
+				// concave angle
+				chunk.setBlock(0, surfaceY, 0, columnMaterial);
+				chunk.setBlock(0, surfaceY + 1, 0, fenceMaterial, BlockFace.NORTH, BlockFace.WEST);
 			}
 
 			// [ ][ ][ ]
@@ -519,7 +538,25 @@ public class ParkLot extends ConnectedLot {
 			// [X][ ][ ]
 			if (fenceSouth || fenceWest) {
 				chunk.setBlock(0, surfaceY, 15, columnMaterial);
-				chunk.setBlockWithPhysics(0, surfaceY + 1, 15, fenceMaterial);
+				if (fenceSouth && fenceWest) {
+					chunk.setBlock(0, surfaceY + 1, 15, fenceMaterial, BlockFace.EAST, BlockFace.NORTH);
+				} else if (fenceSouth) {
+					if (neighbors.toWest()) {
+						chunk.setBlock(0, surfaceY + 1, 15, fenceMaterial, BlockFace.EAST, BlockFace.WEST);
+					} else {
+						chunk.setBlock(0, surfaceY + 1, 15, fenceMaterial, BlockFace.EAST);
+					}
+				} else { // fenceWest
+					if (neighbors.toSouth()) {
+						chunk.setBlock(0, surfaceY + 1, 15, fenceMaterial, BlockFace.NORTH, BlockFace.SOUTH);
+					} else {
+						chunk.setBlock(0, surfaceY + 1, 15, fenceMaterial, BlockFace.NORTH);
+					}
+				}
+			} else if (!neighbors.toSouthWest() && neighbors.toSouth() && neighbors.toWest()) {
+				// concave angle
+				chunk.setBlock(0, surfaceY, 15, columnMaterial);
+				chunk.setBlock(0, surfaceY + 1, 15, fenceMaterial, BlockFace.SOUTH, BlockFace.WEST);
 			}
 
 			// [ ][ ][X]
@@ -527,7 +564,25 @@ public class ParkLot extends ConnectedLot {
 			// [ ][ ][ ]
 			if (fenceNorth || fenceEast) {
 				chunk.setBlock(15, surfaceY, 0, columnMaterial);
-				chunk.setBlockWithPhysics(15, surfaceY + 1, 0, fenceMaterial);
+				if (fenceNorth && fenceEast) {
+					chunk.setBlock(15, surfaceY + 1, 0, fenceMaterial, BlockFace.WEST, BlockFace.SOUTH);
+				} else if (fenceNorth) {
+					if (neighbors.toEast()) {
+						chunk.setBlock(15, surfaceY + 1, 0, fenceMaterial, BlockFace.EAST, BlockFace.WEST);
+					} else {
+						chunk.setBlock(15, surfaceY + 1, 0, fenceMaterial, BlockFace.WEST);
+					}
+				} else { // fenceEast
+					if (neighbors.toNorth()) {
+						chunk.setBlock(15, surfaceY + 1, 0, fenceMaterial, BlockFace.NORTH, BlockFace.SOUTH);
+					} else {
+						chunk.setBlock(15, surfaceY + 1, 0, fenceMaterial, BlockFace.SOUTH);
+					}
+				}
+			} else if (!neighbors.toNorthEast() && neighbors.toNorth() && neighbors.toEast()) {
+				// concave angle
+				chunk.setBlock(15, surfaceY, 0, columnMaterial);
+				chunk.setBlock(15, surfaceY + 1, 0, fenceMaterial, BlockFace.NORTH, BlockFace.EAST);
 			}
 
 			// [ ][ ][ ]
@@ -535,7 +590,25 @@ public class ParkLot extends ConnectedLot {
 			// [ ][ ][X]
 			if (fenceSouth || fenceEast) {
 				chunk.setBlock(15, surfaceY, 15, columnMaterial);
-				chunk.setBlockWithPhysics(15, surfaceY + 1, 15, fenceMaterial);
+				if (fenceSouth && fenceEast) {
+					chunk.setBlock(15, surfaceY + 1, 15, fenceMaterial, BlockFace.WEST, BlockFace.NORTH);
+				} else if (fenceSouth) {
+					if (neighbors.toEast()) {
+						chunk.setBlock(15, surfaceY + 1, 15, fenceMaterial, BlockFace.EAST, BlockFace.WEST);
+					} else {
+						chunk.setBlock(15, surfaceY + 1, 15, fenceMaterial, BlockFace.WEST);
+					}
+				} else { // fenceEast
+					if (neighbors.toSouth()) {
+						chunk.setBlock(15, surfaceY + 1, 15, fenceMaterial, BlockFace.NORTH, BlockFace.SOUTH);
+					} else {
+						chunk.setBlock(15, surfaceY + 1, 15, fenceMaterial, BlockFace.NORTH);
+					}
+				}
+			} else if (!neighbors.toSouthEast() && neighbors.toSouth() && neighbors.toEast()) {
+				// concave angle
+				chunk.setBlock(15, surfaceY, 15, columnMaterial);
+				chunk.setBlock(15, surfaceY + 1, 15, fenceMaterial, BlockFace.SOUTH, BlockFace.EAST);
 			}
 
 			break;
@@ -691,29 +764,44 @@ public class ParkLot extends ConnectedLot {
 		if (chunkOdds.flipCoin())
 			benchEnd--;
 		
-		boolean was = chunk.setDoPhysics(true);
-		for (int i = benchStart; i < benchEnd; i++) {
-			if (NW)
-				chunk.setBlock(i, surfaceY, 3, stairs, BlockFace.NORTH);
-			if (NE)
-				chunk.setBlock(15 - i, surfaceY, 3, stairs, BlockFace.NORTH);
-			if (SW)
-				chunk.setBlock(i, surfaceY, 12, stairs, BlockFace.SOUTH);
-			if (SE)
-				chunk.setBlock(15 - i, surfaceY, 12, stairs, BlockFace.SOUTH);
-			
-			if (i != 3) { // corner bit needs to be skipped
-				if (NW)
-					chunk.setBlock(3, surfaceY, i, stairs, BlockFace.WEST);
-				if (SW)
-					chunk.setBlock(3, surfaceY, 15 - i, stairs, BlockFace.WEST);
-				if (NE)
-					chunk.setBlock(12, surfaceY, i, stairs, BlockFace.EAST);
-				if (SE)
-					chunk.setBlock(12, surfaceY, 15 - i, stairs, BlockFace.EAST);
+		if (benchStart == 3) {
+			// cornet bit
+			if (NW) {
+				chunk.setStair(3, surfaceY, 3, stairs, BlockFace.NORTH, Stairs.Shape.INNER_LEFT);
+			}
+			if (NE) {
+				chunk.setStair(12, surfaceY, 3, stairs, BlockFace.NORTH, Stairs.Shape.INNER_RIGHT);
+			}
+			if (SW) {
+				chunk.setStair(3, surfaceY, 12, stairs, BlockFace.SOUTH, Stairs.Shape.INNER_RIGHT);
+			}
+			if (SE) {
+				chunk.setStair(12, surfaceY, 12, stairs, BlockFace.SOUTH, Stairs.Shape.INNER_LEFT);
 			}
 		}
-		chunk.setDoPhysics(was);
+		for (int i = benchStart; i < benchEnd; i++) {
+			// corner bit
+			if (i == 3) {
+				continue;
+			}
+
+			if (NW) {
+				chunk.setBlock(i, surfaceY, 3, stairs, BlockFace.NORTH);
+				chunk.setBlock(3, surfaceY, i, stairs, BlockFace.WEST);
+			}
+			if (NE) {
+				chunk.setBlock(15 - i, surfaceY, 3, stairs, BlockFace.NORTH);
+				chunk.setBlock(3, surfaceY, 15 - i, stairs, BlockFace.WEST);
+			}
+			if (SW) {
+				chunk.setBlock(i, surfaceY, 12, stairs, BlockFace.SOUTH);
+				chunk.setBlock(12, surfaceY, i, stairs, BlockFace.EAST);
+			}
+			if (SE) {
+				chunk.setBlock(15 - i, surfaceY, 12, stairs, BlockFace.SOUTH);
+				chunk.setBlock(12, surfaceY, 15 - i, stairs, BlockFace.EAST);
+			}
+		}
 		
 		if (singleTree) {
 			generator.coverProvider.generateRandomCoverage(generator, chunk, 7, surfaceY, 7, tallTrees);
