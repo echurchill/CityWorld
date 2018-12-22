@@ -596,24 +596,24 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			
 			// cardinal walls
 			if (!heights.toWest()) {
-				byteChunk.setBlocks(insetWE,  insetWE + 1, y1, y2, insetNS + 1, byteChunk.width - insetNS - 1, wallMaterial, glassMaterial, floorWallsNS);
+				byteChunk.setBlocks(insetWE, insetWE + 1, y1, y2, insetNS + 1, byteChunk.width - insetNS - 1, wallMaterial, glassMaterial, floorWallsNS, BlockFace.NORTH, BlockFace.SOUTH);
 				if (outsetEffect)
-					byteChunk.setBlocks(insetWE - 1,  insetWE, y1, y2 + 1, insetNS + 1, byteChunk.width - insetNS - 1, outsetMaterial, outsetBackfill, floorWallsNS);
+					byteChunk.setBlocks(insetWE - 1, insetWE, y1, y2 + 1, insetNS + 1, byteChunk.width - insetNS - 1, outsetMaterial, outsetBackfill, floorWallsNS, BlockFace.NORTH, BlockFace.SOUTH);
 			}
 			if (!heights.toEast()) {
-				byteChunk.setBlocks(byteChunk.width - insetWE - 1,  byteChunk.width - insetWE, y1, y2, insetNS + 1, byteChunk.width - insetNS - 1, wallMaterial, glassMaterial, floorWallsNS);
+				byteChunk.setBlocks(byteChunk.width - insetWE - 1, byteChunk.width - insetWE, y1, y2, insetNS + 1, byteChunk.width - insetNS - 1, wallMaterial, glassMaterial, floorWallsNS, BlockFace.NORTH, BlockFace.SOUTH);
 				if (outsetEffect)
-					byteChunk.setBlocks(byteChunk.width - insetWE,  byteChunk.width - insetWE + 1, y1, y2 + 1, insetNS + 1, byteChunk.width - insetNS - 1, outsetMaterial, outsetBackfill, floorWallsNS);
+					byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width - insetWE + 1, y1, y2 + 1, insetNS + 1, byteChunk.width - insetNS - 1, outsetMaterial, outsetBackfill, floorWallsNS, BlockFace.NORTH, BlockFace.SOUTH);
 			}
 			if (!heights.toNorth()) {
-				byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2, insetNS, insetNS + 1, wallMaterial, glassMaterial, floorWallsWE);
+				byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2, insetNS, insetNS + 1, wallMaterial, glassMaterial, floorWallsWE, BlockFace.EAST, BlockFace.WEST);
 				if (outsetEffect)
-					byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2 + 1, insetNS - 1, insetNS, outsetMaterial, outsetBackfill, floorWallsWE);
+					byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2 + 1, insetNS - 1, insetNS, outsetMaterial, outsetBackfill, floorWallsWE, BlockFace.EAST, BlockFace.WEST);
 			}
 			if (!heights.toSouth()) {
-				byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, byteChunk.width - insetNS, wallMaterial, glassMaterial, floorWallsWE);
+				byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2, byteChunk.width - insetNS - 1, byteChunk.width - insetNS, wallMaterial, glassMaterial, floorWallsWE, BlockFace.EAST, BlockFace.WEST);
 				if (outsetEffect)
-					byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2 + 1, byteChunk.width - insetNS, byteChunk.width - insetNS + 1, outsetMaterial, outsetBackfill, floorWallsWE);
+					byteChunk.setBlocks(insetWE + 1, byteChunk.width - insetWE - 1, y1, y2 + 1, byteChunk.width - insetNS, byteChunk.width - insetNS + 1, outsetMaterial, outsetBackfill, floorWallsWE, BlockFace.EAST, BlockFace.WEST);
 			}
 			
 		}
@@ -622,52 +622,52 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		if (insetWE > 0) {
 			if (heights.toWest()) {
 				if (!heights.toNorthWest()) {
-					byteChunk.setBlocks(0, insetWE, y1, y2, insetNS, insetNS + 1, wallMaterial, glassMaterial, floorWallsWE);
+					byteChunk.setBlocks(0, insetWE, y1, y2, insetNS, insetNS + 1, wallMaterial, glassMaterial, floorWallsWE, BlockFace.EAST, BlockFace.WEST);
 					if (outsetEffect)
-						byteChunk.setBlocks(0, insetWE, y1, y2 + 1, insetNS - 1, insetNS, outsetMaterial, outsetBackfill, floorWallsWE);
+						byteChunk.setBlocks(0, insetWE, y1, y2 + 1, insetNS - 1, insetNS, outsetMaterial, outsetBackfill, floorWallsWE, BlockFace.EAST, BlockFace.WEST);
 				}
 				if (!heights.toSouthWest()) {
-					byteChunk.setBlocks(0, insetWE, y1, y2, byteChunk.width - insetNS - 1, byteChunk.width - insetNS, wallMaterial, glassMaterial, floorWallsWE);
+					byteChunk.setBlocks(0, insetWE, y1, y2, byteChunk.width - insetNS - 1, byteChunk.width - insetNS, wallMaterial, glassMaterial, floorWallsWE, BlockFace.EAST, BlockFace.WEST);
 					if (outsetEffect)
-						byteChunk.setBlocks(0, insetWE, y1, y2 + 1, byteChunk.width - insetNS, byteChunk.width - insetNS + 1, outsetMaterial, outsetBackfill, floorWallsWE);
+						byteChunk.setBlocks(0, insetWE, y1, y2 + 1, byteChunk.width - insetNS, byteChunk.width - insetNS + 1, outsetMaterial, outsetBackfill, floorWallsWE, BlockFace.EAST, BlockFace.WEST);
 				}
 			}
 			if (heights.toEast()) {
 				if (!heights.toNorthEast()) {
-					byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2, insetNS, insetNS + 1, wallMaterial, glassMaterial, floorWallsWE);
+					byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2, insetNS, insetNS + 1, wallMaterial, glassMaterial, floorWallsWE, BlockFace.EAST, BlockFace.WEST);
 					if (outsetEffect)
-						byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2 + 1, insetNS - 1, insetNS, outsetMaterial, outsetBackfill, floorWallsWE);
+						byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2 + 1, insetNS - 1, insetNS, outsetMaterial, outsetBackfill, floorWallsWE, BlockFace.EAST, BlockFace.WEST);
 				}
 				if (!heights.toSouthEast()) {
-					byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2, byteChunk.width - insetNS - 1, byteChunk.width - insetNS, wallMaterial, glassMaterial, floorWallsWE);
+					byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2, byteChunk.width - insetNS - 1, byteChunk.width - insetNS, wallMaterial, glassMaterial, floorWallsWE, BlockFace.EAST, BlockFace.WEST);
 					if (outsetEffect)
-						byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2 + 1, byteChunk.width - insetNS, byteChunk.width - insetNS + 1, outsetMaterial, outsetBackfill, floorWallsWE);
+						byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width, y1, y2 + 1, byteChunk.width - insetNS, byteChunk.width - insetNS + 1, outsetMaterial, outsetBackfill, floorWallsWE, BlockFace.EAST, BlockFace.WEST);
 				}
 			}
 		}
 		if (insetNS > 0) {
 			if (heights.toNorth()) {
 				if (!heights.toNorthWest()) {
-					byteChunk.setBlocks(insetWE, insetWE + 1, y1, y2, 0, insetNS, wallMaterial, glassMaterial, floorWallsNS);
+					byteChunk.setBlocks(insetWE, insetWE + 1, y1, y2, 0, insetNS, wallMaterial, glassMaterial, floorWallsNS, BlockFace.NORTH, BlockFace.SOUTH);
 					if (outsetEffect)
-						byteChunk.setBlocks(insetWE - 1, insetWE, y1, y2 + 1, 0, insetNS, outsetMaterial, outsetBackfill, floorWallsNS);
+						byteChunk.setBlocks(insetWE - 1, insetWE, y1, y2 + 1, 0, insetNS, outsetMaterial, outsetBackfill, floorWallsNS, BlockFace.NORTH, BlockFace.SOUTH);
 				}
 				if (!heights.toNorthEast()) {
-					byteChunk.setBlocks(byteChunk.width - insetWE - 1, byteChunk.width - insetWE, y1, y2, 0, insetNS, wallMaterial, glassMaterial, floorWallsNS);
+					byteChunk.setBlocks(byteChunk.width - insetWE - 1, byteChunk.width - insetWE, y1, y2, 0, insetNS, wallMaterial, glassMaterial, floorWallsNS, BlockFace.NORTH, BlockFace.SOUTH);
 					if (outsetEffect)
-						byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width - insetWE + 1, y1, y2 + 1, 0, insetNS, outsetMaterial, outsetBackfill, floorWallsNS);
+						byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width - insetWE + 1, y1, y2 + 1, 0, insetNS, outsetMaterial, outsetBackfill, floorWallsNS, BlockFace.NORTH, BlockFace.SOUTH);
 				}
 			}
 			if (heights.toSouth()) {
 				if (!heights.toSouthWest()) {
-					byteChunk.setBlocks(insetWE, insetWE + 1, y1, y2, byteChunk.width - insetNS, byteChunk.width, wallMaterial, glassMaterial, floorWallsNS);
+					byteChunk.setBlocks(insetWE, insetWE + 1, y1, y2, byteChunk.width - insetNS, byteChunk.width, wallMaterial, glassMaterial, floorWallsNS, BlockFace.NORTH, BlockFace.SOUTH);
 					if (outsetEffect)
-						byteChunk.setBlocks(insetWE - 1, insetWE, y1, y2 + 1, byteChunk.width - insetNS, byteChunk.width, outsetMaterial, outsetBackfill, floorWallsNS);
+						byteChunk.setBlocks(insetWE - 1, insetWE, y1, y2 + 1, byteChunk.width - insetNS, byteChunk.width, outsetMaterial, outsetBackfill, floorWallsNS, BlockFace.NORTH, BlockFace.SOUTH);
 				}
 				if (!heights.toSouthEast()) {
-					byteChunk.setBlocks(byteChunk.width - insetWE - 1, byteChunk.width - insetWE, y1, y2, byteChunk.width - insetNS, byteChunk.width, wallMaterial, glassMaterial, floorWallsNS);
+					byteChunk.setBlocks(byteChunk.width - insetWE - 1, byteChunk.width - insetWE, y1, y2, byteChunk.width - insetNS, byteChunk.width, wallMaterial, glassMaterial, floorWallsNS, BlockFace.NORTH, BlockFace.SOUTH);
 					if (outsetEffect)
-						byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width - insetWE + 1, y1, y2 + 1, byteChunk.width - insetNS, byteChunk.width, outsetMaterial, outsetBackfill, floorWallsNS);
+						byteChunk.setBlocks(byteChunk.width - insetWE, byteChunk.width - insetWE + 1, y1, y2 + 1, byteChunk.width - insetNS, byteChunk.width, outsetMaterial, outsetBackfill, floorWallsNS, BlockFace.NORTH, BlockFace.SOUTH);
 				}
 			}
 		}
@@ -1726,11 +1726,11 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	}
 	
 	private void drawInteriorNSWall(RealBlocks chunk, int x, int y1, int y2, int z1, int z2, Material wallMaterial, Material glassMaterial) {
-		chunk.setBlocks(x, x + 1, y1, y2, z1, z2, wallMaterial, glassMaterial, wallsInterior);
+		chunk.setBlocks(x, x + 1, y1, y2, z1, z2, wallMaterial, glassMaterial, wallsInterior, BlockFace.NORTH, BlockFace.SOUTH);
 	}
 	
 	private void drawInteriorWEWall(RealBlocks chunk, int x1, int x2, int y1, int y2, int z, Material wallMaterial, Material glassMaterial) {
-		chunk.setBlocks(x1, x2, y1, y2, z, z + 1, wallMaterial, glassMaterial, wallsInterior);
+		chunk.setBlocks(x1, x2, y1, y2, z, z + 1, wallMaterial, glassMaterial, wallsInterior, BlockFace.EAST, BlockFace.WEST);
 	}
 	
 	private void drawInteriorNSDoor(RealBlocks chunk, int x, int y1, int y2, int z, DoorStyle doorStyle, Material wall) {
