@@ -304,15 +304,15 @@ public abstract class CoverProvider extends Provider {
 		case NOTHING:
 			break;
 		case GRASS:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.GRASS);
 			break;
 		case FERN:
-			if (chunk.isOfTypes(x, y - 1, z, topsoil, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, topsoil, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.FERN); 
 			break;
 //		case DEAD_GRASS:
-//			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND))
+//			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
 //				chunk.setBlock(x, y, z, Material.LONG_GRASS, new LongGrass(GrassSpecies.DEAD));
 //			
 //			// fine, try the other one that looks like this
@@ -363,99 +363,99 @@ public abstract class CoverProvider extends Provider {
 			}
 			break;
 		case DANDELION:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.DANDELION);
 			break;
 		case POPPY:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.POPPY);
 			break;
 		case BLUE_ORCHID:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.BLUE_ORCHID);
 			break;
 		case ALLIUM:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.ALLIUM);
 			break;
 		case AZURE_BLUET:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.AZURE_BLUET);
 			break;
 		case OXEYE_DAISY:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.OXEYE_DAISY);
 			break;
 		case RED_TULIP:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.RED_TULIP);
 			break;
 		case ORANGE_TULIP:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.ORANGE_TULIP);
 			break;
 		case WHITE_TULIP:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.WHITE_TULIP);
 			break;
 		case PINK_TULIP:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.PINK_TULIP);
 			break;
 		case SUNFLOWER:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND)) {
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND)) {
 				chunk.setTallBlock(x, y, z, Material.SUNFLOWER);
 			}
 			break;
 		case LILAC:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND)) {
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND)) {
 				chunk.setTallBlock(x, y, z, Material.LILAC);
 			}
 			break;
 		case TALL_GRASS:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND)) {
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND)) {
 				chunk.setTallBlock(x, y, z, Material.TALL_GRASS);
 			}
 			break;
 		case TALL_FERN:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND)) {
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND)) {
 				chunk.setTallBlock(x, y, z, Material.LARGE_FERN);
 			}
 			break;
 		case ROSE_BUSH:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND)) {
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND)) {
 				chunk.setTallBlock(x, y, z, Material.ROSE_BUSH);
 			}
 			break;
 		case PEONY:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND)) {
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND)) {
 				chunk.setTallBlock(x, y, z, Material.PEONY);
 			}
 			break;
 		case EMERALD_GREEN:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND)) {
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND)) {
 				chunk.setBlock(x, y, z, Material.JUNGLE_LOG);
 				chunk.setBlocks(x, y + 1, y + odds.getRandomInt(2, 4), z, Material.JUNGLE_LEAVES);
 			}
 			break;
 		case OAK_SAPLING:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.OAK_SAPLING);
 			break;
 		case BIRCH_SAPLING:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.BIRCH_SAPLING);
 			break;
 		case PINE_SAPLING:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.DARK_OAK_SAPLING);
 			break;
 		case JUNGLE_SAPLING:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.JUNGLE_SAPLING);
 			break;
 		case ACACIA_SAPLING:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.ACACIA_SAPLING);
 			break;
 			
