@@ -5,6 +5,7 @@ import me.daddychurchill.CityWorld.Factories.MaterialFactory;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.type.Slab.Type;
 
 public abstract class AbstractBlocks {
 
@@ -68,6 +69,8 @@ public abstract class AbstractBlocks {
 	
 	public abstract void setBlock(int x, int y, int z, Material material);
 
+	public abstract void setBlock(int x, int y, int z, Material material, Type type);
+
 	public abstract void setBlock(int x, int y, int z, Material material, BlockFace facing);
 
 	public abstract void setBlock(int x, int y, int z, Material material, BlockFace... facing);
@@ -87,6 +90,28 @@ public abstract class AbstractBlocks {
 			for (int z = z1; z < z2; z++) {
 				for (int y = y1; y < y2; y++)
 					setBlock(x, y, z, material);
+			}
+		}
+	}
+
+	public final void setBlocks(int x, int y1, int y2, int z, Material material, Type type) {
+		for (int y = y1; y < y2; y++)
+			setBlock(x, y, z, material, type);
+	}
+
+	public final void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, Type type) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				setBlock(x, y, z, material, type);
+			}
+		}
+	}
+
+	public final void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, Type type) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				for (int y = y1; y < y2; y++)
+					setBlock(x, y, z, material, type);
 			}
 		}
 	}
@@ -674,6 +699,8 @@ public abstract class AbstractBlocks {
 			case SOUTH_SOUTH_WEST:
 				facing = BlockFace.SOUTH;
 				break;
+		default:
+			break;
 		}
 		return facing;
 	}

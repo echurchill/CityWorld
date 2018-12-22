@@ -20,6 +20,8 @@ public class SeaAnimalList extends EntityList {
 		default:
 			return odds.getRandomInt(3, 6);
 		case SQUID:
+		case DOLPHIN:
+		case TURTLE:
 			return odds.getRandomInt(1, 3);
 		case GUARDIAN:
 		case ELDER_GUARDIAN:

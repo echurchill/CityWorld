@@ -17,6 +17,7 @@ import org.bukkit.block.data.Rail.Shape;
 import org.bukkit.block.data.type.*;
 import org.bukkit.block.data.type.Bed.Part;
 import org.bukkit.block.data.type.Door.Hinge;
+import org.bukkit.block.data.type.Slab.Type;
 import org.bukkit.util.noise.NoiseGenerator;
 
 public abstract class SupportBlocks extends AbstractBlocks {
@@ -427,7 +428,8 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		return block;
 	}
 	
-	public final Block setBlock(int x, int y, int z, Material material, Slab.Type type) {
+	@Override
+	public final void setBlock(int x, int y, int z, Material material, Type type) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(material, false);
 		BlockData data = block.getBlockData();
@@ -437,29 +439,8 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		} finally {
 			block.setBlockData(data, doPhysics);
 		}
-		return block;
 	}
 	
-	public final void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, Slab.Type type) {
-		setBlocks(x1, x2, y, y + 1, z1, z2, material, type);
-	}
-	
-	public final void setBlocks(int x, int y1, int y2, int z, Material material, Slab.Type type) {
-		for (int y = y1; y < y2; y++) {
-			setBlock(x, y, z, material, type);
-		}
-	}
-	
-	public final void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, Slab.Type type) {
-		for (int x = x1; x < x2; x++) {
-			for (int y = y1; y < y2; y++) {
-				for (int z = z1; z < z2; z++) {
-					setBlock(x, y, z, material, type);
-				}
-			}
-		}
-	}
-
 	@Override
 	public final void setBlock(int x, int y, int z, Material material, BlockFace facing) {
 		Block block = getActualBlock(x, y, z);

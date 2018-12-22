@@ -26,6 +26,7 @@ public class CommandCityChunk implements CommandExecutor {
 		return plugin;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] split) {
 		Player player = null;

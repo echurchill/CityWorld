@@ -190,8 +190,8 @@ public class RoadLot extends ConnectedLot {
 			chunk.setBlocks(x, x + 2, baseY + 1, baseY + 2, 15, 16, bridgeRailMaterial, BlockFace.EAST, BlockFace.WEST);
 
 			// sidewalks
-			chunk.setBlocks(x, x + 2, baseY, baseY + 1, 1, 3, bridgeSidewalk2Material);
-			chunk.setBlocks(x, x + 2, baseY, baseY + 1, 13, 15, bridgeSidewalk2Material);
+			chunk.setBlocks(x, x + 2, baseY, baseY + 1, 1, 3, bridgeSidewalk2Material, Type.DOUBLE);
+			chunk.setBlocks(x, x + 2, baseY, baseY + 1, 13, 15, bridgeSidewalk2Material, Type.DOUBLE);
 		}
 
 		// pavement
@@ -215,8 +215,8 @@ public class RoadLot extends ConnectedLot {
 			chunk.setBlock(x + 1, baseY + 1, 15, bridgeRailMaterial, BlockFace.WEST);
 
 			// sidewalks
-			chunk.setBlocks(x, x + 2, baseY, baseY + 1, 1, 3, bridgeSidewalk2Material);
-			chunk.setBlocks(x, x + 2, baseY, baseY + 1, 13, 15, bridgeSidewalk2Material);
+			chunk.setBlocks(x, x + 2, baseY, baseY + 1, 1, 3, bridgeSidewalk2Material, Type.DOUBLE);
+			chunk.setBlocks(x, x + 2, baseY, baseY + 1, 13, 15, bridgeSidewalk2Material, Type.DOUBLE);
 		}
 
 		// pavement
@@ -240,8 +240,8 @@ public class RoadLot extends ConnectedLot {
 			chunk.setBlock(x + 1, baseY + 1, 15, bridgeRailMaterial, BlockFace.EAST, BlockFace.WEST);
 	
 			// sidewalks
-			chunk.setBlocks(x, x + 2, baseY, baseY + 1, 1, 3, bridgeSidewalk2Material);
-			chunk.setBlocks(x, x + 2, baseY, baseY + 1, 13, 15, bridgeSidewalk2Material);
+			chunk.setBlocks(x, x + 2, baseY, baseY + 1, 1, 3, bridgeSidewalk2Material, Type.DOUBLE);
+			chunk.setBlocks(x, x + 2, baseY, baseY + 1, 13, 15, bridgeSidewalk2Material, Type.DOUBLE);
 		}
 		
 		// pavement
@@ -262,14 +262,14 @@ public class RoadLot extends ConnectedLot {
 			chunk.setBlock(x + 1, baseY + 2, 15, bridgeRailMaterial, BlockFace.WEST);
 
 			// sidewalks
-			chunk.setBlocks(x, x + 2, baseY, baseY + 1, 1, 3, bridgeSidewalk2Material);
-			chunk.setBlocks(x, x + 2, baseY, baseY + 1, 13, 15, bridgeSidewalk2Material);
+			chunk.setBlocks(x, x + 2, baseY, baseY + 1, 1, 3, bridgeSidewalk2Material, Type.DOUBLE);
+			chunk.setBlocks(x, x + 2, baseY, baseY + 1, 13, 15, bridgeSidewalk2Material, Type.DOUBLE);
 			chunk.setBlocks(x, x + 2, baseY + 1, baseY + 2, 1, 3, bridgeSidewalk1Material);
 			chunk.setBlocks(x, x + 2, baseY + 1, baseY + 2, 13, 15, bridgeSidewalk1Material);
 		}
 
 		// pavement
-		chunk.setBlocks(x, x + 2, baseY, baseY + 1, 3, 13, bridgePavement2Material);
+		chunk.setBlocks(x, x + 2, baseY, baseY + 1, 3, 13, bridgePavement2Material, Type.DOUBLE);
 	}
 
 	private void placeEWBridgePartBW(AbstractBlocks chunk, int x, int baseY) {
@@ -286,14 +286,14 @@ public class RoadLot extends ConnectedLot {
 			chunk.setBlock(x + 1, baseY + 2, 15, bridgeRailMaterial, BlockFace.EAST, BlockFace.WEST);
 	
 			// sidewalks
-			chunk.setBlocks(x, x + 2, baseY, baseY + 1, 1, 3, bridgeSidewalk2Material);
-			chunk.setBlocks(x, x + 2, baseY, baseY + 1, 13, 15, bridgeSidewalk2Material);
+			chunk.setBlocks(x, x + 2, baseY, baseY + 1, 1, 3, bridgeSidewalk2Material, Type.DOUBLE);
+			chunk.setBlocks(x, x + 2, baseY, baseY + 1, 13, 15, bridgeSidewalk2Material, Type.DOUBLE);
 			chunk.setBlocks(x, x + 2, baseY + 1, baseY + 2, 1, 3, bridgeSidewalk1Material);
 			chunk.setBlocks(x, x + 2, baseY + 1, baseY + 2, 13, 15, bridgeSidewalk1Material);
 		}
 		
 		// pavement
-		chunk.setBlocks(x, x + 2, baseY, baseY + 1, 3, 13, bridgePavement2Material);
+		chunk.setBlocks(x, x + 2, baseY, baseY + 1, 3, 13, bridgePavement2Material, Type.DOUBLE);
 	}
 	
 	private void placeWBridgeColumns(AbstractBlocks chunk, int baseY) {
@@ -327,8 +327,8 @@ public class RoadLot extends ConnectedLot {
 			chunk.setBlocks(15, 16, baseY + 1, baseY + 2, z, z + 2, bridgeRailMaterial, BlockFace.NORTH, BlockFace.SOUTH);
 	
 			// sidewalks
-			chunk.setBlocks(1, 3, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Material);
-			chunk.setBlocks(13, 15, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Material);
+			chunk.setBlocks(1, 3, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Material, Type.DOUBLE);
+			chunk.setBlocks(13, 15, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Material, Type.DOUBLE);
 		}
 		
 		// pavement
@@ -352,8 +352,8 @@ public class RoadLot extends ConnectedLot {
 			chunk.setBlock(15, baseY + 1, z + 1, bridgeRailMaterial, BlockFace.NORTH, BlockFace.SOUTH);
 
 			// sidewalks
-			chunk.setBlocks(1, 3, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Material);
-			chunk.setBlocks(13, 15, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Material);
+			chunk.setBlocks(1, 3, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Material, Type.DOUBLE);
+			chunk.setBlocks(13, 15, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Material, Type.DOUBLE);
 		}
 
 		// pavement
@@ -377,8 +377,8 @@ public class RoadLot extends ConnectedLot {
 			chunk.setBlock(15, baseY + 1, z + 1, bridgeRailMaterial, BlockFace.NORTH);
 
 			// sidewalks
-			chunk.setBlocks(1, 3, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Material);
-			chunk.setBlocks(13, 15, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Material);
+			chunk.setBlocks(1, 3, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Material, Type.DOUBLE);
+			chunk.setBlocks(13, 15, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Material, Type.DOUBLE);
 		}
 
 		// pavement
@@ -399,14 +399,14 @@ public class RoadLot extends ConnectedLot {
 			chunk.setBlock(15, baseY + 2, z + 1, bridgeRailMaterial, BlockFace.NORTH, BlockFace.SOUTH);
 
 			// sidewalks
-			chunk.setBlocks(1, 3, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Material);
-			chunk.setBlocks(13, 15, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Material);
+			chunk.setBlocks(1, 3, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Material, Type.DOUBLE);
+			chunk.setBlocks(13, 15, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Material, Type.DOUBLE);
 			chunk.setBlocks(1, 3, baseY + 1, baseY + 2, z, z + 2, bridgeSidewalk1Material);
 			chunk.setBlocks(13, 15, baseY + 1, baseY + 2, z, z + 2, bridgeSidewalk1Material);
 		}
 
 		// pavement
-		chunk.setBlocks(3, 13, baseY, baseY + 1, z, z + 2, bridgePavement2Material);
+		chunk.setBlocks(3, 13, baseY, baseY + 1, z, z + 2, bridgePavement2Material, Type.DOUBLE);
 	}
 
 	private void placeNSBridgePartBS(AbstractBlocks chunk, int z, int baseY) {
@@ -423,14 +423,14 @@ public class RoadLot extends ConnectedLot {
 			chunk.setBlock(15, baseY + 2, z + 1, bridgeRailMaterial, BlockFace.NORTH);
 	
 			// sidewalks
-			chunk.setBlocks(1, 3, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Material);
-			chunk.setBlocks(13, 15, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Material);
+			chunk.setBlocks(1, 3, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Material, Type.DOUBLE);
+			chunk.setBlocks(13, 15, baseY, baseY + 1, z, z + 2, bridgeSidewalk2Material, Type.DOUBLE);
 			chunk.setBlocks(1, 3, baseY + 1, baseY + 2, z, z + 2, bridgeSidewalk1Material);
 			chunk.setBlocks(13, 15, baseY + 1, baseY + 2, z, z + 2, bridgeSidewalk1Material);
 		}
 		
 		// pavement
-		chunk.setBlocks(3, 13, baseY, baseY + 1, z, z + 2, bridgePavement2Material);
+		chunk.setBlocks(3, 13, baseY, baseY + 1, z, z + 2, bridgePavement2Material, Type.DOUBLE);
 	}
 	
 	private void placeNBridgeColumns(AbstractBlocks chunk, int baseY) {

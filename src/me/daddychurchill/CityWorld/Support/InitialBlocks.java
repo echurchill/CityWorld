@@ -5,6 +5,8 @@ import org.bukkit.Axis;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.*;
+import org.bukkit.block.data.type.Slab;
+import org.bukkit.block.data.type.Slab.Type;
 import org.bukkit.generator.ChunkGenerator.ChunkData;
 
 public final class InitialBlocks extends AbstractBlocks {
@@ -101,6 +103,17 @@ public final class InitialBlocks extends AbstractBlocks {
 	@Override
 	public void setBlock(int x, int y, int z, Material material) {
 		chunkData.setBlock(x, y, z, material);
+	}
+
+	@Override
+	public final void setBlock(int x, int y, int z, Material material, Type type) {
+		BlockData blockData = material.createBlockData();
+		try {
+			if (blockData instanceof Slab)
+				((Slab) blockData).setType(type);
+		} finally {
+			chunkData.setBlock(x, y, z, blockData);
+		}
 	}
 
 	@Override
