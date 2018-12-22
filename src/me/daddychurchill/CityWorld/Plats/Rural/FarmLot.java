@@ -112,7 +112,7 @@ public class FarmLot extends ConnectedLot {
 //	private final static Material dirtMaterial = Material.DIRT;
 //	private final static Material soulMaterial = Material.SOUL_SAND;
 	private final static Material poleMaterial = Material.SPRUCE_FENCE;
-	private final static Material trellisMaterial = Material.SPRUCE_WOOD;
+	private final static Material trellisMaterial = Material.SPRUCE_PLANKS;
 
 	@Override
 	public int getBottomY(CityWorldGenerator generator) {

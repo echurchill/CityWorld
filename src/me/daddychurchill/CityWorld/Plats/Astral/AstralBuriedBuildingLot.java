@@ -31,8 +31,8 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 			stepMaterial = Material.BRICK_STAIRS;
 			break;
 		case 2:
-			wallMaterial = Material.SPRUCE_WOOD;
-			stepMaterial = Material.BIRCH_STAIRS;
+			wallMaterial = Material.SPRUCE_PLANKS;
+			stepMaterial = Material.SPRUCE_STAIRS;
 			break;
 		case 3:
 			wallMaterial = Material.SANDSTONE;

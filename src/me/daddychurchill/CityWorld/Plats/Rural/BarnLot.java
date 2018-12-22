@@ -28,8 +28,8 @@ public class BarnLot extends IsolatedLot {
 		
 		style = LotStyle.STRUCTURE;
 		
-		wallMat = Material.ACACIA_WOOD;
-		roofMat = Material.BIRCH_WOOD;
+		wallMat = Material.ACACIA_PLANKS;
+		roofMat = Material.BIRCH_PLANKS;
 		windowsMat = Material.GLASS_PANE;
 	}
 
