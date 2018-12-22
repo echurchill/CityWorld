@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Factories;
 
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 
 import me.daddychurchill.CityWorld.Support.AbstractBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -16,7 +17,7 @@ public class CurvedWallFactory extends MaterialFactory {
 	}
 
 	@Override
-	public void placeMaterial(AbstractBlocks blocks, Material primary, Material secondary, int x, int y1, int y2, int z) {
-		super.placeMaterial(blocks, primary, secondary, pickMaterial(primary, secondary, x * z), x, y1, y2, z);
+	public void placeMaterial(AbstractBlocks blocks, Material primary, Material secondary, int x, int y1, int y2, int z, BlockFace... facing) {
+		super.placeMaterial(blocks, primary, secondary, pickMaterial(primary, secondary, x * z), x, y1, y2, z, facing);
 	}
 }

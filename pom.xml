@@ -6,7 +6,7 @@
 
     <groupId>me.daddychurchill</groupId>
     <artifactId>CityWorld</artifactId>
-    <version>4.00</version>
+    <version>4.000</version>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -14,8 +14,8 @@
     </properties>
     <repositories>
         <repository>
-            <id>paper-repo</id>
-            <url>https://repo.destroystokyo.com/repository/maven-public/</url>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
             <id>worldedit-worldguard-repo</id>
@@ -44,12 +44,12 @@
         </resources>
     </build>
     <dependencies>
-        <!--Bukkit API-->
+        <!--Spigot API-->
         <dependency>
-                <groupId>com.destroystokyo.paper</groupId>
-                <artifactId>paper-api</artifactId>
-                <version>1.13.1-R0.1-SNAPSHOT</version>
-                <scope>provided</scope>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.13.2-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
          <!--Worldedit dependency-->
         <dependency>

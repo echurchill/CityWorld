@@ -274,9 +274,9 @@ public abstract class PlatLot {
 			generateMineShaftSpace(generator, chunk, 6, 10, y1, y1 + 4, 6, 10);
 	}
 	
-	private final static Material shaftBridge = Material.SPRUCE_WOOD; 
-	private final static Material shaftSupport = Material.SPRUCE_FENCE;
-	private final static Material shaftBeam = Material.SPRUCE_WOOD;
+	private final static Material shaftBridge = Material.OAK_PLANKS;
+	private final static Material shaftSupport = Material.OAK_FENCE;
+	private final static Material shaftBeam = Material.OAK_PLANKS;
 
 	private void generateMineShaftSpace(CityWorldGenerator generator, InitialBlocks chunk, int x1, int x2, int y1, int y2, int z1, int z2) {
 		chunk.setEmptyBlocks(x1, x2, y1, z1, z2, shaftBridge);
@@ -490,18 +490,18 @@ public abstract class PlatLot {
 	private void generateMineSupport(RealBlocks chunk, int x, int y, int z) {
 		int aboveSupport = chunk.findLastEmptyAbove(x, y, z, blockYs.maxHeight);
 		if (aboveSupport < blockYs.maxHeight)
-			chunk.setBlocks(x, y + 1, aboveSupport + 1, z, Material.SPRUCE_FENCE);
+			chunk.setBlocks(x, y + 1, aboveSupport + 1, z, Material.OAK_FENCE);
 	}
 	private void placeMineStairBase(RealBlocks chunk, int x, int y, int z) {
 		chunk.setBlocks(x, y + 1, y + 4, z, Material.AIR);
-		chunk.setEmptyBlock(x, y, z, Material.SPRUCE_WOOD);
+		chunk.setEmptyBlock(x, y, z, Material.OAK_PLANKS);
 	}
 	
 	private void placeMineStairStep(RealBlocks chunk, int x, int y, int z, BlockFace direction, BlockFace flipDirection) {
 		chunk.setBlocks(x, y + 1, y + 4, z, Material.AIR);
-		chunk.setBlock(x, y, z, Material.BIRCH_STAIRS, direction);
+		chunk.setBlock(x, y, z, Material.OAK_STAIRS, direction);
 		if (chunk.isEmpty(x, y - 1, z))
-			chunk.setBlock(x, y - 1, z, Material.BIRCH_STAIRS, flipDirection, Half.TOP);
+			chunk.setBlock(x, y - 1, z, Material.OAK_STAIRS, flipDirection, Half.TOP);
 	}
 	
 	private void generateMineTreat(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z) {

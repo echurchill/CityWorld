@@ -1,8 +1,9 @@
 package me.daddychurchill.CityWorld.Support;
 
-import java.util.ArrayList;
-
 import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+
+import java.util.ArrayList;
 
 public class CornerBlocks {
 	
@@ -502,7 +503,7 @@ public class CornerBlocks {
 			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
 			{FLR, FLR, FLR, FLR, FLR, WGG, non},
 			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
-			{FLR, FLR, FLR, BDD, BNN, BNN, BRR},
+			{FLR, FLR, FLR, BDD, BNN, BNN, BRR},    // FIXME: Strange door
 			{FLR, FLR, WWW, BNN, BNN, BNN, BRR},
 			{WWW, WGG, WWW, BNN, BNN, BNN, BRR},
 			{WWW, non, WWW, BRR, BRR, BRR, BRR},
@@ -522,7 +523,7 @@ public class CornerBlocks {
 			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
 			{FLR, FLR, FLR, FLR, FLR, Wgg, non},
 			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
-			{FLR, FLR, FLR, BDD, BNN, BNN, BRR},
+			{FLR, FLR, FLR, BDD, BNN, BNN, BRR},    // FIXME: Strange door
 			{FLR, FLR, WWW, BNN, BNN, BNN, BRR},
 			{WWW, Wgg, WWW, BNN, BNN, BNN, BRR},
 			{WWW, non, WWW, BRR, BRR, BRR, BRR},
@@ -572,7 +573,7 @@ public class CornerBlocks {
 			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
 			{FLR, FLR, FLR, FLR, FLR, WGG, non},
 			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
-			{FLR, FLR, FLR, BDD, BNN, BNN, Brr},
+			{FLR, FLR, FLR, BDD, BNN, BNN, Brr},    // FIXME: Strange door
 			{FLR, FLR, WWW, BNN, BNN, BNN, Brr},
 			{WWW, WGG, WWW, BNN, BNN, BNN, Brr},
 			{WWW, non, WWW, Brr, Brr, Brr, Brr},
@@ -602,7 +603,7 @@ public class CornerBlocks {
 			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
 			{FLR, FLR, FLR, FLR, FLR, Wgg, non},
 			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
-			{FLR, FLR, FLR, BDD, BNN, BNN, Brr},
+			{FLR, FLR, FLR, BDD, BNN, BNN, Brr},    // FIXME: Strange door
 			{FLR, FLR, WWW, BNN, BNN, BNN, Brr},
 			{WWW, Wgg, WWW, BNN, BNN, BNN, Brr},
 			{WWW, non, WWW, Brr, Brr, Brr, Brr},
@@ -663,7 +664,7 @@ public class CornerBlocks {
 			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
 			{FLR, FLR, FLR, FLR, FLR, WGG, non},
 			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
-			{FLR, FLR, FLR, BDD, BNN, BNN, Bgg},
+			{FLR, FLR, FLR, BDD, BNN, BNN, Bgg},    // FIXME: Strange door
 			{FLR, FLR, WWW, BNN, BNN, BNN, Bgg},
 			{WWW, WGG, WWW, BNN, BNN, BNN, Bgg},
 			{WWW, non, WWW, Bgg, Bgg, Bgg, Bgg},
@@ -693,7 +694,7 @@ public class CornerBlocks {
 			{FLR, FLR, FLR, FLR, FLR, WWW, WWW},
 			{FLR, FLR, FLR, FLR, FLR, Wgg, non},
 			{FLR, FLR, FLR, FLR, WWW, WWW, WWW},
-			{FLR, FLR, FLR, BDD, BNN, BNN, Bgg},
+			{FLR, FLR, FLR, BDD, BNN, BNN, Bgg},    // FIXME: Strange door
 			{FLR, FLR, WWW, BNN, BNN, BNN, Bgg},
 			{WWW, Wgg, WWW, BNN, BNN, BNN, Bgg},
 			{WWW, non, WWW, Bgg, Bgg, Bgg, Bgg},
@@ -838,9 +839,7 @@ public class CornerBlocks {
 		private byte[][] flipWE(byte[][] source) {
 			byte[][] result = new byte[CornerBlocks.CornerWidth][CornerBlocks.CornerWidth];
 			for (int x = 0; x < CornerBlocks.CornerWidth; x++) {
-				for (int z = 0; z < CornerBlocks.CornerWidth; z++) {
-					result[CornerBlocks.CornerWidth - x - 1][z] = source[x][z];
-				}
+				System.arraycopy(source[x], 0, result[CornerBlocks.CornerWidth - x - 1], 0, CornerBlocks.CornerWidth);
 			}
 			return result;
 		}
@@ -858,25 +857,25 @@ public class CornerBlocks {
 		@Override
 		public void drawNWVerticals(AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
 				Material primary, Material secondary, boolean outsetEffect, boolean onRoof) {
-			setVerticals(NW, blocks, xInset, y1, y2, zInset, primary, secondary, outsetEffect, onRoof);
+			setVerticals(NW, blocks, xInset, y1, y2, zInset, primary, secondary, outsetEffect, onRoof, BlockFace.NORTH_WEST);
 		}
 		
 		@Override
 		public void drawNEVerticals(AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
 				Material primary, Material secondary, boolean outsetEffect, boolean onRoof) {
-			setVerticals(NE, blocks, xInset, y1, y2, zInset, primary, secondary, outsetEffect, onRoof);
+			setVerticals(NE, blocks, xInset, y1, y2, zInset, primary, secondary, outsetEffect, onRoof, BlockFace.NORTH_EAST);
 		}
 		
 		@Override
 		public void drawSWVerticals(AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
 				Material primary, Material secondary, boolean outsetEffect, boolean onRoof) {
-			setVerticals(SW, blocks, xInset, y1, y2, zInset, primary, secondary, outsetEffect, onRoof);
+			setVerticals(SW, blocks, xInset, y1, y2, zInset, primary, secondary, outsetEffect, onRoof, BlockFace.SOUTH_WEST);
 		}
 		
 		@Override
 		public void drawSEVerticals(AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
 				Material primary, Material secondary, boolean outsetEffect, boolean onRoof) {
-			setVerticals(SE, blocks, xInset, y1, y2, zInset, primary, secondary, outsetEffect, onRoof);
+			setVerticals(SE, blocks, xInset, y1, y2, zInset, primary, secondary, outsetEffect, onRoof, BlockFace.SOUTH_EAST);
 		}
 		
 		@Override
@@ -904,7 +903,8 @@ public class CornerBlocks {
 		}
 		
 		private void setVerticals(byte[][] source, AbstractBlocks blocks, int xInset, int y1, int y2, int zInset, 
-				Material primary, Material secondary, boolean outsetEffect, boolean onRoof) {
+				Material primary, Material secondary, boolean outsetEffect, boolean onRoof, 
+				BlockFace connectedTo) {
 			for (int x = 0; x < CornerBlocks.CornerWidth; x++) {
 				for (int z = 0; z < CornerBlocks.CornerWidth; z++) {
 					switch (source[x][z]) {
@@ -915,6 +915,7 @@ public class CornerBlocks {
 						blocks.setBlocks(xInset + x, y1, y2, zInset + z, secondary);
 						break;
 					case ggg:
+						// TODO: Direction
 						blocks.setBlocks(xInset + x, y1, y2, zInset + z, Material.GLASS_PANE);
 						break;
 					case WGG:
@@ -923,6 +924,7 @@ public class CornerBlocks {
 						break;
 					case Wgg:
 						blocks.setBlock(xInset + x, y1, zInset + z, primary);
+						// TODO: Direction
 						blocks.setBlocks(xInset + x, y1 + 1, y2, zInset + z, Material.GLASS_PANE);
 						break;
 					case GWW:
@@ -943,6 +945,7 @@ public class CornerBlocks {
 						blocks.setBlock(xInset + x, y2 - 1, zInset + z, primary);
 						break;
 					case ggW:
+						// TODO: Direction
 						blocks.setBlocks(xInset + x, y1, y2 - 1, zInset + z, Material.GLASS_PANE);
 						blocks.setBlock(xInset + x, y2 - 1, zInset + z, primary);
 						break;
@@ -972,29 +975,30 @@ public class CornerBlocks {
 						break;
 					case BDD:
 						if (!onRoof) {
-							//TODO: need to put a door here. In order to do that though we will have to completely change who calls this and start passing in SupportBlocks
+							// Put a door here
 							blocks.setBlocks(xInset + x, y1 + 2, y2, zInset + z, primary);
+							blocks.setDoor(xInset + x, y1, zInset + z, Material.SPRUCE_DOOR, getDoorDirection(source, x, z, connectedTo));
 						}
 						break;
 					case BRR:
 						if (onRoof) {
 							blocks.setBlocks(xInset + x, y1, y2, zInset + z, primary);
 						} else {
-							blocks.setBlock(xInset + x, y1, zInset + z, Material.IRON_BARS);
+							blocks.setBlock(xInset + x, y1, zInset + z, Material.IRON_BARS, getDirections(source, x, z, connectedTo));
 						}
 						break;
 					case Brr:
 						if (onRoof) {
 							blocks.setBlocks(xInset + x, y1, y2, zInset + z, primary);
 						} else {
-							blocks.setBlock(xInset + x, y1, zInset + z, Material.SPRUCE_FENCE);
+							blocks.setBlock(xInset + x, y1, zInset + z, Material.SPRUCE_FENCE, getDirections(source, x, z, connectedTo));
 						}
 						break;
 					case Bgg:
 						if (onRoof) {
 							blocks.setBlocks(xInset + x, y1, y2, zInset + z, primary);
 						} else {
-							blocks.setBlock(xInset + x, y1, zInset + z, Material.GLASS_PANE);
+							blocks.setBlock(xInset + x, y1, zInset + z, Material.GLASS_PANE, getDirections(source, x, z, connectedTo));
 						}
 						break;
 
@@ -1068,4 +1072,80 @@ public class CornerBlocks {
 		}
 	}
 	
+	// Detect direction (Maybe we need some better ways?)
+	private BlockFace[] getDirections(byte[][] source, int x, int z, BlockFace connectedTo) {
+		if (connectedTo == BlockFace.SOUTH_WEST) {
+			if (x + z + 1 == CornerBlocks.CornerWidth) {
+				return new BlockFace[]{BlockFace.SOUTH, BlockFace.WEST};
+			} else if (x + z + 1 < CornerBlocks.CornerWidth) {
+				return new BlockFace[]{BlockFace.EAST, BlockFace.WEST};
+			} else {  // x + z + 1 > CornerBlocks.CornerWidth
+				return new BlockFace[]{BlockFace.NORTH, BlockFace.SOUTH};
+			}
+		}
+		if (connectedTo == BlockFace.NORTH_EAST) {
+			if (x + z + 1 == CornerBlocks.CornerWidth) {
+				return new BlockFace[]{BlockFace.NORTH, BlockFace.EAST};
+			} else if (x + z + 1 < CornerBlocks.CornerWidth) {
+				return new BlockFace[]{BlockFace.NORTH, BlockFace.SOUTH};
+			} else {  // x + z + 1 > CornerBlocks.CornerWidth
+				return new BlockFace[]{BlockFace.EAST, BlockFace.WEST};
+			}
+		}
+		if (connectedTo == BlockFace.SOUTH_EAST) {
+			if (x == z) {
+				return new BlockFace[]{BlockFace.SOUTH, BlockFace.EAST};
+			} else if (x < z) {
+				return new BlockFace[]{BlockFace.NORTH, BlockFace.SOUTH};
+			} else {  // x > z
+				return new BlockFace[]{BlockFace.EAST, BlockFace.WEST};
+			}
+		}
+		if (connectedTo == BlockFace.NORTH_WEST) {
+			if (x == z) {
+				return new BlockFace[]{BlockFace.NORTH, BlockFace.WEST};
+			} else if (x < z) {
+				return new BlockFace[]{BlockFace.EAST, BlockFace.WEST};
+			} else {  // x > z
+				return new BlockFace[]{BlockFace.NORTH, BlockFace.SOUTH};
+			}
+		}
+
+		return new BlockFace[]{};
+	}
+
+	// Detect door direction (Maybe we need some better ways?)
+	// Maybe hardcode in/with corners list?
+	private BlockFace getDoorDirection(byte[][] source, int x, int z, BlockFace connectedTo) {
+		if (connectedTo == BlockFace.SOUTH_WEST) {
+			if (x + z + 1 < CornerBlocks.CornerWidth) {
+				return BlockFace.NORTH;
+			} else if (x + z + 1 > CornerBlocks.CornerWidth) {
+				return BlockFace.EAST;
+			}
+		}
+		if (connectedTo == BlockFace.NORTH_EAST) {
+			if (x + z + 1 < CornerBlocks.CornerWidth) {
+				return BlockFace.WEST;
+			} else if (x + z + 1 > CornerBlocks.CornerWidth) {
+				return BlockFace.SOUTH;
+			}
+		}
+		if (connectedTo == BlockFace.SOUTH_EAST) {
+			if (x < z) {
+				return BlockFace.WEST;
+			} else if (x > z) {
+				return BlockFace.NORTH;
+			}
+		}
+		if (connectedTo == BlockFace.NORTH_WEST) {
+			if (x < z) {
+				return BlockFace.SOUTH;
+			} else if (x > z) {
+				return BlockFace.EAST;
+			}
+		}
+
+		return BlockFace.EAST;
+	}
 }

@@ -17,7 +17,6 @@ public class LootProvider_Normal extends LootProvider {
 		ItemStack[] items = getLoot(generator, odds, lootLocation, block);
 		if (items != null)
 			inv.addItem(items);
-		chest.update(true);
 	}
 	
 	@Override

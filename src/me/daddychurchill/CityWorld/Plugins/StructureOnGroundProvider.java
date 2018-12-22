@@ -157,7 +157,7 @@ public class StructureOnGroundProvider extends Provider {
 			chunk.setBlock(5, baseY, 3, colors.getWool());
 			chunk.setBlock(5, baseY + 1, 3, colors.getWool());
 			chunk.setBlock(6, baseY, 3, colors.getWool());
-			chunk.setBlock(6, baseY + 1, 3, matWindow);
+			chunk.setBlock(6, baseY + 1, 3, matWindow, BlockFace.EAST, BlockFace.WEST);
 			chunk.setBlock(6, baseY + 2, 3, colors.getWool());
 			chunk.setBlock(7, baseY + 1, 3, colors.getWool());
 			chunk.setBlock(7, baseY, 3, colors.getWool());
@@ -188,7 +188,7 @@ public class StructureOnGroundProvider extends Provider {
 			chunk.setBlock(3, baseY, 5, colors.getWool());
 			chunk.setBlock(3, baseY + 1, 5, colors.getWool());
 			chunk.setBlock(3, baseY, 6, colors.getWool());
-			chunk.setBlock(3, baseY + 1, 6, matWindow);
+			chunk.setBlock(3, baseY + 1, 6, matWindow, BlockFace.NORTH, BlockFace.SOUTH);
 			chunk.setBlock(3, baseY + 2, 6, colors.getWool());
 			chunk.setBlock(3, baseY + 1, 7, colors.getWool());
 			chunk.setBlock(3, baseY, 7, colors.getWool());
@@ -669,7 +669,7 @@ public class StructureOnGroundProvider extends Provider {
 	private final static Material materialGlass = Material.GLASS;
 	private final static Material materialFence = Material.SPRUCE_FENCE;
 	private final static Material materialStair = Material.BIRCH_STAIRS;
-	private final static Material materialUnderStairs = Material.SPRUCE_WOOD;
+	private final static Material materialUnderStairs = Material.BIRCH_PLANKS;
 	
 	private final static int MinSize = 4;
 	private final static int MaxSize = 6;

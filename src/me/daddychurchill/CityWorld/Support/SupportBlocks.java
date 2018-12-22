@@ -4,30 +4,19 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
+import org.bukkit.Axis;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
-import org.bukkit.block.data.Ageable;
-import org.bukkit.block.data.Bisected;
+import org.bukkit.block.data.*;
 import org.bukkit.block.data.Bisected.Half;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Directional;
-import org.bukkit.block.data.Levelled;
-import org.bukkit.block.data.Powerable;
-import org.bukkit.block.data.Rail;
 import org.bukkit.block.data.Rail.Shape;
-import org.bukkit.block.data.Rotatable;
-import org.bukkit.block.data.type.Bed;
+import org.bukkit.block.data.type.*;
 import org.bukkit.block.data.type.Bed.Part;
-import org.bukkit.block.data.type.Door;
 import org.bukkit.block.data.type.Door.Hinge;
-import org.bukkit.block.data.type.Leaves;
-import org.bukkit.block.data.type.Slab;
-import org.bukkit.block.data.type.Snow;
-import org.bukkit.material.Vine;
 import org.bukkit.util.noise.NoiseGenerator;
 
 public abstract class SupportBlocks extends AbstractBlocks {
@@ -79,13 +68,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	public final void setBlock(int x, int y, int z, Material material) {
 		setActualBlock(getActualBlock(x, y, z), material);
 	}
-	
-	public final void setBlockWithPhysics(int x, int y, int z, Material material) {
-		boolean was = setDoPhysics(true);
-		setBlock(x, y, z, material);
-		setDoPhysics(was);
-	}
-	
+
 	protected final boolean isType(Block block, Material ... types) {
 		Material type = block.getType();
 		for (Material test : types)
@@ -97,7 +80,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	public final boolean isType(int x, int y, int z, Material type) {
 		return getActualBlock(x, y, z).getType() == type;
 	}
-	
+
 	public final boolean isOfTypes(int x, int y, int z, Material ... types) {
 		return isType(getActualBlock(x, y, z), types);
 	}
@@ -146,57 +129,100 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	}
 	
 	@Override
+	public final void setAtmosphereBlock(int x, int y, int z, Material material) {
+		setBlock(x, y, z, material);
+		BlockData blockData;
+		// West
+		if (x > 0) {
+			try {
+				blockData = getActualBlock(x - 1, y, z).getBlockData();
+				if (blockData instanceof MultipleFacing) {
+					((MultipleFacing) blockData).setFace(BlockFace.EAST, false);
+					getActualBlock(x - 1, y, z).setBlockData(blockData, false);
+				}
+			} catch (Exception ignored) {
+
+			}
+		}
+		// East
+		if (x < 15) {
+			try {
+				blockData = getActualBlock(x + 1, y, z).getBlockData();
+				if (blockData instanceof MultipleFacing) {
+					((MultipleFacing) blockData).setFace(BlockFace.WEST, false);
+					getActualBlock(x + 1, y, z).setBlockData(blockData, false);
+				}
+			} catch (Exception ignored) {
+
+			}
+		}
+		// North
+		if (z > 0) {
+			try {
+				blockData = getActualBlock(x, y, z - 1).getBlockData();
+				if (blockData instanceof MultipleFacing) {
+					((MultipleFacing) blockData).setFace(BlockFace.SOUTH, false);
+					getActualBlock(x, y, z - 1).setBlockData(blockData, false);
+				}
+			} catch (Exception ignored) {
+
+			}
+		}
+		// South
+		if (z < 15) {
+			try {
+				blockData = getActualBlock(x, y, z + 1).getBlockData();
+				if (blockData instanceof MultipleFacing) {
+					((MultipleFacing) blockData).setFace(BlockFace.NORTH, false);
+					getActualBlock(x, y, z + 1).setBlockData(blockData, false);
+				}
+			} catch (Exception ignored) {
+
+			}
+		}
+	}
+
+	@Override
 	public final void clearBlock(int x, int y, int z) {
 		getActualBlock(x, y, z).setType(Material.AIR);
 	}
 
-	//================ x, y1, y2, z
-	@Override
-	public final void setBlocks(int x, int y1, int y2, int z, Material material) {
-		for (int y = y1; y < y2; y++)
-			setBlock(x, y, z, material);
-	}
-
-	//================ x1, x2, y1, y2, z1, z2
-	@Override
-	public final void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
-		for (int x = x1; x < x2; x++) {
-			for (int y = y1; y < y2; y++) {
-				for (int z = z1; z < z2; z++) {
-					setBlock(x, y, z, material);
-				}
-			}
-		}
-	}
-
-	public final void setBlocksWithPhysics(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
-		boolean was = setDoPhysics(true);
-		for (int x = x1; x < x2; x++) {
-			for (int y = y1; y < y2; y++) {
-				for (int z = z1; z < z2; z++) {
-					setBlock(x, y, z, material);
-				}
-			}
-		}
-		setDoPhysics(was);
-	}
-	
-	//================ x1, x2, y, z1, z2
-	@Override
-	public final void setBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				setBlock(x, y, z, material);
-			}
-		}
-	}
-
 	@Override
 	public final void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
-		setBlocks(x1, x2, y1, y2, z1, z1 + 1, material);
-		setBlocks(x1, x2, y1, y2, z2 - 1, z2, material);
-		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material);
-		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material);
+		if (material.createBlockData() instanceof MultipleFacing) {
+			setBlocks(x1 + 1, x2 - 1, y1, y2, z1, z1 + 1, material, BlockFace.EAST, BlockFace.WEST);    // N
+			setBlocks(x1 + 1, x2 - 1, y1, y2, z2 - 1, z2, material, BlockFace.EAST, BlockFace.WEST);    // S
+			setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material, BlockFace.SOUTH, BlockFace.NORTH);  // W
+			setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material, BlockFace.SOUTH, BlockFace.NORTH);  // E
+			setBlocks(x1, y1, y2, z1, material, BlockFace.SOUTH, BlockFace.EAST);                // NW
+			setBlocks(x1, y1, y2, z2 - 1, material, BlockFace.NORTH, BlockFace.EAST);         // SW
+			setBlocks(x2 - 1, y1, y2, z1, material, BlockFace.SOUTH, BlockFace.WEST);         // NE
+			setBlocks(x2 - 1, y1, y2, z2 - 1, material, BlockFace.NORTH, BlockFace.WEST);  // SE
+		} else {
+			setBlocks(x1, x2, y1, y2, z1, z1 + 1, material);                    // N
+			setBlocks(x1, x2, y1, y2, z2 - 1, z2, material);                    // S
+			setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material);    // W
+			setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material);    // E
+		}
+	}
+
+	public final void fillBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
+		fillBlocks(x1, x2, y, y + 1, z1, z2, material);
+	}
+
+	public final void fillBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
+		if (!(material.createBlockData() instanceof MultipleFacing)) {
+			setBlocks(x1, x2, y1, y2, z1, z2, material);
+		}
+		setBlocks(x1, x2, y1, y2, z1, z2, material, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST);
+		setBlocks(x1 + 1, x2 - 1, y1, y2, z1, z1 + 1, material, BlockFace.EAST, BlockFace.WEST, BlockFace.SOUTH);   // N
+		setBlocks(x1 + 1, x2 - 1, y1, y2, z2 - 1, z2, material, BlockFace.EAST, BlockFace.WEST, BlockFace.NORTH);   // S
+		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material, BlockFace.SOUTH, BlockFace.NORTH, BlockFace.EAST);  // W
+		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material, BlockFace.SOUTH, BlockFace.NORTH, BlockFace.WEST);  // E
+		setBlocks(x1, y1, y2, z1, material, BlockFace.SOUTH, BlockFace.EAST);                // NW
+		setBlocks(x1, y1, y2, z2 - 1, material, BlockFace.NORTH, BlockFace.EAST);         // SW
+		setBlocks(x2 - 1, y1, y2, z1, material, BlockFace.SOUTH, BlockFace.WEST);         // NE
+		setBlocks(x2 - 1, y1, y2, z2 - 1, material, BlockFace.NORTH, BlockFace.WEST);  // SE
 	}
 	
 	@Override
@@ -371,10 +397,10 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		block.setType(Material.VINE, false);
 		BlockData data = block.getBlockData();
 		try {
-			if (data instanceof Vine) {
-				Vine vines = (Vine)data;
-				for (BlockFace face: faces)
-					vines.putOnFace(face);
+			if (data instanceof MultipleFacing) {
+				MultipleFacing vines = (MultipleFacing) data;
+				for (BlockFace face : faces)
+					vines.setFace(face, true);
 			}
 		} finally {
 			block.setBlockData(data, doPhysics);
@@ -433,47 +459,87 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			}
 		}
 	}
-	
-	public final Block setBlock(int x, int y, int z, Material material, BlockFace facing) {
+
+	@Override
+	public final void setBlock(int x, int y, int z, Material material, BlockFace facing) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(material, false);
 		BlockData data = block.getBlockData();
 		try {
-			if (data instanceof Directional)
+			if (data instanceof Directional) {
 				((Directional) data).setFacing(facing);
+			} else if (data instanceof MultipleFacing) {
+				((MultipleFacing) data).setFace(facing, true);
+			} else if (data instanceof Orientable) {
+				switch (facing) {
+					case NORTH:
+					case SOUTH:
+						((Orientable) data).setAxis(Axis.Z);
+						break;
+					case EAST:
+					case WEST:
+						((Orientable) data).setAxis(Axis.X);
+						break;
+					default:
+						((Orientable) data).setAxis(Axis.Y);
+				}
+			}
+		} finally {
+			block.setBlockData(data, doPhysics);
+		}
+	}
+
+	@Override
+	public final void setBlock(int x, int y, int z, Material material, BlockFace... facing) {
+		Block block = getActualBlock(x, y, z);
+		block.setType(material, false);
+		BlockData data = block.getBlockData();
+		try {
+			if (data instanceof MultipleFacing) {
+				for (BlockFace face : facing) {
+					((MultipleFacing) data).setFace(face, true);
+				}
+			}
+		} finally {
+			block.setBlockData(data, doPhysics);
+		}
+	}
+
+	public final Block setStair(int x, int y, int z, Material material, BlockFace facing) {
+		return setStair(x, y, z, material, facing, Stairs.Shape.STRAIGHT);
+	}
+
+	public final Block setStair(int x, int y, int z, Material material, BlockFace facing, Stairs.Shape shape) {
+		Block block = getActualBlock(x, y, z);
+		block.setType(material, false);
+		BlockData data = block.getBlockData();
+		try {
+			if (data instanceof Directional) {
+				((Directional) data).setFacing(facing);
+			}
+			if (data instanceof Stairs) {
+				((Stairs) data).setShape(shape);
+			}
 		} finally {
 			block.setBlockData(data, doPhysics);
 		}
 		return block;
 	}
-	
-	public final void setBlocks(int x, int y1, int y2, int z, Material material, BlockFace facing) {
-		setBlocks(x, x + 1, y1, y2, z, z + 1, material, facing);
-	}
-	
-	public final void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, BlockFace facing) {
-		for (int x = x1; x < x2; x++) {
-			for (int y = y1; y < y2; y++) {
-				for (int z = z1; z < z2; z++) {
-					setBlock(x, y, z, material, facing);
-				}
-			}
-		}
-	}
-	
+
 	public final void drawCrane(DataContext context, Odds odds, int x, int y, int z) {
 		Colors colors = new Colors(odds);
 		
 		// vertical bit
-		setBlocks(x, y, y + 8, z, Material.IRON_BARS);
-		setBlocks(x - 1, y, y + 8, z, Material.IRON_BARS); // 1.9 shows iron fences very thin now
+		setBlocks(x, y, y + 8, z, Material.IRON_BARS, BlockFace.WEST);
+		setBlocks(x - 1, y, y + 8, z, Material.IRON_BARS, BlockFace.EAST); // 1.9 shows iron fences very thin now
 		setBlocks(x, y + 8, y + 10, z, Material.STONE);
 		setBlocks(x - 1, y + 8, y + 10, z, Material.STONE_SLAB);
 		setBlock(x, y + 10, z, context.torchMat, BlockFace.UP);
 		
 		// horizontal bit
 		setBlock(x + 1, y + 8, z, Material.GLASS);
-		setBlocks(x + 2, x + 11, y + 8, y + 9, z, z + 1, Material.IRON_BARS);
+		setBlocks(x + 2, x + 10, y + 8, y + 9, z, z + 1, Material.IRON_BARS, BlockFace.EAST, BlockFace.WEST);
+		setBlock(x + 10, y + 8, z, Material.IRON_BARS, BlockFace.WEST);
 		setBlocks(x + 1, x + 10, y + 9, y + 10, z, z + 1, Material.STONE_SLAB);
 		setBlock(x + 10, y + 9, z, Material.STONE_BRICK_STAIRS, BlockFace.WEST);
 		
@@ -519,58 +585,22 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		
 		Hinge hinge = Hinge.LEFT;
 		
-		switch (facing) {
-		case EAST_NORTH_EAST:
-			facing = BlockFace.EAST;
-			break;
-		case NORTH_NORTH_EAST:
-			facing = BlockFace.NORTH;
-			break;
-		case SOUTH_SOUTH_EAST:
-			facing = BlockFace.SOUTH;
-			break;
-		case WEST_NORTH_WEST:
-			facing = BlockFace.WEST;
-			break;
-
-		case EAST_SOUTH_EAST:
-			facing = BlockFace.EAST;
-			hinge = Hinge.RIGHT;
-			break;
-		case NORTH_NORTH_WEST:
-			facing = BlockFace.NORTH;
-			hinge = Hinge.RIGHT;
-			break;
-		case SOUTH_SOUTH_WEST:
-			facing = BlockFace.SOUTH;
-			hinge = Hinge.RIGHT;
-			break;
-		case WEST_SOUTH_WEST:
-			facing = BlockFace.WEST;
-			hinge = Hinge.RIGHT;
-			break;
-		
-		case NORTH_EAST:
-			facing = BlockFace.EAST;
-			break;
-		case NORTH_WEST:
-			facing = BlockFace.WEST;
-			break;
-		case SOUTH_EAST:
-			facing = BlockFace.EAST;
-			hinge = Hinge.RIGHT;
-			break;
-		case SOUTH_WEST:
-			facing = BlockFace.WEST;
-			hinge = Hinge.RIGHT;
-			break;
-		
-		default:
-			break;
-		}
+		facing = fixFacing(facing);
+		facing = facing.getOppositeFace();
 		
 		setDoorBlock(x, y, z, material, facing, Half.BOTTOM, hinge, false);
 		setDoorBlock(x, y + 1, z, material, facing, Half.TOP, hinge, true);
+	}
+
+	public void setFenceDoor(int x, int y1, int y2, int z, Material material, BlockFace facing) {
+
+		facing = fixFacing(facing);
+
+		if (facing == BlockFace.NORTH || facing == BlockFace.SOUTH) {
+			setBlocks(x, y1, y2, z, material, BlockFace.EAST, BlockFace.WEST);
+		} else if (facing == BlockFace.EAST || facing == BlockFace.WEST) {
+			setBlocks(x, y1, y2, z, material, BlockFace.NORTH, BlockFace.SOUTH);
+		}
 	}
 
 	public final void setLadder(int x, int y1, int y2, int z, BlockFace direction) {
@@ -641,6 +671,12 @@ public abstract class SupportBlocks extends AbstractBlocks {
 				setBlock(x, y, z, material, facing);
 	}
 
+	public final void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, BlockFace... facing) {
+		for (int x = x1; x < x2; x++)
+			for (int z = z1; z < z2; z++)
+				setBlock(x, y, z, material, facing);
+	}
+
 	public final void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, BlockFace facing, Half half) {
 		for (int x = x1; x < x2; x++)
 			for (int z = z1; z < z2; z++)
@@ -654,7 +690,9 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	}
 
 	public final void setChest(CityWorldGenerator generator, int x, int y, int z, BlockFace facing, Odds odds, LootProvider lootProvider, LootLocation lootLocation) {
-		Block block = setBlock(x, y, z, Material.CHEST, facing);
+		setBlock(x, y, z, Material.CHEST, facing);
+		Block block = getActualBlock(x, y, z);
+		connectDoubleChest(x, y, z, facing);
 		if (isType(block, Material.CHEST))
 			lootProvider.setLoot(generator, odds, world.getName(), lootLocation, block);
 	}
@@ -796,4 +834,72 @@ public abstract class SupportBlocks extends AbstractBlocks {
 //		}
 	}
 	
+	private void connectDoubleChest(int x, int y, int z, BlockFace facing) {
+		Block block = getActualBlock(x, y, z);
+		if (!isType(block, Material.CHEST)) {
+			return;
+		}
+		if (((Chest) block.getBlockData()).getType() != Chest.Type.SINGLE) {
+			return;
+		}
+		Block checkLeftBlock, checkRightBlock;
+		switch (facing) {
+			default:
+			case EAST:
+				checkLeftBlock = z > 0 ? getActualBlock(x, y, z - 1) : null;
+				checkRightBlock = z < 15 ? getActualBlock(x, y, z + 1) : null;
+				break;
+			case SOUTH:
+				checkLeftBlock = x < 15 ? getActualBlock(x + 1, y, z) : null;
+				checkRightBlock = x > 0 ? getActualBlock(x - 1, y, z) : null;
+				break;
+			case WEST:
+				checkLeftBlock = z < 15 ? getActualBlock(x, y, z + 1) : null;
+				checkRightBlock = z > 0 ? getActualBlock(x, y, z - 1) : null;
+				break;
+			case NORTH:
+				checkLeftBlock = x > 0 ? getActualBlock(x - 1, y, z) : null;
+				checkRightBlock = x < 15 ? getActualBlock(x + 1, y, z) : null;
+				break;
+		}
+		Chest blockData;
+		if (checkLeftBlock != null && isType(checkLeftBlock, Material.CHEST) && ((Chest) checkLeftBlock.getBlockData()).getFacing() == facing) {
+			blockData = (Chest) block.getBlockData();
+			Chest checkLeftBlockData = (Chest) checkLeftBlock.getBlockData();
+			blockData.setType(Chest.Type.RIGHT);
+			checkLeftBlockData.setType(Chest.Type.LEFT);
+			block.setBlockData(blockData);
+			checkLeftBlock.setBlockData(checkLeftBlockData);
+		} else if (checkRightBlock != null && isType(checkRightBlock, Material.CHEST) && ((Chest) checkRightBlock.getBlockData()).getFacing() == facing) {
+			blockData = (Chest) block.getBlockData();
+			Chest checkRightBlockData = (Chest) checkRightBlock.getBlockData();
+			blockData.setType(Chest.Type.LEFT);
+			checkRightBlockData.setType(Chest.Type.RIGHT);
+			block.setBlockData(blockData);
+			checkRightBlock.setBlockData(checkRightBlockData);
+		}
+	}
+
+	public final Block setGate(int x, int y, int z, Material material, BlockFace facing, boolean isOpen) {
+		Block block = getActualBlock(x, y, z);
+		block.setType(material, false);
+		BlockData data = block.getBlockData();
+		try {
+			if (data instanceof Directional) {
+				((Directional) data).setFacing(facing);
+			}
+			if (data instanceof Openable) {
+				((Openable) data).setOpen(isOpen);
+			}
+		} finally {
+			block.setBlockData(data, doPhysics);
+		}
+		return block;
+	}
+
+	public final void setGates(int x1, int x2, int y, int z1, int z2, Material material, BlockFace facing, boolean isOpen) {
+		for (int x = x1; x < x2; x++)
+			for (int z = z1; z < z2; z++)
+				setGate(x, y, z, material, facing, isOpen);
+	}
 }

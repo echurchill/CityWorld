@@ -112,7 +112,7 @@ public class FarmLot extends ConnectedLot {
 //	private final static Material dirtMaterial = Material.DIRT;
 //	private final static Material soulMaterial = Material.SOUL_SAND;
 	private final static Material poleMaterial = Material.SPRUCE_FENCE;
-	private final static Material trellisMaterial = Material.SPRUCE_WOOD;
+	private final static Material trellisMaterial = Material.SPRUCE_PLANKS;
 
 	@Override
 	public int getBottomY(CityWorldGenerator generator) {
@@ -589,8 +589,10 @@ public class FarmLot extends ConnectedLot {
 	private void buildVineyard(SupportBlocks chunk, int cropLevel) {
 		if (directionNorthSouth) {
 			for (int x = 1; x < 15; x += stepVineRowDelta) {
-				chunk.setBlocks(x, cropLevel, cropLevel + 4, 1, poleMaterial);
-				chunk.setBlocks(x, cropLevel, cropLevel + 4, 14, poleMaterial);
+				chunk.setBlocks(x, cropLevel, cropLevel + 3, 1, poleMaterial);
+				chunk.setBlock(x, cropLevel + 3, 1, poleMaterial, BlockFace.SOUTH);
+				chunk.setBlocks(x, cropLevel, cropLevel + 3, 14, poleMaterial);
+				chunk.setBlock(x, cropLevel + 3, 14, poleMaterial, BlockFace.NORTH);
 				chunk.setBlocks(x, x + 1, cropLevel + 3, cropLevel + 4, 2, 14, trellisMaterial);
 //				chunk.setBlocks(x, cropLevel, cropLevel + 3, 1, poleMaterial);
 //				chunk.setBlock(x, cropLevel + 3, 1, trellisMaterial);
@@ -600,8 +602,10 @@ public class FarmLot extends ConnectedLot {
 			}
 		} else {
 			for (int z = 1; z < 15; z += stepVineRowDelta) {
-				chunk.setBlocks(1, cropLevel, cropLevel + 4, z, poleMaterial);
-				chunk.setBlocks(14, cropLevel, cropLevel + 4, z, poleMaterial);
+				chunk.setBlocks(1, cropLevel, cropLevel + 3, z, poleMaterial);
+				chunk.setBlock(1, cropLevel + 3, z, poleMaterial, BlockFace.EAST);
+				chunk.setBlocks(14, cropLevel, cropLevel + 3, z, poleMaterial);
+				chunk.setBlock(14, cropLevel + 3, z, poleMaterial, BlockFace.WEST);
 				chunk.setBlocks(2, 14, cropLevel + 3, cropLevel + 4, z, z + 1, trellisMaterial);
 //				chunk.setBlocks(1, cropLevel, cropLevel + 3, z, poleMaterial);
 //				chunk.setBlock(1, cropLevel + 3, z, trellisMaterial);
@@ -617,8 +621,8 @@ public class FarmLot extends ConnectedLot {
 			for (int x = 1; x < 15; x += stepVineRowDelta) {
 				if (chunkOdds.playOdds(oddsOfCrop)) {
 					for (int z = 2; z < 14; z++) {
-						chunk.setVines(x - 1, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z, BlockFace.SOUTH);
-						chunk.setVines(x + 1, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z, BlockFace.NORTH);
+						chunk.setVines(x - 1, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z, BlockFace.EAST);
+						chunk.setVines(x + 1, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z, BlockFace.WEST);
 //						chunk.setWool(x - 1, x, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z, z + 1, DyeColor.BLACK);
 //						chunk.setWool(x + 1, x + 2, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z, z + 1, DyeColor.BLUE);
 					}
@@ -628,8 +632,8 @@ public class FarmLot extends ConnectedLot {
 			for (int z = 1; z < 15; z += stepVineRowDelta) {
 				if (chunkOdds.playOdds(oddsOfCrop)) {
 					for (int x = 2; x < 14; x++) {
-						chunk.setVines(x, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z - 1, BlockFace.EAST);
-						chunk.setVines(x, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z + 1, BlockFace.WEST);
+						chunk.setVines(x, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z - 1, BlockFace.SOUTH);
+						chunk.setVines(x, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z + 1, BlockFace.NORTH);
 //						chunk.setWool(x, x + 1, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z - 1, z, DyeColor.RED);
 //						chunk.setWool(x, x + 1, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z + 1, z + 2, DyeColor.GREEN);
 					}

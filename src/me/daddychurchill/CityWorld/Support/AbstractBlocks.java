@@ -1,9 +1,10 @@
 package me.daddychurchill.CityWorld.Support;
 
-import org.bukkit.Material;
-import org.bukkit.World;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Factories.MaterialFactory;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.BlockFace;
 
 public abstract class AbstractBlocks {
 
@@ -66,9 +67,60 @@ public abstract class AbstractBlocks {
 	public abstract void setBlockIfEmpty(int x, int y, int z, Material material);
 	
 	public abstract void setBlock(int x, int y, int z, Material material);
-	public abstract void setBlocks(int x, int y1, int y2, int z, Material material);
-	public abstract void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material);
-	public abstract void setBlocks(int x1, int x2, int y, int z1, int z2, Material material);
+
+	public abstract void setBlock(int x, int y, int z, Material material, BlockFace facing);
+
+	public abstract void setBlock(int x, int y, int z, Material material, BlockFace... facing);
+
+	public final void setBlocks(int x, int y1, int y2, int z, Material material) {
+		for (int y = y1; y < y2; y++)
+			setBlock(x, y, z, material);
+	}
+
+	public final void setBlocks(int x, int y1, int y2, int z, Material material, BlockFace... facing) {
+		for (int y = y1; y < y2; y++)
+			setBlock(x, y, z, material, facing);
+	}
+
+	public final void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				for (int y = y1; y < y2; y++)
+					setBlock(x, y, z, material);
+			}
+		}
+	}
+
+	public final void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, BlockFace facing) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				for (int y = y1; y < y2; y++)
+					setBlock(x, y, z, material, facing);
+			}
+		}
+	}
+
+	public final void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material, BlockFace... facing) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				for (int y = y1; y < y2; y++)
+					setBlock(x, y, z, material, facing);
+			}
+		}
+	}
+
+	public final void setBlocks(int x, int y1, int y2, int z, Material material, BlockFace facing) {
+		for (int y = y1; y < y2; y++)
+			setBlock(x, y, z, material, facing);
+	}
+
+	public final void setBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				setBlock(x, y, z, material);
+			}
+		}
+	}
 
 	public abstract void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material);
 	
@@ -102,10 +154,15 @@ public abstract class AbstractBlocks {
 	public abstract int setLayer(int blocky, int height, int inset, Material material);
 	
 	public abstract boolean isEmpty(int x, int y, int z);
+
+	public abstract void setAtmosphereBlock(int x, int y, int z, Material material);
+
 	public abstract void clearBlock(int x, int y, int z);
 	public abstract boolean setEmptyBlock(int x, int y, int z, Material material);
 	public abstract void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, Material material);
 	
+	public abstract void setDoor(int x, int y, int z, Material material, BlockFace facing);
+
 	private void drawCircleBlocks(int cx, int cz, int x, int z, int y, Material material) {
 		// Ref: Notes/BCircle.PDF
 		setBlock(cx + x, y, cz + z, material); // point in octant 1
@@ -241,14 +298,14 @@ public abstract class AbstractBlocks {
 		setBlocks(x, y1, y2, z, material);
 	}
 	
-	public final void setBlocks(int x, int y1, int y2, int z, Material primary, Material secondary, MaterialFactory maker) {
-		maker.placeMaterial(this, primary, secondary, x, y1, y2, z);
+	public final void setBlocks(int x, int y1, int y2, int z, Material primary, Material secondary, MaterialFactory maker, BlockFace... facing) {
+		maker.placeMaterial(this, primary, secondary, x, y1, y2, z, facing);
 	}
 
-	public final void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material primary, Material secondary, MaterialFactory maker) {
+	public final void setBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material primary, Material secondary, MaterialFactory maker, BlockFace... facing) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				maker.placeMaterial(this, primary, secondary, x, y1, y2, z);
+				maker.placeMaterial(this, primary, secondary, x, y1, y2, z, facing);
 			}
 		}
 	}
@@ -298,7 +355,7 @@ public abstract class AbstractBlocks {
 
 	public final void airoutBlock(CityWorldGenerator generator, int x, int y, int z, boolean forceIt) {
 		if (forceIt || generator.shapeProvider.clearAtmosphere(generator))
-			setBlock(x, y, z, generator.shapeProvider.findAtmosphereMaterialAt(generator, y));
+			setAtmosphereBlock(x, y, z, generator.shapeProvider.findAtmosphereMaterialAt(generator, y));
 	}
 
 	public final void airoutBlocks(CityWorldGenerator generator, int x, int y1, int y2, int z) {
@@ -308,7 +365,7 @@ public abstract class AbstractBlocks {
 	public final void airoutBlocks(CityWorldGenerator generator, int x, int y1, int y2, int z, boolean forceIt) {
 		if (forceIt || generator.shapeProvider.clearAtmosphere(generator))
 			for (int y = y1; y < y2; y++)
-				setBlock(x, y, z, generator.shapeProvider.findAtmosphereMaterialAt(generator, y));
+				setAtmosphereBlock(x, y, z, generator.shapeProvider.findAtmosphereMaterialAt(generator, y));
 	}
 
 	public final void airoutBlocks(CityWorldGenerator generator, int x1, int x2, int y, int z1, int z2) {
@@ -320,7 +377,7 @@ public abstract class AbstractBlocks {
 			Material air = generator.shapeProvider.findAtmosphereMaterialAt(generator, y);
 			for (int x = x1; x < x2; x++)
 				for (int z = z1; z < z2; z++)
-					setBlock(x, y, z, air);
+					setAtmosphereBlock(x, y, z, air);
 		}
 	}
 	
@@ -334,7 +391,7 @@ public abstract class AbstractBlocks {
 				Material air = generator.shapeProvider.findAtmosphereMaterialAt(generator, y);
 				for (int x = x1; x < x2; x++)
 					for (int z = z1; z < z2; z++)
-						setBlock(x, y, z, air);
+						setAtmosphereBlock(x, y, z, air);
 			}
 	}
 	
@@ -599,4 +656,25 @@ public abstract class AbstractBlocks {
 		}
 	}
 	
+	protected BlockFace fixFacing(BlockFace facing) {
+		switch (facing) {
+			case WEST_NORTH_WEST:
+			case WEST_SOUTH_WEST:
+				facing = BlockFace.WEST;
+				break;
+			case NORTH_NORTH_WEST:
+			case NORTH_NORTH_EAST:
+				facing = BlockFace.NORTH;
+				break;
+			case EAST_NORTH_EAST:
+			case EAST_SOUTH_EAST:
+				facing = BlockFace.EAST;
+				break;
+			case SOUTH_SOUTH_EAST:
+			case SOUTH_SOUTH_WEST:
+				facing = BlockFace.SOUTH;
+				break;
+		}
+		return facing;
+	}
 }

@@ -1,19 +1,14 @@
 package me.daddychurchill.CityWorld.Plats.Urban;
 
-import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot;
+import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Rooms.Populators.FactoryWithStuff;
-import me.daddychurchill.CityWorld.Support.CachedYs;
-import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealBlocks;
-import me.daddychurchill.CityWorld.Support.Surroundings;
+import me.daddychurchill.CityWorld.Support.*;
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
 
 public class FactoryBuildingLot extends IndustrialBuildingLot {
 	
@@ -317,10 +312,10 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 		chunk.setBlocks(6, 10, groundY - 2, 6, 10, Material.NETHERRACK);
 		chunk.setWalls(5, 11, groundY, groundY + 6, 5, 11, smokestackMat);
 
-		chunk.setBlock(8, groundY + 1, 5, Material.RED_STAINED_GLASS_PANE);
-		chunk.setBlock(7, groundY + 1, 10, Material.RED_STAINED_GLASS_PANE);
-		chunk.setBlock(5, groundY + 1, 8, Material.RED_STAINED_GLASS_PANE);
-		chunk.setBlock(10, groundY + 1, 7, Material.RED_STAINED_GLASS_PANE);
+		chunk.setBlock(8, groundY + 1, 5, Material.RED_STAINED_GLASS_PANE, BlockFace.EAST, BlockFace.WEST);
+		chunk.setBlock(7, groundY + 1, 10, Material.RED_STAINED_GLASS_PANE, BlockFace.EAST, BlockFace.WEST);
+		chunk.setBlock(5, groundY + 1, 8, Material.RED_STAINED_GLASS_PANE, BlockFace.NORTH, BlockFace.SOUTH);
+		chunk.setBlock(10, groundY + 1, 7, Material.RED_STAINED_GLASS_PANE, BlockFace.NORTH, BlockFace.SOUTH);
 		
 		// too bad I have to goof it up now
 		if (generator.settings.includeDecayedBuildings) {
@@ -434,28 +429,28 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 		boolean doEastward = neighbors.toEast();
 		
 		if (doNorthward) {
-			generateSkyWalkBitsNS(chunk, 6, 0, skywalkAt);
+			generateSkyWalkBitsN(chunk, 6, 0, skywalkAt);
 			if (wallStyle != WallStyle.BUILDING) {
 				chunk.setBlocks(7, 9, generator.structureLevel + 2, skywalkAt, 0, 1, wallMaterial);
 				generateLadder(chunk, 6, generator.structureLevel, skywalkAt, 0, BlockFace.WEST); // fixed
 			}
 		}
 		if (doSouthward) {
-			generateSkyWalkBitsNS(chunk, 6, 12, skywalkAt);
+			generateSkyWalkBitsS(chunk, 6, 12, skywalkAt);
 			if (wallStyle != WallStyle.BUILDING) {
 				chunk.setBlocks(7, 9, generator.structureLevel + 2, skywalkAt, 15, 16, wallMaterial);
 				generateLadder(chunk, 9, generator.structureLevel, skywalkAt, 15, BlockFace.EAST); // fixed
 			}
 		}
 		if (doWestward) {
-			generateSkyWalkBitsWE(chunk, 0, 6, skywalkAt);
+			generateSkyWalkBitsW(chunk, 0, 6, skywalkAt);
 			if (wallStyle != WallStyle.BUILDING) {
 				chunk.setBlocks(0, 1, generator.structureLevel + 2, skywalkAt, 7, 9, wallMaterial);
 				generateLadder(chunk, 0, generator.structureLevel, skywalkAt, 6, BlockFace.NORTH); // fixed
 			}
 		}
 		if (doEastward) {
-			generateSkyWalkBitsWE(chunk, 12, 6, skywalkAt);
+			generateSkyWalkBitsE(chunk, 12, 6, skywalkAt);
 			if (wallStyle != WallStyle.BUILDING) {
 				chunk.setBlocks(15, 16, generator.structureLevel + 2, skywalkAt, 7, 9, wallMaterial);
 				generateLadder(chunk, 15, generator.structureLevel, skywalkAt, 9, BlockFace.SOUTH); // fixed
@@ -463,18 +458,44 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 		}
 	}
 			
-	private void generateSkyWalkBitsNS(RealBlocks chunk, int x, int z, int skywalkAt) {
+	private void generateSkyWalkBitsN(RealBlocks chunk, int x, int z, int skywalkAt) {
 		chunk.setBlocks(x, x + 4, skywalkAt, z, z + 4, roofMaterial);
-		chunk.setBlocks(x, x + 1, skywalkAt + 1, z, z + 4, Material.IRON_BARS);
-		chunk.setBlocks(x + 3, x + 4, skywalkAt + 1, z, z + 4, Material.IRON_BARS);
-		chunk.setBlocks(x + 1, x + 3, skywalkAt - 1, z, z + 4, Material.IRON_BARS);
+		chunk.setBlocks(x, x + 1, skywalkAt + 1, z, z + 3, Material.IRON_BARS, BlockFace.NORTH, BlockFace.SOUTH);
+		chunk.setBlock(x, skywalkAt + 1, z + 3, Material.IRON_BARS, BlockFace.NORTH);
+		chunk.setBlocks(x + 3, x + 4, skywalkAt + 1, z, z + 3, Material.IRON_BARS, BlockFace.NORTH, BlockFace.SOUTH);
+		chunk.setBlock(x + 3, skywalkAt + 1, z + 3, Material.IRON_BARS, BlockFace.NORTH);
+		chunk.setBlocks(x + 1, x + 2, skywalkAt - 1, z, z + 4, Material.IRON_BARS, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST);
+		chunk.setBlocks(x + 2, x + 3, skywalkAt - 1, z, z + 4, Material.IRON_BARS, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.WEST);
 	}
 
-	private void generateSkyWalkBitsWE(RealBlocks chunk, int x, int z, int skywalkAt) {
+	private void generateSkyWalkBitsS(RealBlocks chunk, int x, int z, int skywalkAt) {
 		chunk.setBlocks(x, x + 4, skywalkAt, z, z + 4, roofMaterial);
-		chunk.setBlocks(x, x + 4, skywalkAt + 1, z, z + 1, Material.IRON_BARS);
-		chunk.setBlocks(x, x + 4, skywalkAt + 1, z + 3, z + 4, Material.IRON_BARS);
-		chunk.setBlocks(x, x + 4, skywalkAt - 1, z + 1, z + 3, Material.IRON_BARS);
+		chunk.setBlock(x, skywalkAt + 1, z, Material.IRON_BARS, BlockFace.SOUTH);
+		chunk.setBlocks(x, x + 1, skywalkAt + 1, z + 1, z + 4, Material.IRON_BARS, BlockFace.NORTH, BlockFace.SOUTH);
+		chunk.setBlock(x + 3, skywalkAt + 1, z, Material.IRON_BARS, BlockFace.SOUTH);
+		chunk.setBlocks(x + 3, x + 4, skywalkAt + 1, z + 1, z + 4, Material.IRON_BARS, BlockFace.NORTH, BlockFace.SOUTH);
+		chunk.setBlocks(x + 1, x + 2, skywalkAt - 1, z, z + 4, Material.IRON_BARS, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST);
+		chunk.setBlocks(x + 2, x + 3, skywalkAt - 1, z, z + 4, Material.IRON_BARS, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.WEST);
+	}
+
+	private void generateSkyWalkBitsW(RealBlocks chunk, int x, int z, int skywalkAt) {
+		chunk.setBlocks(x, x + 4, skywalkAt, z, z + 4, roofMaterial);
+		chunk.setBlocks(x, x + 3, skywalkAt + 1, z, z + 1, Material.IRON_BARS, BlockFace.EAST, BlockFace.WEST);
+		chunk.setBlock(x + 3, skywalkAt + 1, z, Material.IRON_BARS, BlockFace.WEST);
+		chunk.setBlocks(x, x + 3, skywalkAt + 1, z + 3, z + 4, Material.IRON_BARS, BlockFace.EAST, BlockFace.WEST);
+		chunk.setBlock(x + 3, skywalkAt + 1, z + 3, Material.IRON_BARS, BlockFace.WEST);
+		chunk.setBlocks(x, x + 4, skywalkAt - 1, z + 1, z + 2, Material.IRON_BARS, BlockFace.EAST, BlockFace.WEST, BlockFace.SOUTH);
+		chunk.setBlocks(x, x + 4, skywalkAt - 1, z + 2, z + 3, Material.IRON_BARS, BlockFace.EAST, BlockFace.WEST, BlockFace.NORTH);
+	}
+
+	private void generateSkyWalkBitsE(RealBlocks chunk, int x, int z, int skywalkAt) {
+		chunk.setBlocks(x, x + 4, skywalkAt, z, z + 4, roofMaterial);
+		chunk.setBlock(x, skywalkAt + 1, z, Material.IRON_BARS, BlockFace.EAST);
+		chunk.setBlocks(x + 1, x + 4, skywalkAt + 1, z, z + 1, Material.IRON_BARS, BlockFace.EAST, BlockFace.WEST);
+		chunk.setBlock(x, skywalkAt + 1, z + 3, Material.IRON_BARS, BlockFace.EAST);
+		chunk.setBlocks(x + 1, x + 4, skywalkAt + 1, z + 3, z + 4, Material.IRON_BARS, BlockFace.EAST, BlockFace.WEST);
+		chunk.setBlocks(x, x + 4, skywalkAt - 1, z + 1, z + 2, Material.IRON_BARS, BlockFace.EAST, BlockFace.WEST, BlockFace.SOUTH);
+		chunk.setBlocks(x, x + 4, skywalkAt - 1, z + 2, z + 3, Material.IRON_BARS, BlockFace.EAST, BlockFace.WEST, BlockFace.NORTH);
 	}
 
 	protected void generateSkyWalkCross(CityWorldGenerator generator, RealBlocks chunk, Surroundings neighbors, 
@@ -494,30 +515,88 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			generateSkyWalkWE(chunk, 10, 6, skywalkAt, roofAt);
 		
 		chunk.setBlocks(6, 10, skywalkAt, 6, 10, ceilingMaterial);
-		chunk.setBlocks(6, 10, skywalkAt - 1, 7, 9, Material.IRON_BARS);
-		chunk.setBlocks(7, 9, skywalkAt - 1, 6, 7, Material.IRON_BARS);
-		chunk.setBlocks(7, 9, skywalkAt - 1, 9, 10, Material.IRON_BARS);
+		chunk.setBlocks(7, 9, skywalkAt - 1, 7, 9, Material.IRON_BARS, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST);
+		if (doNorthward) {
+			chunk.setBlock(7, skywalkAt - 1, 6, Material.IRON_BARS, BlockFace.EAST, BlockFace.SOUTH, BlockFace.NORTH);
+			chunk.setBlock(8, skywalkAt - 1, 6, Material.IRON_BARS, BlockFace.WEST, BlockFace.SOUTH, BlockFace.NORTH);
+		} else {
+			chunk.setBlock(7, skywalkAt - 1, 6, Material.IRON_BARS, BlockFace.EAST, BlockFace.SOUTH);
+			chunk.setBlock(8, skywalkAt - 1, 6, Material.IRON_BARS, BlockFace.WEST, BlockFace.SOUTH);
+		}
+		if (doSouthward) {
+			chunk.setBlock(7, skywalkAt - 1, 9, Material.IRON_BARS, BlockFace.EAST, BlockFace.NORTH, BlockFace.SOUTH);
+			chunk.setBlock(8, skywalkAt - 1, 9, Material.IRON_BARS, BlockFace.WEST, BlockFace.NORTH, BlockFace.SOUTH);
+		} else {
+			chunk.setBlock(7, skywalkAt - 1, 9, Material.IRON_BARS, BlockFace.EAST, BlockFace.NORTH);
+			chunk.setBlock(8, skywalkAt - 1, 9, Material.IRON_BARS, BlockFace.WEST, BlockFace.NORTH);
+		}
+		if (doWestward) {
+			chunk.setBlock(6, skywalkAt - 1, 7, Material.IRON_BARS, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST);
+			chunk.setBlock(6, skywalkAt - 1, 8, Material.IRON_BARS, BlockFace.NORTH, BlockFace.EAST, BlockFace.WEST);
+		} else {
+			chunk.setBlock(6, skywalkAt - 1, 7, Material.IRON_BARS, BlockFace.SOUTH, BlockFace.EAST);
+			chunk.setBlock(6, skywalkAt - 1, 8, Material.IRON_BARS, BlockFace.NORTH, BlockFace.EAST);
+		}
+		if (doEastward) {
+			chunk.setBlock(9, skywalkAt - 1, 7, Material.IRON_BARS, BlockFace.SOUTH, BlockFace.WEST, BlockFace.EAST);
+			chunk.setBlock(9, skywalkAt - 1, 8, Material.IRON_BARS, BlockFace.NORTH, BlockFace.WEST, BlockFace.EAST);
+		} else {
+			chunk.setBlock(9, skywalkAt - 1, 7, Material.IRON_BARS, BlockFace.SOUTH, BlockFace.WEST);
+			chunk.setBlock(9, skywalkAt - 1, 8, Material.IRON_BARS, BlockFace.NORTH, BlockFace.WEST);
+		}
 		
 		if (!doNorthward)
-			chunk.setBlocks(7, 9, skywalkAt + 1, 6, 7, Material.IRON_BARS);
+			chunk.setBlocks(7, 9, skywalkAt + 1, 6, 7, Material.IRON_BARS, BlockFace.EAST, BlockFace.WEST);
 		if (!doSouthward)
-			chunk.setBlocks(7, 9, skywalkAt + 1, 9, 10, Material.IRON_BARS);
+			chunk.setBlocks(7, 9, skywalkAt + 1, 9, 10, Material.IRON_BARS, BlockFace.EAST, BlockFace.WEST);
 		if (!doWestward)
-			chunk.setBlocks(6, 7, skywalkAt + 1, 7, 9, Material.IRON_BARS);
+			chunk.setBlocks(6, 7, skywalkAt + 1, 7, 9, Material.IRON_BARS, BlockFace.NORTH, BlockFace.SOUTH);
 		if (!doEastward)
-			chunk.setBlocks(9, 10, skywalkAt + 1, 7, 9, Material.IRON_BARS);
+			chunk.setBlocks(9, 10, skywalkAt + 1, 7, 9, Material.IRON_BARS, BlockFace.NORTH, BlockFace.SOUTH);
+
+		if (doNorthward && doWestward) {
+			chunk.setBlock(6, skywalkAt + 1, 6, Material.IRON_BARS, BlockFace.NORTH, BlockFace.WEST);
+		} else if (doNorthward) {
+			chunk.setBlock(6, skywalkAt + 1, 6, Material.IRON_BARS, BlockFace.NORTH, BlockFace.SOUTH);
+		} else if (doWestward) {
+			chunk.setBlock(6, skywalkAt + 1, 6, Material.IRON_BARS, BlockFace.EAST, BlockFace.WEST);
+		} else {
+			chunk.setBlock(6, skywalkAt + 1, 6, Material.IRON_BARS, BlockFace.SOUTH, BlockFace.EAST);
+		}
+		if (doSouthward && doWestward) {
+			chunk.setBlock(6, skywalkAt + 1, 9, Material.IRON_BARS, BlockFace.SOUTH, BlockFace.WEST);
+		} else if (doSouthward) {
+			chunk.setBlock(6, skywalkAt + 1, 9, Material.IRON_BARS, BlockFace.NORTH, BlockFace.SOUTH);
+		} else if (doWestward) {
+			chunk.setBlock(6, skywalkAt + 1, 9, Material.IRON_BARS, BlockFace.EAST, BlockFace.WEST);
+		} else {
+			chunk.setBlock(6, skywalkAt + 1, 9, Material.IRON_BARS, BlockFace.NORTH, BlockFace.EAST);
+		}
+		if (doNorthward && doEastward) {
+			chunk.setBlock(9, skywalkAt + 1, 6, Material.IRON_BARS, BlockFace.NORTH, BlockFace.EAST);
+		} else if (doNorthward) {
+			chunk.setBlock(9, skywalkAt + 1, 6, Material.IRON_BARS, BlockFace.NORTH, BlockFace.SOUTH);
+		} else if (doEastward) {
+			chunk.setBlock(9, skywalkAt + 1, 6, Material.IRON_BARS, BlockFace.EAST, BlockFace.WEST);
+		} else {
+			chunk.setBlock(9, skywalkAt + 1, 6, Material.IRON_BARS, BlockFace.SOUTH, BlockFace.WEST);
+		}
+		if (doSouthward && doEastward) {
+			chunk.setBlock(9, skywalkAt + 1, 9, Material.IRON_BARS, BlockFace.SOUTH, BlockFace.EAST);
+		} else if (doSouthward) {
+			chunk.setBlock(9, skywalkAt + 1, 9, Material.IRON_BARS, BlockFace.NORTH, BlockFace.SOUTH);
+		} else if (doEastward) {
+			chunk.setBlock(9, skywalkAt + 1, 9, Material.IRON_BARS, BlockFace.EAST, BlockFace.WEST);
+		} else {
+			chunk.setBlock(9, skywalkAt + 1, 9, Material.IRON_BARS, BlockFace.NORTH, BlockFace.WEST);
+		}
 		
 		if (wallStyle == WallStyle.BUILDING) {
-			chunk.setBlocksUpward(6, skywalkAt + 1, 6, roofAt, Material.IRON_BARS);
-			chunk.setBlocksUpward(6, skywalkAt + 1, 9, roofAt, Material.IRON_BARS);
-			chunk.setBlocksUpward(9, skywalkAt + 1, 6, roofAt, Material.IRON_BARS);
-			chunk.setBlocksUpward(9, skywalkAt + 1, 9, roofAt, Material.IRON_BARS);
+			chunk.setBlocksUpward(6, skywalkAt + 2, 6, roofAt, Material.IRON_BARS);
+			chunk.setBlocksUpward(6, skywalkAt + 2, 9, roofAt, Material.IRON_BARS);
+			chunk.setBlocksUpward(9, skywalkAt + 2, 6, roofAt, Material.IRON_BARS);
+			chunk.setBlocksUpward(9, skywalkAt + 2, 9, roofAt, Material.IRON_BARS);
 		} else {
-			chunk.setBlock(6, skywalkAt + 1, 6, Material.IRON_BARS);
-			chunk.setBlock(6, skywalkAt + 1, 9, Material.IRON_BARS);
-			chunk.setBlock(9, skywalkAt + 1, 6, Material.IRON_BARS);
-			chunk.setBlock(9, skywalkAt + 1, 9, Material.IRON_BARS);
-			
 			if (doNorthward) {
 				chunk.setBlocks(7, 9, generator.structureLevel + 2, skywalkAt, 0, 1, wallMaterial);
 				generateLadder(chunk, 6, generator.structureLevel, skywalkAt, 0, BlockFace.WEST); // fixed
@@ -569,9 +648,9 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 	
 	private void generateSkyWalkNS(RealBlocks chunk, int x, int z, int skywalkAt, int roofAt) {
 		chunk.setBlocks(x, x + 4, skywalkAt, z, z + 6, roofMaterial);
-		chunk.setBlocks(x, x + 1, skywalkAt + 1, z, z + 6, Material.IRON_BARS);
-		chunk.setBlocks(x + 3, x + 4, skywalkAt + 1, z, z + 6, Material.IRON_BARS);
-		chunk.setBlocks(x + 1, x + 3, skywalkAt - 1, z, z + 6, Material.IRON_BARS);
+		chunk.setBlocks(x, x + 1, skywalkAt + 1, z, z + 6, Material.IRON_BARS, BlockFace.NORTH, BlockFace.SOUTH);
+		chunk.setBlocks(x + 3, x + 4, skywalkAt + 1, z, z + 6, Material.IRON_BARS, BlockFace.NORTH, BlockFace.SOUTH);
+		chunk.fillBlocks(x + 1, x + 3, skywalkAt - 1, z, z + 6, Material.IRON_BARS);
 		if (wallStyle == WallStyle.BUILDING) {
 			chunk.setBlocksUpward(x, skywalkAt + 2, z + 2, roofAt, Material.IRON_BARS);
 			chunk.setBlocksUpward(x + 3, skywalkAt + 2, z + 2, roofAt, Material.IRON_BARS);
@@ -580,9 +659,9 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 
 	private void generateSkyWalkWE(RealBlocks chunk, int x, int z, int skywalkAt, int roofAt) {
 		chunk.setBlocks(x, x + 6, skywalkAt, z, z + 4, roofMaterial);
-		chunk.setBlocks(x, x + 6, skywalkAt + 1, z, z + 1, Material.IRON_BARS);
-		chunk.setBlocks(x, x + 6, skywalkAt + 1, z + 3, z + 4, Material.IRON_BARS);
-		chunk.setBlocks(x, x + 6, skywalkAt - 1, z + 1, z + 3, Material.IRON_BARS);
+		chunk.setBlocks(x, x + 6, skywalkAt + 1, z, z + 1, Material.IRON_BARS, BlockFace.EAST, BlockFace.WEST);
+		chunk.setBlocks(x, x + 6, skywalkAt + 1, z + 3, z + 4, Material.IRON_BARS, BlockFace.EAST, BlockFace.WEST);
+		chunk.fillBlocks(x, x + 6, skywalkAt - 1, z + 1, z + 3, Material.IRON_BARS);
 		if (wallStyle == WallStyle.BUILDING) {
 			chunk.setBlocksUpward(x + 2, skywalkAt + 2, z, roofAt, Material.IRON_BARS);
 			chunk.setBlocksUpward(x + 2, skywalkAt + 2, z + 3, roofAt, Material.IRON_BARS);
