@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
@@ -31,7 +31,7 @@ public abstract class SurfaceProvider extends Provider {
 	protected abstract void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CoverProvider foliage, 
 			int x, double perciseY, int z, boolean includeTrees);
 	
-	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CachedYs blockYs, boolean includeTrees) {
+	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, AbstractCachedYs blockYs, boolean includeTrees) {
 		generateSurface(generator, lot, chunk, blockYs, 0, includeTrees);
 	}
 	
@@ -49,7 +49,7 @@ public abstract class SurfaceProvider extends Provider {
 		generateSurfacePoint(generator, lot, chunk, foliage, x, y, z, includeTrees);
 	}
 	
-	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CachedYs blockYs, int addTo, boolean includeTrees) {
+	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, AbstractCachedYs blockYs, int addTo, boolean includeTrees) {
 		CoverProvider foliage = generator.coverProvider;
 			
 		for (int x = 0; x < chunk.width; x++) {

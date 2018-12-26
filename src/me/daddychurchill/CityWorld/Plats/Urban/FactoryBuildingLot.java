@@ -62,7 +62,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 	}
 	
 	@Override
-	public int getTopY(CityWorldGenerator generator, CachedYs blockYs, int x, int z) {
+	public int getTopY(CityWorldGenerator generator, AbstractCachedYs blockYs, int x, int z) {
 		return Math.max(super.getTopY(generator, blockYs, x, z), generator.structureLevel + DataContext.FloorHeight * 10);
 	}
 	

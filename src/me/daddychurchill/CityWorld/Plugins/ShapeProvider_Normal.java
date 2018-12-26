@@ -18,7 +18,7 @@ import me.daddychurchill.CityWorld.Context.RoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
@@ -245,7 +245,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	}
 
 	@Override
-	public void preGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, BiomeGrid biomes, CachedYs blockYs) {
+	public void preGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, BiomeGrid biomes, AbstractCachedYs blockYs) {
 		Biome biome = lot.getChunkBiome();
 		OreProvider ores = generator.oreProvider;
 		boolean surfaceCaves = isSurfaceCaveAt(chunk.sectionX, chunk.sectionZ);
@@ -324,21 +324,21 @@ public class ShapeProvider_Normal extends ShapeProvider {
 	}
 	
 	@Override
-	public void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, CachedYs blockYs) {
+	public void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, AbstractCachedYs blockYs) {
 
 		// mines please
 		lot.generateMines(generator, chunk);
 	}
 
 	@Override
-	public void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, CachedYs blockYs) {
+	public void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, AbstractCachedYs blockYs) {
 		
 		// put bones in?
 		lot.generateBones(generator, chunk);
 	}
 
 	@Override
-	public void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, CachedYs blockYs) {
+	public void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, AbstractCachedYs blockYs) {
 		
 		// put ores in?
 		lot.generateOres(generator, chunk);

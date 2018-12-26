@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Support;
 
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 
-public class SurroundingLots extends Surroundings {
+public final class SurroundingLots extends Surroundings {
 
 	public boolean[][] neighbors;
 	

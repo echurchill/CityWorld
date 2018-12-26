@@ -4,7 +4,7 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
@@ -28,7 +28,7 @@ public class NatureLot extends IsolatedLot {
 	}
 	
 	@Override
-	public int getTopY(CityWorldGenerator generator, CachedYs blockYs, int x, int z) {
+	public int getTopY(CityWorldGenerator generator, AbstractCachedYs blockYs, int x, int z) {
 		return blockYs.getBlockY(x, z);// + generator.landRange;
 	}
 	

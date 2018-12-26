@@ -4,7 +4,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 import org.bukkit.util.noise.NoiseGenerator;
 
-public class CachedYs {
+public abstract class AbstractCachedYs {
 	
 	// extremes
 	public int minHeight = Integer.MAX_VALUE;
@@ -19,7 +19,7 @@ public class CachedYs {
 	protected final static int width = AbstractBlocks.sectionBlockWidth;
 	protected double[][] blockYs = new double[width][width];
 	
-	public CachedYs(CityWorldGenerator generator, int chunkX, int chunkZ) {
+	public AbstractCachedYs(CityWorldGenerator generator, int chunkX, int chunkZ) {
 		
 		// total height
 		int sumHeight = 0;

@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Plats.Nature;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
-import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
@@ -111,7 +111,7 @@ public abstract class MountainFlatLot extends ConstructLot {
 	}
 	
 	@Override
-	public int getTopY(CityWorldGenerator generator, CachedYs blockYs, int x, int z) {
+	public int getTopY(CityWorldGenerator generator, AbstractCachedYs blockYs, int x, int z) {
 		return generator.streetLevel + DataContext.FloorHeight * 2 + 1;
 	}
 

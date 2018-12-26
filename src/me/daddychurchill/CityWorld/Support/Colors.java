@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Support;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 
-public class Colors {
+public final class Colors {
 	
 	public static enum ColorSet {ALL, GREEN, WHITE, TAN, PINK, NETHER, THEEND, DARK, LIGHT, RANDOM};
 	

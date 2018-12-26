@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Support;
 
 import org.bukkit.entity.EntityType;
 
-public class SeaAnimalList extends EntityList {
+public final class SeaAnimalList extends AbstractEntityList {
 
 	public SeaAnimalList(String name) {
 		super(name);

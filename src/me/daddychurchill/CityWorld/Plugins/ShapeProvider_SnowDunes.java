@@ -17,7 +17,7 @@ import me.daddychurchill.CityWorld.Context.SnowDunes.SnowDunesParkContext;
 import me.daddychurchill.CityWorld.Context.SnowDunes.SnowDunesRoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
@@ -183,7 +183,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 	}
 	
 	@Override
-	public void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, CachedYs blockYs) {
+	public void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, AbstractCachedYs blockYs) {
 		
 		// let the other guy do it's thing
 		super.postGenerateBlocks(generator, lot, chunk, blockYs);

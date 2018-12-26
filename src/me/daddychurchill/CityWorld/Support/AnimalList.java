@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Support;
 
 import org.bukkit.entity.EntityType;
 
-public class AnimalList extends EntityList {
+public final class AnimalList extends AbstractEntityList {
 
 	public AnimalList(String name) {
 		super(name);

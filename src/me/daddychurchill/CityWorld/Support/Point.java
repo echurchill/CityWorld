@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Support;
 
-public class Point {
+public final class Point {
 	private int x;
 	private int y;
 	private int z;

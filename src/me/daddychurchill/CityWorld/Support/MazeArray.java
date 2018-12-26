@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public class MazeArray {
+public final class MazeArray {
 
 	// lightly ported from Miga's Depth-first search maze algorithm 
 	// http://www.migapro.com/depth-first-search/

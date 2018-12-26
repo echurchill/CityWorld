@@ -45,7 +45,8 @@ public final class InitialBlocks extends AbstractBlocks {
 	@Override
 	public void setAtmosphereBlock(int x, int y, int z, Material material) {
 		chunkData.setBlock(x, y, z, material);
-		BlockData blockData;
+		BlockData blockData = null;
+		
 		// West
 		if (x > 0) {
 			try {

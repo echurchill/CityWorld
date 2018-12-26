@@ -5,7 +5,7 @@ import java.util.Stack;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-public class RememberedBlocks {
+public final class RememberedBlocks {
 	
 	private SupportBlocks blocks;
 	private Stack<rememberedBlock> originals;

@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Support;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 
-public class SegmentedCachedYs extends CachedYs {
+public final class SegmentedCachedYs extends AbstractCachedYs {
 
 	private int[][] segmentYs= new int[width][width];
 	

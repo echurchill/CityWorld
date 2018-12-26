@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
@@ -132,7 +132,7 @@ public abstract class OreProvider extends Provider {
 	static final boolean[] ore_upper = new boolean[] {  true, false, false,  true,  true,  true,  true,  true, false, false};
 	static final boolean[] ore_liquid = new boolean[] { true,  true, false, false, false, false, false, false, false, false};
 	
-	public void sprinkleOres(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CachedYs blockYs, Odds odds) {
+	public void sprinkleOres(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, AbstractCachedYs blockYs, Odds odds) {
 		
 		// do it... maybe!
 		int oreCount = Math.min(ore_types.size(), ore_iterations.length); 
@@ -144,7 +144,7 @@ public abstract class OreProvider extends Provider {
 		}
 	}
 	
-	private void sprinkleOre(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CachedYs blockYs,
+	private void sprinkleOre(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, AbstractCachedYs blockYs,
 			Odds odds, Material material, int maxY, int minY, 
 			int iterations, int amount, boolean mirror, boolean liquid) {
 		
@@ -171,7 +171,7 @@ public abstract class OreProvider extends Provider {
 		}
 	}
 	
-	private void growVein(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CachedYs blockYs, 
+	private void growVein(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, AbstractCachedYs blockYs, 
 			Odds odds, int originX, int originY, int originZ, int amountToDo, Material material) {
 		int trysLeft = amountToDo * 2;
 		int oresDone = 0;

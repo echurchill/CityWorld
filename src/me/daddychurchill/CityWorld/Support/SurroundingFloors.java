@@ -1,6 +1,6 @@
 package me.daddychurchill.CityWorld.Support;
 
-public class SurroundingFloors extends Surroundings {
+public final class SurroundingFloors extends Surroundings {
 	
 	//TODO refactor this to SurroundingLevels and SurroundingHeights & SurroundingDepths
 	//TODO optimize the lookup logic to use an array of booleans after taking the SurroundingLots

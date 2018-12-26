@@ -4,6 +4,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
 import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot;
+import me.daddychurchill.CityWorld.Plats.Nature.FlyingSaucerLot;
 import me.daddychurchill.CityWorld.Plats.Nature.HotairBalloonLot;
 import me.daddychurchill.CityWorld.Plats.Nature.MineEntranceLot;
 import me.daddychurchill.CityWorld.Plats.Nature.MountainShackLot;
@@ -154,6 +155,7 @@ public class NatureContext extends UncivilizedContext {
 	protected void populateSpecial(CityWorldGenerator generator, PlatMap platmap, int x, int y, int z, HeightState state) {
 
 		// what type of height are we talking about?
+//		if (state != HeightState.BUILDING) {
 		if (state != HeightState.BUILDING && 
 			generator.shapeProvider.isIsolatedConstructAt(platmap.originX + x, platmap.originZ + z, oddsOfIsolatedConstructs)) {
 			PlatLot current = null;
@@ -167,24 +169,24 @@ public class NatureContext extends UncivilizedContext {
 				break;
 			case SEA:
 				if (generator.settings.includeAirborneStructures) {
-					if (platmap.getOddsGenerator().playOdds(Odds.oddsSomewhatUnlikely))
-
-						// Hotair balloons
+					if (platmap.getOddsGenerator().playOdds(Odds.oddsEnormouslyUnlikely))
+						current = new FlyingSaucerLot(platmap, platmap.originX + x, platmap.originZ + z);
+					else
 						current = new HotairBalloonLot(platmap, platmap.originX + x, platmap.originZ + z);
-					
-						//TODO boat!
+				
+					//TODO boat!
 				}
 				break;
 //			case BUILDING:
 //				break;
 			case LOWLAND:
 				if (generator.settings.includeAirborneStructures) {
-					if (platmap.getOddsGenerator().playOdds(Odds.oddsSomewhatUnlikely))
-
-						// Hotair balloons
+					if (platmap.getOddsGenerator().playOdds(Odds.oddsEnormouslyUnlikely))
+						current = new FlyingSaucerLot(platmap, platmap.originX + x, platmap.originZ + z);
+					else
 						current = new HotairBalloonLot(platmap, platmap.originX + x, platmap.originZ + z);
-					
-						//TODO Statue overlooking the city?
+				
+					//TODO statue overlooking the city?
 				}
 				break;
 			case MIDLAND: 
@@ -208,9 +210,6 @@ public class NatureContext extends UncivilizedContext {
 			
 			if (current != null) {
 				platmap.setLot(x, z, current);
-//				generator.reportMessage("Made: " + current.toString() + " AT " 
-//						+ RealBlocks.getBlockX(platmap.originX + x, 8) + ", " 
-//						+ RealBlocks.getBlockZ(platmap.originZ + z, 8));
 			}
 		} 
 	}

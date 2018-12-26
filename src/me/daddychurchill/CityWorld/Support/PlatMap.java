@@ -343,7 +343,8 @@ public class PlatMap {
 		boolean roadToNorth = false, roadToSouth = false, 
 				roadToEast = false, roadToWest = false, 
 				roadHere = false;
-		
+		assert(generator.settings != null && generator.shapeProvider != null && context != null);
+			
 		// is there a road here?
 		if (isEmptyLot(x, z)) {
 		
@@ -362,6 +363,7 @@ public class PlatMap {
 				if (generator.settings.includeRoundabouts && 
 					generator.settings.inCityRange(originX + x, originZ + z) && 
 					generator.shapeProvider.isRoundaboutAt(originX + x, originZ + z, context.oddsOfRoundAbouts) &&
+					
 					isEmptyLot(x - 1, z - 1) && isEmptyLot(x - 1, z) &&	isEmptyLot(x - 1, z + 1) &&
 					isEmptyLot(x, z - 1) &&	isEmptyLot(x, z + 1) &&
 					isEmptyLot(x + 1, z - 1) &&	isEmptyLot(x + 1, z) &&	isEmptyLot(x + 1, z + 1)) {

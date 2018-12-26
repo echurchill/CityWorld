@@ -58,16 +58,23 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	public final void setBlockIfEmpty(int x, int y, int z, Material material) {
 		Block block = getActualBlock(x, y, z);
 		if (block.isEmpty() && !getActualBlock(x, y - 1, z).isEmpty())
-			setActualBlock(block, material);
+			setActualBlock(block, material, getDoPhysics(x, z));
 	}
 	
-	private final void setActualBlock(Block block, Material material) {
-		block.setType(material, doPhysics);
+	private final boolean getDoPhysics(int x, int z) {
+		boolean thisDoPhysics = doPhysics;
+		if (thisDoPhysics)
+			thisDoPhysics = (x > 0 && x < 15) && (z > 0 && z < 15);
+		return thisDoPhysics;
+	}
+	
+	private final void setActualBlock(Block block, Material material, boolean thisDoPhysics) {
+		block.setType(material, thisDoPhysics);
 	}
 	
 	@Override
 	public final void setBlock(int x, int y, int z, Material material) {
-		setActualBlock(getActualBlock(x, y, z), material);
+		setActualBlock(getActualBlock(x, y, z), material, getDoPhysics(x, z));
 	}
 
 	protected final boolean isType(Block block, Material ... types) {
@@ -369,7 +376,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 				snow.setLayers(clamp(level, snow.getMinimumLayers(), snow.getMaximumLayers()));
 			}
 		} finally {
-			block.setBlockData(data, doPhysics);
+			block.setBlockData(data, getDoPhysics(x, z));
 		}
 		
 		return block;
@@ -404,7 +411,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 					vines.setFace(face, true);
 			}
 		} finally {
-			block.setBlockData(data, doPhysics);
+			block.setBlockData(data, getDoPhysics(x, z));
 		}
 	}
 
@@ -423,7 +430,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			if (data instanceof Powerable)
 				((Powerable) data).setPowered(powered);
 		} finally {
-			block.setBlockData(data, doPhysics);
+			block.setBlockData(data, getDoPhysics(x, z));
 		}
 		return block;
 	}
@@ -437,7 +444,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			if (data instanceof Slab)
 				((Slab) data).setType(type);
 		} finally {
-			block.setBlockData(data, doPhysics);
+			block.setBlockData(data, getDoPhysics(x, z));
 		}
 	}
 	
@@ -466,7 +473,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 				}
 			}
 		} finally {
-			block.setBlockData(data, doPhysics);
+			block.setBlockData(data, getDoPhysics(x, z));
 		}
 	}
 
@@ -482,7 +489,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 				}
 			}
 		} finally {
-			block.setBlockData(data, doPhysics);
+			block.setBlockData(data, getDoPhysics(x, z));
 		}
 	}
 
@@ -502,7 +509,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 				((Stairs) data).setShape(shape);
 			}
 		} finally {
-			block.setBlockData(data, doPhysics);
+			block.setBlockData(data, getDoPhysics(x, z));
 		}
 		return block;
 	}
@@ -554,7 +561,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 				((Door)data).setHinge(hinge);
 			}
 		} finally {
-			block.setBlockData(data, doPhysics);
+			block.setBlockData(data, getDoPhysics(x, z));
 		}
 		return block;
 	}
@@ -626,7 +633,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			if (data instanceof Bisected)
 				((Bisected)data).setHalf(half);
 		} finally {
-			block.setBlockData(data, doPhysics);
+			block.setBlockData(data, getDoPhysics(x, z));
 		}
 		return block;
 	}
@@ -641,7 +648,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			if (data instanceof Bisected)
 				((Bisected)data).setHalf(half);
 		} finally {
-			block.setBlockData(data, doPhysics);
+			block.setBlockData(data, getDoPhysics(x, z));
 		}
 		return block;
 	}
@@ -714,7 +721,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 				state.update();
 			}
 		} finally {
-			block.setBlockData(data, doPhysics);
+			block.setBlockData(data, getDoPhysics(x, z));
 		}
 	}
 
@@ -735,7 +742,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 				state.update();
 			}
 		} finally {
-			block.setBlockData(data, doPhysics);
+			block.setBlockData(data, getDoPhysics(x, z));
 		}
 	}
 	
@@ -746,8 +753,9 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		try {
 			if (data instanceof Leaves)
 				((Leaves)data).setPersistent(isPersistent);
+
 		} finally {
-			block.setBlockData(data, doPhysics);
+			block.setBlockData(data, getDoPhysics(x, z));
 		}
 		return block;
 	}
@@ -762,7 +770,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 				((Bed)data).setPart(part);
 			}
 		} finally {
-			block.setBlockData(data, doPhysics);
+			block.setBlockData(data, getDoPhysics(x, z));
 		}
 		return block;
 	}
@@ -843,7 +851,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 				checkRightBlock = x < 15 ? getActualBlock(x + 1, y, z) : null;
 				break;
 		}
-		Chest blockData;
+		Chest blockData = null;
 		if (checkLeftBlock != null && isType(checkLeftBlock, Material.CHEST) && ((Chest) checkLeftBlock.getBlockData()).getFacing() == facing) {
 			blockData = (Chest) block.getBlockData();
 			Chest checkLeftBlockData = (Chest) checkLeftBlock.getBlockData();
@@ -851,6 +859,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			checkLeftBlockData.setType(Chest.Type.LEFT);
 			block.setBlockData(blockData);
 			checkLeftBlock.setBlockData(checkLeftBlockData);
+			
 		} else if (checkRightBlock != null && isType(checkRightBlock, Material.CHEST) && ((Chest) checkRightBlock.getBlockData()).getFacing() == facing) {
 			blockData = (Chest) block.getBlockData();
 			Chest checkRightBlockData = (Chest) checkRightBlock.getBlockData();
@@ -873,7 +882,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 				((Openable) data).setOpen(isOpen);
 			}
 		} finally {
-			block.setBlockData(data, doPhysics);
+			block.setBlockData(data, getDoPhysics(x, z));
 		}
 		return block;
 	}

@@ -8,7 +8,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.AbstractBlocks;
 
-import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
@@ -234,7 +234,7 @@ public class ThingProvider extends Provider {
 		generateLayer(chunk, x, y + 14, z, chickenTops);
 	}
 	
-	public void generateBones(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CachedYs blockYs, Odds odds) {
+	public void generateBones(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, AbstractCachedYs blockYs, Odds odds) {
 		int y = odds.calcRandomRange(10, blockYs.minHeight - 20);
 		generateBones(generator, lot, chunk, y, odds);
 	}

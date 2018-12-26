@@ -3,15 +3,7 @@ package me.daddychurchill.CityWorld.Support;
 import org.bukkit.Material;
 import org.bukkit.TreeSpecies;
 
-public class Trees {
-	
-	public static Material[] setAllLeaves = {				
-			Material.ACACIA_LEAVES, 
-			Material.BIRCH_LEAVES, 
-			Material.DARK_OAK_LEAVES,
-			Material.JUNGLE_LEAVES, 
-			Material.SPRUCE_LEAVES, 
-			Material.OAK_LEAVES};
+public final class Trees {
 	
 	private Odds odds;
 	public Trees(Odds odds) {
@@ -133,28 +125,6 @@ public class Trees {
 		}
 	}
 	
-	public Material getRandomWoodLeaves() {
-		return getRandomWoodLeaves(odds.getRandomWoodSpecies());
-	}
-	
-	public static Material getRandomWoodLeaves(TreeSpecies species) {
-		switch (species) {
-		default:
-		case ACACIA:
-			return Material.ACACIA_LEAVES;
-		case BIRCH:
-			return Material.BIRCH_LEAVES;
-		case DARK_OAK:
-			return Material.DARK_OAK_LEAVES;
-		case GENERIC:
-			return Material.OAK_LEAVES;
-		case JUNGLE:
-			return Material.JUNGLE_LEAVES;
-		case REDWOOD:
-			return Material.SPRUCE_LEAVES;
-		}
-	}
-	
 	public Material getRandomWoodFence() {
 		return getRandomWoodFence(odds.getRandomWoodSpecies());
 	}
@@ -174,6 +144,40 @@ public class Trees {
 			return Material.JUNGLE_FENCE;
 		case REDWOOD:
 			return Material.SPRUCE_FENCE;
+		}
+	}
+	
+	private final static Material[] setAllLeaves = {				
+			Material.ACACIA_LEAVES, 
+			Material.BIRCH_LEAVES, 
+			Material.DARK_OAK_LEAVES,
+			Material.JUNGLE_LEAVES, 
+			Material.SPRUCE_LEAVES, 
+			Material.OAK_LEAVES};
+	
+	public static boolean isLeaf(SupportBlocks blocks, int x, int y, int z) {
+		return blocks.isOfTypes(x, y, z, setAllLeaves);
+	}
+	
+	public Material getRandomWoodLeaves() {
+		return getRandomWoodLeaves(odds.getRandomWoodSpecies());
+	}
+	
+	public static Material getRandomWoodLeaves(TreeSpecies species) {
+		switch (species) {
+		default:
+		case ACACIA:
+			return Material.ACACIA_LEAVES;
+		case BIRCH:
+			return Material.BIRCH_LEAVES;
+		case DARK_OAK:
+			return Material.DARK_OAK_LEAVES;
+		case GENERIC:
+			return Material.OAK_LEAVES;
+		case JUNGLE:
+			return Material.JUNGLE_LEAVES;
+		case REDWOOD:
+			return Material.SPRUCE_LEAVES;
 		}
 	}
 	

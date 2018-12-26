@@ -5,7 +5,7 @@ import org.bukkit.block.BlockFace;
 
 import java.util.ArrayList;
 
-public class CornerBlocks {
+public final class CornerBlocks {
 	
 	public final static int CornerWidth = 7;
 	

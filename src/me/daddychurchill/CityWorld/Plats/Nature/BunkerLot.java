@@ -11,7 +11,7 @@ import me.daddychurchill.CityWorld.Plats.ConnectedLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
-import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
 import me.daddychurchill.CityWorld.Support.Colors;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -129,7 +129,7 @@ public class BunkerLot extends ConnectedLot {
 	}
 	
 	@Override
-	public int getTopY(CityWorldGenerator generator, CachedYs blockYs, int x, int z) {
+	public int getTopY(CityWorldGenerator generator, AbstractCachedYs blockYs, int x, int z) {
 		return topOfBunker;
 	}
 
@@ -191,7 +191,7 @@ public class BunkerLot extends ConnectedLot {
 	}
 	
 	protected static int generateBunker(CityWorldGenerator generator, PlatMap platmap, SupportBlocks chunk, Odds odds, 
-			DataContext context, int platX, int platZ, CachedYs blockYs,
+			DataContext context, int platX, int platZ, AbstractCachedYs blockYs,
 			int bottomOfBunker, int topOfBunker, BunkerType buildingType) {
 		
 		// make sure we know what we using to make things
@@ -323,7 +323,7 @@ public class BunkerLot extends ConnectedLot {
 	}
 	
 	public static int generateEntryBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk, Odds odds, 
-			int y1, int y2, int topOfBunker, CachedYs blockYs) {
+			int y1, int y2, int topOfBunker, AbstractCachedYs blockYs) {
 		int surfaceY = blockYs.averageHeight;
 		
 		// make sure we know what we using to make things
@@ -374,7 +374,7 @@ public class BunkerLot extends ConnectedLot {
 	}
 	
 	public static int generateSaucerBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk, Odds odds, 
-			int y1, int y2, int topOfBunker, CachedYs blockYs) {
+			int y1, int y2, int topOfBunker, AbstractCachedYs blockYs) {
 		
 		// make sure we know what we using to make things
 		loadMaterials(generator, odds);

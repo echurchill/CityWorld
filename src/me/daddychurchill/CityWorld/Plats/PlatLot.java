@@ -12,7 +12,7 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.AbstractBlocks;
-import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
@@ -23,7 +23,7 @@ public abstract class PlatLot {
 	// extremes
 	protected int chunkX;
 	protected int chunkZ;
-	protected CachedYs blockYs;
+	protected AbstractCachedYs blockYs;
 	
 //	protected Odds platmapOdds;
 	protected Odds chunkOdds;
@@ -146,7 +146,7 @@ public abstract class PlatLot {
 	}
 	
 	public abstract int getBottomY(CityWorldGenerator generator);
-	public abstract int getTopY(CityWorldGenerator generator, CachedYs blockYs, int x, int z);
+	public abstract int getTopY(CityWorldGenerator generator, AbstractCachedYs blockYs, int x, int z);
 
 	//TODO: It seems that Spigot is generating the real blocks twice (generateBlocks) for each time the blocks are initialized (generateChunk)
 //	private static int totalNumberOfLotsOverGenerated = 0;

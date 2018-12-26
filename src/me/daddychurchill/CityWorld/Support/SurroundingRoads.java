@@ -3,7 +3,7 @@ package me.daddychurchill.CityWorld.Support;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
 
-public class SurroundingRoads extends Surroundings {
+public final class SurroundingRoads extends Surroundings {
 
 	private boolean[][] roads;
 

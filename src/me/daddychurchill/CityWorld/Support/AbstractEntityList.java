@@ -8,9 +8,9 @@ import org.bukkit.configuration.ConfigurationSection;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 
-public class EntityList {
+public abstract class AbstractEntityList {
 
-	public EntityList(String name) {
+	public AbstractEntityList(String name) {
 		super();
 		listName = name;
 	}
@@ -18,7 +18,7 @@ public class EntityList {
 	public String listName;
 	private List<EntityType> items;
 	
-	public EntityList(String name, EntityType ... entities) {
+	public AbstractEntityList(String name, EntityType ... entities) {
 		super();
 		listName = name;
 		add(entities);

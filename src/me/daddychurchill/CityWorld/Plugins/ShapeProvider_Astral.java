@@ -17,7 +17,7 @@ import me.daddychurchill.CityWorld.Context.Astral.AstralRoadContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralWhiteZoneContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
@@ -111,7 +111,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	}
 	
 	@Override
-	public CachedYs getCachedYs(CityWorldGenerator generator, int chunkX, int chunkZ) {
+	public AbstractCachedYs getCachedYs(CityWorldGenerator generator, int chunkX, int chunkZ) {
 		return new SegmentedCachedYs(generator, chunkX, chunkZ);
 	}
 	
@@ -282,7 +282,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	}
 
 	@Override
-	public void preGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, BiomeGrid biomes, CachedYs blockYs) {
+	public void preGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, BiomeGrid biomes, AbstractCachedYs blockYs) {
 		Biome biome = lot.getChunkBiome();
 		OreProvider ores = generator.oreProvider;
 //		boolean surfaceCaves = isSurfaceCaveAt(chunk.chunkX, chunk.chunkZ);
@@ -346,7 +346,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	}
 	
 	@Override
-	public void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, CachedYs blockYs) {
+	public void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, AbstractCachedYs blockYs) {
 		
 //		// mines please
 //		lot.generateMines(generator, chunk);
@@ -363,7 +363,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 			Material.WHITE_STAINED_GLASS, Material.YELLOW_STAINED_GLASS};
 
 	@Override
-	public void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, CachedYs blockYs) {
+	public void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, AbstractCachedYs blockYs) {
 //		OreProvider ores = generator.oreProvider;
 //		boolean surfaceCaves = isSurfaceCaveAt(chunk.chunkX, chunk.chunkZ);
 		int originX = chunk.getOriginX();
@@ -433,7 +433,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 	}
 
 	@Override
-	public void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, CachedYs blockYs) {
+	public void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, AbstractCachedYs blockYs) {
 		
 //		// put ores in?
 //		lot.generateOres(generator, chunk);

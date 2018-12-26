@@ -21,7 +21,7 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Floating.FloatingBlimpLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
@@ -124,7 +124,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	}
 	
 	@Override
-	public void preGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, BiomeGrid biomes, CachedYs blockYs) {
+	public void preGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, BiomeGrid biomes, AbstractCachedYs blockYs) {
 		Biome resultBiome = lot.getChunkBiome();
 		OreProvider ores = generator.oreProvider;
 		
@@ -196,7 +196,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	private final static int underworldLength = 6;
 	
 	@Override
-	public void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, CachedYs blockYs) {
+	public void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, AbstractCachedYs blockYs) {
 		OreProvider ores = generator.oreProvider;
 		int lotBottomY = lot.getBottomY(generator);
 		if (lotBottomY != 0) {
@@ -226,12 +226,12 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	}
 
 	@Override
-	public void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, CachedYs blockYs) {
+	public void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, AbstractCachedYs blockYs) {
 		
 	}
 
 	@Override
-	public void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, CachedYs blockYs) {
+	public void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, AbstractCachedYs blockYs) {
 		// there is always something to plant!
 		lot.generateSurface(generator, chunk, true);
 	}

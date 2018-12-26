@@ -8,7 +8,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Point;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -41,11 +41,9 @@ public class RadioTowerLot extends ConstructLot {
 	private final static Material platformMaterial = Material.SMOOTH_STONE;
 	private final static Material supportMaterial = Material.COBBLESTONE;
 	private final static Material wallMaterial = Material.STONE;
-	private final static Material roofMaterial = Material.STONE_SLAB;
+//	private final static Material roofMaterial = Material.STONE_SLAB;
 	private final static Material baseMaterial = Material.CLAY;
 	private final static Material antennaMaterial = Material.IRON_BARS;
-	private final static Material capBigMaterial = Material.STONE;
-	private final static Material capTinyMaterial = Material.STONE_SLAB;
 	
 	@Override
 	public int getBottomY(CityWorldGenerator generator) {
@@ -53,7 +51,7 @@ public class RadioTowerLot extends ConstructLot {
 	}
 	
 	@Override
-	public int getTopY(CityWorldGenerator generator, CachedYs blockYs, int x, int z) {
+	public int getTopY(CityWorldGenerator generator, AbstractCachedYs blockYs, int x, int z) {
 		return getBottomY(generator) + heightTallest;
 	}
 
@@ -90,7 +88,7 @@ public class RadioTowerLot extends ConstructLot {
 		if (building) {
 			chunk.setBlocks(originX + 2, originX + platformWidth - 2, platformY, platformY + 2, originZ + 2, originZ + platformWidth - 2, wallMaterial);
 			chunk.airoutBlocks(generator, originX + 3, originX + platformWidth - 3, platformY, platformY + 2, originZ + 3, originZ + platformWidth - 3, true);
-			chunk.setBlocks(originX + 2, originX + platformWidth - 2, platformY + 2, platformY + 3, originZ + 2, originZ + platformWidth - 2, roofMaterial);
+			chunk.setBlocks(originX + 2, originX + platformWidth - 2, platformY + 2, platformY + 3, originZ + 2, originZ + platformWidth - 2, platformMaterial);
 		}
 	}
 	
@@ -100,7 +98,7 @@ public class RadioTowerLot extends ConstructLot {
 
 		// compute offset to start of chunk
 		int platformOffset = platformWidth / 2;
-		Point highPoint = blockYs.getHighPoint();
+		Point highPoint = blockYs.getLowPoint();
 		int originX = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, highPoint.getX()));
 		int originZ = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, highPoint.getZ()));
 		int platformY = getBottomY(generator);
@@ -115,22 +113,23 @@ public class RadioTowerLot extends ConstructLot {
 			generator.decayBlocks.destroyWithin(x1, x1 + platformWidth, blockYs.averageHeight, platformY + 3, z1, z1 + platformWidth);
 
 		// place a door but only if everything is "normal"
-		} else if (building)
+		} else if (building) {
 			chunk.setDoor(originX + 2, platformY, originZ + 3, Material.BIRCH_DOOR, BlockFace.WEST_NORTH_WEST);
-		
-		// place the ladder
-		int ladderBase = platformY - 2;
-		while (chunk.isEmpty(originX, ladderBase, originZ + 4)) {
-			ladderBase--;
-		}
-		chunk.setLadder(originX, ladderBase, platformY, originZ + 4, BlockFace.WEST); // fixed
-		chunk.airoutBlock(generator, originX, platformY, originZ + 4);
 			
-		// place antennas
-		generateAntenna(generator, chunk, context, originX + 1, platformY, originZ + 1, false);
-		generateAntenna(generator, chunk, context, originX + 1, platformY, originZ + platformWidth - 2, false);
-		generateAntenna(generator, chunk, context, originX + platformWidth - 2, platformY, originZ + 1, false);
-		generateAntenna(generator, chunk, context, originX + platformWidth - 2, platformY, originZ + platformWidth - 2, true);
+			// place the ladder
+			int ladderBase = platformY - 2;
+			while (chunk.isEmpty(originX, ladderBase, originZ + 4)) {
+				ladderBase--;
+			}
+			chunk.setLadder(originX, ladderBase, platformY, originZ + 4, BlockFace.WEST); // fixed
+			chunk.airoutBlock(generator, originX, platformY, originZ + 4);
+				
+			// place antennas
+			generateAntenna(generator, chunk, context, originX + 1, platformY, originZ + 1, false);
+			generateAntenna(generator, chunk, context, originX + 1, platformY, originZ + platformWidth - 3, false);
+			generateAntenna(generator, chunk, context, originX + platformWidth - 3, platformY, originZ + 1, false);
+			generateAntenna(generator, chunk, context, originX + platformWidth - 3, platformY, originZ + platformWidth - 3, true);
+		}
 	}
 	
 	private void generateAntenna(CityWorldGenerator generator, RealBlocks chunk, DataContext context, int x, int y, int z, boolean lastChance) {
@@ -138,7 +137,7 @@ public class RadioTowerLot extends ConstructLot {
 		// build an antenna?
 		if ((lastChance && !antennaBuilt) || chunkOdds.flipCoin()) {
 			if (!chunk.isEmpty(x, y - 1, z)) {
-				chunk.setBlocks(x, y, y + 2, z, baseMaterial);
+//				chunk.setBlocks(x, y, y + 2, z, baseMaterial);
 				
 				// how tall?
 				int antennaHeight = heightShortest;
@@ -148,33 +147,44 @@ public class RadioTowerLot extends ConstructLot {
 				} else
 					antennaHeight += chunkOdds.getRandomInt(heightRange);
 				
+				// stuff going out?
+				boolean middleStuff = chunkOdds.flipCoin();
+				boolean topStuff = chunkOdds.flipCoin();
+				
 				// actually build the antenna
-				chunk.setBlocks(x, y + 2, y + 2 + antennaHeight, z, antennaMaterial);
-				
-				// do a fancy middle?
-				if (!generator.settings.includeDecayedBuildings) {
-					if (chunkOdds.flipCoin()) {
-						int yPoint = y + 2 + antennaHeight - 5;
-						chunk.setBlocks(x - 2, x + 3, yPoint, yPoint + 1, z, z + 1, antennaMaterial);
-						chunk.setBlocks(x, x + 1, yPoint, yPoint + 1, z - 2, z + 3, antennaMaterial);
-					}
-				
-					// do a fancy top?
-					if (chunkOdds.flipCoin()) {
-						int yPoint = y + 2 + antennaHeight - 1;
-						chunk.setBlocks(x - 2, x + 3, yPoint, yPoint + 1, z, z + 1, antennaMaterial);
-						chunk.setBlocks(x, x + 1, yPoint, yPoint + 1, z - 2, z + 3, antennaMaterial);
+				for (int y1 = y; y1 < y + antennaHeight; y1++) {
+					
+					// horizontal stuff?
+					if ((middleStuff && y1 == y + antennaHeight - 5) ||
+						(topStuff && y1 == y + antennaHeight - 1)) {
+						
+						if (chunkOdds.playOdds(Odds.oddsExtremelyLikely))
+							chunk.setBlocks(x - 2, x, y1, z, z + 1, antennaMaterial, BlockFace.EAST, BlockFace.WEST);
+						if (chunkOdds.playOdds(Odds.oddsExtremelyLikely))
+							chunk.setBlocks(x + 2, x + 4, y1, z + 1, z + 2, antennaMaterial, BlockFace.EAST, BlockFace.WEST);
+						if (chunkOdds.playOdds(Odds.oddsExtremelyLikely))
+							chunk.setBlocks(x + 1, x + 2, y1, z - 2, z, antennaMaterial, BlockFace.NORTH, BlockFace.SOUTH);
+						if (chunkOdds.playOdds(Odds.oddsExtremelyLikely))
+							chunk.setBlocks(x, x + 1, y1, z + 2, z + 4, antennaMaterial, BlockFace.NORTH, BlockFace.SOUTH);
+						
+						chunk.setBlocks(x, x + 2, y1, z, z + 2, baseMaterial);
+					
+					// vertical stuff?
+					} else {
+						if (chunk.isEmpty(x, y1, z))
+							chunk.setBlock(x, y1, z, Material.IRON_BARS, BlockFace.EAST, BlockFace.SOUTH);
+						if (chunk.isEmpty(x + 1, y1, z))
+							chunk.setBlock(x + 1, y1, z, Material.IRON_BARS, BlockFace.WEST, BlockFace.SOUTH);
+						if (chunk.isEmpty(x, y1, z + 1))
+							chunk.setBlock(x, y1, z + 1, Material.IRON_BARS, BlockFace.EAST, BlockFace.NORTH);
+						if (chunk.isEmpty(x + 1, y1, z + 1))
+							chunk.setBlock(x + 1, y1, z + 1, Material.IRON_BARS, BlockFace.WEST, BlockFace.NORTH);
 					}
 				}
 				
 				// top of the tallest one?
-				if (!generator.settings.includeDecayedBuildings) {
-					if (antennaHeight == heightTallest) {
-						chunk.setBlock(x, y + 2 + antennaHeight, z, capBigMaterial);
-//						chunk.setTorch(x, y + 2 + antennaHeight + 1, z, context.torchMat, BadMagic.Torch.FLOOR);
-						chunk.setBlock(x, y + 2 + antennaHeight + 1, z, Material.END_ROD);
-					} else
-						chunk.setBlock(x, y + 2 + antennaHeight, z, capTinyMaterial);
+				if (antennaHeight == heightTallest) {
+					chunk.setBlocks(x, x + 2, y + antennaHeight, z, z + 2, Material.END_ROD); //@@ really should be a lantern or something like that
 				}
 			}
 		}

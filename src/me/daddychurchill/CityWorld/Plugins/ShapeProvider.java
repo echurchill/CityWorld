@@ -11,10 +11,11 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Context.RoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.CachedYs;
+import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
+import me.daddychurchill.CityWorld.Support.TraditionalCachedYs;
 
 public abstract class ShapeProvider extends Provider {
 	
@@ -28,10 +29,10 @@ public abstract class ShapeProvider extends Provider {
 	
 	public abstract double findPerciseY(CityWorldGenerator generator, int blockX, int blockZ);
 
-	public abstract void preGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, BiomeGrid biomes, CachedYs blockYs);
-	public abstract void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, CachedYs blockYs);
-	public abstract void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, CachedYs blockYs);
-	public abstract void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, CachedYs blockYs);
+	public abstract void preGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, BiomeGrid biomes, AbstractCachedYs blockYs);
+	public abstract void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, AbstractCachedYs blockYs);
+	public abstract void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, AbstractCachedYs blockYs);
+	public abstract void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, AbstractCachedYs blockYs);
 	
 	protected abstract Biome remapBiome(CityWorldGenerator generator, PlatLot lot, Biome biome);
 	protected abstract void allocateContexts(CityWorldGenerator generator);
@@ -42,8 +43,8 @@ public abstract class ShapeProvider extends Provider {
 	public abstract DataContext getContext(int originX, int originZ);
 	public abstract DataContext getContext(PlatMap platmap);
 
-	public CachedYs getCachedYs(CityWorldGenerator generator, int chunkX, int chunkZ) {
-		return new CachedYs(generator, chunkX, chunkZ);
+	public AbstractCachedYs getCachedYs(CityWorldGenerator generator, int chunkX, int chunkZ) {
+		return new TraditionalCachedYs(generator, chunkX, chunkZ);
 	}
 	
 	public void populateLots(CityWorldGenerator generator, PlatMap platmap) {

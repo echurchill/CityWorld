@@ -7,7 +7,7 @@ import org.bukkit.TreeSpecies;
 import org.bukkit.block.BlockFace;
 import org.bukkit.util.Vector;
 
-public class Odds {
+public final class Odds {
 
 	// see PlatMaps.xlsx for more info on this Fibonacci variant
 	public final static double oddsAlwaysGoingToHappen =		 1.0;          // 100.00%
