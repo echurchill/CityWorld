@@ -1128,7 +1128,8 @@ public class MaterialProvider {
 			Material.MOSSY_COBBLESTONE,
 			Material.CRACKED_STONE_BRICKS,
 			Material.CHISELED_STONE_BRICKS,
-			Material.SMOOTH_STONE);
+			Material.QUARTZ_PILLAR,
+			Material.CHISELED_QUARTZ_BLOCK);
 
 	public final static String tagSelectMaterial_WaterTowers = "Materials_For_WaterTowers";
 	public MaterialList itemsSelectMaterial_WaterTowers = createList(tagSelectMaterial_WaterTowers,

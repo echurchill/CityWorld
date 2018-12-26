@@ -155,9 +155,9 @@ public class NatureContext extends UncivilizedContext {
 	protected void populateSpecial(CityWorldGenerator generator, PlatMap platmap, int x, int y, int z, HeightState state) {
 
 		// what type of height are we talking about?
-//		if (state != HeightState.BUILDING) {
 		if (state != HeightState.BUILDING && 
 			generator.shapeProvider.isIsolatedConstructAt(platmap.originX + x, platmap.originZ + z, oddsOfIsolatedConstructs)) {
+//		if (state != HeightState.BUILDING) {
 			PlatLot current = null;
 			
 			// what to make?

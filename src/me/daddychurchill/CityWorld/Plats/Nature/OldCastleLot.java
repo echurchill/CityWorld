@@ -46,7 +46,7 @@ public class OldCastleLot extends ConstructLot {
 	
 	@Override
 	public int getBottomY(CityWorldGenerator generator) {
-		return blockYs.maxHeight - 1;
+		return blockYs.minHeight;
 	}
 	
 	@Override
