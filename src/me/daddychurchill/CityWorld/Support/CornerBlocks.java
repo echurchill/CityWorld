@@ -11,20 +11,20 @@ public final class CornerBlocks {
 
 	// ideally these would be an ENUM but I haven't figured a way to do that without
 	// introducing icky looking mini-schematics
-	private final static byte non = 0;
+	private final static byte non = 0; // nothing here
 	private final static byte opt = 1;
 	private final static byte FLR = 2;
-	private final static byte WWW = 3;
-	private final static byte GGG = 4;
-	private final static byte WGG = 5;
-	private final static byte GWG = 6;
-	private final static byte GGW = 7;
-	private final static byte GWW = 8;
-	private final static byte WGW = 9;
-	private final static byte WWG = 10;
-	private final static byte Wgg = 11;
-	private final static byte ggg = 12;
-	private final static byte ggW = 13;
+	private final static byte WWW = 3; // solid vertical wall
+	private final static byte GGG = 4; // vertical glass wall
+	private final static byte WGG = 5; // wall - glass - glass : solid bottom block topped with two blocks of glass
+	private final static byte GWG = 6; // glass - wall - glass
+	private final static byte GGW = 7; // glass - glass - wall
+	private final static byte GWW = 8; // glass - wall - wall
+	private final static byte WGW = 9; // wall - glass - wall
+	private final static byte WWG = 10; // wall - wall - glass
+	private final static byte Wgg = 11; // wall - pane - pane
+	private final static byte ggg = 12; // pane - pane - pane
+	private final static byte ggW = 13; // pane - pane - wall
 
 	// these won't show up on the roof
 	private final static byte BRR = 20; // balcony floor block, single iron railing, and nothing above it
@@ -38,7 +38,7 @@ public final class CornerBlocks {
 	private final static byte BGW = 27; // balcony floor block, glass and wall blocks above it (WGW)
 
 	private final static byte Wnn = 40; // single wall block, and nothing but air above it
-	private final static byte nWn = 41; // nothing but air, bunch of glass blocks, topped with nothing but air
+	private final static byte nWn = 41; // nothing but air, glass block, topped with nothing but air
 	private final static byte nnW = 42; // nothing but air, topped with a single wall block
 
 	public boolean isOldRoundedCorner(int i) {
