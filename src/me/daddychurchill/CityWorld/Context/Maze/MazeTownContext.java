@@ -18,13 +18,12 @@ public class MazeTownContext extends MazeConstructContext {
 		super(generator);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	private int connectParkMagicValue = 21436587;
 
 	@Override
 	protected PlatLot generateSpecialOneLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
-		return new ParkLot(platmap, chunkX, chunkZ, connectParkMagicValue, 
-				ParkLot.getWaterDepth(odds));
+		return new ParkLot(platmap, chunkX, chunkZ, connectParkMagicValue, ParkLot.getWaterDepth(odds));
 	}
 
 	@Override

@@ -13,10 +13,9 @@ public class AstralWhiteTowerLot extends AstralStructureTowerLot {
 	}
 
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
-			int platZ) {
-		
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
+			DataContext context, int platX, int platZ) {
+
 		generateTower(generator, chunk, TowerStyle.LIGHT);
 	}
 }

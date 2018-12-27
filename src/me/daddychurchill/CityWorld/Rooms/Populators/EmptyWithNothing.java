@@ -7,7 +7,7 @@ public class EmptyWithNothing extends RoomProvider {
 
 	public EmptyWithNothing() {
 		super();
-		
+
 		roomTypes.add(new EmptyRoom());
 	}
 

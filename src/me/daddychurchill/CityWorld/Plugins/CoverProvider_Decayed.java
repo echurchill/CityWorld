@@ -6,27 +6,29 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 import me.daddychurchill.CityWorld.Support.Colors.ColorSet;
 
 public class CoverProvider_Decayed extends CoverProvider {
-	
+
 	private double oddsOfCrop = Odds.oddsLikely;
-	
+
 	public CoverProvider_Decayed(Odds odds) {
 		super(odds);
 	}
-	
+
 	@Override
 	public ColorSet getColorSet() {
 		return ColorSet.TAN;
 	}
-	
+
 	@Override
-	public boolean generateCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, CoverageType coverageType) {
+	public boolean generateCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+			CoverageType coverageType) {
 		if (likelyCover(generator))
 			setCoverage(generator, chunk, x, y, z, coverageType);
 		return true;
 	}
 
 	@Override
-	protected void setCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, CoverageType coverageType) {
+	protected void setCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+			CoverageType coverageType) {
 		switch (coverageType) {
 		case GRASS:
 		case DANDELION:
@@ -62,7 +64,7 @@ public class CoverProvider_Decayed extends CoverProvider {
 			if (odds.playOdds(oddsOfCrop))
 				super.setCoverage(generator, chunk, x, y, z, CoverageType.DEAD_BUSH);
 			break;
-			
+
 		case MINI_OAK_TREE:
 		case MINI_OAK_TRUNK:
 			super.setCoverage(generator, chunk, x, y, z, CoverageType.MINI_OAK_TRUNK);
@@ -87,7 +89,7 @@ public class CoverProvider_Decayed extends CoverProvider {
 		case MINI_SWAMP_TRUNK:
 			super.setCoverage(generator, chunk, x, y, z, CoverageType.MINI_SWAMP_TRUNK);
 			break;
-			
+
 		case OAK_TRUNK:
 		case OAK_TREE:
 		case SHORT_OAK_TREE:
@@ -108,24 +110,24 @@ public class CoverProvider_Decayed extends CoverProvider {
 		case TALL_BIRCH_TREE:
 			super.setCoverage(generator, chunk, x, y, z, CoverageType.BIRCH_TRUNK);
 			break;
-			
+
 		case JUNGLE_TREE:
 		case JUNGLE_TRUNK:
 		case SHORT_JUNGLE_TREE:
 		case TALL_JUNGLE_TREE:
 			super.setCoverage(generator, chunk, x, y, z, CoverageType.JUNGLE_TRUNK);
 			break;
-		
+
 		case ACACIA_TRUNK:
 		case ACACIA_TREE:
 			super.setCoverage(generator, chunk, x, y, z, CoverageType.ACACIA_TRUNK);
 			break;
-			
+
 		case SWAMP_TREE:
 		case SWAMP_TRUNK:
 			super.setCoverage(generator, chunk, x, y, z, CoverageType.SWAMP_TRUNK);
 			break;
-			
+
 		case BROWN_MUSHROOM:
 		case RED_MUSHROOM:
 		case NETHERWART:
@@ -138,20 +140,20 @@ public class CoverProvider_Decayed extends CoverProvider {
 			break;
 		}
 	}
-	
+
 	@Override
 	public void makePlantable(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
 //		chunk.setBlock(x, y, z, Material.GRASS_BLOCK); // Honey Badger don't care!
 		chunk.clearBlock(x, y + 1, z);
 	}
-	
+
 	@Override
 	public boolean isPlantable(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
-		
+
 		// only if the spot above is empty
 		if (!chunk.isEmpty(x, y + 1, z))
 			return false;
-		
+
 		// depends on the block's type and what the world is like
 		return !chunk.isEmpty(x, y, z);
 	}

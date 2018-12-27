@@ -9,7 +9,7 @@ public class CoverProvider_Nether extends CoverProvider_Decayed {
 
 	private double oddsOfCrop = Odds.oddsLikely;
 	private double oddsOfFire = Odds.oddsSomewhatUnlikely;
-	
+
 	public CoverProvider_Nether(Odds odds) {
 		super(odds);
 	}
@@ -18,12 +18,13 @@ public class CoverProvider_Nether extends CoverProvider_Decayed {
 	public ColorSet getColorSet() {
 		return ColorSet.NETHER;
 	}
-	
+
 	@Override
-	protected void setCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, CoverageType coverageType) {
+	protected void setCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+			CoverageType coverageType) {
 		switch (coverageType) {
 		case NOTHING:
-			 break;
+			break;
 
 		case GRASS:
 		case DANDELION:
@@ -90,7 +91,7 @@ public class CoverProvider_Nether extends CoverProvider_Decayed {
 			else if (odds.playOdds(oddsOfCrop))
 				super.setCoverage(generator, chunk, x, y, z, CoverageType.NETHERWART);
 			break;
-			
+
 		case OAK_TRUNK:
 		case PINE_TRUNK:
 		case BIRCH_TRUNK:

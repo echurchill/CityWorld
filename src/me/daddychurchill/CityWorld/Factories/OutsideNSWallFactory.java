@@ -17,7 +17,8 @@ public class OutsideNSWallFactory extends MaterialFactory {
 	}
 
 	@Override
-	public void placeMaterial(AbstractBlocks blocks, Material primary, Material secondary, int x, int y1, int y2, int z, BlockFace... facing) {
+	public void placeMaterial(AbstractBlocks blocks, Material primary, Material secondary, int x, int y1, int y2, int z,
+			BlockFace... facing) {
 		super.placeMaterial(blocks, primary, secondary, pickMaterial(primary, secondary, z), x, y1, y2, z, facing);
 	}
 }

@@ -1,4 +1,5 @@
 package me.daddychurchill.CityWorld.Plugins;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
 
@@ -8,9 +9,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class LootProvider_Normal extends LootProvider {
-	
+
 	@Override
-	public void setLoot(CityWorldGenerator generator, Odds odds, String worldPrefix, LootLocation lootLocation, Block block) {
+	public void setLoot(CityWorldGenerator generator, Odds odds, String worldPrefix, LootLocation lootLocation,
+			Block block) {
 		Chest chest = (Chest) block.getState();
 		Inventory inv = chest.getInventory();
 		inv.clear();
@@ -18,14 +20,14 @@ public class LootProvider_Normal extends LootProvider {
 		if (items != null)
 			inv.addItem(items);
 	}
-	
+
 	@Override
 	public void saveLoots() {
 		// we don't need to do anything
 	}
-	
+
 	private ItemStack[] getLoot(CityWorldGenerator generator, Odds odds, LootLocation lootLocation, Block block) {
-		
+
 		// which mix?
 		switch (lootLocation) {
 		case EMPTY:
@@ -60,8 +62,8 @@ public class LootProvider_Normal extends LootProvider {
 			lootLocation = LootLocation.values()[odds.getRandomInt(LootLocation.values().length - 1) + 1];
 			return getLoot(generator, odds, lootLocation, block);
 		}
-		
-		throw new IllegalArgumentException(); 
+
+		throw new IllegalArgumentException();
 	}
-	
+
 }

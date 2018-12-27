@@ -21,46 +21,45 @@ public class OutlandContext extends RuralContext {
 		super(generator);
 
 		oddsOfIsolatedLots = Odds.oddsVeryLikely;
-		
+
 		setSchematicFamily(SchematicFamily.OUTLAND);
 	}
 
 	@Override
 	public void populateMap(CityWorldGenerator generator, PlatMap platmap) {
-		
+
 		// now add our stuff
 		Odds platmapOdds = platmap.getOddsGenerator();
 		boolean singletonOneUsed = false;
 		boolean singletonTwoUsed = false;
 		HeightInfo heights;
-		
+
 		// where do we begin?
 		int originX = platmap.originX;
 		int originZ = platmap.originZ;
-		
+
 		// clean up the platmap of singletons and odd road structures
 		for (int x = 0; x < PlatMap.Width; x++) {
 			for (int z = 0; z < PlatMap.Width; z++) {
 				PlatLot current = platmap.getLot(x, z);
-				
+
 				// something here?
 				if (current == null) {
-					
+
 					// but there aren't neighbors
-					if (!platmap.isEmptyLot(x - 1, z) && !platmap.isEmptyLot(x + 1, z) &&
-						!platmap.isEmptyLot(x, z - 1) && !platmap.isEmptyLot(x, z + 1))
+					if (!platmap.isEmptyLot(x - 1, z) && !platmap.isEmptyLot(x + 1, z) && !platmap.isEmptyLot(x, z - 1)
+							&& !platmap.isEmptyLot(x, z + 1))
 						platmap.recycleLot(x, z);
 				}
-				
+
 				// look for singleton nature and roundabouts
 				else {
-					
+
 					// if a single natural thing is here but surrounded by four "things"
-					if (current.style == LotStyle.NATURE &&
-						platmap.isEmptyLot(x - 1, z) && platmap.isEmptyLot(x + 1, z) &&
-						platmap.isEmptyLot(x, z - 1) && platmap.isEmptyLot(x, z + 1))
+					if (current.style == LotStyle.NATURE && platmap.isEmptyLot(x - 1, z) && platmap.isEmptyLot(x + 1, z)
+							&& platmap.isEmptyLot(x, z - 1) && platmap.isEmptyLot(x, z + 1))
 						platmap.emptyLot(x, z);
-					
+
 					// get rid of roundabouts
 					else if (current.style == LotStyle.ROUNDABOUT) {
 						platmap.paveLot(x, z, false);
@@ -72,10 +71,10 @@ public class OutlandContext extends RuralContext {
 				}
 			}
 		}
-		
+
 		// let the user add their stuff first
 		getSchematics(generator).populate(generator, platmap);
-		
+
 		// fill with more stuff
 		if (!generator.settings.includeDecayedBuildings) {
 			boolean stoneworks = platmapOdds.flipCoin() && generator.settings.includeMines;
@@ -83,13 +82,13 @@ public class OutlandContext extends RuralContext {
 				for (int z = 0; z < PlatMap.Width; z++) {
 					PlatLot current = platmap.getLot(x, z);
 					if (current == null) {
-						
+
 						// what is the world location of the lot?
 						int chunkX = originX + x;
 						int chunkZ = originZ + z;
 						int blockX = chunkX * SupportBlocks.sectionBlockWidth;
 						int blockZ = chunkZ * SupportBlocks.sectionBlockWidth;
-						
+
 						// get the height info for this chunk
 						heights = HeightInfo.getHeightsFaster(generator, blockX, blockZ);
 						if (heights.isBuildable()) {
@@ -102,7 +101,7 @@ public class OutlandContext extends RuralContext {
 									singletonTwoUsed = true;
 								} else
 									current = new GravelworksLot(platmap, chunkX, chunkZ);
-								
+
 							} else { // woodworks
 								if (!singletonOneUsed && platmapOdds.playOdds(Odds.oddsVeryUnlikely)) {
 									current = new WoodframeLot(platmap, chunkX, chunkZ);
@@ -113,7 +112,7 @@ public class OutlandContext extends RuralContext {
 								} else
 									current = new WoodworksLot(platmap, chunkX, chunkZ);
 							}
-							
+
 							// remember what we did
 							if (current != null)
 								platmap.setLot(x, z, current);

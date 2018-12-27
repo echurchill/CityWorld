@@ -17,7 +17,7 @@ public class MazeInvisibleWalledLot extends MazeNatureLot {
 	protected Material getWallMaterial(CityWorldGenerator generator) {
 		return Material.BARRIER;
 	}
-	
+
 	@Override
 	protected void generateWallPart(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int z1, int z2) {
 		int mazeY = generator.streetLevel - mazeDepth;
@@ -30,5 +30,5 @@ public class MazeInvisibleWalledLot extends MazeNatureLot {
 		int mazeY = generator.streetLevel - mazeDepth;
 		chunk.setBlocks(x1, x2, mazeY, mazeY + mazeDepth + 1, z1, z2, getLaymentMaterial(generator));
 	}
-	
+
 }

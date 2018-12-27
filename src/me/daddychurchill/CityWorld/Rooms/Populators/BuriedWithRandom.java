@@ -18,7 +18,7 @@ public class BuriedWithRandom extends RoomProvider {
 		super();
 
 //		roomTypes.add(new DebugRoom());
-		
+
 //		roomTypes.add(new EmptyRoom());
 
 		roomTypes.add(new LoungeCouchRoom());
@@ -28,7 +28,7 @@ public class BuriedWithRandom extends RoomProvider {
 
 		roomTypes.add(new MeetingForSixRoom());
 		roomTypes.add(new MeetingForFourRoom());
-		
+
 		roomTypes.add(new DeskExecutiveRoom());
 		roomTypes.add(new DeskAdminRoom());
 		roomTypes.add(new DeskCornerRoom());

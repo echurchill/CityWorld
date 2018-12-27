@@ -15,16 +15,15 @@ public class LoungeGameRoom extends LoungeChairsRoom {
 	}
 
 	@Override
-	public void drawFixture(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int floor, int x,
-			int y, int z, int width, int height, int depth,
-			BlockFace sideWithWall, Material materialWall, Material materialGlass) {
+	public void drawFixture(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int floor, int x, int y, int z,
+			int width, int height, int depth, BlockFace sideWithWall, Material materialWall, Material materialGlass) {
 
-		super.drawFixture(generator, chunk, odds, floor, x, y, z, width, height, depth,
-				sideWithWall, materialWall, materialGlass);
-		
+		super.drawFixture(generator, chunk, odds, floor, x, y, z, width, height, depth, sideWithWall, materialWall,
+				materialGlass);
+
 		Material tableLeg = getTableLeg(odds);
 		Material tableTop = getTableTop(odds);
-		
+
 		switch (sideWithWall) {
 		default:
 		case NORTH:

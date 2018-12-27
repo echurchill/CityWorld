@@ -10,214 +10,160 @@ import org.bukkit.TreeType;
 import org.bukkit.block.BlockFace;
 
 public abstract class CoverProvider extends Provider {
-	
+
 	public enum CoverageType {
-		NOTHING, GRASS, FERN, /*DEAD_GRASS,*/ DANDELION, DEAD_BUSH, 
-		
-		POPPY, BLUE_ORCHID, ALLIUM, AZURE_BLUET, OXEYE_DAISY,
-		RED_TULIP, ORANGE_TULIP, WHITE_TULIP, PINK_TULIP,
+		NOTHING, GRASS, FERN, /* DEAD_GRASS, */ DANDELION, DEAD_BUSH,
+
+		POPPY, BLUE_ORCHID, ALLIUM, AZURE_BLUET, OXEYE_DAISY, RED_TULIP, ORANGE_TULIP, WHITE_TULIP, PINK_TULIP,
 
 		SUNFLOWER, LILAC, TALL_GRASS, TALL_FERN, ROSE_BUSH, PEONY,
-		
-		CACTUS, REED, EMERALD_GREEN, 
-		
-		OAK_SAPLING, PINE_SAPLING, BIRCH_SAPLING, 
-		JUNGLE_SAPLING, ACACIA_SAPLING,
-		
-		MINI_OAK_TREE, SHORT_OAK_TREE, OAK_TREE, TALL_OAK_TREE, 
-		MINI_PINE_TREE, SHORT_PINE_TREE, PINE_TREE, TALL_PINE_TREE, 
-		MINI_BIRCH_TREE, SHORT_BIRCH_TREE, BIRCH_TREE, TALL_BIRCH_TREE, 
-		MINI_JUNGLE_TREE, SHORT_JUNGLE_TREE, JUNGLE_TREE, TALL_JUNGLE_TREE,
-		MINI_SWAMP_TREE, SWAMP_TREE,
-		MINI_ACACIA_TREE, ACACIA_TREE,
-		  
-		MINI_OAK_TRUNK, OAK_TRUNK, TALL_OAK_TRUNK, 
-		MINI_PINE_TRUNK, PINE_TRUNK, TALL_PINE_TRUNK, 
-		MINI_BIRCH_TRUNK, BIRCH_TRUNK, TALL_BIRCH_TRUNK, 
-		MINI_JUNGLE_TRUNK, JUNGLE_TRUNK, TALL_JUNGLE_TRUNK,
-		MINI_SWAMP_TRUNK, SWAMP_TRUNK, TALL_SWAMP_TRUNK,
-		MINI_ACACIA_TRUNK, ACACIA_TRUNK, TALL_ACACIA_TRUNK,
-		
+
+		CACTUS, REED, EMERALD_GREEN,
+
+		OAK_SAPLING, PINE_SAPLING, BIRCH_SAPLING, JUNGLE_SAPLING, ACACIA_SAPLING,
+
+		MINI_OAK_TREE, SHORT_OAK_TREE, OAK_TREE, TALL_OAK_TREE, MINI_PINE_TREE, SHORT_PINE_TREE, PINE_TREE,
+		TALL_PINE_TREE, MINI_BIRCH_TREE, SHORT_BIRCH_TREE, BIRCH_TREE, TALL_BIRCH_TREE, MINI_JUNGLE_TREE,
+		SHORT_JUNGLE_TREE, JUNGLE_TREE, TALL_JUNGLE_TREE, MINI_SWAMP_TREE, SWAMP_TREE, MINI_ACACIA_TREE, ACACIA_TREE,
+
+		MINI_OAK_TRUNK, OAK_TRUNK, TALL_OAK_TRUNK, MINI_PINE_TRUNK, PINE_TRUNK, TALL_PINE_TRUNK, MINI_BIRCH_TRUNK,
+		BIRCH_TRUNK, TALL_BIRCH_TRUNK, MINI_JUNGLE_TRUNK, JUNGLE_TRUNK, TALL_JUNGLE_TRUNK, MINI_SWAMP_TRUNK,
+		SWAMP_TRUNK, TALL_SWAMP_TRUNK, MINI_ACACIA_TRUNK, ACACIA_TRUNK, TALL_ACACIA_TRUNK,
+
 		WHEAT, CARROTS, POTATO, MELON, PUMPKIN, BEETROOT,
 
 //		TALL_BROWN_MUSHROOM, TALL_RED_MUSHROOM,
 		BROWN_MUSHROOM, RED_MUSHROOM, NETHERWART,
-		
+
 		BRAIN_CORAL, BUBBLE_CORAL, FIRE_CORAL, HORN_CORAL, TUBE_CORAL, SEAGRASS, KELP,
-		
-		FIRE};
-		
+
+		FIRE
+	};
+
 	/*
-    BUBBLE_COLUMN(13758, BubbleColumn.class),
-
-
-    SEAGRASS(23942),
-    TALL_SEAGRASS(27189, Bisected.class),
-    
-    SEA_LANTERN(16984),
-    SEA_PICKLE(19562, SeaPickle.class),
-
-
+	 * BUBBLE_COLUMN(13758, BubbleColumn.class),
+	 * 
+	 * 
+	 * SEAGRASS(23942), TALL_SEAGRASS(27189, Bisected.class),
+	 * 
+	 * SEA_LANTERN(16984), SEA_PICKLE(19562, SeaPickle.class),
+	 * 
+	 * 
 	 */
-	
-	public enum CoverageSets {SHORT_FLOWERS, TALL_FLOWERS, ALL_FLOWERS,
-		SHORT_PLANTS, TALL_PLANTS, ALL_PLANTS,
-		GENERAL_SAPLINGS, ALL_SAPLINGS, 
-		OAK_TREES, PINE_TREES, BIRCH_TREES, 
-		JUNGLE_TREES, ACACIA_TREES, SWAMP_TREES, 
-		SHORT_TREES, MEDIUM_TREES, TALL_TREES, ALL_TREES,
-		PRARIE_PLANTS, EDIBLE_PLANTS, SHORT_MUSHROOMS, 
-		NETHER_PLANTS, DECAY_PLANTS,
-		SEA_PLANTS, SEA_CORALS};
-								
-	private final static CoverageType[] ShortFlowers = {
-		CoverageType.DANDELION, CoverageType.POPPY, 
-		CoverageType.BLUE_ORCHID, CoverageType.ALLIUM, 
-		CoverageType.AZURE_BLUET, CoverageType.OXEYE_DAISY,
-		CoverageType.RED_TULIP, CoverageType.ORANGE_TULIP, 
-		CoverageType.WHITE_TULIP, CoverageType.PINK_TULIP};
-	
-	private final static CoverageType[] TallFlowers = {
-		CoverageType.SUNFLOWER, CoverageType.LILAC,
-		CoverageType.ROSE_BUSH, CoverageType.PEONY};
-	
-	private final static CoverageType[] AllFlowers = {
-		CoverageType.DANDELION, CoverageType.POPPY, 
-		CoverageType.BLUE_ORCHID, CoverageType.ALLIUM, 
-		CoverageType.AZURE_BLUET, CoverageType.OXEYE_DAISY,
-		CoverageType.RED_TULIP, CoverageType.ORANGE_TULIP, 
-		CoverageType.WHITE_TULIP, CoverageType.PINK_TULIP,
-		CoverageType.SUNFLOWER, CoverageType.LILAC,
-		CoverageType.ROSE_BUSH, CoverageType.PEONY};
-	
-	private final static CoverageType[] ShortPlants = {
-		CoverageType.GRASS, CoverageType.FERN};
-	
-	private final static CoverageType[] TallPlants = {
-		CoverageType.CACTUS, CoverageType.REED,
-		CoverageType.TALL_GRASS, CoverageType.TALL_FERN,
-		CoverageType.SUNFLOWER, CoverageType.LILAC,
-		CoverageType.EMERALD_GREEN};
-	
-	private final static CoverageType[] AllPlants = {
-		CoverageType.GRASS, CoverageType.FERN,
-		CoverageType.CACTUS, CoverageType.REED,
-		CoverageType.TALL_GRASS, CoverageType.TALL_FERN,
-		CoverageType.ROSE_BUSH, CoverageType.PEONY,
-		CoverageType.EMERALD_GREEN};
 
-	private final static CoverageType[] PrariePlants = {
-		CoverageType.GRASS, CoverageType.GRASS,
-		CoverageType.GRASS, CoverageType.GRASS,
-		CoverageType.DANDELION, CoverageType.POPPY, 
-		CoverageType.GRASS, CoverageType.GRASS,
+	public enum CoverageSets {
+		SHORT_FLOWERS, TALL_FLOWERS, ALL_FLOWERS, SHORT_PLANTS, TALL_PLANTS, ALL_PLANTS, GENERAL_SAPLINGS, ALL_SAPLINGS,
+		OAK_TREES, PINE_TREES, BIRCH_TREES, JUNGLE_TREES, ACACIA_TREES, SWAMP_TREES, SHORT_TREES, MEDIUM_TREES,
+		TALL_TREES, ALL_TREES, PRARIE_PLANTS, EDIBLE_PLANTS, SHORT_MUSHROOMS, NETHER_PLANTS, DECAY_PLANTS, SEA_PLANTS,
+		SEA_CORALS
+	};
+
+	private final static CoverageType[] ShortFlowers = { CoverageType.DANDELION, CoverageType.POPPY,
+			CoverageType.BLUE_ORCHID, CoverageType.ALLIUM, CoverageType.AZURE_BLUET, CoverageType.OXEYE_DAISY,
+			CoverageType.RED_TULIP, CoverageType.ORANGE_TULIP, CoverageType.WHITE_TULIP, CoverageType.PINK_TULIP };
+
+	private final static CoverageType[] TallFlowers = { CoverageType.SUNFLOWER, CoverageType.LILAC,
+			CoverageType.ROSE_BUSH, CoverageType.PEONY };
+
+	private final static CoverageType[] AllFlowers = { CoverageType.DANDELION, CoverageType.POPPY,
+			CoverageType.BLUE_ORCHID, CoverageType.ALLIUM, CoverageType.AZURE_BLUET, CoverageType.OXEYE_DAISY,
+			CoverageType.RED_TULIP, CoverageType.ORANGE_TULIP, CoverageType.WHITE_TULIP, CoverageType.PINK_TULIP,
+			CoverageType.SUNFLOWER, CoverageType.LILAC, CoverageType.ROSE_BUSH, CoverageType.PEONY };
+
+	private final static CoverageType[] ShortPlants = { CoverageType.GRASS, CoverageType.FERN };
+
+	private final static CoverageType[] TallPlants = { CoverageType.CACTUS, CoverageType.REED, CoverageType.TALL_GRASS,
+			CoverageType.TALL_FERN, CoverageType.SUNFLOWER, CoverageType.LILAC, CoverageType.EMERALD_GREEN };
+
+	private final static CoverageType[] AllPlants = { CoverageType.GRASS, CoverageType.FERN, CoverageType.CACTUS,
+			CoverageType.REED, CoverageType.TALL_GRASS, CoverageType.TALL_FERN, CoverageType.ROSE_BUSH,
+			CoverageType.PEONY, CoverageType.EMERALD_GREEN };
+
+	private final static CoverageType[] PrariePlants = { CoverageType.GRASS, CoverageType.GRASS, CoverageType.GRASS,
+			CoverageType.GRASS, CoverageType.DANDELION, CoverageType.POPPY, CoverageType.GRASS, CoverageType.GRASS,
 //		CoverageType.BLUE_ORCHID, CoverageType.ALLIUM, 
-		CoverageType.GRASS, CoverageType.GRASS,
+			CoverageType.GRASS, CoverageType.GRASS,
 //		CoverageType.AZURE_BLUET, CoverageType.OXEYE_DAISY,
-		CoverageType.GRASS, CoverageType.GRASS,
-		CoverageType.RED_TULIP, CoverageType.ORANGE_TULIP, 
-		CoverageType.GRASS, CoverageType.GRASS,
-		CoverageType.WHITE_TULIP, CoverageType.PINK_TULIP,
-		CoverageType.GRASS, CoverageType.GRASS,
-		CoverageType.GRASS, CoverageType.GRASS};
-			
-	private final static CoverageType[] EdiblePlants = {
-		CoverageType.WHEAT, CoverageType.CARROTS,
-		CoverageType.POTATO, CoverageType.BEETROOT,
-		CoverageType.MELON, CoverageType.PUMPKIN};
+			CoverageType.GRASS, CoverageType.GRASS, CoverageType.RED_TULIP, CoverageType.ORANGE_TULIP,
+			CoverageType.GRASS, CoverageType.GRASS, CoverageType.WHITE_TULIP, CoverageType.PINK_TULIP,
+			CoverageType.GRASS, CoverageType.GRASS, CoverageType.GRASS, CoverageType.GRASS };
 
-	private final static CoverageType[] GeneralSaplings = {
-		CoverageType.OAK_SAPLING, CoverageType.PINE_SAPLING,
-		CoverageType.BIRCH_SAPLING};
-	
-	private final static CoverageType[] AllSaplings = {
-		CoverageType.OAK_SAPLING, CoverageType.PINE_SAPLING,
-		CoverageType.BIRCH_SAPLING, CoverageType.JUNGLE_SAPLING, 
-		CoverageType.ACACIA_SAPLING};
-	
-	private final static CoverageType[] OakTrees = {
-		CoverageType.OAK_SAPLING, CoverageType.SHORT_OAK_TREE, 
-		CoverageType.OAK_TREE, CoverageType.TALL_OAK_TREE};
-	
-	private final static CoverageType[] PineTrees = {
-		CoverageType.PINE_SAPLING, CoverageType.SHORT_PINE_TREE, 
-		CoverageType.PINE_TREE, CoverageType.TALL_PINE_TREE};
-	
-	private final static CoverageType[] BirchTrees = {
-		CoverageType.BIRCH_SAPLING, CoverageType.SHORT_BIRCH_TREE, 
-		CoverageType.BIRCH_TREE, CoverageType.TALL_BIRCH_TREE};
-	
-	private final static CoverageType[] JungleTrees = {
-		CoverageType.JUNGLE_SAPLING, CoverageType.SHORT_JUNGLE_TREE, 
-		CoverageType.JUNGLE_TREE, CoverageType.TALL_JUNGLE_TREE};
-	
-	private final static CoverageType[] AcaciaTrees = {
-		CoverageType.ACACIA_SAPLING, CoverageType.ACACIA_TREE};
-	
-	private final static CoverageType[] SwampTrees = {
-			CoverageType.SWAMP_TREE};
-		
-	private final static CoverageType[] ShortTrees = {
-		CoverageType.SHORT_BIRCH_TREE, CoverageType.SHORT_JUNGLE_TREE,
-		CoverageType.SHORT_OAK_TREE, CoverageType.SHORT_PINE_TREE};
-	
-	private final static CoverageType[] MediumTrees = {
-		CoverageType.BIRCH_TREE, CoverageType.JUNGLE_TREE,
-		CoverageType.OAK_TREE,CoverageType.PINE_TREE};
-		
-	private final static CoverageType[] TallTrees = {
-		CoverageType.TALL_BIRCH_TREE, CoverageType.TALL_JUNGLE_TREE,
-		CoverageType.TALL_OAK_TREE,CoverageType.TALL_PINE_TREE,
-		CoverageType.ACACIA_TREE, CoverageType.SWAMP_TREE};
-		
-	private final static CoverageType[] AllTrees = {
-		CoverageType.SHORT_BIRCH_TREE, CoverageType.SHORT_JUNGLE_TREE,
-		CoverageType.SHORT_OAK_TREE, CoverageType.SHORT_PINE_TREE,
-		CoverageType.BIRCH_TREE, CoverageType.JUNGLE_TREE,
-		CoverageType.OAK_TREE,CoverageType.PINE_TREE,
-		CoverageType.TALL_BIRCH_TREE, CoverageType.TALL_JUNGLE_TREE,
-		CoverageType.TALL_OAK_TREE,CoverageType.TALL_PINE_TREE,
-		CoverageType.ACACIA_TREE, CoverageType.SWAMP_TREE};
-		
-	private final static CoverageType[] ShortMushrooms = {
-		CoverageType.BROWN_MUSHROOM, CoverageType.RED_MUSHROOM};
+	private final static CoverageType[] EdiblePlants = { CoverageType.WHEAT, CoverageType.CARROTS, CoverageType.POTATO,
+			CoverageType.BEETROOT, CoverageType.MELON, CoverageType.PUMPKIN };
 
-	private final static CoverageType[] NetherPlants = {
-		CoverageType.BROWN_MUSHROOM, CoverageType.RED_MUSHROOM,
-		CoverageType.NETHERWART, CoverageType.DEAD_BUSH,
-		CoverageType.FIRE};
-	
-	private final static CoverageType[] DecayPlants = {
-		CoverageType.BROWN_MUSHROOM, CoverageType.RED_MUSHROOM,
-		CoverageType.DEAD_BUSH};
-	
-	private final static CoverageType[] SeaPlants = {
-			CoverageType.SEAGRASS, CoverageType.KELP};
-	
-	private final static CoverageType[] SeaCoral = {
-			CoverageType.BRAIN_CORAL, CoverageType.BUBBLE_CORAL, 
-			CoverageType.FIRE_CORAL, CoverageType.HORN_CORAL, 
-			CoverageType.TUBE_CORAL};
-	
+	private final static CoverageType[] GeneralSaplings = { CoverageType.OAK_SAPLING, CoverageType.PINE_SAPLING,
+			CoverageType.BIRCH_SAPLING };
+
+	private final static CoverageType[] AllSaplings = { CoverageType.OAK_SAPLING, CoverageType.PINE_SAPLING,
+			CoverageType.BIRCH_SAPLING, CoverageType.JUNGLE_SAPLING, CoverageType.ACACIA_SAPLING };
+
+	private final static CoverageType[] OakTrees = { CoverageType.OAK_SAPLING, CoverageType.SHORT_OAK_TREE,
+			CoverageType.OAK_TREE, CoverageType.TALL_OAK_TREE };
+
+	private final static CoverageType[] PineTrees = { CoverageType.PINE_SAPLING, CoverageType.SHORT_PINE_TREE,
+			CoverageType.PINE_TREE, CoverageType.TALL_PINE_TREE };
+
+	private final static CoverageType[] BirchTrees = { CoverageType.BIRCH_SAPLING, CoverageType.SHORT_BIRCH_TREE,
+			CoverageType.BIRCH_TREE, CoverageType.TALL_BIRCH_TREE };
+
+	private final static CoverageType[] JungleTrees = { CoverageType.JUNGLE_SAPLING, CoverageType.SHORT_JUNGLE_TREE,
+			CoverageType.JUNGLE_TREE, CoverageType.TALL_JUNGLE_TREE };
+
+	private final static CoverageType[] AcaciaTrees = { CoverageType.ACACIA_SAPLING, CoverageType.ACACIA_TREE };
+
+	private final static CoverageType[] SwampTrees = { CoverageType.SWAMP_TREE };
+
+	private final static CoverageType[] ShortTrees = { CoverageType.SHORT_BIRCH_TREE, CoverageType.SHORT_JUNGLE_TREE,
+			CoverageType.SHORT_OAK_TREE, CoverageType.SHORT_PINE_TREE };
+
+	private final static CoverageType[] MediumTrees = { CoverageType.BIRCH_TREE, CoverageType.JUNGLE_TREE,
+			CoverageType.OAK_TREE, CoverageType.PINE_TREE };
+
+	private final static CoverageType[] TallTrees = { CoverageType.TALL_BIRCH_TREE, CoverageType.TALL_JUNGLE_TREE,
+			CoverageType.TALL_OAK_TREE, CoverageType.TALL_PINE_TREE, CoverageType.ACACIA_TREE,
+			CoverageType.SWAMP_TREE };
+
+	private final static CoverageType[] AllTrees = { CoverageType.SHORT_BIRCH_TREE, CoverageType.SHORT_JUNGLE_TREE,
+			CoverageType.SHORT_OAK_TREE, CoverageType.SHORT_PINE_TREE, CoverageType.BIRCH_TREE,
+			CoverageType.JUNGLE_TREE, CoverageType.OAK_TREE, CoverageType.PINE_TREE, CoverageType.TALL_BIRCH_TREE,
+			CoverageType.TALL_JUNGLE_TREE, CoverageType.TALL_OAK_TREE, CoverageType.TALL_PINE_TREE,
+			CoverageType.ACACIA_TREE, CoverageType.SWAMP_TREE };
+
+	private final static CoverageType[] ShortMushrooms = { CoverageType.BROWN_MUSHROOM, CoverageType.RED_MUSHROOM };
+
+	private final static CoverageType[] NetherPlants = { CoverageType.BROWN_MUSHROOM, CoverageType.RED_MUSHROOM,
+			CoverageType.NETHERWART, CoverageType.DEAD_BUSH, CoverageType.FIRE };
+
+	private final static CoverageType[] DecayPlants = { CoverageType.BROWN_MUSHROOM, CoverageType.RED_MUSHROOM,
+			CoverageType.DEAD_BUSH };
+
+	private final static CoverageType[] SeaPlants = { CoverageType.SEAGRASS, CoverageType.KELP };
+
+	private final static CoverageType[] SeaCoral = { CoverageType.BRAIN_CORAL, CoverageType.BUBBLE_CORAL,
+			CoverageType.FIRE_CORAL, CoverageType.HORN_CORAL, CoverageType.TUBE_CORAL };
+
 	protected final static double oddsOfDarkCover = Odds.oddsLikely;
 	protected Odds odds;
-	
+
 	public CoverProvider(Odds odds) {
 		super();
 		this.odds = odds;
 	}
-	
-	public abstract boolean generateCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, CoverageType coverageType);
-	
-	private CoverageType getRandomCoverage(CoverageType ... types) {
+
+	public abstract boolean generateCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+			CoverageType coverageType);
+
+	private CoverageType getRandomCoverage(CoverageType... types) {
 		return types[odds.getRandomInt(types.length)];
 	}
-	
-	public void generateRandomCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, CoverageType ... types) {
+
+	public void generateRandomCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+			CoverageType... types) {
 		setCoverage(generator, chunk, x, y, z, getRandomCoverage(types));
 	}
-	
-	public void generateCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, CoverageSets coverageSet) {
+
+	public void generateCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+			CoverageSets coverageSet) {
 		switch (coverageSet) {
 		case ALL_FLOWERS:
 			generateRandomCoverage(generator, chunk, x, y, z, AllFlowers);
@@ -267,7 +213,7 @@ public abstract class CoverProvider extends Provider {
 		case ALL_TREES:
 			generateRandomCoverage(generator, chunk, x, y, z, AllTrees);
 			break;
-			
+
 		case NETHER_PLANTS:
 			generateRandomCoverage(generator, chunk, x, y, z, NetherPlants);
 			break;
@@ -297,19 +243,22 @@ public abstract class CoverProvider extends Provider {
 			break;
 		}
 	}
-	
-	protected void setCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, CoverageType coverageType) {
+
+	protected void setCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+			CoverageType coverageType) {
 		Material topsoil = generator.oreProvider.surfaceMaterial;
 		switch (coverageType) {
 		case NOTHING:
 			break;
 		case GRASS:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.GRASS);
 			break;
 		case FERN:
-			if (chunk.isOfTypes(x, y - 1, z, topsoil, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
-				chunk.setBlock(x, y, z, Material.FERN); 
+			if (chunk.isOfTypes(x, y - 1, z, topsoil, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND))
+				chunk.setBlock(x, y, z, Material.FERN);
 			break;
 //		case DEAD_GRASS:
 //			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
@@ -320,8 +269,9 @@ public abstract class CoverProvider extends Provider {
 //				chunk.setBlock(x, y, z, Material.DEAD_BUSH);
 //			break;
 		case DEAD_BUSH:
-			//@@ technically this can also go on all colored terracotta but... whatever
-			if (chunk.isOfTypes(x, y - 1, z, Material.SAND, Material.DIRT, Material.PODZOL, Material.TERRACOTTA /*, Material.WHITE_TERRACOTTA*/))
+			// @@ technically this can also go on all colored terracotta but... whatever
+			if (chunk.isOfTypes(x, y - 1, z, Material.SAND, Material.DIRT, Material.PODZOL,
+					Material.TERRACOTTA /* , Material.WHITE_TERRACOTTA */))
 				chunk.setBlock(x, y, z, Material.DEAD_BUSH);
 //			
 //			// fine, try the other one that looks like this
@@ -358,157 +308,189 @@ public abstract class CoverProvider extends Provider {
 			break;
 		case REED:
 			if (chunk.isByWater(x, y - 1, z)) {
-			    chunk.setBlock(x, y - 1, z, Material.SAND);
+				chunk.setBlock(x, y - 1, z, Material.SAND);
 				chunk.setBlocks(x, y, y + odds.getRandomInt(2) + 2, z, Material.SUGAR_CANE);
 			}
 			break;
 		case DANDELION:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.DANDELION);
 			break;
 		case POPPY:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.POPPY);
 			break;
 		case BLUE_ORCHID:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.BLUE_ORCHID);
 			break;
 		case ALLIUM:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.ALLIUM);
 			break;
 		case AZURE_BLUET:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.AZURE_BLUET);
 			break;
 		case OXEYE_DAISY:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.OXEYE_DAISY);
 			break;
 		case RED_TULIP:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.RED_TULIP);
 			break;
 		case ORANGE_TULIP:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.ORANGE_TULIP);
 			break;
 		case WHITE_TULIP:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.WHITE_TULIP);
 			break;
 		case PINK_TULIP:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.PINK_TULIP);
 			break;
 		case SUNFLOWER:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND)) {
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND)) {
 				chunk.setTallBlock(x, y, z, Material.SUNFLOWER);
 			}
 			break;
 		case LILAC:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND)) {
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND)) {
 				chunk.setTallBlock(x, y, z, Material.LILAC);
 			}
 			break;
 		case TALL_GRASS:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND)) {
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND)) {
 				chunk.setTallBlock(x, y, z, Material.TALL_GRASS);
 			}
 			break;
 		case TALL_FERN:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND)) {
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND)) {
 				chunk.setTallBlock(x, y, z, Material.LARGE_FERN);
 			}
 			break;
 		case ROSE_BUSH:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND)) {
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND)) {
 				chunk.setTallBlock(x, y, z, Material.ROSE_BUSH);
 			}
 			break;
 		case PEONY:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND)) {
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND)) {
 				chunk.setTallBlock(x, y, z, Material.PEONY);
 			}
 			break;
 		case EMERALD_GREEN:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND)) {
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND)) {
 				chunk.setBlock(x, y, z, Material.JUNGLE_LOG);
 				chunk.setBlocks(x, y + 1, y + odds.getRandomInt(2, 4), z, Material.JUNGLE_LEAVES);
 			}
 			break;
 		case OAK_SAPLING:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.OAK_SAPLING);
 			break;
 		case BIRCH_SAPLING:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.BIRCH_SAPLING);
 			break;
 		case PINE_SAPLING:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.DARK_OAK_SAPLING);
 			break;
 		case JUNGLE_SAPLING:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.JUNGLE_SAPLING);
 			break;
 		case ACACIA_SAPLING:
-			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT, Material.FARMLAND))
+			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
+					Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.ACACIA_SAPLING);
 			break;
-			
+
 		case BROWN_MUSHROOM:
 			if (chunk.isWater(x, y - 1, z))
 				chunk.setBlock(x, y - 1, z, Material.MYCELIUM);
 			if (chunk.isOfTypes(x, y - 1, z, Material.MYCELIUM))
-				chunk.setBlock(x, y, z, Material.BROWN_MUSHROOM); 
+				chunk.setBlock(x, y, z, Material.BROWN_MUSHROOM);
 			break;
 		case RED_MUSHROOM:
 			if (chunk.isWater(x, y - 1, z))
 				chunk.setBlock(x, y - 1, z, Material.MYCELIUM);
 			if (chunk.isOfTypes(x, y - 1, z, Material.MYCELIUM))
-				chunk.setBlock(x, y, z, Material.RED_MUSHROOM); 
+				chunk.setBlock(x, y, z, Material.RED_MUSHROOM);
 			break;
 		case NETHERWART:
 			chunk.setBlockIfNot(x, y - 1, z, Material.SOUL_SAND);
-			chunk.setBlock(x, y, z, Material.NETHER_WART, odds.getRandomDouble()); 
+			chunk.setBlock(x, y, z, Material.NETHER_WART, odds.getRandomDouble());
 			break;
 		case FIRE:
 			chunk.setBlockIfNot(x, y - 1, z, Material.NETHERRACK);
 			chunk.setBlock(x, y, z, Material.FIRE);
 			break;
-			
+
 		case BRAIN_CORAL:
 			if (y < generator.seaLevel || !generator.settings.includeAbovegroundFluids)
-				generateCoral(generator, chunk, x, y, z, Material.BRAIN_CORAL, Material.BRAIN_CORAL_FAN, Material.BRAIN_CORAL_WALL_FAN, Material.BRAIN_CORAL_BLOCK);
+				generateCoral(generator, chunk, x, y, z, Material.BRAIN_CORAL, Material.BRAIN_CORAL_FAN,
+						Material.BRAIN_CORAL_WALL_FAN, Material.BRAIN_CORAL_BLOCK);
 			else
-				generateCoral(generator, chunk, x, y, z, Material.DEAD_BRAIN_CORAL, Material.DEAD_BRAIN_CORAL_FAN, Material.DEAD_BRAIN_CORAL_WALL_FAN, Material.DEAD_BRAIN_CORAL_BLOCK);
+				generateCoral(generator, chunk, x, y, z, Material.DEAD_BRAIN_CORAL, Material.DEAD_BRAIN_CORAL_FAN,
+						Material.DEAD_BRAIN_CORAL_WALL_FAN, Material.DEAD_BRAIN_CORAL_BLOCK);
 			break;
 		case BUBBLE_CORAL:
 			if (y < generator.seaLevel || !generator.settings.includeAbovegroundFluids)
-				generateCoral(generator, chunk, x, y, z, Material.BUBBLE_CORAL, Material.BUBBLE_CORAL_FAN, Material.BUBBLE_CORAL_WALL_FAN, Material.BUBBLE_CORAL_BLOCK);
+				generateCoral(generator, chunk, x, y, z, Material.BUBBLE_CORAL, Material.BUBBLE_CORAL_FAN,
+						Material.BUBBLE_CORAL_WALL_FAN, Material.BUBBLE_CORAL_BLOCK);
 			else
-				generateCoral(generator, chunk, x, y, z, Material.DEAD_BUBBLE_CORAL, Material.DEAD_BUBBLE_CORAL_FAN, Material.DEAD_BUBBLE_CORAL_WALL_FAN, Material.DEAD_BUBBLE_CORAL_BLOCK);
+				generateCoral(generator, chunk, x, y, z, Material.DEAD_BUBBLE_CORAL, Material.DEAD_BUBBLE_CORAL_FAN,
+						Material.DEAD_BUBBLE_CORAL_WALL_FAN, Material.DEAD_BUBBLE_CORAL_BLOCK);
 			break;
 		case FIRE_CORAL:
 			if (y < generator.seaLevel || !generator.settings.includeAbovegroundFluids)
-				generateCoral(generator, chunk, x, y, z, Material.FIRE_CORAL, Material.FIRE_CORAL_FAN, Material.FIRE_CORAL_WALL_FAN, Material.FIRE_CORAL_BLOCK);
+				generateCoral(generator, chunk, x, y, z, Material.FIRE_CORAL, Material.FIRE_CORAL_FAN,
+						Material.FIRE_CORAL_WALL_FAN, Material.FIRE_CORAL_BLOCK);
 			else
-				generateCoral(generator, chunk, x, y, z, Material.DEAD_FIRE_CORAL, Material.DEAD_FIRE_CORAL_FAN, Material.DEAD_FIRE_CORAL_WALL_FAN, Material.DEAD_FIRE_CORAL_BLOCK);
+				generateCoral(generator, chunk, x, y, z, Material.DEAD_FIRE_CORAL, Material.DEAD_FIRE_CORAL_FAN,
+						Material.DEAD_FIRE_CORAL_WALL_FAN, Material.DEAD_FIRE_CORAL_BLOCK);
 			break;
 		case HORN_CORAL:
 			if (y < generator.seaLevel || !generator.settings.includeAbovegroundFluids)
-				generateCoral(generator, chunk, x, y, z, Material.HORN_CORAL, Material.HORN_CORAL_FAN, Material.HORN_CORAL_WALL_FAN, Material.HORN_CORAL_BLOCK);
+				generateCoral(generator, chunk, x, y, z, Material.HORN_CORAL, Material.HORN_CORAL_FAN,
+						Material.HORN_CORAL_WALL_FAN, Material.HORN_CORAL_BLOCK);
 			else
-				generateCoral(generator, chunk, x, y, z, Material.DEAD_HORN_CORAL, Material.DEAD_HORN_CORAL_FAN, Material.DEAD_HORN_CORAL_WALL_FAN, Material.DEAD_HORN_CORAL_BLOCK);
+				generateCoral(generator, chunk, x, y, z, Material.DEAD_HORN_CORAL, Material.DEAD_HORN_CORAL_FAN,
+						Material.DEAD_HORN_CORAL_WALL_FAN, Material.DEAD_HORN_CORAL_BLOCK);
 			break;
 		case TUBE_CORAL:
 			if (y < generator.seaLevel || !generator.settings.includeAbovegroundFluids)
-				generateCoral(generator, chunk, x, y, z, Material.TUBE_CORAL, Material.TUBE_CORAL_FAN, Material.TUBE_CORAL_WALL_FAN, Material.TUBE_CORAL_BLOCK);
+				generateCoral(generator, chunk, x, y, z, Material.TUBE_CORAL, Material.TUBE_CORAL_FAN,
+						Material.TUBE_CORAL_WALL_FAN, Material.TUBE_CORAL_BLOCK);
 			else
-				generateCoral(generator, chunk, x, y, z, Material.DEAD_TUBE_CORAL, Material.DEAD_TUBE_CORAL_FAN, Material.DEAD_TUBE_CORAL_WALL_FAN, Material.DEAD_TUBE_CORAL_BLOCK);
+				generateCoral(generator, chunk, x, y, z, Material.DEAD_TUBE_CORAL, Material.DEAD_TUBE_CORAL_FAN,
+						Material.DEAD_TUBE_CORAL_WALL_FAN, Material.DEAD_TUBE_CORAL_BLOCK);
 			break;
 		case SEAGRASS:
 			if (y < generator.seaLevel && odds.playOdds(Odds.oddsLikely)) {
@@ -523,13 +505,14 @@ public abstract class CoverProvider extends Provider {
 					chunk.setBlock(x, y, z, Material.DEAD_BUSH);
 			}
 			// if under water then
-			//   randomly
-			//     place seagrass or tall seagrass
-			//Material.SEAGRASS;
-			//Material.TALL_SEAGRASS;
-			//Seagrass generates in either its tall or small form in ocean biomes near kelp, 
+			// randomly
+			// place seagrass or tall seagrass
+			// Material.SEAGRASS;
+			// Material.TALL_SEAGRASS;
+			// Seagrass generates in either its tall or small form in ocean biomes near
+			// kelp,
 			break;
-			
+
 		case KELP:
 			if (y < generator.seaLevel && odds.playOdds(Odds.oddsLikely)) {
 				if (generator.settings.includeAbovegroundFluids) {
@@ -549,10 +532,11 @@ public abstract class CoverProvider extends Provider {
 				} else
 					chunk.setBlock(x, y, z, Material.DEAD_BUSH);
 			}
-			//Material.KELP;
-			//Kelp naturally generates in any ocean biomes except warm ocean, near and around seagrass.
+			// Material.KELP;
+			// Kelp naturally generates in any ocean biomes except warm ocean, near and
+			// around seagrass.
 			break;
-			
+
 		default:
 			if (odds.playOdds(generator.settings.spawnTrees))
 				switch (coverageType) {
@@ -606,7 +590,7 @@ public abstract class CoverProvider extends Provider {
 				case TALL_ACACIA_TRUNK:
 					generator.treeProvider.generateNormalTrunk(generator, chunk, x, y, z, TreeType.ACACIA);
 					break;
-					
+
 				case MINI_OAK_TREE:
 					generator.treeProvider.generateMiniTree(generator, chunk, x, y, z, TreeType.TREE);
 					break;
@@ -672,19 +656,19 @@ public abstract class CoverProvider extends Provider {
 				}
 		}
 	}
-	
-	protected void generateCoral(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, 
-			Material coral, Material coralFan, Material coralWall, Material coralBlock) {
+
+	protected void generateCoral(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, Material coral,
+			Material coralFan, Material coralWall, Material coralBlock) {
 		// if under water then living ones
-		//   if on sand then 
-		//     maybe turn it into a coral block
+		// if on sand then
+		// maybe turn it into a coral block
 		//
-		//   if beside coral block then 
-		//     place wall fan
-		//   else randomly 
-		//     place coral or fan coral
+		// if beside coral block then
+		// place wall fan
+		// else randomly
+		// place coral or fan coral
 		// else above water
-		//   same as above but dead ones
+		// same as above but dead ones
 //		on dirt, coarse dirt, sand, red sand or gravel underwater
 //		Corals naturally generate in coral reef structures found in warm ocean biomes.
 		if (chunk.isWater(x, y, z) && !chunk.isWater(x, y - 1, z)) {
@@ -693,7 +677,7 @@ public abstract class CoverProvider extends Provider {
 			else {
 				double oddsOfBlocks = odds.calcRandomRange(Odds.oddsSomewhatUnlikely, Odds.oddsPrettyLikely);
 				double oddsOfTrim = odds.calcRandomRange(Odds.oddsSomewhatLikely, Odds.oddsVeryLikely);
-				
+
 				int xW = odds.getRandomInt(1, 4);
 				int xH = Math.max(1, xW / 2);
 				int x1 = chunk.clampXZ(x - xH);
@@ -703,7 +687,7 @@ public abstract class CoverProvider extends Provider {
 				int zH = Math.max(1, zW / 2);
 				int z1 = chunk.clampXZ(z - zH);
 				int z2 = chunk.clampXZ(z1 + zW);
-				
+
 				int y1 = y - 1;
 				int y2 = y + odds.getRandomInt(Math.max(2, (generator.seaLevel - y) / 3 * 2));
 
@@ -713,54 +697,60 @@ public abstract class CoverProvider extends Provider {
 						for (int yI = y1; yI < y2; yI++)
 							if (odds.playOdds(oddsOfBlocks))
 								chunk.setBlock(xI, yI, zI, coralBlock);
-						
+
 						// top fans
-						if (odds.playOdds(oddsOfTrim) && chunk.isWater(xI, y2, zI) && chunk.isType(xI, y2 - 1, zI, coralBlock))
+						if (odds.playOdds(oddsOfTrim) && chunk.isWater(xI, y2, zI)
+								&& chunk.isType(xI, y2 - 1, zI, coralBlock))
 							chunk.setBlockRandomly(xI, y2, zI, odds, coral, coralFan);
 					}
-				
+
 				// north/south wall fans
-				for (int xI = x1; xI < x2; xI++) 
+				for (int xI = x1; xI < x2; xI++)
 					for (int yI = y1; yI < y2; yI++) {
 						if (chunk.insideXZ(z1 - 1))
-							if (odds.playOdds(oddsOfTrim) && chunk.isWater(xI, yI, z1 - 1) && chunk.isType(xI, yI, z1, coralBlock))
+							if (odds.playOdds(oddsOfTrim) && chunk.isWater(xI, yI, z1 - 1)
+									&& chunk.isType(xI, yI, z1, coralBlock))
 								chunk.setBlock(xI, yI, z1 - 1, coralWall, BlockFace.NORTH);
 						if (chunk.insideXZ(z2))
-							if (odds.playOdds(oddsOfTrim) && chunk.isWater(xI, yI, z2) && chunk.isType(xI, yI, z2 - 1, coralBlock))
+							if (odds.playOdds(oddsOfTrim) && chunk.isWater(xI, yI, z2)
+									&& chunk.isType(xI, yI, z2 - 1, coralBlock))
 								chunk.setBlock(xI, yI, z2, coralWall, BlockFace.SOUTH);
 					}
 
 				// west/east wall fans
-				for (int zI = z1; zI < z2; zI++) 
+				for (int zI = z1; zI < z2; zI++)
 					for (int yI = y1; yI < y2; yI++) {
 						if (chunk.insideXZ(x1 - 1))
-							if (odds.playOdds(oddsOfTrim) && chunk.isWater(x1 - 1, yI, zI) && chunk.isType(x1, yI, zI, coralBlock))
+							if (odds.playOdds(oddsOfTrim) && chunk.isWater(x1 - 1, yI, zI)
+									&& chunk.isType(x1, yI, zI, coralBlock))
 								chunk.setBlock(x1 - 1, yI, zI, coralWall, BlockFace.WEST);
 						if (chunk.insideXZ(x2))
-							if (odds.playOdds(oddsOfTrim) && chunk.isWater(x2, yI, zI) && chunk.isType(x2 - 1, yI, zI, coralBlock))
+							if (odds.playOdds(oddsOfTrim) && chunk.isWater(x2, yI, zI)
+									&& chunk.isType(x2 - 1, yI, zI, coralBlock))
 								chunk.setBlock(x2, yI, zI, coralWall, BlockFace.EAST);
 					}
 			}
 		}
 	}
-	
+
 	protected boolean likelyCover(CityWorldGenerator generator) {
 		return !generator.settings.darkEnvironment || odds.playOdds(oddsOfDarkCover);
 	}
-	
+
 	public ColorSet getColorSet() {
 		return ColorSet.GREEN;
 	}
-	
-	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
+
+	// Based on work contributed by drew-bahrue
+	// (https://github.com/echurchill/CityWorld/pull/2)
 	public static CoverProvider loadProvider(CityWorldGenerator generator, Odds odds) {
 
 		CoverProvider provider = null;
-		
+
 //		// need something like PhatLoot but for coverage
 //		provider = FoliageProvider_PhatFoliage.loadPhatFoliage();
 		if (provider == null) {
-			
+
 			switch (generator.worldStyle) {
 			case FLOODED:
 				provider = new CoverProvider_Flooded(odds);
@@ -789,17 +779,17 @@ public abstract class CoverProvider extends Provider {
 				break;
 			}
 		}
-	
+
 		return provider;
 	}
-	
+
 	public void makePlantable(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
 		chunk.setBlock(x, y, z, Material.GRASS_BLOCK);
 		chunk.clearBlock(x, y + 1, z);
 	}
-	
+
 	public boolean isPlantable(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
-		
+
 		// only if the spot is empty and the spot above is empty
 		return chunk.isEmpty(x, y + 1, z) && !chunk.isEmpty(x, y, z);
 //		if (!chunk.isEmpty(x, y + 1, z))
@@ -811,7 +801,7 @@ public abstract class CoverProvider extends Provider {
 //		else
 //			return chunk.isPlantable(x, y, z);
 	}
-	
+
 //	@Deprecated
 //	protected boolean isATree(CoverageType coverageType) {
 //		switch (coverageType) {

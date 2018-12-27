@@ -13,9 +13,9 @@ public class StorageEmptyChestsRoom extends StorageFilledChestsRoom {
 		// TODO Auto-generated constructor stub
 	}
 
-	
 	@Override
-	protected void drawChest(CityWorldGenerator generator, RealBlocks chunk, Odds odds, BlockFace direction, int x, int y, int z) {
+	protected void drawChest(CityWorldGenerator generator, RealBlocks chunk, Odds odds, BlockFace direction, int x,
+			int y, int z) {
 		chunk.setChest(generator, x, y, z, direction, odds, generator.lootProvider, LootLocation.EMPTY);
 	}
 

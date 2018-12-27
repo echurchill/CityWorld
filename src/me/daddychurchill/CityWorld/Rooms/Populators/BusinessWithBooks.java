@@ -18,12 +18,12 @@ public class BusinessWithBooks extends RoomProvider {
 
 	public BusinessWithBooks() {
 		super();
-		
+
 		roomTypes.add(new EmptyRoom());
 
 		roomTypes.add(new DividedSingleRoom());
 		roomTypes.add(new DividedEllRoom());
-		
+
 		roomTypes.add(new LibrarySingleRoom());
 		roomTypes.add(new LibrarySingleRoom());
 		roomTypes.add(new LibrarySingleRoom());
@@ -33,7 +33,7 @@ public class BusinessWithBooks extends RoomProvider {
 		roomTypes.add(new LibraryStudyRoom());
 		roomTypes.add(new LibraryStudyRoom());
 		roomTypes.add(new LibraryStudyRoom());
-		
+
 		roomTypes.add(new LoungeEllCouchRoom());
 		roomTypes.add(new LoungeTrioRoom());
 		roomTypes.add(new LoungeQuadRoom());

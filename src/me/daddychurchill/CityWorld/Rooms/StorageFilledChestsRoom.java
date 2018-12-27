@@ -15,13 +15,12 @@ public class StorageFilledChestsRoom extends StorageRoom {
 	public StorageFilledChestsRoom() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	private Material matPole = Material.STONE_SLAB;
 
 	@Override
-	public void drawFixture(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int floor, int x,
-			int y, int z, int width, int height, int depth,
-			BlockFace sideWithWall, Material materialWall, Material materialGlass) {
+	public void drawFixture(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int floor, int x, int y, int z,
+			int width, int height, int depth, BlockFace sideWithWall, Material materialWall, Material materialGlass) {
 		if (generator.settings.treasuresInBuildings) {
 			switch (sideWithWall) {
 			default:
@@ -68,8 +67,9 @@ public class StorageFilledChestsRoom extends StorageRoom {
 			}
 		}
 	}
-	
-	protected void drawChests(CityWorldGenerator generator, RealBlocks chunk, Odds odds, BlockFace direction, int x, int y, int z, int height) {
+
+	protected void drawChests(CityWorldGenerator generator, RealBlocks chunk, Odds odds, BlockFace direction, int x,
+			int y, int z, int height) {
 		if (odds.playOdds(generator.settings.oddsOfTreasureInBuildings))
 			drawChest(generator, chunk, odds, direction, x, y, z);
 		if (height > 3) {
@@ -83,8 +83,9 @@ public class StorageFilledChestsRoom extends StorageRoom {
 			}
 		}
 	}
-	
-	protected void drawChest(CityWorldGenerator generator, RealBlocks chunk, Odds odds, BlockFace direction, int x, int y, int z) {
+
+	protected void drawChest(CityWorldGenerator generator, RealBlocks chunk, Odds odds, BlockFace direction, int x,
+			int y, int z) {
 		chunk.setChest(generator, x, y, z, direction, odds, generator.lootProvider, LootLocation.WAREHOUSE);
 	}
 }

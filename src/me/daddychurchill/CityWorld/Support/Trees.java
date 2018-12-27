@@ -4,21 +4,22 @@ import org.bukkit.Material;
 import org.bukkit.TreeSpecies;
 
 public final class Trees {
-	
+
 	private Odds odds;
+
 	public Trees(Odds odds) {
 		this.odds = odds;
 	}
-	
+
 	public TreeSpecies getRandomSpecies() {
 		TreeSpecies[] values = TreeSpecies.values();
 		return values[odds.getRandomInt(values.length)];
 	}
-	
+
 	public Material getRandomWoodLog() {
 		return getRandomWoodLog(odds.getRandomWoodSpecies());
 	}
-	
+
 	public static Material getRandomWoodLog(TreeSpecies species) {
 		switch (species) {
 		default:
@@ -36,11 +37,11 @@ public final class Trees {
 			return Material.SPRUCE_LOG;
 		}
 	}
-	
+
 	public Material getRandomWoodStairs() {
 		return getRandomWoodStairs(odds.getRandomWoodSpecies());
 	}
-	
+
 	public static Material getRandomWoodStairs(TreeSpecies species) {
 		switch (species) {
 		default:
@@ -58,11 +59,11 @@ public final class Trees {
 			return Material.SPRUCE_STAIRS;
 		}
 	}
-	
+
 	public Material getRandomWoodSlab() {
 		return getRandomWoodSlab(odds.getRandomWoodSpecies());
 	}
-	
+
 	public static Material getRandomWoodSlab(TreeSpecies species) {
 		switch (species) {
 		default:
@@ -80,11 +81,11 @@ public final class Trees {
 			return Material.SPRUCE_SLAB;
 		}
 	}
-	
+
 	public Material getRandomWoodDoor() {
 		return getRandomWoodDoor(odds.getRandomWoodSpecies());
 	}
-	
+
 	public static Material getRandomWoodDoor(TreeSpecies species) {
 		switch (species) {
 		default:
@@ -102,11 +103,11 @@ public final class Trees {
 			return Material.SPRUCE_DOOR;
 		}
 	}
-	
+
 	public Material getRandomWoodTrapDoor() {
 		return getRandomWoodTrapDoor(odds.getRandomWoodSpecies());
 	}
-	
+
 	public static Material getRandomWoodTrapDoor(TreeSpecies species) {
 		switch (species) {
 		default:
@@ -124,11 +125,11 @@ public final class Trees {
 			return Material.SPRUCE_TRAPDOOR;
 		}
 	}
-	
+
 	public Material getRandomWoodFence() {
 		return getRandomWoodFence(odds.getRandomWoodSpecies());
 	}
-	
+
 	public static Material getRandomWoodFence(TreeSpecies species) {
 		switch (species) {
 		default:
@@ -146,23 +147,18 @@ public final class Trees {
 			return Material.SPRUCE_FENCE;
 		}
 	}
-	
-	private final static Material[] setAllLeaves = {				
-			Material.ACACIA_LEAVES, 
-			Material.BIRCH_LEAVES, 
-			Material.DARK_OAK_LEAVES,
-			Material.JUNGLE_LEAVES, 
-			Material.SPRUCE_LEAVES, 
-			Material.OAK_LEAVES};
-	
+
+	private final static Material[] setAllLeaves = { Material.ACACIA_LEAVES, Material.BIRCH_LEAVES,
+			Material.DARK_OAK_LEAVES, Material.JUNGLE_LEAVES, Material.SPRUCE_LEAVES, Material.OAK_LEAVES };
+
 	public static boolean isLeaf(SupportBlocks blocks, int x, int y, int z) {
 		return blocks.isOfTypes(x, y, z, setAllLeaves);
 	}
-	
+
 	public Material getRandomWoodLeaves() {
 		return getRandomWoodLeaves(odds.getRandomWoodSpecies());
 	}
-	
+
 	public static Material getRandomWoodLeaves(TreeSpecies species) {
 		switch (species) {
 		default:
@@ -180,5 +176,5 @@ public final class Trees {
 			return Material.SPRUCE_LEAVES;
 		}
 	}
-	
+
 }

@@ -18,15 +18,14 @@ public class GravelMineLot extends GravelLot {
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
 		return new GravelMineLot(platmap, chunkX, chunkZ);
 	}
-	
+
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
-			int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
+			DataContext context, int platX, int platZ) {
 		generateHole(generator, chunkOdds, chunk, generator.streetLevel, 14, 16);
-		
+
 		// place snow
 		generateSurface(generator, chunk, false);
-		
+
 	}
 }

@@ -14,14 +14,13 @@ public class AstralStructureSaucerLot extends AstralStructureLot {
 	}
 
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealBlocks chunk, DataContext context,
-			int platX, int platZ) {
-		
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
+			DataContext context, int platX, int platZ) {
+
 		int y = chunkOdds.getRandomInt(generator.seaLevel + 32, 64);
 		drawSaucer(generator, chunk, y);
 	}
-	
+
 	public static void drawLandedSaucer(CityWorldGenerator generator, RealBlocks chunk, int y) {
 		generator.structureInAirProvider.generateSaucer(generator, chunk, y, true);
 	}

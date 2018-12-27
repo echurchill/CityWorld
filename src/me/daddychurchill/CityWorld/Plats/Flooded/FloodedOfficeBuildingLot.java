@@ -13,12 +13,12 @@ public class FloodedOfficeBuildingLot extends OfficeBuildingLot {
 
 	public FloodedOfficeBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-		
+
 	}
 
 	private static RoomProvider contentsEmpty = new EmptyWithNothing();
 	private static RoomProvider contentsWalls = new EmptyWithRooms();
-	
+
 	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
 		return new FloodedOfficeBuildingLot(platmap, chunkX, chunkZ);

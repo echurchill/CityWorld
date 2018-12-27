@@ -3,15 +3,23 @@ package me.daddychurchill.CityWorld.Support;
 public abstract class Surroundings {
 
 	public abstract boolean toCenter();
+
 	public abstract boolean toEast();
+
 	public abstract boolean toNorth();
+
 	public abstract boolean toSouth();
+
 	public abstract boolean toWest();
+
 	public abstract boolean toNorthEast();
+
 	public abstract boolean toSouthEast();
+
 	public abstract boolean toNorthWest();
+
 	public abstract boolean toSouthWest();
-	
+
 	public int getNeighborCount() {
 		int result = 0;
 		if (toWest())

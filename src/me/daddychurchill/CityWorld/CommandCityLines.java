@@ -13,17 +13,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class CommandCityLines implements CommandExecutor {
-    private final CityWorld plugin;
+	private final CityWorld plugin;
 
-	public CommandCityLines(CityWorld plugin)
-    {
-        this.plugin = plugin;
-    }
+	public CommandCityLines(CityWorld plugin) {
+		this.plugin = plugin;
+	}
 
 	public CityWorld getWorld() {
 		return plugin;
 	}
-	
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] split) {
 		if (sender instanceof Player) {
@@ -35,7 +34,7 @@ public class CommandCityLines implements CommandExecutor {
 				int floorsUp = 1;
 				int floorsDown = 0;
 				boolean error = false;
-				
+
 				// arguments?
 				try {
 					if (split.length >= 1) {
@@ -53,15 +52,15 @@ public class CommandCityLines implements CommandExecutor {
 				} catch (NumberFormatException e) {
 					error = true;
 				}
-				
+
 				// that isn't an option we support or no option was given
 				if (error) {
 					sender.sendMessage("Syntax error");
 					return false;
-						
-				// let's do our stuff
+
+					// let's do our stuff
 				} else {
-					
+
 					// find ourselves
 					World world = player.getWorld();
 					Location location = player.getLocation();
@@ -71,7 +70,7 @@ public class CommandCityLines implements CommandExecutor {
 					int groundY = location.getBlockY();
 					int areaZ1 = chunk.getZ() * SupportBlocks.sectionBlockWidth;
 					int areaZ2 = areaZ1 + widthZ * SupportBlocks.sectionBlockWidth;
-					
+
 					// place markers
 					for (int x = 0; x <= widthX; x++) {
 						int markerX = areaX1 + x * SupportBlocks.sectionBlockWidth;
@@ -83,12 +82,12 @@ public class CommandCityLines implements CommandExecutor {
 						placeMarker(world, areaX1 - 1, groundY, markerZ, floorsUp, floorsDown);
 						placeMarker(world, areaX2 + 1, groundY, markerZ, floorsUp, floorsDown);
 					}
-					
+
 					// all done
 					player.sendMessage("Finished chunk lines");
 					return true;
 				}
-				
+
 			} else {
 				sender.sendMessage("You do not have permission to use this command");
 				return false;
@@ -98,7 +97,7 @@ public class CommandCityLines implements CommandExecutor {
 			return false;
 		}
 	}
-	
+
 	private void placeMarker(World world, int markerX, int groundY, int markerZ, int floorsUp, int floorsDown) {
 		for (int b = 1; b < floorsDown; b++)
 			world.getBlockAt(markerX, groundY - b * DataContext.FloorHeight, markerZ).setType(Material.BEDROCK);

@@ -21,9 +21,9 @@ public class BusinessWithCafe extends RoomProvider {
 		roomTypes.add(new MeetingForSixRoom());
 		roomTypes.add(new MeetingForSixRoom());
 		roomTypes.add(new MeetingForSixRoom());
-		
+
 		roomTypes.add(new LoungeKitchenetteRoom());
-		
+
 		// two wide table with chair and a book stand (with possible flower pot)
 	}
 

@@ -4,7 +4,7 @@ import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Rooms.EmptyRoom;
 import me.daddychurchill.CityWorld.Rooms.StorageDoubleShelvesRoom;
 
-public class WarehouseWithNothing extends RoomProvider  {
+public class WarehouseWithNothing extends RoomProvider {
 
 	public WarehouseWithNothing() {
 		super();

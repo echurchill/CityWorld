@@ -23,7 +23,7 @@ public class MazeMineContext extends MazeConstructContext {
 	protected PlatLot generateNormalLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new GravelworksLot(platmap, chunkX, chunkZ);
 	}
-	
+
 	@Override
 	protected PlatLot generateSpecialTooLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new GravelworksLot(platmap, chunkX, chunkZ);

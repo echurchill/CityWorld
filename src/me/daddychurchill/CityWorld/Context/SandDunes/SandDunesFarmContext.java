@@ -19,7 +19,7 @@ public class SandDunesFarmContext extends FarmContext {
 	protected PlatLot getFarmLot(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new SandDunesFarmLot(platmap, chunkX, chunkZ);
 	}
-	
+
 	@Override
 	protected PlatLot getHouseLot(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new SandDunesHouseLot(platmap, chunkX, chunkZ);

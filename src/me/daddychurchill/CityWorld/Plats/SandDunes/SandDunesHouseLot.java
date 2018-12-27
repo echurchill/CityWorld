@@ -11,7 +11,6 @@ public class SandDunesHouseLot extends HouseLot {
 		// TODO Auto-generated constructor stub
 	}
 
-
 	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
 		return new SandDunesHouseLot(platmap, chunkX, chunkZ);

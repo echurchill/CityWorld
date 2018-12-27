@@ -17,12 +17,11 @@ public class ClosetRoom extends FilledRoom {
 	}
 
 	@Override
-	public void drawFixture(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int floor, int x,
-			int y, int z, int width, int height, int depth,
-			BlockFace sideWithWall, Material materialWall, Material materialGlass) {
+	public void drawFixture(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int floor, int x, int y, int z,
+			int width, int height, int depth, BlockFace sideWithWall, Material materialWall, Material materialGlass) {
 		Trees trees = new Trees(odds);
 		Material door = trees.getRandomWoodDoor();
-		
+
 		switch (sideWithWall) {
 		default:
 		case NORTH:
@@ -43,14 +42,14 @@ public class ClosetRoom extends FilledRoom {
 			break;
 		}
 	}
-	
-	private void drawShelves(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int x, int y, int z, 
-			int width, int height, int depth, Material materialWall, BlockFace facing) {
-		
+
+	private void drawShelves(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int x, int y, int z, int width,
+			int height, int depth, Material materialWall, BlockFace facing) {
+
 		// walls and room
 		chunk.setBlocks(x, x + width, y, y + height, z, z + depth, materialWall);
 		chunk.setBlocks(x + 1, y, y + height, z + 1, Material.AIR);
-		
+
 		// now the stuff
 		if (odds.playOdds(generator.settings.oddsOfTreasureInBuildings)) {
 			chunk.setChest(generator, x + 1, y, z + 1, facing, odds, generator.lootProvider, LootLocation.BUILDING);
@@ -60,20 +59,19 @@ public class ClosetRoom extends FilledRoom {
 			drawShelve(chunk, odds, x + 1, y + 1, z + 1, shelveMaterial);
 		}
 	}
-	
-	private void drawShelve(RealBlocks chunk, Odds odds, int x, int y, int z,
-			Material shelveMaterial) {
+
+	private void drawShelve(RealBlocks chunk, Odds odds, int x, int y, int z, Material shelveMaterial) {
 		if (odds.flipCoin())
 			chunk.setBlock(x, y, z, shelveMaterial);
 		else
 			chunk.setBlock(x, y, z, Material.BOOKSHELF);
 	}
-	
+
 	private Material getShelveMaterial(Odds odds, Material wall) {
 		switch (wall) {
 		case QUARTZ_BLOCK:
 			return Material.STONE_SLAB;
-		
+
 		default: // WOOD
 			Trees trees = new Trees(odds);
 			return trees.getRandomWoodSlab();

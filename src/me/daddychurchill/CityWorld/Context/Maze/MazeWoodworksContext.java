@@ -27,7 +27,7 @@ public class MazeWoodworksContext extends MazeConstructContext {
 		else
 			return new WoodworksLot(platmap, chunkX, chunkZ);
 	}
-	
+
 	@Override
 	protected PlatLot generateSpecialTooLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new CampgroundLot(platmap, chunkX, chunkZ);

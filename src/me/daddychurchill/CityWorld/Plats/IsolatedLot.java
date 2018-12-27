@@ -6,7 +6,7 @@ public abstract class IsolatedLot extends PlatLot {
 
 	public IsolatedLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-		
+
 		// TODO Auto-generated constructor stub
 	}
 

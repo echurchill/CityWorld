@@ -2,7 +2,6 @@ package me.daddychurchill.CityWorld.Rooms;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 
-
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
@@ -16,12 +15,11 @@ public class LoungeTrioRoom extends LoungeRoom {
 	}
 
 	@Override
-	public void drawFixture(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int floor, int x,
-			int y, int z, int width, int height, int depth,
-			BlockFace sideWithWall, Material materialWall, Material materialGlass) {
+	public void drawFixture(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int floor, int x, int y, int z,
+			int width, int height, int depth, BlockFace sideWithWall, Material materialWall, Material materialGlass) {
 		Material tableLeg = getTableLeg(odds);
 		Material tableTop = getTableTop(odds);
-		
+
 		switch (sideWithWall) {
 		default:
 		case NORTH:
@@ -52,7 +50,7 @@ public class LoungeTrioRoom extends LoungeRoom {
 			chunk.setBlock(x + 1, y, z, Material.BIRCH_STAIRS, BlockFace.NORTH);
 			chunk.setBlock(x + 1, y, z + 2, Material.BIRCH_STAIRS, BlockFace.SOUTH);
 			chunk.setBlock(x + 2, y, z + 1, Material.BIRCH_STAIRS, BlockFace.EAST);
-			
+
 			chunk.setTable(x + 2, y, z, tableLeg, tableTop);
 			chunk.setTable(x + 2, y, z + 2, tableLeg, tableTop);
 			break;

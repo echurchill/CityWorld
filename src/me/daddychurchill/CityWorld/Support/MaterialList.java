@@ -13,13 +13,13 @@ public class MaterialList {
 
 	public String listName;
 	private List<ItemStack> items;
-	
+
 	public MaterialList(String name) {
 		super();
 		listName = name;
 	}
 
-	public MaterialList(String name, Material ... materials) {
+	public MaterialList(String name, Material... materials) {
 		super();
 		listName = name;
 		add(materials);
@@ -31,34 +31,34 @@ public class MaterialList {
 		else if (clear)
 			items.clear();
 	}
-	
-	public void add(Material ... materials) {
+
+	public void add(Material... materials) {
 		init(false);
 		for (Material material : materials) {
 			items.add(new ItemStack(material));
 		}
 	}
-	
+
 	public void add(Material material) {
 		init(false);
 		items.add(new ItemStack(material));
 	}
-	
+
 	public void remove(Material material) {
 		if (items != null)
 			for (int i = items.size() - 1; i >= 0; i--)
 				if (items.get(i).getType() == material)
 					items.remove(i);
 	}
-	
+
 	public int count() {
 		return items == null ? 0 : items.size();
 	}
-	
+
 	public Material getRandomMaterial(Odds odds) {
 		return getRandomMaterial(odds, Material.AIR);
 	}
-	
+
 	public Material getRandomMaterial(Odds odds, Material defaultMaterial) {
 		if (items == null || count() == 0)
 			return defaultMaterial;
@@ -82,7 +82,7 @@ public class MaterialList {
 		}
 		section.set(listName, names);
 	}
-	
+
 	public void read(CityWorldGenerator generator, ConfigurationSection section) {
 		if (section.isList(listName)) {
 			init(true);
@@ -94,12 +94,14 @@ public class MaterialList {
 
 					// still nothing, so comment about it
 					if (material == null)
-						generator.reportMessage("Ignoring " + generator.worldName + ".Materials." + listName + ": " + name + ", is not known");
+						generator.reportMessage("Ignoring " + generator.worldName + ".Materials." + listName + ": "
+								+ name + ", is not known");
 				} catch (Exception e) {
-					generator.reportException("Reading " + generator.worldName + ".Materials." + listName + ": " + name, e);
+					generator.reportException("Reading " + generator.worldName + ".Materials." + listName + ": " + name,
+							e);
 					material = null;
 				}
-				
+
 				if (material != null)
 					add(material);
 			}

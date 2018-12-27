@@ -16,10 +16,10 @@ public class HouseLot extends IsolatedLot {
 
 	public HouseLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-		
+
 		style = LotStyle.STRUCTURE;
 	}
-	
+
 	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
 		return new HouseLot(platmap, chunkX, chunkZ);
@@ -36,23 +36,25 @@ public class HouseLot extends IsolatedLot {
 	}
 
 	@Override
-	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk,
+			BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		// make room
 		chunk.airoutLayer(generator, generator.streetLevel + 1, DataContext.FloorHeight * 2, 2, true);
-		
+
 		// ground please
 		if (generator.settings.includeDecayedNature)
 			chunk.setLayer(generator.streetLevel, Material.SAND);
 		else
 			chunk.setLayer(generator.streetLevel, generator.oreProvider.surfaceMaterial);
 	}
-	
+
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
+			DataContext context, int platX, int platZ) {
 		// now make a house
 		int atY = generator.streetLevel + 1;
 		int floors = generator.structureOnGroundProvider.generateHouse(generator, chunk, context, chunkOdds, atY, 2);
-		
+
 		// not a happy place?
 		if (generator.settings.includeDecayedBuildings)
 			destroyBuilding(generator, atY, floors);

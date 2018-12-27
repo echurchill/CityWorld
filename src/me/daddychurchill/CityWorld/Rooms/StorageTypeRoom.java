@@ -10,13 +10,14 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 public abstract class StorageTypeRoom extends StorageRoom {
 
 	protected Material materialType;
-	
+
 	public StorageTypeRoom(Material type) {
 		super();
 		materialType = type;
 	}
-	
-	protected void setStorageBlocks(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y1, int y2, int z) {
+
+	protected void setStorageBlocks(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y1, int y2,
+			int z) {
 		switch (materialType) {
 		case PISTON:
 			chunk.setBlocks(x, x + 1, y1, y2, z, z + 1, materialType, BlockFace.UP);

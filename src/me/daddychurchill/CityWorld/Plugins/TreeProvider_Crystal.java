@@ -9,9 +9,9 @@ import org.bukkit.Material;
 public class TreeProvider_Crystal extends TreeProvider {
 
 	private Odds odds;
-	
+
 	public TreeProvider_Crystal() {
-		
+
 		odds = new Odds();
 	}
 
@@ -19,10 +19,10 @@ public class TreeProvider_Crystal extends TreeProvider {
 	protected void generateTrunkBlock(SupportBlocks chunk, int x, int y, int z, int w, int h, Material material) {
 		if (odds.playOdds(Odds.oddsSomewhatLikely))
 			material = Material.GLOWSTONE;
-		
+
 		super.generateTrunkBlock(chunk, x, y, z, w, h, material);
 	}
-	
+
 	@Override
 	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, Colors colors) {
 		if (material == Material.ACACIA_LEAVES) {
@@ -52,6 +52,6 @@ public class TreeProvider_Crystal extends TreeProvider {
 					chunk.setBlock(x, y, z, Material.GLASS);
 				else
 					chunk.setBlock(x, y, z, Material.GLASS_PANE);
-		} 
+		}
 	}
 }

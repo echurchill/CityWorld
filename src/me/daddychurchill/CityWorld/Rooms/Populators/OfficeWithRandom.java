@@ -26,14 +26,14 @@ public class OfficeWithRandom extends RoomProvider {
 		super();
 
 //		roomTypes.add(new DebugRoom());
-		
+
 		roomTypes.add(new EmptyRoom());
 
 		roomTypes.add(new ClosetRoom());
 
 		roomTypes.add(new DividedSingleRoom());
 		roomTypes.add(new DividedEllRoom());
-		
+
 		roomTypes.add(new LoungeCouchRoom());
 		roomTypes.add(new LoungeTableRoom());
 		roomTypes.add(new LoungeTVRoom());
@@ -43,7 +43,7 @@ public class OfficeWithRandom extends RoomProvider {
 
 		roomTypes.add(new MeetingForSixRoom());
 		roomTypes.add(new MeetingForFourRoom());
-		
+
 		roomTypes.add(new DeskCubbyRoom());
 		roomTypes.add(new DeskForTwoRoom());
 		roomTypes.add(new DeskExecutiveRoom());

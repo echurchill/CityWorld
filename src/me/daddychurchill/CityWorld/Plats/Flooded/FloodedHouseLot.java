@@ -8,7 +8,7 @@ public class FloodedHouseLot extends HouseLot {
 
 	public FloodedHouseLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-		
+
 	}
 
 	@Override

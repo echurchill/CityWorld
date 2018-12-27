@@ -32,16 +32,17 @@ public class WaterTowerLot extends IsolatedLot {
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
 			DataContext context, int platX, int platZ) {
-		
+
 		// if things are bad
 		if (generator.settings.includeDecayedBuildings) {
 			destroyLot(generator, generator.streetLevel - 2, generator.streetLevel + 2);
 		} else {
-			generator.structureOnGroundProvider.drawWaterTower(generator, chunk, 4, generator.streetLevel + 1, 4, chunkOdds);
+			generator.structureOnGroundProvider.drawWaterTower(generator, chunk, 4, generator.streetLevel + 1, 4,
+					chunkOdds);
 			generateSurface(generator, chunk, false);
 		}
 	}
-	
+
 	@Override
 	public int getBottomY(CityWorldGenerator generator) {
 		return generator.streetLevel;

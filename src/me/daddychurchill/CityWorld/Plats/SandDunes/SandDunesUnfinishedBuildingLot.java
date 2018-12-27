@@ -5,8 +5,7 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class SandDunesUnfinishedBuildingLot extends UnfinishedBuildingLot {
 
-	public SandDunesUnfinishedBuildingLot(PlatMap platmap, int chunkX,
-			int chunkZ) {
+	public SandDunesUnfinishedBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		// TODO Auto-generated constructor stub
 	}

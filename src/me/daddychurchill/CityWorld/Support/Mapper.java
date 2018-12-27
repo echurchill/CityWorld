@@ -11,7 +11,7 @@ public final class Mapper {
 		case BRICKS:
 		default:
 			return Material.BRICK_STAIRS;
-			
+
 		case ACACIA_STAIRS:
 		case ACACIA_FENCE:
 		case ACACIA_LOG:
@@ -21,7 +21,7 @@ public final class Mapper {
 		case STRIPPED_ACACIA_LOG:
 		case STRIPPED_ACACIA_WOOD:
 			return Material.ACACIA_STAIRS;
-			
+
 		case BIRCH_STAIRS:
 		case BIRCH_FENCE:
 		case BIRCH_LOG:
@@ -31,7 +31,7 @@ public final class Mapper {
 		case STRIPPED_BIRCH_LOG:
 		case STRIPPED_BIRCH_WOOD:
 			return Material.BIRCH_STAIRS;
-			
+
 		case DARK_OAK_STAIRS:
 		case DARK_OAK_FENCE:
 		case DARK_OAK_LOG:
@@ -41,7 +41,7 @@ public final class Mapper {
 		case STRIPPED_DARK_OAK_LOG:
 		case STRIPPED_DARK_OAK_WOOD:
 			return Material.DARK_OAK_STAIRS;
-			
+
 		case JUNGLE_STAIRS:
 		case JUNGLE_FENCE:
 		case JUNGLE_LOG:
@@ -51,7 +51,7 @@ public final class Mapper {
 		case STRIPPED_JUNGLE_LOG:
 		case STRIPPED_JUNGLE_WOOD:
 			return Material.JUNGLE_STAIRS;
-			
+
 		case OAK_STAIRS:
 		case OAK_FENCE:
 		case OAK_LOG:
@@ -61,7 +61,7 @@ public final class Mapper {
 		case STRIPPED_OAK_LOG:
 		case STRIPPED_OAK_WOOD:
 			return Material.OAK_STAIRS;
-			
+
 		case SPRUCE_STAIRS:
 		case SPRUCE_FENCE:
 		case SPRUCE_LOG:
@@ -71,7 +71,7 @@ public final class Mapper {
 		case STRIPPED_SPRUCE_LOG:
 		case STRIPPED_SPRUCE_WOOD:
 			return Material.SPRUCE_STAIRS;
-			
+
 		case COBBLESTONE_STAIRS:
 		case COBBLESTONE_SLAB:
 		case COBBLESTONE_WALL:
@@ -80,22 +80,22 @@ public final class Mapper {
 		case INFESTED_COBBLESTONE:
 		case MOSSY_COBBLESTONE:
 			return Material.COBBLESTONE_STAIRS;
-			
+
 		case PRISMARINE_STAIRS:
 		case PRISMARINE:
 		case PRISMARINE_SLAB:
 			return Material.PRISMARINE_STAIRS;
-		
+
 		case PRISMARINE_BRICK_STAIRS:
 		case PRISMARINE_BRICKS:
 		case PRISMARINE_BRICK_SLAB:
 			return Material.PRISMARINE_BRICK_STAIRS;
-		
+
 		case DARK_PRISMARINE_STAIRS:
 		case DARK_PRISMARINE:
 		case DARK_PRISMARINE_SLAB:
 			return Material.DARK_PRISMARINE_STAIRS;
-			
+
 		case PURPUR_STAIRS:
 		case PURPUR_BLOCK:
 		case PURPUR_PILLAR:
@@ -117,7 +117,7 @@ public final class Mapper {
 		case RED_SANDSTONE_SLAB:
 		case SMOOTH_RED_SANDSTONE:
 			return Material.RED_SANDSTONE_STAIRS;
-		
+
 		case STONE_BRICK_STAIRS:
 		case CHISELED_STONE_BRICKS:
 		case CRACKED_STONE_BRICKS:
@@ -130,7 +130,7 @@ public final class Mapper {
 		case STONE_BRICK_SLAB:
 		case STONE_BRICKS:
 			return Material.STONE_BRICK_STAIRS;
-		
+
 		case QUARTZ_STAIRS:
 		case CHISELED_QUARTZ_BLOCK:
 		case NETHER_QUARTZ_ORE:
@@ -139,7 +139,7 @@ public final class Mapper {
 		case QUARTZ_SLAB:
 		case SMOOTH_QUARTZ:
 			return Material.QUARTZ_STAIRS;
-			
+
 		case SANDSTONE_STAIRS:
 		case CHISELED_SANDSTONE:
 		case CUT_SANDSTONE:
@@ -157,7 +157,7 @@ public final class Mapper {
 		case BRICKS:
 		default:
 			return Material.BRICKS;
-			
+
 		case ACACIA_STAIRS:
 		case ACACIA_FENCE:
 		case ACACIA_LOG:
@@ -167,7 +167,7 @@ public final class Mapper {
 		case STRIPPED_ACACIA_LOG:
 		case STRIPPED_ACACIA_WOOD:
 			return Material.ACACIA_PLANKS;
-			
+
 		case BIRCH_STAIRS:
 		case BIRCH_FENCE:
 		case BIRCH_LOG:
@@ -177,7 +177,7 @@ public final class Mapper {
 		case STRIPPED_BIRCH_LOG:
 		case STRIPPED_BIRCH_WOOD:
 			return Material.BIRCH_PLANKS;
-			
+
 		case DARK_OAK_STAIRS:
 		case DARK_OAK_FENCE:
 		case DARK_OAK_LOG:
@@ -187,7 +187,7 @@ public final class Mapper {
 		case STRIPPED_DARK_OAK_LOG:
 		case STRIPPED_DARK_OAK_WOOD:
 			return Material.DARK_OAK_PLANKS;
-			
+
 		case JUNGLE_STAIRS:
 		case JUNGLE_FENCE:
 		case JUNGLE_LOG:
@@ -197,7 +197,7 @@ public final class Mapper {
 		case STRIPPED_JUNGLE_LOG:
 		case STRIPPED_JUNGLE_WOOD:
 			return Material.JUNGLE_PLANKS;
-			
+
 		case OAK_STAIRS:
 		case OAK_FENCE:
 		case OAK_LOG:
@@ -207,7 +207,7 @@ public final class Mapper {
 		case STRIPPED_OAK_LOG:
 		case STRIPPED_OAK_WOOD:
 			return Material.OAK_PLANKS;
-			
+
 		case SPRUCE_STAIRS:
 		case SPRUCE_FENCE:
 		case SPRUCE_LOG:
@@ -217,7 +217,7 @@ public final class Mapper {
 		case STRIPPED_SPRUCE_LOG:
 		case STRIPPED_SPRUCE_WOOD:
 			return Material.SPRUCE_PLANKS;
-			
+
 		case COBBLESTONE_STAIRS:
 		case COBBLESTONE_SLAB:
 		case COBBLESTONE_WALL:
@@ -226,22 +226,22 @@ public final class Mapper {
 		case INFESTED_COBBLESTONE:
 		case MOSSY_COBBLESTONE:
 			return Material.COBBLESTONE;
-			
+
 		case PRISMARINE_STAIRS:
 		case PRISMARINE:
 		case PRISMARINE_SLAB:
 			return Material.PRISMARINE;
-		
+
 		case PRISMARINE_BRICK_STAIRS:
 		case PRISMARINE_BRICKS:
 		case PRISMARINE_BRICK_SLAB:
 			return Material.PRISMARINE_BRICKS;
-		
+
 		case DARK_PRISMARINE_STAIRS:
 		case DARK_PRISMARINE:
 		case DARK_PRISMARINE_SLAB:
 			return Material.DARK_PRISMARINE;
-			
+
 		case PURPUR_STAIRS:
 		case PURPUR_BLOCK:
 		case PURPUR_PILLAR:
@@ -263,7 +263,7 @@ public final class Mapper {
 		case RED_SANDSTONE_SLAB:
 		case SMOOTH_RED_SANDSTONE:
 			return Material.RED_SANDSTONE;
-		
+
 		case STONE_BRICK_STAIRS:
 		case CHISELED_STONE_BRICKS:
 		case CRACKED_STONE_BRICKS:
@@ -276,7 +276,7 @@ public final class Mapper {
 		case STONE_BRICK_SLAB:
 		case STONE_BRICKS:
 			return Material.STONE_BRICKS;
-		
+
 		case QUARTZ_STAIRS:
 		case CHISELED_QUARTZ_BLOCK:
 		case NETHER_QUARTZ_ORE:
@@ -285,7 +285,7 @@ public final class Mapper {
 		case QUARTZ_SLAB:
 		case SMOOTH_QUARTZ:
 			return Material.QUARTZ_BLOCK;
-			
+
 		case SANDSTONE_STAIRS:
 		case CHISELED_SANDSTONE:
 		case CUT_SANDSTONE:
@@ -303,7 +303,7 @@ public final class Mapper {
 		case BRICKS:
 		default:
 			return Material.BRICKS;
-			
+
 		case ACACIA_STAIRS:
 		case ACACIA_FENCE:
 		case ACACIA_LOG:
@@ -313,7 +313,7 @@ public final class Mapper {
 		case STRIPPED_ACACIA_LOG:
 		case STRIPPED_ACACIA_WOOD:
 			return Material.ACACIA_PLANKS;
-			
+
 		case BIRCH_STAIRS:
 		case BIRCH_FENCE:
 		case BIRCH_LOG:
@@ -323,7 +323,7 @@ public final class Mapper {
 		case STRIPPED_BIRCH_LOG:
 		case STRIPPED_BIRCH_WOOD:
 			return Material.BIRCH_PLANKS;
-			
+
 		case DARK_OAK_STAIRS:
 		case DARK_OAK_FENCE:
 		case DARK_OAK_LOG:
@@ -333,7 +333,7 @@ public final class Mapper {
 		case STRIPPED_DARK_OAK_LOG:
 		case STRIPPED_DARK_OAK_WOOD:
 			return Material.DARK_OAK_PLANKS;
-			
+
 		case JUNGLE_STAIRS:
 		case JUNGLE_FENCE:
 		case JUNGLE_LOG:
@@ -343,7 +343,7 @@ public final class Mapper {
 		case STRIPPED_JUNGLE_LOG:
 		case STRIPPED_JUNGLE_WOOD:
 			return Material.JUNGLE_PLANKS;
-			
+
 		case OAK_STAIRS:
 		case OAK_FENCE:
 		case OAK_LOG:
@@ -353,7 +353,7 @@ public final class Mapper {
 		case STRIPPED_OAK_LOG:
 		case STRIPPED_OAK_WOOD:
 			return Material.OAK_PLANKS;
-			
+
 		case SPRUCE_STAIRS:
 		case SPRUCE_FENCE:
 		case SPRUCE_LOG:
@@ -363,7 +363,7 @@ public final class Mapper {
 		case STRIPPED_SPRUCE_LOG:
 		case STRIPPED_SPRUCE_WOOD:
 			return Material.SPRUCE_PLANKS;
-			
+
 		case COBBLESTONE_STAIRS:
 		case COBBLESTONE_SLAB:
 		case COBBLESTONE_WALL:
@@ -372,22 +372,22 @@ public final class Mapper {
 		case INFESTED_COBBLESTONE:
 		case MOSSY_COBBLESTONE:
 			return Material.COBBLESTONE;
-			
+
 		case PRISMARINE_STAIRS:
 		case PRISMARINE:
 		case PRISMARINE_SLAB:
 			return Material.PRISMARINE;
-		
+
 		case PRISMARINE_BRICK_STAIRS:
 		case PRISMARINE_BRICKS:
 		case PRISMARINE_BRICK_SLAB:
 			return Material.PRISMARINE_BRICKS;
-		
+
 		case DARK_PRISMARINE_STAIRS:
 		case DARK_PRISMARINE:
 		case DARK_PRISMARINE_SLAB:
 			return Material.DARK_PRISMARINE;
-			
+
 		case PURPUR_STAIRS:
 		case PURPUR_BLOCK:
 		case PURPUR_PILLAR:
@@ -409,7 +409,7 @@ public final class Mapper {
 		case RED_SANDSTONE_SLAB:
 		case SMOOTH_RED_SANDSTONE:
 			return Material.RED_SANDSTONE;
-		
+
 		case STONE_BRICK_STAIRS:
 		case CHISELED_STONE_BRICKS:
 		case CRACKED_STONE_BRICKS:
@@ -422,7 +422,7 @@ public final class Mapper {
 		case STONE_BRICK_SLAB:
 		case STONE_BRICKS:
 			return Material.STONE_BRICKS;
-		
+
 		case QUARTZ_STAIRS:
 		case CHISELED_QUARTZ_BLOCK:
 		case NETHER_QUARTZ_ORE:
@@ -431,7 +431,7 @@ public final class Mapper {
 		case QUARTZ_SLAB:
 		case SMOOTH_QUARTZ:
 			return Material.QUARTZ_BLOCK;
-			
+
 		case SANDSTONE_STAIRS:
 		case CHISELED_SANDSTONE:
 		case CUT_SANDSTONE:
@@ -446,7 +446,7 @@ public final class Mapper {
 		switch (material) {
 		default:
 			return Material.BIRCH_DOOR;
-			
+
 		case ACACIA_STAIRS:
 		case ACACIA_FENCE:
 		case ACACIA_LOG:
@@ -456,7 +456,7 @@ public final class Mapper {
 		case STRIPPED_ACACIA_LOG:
 		case STRIPPED_ACACIA_WOOD:
 			return Material.ACACIA_DOOR;
-			
+
 		case BIRCH_STAIRS:
 		case BIRCH_FENCE:
 		case BIRCH_LOG:
@@ -466,7 +466,7 @@ public final class Mapper {
 		case STRIPPED_BIRCH_LOG:
 		case STRIPPED_BIRCH_WOOD:
 			return Material.BIRCH_DOOR;
-			
+
 		case DARK_OAK_STAIRS:
 		case DARK_OAK_FENCE:
 		case DARK_OAK_LOG:
@@ -476,7 +476,7 @@ public final class Mapper {
 		case STRIPPED_DARK_OAK_LOG:
 		case STRIPPED_DARK_OAK_WOOD:
 			return Material.DARK_OAK_DOOR;
-			
+
 		case JUNGLE_STAIRS:
 		case JUNGLE_FENCE:
 		case JUNGLE_LOG:
@@ -486,7 +486,7 @@ public final class Mapper {
 		case STRIPPED_JUNGLE_LOG:
 		case STRIPPED_JUNGLE_WOOD:
 			return Material.JUNGLE_DOOR;
-			
+
 		case OAK_STAIRS:
 		case OAK_FENCE:
 		case OAK_LOG:
@@ -496,7 +496,7 @@ public final class Mapper {
 		case STRIPPED_OAK_LOG:
 		case STRIPPED_OAK_WOOD:
 			return Material.OAK_DOOR;
-			
+
 		case SPRUCE_STAIRS:
 		case SPRUCE_FENCE:
 		case SPRUCE_LOG:
@@ -513,7 +513,7 @@ public final class Mapper {
 		switch (material) {
 		default:
 			return Material.COBBLESTONE_WALL;
-			
+
 		case ACACIA_STAIRS:
 		case ACACIA_FENCE:
 		case ACACIA_LOG:
@@ -523,7 +523,7 @@ public final class Mapper {
 		case STRIPPED_ACACIA_LOG:
 		case STRIPPED_ACACIA_WOOD:
 			return Material.ACACIA_FENCE;
-			
+
 		case BIRCH_STAIRS:
 		case BIRCH_FENCE:
 		case BIRCH_LOG:
@@ -533,7 +533,7 @@ public final class Mapper {
 		case STRIPPED_BIRCH_LOG:
 		case STRIPPED_BIRCH_WOOD:
 			return Material.BIRCH_FENCE;
-			
+
 		case DARK_OAK_STAIRS:
 		case DARK_OAK_FENCE:
 		case DARK_OAK_LOG:
@@ -543,7 +543,7 @@ public final class Mapper {
 		case STRIPPED_DARK_OAK_LOG:
 		case STRIPPED_DARK_OAK_WOOD:
 			return Material.DARK_OAK_FENCE;
-			
+
 		case JUNGLE_STAIRS:
 		case JUNGLE_FENCE:
 		case JUNGLE_LOG:
@@ -553,7 +553,7 @@ public final class Mapper {
 		case STRIPPED_JUNGLE_LOG:
 		case STRIPPED_JUNGLE_WOOD:
 			return Material.JUNGLE_FENCE;
-			
+
 		case OAK_STAIRS:
 		case OAK_FENCE:
 		case OAK_LOG:
@@ -563,7 +563,7 @@ public final class Mapper {
 		case STRIPPED_OAK_LOG:
 		case STRIPPED_OAK_WOOD:
 			return Material.OAK_FENCE;
-			
+
 		case SPRUCE_STAIRS:
 		case SPRUCE_FENCE:
 		case SPRUCE_LOG:
@@ -573,7 +573,7 @@ public final class Mapper {
 		case STRIPPED_SPRUCE_LOG:
 		case STRIPPED_SPRUCE_WOOD:
 			return Material.SPRUCE_FENCE;
-			
+
 		case COBBLESTONE_STAIRS:
 		case COBBLESTONE_SLAB:
 		case COBBLESTONE_WALL:
@@ -582,7 +582,7 @@ public final class Mapper {
 		case INFESTED_COBBLESTONE:
 		case MOSSY_COBBLESTONE:
 			return Material.COBBLESTONE_WALL;
-			
+
 		case PURPUR_STAIRS:
 		case PURPUR_BLOCK:
 		case PURPUR_PILLAR:

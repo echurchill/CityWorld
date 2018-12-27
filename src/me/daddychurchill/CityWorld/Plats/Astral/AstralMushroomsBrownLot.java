@@ -16,34 +16,36 @@ public class AstralMushroomsBrownLot extends AstralMushroomsLot {
 
 	private final static double oddsOfTallMushroom = Odds.oddsSomewhatLikely;
 	private final static double oddsOfNarrowMushroom = Odds.oddsSomewhatUnlikely;
-	
+
 	@Override
 	protected Material getMushroomMaterial() {
 		return Material.BROWN_MUSHROOM_BLOCK;
 	}
-	
+
 	@Override
 	protected int maxMushrooms() {
 		return 4;
 	}
-	
+
 	@Override
-	protected void plantMushroom(CityWorldGenerator generator, WorldBlocks blocks, int blockX, int blockY, int blockZ, int snowY) {
-		
+	protected void plantMushroom(CityWorldGenerator generator, WorldBlocks blocks, int blockX, int blockY, int blockZ,
+			int snowY) {
+
 		// how tall?
-		int heightY = chunkOdds.getRandomInt(Math.min(generator.seaLevel - blockY, maxHeight) - minHeight) + minHeight + snowY;
-		
+		int heightY = chunkOdds.getRandomInt(Math.min(generator.seaLevel - blockY, maxHeight) - minHeight) + minHeight
+				+ snowY;
+
 		// nothing here?
 		if (blocks.isEmpty(blockX, blockY + snowY + 2, blockZ)) {
-		
+
 			// narrow one?
 			int width = 3;
 			if (chunkOdds.playOdds(oddsOfNarrowMushroom))
 				width--;
-			
+
 			// start anew
 			startMushroom(blocks, blockX, blockY, blockZ, heightY);
-			
+
 			// slightly taller one?
 			if (chunkOdds.playOdds(oddsOfTallMushroom)) {
 				drawMushroomTop(blocks, width - 2);
@@ -51,11 +53,11 @@ public class AstralMushroomsBrownLot extends AstralMushroomsLot {
 				drawMushroomSlice(blocks, width - 1);
 			} else
 				drawMushroomTop(blocks, width - 1);
-			
+
 			// main bit
 			drawMushroomSlice(blocks, width);
 			drawMushroomSlice(blocks, width);
-			
+
 			// really tall? if so then let's do it again
 			if (width > 2 && heightY > (maxHeight - minHeight) / 2 + minHeight) {
 				nextMushroomLevel();

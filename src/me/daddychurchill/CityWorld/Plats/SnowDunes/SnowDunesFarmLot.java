@@ -10,7 +10,7 @@ public class SnowDunesFarmLot extends FarmLot {
 
 	public SnowDunesFarmLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-		
+
 		waterMaterial = Material.ICE;
 	}
 

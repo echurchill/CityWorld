@@ -7,7 +7,7 @@ public class BusinessWithStock extends RoomProvider {
 
 	public BusinessWithStock() {
 		super();
-		
+
 		roomTypes.add(new EmptyRoom());
 
 		// shelves

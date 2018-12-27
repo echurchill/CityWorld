@@ -19,8 +19,11 @@ public class OfficeBuildingLot extends FinishedBuildingLot {
 	private static RoomProvider contentsCubes = new OfficeWithCubicles();
 	private static RoomProvider contentsRooms = new OfficeWithRooms();
 	private static RoomProvider contentsLounges = new OfficeWithLounges();
-	
-	public enum ContentStyle {RANDOM, EMPTY, OFFICES, CUBICLES};
+
+	public enum ContentStyle {
+		RANDOM, EMPTY, OFFICES, CUBICLES
+	};
+
 	protected ContentStyle contentStyle;
 
 	public OfficeBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
@@ -44,11 +47,11 @@ public class OfficeBuildingLot extends FinishedBuildingLot {
 		case 8:
 		case 9:
 			return ContentStyle.RANDOM;
-		default: 
+		default:
 			return ContentStyle.EMPTY;
 		}
 	}
-	
+
 	@Override
 	public RoomProvider roomProviderForFloor(CityWorldGenerator generator, SupportBlocks chunk, int floor, int floorY) {
 		switch (contentStyle) {
@@ -93,11 +96,11 @@ public class OfficeBuildingLot extends FinishedBuildingLot {
 			return contentsEmpty;
 		}
 	}
-	
+
 	@Override
 	public boolean makeConnected(PlatLot relative) {
 		boolean result = super.makeConnected(relative);
-		
+
 		// other bits
 		if (result && relative instanceof OfficeBuildingLot) {
 			OfficeBuildingLot relativebuilding = (OfficeBuildingLot) relative;
@@ -105,7 +108,7 @@ public class OfficeBuildingLot extends FinishedBuildingLot {
 			// any other bits
 			contentStyle = relativebuilding.contentStyle;
 		}
-		
+
 		return result;
 	}
 

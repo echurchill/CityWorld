@@ -15,9 +15,10 @@ public class MazeCoveredLot extends MazeNatureLot {
 	}
 
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
+			DataContext context, int platX, int platZ) {
 		super.generateActualBlocks(generator, platmap, chunk, context, platX, platZ);
-		
+
 		// top it off
 		Material wallMaterial = getWallMaterial(generator);
 		int y = generator.streetLevel + mazeHeight - mazeDepth - 1;

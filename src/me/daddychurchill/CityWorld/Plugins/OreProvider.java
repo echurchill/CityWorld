@@ -18,40 +18,41 @@ public abstract class OreProvider extends Provider {
 	public final static int lavaFieldLevel = 12;
 	protected final static double oreSprinkleOdds = Odds.oddsHalvedPrettyLikely;
 	protected final static double snowSprinkleOdds = Odds.oddsThricedSomewhatUnlikely;
-	
+
 	protected List<Material> ore_types = new ArrayList<Material>();
-	
+
 	public Material surfaceMaterial;
 	public Material subsurfaceMaterial;
 	public Material stratumMaterial;
 	public Material substratumMaterial;
-	
+
 	public Material fluidMaterial;
 	public Material fluidFluidMaterial;
 	public Material fluidSurfaceMaterial;
 	public Material fluidSubsurfaceMaterial;
 	public Material fluidFrozenMaterial;
-	
+
 	public OreProvider(CityWorldGenerator generator) {
 		super();
-		
+
 		surfaceMaterial = Material.GRASS_BLOCK;
 		subsurfaceMaterial = Material.DIRT;
 		stratumMaterial = Material.STONE;
 		substratumMaterial = Material.BEDROCK;
-		
+
 		fluidMaterial = Material.WATER;
 		fluidFluidMaterial = Material.WATER;
 		fluidSurfaceMaterial = Material.SAND;
 		fluidSubsurfaceMaterial = Material.GRAVEL;
 		fluidFrozenMaterial = Material.PACKED_ICE;
 	}
-	
-	// Based on work contributed by drew-bahrue (https://github.com/echurchill/CityWorld/pull/2)
+
+	// Based on work contributed by drew-bahrue
+	// (https://github.com/echurchill/CityWorld/pull/2)
 	public static OreProvider loadProvider(CityWorldGenerator generator) {
 
 		OreProvider provider = null;
-		
+
 		// default to stock OreProvider
 		if (provider == null) {
 
@@ -89,15 +90,16 @@ public abstract class OreProvider extends Provider {
 				}
 			}
 		}
-	
+
 		return provider;
 	}
-	
+
 	public Biome remapBiome(Biome biome) {
 		return biome;
 	}
 
-	public void sprinkleSnow(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x1, int x2, int y, int z1, int z2) {
+	public void sprinkleSnow(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x1, int x2, int y,
+			int z1, int z2) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				if (odds.playOdds(snowSprinkleOdds))
@@ -105,11 +107,11 @@ public abstract class OreProvider extends Provider {
 			}
 		}
 	}
-	
+
 	public void dropSnow(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
 		dropSnow(generator, chunk, x, y, z, 0);
 	}
-	
+
 	public void dropSnow(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, double level) {
 		y = chunk.findLastEmptyBelow(x, y + 1, z, y - 6);
 		if (!chunk.isOfTypes(x, y - 1, z, Material.AIR, Material.SNOW))
@@ -119,40 +121,39 @@ public abstract class OreProvider extends Provider {
 	/**
 	 * Populates the world with ores.
 	 *
-	 * original authors Nightgunner5, Markus Persson
-	 * modified by simplex
-	 * wildly modified by daddychurchill
+	 * original authors Nightgunner5, Markus Persson modified by simplex wildly
+	 * modified by daddychurchill
 	 */
-	
-	//                                                         WATER   LAVA   GRAV   COAL   IRON   GOLD  LAPIS  REDST   DIAM   EMER  
-	static final int[] ore_iterations = new int[]    {     8,     6,    40,    30,    12,     4,     2,     4,     2,    10};
-	static final int[] ore_amountToDo = new int[]    {     1,     1,    12,     8,     8,     3,     3,    10,     3,     1};
-	static final int[] ore_maxY = new int[]          {   128,    32,   111,   128,    61,    29,    25,    16,    15,    32};
-	static final int[] ore_minY = new int[]          {    32,     2,    40,    16,    10,     8,     8,     6,     2,     2};
-	static final boolean[] ore_upper = new boolean[] {  true, false, false,  true,  true,  true,  true,  true, false, false};
-	static final boolean[] ore_liquid = new boolean[] { true,  true, false, false, false, false, false, false, false, false};
-	
-	public void sprinkleOres(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, AbstractCachedYs blockYs, Odds odds) {
-		
+
+	// WATER LAVA GRAV COAL IRON GOLD LAPIS REDST DIAM EMER
+	static final int[] ore_iterations = new int[] { 8, 6, 40, 30, 12, 4, 2, 4, 2, 10 };
+	static final int[] ore_amountToDo = new int[] { 1, 1, 12, 8, 8, 3, 3, 10, 3, 1 };
+	static final int[] ore_maxY = new int[] { 128, 32, 111, 128, 61, 29, 25, 16, 15, 32 };
+	static final int[] ore_minY = new int[] { 32, 2, 40, 16, 10, 8, 8, 6, 2, 2 };
+	static final boolean[] ore_upper = new boolean[] { true, false, false, true, true, true, true, true, false, false };
+	static final boolean[] ore_liquid = new boolean[] { true, true, false, false, false, false, false, false, false,
+			false };
+
+	public void sprinkleOres(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, AbstractCachedYs blockYs,
+			Odds odds) {
+
 		// do it... maybe!
-		int oreCount = Math.min(ore_types.size(), ore_iterations.length); 
+		int oreCount = Math.min(ore_types.size(), ore_iterations.length);
 		for (int typeNdx = 0; typeNdx < oreCount; typeNdx++) {
-			sprinkleOre(generator, lot, chunk, blockYs,
-					odds, ore_types.get(typeNdx), ore_maxY[typeNdx], 
-					ore_minY[typeNdx], ore_iterations[typeNdx], 
-					ore_amountToDo[typeNdx], ore_upper[typeNdx], ore_liquid[typeNdx]);
+			sprinkleOre(generator, lot, chunk, blockYs, odds, ore_types.get(typeNdx), ore_maxY[typeNdx],
+					ore_minY[typeNdx], ore_iterations[typeNdx], ore_amountToDo[typeNdx], ore_upper[typeNdx],
+					ore_liquid[typeNdx]);
 		}
 	}
-	
+
 	private void sprinkleOre(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, AbstractCachedYs blockYs,
-			Odds odds, Material material, int maxY, int minY, 
-			int iterations, int amount, boolean mirror, boolean liquid) {
-		
+			Odds odds, Material material, int maxY, int minY, int iterations, int amount, boolean mirror,
+			boolean liquid) {
+
 		// do we do this one?
-		if ((liquid && generator.settings.includeUndergroundFluids) ||
-			(!liquid && generator.settings.includeOres)) {
+		if ((liquid && generator.settings.includeUndergroundFluids) || (!liquid && generator.settings.includeOres)) {
 			if (material != stratumMaterial) {
-				
+
 				// sprinkle it around!
 				int range = maxY - minY;
 				for (int iter = 0; iter < iterations; iter++) {
@@ -170,40 +171,42 @@ public abstract class OreProvider extends Provider {
 			}
 		}
 	}
-	
-	private void growVein(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, AbstractCachedYs blockYs, 
+
+	private void growVein(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, AbstractCachedYs blockYs,
 			Odds odds, int originX, int originY, int originZ, int amountToDo, Material material) {
 		int trysLeft = amountToDo * 2;
 		int oresDone = 0;
-		if (lot.isValidStrataY(generator, originX, originY, originZ) && 
-			blockYs.getBlockY(originX, originZ) > originY + amountToDo / 4) {
+		if (lot.isValidStrataY(generator, originX, originY, originZ)
+				&& blockYs.getBlockY(originX, originZ) > originY + amountToDo / 4) {
 			while (oresDone < amountToDo && trysLeft > 0) {
-				
+
 				// shimmy
 				int x = chunk.clampXZ(originX + odds.getRandomInt(Math.max(1, amountToDo / 2)) - amountToDo / 4);
 				int y = chunk.clampY(originY + odds.getRandomInt(Math.max(1, amountToDo / 4)) - amountToDo / 8);
 				int z = chunk.clampXZ(originZ + odds.getRandomInt(Math.max(1, amountToDo / 2)) - amountToDo / 4);
-				
+
 				// ore it is
 				oresDone += placeOre(generator, chunk, odds, x, y, z, amountToDo - oresDone, material);
-					
+
 				// one less try to try
 				trysLeft--;
 			}
 		}
 	}
-	
-	private int placeOre(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, 
-			int centerX, int centerY, int centerZ, int oresToDo, Material material) {
+
+	private int placeOre(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int centerX, int centerY,
+			int centerZ, int oresToDo, Material material) {
 		int count = 0;
 		if (centerY > 0 && centerY < chunk.height) {
 			if (placeBlock(chunk, odds, centerX, centerY, centerZ, material)) {
 				count++;
-				if (count < oresToDo && centerX < 15 && placeBlock(chunk, odds, centerX + 1, centerY, centerZ, material))
+				if (count < oresToDo && centerX < 15
+						&& placeBlock(chunk, odds, centerX + 1, centerY, centerZ, material))
 					count++;
 				if (count < oresToDo && centerX > 0 && placeBlock(chunk, odds, centerX - 1, centerY, centerZ, material))
 					count++;
-				if (count < oresToDo && centerZ < 15 && placeBlock(chunk, odds, centerX, centerY, centerZ + 1, material))
+				if (count < oresToDo && centerZ < 15
+						&& placeBlock(chunk, odds, centerX, centerY, centerZ + 1, material))
 					count++;
 				if (count < oresToDo && centerZ > 0 && placeBlock(chunk, odds, centerX, centerY, centerZ - 1, material))
 					count++;
@@ -211,7 +214,7 @@ public abstract class OreProvider extends Provider {
 		}
 		return count;
 	}
-	
+
 	private boolean placeBlock(SupportBlocks chunk, Odds odds, int x, int y, int z, Material material) {
 		if (odds.playOdds(oreSprinkleOdds))
 			if (chunk.isType(x, y, z, stratumMaterial)) {

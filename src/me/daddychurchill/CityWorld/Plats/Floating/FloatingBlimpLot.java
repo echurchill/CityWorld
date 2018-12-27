@@ -18,16 +18,16 @@ public class FloatingBlimpLot extends IsolatedLot {
 	protected final static Material base = Material.SMOOTH_STONE;
 	protected final static Material underlayment = Material.STONE;
 	protected final static Material pedestal = Material.STONE;
-	
+
 	boolean manyBalloons;
-		
+
 	public FloatingBlimpLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-		
+
 		manyBalloons = chunkOdds.flipCoin();
 		this.style = LotStyle.NATURE;
 	}
-	
+
 	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
 		return new FloatingBlimpLot(platmap, chunkX, chunkZ);
@@ -44,15 +44,14 @@ public class FloatingBlimpLot extends IsolatedLot {
 	}
 
 	@Override
-	protected void generateActualChunk(CityWorldGenerator generator,
-			PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes,
-			DataContext context, int platX, int platZ) {
-		
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk,
+			BiomeGrid biomes, DataContext context, int platX, int platZ) {
+
 		boolean toNorth = platmap.isStructureLot(platX, platZ - 1);
 		boolean toSouth = platmap.isStructureLot(platX, platZ + 1);
 		boolean toWest = platmap.isStructureLot(platX - 1, platZ);
 		boolean toEast = platmap.isStructureLot(platX + 1, platZ);
-		
+
 		chunk.setCircle(8, 8, 6, generator.streetLevel, base, true);
 		if (toNorth) {
 			chunk.setBlocks(0, 16, generator.streetLevel, 0, 7, base);
@@ -70,7 +69,7 @@ public class FloatingBlimpLot extends IsolatedLot {
 			chunk.setBlocks(8, 16, generator.streetLevel, 0, 16, base);
 			chunk.setBlocks(3, 16, generator.streetLevel - 2, generator.streetLevel, 7, 9, underlayment);
 		}
-		
+
 		// what types of balloon?
 		if (manyBalloons) {
 			chunk.setBlocks(7, 9, generator.streetLevel + 1, generator.streetLevel + 5, 3, 13, pedestal);
@@ -84,20 +83,23 @@ public class FloatingBlimpLot extends IsolatedLot {
 	}
 
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
-			int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
+			DataContext context, int platX, int platZ) {
 		if (generator.settings.includeDecayedBuildings)
 			destroyLot(generator, generator.streetLevel - 1, generator.streetLevel + 3);
 		generator.spawnProvider.spawnBeing(generator, chunk, chunkOdds, 8, generator.streetLevel + 1, 8);
-		
+
 		// what type of balloon?
 		StructureInAirProvider balloons = generator.structureInAirProvider;
 		if (manyBalloons) {
-			balloons.generateBalloon(generator, chunk, context, 7 + chunkOdds.getRandomInt(2), generator.streetLevel + 5, 3, chunkOdds);
-			balloons.generateBalloon(generator, chunk, context, 7 + chunkOdds.getRandomInt(2), generator.streetLevel + 5, 12, chunkOdds);
-			balloons.generateBalloon(generator, chunk, context, 3, generator.streetLevel + 5, 7 + chunkOdds.getRandomInt(2), chunkOdds);
-			balloons.generateBalloon(generator, chunk, context, 12, generator.streetLevel + 5, 7 + chunkOdds.getRandomInt(2), chunkOdds);
+			balloons.generateBalloon(generator, chunk, context, 7 + chunkOdds.getRandomInt(2),
+					generator.streetLevel + 5, 3, chunkOdds);
+			balloons.generateBalloon(generator, chunk, context, 7 + chunkOdds.getRandomInt(2),
+					generator.streetLevel + 5, 12, chunkOdds);
+			balloons.generateBalloon(generator, chunk, context, 3, generator.streetLevel + 5,
+					7 + chunkOdds.getRandomInt(2), chunkOdds);
+			balloons.generateBalloon(generator, chunk, context, 12, generator.streetLevel + 5,
+					7 + chunkOdds.getRandomInt(2), chunkOdds);
 		} else {
 			balloons.generateBigBalloon(generator, chunk, context, generator.streetLevel + 5, chunkOdds);
 		}

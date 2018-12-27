@@ -13,30 +13,30 @@ public class MountainTentLot extends MountainFlatLot {
 
 	public MountainTentLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-		
+
 	}
-	
+
 	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
 		return new MountainTentLot(platmap, chunkX, chunkZ);
 	}
 
 	@Override
-	protected void generateActualChunk(CityWorldGenerator generator,
-			PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes,
-			DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk,
+			BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		generateSmoothedLot(generator, chunk, context);
 	}
 
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
+			DataContext context, int platX, int platZ) {
 		reportLocation(generator, "Campground", chunk);
-		
+
 		// place snow
 		generateSurface(generator, chunk, false);
-		
+
 		// now make a tent
-		generator.structureOnGroundProvider.generateCampground(generator, chunk, context, chunkOdds, 
+		generator.structureOnGroundProvider.generateCampground(generator, chunk, context, chunkOdds,
 				blockYs.averageHeight + 1);
 	}
 

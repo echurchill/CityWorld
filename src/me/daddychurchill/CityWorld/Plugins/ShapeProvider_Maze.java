@@ -23,12 +23,12 @@ public class ShapeProvider_Maze extends ShapeProvider_Normal {
 
 	public SimplexNoiseGenerator ecoShape;
 	private MazeNexusContext nexusContext;
-	
+
 	public ShapeProvider_Maze(CityWorldGenerator generator, Odds odds) {
 		super(generator, odds);
-		
+
 		long seed = generator.getWorldSeed();
-		
+
 		ecoShape = new SimplexNoiseGenerator(seed + 5);
 	}
 
@@ -39,30 +39,32 @@ public class ShapeProvider_Maze extends ShapeProvider_Normal {
 			roadContext = new MazeRoadContext(generator);
 
 			nexusContext = new MazeNexusContext(generator);
-			
+
 			// I am just reusing a bunch of instance variables here
 			highriseContext = new MazeTownContext(generator);
 			constructionContext = new MazeWoodworksContext(generator);
-			midriseContext = new MazeNeighborhoodContext(generator); 
+			midriseContext = new MazeNeighborhoodContext(generator);
 			municipalContext = new MazeCastleContext(generator);
 			lowriseContext = new MazeCampgroundContext(generator);
 			industrialContext = new MazeMineContext(generator);
 			parkContext = new MazeParkContext(generator);
 			farmContext = new MazeFarmContext(generator);
 			outlandContext = farmContext;
-			
+
 			contextInitialized = true;
 		}
 	}
-	
+
 	@Override
 	public DataContext getContext(int originX, int originZ) {
 //		CityWorld.log.info("X, Z = " + originX + ", " + originZ);
 		if (originX == 0 && originZ == 0)
 			return nexusContext;
 		else {
-			double rawValue = (Math.max(-0.9999, Math.min(0.9999, ecoShape.noise(originX, originZ) * 1.375)) + 1.0) / 2.0;
-			switch (NoiseGenerator.floor(rawValue * 9)) { // the constant here should ALWAYS be one more than the biggest case statement constant!
+			double rawValue = (Math.max(-0.9999, Math.min(0.9999, ecoShape.noise(originX, originZ) * 1.375)) + 1.0)
+					/ 2.0;
+			switch (NoiseGenerator.floor(rawValue * 9)) { // the constant here should ALWAYS be one more than the
+															// biggest case statement constant!
 			default: // always leave default at zero
 			case 0:
 				return natureContext;
@@ -85,7 +87,7 @@ public class ShapeProvider_Maze extends ShapeProvider_Normal {
 			}
 		}
 	}
-	
+
 	@Override
 	public DataContext getContext(PlatMap platmap) {
 		return getContext(platmap.originX, platmap.originZ);

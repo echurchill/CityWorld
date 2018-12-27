@@ -20,7 +20,7 @@ public class EmptyBuildingLot extends LibraryBuildingLot {
 	public RoomProvider roomProviderForFloor(CityWorldGenerator generator, SupportBlocks chunk, int floor, int floorY) {
 		return contentsRooms;
 	}
-	
+
 	@Override
 	protected InteriorStyle getFloorsInteriorStyle(int floor) {
 		int range = height / 4;
@@ -30,10 +30,10 @@ public class EmptyBuildingLot extends LibraryBuildingLot {
 			return InteriorStyle.WALLS_ONLY;
 		else if (floor < range * 3)
 			return InteriorStyle.COLUMNS_OFFICES;
-		else 
+		else
 			return InteriorStyle.COLUMNS_ONLY;
 	}
-	
+
 	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
 		return new EmptyBuildingLot(platmap, chunkX, chunkZ);

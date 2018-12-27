@@ -9,11 +9,11 @@ public class EmptyWithRooms extends RoomProvider {
 
 	public EmptyWithRooms() {
 		super();
-		
+
 		roomTypes.add(new EmptyRoom());
 
 		roomTypes.add(new DividedSingleRoom());
 		roomTypes.add(new DividedEllRoom());
 	}
-	
+
 }

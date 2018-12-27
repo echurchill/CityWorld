@@ -17,7 +17,7 @@ public class HotairBalloonLot extends ConstructLot {
 		super(platmap, chunkX, chunkZ);
 		trulyIsolated = true;
 	}
-	
+
 	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
 		return new HotairBalloonLot(platmap, chunkX, chunkZ);
@@ -27,11 +27,11 @@ public class HotairBalloonLot extends ConstructLot {
 	public int getBottomY(CityWorldGenerator generator) {
 		return blockYs.maxHeight + 20;
 	}
-	
+
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk,
 			BiomeGrid biomes, DataContext context, int platX, int platZ) {
-		//TODO what?
+		// TODO what?
 	}
 
 	@Override
@@ -40,13 +40,14 @@ public class HotairBalloonLot extends ConstructLot {
 
 		// place snow
 		generateSurface(generator, chunk, false);
-		
+
 		// where is the surface?
 		int atY = getBottomY(generator);
-		
+
 		// hot air balloon
 		reportLocation(generator, "Hot Air Balloon", chunk);
 		int rangeY = Math.max(2, chunk.height - StructureInAirProvider.hotairBalloonHeight - atY);
-		generator.structureInAirProvider.generateHotairBalloon(generator, chunk, context, atY + chunkOdds.getRandomInt(rangeY), chunkOdds);
+		generator.structureInAirProvider.generateHotairBalloon(generator, chunk, context,
+				atY + chunkOdds.getRandomInt(rangeY), chunkOdds);
 	}
 }

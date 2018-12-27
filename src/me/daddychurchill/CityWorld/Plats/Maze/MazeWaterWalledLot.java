@@ -16,5 +16,5 @@ public class MazeWaterWalledLot extends MazeLavaWalledLot {
 	protected Material getWallMaterial(CityWorldGenerator generator) {
 		return Material.WATER;
 	}
-	
+
 }

@@ -22,7 +22,7 @@ public class CityWorldEvent extends Event {
 	}
 
 	private static final HandlerList handlers = new HandlerList();
-	
+
 	public HandlerList getHandlers() {
 		return handlers;
 	}
@@ -44,7 +44,7 @@ public class CityWorldEvent extends Event {
 	public int getChunkZ() {
 		return chunk.getZ();
 	}
-	
+
 	/**
 	 * @return the chunk reference
 	 */

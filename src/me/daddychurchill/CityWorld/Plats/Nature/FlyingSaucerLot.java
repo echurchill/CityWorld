@@ -33,13 +33,14 @@ public final class FlyingSaucerLot extends ConstructLot {
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
 			DataContext context, int platX, int platZ) {
-		
+
 		// place snow
 		generateSurface(generator, chunk, false);
-		
+
 		// saucer?
 		reportLocation(generator, "Flying Saucer", chunk);
-		generator.structureInAirProvider.generateSaucer(generator, chunk, (chunk.height - 32) + chunkOdds.getRandomInt(16), false);
+		generator.structureInAirProvider.generateSaucer(generator, chunk,
+				(chunk.height - 32) + chunkOdds.getRandomInt(16), false);
 	}
 
 }

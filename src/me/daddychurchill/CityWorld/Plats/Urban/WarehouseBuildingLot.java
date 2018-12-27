@@ -13,33 +13,36 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class WarehouseBuildingLot extends IndustrialBuildingLot {
-	
+
 	private static RoomProvider contentsRandom = new WarehouseWithRandom();
 	private static RoomProvider contentsBooks = new WarehouseWithBooks();
 	private static RoomProvider contentsBoxes = new WarehouseWithBoxes();
 	private static RoomProvider contentsEmpty = new WarehouseWithNothing();
 	private static RoomProvider contentsChests = new WarehouseWithChests();
 	private static RoomProvider contentsStacks = new WarehouseWithStacks();
-	
-	public enum ContentStyle {RANDOM, BOOKS, BOXES, EMPTY, STACKS, CHESTS};
+
+	public enum ContentStyle {
+		RANDOM, BOOKS, BOXES, EMPTY, STACKS, CHESTS
+	};
+
 	private ContentStyle contentStyle;
 
 	public WarehouseBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-		
+
 		contentStyle = pickContentStyle();
 		firstFloorHeight = aboveFloorHeight * 2;
 	}
-	
+
 	protected ContentStyle pickContentStyle() {
 		ContentStyle[] values = ContentStyle.values();
 		return values[chunkOdds.getRandomInt(values.length)];
 	}
-	
+
 	@Override
 	public boolean makeConnected(PlatLot relative) {
 		boolean result = super.makeConnected(relative);
-		
+
 		// other bits
 		if (result && relative instanceof WarehouseBuildingLot) {
 			WarehouseBuildingLot relativebuilding = (WarehouseBuildingLot) relative;
@@ -47,7 +50,7 @@ public class WarehouseBuildingLot extends IndustrialBuildingLot {
 			// any other bits
 			contentStyle = relativebuilding.contentStyle;
 		}
-		
+
 		return result;
 	}
 
@@ -74,7 +77,7 @@ public class WarehouseBuildingLot extends IndustrialBuildingLot {
 			return contentsChests;
 		}
 	}
-	
+
 	@Override
 	protected InteriorStyle pickInteriorStyle() {
 		switch (chunkOdds.getRandomInt(10)) {

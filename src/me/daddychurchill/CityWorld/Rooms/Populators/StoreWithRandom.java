@@ -12,7 +12,7 @@ public class StoreWithRandom extends RoomProvider {
 
 	public StoreWithRandom() {
 		super();
-		
+
 		roomTypes.add(new StorageDoubleShelvesRoom());
 		roomTypes.add(new StorageDoubleShelvesRoom());
 		roomTypes.add(new StorageSingleRowRoom(Material.BOOKSHELF));

@@ -28,18 +28,16 @@ public class WoodworksLot extends ConstructLot {
 	}
 
 	@Override
-	protected void generateActualChunk(CityWorldGenerator generator,
-			PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes,
-			DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk,
+			BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
-			int platZ) {
-		
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
+			DataContext context, int platX, int platZ) {
+
 		int y = generator.streetLevel + 1;
 		generateSomething(generator, chunk, 2, y, 3);
 		generateSomething(generator, chunk, 8, y, 6);
@@ -49,20 +47,20 @@ public class WoodworksLot extends ConstructLot {
 		// place snow
 		generateSurface(generator, chunk, false);
 	}
-	
+
 	private void generateSomething(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z) {
 		switch (chunkOdds.getRandomInt(11)) {
 		default:
 		case 0:
 		case 1:
-			//shimmy
-			generator.coverProvider.generateCoverage(generator, chunk, 
-					chunk.clampXZ(x + chunkOdds.getRandomInt(1, 4)), y, z, CoverageType.SHORT_OAK_TREE);
+			// shimmy
+			generator.coverProvider.generateCoverage(generator, chunk, chunk.clampXZ(x + chunkOdds.getRandomInt(1, 4)),
+					y, z, CoverageType.SHORT_OAK_TREE);
 			break;
 		case 2:
 		case 3:
-			generator.coverProvider.generateCoverage(generator, chunk, 
-					chunk.clampXZ(x + chunkOdds.getRandomInt(1, 4)), y, z, CoverageType.OAK_TRUNK);
+			generator.coverProvider.generateCoverage(generator, chunk, chunk.clampXZ(x + chunkOdds.getRandomInt(1, 4)),
+					y, z, CoverageType.OAK_TRUNK);
 			break;
 		case 4:
 		case 5:
@@ -84,8 +82,8 @@ public class WoodworksLot extends ConstructLot {
 			break;
 		case 8:
 			if (chunkOdds.flipCoin())
-				chunk.setChest(generator, x + 1, y, z, BlockFace.SOUTH, chunkOdds, 
-						generator.lootProvider, LootLocation.WOODWORKS);
+				chunk.setChest(generator, x + 1, y, z, BlockFace.SOUTH, chunkOdds, generator.lootProvider,
+						LootLocation.WOODWORKS);
 			if (chunkOdds.flipCoin())
 				chunk.setBlock(x + 3, y, z, Material.CRAFTING_TABLE);
 			if (chunkOdds.flipCoin())
@@ -96,14 +94,14 @@ public class WoodworksLot extends ConstructLot {
 			if (chunkOdds.flipCoin()) {
 				if (chunkOdds.flipCoin())
 					direction = BlockFace.SOUTH;
-				chunk.setDoubleChest(generator, chunk.clampXZ(chunkOdds.calcRandomRange(x + 1, x + 4)), y, z, direction, chunkOdds, 
-							generator.lootProvider, LootLocation.WOODWORKSOUTPUT);
+				chunk.setDoubleChest(generator, chunk.clampXZ(chunkOdds.calcRandomRange(x + 1, x + 4)), y, z, direction,
+						chunkOdds, generator.lootProvider, LootLocation.WOODWORKSOUTPUT);
 			} else {
 				direction = BlockFace.WEST;
 				if (chunkOdds.flipCoin())
 					direction = BlockFace.EAST;
-				chunk.setDoubleChest(generator, x, y, chunk.clampXZ(chunkOdds.calcRandomRange(z + 1, z + 4)), direction, chunkOdds, 
-						generator.lootProvider, LootLocation.WOODWORKSOUTPUT);
+				chunk.setDoubleChest(generator, x, y, chunk.clampXZ(chunkOdds.calcRandomRange(z + 1, z + 4)), direction,
+						chunkOdds, generator.lootProvider, LootLocation.WOODWORKSOUTPUT);
 			}
 			break;
 		case 10:
@@ -116,32 +114,32 @@ public class WoodworksLot extends ConstructLot {
 			}
 			break;
 		}
-		
-		//TODO add decay
+
+		// TODO add decay
 	}
-	
+
 	protected final static int sectionWidth = 5;
 	protected final static int floorHeight = 4;
 
 	protected void generateSection(RealBlocks chunk, int x, int y, int z) {
 		chunk.setBlocks(x, x + sectionWidth + 1, y, y + 1, z, z + sectionWidth + 1, Material.BIRCH_SLAB);
-		
+
 		generateColumn(chunk, x, y, z);
 		generateColumn(chunk, x + sectionWidth, y, z);
 		generateColumn(chunk, x, y, z + sectionWidth);
 		generateColumn(chunk, x + sectionWidth, y, z + sectionWidth);
 	}
-	
+
 	private void generateColumn(RealBlocks chunk, int x, int y, int z) {
 //		if (chunk.isEmpty(x, y - 1, z)) {
-			chunk.setBlock(x, y - floorHeight, z, Material.SPRUCE_PLANKS);
-			chunk.setBlocks(x, y - floorHeight + 1, y, z, Material.SPRUCE_FENCE);
+		chunk.setBlock(x, y - floorHeight, z, Material.SPRUCE_PLANKS);
+		chunk.setBlocks(x, y - floorHeight + 1, y, z, Material.SPRUCE_FENCE);
 //		}
 	}
-	
+
 	protected void generateStairs(RealBlocks chunk, int x, int y, int z) {
 		chunk.setBlocks(x, x + 1, y, z, z + 3, Material.AIR);
-		chunk.setBlock(x, y - 1, z    , Material.BIRCH_STAIRS, BlockFace.NORTH);
+		chunk.setBlock(x, y - 1, z, Material.BIRCH_STAIRS, BlockFace.NORTH);
 		chunk.setBlock(x, y - 2, z + 1, Material.BIRCH_STAIRS, BlockFace.NORTH);
 		chunk.setBlock(x, y - 3, z + 2, Material.BIRCH_STAIRS, BlockFace.NORTH);
 		chunk.setBlock(x, y - 4, z + 3, Material.BIRCH_STAIRS, BlockFace.NORTH);

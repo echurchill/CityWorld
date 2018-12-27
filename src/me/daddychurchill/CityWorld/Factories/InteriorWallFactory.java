@@ -27,16 +27,17 @@ public class InteriorWallFactory extends MaterialFactory {
 			return VerticalStyle.WGGG;
 		case 3:
 			return VerticalStyle.WWWW;
-		}		
+		}
 	}
-	
+
 	@Override
 	protected HorizontalStyle pickHorizontalStyle() {
 		return HorizontalStyle.GGGG;
 	}
-	
+
 	@Override
-	public void placeMaterial(AbstractBlocks blocks, Material primary, Material secondary, int x, int y1, int y2, int z, BlockFace... facing) {
+	public void placeMaterial(AbstractBlocks blocks, Material primary, Material secondary, int x, int y1, int y2, int z,
+			BlockFace... facing) {
 		super.placeMaterial(blocks, primary, secondary, pickMaterial(primary, secondary, x), x, y1, y2, z, facing);
 	}
 }

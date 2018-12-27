@@ -23,13 +23,15 @@ public class FloodedNatureLot extends NatureLot {
 	}
 
 	@Override
-	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk,
+			BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
+			DataContext context, int platX, int platZ) {
 		generateSurface(generator, chunk, true);
 
 		generateEntities(generator, chunk);

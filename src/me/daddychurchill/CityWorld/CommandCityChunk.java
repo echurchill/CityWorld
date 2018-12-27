@@ -15,17 +15,16 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 
 public class CommandCityChunk implements CommandExecutor {
-    private final CityWorld plugin;
+	private final CityWorld plugin;
 
-	public CommandCityChunk(CityWorld plugin)
-    {
-        this.plugin = plugin;
-    }
+	public CommandCityChunk(CityWorld plugin) {
+		this.plugin = plugin;
+	}
 
 	public CityWorld getWorld() {
 		return plugin;
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] split) {
@@ -44,7 +43,7 @@ public class CommandCityChunk implements CommandExecutor {
 				boolean regening = false;
 				boolean error = false;
 				int radius = 0;
-				
+
 				// arguments?
 				for (int n = 0; n < split.length; n++) {
 					if (split[n].compareToIgnoreCase("CLEAN") == 0 && !cleaning)
@@ -64,22 +63,22 @@ public class CommandCityChunk implements CommandExecutor {
 						break;
 					}
 				}
-				
+
 				// that isn't an option we support or no option was given
 				if (error || !(cleaning || regening)) {
 					sender.sendMessage("Syntax error");
 					return false;
-						
-				// let's do our stuff
+
+					// let's do our stuff
 				} else {
-					
+
 					// find ourselves
 					World world = player.getWorld();
 					Location location = player.getLocation();
 					Chunk chunk = world.getChunkAt(location);
 					int chunkX = chunk.getX();
 					int chunkZ = chunk.getZ();
-					
+
 					// iterate through the chunks
 					if (regening) {
 						for (int x = chunkX - radius; x <= chunkX + radius; x++) {
@@ -89,7 +88,7 @@ public class CommandCityChunk implements CommandExecutor {
 							}
 						}
 					}
-					
+
 					// cleaning up chunks of stray items
 					if (cleaning) {
 						player.sendMessage("Cleaning up orphan items");
@@ -99,24 +98,24 @@ public class CommandCityChunk implements CommandExecutor {
 						int z2 = (chunkZ + radius + 1) * SupportBlocks.sectionBlockWidth;
 						List<Entity> entities = world.getEntities();
 						for (Entity entity : entities) {
-							
+
 							// something we care about?
 							if (entity instanceof Item) {
-								
+
 								// is it in the right place?
 								Location entityAt = entity.getLocation();
-								if (entityAt.getBlockX() >= x1 && entityAt.getBlockX() < x2 &&
-									entityAt.getBlockZ() >= z1 && entityAt.getBlockZ() < z2)
+								if (entityAt.getBlockX() >= x1 && entityAt.getBlockX() < x2
+										&& entityAt.getBlockZ() >= z1 && entityAt.getBlockZ() < z2)
 									entity.remove();
 							}
 						}
 					}
-					
+
 					// all done
 					player.sendMessage("Finished chunk operation");
 					return true;
 				}
-				
+
 			} else {
 				sender.sendMessage("You do not have permission to use this command");
 				return false;

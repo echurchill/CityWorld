@@ -17,8 +17,8 @@ public abstract class AbstractEntityList {
 
 	public String listName;
 	private List<EntityType> items;
-	
-	public AbstractEntityList(String name, EntityType ... entities) {
+
+	public AbstractEntityList(String name, EntityType... entities) {
 		super();
 		listName = name;
 		add(entities);
@@ -30,46 +30,46 @@ public abstract class AbstractEntityList {
 		else if (clear)
 			items.clear();
 	}
-	
-	public void add(EntityType ... entities) {
+
+	public void add(EntityType... entities) {
 		init(false);
 		for (EntityType entity : entities) {
 			if (entity.isAlive())
 				items.add(entity);
 		}
 	}
-	
+
 	public void add(EntityType entity) {
 		init(false);
 		items.add(entity);
 	}
-	
+
 	public void remove(EntityType entity) {
 		if (items != null)
 			for (int i = items.size() - 1; i >= 0; i--)
 				if (items.get(i) == entity)
 					items.remove(i);
 	}
-	
+
 	public int count() {
 		return items == null ? 0 : items.size();
 	}
-	
+
 	public int getHerdSize(Odds odds, EntityType entity) {
 		return 1;
 	}
-	
+
 	private EntityType getFirstEntity() {
 		if (items == null || count() == 0)
 			return EntityType.UNKNOWN;
 		else
 			return items.get(0);
 	}
-	
+
 	public EntityType getRandomEntity(Odds odds) {
 		return getRandomEntity(odds, getFirstEntity());
 	}
-	
+
 	public EntityType getRandomEntity(Odds odds, EntityType defaultEntity) {
 		if (items == null || count() == 0)
 			return defaultEntity;
@@ -86,7 +86,7 @@ public abstract class AbstractEntityList {
 		}
 		section.set(listName, names);
 	}
-	
+
 	public void read(CityWorldGenerator generator, ConfigurationSection section) {
 		if (section.isList(listName)) {
 			init(true);
@@ -95,27 +95,30 @@ public abstract class AbstractEntityList {
 			for (String name : names) {
 				EntityType entity = null;
 				try {
-					
+
 					// look through our list of possibilities
 					for (int i = 0; i < entities.length; i++)
 						if (entities[i].name().equalsIgnoreCase(name)) {
-							
+
 							// if the one found is one that is alive then great!
 							if (entities[i].isAlive())
 								entity = entities[i];
 							else
-								generator.reportMessage("Ignoring " + generator.worldName + ".Entities." + listName + ": " + name + ", it is nonliving");
+								generator.reportMessage("Ignoring " + generator.worldName + ".Entities." + listName
+										+ ": " + name + ", it is nonliving");
 							break;
 						}
-					
+
 					// still nothing, so comment about it
 					if (entity == null)
-						generator.reportMessage("Ignoring " + generator.worldName + ".Entities." + listName + ": " + name + ", is not known");
+						generator.reportMessage("Ignoring " + generator.worldName + ".Entities." + listName + ": "
+								+ name + ", is not known");
 				} catch (Exception e) {
-					generator.reportException("Reading " + generator.worldName + ".Entities." + listName + ": " + name, e);
+					generator.reportException("Reading " + generator.worldName + ".Entities." + listName + ": " + name,
+							e);
 					entity = null;
 				}
-				
+
 				if (entity != null)
 					add(entity);
 			}

@@ -19,7 +19,7 @@ public class LibraryWithLounges extends RoomProvider {
 		roomTypes.add(new LibrarySingleRoom());
 		roomTypes.add(new LibraryDoubleRoom());
 		roomTypes.add(new LibraryStudyRoom());
-		
+
 		roomTypes.add(new LoungeEllCouchRoom());
 		roomTypes.add(new LoungeTrioRoom());
 		roomTypes.add(new LoungeQuadRoom());

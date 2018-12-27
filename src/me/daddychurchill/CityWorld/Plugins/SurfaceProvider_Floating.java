@@ -12,23 +12,26 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class SurfaceProvider_Floating extends SurfaceProvider {
 
-	public enum SubSurfaceStyle {NONE, LAND, CLOUD, LAVA};
+	public enum SubSurfaceStyle {
+		NONE, LAND, CLOUD, LAVA
+	};
 
 	public static SubSurfaceStyle toSubSurfaceStyle(String value, SubSurfaceStyle defaultValue) {
 		try {
 			return SubSurfaceStyle.valueOf(value);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			return defaultValue;
 		}
 	}
-	
+
 	public SurfaceProvider_Floating(Odds odds) {
 		super(odds);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
-	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, AbstractCachedYs blockYs, boolean includeTrees) {
+	public void generateSurface(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk,
+			AbstractCachedYs blockYs, boolean includeTrees) {
 		if (generator.settings.subSurfaceStyle == SubSurfaceStyle.LAND) {
 			ShapeProvider shape = generator.shapeProvider;
 			int iX = odds.calcRandomRange(1, 3);
@@ -51,30 +54,31 @@ public class SurfaceProvider_Floating extends SurfaceProvider {
 	private final static double treeOdds = Odds.oddsUnlikely;
 	private final static double treePineOdds = Odds.oddsLikely;
 	private final static double treeBirchOdds = Odds.oddsVeryUnlikely;
-	
+
 	@Override
-	public void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CoverProvider foliage, int x, double perciseY, int z, boolean includeTrees) {
+	public void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk,
+			CoverProvider foliage, int x, double perciseY, int z, boolean includeTrees) {
 		int y = NoiseGenerator.floor(perciseY);
-		
+
 		// roll the dice
 		double primary = odds.getRandomDouble();
 		double secondary = odds.getRandomDouble();
-		
+
 		// are on a plantable spot?
 		if (foliage.isPlantable(generator, chunk, x, y, z)) {
-			
+
 			// trees? but only if we are not too close to the edge
 			if (includeTrees && primary < treeOdds && inTreeRange(x, z)) {
 				if (secondary < treePineOdds)
 					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.MINI_PINE_TREE);
 				else if (secondary < treeBirchOdds)
 					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.MINI_BIRCH_TREE);
-				else 
+				else
 					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.MINI_OAK_TREE);
-			
-			// foliage?
+
+				// foliage?
 			} else if (primary < foliageOdds && y <= ShapeProvider_Floating.snowPoint) {
-				
+
 				// what to pepper about
 				foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageSets.PRARIE_PLANTS);
 //				if (secondary < flowerRedOdds)
@@ -85,7 +89,7 @@ public class SurfaceProvider_Floating extends SurfaceProvider {
 //					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.GRASS);
 			}
 		}
-		
+
 		// snow?
 		if (y > ShapeProvider_Floating.snowPoint)
 			generator.oreProvider.dropSnow(generator, chunk, x, y + 5, z);

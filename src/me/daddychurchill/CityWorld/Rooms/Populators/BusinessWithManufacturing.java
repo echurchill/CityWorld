@@ -12,7 +12,7 @@ public class BusinessWithManufacturing extends RoomProvider {
 
 		// laboratory
 		// machine room
-		// manufacturing 
+		// manufacturing
 		// technology.. etc.
 
 	}

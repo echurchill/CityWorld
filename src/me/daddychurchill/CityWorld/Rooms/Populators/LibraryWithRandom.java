@@ -15,11 +15,11 @@ public class LibraryWithRandom extends RoomProvider {
 
 	public LibraryWithRandom() {
 		super();
-		
+
 		roomTypes.add(new LibrarySingleRoom());
 		roomTypes.add(new LibraryDoubleRoom());
 		roomTypes.add(new LibraryStudyRoom());
-		
+
 		roomTypes.add(new LoungeEllCouchRoom());
 		roomTypes.add(new LoungeTrioRoom());
 		roomTypes.add(new LoungeQuadRoom());

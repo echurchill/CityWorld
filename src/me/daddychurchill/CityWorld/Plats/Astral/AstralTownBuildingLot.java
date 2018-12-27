@@ -11,12 +11,13 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 public class AstralTownBuildingLot extends AstralTownEmptyLot {
 
 	BunkerType buildingType;
+
 	public AstralTownBuildingLot(PlatMap platmap, int chunkX, int chunkZ, BunkerType bunkerType) {
 		super(platmap, chunkX, chunkZ);
 
 		this.buildingType = bunkerType;
 	}
-	
+
 	// This doesn't return road tunnels, entry or missiles
 	public static BunkerType pickBuildingType(Odds odds) {
 		switch (odds.getRandomInt(7)) {
@@ -38,16 +39,15 @@ public class AstralTownBuildingLot extends AstralTownEmptyLot {
 	}
 
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealBlocks chunk, DataContext context,
-			int platX, int platZ) {
-		
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
+			DataContext context, int platX, int platZ) {
+
 		super.generateActualBlocks(generator, platmap, chunk, context, platX, platZ);
-		
+
 		int levelY = generator.seaLevel + aboveSeaLevel;
 		int segmentY = (context.buildingMaximumY - levelY) / 6;
 		int topY = chunkOdds.calcRandomRange(segmentY * 2, segmentY * 4) + levelY;
-		
+
 		switch (buildingType) {
 		case BALLSY:
 			BunkerLot.generateBallsyBunker(generator, context, chunk, chunkOdds, levelY, topY);

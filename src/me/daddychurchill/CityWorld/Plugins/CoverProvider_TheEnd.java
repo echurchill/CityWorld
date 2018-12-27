@@ -10,17 +10,18 @@ public class CoverProvider_TheEnd extends CoverProvider_Normal {
 	public CoverProvider_TheEnd(Odds odds) {
 		super(odds);
 	}
-	
+
 	@Override
 	public ColorSet getColorSet() {
 		return ColorSet.THEEND;
 	}
-	
+
 	@Override
-	protected void setCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, CoverageType coverageType) {
+	protected void setCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+			CoverageType coverageType) {
 		switch (coverageType) {
 		case NOTHING:
-			 break;
+			break;
 
 		case GRASS:
 		case DANDELION:
@@ -110,5 +111,5 @@ public class CoverProvider_TheEnd extends CoverProvider_Normal {
 			break;
 		}
 	}
-	
+
 }

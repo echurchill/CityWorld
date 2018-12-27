@@ -11,10 +11,10 @@ import org.bukkit.generator.ChunkGenerator.ChunkData;
 
 public final class InitialBlocks extends AbstractBlocks {
 	public ChunkData chunkData;
-	
+
 	public InitialBlocks(CityWorldGenerator aGenerator, ChunkData chunk, int sectionX, int sectionZ) {
 		super(aGenerator);
-		
+
 		this.sectionX = sectionX;
 		this.sectionZ = sectionZ;
 		this.chunkData = chunk;
@@ -28,15 +28,15 @@ public final class InitialBlocks extends AbstractBlocks {
 	public boolean isType(int x, int y, int z, Material material) {
 		return chunkData.getType(x, y, z).equals(material);
 	}
-	
-	public boolean isType(int x, int y, int z, Material ... materials) {
+
+	public boolean isType(int x, int y, int z, Material... materials) {
 		Material block = chunkData.getType(x, y, z);
 		for (Material material : materials)
 			if (block.equals(material))
 				return true;
 		return false;
 	}
-	
+
 	@Override
 	public boolean isEmpty(int x, int y, int z) {
 		return chunkData.getType(x, y, z).equals(Material.AIR);
@@ -46,7 +46,7 @@ public final class InitialBlocks extends AbstractBlocks {
 	public void setAtmosphereBlock(int x, int y, int z, Material material) {
 		chunkData.setBlock(x, y, z, material);
 		BlockData blockData = null;
-		
+
 		// West
 		if (x > 0) {
 			try {
@@ -100,7 +100,7 @@ public final class InitialBlocks extends AbstractBlocks {
 	public Material getBlock(int x, int y, int z) {
 		return chunkData.getType(x, y, z);
 	}
-	
+
 	@Override
 	public void setBlock(int x, int y, int z, Material material) {
 		chunkData.setBlock(x, y, z, material);
@@ -127,16 +127,16 @@ public final class InitialBlocks extends AbstractBlocks {
 				((MultipleFacing) blockData).setFace(facing, true);
 			} else if (blockData instanceof Orientable) {
 				switch (facing) {
-					case NORTH:
-					case SOUTH:
-						((Orientable) blockData).setAxis(Axis.Z);
-						break;
-					case EAST:
-					case WEST:
-						((Orientable) blockData).setAxis(Axis.X);
-						break;
-					default:
-						((Orientable) blockData).setAxis(Axis.Y);
+				case NORTH:
+				case SOUTH:
+					((Orientable) blockData).setAxis(Axis.Z);
+					break;
+				case EAST:
+				case WEST:
+					((Orientable) blockData).setAxis(Axis.X);
+					break;
+				default:
+					((Orientable) blockData).setAxis(Axis.Y);
 				}
 			}
 		} finally {
@@ -160,13 +160,13 @@ public final class InitialBlocks extends AbstractBlocks {
 		if (isEmpty(x, y, z) && !isEmpty(x, y - 1, z))
 			chunkData.setBlock(x, y, z, material);
 	}
-	
+
 	@Override
 	public void clearBlock(int x, int y, int z) {
 		chunkData.setBlock(x, y, z, Material.AIR);
 	}
 
-	//================ Walls
+	// ================ Walls
 	@Override
 	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
 		setBlocks(x1, x2, y1, y2, z1, z1 + 1, material);
@@ -174,7 +174,7 @@ public final class InitialBlocks extends AbstractBlocks {
 		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material);
 		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material);
 	}
-	
+
 //	public void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, MaterialData material) {
 //		setBlocks(x1, x2, y1, y2, z1, z1 + 1, material);
 //		setBlocks(x1, x2, y1, y2, z2 - 1, z2, material);
@@ -200,8 +200,8 @@ public final class InitialBlocks extends AbstractBlocks {
 //	public final void setStair(int x, int y, int z, Material material, BadMagic.Stair direction) {
 //		BlackMagic.setBlockTypeAndData(chunkData, x, y, z, material, direction.getData());
 //	}
-	
-	//================ Layers
+
+	// ================ Layers
 	@Override
 	public int setLayer(int blocky, Material material) {
 		setBlocks(0, width, blocky, blocky + 1, 0, width, material);
@@ -219,7 +219,7 @@ public final class InitialBlocks extends AbstractBlocks {
 		setBlocks(inset, width - inset, blocky, blocky + height, inset, width - inset, material);
 		return blocky + height;
 	}
-	
+
 	@Override
 	public final boolean setEmptyBlock(int x, int y, int z, Material material) {
 		if (isEmpty(x, y, z)) {

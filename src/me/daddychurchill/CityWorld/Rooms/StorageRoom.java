@@ -12,7 +12,7 @@ public abstract class StorageRoom extends FilledRoom {
 	public StorageRoom() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	protected void drawNSEmptyShelve(RealBlocks chunk, int x, int y, int z, int height, int run) {
 		for (int y1 = 0; y1 < height; y1++) {
 			chunk.setBlock(x, y + y1, z, Material.BIRCH_STAIRS, BlockFace.NORTH, Half.TOP);
@@ -20,7 +20,7 @@ public abstract class StorageRoom extends FilledRoom {
 			chunk.setBlock(x, y + y1, z + run - 1, Material.BIRCH_STAIRS, BlockFace.SOUTH, Half.TOP);
 		}
 	}
-	
+
 	protected void drawWEEmptyShelve(RealBlocks chunk, int x, int y, int z, int height, int run) {
 		for (int y1 = 0; y1 < height; y1++) {
 			chunk.setBlock(x, y + y1, z, Material.BIRCH_STAIRS, BlockFace.WEST, Half.TOP);

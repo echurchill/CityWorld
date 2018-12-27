@@ -27,7 +27,7 @@ public class ParkLot extends ConnectedLot {
 
 	private final static int cisternDepth = DataContext.FloorHeight * 4;
 	private final static int groundDepth = 2;
-	
+
 	private final static Material cisternMaterial = Material.CLAY;
 	private final static Material fenceMaterial = Material.SPRUCE_FENCE;
 	private final static Material columnMaterial = Material.SMOOTH_STONE;
@@ -35,29 +35,32 @@ public class ParkLot extends ConnectedLot {
 	private final static Material pathMaterial = Material.GRASS_PATH;
 	private final static Material stepMaterial = Material.STONE_SLAB;
 	private final static Material ledgeMaterial = Material.CLAY;
-	
-	//TODO NW/SE quarter partial circle sidewalks
-	//TODO pond inside of circle sidewalks instead of tree
-	//TODO park benches
-	//TODO gazebos
-	
-	public enum CenterStyles {CROSS_PATH, CIRCLE_PATH, WATER_TOWER, HEDGE_MAZE, CIRCLE_MAZE, LABYRINTH_MAZE};
+
+	// TODO NW/SE quarter partial circle sidewalks
+	// TODO pond inside of circle sidewalks instead of tree
+	// TODO park benches
+	// TODO gazebos
+
+	public enum CenterStyles {
+		CROSS_PATH, CIRCLE_PATH, WATER_TOWER, HEDGE_MAZE, CIRCLE_MAZE, LABYRINTH_MAZE
+	};
+
 	private CenterStyles centerStyle;
-	
+
 	protected int waterDepth;
-	
+
 	public ParkLot(PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey, int depth) {
 		super(platmap, chunkX, chunkZ);
-		
+
 		// all parks are interconnected
 		connectedkey = globalconnectionkey;
 		style = LotStyle.STRUCTURE;
-		
+
 		// pick a style
 		centerStyle = getRandomCenterStyle();
 		waterDepth = depth;
 	}
-	
+
 	private CenterStyles getRandomCenterStyle() {
 		if (chunkOdds.playOdds(Odds.oddsSomewhatLikely)) {
 			if (chunkOdds.playOdds(Odds.oddsExtremelyUnlikely))
@@ -73,7 +76,7 @@ public class ParkLot extends ConnectedLot {
 		} else
 			return CenterStyles.CROSS_PATH;
 	}
-	
+
 	public static int getWaterDepth(Odds odds) {
 		return 1 + odds.getRandomInt(DataContext.FloorHeight * 2);
 	}
@@ -91,7 +94,7 @@ public class ParkLot extends ConnectedLot {
 	@Override
 	public boolean makeConnected(PlatLot relative) {
 		boolean result = super.makeConnected(relative);
-		
+
 		// other bits
 		if (result && relative instanceof ParkLot) {
 			ParkLot relativebuilding = (ParkLot) relative;
@@ -101,7 +104,7 @@ public class ParkLot extends ConnectedLot {
 		}
 		return result;
 	}
-	
+
 	@Override
 	public int getBottomY(CityWorldGenerator generator) {
 		return generator.streetLevel - cisternDepth + 1;
@@ -113,7 +116,8 @@ public class ParkLot extends ConnectedLot {
 	}
 
 	@Override
-	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk,
+			BiomeGrid biomes, DataContext context, int platX, int platZ) {
 
 //		// look around
 //		SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
@@ -301,36 +305,36 @@ public class ParkLot extends ConnectedLot {
 //			break;
 //		}
 	}
-	
-	private final static CoverageType[] smallTrees = {
-		CoverageType.SHORT_BIRCH_TREE, CoverageType.SHORT_OAK_TREE, 
-		CoverageType.SHORT_PINE_TREE, CoverageType.BIRCH_TREE,
-		CoverageType.OAK_TREE, CoverageType.TALL_BIRCH_TREE};
-	
-	private final static CoverageType[] tallTrees = {
-		CoverageType.TALL_BIRCH_TREE, CoverageType.TALL_OAK_TREE};
-	
+
+	private final static CoverageType[] smallTrees = { CoverageType.SHORT_BIRCH_TREE, CoverageType.SHORT_OAK_TREE,
+			CoverageType.SHORT_PINE_TREE, CoverageType.BIRCH_TREE, CoverageType.OAK_TREE,
+			CoverageType.TALL_BIRCH_TREE };
+
+	private final static CoverageType[] tallTrees = { CoverageType.TALL_BIRCH_TREE, CoverageType.TALL_OAK_TREE };
+
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
+			DataContext context, int platX, int platZ) {
 		// look around
 		SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
-		
+
 		// starting with the bottom
 		int lowestY = getBottomY(generator);
 		int highestY = generator.streetLevel - groundDepth - 1;
-		
+
 		// cistern?
 		if (generator.settings.includeCisterns) {
 			chunk.setLayer(lowestY, cisternMaterial);
-			
+
 			// fill with water
 			lowestY++;
 			if (generator.settings.includeAbovegroundFluids)
-				chunk.setBlocks(0, chunk.width, lowestY, lowestY + waterDepth, 0, chunk.width, generator.oreProvider.fluidMaterial);
-			
+				chunk.setBlocks(0, chunk.width, lowestY, lowestY + waterDepth, 0, chunk.width,
+						generator.oreProvider.fluidMaterial);
+
 			// clear out the rest
 			chunk.airoutBlocks(generator, 0, chunk.width, lowestY + waterDepth, highestY + 1, 0, chunk.width, true);
-			
+
 			// outer columns and walls as needed
 			if (neighbors.toNorth()) {
 				chunk.setBlocks(3, 5, lowestY, highestY, 0, 1, cisternMaterial);
@@ -352,35 +356,35 @@ public class ParkLot extends ConnectedLot {
 				chunk.setBlocks(15, 16, lowestY, highestY, 11, 13, cisternMaterial);
 			} else
 				chunk.setBlocks(15, 16, lowestY, highestY + 1, 0, 16, cisternMaterial);
-			
+
 			// center columns
 			chunk.setBlocks(7, 9, lowestY, highestY, 3, 5, cisternMaterial);
 			chunk.setBlocks(7, 9, lowestY, highestY, 11, 13, cisternMaterial);
 			chunk.setBlocks(3, 5, lowestY, highestY, 7, 9, cisternMaterial);
 			chunk.setBlocks(11, 13, lowestY, highestY, 7, 9, cisternMaterial);
-			
+
 			// ceiling supports
 			chunk.setBlocks(3, 5, highestY, highestY + 1, 0, 16, cisternMaterial);
 			chunk.setBlocks(11, 13, highestY, highestY + 1, 0, 16, cisternMaterial);
 			chunk.setBlocks(0, 16, highestY, highestY + 1, 3, 5, cisternMaterial);
 			chunk.setBlocks(0, 16, highestY, highestY + 1, 11, 13, cisternMaterial);
-	
+
 			// top it off
 			chunk.setLayer(highestY + 1, cisternMaterial);
 		} else {
-			
+
 			// backfill with dirt
 			chunk.setLayer(lowestY, highestY + 2 - lowestY, generator.oreProvider.subsurfaceMaterial);
 		}
-		
+
 		// top it off
 		chunk.setLayer(highestY + 2, generator.oreProvider.subsurfaceMaterial);
 		chunk.setLayer(highestY + 3, generator.oreProvider.surfaceMaterial);
-		
+
 		TreeSpecies species = chunkOdds.getRandomWoodSpecies();
 		Material logMaterial = Trees.getRandomWoodLog(species);
 		Material leafMaterial = Trees.getRandomWoodLeaves(species);
-		
+
 		// surface features
 		int surfaceY = generator.streetLevel + 1;
 		switch (centerStyle) {
@@ -434,14 +438,14 @@ public class ParkLot extends ConnectedLot {
 			boolean fenceSouth = false;
 			boolean fenceWest = false;
 			boolean fenceEast = false;
-			
+
 			// [ ][X][ ]
 			// [ ][ ][ ]
 			// [ ][ ][ ]
 			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
 				chunk.setBlocks(1, 6, surfaceY, surfaceY + 1, 0, 1, columnMaterial);
 				chunk.setBlocks(10, 15, surfaceY, surfaceY + 1, 0, 1, columnMaterial);
-				
+
 				chunk.setBlocks(6, surfaceY, surfaceY + 2, 0, columnMaterial);
 				chunk.setBlocks(7, 9, surfaceY, surfaceY + 1, 0, 1, stepMaterial);
 				chunk.setBlocks(9, surfaceY, surfaceY + 2, 0, columnMaterial);
@@ -450,16 +454,17 @@ public class ParkLot extends ConnectedLot {
 
 				fenceNorth = true;
 				chunk.setBlocks(1, 6, surfaceY + 1, surfaceY + 2, 0, 1, fenceMaterial, BlockFace.EAST, BlockFace.WEST);
-				chunk.setBlocks(10, 15, surfaceY + 1, surfaceY + 2, 0, 1, fenceMaterial, BlockFace.EAST, BlockFace.WEST);
-			} 
-			
+				chunk.setBlocks(10, 15, surfaceY + 1, surfaceY + 2, 0, 1, fenceMaterial, BlockFace.EAST,
+						BlockFace.WEST);
+			}
+
 			// [ ][ ][ ]
 			// [ ][ ][ ]
 			// [ ][X][ ]
 			if (!neighbors.toSouth() && HeightInfo.isBuildableToSouth(generator, chunk)) {
 				chunk.setBlocks(1, 6, surfaceY, surfaceY + 1, 15, 16, columnMaterial);
 				chunk.setBlocks(10, 15, surfaceY, surfaceY + 1, 15, 16, columnMaterial);
-				
+
 				chunk.setBlocks(6, surfaceY, surfaceY + 2, 15, columnMaterial);
 				chunk.setBlocks(7, 9, surfaceY, surfaceY + 1, 15, 16, stepMaterial);
 				chunk.setBlocks(9, surfaceY, surfaceY + 2, 15, columnMaterial);
@@ -467,35 +472,39 @@ public class ParkLot extends ConnectedLot {
 				chunk.setBlock(9, surfaceY, 14, columnMaterial);
 
 				fenceSouth = true;
-				chunk.setBlocks(1, 6, surfaceY + 1, surfaceY + 2, 15, 16, fenceMaterial, BlockFace.EAST, BlockFace.WEST);
-				chunk.setBlocks(10, 15, surfaceY + 1, surfaceY + 2, 15, 16, fenceMaterial, BlockFace.EAST, BlockFace.WEST);
+				chunk.setBlocks(1, 6, surfaceY + 1, surfaceY + 2, 15, 16, fenceMaterial, BlockFace.EAST,
+						BlockFace.WEST);
+				chunk.setBlocks(10, 15, surfaceY + 1, surfaceY + 2, 15, 16, fenceMaterial, BlockFace.EAST,
+						BlockFace.WEST);
 			}
-			
+
 			// [ ][ ][ ]
 			// [X][ ][ ]
 			// [ ][ ][ ]
 			if (!neighbors.toWest() && HeightInfo.isBuildableToWest(generator, chunk)) {
 				chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 1, 6, columnMaterial);
 				chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 10, 15, columnMaterial);
-				
+
 				chunk.setBlocks(0, surfaceY, surfaceY + 2, 6, columnMaterial);
 				chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 7, 9, stepMaterial);
 				chunk.setBlocks(0, surfaceY, surfaceY + 2, 9, columnMaterial);
 				chunk.setBlock(1, surfaceY, 6, columnMaterial);
 				chunk.setBlock(1, surfaceY, 9, columnMaterial);
-				
+
 				fenceWest = true;
-				chunk.setBlocks(0, 1, surfaceY + 1, surfaceY + 2, 1, 6, fenceMaterial, BlockFace.NORTH, BlockFace.SOUTH);
-				chunk.setBlocks(0, 1, surfaceY + 1, surfaceY + 2, 10, 15, fenceMaterial, BlockFace.NORTH, BlockFace.SOUTH);
+				chunk.setBlocks(0, 1, surfaceY + 1, surfaceY + 2, 1, 6, fenceMaterial, BlockFace.NORTH,
+						BlockFace.SOUTH);
+				chunk.setBlocks(0, 1, surfaceY + 1, surfaceY + 2, 10, 15, fenceMaterial, BlockFace.NORTH,
+						BlockFace.SOUTH);
 			}
-			
+
 			// [ ][ ][ ]
 			// [ ][ ][X]
 			// [ ][ ][ ]
 			if (!neighbors.toEast() && HeightInfo.isBuildableToEast(generator, chunk)) {
 				chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 1, 6, columnMaterial);
 				chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 10, 15, columnMaterial);
-				
+
 				chunk.setBlocks(15, surfaceY, surfaceY + 2, 6, columnMaterial);
 				chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 7, 9, stepMaterial);
 				chunk.setBlocks(15, surfaceY, surfaceY + 2, 9, columnMaterial);
@@ -503,10 +512,12 @@ public class ParkLot extends ConnectedLot {
 				chunk.setBlock(14, surfaceY, 9, columnMaterial);
 
 				fenceEast = true;
-				chunk.setBlocks(15, 16, surfaceY + 1, surfaceY + 2, 1, 6, fenceMaterial, BlockFace.NORTH, BlockFace.SOUTH);
-				chunk.setBlocks(15, 16, surfaceY + 1, surfaceY + 2, 10, 15, fenceMaterial, BlockFace.NORTH, BlockFace.SOUTH);
-			} 
-			
+				chunk.setBlocks(15, 16, surfaceY + 1, surfaceY + 2, 1, 6, fenceMaterial, BlockFace.NORTH,
+						BlockFace.SOUTH);
+				chunk.setBlocks(15, 16, surfaceY + 1, surfaceY + 2, 10, 15, fenceMaterial, BlockFace.NORTH,
+						BlockFace.SOUTH);
+			}
+
 			// [X][ ][ ]
 			// [ ][ ][ ]
 			// [ ][ ][ ]
@@ -613,7 +624,7 @@ public class ParkLot extends ConnectedLot {
 
 			break;
 		}
-		
+
 		// draw center bits
 		switch (centerStyle) {
 		case CIRCLE_PATH:
@@ -639,12 +650,12 @@ public class ParkLot extends ConnectedLot {
 			break;
 		}
 //		int surfaceY = generator.streetLevel + 1;
-		
+
 		// if things are bad
 		if (generator.settings.includeDecayedBuildings) {
 			destroyLot(generator, surfaceY - 2, surfaceY + 2);
 		} else {
-		
+
 			// draw center bits
 			switch (centerStyle) {
 			case WATER_TOWER:
@@ -653,27 +664,27 @@ public class ParkLot extends ConnectedLot {
 				break;
 			case LABYRINTH_MAZE:
 				chunk.setBlocks(1, 15, surfaceY - 1, 1, 15, Material.BLUE_TERRACOTTA);
-				startLabyrinth(chunk, 6, surfaceY - 1, 14, Material.CYAN_TERRACOTTA); //a
-				contLabyrinth(chunk, 1, 14); //b
-				contLabyrinth(chunk, 1, 1); //c
-				contLabyrinth(chunk, 14, 1); //d
-				contLabyrinth(chunk, 14, 14); //e
-				contLabyrinth(chunk, 8, 14); //f
-				contLabyrinth(chunk, 8, 12); //g
-				contLabyrinth(chunk, 3, 12); //h
-				contLabyrinth(chunk, 3, 3); //i
-				contLabyrinth(chunk, 12, 3); //j
-				contLabyrinth(chunk, 12, 12); //k
-				contLabyrinth(chunk, 10, 12); //l
-				contLabyrinth(chunk, 10, 10); //m
-				contLabyrinth(chunk, 5, 10); //n
-				contLabyrinth(chunk, 5, 5); //o
-				contLabyrinth(chunk, 10, 5); //p
-				contLabyrinth(chunk, 10, 8); //q
-				contLabyrinth(chunk, 7, 8); //r
-				contLabyrinth(chunk, 7, 7); //s
+				startLabyrinth(chunk, 6, surfaceY - 1, 14, Material.CYAN_TERRACOTTA); // a
+				contLabyrinth(chunk, 1, 14); // b
+				contLabyrinth(chunk, 1, 1); // c
+				contLabyrinth(chunk, 14, 1); // d
+				contLabyrinth(chunk, 14, 14); // e
+				contLabyrinth(chunk, 8, 14); // f
+				contLabyrinth(chunk, 8, 12); // g
+				contLabyrinth(chunk, 3, 12); // h
+				contLabyrinth(chunk, 3, 3); // i
+				contLabyrinth(chunk, 12, 3); // j
+				contLabyrinth(chunk, 12, 12); // k
+				contLabyrinth(chunk, 10, 12); // l
+				contLabyrinth(chunk, 10, 10); // m
+				contLabyrinth(chunk, 5, 10); // n
+				contLabyrinth(chunk, 5, 5); // o
+				contLabyrinth(chunk, 10, 5); // p
+				contLabyrinth(chunk, 10, 8); // q
+				contLabyrinth(chunk, 7, 8); // r
+				contLabyrinth(chunk, 7, 7); // s
 				changeColor(Material.LIGHT_BLUE_TERRACOTTA);
-				contLabyrinth(chunk, 8, 7); //t
+				contLabyrinth(chunk, 8, 7); // t
 				break;
 			case CIRCLE_MAZE:
 				chunk.setWalls(2, 14, surfaceY - 1, surfaceY, 2, 14, logMaterial);
@@ -682,21 +693,21 @@ public class ParkLot extends ConnectedLot {
 				chunk.setWalls(2, 14, surfaceY, surfaceY + 2, 2, 14, leafMaterial);
 				chunk.setWalls(4, 12, surfaceY, surfaceY + 3, 4, 12, leafMaterial);
 				chunk.setWalls(6, 10, surfaceY, surfaceY + 4, 6, 10, leafMaterial);
-				
+
 				pokeHoleSomewhere(chunk, 3, 13, surfaceY, 2, 3);
 				pokeHoleSomewhere(chunk, 5, 11, surfaceY, 4, 5);
 				pokeHoleSomewhere(chunk, 7, 9, surfaceY, 6, 7);
 				pokeHoleSomewhere(chunk, 7, 9, surfaceY, 9, 10);
 				pokeHoleSomewhere(chunk, 5, 11, surfaceY, 11, 12);
 				pokeHoleSomewhere(chunk, 3, 13, surfaceY, 13, 14);
-	
+
 				pokeHoleSomewhere(chunk, 2, 3, surfaceY, 3, 13);
 				pokeHoleSomewhere(chunk, 4, 5, surfaceY, 5, 11);
-				pokeHoleSomewhere(chunk, 6, 7,  surfaceY, 7, 9);
-				pokeHoleSomewhere(chunk, 9, 10,  surfaceY, 7, 9);
+				pokeHoleSomewhere(chunk, 6, 7, surfaceY, 7, 9);
+				pokeHoleSomewhere(chunk, 9, 10, surfaceY, 7, 9);
 				pokeHoleSomewhere(chunk, 11, 12, surfaceY, 5, 11);
 				pokeHoleSomewhere(chunk, 13, 14, surfaceY, 3, 13);
-	
+
 				break;
 			case HEDGE_MAZE:
 				MazeArray maze = new MazeArray(chunkOdds, 11, 11);
@@ -735,7 +746,7 @@ public class ParkLot extends ConnectedLot {
 				generateSurface(generator, chunk, false);
 				break;
 			}
-	
+
 			// way down?
 			if (generator.settings.includeCisterns) {
 //				SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
@@ -749,21 +760,21 @@ public class ParkLot extends ConnectedLot {
 			}
 		}
 	}
-	
-	private void generateTreePark(CityWorldGenerator generator, RealBlocks chunk, 
-			int surfaceY, int benchEnd, boolean singleTree) {
+
+	private void generateTreePark(CityWorldGenerator generator, RealBlocks chunk, int surfaceY, int benchEnd,
+			boolean singleTree) {
 		boolean NW = chunkOdds.flipCoin();
 		boolean NE = chunkOdds.flipCoin();
 		boolean SW = chunkOdds.flipCoin();
 		boolean SE = chunkOdds.flipCoin();
-		
+
 		Trees trees = new Trees(chunkOdds);
 		Material stairs = trees.getRandomWoodStairs();
-		
+
 		int benchStart = chunkOdds.getRandomInt(3, 3);
 		if (chunkOdds.flipCoin())
 			benchEnd--;
-		
+
 		if (benchStart == 3) {
 			// cornet bit
 			if (NW) {
@@ -802,7 +813,7 @@ public class ParkLot extends ConnectedLot {
 				chunk.setBlock(12, surfaceY, 15 - i, stairs, BlockFace.EAST);
 			}
 		}
-		
+
 		if (singleTree) {
 			generator.coverProvider.generateRandomCoverage(generator, chunk, 7, surfaceY, 7, tallTrees);
 		} else {
@@ -817,18 +828,19 @@ public class ParkLot extends ConnectedLot {
 		}
 		generateSurface(generator, chunk, false);
 	}
-	
+
 	private void pokeHoleSomewhere(RealBlocks chunk, int x1, int x2, int y, int z1, int z2) {
 		int x = chunkOdds.getRandomInt(x1, x2 - x1);
 		int z = chunkOdds.getRandomInt(z1, z2 - z1);
 		chunk.setBlock(x, y - 1, z, grassMaterial);
 		chunk.clearBlocks(x, y, y + 4, z);
 	}
-	
+
 	int lastX;
 	int lastY;
 	int lastZ;
 	Material lastColor;
+
 	private void startLabyrinth(RealBlocks chunk, int x, int y, int z, Material color) {
 		lastX = x;
 		lastY = y;
@@ -836,11 +848,11 @@ public class ParkLot extends ConnectedLot {
 		lastColor = color;
 		chunk.setBlock(lastX, lastY, lastZ, lastColor);
 	}
-	
+
 	private void changeColor(Material color) {
 		lastColor = color;
 	}
-	
+
 	private void contLabyrinth(RealBlocks chunk, int newX, int newZ) {
 		if (lastX == newX) {
 			if (lastZ < newZ) {

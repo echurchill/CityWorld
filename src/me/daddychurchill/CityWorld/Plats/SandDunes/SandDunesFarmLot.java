@@ -10,7 +10,7 @@ public class SandDunesFarmLot extends FarmLot {
 
 	public SandDunesFarmLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-		
+
 		waterMaterial = Material.SAND;
 	}
 

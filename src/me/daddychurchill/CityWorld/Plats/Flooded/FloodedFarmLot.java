@@ -8,7 +8,7 @@ public class FloodedFarmLot extends FarmLot {
 
 	public FloodedFarmLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-		
+
 	}
 
 	@Override

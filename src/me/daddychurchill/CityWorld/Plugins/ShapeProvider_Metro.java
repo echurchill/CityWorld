@@ -14,7 +14,7 @@ public class ShapeProvider_Metro extends ShapeProvider_Normal {
 
 	@Override
 	public DataContext getContext(PlatMap platmap) {
-		
+
 		Odds platmapOdds = platmap.getOddsGenerator();
 		switch (platmapOdds.getRandomInt(15)) {
 		default:
@@ -43,7 +43,7 @@ public class ShapeProvider_Metro extends ShapeProvider_Normal {
 			return neighborhoodContext;
 		}
 	}
-	
+
 	@Override
 	public double findPerciseY(CityWorldGenerator generator, int blockX, int blockZ) {
 		return generator.streetLevel;

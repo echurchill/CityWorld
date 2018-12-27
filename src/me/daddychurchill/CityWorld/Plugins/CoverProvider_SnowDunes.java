@@ -14,5 +14,5 @@ public class CoverProvider_SnowDunes extends CoverProvider_Normal {
 	public ColorSet getColorSet() {
 		return ColorSet.WHITE;
 	}
-	
+
 }

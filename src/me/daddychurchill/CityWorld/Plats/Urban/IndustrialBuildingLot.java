@@ -20,15 +20,15 @@ public abstract class IndustrialBuildingLot extends FinishedBuildingLot {
 	@Override
 	protected void calculateOptions(DataContext context) {
 		super.calculateOptions(context);
-		
+
 		// how do the walls inset?
 		insetWallWE = 1;
 		insetWallNS = 1;
-		
+
 		// what about the ceiling?
 		insetCeilingWE = insetWallWE;
 		insetCeilingNS = insetWallNS;
-		
+
 		// nudge in a bit more as we go up
 		insetInsetMidAt = 1;
 		insetInsetHighAt = 1;

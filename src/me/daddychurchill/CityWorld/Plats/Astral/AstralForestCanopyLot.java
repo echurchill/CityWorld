@@ -9,28 +9,28 @@ import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
 public class AstralForestCanopyLot extends AstralForestLot {
 
-	public AstralForestCanopyLot(PlatMap platmap, int chunkX, int chunkZ,
-			double populationChance) {
+	public AstralForestCanopyLot(PlatMap platmap, int chunkX, int chunkZ, double populationChance) {
 		super(platmap, chunkX, chunkZ, populationChance);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	protected void plantTree(CityWorldGenerator generator, WorldBlocks blocks,
-			int blockX, int blockY, int blockZ, int snowY) {
-		
+	protected void plantTree(CityWorldGenerator generator, WorldBlocks blocks, int blockX, int blockY, int blockZ,
+			int snowY) {
+
 		// Buried bit
-		blocks.setBlocks(blockX, blockX + 2, blockY, blockY + snowY, blockZ, blockZ + 2, Material.SPRUCE_LOG, BlockFace.UP);
+		blocks.setBlocks(blockX, blockX + 2, blockY, blockY + snowY, blockZ, blockZ + 2, Material.SPRUCE_LOG,
+				BlockFace.UP);
 		blockY += snowY;
-		
+
 		// how tall is it?
 		int treeSegment = (generator.seaLevel - blockY) / 4;
 		int leavesBottom = blockY + treeSegment;
 		int treeTop = blockY + treeSegment + chunkOdds.getRandomInt(treeSegment * 3);
-		
+
 		// more trunk!
 		blocks.setBlocks(blockX, blockX + 2, blockY, treeTop, blockZ, blockZ + 2, Material.SPRUCE_LOG, BlockFace.UP);
-		
+
 		// now add the canopy bit
 		for (int x = blockX - 3; x < blockX + 5; x++) {
 			for (int z = blockZ - 3; z < blockZ + 5; z++) {
@@ -38,7 +38,7 @@ public class AstralForestCanopyLot extends AstralForestLot {
 				switch (chunkOdds.getRandomInt(10)) {
 				case 0:
 					int maxThickness = treeTop - leavesBottom;
-					if (maxThickness > 0) 
+					if (maxThickness > 0)
 						for (int y = chunkOdds.getRandomInt(maxThickness) + leavesBottom; y <= treeTop; y++)
 							setLeaf(blocks, x, y, z, c);
 					break;

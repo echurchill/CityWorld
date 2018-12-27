@@ -18,22 +18,23 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 	}
 
 	@Override
-	public void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, CoverProvider foliage, 
-			int x, double perciseY, int z, boolean includeTrees) {
+	public void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk,
+			CoverProvider foliage, int x, double perciseY, int z, boolean includeTrees) {
 		OreProvider ores = generator.oreProvider;
 		int y = NoiseGenerator.floor(perciseY);
-		
+
 		// roll the dice
 		double primary = odds.getRandomDouble();
 		double secondary = odds.getRandomDouble();
-		
+
 		// top of the world?
 		if (y >= generator.snowLevel) {
-			ores.dropSnow(generator, chunk, x, y, z, (byte) NoiseGenerator.floor((perciseY - Math.floor(perciseY)) * 8.0));
-			
-		// are on a plantable spot?
+			ores.dropSnow(generator, chunk, x, y, z,
+					(byte) NoiseGenerator.floor((perciseY - Math.floor(perciseY)) * 8.0));
+
+			// are on a plantable spot?
 		} else if (foliage.isPlantable(generator, chunk, x, y, z)) {
-			
+
 			// below sea level and plantable.. then cactus?
 			if (y <= generator.seaLevel) {
 
@@ -52,8 +53,8 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 						}
 					}
 				}
-				
-			// regular trees, grass and flowers only
+
+				// regular trees, grass and flowers only
 			} else if (y < generator.treeLevel) {
 
 				// trees? but only if we are not too close to the edge of the chunk
@@ -62,29 +63,29 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.TALL_OAK_TREE);
 					else if (secondary < treeAltOdds)
 						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.BIRCH_TREE);
-					else 
+					else
 						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.OAK_TREE);
-				
-				// foliage?
+
+					// foliage?
 				} else if (primary < foliageOdds) {
-					
+
 					// what to pepper about
 					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageSets.PRARIE_PLANTS);
 				}
-				
-			// regular trees, grass and some evergreen trees... no flowers
+
+				// regular trees, grass and some evergreen trees... no flowers
 			} else if (y < generator.evergreenLevel) {
 
-				// trees? 
+				// trees?
 				if (includeTrees && primary < treeOdds && inTreeRange(x, z)) {
-					
+
 					// range change?
 					if (secondary > ((double) (y - generator.treeLevel) / (double) generator.deciduousRange))
 						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.OAK_TREE);
 					else
 						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.PINE_TREE);
-				
-				// foliage?
+
+					// foliage?
 				} else if (primary < foliageOdds) {
 
 					// range change?
@@ -93,20 +94,20 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 					else
 						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.FERN);
 				}
-				
-			// evergreen and some grass and fallen snow, no regular trees or flowers
+
+				// evergreen and some grass and fallen snow, no regular trees or flowers
 			} else if (y < generator.snowLevel) {
-				
-				// trees? 
+
+				// trees?
 				if (includeTrees && primary < treeOdds && x % 2 == 0 && z % 2 != 0) {
 					if (secondary < treeTallOdds)
 						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.PINE_TREE);
 					else
 						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.TALL_PINE_TREE);
-				
-				// foliage?
+
+					// foliage?
 				} else if (primary < foliageOdds) {
-					
+
 					// range change?
 					if (secondary > ((double) (y - generator.evergreenLevel) / (double) generator.evergreenRange)) {
 						if (odds.playOdds(flowerFernOdds))
@@ -116,14 +117,14 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 					}
 				}
 			}
-		
-		// can't plant, maybe there is something else I can do
+
+			// can't plant, maybe there is something else I can do
 		} else {
-			
+
 			// below sea level?
 			if (y < generator.seaLevel) {
 				if (generator.settings.includeAbovegroundFluids) {
-				
+
 					// trees? but only if we are not too close to the edge
 					if (includeTrees && primary < treeOdds && x % 2 == 0 && z % 2 != 0) {
 						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageSets.SEA_CORALS);
@@ -132,7 +133,7 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 					}
 				} else
 					foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.DEAD_BUSH);
-					
+
 //				// trees? but only if we are not too close to the edge
 //				if (includeTrees) {
 //					if (generator.settings.includeAbovegroundFluids) {
@@ -145,18 +146,18 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 //						
 //					}
 //				}
-				
-			// regular trees, grass and flowers only
+
+				// regular trees, grass and flowers only
 			} else if (y < generator.treeLevel) {
 
-			// regular trees, grass and some evergreen trees... no flowers
+				// regular trees, grass and some evergreen trees... no flowers
 			} else if (y < generator.evergreenLevel) {
 
-			// evergreen and some grass and fallen snow, no regular trees or flowers
+				// evergreen and some grass and fallen snow, no regular trees or flowers
 			} else if (y < generator.snowLevel) {
-				
+
 				if (primary < foliageOdds) {
-					
+
 					// range change?
 					if (secondary > ((double) (y - generator.evergreenLevel) / (double) generator.evergreenRange)) {
 						if (odds.playOdds(0.10) && foliage.isPlantable(generator, chunk, x, y, z))

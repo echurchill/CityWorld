@@ -15,7 +15,7 @@ public class FloatingNatureLot extends IsolatedLot {
 
 	public FloatingNatureLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-		
+
 		style = LotStyle.NATURE;
 	}
 
@@ -35,17 +35,15 @@ public class FloatingNatureLot extends IsolatedLot {
 	}
 
 	@Override
-	protected void generateActualChunk(CityWorldGenerator generator,
-			PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes,
-			DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk,
+			BiomeGrid biomes, DataContext context, int platX, int platZ) {
 
 	}
 
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
-			int platZ) {
-		
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
+			DataContext context, int platX, int platZ) {
+
 	}
 
 }

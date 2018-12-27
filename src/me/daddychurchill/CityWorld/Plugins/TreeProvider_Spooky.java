@@ -30,7 +30,7 @@ public class TreeProvider_Spooky extends TreeProvider {
 			if (chunk.isEmpty(x, y - 1, z))
 				chunk.setBlock(x, y - 1, z, colors.getCarpet());
 		} else {
-			//chunk.setBlock(x, y, z, Material.AIR);
-		} 
+			// chunk.setBlock(x, y, z, Material.AIR);
+		}
 	}
 }

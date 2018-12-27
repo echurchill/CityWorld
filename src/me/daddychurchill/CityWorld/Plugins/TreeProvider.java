@@ -15,27 +15,29 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 import me.daddychurchill.CityWorld.Support.Trees;
 
 public abstract class TreeProvider {
-	
-	public enum TreeStyle {NORMAL, SPOOKY, CRYSTAL};
-	
+
+	public enum TreeStyle {
+		NORMAL, SPOOKY, CRYSTAL
+	};
+
 	public static TreeStyle toTreeStyle(String value, TreeStyle defaultValue) {
 		try {
 			return TreeStyle.valueOf(value);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			return defaultValue;
 		}
 	}
-	
+
 	public TreeProvider() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	protected Odds odds;
 
 	public static TreeProvider loadProvider(CityWorldGenerator generator, Odds odds) {
 
 		TreeProvider provider = null;
-		
+
 		// get the right defaults
 		switch (generator.settings.treeStyle) {
 		case SPOOKY:
@@ -49,12 +51,12 @@ public abstract class TreeProvider {
 			provider = new TreeProvider_Normal();
 			break;
 		}
-		
+
 		provider.odds = odds;
-		
+
 		return provider;
 	}
-	
+
 	public static TreeSpecies getTreeSpecies(TreeType treeType) {
 		switch (treeType) {
 		case ACACIA:
@@ -82,7 +84,7 @@ public abstract class TreeProvider {
 			return TreeSpecies.GENERIC;
 		}
 	}
-	
+
 	public static TreeType getTreeType(TreeSpecies treeSpecies) {
 		switch (treeSpecies) {
 		case ACACIA:
@@ -100,28 +102,31 @@ public abstract class TreeProvider {
 			return TreeType.TREE;
 		}
 	}
-	
+
 	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, Colors colors) {
 		// this variant does nothing with the special color
 		if (chunk.isEmpty(x, y, z))
 			chunk.setLeaf(x, y, z, material, false);
 	}
-	
+
 	protected void generateTrunkBlock(SupportBlocks chunk, int x, int y, int z, int w, int h, Material material) {
 		chunk.setBlocks(x, x + w, y, y + h, z, z + w, material);
 	}
-	
-	public final boolean generateMiniTrunk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType) {
+
+	public final boolean generateMiniTrunk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+			TreeType treeType) {
 		return generateMiniTree(generator, chunk, x, y, z, treeType, false);
 	}
-	
-	public final boolean generateMiniTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType) {
+
+	public final boolean generateMiniTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+			TreeType treeType) {
 		return generateMiniTree(generator, chunk, x, y, z, treeType, true);
 	}
-	
-	protected boolean generateMiniTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType, Boolean includeLeaves) {
+
+	protected boolean generateMiniTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+			TreeType treeType, Boolean includeLeaves) {
 		int trunkHeight = 2;
-		
+
 		// Figure out the height
 		switch (treeType) {
 		default:
@@ -138,19 +143,19 @@ public abstract class TreeProvider {
 		case SMALL_JUNGLE:
 			trunkHeight = 3;
 			break;
-		
+
 		case JUNGLE:
 		case ACACIA:
 		case SWAMP:
 			trunkHeight = 4;
 			break;
-			
+
 		case DARK_OAK:
 		case MEGA_REDWOOD:
 			trunkHeight = 6;
 			break;
-			
-		case BROWN_MUSHROOM: //TODO: We don't do these yet
+
+		case BROWN_MUSHROOM: // TODO: We don't do these yet
 		case RED_MUSHROOM:
 			trunkHeight = 0;
 			break;
@@ -166,27 +171,27 @@ public abstract class TreeProvider {
 //			trunkMaterial = Material.SPRUCE_LOG;
 //			leavesMaterial = Material.SPRUCE_LEAVES;
 			break;
-			
+
 		case REDWOOD:
 		case TALL_REDWOOD:
 		case MEGA_REDWOOD:
 			trunkMaterial = Material.OAK_LOG;
 			leavesMaterial = Material.OAK_LEAVES;
 			break;
-			
+
 		case BIRCH:
 		case TALL_BIRCH:
 			trunkMaterial = Material.BIRCH_LOG;
 			leavesMaterial = Material.BIRCH_LEAVES;
 			break;
-			
+
 		case JUNGLE_BUSH:
 		case SMALL_JUNGLE:
 		case JUNGLE:
 			trunkMaterial = Material.JUNGLE_LOG;
 			leavesMaterial = Material.JUNGLE_LEAVES;
 			break;
-			
+
 		case ACACIA:
 			trunkMaterial = Material.ACACIA_LOG;
 			leavesMaterial = Material.ACACIA_LEAVES;
@@ -195,25 +200,25 @@ public abstract class TreeProvider {
 			trunkMaterial = Material.DARK_OAK_LOG;
 			leavesMaterial = Material.DARK_OAK_LEAVES;
 			break;
-			
-		case BROWN_MUSHROOM: //TODO: We don't do these yet
+
+		case BROWN_MUSHROOM: // TODO: We don't do these yet
 		case RED_MUSHROOM:
 			trunkHeight = 0;
 			break;
 		}
-		
+
 		// something to do?
 		if (trunkHeight > 0) {
-			
+
 			// a place to work
 			RelativeBlocks blocks = new RelativeBlocks(generator, chunk);
 
 			// do the trunk
 			generateTrunkBlock(blocks, x, y, z, 1, trunkHeight, trunkMaterial);
-	
+
 			// for that special case
 			Colors leafColor = new Colors(odds);
-			
+
 			// and then do the leaves... maybe
 			if (includeLeaves) {
 				int leavesHeight = trunkHeight - 1;
@@ -223,15 +228,17 @@ public abstract class TreeProvider {
 				generateLeavesBlock(blocks, x, y + leavesHeight, z + 1, leavesMaterial, leafColor);
 				generateLeavesBlock(blocks, x, y + trunkHeight, z, leavesMaterial, leafColor);
 			}
-			
+
 			return true;
 		} else
 			return false;
 	}
-	
+
 	private static int maxDepth = 5;
-	protected int generateRootBall(SupportBlocks chunk, RememberedBlocks originalBlocks, int x1, int x2, int y1, int z1, int z2, Material root) {
-		
+
+	protected int generateRootBall(SupportBlocks chunk, RememberedBlocks originalBlocks, int x1, int x2, int y1, int z1,
+			int z2, Material root) {
+
 		// set things up
 		int y = y1;
 		boolean foundBase = false;
@@ -250,21 +257,21 @@ public abstract class TreeProvider {
 				if (partialLevel)
 					break;
 			}
-			
+
 			// failed? if so move down
 			if (partialLevel) {
-				
+
 				// clear this level but remember what was there
 				originalBlocks.clearBlocks(x1, x2, y, z1, z2);
 				y--;
 			} else
 				foundBase = true;
 		}
-		
+
 		// add the root base
 		if (foundBase) {
 			originalBlocks.setBlocks(x1, x2, y, z1, z2, root);
-			
+
 			// clear a bit of room out above it
 			originalBlocks.clearBlocks(x1, x2, y + 1, y + 3, z1, z2);
 
@@ -274,8 +281,9 @@ public abstract class TreeProvider {
 			return 0;
 		}
 	}
-	
-	public final boolean generateNormalTrunk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType) {
+
+	public final boolean generateNormalTrunk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+			TreeType treeType) {
 
 		// how wide is the trunk?
 		int trunkWidth = 1;
@@ -307,21 +315,22 @@ public abstract class TreeProvider {
 		default:
 			break;
 		}
-		
+
 		// let try and plant something, or at least give it a whirl
 		RememberedBlocks originalBlocks = new RememberedBlocks(chunk);
 		int rootAt = generateRootBall(chunk, originalBlocks, x, x + trunkWidth, y, z, z + trunkWidth, root);
 		if (rootAt < 1) {
 			return false;
 		}
-		
+
 		// lets put a trunk on that then
 		else {
-		
+
 			// create the trunk
 			Trees trees = new Trees(odds);
-			chunk.setBlocks(x, x + trunkWidth, rootAt, rootAt + trunkHeight, z, z + trunkWidth, trees.getRandomWoodLog(), BlockFace.UP);
-			
+			chunk.setBlocks(x, x + trunkWidth, rootAt, rootAt + trunkHeight, z, z + trunkWidth,
+					trees.getRandomWoodLog(), BlockFace.UP);
+
 			// roughen up the top bit
 			if (trunkWidth > 1)
 				chunk.clearBlocks(x, x + trunkWidth, rootAt + trunkHeight - 1, z, z + trunkWidth, odds);
@@ -330,36 +339,38 @@ public abstract class TreeProvider {
 			return true;
 		}
 	}
-	
-	public final boolean generateNormalTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType) {
+
+	public final boolean generateNormalTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+			TreeType treeType) {
 		return generateNormalTree(generator, chunk, x, y, z, treeType, true);
 	}
-	
-	protected boolean generateNormalTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, TreeType treeType, boolean includeLeaves) {
+
+	protected boolean generateNormalTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+			TreeType treeType, boolean includeLeaves) {
 		Material trunkMaterial = Material.SPRUCE_LOG;
 		Material leavesMaterial = Material.SPRUCE_LEAVES;
 //		int trunkBlackMagicData = 0;
 		int trunkHeight = 2;
 		int trunkWidth = 1;
-		
+
 		boolean leaves1exist = false;
 		int leaves1start = 1;
 		int leaves1end = 3;
 		double leaves1width = 2;
 		double leaves1delta = 0;
-		
+
 		boolean leaves2exist = false;
 		int leaves2start = 1;
 		int leaves2end = 3;
 		double leaves2width = 2;
 		double leaves2delta = 0;
-		
+
 		// Figure out the tree
 		switch (treeType) {
 		default:
 		case TREE:
 			trunkHeight = 4;
-			
+
 			leaves1exist = true;
 			leaves1start = -2;
 			leaves1end = 2;
@@ -368,7 +379,7 @@ public abstract class TreeProvider {
 			break;
 		case BIG_TREE:
 			trunkHeight = 7;
-			
+
 			leaves1exist = true;
 			leaves1start = -3;
 			leaves1end = 2;
@@ -378,7 +389,7 @@ public abstract class TreeProvider {
 		case DARK_OAK:
 			trunkHeight = 10;
 			trunkWidth = 2;
-			
+
 			leaves1exist = true;
 			leaves1start = -4;
 			leaves1end = 2;
@@ -388,7 +399,7 @@ public abstract class TreeProvider {
 
 		case BIRCH:
 			trunkHeight = 5;
-			
+
 			leaves1exist = true;
 			leaves1start = -2;
 			leaves1end = 2;
@@ -397,14 +408,14 @@ public abstract class TreeProvider {
 			break;
 		case TALL_BIRCH:
 			trunkHeight = 7;
-			
+
 			leaves1exist = true;
 			leaves1start = -3;
 			leaves1end = 2;
 			leaves1width = 3;
 			leaves1delta = 0;
 			break;
-			
+
 		case REDWOOD:
 			trunkHeight = 5;
 
@@ -438,7 +449,7 @@ public abstract class TreeProvider {
 			leaves2width = 2;
 			leaves2delta = 0.5;
 			break;
-			
+
 		case JUNGLE_BUSH:
 			trunkHeight = 2;
 
@@ -466,7 +477,7 @@ public abstract class TreeProvider {
 			leaves1width = 3;
 			leaves1delta = 0;
 			break;
-			
+
 		case ACACIA:
 			trunkHeight = 6;
 
@@ -476,8 +487,8 @@ public abstract class TreeProvider {
 			leaves1width = 3;
 			leaves1delta = 0.25;
 			break;
-			
-		case BROWN_MUSHROOM: //TODO: We don't do these yet
+
+		case BROWN_MUSHROOM: // TODO: We don't do these yet
 		case RED_MUSHROOM:
 		case SWAMP:
 			trunkHeight = 0;
@@ -492,27 +503,27 @@ public abstract class TreeProvider {
 			trunkMaterial = Material.SPRUCE_LOG;
 			leavesMaterial = Material.SPRUCE_LEAVES;
 			break;
-			
+
 		case REDWOOD:
 		case TALL_REDWOOD:
 		case MEGA_REDWOOD:
 			trunkMaterial = Material.OAK_LOG;
 			leavesMaterial = Material.OAK_LEAVES;
 			break;
-			
+
 		case BIRCH:
 		case TALL_BIRCH:
 			trunkMaterial = Material.BIRCH_LOG;
 			leavesMaterial = Material.BIRCH_LEAVES;
 			break;
-			
+
 		case JUNGLE_BUSH:
 		case SMALL_JUNGLE:
 		case JUNGLE:
 			trunkMaterial = Material.JUNGLE_LOG;
 			leavesMaterial = Material.JUNGLE_LEAVES;
 			break;
-			
+
 		case ACACIA:
 			trunkMaterial = Material.ACACIA_LOG;
 			leavesMaterial = Material.ACACIA_LEAVES;
@@ -521,8 +532,8 @@ public abstract class TreeProvider {
 			trunkMaterial = Material.DARK_OAK_LOG;
 			leavesMaterial = Material.DARK_OAK_LEAVES;
 			break;
-			
-		case BROWN_MUSHROOM: //TODO: We don't do these yet
+
+		case BROWN_MUSHROOM: // TODO: We don't do these yet
 		case RED_MUSHROOM:
 		case SWAMP:
 			trunkHeight = 0;
@@ -537,55 +548,54 @@ public abstract class TreeProvider {
 
 			// do the trunk
 			generateTrunkBlock(blocks, x, y, z, trunkWidth, trunkHeight, trunkMaterial);
-	
+
 			// and then do the leaves... maybe
 			if (includeLeaves) {
 				if (leaves1exist) {
-					addLeaves(blocks, x, y, z, leavesMaterial, trunkWidth, trunkHeight,
-							leaves1start, leaves1end, leaves1width, leaves1delta);
-					
-					if (leaves2exist) 
-						addLeaves(blocks, x, y, z, leavesMaterial, trunkWidth, trunkHeight,
-								leaves2start, leaves2end, leaves2width, leaves2delta);
+					addLeaves(blocks, x, y, z, leavesMaterial, trunkWidth, trunkHeight, leaves1start, leaves1end,
+							leaves1width, leaves1delta);
+
+					if (leaves2exist)
+						addLeaves(blocks, x, y, z, leavesMaterial, trunkWidth, trunkHeight, leaves2start, leaves2end,
+								leaves2width, leaves2delta);
 				}
 			}
-			
+
 			return true;
 		} else
 			return false;
 	}
-	
+
 	private final static double edgeOdds = 0.00; // Not chance of edge bits
-	
-	private void addLeaves(SupportBlocks chunk, int trunkX, int trunkY, int trunkZ, 
-			Material leavesMaterial, int trunkWidth, int trunkHeight, 
-			int start, int end, double width, double delta) {
-		
+
+	private void addLeaves(SupportBlocks chunk, int trunkX, int trunkY, int trunkZ, Material leavesMaterial,
+			int trunkWidth, int trunkHeight, int start, int end, double width, double delta) {
+
 		// for that special case
 		Colors leafColor = new Colors(odds);
 		boolean randomColor = odds.playOdds(Odds.oddsPrettyUnlikely);
 		if (!randomColor)
 			leafColor.fixColor();
-		
+
 		// from the bottom up
 		double widthAt = width;
 		int minY = trunkY + trunkHeight + start;
 		int maxY = trunkY + trunkHeight + end;
 		for (int y = minY; y < maxY; y++) {
-			
+
 			// calculate the current extremes
 			int widthInt = NoiseGenerator.floor(widthAt);
 			int minX = trunkX - widthInt;
 			int maxX = trunkX + widthInt + trunkWidth;
 			int minZ = trunkZ - widthInt;
 			int maxZ = trunkZ + widthInt + trunkWidth;
-			
+
 			for (int x = minX; x < maxX; x++) {
 				for (int z = minZ; z < maxZ; z++) {
-					
+
 					// odds of leaves
 					double leavesOdds = Odds.oddsExceedinglyLikely;
-					
+
 					// extremes
 					if (x == minX || x == maxX - 1) {
 						if (z == minZ || z == maxZ - 1)
@@ -603,16 +613,16 @@ public abstract class TreeProvider {
 						else if (z == minZ || z == maxZ - 1)
 							leavesOdds = edgeOdds;
 					}
-					
+
 					// worth doing?
-					if (leavesOdds > 0.00 && odds.playOdds(leavesOdds)) 
+					if (leavesOdds > 0.00 && odds.playOdds(leavesOdds))
 						generateLeavesBlock(chunk, x, y, z, leavesMaterial, leafColor);
 				}
 			}
-			
+
 			// make it smaller as we go higher
 			widthAt = widthAt - delta;
 		}
 	}
-	
+
 }

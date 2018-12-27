@@ -12,11 +12,12 @@ public class SnowDunesRoadContext extends RoadContext {
 		super(generator);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
-	public PlatLot createRoadLot(CityWorldGenerator generator, PlatMap platmap,
-			int x, int z, boolean roundaboutPart, PlatLot oldLot) {
-		return new SnowDunesRoadLot(platmap, platmap.originX + x, platmap.originZ + z, generator.connectedKeyForPavedRoads, roundaboutPart);
+	public PlatLot createRoadLot(CityWorldGenerator generator, PlatMap platmap, int x, int z, boolean roundaboutPart,
+			PlatLot oldLot) {
+		return new SnowDunesRoadLot(platmap, platmap.originX + x, platmap.originZ + z,
+				generator.connectedKeyForPavedRoads, roundaboutPart);
 	}
 
 }

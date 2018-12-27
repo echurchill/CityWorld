@@ -13,11 +13,10 @@ public class SurfaceProvider_Astral extends SurfaceProvider {
 	}
 
 	@Override
-	public void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot,
-			SupportBlocks chunk, CoverProvider foliage, int x, double perciseY,
-			int z, boolean includeTrees) {
+	public void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk,
+			CoverProvider foliage, int x, double perciseY, int z, boolean includeTrees) {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 }

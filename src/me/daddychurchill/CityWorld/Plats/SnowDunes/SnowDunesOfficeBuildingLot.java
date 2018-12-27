@@ -17,7 +17,7 @@ public class SnowDunesOfficeBuildingLot extends OfficeBuildingLot {
 
 	private static RoomProvider contentsEmpty = new EmptyWithNothing();
 	private static RoomProvider contentsWalls = new EmptyWithRooms();
-	
+
 	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {
 		return new SnowDunesOfficeBuildingLot(platmap, chunkX, chunkZ);

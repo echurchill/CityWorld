@@ -21,7 +21,7 @@ public class LibraryBuildingLot extends FinishedBuildingLot {
 	private static RoomProvider contentsMostlyBooks = new LibraryWithMostlyBooks();
 	private static RoomProvider contentsAllBooks = new LibraryWithAllBooks();
 	private static RoomProvider contentsLounges = new LibraryWithLounges();
-	
+
 	public LibraryBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		// TODO Auto-generated constructor stub
@@ -31,20 +31,21 @@ public class LibraryBuildingLot extends FinishedBuildingLot {
 	public RoomProvider roomProviderForFloor(CityWorldGenerator generator, SupportBlocks chunk, int floor, int floorY) {
 		if (floor == 0)
 			return contentsLounges;
-		else switch (chunkOdds.getRandomInt(5)) {
-		case 1:
-			return contentsNoBooks;
-		case 2:
-			return contentsSomeBooks;
-		case 3:
-			return contentsMostlyBooks;
-		case 4:
-			return contentsAllBooks;
-		default:
-			return contentsRandom;
-		}
+		else
+			switch (chunkOdds.getRandomInt(5)) {
+			case 1:
+				return contentsNoBooks;
+			case 2:
+				return contentsSomeBooks;
+			case 3:
+				return contentsMostlyBooks;
+			case 4:
+				return contentsAllBooks;
+			default:
+				return contentsRandom;
+			}
 	}
-	
+
 	@Override
 	protected InteriorStyle getFloorsInteriorStyle(int floor) {
 		if (floor == 0)

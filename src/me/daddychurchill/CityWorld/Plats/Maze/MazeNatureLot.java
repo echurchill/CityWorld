@@ -20,26 +20,28 @@ public class MazeNatureLot extends NatureLot {
 		super(platmap, chunkX, chunkZ);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
-	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk,
+			BiomeGrid biomes, DataContext context, int platX, int platZ) {
 	}
-	
-	protected final static int mazeWidth = 11; 
+
+	protected final static int mazeWidth = 11;
 	protected final static int mazeHeight = 12;
 	protected final static int mazeDepth = 3;
-	
+
 	protected Material getWallMaterial(CityWorldGenerator generator) {
 		return generator.materialProvider.itemsMaterialListFor_MazeWalls.getNthMaterial(0, Material.OBSIDIAN);
 	}
-	
+
 	protected Material getLaymentMaterial(CityWorldGenerator generator) {
 		return generator.materialProvider.itemsMaterialListFor_MazeWalls.getNthMaterial(1, Material.OBSIDIAN);
 	}
-	
+
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
-		
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
+			DataContext context, int platX, int platZ) {
+
 		// new maze please
 		MazeArray maze = new MazeArray(chunkOdds, mazeWidth, mazeWidth);
 		for (int m = 1; m < mazeWidth - 2; m++) {
@@ -59,7 +61,7 @@ public class MazeNatureLot extends NatureLot {
 
 		generateEntities(generator, chunk);
 	}
-	
+
 	protected void generateWallPart(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int z1, int z2) {
 		Material wallMaterial = getWallMaterial(generator);
 		for (int x = x1; x < x2; x++) {
@@ -67,7 +69,8 @@ public class MazeNatureLot extends NatureLot {
 
 				int surfaceY = getBlockY(x, z);
 				int mazeY = Math.min(generator.streetLevel, surfaceY);
-				chunk.setBlocks(x, mazeY - mazeDepth, mazeY + mazeHeight - mazeDepth + chunkOdds.getRandomInt(1), z, wallMaterial);
+				chunk.setBlocks(x, mazeY - mazeDepth, mazeY + mazeHeight - mazeDepth + chunkOdds.getRandomInt(1), z,
+						wallMaterial);
 			}
 		}
 	}
@@ -80,7 +83,7 @@ public class MazeNatureLot extends NatureLot {
 				int surfaceY = getBlockY(x, z);
 				int mazeY = Math.min(generator.streetLevel, surfaceY);
 				CoverageSets flowers = CoverageSets.SHORT_FLOWERS;
-				
+
 				// carve out room under the mountains
 				if (surfaceY > mazeY) {
 					if (chunk.isEmpty(x, mazeY, z))
@@ -88,7 +91,7 @@ public class MazeNatureLot extends NatureLot {
 					chunk.setBlocks(x, mazeY + 1, mazeY + 4 + chunkOdds.getRandomInt(3), z, Material.AIR);
 					flowers = CoverageSets.SHORT_MUSHROOMS;
 				}
-				
+
 				// underlayment to screw with diggers
 				if (chunkOdds.playOdds(Odds.oddsExtremelyUnlikely)) {
 					if (chunk.isEmpty(x, mazeY + 1, z) && !chunk.isEmpty(x, mazeY, z))

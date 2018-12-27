@@ -6,8 +6,7 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class SnowDunesParkLot extends ParkLot {
 
-	public SnowDunesParkLot(PlatMap platmap, int chunkX, int chunkZ,
-			long globalconnectionkey, int waterDepth) {
+	public SnowDunesParkLot(PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey, int waterDepth) {
 		super(platmap, chunkX, chunkZ, globalconnectionkey, waterDepth);
 		// TODO Auto-generated constructor stub
 	}

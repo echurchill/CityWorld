@@ -32,16 +32,16 @@ import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
 
 public class CityWorldGenerator extends ChunkGenerator {
-	
+
 	private CityWorld plugin;
 	private World world;
 	private long worldSeed;
 	private Odds connectionKeyGen;
-	
+
 	public String worldName;
 	public WorldStyle worldStyle;
 	public Environment worldEnvironment;
-	
+
 	public ShapeProvider shapeProvider;
 	public PasteProvider pasteProvider;
 	public LootProvider lootProvider;
@@ -55,13 +55,13 @@ public class CityWorldGenerator extends ChunkGenerator {
 	public TreeProvider treeProvider;
 	public SpawnProvider spawnProvider;
 	public MaterialProvider materialProvider;
-	
+
 	public WorldBlocks decayBlocks;
-	
+
 	public CityWorldSettings settings;
 
 	public int streetLevel;
-	
+
 	public int deepseaLevel;
 	public int seaLevel;
 	public int structureLevel;
@@ -73,31 +73,33 @@ public class CityWorldGenerator extends ChunkGenerator {
 	public int snowLevel;
 	public int landRange;
 	public int seaRange;
-	
+
 	public long connectedKeyForPavedRoads;
 	public long connectedKeyForParks;
-	
+
 	public enum WorldStyle {
-		FLOATING,		// very low terrain with floating houses and cities
-		FLOODED,		// traditional terrain and cities but with raised sea level
-		SNOWDUNES,		// traditional terrain and cities but covered with snow dunes
-		SANDDUNES,		// traditional terrain and cities but covered with sand dunes
-		ASTRAL,			// alien landscape 
-		MAZE,			// mazes with smaller cities
-		NATURE,			// just nature, no constructs anywhere
-		METRO,			// just buildings, no nature
-		SPARSE, 	    // a world of cities but away from each other
-		//PILLARS		// floating with pillars holding everything up
-		//LAVADUNES		// volcanos everywhere
-		//GLACERS		// glacers everywhere
-		//MOON,			// lunar landscape with lunar bases
-		//UNDERWATER,	// traditional terrain with raised sea level with under water cities
-		//WESTERN,		// desert landscape with sparse western styled towns and ranches
-		//UNDERGROUND,	// elevated terrain with underground cities
-		//MINING,		// elevated terrain with very shallow mines and very small towns
-		DESTROYED,		// normal landscape with destroyed cities
-		NORMAL};   		// traditional terrain and cities
-	
+		FLOATING, // very low terrain with floating houses and cities
+		FLOODED, // traditional terrain and cities but with raised sea level
+		SNOWDUNES, // traditional terrain and cities but covered with snow dunes
+		SANDDUNES, // traditional terrain and cities but covered with sand dunes
+		ASTRAL, // alien landscape
+		MAZE, // mazes with smaller cities
+		NATURE, // just nature, no constructs anywhere
+		METRO, // just buildings, no nature
+		SPARSE, // a world of cities but away from each other
+		// PILLARS // floating with pillars holding everything up
+		// LAVADUNES // volcanos everywhere
+		// GLACERS // glacers everywhere
+		// MOON, // lunar landscape with lunar bases
+		// UNDERWATER, // traditional terrain with raised sea level with under water
+		// cities
+		// WESTERN, // desert landscape with sparse western styled towns and ranches
+		// UNDERGROUND, // elevated terrain with underground cities
+		// MINING, // elevated terrain with very shallow mines and very small towns
+		DESTROYED, // normal landscape with destroyed cities
+		NORMAL
+	}; // traditional terrain and cities
+
 	public static WorldStyle validateStyle(WorldStyle style) {
 		switch (style) {
 		case FLOATING:
@@ -106,34 +108,36 @@ public class CityWorldGenerator extends ChunkGenerator {
 //		case FLOODED:
 //		case SANDDUNES:
 //		case SNOWDUNES:
-			CityWorld.log.info("[Generator] " + style + " worlds unavailable due to performance issues, switching to NORMAL");
+			CityWorld.log.info(
+					"[Generator] " + style + " worlds unavailable due to performance issues, switching to NORMAL");
 			return WorldStyle.NORMAL;
 		default:
 		}
 		return style;
 	}
-	
+
 	public String minecraftVersionRaw;
 	public double minecraftVersion;
 	private final static double minVersion = 1.12; // 1.12.0 Minecraft or better
-	
+
 	private double parseVersionPart(int index, String[] parts, boolean normalize) {
 		double result = 0.0;
-		if (parts.length > index) try { // found the part
-			int part = Integer.parseUnsignedInt(parts[index]);
-			if (normalize)
-				result = part / Math.pow(10, parts[index].length());
-			else
-				result = part;
-			
-		} catch (NumberFormatException e) {
-			// it is already 0
+		if (parts.length > index)
+			try { // found the part
+				int part = Integer.parseUnsignedInt(parts[index]);
+				if (normalize)
+					result = part / Math.pow(10, parts[index].length());
+				else
+					result = part;
+
+			} catch (NumberFormatException e) {
+				// it is already 0
 //			reportMessage("Part [" + index + "] didn't parse: '" + parts[index] + "'");
 //			reportMessage("Error was: " + e.getMessage());
-		}
+			}
 		return result;
 	}
-	
+
 	private boolean checkVersion() {
 		minecraftVersion = 0.0;
 		minecraftVersionRaw = plugin.getServer().getVersion();
@@ -142,7 +146,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 			if (mcAt != -1) {
 				minecraftVersionRaw = minecraftVersionRaw.substring(mcAt + 4, minecraftVersionRaw.length() - 1);
 				String[] parts = minecraftVersionRaw.split("[^0-9]", 4);
-				
+
 				double major = parseVersionPart(0, parts, false);
 				double minor = parseVersionPart(1, parts, true);
 //				double micro = parseVersionPart(2, parts, true);
@@ -157,7 +161,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 //			reportMessage("Some other error occured while parsing version");
 //			reportMessage("Error was: " + e.getMessage());
 		}
-		
+
 		// what version did we end up with?
 		if (minecraftVersion < minVersion) {
 			reportMessage("**********************************************************");
@@ -166,28 +170,28 @@ public class CityWorldGenerator extends ChunkGenerator {
 //			reportException("Needs " + String.format("%.3f", minVersion) + " or better, found " + 
 //					String.format("%.3f", minecraftVersion) +
 //					", parsed from " + minecraftVersionRaw, new Exception(getPluginName()));
-			reportMessage("Needs " + String.format("%.3f", minVersion) + " or better, found " + 
-					String.format("%.3f", minecraftVersion) + ", parsed from " + minecraftVersionRaw);
+			reportMessage("Needs " + String.format("%.3f", minVersion) + " or better, found "
+					+ String.format("%.3f", minecraftVersion) + ", parsed from " + minecraftVersionRaw);
 			reportMessage("**********************************************************");
 			reportMessage("** CITYWORLD MIGHT NOT RUN CORRECTLY, PLEASE UPDATE     **");
 			reportMessage("**********************************************************");
 			return false;
-		}
-		else {
-			reportMessage("Found Minecraft v" + String.format("%.3f", minecraftVersion) + ", CityWorld is compatible - WOOT!");
+		} else {
+			reportMessage("Found Minecraft v" + String.format("%.3f", minecraftVersion)
+					+ ", CityWorld is compatible - WOOT!");
 			return true;
 		}
 	}
-		
+
 	public CityWorldGenerator(CityWorld plugin, String worldName, String worldStyle) {
 		CityWorld.log.info("CityWorld creating world " + worldName);
-		
+
 		this.plugin = plugin;
 		this.worldName = worldName;
 		this.worldStyle = WorldStyle.NORMAL;
-		
+
 		checkVersion();
-		
+
 		// parse the style string
 		if (worldStyle != null) {
 			try {
@@ -202,11 +206,11 @@ public class CityWorldGenerator extends ChunkGenerator {
 	public CityWorld getPlugin() {
 		return plugin;
 	}
-	
+
 	public String getPluginName() {
 		return plugin.getPluginName();
 	}
-	
+
 	public World getWorld() {
 		return world;
 	}
@@ -214,20 +218,21 @@ public class CityWorldGenerator extends ChunkGenerator {
 	public Long getWorldSeed() {
 		return worldSeed;
 	}
-	
+
 	private int deltaSeed = 0;
+
 	public Long getRelatedSeed() {
 		deltaSeed++;
 		return worldSeed + deltaSeed;
 	}
-	
+
 	@Override
 	public List<BlockPopulator> getDefaultPopulators(World world) {
 		return Arrays.asList((BlockPopulator) new CityWorldBlockPopulator(this));
 	}
-	
+
 	public void initializeWorldInfo(World aWorld) {
-		
+
 		// initialize the shaping logic
 		if (world == null) {
 			world = aWorld;
@@ -235,7 +240,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 			spawnProvider = new SpawnProvider(this);
 			materialProvider = new MaterialProvider(this);
 			odonymProvider = OdonymProvider.loadProvider(this, new Odds(getRelatedSeed()));
-			
+
 			settings = new CityWorldSettings(this);
 			worldSeed = world.getSeed();
 			connectionKeyGen = new Odds(getRelatedSeed());
@@ -249,10 +254,10 @@ public class CityWorldGenerator extends ChunkGenerator {
 			structureOnGroundProvider = StructureOnGroundProvider.loadProvider(this);
 			structureInAirProvider = StructureInAirProvider.loadProvider(this);
 			treeProvider = TreeProvider.loadProvider(this, new Odds(getRelatedSeed()));
-			
+
 			pasteProvider = PasteProvider.loadProvider(this);
 			decayBlocks = new WorldBlocks(this, new Odds(getRelatedSeed()));
-			
+
 			// get ranges and contexts
 			height = shapeProvider.getWorldHeight();
 			seaLevel = shapeProvider.getSeaLevel();
@@ -260,7 +265,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 			seaRange = shapeProvider.getSeaRange();
 			structureLevel = shapeProvider.getStructureLevel();
 			streetLevel = shapeProvider.getStreetLevel();
-			
+
 			// did we load any schematics?
 			pasteProvider.reportStatus(this);
 
@@ -271,7 +276,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 			treeLevel = seaLevel + (landRange / 4);
 			deciduousRange = evergreenLevel - treeLevel;
 			evergreenRange = snowLevel - evergreenLevel;
-			
+
 //				// seabed = 35 deepsea = 50 sea = 64 sidewalk = 65 tree = 110 evergreen = 156 snow = 202 top = 249
 //				CityWorld.reportMessage("seabed = " + (seaLevel - seaRange) + 
 //								        " deepsea = " + deepseaLevel + 
@@ -281,11 +286,11 @@ public class CityWorldGenerator extends ChunkGenerator {
 //								        " evergreen = " + evergreenLevel + 
 //								        " snow = " + snowLevel + 
 //								        " top = " + (seaLevel + landRange));
-			
+
 			// get the connectionKeys
 			connectedKeyForPavedRoads = connectionKeyGen.getRandomLong();
 			connectedKeyForParks = connectionKeyGen.getRandomLong();
-			
+
 //			reportMessage("Plugins...");
 //			PluginManager pm = Bukkit.getServer().getPluginManager();
 //			Plugin[] plugins = pm.getPlugins();
@@ -294,7 +299,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 //			}
 		}
 	}
-	
+
 	@Override
 	public ChunkData generateChunkData(World world, Random random, int x, int z, BiomeGrid biome) {
 		try {
@@ -303,30 +308,30 @@ public class CityWorldGenerator extends ChunkGenerator {
 
 			// place to work
 			InitialBlocks initialBlocks = new InitialBlocks(this, this.createChunkData(world), x, z);
-		
+
 			// figure out what everything looks like
 			PlatMap platmap = getPlatMap(x, z);
 			if (platmap != null) {
 //				reportMessage("generate X,Z = " + x + "," + z);
 				platmap.generateChunk(initialBlocks, biome);
 			}
-			
+
 			return initialBlocks.chunkData;
-			
+
 		} catch (Exception e) {
 			reportException("ChunkPopulator FAILED", e);
 			return null;
-		} 
+		}
 	}
-	
+
 	public long getConnectionKey() {
 		return connectionKeyGen.getRandomLong();
 	}
-	
+
 	public int getFarBlockY(int blockX, int blockZ) {
 		return shapeProvider.findBlockY(this, blockX, blockZ);
 	}
-	
+
 //	@Override
 //	public Location getFixedSpawnLocation(World world, Random random) {
 //		
@@ -356,6 +361,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 
 	// manager for handling the city plat maps collection
 	private Hashtable<Long, PlatMap> platmaps;
+
 	public PlatMap getPlatMap(int chunkX, int chunkZ) {
 
 		// get the plat map collection
@@ -371,13 +377,13 @@ public class CityWorldGenerator extends ChunkGenerator {
 
 		// get the right plat
 		PlatMap platmap = platmaps.get(platkey);
-		
+
 		// doesn't exist? then make it!
 		if (platmap == null) {
-			
+
 			// what is the context for this one?
 			platmap = new PlatMap(this, shapeProvider, platX, platZ);
-			
+
 			// remember it for quicker look up
 			platmaps.put(platkey, platmap);
 		}
@@ -394,7 +400,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 			return -((Math.abs(i + 1) / PlatMap.Width * PlatMap.Width) + PlatMap.Width);
 		}
 	}
-	
+
 	public void reportMessage(String message) {
 		plugin.reportMessage(message);
 	}
@@ -402,8 +408,8 @@ public class CityWorldGenerator extends ChunkGenerator {
 	public void reportMessage(String message1, String message2) {
 		plugin.reportMessage(message1, message2);
 	}
-	
-	public void reportFormatted(String format, Object ... objects) {
+
+	public void reportFormatted(String format, Object... objects) {
 		plugin.reportMessage(String.format(format, objects));
 	}
 
@@ -418,17 +424,17 @@ public class CityWorldGenerator extends ChunkGenerator {
 		public CityWorldBlockPopulator(CityWorldGenerator chunkGen) {
 			this.chunkGen = chunkGen;
 		}
-		
+
 		@Override
 		public void populate(World aWorld, Random random, Chunk chunk) {
 			try {
 
 				chunkGen.initializeWorldInfo(aWorld);
-				
+
 				// where are we?
 				int chunkX = chunk.getX();
 				int chunkZ = chunk.getZ();
-				
+
 				// place to work
 				RealBlocks realChunk = new RealBlocks(chunkGen, chunk);
 
@@ -436,10 +442,10 @@ public class CityWorldGenerator extends ChunkGenerator {
 				PlatMap platmap = chunkGen.getPlatMap(chunkX, chunkZ);
 				if (platmap != null) {
 					platmap.generateBlocks(realChunk);
-					
+
 					// finalize things
 					chunkGen.lootProvider.saveLoots();
-					
+
 					// Originally by Sablednah
 					// Moved and modified a bit by DaddyChurchill
 					CityWorldEvent event = new CityWorldEvent(chunk, platmap, platmap.getMapLot(chunkX, chunkZ));
@@ -447,7 +453,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 				}
 			} catch (Exception e) {
 				reportException("BlockPopulator FAILED", e);
-			} 
+			}
 		}
 	}
 }

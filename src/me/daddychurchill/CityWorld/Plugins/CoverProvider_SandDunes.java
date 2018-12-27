@@ -14,5 +14,5 @@ public class CoverProvider_SandDunes extends CoverProvider_Decayed {
 	public ColorSet getColorSet() {
 		return ColorSet.TAN;
 	}
-	
+
 }

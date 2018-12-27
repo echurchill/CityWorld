@@ -34,7 +34,7 @@ public class MuseumBuildingLot extends FinishedBuildingLot {
 	@Override
 	public boolean makeConnected(PlatLot relative) {
 		boolean result = super.makeConnected(relative);
-		
+
 //		// other bits
 //		if (result && relative instanceof WarehouseBuildingLot) {
 //			MuseumBuildingLot relativebuilding = (MuseumBuildingLot) relative;
@@ -42,22 +42,22 @@ public class MuseumBuildingLot extends FinishedBuildingLot {
 //			// any other bits
 //			contentStyle = relativebuilding.contentStyle;
 //		}
-		
+
 		return result;
 	}
 
 	@Override
 	protected void calculateOptions(DataContext context) {
 		super.calculateOptions(context);
-		
+
 		// how do the walls inset?
 		insetWallWE = 1;
 		insetWallNS = 1;
-		
+
 		// what about the ceiling?
 		insetCeilingWE = insetWallWE;
 		insetCeilingNS = insetWallNS;
-		
+
 		// nudge in a bit more as we go up
 		insetInsetMidAt = 1;
 		insetInsetHighAt = 1;
@@ -70,16 +70,13 @@ public class MuseumBuildingLot extends FinishedBuildingLot {
 			Material materialWall, Material materialGlass, StairWell stairLocation, Material materialStair,
 			Material materialStairWall, Material materialPlatform, boolean drawStairWall, boolean drawStairs,
 			boolean topFloor, boolean singleFloor, Surroundings heights) {
-		
-		
-		// outside 
-		drawExteriorDoors(generator, chunk, context, 
-				floor, floorAt, floorHeight, insetNS, insetWE, 
-				allowRounded, materialWall, materialGlass, 
-				stairLocation, heights);
-		
+
+		// outside
+		drawExteriorDoors(generator, chunk, context, floor, floorAt, floorHeight, insetNS, insetWE, allowRounded,
+				materialWall, materialGlass, stairLocation, heights);
+
 		if (singleFloor && generator.settings.includeBones) {
-			
+
 			// calculate if we should do it
 			boolean placeBones = false;
 			if (allowRounded) {
@@ -100,25 +97,27 @@ public class MuseumBuildingLot extends FinishedBuildingLot {
 				}
 			} else
 				placeBones = true;
-			
+
 			// ok... then do it
 			if (placeBones) {
 				int sidewalkLevel = getSidewalkLevel(generator);
 				Colors colors = new Colors(chunkOdds);
 				chunk.setBlocks(3, 13, sidewalkLevel + 1, 3, 13, colors.getConcrete());
-				generator.thingProvider.generateBones(generator, this, chunk, 7, sidewalkLevel + 1, 11, chunkOdds, true);
-				
+				generator.thingProvider.generateBones(generator, this, chunk, 7, sidewalkLevel + 1, 11, chunkOdds,
+						true);
+
 				// it looked so nice for a moment... but the moment has passed
 				if (generator.settings.includeDecayedBuildings) {
 					destroyLot(generator, sidewalkLevel, sidewalkLevel + firstFloorHeight);
-					
+
 				} else {
 					chunk.setBlocks(7, sidewalkLevel + 1, sidewalkLevel + 3, 4, Material.STONE);
-					chunk.setWallSign(7, sidewalkLevel + 2, 3, BlockFace.NORTH, generator.odonymProvider.generateFossilOdonym(generator, chunkOdds));
+					chunk.setWallSign(7, sidewalkLevel + 2, 3, BlockFace.NORTH,
+							generator.odonymProvider.generateFossilOdonym(generator, chunkOdds));
 					chunk.setBlock(7, sidewalkLevel + 2, 5, Material.TORCH, BlockFace.SOUTH);
 				}
 			}
 		}
 	}
-	
+
 }

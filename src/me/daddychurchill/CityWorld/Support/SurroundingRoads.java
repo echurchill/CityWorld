@@ -10,14 +10,14 @@ public final class SurroundingRoads extends Surroundings {
 	public SurroundingRoads(PlatMap platmap, int platX, int platZ) {
 		super();
 		roads = new boolean[3][3];
-		
+
 		// calculate neighbors
 		updateNeighbors(platmap, platX, platZ);
 	}
-	
+
 	protected void updateNeighbors(PlatMap platmap, int platX, int platZ) {
-		PlatLot platlot = platmap.getLot(platX, platZ);	
-		
+		PlatLot platlot = platmap.getLot(platX, platZ);
+
 		// get a list of qualified neighbors
 		PlatLot[][] neighborChunks = platlot.getNeighborPlatLots(platmap, platX, platZ, false);
 		for (int x = 0; x < 3; x++) {
@@ -26,10 +26,9 @@ public final class SurroundingRoads extends Surroundings {
 
 				// beyond the edge
 				if (neighbor == null) {
-					roads[x][z] = platX == RoadLot.PlatMapRoadInset - 1 ||
-								  platZ == RoadLot.PlatMapRoadInset - 1 || 
-								  platX == PlatMap.Width - RoadLot.PlatMapRoadInset ||
-								  platZ == PlatMap.Width - RoadLot.PlatMapRoadInset; 
+					roads[x][z] = platX == RoadLot.PlatMapRoadInset - 1 || platZ == RoadLot.PlatMapRoadInset - 1
+							|| platX == PlatMap.Width - RoadLot.PlatMapRoadInset
+							|| platZ == PlatMap.Width - RoadLot.PlatMapRoadInset;
 
 					// is connected in some way?
 				} else {
@@ -38,7 +37,7 @@ public final class SurroundingRoads extends Surroundings {
 			}
 		}
 	}
-	
+
 	// adjacent roads?
 	public boolean adjacentRoads() {
 		return adjacentNeighbors();
@@ -48,12 +47,12 @@ public final class SurroundingRoads extends Surroundings {
 	public boolean toCenter() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean toNorth() {
 		return roads[1][0];
 	}
-	
+
 	@Override
 	public boolean toSouth() {
 		return roads[1][2];
@@ -78,7 +77,7 @@ public final class SurroundingRoads extends Surroundings {
 	public boolean toNorthEast() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean toSouthWest() {
 		return true;

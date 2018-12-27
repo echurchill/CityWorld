@@ -23,7 +23,7 @@ public class MazeCampgroundContext extends MazeConstructContext {
 	protected PlatLot generateNormalLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		if (odds.playOdds(Odds.oddsSomewhatUnlikely))
 			return new CampgroundLot(platmap, chunkX, chunkZ);
-		else 
+		else
 			return new NatureLot(platmap, chunkX, chunkZ);
 	}
 

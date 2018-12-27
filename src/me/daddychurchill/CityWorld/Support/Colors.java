@@ -4,39 +4,42 @@ import org.bukkit.DyeColor;
 import org.bukkit.Material;
 
 public final class Colors {
-	
-	public static enum ColorSet {ALL, GREEN, WHITE, TAN, PINK, NETHER, THEEND, DARK, LIGHT, RANDOM};
-	
-	private static DyeColor[] setAll = {DyeColor.WHITE, DyeColor.ORANGE, DyeColor.MAGENTA, DyeColor.LIGHT_BLUE,
-			DyeColor.YELLOW, DyeColor.LIME, DyeColor.PINK, DyeColor.GRAY, 
-			DyeColor.LIGHT_GRAY, DyeColor.CYAN, DyeColor.PURPLE, DyeColor.BLUE,
-			DyeColor.BROWN, DyeColor.GREEN, DyeColor.RED, DyeColor.BLACK};
 
-	private static DyeColor[] setGreen = {DyeColor.BROWN, DyeColor.GREEN, DyeColor.GRAY};
-	
-	private static DyeColor[] setDark = {DyeColor.GRAY, DyeColor.CYAN, DyeColor.PURPLE, DyeColor.BLUE,
-				DyeColor.BROWN, DyeColor.GREEN, DyeColor.RED, DyeColor.BLACK};
-	
-	private static DyeColor[] setLight = {DyeColor.WHITE, DyeColor.ORANGE, DyeColor.MAGENTA, DyeColor.LIGHT_BLUE,
-				DyeColor.YELLOW, DyeColor.LIME, DyeColor.PINK, DyeColor.LIGHT_GRAY};
-	
-	private static DyeColor[] setNether = {DyeColor.RED, DyeColor.BROWN, DyeColor.PURPLE, DyeColor.BLACK, DyeColor.GRAY};
-	
-	private static DyeColor[] setTan = {DyeColor.ORANGE, DyeColor.YELLOW};
-	
-	private static DyeColor[] setPink = {DyeColor.PINK, DyeColor.LIGHT_GRAY, DyeColor.RED};
-	
-	private static DyeColor[] setWhite = {DyeColor.WHITE, DyeColor.LIGHT_GRAY};
-	
-	private static DyeColor[] setEnd = {DyeColor.WHITE, DyeColor.LIGHT_GRAY, DyeColor.PINK};
+	public static enum ColorSet {
+		ALL, GREEN, WHITE, TAN, PINK, NETHER, THEEND, DARK, LIGHT, RANDOM
+	};
+
+	private static DyeColor[] setAll = { DyeColor.WHITE, DyeColor.ORANGE, DyeColor.MAGENTA, DyeColor.LIGHT_BLUE,
+			DyeColor.YELLOW, DyeColor.LIME, DyeColor.PINK, DyeColor.GRAY, DyeColor.LIGHT_GRAY, DyeColor.CYAN,
+			DyeColor.PURPLE, DyeColor.BLUE, DyeColor.BROWN, DyeColor.GREEN, DyeColor.RED, DyeColor.BLACK };
+
+	private static DyeColor[] setGreen = { DyeColor.BROWN, DyeColor.GREEN, DyeColor.GRAY };
+
+	private static DyeColor[] setDark = { DyeColor.GRAY, DyeColor.CYAN, DyeColor.PURPLE, DyeColor.BLUE, DyeColor.BROWN,
+			DyeColor.GREEN, DyeColor.RED, DyeColor.BLACK };
+
+	private static DyeColor[] setLight = { DyeColor.WHITE, DyeColor.ORANGE, DyeColor.MAGENTA, DyeColor.LIGHT_BLUE,
+			DyeColor.YELLOW, DyeColor.LIME, DyeColor.PINK, DyeColor.LIGHT_GRAY };
+
+	private static DyeColor[] setNether = { DyeColor.RED, DyeColor.BROWN, DyeColor.PURPLE, DyeColor.BLACK,
+			DyeColor.GRAY };
+
+	private static DyeColor[] setTan = { DyeColor.ORANGE, DyeColor.YELLOW };
+
+	private static DyeColor[] setPink = { DyeColor.PINK, DyeColor.LIGHT_GRAY, DyeColor.RED };
+
+	private static DyeColor[] setWhite = { DyeColor.WHITE, DyeColor.LIGHT_GRAY };
+
+	private static DyeColor[] setEnd = { DyeColor.WHITE, DyeColor.LIGHT_GRAY, DyeColor.PINK };
 
 	private DyeColor[] colors;
 	private Odds odds;
+
 	public Colors(Odds odds) {
 		this.odds = odds;
 		setColors(setAll);
 	}
-	
+
 //	public Colors(Odds odds, DyeColor ... dyeColors) {
 //		this.odds = odds;
 //		assert(dyeColors.length > 0);
@@ -47,9 +50,9 @@ public final class Colors {
 		this.odds = odds;
 		setColors(set);
 	}
-	
+
 	public void setColors(ColorSet set) {
-		
+
 		// do something special for random
 		if (set == ColorSet.RANDOM) {
 			ColorSet[] all = ColorSet.values();
@@ -57,7 +60,7 @@ public final class Colors {
 			if (set == ColorSet.RANDOM)
 				set = ColorSet.ALL;
 		}
-		
+
 		// now do it
 		switch (set) {
 		default:
@@ -90,11 +93,11 @@ public final class Colors {
 			break;
 		}
 	}
-	
-	private void setColors(DyeColor ... dyeColors) {
+
+	private void setColors(DyeColor... dyeColors) {
 		colors = dyeColors;
 	}
-	
+
 	public void fixColor() {
 		if (colors.length > 1)
 			setColors(getRandomColor());
@@ -107,11 +110,11 @@ public final class Colors {
 		else
 			return colors[odds.getRandomInt(count)];
 	}
-	
+
 	public Material getGlass() {
 		return getGlass(getRandomColor());
 	}
-	
+
 	public static Material getGlass(DyeColor color) {
 		switch (color) {
 		default:
@@ -149,9 +152,8 @@ public final class Colors {
 			return Material.YELLOW_STAINED_GLASS;
 		}
 	}
-	
-	public Material getGlassPane() 
-	{
+
+	public Material getGlassPane() {
 		return getGlass(getRandomColor());
 	}
 
@@ -192,11 +194,11 @@ public final class Colors {
 			return Material.YELLOW_STAINED_GLASS_PANE;
 		}
 	}
-	
+
 	public Material getCarpet() {
 		return getCarpet(getRandomColor());
 	}
-	
+
 	public static Material getCarpet(DyeColor color) {
 		switch (color) {
 		default:
@@ -234,11 +236,11 @@ public final class Colors {
 			return Material.YELLOW_CARPET;
 		}
 	}
-	
+
 	public Material getWool() {
 		return getWool(getRandomColor());
 	}
-	
+
 	public static Material getWool(DyeColor color) {
 		switch (color) {
 		default:
@@ -276,11 +278,11 @@ public final class Colors {
 			return Material.YELLOW_WOOL;
 		}
 	}
-	
+
 	public Material getBed() {
 		return getBed(getRandomColor());
 	}
-	
+
 	public static Material getBed(DyeColor color) {
 		switch (color) {
 		default:
@@ -318,11 +320,11 @@ public final class Colors {
 			return Material.YELLOW_BED;
 		}
 	}
-	
+
 	public Material getTerracotta() {
 		return getTerracotta(getRandomColor());
 	}
-	
+
 	public static Material getTerracotta(DyeColor color) {
 		switch (color) {
 		default:
@@ -360,11 +362,11 @@ public final class Colors {
 			return Material.YELLOW_TERRACOTTA;
 		}
 	}
-	
+
 	public Material getGlazedTerracotta() {
 		return getGlazedTerracotta(getRandomColor());
 	}
-	
+
 	public static Material getGlazedTerracotta(DyeColor color) {
 		switch (color) {
 		default:
@@ -402,11 +404,11 @@ public final class Colors {
 			return Material.YELLOW_GLAZED_TERRACOTTA;
 		}
 	}
-	
+
 	public Material getConcrete() {
 		return getConcrete(getRandomColor());
 	}
-	
+
 	public static Material getConcrete(DyeColor color) {
 		switch (color) {
 		default:
@@ -444,11 +446,11 @@ public final class Colors {
 			return Material.YELLOW_CONCRETE;
 		}
 	}
-	
+
 	public Material getConcretePowder() {
 		return getConcretePowder(getRandomColor());
 	}
-	
+
 	public static Material getConcretePowder(DyeColor color) {
 		switch (color) {
 		default:

@@ -31,13 +31,13 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	public ShapeProvider_Floating(CityWorldGenerator generator, Odds odds) {
 		super(generator, odds);
 		long seed = generator.getWorldSeed();
-		
+
 		terrainShape = new SimplexNoiseGenerator(seed + 3);
 		noiseShape = new SimplexNoiseGenerator(seed + 4);
-		
-		//streetLevel = height / 8 * 3;
+
+		// streetLevel = height / 8 * 3;
 		constructMin = seaLevel + landRange + 32;
-		constructRange = height - 32 - constructMin; 
+		constructRange = height - 32 - constructMin;
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 		if (!contextInitialized) {
 			natureContext = new FloatingNatureContext(generator);
 			roadContext = new FloatingRoadContext(generator);
-			
+
 			parkContext = new ParkContext(generator);
 			highriseContext = new HighriseContext(generator);
 			constructionContext = new ConstructionContext(generator);
@@ -56,11 +56,11 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 			neighborhoodContext = new NeighborhoodContext(generator);
 			farmContext = new FarmContext(generator);
 			outlandContext = farmContext;
-			
+
 			contextInitialized = true;
 		}
 	}
-	
+
 	@Override
 	public String getCollectionName() {
 		return "Floating";
@@ -77,33 +77,33 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 			}
 		}
 	}
-	
+
 	private boolean needBlimpLot(PlatMap platmap, int x, int z) {
 		if (platmap.isNaturalLot(x, z)) {
-			return platmap.isStructureLot(x - 1, z) || platmap.isStructureLot(x + 1, z) ||
-				   platmap.isStructureLot(x, z - 1) || platmap.isStructureLot(x, z + 1);
+			return platmap.isStructureLot(x - 1, z) || platmap.isStructureLot(x + 1, z)
+					|| platmap.isStructureLot(x, z - 1) || platmap.isStructureLot(x, z + 1);
 		} else
 			return false;
 	}
-	
-	//private int streetLevel;
+
+	// private int streetLevel;
 	private SimplexNoiseGenerator terrainShape;
 	private SimplexNoiseGenerator noiseShape;
-	
+
 	public final static int seaBed = 8;
 	public final static int gapRange = 8;
 	public final static int landRange = 16;
 	public final static int seaLevel = seaBed + gapRange;
 	public final static int deepSeaLevel = seaLevel - gapRange / 2;
-	
+
 	public final static int noiseRange = seaBed / 2;
 	public final static int midRange = (gapRange + landRange) / 2;
 	public final static int midPoint = seaBed + midRange;
 	public final static int snowPoint = midPoint + midRange - 2;
-	
+
 	private final static double terrainScale = 1.0 / 281.0;
 	private final static double noiseScale = 1.0 / 23.0;
-	
+
 	@Override
 	public int getStreetLevel() {
 		return super.getStreetLevel() / 2 * 3;
@@ -116,33 +116,34 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 
 	@Override
 	public int findGroundY(CityWorldGenerator generator, int blockX, int blockZ) {
-		
+
 		// calculator the way down there bits
 		double terrainAt = terrainShape.noise(blockX * terrainScale, blockZ * terrainScale) * midRange;
 		double noiseAt = noiseShape.noise(blockX * noiseScale, blockZ * noiseScale) * noiseRange;
 		return NoiseGenerator.floor(terrainAt + noiseAt) + midPoint;
 	}
-	
+
 	@Override
-	public void preGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, BiomeGrid biomes, AbstractCachedYs blockYs) {
+	public void preGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, BiomeGrid biomes,
+			AbstractCachedYs blockYs) {
 		Biome resultBiome = lot.getChunkBiome();
 		OreProvider ores = generator.oreProvider;
-		
+
 		// shape the world
 		for (int x = 0; x < chunk.width; x++) {
 			for (int z = 0; z < chunk.width; z++) {
 				// where is the ground?
 				int groundY = findGroundY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
-				
+
 				// which one are we doing?
 				switch (generator.settings.subSurfaceStyle) {
 				case LAND:
 					// make the base
 					chunk.setBlock(x, 0, z, ores.substratumMaterial);
-					
+
 					// place the way down there bits
 					chunk.setBlocks(x, 1, groundY - 1, z, ores.stratumMaterial);
-					
+
 					// seas?
 					if (groundY < seaLevel) {
 						chunk.setBlock(x, groundY - 1, z, ores.fluidSubsurfaceMaterial);
@@ -159,7 +160,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 					}
 					break;
 				case CLOUD:
-					
+
 					// where is the fluff?
 					if (groundY >= seaLevel) {
 						int thickness = groundY - seaLevel;
@@ -174,10 +175,10 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 					}
 					break;
 				case LAVA:
-					
+
 					// make the base
 					chunk.setBlock(x, 0, z, ores.substratumMaterial);
-					
+
 					// add the nasty bit
 					chunk.setBlocks(x, 1, groundY, z, Material.LAVA);
 					break;
@@ -185,25 +186,25 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 				default:
 					break;
 				}
-					
+
 				// set biome for block
 				biomes.setBiome(x, z, generator.oreProvider.remapBiome(resultBiome));
 			}
 		}
 	}
-	
+
 	private final static double underworldOdds = 0.50;
 	private final static int underworldLength = 6;
-	
+
 	@Override
-	public void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, AbstractCachedYs blockYs) {
+	public void postGenerateChunk(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk,
+			AbstractCachedYs blockYs) {
 		OreProvider ores = generator.oreProvider;
 		int lotBottomY = lot.getBottomY(generator);
 		if (lotBottomY != 0) {
-			
+
 			// shape the underworld
-			if (lot.style == LotStyle.STRUCTURE ||
-				lot.style == LotStyle.ROAD) {
+			if (lot.style == LotStyle.STRUCTURE || lot.style == LotStyle.ROAD) {
 //				int h = (lotBottomY - 1) / 3;
 //				chunk.setBlocks(5, 11, h * 2, lotBottomY, 5, 11, Material.STONE);
 //				chunk.setBlocks(6, 10, h, h * 2, 6, 10, Material.STONE);
@@ -218,7 +219,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 					}
 				}
 			}
-			
+
 			// cross beams
 			chunk.setBlocks(7, 9, lotBottomY - 2, lotBottomY, 0, 16, Material.STONE);
 			chunk.setBlocks(0, 16, lotBottomY - 2, lotBottomY, 7, 9, Material.STONE);
@@ -226,12 +227,14 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	}
 
 	@Override
-	public void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, AbstractCachedYs blockYs) {
-		
+	public void preGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk,
+			AbstractCachedYs blockYs) {
+
 	}
 
 	@Override
-	public void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk, AbstractCachedYs blockYs) {
+	public void postGenerateBlocks(CityWorldGenerator generator, PlatLot lot, RealBlocks chunk,
+			AbstractCachedYs blockYs) {
 		// there is always something to plant!
 		lot.generateSurface(generator, chunk, true);
 	}

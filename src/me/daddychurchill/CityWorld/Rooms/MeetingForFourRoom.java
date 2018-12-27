@@ -7,8 +7,6 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
-
-
 public class MeetingForFourRoom extends MeetingRoom {
 
 	public MeetingForFourRoom() {
@@ -16,13 +14,12 @@ public class MeetingForFourRoom extends MeetingRoom {
 	}
 
 	@Override
-	public void drawFixture(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int floor, int x,
-			int y, int z, int width, int height, int depth,
-			BlockFace sideWithWall, Material materialWall, Material materialGlass) {
+	public void drawFixture(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int floor, int x, int y, int z,
+			int width, int height, int depth, BlockFace sideWithWall, Material materialWall, Material materialGlass) {
 
 		Material tableLeg = getTableLeg(odds);
 		Material tableTop = getTableTop(odds);
-		
+
 		switch (sideWithWall) {
 		default:
 		case NORTH:
@@ -31,7 +28,7 @@ public class MeetingForFourRoom extends MeetingRoom {
 			chunk.setBlock(x, y, z + 2, Material.BIRCH_STAIRS, BlockFace.WEST);
 
 			chunk.setTable(x + 1, x + 2, y, z, z + 3, tableLeg, tableTop);
-			
+
 			chunk.setBlock(x + 2, y, z, Material.BIRCH_STAIRS, BlockFace.EAST);
 			chunk.setBlock(x + 2, y, z + 2, Material.BIRCH_STAIRS, BlockFace.EAST);
 			break;
@@ -47,5 +44,5 @@ public class MeetingForFourRoom extends MeetingRoom {
 			break;
 		}
 	}
-	
+
 }

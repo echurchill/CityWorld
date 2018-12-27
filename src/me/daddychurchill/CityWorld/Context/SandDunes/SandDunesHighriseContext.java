@@ -17,15 +17,17 @@ public class SandDunesHighriseContext extends HighriseContext {
 	}
 
 	@Override
-	protected PlatLot getPark(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ, int waterDepth) {
+	protected PlatLot getPark(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ,
+			int waterDepth) {
 		return new SandDunesParkLot(platmap, chunkX, chunkZ, generator.connectedKeyForParks, waterDepth);
 	}
-	
+
 	@Override
-	protected PlatLot getUnfinishedBuilding(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	protected PlatLot getUnfinishedBuilding(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX,
+			int chunkZ) {
 		return new SandDunesUnfinishedBuildingLot(platmap, chunkX, chunkZ);
 	}
-	
+
 	@Override
 	protected PlatLot getBuilding(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new SandDunesOfficeBuildingLot(platmap, chunkX, chunkZ);

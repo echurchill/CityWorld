@@ -1,13 +1,15 @@
 package me.daddychurchill.CityWorld.Support;
 
 public final class SurroundingFloors extends Surroundings {
-	
-	//TODO refactor this to SurroundingLevels and SurroundingHeights & SurroundingDepths
-	//TODO optimize the lookup logic to use an array of booleans after taking the SurroundingLots
-	
+
+	// TODO refactor this to SurroundingLevels and SurroundingHeights &
+	// SurroundingDepths
+	// TODO optimize the lookup logic to use an array of booleans after taking the
+	// SurroundingLots
+
 	public int[][] floors;
 	public boolean[][] neighbors;
-	
+
 	public SurroundingFloors() {
 		super();
 		floors = new int[3][3];
@@ -22,7 +24,7 @@ public final class SurroundingFloors extends Surroundings {
 		}
 		update();
 	}
-	
+
 	public void update() {
 
 		// copy the natural values
@@ -31,14 +33,14 @@ public final class SurroundingFloors extends Surroundings {
 				neighbors[x][z] = floors[x][z] > 0;
 			}
 		}
-		
+
 		// correct the corners
-		neighbors[2][0] = neighbors[2][0] && neighbors[1][0] && neighbors[2][1]; 
-		neighbors[2][2] = neighbors[2][2] && neighbors[1][2] && neighbors[2][1]; 
-		neighbors[0][0] = neighbors[0][0] && neighbors[1][0] && neighbors[0][1]; 
-		neighbors[0][2] = neighbors[0][2] && neighbors[0][1] && neighbors[1][2]; 
+		neighbors[2][0] = neighbors[2][0] && neighbors[1][0] && neighbors[2][1];
+		neighbors[2][2] = neighbors[2][2] && neighbors[1][2] && neighbors[2][1];
+		neighbors[0][0] = neighbors[0][0] && neighbors[1][0] && neighbors[0][1];
+		neighbors[0][2] = neighbors[0][2] && neighbors[0][1] && neighbors[1][2];
 	}
-	
+
 	public boolean isRoundable() {
 		if (toSouth()) {
 			if (toWest()) {
@@ -55,27 +57,27 @@ public final class SurroundingFloors extends Surroundings {
 		}
 		return false;
 	}
-	
+
 	private boolean floorsSame(int other1, int other2) {
 		return floors[1][1] == other1 && other1 == other2;
 	}
-	
+
 	private int floorsToWest() {
 		return floors[0][1];
 	}
-	
+
 	private int floorsToEast() {
 		return floors[2][1];
 	}
-	
+
 	private int floorsToNorth() {
 		return floors[1][0];
 	}
-	
+
 	private int floorsToSouth() {
 		return floors[1][2];
 	}
-	
+
 	@Override
 	public boolean toNorthEast() {
 		return neighbors[2][0] && toEast() && toNorth();
@@ -90,17 +92,17 @@ public final class SurroundingFloors extends Surroundings {
 	public boolean toSouthEast() {
 		return neighbors[2][2] && toEast() && toSouth();
 	}
-	
+
 	@Override
 	public boolean toNorth() {
 		return neighbors[1][0];
 	}
-	
+
 	@Override
 	public boolean toCenter() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean toSouth() {
 		return neighbors[1][2];

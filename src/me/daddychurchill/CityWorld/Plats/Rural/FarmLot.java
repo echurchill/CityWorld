@@ -18,43 +18,41 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 import me.daddychurchill.CityWorld.Support.SurroundingLots;
 
-
 public class FarmLot extends ConnectedLot {
 
-	//TODO Apple farm?
-	//TODO Cocoa farm?
-	//TODO PPPwPPPPPPwPPP based wheat/flower/grass/mushroom/netherwart/dead/none/fallow
-	//TODO SPSwSPSSPSwSPS based pumpkin/melon/dead/none/fallow
-	//TODO wPPwPPwwPPwPPw based cane/dead/none/fallow
-	
-	public enum CropType {FALLOW, TRELLIS, VINES, 
-		GRASS, FERN, /*DEAD_GRASS,*/ CACTUS, REED, DANDELION, DEAD_BUSH, 
-		POPPY, BLUE_ORCHID, ALLIUM, AZURE_BLUET, OXEYE_DAISY,
-		RED_TULIP, ORANGE_TULIP, WHITE_TULIP, PINK_TULIP,
-		SUNFLOWER, LILAC, TALL_GRASS, TALL_FERN, ROSE_BUSH, PEONY,
-		EMERALD_GREEN, 
-		
-		OAK_SAPLING, 
+	// TODO Apple farm?
+	// TODO Cocoa farm?
+	// TODO PPPwPPPPPPwPPP based
+	// wheat/flower/grass/mushroom/netherwart/dead/none/fallow
+	// TODO SPSwSPSSPSwSPS based pumpkin/melon/dead/none/fallow
+	// TODO wPPwPPwwPPwPPw based cane/dead/none/fallow
+
+	public enum CropType {
+		FALLOW, TRELLIS, VINES, GRASS, FERN, /* DEAD_GRASS, */ CACTUS, REED, DANDELION, DEAD_BUSH, POPPY, BLUE_ORCHID,
+		ALLIUM, AZURE_BLUET, OXEYE_DAISY, RED_TULIP, ORANGE_TULIP, WHITE_TULIP, PINK_TULIP, SUNFLOWER, LILAC,
+		TALL_GRASS, TALL_FERN, ROSE_BUSH, PEONY, EMERALD_GREEN,
+
+		OAK_SAPLING,
 //		SPRUCE_SAPLING, 
-		BIRCH_SAPLING, 
+		BIRCH_SAPLING,
 //		JUNGLE_SAPLING, 
 //		ACACIA_SAPLING, 
 //		DARK_OAK_SAPLING, 
-		
-		OAK_TREE, 
+
+		OAK_TREE,
 //		PINE_TREE, 
-		BIRCH_TREE, 
+		BIRCH_TREE,
 //		JUNGLE_TREE, 
 //		SWAMP_TREE, 
 //		ACACIA_TREE,
 
-		WHEAT, CARROT, POTATO, MELON, PUMPKIN, BEETROOT,
-		BROWN_MUSHROOM, RED_MUSHROOM, NETHERWART,
-		SHORT_FLOWERS, TALL_FLOWERS, ALL_FLOWERS,
-		SHORT_PLANTS, TALL_PLANTS, ALL_PLANTS,
-		PRARIE_PLANTS, EDIBLE_PLANTS, NETHER_PLANTS, DECAY_PLANTS,
-		
-		PADDOCK};
+		WHEAT, CARROT, POTATO, MELON, PUMPKIN, BEETROOT, BROWN_MUSHROOM, RED_MUSHROOM, NETHERWART, SHORT_FLOWERS,
+		TALL_FLOWERS, ALL_FLOWERS, SHORT_PLANTS, TALL_PLANTS, ALL_PLANTS, PRARIE_PLANTS, EDIBLE_PLANTS, NETHER_PLANTS,
+		DECAY_PLANTS,
+
+		PADDOCK
+	};
+
 	protected CropType cropType;
 
 	private boolean directionNorthSouth;
@@ -62,22 +60,21 @@ public class FarmLot extends ConnectedLot {
 
 	public FarmLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-		
+
 		style = LotStyle.STRUCTURE;
 		cropType = CropType.FALLOW;
 		directionNorthSouth = chunkOdds.flipCoin();
-		
+
 		// crop type please
 		if (platmap.generator.worldEnvironment == Environment.NETHER)
 			if (platmap.generator.settings.includeDecayedNature)
 				cropType = setDecayedNetherCrop();
 			else
 				cropType = setNetherCrop();
+		else if (platmap.generator.settings.includeDecayedNature)
+			cropType = setDecayedNormalCrop();
 		else
-			if (platmap.generator.settings.includeDecayedNature)
-				cropType = setDecayedNormalCrop();
-			else
-				cropType = setNormalCrop();
+			cropType = setNormalCrop();
 
 		// decayed world?
 		if (platmap.generator.settings.includeDecayedNature)
@@ -92,11 +89,11 @@ public class FarmLot extends ConnectedLot {
 	@Override
 	public boolean makeConnected(PlatLot relative) {
 		boolean result = super.makeConnected(relative);
-		
+
 		// other bits
 		if (result && relative instanceof FarmLot) {
 			FarmLot relativeFarm = (FarmLot) relative;
-			
+
 			directionNorthSouth = relativeFarm.directionNorthSouth;
 			cropType = relativeFarm.cropType;
 		}
@@ -105,7 +102,7 @@ public class FarmLot extends ConnectedLot {
 
 	protected final static Material cropNone = Material.DIRT;
 	protected Material waterMaterial = Material.WATER;
-	
+
 //	private final static Material soilMaterial = Material.FARMLAND;
 //	private final static Material sandMaterial = Material.SAND;
 //	private final static Material mycelMaterial = Material.MYCELIUM;
@@ -118,27 +115,28 @@ public class FarmLot extends ConnectedLot {
 	public int getBottomY(CityWorldGenerator generator) {
 		return generator.streetLevel;
 	}
-	
+
 	@Override
 	public int getTopY(CityWorldGenerator generator, AbstractCachedYs blockYs, int x, int z) {
 		return generator.streetLevel + DataContext.FloorHeight * 3 + 1;
 	}
 
 	@Override
-	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes, DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk,
+			BiomeGrid biomes, DataContext context, int platX, int platZ) {
 
 		// look around
 		SurroundingLots farms = new SurroundingLots(platmap, platX, platZ);
-		
+
 		// what type of ground do we have
 		chunk.setLayer(generator.streetLevel - 1, 2, generator.oreProvider.surfaceMaterial);
-		
+
 		// in-between bits bits
 		Material dividerMaterial = Material.GRASS_PATH;
 		if (generator.worldEnvironment == Environment.NETHER) {
 			dividerMaterial = Material.SOUL_SAND;
 		}
-		
+
 		// draw the isolation blocks
 //		if (!farms.toNorth()) {
 //			chunk.setBlocks(1, 15, generator.streetLevel, 0, 1, dividerMaterial);
@@ -186,20 +184,21 @@ public class FarmLot extends ConnectedLot {
 		if (!farms.toSouthEast())
 			chunk.setBlock(15, generator.streetLevel, 15, dividerMaterial);
 	}
-	
-	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk, DataContext context, int platX, int platZ) {
+
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
+			DataContext context, int platX, int platZ) {
 		int croplevel = generator.streetLevel + 1;
-		
+
 		int cropY = generator.streetLevel + 1;
 		Material fallowMaterial = generator.shapeProvider.findAtmosphereMaterialAt(generator, croplevel - 1);
 		boolean fallowField = fallowMaterial != Material.AIR;
-		
+
 		if (!fallowField)
 			switch (cropType) {
 			case PADDOCK:
 				chunk.setWalls(1, 15, cropY, cropY + 1, 1, 15, Material.SPRUCE_FENCE);
-				
-				//@@ TODO: I fix the gates one of these days
+
+				// @@ TODO: I fix the gates one of these days
 				if (chunkOdds.flipCoin())
 					chunk.setBlock(7, cropY, 1, Material.SPRUCE_FENCE_GATE, BlockFace.NORTH); // face north
 				if (chunkOdds.flipCoin())
@@ -242,22 +241,22 @@ public class FarmLot extends ConnectedLot {
 			case DECAY_PLANTS:
 				if (generator.settings.includeAbovegroundFluids)
 					plowField(chunk, croplevel, Material.COARSE_DIRT, waterMaterial, 2);
-				else 
+				else
 					fallowField = true;
 				break;
 			case PRARIE_PLANTS:
 			case OAK_SAPLING:
-	//		case SPRUCE_SAPLING:
+				// case SPRUCE_SAPLING:
 			case BIRCH_SAPLING:
-	//		case ACACIA_SAPLING:
-	//		case JUNGLE_SAPLING:
-	//		case DARK_OAK_SAPLING:
+				// case ACACIA_SAPLING:
+				// case JUNGLE_SAPLING:
+				// case DARK_OAK_SAPLING:
 			case OAK_TREE:
-	//		case PINE_TREE:
+				// case PINE_TREE:
 			case BIRCH_TREE:
-	//		case JUNGLE_TREE:
-	//		case ACACIA_TREE:
-	//		case SWAMP_TREE:
+				// case JUNGLE_TREE:
+				// case ACACIA_TREE:
+				// case SWAMP_TREE:
 				// leave the grass alone
 				break;
 			case CACTUS:
@@ -266,7 +265,7 @@ public class FarmLot extends ConnectedLot {
 			case REED:
 				if (generator.settings.includeAbovegroundFluids)
 					plowField(chunk, croplevel, Material.SAND, waterMaterial, 2);
-				else 
+				else
 					fallowField = true;
 				break;
 			case DEAD_BUSH:
@@ -278,7 +277,7 @@ public class FarmLot extends ConnectedLot {
 			case BEETROOT:
 				if (generator.settings.includeAbovegroundFluids)
 					plowField(chunk, croplevel, Material.FARMLAND, waterMaterial, 2);
-				else 
+				else
 					fallowField = true;
 				break;
 			case MELON:
@@ -286,7 +285,7 @@ public class FarmLot extends ConnectedLot {
 			case EDIBLE_PLANTS:
 				if (generator.settings.includeAbovegroundFluids)
 					plowField(chunk, croplevel, Material.FARMLAND, waterMaterial, 3);
-				else 
+				else
 					fallowField = true;
 				break;
 			case BROWN_MUSHROOM:
@@ -303,7 +302,7 @@ public class FarmLot extends ConnectedLot {
 				fallowField = true;
 				break;
 			}
-		
+
 		if (fallowField)
 			plowField(chunk, croplevel, Material.COARSE_DIRT, fallowMaterial, 2);
 		else {
@@ -486,14 +485,13 @@ public class FarmLot extends ConnectedLot {
 				break;
 			}
 		}
-		
+
 		if (generator.settings.includeDecayedNature)
 			destroyLot(generator, croplevel - 3, croplevel + 3);
 	}
 
-	private void plowField(SupportBlocks chunk, int croplevel, 
-			Material matRidge, Material matFurrow, int stepCol) {
-		
+	private void plowField(SupportBlocks chunk, int croplevel, Material matRidge, Material matFurrow, int stepCol) {
+
 		// do the deed
 		if (directionNorthSouth) {
 			for (int x = 1; x < 15; x++) {
@@ -513,10 +511,10 @@ public class FarmLot extends ConnectedLot {
 			}
 		}
 	}
-	
-	private void plantField(CityWorldGenerator generator, SupportBlocks chunk, int croplevel, 
-			CoverageType coverageType, int stepRow, int stepCol) {
-		
+
+	private void plantField(CityWorldGenerator generator, SupportBlocks chunk, int croplevel, CoverageType coverageType,
+			int stepRow, int stepCol) {
+
 		// do the deed
 		if (directionNorthSouth) {
 			for (int x = 1; x < 15; x += stepCol) {
@@ -532,10 +530,10 @@ public class FarmLot extends ConnectedLot {
 			}
 		}
 	}
-	
-	private void plantField(CityWorldGenerator generator, SupportBlocks chunk, int croplevel, 
-			CoverageSets coverageSet, int stepRow, int stepCol) {
-		
+
+	private void plantField(CityWorldGenerator generator, SupportBlocks chunk, int croplevel, CoverageSets coverageSet,
+			int stepRow, int stepCol) {
+
 		// do the deed
 		if (directionNorthSouth) {
 			for (int x = 1; x < 15; x += stepCol) {
@@ -557,35 +555,36 @@ public class FarmLot extends ConnectedLot {
 			}
 		}
 	}
-	
-	private void plantSaplings(CityWorldGenerator generator, SupportBlocks chunk, int croplevel, 
+
+	private void plantSaplings(CityWorldGenerator generator, SupportBlocks chunk, int croplevel,
 			CoverageType coverageType) {
 		plantSaplingsRow(generator, chunk, 3, croplevel, 2, coverageType);
 		plantSaplingsRow(generator, chunk, 6, croplevel, 4, coverageType);
 		plantSaplingsRow(generator, chunk, 9, croplevel, 2, coverageType);
 		plantSaplingsRow(generator, chunk, 12, croplevel, 4, coverageType);
 	}
-	
-	private void plantSaplingsRow(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, 
+
+	private void plantSaplingsRow(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
 			CoverageType coverageType) {
 		for (int i = 0; i < 4; i++)
 			generator.coverProvider.generateCoverage(generator, chunk, x, y, z + i * 3, coverageType);
 	}
-	
-	private void plantTrees(CityWorldGenerator generator, SupportBlocks chunk, int croplevel, 
+
+	private void plantTrees(CityWorldGenerator generator, SupportBlocks chunk, int croplevel,
 			CoverageSets coverageSet) {
 		plantTreesRow(generator, chunk, 2, croplevel, 2, coverageSet);
 		plantTreesRow(generator, chunk, 7, croplevel, 3, coverageSet);
 		plantTreesRow(generator, chunk, 12, croplevel, 2, coverageSet);
 	}
-	
-	private void plantTreesRow(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, 
+
+	private void plantTreesRow(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
 			CoverageSets coverageSet) {
 		for (int i = 0; i < 3; i++)
 			generator.coverProvider.generateCoverage(generator, chunk, x, y, z + i * 5, coverageSet);
 	}
-	
+
 	private static int stepVineRowDelta = 2;
+
 	private void buildVineyard(SupportBlocks chunk, int cropLevel) {
 		if (directionNorthSouth) {
 			for (int x = 1; x < 15; x += stepVineRowDelta) {
@@ -615,14 +614,16 @@ public class FarmLot extends ConnectedLot {
 			}
 		}
 	}
-	
+
 	private void plantVineyard(SupportBlocks chunk, int cropLevel, Material matCrop) {
 		if (directionNorthSouth) {
 			for (int x = 1; x < 15; x += stepVineRowDelta) {
 				if (chunkOdds.playOdds(oddsOfCrop)) {
 					for (int z = 2; z < 14; z++) {
-						chunk.setVines(x - 1, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z, BlockFace.EAST);
-						chunk.setVines(x + 1, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z, BlockFace.WEST);
+						chunk.setVines(x - 1, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z,
+								BlockFace.EAST);
+						chunk.setVines(x + 1, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z,
+								BlockFace.WEST);
 //						chunk.setWool(x - 1, x, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z, z + 1, DyeColor.BLACK);
 //						chunk.setWool(x + 1, x + 2, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z, z + 1, DyeColor.BLUE);
 					}
@@ -632,8 +633,10 @@ public class FarmLot extends ConnectedLot {
 			for (int z = 1; z < 15; z += stepVineRowDelta) {
 				if (chunkOdds.playOdds(oddsOfCrop)) {
 					for (int x = 2; x < 14; x++) {
-						chunk.setVines(x, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z - 1, BlockFace.SOUTH);
-						chunk.setVines(x, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z + 1, BlockFace.NORTH);
+						chunk.setVines(x, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z - 1,
+								BlockFace.SOUTH);
+						chunk.setVines(x, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z + 1,
+								BlockFace.NORTH);
 //						chunk.setWool(x, x + 1, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z - 1, z, DyeColor.RED);
 //						chunk.setWool(x, x + 1, cropLevel + 1 + chunkOdds.getRandomInt(3), cropLevel + 4, z + 1, z + 2, DyeColor.GREEN);
 					}
@@ -641,68 +644,32 @@ public class FarmLot extends ConnectedLot {
 			}
 		}
 	}
-	
-	private final static CropType[] normalCrops = {
-		CropType.FALLOW, 
-		CropType.TRELLIS, 
-		CropType.VINES, 
-		CropType.GRASS, 
-		CropType.FERN, 
+
+	private final static CropType[] normalCrops = { CropType.FALLOW, CropType.TRELLIS, CropType.VINES, CropType.GRASS,
+			CropType.FERN,
 //		CropType.DEAD_GRASS, 
-		CropType.CACTUS, 
-		CropType.REED, 
-		CropType.DANDELION, 
-		CropType.DEAD_BUSH, 
-		CropType.POPPY, 
-		CropType.BLUE_ORCHID, 
-		CropType.ALLIUM, 
-		CropType.AZURE_BLUET, 
-		CropType.OXEYE_DAISY,
-		CropType.RED_TULIP, 
-		CropType.ORANGE_TULIP, 
-		CropType.WHITE_TULIP, 
-		CropType.PINK_TULIP,
-		CropType.SUNFLOWER, 
-		CropType.LILAC, 
-		CropType.TALL_GRASS, 
-		CropType.TALL_FERN, 
-		CropType.ROSE_BUSH, 
-		CropType.PEONY,
-		CropType.EMERALD_GREEN,
-		CropType.OAK_SAPLING,
+			CropType.CACTUS, CropType.REED, CropType.DANDELION, CropType.DEAD_BUSH, CropType.POPPY,
+			CropType.BLUE_ORCHID, CropType.ALLIUM, CropType.AZURE_BLUET, CropType.OXEYE_DAISY, CropType.RED_TULIP,
+			CropType.ORANGE_TULIP, CropType.WHITE_TULIP, CropType.PINK_TULIP, CropType.SUNFLOWER, CropType.LILAC,
+			CropType.TALL_GRASS, CropType.TALL_FERN, CropType.ROSE_BUSH, CropType.PEONY, CropType.EMERALD_GREEN,
+			CropType.OAK_SAPLING,
 //		CropType.SPRUCE_SAPLING,
-		CropType.BIRCH_SAPLING,
+			CropType.BIRCH_SAPLING,
 //		CropType.ACACIA_SAPLING,
 //		CropType.JUNGLE_SAPLING,
-		CropType.OAK_TREE, 
+			CropType.OAK_TREE,
 //		CropType.PINE_TREE, 
-		CropType.BIRCH_TREE, 
+			CropType.BIRCH_TREE,
 //		CropType.JUNGLE_TREE, 
 //		CropType.SWAMP_TREE, 
 //		CropType.ACACIA_TREE,
-		CropType.WHEAT, 
-		CropType.CARROT, 
-		CropType.POTATO, 
-		CropType.BEETROOT, 
-		CropType.MELON, 
-		CropType.PUMPKIN, 
-		CropType.SHORT_FLOWERS, 
-		CropType.TALL_FLOWERS, 
-		CropType.ALL_FLOWERS,
-		CropType.SHORT_PLANTS,
-		CropType.TALL_PLANTS,
+			CropType.WHEAT, CropType.CARROT, CropType.POTATO, CropType.BEETROOT, CropType.MELON, CropType.PUMPKIN,
+			CropType.SHORT_FLOWERS, CropType.TALL_FLOWERS, CropType.ALL_FLOWERS, CropType.SHORT_PLANTS,
+			CropType.TALL_PLANTS,
 //		CropType.ALL_PLANTS,
-		CropType.EDIBLE_PLANTS,
-		CropType.PADDOCK,
-		CropType.PADDOCK,
-		CropType.PADDOCK,
-		CropType.PADDOCK,
-		CropType.PADDOCK,
-		CropType.PADDOCK,
-		CropType.PADDOCK,
-		CropType.PADDOCK
-		};
-	
+			CropType.EDIBLE_PLANTS, CropType.PADDOCK, CropType.PADDOCK, CropType.PADDOCK, CropType.PADDOCK,
+			CropType.PADDOCK, CropType.PADDOCK, CropType.PADDOCK, CropType.PADDOCK };
+
 	protected CropType setNormalCrop() {
 		CropType result = pickACrop(normalCrops);
 		if (result == CropType.CACTUS) // make cactus less frequent
@@ -710,31 +677,17 @@ public class FarmLot extends ConnectedLot {
 		return result;
 	}
 
-	private final static CropType[] decayCrops = {
-		CropType.FALLOW,
-		CropType.TRELLIS,
-		CropType.DEAD_BUSH,
-		CropType.BROWN_MUSHROOM,
-		CropType.RED_MUSHROOM,
-		CropType.DECAY_PLANTS,
-		CropType.PADDOCK
-		};
-	
+	private final static CropType[] decayCrops = { CropType.FALLOW, CropType.TRELLIS, CropType.DEAD_BUSH,
+			CropType.BROWN_MUSHROOM, CropType.RED_MUSHROOM, CropType.DECAY_PLANTS, CropType.PADDOCK };
+
 	protected CropType setDecayedNormalCrop() {
 		return pickACrop(decayCrops);
 	}
 
-	private final static CropType[] netherCrops = {
-		CropType.FALLOW,
-		CropType.TRELLIS,
-		CropType.DEAD_BUSH,
-		CropType.BROWN_MUSHROOM,
-		CropType.RED_MUSHROOM,
-		CropType.NETHERWART,
-		CropType.NETHER_PLANTS,
-		CropType.PADDOCK
-		};
-	
+	private final static CropType[] netherCrops = { CropType.FALLOW, CropType.TRELLIS, CropType.DEAD_BUSH,
+			CropType.BROWN_MUSHROOM, CropType.RED_MUSHROOM, CropType.NETHERWART, CropType.NETHER_PLANTS,
+			CropType.PADDOCK };
+
 	protected CropType setNetherCrop() {
 		return pickACrop(netherCrops);
 	}
@@ -745,8 +698,8 @@ public class FarmLot extends ConnectedLot {
 		else
 			return setNetherCrop();
 	}
-	
-	protected CropType pickACrop(CropType ... types) {
+
+	protected CropType pickACrop(CropType... types) {
 		return types[chunkOdds.getRandomInt(types.length)];
 	}
 }

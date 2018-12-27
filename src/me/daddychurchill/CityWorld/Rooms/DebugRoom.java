@@ -15,9 +15,8 @@ public class DebugRoom extends PlatRoom {
 	}
 
 	@Override
-	public void drawFixture(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int floor, int x,
-			int y, int z, int width, int height, int depth,
-			BlockFace sideWithWall, Material materialWall, Material materialGlass) {
+	public void drawFixture(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int floor, int x, int y, int z,
+			int width, int height, int depth, BlockFace sideWithWall, Material materialWall, Material materialGlass) {
 		chunk.setBlocks(x, x + width, y, y + 1, z, z + depth, materialWall);
 		switch (sideWithWall) {
 		default:

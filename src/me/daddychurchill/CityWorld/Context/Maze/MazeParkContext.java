@@ -17,7 +17,7 @@ public class MazeParkContext extends MazeConstructContext {
 	}
 
 	private int connectParkMagicValue = 18273645;
-	
+
 	@Override
 	protected PlatLot generateSpecialOneLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new RoundaboutCenterLot(platmap, chunkX, chunkZ);
@@ -25,8 +25,7 @@ public class MazeParkContext extends MazeConstructContext {
 
 	@Override
 	protected PlatLot generateNormalLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
-		return new ParkLot(platmap, chunkX, chunkZ, connectParkMagicValue, 
-				DataContext.FloorHeight);
+		return new ParkLot(platmap, chunkX, chunkZ, connectParkMagicValue, DataContext.FloorHeight);
 	}
 
 	@Override

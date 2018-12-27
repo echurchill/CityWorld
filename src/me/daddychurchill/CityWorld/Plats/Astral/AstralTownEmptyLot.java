@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class AstralTownEmptyLot extends AstralStructureLot {
-	
+
 	public final static Material materialSupport = Material.COAL_BLOCK;
 	public final static Material materialCross = Material.WHITE_TERRACOTTA;
 	public final static Material materialBase = Material.QUARTZ_BLOCK;
@@ -19,12 +19,11 @@ public class AstralTownEmptyLot extends AstralStructureLot {
 	}
 
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealBlocks chunk, DataContext context,
-			int platX, int platZ) {
-		
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
+			DataContext context, int platX, int platZ) {
+
 		int levelY = generator.seaLevel + aboveSeaLevel;
-		
+
 //		chunk.setBlocks(7, 9, blockYs.minHeight - 4, levelY - 1, 7, 9, materialSupport);
 		chunk.setBlocks(0, blockYs.minHeight - 4, levelY - 1, 0, materialSupport);
 		chunk.setBlocks(0, blockYs.minHeight - 4, levelY - 1, 15, materialSupport);
@@ -40,7 +39,7 @@ public class AstralTownEmptyLot extends AstralStructureLot {
 		chunk.setBlocks(15, 16, levelY - 3, levelY - 1, 1, 15, materialCross);
 		chunk.setBlocks(1, 15, levelY - 3, levelY - 1, 15, 16, materialCross);
 		chunk.setBlocks(0, 1, levelY - 3, levelY - 1, 1, 15, materialCross);
-		
+
 		chunk.setBlocks(0, 16, levelY - 1, levelY, 0, 16, materialBase);
 	}
 

@@ -21,25 +21,25 @@ public class MunicipalContext extends UrbanContext {
 		oddsOfSimilarBuildingRounding = Odds.oddsAlwaysGoingToHappen;
 		oddsOfUnfinishedBuildings = Odds.oddsExtremelyUnlikely;
 		oddsOfOnlyUnfinishedBasements = Odds.oddsUnlikely;
-		//oddsOfMissingRoad = oddsNeverGoingToHappen;
+		// oddsOfMissingRoad = oddsNeverGoingToHappen;
 		oddsOfRoundAbouts = Odds.oddsVeryLikely;
-		 
+
 		oddsOfStairWallMaterialIsWallMaterial = Odds.oddsAlwaysGoingToHappen;
 		oddsOfFlatWalledBuildings = Odds.oddsAlwaysGoingToHappen;
 		oddsOfSimilarInsetBuildings = Odds.oddsAlwaysGoingToHappen;
 		oddsOfBuildingWallInset = Odds.oddsAlwaysGoingToHappen;
 		rangeOfWallInset = 1;
-		
+
 		setSchematicFamily(SchematicFamily.MUNICIPAL);
 
 		maximumFloorsAbove = 5;
 		maximumFloorsBelow = 2;
 		minSizeOfBuilding = 3;
-		
+
 		oddsOfFloodFill = Odds.oddsAlwaysGoingToHappen;
 		oddsOfFloodDecay = Odds.oddsAlwaysGoingToHappen;
 	}
-	
+
 	@Override
 	protected PlatLot getBuilding(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		if (odds.playOdds(Odds.oddsVeryUnlikely))
@@ -47,14 +47,14 @@ public class MunicipalContext extends UrbanContext {
 		else
 			return new GovernmentBuildingLot(platmap, chunkX, chunkZ);
 	}
-	
+
 	@Override
-	protected PlatLot getPark(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ, int waterDepth) {
+	protected PlatLot getPark(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ,
+			int waterDepth) {
 		if (odds.playOdds(Odds.oddsVeryUnlikely))
 			return new ParkLot(platmap, chunkX, chunkZ, generator.connectedKeyForParks, waterDepth);
 		else
 			return new GovernmentMonumentLot(platmap, chunkX, chunkZ);
 	}
-	
 
 }

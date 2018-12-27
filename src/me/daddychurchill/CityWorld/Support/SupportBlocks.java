@@ -21,23 +21,23 @@ import org.bukkit.block.data.type.Slab.Type;
 import org.bukkit.util.noise.NoiseGenerator;
 
 public abstract class SupportBlocks extends AbstractBlocks {
-	
+
 	private boolean doPhysics;
 	private boolean doClearData;
-	
+
 	public SupportBlocks(CityWorldGenerator generator) {
 		super(generator);
-		
+
 		doPhysics = false;
 		doClearData = false;
 	}
-	
+
 	public abstract Block getActualBlock(int x, int y, int z);
 
 	public final boolean getDoPhysics() {
 		return doPhysics;
 	}
-	
+
 	public final boolean setDoPhysics(boolean dophysics) {
 		boolean was = doPhysics;
 		doPhysics = dophysics;
@@ -47,7 +47,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	public final boolean getDoClearData() {
 		return doClearData;
 	}
-	
+
 	public final boolean setDoClearData(boolean docleardata) {
 		boolean was = doClearData;
 		doClearData = docleardata;
@@ -60,24 +60,24 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		if (block.isEmpty() && !getActualBlock(x, y - 1, z).isEmpty())
 			setActualBlock(block, material, getDoPhysics(x, z));
 	}
-	
+
 	private final boolean getDoPhysics(int x, int z) {
 		boolean thisDoPhysics = doPhysics;
 		if (thisDoPhysics)
 			thisDoPhysics = (x > 0 && x < 15) && (z > 0 && z < 15);
 		return thisDoPhysics;
 	}
-	
+
 	private final void setActualBlock(Block block, Material material, boolean thisDoPhysics) {
 		block.setType(material, thisDoPhysics);
 	}
-	
+
 	@Override
 	public final void setBlock(int x, int y, int z, Material material) {
 		setActualBlock(getActualBlock(x, y, z), material, getDoPhysics(x, z));
 	}
 
-	protected final boolean isType(Block block, Material ... types) {
+	protected final boolean isType(Block block, Material... types) {
 		Material type = block.getType();
 		for (Material test : types)
 			if (type == test)
@@ -89,20 +89,20 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		return getActualBlock(x, y, z).getType() == type;
 	}
 
-	public final boolean isOfTypes(int x, int y, int z, Material ... types) {
+	public final boolean isOfTypes(int x, int y, int z, Material... types) {
 		return isType(getActualBlock(x, y, z), types);
 	}
-	
-	public final void setBlockIfNot(int x, int y, int z, Material ... types) {
+
+	public final void setBlockIfNot(int x, int y, int z, Material... types) {
 		if (!isOfTypes(x, y, z, types))
 			setBlock(x, y, z, types[0]);
 	}
-	
+
 	@Override
 	public final boolean isEmpty(int x, int y, int z) {
 		return getActualBlock(x, y, z).isEmpty();
 	}
-	
+
 	public final boolean isPartiallyEmpty(int x, int y1, int y2, int z) {
 		for (int y = y1; y < y2; y++) {
 			if (isEmpty(x, y, z))
@@ -110,7 +110,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 		return false;
 	}
-	
+
 	public final boolean isPartiallyEmpty(int x1, int x2, int y1, int y2, int z1, int z2) {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
@@ -122,20 +122,20 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 		return false;
 	}
-	
+
 	public abstract boolean isSurroundedByEmpty(int x, int y, int z);
-	
+
 	public final boolean isWater(int x, int y, int z) {
 		return isOfTypes(x, y, z, Material.WATER);
 //		return getActualBlock(x, y, z).isLiquid();
 	}
 
 	public abstract boolean isByWater(int x, int y, int z);
-	
+
 	public final Location getBlockLocation(int x, int y, int z) {
 		return getActualBlock(x, y, z).getLocation();
 	}
-	
+
 	@Override
 	public final void setAtmosphereBlock(int x, int y, int z, Material material) {
 		setBlock(x, y, z, material);
@@ -198,19 +198,19 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	@Override
 	public final void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
 		if (material.createBlockData() instanceof MultipleFacing) {
-			setBlocks(x1 + 1, x2 - 1, y1, y2, z1, z1 + 1, material, BlockFace.EAST, BlockFace.WEST);    // N
-			setBlocks(x1 + 1, x2 - 1, y1, y2, z2 - 1, z2, material, BlockFace.EAST, BlockFace.WEST);    // S
-			setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material, BlockFace.SOUTH, BlockFace.NORTH);  // W
-			setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material, BlockFace.SOUTH, BlockFace.NORTH);  // E
-			setBlocks(x1, y1, y2, z1, material, BlockFace.SOUTH, BlockFace.EAST);                // NW
-			setBlocks(x1, y1, y2, z2 - 1, material, BlockFace.NORTH, BlockFace.EAST);         // SW
-			setBlocks(x2 - 1, y1, y2, z1, material, BlockFace.SOUTH, BlockFace.WEST);         // NE
-			setBlocks(x2 - 1, y1, y2, z2 - 1, material, BlockFace.NORTH, BlockFace.WEST);  // SE
+			setBlocks(x1 + 1, x2 - 1, y1, y2, z1, z1 + 1, material, BlockFace.EAST, BlockFace.WEST); // N
+			setBlocks(x1 + 1, x2 - 1, y1, y2, z2 - 1, z2, material, BlockFace.EAST, BlockFace.WEST); // S
+			setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material, BlockFace.SOUTH, BlockFace.NORTH); // W
+			setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material, BlockFace.SOUTH, BlockFace.NORTH); // E
+			setBlocks(x1, y1, y2, z1, material, BlockFace.SOUTH, BlockFace.EAST); // NW
+			setBlocks(x1, y1, y2, z2 - 1, material, BlockFace.NORTH, BlockFace.EAST); // SW
+			setBlocks(x2 - 1, y1, y2, z1, material, BlockFace.SOUTH, BlockFace.WEST); // NE
+			setBlocks(x2 - 1, y1, y2, z2 - 1, material, BlockFace.NORTH, BlockFace.WEST); // SE
 		} else {
-			setBlocks(x1, x2, y1, y2, z1, z1 + 1, material);                    // N
-			setBlocks(x1, x2, y1, y2, z2 - 1, z2, material);                    // S
-			setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material);    // W
-			setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material);    // E
+			setBlocks(x1, x2, y1, y2, z1, z1 + 1, material); // N
+			setBlocks(x1, x2, y1, y2, z2 - 1, z2, material); // S
+			setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material); // W
+			setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material); // E
 		}
 	}
 
@@ -223,16 +223,16 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			setBlocks(x1, x2, y1, y2, z1, z2, material);
 		}
 		setBlocks(x1, x2, y1, y2, z1, z2, material, BlockFace.NORTH, BlockFace.SOUTH, BlockFace.EAST, BlockFace.WEST);
-		setBlocks(x1 + 1, x2 - 1, y1, y2, z1, z1 + 1, material, BlockFace.EAST, BlockFace.WEST, BlockFace.SOUTH);   // N
-		setBlocks(x1 + 1, x2 - 1, y1, y2, z2 - 1, z2, material, BlockFace.EAST, BlockFace.WEST, BlockFace.NORTH);   // S
-		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material, BlockFace.SOUTH, BlockFace.NORTH, BlockFace.EAST);  // W
-		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material, BlockFace.SOUTH, BlockFace.NORTH, BlockFace.WEST);  // E
-		setBlocks(x1, y1, y2, z1, material, BlockFace.SOUTH, BlockFace.EAST);                // NW
-		setBlocks(x1, y1, y2, z2 - 1, material, BlockFace.NORTH, BlockFace.EAST);         // SW
-		setBlocks(x2 - 1, y1, y2, z1, material, BlockFace.SOUTH, BlockFace.WEST);         // NE
-		setBlocks(x2 - 1, y1, y2, z2 - 1, material, BlockFace.NORTH, BlockFace.WEST);  // SE
+		setBlocks(x1 + 1, x2 - 1, y1, y2, z1, z1 + 1, material, BlockFace.EAST, BlockFace.WEST, BlockFace.SOUTH); // N
+		setBlocks(x1 + 1, x2 - 1, y1, y2, z2 - 1, z2, material, BlockFace.EAST, BlockFace.WEST, BlockFace.NORTH); // S
+		setBlocks(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material, BlockFace.SOUTH, BlockFace.NORTH, BlockFace.EAST); // W
+		setBlocks(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material, BlockFace.SOUTH, BlockFace.NORTH, BlockFace.WEST); // E
+		setBlocks(x1, y1, y2, z1, material, BlockFace.SOUTH, BlockFace.EAST); // NW
+		setBlocks(x1, y1, y2, z2 - 1, material, BlockFace.NORTH, BlockFace.EAST); // SW
+		setBlocks(x2 - 1, y1, y2, z1, material, BlockFace.SOUTH, BlockFace.WEST); // NE
+		setBlocks(x2 - 1, y1, y2, z2 - 1, material, BlockFace.NORTH, BlockFace.WEST); // SE
 	}
-	
+
 	@Override
 	public final int setLayer(int blocky, Material material) {
 		setBlocks(0, width, blocky, blocky + 1, 0, width, material);
@@ -250,7 +250,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		setBlocks(inset, width - inset, blocky, blocky + height, inset, width - inset, material);
 		return blocky + height;
 	}
-	
+
 	@Override
 	public final boolean setEmptyBlock(int x, int y, int z, Material material) {
 		Block block = getActualBlock(x, y, z);
@@ -271,9 +271,10 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			}
 		}
 	}
-	
-	//@@ I REALLY NEED TO FIGURE A DIFFERENT WAY TO DO THIS
-	public final boolean isNonstackableBlock(Block block) { // either because it really isn't or it just doesn't look good
+
+	// @@ I REALLY NEED TO FIGURE A DIFFERENT WAY TO DO THIS
+	public final boolean isNonstackableBlock(Block block) { // either because it really isn't or it just doesn't look
+															// good
 		return !block.getType().isOccluding();
 //		switch (block.getType()) {
 //		default: 
@@ -347,38 +348,38 @@ public abstract class SupportBlocks extends AbstractBlocks {
 //							 Material.TRIPWIRE, Material.TRIPWIRE_HOOK,
 //							 Material.IRON_DOOR_BLOCK, Material.IRON_BARS);
 	}
-	
+
 	public final boolean isNonstackableBlock(int x, int y, int z) {
 		return isNonstackableBlock(getActualBlock(x, y, z));
 	}
-	
+
 	private int clamp(double value, int max) {
 		return clamp(value, 0, max);
 	}
-	
+
 	private int clamp(double value, int min, int max) {
 		return NoiseGenerator.floor((value - NoiseGenerator.floor(value)) * (max - min)) + min;
 	}
-	
+
 	public final Block setBlock(int x, int y, int z, Material material, double level) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(material, false);
 		BlockData data = block.getBlockData();
 		try {
 			if (data instanceof Ageable) {
-				Ageable ageable = (Ageable)data;
+				Ageable ageable = (Ageable) data;
 				ageable.setAge(clamp(level, ageable.getMaximumAge()));
 			} else if (data instanceof Levelled) {
-				Levelled levelled = (Levelled)data;
+				Levelled levelled = (Levelled) data;
 				levelled.setLevel(clamp(level, levelled.getMaximumLevel()));
 			} else if (data instanceof Snow) {
-				Snow snow = (Snow)data;
+				Snow snow = (Snow) data;
 				snow.setLayers(clamp(level, snow.getMinimumLayers(), snow.getMaximumLayers()));
 			}
 		} finally {
 			block.setBlockData(data, getDoPhysics(x, z));
 		}
-		
+
 		return block;
 	}
 
@@ -386,7 +387,8 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		setBlock(x, y, z, Material.CAULDRON, odds.getRandomDouble());
 	}
 
-	public final void setBlocksRandomly(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds, Material ... materials) {
+	public final void setBlocksRandomly(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds,
+			Material... materials) {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
@@ -395,12 +397,12 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			}
 		}
 	}
-	
-	public final void setBlockRandomly(int x, int y, int z, Odds odds, Material ... materials) {
+
+	public final void setBlockRandomly(int x, int y, int z, Odds odds, Material... materials) {
 		setBlock(x, y, z, odds.getRandomMaterial(materials));
 	}
-	
-	public final void setVine(int x, int y, int z, BlockFace ... faces) {
+
+	public final void setVine(int x, int y, int z, BlockFace... faces) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(Material.VINE, false);
 		BlockData data = block.getBlockData();
@@ -419,14 +421,14 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		for (int y = y1; y < y2; y++)
 			setVine(x, y, z, faces);
 	}
-	
+
 	public final Block setBlock(int x, int y, int z, Material material, Shape shape, boolean powered) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(material, false);
 		BlockData data = block.getBlockData();
 		try {
 			if (data instanceof Rail)
-				((Rail)data).setShape(shape);
+				((Rail) data).setShape(shape);
 			if (data instanceof Powerable)
 				((Powerable) data).setPowered(powered);
 		} finally {
@@ -434,7 +436,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 		return block;
 	}
-	
+
 	@Override
 	public final void setBlock(int x, int y, int z, Material material, Type type) {
 		Block block = getActualBlock(x, y, z);
@@ -447,7 +449,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			block.setBlockData(data, getDoPhysics(x, z));
 		}
 	}
-	
+
 	@Override
 	public final void setBlock(int x, int y, int z, Material material, BlockFace facing) {
 		Block block = getActualBlock(x, y, z);
@@ -460,16 +462,16 @@ public abstract class SupportBlocks extends AbstractBlocks {
 				((MultipleFacing) data).setFace(facing, true);
 			} else if (data instanceof Orientable) {
 				switch (facing) {
-					case NORTH:
-					case SOUTH:
-						((Orientable) data).setAxis(Axis.Z);
-						break;
-					case EAST:
-					case WEST:
-						((Orientable) data).setAxis(Axis.X);
-						break;
-					default:
-						((Orientable) data).setAxis(Axis.Y);
+				case NORTH:
+				case SOUTH:
+					((Orientable) data).setAxis(Axis.Z);
+					break;
+				case EAST:
+				case WEST:
+					((Orientable) data).setAxis(Axis.X);
+					break;
+				default:
+					((Orientable) data).setAxis(Axis.Y);
 				}
 			}
 		} finally {
@@ -516,27 +518,27 @@ public abstract class SupportBlocks extends AbstractBlocks {
 
 	public final void drawCrane(DataContext context, Odds odds, int x, int y, int z) {
 		Colors colors = new Colors(odds);
-		
+
 		// vertical bit
 		setBlocks(x, y, y + 8, z, Material.IRON_BARS, BlockFace.WEST);
 		setBlocks(x - 1, y, y + 8, z, Material.IRON_BARS, BlockFace.EAST); // 1.9 shows iron fences very thin now
 		setBlocks(x, y + 8, y + 10, z, Material.STONE);
 		setBlocks(x - 1, y + 8, y + 10, z, Material.STONE_SLAB);
 		setBlock(x, y + 10, z, context.torchMat, BlockFace.UP);
-		
+
 		// horizontal bit
 		setBlock(x + 1, y + 8, z, Material.GLASS);
 		setBlocks(x + 2, x + 10, y + 8, y + 9, z, z + 1, Material.IRON_BARS, BlockFace.EAST, BlockFace.WEST);
 		setBlock(x + 10, y + 8, z, Material.IRON_BARS, BlockFace.WEST);
 		setBlocks(x + 1, x + 10, y + 9, y + 10, z, z + 1, Material.STONE_SLAB);
 		setBlock(x + 10, y + 9, z, Material.STONE_BRICK_STAIRS, BlockFace.WEST);
-		
+
 		// counter weight
 		setBlock(x - 2, y + 9, z, Material.STONE_SLAB);
 		setBlock(x - 3, y + 9, z, Material.STONE_BRICK_STAIRS, BlockFace.EAST);
 		setBlocks(x - 3, x - 1, y + 7, y + 9, z, z + 1, colors.getConcrete());
 	}
-	
+
 	public final void setTable(int x1, int x2, int y, int z1, int z2, Material tableLeg, Material tableTop) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
@@ -544,21 +546,22 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			}
 		}
 	}
-	
+
 	public final void setTable(int x, int y, int z, Material tableLeg, Material tableTop) {
 		setBlock(x, y, z, tableLeg);
 		setBlock(x, y + 1, z, tableTop);
 	}
-	
-	private final Block setDoorBlock(int x, int y, int z, Material material, BlockFace facing, Half half, Hinge hinge, boolean doPhysics) {
+
+	private final Block setDoorBlock(int x, int y, int z, Material material, BlockFace facing, Half half, Hinge hinge,
+			boolean doPhysics) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(material, false);
 		BlockData data = block.getBlockData();
 		try {
 			if (data instanceof Door) {
-				((Door)data).setHalf(half);
-				((Door)data).setFacing(facing);
-				((Door)data).setHinge(hinge);
+				((Door) data).setHalf(half);
+				((Door) data).setFacing(facing);
+				((Door) data).setHinge(hinge);
 			}
 		} finally {
 			block.setBlockData(data, getDoPhysics(x, z));
@@ -570,12 +573,12 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	public void setDoor(int x, int y, int z, Material material, BlockFace facing) {
 		clearBlock(x, y, z);
 		clearBlock(x, y + 1, z);
-		
+
 		Hinge hinge = Hinge.LEFT;
-		
+
 		facing = fixFacing(facing);
 		facing = facing.getOppositeFace();
-		
+
 		setDoorBlock(x, y, z, material, facing, Half.BOTTOM, hinge, false);
 		setDoorBlock(x, y + 1, z, material, facing, Half.TOP, hinge, true);
 	}
@@ -592,7 +595,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	}
 
 	public final void setLadder(int x, int y1, int y2, int z, BlockFace direction) {
-		
+
 		// this calculates which wall the ladder is on
 		int offsetX = 0;
 		int offsetZ = 0;
@@ -611,7 +614,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			offsetZ = 1;
 			break;
 		}
-		
+
 		// only put the ladder on the wall (see above) if there is actually a wall
 		for (int y = y1; y < y2; y++) {
 			if (!isEmpty(x + offsetX, y, z + offsetZ)) {
@@ -619,7 +622,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			}
 		}
 	}
-	
+
 	public final void setTallBlock(int x, int y, int z, Material material) {
 		setBlock(x, y, z, material, Half.BOTTOM);
 		setBlock(x, y + 1, z, material, Half.TOP);
@@ -631,7 +634,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		BlockData data = block.getBlockData();
 		try {
 			if (data instanceof Bisected)
-				((Bisected)data).setHalf(half);
+				((Bisected) data).setHalf(half);
 		} finally {
 			block.setBlockData(data, getDoPhysics(x, z));
 		}
@@ -644,9 +647,9 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		BlockData data = block.getBlockData();
 		try {
 			if (data instanceof Directional)
-				((Directional)data).setFacing(facing);
+				((Directional) data).setFacing(facing);
 			if (data instanceof Bisected)
-				((Bisected)data).setHalf(half);
+				((Bisected) data).setHalf(half);
 		} finally {
 			block.setBlockData(data, getDoPhysics(x, z));
 		}
@@ -677,15 +680,17 @@ public abstract class SupportBlocks extends AbstractBlocks {
 				setBlock(x, y, z, material, half);
 	}
 
-	public final void setChest(CityWorldGenerator generator, int x, int y, int z, BlockFace facing, Odds odds, LootProvider lootProvider, LootLocation lootLocation) {
+	public final void setChest(CityWorldGenerator generator, int x, int y, int z, BlockFace facing, Odds odds,
+			LootProvider lootProvider, LootLocation lootLocation) {
 		setBlock(x, y, z, Material.CHEST, facing);
 		Block block = getActualBlock(x, y, z);
 		connectDoubleChest(x, y, z, facing);
 		if (isType(block, Material.CHEST))
 			lootProvider.setLoot(generator, odds, world.getName(), lootLocation, block);
 	}
-	
-	public final void setDoubleChest(CityWorldGenerator generator, int x, int y, int z, BlockFace facing, Odds odds, LootProvider lootProvider, LootLocation lootLocation) {
+
+	public final void setDoubleChest(CityWorldGenerator generator, int x, int y, int z, BlockFace facing, Odds odds,
+			LootProvider lootProvider, LootLocation lootLocation) {
 		switch (facing) {
 		default:
 		case EAST:
@@ -705,18 +710,18 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 
-	public final void setWallSign(int x, int y, int z, BlockFace facing, String ... lines) {
+	public final void setWallSign(int x, int y, int z, BlockFace facing, String... lines) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(Material.WALL_SIGN, false);
 		BlockData data = block.getBlockData();
 		try {
 			if (data instanceof Directional)
-				((Directional)data).setFacing(facing);
-			
+				((Directional) data).setFacing(facing);
+
 			BlockState state = block.getState();
 			if (state instanceof Sign) {
-				Sign signState = (Sign)state;
-				for (int i = 0; i < lines.length && i < 4; i++) 
+				Sign signState = (Sign) state;
+				for (int i = 0; i < lines.length && i < 4; i++)
 					signState.setLine(i, lines[i]);
 				state.update();
 			}
@@ -725,19 +730,18 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 
-
-	public final void setSignPost(int x, int y, int z, BlockFace rotation, String ... lines) {
+	public final void setSignPost(int x, int y, int z, BlockFace rotation, String... lines) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(Material.SIGN, false);
 		BlockData data = block.getBlockData();
 		try {
 			if (data instanceof Rotatable)
-				((Rotatable)data).setRotation(rotation);
-			
+				((Rotatable) data).setRotation(rotation);
+
 			BlockState state = block.getState();
 			if (state instanceof Sign) {
-				Sign signState = (Sign)state;
-				for (int i = 0; i < lines.length && i < 4; i++) 
+				Sign signState = (Sign) state;
+				for (int i = 0; i < lines.length && i < 4; i++)
 					signState.setLine(i, lines[i]);
 				state.update();
 			}
@@ -745,14 +749,14 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			block.setBlockData(data, getDoPhysics(x, z));
 		}
 	}
-	
+
 	public final Block setLeaf(int x, int y, int z, Material material, boolean isPersistent) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(material, false);
 		BlockData data = block.getBlockData();
 		try {
 			if (data instanceof Leaves)
-				((Leaves)data).setPersistent(isPersistent);
+				((Leaves) data).setPersistent(isPersistent);
 
 		} finally {
 			block.setBlockData(data, getDoPhysics(x, z));
@@ -760,14 +764,15 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		return block;
 	}
 
-	private final Block setBedBlock(int x, int y, int z, Material material, BlockFace facing, Part part, boolean doPhysics) {
+	private final Block setBedBlock(int x, int y, int z, Material material, BlockFace facing, Part part,
+			boolean doPhysics) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(material, false);
 		BlockData data = block.getBlockData();
 		try {
 			if (data instanceof Bed) {
-				((Bed)data).setFacing(facing);
-				((Bed)data).setPart(part);
+				((Bed) data).setFacing(facing);
+				((Bed) data).setPart(part);
 			}
 		} finally {
 			block.setBlockData(data, getDoPhysics(x, z));
@@ -822,7 +827,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 //			break;
 //		}
 	}
-	
+
 	private void connectDoubleChest(int x, int y, int z, BlockFace facing) {
 		Block block = getActualBlock(x, y, z);
 		if (!isType(block, Material.CHEST)) {
@@ -833,34 +838,36 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 		Block checkLeftBlock, checkRightBlock;
 		switch (facing) {
-			default:
-			case EAST:
-				checkLeftBlock = z > 0 ? getActualBlock(x, y, z - 1) : null;
-				checkRightBlock = z < 15 ? getActualBlock(x, y, z + 1) : null;
-				break;
-			case SOUTH:
-				checkLeftBlock = x < 15 ? getActualBlock(x + 1, y, z) : null;
-				checkRightBlock = x > 0 ? getActualBlock(x - 1, y, z) : null;
-				break;
-			case WEST:
-				checkLeftBlock = z < 15 ? getActualBlock(x, y, z + 1) : null;
-				checkRightBlock = z > 0 ? getActualBlock(x, y, z - 1) : null;
-				break;
-			case NORTH:
-				checkLeftBlock = x > 0 ? getActualBlock(x - 1, y, z) : null;
-				checkRightBlock = x < 15 ? getActualBlock(x + 1, y, z) : null;
-				break;
+		default:
+		case EAST:
+			checkLeftBlock = z > 0 ? getActualBlock(x, y, z - 1) : null;
+			checkRightBlock = z < 15 ? getActualBlock(x, y, z + 1) : null;
+			break;
+		case SOUTH:
+			checkLeftBlock = x < 15 ? getActualBlock(x + 1, y, z) : null;
+			checkRightBlock = x > 0 ? getActualBlock(x - 1, y, z) : null;
+			break;
+		case WEST:
+			checkLeftBlock = z < 15 ? getActualBlock(x, y, z + 1) : null;
+			checkRightBlock = z > 0 ? getActualBlock(x, y, z - 1) : null;
+			break;
+		case NORTH:
+			checkLeftBlock = x > 0 ? getActualBlock(x - 1, y, z) : null;
+			checkRightBlock = x < 15 ? getActualBlock(x + 1, y, z) : null;
+			break;
 		}
 		Chest blockData = null;
-		if (checkLeftBlock != null && isType(checkLeftBlock, Material.CHEST) && ((Chest) checkLeftBlock.getBlockData()).getFacing() == facing) {
+		if (checkLeftBlock != null && isType(checkLeftBlock, Material.CHEST)
+				&& ((Chest) checkLeftBlock.getBlockData()).getFacing() == facing) {
 			blockData = (Chest) block.getBlockData();
 			Chest checkLeftBlockData = (Chest) checkLeftBlock.getBlockData();
 			blockData.setType(Chest.Type.RIGHT);
 			checkLeftBlockData.setType(Chest.Type.LEFT);
 			block.setBlockData(blockData);
 			checkLeftBlock.setBlockData(checkLeftBlockData);
-			
-		} else if (checkRightBlock != null && isType(checkRightBlock, Material.CHEST) && ((Chest) checkRightBlock.getBlockData()).getFacing() == facing) {
+
+		} else if (checkRightBlock != null && isType(checkRightBlock, Material.CHEST)
+				&& ((Chest) checkRightBlock.getBlockData()).getFacing() == facing) {
 			blockData = (Chest) block.getBlockData();
 			Chest checkRightBlockData = (Chest) checkRightBlock.getBlockData();
 			blockData.setType(Chest.Type.LEFT);
@@ -887,7 +894,8 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		return block;
 	}
 
-	public final void setGates(int x1, int x2, int y, int z1, int z2, Material material, BlockFace facing, boolean isOpen) {
+	public final void setGates(int x1, int x2, int y, int z1, int z2, Material material, BlockFace facing,
+			boolean isOpen) {
 		for (int x = x1; x < x2; x++)
 			for (int z = z1; z < z2; z++)
 				setGate(x, y, z, material, facing, isOpen);

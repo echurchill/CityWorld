@@ -30,11 +30,14 @@ public final class AnimalList extends AbstractEntityList {
 			return odds.getRandomInt(1, 3);
 		}
 	}
-	
-	public enum EntityAffilation {HOSTILE, NEUTRAL, FRIENDLY, OTHER};
+
+	public enum EntityAffilation {
+		HOSTILE, NEUTRAL, FRIENDLY, OTHER
+	};
+
 	public EntityAffilation getEntityAffilation(EntityType foo) {
 		switch (foo) {
-		
+
 		// bad
 		case BLAZE:
 		case CAVE_SPIDER:
@@ -69,7 +72,7 @@ public final class AnimalList extends AbstractEntityList {
 		case PHANTOM:
 		case TRIDENT:
 			return EntityAffilation.HOSTILE;
-			
+
 		// neutral
 		case BAT:
 		case IRON_GOLEM:
@@ -97,7 +100,7 @@ public final class AnimalList extends AbstractEntityList {
 		case PIG:
 		case SHEEP:
 			return EntityAffilation.NEUTRAL;
-			
+
 		// friendly
 		case VILLAGER:
 			return EntityAffilation.FRIENDLY;
@@ -149,7 +152,7 @@ public final class AnimalList extends AbstractEntityList {
 		default:
 			break;
 		}
-		
+
 		return EntityAffilation.OTHER;
 	}
 }

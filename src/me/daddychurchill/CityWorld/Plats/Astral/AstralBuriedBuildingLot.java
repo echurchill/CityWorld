@@ -12,19 +12,18 @@ import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
-
 public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 
 	private Material wallMaterial;
 	private Material stepMaterial;
 	private static RoomProvider roomRandom = new BuriedWithRandom();
-	
+
 	public AstralBuriedBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
-		
+
 		wallMaterial = Material.SMOOTH_STONE;
 		stepMaterial = Material.STONE_BRICK_STAIRS;
-		
+
 		switch (chunkOdds.getRandomInt(10)) {
 		case 1:
 			wallMaterial = Material.BRICKS;
@@ -54,7 +53,7 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 			wallMaterial = Material.TERRACOTTA;
 			break;
 		case 8:
-			wallMaterial = Material.STONE;//@@ DOUBLE_STEP;
+			wallMaterial = Material.STONE;// @@ DOUBLE_STEP;
 			break;
 		case 9:
 			wallMaterial = Material.WHITE_WOOL;
@@ -64,36 +63,34 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 			break;
 		}
 	}
-	
+
 	private final static Material baseMaterial = Material.SMOOTH_STONE;
 	private final static int floorHeight = 4;
 
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
-			int platZ) {
-		
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
+			DataContext context, int platX, int platZ) {
+
 		// what is the potential height?
 		int possibleFloors = (Math.max(blockYs.minHeight, generator.seaLevel / 2) - 8) / floorHeight;
 		chunk.setBlocks(0, 16, StreetLevel, StreetLevel + 1, 0, 16, baseMaterial);
-		
+
 		// do able?
 		if (possibleFloors > 0) {
 			int floors = chunkOdds.getRandomInt(possibleFloors + 1);
 			if (floors > 0) {
-			
+
 				int y = StreetLevel + 1;
 				int lastY = y;
 				for (int floor = 0; floor < floors; floor++) {
 					lastY = y;
 					y = generateFloor(generator, chunk, y, wallMaterial);
 				}
-				
+
 				// add stairs?
 				chunk.setDoClearData(true);
 				int topY = lastY - 1;
-				MineEntranceLot.generateStairWell(generator, chunk, chunkOdds, 
-						6, 6, StreetLevel + 1, topY, topY, topY,
+				MineEntranceLot.generateStairWell(generator, chunk, chunkOdds, 6, 6, StreetLevel + 1, topY, topY, topY,
 						stepMaterial, wallMaterial, wallMaterial);
 				chunk.setDoClearData(false);
 			}
@@ -108,50 +105,54 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 			chunk.setBlocks(i + 1, y1, y2, 15, Material.AIR);
 			chunk.setBlocks(0, y1, y2, i + 1, Material.AIR);
 		}
-		
+
 	}
 
 	private final static double oddsOfWindows = Odds.oddsLikely;
 	private final static double oddsOfTallFloor = Odds.oddsVeryUnlikely;
 	private final static double oddsOfFurniture = Odds.oddsVeryLikely;
-	
+
 	private int generateFloor(CityWorldGenerator generator, RealBlocks chunk, int y, Material wallMaterial) {
-		
+
 		// tall one?
 		int y2 = y + floorHeight - 1;
 		if (chunkOdds.playOdds(oddsOfTallFloor))
 			y2 += floorHeight;
-		
+
 		// clear room
 		chunk.setBlocks(2, 14, y, y2, 2, 14, Material.AIR);
-		
+
 		// the walls themselves
 		chunk.setDoClearData(true);
 		chunk.setWalls(1, 15, y, y2, 1, 15, wallMaterial);
-		
+
 		// add a ceiling
 		chunk.setBlocks(1, 15, y2, y2 + 1, 1, 15, wallMaterial);
-		
+
 		// add stairwells?
 		chunk.setBlocks(7, 10, y, y2, 5, 6, wallMaterial); // bottom & top floors should have some closure
 		chunk.setBlocks(10, 11, y, y2, 6, 10, wallMaterial);
 		chunk.setBlocks(6, 10, y, y2, 10, 11, wallMaterial);
-		chunk.setBlocks(5, 6, y, y2, 7, 10, wallMaterial); 
+		chunk.setBlocks(5, 6, y, y2, 7, 10, wallMaterial);
 		chunk.setDoClearData(false);
-		
+
 		// add stuff?
 		if (chunkOdds.playOdds(oddsOfFurniture))
-			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 2, y, 2, 3, 3, 3, BlockFace.NORTH, Material.CLAY, Material.GLASS_PANE);
+			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 2, y, 2, 3, 3, 3, BlockFace.NORTH, Material.CLAY,
+					Material.GLASS_PANE);
 		if (chunkOdds.playOdds(oddsOfFurniture))
-			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 11, y, 2, 3, 3, 3, BlockFace.EAST, Material.CLAY, Material.GLASS_PANE);
+			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 11, y, 2, 3, 3, 3, BlockFace.EAST, Material.CLAY,
+					Material.GLASS_PANE);
 		if (chunkOdds.playOdds(oddsOfFurniture))
-			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 2, y, 11, 3, 3, 3, BlockFace.WEST, Material.CLAY, Material.GLASS_PANE);
+			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 2, y, 11, 3, 3, 3, BlockFace.WEST, Material.CLAY,
+					Material.GLASS_PANE);
 		if (chunkOdds.playOdds(oddsOfFurniture))
-			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 11, y, 11, 3, 3, 3, BlockFace.SOUTH, Material.CLAY, Material.GLASS_PANE);
+			roomRandom.drawFixtures(generator, chunk, chunkOdds, 0, 11, y, 11, 3, 3, 3, BlockFace.SOUTH, Material.CLAY,
+					Material.GLASS_PANE);
 
 		// prep for windows
 		boolean regularWindows = chunkOdds.playOdds(oddsOfWindows);
-		
+
 		// punch the windows
 		// 0123456789ABCDEF
 		// .WW--WW--WW--WW.
@@ -165,7 +166,7 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 			if (regularWindows || chunkOdds.playOdds(oddsOfWindows))
 				chunk.setBlocks(14, 15, y + 1, y2, i, i + 2, Material.AIR);
 		}
-		
+
 		// done?
 		return y2 + 1;
 	}

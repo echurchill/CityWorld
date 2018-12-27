@@ -14,9 +14,10 @@ public class SandDunesRoadContext extends RoadContext {
 	}
 
 	@Override
-	public PlatLot createRoadLot(CityWorldGenerator generator, PlatMap platmap,
-			int x, int z, boolean roundaboutPart, PlatLot oldLot) {
-		return new SandDunesRoadLot(platmap, platmap.originX + x, platmap.originZ + z, generator.connectedKeyForPavedRoads, roundaboutPart);
+	public PlatLot createRoadLot(CityWorldGenerator generator, PlatMap platmap, int x, int z, boolean roundaboutPart,
+			PlatLot oldLot) {
+		return new SandDunesRoadLot(platmap, platmap.originX + x, platmap.originZ + z,
+				generator.connectedKeyForPavedRoads, roundaboutPart);
 	}
 
 }

@@ -19,7 +19,7 @@ public class FloodedFarmContext extends FarmContext {
 	protected PlatLot getBackfillLot(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new FloodedFarmLot(platmap, chunkX, chunkZ);
 	}
-	
+
 	@Override
 	protected PlatLot getHouseLot(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new FloodedHouseLot(platmap, chunkX, chunkZ);

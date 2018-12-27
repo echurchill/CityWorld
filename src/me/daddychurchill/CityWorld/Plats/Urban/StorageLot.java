@@ -24,10 +24,13 @@ public class StorageLot extends BuildingLot {
 		trulyIsolated = true;
 		contentType = pickContentType();
 	}
-	
-	private enum ContentType {EMPTY, SHED, TANK};
+
+	private enum ContentType {
+		EMPTY, SHED, TANK
+	};
+
 	private ContentType contentType;
-	
+
 	private ContentType pickContentType() {
 		ContentType[] values = ContentType.values();
 		return values[chunkOdds.getRandomInt(values.length)];
@@ -39,15 +42,14 @@ public class StorageLot extends BuildingLot {
 	}
 
 	@Override
-	protected void generateActualChunk(CityWorldGenerator generator,
-			PlatMap platmap, InitialBlocks chunk, BiomeGrid biomes,
-			DataContext context, int platX, int platZ) {
+	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk,
+			BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		int groundY = getBottomY(generator);
 
 		// look around
 		SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
-		
-		// different things 
+
+		// different things
 		switch (contentType) {
 		case EMPTY:
 		case SHED:
@@ -58,33 +60,36 @@ public class StorageLot extends BuildingLot {
 		}
 
 		// top it off
-		Material floorMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_STONE);
+		Material floorMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds,
+				Material.SMOOTH_STONE);
 		chunk.setLayer(groundY, 2, floorMat);
 //		chunk.setLayer(groundY + 1, RoadLot.pavementId);
-		
+
 	}
 
 	@Override
-	protected void generateActualBlocks(CityWorldGenerator generator,
-			PlatMap platmap, RealBlocks chunk, DataContext context, int platX,
-			int platZ) {
+	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
+			DataContext context, int platX, int platZ) {
 		int groundY = getBottomY(generator) + 2;
 		int topY = getTopY(generator);
-		
+
 //		// look around
 //		SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
-		
-		// different things 
+
+		// different things
 		switch (contentType) {
 		case EMPTY:
 			break;
 		case SHED:
-			generator.structureOnGroundProvider.generateShed(generator, chunk, context, chunkOdds, 7, groundY, 7, 2 + chunkOdds.getRandomInt(2), LootLocation.STORAGESHED);
+			generator.structureOnGroundProvider.generateShed(generator, chunk, context, chunkOdds, 7, groundY, 7,
+					2 + chunkOdds.getRandomInt(2), LootLocation.STORAGESHED);
 			break;
 		case TANK:
-			Material wallMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides.getRandomMaterial(chunkOdds, Material.SMOOTH_STONE);
-			Material fluidMat = generator.materialProvider.itemsSelectMaterial_FactoryTanks.getRandomMaterial(chunkOdds, Material.WATER);
-			
+			Material wallMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides
+					.getRandomMaterial(chunkOdds, Material.SMOOTH_STONE);
+			Material fluidMat = generator.materialProvider.itemsSelectMaterial_FactoryTanks.getRandomMaterial(chunkOdds,
+					Material.WATER);
+
 			chunk.setCircle(8, 8, 6, groundY, groundY + 2 + chunkOdds.getRandomInt(6), fluidMat, true);
 			chunk.setCircle(8, 8, 6, groundY, topY - 3, wallMat);
 			chunk.setCircle(8, 8, 6, topY - 3, wallMat, true);
@@ -98,7 +103,7 @@ public class StorageLot extends BuildingLot {
 			destroyLot(generator, groundY, groundY + 4);
 		generator.spawnProvider.spawnBeing(generator, chunk, chunkOdds, 7, groundY, 7);
 	}
-	
+
 	@Override
 	public int getBottomY(CityWorldGenerator generator) {
 		return generator.streetLevel;

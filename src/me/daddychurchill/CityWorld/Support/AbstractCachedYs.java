@@ -5,7 +5,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import org.bukkit.util.noise.NoiseGenerator;
 
 public abstract class AbstractCachedYs {
-	
+
 	// extremes
 	public int minHeight = Integer.MAX_VALUE;
 	private int minHeightX = 0;
@@ -15,36 +15,36 @@ public abstract class AbstractCachedYs {
 	private int maxHeightZ = 0;
 	public int averageHeight;
 	public int segmentWidth;
-	
+
 	protected final static int width = AbstractBlocks.sectionBlockWidth;
 	protected double[][] blockYs = new double[width][width];
-	
+
 	public AbstractCachedYs(CityWorldGenerator generator, int chunkX, int chunkZ) {
-		
+
 		// total height
 		int sumHeight = 0;
-		
+
 		// compute offset to start of chunk
 		int originX = chunkX * width;
 		int originZ = chunkZ * width;
-		
+
 		// calculate the Ys for this chunk
 		for (int x = 0; x < width; x++) {
 			for (int z = 0; z < width; z++) {
 
 				// how high are we?
 				blockYs[x][z] = generator.shapeProvider.findPerciseY(generator, originX + x, originZ + z);
-				
+
 				// keep the tally going
 				sumHeight += blockYs[x][z];
 				calcTally(blockYs[x][z], x, z);
 			}
 		}
-		
+
 		// what was the average height
 		averageHeight = sumHeight / (width * width);
 	}
-	
+
 	private void calcTally(double realY, int x, int z) {
 		int y = NoiseGenerator.floor(realY);
 		if (y < minHeight) {
@@ -58,27 +58,27 @@ public abstract class AbstractCachedYs {
 			maxHeightZ = z;
 		}
 	}
-	
+
 	public int getBlockY(int x, int z) {
 		return NoiseGenerator.floor(blockYs[x][z]);
 	}
-	
+
 	public double getPerciseY(int x, int z) {
 		return blockYs[x][z];
 	}
-	
+
 	public Point getHighPoint() {
 		return new Point(maxHeightX, maxHeight, maxHeightZ);
 	}
-	
+
 	public Point getLowPoint() {
 		return new Point(minHeightX, minHeight, minHeightZ);
 	}
-	
+
 	public int getSegment(int x, int z) {
 		return 0;
 	}
-	
+
 //	public void lift(int h) {
 //		// total height
 //		int sumHeight = 0;
@@ -97,7 +97,7 @@ public abstract class AbstractCachedYs {
 //		// what was the average height
 //		averageHeight = sumHeight / (width * width);
 //	}
-	
+
 //	public void draw(AbstractBlocks chunk) {
 //		for (int x = 0; x < width; x++) {
 //			for (int z = 0; z < width; z++) {

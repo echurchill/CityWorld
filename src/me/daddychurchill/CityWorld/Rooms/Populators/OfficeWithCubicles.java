@@ -14,12 +14,11 @@ public class OfficeWithCubicles extends RoomProvider {
 	public OfficeWithCubicles() {
 		super();
 
-
 //		roomTypes.add(new DebugRoom());
-		
+
 		roomTypes.add(new MeetingForSixRoom());
 		roomTypes.add(new MeetingForFourRoom());
-		
+
 		roomTypes.add(new DeskCubbyRoom());
 		roomTypes.add(new DeskForTwoRoom());
 		roomTypes.add(new DeskAdminRoom());

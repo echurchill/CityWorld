@@ -15,7 +15,7 @@ public class OfficeWithLounges extends RoomProvider {
 		super();
 
 //		roomTypes.add(new DebugRoom());
-		
+
 		roomTypes.add(new EmptyRoom());
 
 		roomTypes.add(new LoungeCouchRoom());

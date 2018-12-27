@@ -27,7 +27,7 @@ public class MazeNeighborhoodContext extends MazeConstructContext {
 		else
 			return new NatureLot(platmap, chunkX, chunkZ);
 	}
-	
+
 	@Override
 	protected PlatLot generateSpecialTooLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new WaterTowerLot(platmap, chunkX, chunkZ);

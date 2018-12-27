@@ -22,7 +22,7 @@ public class ThingProvider extends Provider {
 		// for now
 		return new ThingProvider();
 	}
-	
+
 	public void generateStatue(AbstractBlocks chunk, Odds odds, int x, int y, int z) {
 		Material matBlock = Material.QUARTZ_BLOCK;
 		int tallness = odds.calcRandomRange(3, 5);
@@ -32,7 +32,7 @@ public class ThingProvider extends Provider {
 		int y2 = y1 + tallness;
 		chunk.setBlocks(x - 1, y1, y1 + tallness, z, matBlock);
 		chunk.setBlocks(x + 1, y1, y1 + tallness, z, matBlock);
-		
+
 		// torso
 		y1 = y2;
 		y2 = y1 + tallness - odds.calcRandomRange(0, 1);
@@ -41,7 +41,7 @@ public class ThingProvider extends Provider {
 		// arms
 		chunk.setBlocks(x - 2, y1, y2 - 1, z, matBlock);
 		chunk.setBlocks(x + 2, y1, y2 - 1, z, matBlock);
-		
+
 		// shoulders
 //		chunk.setBlock(x - 2, y2 - 1, z, matBlock, 0);
 //		chunk.setBlock(x + 2, y2 - 1, z, matBlock, 1);
@@ -54,141 +54,141 @@ public class ThingProvider extends Provider {
 		chunk.setBlocks(x - 1, x + 2, y1 + 1, z, z + 1, matBlock);
 		chunk.setBlock(x, y1 + 2, z, matBlock);
 	}
-	
+
 	private static final byte NON = 0;
 	private static final byte WHT = 1;
 	private static final byte YEL = 2;
 	private static final byte RED = 3;
 	private static final byte BLK = 4;
-	
+
 	private final byte[][] chickenFeet = new byte[][] {
-		//0    1    2    3    4    5    6    7
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 0
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 1
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 2
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 3
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 4
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 5
-		{NON, YEL, YEL, YEL, YEL, YEL, YEL, NON}, // 6
-		{NON, YEL, YEL, YEL, YEL, YEL, YEL, NON}, // 7
-		{NON, NON, YEL, NON, NON, YEL, NON, NON}, // 8
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 9
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 10
-		{NON, NON, NON, NON, NON, NON, NON, NON}  // 11
+			// 0 1 2 3 4 5 6 7
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 0
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 1
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 2
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 3
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 4
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 5
+			{ NON, YEL, YEL, YEL, YEL, YEL, YEL, NON }, // 6
+			{ NON, YEL, YEL, YEL, YEL, YEL, YEL, NON }, // 7
+			{ NON, NON, YEL, NON, NON, YEL, NON, NON }, // 8
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 9
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 10
+			{ NON, NON, NON, NON, NON, NON, NON, NON } // 11
 	};
-	
+
 	private final byte[][] chickenLegs = new byte[][] {
-		//0    1    2    3    4    5    6    7
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 0
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 1
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 2
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 3
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 4
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 5
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 6
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 7
-		{NON, NON, YEL, NON, NON, YEL, NON, NON}, // 8
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 9
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 10
-		{NON, NON, NON, NON, NON, NON, NON, NON}  // 11
+			// 0 1 2 3 4 5 6 7
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 0
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 1
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 2
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 3
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 4
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 5
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 6
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 7
+			{ NON, NON, YEL, NON, NON, YEL, NON, NON }, // 8
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 9
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 10
+			{ NON, NON, NON, NON, NON, NON, NON, NON } // 11
 	};
-	
+
 	private final byte[][] chickenUnder = new byte[][] {
-		//0    1    2    3    4    5    6    7
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 0
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 1
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 2
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 3
-		{NON, WHT, WHT, WHT, WHT, WHT, WHT, NON}, // 4
-		{NON, WHT, WHT, WHT, WHT, WHT, WHT, NON}, // 5
-		{NON, WHT, WHT, WHT, WHT, WHT, WHT, NON}, // 6
-		{NON, WHT, WHT, WHT, WHT, WHT, WHT, NON}, // 7
-		{NON, WHT, WHT, WHT, WHT, WHT, WHT, NON}, // 8
-		{NON, WHT, WHT, WHT, WHT, WHT, WHT, NON}, // 9
-		{NON, WHT, WHT, WHT, WHT, WHT, WHT, NON}, // 10
-		{NON, WHT, WHT, WHT, WHT, WHT, WHT, NON}  // 11
+			// 0 1 2 3 4 5 6 7
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 0
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 1
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 2
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 3
+			{ NON, WHT, WHT, WHT, WHT, WHT, WHT, NON }, // 4
+			{ NON, WHT, WHT, WHT, WHT, WHT, WHT, NON }, // 5
+			{ NON, WHT, WHT, WHT, WHT, WHT, WHT, NON }, // 6
+			{ NON, WHT, WHT, WHT, WHT, WHT, WHT, NON }, // 7
+			{ NON, WHT, WHT, WHT, WHT, WHT, WHT, NON }, // 8
+			{ NON, WHT, WHT, WHT, WHT, WHT, WHT, NON }, // 9
+			{ NON, WHT, WHT, WHT, WHT, WHT, WHT, NON }, // 10
+			{ NON, WHT, WHT, WHT, WHT, WHT, WHT, NON } // 11
 	};
-	
+
 	private final byte[][] chickenBody = new byte[][] {
-		//0    1    2    3    4    5    6    7
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 0
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 1
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 2
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 3
-		{NON, WHT, WHT, WHT, WHT, WHT, WHT, NON}, // 4
-		{WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT}, // 5
-		{WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT}, // 6
-		{WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT}, // 7
-		{WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT}, // 8
-		{WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT}, // 9
-		{WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT}, // 10
-		{NON, WHT, WHT, WHT, WHT, WHT, WHT, NON}  // 11
+			// 0 1 2 3 4 5 6 7
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 0
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 1
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 2
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 3
+			{ NON, WHT, WHT, WHT, WHT, WHT, WHT, NON }, // 4
+			{ WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT }, // 5
+			{ WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT }, // 6
+			{ WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT }, // 7
+			{ WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT }, // 8
+			{ WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT }, // 9
+			{ WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT }, // 10
+			{ NON, WHT, WHT, WHT, WHT, WHT, WHT, NON } // 11
 	};
-	
+
 	private final byte[][] chickenMouth = new byte[][] {
-		//0    1    2    3    4    5    6    7
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 0
-		{NON, NON, NON, RED, RED, NON, NON, NON}, // 1
-		{NON, NON, WHT, WHT, WHT, WHT, NON, NON}, // 2
-		{NON, NON, WHT, WHT, WHT, WHT, NON, NON}, // 3
-		{NON, WHT, WHT, WHT, WHT, WHT, WHT, NON}, // 4
-		{WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT}, // 5
-		{WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT}, // 6
-		{WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT}, // 7
-		{WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT}, // 8
-		{WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT}, // 9
-		{WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT}, // 10
-		{NON, WHT, WHT, WHT, WHT, WHT, WHT, NON}  // 11
+			// 0 1 2 3 4 5 6 7
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 0
+			{ NON, NON, NON, RED, RED, NON, NON, NON }, // 1
+			{ NON, NON, WHT, WHT, WHT, WHT, NON, NON }, // 2
+			{ NON, NON, WHT, WHT, WHT, WHT, NON, NON }, // 3
+			{ NON, WHT, WHT, WHT, WHT, WHT, WHT, NON }, // 4
+			{ WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT }, // 5
+			{ WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT }, // 6
+			{ WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT }, // 7
+			{ WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT }, // 8
+			{ WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT }, // 9
+			{ WHT, WHT, WHT, WHT, WHT, WHT, WHT, WHT }, // 10
+			{ NON, WHT, WHT, WHT, WHT, WHT, WHT, NON } // 11
 	};
-	
+
 	private final byte[][] chickenHead = new byte[][] {
-		//0    1    2    3    4    5    6    7
-		{NON, NON, NON, YEL, YEL, NON, NON, NON}, // 0
-		{NON, NON, NON, YEL, YEL, NON, NON, NON}, // 1
-		{NON, NON, WHT, WHT, WHT, WHT, NON, NON}, // 2
-		{NON, NON, WHT, WHT, WHT, WHT, NON, NON}, // 3
-		{NON, NON, WHT, WHT, WHT, WHT, NON, NON}, // 4
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 5
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 6
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 7
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 8
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 9
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 10
-		{NON, NON, NON, NON, NON, NON, NON, NON}  // 11
+			// 0 1 2 3 4 5 6 7
+			{ NON, NON, NON, YEL, YEL, NON, NON, NON }, // 0
+			{ NON, NON, NON, YEL, YEL, NON, NON, NON }, // 1
+			{ NON, NON, WHT, WHT, WHT, WHT, NON, NON }, // 2
+			{ NON, NON, WHT, WHT, WHT, WHT, NON, NON }, // 3
+			{ NON, NON, WHT, WHT, WHT, WHT, NON, NON }, // 4
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 5
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 6
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 7
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 8
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 9
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 10
+			{ NON, NON, NON, NON, NON, NON, NON, NON } // 11
 	};
-	
+
 	private final byte[][] chickenEyes = new byte[][] {
-		//0    1    2    3    4    5    6    7
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 0
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 1
-		{NON, NON, BLK, WHT, WHT, BLK, NON, NON}, // 2
-		{NON, NON, WHT, WHT, WHT, WHT, NON, NON}, // 3
-		{NON, NON, WHT, WHT, WHT, WHT, NON, NON}, // 4
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 5
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 6
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 7
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 8
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 9
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 10
-		{NON, NON, NON, NON, NON, NON, NON, NON}  // 11
+			// 0 1 2 3 4 5 6 7
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 0
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 1
+			{ NON, NON, BLK, WHT, WHT, BLK, NON, NON }, // 2
+			{ NON, NON, WHT, WHT, WHT, WHT, NON, NON }, // 3
+			{ NON, NON, WHT, WHT, WHT, WHT, NON, NON }, // 4
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 5
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 6
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 7
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 8
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 9
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 10
+			{ NON, NON, NON, NON, NON, NON, NON, NON } // 11
 	};
-	
+
 	private final byte[][] chickenTops = new byte[][] {
-		//0    1    2    3    4    5    6    7
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 0
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 1
-		{NON, NON, WHT, WHT, WHT, WHT, NON, NON}, // 2
-		{NON, NON, WHT, WHT, WHT, WHT, NON, NON}, // 3
-		{NON, NON, WHT, WHT, WHT, WHT, NON, NON}, // 4
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 5
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 6
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 7
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 8
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 9
-		{NON, NON, NON, NON, NON, NON, NON, NON}, // 10
-		{NON, NON, NON, NON, NON, NON, NON, NON}  // 11
+			// 0 1 2 3 4 5 6 7
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 0
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 1
+			{ NON, NON, WHT, WHT, WHT, WHT, NON, NON }, // 2
+			{ NON, NON, WHT, WHT, WHT, WHT, NON, NON }, // 3
+			{ NON, NON, WHT, WHT, WHT, WHT, NON, NON }, // 4
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 5
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 6
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 7
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 8
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 9
+			{ NON, NON, NON, NON, NON, NON, NON, NON }, // 10
+			{ NON, NON, NON, NON, NON, NON, NON, NON } // 11
 	};
-	
+
 	private void generateLayer(AbstractBlocks chunk, int x, int y, int z, byte[][] layer) {
 		for (int xI = 0; xI < 12; xI++) {
 			for (int zI = 0; zI < 8; zI++) {
@@ -198,7 +198,7 @@ public class ThingProvider extends Provider {
 					break;
 				case WHT:
 //					if (cI % 2 == 0)
-						chunk.setBlock(x + xI, y, z + zI, Material.WHITE_WOOL);
+					chunk.setBlock(x + xI, y, z + zI, Material.WHITE_WOOL);
 //					else 
 //						chunk.setBlock(x + xI, y, z + zI, Material.WHITE_WOOL, DyeColor.LIGHT_GRAY);
 					break;
@@ -215,7 +215,7 @@ public class ThingProvider extends Provider {
 			}
 		}
 	}
-	
+
 	public void generateChicken(AbstractBlocks chunk, int x, int y, int z) {
 		generateLayer(chunk, x, y, z, chickenFeet);
 		generateLayer(chunk, x, y + 1, z, chickenLegs);
@@ -233,19 +233,21 @@ public class ThingProvider extends Provider {
 		generateLayer(chunk, x, y + 13, z, chickenEyes);
 		generateLayer(chunk, x, y + 14, z, chickenTops);
 	}
-	
-	public void generateBones(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, AbstractCachedYs blockYs, Odds odds) {
+
+	public void generateBones(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, AbstractCachedYs blockYs,
+			Odds odds) {
 		int y = odds.calcRandomRange(10, blockYs.minHeight - 20);
 		generateBones(generator, lot, chunk, y, odds);
 	}
-	
+
 	public void generateBones(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, int y, Odds odds) {
 		int x = 7;
 		int z = 15;
 		generateBones(generator, lot, chunk, x, y, z, odds, false);
 	}
-	
-	public void generateBones(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, int x, int y, int z, Odds odds, boolean smaller) {
+
+	public void generateBones(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, int x, int y, int z,
+			Odds odds, boolean smaller) {
 		Material matBlock = Material.QUARTZ_BLOCK;
 		Material matStair = Material.QUARTZ_STAIRS;
 		if (generator.settings.includeDecayedNature) {
@@ -269,7 +271,7 @@ public class ThingProvider extends Provider {
 		int frontLegWidth = odds.calcRandomRange(1, 3);
 		int armLength = odds.calcRandomRange(2, smaller ? 3 : 4);
 		int armWidth = odds.calcRandomRange(2, 3);
-		
+
 		// calculate the lengths of the sections
 		int spineLength = 0;
 		if (gotTorso)
@@ -277,19 +279,19 @@ public class ThingProvider extends Provider {
 		int hindLength = 0;
 		if (gotHind)
 			hindLength = odds.calcRandomRange(smaller ? 2 : 3, smaller ? 4 : 6);
-		
+
 		// up on the back legs?
-		boolean isHindUpright = gotHind && odds.playOdds(Odds.oddsSomewhatLikely); 
+		boolean isHindUpright = gotHind && odds.playOdds(Odds.oddsSomewhatLikely);
 
 		// figure out the tail bit
 		int tailLength = 0;
 		if (!smaller && (gotHind || odds.playOdds(Odds.oddsExtremelyUnlikely)))
 			tailLength = odds.calcRandomRange(0, 3);
-			
+
 		// start at the back
 		int sectionZ = z;
 		int sectionY = y;
-		
+
 		// tail?
 		if (tailLength > 0) {
 			sectionZ = sectionZ - tailLength;
@@ -303,11 +305,11 @@ public class ThingProvider extends Provider {
 				chunk.setBlock(x, tailY, tailZ + zO, matBlock);
 			}
 		}
-		
+
 		// back legs
 		sectionY = sectionY + backLegHeight;
 		generateLimbs(chunk, odds, x, sectionY, sectionZ, backLegWidth, backLegHeight, matBlock, matStair);
-		
+
 		// hind section
 		if (gotHind) {
 			sectionZ = sectionZ - hindLength;
@@ -319,24 +321,24 @@ public class ThingProvider extends Provider {
 
 			// now the front legs
 			generateLimbs(chunk, odds, x, hindY, hindZ, frontLegWidth, frontLegHeight, matBlock, matStair);
-			
+
 			// now for the spine and ribs
 			for (int zO = 0; zO <= hindLength; zO++) {
 				chunk.setBlock(x, hindY, hindZ + zO, matBlock);
-				
+
 				// ribs
 				if (zO > 0 && zO % 2 == 0 && zO + 1 < hindLength && odds.playOdds(Odds.oddsPrettyLikely)) {
 					chunk.setBlock(x - 1, hindY, hindZ + zO, matStair, BlockFace.EAST);
 					chunk.setBlock(x + 1, hindY, hindZ + zO, matStair, BlockFace.WEST);
-					
+
 					chunk.setBlock(x - 1, hindY - 1, hindZ + zO, matBlock);
 					chunk.setBlock(x + 1, hindY - 1, hindZ + zO, matBlock);
-					
+
 					chunk.setBlock(x - 1, hindY - 2, hindZ + zO, matStair, BlockFace.EAST, Half.TOP);
 					chunk.setBlock(x + 1, hindY - 2, hindZ + zO, matStair, BlockFace.WEST, Half.TOP);
 				}
-				
-				// move down 
+
+				// move down
 				if (isHindUpright) {
 					chunk.setBlock(x, hindY + 1, hindZ + zO, matStair, BlockFace.NORTH);
 					chunk.setBlock(x, hindY - 1, hindZ + zO, matStair, BlockFace.SOUTH, Half.TOP);
@@ -344,10 +346,10 @@ public class ThingProvider extends Provider {
 				}
 			}
 		}
-		
+
 		// torso section
 		if (gotTorso) {
-			
+
 			// spine
 			boolean showRibs = armWidth > 2 && odds.flipCoin();
 			for (int yO = 0; yO < spineLength; yO++) {
@@ -357,29 +359,29 @@ public class ThingProvider extends Provider {
 					chunk.setBlock(x + 1, sectionY + yO, sectionZ, matStair, BlockFace.WEST);
 				}
 			}
-			
+
 			// arms
 			sectionY += spineLength;
 			generateLimbs(chunk, odds, x, sectionY, sectionZ, armWidth, armLength, matBlock, matStair);
 		}
-		
+
 		// add the head
 		if (odds.playOdds(Odds.oddsTremendouslyLikely)) {
-			
+
 			// long neck
-			boolean tiltedNeck = (gotHind && !gotTorso && isHindUpright && odds.playOdds(Odds.oddsSomewhatUnlikely)) ||
-							   (gotHind && !gotTorso && odds.playOdds(Odds.oddsVeryLikely)) ||
-							   (gotTorso && odds.playOdds(Odds.oddsExtremelyUnlikely));
-			
+			boolean tiltedNeck = (gotHind && !gotTorso && isHindUpright && odds.playOdds(Odds.oddsSomewhatUnlikely))
+					|| (gotHind && !gotTorso && odds.playOdds(Odds.oddsVeryLikely))
+					|| (gotTorso && odds.playOdds(Odds.oddsExtremelyUnlikely));
+
 			// so do it
 			int neckLength = odds.calcRandomRange(1, smaller ? 2 : 3);
 			if (tiltedNeck) {
 				for (int yO = 0; yO < neckLength; yO++) {
-					
+
 					chunk.setBlock(x, sectionY, sectionZ, matBlock);
 					chunk.setBlock(x, sectionY + 1, sectionZ, matStair, BlockFace.NORTH);
 					chunk.setBlock(x, sectionY, sectionZ - 1, matStair, BlockFace.SOUTH, Half.TOP);
-					
+
 					sectionY++;
 					sectionZ--;
 				}
@@ -389,24 +391,25 @@ public class ThingProvider extends Provider {
 				chunk.setBlocks(x, sectionY, sectionY + neckLength, sectionZ, matBlock);
 				sectionY += neckLength;
 			}
-			
+
 			// now the head itself
 			generateHead(chunk, odds, x, sectionY, sectionZ, matBlock, matStair);
 		}
 	}
-	
-	private void generateLimbs(SupportBlocks chunk, Odds odds, int x, int y, int z, int xO, int yO, Material matBlock, Material matStair) {
+
+	private void generateLimbs(SupportBlocks chunk, Odds odds, int x, int y, int z, int xO, int yO, Material matBlock,
+			Material matStair) {
 		if (odds.flipCoin()) { // rounded tops
 			chunk.setBlocks(x - xO, x, y, z, z + 1, matBlock);
 			chunk.setBlocks(x + 1, x + xO + 1, y, z, z + 1, matBlock);
 		} else {
 			chunk.setBlocks(x - xO + 1, x, y, z, z + 1, matBlock);
 			chunk.setBlocks(x + 1, x + xO, y, z, z + 1, matBlock);
-			
+
 			chunk.setBlock(x - xO, y, z, matStair, BlockFace.EAST);
 			chunk.setBlock(x + xO, y, z, matStair, BlockFace.WEST);
 		}
-		
+
 		// vertical bits
 		chunk.setBlocks(x - xO, x - xO + 1, y - yO + 1, y, z, z + 1, matBlock);
 		chunk.setBlocks(x + xO, x + xO + 1, y - yO + 1, y, z, z + 1, matBlock);
@@ -421,15 +424,16 @@ public class ThingProvider extends Provider {
 			chunk.setBlock(x - xO, y - yO, z, matStair, BlockFace.NORTH, Half.TOP);
 			chunk.setBlock(x + xO, y - yO, z, matStair, BlockFace.NORTH, Half.TOP);
 		}
-		
+
 		// fingers/toes
 		if (forceToes || odds.flipCoin()) {
 			chunk.setBlock(x - xO, y - yO, z - 1, matStair, BlockFace.SOUTH);
 			chunk.setBlock(x + xO, y - yO, z - 1, matStair, BlockFace.SOUTH);
 		}
 	}
-	
-	private void generateHead(SupportBlocks chunk, Odds odds, int x, int y, int z, Material matBlock, Material matStair) {
+
+	private void generateHead(SupportBlocks chunk, Odds odds, int x, int y, int z, Material matBlock,
+			Material matStair) {
 		int headHeight = odds.calcRandomRange(2, 3);
 		int y1 = y;
 		int y2 = y + 1;
@@ -437,10 +441,10 @@ public class ThingProvider extends Provider {
 		boolean tallHead = y2 != y3;
 		boolean needEyes = odds.playOdds(Odds.oddsExceedinglyLikely);
 		boolean cyclopsEye = tallHead && odds.playOdds(Odds.oddsLikely);
-		
+
 		// whole head
 		chunk.setBlocks(x - 1, x + 2, y, y + headHeight, z, z + 1, matBlock);
-		
+
 		// edit the top bit
 		if (odds.flipCoin()) { // rounded tops
 			chunk.setBlock(x - 1, y3, z, matStair, BlockFace.EAST);
@@ -452,8 +456,8 @@ public class ThingProvider extends Provider {
 			chunk.setBlock(x - 1, y3, z, matStair, BlockFace.SOUTH, Half.TOP);
 			chunk.setBlock(x + 1, y3, z, matStair, BlockFace.SOUTH, Half.TOP);
 			needEyes = false;
-		} 
-		
+		}
+
 		// edit the bottom bit
 		if (odds.flipCoin()) { // rounded bottoms
 			chunk.setBlock(x - 1, y1, z, matStair, BlockFace.EAST, Half.TOP);
@@ -462,7 +466,7 @@ public class ThingProvider extends Provider {
 //			chunk.setBlock(x - 1, y1, z, matStair, BlockFace.EAST);
 //			chunk.setBlock(x + 1, y1, z, matStair, BlockFace.WEST);
 		}
-		
+
 		// got to eat
 		if (odds.playOdds(Odds.oddsPrettyLikely)) // mouth
 			chunk.setBlock(x, y1, z, matStair, BlockFace.SOUTH);
@@ -470,7 +474,7 @@ public class ThingProvider extends Provider {
 			chunk.setBlock(x, y2, z - 1, matStair, BlockFace.SOUTH);
 			chunk.setBlock(x, y1, z - 1, matStair, BlockFace.SOUTH, Half.TOP);
 		}
-		
+
 		// finalize the eye bits
 		if (cyclopsEye && tallHead) {
 			chunk.setBlock(x, y3, z, matStair, BlockFace.SOUTH, Half.TOP);
@@ -487,5 +491,5 @@ public class ThingProvider extends Provider {
 			needEyes = false;
 		}
 	}
-	
+
 }
