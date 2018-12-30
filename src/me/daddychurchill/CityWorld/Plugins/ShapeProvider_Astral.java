@@ -9,7 +9,6 @@ import org.bukkit.util.noise.SimplexNoiseGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
-import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralBaseContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralBlackZoneContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralBuriedCityContext;
@@ -23,6 +22,7 @@ import me.daddychurchill.CityWorld.Context.Astral.AstralNatureContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralNexusContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralRoadContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralWhiteZoneContext;
+import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;

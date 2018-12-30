@@ -3,10 +3,10 @@ package me.daddychurchill.CityWorld.Context.Astral;
 import org.bukkit.Material;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
-import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralBuriedBuildingLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralBuriedRoadLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralBuriedRoadLot.SidewalkStyle;
+import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
