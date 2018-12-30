@@ -1,16 +1,16 @@
 package me.daddychurchill.CityWorld.Support;
 
+import org.bukkit.block.BlockFace;
+import org.bukkit.generator.ChunkGenerator.BiomeGrid;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.Clipboard;
 import me.daddychurchill.CityWorld.Clipboard.ClipboardLot;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plats.RoadLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
+import me.daddychurchill.CityWorld.Plats.RoadLot;
 import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
-
-import org.bukkit.block.BlockFace;
-import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class PlatMap {
 

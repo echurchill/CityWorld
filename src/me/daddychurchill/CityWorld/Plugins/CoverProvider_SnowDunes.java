@@ -1,7 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.Colors.ColorSet;
+import me.daddychurchill.CityWorld.Support.Odds;
 
 public class CoverProvider_SnowDunes extends CoverProvider_Normal {
 

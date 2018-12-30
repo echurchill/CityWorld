@@ -1,9 +1,9 @@
 package me.daddychurchill.CityWorld.Support;
 
-import me.daddychurchill.CityWorld.CityWorldGenerator;
-
 import org.bukkit.Chunk;
 import org.bukkit.block.Block;
+
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 public final class RealBlocks extends SupportBlocks {
 	private Chunk chunk;

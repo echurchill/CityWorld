@@ -1,5 +1,13 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Biome;
+import org.bukkit.generator.ChunkGenerator.BiomeGrid;
+import org.bukkit.util.noise.NoiseGenerator;
+import org.bukkit.util.noise.SimplexNoiseGenerator;
+import org.bukkit.util.noise.SimplexOctaveGenerator;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralBaseContext;
@@ -9,27 +17,19 @@ import me.daddychurchill.CityWorld.Context.Astral.AstralCrystalSpiresContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralDataContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralForestContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralForestContext.ForestStyle;
+import me.daddychurchill.CityWorld.Context.Astral.AstralMushroomContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralMushroomContext.MushroomStyle;
 import me.daddychurchill.CityWorld.Context.Astral.AstralNatureContext;
-import me.daddychurchill.CityWorld.Context.Astral.AstralMushroomContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralNexusContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralRoadContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralWhiteZoneContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
+import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SegmentedCachedYs;
-
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Biome;
-import org.bukkit.generator.ChunkGenerator.BiomeGrid;
-import org.bukkit.util.noise.NoiseGenerator;
-import org.bukkit.util.noise.SimplexNoiseGenerator;
-import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 public class ShapeProvider_Astral extends ShapeProvider {
 

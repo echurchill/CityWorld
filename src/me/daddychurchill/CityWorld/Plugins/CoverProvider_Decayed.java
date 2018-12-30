@@ -1,9 +1,9 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
+import me.daddychurchill.CityWorld.Support.Colors.ColorSet;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
-import me.daddychurchill.CityWorld.Support.Colors.ColorSet;
 
 public class CoverProvider_Decayed extends CoverProvider {
 

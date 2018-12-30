@@ -1,15 +1,15 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import me.daddychurchill.CityWorld.CityWorldGenerator;
-import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.Colors.ColorSet;
-import me.daddychurchill.CityWorld.Support.SupportBlocks;
-import me.daddychurchill.CityWorld.Support.Trees;
-
 import org.bukkit.Material;
 import org.bukkit.TreeSpecies;
 import org.bukkit.TreeType;
 import org.bukkit.block.BlockFace;
+
+import me.daddychurchill.CityWorld.CityWorldGenerator;
+import me.daddychurchill.CityWorld.Support.Colors.ColorSet;
+import me.daddychurchill.CityWorld.Support.Odds;
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
+import me.daddychurchill.CityWorld.Support.Trees;
 
 public abstract class CoverProvider extends Provider {
 

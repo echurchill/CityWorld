@@ -1,11 +1,12 @@
 package me.daddychurchill.CityWorld.Support;
 
-import me.daddychurchill.CityWorld.CityWorldGenerator;
-import me.daddychurchill.CityWorld.Factories.MaterialFactory;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.type.Slab.Type;
+
+import me.daddychurchill.CityWorld.CityWorldGenerator;
+import me.daddychurchill.CityWorld.Factories.MaterialFactory;
 
 public abstract class AbstractBlocks {
 

@@ -5,8 +5,8 @@ import me.daddychurchill.CityWorld.Context.NatureContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.SandDunes.SandDunesNatureLot;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
-import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.HeightInfo.HeightState;
+import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class SandDunesNatureContext extends NatureContext {
 

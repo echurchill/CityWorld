@@ -1,13 +1,5 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import me.daddychurchill.CityWorld.CityWorldGenerator;
-import me.daddychurchill.CityWorld.Support.AnimalList;
-import me.daddychurchill.CityWorld.Support.BeingList;
-import me.daddychurchill.CityWorld.Support.AbstractEntityList;
-import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.SeaAnimalList;
-import me.daddychurchill.CityWorld.Support.SupportBlocks;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +14,14 @@ import org.bukkit.block.CreatureSpawner;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+
+import me.daddychurchill.CityWorld.CityWorldGenerator;
+import me.daddychurchill.CityWorld.Support.AbstractEntityList;
+import me.daddychurchill.CityWorld.Support.AnimalList;
+import me.daddychurchill.CityWorld.Support.BeingList;
+import me.daddychurchill.CityWorld.Support.Odds;
+import me.daddychurchill.CityWorld.Support.SeaAnimalList;
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class SpawnProvider extends Provider {
 
