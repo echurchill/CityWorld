@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
 import org.bukkit.Material;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.PlatMap;

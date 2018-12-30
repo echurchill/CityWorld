@@ -1,5 +1,11 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import org.bukkit.World;
+import org.bukkit.block.Biome;
+import org.bukkit.generator.ChunkGenerator.BiomeGrid;
+import org.bukkit.util.noise.SimplexNoiseGenerator;
+import org.bukkit.util.noise.SimplexOctaveGenerator;
+
 import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.ConstructionContext;
@@ -17,17 +23,11 @@ import me.daddychurchill.CityWorld.Context.ParkContext;
 import me.daddychurchill.CityWorld.Context.RoadContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
-import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
+import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
-
-import org.bukkit.World;
-import org.bukkit.block.Biome;
-import org.bukkit.generator.ChunkGenerator.BiomeGrid;
-import org.bukkit.util.noise.SimplexNoiseGenerator;
-import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 public class ShapeProvider_Normal extends ShapeProvider {
 

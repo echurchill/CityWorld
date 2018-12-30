@@ -1,10 +1,13 @@
 package me.daddychurchill.CityWorld.Plats.Urban;
 
+import org.bukkit.Material;
+import org.bukkit.generator.ChunkGenerator.BiomeGrid;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.IsolatedLot;
-import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Nature.GravelLot;
+import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageSets;
 import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
 import me.daddychurchill.CityWorld.Support.Colors;
@@ -14,18 +17,15 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
-import org.bukkit.Material;
-import org.bukkit.generator.ChunkGenerator.BiomeGrid;
-
 public class RoundaboutCenterLot extends IsolatedLot {
 
 	private enum BaseStyle {
 		WATER, GRASS, PEDESTAL
-	};
+	}
 
 	private enum PitStyle {
 		WATER, LAVA, UNFINISHED
-	};
+	}
 
 	private final static Material curbMaterial = Material.STONE;
 	private final static Material brickMaterial = Material.SMOOTH_STONE;

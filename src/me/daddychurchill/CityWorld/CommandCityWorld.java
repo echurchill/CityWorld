@@ -1,15 +1,15 @@
 package me.daddychurchill.CityWorld;
 
-import me.daddychurchill.CityWorld.CityWorldGenerator.WorldStyle;
-
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
-import org.bukkit.entity.Player;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import me.daddychurchill.CityWorld.CityWorldGenerator.WorldStyle;
 
 public class CommandCityWorld implements CommandExecutor {
 	private final CityWorld plugin;

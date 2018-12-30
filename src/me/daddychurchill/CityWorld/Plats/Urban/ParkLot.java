@@ -1,27 +1,27 @@
 package me.daddychurchill.CityWorld.Plats.Urban;
 
-import me.daddychurchill.CityWorld.CityWorldGenerator;
-import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Plats.ConnectedLot;
-import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
-import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.MazeArray;
-import me.daddychurchill.CityWorld.Support.MazeArray.MazeBit;
-import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
-import me.daddychurchill.CityWorld.Support.HeightInfo;
-import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.SurroundingLots;
-import me.daddychurchill.CityWorld.Support.Trees;
-import me.daddychurchill.CityWorld.Support.RealBlocks;
-
 import org.bukkit.Material;
 import org.bukkit.TreeSpecies;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Bisected.Half;
 import org.bukkit.block.data.type.Stairs;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
+
+import me.daddychurchill.CityWorld.CityWorldGenerator;
+import me.daddychurchill.CityWorld.Context.DataContext;
+import me.daddychurchill.CityWorld.Plats.ConnectedLot;
+import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
+import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
+import me.daddychurchill.CityWorld.Support.HeightInfo;
+import me.daddychurchill.CityWorld.Support.InitialBlocks;
+import me.daddychurchill.CityWorld.Support.MazeArray;
+import me.daddychurchill.CityWorld.Support.MazeArray.MazeBit;
+import me.daddychurchill.CityWorld.Support.Odds;
+import me.daddychurchill.CityWorld.Support.PlatMap;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
+import me.daddychurchill.CityWorld.Support.SurroundingLots;
+import me.daddychurchill.CityWorld.Support.Trees;
 
 public class ParkLot extends ConnectedLot {
 
@@ -43,7 +43,7 @@ public class ParkLot extends ConnectedLot {
 
 	public enum CenterStyles {
 		CROSS_PATH, CIRCLE_PATH, WATER_TOWER, HEDGE_MAZE, CIRCLE_MAZE, LABYRINTH_MAZE
-	};
+	}
 
 	private CenterStyles centerStyle;
 

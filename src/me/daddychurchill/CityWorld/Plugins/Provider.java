@@ -1,8 +1,8 @@
 package me.daddychurchill.CityWorld.Plugins;
 
-import me.daddychurchill.CityWorld.CityWorldGenerator;
-
 import org.bukkit.plugin.Plugin;
+
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 public abstract class Provider {
 

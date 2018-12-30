@@ -22,7 +22,7 @@ public class OfficeBuildingLot extends FinishedBuildingLot {
 
 	public enum ContentStyle {
 		RANDOM, EMPTY, OFFICES, CUBICLES
-	};
+	}
 
 	protected ContentStyle contentStyle;
 

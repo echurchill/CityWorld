@@ -3,8 +3,8 @@ package me.daddychurchill.CityWorld.Support;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.entity.EntityType;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.EntityType;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 

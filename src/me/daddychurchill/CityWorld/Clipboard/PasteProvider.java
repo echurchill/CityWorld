@@ -9,7 +9,7 @@ public abstract class PasteProvider extends Provider {
 	public enum SchematicFamily {
 		ROUNDABOUT, PARK, HIGHRISE, MIDRISE, LOWRISE, INDUSTRIAL, MUNICIPAL, CONSTRUCTION, NEIGHBORHOOD, FARM, NATURE,
 		ASTRAL, OUTLAND
-	};
+	}
 
 	public PasteProvider() {
 		super();

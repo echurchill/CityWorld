@@ -14,7 +14,7 @@ public class SurfaceProvider_Floating extends SurfaceProvider {
 
 	public enum SubSurfaceStyle {
 		NONE, LAND, CLOUD, LAVA
-	};
+	}
 
 	public static SubSurfaceStyle toSubSurfaceStyle(String value, SubSurfaceStyle defaultValue) {
 		try {

@@ -3,15 +3,17 @@ package me.daddychurchill.CityWorld.Plugins.PhatLoot;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import org.bukkit.Bukkit;
+import org.bukkit.block.Block;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
+
+import com.codisimus.plugins.phatloots.PhatLoot;
+import com.codisimus.plugins.phatloots.PhatLoots;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Plugins.LootProvider;
 import me.daddychurchill.CityWorld.Support.Odds;
-
-import com.codisimus.plugins.phatloots.*;
-
-import org.bukkit.Bukkit;
-import org.bukkit.plugin.*;
-import org.bukkit.block.Block;
 
 public class LootProvider_Phat extends LootProvider {
 

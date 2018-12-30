@@ -1,5 +1,11 @@
 package me.daddychurchill.CityWorld.Plats.Urban;
 
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.type.Slab.Type;
+import org.bukkit.block.data.type.Stairs;
+import org.bukkit.generator.ChunkGenerator.BiomeGrid;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.BuildingLot;
@@ -11,19 +17,13 @@ import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
-import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.type.Slab.Type;
-import org.bukkit.block.data.type.Stairs;
-import org.bukkit.generator.ChunkGenerator.BiomeGrid;
-
 public class ConcreteLot extends BuildingLot {
 
 //	more CenterStyles {...WATER_MAZE, WATER_CHECKER, WATER_CIRCLE, WATER_LABYRINTH};
 	public enum CenterStyle {
 		EMPTY, QUIET_ZONE, ART_ZONE, CHECKER_ART, SHALLOW_POND, ROUND_POND, PYRAMID_POND, CHECKER_POND, UPWARD_POND,
 		DOWNWARD_POND
-	};
+	}
 
 	private CenterStyle centerStyle;
 

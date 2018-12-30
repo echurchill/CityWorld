@@ -7,10 +7,6 @@ import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import me.daddychurchill.CityWorld.CityWorldGenerator;
-import me.daddychurchill.CityWorld.Clipboard.Clipboard;
-import me.daddychurchill.CityWorld.Support.RealBlocks;
-
 import com.sk89q.worldedit.CuboidClipboard;
 import com.sk89q.worldedit.CuboidClipboard.FlipDirection;
 import com.sk89q.worldedit.EditSession;
@@ -19,6 +15,10 @@ import com.sk89q.worldedit.Vector;
 import com.sk89q.worldedit.blocks.BaseBlock;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.schematic.SchematicFormat;
+
+import me.daddychurchill.CityWorld.CityWorldGenerator;
+import me.daddychurchill.CityWorld.Clipboard.Clipboard;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 @SuppressWarnings("deprecation")
 public class Clipboard_WorldEdit extends Clipboard {

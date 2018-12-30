@@ -1,22 +1,21 @@
 package me.daddychurchill.CityWorld.Plats;
 
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Bisected.Half;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Factories.MaterialFactory;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Rooms.Populators.EmptyWithNothing;
-import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.CornerBlocks;
-
+import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 import me.daddychurchill.CityWorld.Support.SurroundingFloors;
 import me.daddychurchill.CityWorld.Support.Surroundings;
-
-import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.Bisected.Half;
 
 public abstract class BuildingLot extends ConnectedLot {
 
@@ -43,18 +42,18 @@ public abstract class BuildingLot extends ConnectedLot {
 
 	public enum StairStyle {
 		STUDIO_A, CROSSED, LANDING, CORNER
-	};
+	}
 
 	protected StairStyle stairStyle;
 	protected StairFacing stairDirection;
 
 	public enum StairWell {
 		NONE, CENTER, NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEAST, NORTH, SOUTH, WEST, EAST
-	};
+	}
 
 	public enum StairFacing {
 		NORTH, SOUTH, WEST, EAST
-	};
+	}
 
 	protected int cornerLotStyle;
 
@@ -605,7 +604,7 @@ public abstract class BuildingLot extends ConnectedLot {
 			}
 			break;
 		}
-	};
+	}
 
 	protected void drawOtherPillars(RealBlocks chunk, int y1, int floorHeight, StairWell where, Material wallMaterial) {
 		int y2 = y1 + floorHeight - 1;

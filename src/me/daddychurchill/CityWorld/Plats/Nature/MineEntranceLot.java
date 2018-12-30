@@ -1,5 +1,10 @@
 package me.daddychurchill.CityWorld.Plats.Nature;
 
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Bisected.Half;
+import org.bukkit.generator.ChunkGenerator.BiomeGrid;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
@@ -10,11 +15,6 @@ import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
-
-import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.Bisected.Half;
-import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class MineEntranceLot extends ConstructLot {
 

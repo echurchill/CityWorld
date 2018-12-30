@@ -6,7 +6,7 @@ public final class HeightInfo {
 
 	public enum HeightState {
 		EMPTY, DEEPSEA, SEA, BUILDING, LOWLAND, MIDLAND, HIGHLAND, PEAK
-	};
+	}
 
 	public HeightState state;
 

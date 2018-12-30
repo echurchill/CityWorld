@@ -3,9 +3,9 @@ package me.daddychurchill.CityWorld.Context.Astral;
 import org.bukkit.Material;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
-import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralTownBuildingLot;
 import me.daddychurchill.CityWorld.Plats.Astral.AstralTownEmptyLot;
+import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;

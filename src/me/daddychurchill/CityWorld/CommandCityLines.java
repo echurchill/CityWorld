@@ -1,8 +1,5 @@
 package me.daddychurchill.CityWorld;
 
-import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Support.SupportBlocks;
-
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -11,6 +8,9 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import me.daddychurchill.CityWorld.Context.DataContext;
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class CommandCityLines implements CommandExecutor {
 	private final CityWorld plugin;

@@ -1,15 +1,15 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
-import me.daddychurchill.CityWorld.CityWorldGenerator;
-import me.daddychurchill.CityWorld.Support.MazeArray;
-import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealBlocks;
-import me.daddychurchill.CityWorld.Support.MazeArray.MazeBit;
-
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Bisected.Half;
+
+import me.daddychurchill.CityWorld.CityWorldGenerator;
+import me.daddychurchill.CityWorld.Support.MazeArray;
+import me.daddychurchill.CityWorld.Support.MazeArray.MazeBit;
+import me.daddychurchill.CityWorld.Support.Odds;
+import me.daddychurchill.CityWorld.Support.PlatMap;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public abstract class AstralStructureTowerLot extends AstralStructureLot {
 
@@ -28,7 +28,7 @@ public abstract class AstralStructureTowerLot extends AstralStructureLot {
 
 	protected enum TowerStyle {
 		DARK, LIGHT
-	};
+	}
 
 	protected void generateTower(CityWorldGenerator generator, RealBlocks chunk, TowerStyle style) {
 

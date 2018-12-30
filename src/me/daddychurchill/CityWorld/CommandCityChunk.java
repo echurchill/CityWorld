@@ -2,8 +2,6 @@ package me.daddychurchill.CityWorld;
 
 import java.util.List;
 
-import me.daddychurchill.CityWorld.Support.SupportBlocks;
-
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -13,6 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class CommandCityChunk implements CommandExecutor {
 	private final CityWorld plugin;

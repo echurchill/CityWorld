@@ -20,7 +20,7 @@ public class StoreBuildingLot extends FinishedBuildingLot {
 
 	public enum ContentStyle {
 		RANDOM, BOOKS, EMPTY
-	};
+	}
 
 	private ContentStyle contentStyle;
 

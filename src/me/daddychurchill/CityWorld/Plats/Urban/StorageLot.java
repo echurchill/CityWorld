@@ -1,5 +1,8 @@
 package me.daddychurchill.CityWorld.Plats.Urban;
 
+import org.bukkit.Material;
+import org.bukkit.generator.ChunkGenerator.BiomeGrid;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.BuildingLot;
@@ -10,9 +13,6 @@ import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.SurroundingLots;
-
-import org.bukkit.Material;
-import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 public class StorageLot extends BuildingLot {
 
@@ -27,7 +27,7 @@ public class StorageLot extends BuildingLot {
 
 	private enum ContentType {
 		EMPTY, SHED, TANK
-	};
+	}
 
 	private ContentType contentType;
 

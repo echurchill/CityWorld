@@ -1,10 +1,10 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import org.bukkit.Material;
+
 import me.daddychurchill.CityWorld.Support.Colors;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
-
-import org.bukkit.Material;
 
 public class TreeProvider_Crystal extends TreeProvider {
 

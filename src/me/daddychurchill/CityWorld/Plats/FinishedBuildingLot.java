@@ -1,5 +1,9 @@
 package me.daddychurchill.CityWorld.Plats;
 
+import org.bukkit.Material;
+import org.bukkit.block.BlockFace;
+import org.bukkit.generator.ChunkGenerator.BiomeGrid;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.CityWorldGenerator.WorldStyle;
 import me.daddychurchill.CityWorld.Context.DataContext;
@@ -22,10 +26,6 @@ import me.daddychurchill.CityWorld.Support.SurroundingFloors;
 import me.daddychurchill.CityWorld.Support.Surroundings;
 import me.daddychurchill.CityWorld.Support.Trees;
 
-import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
-import org.bukkit.generator.ChunkGenerator.BiomeGrid;
-
 public abstract class FinishedBuildingLot extends BuildingLot {
 
 	protected Material wallMaterial;
@@ -47,7 +47,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 
 	private enum WallStyle {
 		SAME, ALTFLOORS, ALTINDENT, RANDOM, PENTHOUSE
-	};
+	}
 
 	private WallStyle wallStyle;
 
@@ -56,13 +56,13 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	protected enum RoofStyle {
 		FLATTOP, EDGED, PEAK, PEAKS, DUPLOS, BOXTOPS, BOXED, TENT_NORTHSOUTH, TENT_WESTEAST, INSET_BOX, INSET_BOXES,
 		RAISED_BOX, RAISED_BOXES, OUTSET_BOX, INSET_RIDGEBOX, INSET_RIDGEBOXES
-	};
+	}
 
 	// , SLANT_NORTH, SLANT_SOUTH, SLANT_WEST, SLANT_EAST};
 	protected enum RoofFeature {
 		PLAIN, ANTENNAS, CONDITIONERS, TILE, SKYLIGHT, SKYPEAK, ALTPEAK, ALTPEAK2, SKYLIGHT_NS, SKYLIGHT_WE,
 		SKYLIGHT_BOX, SKYLIGHT_TINY, SKYLIGHT_CHECKERS, SKYLIGHT_CROSS
-	};
+	}
 
 	protected RoofStyle roofStyle;
 	protected RoofFeature roofFeature;
@@ -70,7 +70,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 
 	protected enum InteriorStyle {
 		EMPTY, COLUMNS_ONLY, WALLS_ONLY, COLUMNS_OFFICES, WALLS_OFFICES, RANDOM
-	};
+	}
 
 	protected InteriorStyle interiorStyle;
 	protected double oddsOfAnInteriorDoor = Odds.oddsExtremelyLikely;
@@ -83,7 +83,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 
 	protected enum CornerWallStyle {
 		EMPTY, FILLED, WOODCOLUMN, STONECOLUMN, FILLEDTHENEMPTY, WOODTHENFILLED, STONETHENFILLED
-	};
+	}
 
 	protected CornerWallStyle cornerWallStyle;
 
@@ -100,7 +100,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 
 	protected enum InsetStyle {
 		STRAIGHT, BIGTOSMALL, SMALLTOBIG, UNDULATEIN, UNDULATEOUT
-	}; // combinations like SmallToUndulating
+	} // combinations like SmallToUndulating
 
 	protected InsetStyle insetStyle;
 	protected int insetInsetMidAt;
@@ -994,7 +994,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 
 	public enum DoorStyle {
 		NONE, HOLE, WOOD
-	};
+	}
 
 	private void drawInteriorParts(CityWorldGenerator generator, RealBlocks chunk, DataContext context,
 			InteriorStyle style, RoomProvider rooms, int floor, int floorAt, int floorHeight, int insetNS, int insetWE,

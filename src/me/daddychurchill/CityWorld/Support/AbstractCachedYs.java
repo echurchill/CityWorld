@@ -1,8 +1,8 @@
 package me.daddychurchill.CityWorld.Support;
 
-import me.daddychurchill.CityWorld.CityWorldGenerator;
-
 import org.bukkit.util.noise.NoiseGenerator;
+
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 public abstract class AbstractCachedYs {
 

@@ -13,7 +13,7 @@ public abstract class LootProvider extends Provider {
 	public enum LootLocation {
 		EMPTY, RANDOM, SEWER, MINE, BUNKER, BUILDING, WAREHOUSE, FOOD, STORAGESHED, FARMWORKS, FARMWORKSOUTPUT,
 		WOODWORKS, WOODWORKSOUTPUT, STONEWORKS, STONEWORKSOUTPUT
-	};
+	}
 
 	public abstract void setLoot(CityWorldGenerator generator, Odds odds, String worldPrefix,
 			LootLocation chestLocation, Block block);

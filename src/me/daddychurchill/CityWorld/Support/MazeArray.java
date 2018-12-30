@@ -11,7 +11,7 @@ public final class MazeArray {
 
 	public enum MazeBit {
 		HALL, WALL
-	};
+	}
 
 	private Random random;
 	private MazeBit[][] maze;

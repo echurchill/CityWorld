@@ -2,14 +2,14 @@ package me.daddychurchill.CityWorld.Context;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
-import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Plats.Nature.CampgroundLot;
 import me.daddychurchill.CityWorld.Plats.Nature.GravelMineLot;
 import me.daddychurchill.CityWorld.Plats.Nature.GravelworksLot;
 import me.daddychurchill.CityWorld.Plats.Nature.MineEntranceLot;
 import me.daddychurchill.CityWorld.Plats.Nature.WoodframeLot;
 import me.daddychurchill.CityWorld.Plats.Nature.WoodworksLot;
+import me.daddychurchill.CityWorld.Plats.PlatLot;
+import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;

@@ -10,9 +10,9 @@ import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.Point;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
+import me.daddychurchill.CityWorld.Support.Point;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class RadioTowerLot extends ConstructLot {

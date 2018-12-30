@@ -1,10 +1,10 @@
 package me.daddychurchill.CityWorld.Context.Maze;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
-import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Nature.CampgroundLot;
 import me.daddychurchill.CityWorld.Plats.Nature.WoodframeLot;
 import me.daddychurchill.CityWorld.Plats.Nature.WoodworksLot;
+import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 

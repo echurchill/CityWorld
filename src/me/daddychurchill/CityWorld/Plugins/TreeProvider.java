@@ -18,7 +18,7 @@ public abstract class TreeProvider {
 
 	public enum TreeStyle {
 		NORMAL, SPOOKY, CRYSTAL
-	};
+	}
 
 	public static TreeStyle toTreeStyle(String value, TreeStyle defaultValue) {
 		try {

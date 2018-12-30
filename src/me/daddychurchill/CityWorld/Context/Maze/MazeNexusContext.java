@@ -1,11 +1,11 @@
 package me.daddychurchill.CityWorld.Context.Maze;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
-import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Maze.MazeCoveredLot;
 import me.daddychurchill.CityWorld.Plats.Maze.MazeInvisibleWalledLot;
 import me.daddychurchill.CityWorld.Plats.Maze.MazeLavaWalledLot;
 import me.daddychurchill.CityWorld.Plats.Maze.MazeWaterWalledLot;
+import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 

@@ -1,9 +1,9 @@
 package me.daddychurchill.CityWorld.Support;
 
+import java.util.ArrayList;
+
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
-
-import java.util.ArrayList;
 
 public final class CornerBlocks {
 

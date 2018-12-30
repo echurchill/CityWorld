@@ -1,5 +1,8 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import org.bukkit.Material;
+import org.bukkit.World.Environment;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Support.AbstractBlocks;
@@ -7,9 +10,6 @@ import me.daddychurchill.CityWorld.Support.Colors;
 import me.daddychurchill.CityWorld.Support.Colors.ColorSet;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
-
-import org.bukkit.Material;
-import org.bukkit.World.Environment;
 
 public class StructureInAirProvider extends Provider {
 

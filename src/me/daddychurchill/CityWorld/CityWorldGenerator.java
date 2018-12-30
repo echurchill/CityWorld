@@ -5,31 +5,31 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Random;
 
-import me.daddychurchill.CityWorld.Clipboard.PasteProvider;
-import me.daddychurchill.CityWorld.Plugins.StructureInAirProvider;
-import me.daddychurchill.CityWorld.Plugins.ThingProvider;
-import me.daddychurchill.CityWorld.Plugins.CoverProvider;
-import me.daddychurchill.CityWorld.Plugins.TreeProvider;
-import me.daddychurchill.CityWorld.Plugins.StructureOnGroundProvider;
-import me.daddychurchill.CityWorld.Plugins.LootProvider;
-import me.daddychurchill.CityWorld.Plugins.MaterialProvider;
-import me.daddychurchill.CityWorld.Plugins.OdonymProvider;
-import me.daddychurchill.CityWorld.Plugins.OreProvider;
-import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
-import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
-import me.daddychurchill.CityWorld.Plugins.SurfaceProvider;
-import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealBlocks;
-import me.daddychurchill.CityWorld.Support.WorldBlocks;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.generator.BlockPopulator;
 import org.bukkit.generator.ChunkGenerator;
+
+import me.daddychurchill.CityWorld.Clipboard.PasteProvider;
+import me.daddychurchill.CityWorld.Plugins.CoverProvider;
+import me.daddychurchill.CityWorld.Plugins.LootProvider;
+import me.daddychurchill.CityWorld.Plugins.MaterialProvider;
+import me.daddychurchill.CityWorld.Plugins.OdonymProvider;
+import me.daddychurchill.CityWorld.Plugins.OreProvider;
+import me.daddychurchill.CityWorld.Plugins.ShapeProvider;
+import me.daddychurchill.CityWorld.Plugins.SpawnProvider;
+import me.daddychurchill.CityWorld.Plugins.StructureInAirProvider;
+import me.daddychurchill.CityWorld.Plugins.StructureOnGroundProvider;
+import me.daddychurchill.CityWorld.Plugins.SurfaceProvider;
+import me.daddychurchill.CityWorld.Plugins.ThingProvider;
+import me.daddychurchill.CityWorld.Plugins.TreeProvider;
+import me.daddychurchill.CityWorld.Support.InitialBlocks;
+import me.daddychurchill.CityWorld.Support.Odds;
+import me.daddychurchill.CityWorld.Support.PlatMap;
+import me.daddychurchill.CityWorld.Support.RealBlocks;
+import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
 public class CityWorldGenerator extends ChunkGenerator {
 
@@ -98,7 +98,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 		// MINING, // elevated terrain with very shallow mines and very small towns
 		DESTROYED, // normal landscape with destroyed cities
 		NORMAL
-	}; // traditional terrain and cities
+	} // traditional terrain and cities
 
 	public static WorldStyle validateStyle(WorldStyle style) {
 		switch (style) {

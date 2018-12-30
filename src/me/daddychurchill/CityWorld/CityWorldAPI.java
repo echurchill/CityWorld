@@ -2,16 +2,15 @@ package me.daddychurchill.CityWorld;
 
 import java.util.HashMap;
 
+import org.bukkit.Chunk;
+import org.bukkit.World;
+import org.bukkit.generator.ChunkGenerator;
+
 import me.daddychurchill.CityWorld.Clipboard.ClipboardLot;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.CityWorldGenerator;
-
-import org.bukkit.Chunk;
-import org.bukkit.World;
-import org.bukkit.generator.ChunkGenerator;
 
 public class CityWorldAPI {
 	// This class was created by Sablednah
