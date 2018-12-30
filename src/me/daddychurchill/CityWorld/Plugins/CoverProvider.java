@@ -40,7 +40,7 @@ public abstract class CoverProvider extends Provider {
 		BRAIN_CORAL, BUBBLE_CORAL, FIRE_CORAL, HORN_CORAL, TUBE_CORAL, SEAGRASS, KELP,
 
 		FIRE
-	};
+	}
 
 	/*
 	 * BUBBLE_COLUMN(13758, BubbleColumn.class),
@@ -58,7 +58,7 @@ public abstract class CoverProvider extends Provider {
 		OAK_TREES, PINE_TREES, BIRCH_TREES, JUNGLE_TREES, ACACIA_TREES, SWAMP_TREES, SHORT_TREES, MEDIUM_TREES,
 		TALL_TREES, ALL_TREES, PRARIE_PLANTS, EDIBLE_PLANTS, SHORT_MUSHROOMS, NETHER_PLANTS, DECAY_PLANTS, SEA_PLANTS,
 		SEA_CORALS
-	};
+	}
 
 	private final static CoverageType[] ShortFlowers = { CoverageType.DANDELION, CoverageType.POPPY,
 			CoverageType.BLUE_ORCHID, CoverageType.ALLIUM, CoverageType.AZURE_BLUET, CoverageType.OXEYE_DAISY,

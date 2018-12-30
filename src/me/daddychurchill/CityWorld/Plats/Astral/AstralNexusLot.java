@@ -11,7 +11,7 @@ public class AstralNexusLot extends AstralStructureLot {
 
 	public enum NexusSegment {
 		NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEAST
-	};
+	}
 
 	private NexusSegment segment;
 

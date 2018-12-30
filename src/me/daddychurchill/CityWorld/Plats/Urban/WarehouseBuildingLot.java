@@ -23,7 +23,7 @@ public class WarehouseBuildingLot extends IndustrialBuildingLot {
 
 	public enum ContentStyle {
 		RANDOM, BOOKS, BOXES, EMPTY, STACKS, CHESTS
-	};
+	}
 
 	private ContentStyle contentStyle;
 

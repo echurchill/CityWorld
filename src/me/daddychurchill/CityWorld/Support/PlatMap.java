@@ -490,7 +490,6 @@ public class PlatMap {
 			if (currentPolarity == originPolarity && HeightInfo.isBuildableAt(generator, chunkX, chunkZ))
 				return true;
 		}
-		;
 
 		// we have failed to find a real bridge/tunnel
 		return false;

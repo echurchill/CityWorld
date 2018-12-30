@@ -7,7 +7,7 @@ public final class Colors {
 
 	public static enum ColorSet {
 		ALL, GREEN, WHITE, TAN, PINK, NETHER, THEEND, DARK, LIGHT, RANDOM
-	};
+	}
 
 	private static DyeColor[] setAll = { DyeColor.WHITE, DyeColor.ORANGE, DyeColor.MAGENTA, DyeColor.LIGHT_BLUE,
 			DyeColor.YELLOW, DyeColor.LIME, DyeColor.PINK, DyeColor.GRAY, DyeColor.LIGHT_GRAY, DyeColor.CYAN,

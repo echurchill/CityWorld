@@ -147,7 +147,7 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 			}
 			drawFoundationColumns(blocks, floorAt + higher - 1, DataContext.FloorHeight, heights);
 		}
-	};
+	}
 
 	private void drawFoundationSteps(SupportBlocks blocks, int y1, int y2, Surroundings heights) {
 		// NorthWest

@@ -16,7 +16,7 @@ public class AstralMushroomContext extends AstralDataContext {
 
 	public enum MushroomStyle {
 		RED, BROWN, REDBROWN, YELLOW
-	};
+	}
 
 	private MushroomStyle style;
 

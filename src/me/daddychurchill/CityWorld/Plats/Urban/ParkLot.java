@@ -43,7 +43,7 @@ public class ParkLot extends ConnectedLot {
 
 	public enum CenterStyles {
 		CROSS_PATH, CIRCLE_PATH, WATER_TOWER, HEDGE_MAZE, CIRCLE_MAZE, LABYRINTH_MAZE
-	};
+	}
 
 	private CenterStyles centerStyle;
 

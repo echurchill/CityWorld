@@ -21,11 +21,11 @@ public class RoundaboutCenterLot extends IsolatedLot {
 
 	private enum BaseStyle {
 		WATER, GRASS, PEDESTAL
-	};
+	}
 
 	private enum PitStyle {
 		WATER, LAVA, UNFINISHED
-	};
+	}
 
 	private final static Material curbMaterial = Material.STONE;
 	private final static Material brickMaterial = Material.SMOOTH_STONE;

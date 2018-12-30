@@ -98,7 +98,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 		// MINING, // elevated terrain with very shallow mines and very small towns
 		DESTROYED, // normal landscape with destroyed cities
 		NORMAL
-	}; // traditional terrain and cities
+	} // traditional terrain and cities
 
 	public static WorldStyle validateStyle(WorldStyle style) {
 		switch (style) {

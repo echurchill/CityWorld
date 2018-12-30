@@ -36,7 +36,7 @@ public class BunkerLot extends ConnectedLot {
 
 	public enum BunkerType {
 		ENTRY, PYRAMID, TANK, QUAD, RECALL, BALLSY, FLOORED, GROWING, SAUCER, ROAD
-	}; // MISSILE, FARM, VENT
+	} // MISSILE, FARM, VENT
 
 	protected int bilgeType;
 	protected BunkerType buildingType;

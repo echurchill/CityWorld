@@ -12,7 +12,7 @@ public class AstralBuriedRoadLot extends AstralBuriedCityLot {
 
 	public enum SidewalkStyle {
 		NONE, NORTHSOUTH, EASTWEST, INTERSECTION
-	};
+	}
 
 	private SidewalkStyle style;
 

@@ -52,7 +52,7 @@ public class FarmLot extends ConnectedLot {
 		DECAY_PLANTS,
 
 		PADDOCK
-	};
+	}
 
 	protected CropType cropType;
 

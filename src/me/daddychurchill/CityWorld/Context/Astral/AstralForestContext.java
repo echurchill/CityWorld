@@ -16,7 +16,7 @@ public class AstralForestContext extends AstralDataContext {
 
 	public enum ForestStyle {
 		FERN, HEDGE, CANOPY, FRACTAL
-	};
+	}
 
 	private ForestStyle style;
 

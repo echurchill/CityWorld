@@ -25,13 +25,13 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 	private enum ContentStyle {
 		BUILDING_SMOKESTACK, BUILDING_OFFICE, SIMPLE_TANK, STACKED_STUFF, SIMPLE_PIT, BUNKER_RECALL, BUNKER_TANK,
 		BUNKER_QUAD, BUNKER_BALLS, BUNKER_GROWING
-	};// , BUNKER_FLOORED};
+	}// , BUNKER_FLOORED};
 
 	private ContentStyle contentStyle;
 
 	private enum WallStyle {
 		BUILDING, METAL_FENCE, WOOD_FENCE
-	};// , STONE_FENCE};
+	}// , STONE_FENCE};
 
 	private WallStyle wallStyle;
 

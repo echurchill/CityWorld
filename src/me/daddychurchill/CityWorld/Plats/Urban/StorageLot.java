@@ -27,7 +27,7 @@ public class StorageLot extends BuildingLot {
 
 	private enum ContentType {
 		EMPTY, SHED, TANK
-	};
+	}
 
 	private ContentType contentType;
 

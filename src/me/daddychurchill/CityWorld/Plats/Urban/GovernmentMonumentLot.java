@@ -45,7 +45,7 @@ public class GovernmentMonumentLot extends ConnectedLot {
 
 	private enum MonumentStyle {
 		COLUMN, PYRAMID, PEDESTAL, CHICKEN
-	};
+	}
 
 	private MonumentStyle monumentStyle;
 

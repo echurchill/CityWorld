@@ -28,7 +28,7 @@ public abstract class AstralStructureTowerLot extends AstralStructureLot {
 
 	protected enum TowerStyle {
 		DARK, LIGHT
-	};
+	}
 
 	protected void generateTower(CityWorldGenerator generator, RealBlocks chunk, TowerStyle style) {
 

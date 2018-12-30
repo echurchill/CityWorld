@@ -23,7 +23,7 @@ public class ConcreteLot extends BuildingLot {
 	public enum CenterStyle {
 		EMPTY, QUIET_ZONE, ART_ZONE, CHECKER_ART, SHALLOW_POND, ROUND_POND, PYRAMID_POND, CHECKER_POND, UPWARD_POND,
 		DOWNWARD_POND
-	};
+	}
 
 	private CenterStyle centerStyle;
 

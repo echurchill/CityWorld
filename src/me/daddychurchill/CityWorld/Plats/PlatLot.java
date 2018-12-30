@@ -31,7 +31,7 @@ public abstract class PlatLot {
 	// styling!
 	public enum LotStyle {
 		NATURE, STRUCTURE, ROAD, ROUNDABOUT
-	};
+	}
 
 	public LotStyle style;
 	public boolean trulyIsolated;
