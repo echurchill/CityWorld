@@ -22,6 +22,7 @@
     </JavaCodeStyleSettings>
     <codeStyleSettings language="JAVA">
       <option name="INDENT_CASE_FROM_SWITCH" value="false" />
+      <option name="ALIGN_MULTILINE_PARAMETERS" value="false" />
       <indentOptions>
         <option name="USE_TAB_CHARACTER" value="true" />
       </indentOptions>
