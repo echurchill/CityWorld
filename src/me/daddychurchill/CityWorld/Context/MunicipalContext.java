@@ -5,7 +5,7 @@ import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.Urban.GovernmentBuildingLot;
 import me.daddychurchill.CityWorld.Plats.Urban.GovernmentMonumentLot;
-import me.daddychurchill.CityWorld.Plats.Urban.ParkLot;
+import me.daddychurchill.CityWorld.Plats.Urban.MuseumBuildingLot;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
@@ -42,8 +42,11 @@ public class MunicipalContext extends UrbanContext {
 
 	@Override
 	protected PlatLot getBuilding(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
-		if (odds.playOdds(Odds.oddsVeryUnlikely))
+		double roll = odds.getRandomDouble();
+		if (roll < Odds.oddsVeryUnlikely)
 			return new GovernmentMonumentLot(platmap, chunkX, chunkZ);
+		else if (roll < Odds.oddsSomewhatUnlikely)
+			return new MuseumBuildingLot(platmap, chunkX, chunkZ);
 		else
 			return new GovernmentBuildingLot(platmap, chunkX, chunkZ);
 	}
@@ -51,10 +54,7 @@ public class MunicipalContext extends UrbanContext {
 	@Override
 	protected PlatLot getPark(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ,
 			int waterDepth) {
-		if (odds.playOdds(Odds.oddsVeryUnlikely))
-			return new ParkLot(platmap, chunkX, chunkZ, generator.connectedKeyForParks, waterDepth);
-		else
-			return new GovernmentMonumentLot(platmap, chunkX, chunkZ);
+		return getBuilding(generator, platmap, odds, chunkX, chunkZ);
 	}
 
 }

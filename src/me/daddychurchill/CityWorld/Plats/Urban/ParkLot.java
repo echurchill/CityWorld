@@ -119,191 +119,6 @@ public class ParkLot extends ConnectedLot {
 	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk,
 			BiomeGrid biomes, DataContext context, int platX, int platZ) {
 
-//		// look around
-//		SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
-//		
-//		// starting with the bottom
-//		int lowestY = getBottomY(generator);
-//		int highestY = generator.streetLevel - groundDepth - 1;
-//		
-//		// cistern?
-//		if (generator.settings.includeCisterns) {
-//			chunk.setLayer(lowestY, cisternMaterial);
-//			
-//			// fill with water
-//			lowestY++;
-//			if (generator.settings.includeAbovegroundFluids)
-//				chunk.setBlocks(0, chunk.width, lowestY, lowestY + waterDepth, 0, chunk.width, generator.oreProvider.fluidMaterial);
-//			
-//			// clear out the rest
-//			chunk.airoutBlocks(generator, 0, chunk.width, lowestY + waterDepth, highestY + 1, 0, chunk.width, true);
-//			
-//			// outer columns and walls as needed
-//			if (neighbors.toNorth()) {
-//				chunk.setBlocks(3, 5, lowestY, highestY, 0, 1, cisternMaterial);
-//				chunk.setBlocks(11, 13, lowestY, highestY, 0, 1, cisternMaterial);
-//			} else
-//				chunk.setBlocks(0, 16, lowestY, highestY + 1, 0, 1, cisternMaterial);
-//			if (neighbors.toSouth()) {
-//				chunk.setBlocks(3, 5, lowestY, highestY, 15, 16, cisternMaterial);
-//				chunk.setBlocks(11, 13, lowestY, highestY, 15, 16, cisternMaterial);
-//			} else
-//				chunk.setBlocks(0, 16, lowestY, highestY + 1, 15, 16, cisternMaterial);
-//			if (neighbors.toWest()) {
-//				chunk.setBlocks(0, 1, lowestY, highestY, 3, 5, cisternMaterial);
-//				chunk.setBlocks(0, 1, lowestY, highestY, 11, 13, cisternMaterial);
-//			} else
-//				chunk.setBlocks(0, 1, lowestY, highestY + 1, 0, 16, cisternMaterial);
-//			if (neighbors.toEast()) {
-//				chunk.setBlocks(15, 16, lowestY, highestY, 3, 5, cisternMaterial);
-//				chunk.setBlocks(15, 16, lowestY, highestY, 11, 13, cisternMaterial);
-//			} else
-//				chunk.setBlocks(15, 16, lowestY, highestY + 1, 0, 16, cisternMaterial);
-//			
-//			// center columns
-//			chunk.setBlocks(7, 9, lowestY, highestY, 3, 5, cisternMaterial);
-//			chunk.setBlocks(7, 9, lowestY, highestY, 11, 13, cisternMaterial);
-//			chunk.setBlocks(3, 5, lowestY, highestY, 7, 9, cisternMaterial);
-//			chunk.setBlocks(11, 13, lowestY, highestY, 7, 9, cisternMaterial);
-//			
-//			// ceiling supports
-//			chunk.setBlocks(3, 5, highestY, highestY + 1, 0, 16, cisternMaterial);
-//			chunk.setBlocks(11, 13, highestY, highestY + 1, 0, 16, cisternMaterial);
-//			chunk.setBlocks(0, 16, highestY, highestY + 1, 3, 5, cisternMaterial);
-//			chunk.setBlocks(0, 16, highestY, highestY + 1, 11, 13, cisternMaterial);
-//	
-//			// top it off
-//			chunk.setLayer(highestY + 1, cisternMaterial);
-//		} else {
-//			
-//			// backfill with dirt
-//			chunk.setLayer(lowestY, highestY + 2 - lowestY, generator.oreProvider.subsurfaceMaterial);
-//		}
-//		
-//		// top it off
-//		chunk.setLayer(highestY + 2, generator.oreProvider.subsurfaceMaterial);
-//		chunk.setLayer(highestY + 3, generator.oreProvider.surfaceMaterial);
-//		
-//		// surface features
-//		int surfaceY = generator.streetLevel + 1;
-//		switch (centerStyle) {
-//		case LABYRINTH_MAZE:
-//		case HEDGE_MAZE:
-//		case CIRCLE_MAZE:
-//			chunk.setWalls(0, 16, surfaceY - 1, surfaceY, 0, 16, logMaterial);
-//			chunk.setWalls(0, 16, surfaceY, surfaceY + 3, 0, 16, leafMaterial);
-//			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
-//				chunk.clearBlocks(6, 10, surfaceY, surfaceY + 3, 0, 1);
-//				chunk.setBlocks(6, surfaceY, surfaceY + 2, 0, columnMaterial);
-//				chunk.setBlocks(7, 9, surfaceY, surfaceY + 1, 0, 1, stepMaterial);
-//				chunk.setBlocks(9, surfaceY, surfaceY + 2, 0, columnMaterial);
-//			} else if (neighbors.toNorth()) {
-//				chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 0, 1, grassMaterial);
-//				chunk.clearBlocks(7, 9, surfaceY, surfaceY + 3, 0, 1);
-//			}
-//			if (!neighbors.toSouth() && HeightInfo.isBuildableToSouth(generator, chunk)) {
-//				chunk.clearBlocks(6, 10, surfaceY, surfaceY + 3, 15, 16);
-//				chunk.setBlocks(6, surfaceY, surfaceY + 2, 15, columnMaterial);
-//				chunk.setBlocks(7, 9, surfaceY, surfaceY + 1, 15, 16, stepMaterial);
-//				chunk.setBlocks(9, surfaceY, surfaceY + 2, 15, columnMaterial);
-//			} else if (neighbors.toSouth()) {
-//				chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 15, 16, grassMaterial);
-//				chunk.clearBlocks(7, 9, surfaceY, surfaceY + 3, 15, 16);
-//			}
-//			if (!neighbors.toWest() && HeightInfo.isBuildableToWest(generator, chunk)) {
-//				chunk.clearBlocks(0, 1, surfaceY, surfaceY + 3, 6, 10);
-//				chunk.setBlocks(0, surfaceY, surfaceY + 2, 6, columnMaterial);
-//				chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 7, 9, stepMaterial);
-//				chunk.setBlocks(0, surfaceY, surfaceY + 2, 9, columnMaterial);
-//			} else if (neighbors.toWest()) {
-//				chunk.setBlocks(0, 1, surfaceY - 1, surfaceY, 7, 9, grassMaterial);
-//				chunk.clearBlocks(0, 1, surfaceY, surfaceY + 3, 7, 9);
-//			}
-//			if (!neighbors.toEast() && HeightInfo.isBuildableToEast(generator, chunk)) {
-//				chunk.clearBlocks(15, 16, surfaceY, surfaceY + 3, 6, 10);
-//				chunk.setBlocks(15, surfaceY, surfaceY + 2, 6, columnMaterial);
-//				chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 7, 9, stepMaterial);
-//				chunk.setBlocks(15, surfaceY, surfaceY + 2, 9, columnMaterial);
-//			} else if (neighbors.toEast()) {
-//				chunk.setBlocks(0, 1, surfaceY - 1, surfaceY, 7, 9, grassMaterial);
-//				chunk.clearBlocks(0, 1, surfaceY, surfaceY + 3, 7, 9);
-//			}
-//			break;
-//		case CIRCLE_PATH:
-//		case CROSS_PATH:
-//		case WATER_TOWER:
-//		default:
-//			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
-//				chunk.setBlocks(0, 6, surfaceY, surfaceY + 1, 0, 1, columnMaterial);
-//				chunk.setBlocks(0, 6, surfaceY + 1, surfaceY + 2, 0, 1, fenceMaterial);
-//				chunk.setBlocks(10, 16, surfaceY, surfaceY + 1, 0, 1, columnMaterial);
-//				chunk.setBlocks(10, 16, surfaceY + 1, surfaceY + 2, 0, 1, fenceMaterial);
-//				chunk.setBlocks(6, surfaceY, surfaceY + 2, 0, columnMaterial);
-//				chunk.setBlocks(7, 9, surfaceY, surfaceY + 1, 0, 1, stepMaterial);
-//				chunk.setBlocks(9, surfaceY, surfaceY + 2, 0, columnMaterial);
-//				chunk.setBlock(6, surfaceY, 1, columnMaterial);
-//				chunk.setBlock(9, surfaceY, 1, columnMaterial);
-//			}
-//			if (!neighbors.toSouth() && HeightInfo.isBuildableToSouth(generator, chunk)) {
-//				chunk.setBlocks(0, 6, surfaceY, surfaceY + 1, 15, 16, columnMaterial);
-//				chunk.setBlocks(0, 6, surfaceY + 1, surfaceY + 2, 15, 16, fenceMaterial);
-//				chunk.setBlocks(10, 16, surfaceY, surfaceY + 1, 15, 16, columnMaterial);
-//				chunk.setBlocks(10, 16, surfaceY + 1, surfaceY + 2, 15, 16, fenceMaterial);
-//				chunk.setBlocks(6, surfaceY, surfaceY + 2, 15, columnMaterial);
-//				chunk.setBlocks(7, 9, surfaceY, surfaceY + 1, 15, 16, stepMaterial);
-//				chunk.setBlocks(9, surfaceY, surfaceY + 2, 15, columnMaterial);
-//				chunk.setBlock(6, surfaceY, 14, columnMaterial);
-//				chunk.setBlock(9, surfaceY, 14, columnMaterial);
-//			}
-//			if (!neighbors.toWest() && HeightInfo.isBuildableToWest(generator, chunk)) {
-//				chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 0, 6, columnMaterial);
-//				chunk.setBlocks(0, 1, surfaceY + 1, surfaceY + 2, 0, 6, fenceMaterial);
-//				chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 10, 16, columnMaterial);
-//				chunk.setBlocks(0, 1, surfaceY + 1, surfaceY + 2, 10, 16, fenceMaterial);
-//				chunk.setBlocks(0, surfaceY, surfaceY + 2, 6, columnMaterial);
-//				chunk.setBlocks(0, 1, surfaceY, surfaceY + 1, 7, 9, stepMaterial);
-//				chunk.setBlocks(0, surfaceY, surfaceY + 2, 9, columnMaterial);
-//				chunk.setBlock(1, surfaceY, 6, columnMaterial);
-//				chunk.setBlock(1, surfaceY, 9, columnMaterial);
-//			}
-//			if (!neighbors.toEast() && HeightInfo.isBuildableToEast(generator, chunk)) {
-//				chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 0, 6, columnMaterial);
-//				chunk.setBlocks(15, 16, surfaceY + 1, surfaceY + 2, 0, 6, fenceMaterial);
-//				chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 10, 16, columnMaterial);
-//				chunk.setBlocks(15, 16, surfaceY + 1, surfaceY + 2, 10, 16, fenceMaterial);
-//				chunk.setBlocks(15, surfaceY, surfaceY + 2, 6, columnMaterial);
-//				chunk.setBlocks(15, 16, surfaceY, surfaceY + 1, 7, 9, stepMaterial);
-//				chunk.setBlocks(15, surfaceY, surfaceY + 2, 9, columnMaterial);
-//				chunk.setBlock(14, surfaceY, 6, columnMaterial);
-//				chunk.setBlock(14, surfaceY, 9, columnMaterial);
-//			} 
-//			break;
-//		}
-//		
-//		// draw center bits
-//		switch (centerStyle) {
-//		case CIRCLE_PATH:
-//			chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 0, 3, pathMaterial);
-//			chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 13, 16, pathMaterial);
-//			chunk.setBlocks(0, 3, surfaceY - 1, surfaceY, 7, 9, pathMaterial);
-//			chunk.setBlocks(13, 16, surfaceY - 1, surfaceY, 7, 9, pathMaterial);
-//			chunk.setCircle(8, 8, 4, surfaceY - 1, pathMaterial, false);
-//			chunk.setCircle(8, 8, 3, surfaceY - 1, pathMaterial, false);
-//			break;
-//		case LABYRINTH_MAZE:
-//		case CIRCLE_MAZE:
-//		case HEDGE_MAZE:
-//			// nothing for this one
-//			break;
-//		case CROSS_PATH:
-//		case WATER_TOWER:
-//		default:
-//			chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 0, 8, pathMaterial);
-//			chunk.setBlocks(7, 9, surfaceY - 1, surfaceY, 8, 16, pathMaterial);
-//			chunk.setBlocks(0, 8, surfaceY - 1, surfaceY, 7, 9, pathMaterial);
-//			chunk.setBlocks(8, 16, surfaceY - 1, surfaceY, 7, 9, pathMaterial);
-//			break;
-//		}
 	}
 
 	private final static CoverageType[] smallTrees = { CoverageType.SHORT_BIRCH_TREE, CoverageType.SHORT_OAK_TREE,
@@ -391,8 +206,10 @@ public class ParkLot extends ConnectedLot {
 		case LABYRINTH_MAZE:
 		case HEDGE_MAZE:
 		case CIRCLE_MAZE:
+			 //TODO @@ putting leaves within range of a log should prevent decay but it doesn't WHY?
+			chunk.setLeafWalls(0, 16, surfaceY, surfaceY + 3, 0, 16, leafMaterial, true);
 			chunk.setWalls(0, 16, surfaceY - 1, surfaceY, 0, 16, logMaterial);
-			chunk.setWalls(0, 16, surfaceY, surfaceY + 3, 0, 16, leafMaterial);
+			
 			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
 				chunk.clearBlocks(6, 10, surfaceY, surfaceY + 3, 0, 1);
 				chunk.setBlocks(6, surfaceY, surfaceY + 2, 0, columnMaterial);
@@ -687,12 +504,13 @@ public class ParkLot extends ConnectedLot {
 				contLabyrinth(chunk, 8, 7); // t
 				break;
 			case CIRCLE_MAZE:
+				 //TODO @@ putting leaves within range of a log should prevent decay but it doesn't WHY?
+				chunk.setLeafWalls(2, 14, surfaceY, surfaceY + 2, 2, 14, leafMaterial, true);
 				chunk.setWalls(2, 14, surfaceY - 1, surfaceY, 2, 14, logMaterial);
+				chunk.setLeafWalls(4, 12, surfaceY, surfaceY + 3, 4, 12, leafMaterial, true);
 				chunk.setWalls(4, 12, surfaceY - 1, surfaceY, 4, 12, logMaterial);
+				chunk.setLeafWalls(6, 10, surfaceY, surfaceY + 4, 6, 10, leafMaterial, true);
 				chunk.setWalls(6, 10, surfaceY - 1, surfaceY, 6, 10, logMaterial);
-				chunk.setWalls(2, 14, surfaceY, surfaceY + 2, 2, 14, leafMaterial);
-				chunk.setWalls(4, 12, surfaceY, surfaceY + 3, 4, 12, leafMaterial);
-				chunk.setWalls(6, 10, surfaceY, surfaceY + 4, 6, 10, leafMaterial);
 
 				pokeHoleSomewhere(chunk, 3, 13, surfaceY, 2, 3);
 				pokeHoleSomewhere(chunk, 5, 11, surfaceY, 4, 5);
@@ -719,17 +537,18 @@ public class ParkLot extends ConnectedLot {
 						int z2 = z * 3;
 						int xWall = x * 2;
 						int zWall = z * 2;
+						 //TODO @@putting leaves within range of a log should prevent decay but it doesn't WHY?
 						if ((x < 5) && (maze.getBit(xWall, zWall - 1) == MazeBit.WALL)) {
+							chunk.setLeaves(x2, x2 + 1, surfaceY, surfaceY + 3, z1, z2, leafMaterial, true);
 							chunk.setBlocks(x2, x2 + 1, surfaceY - 1, surfaceY, z1, z2, logMaterial);
-							chunk.setBlocks(x2, x2 + 1, surfaceY, surfaceY + 3, z1, z2, leafMaterial);
 						}
 						if ((z < 5) && (maze.getBit(xWall - 1, zWall) == MazeBit.WALL)) {
+							chunk.setLeaves(x1, x2, surfaceY, surfaceY + 3, z2, z2 + 1, leafMaterial, true);
 							chunk.setBlocks(x1, x2, surfaceY - 1, surfaceY, z2, z2 + 1, logMaterial);
-							chunk.setBlocks(x1, x2, surfaceY, surfaceY + 3, z2, z2 + 1, leafMaterial);
 						}
 						if ((x < 5) && (z < 5)) {
+							chunk.setLeaves(x2, surfaceY, surfaceY + 3, z2, leafMaterial, true);
 							chunk.setBlocks(x2, surfaceY - 1, surfaceY, z2, logMaterial);
-							chunk.setBlocks(x2, surfaceY, surfaceY + 3, z2, leafMaterial);
 						}
 					}
 				break;

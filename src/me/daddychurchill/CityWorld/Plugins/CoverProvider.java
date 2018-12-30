@@ -4,8 +4,10 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.Colors.ColorSet;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
+import me.daddychurchill.CityWorld.Support.Trees;
 
 import org.bukkit.Material;
+import org.bukkit.TreeSpecies;
 import org.bukkit.TreeType;
 import org.bukkit.block.BlockFace;
 
@@ -81,12 +83,11 @@ public abstract class CoverProvider extends Provider {
 
 	private final static CoverageType[] PrariePlants = { CoverageType.GRASS, CoverageType.GRASS, CoverageType.GRASS,
 			CoverageType.GRASS, CoverageType.DANDELION, CoverageType.POPPY, CoverageType.GRASS, CoverageType.GRASS,
-//		CoverageType.BLUE_ORCHID, CoverageType.ALLIUM, 
-			CoverageType.GRASS, CoverageType.GRASS,
-//		CoverageType.AZURE_BLUET, CoverageType.OXEYE_DAISY,
-			CoverageType.GRASS, CoverageType.GRASS, CoverageType.RED_TULIP, CoverageType.ORANGE_TULIP,
-			CoverageType.GRASS, CoverageType.GRASS, CoverageType.WHITE_TULIP, CoverageType.PINK_TULIP,
-			CoverageType.GRASS, CoverageType.GRASS, CoverageType.GRASS, CoverageType.GRASS };
+			CoverageType.BLUE_ORCHID, CoverageType.ALLIUM, CoverageType.GRASS, CoverageType.GRASS,
+			CoverageType.AZURE_BLUET, CoverageType.OXEYE_DAISY, CoverageType.GRASS, CoverageType.GRASS,
+			CoverageType.RED_TULIP, CoverageType.ORANGE_TULIP, CoverageType.GRASS, CoverageType.GRASS,
+			CoverageType.WHITE_TULIP, CoverageType.PINK_TULIP, CoverageType.GRASS, CoverageType.GRASS,
+			CoverageType.GRASS, CoverageType.GRASS };
 
 	private final static CoverageType[] EdiblePlants = { CoverageType.WHEAT, CoverageType.CARROTS, CoverageType.POTATO,
 			CoverageType.BEETROOT, CoverageType.MELON, CoverageType.PUMPKIN };
@@ -401,8 +402,9 @@ public abstract class CoverProvider extends Provider {
 		case EMERALD_GREEN:
 			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
 					Material.FARMLAND)) {
-				chunk.setBlock(x, y, z, Material.JUNGLE_LOG);
-				chunk.setBlocks(x, y + 1, y + odds.getRandomInt(2, 4), z, Material.JUNGLE_LEAVES);
+				TreeSpecies species = odds.getRandomWoodSpecies();
+				chunk.setLeaves(x, y + 1, y + odds.getRandomInt(2, 4), z, Trees.getRandomWoodLeaves(species), true); // @@ why are these decaying when set to false?
+				chunk.setBlock(x, y, z, Trees.getRandomWoodLog(species));
 			}
 			break;
 		case OAK_SAPLING:

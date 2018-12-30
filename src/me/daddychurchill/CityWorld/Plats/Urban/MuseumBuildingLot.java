@@ -102,7 +102,7 @@ public class MuseumBuildingLot extends FinishedBuildingLot {
 			if (placeBones) {
 				int sidewalkLevel = getSidewalkLevel(generator);
 				Colors colors = new Colors(chunkOdds);
-				chunk.setBlocks(3, 13, sidewalkLevel + 1, 3, 13, colors.getConcrete());
+				chunk.setBlocks(3, 13, sidewalkLevel, 3, 13, colors.getConcrete());
 				generator.thingProvider.generateBones(generator, this, chunk, 7, sidewalkLevel + 1, 11, chunkOdds,
 						true);
 
@@ -114,7 +114,7 @@ public class MuseumBuildingLot extends FinishedBuildingLot {
 					chunk.setBlocks(7, sidewalkLevel + 1, sidewalkLevel + 3, 4, Material.STONE);
 					chunk.setWallSign(7, sidewalkLevel + 2, 3, BlockFace.NORTH,
 							generator.odonymProvider.generateFossilOdonym(generator, chunkOdds));
-					chunk.setBlock(7, sidewalkLevel + 2, 5, Material.TORCH, BlockFace.SOUTH);
+					chunk.setBlock(7, sidewalkLevel + 1, 5, Material.TORCH, BlockFace.SOUTH);
 				}
 			}
 		}

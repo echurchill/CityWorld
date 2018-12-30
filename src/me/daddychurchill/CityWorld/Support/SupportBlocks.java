@@ -764,6 +764,26 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		return block;
 	}
 
+	public final void setLeaves(int x, int y1, int y2, int z, Material material, boolean isPersistent) {
+		for (int y = y1; y < y2; y++)
+			setLeaf(x, y, z, material, isPersistent);
+	}
+
+	public final void setLeaves(int x1, int x2, int y1, int y2, int z1, int z2, Material material, boolean isPersistent) {
+		for (int x = x1; x < x2; x++)
+			for (int y = y1; y < y2; y++)
+				for (int z = z1; z < z2; z++)
+					setLeaf(x, y, z, material, isPersistent);
+	}
+
+	public final void setLeafWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material, boolean isPersistent) {
+		setLeaves(x1, x2, y1, y2, z1, z1 + 1, material, isPersistent); // N
+		setLeaves(x1, x2, y1, y2, z2 - 1, z2, material, isPersistent); // S
+		setLeaves(x1, x1 + 1, y1, y2, z1 + 1, z2 - 1, material, isPersistent); // W
+		setLeaves(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material, isPersistent); // E
+	}
+
+	
 	private final Block setBedBlock(int x, int y, int z, Material material, BlockFace facing, Part part,
 			boolean doPhysics) {
 		Block block = getActualBlock(x, y, z);

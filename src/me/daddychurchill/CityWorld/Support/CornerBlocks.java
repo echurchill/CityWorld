@@ -616,7 +616,8 @@ public final class CornerBlocks {
 						break;
 					case ggg:
 						// TODO: Direction
-						blocks.setBlocks(xInset + x, y1, y2, zInset + z, Material.GLASS_PANE);
+						blocks.setBlocks(xInset + x, y1, y2, zInset + z, Material.GLASS_PANE,
+								getDirections(source, x, z, connectedTo));
 						break;
 					case WGG:
 						blocks.setBlock(xInset + x, y1, zInset + z, primary);
@@ -625,7 +626,8 @@ public final class CornerBlocks {
 					case Wgg:
 						blocks.setBlock(xInset + x, y1, zInset + z, primary);
 						// TODO: Direction
-						blocks.setBlocks(xInset + x, y1 + 1, y2, zInset + z, Material.GLASS_PANE);
+						blocks.setBlocks(xInset + x, y1 + 1, y2, zInset + z, Material.GLASS_PANE,
+								getDirections(source, x, z, connectedTo));
 						break;
 					case GWW:
 						blocks.setBlock(xInset + x, y1, zInset + z, secondary);
@@ -646,7 +648,8 @@ public final class CornerBlocks {
 						break;
 					case ggW:
 						// TODO: Direction
-						blocks.setBlocks(xInset + x, y1, y2 - 1, zInset + z, Material.GLASS_PANE);
+						blocks.setBlocks(xInset + x, y1, y2 - 1, zInset + z, Material.GLASS_PANE,
+								getDirections(source, x, z, connectedTo));
 						blocks.setBlock(xInset + x, y2 - 1, zInset + z, primary);
 						break;
 					case GWG:

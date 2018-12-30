@@ -23,7 +23,7 @@ public class NatureContext extends UncivilizedContext {
 	public NatureContext(CityWorldGenerator generator) {
 		super(generator);
 
-		oddsOfIsolatedConstructs = Odds.oddsSomewhatUnlikely;
+		oddsOfIsolatedConstructs = Odds.oddsSomewhatLikely;
 	}
 
 	private final static double oddsOfBunkers = Odds.oddsLikely;
