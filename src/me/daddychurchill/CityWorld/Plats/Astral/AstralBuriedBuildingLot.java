@@ -72,7 +72,7 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 			DataContext context, int platX, int platZ) {
 
 		// what is the potential height?
-		int possibleFloors = (Math.max(blockYs.minHeight, generator.seaLevel / 2) - 8) / floorHeight;
+		int possibleFloors = (Math.max(blockYs.getMinHeight(), generator.seaLevel / 2) - 8) / floorHeight;
 		chunk.setBlocks(0, 16, StreetLevel, StreetLevel + 1, 0, 16, baseMaterial);
 
 		// do able?

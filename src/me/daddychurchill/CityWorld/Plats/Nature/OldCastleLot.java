@@ -49,7 +49,7 @@ public class OldCastleLot extends ConstructLot {
 
 	@Override
 	public int getBottomY(CityWorldGenerator generator) {
-		return blockYs.minHeight;
+		return blockYs.getMinHeight();
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class OldCastleLot extends ConstructLot {
 
 		// main bits
 		int floorHeight = DataContext.FloorHeight;
-		int y1 = blockYs.minHeight + ((blockYs.maxHeight - blockYs.minHeight) / 3 * 2);
+		int y1 = blockYs.getMinHeight() + ((blockYs.getMaxHeight() - blockYs.getMinHeight()) / 3 * 2);
 		int y2 = y1 + floorHeight;
 		int y3 = y2 + floorHeight;
 		int originX = chunk.getOriginX();
@@ -87,17 +87,17 @@ public class OldCastleLot extends ConstructLot {
 //		chunk.setBlocks(12, 14, minHeight, maxHeight - 1, 12, 14, supportId);
 
 		// platform
-		chunk.setWalls(2, 14, blockYs.minHeight, y1 - 2, 2, 14, supportMaterial);
+		chunk.setWalls(2, 14, blockYs.getMinHeight(), y1 - 2, 2, 14, supportMaterial);
 		for (int i = 4; i < 11; i += 3) {
-			chunk.setBlocks(i, i + 2, blockYs.minHeight, y1 - 2, 1, 2, supportMaterial);
-			chunk.setBlocks(i, i + 2, blockYs.minHeight, y1 - 2, 14, 15, supportMaterial);
-			chunk.setBlocks(1, 2, blockYs.minHeight, y1 - 2, i, i + 2, supportMaterial);
-			chunk.setBlocks(14, 15, blockYs.minHeight, y1 - 2, i, i + 2, supportMaterial);
+			chunk.setBlocks(i, i + 2, blockYs.getMinHeight(), y1 - 2, 1, 2, supportMaterial);
+			chunk.setBlocks(i, i + 2, blockYs.getMinHeight(), y1 - 2, 14, 15, supportMaterial);
+			chunk.setBlocks(1, 2, blockYs.getMinHeight(), y1 - 2, i, i + 2, supportMaterial);
+			chunk.setBlocks(14, 15, blockYs.getMinHeight(), y1 - 2, i, i + 2, supportMaterial);
 		}
 		chunk.setBlocks(1, 15, y1 - 2, 1, 15, supportMaterial);
 
 		// clear things out a bit
-		chunk.airoutBlocks(generator, 0, 16, y1, blockYs.maxHeight + 2, 0, 16, true);
+		chunk.airoutBlocks(generator, 0, 16, y1, blockYs.getMaxHeight() + 2, 0, 16, true);
 
 		// add the first layer
 		chunk.setLayer(y1 - 1, platformMaterial);
@@ -194,7 +194,7 @@ public class OldCastleLot extends ConstructLot {
 
 		// main bits
 		int floorHeight = DataContext.FloorHeight;
-		int y1 = blockYs.minHeight + ((blockYs.maxHeight - blockYs.minHeight) / 3 * 2);
+		int y1 = blockYs.getMinHeight() + ((blockYs.getMaxHeight() - blockYs.getMinHeight()) / 3 * 2);
 		int y2 = y1 + floorHeight;
 		int y3 = y2 + floorHeight;
 		int originX = chunk.getOriginX();

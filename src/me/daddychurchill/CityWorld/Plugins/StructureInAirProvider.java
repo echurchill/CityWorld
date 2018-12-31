@@ -114,8 +114,7 @@ public class StructureInAirProvider extends Provider {
 			int balloonY1, int balloonY2, Odds odds) {
 
 		// pick the colors
-		Colors colors = new Colors(odds,
-				generator.worldEnvironment == Environment.NETHER ? ColorSet.NETHER : ColorSet.RANDOM);
+		Colors colors = new Colors(odds, ColorSet.LIGHT);
 		Material primary = colors.getWool();
 		Material secondary = colors.getWool();
 
@@ -142,7 +141,7 @@ public class StructureInAirProvider extends Provider {
 		chunk.setCircle(8, 8, 4, balloonY2, primary, true);
 
 		// add the lights
-		addLight(chunk, context, 8, balloonY2, 8);
+//		addLight(chunk, context, 8, balloonY2, 8);
 //		addLight(chunk, context, 7, balloonY2, 4);
 //		addLight(chunk, context, 8, balloonY2, 11);
 //		addLight(chunk, context, 4, balloonY2, 8);

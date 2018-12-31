@@ -17,7 +17,7 @@ public final class SegmentedCachedYs extends AbstractCachedYs {
 		int sumHeight = 0;
 
 		// which segment are we doing?
-		switch (segmentWidth) {
+		switch (getSegmentWidth()) {
 		case 2: // two by two
 			for (int x = 0; x < width; x = x + 2) {
 				for (int z = 0; z < width; z = z + 2) {
@@ -70,8 +70,8 @@ public final class SegmentedCachedYs extends AbstractCachedYs {
 	}
 
 	private int calcSegmentWidth(int surfaceY) {
-		if (averageHeight > surfaceY) {
-			int heightSegment = (averageHeight - surfaceY) / 8;
+		if (getAverageHeight() > surfaceY) {
+			int heightSegment = (getAverageHeight() - surfaceY) / 8;
 			switch (heightSegment) {
 			case 0:
 				return 1;

@@ -82,7 +82,7 @@ public class RoadLot extends ConnectedLot {
 //		if (generator.settings.includeSewers && cityRoad)
 //			bottomOfRoad -= DataContext.FloorHeight * 2 + 1;
 		topOfRoad = platmap.generator.streetLevel + 1;
-		if (blockYs.maxHeight > topOfRoad + tunnelHeight)
+		if (blockYs.getMaxHeight() > topOfRoad + tunnelHeight)
 			topOfRoad += tunnelHeight;
 
 		pavementMat = platmap.generator.materialProvider.itemsMaterialListFor_Roads.getNthMaterial(0,
@@ -304,13 +304,13 @@ public class RoadLot extends ConnectedLot {
 	}
 
 	private void placeWBridgeColumns(AbstractBlocks chunk, int baseY) {
-		chunk.setBlocks(0, 1, blockYs.minHeight, baseY, 2, 4, bridgeEdgeMaterial);
-		chunk.setBlocks(0, 1, blockYs.minHeight, baseY, 12, 14, bridgeEdgeMaterial);
+		chunk.setBlocks(0, 1, blockYs.getMinHeight(), baseY, 2, 4, bridgeEdgeMaterial);
+		chunk.setBlocks(0, 1, blockYs.getMinHeight(), baseY, 12, 14, bridgeEdgeMaterial);
 	}
 
 	private void placeEBridgeColumns(AbstractBlocks chunk, int baseY) {
-		chunk.setBlocks(15, 16, blockYs.minHeight, baseY, 2, 4, bridgeEdgeMaterial);
-		chunk.setBlocks(15, 16, blockYs.minHeight, baseY, 12, 14, bridgeEdgeMaterial);
+		chunk.setBlocks(15, 16, blockYs.getMinHeight(), baseY, 2, 4, bridgeEdgeMaterial);
+		chunk.setBlocks(15, 16, blockYs.getMinHeight(), baseY, 12, 14, bridgeEdgeMaterial);
 	}
 
 	private void placeNSBridgeCap(AbstractBlocks chunk, int z, int baseY, int topY) {
@@ -442,13 +442,13 @@ public class RoadLot extends ConnectedLot {
 	}
 
 	private void placeNBridgeColumns(AbstractBlocks chunk, int baseY) {
-		chunk.setBlocks(2, 4, blockYs.minHeight, baseY, 0, 1, bridgeEdgeMaterial);
-		chunk.setBlocks(12, 14, blockYs.minHeight, baseY, 0, 1, bridgeEdgeMaterial);
+		chunk.setBlocks(2, 4, blockYs.getMinHeight(), baseY, 0, 1, bridgeEdgeMaterial);
+		chunk.setBlocks(12, 14, blockYs.getMinHeight(), baseY, 0, 1, bridgeEdgeMaterial);
 	}
 
 	private void placeSBridgeColumns(AbstractBlocks chunk, int baseY) {
-		chunk.setBlocks(2, 4, blockYs.minHeight, baseY, 15, 16, bridgeEdgeMaterial);
-		chunk.setBlocks(12, 14, blockYs.minHeight, baseY, 15, 16, bridgeEdgeMaterial);
+		chunk.setBlocks(2, 4, blockYs.getMinHeight(), baseY, 15, 16, bridgeEdgeMaterial);
+		chunk.setBlocks(12, 14, blockYs.getMinHeight(), baseY, 15, 16, bridgeEdgeMaterial);
 	}
 
 	private void placeEWTunnelArch(CityWorldGenerator generator, AbstractBlocks chunk, int x, int baseY,
@@ -725,7 +725,7 @@ public class RoadLot extends ConnectedLot {
 		} else {
 
 			int sidewalkLevel = getSidewalkLevel(generator);
-			boolean doingTunnel = blockYs.maxHeight > pavementLevel + tunnelHeight + 1;
+			boolean doingTunnel = blockYs.getMaxHeight() > pavementLevel + tunnelHeight + 1;
 
 			// clear out a bit and draw pavement
 			if (!doingTunnel) {
@@ -835,7 +835,7 @@ public class RoadLot extends ConnectedLot {
 				}
 
 				// retaining walls please
-			} else if (blockYs.maxHeight > pavementLevel + 1) {
+			} else if (blockYs.getMaxHeight() > pavementLevel + 1) {
 				if (inACity) {
 
 					// wall to the east/west
@@ -974,7 +974,7 @@ public class RoadLot extends ConnectedLot {
 			}
 
 			// tunnel please
-			if (blockYs.maxHeight > pavementLevel + tunnelHeight + 1) {
+			if (blockYs.getMaxHeight() > pavementLevel + tunnelHeight + 1) {
 				doSewer = false;
 
 				// tunnel to the east/west

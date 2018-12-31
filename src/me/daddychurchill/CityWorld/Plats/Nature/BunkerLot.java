@@ -121,7 +121,7 @@ public class BunkerLot extends ConnectedLot {
 	}
 
 	private int calcBunkerCeiling(CityWorldGenerator generator) {
-		return Math.min(calcBunkerMaxHeight(generator), calcSegmentOrigin(blockYs.minHeight) - bunkerBuffer);
+		return Math.min(calcBunkerMaxHeight(generator), calcSegmentOrigin(blockYs.getMinHeight()) - bunkerBuffer);
 	}
 
 	@Override
@@ -330,27 +330,32 @@ public class BunkerLot extends ConnectedLot {
 
 	public static int generateEntryBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk,
 			Odds odds, int y1, int y2, int topOfBunker, AbstractCachedYs blockYs) {
-		int surfaceY = blockYs.averageHeight;
+		int surfaceY = blockYs.getMaxHeight();
+		int topY = surfaceY + DataContext.FloorHeight + 1;
 
 		// make sure we know what we using to make things
 		loadMaterials(generator, odds);
 
 		// walls
-		chunk.setBlocks(5, 11, y1, surfaceY + 4, 5, 11, materials.building);
+		chunk.setBlocks(5, 11, y1, topY, 5, 11, Material.TERRACOTTA);
 
 		// do it!
 		MineEntranceLot.generateStairWell(generator, chunk, odds, 6, 6, y1, surfaceY, surfaceY,
 				surfaceY + DataContext.FloorHeight + 1, Material.QUARTZ_STAIRS, Material.QUARTZ_BLOCK,
-				Material.QUARTZ_BLOCK); // Make the last one air if you want an easy way down
+				Material.QUARTZ_PILLAR); // Make the last one air if you want an easy way down
 
-		// roof!
-		chunk.setBlocks(6, 10, surfaceY + 4, surfaceY + 5, 6, 10, materials.building);
-		chunk.setBlocks(7, 9, surfaceY + 5, surfaceY + 6, 7, 9, materials.building);
+		// mock up the top bit
+		chunk.setBlocks(5, 11, surfaceY, topY, 5, 11, Material.TERRACOTTA);
+		chunk.setBlocks(6, 10, topY, 6, 10, Material.TERRACOTTA);
+		chunk.setBlocks(7, 9, topY + 1, 7, 9, Material.TERRACOTTA);
+		
+		// make sure there is room in the middle
+		chunk.clearBlocks(6, 10, surfaceY, topY, 6, 10);
 
-		// camo
+		// colorize it
 		Colors colors = new Colors(odds, generator.coverProvider.getColorSet());
-		chunk.setBlocksRandomly(5, 11, surfaceY - 2, surfaceY + 6, 5, 11, odds, colors.getTerracotta());
-
+		chunk.colorizeBlocks(5, 11, surfaceY, topY + 2, 5, 11, Material.TERRACOTTA, colors);
+		
 		// bottom doors
 		chunk.setBlocks(7, 9, y1, y1 + 2, 5, 6, Material.AIR);
 		chunk.setBlocks(7, 9, y1, y1 + 2, 10, 11, Material.AIR);
@@ -358,14 +363,10 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setBlocks(10, 11, y1, y1 + 2, 7, 9, Material.AIR);
 
 		// top doors
-		chunk.setBlocks(7, 9, surfaceY + 1, surfaceY + 3, 5, 6, materials.railing, BlockFace.EAST, BlockFace.WEST,
-				BlockFace.SOUTH);
-		chunk.setBlocks(7, 9, surfaceY + 1, surfaceY + 3, 10, 11, materials.railing, BlockFace.EAST, BlockFace.WEST,
-				BlockFace.NORTH);
-		chunk.setBlocks(5, 6, surfaceY + 1, surfaceY + 3, 7, 9, materials.railing, BlockFace.NORTH, BlockFace.SOUTH,
-				BlockFace.EAST);
-		chunk.setBlocks(10, 11, surfaceY + 1, surfaceY + 3, 7, 9, materials.railing, BlockFace.NORTH, BlockFace.SOUTH,
-				BlockFace.WEST);
+		chunk.setBlocks(7, 9, surfaceY + 1, surfaceY + 3, 5, 6, materials.railing, BlockFace.EAST, BlockFace.WEST);
+		chunk.setBlocks(7, 9, surfaceY + 1, surfaceY + 3, 10, 11, materials.railing, BlockFace.EAST, BlockFace.WEST);
+		chunk.setBlocks(5, 6, surfaceY + 1, surfaceY + 3, 7, 9, materials.railing, BlockFace.NORTH, BlockFace.SOUTH);
+		chunk.setBlocks(10, 11, surfaceY + 1, surfaceY + 3, 7, 9, materials.railing, BlockFace.NORTH, BlockFace.SOUTH);
 
 		// put in some windows
 		for (int y = y1 + 3; y < topOfBunker - 3; y = y + 3) {
@@ -390,23 +391,25 @@ public class BunkerLot extends ConnectedLot {
 		loadMaterials(generator, odds);
 
 		// walls
-		chunk.setCircle(8, 8, 5, topOfBunker, blockYs.maxHeight + 1, Material.AIR, true);
-		chunk.setCircle(8, 8, 6, topOfBunker, blockYs.minHeight + 1, materials.building, false);
-		chunk.setCircle(8, 8, 6, blockYs.minHeight, blockYs.averageHeight + 1, Material.WHITE_TERRACOTTA, false);
+		chunk.setCircle(8, 8, 5, topOfBunker, blockYs.getMaxHeight() + 1, Material.AIR, true);
+		chunk.setCircle(8, 8, 6, topOfBunker, blockYs.getMinHeight() + 1, materials.building, false);
+		chunk.setCircle(8, 8, 6, blockYs.getMinHeight(), blockYs.getAverageHeight() + 1, Material.TERRACOTTA, false);
 
 		// lid & crack
-		int lidY = blockYs.averageHeight - 1;
-		chunk.setCircle(8, 8, 5, lidY, Material.WHITE_TERRACOTTA, true);
+		int lidY = blockYs.getAverageHeight() - 1;
+		chunk.setCircle(8, 8, 5, lidY, Material.TERRACOTTA, true);
+		
 		for (int x = 3; x < 14; x += 2)
-			chunk.setBlock(x, lidY, 7, Material.BIRCH_TRAPDOOR, BlockFace.NORTH, Half.TOP);
+			chunk.setBlock(x, lidY, 7, Material.DARK_OAK_TRAPDOOR, BlockFace.NORTH, Half.TOP);
 		for (int x = 2; x < 15; x += 2)
-			chunk.setBlock(x, lidY, 8, Material.BIRCH_TRAPDOOR, BlockFace.SOUTH, Half.TOP);
-		chunk.setLadder(2, topOfBunker, lidY, 8, BlockFace.EAST); // fixed
+			chunk.setBlock(x, lidY, 8, Material.DARK_OAK_TRAPDOOR, BlockFace.SOUTH, Half.TOP);
+		
+		chunk.setLadder(2, topOfBunker, lidY, 8, BlockFace.EAST); 
 		chunk.setWalls(2, 14, topOfBunker - 1, topOfBunker, 2, 14, materials.crosswalk);
 
 		// camo the exit
 		Colors colors = new Colors(odds, generator.coverProvider.getColorSet());
-		chunk.setBlocksRandomly(1, 15, blockYs.minHeight, lidY + 2, 1, 15, odds, colors.getTerracotta());
+		chunk.colorizeBlocks(1, 15, blockYs.getMinHeight(), lidY + 2, 1, 15, Material.TERRACOTTA, colors);
 
 		// place it then
 		if (odds.flipCoin())

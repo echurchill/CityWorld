@@ -17,14 +17,9 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class RadioTowerLot extends ConstructLot {
 
-	private boolean building;
-
-	private final static double oddsOfBuilding = Odds.oddsExtremelyLikely;
-
 	public RadioTowerLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		trulyIsolated = true;
-		building = chunkOdds.playOdds(oddsOfBuilding);
 	}
 
 	@Override
@@ -48,7 +43,7 @@ public class RadioTowerLot extends ConstructLot {
 
 	@Override
 	public int getBottomY(CityWorldGenerator generator) {
-		return blockYs.maxHeight + 2;
+		return blockYs.getMaxHeight() + 2;
 	}
 
 	@Override
@@ -59,7 +54,7 @@ public class RadioTowerLot extends ConstructLot {
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk,
 			BiomeGrid biomes, DataContext context, int platX, int platZ) {
-
+		
 		// compute offset to start of chunk
 		int platformOffset = platformWidth / 2;
 		Point highPoint = blockYs.getHighPoint();
@@ -70,7 +65,7 @@ public class RadioTowerLot extends ConstructLot {
 		// base
 		for (int x = originX + 1; x < originX + platformWidth - 1; x++) {
 			for (int z = originZ + 1; z < originZ + platformWidth - 1; z++) {
-				for (int y = platformY - 2; y > blockYs.minHeight; y--) {
+				for (int y = platformY - 2; y > blockYs.getMinHeight(); y--) {
 					if (!chunk.setEmptyBlock(x, y, z, supportMaterial)) {
 						chunk.setBlocks(x, y - 3, y + 1, z, supportMaterial);
 						break;
@@ -88,14 +83,12 @@ public class RadioTowerLot extends ConstructLot {
 //			generator.oreProvider.sprinkleSnow(generator, chunk, chunkOdds, originX, originX + platformWidth, platformY, originZ, originZ + platformWidth);
 //		
 		// building
-		if (building) {
-			chunk.setBlocks(originX + 2, originX + platformWidth - 2, platformY, platformY + 2, originZ + 2,
-					originZ + platformWidth - 2, wallMaterial);
-			chunk.airoutBlocks(generator, originX + 3, originX + platformWidth - 3, platformY, platformY + 2,
-					originZ + 3, originZ + platformWidth - 3, true);
-			chunk.setBlocks(originX + 2, originX + platformWidth - 2, platformY + 2, platformY + 3, originZ + 2,
-					originZ + platformWidth - 2, platformMaterial);
-		}
+		chunk.setBlocks(originX + 2, originX + platformWidth - 2, platformY, platformY + 2, originZ + 2,
+				originZ + platformWidth - 2, wallMaterial);
+		chunk.airoutBlocks(generator, originX + 3, originX + platformWidth - 3, platformY, platformY + 2,
+				originZ + 3, originZ + platformWidth - 3, true);
+		chunk.setBlocks(originX + 2, originX + platformWidth - 2, platformY + 2, platformY + 3, originZ + 2,
+				originZ + platformWidth - 2, platformMaterial);
 	}
 
 	@Override
@@ -117,11 +110,11 @@ public class RadioTowerLot extends ConstructLot {
 		if (generator.settings.includeDecayedBuildings) {
 			int x1 = chunk.getBlockX(originX);
 			int z1 = chunk.getBlockZ(originZ);
-			generator.decayBlocks.destroyWithin(x1, x1 + platformWidth, blockYs.averageHeight, platformY + 3, z1,
+			generator.decayBlocks.destroyWithin(x1, x1 + platformWidth, blockYs.getAverageHeight(), platformY + 3, z1,
 					z1 + platformWidth);
 
 			// place a door but only if everything is "normal"
-		} else if (building) {
+		} else {
 			chunk.setDoor(originX + 2, platformY, originZ + 3, Material.BIRCH_DOOR, BlockFace.WEST_NORTH_WEST);
 
 			// place the ladder

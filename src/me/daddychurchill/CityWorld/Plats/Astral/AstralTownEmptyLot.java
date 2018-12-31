@@ -26,10 +26,10 @@ public class AstralTownEmptyLot extends AstralStructureLot {
 		int levelY = generator.seaLevel + aboveSeaLevel;
 
 //		chunk.setBlocks(7, 9, blockYs.minHeight - 4, levelY - 1, 7, 9, materialSupport);
-		chunk.setBlocks(0, blockYs.minHeight - 4, levelY - 1, 0, materialSupport);
-		chunk.setBlocks(0, blockYs.minHeight - 4, levelY - 1, 15, materialSupport);
-		chunk.setBlocks(15, blockYs.minHeight - 4, levelY - 1, 0, materialSupport);
-		chunk.setBlocks(15, blockYs.minHeight - 4, levelY - 1, 15, materialSupport);
+		chunk.setBlocks(0, blockYs.getMinHeight() - 4, levelY - 1, 0, materialSupport);
+		chunk.setBlocks(0, blockYs.getMinHeight() - 4, levelY - 1, 15, materialSupport);
+		chunk.setBlocks(15, blockYs.getMinHeight() - 4, levelY - 1, 0, materialSupport);
+		chunk.setBlocks(15, blockYs.getMinHeight() - 4, levelY - 1, 15, materialSupport);
 
 		chunk.setBlocks(1, levelY - 4, levelY - 1, 1, materialSupport);
 		chunk.setBlocks(1, levelY - 4, levelY - 1, 14, materialSupport);

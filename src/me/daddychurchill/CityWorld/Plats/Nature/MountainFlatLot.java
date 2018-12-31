@@ -29,21 +29,21 @@ public abstract class MountainFlatLot extends ConstructLot {
 
 				// add the retaining walls
 				if (x == 0 || x == chunk.width - 1 || z == 0 || z == chunk.width - 1) {
-					if (y <= blockYs.averageHeight) {
-						chunk.setBlocks(x, y - 2, blockYs.averageHeight + 1, z, retainingWallMaterial);
-					} else if (y > blockYs.averageHeight) {
-						chunk.setBlocks(x, blockYs.averageHeight - 2, y + 1, z, retainingWallMaterial);
+					if (y <= blockYs.getAverageHeight()) {
+						chunk.setBlocks(x, y - 2, blockYs.getAverageHeight() + 1, z, retainingWallMaterial);
+					} else if (y > blockYs.getAverageHeight()) {
+						chunk.setBlocks(x, blockYs.getAverageHeight() - 2, y + 1, z, retainingWallMaterial);
 					}
 
 					// backfill
 				} else {
 					if (generator.settings.includeDecayedNature) {
-						chunk.setBlocks(x, y - 2, blockYs.averageHeight + 1, z, Material.SAND);
+						chunk.setBlocks(x, y - 2, blockYs.getAverageHeight() + 1, z, Material.SAND);
 					} else {
-						chunk.setBlocks(x, y - 2, blockYs.averageHeight, z, generator.oreProvider.subsurfaceMaterial);
-						chunk.setBlock(x, blockYs.averageHeight, z, generator.oreProvider.surfaceMaterial);
+						chunk.setBlocks(x, y - 2, blockYs.getAverageHeight(), z, generator.oreProvider.subsurfaceMaterial);
+						chunk.setBlock(x, blockYs.getAverageHeight(), z, generator.oreProvider.surfaceMaterial);
 					}
-					chunk.airoutBlocks(generator, x, blockYs.averageHeight + 1, blockYs.maxHeight + 1, z, true);
+					chunk.airoutBlocks(generator, x, blockYs.getAverageHeight() + 1, blockYs.getMaxHeight() + 1, z, true);
 				}
 			}
 		}
@@ -63,12 +63,12 @@ public abstract class MountainFlatLot extends ConstructLot {
 				int y = getBlockY(x, z);
 
 				if (generator.settings.includeDecayedNature) {
-					chunk.setBlocks(x, y - 2, blockYs.averageHeight + 1, z, Material.SAND);
+					chunk.setBlocks(x, y - 2, blockYs.getAverageHeight() + 1, z, Material.SAND);
 				} else {
-					chunk.setBlocks(x, y - 2, blockYs.averageHeight, z, generator.oreProvider.subsurfaceMaterial);
-					chunk.setBlock(x, blockYs.averageHeight, z, generator.oreProvider.surfaceMaterial);
+					chunk.setBlocks(x, y - 2, blockYs.getAverageHeight(), z, generator.oreProvider.subsurfaceMaterial);
+					chunk.setBlock(x, blockYs.getAverageHeight(), z, generator.oreProvider.surfaceMaterial);
 				}
-				chunk.airoutBlocks(generator, x, blockYs.averageHeight + 1, blockYs.maxHeight + 1, z, true);
+				chunk.airoutBlocks(generator, x, blockYs.getAverageHeight() + 1, blockYs.getMaxHeight() + 1, z, true);
 			}
 		}
 	}
@@ -93,15 +93,15 @@ public abstract class MountainFlatLot extends ConstructLot {
 			int x, int z) {
 		int y = getBlockY(x, z);
 		int y1 = y;
-		if (y < blockYs.averageHeight) {
+		if (y < blockYs.getAverageHeight()) {
 			// build up
-			y1 = (blockYs.averageHeight - y) / 2 + y;
+			y1 = (blockYs.getAverageHeight() - y) / 2 + y;
 			chunk.setBlocks(x, y - 1, y1, z, generator.oreProvider.subsurfaceMaterial);
 			chunk.setBlock(x, y1, z, generator.oreProvider.surfaceMaterial);
-		} else if (y > blockYs.averageHeight) {
+		} else if (y > blockYs.getAverageHeight()) {
 			// trim down
-			y1 = (y - blockYs.averageHeight) / 2 + blockYs.averageHeight;
-			chunk.setBlocks(x, blockYs.averageHeight - 1, y1, z, generator.oreProvider.subsurfaceMaterial);
+			y1 = (y - blockYs.getAverageHeight()) / 2 + blockYs.getAverageHeight();
+			chunk.setBlocks(x, blockYs.getAverageHeight() - 1, y1, z, generator.oreProvider.subsurfaceMaterial);
 			chunk.setBlock(x, y1, z, generator.oreProvider.surfaceMaterial);
 			chunk.airoutBlocks(generator, x, y1 + 1, y + 1, z, true);
 		}
@@ -109,7 +109,7 @@ public abstract class MountainFlatLot extends ConstructLot {
 
 	@Override
 	public int getBottomY(CityWorldGenerator generator) {
-		return blockYs.averageHeight + 1;
+		return blockYs.getAverageHeight() + 1;
 	}
 
 	@Override

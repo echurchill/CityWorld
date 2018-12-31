@@ -235,7 +235,7 @@ public class ThingProvider extends Provider {
 
 	public void generateBones(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, AbstractCachedYs blockYs,
 			Odds odds) {
-		int y = odds.calcRandomRange(10, blockYs.minHeight - 20);
+		int y = odds.calcRandomRange(10, blockYs.getMinHeight() - 20);
 		generateBones(generator, lot, chunk, y, odds);
 	}
 

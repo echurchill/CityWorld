@@ -38,12 +38,12 @@ public abstract class AstralLot extends IsolatedLot {
 
 	@Override
 	public int getBottomY(CityWorldGenerator generator) {
-		return blockYs.minHeight;
+		return blockYs.getMinHeight();
 	}
 
 	@Override
 	public int getTopY(CityWorldGenerator generator, AbstractCachedYs blockYs, int x, int z) {
-		return blockYs.maxHeight;
+		return blockYs.getMaxHeight();
 	}
 
 	protected boolean getSuperSpecial() {

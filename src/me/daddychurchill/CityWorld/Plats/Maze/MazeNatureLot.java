@@ -56,7 +56,7 @@ public class MazeNatureLot extends NatureLot {
 			}
 		}
 
-		if (blockYs.averageHeight > generator.streetLevel + mazeHeight)
+		if (blockYs.getAverageHeight() > generator.streetLevel + mazeHeight)
 			generateSurface(generator, chunk, true);
 
 		generateEntities(generator, chunk);

@@ -404,12 +404,12 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		setBlock(x, y, z, Material.CAULDRON, odds.getRandomDouble());
 	}
 
-	public final void setBlocksRandomly(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds,
-			Material... materials) {
+	public final void colorizeBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material find, Colors colors) {
 		for (int x = x1; x < x2; x++) {
 			for (int y = y1; y < y2; y++) {
 				for (int z = z1; z < z2; z++) {
-					setBlock(x, y, z, odds.getRandomMaterial(materials));
+					if (isType(x, y, z, find))
+						setBlock(x, y, z, colors.getTerracotta());
 				}
 			}
 		}
@@ -766,6 +766,8 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			block.setBlockData(data, getDoPhysics(x, z));
 		}
 	}
+	
+//	private int lastDistance = -1;
 
 	public final Block setLeaf(int x, int y, int z, Material material, boolean isPersistent) {
 		Block block = getActualBlock(x, y, z);
@@ -777,6 +779,13 @@ public abstract class SupportBlocks extends AbstractBlocks {
 
 		} finally {
 			block.setBlockData(data, getDoPhysics(x, z));
+//			if (data instanceof Leaves) {
+//				int distance = ((Leaves) data).getDistance();
+//				if (distance != lastDistance) {
+//					CityWorld.log.info("@@ Leaves with " + distance + " for distance");
+//					lastDistance = distance;
+//				}
+//			}
 		}
 		return block;
 	}

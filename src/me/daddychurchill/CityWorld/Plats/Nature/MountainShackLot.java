@@ -35,7 +35,7 @@ public class MountainShackLot extends MountainFlatLot {
 		reportLocation(generator, "Shack", chunk);
 
 		// now make a shack
-		int atY = blockYs.averageHeight + 1;
+		int atY = blockYs.getAverageHeight() + 1;
 		int floors = generator.structureOnGroundProvider.generateRuralShack(generator, chunk, context, chunkOdds, atY,
 				5);
 

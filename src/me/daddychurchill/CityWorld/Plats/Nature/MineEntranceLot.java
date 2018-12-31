@@ -54,32 +54,19 @@ public class MineEntranceLot extends ConstructLot {
 		shaftY = Math.max(2, shaftY); // make sure we don't go down too far
 
 		// where is the surface?
-		int surfaceY = Math.min(getBlockY(0, 0), getBlockY(3, 0));
-		surfaceY = Math.min(surfaceY, getBlockY(0, 3));
-		surfaceY = Math.min(surfaceY, getBlockY(3, 3));
+		int surfaceY = blockYs.getCenterHeight();
+//		int surfaceY = Math.min(getBlockY(0, 0), getBlockY(3, 0));
+//		surfaceY = Math.min(surfaceY, getBlockY(0, 3));
+//		surfaceY = Math.min(surfaceY, getBlockY(3, 3));
 
 		// core bits
-		Material center = Material.AIR;
-		switch (chunkOdds.getRandomInt(6)) {
-		case 1:
-			center = Material.IRON_BARS;
-			break;
-		case 2:
-			center = Material.SPRUCE_FENCE;
-			break;
-		case 3:
-			center = Material.COBBLESTONE;
-			break;
-		default:
-			// else air will do
-			break;
-		}
+		Material center = chunkOdds.flipCoin() ? Material.AIR : Material.COBBLESTONE;
 
 		// do it!
-		generateStairWell(generator, chunk, chunkOdds, 0, 0, shaftY, blockYs.minHeight, surfaceY,
+		generateStairWell(generator, chunk, chunkOdds, 0, 0, shaftY, blockYs.getMinHeight(), surfaceY,
 				surfaceY + DataContext.FloorHeight + 1, Material.COBBLESTONE_STAIRS, Material.COBBLESTONE, center);
 
-		// connect to the minecraft
+		// connect to the mine
 		chunk.setBlocks(0, 4, shaftY - 1, 0, 4, Material.COBBLESTONE);
 		chunk.setBlocks(2, 4, shaftY - 1, 4, 6, Material.COBBLESTONE);
 		chunk.setBlocks(2, 4, shaftY, shaftY + 2, 4, 6, Material.AIR);
@@ -144,9 +131,6 @@ public class MineEntranceLot extends ConstructLot {
 				break;
 			generateLanding(generator, chunk, odds, offX + 3, shaftY, offZ + 3, BlockFace.SOUTH, stairs, landing);
 		} while (shaftY <= surfaceY);
-
-//		//TODO remove this flag!
-//		chunk.setBlocks(2, surfaceY + 5, maxHeight + 20, 1, Material.GLOWSTONE);
 	}
 
 	public static int generateStairs(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y, int z,

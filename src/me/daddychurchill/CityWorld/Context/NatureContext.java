@@ -168,6 +168,7 @@ public class NatureContext extends UncivilizedContext {
 				platmap.originZ + z, oddsOfIsolatedConstructs)) {
 //		if (state != HeightState.BUILDING) {
 			PlatLot current = null;
+			Odds platmapOdds = platmap.getOddsGenerator();
 
 			// what to make?
 			switch (state) {
@@ -178,9 +179,9 @@ public class NatureContext extends UncivilizedContext {
 				break;
 			case SEA:
 				if (generator.settings.includeAirborneStructures) {
-					if (platmap.getOddsGenerator().playOdds(Odds.oddsEnormouslyUnlikely))
+					if (platmapOdds.playOdds(Odds.oddsEnormouslyUnlikely))
 						current = new FlyingSaucerLot(platmap, platmap.originX + x, platmap.originZ + z);
-					else
+					else if (platmapOdds.playOdds(Odds.oddsSomewhatLikely))
 						current = new HotairBalloonLot(platmap, platmap.originX + x, platmap.originZ + z);
 
 					// TODO boat!
@@ -190,9 +191,9 @@ public class NatureContext extends UncivilizedContext {
 //				break;
 			case LOWLAND:
 				if (generator.settings.includeAirborneStructures) {
-					if (platmap.getOddsGenerator().playOdds(Odds.oddsEnormouslyUnlikely))
+					if (platmapOdds.playOdds(Odds.oddsEnormouslyUnlikely))
 						current = new FlyingSaucerLot(platmap, platmap.originX + x, platmap.originZ + z);
-					else
+					else if (platmapOdds.playOdds(Odds.oddsSomewhatLikely))
 						current = new HotairBalloonLot(platmap, platmap.originX + x, platmap.originZ + z);
 
 					// TODO statue overlooking the city?

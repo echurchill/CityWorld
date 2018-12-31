@@ -25,7 +25,7 @@ public class HotairBalloonLot extends ConstructLot {
 
 	@Override
 	public int getBottomY(CityWorldGenerator generator) {
-		return blockYs.maxHeight + 20;
+		return blockYs.getMaxHeight() + 20;
 	}
 
 	@Override

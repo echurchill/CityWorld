@@ -294,7 +294,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 		Biome biome = lot.getChunkBiome();
 		OreProvider ores = generator.oreProvider;
 //		boolean surfaceCaves = isSurfaceCaveAt(chunk.chunkX, chunk.chunkZ);
-		boolean flattened = blockYs.segmentWidth > 1;
+		boolean flattened = blockYs.getSegmentWidth() > 1;
 
 		// shape the world
 		for (int x = 0; x < chunk.width; x++) {
@@ -338,7 +338,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 					// dented?
 					int baseY = Math.min(seaLevel + noiseY, y);
 					if (flattened)
-						baseY = Math.min(seaLevel, Math.max(16, baseY - blockYs.segmentWidth * 2));
+						baseY = Math.min(seaLevel, Math.max(16, baseY - blockYs.getSegmentWidth() * 2));
 
 					// initial stuff, we will do the rest later
 					chunk.setBlocks(x, 1, noiseY * 3, z, ores.stratumMaterial);
@@ -376,7 +376,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 //		boolean surfaceCaves = isSurfaceCaveAt(chunk.chunkX, chunk.chunkZ);
 		int originX = chunk.getOriginX();
 		int originZ = chunk.getOriginZ();
-		boolean flattened = blockYs.segmentWidth > 1;
+		boolean flattened = blockYs.getSegmentWidth() > 1;
 
 		// shape the world
 		for (int x = 0; x < chunk.width; x++) {
@@ -405,7 +405,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 					// dented?
 					int baseY = Math.min(seaLevel + noiseY, y);
 					if (flattened)
-						baseY = Math.min(seaLevel, Math.max(16, baseY - blockYs.segmentWidth * 2));
+						baseY = Math.min(seaLevel, Math.max(16, baseY - blockYs.getSegmentWidth() * 2));
 
 					// backfill valley
 					if (y < seaLevel) {
@@ -420,8 +420,8 @@ public class ShapeProvider_Astral extends ShapeProvider {
 
 						// now the pretty colors
 						if (y > baseY) {
-							int segmentX = x / blockYs.segmentWidth * blockYs.segmentWidth + originX;
-							int segmentZ = z / blockYs.segmentWidth * blockYs.segmentWidth + originZ;
+							int segmentX = x / blockYs.getSegmentWidth() * blockYs.getSegmentWidth() + originX;
+							int segmentZ = z / blockYs.getSegmentWidth() * blockYs.getSegmentWidth() + originZ;
 							double colorD = noiseShape.noise(segmentX, segmentZ, blockYs.getSegment(x, z),
 									noiseFrequency, noiseAmplitude, true);
 							chunk.setBlocks(x, x + 1, baseY, y, z, z + 1, coloredGlass[Math.min(coloredGlass.length - 1,

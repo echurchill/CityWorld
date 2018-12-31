@@ -7,14 +7,15 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 public abstract class AbstractCachedYs {
 
 	// extremes
-	public int minHeight = Integer.MAX_VALUE;
-	private int minHeightX = 0;
-	private int minHeightZ = 0;
-	public int maxHeight = Integer.MIN_VALUE;
-	private int maxHeightX = 0;
-	private int maxHeightZ = 0;
-	public int averageHeight;
-	public int segmentWidth;
+	protected int minHeight = Integer.MAX_VALUE;
+	protected int minHeightX = 0;
+	protected int minHeightZ = 0;
+	protected int maxHeight = Integer.MIN_VALUE;
+	protected int maxHeightX = 0;
+	protected int maxHeightZ = 0;
+	protected int averageHeight;
+	protected int segmentWidth;
+	protected int centerHeight = Integer.MIN_VALUE;
 
 	protected final static int width = AbstractBlocks.sectionBlockWidth;
 	protected double[][] blockYs = new double[width][width];
@@ -57,6 +58,9 @@ public abstract class AbstractCachedYs {
 			maxHeightX = x;
 			maxHeightZ = z;
 		}
+		if (x > 5 && x < 10 && z > 5 && z < 10)
+			if (y > centerHeight)
+				centerHeight = y;
 	}
 
 	public int getBlockY(int x, int z) {
@@ -77,6 +81,26 @@ public abstract class AbstractCachedYs {
 
 	public int getSegment(int x, int z) {
 		return 0;
+	}
+
+	public int getMinHeight() {
+		return minHeight;
+	}
+
+	public int getMaxHeight() {
+		return maxHeight;
+	}
+
+	public int getAverageHeight() {
+		return averageHeight;
+	}
+
+	public int getSegmentWidth() {
+		return segmentWidth;
+	}
+
+	public int getCenterHeight() {
+		return centerHeight;
 	}
 
 //	public void lift(int h) {
