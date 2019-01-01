@@ -330,7 +330,7 @@ public class BunkerLot extends ConnectedLot {
 
 	public static int generateEntryBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk,
 			Odds odds, int y1, int y2, int topOfBunker, AbstractCachedYs blockYs) {
-		int surfaceY = blockYs.getMaxHeight();
+		int surfaceY = blockYs.getCenterHeight();
 		int topY = surfaceY + DataContext.FloorHeight + 1;
 
 		// make sure we know what we using to make things
@@ -354,7 +354,7 @@ public class BunkerLot extends ConnectedLot {
 
 		// colorize it
 		Colors colors = new Colors(odds, generator.coverProvider.getColorSet());
-		chunk.colorizeBlocks(5, 11, surfaceY, topY + 2, 5, 11, Material.TERRACOTTA, colors);
+		chunk.colorizeBlocks(5, 11, blockYs.getMinHeight(), topY + 2, 5, 11, Material.TERRACOTTA, colors);
 		
 		// bottom doors
 		chunk.setBlocks(7, 9, y1, y1 + 2, 5, 6, Material.AIR);
@@ -844,8 +844,6 @@ public class BunkerLot extends ConnectedLot {
 		// center support
 		chunk.setBlocks(7, 9, y1, underStreetY + 2, 7, 9, materials.pillar);
 
-		// BUKKIT: simply changing the type of these blocks won't reset the metadata
-		// associated with the existing blocks, resulting in cracked bricks
 		// fix up the tunnel walls
 		chunk.setBlocks(0, 2, streetY - 1, streetY + 6, 0, 1, RoadThroughBunkerLot.wallMaterial);
 		chunk.setBlocks(0, streetY - 1, streetY + 6, 1, RoadThroughBunkerLot.wallMaterial);
@@ -913,7 +911,7 @@ public class BunkerLot extends ConnectedLot {
 
 	private static BunkerType getRandomBunkerType(Odds chunkOdds, boolean firstOne) {
 		if (firstOne) {
-			if (chunkOdds.flipCoin())
+			if (chunkOdds.playOdds(Odds.oddsSomewhatUnlikely))
 				return BunkerType.SAUCER;
 			else
 				return BunkerType.ENTRY;

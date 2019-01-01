@@ -90,9 +90,9 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 
 					// range change?
 					if (secondary > ((double) (y - generator.treeLevel) / (double) generator.deciduousRange))
-						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.GRASS);
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageSets.SHORT_PLANTS);
 					else
-						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.FERN);
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageSets.ALL_FERNS);
 				}
 
 				// evergreen and some grass and fallen snow, no regular trees or flowers

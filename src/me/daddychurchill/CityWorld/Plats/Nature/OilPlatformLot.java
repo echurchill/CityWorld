@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plats.Nature;
 
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.type.Slab.Type;
 import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
@@ -105,7 +106,7 @@ public class OilPlatformLot extends ConstructLot {
 		chunk.setBlock(6, y4 + 3, 9, headMaterial);
 		chunk.setBlock(7, y4 + 3, 9, headMaterial);
 		chunk.setBlock(8, y4 + 3, 9, headMaterial);
-		chunk.setBlock(8, y4 + 3, 8, headMaterial);
+		chunk.setBlock(8, y4 + 3, 8, headMaterial, Type.DOUBLE);
 
 		// two big legs to hold up the various levels (a little bit deeper than needed,
 		// just to be safe)

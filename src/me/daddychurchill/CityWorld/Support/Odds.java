@@ -33,8 +33,8 @@ public final class Odds {
 	public final static double oddsNearlyNeverGoingToHappen = 1.0 / 377.00; // 0.27%
 	public final static double oddsNeverGoingToHappen = 0.0; // 0.00%
 
-	public final static double oddsThricedSomewhatUnlikely = oddsSomewhatUnlikely * 3; // 60.0%
-	public final static double oddsHalvedPrettyLikely = oddsPrettyLikely / 2; // 40.0%
+	public final static double oddsMoreLikely = oddsSomewhatUnlikely * 3; // 60.0%
+	public final static double oddsLessLikely = oddsSomewhatUnlikely * 2; // 40.0%
 
 	public Odds() {
 		super();

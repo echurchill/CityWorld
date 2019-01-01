@@ -496,7 +496,7 @@ public abstract class PlatLot {
 			for (int z = z1; z < z2; z++) {
 				if (chunkOdds.flipCoin())
 					if (!chunk.isEmpty(x, y + 1, z) && chunk.isEmpty(x, y, z))
-						chunk.setBlock(x, y, z, Material.COBBLESTONE, Type.TOP);
+						chunk.setBlock(x, y, z, Material.COBBLESTONE_SLAB, Type.TOP);
 			}
 		}
 	}

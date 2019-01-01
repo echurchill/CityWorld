@@ -54,10 +54,10 @@ public abstract class CoverProvider extends Provider {
 	 */
 
 	public enum CoverageSets {
-		SHORT_FLOWERS, TALL_FLOWERS, ALL_FLOWERS, SHORT_PLANTS, TALL_PLANTS, ALL_PLANTS, GENERAL_SAPLINGS, ALL_SAPLINGS,
-		OAK_TREES, PINE_TREES, BIRCH_TREES, JUNGLE_TREES, ACACIA_TREES, SWAMP_TREES, SHORT_TREES, MEDIUM_TREES,
-		TALL_TREES, ALL_TREES, PRARIE_PLANTS, EDIBLE_PLANTS, SHORT_MUSHROOMS, NETHER_PLANTS, DECAY_PLANTS, SEA_PLANTS,
-		SEA_CORALS
+		SHORT_FLOWERS, TALL_FLOWERS, ALL_FERNS, ALL_FLOWERS, SHORT_PLANTS, TALL_PLANTS, ALL_PLANTS, GENERAL_SAPLINGS,
+		ALL_SAPLINGS, OAK_TREES, PINE_TREES, BIRCH_TREES, JUNGLE_TREES, ACACIA_TREES, SWAMP_TREES, SHORT_TREES,
+		MEDIUM_TREES, TALL_TREES, ALL_TREES, PRARIE_PLANTS, EDIBLE_PLANTS, SHORT_MUSHROOMS, NETHER_PLANTS, DECAY_PLANTS,
+		SEA_PLANTS, SEA_CORALS
 	}
 
 	private final static CoverageType[] ShortFlowers = { CoverageType.DANDELION, CoverageType.POPPY,
@@ -74,6 +74,9 @@ public abstract class CoverProvider extends Provider {
 
 	private final static CoverageType[] ShortPlants = { CoverageType.GRASS, CoverageType.FERN };
 
+	private final static CoverageType[] AllFerns = { CoverageType.FERN, CoverageType.FERN, CoverageType.FERN,
+			CoverageType.FERN, CoverageType.TALL_FERN };
+
 	private final static CoverageType[] TallPlants = { CoverageType.CACTUS, CoverageType.REED, CoverageType.TALL_GRASS,
 			CoverageType.TALL_FERN, CoverageType.SUNFLOWER, CoverageType.LILAC, CoverageType.EMERALD_GREEN };
 
@@ -81,13 +84,11 @@ public abstract class CoverProvider extends Provider {
 			CoverageType.REED, CoverageType.TALL_GRASS, CoverageType.TALL_FERN, CoverageType.ROSE_BUSH,
 			CoverageType.PEONY, CoverageType.EMERALD_GREEN };
 
-	private final static CoverageType[] PrariePlants = { CoverageType.GRASS, CoverageType.GRASS, CoverageType.GRASS,
-			CoverageType.GRASS, CoverageType.DANDELION, CoverageType.POPPY, CoverageType.GRASS, CoverageType.GRASS,
-			CoverageType.BLUE_ORCHID, CoverageType.ALLIUM, CoverageType.GRASS, CoverageType.GRASS,
-			CoverageType.AZURE_BLUET, CoverageType.OXEYE_DAISY, CoverageType.GRASS, CoverageType.GRASS,
-			CoverageType.RED_TULIP, CoverageType.ORANGE_TULIP, CoverageType.GRASS, CoverageType.GRASS,
-			CoverageType.WHITE_TULIP, CoverageType.PINK_TULIP, CoverageType.GRASS, CoverageType.GRASS,
-			CoverageType.GRASS, CoverageType.GRASS };
+	private final static CoverageType[] PrariePlants = { CoverageType.GRASS, CoverageType.TALL_GRASS,
+			CoverageType.TALL_GRASS, CoverageType.TALL_GRASS, CoverageType.TALL_GRASS, CoverageType.TALL_FERN,
+			CoverageType.TALL_FERN, CoverageType.DANDELION, CoverageType.POPPY, CoverageType.BLUE_ORCHID,
+			CoverageType.ALLIUM, CoverageType.AZURE_BLUET, CoverageType.OXEYE_DAISY, CoverageType.RED_TULIP,
+			CoverageType.ORANGE_TULIP, CoverageType.WHITE_TULIP, CoverageType.PINK_TULIP };
 
 	private final static CoverageType[] EdiblePlants = { CoverageType.WHEAT, CoverageType.CARROTS, CoverageType.POTATO,
 			CoverageType.BEETROOT, CoverageType.MELON, CoverageType.PUMPKIN };
@@ -175,8 +176,14 @@ public abstract class CoverProvider extends Provider {
 		case ALL_SAPLINGS:
 			generateRandomCoverage(generator, chunk, x, y, z, AllSaplings);
 			break;
+		case ALL_FERNS:
+			generateRandomCoverage(generator, chunk, x, y, z, AllFerns);
+			break;
 		case PRARIE_PLANTS:
-			generateRandomCoverage(generator, chunk, x, y, z, PrariePlants);
+			if (odds.playOdds(Odds.oddsMoreLikely))
+				generateRandomCoverage(generator, chunk, x, y, z, CoverageType.GRASS);
+			else
+				generateRandomCoverage(generator, chunk, x, y, z, PrariePlants);
 			break;
 		case EDIBLE_PLANTS:
 			generateRandomCoverage(generator, chunk, x, y, z, EdiblePlants);
@@ -403,7 +410,15 @@ public abstract class CoverProvider extends Provider {
 			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
 					Material.FARMLAND)) {
 				TreeSpecies species = odds.getRandomWoodSpecies();
-				chunk.setLeaves(x, y + 1, y + odds.getRandomInt(2, 4), z, Trees.getRandomWoodLeaves(species), true); // @@ why are these decaying when set to false?
+				chunk.setLeaves(x, y + 1, y + odds.getRandomInt(2, 4), z, Trees.getRandomWoodLeaves(species), true); // @@
+																														// why
+																														// are
+																														// these
+																														// decaying
+																														// when
+																														// set
+																														// to
+																														// false?
 				chunk.setBlock(x, y, z, Trees.getRandomWoodLog(species));
 			}
 			break;

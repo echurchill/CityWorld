@@ -98,7 +98,7 @@ public class RadioTowerLot extends ConstructLot {
 
 		// compute offset to start of chunk
 		int platformOffset = platformWidth / 2;
-		Point highPoint = blockYs.getLowPoint();
+		Point highPoint = blockYs.getHighPoint();
 		int originX = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, highPoint.getX()));
 		int originZ = Math.min(platformOffset, Math.max(chunk.width - platformOffset - 1, highPoint.getZ()));
 		int platformY = getBottomY(generator);
