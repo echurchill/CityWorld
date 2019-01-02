@@ -330,7 +330,7 @@ public class BunkerLot extends ConnectedLot {
 
 	public static int generateEntryBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk,
 			Odds odds, int y1, int y2, int topOfBunker, AbstractCachedYs blockYs) {
-		int surfaceY = blockYs.getCenterHeight();
+		int surfaceY = blockYs.getMaxYWithin(6, 10, 6, 10);
 		int topY = surfaceY + DataContext.FloorHeight + 1;
 
 		// make sure we know what we using to make things
@@ -340,22 +340,22 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setBlocks(5, 11, y1, topY, 5, 11, Material.TERRACOTTA);
 
 		// do it!
-		MineEntranceLot.generateStairWell(generator, chunk, odds, 6, 6, y1, surfaceY, surfaceY,
-				surfaceY + DataContext.FloorHeight + 1, Material.QUARTZ_STAIRS, Material.QUARTZ_BLOCK,
-				Material.QUARTZ_PILLAR); // Make the last one air if you want an easy way down
+		MineEntranceLot.generateStairWell(generator, chunk, odds, 6, 6, y1, surfaceY, surfaceY, topY,
+				Material.QUARTZ_STAIRS, Material.QUARTZ_BLOCK, Material.QUARTZ_PILLAR); // Make the last one air if you
+																						// want an easy way down
 
 		// mock up the top bit
 		chunk.setBlocks(5, 11, surfaceY, topY, 5, 11, Material.TERRACOTTA);
 		chunk.setBlocks(6, 10, topY, 6, 10, Material.TERRACOTTA);
 		chunk.setBlocks(7, 9, topY + 1, 7, 9, Material.TERRACOTTA);
-		
+
 		// make sure there is room in the middle
 		chunk.clearBlocks(6, 10, surfaceY, topY, 6, 10);
 
 		// colorize it
 		Colors colors = new Colors(odds, generator.coverProvider.getColorSet());
 		chunk.colorizeBlocks(5, 11, blockYs.getMinHeight(), topY + 2, 5, 11, Material.TERRACOTTA, colors);
-		
+
 		// bottom doors
 		chunk.setBlocks(7, 9, y1, y1 + 2, 5, 6, Material.AIR);
 		chunk.setBlocks(7, 9, y1, y1 + 2, 10, 11, Material.AIR);
@@ -398,13 +398,13 @@ public class BunkerLot extends ConnectedLot {
 		// lid & crack
 		int lidY = blockYs.getAverageHeight() - 1;
 		chunk.setCircle(8, 8, 5, lidY, Material.TERRACOTTA, true);
-		
+
 		for (int x = 3; x < 14; x += 2)
 			chunk.setBlock(x, lidY, 7, Material.DARK_OAK_TRAPDOOR, BlockFace.NORTH, Half.TOP);
 		for (int x = 2; x < 15; x += 2)
 			chunk.setBlock(x, lidY, 8, Material.DARK_OAK_TRAPDOOR, BlockFace.SOUTH, Half.TOP);
-		
-		chunk.setLadder(2, topOfBunker, lidY, 8, BlockFace.EAST); 
+
+		chunk.setLadder(2, topOfBunker, lidY, 8, BlockFace.EAST);
 		chunk.setWalls(2, 14, topOfBunker - 1, topOfBunker, 2, 14, materials.crosswalk);
 
 		// camo the exit

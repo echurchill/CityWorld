@@ -1524,7 +1524,7 @@ public class RoadLot extends ConnectedLot {
 				if (chunkOdds.flipCoin())
 					chunk.setBlock(x, y, z, Material.COBBLESTONE);
 				else
-					chunk.setBlock(x, y, z, Material.STONE_SLAB, 3);
+					chunk.setBlock(x, y, z, Material.COBBLESTONE_SLAB, Type.BOTTOM);
 				amount--;
 			}
 		}

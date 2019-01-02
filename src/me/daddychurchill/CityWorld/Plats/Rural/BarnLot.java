@@ -97,6 +97,7 @@ public class BarnLot extends IsolatedLot {
 
 			// bottom stuff
 			if (firstPaddock) {
+				boolean includeHorses = chunkOdds.flipCoin();
 
 				// generate fence & gate
 				chunk.setBlocks(4, 5, y1, 2, 4, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.SOUTH);
@@ -104,8 +105,9 @@ public class BarnLot extends IsolatedLot {
 				chunk.setBlock(5, y1, 5, Material.SPRUCE_FENCE, BlockFace.SOUTH, BlockFace.WEST);
 				chunk.setBlock(5, y1, 6, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.SOUTH);
 
-				chunk.setGates(5, 6, y1, 7, 9, Material.SPRUCE_FENCE_GATE, BlockFace.EAST, true); // open east
+				chunk.setGate(5, y1, 7, Material.SPRUCE_FENCE_GATE, BlockFace.EAST, !includeHorses); // only open if no horses
 
+				chunk.setBlock(5, y1, 8, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.SOUTH);
 				chunk.setBlock(5, y1, 9, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.SOUTH);
 				chunk.setBlock(5, y1, 10, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.WEST);
 				chunk.setBlock(4, y1, 10, Material.SPRUCE_FENCE, BlockFace.SOUTH, BlockFace.EAST);
@@ -116,11 +118,13 @@ public class BarnLot extends IsolatedLot {
 				chunk.setCauldron(2, y1, 13, chunkOdds);
 
 				// spawn horses
-				spawnHorses(generator, chunk, 2, y1, 7);
+				if (includeHorses)
+					spawnHorses(generator, chunk, 2, y1, 7);
 			} else
 				// or just a pile of hay
 				hayPile(chunk, 2, 5, y1, 2, 14);
 			if (secondPaddock) {
+				boolean includeHorses = chunkOdds.flipCoin();
 
 				// generate fence & gate
 				chunk.setBlocks(11, 12, y1, 2, 4, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.SOUTH);
@@ -128,8 +132,9 @@ public class BarnLot extends IsolatedLot {
 				chunk.setBlock(10, y1, 5, Material.SPRUCE_FENCE, BlockFace.SOUTH, BlockFace.EAST);
 				chunk.setBlock(10, y1, 6, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.SOUTH);
 
-				chunk.setGates(10, 11, y1, 7, 9, Material.SPRUCE_FENCE_GATE, BlockFace.WEST, true); // open west
+				chunk.setGate(10, y1, 7, Material.SPRUCE_FENCE_GATE, BlockFace.WEST, !includeHorses); // only open if no horses 
 
+				chunk.setBlock(10, y1, 8, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.SOUTH);
 				chunk.setBlock(10, y1, 9, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.SOUTH);
 				chunk.setBlock(10, y1, 10, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.EAST);
 				chunk.setBlock(11, y1, 10, Material.SPRUCE_FENCE, BlockFace.SOUTH, BlockFace.WEST);
@@ -140,7 +145,8 @@ public class BarnLot extends IsolatedLot {
 				chunk.setCauldron(13, y1, 13, chunkOdds);
 
 				// spawn horses
-				spawnHorses(generator, chunk, 12, y1, 7);
+				if (includeHorses)
+					spawnHorses(generator, chunk, 12, y1, 7);
 			} else
 				// or just a pile of hay
 				hayPile(chunk, 11, 14, y1, 2, 14);
@@ -219,8 +225,9 @@ public class BarnLot extends IsolatedLot {
 				chunk.setBlock(5, y1, 5, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.EAST);
 				chunk.setBlock(6, y1, 5, Material.SPRUCE_FENCE, BlockFace.EAST, BlockFace.WEST);
 
-				chunk.setGates(7, 9, y1, 5, 6, Material.SPRUCE_FENCE_GATE, BlockFace.SOUTH, true); // open south
+				chunk.setGate(7, y1, 5, Material.SPRUCE_FENCE_GATE, BlockFace.SOUTH, true); // open south
 
+				chunk.setBlock(8, y1, 5, Material.SPRUCE_FENCE, BlockFace.EAST, BlockFace.WEST);
 				chunk.setBlock(9, y1, 5, Material.SPRUCE_FENCE, BlockFace.EAST, BlockFace.WEST);
 				chunk.setBlock(10, y1, 5, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.WEST);
 				chunk.setBlock(10, y1, 4, Material.SPRUCE_FENCE, BlockFace.SOUTH, BlockFace.EAST);
@@ -243,8 +250,9 @@ public class BarnLot extends IsolatedLot {
 				chunk.setBlock(5, y1, 10, Material.SPRUCE_FENCE, BlockFace.SOUTH, BlockFace.EAST);
 				chunk.setBlock(6, y1, 10, Material.SPRUCE_FENCE, BlockFace.EAST, BlockFace.WEST);
 
-				chunk.setGates(7, 9, y1, 10, 11, Material.SPRUCE_FENCE_GATE, BlockFace.NORTH, true); // open north
+				chunk.setGate(7, y1, 10, Material.SPRUCE_FENCE_GATE, BlockFace.NORTH, true); // open north
 
+				chunk.setBlock(8, y1, 10, Material.SPRUCE_FENCE, BlockFace.EAST, BlockFace.WEST);
 				chunk.setBlock(9, y1, 10, Material.SPRUCE_FENCE, BlockFace.EAST, BlockFace.WEST);
 				chunk.setBlock(10, y1, 10, Material.SPRUCE_FENCE, BlockFace.SOUTH, BlockFace.WEST);
 				chunk.setBlock(10, y1, 11, Material.SPRUCE_FENCE, BlockFace.NORTH, BlockFace.EAST);

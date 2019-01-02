@@ -53,7 +53,7 @@ public class CoverProvider_TheEnd extends CoverProvider_Normal {
 		case REED:
 
 		case OAK_SAPLING:
-		case PINE_SAPLING:
+		case DARK_OAK_SAPLING:
 		case BIRCH_SAPLING:
 		case JUNGLE_SAPLING:
 		case ACACIA_SAPLING:
@@ -67,7 +67,7 @@ public class CoverProvider_TheEnd extends CoverProvider_Normal {
 		case SHORT_PINE_TREE:
 		case SHORT_BIRCH_TREE:
 		case SHORT_JUNGLE_TREE:
-		case TALL_OAK_TREE:
+		case DARK_OAK_TREE:
 		case TALL_PINE_TREE:
 		case TALL_BIRCH_TREE:
 		case TALL_JUNGLE_TREE:

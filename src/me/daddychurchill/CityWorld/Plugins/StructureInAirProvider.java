@@ -2,6 +2,8 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import org.bukkit.Material;
 import org.bukkit.World.Environment;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.type.Slab.Type;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
@@ -40,9 +42,9 @@ public class StructureInAirProvider extends Provider {
 
 			// pick the colors
 			Colors colors = new Colors(odds,
-					generator.worldEnvironment == Environment.NETHER ? ColorSet.NETHER : ColorSet.RANDOM);
-			Material primary = colors.getWool();
-			Material secondary = colors.getWool();
+					generator.worldEnvironment == Environment.NETHER ? ColorSet.NETHER : ColorSet.LIGHT);
+			Material primary = colors.getConcrete();
+			Material secondary = colors.getConcrete();
 
 			// draw the balloon
 			chunk.setBlocks(balloonX, balloonX + 1, balloonY1, balloonY1 + 2, balloonZ, balloonZ + 1, primary);
@@ -68,9 +70,6 @@ public class StructureInAirProvider extends Provider {
 
 			chunk.setBlocks(balloonX - 2, balloonX + 3, balloonY2 - 1, balloonY2, balloonZ - 2, balloonZ + 3, primary);
 			chunk.setBlocks(balloonX - 1, balloonX + 2, balloonY2, balloonY2 + 1, balloonZ - 1, balloonZ + 2, primary);
-
-			// candle in the middle
-			addLight(chunk, context, balloonX, balloonY2, balloonZ);
 		}
 	}
 
@@ -78,11 +77,14 @@ public class StructureInAirProvider extends Provider {
 
 	public void generateHotairBalloon(CityWorldGenerator generator, SupportBlocks chunk, DataContext context,
 			int bottomY, Odds odds) {
-		int balloonY1 = bottomY + 5;
+		int balloonY1 = bottomY + 6;
 		int balloonY2 = balloonY1 + 20;
 
-		chunk.setBlocks(6, 10, bottomY, 6, 10, Material.HAY_BLOCK);
-		chunk.setWalls(5, 11, bottomY + 1, bottomY + 2, 5, 11, Material.HAY_BLOCK);
+		Colors colors = new Colors(odds,
+				generator.worldEnvironment == Environment.NETHER ? ColorSet.NETHER : ColorSet.LIGHT);
+		Material basket = colors.getConcrete();
+		chunk.setBlocks(6, 10, bottomY, 6, 10, basket);
+		chunk.setWalls(5, 11, bottomY + 1, bottomY + 2, 5, 11, basket);
 
 		generator.spawnProvider.spawnBeing(generator, chunk, odds, 7, bottomY + 1, 7);
 
@@ -91,7 +93,7 @@ public class StructureInAirProvider extends Provider {
 		attachString(chunk, 10, bottomY + 2, balloonY1, 5);
 		attachString(chunk, 10, bottomY + 2, balloonY1, 10);
 
-		generateBigBalloon(generator, chunk, context, balloonY1, balloonY2, odds);
+		generateBigBalloon(generator, chunk, context, balloonY1, balloonY2, odds, true);
 	}
 
 	public void generateBigBalloon(CityWorldGenerator generator, SupportBlocks chunk, DataContext context, int attachY,
@@ -107,22 +109,29 @@ public class StructureInAirProvider extends Provider {
 
 		// are we attached?
 		if (strung)
-			generateBigBalloon(generator, chunk, context, balloonY1, balloonY2, odds);
+			generateBigBalloon(generator, chunk, context, balloonY1, balloonY2, odds, false);
 	}
 
 	private void generateBigBalloon(CityWorldGenerator generator, SupportBlocks chunk, DataContext context,
-			int balloonY1, int balloonY2, Odds odds) {
+			int balloonY1, int balloonY2, Odds odds, boolean hollow) {
 
 		// pick the colors
 		Colors colors = new Colors(odds, ColorSet.LIGHT);
-		Material primary = colors.getWool();
-		Material secondary = colors.getWool();
+		Material primary = colors.getConcrete();
+		Material secondary = colors.getConcrete();
+		if (hollow)
+			secondary = colors.getGlass();
 
 		// draw the bottom of the blimp
-		chunk.setCircle(8, 8, 3, balloonY1 - 1, primary);
-		chunk.setCircle(8, 8, 4, balloonY1, balloonY1 + 3, primary, true);
-		chunk.setCircle(8, 8, 5, balloonY1 + 3, balloonY1 + 7, primary, true);
+		chunk.setCircle(8, 8, 3, balloonY1 - 1, primary, false);
+		chunk.setCircle(8, 8, 4, balloonY1, balloonY1 + 4, primary, true);
+		chunk.setCircle(8, 8, 5, balloonY1 + 4, balloonY1 + 7, primary, true);
 		chunk.setCircle(8, 8, 6, balloonY1 + 7, primary, true);
+		if (hollow) {
+			chunk.setCircle(8, 8, 3, balloonY1, balloonY1 + 4, Material.AIR, true);
+			chunk.setCircle(8, 8, 4, balloonY1 + 4, balloonY1 + 7, Material.AIR, true);
+			chunk.setCircle(8, 8, 5, balloonY1 + 7, Material.AIR, true);
+		}
 
 		// middle of the blimp
 		int step = 2 + odds.getRandomInt(4);
@@ -132,33 +141,40 @@ public class StructureInAirProvider extends Provider {
 			if (y % step != 0)
 				strip = secondary;
 			chunk.setCircle(8, 8, 6, y, strip, true);
+			if (hollow)
+				chunk.setCircle(8, 8, 5, y, Material.AIR, true);
 			y++;
 		} while (y < balloonY2 - 3);
 
 		// now the top of the balloon
 		chunk.setCircle(8, 8, 6, balloonY2 - 3, primary, true);
-		chunk.setCircle(8, 8, 5, balloonY2 - 2, balloonY2, primary, true);
-		chunk.setCircle(8, 8, 4, balloonY2, primary, true);
+		chunk.setCircle(8, 8, 5, balloonY2 - 2, balloonY2 - 1, primary, true);
+		chunk.setCircle(8, 8, 4, balloonY2 - 1, balloonY2, primary, true);
+		chunk.setCircle(8, 8, 3, balloonY2, secondary, true);
+		if (hollow) {
+			chunk.setCircle(8, 8, 5, balloonY2 - 3, Material.AIR, true);
+			chunk.setCircle(8, 8, 4, balloonY2 - 2, balloonY2 - 1, Material.AIR, true);
+			chunk.setCircle(8, 8, 3, balloonY2 - 1, balloonY2, Material.AIR, true);
+		}
+		
+		// if hollow lets add a burner
+		if (hollow) {
+			chunk.setBlocks(7, 9, balloonY1 - 2, 7, 9, Material.STONE_SLAB, Type.TOP);
+			chunk.setBlocks(7, 9, balloonY1 - 1, 7, 9, Material.NETHERRACK);
+			chunk.setBlocks(7, 9, balloonY1, 7, 9, Material.FIRE);
 
-		// add the lights
-//		addLight(chunk, context, 8, balloonY2, 8);
-//		addLight(chunk, context, 7, balloonY2, 4);
-//		addLight(chunk, context, 8, balloonY2, 11);
-//		addLight(chunk, context, 4, balloonY2, 8);
-//		addLight(chunk, context, 11, balloonY2, 7);
-
+			chunk.setBlocks(7, 8, balloonY1 - 1, 5, 7, Material.IRON_BARS, BlockFace.NORTH, BlockFace.SOUTH);
+			chunk.setBlocks(8, 9, balloonY1 - 1, 9, 11, Material.IRON_BARS, BlockFace.NORTH, BlockFace.SOUTH);
+			chunk.setBlocks(9, 11, balloonY1 - 1, 7, 8, Material.IRON_BARS, BlockFace.EAST, BlockFace.WEST);
+			chunk.setBlocks(5, 7, balloonY1 - 1, 8, 9, Material.IRON_BARS, BlockFace.EAST, BlockFace.WEST);
+		}
 	}
 
 	private boolean attachString(AbstractBlocks chunk, int x, int y1, int y2, int z) {
 		boolean result = !chunk.isEmpty(x, y1 - 1, z);
 		if (result)
-			chunk.setBlocks(x, y1, y2, z, Material.SPRUCE_FENCE);
+			chunk.setBlocks(x, y1, y2, z, Material.IRON_BARS);
 		return result;
-	}
-
-	private void addLight(AbstractBlocks chunk, DataContext context, int x, int y, int z) {
-		chunk.setBlock(x, y, z, Material.AIR);
-		chunk.setBlock(x, y - 1, z, context.lightMat);
 	}
 
 	public void generateSaucer(CityWorldGenerator generator, SupportBlocks chunk, int y, boolean drawLegs) {

@@ -15,7 +15,6 @@ public abstract class AbstractCachedYs {
 	protected int maxHeightZ = 0;
 	protected int averageHeight;
 	protected int segmentWidth;
-	protected int centerHeight = Integer.MIN_VALUE;
 
 	protected final static int width = AbstractBlocks.sectionBlockWidth;
 	protected double[][] blockYs = new double[width][width];
@@ -58,9 +57,18 @@ public abstract class AbstractCachedYs {
 			maxHeightX = x;
 			maxHeightZ = z;
 		}
-		if (x > 5 && x < 10 && z > 5 && z < 10)
-			if (y > centerHeight)
-				centerHeight = y;
+	}
+	
+	public int getMaxYWithin(int x1, int x2, int z1, int z2) {
+		assert(x1 >= 0 && x2 <= 15 && z1 >= 0 && z2 <= 15);
+		int maxY = Integer.MIN_VALUE;
+		for (int x = x1; x < x2; x++)
+			for (int z = z1; z < z2; z++) {
+				int y = getBlockY(x, z);
+				if (y > maxY)
+					maxY = y;
+			}
+		return maxY;
 	}
 
 	public int getBlockY(int x, int z) {
@@ -97,10 +105,6 @@ public abstract class AbstractCachedYs {
 
 	public int getSegmentWidth() {
 		return segmentWidth;
-	}
-
-	public int getCenterHeight() {
-		return centerHeight;
 	}
 
 //	public void lift(int h) {

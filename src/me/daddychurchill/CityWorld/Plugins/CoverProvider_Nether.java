@@ -62,7 +62,7 @@ public class CoverProvider_Nether extends CoverProvider_Decayed {
 		case TUBE_CORAL:
 
 		case OAK_SAPLING:
-		case PINE_SAPLING:
+		case DARK_OAK_SAPLING:
 		case BIRCH_SAPLING:
 		case JUNGLE_SAPLING:
 		case ACACIA_SAPLING:
@@ -76,7 +76,7 @@ public class CoverProvider_Nether extends CoverProvider_Decayed {
 		case SHORT_PINE_TREE:
 		case SHORT_BIRCH_TREE:
 		case SHORT_JUNGLE_TREE:
-		case TALL_OAK_TREE:
+		case DARK_OAK_TREE:
 		case TALL_PINE_TREE:
 		case TALL_BIRCH_TREE:
 		case TALL_JUNGLE_TREE:

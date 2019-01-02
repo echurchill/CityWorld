@@ -940,11 +940,4 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 		return block;
 	}
-
-	public final void setGates(int x1, int x2, int y, int z1, int z2, Material material, BlockFace facing,
-			boolean isOpen) {
-		for (int x = x1; x < x2; x++)
-			for (int z = z1; z < z2; z++)
-				setGate(x, y, z, material, facing, isOpen);
-	}
 }

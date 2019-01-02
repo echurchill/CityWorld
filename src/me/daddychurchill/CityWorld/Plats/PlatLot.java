@@ -167,7 +167,7 @@ public abstract class PlatLot {
 	private int generateBlocksCallCountForThisLot = 0;
 
 	protected void flattenLot(CityWorldGenerator generator, AbstractBlocks chunk, int maxLayersToDo) {
-		if (blockYs.getMaxHeight() > generator.streetLevel & blockYs.getMaxHeight() <= generator.streetLevel + maxLayersToDo) {
+		if (blockYs.getMaxHeight() > generator.streetLevel && blockYs.getMaxHeight() <= generator.streetLevel + maxLayersToDo) {
 			chunk.airoutLayer(generator, generator.streetLevel + 1,
 					Math.min(blockYs.getMaxHeight() - generator.streetLevel + 1, maxLayersToDo));
 		}
@@ -496,7 +496,10 @@ public abstract class PlatLot {
 			for (int z = z1; z < z2; z++) {
 				if (chunkOdds.flipCoin())
 					if (!chunk.isEmpty(x, y + 1, z) && chunk.isEmpty(x, y, z))
-						chunk.setBlock(x, y, z, Material.COBBLESTONE_SLAB, Type.TOP);
+						if (chunkOdds.flipCoin())
+							chunk.setBlock(x, y, z, Material.COBBLESTONE_SLAB, Type.TOP);
+						else
+							chunk.setBlock(x, y, z, Material.COBBLESTONE);
 			}
 		}
 	}

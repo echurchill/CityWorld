@@ -125,7 +125,7 @@ public class ParkLot extends ConnectedLot {
 			CoverageType.SHORT_PINE_TREE, CoverageType.BIRCH_TREE, CoverageType.OAK_TREE,
 			CoverageType.TALL_BIRCH_TREE };
 
-	private final static CoverageType[] tallTrees = { CoverageType.TALL_BIRCH_TREE, CoverageType.TALL_OAK_TREE };
+	private final static CoverageType[] tallTrees = { CoverageType.TALL_BIRCH_TREE, CoverageType.DARK_OAK_TREE };
 
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,

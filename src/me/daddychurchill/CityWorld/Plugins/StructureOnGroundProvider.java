@@ -260,7 +260,7 @@ public class StructureOnGroundProvider extends Provider {
 		Material matRoof = generator.materialProvider.itemsSelectMaterial_ShackRoofs.getRandomMaterial(odds,
 				Material.COBBLESTONE);
 		Material matCeiling = matRoof;
-		HouseRoofStyle styleRoof = HouseRoofStyle.FLAT;
+		HouseRoofStyle styleRoof = pickRoofStyle(odds);
 		int floors = 1;
 
 		// chunk.setWalls(2, 13, baseY, baseY + ContextData.FloorHeight, 2, 13,

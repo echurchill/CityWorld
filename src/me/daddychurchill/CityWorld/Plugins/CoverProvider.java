@@ -22,9 +22,9 @@ public abstract class CoverProvider extends Provider {
 
 		CACTUS, REED, EMERALD_GREEN,
 
-		OAK_SAPLING, PINE_SAPLING, BIRCH_SAPLING, JUNGLE_SAPLING, ACACIA_SAPLING,
+		OAK_SAPLING, DARK_OAK_SAPLING, BIRCH_SAPLING, JUNGLE_SAPLING, ACACIA_SAPLING,
 
-		MINI_OAK_TREE, SHORT_OAK_TREE, OAK_TREE, TALL_OAK_TREE, MINI_PINE_TREE, SHORT_PINE_TREE, PINE_TREE,
+		MINI_OAK_TREE, SHORT_OAK_TREE, OAK_TREE, DARK_OAK_TREE, MINI_PINE_TREE, SHORT_PINE_TREE, PINE_TREE,
 		TALL_PINE_TREE, MINI_BIRCH_TREE, SHORT_BIRCH_TREE, BIRCH_TREE, TALL_BIRCH_TREE, MINI_JUNGLE_TREE,
 		SHORT_JUNGLE_TREE, JUNGLE_TREE, TALL_JUNGLE_TREE, MINI_SWAMP_TREE, SWAMP_TREE, MINI_ACACIA_TREE, ACACIA_TREE,
 
@@ -93,16 +93,16 @@ public abstract class CoverProvider extends Provider {
 	private final static CoverageType[] EdiblePlants = { CoverageType.WHEAT, CoverageType.CARROTS, CoverageType.POTATO,
 			CoverageType.BEETROOT, CoverageType.MELON, CoverageType.PUMPKIN };
 
-	private final static CoverageType[] GeneralSaplings = { CoverageType.OAK_SAPLING, CoverageType.PINE_SAPLING,
+	private final static CoverageType[] GeneralSaplings = { CoverageType.OAK_SAPLING, CoverageType.DARK_OAK_SAPLING,
 			CoverageType.BIRCH_SAPLING };
 
-	private final static CoverageType[] AllSaplings = { CoverageType.OAK_SAPLING, CoverageType.PINE_SAPLING,
+	private final static CoverageType[] AllSaplings = { CoverageType.OAK_SAPLING, CoverageType.DARK_OAK_SAPLING,
 			CoverageType.BIRCH_SAPLING, CoverageType.JUNGLE_SAPLING, CoverageType.ACACIA_SAPLING };
 
 	private final static CoverageType[] OakTrees = { CoverageType.OAK_SAPLING, CoverageType.SHORT_OAK_TREE,
-			CoverageType.OAK_TREE, CoverageType.TALL_OAK_TREE };
+			CoverageType.OAK_TREE, CoverageType.DARK_OAK_TREE };
 
-	private final static CoverageType[] PineTrees = { CoverageType.PINE_SAPLING, CoverageType.SHORT_PINE_TREE,
+	private final static CoverageType[] PineTrees = { CoverageType.DARK_OAK_SAPLING, CoverageType.SHORT_PINE_TREE,
 			CoverageType.PINE_TREE, CoverageType.TALL_PINE_TREE };
 
 	private final static CoverageType[] BirchTrees = { CoverageType.BIRCH_SAPLING, CoverageType.SHORT_BIRCH_TREE,
@@ -122,13 +122,13 @@ public abstract class CoverProvider extends Provider {
 			CoverageType.OAK_TREE, CoverageType.PINE_TREE };
 
 	private final static CoverageType[] TallTrees = { CoverageType.TALL_BIRCH_TREE, CoverageType.TALL_JUNGLE_TREE,
-			CoverageType.TALL_OAK_TREE, CoverageType.TALL_PINE_TREE, CoverageType.ACACIA_TREE,
+			CoverageType.DARK_OAK_TREE, CoverageType.TALL_PINE_TREE, CoverageType.ACACIA_TREE,
 			CoverageType.SWAMP_TREE };
 
 	private final static CoverageType[] AllTrees = { CoverageType.SHORT_BIRCH_TREE, CoverageType.SHORT_JUNGLE_TREE,
 			CoverageType.SHORT_OAK_TREE, CoverageType.SHORT_PINE_TREE, CoverageType.BIRCH_TREE,
 			CoverageType.JUNGLE_TREE, CoverageType.OAK_TREE, CoverageType.PINE_TREE, CoverageType.TALL_BIRCH_TREE,
-			CoverageType.TALL_JUNGLE_TREE, CoverageType.TALL_OAK_TREE, CoverageType.TALL_PINE_TREE,
+			CoverageType.TALL_JUNGLE_TREE, CoverageType.DARK_OAK_TREE, CoverageType.TALL_PINE_TREE,
 			CoverageType.ACACIA_TREE, CoverageType.SWAMP_TREE };
 
 	private final static CoverageType[] ShortMushrooms = { CoverageType.BROWN_MUSHROOM, CoverageType.RED_MUSHROOM };
@@ -432,7 +432,7 @@ public abstract class CoverProvider extends Provider {
 					Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.BIRCH_SAPLING);
 			break;
-		case PINE_SAPLING:
+		case DARK_OAK_SAPLING:
 			if (chunk.isOfTypes(x, y - 1, z, Material.GRASS_BLOCK, Material.DIRT, Material.COARSE_DIRT,
 					Material.FARMLAND))
 				chunk.setBlock(x, y, z, Material.DARK_OAK_SAPLING);
@@ -617,7 +617,7 @@ public abstract class CoverProvider extends Provider {
 				case OAK_TREE:
 					generator.treeProvider.generateNormalTree(generator, chunk, x, y, z, TreeType.BIG_TREE);
 					break;
-				case TALL_OAK_TREE:
+				case DARK_OAK_TREE:
 					generator.treeProvider.generateNormalTree(generator, chunk, x, y, z, TreeType.DARK_OAK);
 					break;
 				case MINI_PINE_TREE:

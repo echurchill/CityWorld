@@ -54,18 +54,15 @@ public class MineEntranceLot extends ConstructLot {
 		shaftY = Math.max(2, shaftY); // make sure we don't go down too far
 
 		// where is the surface?
-		int surfaceY = blockYs.getCenterHeight();
-//		int surfaceY = Math.min(getBlockY(0, 0), getBlockY(3, 0));
-//		surfaceY = Math.min(surfaceY, getBlockY(0, 3));
-//		surfaceY = Math.min(surfaceY, getBlockY(3, 3));
+		int surfaceY = blockYs.getMaxYWithin(0, 4, 0, 4);
 
 		// core bits
 		Material center = chunkOdds.flipCoin() ? Material.AIR : Material.COBBLESTONE;
-
+		
 		// do it!
 		generateStairWell(generator, chunk, chunkOdds, 0, 0, shaftY, blockYs.getMinHeight(), surfaceY,
-				surfaceY + DataContext.FloorHeight + 1, Material.COBBLESTONE_STAIRS, Material.COBBLESTONE, center);
-
+				surfaceY/* + DataContext.FloorHeight + 1*/, Material.COBBLESTONE_STAIRS, Material.COBBLESTONE, center);
+		
 		// connect to the mine
 		chunk.setBlocks(0, 4, shaftY - 1, 0, 4, Material.COBBLESTONE);
 		chunk.setBlocks(2, 4, shaftY - 1, 4, 6, Material.COBBLESTONE);
@@ -95,40 +92,48 @@ public class MineEntranceLot extends ConstructLot {
 					BlockFace.SOUTH, stairs);
 			if (shaftY > surfaceY)
 				break;
+			
 			shaftY = generateStairs(generator, chunk, odds, offX + 3, shaftY, offZ + 1, BlockFace.NORTH, BlockFace.EAST,
 					stairs);
 			if (shaftY > surfaceY)
 				break;
+			
 			generateLanding(generator, chunk, odds, offX + 3, shaftY, offZ + 0, BlockFace.EAST, stairs, landing);
 
 			shaftY = generateStairs(generator, chunk, odds, offX + 2, shaftY, offZ + 0, BlockFace.WEST, BlockFace.EAST,
 					stairs);
 			if (shaftY > surfaceY)
 				break;
+			
 			shaftY = generateStairs(generator, chunk, odds, offX + 1, shaftY, offZ + 0, BlockFace.WEST, BlockFace.NORTH,
 					stairs);
 			if (shaftY > surfaceY)
 				break;
+			
 			generateLanding(generator, chunk, odds, offX + 0, shaftY, offZ + 0, BlockFace.NORTH, stairs, landing);
 
 			shaftY = generateStairs(generator, chunk, odds, offX + 0, shaftY, offZ + 1, BlockFace.SOUTH,
 					BlockFace.NORTH, stairs);
 			if (shaftY > surfaceY)
 				break;
+			
 			shaftY = generateStairs(generator, chunk, odds, offX + 0, shaftY, offZ + 2, BlockFace.SOUTH, BlockFace.WEST,
 					stairs);
 			if (shaftY > surfaceY)
 				break;
+			
 			generateLanding(generator, chunk, odds, offX + 0, shaftY, offZ + 3, BlockFace.WEST, stairs, landing);
 
 			shaftY = generateStairs(generator, chunk, odds, offX + 1, shaftY, offZ + 3, BlockFace.EAST, BlockFace.WEST,
 					stairs);
 			if (shaftY > surfaceY)
 				break;
+			
 			shaftY = generateStairs(generator, chunk, odds, offX + 2, shaftY, offZ + 3, BlockFace.EAST, BlockFace.SOUTH,
 					stairs);
 			if (shaftY > surfaceY)
 				break;
+			
 			generateLanding(generator, chunk, odds, offX + 3, shaftY, offZ + 3, BlockFace.SOUTH, stairs, landing);
 		} while (shaftY <= surfaceY);
 	}

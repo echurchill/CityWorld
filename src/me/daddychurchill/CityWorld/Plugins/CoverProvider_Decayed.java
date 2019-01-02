@@ -56,7 +56,7 @@ public class CoverProvider_Decayed extends CoverProvider {
 		case FERN:
 		case REED:
 		case OAK_SAPLING:
-		case PINE_SAPLING:
+		case DARK_OAK_SAPLING:
 		case BIRCH_SAPLING:
 		case JUNGLE_SAPLING:
 		case ACACIA_SAPLING:
@@ -93,7 +93,7 @@ public class CoverProvider_Decayed extends CoverProvider {
 		case OAK_TRUNK:
 		case OAK_TREE:
 		case SHORT_OAK_TREE:
-		case TALL_OAK_TREE:
+		case DARK_OAK_TREE:
 			super.setCoverage(generator, chunk, x, y, z, CoverageType.OAK_TRUNK);
 			break;
 

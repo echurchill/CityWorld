@@ -60,7 +60,7 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 				// trees? but only if we are not too close to the edge of the chunk
 				if (includeTrees && primary < treeOdds && inTreeRange(x, z)) {
 					if (secondary < treeAltTallOdds && inBigTreeRange(x, z))
-						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.TALL_OAK_TREE);
+						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.DARK_OAK_TREE);
 					else if (secondary < treeAltOdds)
 						foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.BIRCH_TREE);
 					else
