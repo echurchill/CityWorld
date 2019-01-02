@@ -172,30 +172,29 @@ public class FarmLot extends ConnectedLot {
 
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
 			DataContext context, int platX, int platZ) {
-		int croplevel = generator.streetLevel + 1;
-
-//		int crodpY = generator.streetLevel + 1;
-		Material fallowMaterial = generator.shapeProvider.findAtmosphereMaterialAt(generator, croplevel - 1);
+		int cropY = generator.streetLevel + 1;
+		
+		Material fallowMaterial = generator.shapeProvider.findAtmosphereMaterialAt(generator, cropY - 1);
 		boolean fallowField = fallowMaterial != Material.AIR;
 
 		if (!fallowField)
 			switch (cropType) {
 			case PADDOCK:
-				chunk.setWalls(1, 15, croplevel, croplevel + 1, 1, 15, Material.SPRUCE_FENCE);
+				chunk.setWalls(1, 15, cropY, cropY + 1, 1, 15, Material.SPRUCE_FENCE);
 
 				// @@ TODO: I fix the gates one of these days
 				if (chunkOdds.flipCoin())
-					chunk.setGate(7, croplevel, 1, Material.SPRUCE_FENCE_GATE, BlockFace.NORTH, false);
+					chunk.setGate(7, cropY, 1, Material.SPRUCE_FENCE_GATE, BlockFace.NORTH, false);
 				if (chunkOdds.flipCoin())
-					chunk.setGate(7, croplevel, 14, Material.SPRUCE_FENCE_GATE, BlockFace.SOUTH, false);
+					chunk.setGate(7, cropY, 14, Material.SPRUCE_FENCE_GATE, BlockFace.SOUTH, false);
 				if (chunkOdds.flipCoin())
-					chunk.setGate(1, croplevel, 7, Material.SPRUCE_FENCE_GATE, BlockFace.WEST, false);
+					chunk.setGate(1, cropY, 7, Material.SPRUCE_FENCE_GATE, BlockFace.WEST, false);
 				if (chunkOdds.flipCoin())
-					chunk.setGate(14, croplevel, 7, Material.SPRUCE_FENCE_GATE, BlockFace.EAST, false);
+					chunk.setGate(14, cropY, 7, Material.SPRUCE_FENCE_GATE, BlockFace.EAST, false);
 				break;
 			case TRELLIS:
 			case VINES:
-				buildVineyard(chunk, croplevel);
+				buildVineyard(chunk, cropY);
 				break;
 			case GRASS:
 			case FERN:
@@ -225,7 +224,7 @@ public class FarmLot extends ConnectedLot {
 			case ALL_PLANTS:
 			case DECAY_PLANTS:
 				if (generator.settings.includeAbovegroundFluids)
-					plowField(chunk, croplevel, Material.COARSE_DIRT, waterMaterial, 2);
+					plowField(chunk, cropY, Material.COARSE_DIRT, waterMaterial, 2);
 				else
 					fallowField = true;
 				break;
@@ -244,23 +243,23 @@ public class FarmLot extends ConnectedLot {
 				// leave the grass alone
 				break;
 			case CACTUS:
-				plowField(chunk, croplevel, Material.SAND, Material.SAND, 2);
+				plowField(chunk, cropY, Material.SAND, Material.SAND, 2);
 				break;
 			case REED:
 				if (generator.settings.includeAbovegroundFluids)
-					plowField(chunk, croplevel, Material.SAND, waterMaterial, 2);
+					plowField(chunk, cropY, Material.SAND, waterMaterial, 2);
 				else
 					fallowField = true;
 				break;
 			case DEAD_BUSH:
-				plowField(chunk, croplevel, Material.COARSE_DIRT, fallowMaterial, 2);
+				plowField(chunk, cropY, Material.COARSE_DIRT, fallowMaterial, 2);
 				break;
 			case WHEAT:
 			case CARROT:
 			case POTATO:
 			case BEETROOT:
 				if (generator.settings.includeAbovegroundFluids)
-					plowField(chunk, croplevel, Material.FARMLAND, waterMaterial, 2);
+					plowField(chunk, cropY, Material.FARMLAND, waterMaterial, 2);
 				else
 					fallowField = true;
 				break;
@@ -268,19 +267,19 @@ public class FarmLot extends ConnectedLot {
 			case PUMPKIN:
 			case EDIBLE_PLANTS:
 				if (generator.settings.includeAbovegroundFluids)
-					plowField(chunk, croplevel, Material.FARMLAND, waterMaterial, 3);
+					plowField(chunk, cropY, Material.FARMLAND, waterMaterial, 3);
 				else
 					fallowField = true;
 				break;
 			case BROWN_MUSHROOM:
 			case RED_MUSHROOM:
-				plowField(chunk, croplevel, Material.MYCELIUM, fallowMaterial, 2);
+				plowField(chunk, cropY, Material.MYCELIUM, fallowMaterial, 2);
 				break;
 			case NETHERWART:
-				plowField(chunk, croplevel, Material.SOUL_SAND, fallowMaterial, 2);
+				plowField(chunk, cropY, Material.SOUL_SAND, fallowMaterial, 2);
 				break;
 			case NETHER_PLANTS:
-				plowField(chunk, croplevel, Material.SOUL_SAND, fallowMaterial, 2);
+				plowField(chunk, cropY, Material.SOUL_SAND, fallowMaterial, 2);
 				break;
 			case FALLOW:
 				fallowField = true;
@@ -290,7 +289,7 @@ public class FarmLot extends ConnectedLot {
 			}
 
 		if (fallowField)
-			plowField(chunk, croplevel, Material.COARSE_DIRT, fallowMaterial, 2);
+			plowField(chunk, cropY, Material.COARSE_DIRT, fallowMaterial, 2);
 		else {
 			switch (cropType) {
 			case FALLOW:
@@ -298,173 +297,173 @@ public class FarmLot extends ConnectedLot {
 				break;
 			case PADDOCK:
 				generateSurface(generator, chunk, false);
-				generator.spawnProvider.spawnAnimals(generator, chunk, chunkOdds, 7, croplevel, 7);
+				generator.spawnProvider.spawnAnimals(generator, chunk, chunkOdds, 7, cropY, 7);
 				break;
 			case VINES:
-				plantVineyard(chunk, croplevel, Material.VINE);
+				plantVineyard(chunk, cropY, Material.VINE);
 				break;
 			case GRASS:
-				plantField(generator, chunk, croplevel, CoverageType.GRASS, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.GRASS, 1, 2);
 				break;
 			case FERN:
-				plantField(generator, chunk, croplevel, CoverageType.FERN, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.FERN, 1, 2);
 				break;
 //			case DEAD_GRASS:
 //				plantField(generator, chunk, croplevel, CoverageType.DEAD_GRASS, 1, 2);
 //				break;
 			case CACTUS:
-				plantField(generator, chunk, croplevel, CoverageType.CACTUS, 2, 2);
+				plantField(generator, chunk, cropY, CoverageType.CACTUS, 2, 2);
 				break;
 			case REED:
-				plantField(generator, chunk, croplevel, CoverageType.REED, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.REED, 1, 2);
 				break;
 			case DANDELION:
-				plantField(generator, chunk, croplevel, CoverageType.DANDELION, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.DANDELION, 1, 2);
 				break;
 			case DEAD_BUSH:
-				plantField(generator, chunk, croplevel, CoverageType.DEAD_BUSH, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.DEAD_BUSH, 1, 2);
 				break;
 			case POPPY:
-				plantField(generator, chunk, croplevel, CoverageType.POPPY, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.POPPY, 1, 2);
 				break;
 			case BLUE_ORCHID:
-				plantField(generator, chunk, croplevel, CoverageType.BLUE_ORCHID, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.BLUE_ORCHID, 1, 2);
 				break;
 			case ALLIUM:
-				plantField(generator, chunk, croplevel, CoverageType.ALLIUM, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.ALLIUM, 1, 2);
 				break;
 			case AZURE_BLUET:
-				plantField(generator, chunk, croplevel, CoverageType.AZURE_BLUET, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.AZURE_BLUET, 1, 2);
 				break;
 			case OXEYE_DAISY:
-				plantField(generator, chunk, croplevel, CoverageType.OXEYE_DAISY, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.OXEYE_DAISY, 1, 2);
 				break;
 			case RED_TULIP:
-				plantField(generator, chunk, croplevel, CoverageType.RED_TULIP, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.RED_TULIP, 1, 2);
 				break;
 			case ORANGE_TULIP:
-				plantField(generator, chunk, croplevel, CoverageType.ORANGE_TULIP, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.ORANGE_TULIP, 1, 2);
 				break;
 			case WHITE_TULIP:
-				plantField(generator, chunk, croplevel, CoverageType.WHITE_TULIP, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.WHITE_TULIP, 1, 2);
 				break;
 			case PINK_TULIP:
-				plantField(generator, chunk, croplevel, CoverageType.PINK_TULIP, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.PINK_TULIP, 1, 2);
 				break;
 			case SUNFLOWER:
-				plantField(generator, chunk, croplevel, CoverageType.SUNFLOWER, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.SUNFLOWER, 1, 2);
 				break;
 			case LILAC:
-				plantField(generator, chunk, croplevel, CoverageType.LILAC, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.LILAC, 1, 2);
 				break;
 			case TALL_GRASS:
-				plantField(generator, chunk, croplevel, CoverageType.TALL_FERN, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.TALL_FERN, 1, 2);
 				break;
 			case TALL_FERN:
-				plantField(generator, chunk, croplevel, CoverageType.TALL_FERN, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.TALL_FERN, 1, 2);
 				break;
 			case ROSE_BUSH:
-				plantField(generator, chunk, croplevel, CoverageType.ROSE_BUSH, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.ROSE_BUSH, 1, 2);
 				break;
 			case PEONY:
-				plantField(generator, chunk, croplevel, CoverageType.PEONY, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.PEONY, 1, 2);
 				break;
 			case EMERALD_GREEN:
-				plantField(generator, chunk, croplevel, CoverageType.EMERALD_GREEN, 2, 2);
+				plantField(generator, chunk, cropY, CoverageType.EMERALD_GREEN, 2, 2);
 				break;
 			case OAK_SAPLING:
-				plantSaplings(generator, chunk, croplevel, CoverageType.OAK_SAPLING);
+				plantSaplings(generator, chunk, cropY, CoverageType.OAK_SAPLING);
 				generateSurface(generator, chunk, false);
 				break;
 			case BIRCH_SAPLING:
-				plantSaplings(generator, chunk, croplevel, CoverageType.BIRCH_SAPLING);
+				plantSaplings(generator, chunk, cropY, CoverageType.BIRCH_SAPLING);
 				generateSurface(generator, chunk, false);
 				break;
 			case JUNGLE_SAPLING:
-				plantSaplings(generator, chunk, croplevel, CoverageType.JUNGLE_SAPLING);
+				plantSaplings(generator, chunk, cropY, CoverageType.JUNGLE_SAPLING);
 				break;
 			case ACACIA_SAPLING:
-				plantSaplings(generator, chunk, croplevel, CoverageType.ACACIA_SAPLING);
+				plantSaplings(generator, chunk, cropY, CoverageType.ACACIA_SAPLING);
 				break;
 			case DARK_OAK_SAPLING:
-				plantSaplings(generator, chunk, croplevel, CoverageType.DARK_OAK_SAPLING);
+				plantSaplings(generator, chunk, cropY, CoverageType.DARK_OAK_SAPLING);
 				break;
 			case OAK_TREE:
-				plantTrees(generator, chunk, croplevel, CoverageSets.OAK_TREES);
+				plantTrees(generator, chunk, cropY, CoverageSets.OAK_TREES);
 				generateSurface(generator, chunk, false);
 				break;
 			case PINE_TREE:
-				plantTrees(generator, chunk, croplevel, CoverageSets.PINE_TREES);
+				plantTrees(generator, chunk, cropY, CoverageSets.PINE_TREES);
 				break;
 			case BIRCH_TREE:
-				plantTrees(generator, chunk, croplevel, CoverageSets.BIRCH_TREES);
+				plantTrees(generator, chunk, cropY, CoverageSets.BIRCH_TREES);
 				generateSurface(generator, chunk, false);
 				break;
 			case JUNGLE_TREE:
-				plantTrees(generator, chunk, croplevel, CoverageSets.JUNGLE_TREES);
+				plantTrees(generator, chunk, cropY, CoverageSets.JUNGLE_TREES);
 				break;
 			case ACACIA_TREE:
-				plantTrees(generator, chunk, croplevel, CoverageSets.ACACIA_TREES);
+				plantTrees(generator, chunk, cropY, CoverageSets.ACACIA_TREES);
 				break;
 			case SWAMP_TREE:
-				plantTrees(generator, chunk, croplevel, CoverageSets.SWAMP_TREES);
+				plantTrees(generator, chunk, cropY, CoverageSets.SWAMP_TREES);
 				break;
 			case WHEAT:
-				plantField(generator, chunk, croplevel, CoverageType.WHEAT, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.WHEAT, 1, 2);
 				break;
 			case CARROT:
-				plantField(generator, chunk, croplevel, CoverageType.CARROTS, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.CARROTS, 1, 2);
 				break;
 			case POTATO:
-				plantField(generator, chunk, croplevel, CoverageType.POTATO, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.POTATO, 1, 2);
 				break;
 			case BEETROOT:
-				plantField(generator, chunk, croplevel, CoverageType.BEETROOT, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.BEETROOT, 1, 2);
 				break;
 			case MELON:
-				plantField(generator, chunk, croplevel, CoverageType.MELON, 1, 3);
+				plantField(generator, chunk, cropY, CoverageType.MELON, 1, 3);
 				break;
 			case PUMPKIN:
-				plantField(generator, chunk, croplevel, CoverageType.PUMPKIN, 1, 3);
+				plantField(generator, chunk, cropY, CoverageType.PUMPKIN, 1, 3);
 				break;
 			case BROWN_MUSHROOM:
-				plantField(generator, chunk, croplevel, CoverageType.BROWN_MUSHROOM, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.BROWN_MUSHROOM, 1, 2);
 				break;
 			case RED_MUSHROOM:
-				plantField(generator, chunk, croplevel, CoverageType.RED_MUSHROOM, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.RED_MUSHROOM, 1, 2);
 				break;
 			case NETHERWART:
-				plantField(generator, chunk, croplevel, CoverageType.NETHERWART, 1, 2);
+				plantField(generator, chunk, cropY, CoverageType.NETHERWART, 1, 2);
 				break;
 			case SHORT_FLOWERS:
-				plantField(generator, chunk, croplevel, CoverageSets.SHORT_FLOWERS, 1, 2);
+				plantField(generator, chunk, cropY, CoverageSets.SHORT_FLOWERS, 1, 2);
 				break;
 			case TALL_FLOWERS:
-				plantField(generator, chunk, croplevel, CoverageSets.TALL_FLOWERS, 1, 2);
+				plantField(generator, chunk, cropY, CoverageSets.TALL_FLOWERS, 1, 2);
 				break;
 			case ALL_FLOWERS:
-				plantField(generator, chunk, croplevel, CoverageSets.ALL_FLOWERS, 1, 2);
+				plantField(generator, chunk, cropY, CoverageSets.ALL_FLOWERS, 1, 2);
 				break;
 			case SHORT_PLANTS:
-				plantField(generator, chunk, croplevel, CoverageSets.SHORT_PLANTS, 1, 2);
+				plantField(generator, chunk, cropY, CoverageSets.SHORT_PLANTS, 1, 2);
 				break;
 			case TALL_PLANTS:
-				plantField(generator, chunk, croplevel, CoverageSets.TALL_PLANTS, 2, 2);
+				plantField(generator, chunk, cropY, CoverageSets.TALL_PLANTS, 2, 2);
 				break;
 			case ALL_PLANTS:
-				plantField(generator, chunk, croplevel, CoverageSets.ALL_PLANTS, 2, 2);
+				plantField(generator, chunk, cropY, CoverageSets.ALL_PLANTS, 2, 2);
 				break;
 			case PRARIE_PLANTS:
-				plantField(generator, chunk, croplevel, CoverageSets.PRARIE_PLANTS, 1, 3);
+				plantField(generator, chunk, cropY, CoverageSets.PRARIE_PLANTS, 1, 3);
 				break;
 			case EDIBLE_PLANTS:
-				plantField(generator, chunk, croplevel, CoverageSets.EDIBLE_PLANTS, 1, 3);
+				plantField(generator, chunk, cropY, CoverageSets.EDIBLE_PLANTS, 1, 3);
 				break;
 			case NETHER_PLANTS:
-				plantField(generator, chunk, croplevel, CoverageSets.NETHER_PLANTS, 1, 2);
+				plantField(generator, chunk, cropY, CoverageSets.NETHER_PLANTS, 1, 2);
 				break;
 			case DECAY_PLANTS:
-				plantField(generator, chunk, croplevel, CoverageSets.DECAY_PLANTS, 1, 2);
+				plantField(generator, chunk, cropY, CoverageSets.DECAY_PLANTS, 1, 2);
 				break;
 			case HOTAIR_BALLOON:
 				if (!generator.settings.includeDecayedNature) {
@@ -474,19 +473,19 @@ public class FarmLot extends ConnectedLot {
 
 					// hot air balloon
 					reportLocation(generator, "Hot Air Balloon, Landed", chunk);
-					generator.structureInAirProvider.generateHotairBalloon(generator, chunk, context, croplevel + 1,
+					generator.structureInAirProvider.generateHotairBalloon(generator, chunk, context, cropY + 1,
 							chunkOdds);
 
 					// tie a string on it
-					chunk.setBlocks(5, croplevel, croplevel + 2, 5, Material.IRON_BARS);
-					chunk.setBlocks(10, croplevel, croplevel + 2, 10, Material.IRON_BARS);
+					chunk.setBlocks(5, cropY, cropY + 2, 5, Material.IRON_BARS);
+					chunk.setBlocks(10, cropY, cropY + 2, 10, Material.IRON_BARS);
 				}
 				break;
 			}
 		}
 
 		if (generator.settings.includeDecayedNature)
-			destroyLot(generator, croplevel - 3, croplevel + 3);
+			destroyLot(generator, cropY - 3, cropY + 3);
 	}
 
 	private void plowField(SupportBlocks chunk, int croplevel, Material matRidge, Material matFurrow, int stepCol) {
