@@ -819,30 +819,30 @@ public final class CornerBlocks {
 	private BlockFace getDoorDirection(byte[][] source, int x, int z, BlockFace connectedTo) {
 		if (connectedTo == BlockFace.SOUTH_WEST) {
 			if (x + z + 1 < CornerBlocks.CornerWidth) {
-				return BlockFace.NORTH;
-			} else if (x + z + 1 > CornerBlocks.CornerWidth) {
 				return BlockFace.EAST;
+			} else if (x + z + 1 > CornerBlocks.CornerWidth) {
+				return BlockFace.NORTH;
 			}
 		}
 		if (connectedTo == BlockFace.NORTH_EAST) {
 			if (x + z + 1 < CornerBlocks.CornerWidth) {
-				return BlockFace.WEST;
-			} else if (x + z + 1 > CornerBlocks.CornerWidth) {
 				return BlockFace.SOUTH;
+			} else if (x + z + 1 > CornerBlocks.CornerWidth) {
+				return BlockFace.WEST;
 			}
 		}
 		if (connectedTo == BlockFace.SOUTH_EAST) {
 			if (x < z) {
-				return BlockFace.WEST;
-			} else if (x > z) {
 				return BlockFace.NORTH;
+			} else if (x > z) {
+				return BlockFace.WEST;
 			}
 		}
 		if (connectedTo == BlockFace.NORTH_WEST) {
 			if (x < z) {
-				return BlockFace.SOUTH;
-			} else if (x > z) {
 				return BlockFace.EAST;
+			} else if (x > z) {
+				return BlockFace.SOUTH;
 			}
 		}
 

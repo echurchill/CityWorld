@@ -4,6 +4,7 @@ import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Bisected.Half;
+import org.bukkit.block.data.type.Stairs;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
@@ -214,14 +215,15 @@ public class StructureOnGroundProvider extends Provider {
 
 		// now the fire pit
 		if (odds.playOdds(Odds.oddsPrettyLikely)) {
-			chunk.setBlock(11, baseY - 1, 10, matFireRing, BlockFace.SOUTH);
-			chunk.setBlock(12, baseY - 1, 11, matFireRing, BlockFace.WEST);
-			chunk.setBlock(11, baseY - 1, 12, matFireRing, BlockFace.NORTH);
-			chunk.setBlock(10, baseY - 1, 11, matFireRing, BlockFace.EAST);
-			chunk.setBlock(10, baseY - 1, 10, matFireRing, BlockFace.SOUTH);
-			chunk.setBlock(12, baseY - 1, 10, matFireRing, BlockFace.WEST);
-			chunk.setBlock(12, baseY - 1, 12, matFireRing, BlockFace.NORTH);
-			chunk.setBlock(10, baseY - 1, 12, matFireRing, BlockFace.EAST);
+			// stairs around the fire
+			chunk.setStair(11, baseY - 1, 10, matFireRing, BlockFace.SOUTH);
+			chunk.setStair(12, baseY - 1, 11, matFireRing, BlockFace.WEST);
+			chunk.setStair(11, baseY - 1, 12, matFireRing, BlockFace.NORTH);
+			chunk.setStair(10, baseY - 1, 11, matFireRing, BlockFace.EAST);
+			chunk.setStair(10, baseY - 1, 10, matFireRing, BlockFace.SOUTH, Stairs.Shape.OUTER_LEFT);
+			chunk.setStair(12, baseY - 1, 10, matFireRing, BlockFace.WEST, Stairs.Shape.OUTER_LEFT);
+			chunk.setStair(12, baseY - 1, 12, matFireRing, BlockFace.NORTH, Stairs.Shape.OUTER_LEFT);
+			chunk.setStair(10, baseY - 1, 12, matFireRing, BlockFace.EAST, Stairs.Shape.OUTER_LEFT);
 
 			// and the fire itself
 			chunk.setBlock(11, baseY - 1, 11, matFireBase);
