@@ -614,14 +614,14 @@ public class RoadLot extends ConnectedLot {
 						// short span
 					} else {
 						placeEWBridgeCap(chunk, 0, base1Y, pavementLevel + 1);
-						placeEWBridgePartA(chunk, 0, pavementLevel + 1);
+						placeEWBridgePartAW(chunk, 0, pavementLevel + 1);
 						placeEWBridgePartBW(chunk, 2, pavementLevel + 1);
 						placeEWBridgePartA(chunk, 4, pavementLevel + 2);
 						placeEWBridgePartA(chunk, 6, pavementLevel + 2);
 						placeEWBridgePartA(chunk, 8, pavementLevel + 2);
 						placeEWBridgePartA(chunk, 10, pavementLevel + 2);
-						placeEWBridgePartBW(chunk, 12, pavementLevel + 1);
-						placeEWBridgePartA(chunk, 14, pavementLevel + 1);
+						placeEWBridgePartBE(chunk, 12, pavementLevel + 1);
+						placeEWBridgePartAE(chunk, 14, pavementLevel + 1);
 						placeEWBridgeCap(chunk, 14, base1Y, pavementLevel + 1);
 					}
 				}
@@ -679,14 +679,14 @@ public class RoadLot extends ConnectedLot {
 						// short span
 					} else {
 						placeNSBridgeCap(chunk, 0, base1Y, pavementLevel + 1);
-						placeNSBridgePartA(chunk, 0, pavementLevel + 1);
+						placeNSBridgePartAN(chunk, 0, pavementLevel + 1);
 						placeNSBridgePartBN(chunk, 2, pavementLevel + 1);
 						placeNSBridgePartA(chunk, 4, pavementLevel + 2);
 						placeNSBridgePartA(chunk, 6, pavementLevel + 2);
 						placeNSBridgePartA(chunk, 8, pavementLevel + 2);
 						placeNSBridgePartA(chunk, 10, pavementLevel + 2);
-						placeNSBridgePartBN(chunk, 12, pavementLevel + 1);
-						placeNSBridgePartA(chunk, 14, pavementLevel + 1);
+						placeNSBridgePartBS(chunk, 12, pavementLevel + 1);
+						placeNSBridgePartAS(chunk, 14, pavementLevel + 1);
 						placeNSBridgeCap(chunk, 14, base1Y, pavementLevel + 1);
 					}
 				}
