@@ -26,6 +26,14 @@ public abstract class AbstractBlocks {
 		this.height = generator.height;
 	}
 
+	public boolean insideXYZ(int x, int y, int z) {
+		return insideXZ(x) && insideY(y) && insideXZ(z);
+	}
+
+	public boolean insideXZ(int x, int z) {
+		return insideXZ(x) && insideXZ(z);
+	}
+
 	public boolean insideXZ(int value) {
 		return value >= 0 && value < width;
 	}

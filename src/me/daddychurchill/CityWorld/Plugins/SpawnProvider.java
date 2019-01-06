@@ -123,7 +123,7 @@ public class SpawnProvider extends Provider {
 
 	private final void spawnAnimal(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z,
 			EntityType entity) {
-		if (odds.playOdds(generator.settings.spawnAnimals))
+		if (odds.playOdds(generator.settings.spawnAnimals) && blocks.insideXYZ(x, y, z))
 			spawnEntity(generator, blocks, odds, x, y, z, entity, false, true);
 	}
 
@@ -153,11 +153,10 @@ public class SpawnProvider extends Provider {
 
 	private final void spawnSeaAnimal(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y,
 			int z, EntityType entity) {
-		if (odds.playOdds(generator.settings.spawnAnimals) && blocks.isWater(x, y - 1, z) && blocks.isWater(x, y, z)) {
-			// @@
-//			blocks.setBlock(x, y + 10, z, Material.GLOWSTONE);
-//			blocks.setSignPost(x, y + 11, z, BlockFace.EAST, "Spawn", entity.name());
-			spawnEntity(generator, blocks, odds, x, y, z, entity, true, false);
+		if (odds.playOdds(generator.settings.spawnAnimals) && blocks.insideXYZ(x, y, z)) {
+			if (blocks.isWater(x, y - 1, z) && blocks.isWater(x, y, z)) {
+				spawnEntity(generator, blocks, odds, x, y, z, entity, true, false);
+			}
 		}
 	}
 
@@ -206,7 +205,7 @@ public class SpawnProvider extends Provider {
 
 	private final void spawnEntity(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z,
 			EntityType entity, boolean ignoreFlood, boolean ensureSpace) {
-		if (entity != null && entity.isAlive()) {
+		if (blocks.insideXYZ(x, y, z) && entity != null && entity.isAlive()) {
 
 			// make sure we have room
 			if (ensureSpace) {
