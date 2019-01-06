@@ -1,6 +1,6 @@
 name: CityWorld
 main: me.daddychurchill.CityWorld.CityWorld
-version: 4.02
+version: 4.03
 api-version: 1.13
 load: startup
 author: DaddyChurchill
