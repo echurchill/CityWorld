@@ -145,7 +145,7 @@ public abstract class UrbanContext extends CivilizedContext {
 	}
 
 	protected PlatLot getBuilding(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
-		switch (odds.getRandomInt(8)) {
+		switch (odds.getRandomInt(6)) {
 		case 1:
 			return new EmptyBuildingLot(platmap, chunkX, chunkZ);
 		case 2:

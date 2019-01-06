@@ -118,7 +118,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 
 	public String minecraftVersionRaw;
 	public double minecraftVersion;
-	private final static double minVersion = 1.12; // 1.12.0 Minecraft or better
+	private final static double minVersion = 1.13; // 1.13.0 Minecraft or better
 
 	private double parseVersionPart(int index, String[] parts, boolean normalize) {
 		double result = 0.0;
