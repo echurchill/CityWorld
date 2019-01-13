@@ -20,6 +20,7 @@ import org.bukkit.block.data.Powerable;
 import org.bukkit.block.data.Rail;
 import org.bukkit.block.data.Rail.Shape;
 import org.bukkit.block.data.Rotatable;
+import org.bukkit.block.data.Waterlogged;
 import org.bukkit.block.data.type.Bed;
 import org.bukkit.block.data.type.Bed.Part;
 import org.bukkit.block.data.type.Chest;
@@ -766,7 +767,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			block.setBlockData(data, getDoPhysics(x, z));
 		}
 	}
-	
+
 //	private int lastDistance = -1;
 
 	public final Block setLeaf(int x, int y, int z, Material material, boolean isPersistent) {
@@ -934,6 +935,25 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			}
 			if (data instanceof Openable) {
 				((Openable) data).setOpen(isOpen);
+			}
+		} finally {
+			block.setBlockData(data, getDoPhysics(x, z));
+		}
+		return block;
+	}
+
+	public final void setWaterLoggedBlocks(int x, int y1, int y2, int z, Material material) {
+		for (int y = y1; y < y2; y++)
+			setWaterLoggedBlock(x, y, z, material);
+	}
+
+	public final Block setWaterLoggedBlock(int x, int y, int z, Material material) {
+		Block block = getActualBlock(x, y, z);
+		block.setType(material, false);
+		BlockData data = block.getBlockData();
+		try {
+			if (data instanceof Waterlogged) {
+				((Waterlogged) data).setWaterlogged(true);
 			}
 		} finally {
 			block.setBlockData(data, getDoPhysics(x, z));

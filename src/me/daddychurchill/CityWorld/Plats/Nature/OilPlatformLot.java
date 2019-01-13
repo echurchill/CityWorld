@@ -120,7 +120,8 @@ public class OilPlatformLot extends ConstructLot {
 		chunk.setBlocks(2, y3, y3 + 2, 13, supportMaterial);
 
 		// drill down
-		chunk.setBlocks(8, generator.deepseaLevel, y4 + 3, 8, drillMaterial);
+		chunk.setWaterLoggedBlocks(8, generator.deepseaLevel, generator.seaLevel + 1, 8, drillMaterial);
+		chunk.setBlocks(8, generator.seaLevel + 1, y4 + 3, 8, drillMaterial);
 
 		// extra drill bits
 		chunk.setBlocks(5, y2 + 2, y3 + 2, 1, drillMaterial);
