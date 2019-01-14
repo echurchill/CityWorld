@@ -346,7 +346,7 @@ public abstract class PlatLot {
 			chunk.setBlocks(x, y + 1, aboveSupport + 1, z, shaftSupport);
 	}
 
-	public void generateMines(CityWorldGenerator generator, RealBlocks chunk) {
+	public void generateMines(CityWorldGenerator generator, SupportBlocks chunk) {
 
 		// get shafted!
 		if (generator.settings.includeMines)
@@ -356,7 +356,7 @@ public abstract class PlatLot {
 			}
 	}
 
-	private void generateVerticalMineLevel(CityWorldGenerator generator, RealBlocks chunk, int y) {
+	private void generateVerticalMineLevel(CityWorldGenerator generator, SupportBlocks chunk, int y) {
 		int y1 = y + 6;
 		boolean stairsFound = false;
 
@@ -476,7 +476,7 @@ public abstract class PlatLot {
 			generateMineCeiling(chunk, 6, 10, y1 + 3, 6, 10);
 	}
 
-	private void generateMineAlcove(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z, int prizeX,
+	private void generateMineAlcove(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, int prizeX,
 			int prizeZ) {
 		if (chunkOdds.playOdds(generator.settings.oddsOfAlcoveInMines)) {
 			if (!chunk.isEmpty(x, y, z) && !chunk.isEmpty(x + 1, y, z) && !chunk.isEmpty(x, y, z + 1)
@@ -491,31 +491,42 @@ public abstract class PlatLot {
 		}
 	}
 
-	private void generateMineCeiling(RealBlocks chunk, int x1, int x2, int y, int z1, int z2) {
+	protected void generateMineCeiling(SupportBlocks chunk, int x1, int x2, int y, int z1, int z2) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
-				if (chunkOdds.flipCoin())
-					if (!chunk.isEmpty(x, y + 1, z) && chunk.isEmpty(x, y, z))
-						if (chunkOdds.flipCoin())
-							chunk.setBlock(x, y, z, Material.COBBLESTONE_SLAB, Type.TOP);
-						else
-							chunk.setBlock(x, y, z, Material.COBBLESTONE);
+				if (!chunk.isEmpty(x, y + 1, z) && chunk.isEmpty(x, y, z))
+					if (chunkOdds.flipCoin())
+						chunk.setBlock(x, y, z, Material.COBBLESTONE_SLAB, Type.TOP);
+					else
+						chunk.setBlock(x, y, z, Material.COBBLESTONE);
 			}
 		}
 	}
 
-	private void generateMineSupport(RealBlocks chunk, int x, int y, int z) {
+	protected void generateMineFloor(SupportBlocks chunk, int x1, int x2, int y, int z1, int z2) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				if (!chunk.isEmpty(x, y, z))
+					if (chunkOdds.flipCoin())
+						chunk.setBlock(x, y, z, Material.COBBLESTONE_SLAB, Type.BOTTOM);
+					else
+						chunk.setBlock(x, y, z, Material.COBBLESTONE);
+			}
+		}
+	}
+
+	private void generateMineSupport(SupportBlocks chunk, int x, int y, int z) {
 		int aboveSupport = chunk.findLastEmptyAbove(x, y, z, blockYs.getMaxHeight());
 		if (aboveSupport < blockYs.getMaxHeight())
 			chunk.setBlocks(x, y + 1, aboveSupport + 1, z, Material.OAK_FENCE);
 	}
 
-	private void placeMineStairBase(RealBlocks chunk, int x, int y, int z) {
+	private void placeMineStairBase(SupportBlocks chunk, int x, int y, int z) {
 		chunk.setBlocks(x, y + 1, y + 4, z, Material.AIR);
 		chunk.setEmptyBlock(x, y, z, Material.OAK_PLANKS);
 	}
 
-	private void placeMineStairStep(RealBlocks chunk, int x, int y, int z, BlockFace direction,
+	private void placeMineStairStep(SupportBlocks chunk, int x, int y, int z, BlockFace direction,
 			BlockFace flipDirection) {
 		chunk.setBlocks(x, y + 1, y + 4, z, Material.AIR);
 		chunk.setBlock(x, y, z, Material.OAK_STAIRS, direction);
@@ -523,7 +534,7 @@ public abstract class PlatLot {
 			chunk.setBlock(x, y - 1, z, Material.OAK_STAIRS, flipDirection, Half.TOP);
 	}
 
-	private void generateMineTreat(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z) {
+	private void generateMineTreat(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
 
 		// cool stuff?
 		if (generator.settings.treasuresInMines && chunkOdds.playOdds(generator.settings.oddsOfTreasureInMines)) {
@@ -531,7 +542,7 @@ public abstract class PlatLot {
 		}
 	}
 
-	private void generateMineTrick(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z) {
+	private void generateMineTrick(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
 		// not so cool stuff?
 		generator.spawnProvider.setSpawnOrSpawner(generator, chunk, chunkOdds, x, y, z,
 				generator.settings.spawnersInMines, generator.spawnProvider.itemsEntities_Mine);
@@ -541,14 +552,14 @@ public abstract class PlatLot {
 		return true;
 	}
 
-	public void generateBones(CityWorldGenerator generator, RealBlocks chunk) {
+	public void generateBones(CityWorldGenerator generator, SupportBlocks chunk) {
 
 		// fossils?
 		if (generator.settings.includeBones && chunkOdds.playOdds(Odds.oddsExceedinglyUnlikely))
 			generator.thingProvider.generateBones(generator, this, chunk, blockYs, chunkOdds);
 	}
 
-	public void generateOres(CityWorldGenerator generator, RealBlocks chunk) {
+	public void generateOres(CityWorldGenerator generator, SupportBlocks chunk) {
 
 		// shape the world
 		if (generator.settings.includeOres || generator.settings.includeUndergroundFluids)

@@ -76,7 +76,8 @@ public class FarmContext extends RuralContext {
 		}
 
 		// let the user add their stuff first
-		getSchematics(generator).populate(generator, platmap);
+		populateSchematics(generator, platmap);
+//		getSchematics(generator).populate(generator, platmap);
 
 		// backfill with farms and a single house
 		for (int x = 0; x < PlatMap.Width; x++) {

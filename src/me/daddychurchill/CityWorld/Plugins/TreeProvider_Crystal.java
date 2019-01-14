@@ -2,6 +2,7 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import org.bukkit.Material;
 
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Colors;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
@@ -10,8 +11,8 @@ public class TreeProvider_Crystal extends TreeProvider {
 
 	private Odds odds;
 
-	public TreeProvider_Crystal() {
-
+	public TreeProvider_Crystal(CityWorldGenerator generator) {
+		super(generator);
 		odds = new Odds();
 	}
 
@@ -24,7 +25,7 @@ public class TreeProvider_Crystal extends TreeProvider {
 	}
 
 	@Override
-	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, Colors colors) {
+	protected void generateLeafBlock(SupportBlocks chunk, int x, int y, int z, Material material, Colors colors) {
 		if (material == Material.ACACIA_LEAVES) {
 			if (chunk.isEmpty(x, y, z))
 				if (odds.playOdds(Odds.oddsExtremelyLikely))

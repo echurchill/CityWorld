@@ -15,7 +15,7 @@ public class LootProvider_Normal extends LootProvider {
 			Block block) {
 		Chest chest = (Chest) block.getState();
 		Inventory inv = chest.getInventory();
-		inv.clear();
+//		inv.clear();
 		ItemStack[] items = getLoot(generator, odds, lootLocation, block);
 		if (items != null)
 			inv.addItem(items);

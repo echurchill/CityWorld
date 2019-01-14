@@ -2,18 +2,19 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import org.bukkit.Material;
 
+import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Support.Colors;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class TreeProvider_Spooky extends TreeProvider {
 
-	public TreeProvider_Spooky() {
-		// TODO Auto-generated constructor stub
+	public TreeProvider_Spooky(CityWorldGenerator generator) {
+		super(generator);
 	}
 
 	@Override
-	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, Colors colors) {
+	protected void generateLeafBlock(SupportBlocks chunk, int x, int y, int z, Material material, Colors colors) {
 		if (material == Material.ACACIA_LEAVES) {
 			if (chunk.isEmpty(x, y, z))
 				chunk.setBlock(x, y, z, Material.COBWEB);

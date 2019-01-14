@@ -28,10 +28,11 @@ public abstract class TreeProvider {
 		}
 	}
 
-	public TreeProvider() {
-		// TODO Auto-generated constructor stub
+	public TreeProvider(CityWorldGenerator generator) {
+		this.generator = generator;
 	}
 
+	protected CityWorldGenerator generator;
 	protected Odds odds;
 
 	public static TreeProvider loadProvider(CityWorldGenerator generator, Odds odds) {
@@ -41,14 +42,14 @@ public abstract class TreeProvider {
 		// get the right defaults
 		switch (generator.settings.treeStyle) {
 		case SPOOKY:
-			provider = new TreeProvider_Spooky();
+			provider = new TreeProvider_Spooky(generator);
 			break;
 		case CRYSTAL:
-			provider = new TreeProvider_Crystal();
+			provider = new TreeProvider_Crystal(generator);
 			break;
 		case NORMAL:
 		default:
-			provider = new TreeProvider_Normal();
+			provider = new TreeProvider_Normal(generator);
 			break;
 		}
 
@@ -103,10 +104,18 @@ public abstract class TreeProvider {
 		}
 	}
 
-	protected void generateLeavesBlock(SupportBlocks chunk, int x, int y, int z, Material material, Colors colors) {
+	//NOTE when used as the default world generator (via bukkit.yml), placing leafs beyond the current chunk causes exceptions
+	protected void generateLeafBlock(SupportBlocks chunk, int x, int y, int z, Material material, Colors colors) {
 		// this variant does nothing with the special color
-		if (chunk.isEmpty(x, y, z))
-			chunk.setLeaf(x, y, z, material, false);
+		if (chunk.insideXYZ(x, y, z))
+//			try {
+				if (chunk.isEmpty(x, y, z))
+					chunk.setLeaf(x, y, z, material, false);
+//			} catch (Exception e) {
+//				generator.reportFormatted("LEAF EXCEPTION at %d, %d, %d", x, y, z);
+//				generator.reportException("EXCEPTION", e);
+//				// TODO: handle exception
+//			}
 	}
 
 	protected void generateTrunkBlock(SupportBlocks chunk, int x, int y, int z, int w, int h, Material material) {
@@ -222,11 +231,11 @@ public abstract class TreeProvider {
 			// and then do the leaves... maybe
 			if (includeLeaves) {
 				int leavesHeight = trunkHeight - 1;
-				generateLeavesBlock(blocks, x - 1, y + leavesHeight, z, leavesMaterial, leafColor);
-				generateLeavesBlock(blocks, x + 1, y + leavesHeight, z, leavesMaterial, leafColor);
-				generateLeavesBlock(blocks, x, y + leavesHeight, z - 1, leavesMaterial, leafColor);
-				generateLeavesBlock(blocks, x, y + leavesHeight, z + 1, leavesMaterial, leafColor);
-				generateLeavesBlock(blocks, x, y + trunkHeight, z, leavesMaterial, leafColor);
+				generateLeafBlock(blocks, x - 1, y + leavesHeight, z, leavesMaterial, leafColor);
+				generateLeafBlock(blocks, x + 1, y + leavesHeight, z, leavesMaterial, leafColor);
+				generateLeafBlock(blocks, x, y + leavesHeight, z - 1, leavesMaterial, leafColor);
+				generateLeafBlock(blocks, x, y + leavesHeight, z + 1, leavesMaterial, leafColor);
+				generateLeafBlock(blocks, x, y + trunkHeight, z, leavesMaterial, leafColor);
 			}
 
 			return true;
@@ -616,7 +625,7 @@ public abstract class TreeProvider {
 
 					// worth doing?
 					if (leavesOdds > 0.00 && odds.playOdds(leavesOdds))
-						generateLeavesBlock(chunk, x, y, z, leavesMaterial, leafColor);
+						generateLeafBlock(chunk, x, y, z, leavesMaterial, leafColor);
 				}
 			}
 

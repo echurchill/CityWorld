@@ -72,8 +72,9 @@ public class OutlandContext extends RuralContext {
 			}
 		}
 
-		// let the user add their stuff first
-		getSchematics(generator).populate(generator, platmap);
+		// let the user add their stuff first, then plug any remaining holes with our
+		// stuff
+		populateSchematics(generator, platmap);
 
 		// fill with more stuff
 		if (!generator.settings.includeDecayedBuildings) {

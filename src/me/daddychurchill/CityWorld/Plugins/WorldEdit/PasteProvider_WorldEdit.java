@@ -19,7 +19,7 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 public class PasteProvider_WorldEdit extends PasteProvider {
 
 	private static String pluginName = "WorldEdit";
-	private static String pluginMinVersion = "5.6";
+	private static String pluginMinVersion = "7.0";
 	private File schematicsFolder;
 
 	@Override
@@ -128,7 +128,6 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 				generator.reportMessage("[PasteProvider] Problem loading WorldEdit, could not find it");
 				return null;
 			}
-
 			// got the right version?
 			if (!isPlugInVersionOrBetter(generator, worldEditPlugin, pluginMinVersion))
 

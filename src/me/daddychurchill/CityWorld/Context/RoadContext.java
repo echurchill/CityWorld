@@ -57,7 +57,7 @@ public class RoadContext extends UrbanContext {
 		BlockFace facing = odds.getRandomFacing();
 
 		// see if there is a schematic out there that fits
-		Clipboard clip = getSchematics(generator).getSingleLot(generator, platmap, odds, x, z);
+		Clipboard clip = getSingleSchematic(generator, platmap, odds, x, z);
 		if (clip != null) {
 
 			// create it then

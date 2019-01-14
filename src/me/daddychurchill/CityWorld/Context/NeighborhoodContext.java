@@ -21,7 +21,7 @@ public class NeighborhoodContext extends RuralContext {
 
 		// let the user add their stuff first, then plug any remaining holes with our
 		// stuff
-		getSchematics(generator).populate(generator, platmap);
+		populateSchematics(generator, platmap);
 
 		/// do we check for roads?
 		boolean checkForRoads = platmap.getNumberOfRoads() > 0;

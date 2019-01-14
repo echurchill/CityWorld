@@ -75,14 +75,14 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	@Override
 	public final void setBlockIfEmpty(int x, int y, int z, Material material) {
 		Block block = getActualBlock(x, y, z);
-		if (block.isEmpty() && !getActualBlock(x, y - 1, z).isEmpty())
+		if (isEmpty(block) && !isEmpty(x, y - 1, z))
 			setActualBlock(block, material, getDoPhysics(x, z));
 	}
 
 	private final boolean getDoPhysics(int x, int z) {
 		boolean thisDoPhysics = doPhysics;
 		if (thisDoPhysics)
-			thisDoPhysics = (x > 0 && x < 15) && (z > 0 && z < 15);
+			thisDoPhysics = !onEdgeXZ(x, z);
 		return thisDoPhysics;
 	}
 
@@ -115,10 +115,21 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		if (!isOfTypes(x, y, z, types))
 			setBlock(x, y, z, types[0]);
 	}
+	
+	protected boolean isEmpty(Block block) {
+		if (onEdgeXZ(block.getX(), block.getZ()))
+			return block.getType() == Material.AIR;
+		else
+			return block.isEmpty();
+	}
 
+	//NOTE when used as the default world generator (via bukkit.yml), testing via .isEmpty() on or near the edge (0, 1, 14, 15) causes exceptions
 	@Override
 	public final boolean isEmpty(int x, int y, int z) {
-		return getActualBlock(x, y, z).isEmpty();
+		if (onEdgeXZ(x, z))
+			return isType(x, y, z, Material.AIR);
+		else 
+			return getActualBlock(x, y, z).isEmpty();
 	}
 
 	public final boolean isPartiallyEmpty(int x, int y1, int y2, int z) {
@@ -210,7 +221,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 
 	@Override
 	public final void clearBlock(int x, int y, int z) {
-		getActualBlock(x, y, z).setType(Material.AIR);
+		getActualBlock(x, y, z).setType(Material.AIR, getDoPhysics(x, z));
 	}
 
 	@Override
@@ -272,8 +283,8 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	@Override
 	public final boolean setEmptyBlock(int x, int y, int z, Material material) {
 		Block block = getActualBlock(x, y, z);
-		if (block.isEmpty()) {
-			block.setType(material);
+		if (isEmpty(block)) {
+			block.setType(material, getDoPhysics(x, z));
 			return true;
 		} else
 			return false;
@@ -284,8 +295,8 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				Block block = getActualBlock(x, y, z);
-				if (block.isEmpty())
-					block.setType(material);
+				if (isEmpty(block))
+					block.setType(material, getDoPhysics(x, z));
 			}
 		}
 	}
@@ -698,13 +709,19 @@ public abstract class SupportBlocks extends AbstractBlocks {
 				setBlock(x, y, z, material, half);
 	}
 
+	//NOTE when used as the default world generator (aka bukkit.yml), putting a chest down on or near the edge (0, 1, 14, 15) causes exceptions
 	public final void setChest(CityWorldGenerator generator, int x, int y, int z, BlockFace facing, Odds odds,
 			LootProvider lootProvider, LootLocation lootLocation) {
-		setBlock(x, y, z, Material.CHEST, facing);
-		Block block = getActualBlock(x, y, z);
-		connectDoubleChest(x, y, z, facing);
-		if (isType(block, Material.CHEST))
-			lootProvider.setLoot(generator, odds, world.getName(), lootLocation, block);
+		if (!onNearEdgeXZ(x, z)) {
+//			generator.reportFormatted("CHEST AT %d, %d, %d", x, y, z);
+			setBlock(x, y, z, Material.CHEST, facing);
+			Block block = getActualBlock(x, y, z);
+			connectDoubleChest(x, y, z, facing);
+			if (isType(block, Material.CHEST))
+				lootProvider.setLoot(generator, odds, world.getName(), lootLocation, block);
+		}
+//		else
+//			generator.reportFormatted("SKIPPED CHEST AT %d, %d, %d", x, y, z);
 	}
 
 	public final void setDoubleChest(CityWorldGenerator generator, int x, int y, int z, BlockFace facing, Odds odds,

@@ -14,6 +14,7 @@ import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
 import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
 import me.daddychurchill.CityWorld.Support.Colors;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
+import me.daddychurchill.CityWorld.Support.Mapper;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
@@ -340,9 +341,8 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setBlocks(5, 11, y1, topY, 5, 11, Material.TERRACOTTA);
 
 		// do it!
-		MineEntranceLot.generateStairWell(generator, chunk, odds, 6, 6, y1, surfaceY, surfaceY, topY,
-				Material.QUARTZ_STAIRS, Material.QUARTZ_BLOCK, Material.QUARTZ_PILLAR); // Make the last one air if you
-																						// want an easy way down
+		generateStairWell(generator, chunk, odds, 6, 6, y1, surfaceY, surfaceY, topY,
+				Mapper.getStairsFor(materials.platform), materials.platform, materials.pillar);
 
 		// mock up the top bit
 		chunk.setBlocks(5, 11, surfaceY, topY, 5, 11, Material.TERRACOTTA);
@@ -934,4 +934,99 @@ public class BunkerLot extends ConnectedLot {
 			}
 	}
 
+	private final static double oddsOfStairs = Odds.oddsVeryLikely;
+	private final static double oddsOfLanding = Odds.oddsVeryLikely;
+
+	public static void generateStairWell(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int offX,
+			int offZ, int shaftY, int minHeight, int surfaceY, int clearToY, Material stairs, Material landing,
+			Material center) {
+
+		// drill down
+		chunk.setBlocks(offX + 0, offX + 4, shaftY, clearToY, offZ + 0, offZ + 4, Material.AIR);
+		chunk.setBlocks(offX + 1, offX + 3, shaftY, surfaceY, offZ + 1, offZ + 3, center);
+
+		// make the surface bits
+		chunk.setBlocks(offX + 0, offX + 4, minHeight, surfaceY + 1, offZ + 0, offZ + 4, landing);
+
+		// now do the stair
+		do {
+			shaftY = generateStairs(generator, chunk, odds, offX + 3, shaftY, offZ + 2, BlockFace.NORTH,
+					BlockFace.SOUTH, stairs);
+			if (shaftY > surfaceY)
+				break;
+			
+			shaftY = generateStairs(generator, chunk, odds, offX + 3, shaftY, offZ + 1, BlockFace.NORTH, BlockFace.EAST,
+					stairs);
+			if (shaftY > surfaceY)
+				break;
+			
+			generateLanding(generator, chunk, odds, offX + 3, shaftY, offZ + 0, BlockFace.EAST, stairs, landing);
+
+			shaftY = generateStairs(generator, chunk, odds, offX + 2, shaftY, offZ + 0, BlockFace.WEST, BlockFace.EAST,
+					stairs);
+			if (shaftY > surfaceY)
+				break;
+			
+			shaftY = generateStairs(generator, chunk, odds, offX + 1, shaftY, offZ + 0, BlockFace.WEST, BlockFace.NORTH,
+					stairs);
+			if (shaftY > surfaceY)
+				break;
+			
+			generateLanding(generator, chunk, odds, offX + 0, shaftY, offZ + 0, BlockFace.NORTH, stairs, landing);
+
+			shaftY = generateStairs(generator, chunk, odds, offX + 0, shaftY, offZ + 1, BlockFace.SOUTH,
+					BlockFace.NORTH, stairs);
+			if (shaftY > surfaceY)
+				break;
+			
+			shaftY = generateStairs(generator, chunk, odds, offX + 0, shaftY, offZ + 2, BlockFace.SOUTH, BlockFace.WEST,
+					stairs);
+			if (shaftY > surfaceY)
+				break;
+			
+			generateLanding(generator, chunk, odds, offX + 0, shaftY, offZ + 3, BlockFace.WEST, stairs, landing);
+
+			shaftY = generateStairs(generator, chunk, odds, offX + 1, shaftY, offZ + 3, BlockFace.EAST, BlockFace.WEST,
+					stairs);
+			if (shaftY > surfaceY)
+				break;
+			
+			shaftY = generateStairs(generator, chunk, odds, offX + 2, shaftY, offZ + 3, BlockFace.EAST, BlockFace.SOUTH,
+					stairs);
+			if (shaftY > surfaceY)
+				break;
+			
+			generateLanding(generator, chunk, odds, offX + 3, shaftY, offZ + 3, BlockFace.SOUTH, stairs, landing);
+		} while (shaftY <= surfaceY);
+	}
+
+	public static int generateStairs(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y, int z,
+			BlockFace direction, BlockFace underdirection, Material stairs) {
+		chunk.setBlocks(x, y + 1, y + 4, z, Material.AIR);
+
+		// make a step... or not...
+		if (!generator.settings.includeDecayedBuildings || odds.playOdds(oddsOfStairs)) {
+			chunk.setBlock(x, y, z, stairs, direction);
+			if (chunk.isEmpty(x, y - 1, z))
+				chunk.setBlock(x, y - 1, z, stairs, underdirection, Half.TOP);
+		}
+
+		// moving on up
+		y++;
+
+		// far enough?
+		return y;
+	}
+
+	public static void generateLanding(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y,
+			int z, BlockFace underdirection, Material stairs, Material landing) {
+		chunk.setBlocks(x, y, y + 3, z, Material.AIR);
+
+		// make a landing... or not...
+		if (!generator.settings.includeDecayedBuildings || odds.playOdds(oddsOfLanding)) {
+			chunk.setBlock(x, y - 1, z, landing);
+			if (chunk.isEmpty(x, y - 2, z))
+				chunk.setBlock(x, y - 2, z, stairs, underdirection, Half.TOP);
+		}
+	}
 }

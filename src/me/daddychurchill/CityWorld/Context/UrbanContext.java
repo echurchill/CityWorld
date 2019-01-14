@@ -30,7 +30,7 @@ public abstract class UrbanContext extends CivilizedContext {
 
 		// let the user add their stuff first, then plug any remaining holes with our
 		// stuff
-		getSchematics(generator).populate(generator, platmap);
+		populateSchematics(generator, platmap);
 
 		// random fluff!
 		Odds platmapOdds = platmap.getOddsGenerator();

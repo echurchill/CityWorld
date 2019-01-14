@@ -5,7 +5,7 @@ import org.bukkit.block.BlockFace;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Plats.Nature.MineEntranceLot;
+import me.daddychurchill.CityWorld.Plats.Nature.BunkerLot;
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
 import me.daddychurchill.CityWorld.Rooms.Populators.BuriedWithRandom;
 import me.daddychurchill.CityWorld.Support.Odds;
@@ -90,7 +90,7 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 				// add stairs?
 				chunk.setDoClearData(true);
 				int topY = lastY - 1;
-				MineEntranceLot.generateStairWell(generator, chunk, chunkOdds, 6, 6, StreetLevel + 1, topY, topY, topY,
+				BunkerLot.generateStairWell(generator, chunk, chunkOdds, 6, 6, StreetLevel + 1, topY, topY, topY,
 						stepMaterial, wallMaterial, wallMaterial);
 				chunk.setDoClearData(false);
 			}

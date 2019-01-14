@@ -25,6 +25,14 @@ public abstract class AbstractBlocks {
 		this.width = sectionBlockWidth;
 		this.height = generator.height;
 	}
+	
+	public boolean onEdgeXZ(int x, int z) {
+		return x == 0 || x == width - 1 || z == 0 || z == width - 1;
+	}
+
+	public boolean onNearEdgeXZ(int x, int z) {
+		return x <= 1 || x >= width - 2 || z <= 1 || z >= width - 2;
+	}
 
 	public boolean insideXYZ(int x, int y, int z) {
 		return insideXZ(x) && insideY(y) && insideXZ(z);
@@ -43,7 +51,7 @@ public abstract class AbstractBlocks {
 	}
 
 	public int clampXZ(int value) {
-		return Math.max(Math.min(value, sectionBlockWidth - 1), 0);
+		return Math.max(Math.min(value, width - 1), 0);
 	}
 
 	public int clampY(int value) {

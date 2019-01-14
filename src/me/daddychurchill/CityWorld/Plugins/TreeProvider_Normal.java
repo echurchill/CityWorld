@@ -1,9 +1,11 @@
 package me.daddychurchill.CityWorld.Plugins;
 
+import me.daddychurchill.CityWorld.CityWorldGenerator;
+
 public class TreeProvider_Normal extends TreeProvider {
 
-	public TreeProvider_Normal() {
-		// TODO Auto-generated constructor stub
+	public TreeProvider_Normal(CityWorldGenerator generator) {
+		super(generator);
 	}
 
 //	@Override

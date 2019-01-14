@@ -3,6 +3,7 @@ package me.daddychurchill.CityWorld.Context;
 import org.bukkit.Material;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
+import me.daddychurchill.CityWorld.Clipboard.Clipboard;
 import me.daddychurchill.CityWorld.Clipboard.ClipboardList;
 import me.daddychurchill.CityWorld.Clipboard.PasteProvider.SchematicFamily;
 import me.daddychurchill.CityWorld.Plats.NatureLot;
@@ -111,12 +112,29 @@ public abstract class DataContext {
 
 	private ClipboardList mapsSchematics;
 	public double oddsOfUnfinishedBuildings = Odds.oddsNeverGoingToHappen;
+	
+	protected Clipboard getSingleSchematic(CityWorldGenerator generator, PlatMap platmap, Odds odds, int x, int z) {
+		ClipboardList clips = getSchematics(generator);
+		if (clips != null)
+			return clips.getSingleLot(generator, platmap, odds, x, z);
+		else
+			return null;
+	}
 
-	protected ClipboardList getSchematics(CityWorldGenerator generator) {
+	protected void populateSchematics(CityWorldGenerator generator, PlatMap platmap) {
+		ClipboardList clips = getSchematics(generator);
+		if (clips != null)
+			clips.populate(generator, platmap);
+	}
+
+	private ClipboardList getSchematics(CityWorldGenerator generator) {
 		if (mapsSchematics == null) {
 //			CityWorld.log.info("LOADING SCHEMATIC FAMILY = " + schematicFamily.toString());
-			mapsSchematics = generator.pasteProvider.getFamilyClips(generator, schematicFamily, schematicMaxX,
-					schematicMaxZ);
+			if (generator.pasteProvider == null)
+				generator.reportMessage("ERROR - pasteProvider = NULL");
+			else
+				mapsSchematics = generator.pasteProvider.getFamilyClips(generator, schematicFamily, schematicMaxX,
+						schematicMaxZ);
 		}
 		return mapsSchematics;
 	}

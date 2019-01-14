@@ -11,7 +11,7 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealBlocks;
+import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public abstract class AstralLot extends IsolatedLot {
 
@@ -54,7 +54,7 @@ public abstract class AstralLot extends IsolatedLot {
 	private static int specialOffset = 7;
 
 	@Override
-	public void generateMines(CityWorldGenerator generator, RealBlocks chunk) {
+	public void generateMines(CityWorldGenerator generator, SupportBlocks chunk) {
 		int y = generator.seaLevel + AstralTownEmptyLot.aboveSeaLevel - 1;
 		Shape shape = Shape.NORTH_SOUTH;
 
@@ -108,7 +108,7 @@ public abstract class AstralLot extends IsolatedLot {
 		}
 	}
 
-	private void generateOtherbits(RealBlocks chunk, int x, int y, int z, boolean specialPoint) {
+	private void generateOtherbits(SupportBlocks chunk, int x, int y, int z, boolean specialPoint) {
 
 		// underlayment
 		chunk.setBlock(x, y, z, AstralTownEmptyLot.materialBase);
