@@ -131,7 +131,7 @@ public abstract class DataContext {
 		if (mapsSchematics == null) {
 //			CityWorld.log.info("LOADING SCHEMATIC FAMILY = " + schematicFamily.toString());
 			if (generator.pasteProvider == null)
-				generator.reportMessage("ERROR - pasteProvider = NULL");
+				generator.reportMessage("ERROR - PasteProvider is NULL");
 			else
 				mapsSchematics = generator.pasteProvider.getFamilyClips(generator, schematicFamily, schematicMaxX,
 						schematicMaxZ);

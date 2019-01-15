@@ -555,7 +555,7 @@ public abstract class CoverProvider extends Provider {
 			break;
 
 		default:
-			if (odds.playOdds(generator.settings.spawnTrees))
+			if (odds.playOdds(generator.settings.spawnTrees) && !chunk.onEdgeXZ(x, z)) {
 				switch (coverageType) {
 				case MINI_OAK_TRUNK:
 					generator.treeProvider.generateMiniTrunk(generator, chunk, x, y, z, TreeType.TREE);
@@ -671,6 +671,7 @@ public abstract class CoverProvider extends Provider {
 				default:
 					break;
 				}
+			}
 		}
 	}
 
