@@ -1142,6 +1142,8 @@ public final class CornerBlocks {
 	// Detect door direction (Maybe we need some better ways?)
 	// Maybe hardcode in/with corners list?
 	private BlockFace getDoorDirection(byte[][] source, int x, int z, BlockFace connectedTo) {
+		// TODO: Split door direction of door in convex angle and concave angle
+		//   The following is for door in convex angle
 		if (connectedTo == BlockFace.SOUTH_WEST) {
 			if (x + z + 1 < CornerBlocks.CornerWidth) {
 				return BlockFace.NORTH;
