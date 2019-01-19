@@ -4,7 +4,6 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
-import me.daddychurchill.CityWorld.Plugins.PhatLoot.LootProvider_Phat;
 import me.daddychurchill.CityWorld.Support.MaterialList;
 import me.daddychurchill.CityWorld.Support.Odds;
 
@@ -26,8 +25,9 @@ public abstract class LootProvider extends Provider {
 
 		LootProvider provider = null;
 
+		// REMOVED PHATLOOTS, the plugin is currently either forking or being retired, hard to tell
 		// try PhatLoots...
-		provider = LootProvider_Phat.loadPhatLoots(generator);
+		//provider = LootProvider_Phat.loadPhatLoots(generator);
 
 		// default to stock LootProvider
 		if (provider == null) {
