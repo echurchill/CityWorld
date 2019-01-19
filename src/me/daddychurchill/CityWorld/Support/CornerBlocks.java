@@ -35,7 +35,7 @@ public final class CornerBlocks {
 	private final static byte BrN = 21; // balcony floor block, single wood fence, and nothing above it
 	private final static byte BgN = 22; // balcony floor block, single thin glass pane, and nothing above it
 	private final static byte BDD = 23; // balcony floor block, door (these are just an empty hole right now), and wall
-										// blocks above it
+	// blocks above it
 	private final static byte BNN = 24; // balcony floor block, and nothing but air above it
 	private final static byte BWW = 25; // balcony floor block, and wall blocks above it (WWW)
 	private final static byte BGG = 26; // balcony floor block, and glass above it (WGG)
@@ -65,330 +65,655 @@ public final class CornerBlocks {
 //		corners.add(new CustomCorner(new byte[][] {
 //		}));
 
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, WGG, opt }, { FLR, FLR, FLR, FLR, WGG, opt, non },
-				{ FLR, FLR, FLR, WWW, opt, non, non }, { FLR, FLR, WGG, opt, non, non, non },
-				{ FLR, WGG, opt, non, non, non, non }, { WWW, opt, non, non, non, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WGG },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG }, { FLR, FLR, FLR, FLR, FLR, FLR, WGG },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, FLR, FLR, FLR, WGG, opt },
-				{ FLR, FLR, FLR, FLR, WGG, opt, non }, { WGG, WGG, WGG, WWW, opt, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG }, { FLR, FLR, FLR, FLR, FLR, FLR, WGG },
-				{ FLR, FLR, FLR, WWW, WGG, WGG, WWW }, { FLR, FLR, FLR, WGG, non, non, non },
-				{ FLR, FLR, FLR, WGG, non, non, non }, { WWW, WGG, WGG, WWW, non, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg }, { FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
-				{ FLR, FLR, FLR, WWW, Wgg, Wgg, WWW }, { FLR, FLR, FLR, Wgg, non, non, non },
-				{ FLR, FLR, FLR, Wgg, non, non, non }, { WWW, Wgg, Wgg, WWW, non, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, WGG, opt }, { FLR, FLR, FLR, FLR, WWW, opt, non },
-				{ FLR, FLR, FLR, FLR, FLR, WGW, non }, { FLR, FLR, WWW, FLR, FLR, FLR, WGW },
-				{ FLR, WGG, opt, WGW, FLR, WGW, opt }, { WWW, opt, non, non, WGW, opt, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, GGG }, { FLR, FLR, FLR, FLR, WWW, GGG, GGG },
-				{ FLR, FLR, FLR, FLR, GGG, non, non }, { FLR, FLR, WWW, GGG, GGG, non, non },
-				{ FLR, FLR, GGG, non, non, non, non }, { WWW, GGG, GGG, non, non, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, ggg }, { FLR, FLR, FLR, FLR, WWW, ggg, ggg },
-				{ FLR, FLR, FLR, FLR, ggg, non, non }, { FLR, FLR, WWW, ggg, ggg, non, non },
-				{ FLR, FLR, ggg, non, non, non, non }, { WWW, ggg, ggg, non, non, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, WGG, opt },
-				{ FLR, FLR, FLR, FLR, FLR, WGG, non }, { FLR, FLR, FLR, FLR, FLR, WWW, non },
-				{ FLR, FLR, FLR, FLR, WGG, opt, non }, { FLR, FLR, FLR, WGG, opt, non, non },
-				{ WGG, WGG, WWW, opt, non, non, non }, { opt, non, non, non, non, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, FLR, FLR, WGG, WGG, WGW },
-				{ FLR, FLR, FLR, WGG, opt, non, non }, { FLR, FLR, WGG, opt, non, non, non },
-				{ FLR, FLR, WGG, non, non, non, non }, { WWW, WWW, WGW, non, non, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, WGG, WGG, WGG, WGG, WGG },
-				{ FLR, FLR, WGG, non, non, non, non }, { FLR, FLR, WGG, non, WWW, WWW, WWW },
-				{ FLR, FLR, WGG, non, WWW, WWW, WWW }, { WWW, WWW, WGG, non, WWW, WWW, WWW }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, WGG, WGG, WGG, WGG, WGG },
-				{ FLR, FLR, WGG, non, non, non, non }, { FLR, FLR, WGG, non, WWW, nWn, WWW },
-				{ FLR, FLR, WGG, non, nWn, WWW, nWn }, { WWW, WWW, WGG, non, WWW, nWn, WWW }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
-				{ FLR, FLR, Wgg, non, non, non, non }, { FLR, FLR, Wgg, non, WWW, WWW, WWW },
-				{ FLR, FLR, Wgg, non, WWW, WWW, WWW }, { WWW, WWW, Wgg, non, WWW, WWW, WWW }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
-				{ FLR, FLR, Wgg, non, non, non, non }, { FLR, FLR, Wgg, non, WWW, nWn, WWW },
-				{ FLR, FLR, Wgg, non, nWn, WWW, nWn }, { WWW, WWW, Wgg, non, WWW, nWn, WWW }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, GWG, GWG, GWG, GWG, GWG },
-				{ FLR, FLR, GWG, nWn, nWn, nWn, nWn }, { FLR, FLR, GWG, nWn, non, non, non },
-				{ FLR, FLR, GWG, nWn, non, non, non }, { WWW, WWW, GWG, nWn, non, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, GWG, GWG, GWG, GWG, GWG },
-				{ FLR, FLR, GWG, nWn, nWn, nWn, WWW }, { FLR, FLR, GWG, nWn, non, non, non },
-				{ FLR, FLR, GWG, nWn, non, non, non }, { WWW, WWW, GWG, WWW, non, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, GGW }, { FLR, FLR, GGW, GGW, GGW, GGW, GGW },
-				{ FLR, FLR, GGW, non, non, non, non }, { FLR, FLR, GGW, non, non, non, non },
-				{ FLR, FLR, GGW, non, non, non, non }, { WWW, GGW, GGW, non, non, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, GGW, GGW, GGW, GGW, nnW },
-				{ FLR, FLR, GGW, nnW, nnW, nnW, nnW }, { FLR, FLR, GGW, nnW, non, non, non },
-				{ FLR, FLR, GGW, nnW, non, non, non }, { WWW, WWW, nnW, nnW, non, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, ggW }, { FLR, FLR, ggW, ggW, ggW, ggW, ggW },
-				{ FLR, FLR, ggW, non, non, non, non }, { FLR, FLR, ggW, non, non, non, non },
-				{ FLR, FLR, ggW, non, non, non, non }, { WWW, ggW, ggW, non, non, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, ggW, WWW }, { FLR, FLR, ggW, ggW, ggW, ggW, nnW },
-				{ FLR, FLR, ggW, nnW, nnW, nnW, nnW }, { FLR, FLR, ggW, nnW, non, non, non },
-				{ FLR, ggW, ggW, nnW, non, non, non }, { WWW, WWW, nnW, nnW, non, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, WGG, Wnn },
-				{ FLR, FLR, FLR, FLR, FLR, WGG, Wnn }, { FLR, FLR, FLR, FLR, WGG, Wnn, non },
-				{ FLR, FLR, FLR, WGG, Wnn, non, non }, { FLR, FLR, WGG, Wnn, non, non, non },
-				{ WGG, WGG, Wnn, non, non, non, non }, { Wnn, Wnn, non, non, non, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, GGG, GGG, GGG, GGG, WGW },
-				{ FLR, FLR, GGG, non, non, non, WWW }, { FLR, FLR, GGG, non, non, non, non },
-				{ FLR, FLR, GGG, non, non, non, non }, { WWW, WWW, WGW, WWW, non, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, ggg, ggg, ggg, ggg, WGW },
-				{ FLR, FLR, ggg, non, non, non, WWW }, { FLR, FLR, ggg, non, non, non, non },
-				{ FLR, FLR, ggg, non, non, non, non }, { WWW, WWW, WGW, WWW, non, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWG }, { FLR, FLR, FLR, FLR, FLR, WGW, non },
-				{ FLR, FLR, FLR, FLR, GWW, non, non }, { FLR, FLR, FLR, GWW, non, non, non },
-				{ FLR, FLR, WGW, non, non, non, non }, { WWW, WWG, non, non, non, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, WGG, WGG, WGG, WGG, WGG },
-				{ FLR, FLR, WGG, non, non, non, non }, { FLR, FLR, WGG, non, nWn, nWn, nWn },
-				{ FLR, FLR, WGG, non, nWn, WWW, nWn }, { WWW, WWW, WGG, non, nWn, nWn, nWn }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, WGG, WGG, WGG, WGG, WGG },
-				{ FLR, FLR, WGG, non, non, non, non }, { FLR, FLR, WGG, non, WWW, non, WWW },
-				{ FLR, FLR, WGG, non, non, non, WWW }, { WWW, WWW, WGG, non, WWW, WWW, WWW }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, WGG, WGG, WGG, WGG, WGG },
-				{ FLR, FLR, WGG, non, non, non, non }, { FLR, FLR, WGG, non, WWW, WWW, WWW },
-				{ FLR, FLR, WGG, non, WWW, non, non }, { WWW, WWW, WGG, non, WWW, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, WGG, WGG, WGG, WGG, WGG },
-				{ FLR, FLR, WGG, opt, opt, non, non }, { FLR, FLR, WGG, opt, opt, opt, WWW },
-				{ FLR, FLR, WGG, non, opt, WWW, non }, { WWW, WWW, WGG, non, WWW, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, WGG, WGG, WGG, WGG, WGG },
-				{ FLR, FLR, WGG, non, non, non, opt }, { FLR, FLR, WGG, non, non, non, WWW },
-				{ FLR, FLR, WGG, non, non, non, opt }, { WWW, WWW, WGG, opt, WWW, opt, WWW }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
-				{ FLR, FLR, Wgg, non, non, non, non }, { FLR, FLR, Wgg, non, nWn, nWn, nWn },
-				{ FLR, FLR, Wgg, non, nWn, WWW, nWn }, { WWW, WWW, Wgg, non, nWn, nWn, nWn }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
-				{ FLR, FLR, Wgg, non, non, non, non }, { FLR, FLR, Wgg, non, WWW, non, WWW },
-				{ FLR, FLR, Wgg, non, non, non, WWW }, { WWW, WWW, Wgg, non, WWW, WWW, WWW }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
-				{ FLR, FLR, Wgg, non, non, non, non }, { FLR, FLR, Wgg, non, WWW, WWW, WWW },
-				{ FLR, FLR, Wgg, non, WWW, non, non }, { WWW, WWW, Wgg, non, WWW, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
-				{ FLR, FLR, Wgg, opt, opt, non, non }, { FLR, FLR, Wgg, opt, opt, opt, WWW },
-				{ FLR, FLR, Wgg, non, opt, WWW, non }, { WWW, WWW, Wgg, non, WWW, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW }, { FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
-				{ FLR, FLR, Wgg, non, non, non, opt }, { FLR, FLR, Wgg, non, non, non, WWW },
-				{ FLR, FLR, Wgg, non, non, non, opt }, { WWW, WWW, Wgg, opt, WWW, opt, WWW }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, GGG, WWW }, { FLR, FLR, FLR, FLR, GGG, opt, non },
-				{ FLR, FLR, FLR, WWW, WWW, non, non }, { FLR, FLR, GGG, WWW, WWW, WWW, non },
-				{ FLR, GGG, opt, non, WWW, WWW, WWW }, { WWW, WWW, non, non, non, WWW, WWW }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, GGG }, { FLR, FLR, FLR, FLR, WWW, GGG, GGG },
-				{ FLR, FLR, FLR, FLR, GGG, non, non }, { FLR, FLR, WWW, GGG, GGG, non, non },
-				{ FLR, FLR, GGG, non, non, GGG, non }, { WWW, GGG, GGG, non, non, non, GGG }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, WGW, non }, { FLR, FLR, FLR, FLR, FLR, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WGW }, { FLR, FLR, FLR, FLR, WWW, WWW, WWW },
-				{ WWW, WGW, WWW, FLR, WWW, non, non }, { WWW, non, WWW, WGW, WWW, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, WGG, non }, { FLR, FLR, FLR, FLR, FLR, WGG, non },
-				{ FLR, FLR, FLR, FLR, FLR, WGG, non }, { FLR, FLR, FLR, FLR, FLR, WGG, non },
-				{ WWW, WGG, WGG, WGG, WGG, WGG, non }, { WWW, non, non, non, non, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, WGG, non }, { FLR, FLR, FLR, FLR, FLR, WGG, non },
-				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW }, { FLR, FLR, FLR, FLR, FLR, FLR, WGG },
-				{ WWW, WGG, WGG, WWW, FLR, FLR, WGG }, { WWW, non, non, WWW, WGG, WGG, WGG }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, Wgg, non }, { FLR, FLR, FLR, FLR, FLR, Wgg, non },
-				{ FLR, FLR, FLR, FLR, FLR, Wgg, non }, { FLR, FLR, FLR, FLR, FLR, Wgg, non },
-				{ WWW, Wgg, Wgg, Wgg, Wgg, Wgg, non }, { WWW, non, non, non, non, non, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, Wgg, non }, { FLR, FLR, FLR, FLR, FLR, Wgg, non },
-				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW }, { FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
-				{ WWW, Wgg, Wgg, WWW, FLR, FLR, Wgg }, { WWW, non, non, WWW, Wgg, Wgg, Wgg }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, WWW, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, WGW, BNN, BRN }, { FLR, FLR, FLR, FLR, BDD, BNN, BRN },
-				{ FLR, FLR, FLR, FLR, WGG, BNN, BRN }, { WWW, WGW, BDD, WGG, WGG, BNN, BRN },
-				{ WWW, BNN, BNN, BNN, BNN, BNN, BRN }, { WWW, BRN, BRN, BRN, BRN, BRN, BWW }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, WWW, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, BGW, BNN, BRN }, { FLR, FLR, FLR, FLR, BDD, BNN, BRN },
-				{ FLR, FLR, FLR, FLR, BGW, BNN, BRN }, { WWW, BGW, BDD, BGW, BWW, BNN, BRN },
-				{ WWW, BNN, BNN, BNN, BNN, BWW, BWW }, { WWW, BRN, BRN, BRN, BRN, BWW, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, WWW, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, BGW, BNN, BRN }, { FLR, FLR, FLR, FLR, BDD, BNN, BRN },
-				{ FLR, FLR, FLR, FLR, BGG, BNN, BRN }, { WWW, BGW, BDD, BGG, BNN, BNN, WWW },
-				{ WWW, BNN, BNN, BNN, BNN, BWW, opt }, { WWW, BRN, BRN, BRN, WWW, opt, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG }, { FLR, FLR, FLR, BWW, BWW, BDD, WWW },
-				{ FLR, FLR, BWW, BNN, BNN, BNN, BRN }, { FLR, FLR, BWW, BNN, BNN, BNN, BRN },
-				{ FLR, FLR, BDD, BNN, BNN, BNN, BRN }, { WWW, WGG, WWW, BRN, BRN, BRN, BRN }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, WGG, non }, { FLR, FLR, FLR, FLR, WWW, WWW, WWW },
-				{ FLR, FLR, FLR, BDD, BNN, BNN, BRN }, { FLR, FLR, WWW, BNN, BNN, BNN, BRN },
-				{ WWW, WGG, WWW, BNN, BNN, BNN, BRN }, { WWW, non, WWW, BRN, BRN, BRN, BRN }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg }, { FLR, FLR, FLR, BWW, BWW, BDD, WWW },
-				{ FLR, FLR, BWW, BNN, BNN, BNN, BRN }, { FLR, FLR, BWW, BNN, BNN, BNN, BRN },
-				{ FLR, FLR, BDD, BNN, BNN, BNN, BRN }, { WWW, Wgg, WWW, BRN, BRN, BRN, BRN }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, Wgg, non }, { FLR, FLR, FLR, FLR, WWW, WWW, WWW },
-				{ FLR, FLR, FLR, BDD, BNN, BNN, BRN }, { FLR, FLR, WWW, BNN, BNN, BNN, BRN },
-				{ WWW, Wgg, WWW, BNN, BNN, BNN, BRN }, { WWW, non, WWW, BRN, BRN, BRN, BRN }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, WWW, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, WGW, BNN, BrN }, { FLR, FLR, FLR, FLR, BDD, BNN, BrN },
-				{ FLR, FLR, FLR, FLR, WGG, BNN, BrN }, { WWW, WGW, BDD, WGG, WGG, BNN, BrN },
-				{ WWW, BNN, BNN, BNN, BNN, BNN, BrN }, { WWW, BrN, BrN, BrN, BrN, BrN, BWW }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, WWW, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, BGW, BNN, BrN }, { FLR, FLR, FLR, FLR, BDD, BNN, BrN },
-				{ FLR, FLR, FLR, FLR, BGW, BNN, BrN }, { WWW, BGW, BDD, BGW, BWW, BNN, BrN },
-				{ WWW, BNN, BNN, BNN, BNN, BWW, BWW }, { WWW, BrN, BrN, BrN, BrN, BWW, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, WWW, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, BGW, BNN, BrN }, { FLR, FLR, FLR, FLR, BDD, BNN, BrN },
-				{ FLR, FLR, FLR, FLR, BGG, BNN, BrN }, { WWW, BGW, BDD, BGG, BNN, BNN, WWW },
-				{ WWW, BNN, BNN, BNN, BNN, BWW, opt }, { WWW, BrN, BrN, BrN, WWW, opt, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG }, { FLR, FLR, FLR, BWW, BWW, BDD, WWW },
-				{ FLR, FLR, BWW, BNN, BNN, BNN, BrN }, { FLR, FLR, BWW, BNN, BNN, BNN, BrN },
-				{ FLR, FLR, BDD, BNN, BNN, BNN, BrN }, { WWW, WGG, WWW, BrN, BrN, BrN, BrN }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, WGG, non }, { FLR, FLR, FLR, FLR, WWW, WWW, WWW },
-				{ FLR, FLR, FLR, BDD, BNN, BNN, BrN }, { FLR, FLR, WWW, BNN, BNN, BNN, BrN },
-				{ WWW, WGG, WWW, BNN, BNN, BNN, BrN }, { WWW, non, WWW, BrN, BrN, BrN, BrN }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG }, { FLR, FLR, FLR, BWW, BWW, BDD, WWW },
-				{ FLR, FLR, BWW, BNN, BNN, BNN, BrN }, { FLR, FLR, BWW, BNN, BNN, BNN, BrN },
-				{ FLR, FLR, BDD, BNN, BNN, BNN, BrN }, { WWW, WGG, WWW, BrN, BrN, BrN, WWW }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg }, { FLR, FLR, FLR, BWW, BWW, BDD, WWW },
-				{ FLR, FLR, BWW, BNN, BNN, BNN, BrN }, { FLR, FLR, BWW, BNN, BNN, BNN, BrN },
-				{ FLR, FLR, BDD, BNN, BNN, BNN, BrN }, { WWW, Wgg, WWW, BrN, BrN, BrN, BrN }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, Wgg, non }, { FLR, FLR, FLR, FLR, WWW, WWW, WWW },
-				{ FLR, FLR, FLR, BDD, BNN, BNN, BrN }, { FLR, FLR, WWW, BNN, BNN, BNN, BrN },
-				{ WWW, Wgg, WWW, BNN, BNN, BNN, BrN }, { WWW, non, WWW, BrN, BrN, BrN, BrN }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg }, { FLR, FLR, FLR, BWW, BWW, BDD, WWW },
-				{ FLR, FLR, BWW, BNN, BNN, BNN, BrN }, { FLR, FLR, BWW, BNN, BNN, BNN, BrN },
-				{ FLR, FLR, BDD, BNN, BNN, BNN, BrN }, { WWW, Wgg, WWW, BrN, BrN, BrN, WWW }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, WWW, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, WGW, BNN, BgN }, { FLR, FLR, FLR, FLR, BDD, BNN, BgN },
-				{ FLR, FLR, FLR, FLR, WGG, BNN, BgN }, { WWW, WGW, BDD, WGG, WGG, BNN, BgN },
-				{ WWW, BNN, BNN, BNN, BNN, BNN, BgN }, { WWW, BgN, BgN, BgN, BgN, BgN, BWW }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, WWW, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, BGW, BNN, BgN }, { FLR, FLR, FLR, FLR, BDD, BNN, BgN },
-				{ FLR, FLR, FLR, FLR, BGW, BNN, BgN }, { WWW, BGW, BDD, BGW, BWW, BNN, BgN },
-				{ WWW, BNN, BNN, BNN, BNN, BWW, BWW }, { WWW, BgN, BgN, BgN, BgN, BWW, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, WWW, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, BGW, BNN, BgN }, { FLR, FLR, FLR, FLR, BDD, BNN, BgN },
-				{ FLR, FLR, FLR, FLR, BGG, BNN, BgN }, { WWW, BGW, BDD, BGG, BNN, BNN, WWW },
-				{ WWW, BNN, BNN, BNN, BNN, BWW, opt }, { WWW, BgN, BgN, BgN, WWW, opt, non }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG }, { FLR, FLR, FLR, BWW, BWW, BDD, WWW },
-				{ FLR, FLR, BWW, BNN, BNN, BNN, BgN }, { FLR, FLR, BWW, BNN, BNN, BNN, BgN },
-				{ FLR, FLR, BDD, BNN, BNN, BNN, BgN }, { WWW, WGG, WWW, BgN, BgN, BgN, BgN }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, WGG, non }, { FLR, FLR, FLR, FLR, WWW, WWW, WWW },
-				{ FLR, FLR, FLR, BDD, BNN, BNN, BgN }, { FLR, FLR, WWW, BNN, BNN, BNN, BgN },
-				{ WWW, WGG, WWW, BNN, BNN, BNN, BgN }, { WWW, non, WWW, BgN, BgN, BgN, BgN }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG }, { FLR, FLR, FLR, BWW, BWW, BDD, WWW },
-				{ FLR, FLR, BWW, BNN, BNN, BNN, BgN }, { FLR, FLR, BWW, BNN, BNN, BNN, BgN },
-				{ FLR, FLR, BDD, BNN, BNN, BNN, BgN }, { WWW, WGG, WWW, BgN, BgN, BgN, WWW }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg }, { FLR, FLR, FLR, BWW, BWW, BDD, WWW },
-				{ FLR, FLR, BWW, BNN, BNN, BNN, BgN }, { FLR, FLR, BWW, BNN, BNN, BNN, BgN },
-				{ FLR, FLR, BDD, BNN, BNN, BNN, BgN }, { WWW, Wgg, WWW, BgN, BgN, BgN, BgN }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, WWW, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, Wgg, non }, { FLR, FLR, FLR, FLR, WWW, WWW, WWW },
-				{ FLR, FLR, FLR, BDD, BNN, BNN, BgN }, { FLR, FLR, WWW, BNN, BNN, BNN, BgN },
-				{ WWW, Wgg, WWW, BNN, BNN, BNN, BgN }, { WWW, non, WWW, BgN, BgN, BgN, BgN }, }));
-
-		corners.add(new CustomCorner(new byte[][] { { FLR, FLR, FLR, FLR, FLR, FLR, WWW },
-				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg }, { FLR, FLR, FLR, BWW, BWW, BDD, WWW },
-				{ FLR, FLR, BWW, BNN, BNN, BNN, BgN }, { FLR, FLR, BWW, BNN, BNN, BNN, BgN },
-				{ FLR, FLR, BDD, BNN, BNN, BNN, BgN }, { WWW, Wgg, WWW, BgN, BgN, BgN, WWW }, }));
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, WGG, opt },
+				{ FLR, FLR, FLR, FLR, WGG, opt, non },
+				{ FLR, FLR, FLR, WWW, opt, non, non },
+				{ FLR, FLR, WGG, opt, non, non, non },
+				{ FLR, WGG, opt, non, non, non, non },
+				{ WWW, opt, non, non, non, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, WGG, opt },
+				{ FLR, FLR, FLR, FLR, WGG, opt, non },
+				{ WGG, WGG, WGG, WWW, opt, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
+				{ FLR, FLR, FLR, WWW, WGG, WGG, WWW },
+				{ FLR, FLR, FLR, WGG, non, non, non },
+				{ FLR, FLR, FLR, WGG, non, non, non },
+				{ WWW, WGG, WGG, WWW, non, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
+				{ FLR, FLR, FLR, WWW, Wgg, Wgg, WWW },
+				{ FLR, FLR, FLR, Wgg, non, non, non },
+				{ FLR, FLR, FLR, Wgg, non, non, non },
+				{ WWW, Wgg, Wgg, WWW, non, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, WGG, opt },
+				{ FLR, FLR, FLR, FLR, WWW, opt, non },
+				{ FLR, FLR, FLR, FLR, FLR, WGW, non },
+				{ FLR, FLR, WWW, FLR, FLR, FLR, WGW },
+				{ FLR, WGG, opt, WGW, FLR, WGW, opt },
+				{ WWW, opt, non, non, WGW, opt, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, GGG },
+				{ FLR, FLR, FLR, FLR, WWW, GGG, GGG },
+				{ FLR, FLR, FLR, FLR, GGG, non, non },
+				{ FLR, FLR, WWW, GGG, GGG, non, non },
+				{ FLR, FLR, GGG, non, non, non, non },
+				{ WWW, GGG, GGG, non, non, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, ggg },
+				{ FLR, FLR, FLR, FLR, WWW, ggg, ggg },
+				{ FLR, FLR, FLR, FLR, ggg, non, non },
+				{ FLR, FLR, WWW, ggg, ggg, non, non },
+				{ FLR, FLR, ggg, non, non, non, non },
+				{ WWW, ggg, ggg, non, non, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, WGG, opt },
+				{ FLR, FLR, FLR, FLR, FLR, WGG, non },
+				{ FLR, FLR, FLR, FLR, FLR, WWW, non },
+				{ FLR, FLR, FLR, FLR, WGG, opt, non },
+				{ FLR, FLR, FLR, WGG, opt, non, non },
+				{ WGG, WGG, WWW, opt, non, non, non },
+				{ opt, non, non, non, non, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, WGG, WGG, WGW },
+				{ FLR, FLR, FLR, WGG, opt, non, non },
+				{ FLR, FLR, WGG, opt, non, non, non },
+				{ FLR, FLR, WGG, non, non, non, non },
+				{ WWW, WWW, WGW, non, non, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, WGG, WGG, WGG, WGG, WGG },
+				{ FLR, FLR, WGG, non, non, non, non },
+				{ FLR, FLR, WGG, non, WWW, WWW, WWW },
+				{ FLR, FLR, WGG, non, WWW, WWW, WWW },
+				{ WWW, WWW, WGG, non, WWW, WWW, WWW },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, WGG, WGG, WGG, WGG, WGG },
+				{ FLR, FLR, WGG, non, non, non, non },
+				{ FLR, FLR, WGG, non, WWW, nWn, WWW },
+				{ FLR, FLR, WGG, non, nWn, WWW, nWn },
+				{ WWW, WWW, WGG, non, WWW, nWn, WWW },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
+				{ FLR, FLR, Wgg, non, non, non, non },
+				{ FLR, FLR, Wgg, non, WWW, WWW, WWW },
+				{ FLR, FLR, Wgg, non, WWW, WWW, WWW },
+				{ WWW, WWW, Wgg, non, WWW, WWW, WWW },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
+				{ FLR, FLR, Wgg, non, non, non, non },
+				{ FLR, FLR, Wgg, non, WWW, nWn, WWW },
+				{ FLR, FLR, Wgg, non, nWn, WWW, nWn },
+				{ WWW, WWW, Wgg, non, WWW, nWn, WWW },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, GWG, GWG, GWG, GWG, GWG },
+				{ FLR, FLR, GWG, nWn, nWn, nWn, nWn },
+				{ FLR, FLR, GWG, nWn, non, non, non },
+				{ FLR, FLR, GWG, nWn, non, non, non },
+				{ WWW, WWW, GWG, nWn, non, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, GWG, GWG, GWG, GWG, GWG },
+				{ FLR, FLR, GWG, nWn, nWn, nWn, WWW },
+				{ FLR, FLR, GWG, nWn, non, non, non },
+				{ FLR, FLR, GWG, nWn, non, non, non },
+				{ WWW, WWW, GWG, WWW, non, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, GGW },
+				{ FLR, FLR, GGW, GGW, GGW, GGW, GGW },
+				{ FLR, FLR, GGW, non, non, non, non },
+				{ FLR, FLR, GGW, non, non, non, non },
+				{ FLR, FLR, GGW, non, non, non, non },
+				{ WWW, GGW, GGW, non, non, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, GGW, GGW, GGW, GGW, nnW },
+				{ FLR, FLR, GGW, nnW, nnW, nnW, nnW },
+				{ FLR, FLR, GGW, nnW, non, non, non },
+				{ FLR, FLR, GGW, nnW, non, non, non },
+				{ WWW, WWW, nnW, nnW, non, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, ggW },
+				{ FLR, FLR, ggW, ggW, ggW, ggW, ggW },
+				{ FLR, FLR, ggW, non, non, non, non },
+				{ FLR, FLR, ggW, non, non, non, non },
+				{ FLR, FLR, ggW, non, non, non, non },
+				{ WWW, ggW, ggW, non, non, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, ggW, WWW },
+				{ FLR, FLR, ggW, ggW, ggW, ggW, nnW },
+				{ FLR, FLR, ggW, nnW, nnW, nnW, nnW },
+				{ FLR, FLR, ggW, nnW, non, non, non },
+				{ FLR, ggW, ggW, nnW, non, non, non },
+				{ WWW, WWW, nnW, nnW, non, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, WGG, Wnn },
+				{ FLR, FLR, FLR, FLR, FLR, WGG, Wnn },
+				{ FLR, FLR, FLR, FLR, WGG, Wnn, non },
+				{ FLR, FLR, FLR, WGG, Wnn, non, non },
+				{ FLR, FLR, WGG, Wnn, non, non, non },
+				{ WGG, WGG, Wnn, non, non, non, non },
+				{ Wnn, Wnn, non, non, non, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, GGG, GGG, GGG, GGG, WGW },
+				{ FLR, FLR, GGG, non, non, non, WWW },
+				{ FLR, FLR, GGG, non, non, non, non },
+				{ FLR, FLR, GGG, non, non, non, non },
+				{ WWW, WWW, WGW, WWW, non, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, ggg, ggg, ggg, ggg, WGW },
+				{ FLR, FLR, ggg, non, non, non, WWW },
+				{ FLR, FLR, ggg, non, non, non, non },
+				{ FLR, FLR, ggg, non, non, non, non },
+				{ WWW, WWW, WGW, WWW, non, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWG },
+				{ FLR, FLR, FLR, FLR, FLR, WGW, non },
+				{ FLR, FLR, FLR, FLR, GWW, non, non },
+				{ FLR, FLR, FLR, GWW, non, non, non },
+				{ FLR, FLR, WGW, non, non, non, non },
+				{ WWW, WWG, non, non, non, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, WGG, WGG, WGG, WGG, WGG },
+				{ FLR, FLR, WGG, non, non, non, non },
+				{ FLR, FLR, WGG, non, nWn, nWn, nWn },
+				{ FLR, FLR, WGG, non, nWn, WWW, nWn },
+				{ WWW, WWW, WGG, non, nWn, nWn, nWn },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, WGG, WGG, WGG, WGG, WGG },
+				{ FLR, FLR, WGG, non, non, non, non },
+				{ FLR, FLR, WGG, non, WWW, non, WWW },
+				{ FLR, FLR, WGG, non, non, non, WWW },
+				{ WWW, WWW, WGG, non, WWW, WWW, WWW },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, WGG, WGG, WGG, WGG, WGG },
+				{ FLR, FLR, WGG, non, non, non, non },
+				{ FLR, FLR, WGG, non, WWW, WWW, WWW },
+				{ FLR, FLR, WGG, non, WWW, non, non },
+				{ WWW, WWW, WGG, non, WWW, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, WGG, WGG, WGG, WGG, WGG },
+				{ FLR, FLR, WGG, opt, opt, non, non },
+				{ FLR, FLR, WGG, opt, opt, opt, WWW },
+				{ FLR, FLR, WGG, non, opt, WWW, non },
+				{ WWW, WWW, WGG, non, WWW, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, WGG, WGG, WGG, WGG, WGG },
+				{ FLR, FLR, WGG, non, non, non, opt },
+				{ FLR, FLR, WGG, non, non, non, WWW },
+				{ FLR, FLR, WGG, non, non, non, opt },
+				{ WWW, WWW, WGG, opt, WWW, opt, WWW },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
+				{ FLR, FLR, Wgg, non, non, non, non },
+				{ FLR, FLR, Wgg, non, nWn, nWn, nWn },
+				{ FLR, FLR, Wgg, non, nWn, WWW, nWn },
+				{ WWW, WWW, Wgg, non, nWn, nWn, nWn },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
+				{ FLR, FLR, Wgg, non, non, non, non },
+				{ FLR, FLR, Wgg, non, WWW, non, WWW },
+				{ FLR, FLR, Wgg, non, non, non, WWW },
+				{ WWW, WWW, Wgg, non, WWW, WWW, WWW },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
+				{ FLR, FLR, Wgg, non, non, non, non },
+				{ FLR, FLR, Wgg, non, WWW, WWW, WWW },
+				{ FLR, FLR, Wgg, non, WWW, non, non },
+				{ WWW, WWW, Wgg, non, WWW, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
+				{ FLR, FLR, Wgg, opt, opt, non, non },
+				{ FLR, FLR, Wgg, opt, opt, opt, WWW },
+				{ FLR, FLR, Wgg, non, opt, WWW, non },
+				{ WWW, WWW, Wgg, non, WWW, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
+				{ FLR, FLR, Wgg, non, non, non, opt },
+				{ FLR, FLR, Wgg, non, non, non, WWW },
+				{ FLR, FLR, Wgg, non, non, non, opt },
+				{ WWW, WWW, Wgg, opt, WWW, opt, WWW },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, GGG, WWW },
+				{ FLR, FLR, FLR, FLR, GGG, opt, non },
+				{ FLR, FLR, FLR, WWW, WWW, non, non },
+				{ FLR, FLR, GGG, WWW, WWW, WWW, non },
+				{ FLR, GGG, opt, non, WWW, WWW, WWW },
+				{ WWW, WWW, non, non, non, WWW, WWW },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, GGG },
+				{ FLR, FLR, FLR, FLR, WWW, GGG, GGG },
+				{ FLR, FLR, FLR, FLR, GGG, non, non },
+				{ FLR, FLR, WWW, GGG, GGG, non, non },
+				{ FLR, FLR, GGG, non, non, GGG, non },
+				{ WWW, GGG, GGG, non, non, non, GGG },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, WGW, non },
+				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WGW },
+				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
+				{ WWW, WGW, WWW, FLR, WWW, non, non },
+				{ WWW, non, WWW, WGW, WWW, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, WGG, non },
+				{ FLR, FLR, FLR, FLR, FLR, WGG, non },
+				{ FLR, FLR, FLR, FLR, FLR, WGG, non },
+				{ FLR, FLR, FLR, FLR, FLR, WGG, non },
+				{ WWW, WGG, WGG, WGG, WGG, WGG, non },
+				{ WWW, non, non, non, non, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, WGG, non },
+				{ FLR, FLR, FLR, FLR, FLR, WGG, non },
+				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
+				{ WWW, WGG, WGG, WWW, FLR, FLR, WGG },
+				{ WWW, non, non, WWW, WGG, WGG, WGG },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, Wgg, non },
+				{ FLR, FLR, FLR, FLR, FLR, Wgg, non },
+				{ FLR, FLR, FLR, FLR, FLR, Wgg, non },
+				{ FLR, FLR, FLR, FLR, FLR, Wgg, non },
+				{ WWW, Wgg, Wgg, Wgg, Wgg, Wgg, non },
+				{ WWW, non, non, non, non, non, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, Wgg, non },
+				{ FLR, FLR, FLR, FLR, FLR, Wgg, non },
+				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
+				{ WWW, Wgg, Wgg, WWW, FLR, FLR, Wgg },
+				{ WWW, non, non, WWW, Wgg, Wgg, Wgg },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, WGW, BNN, BRN },
+				{ FLR, FLR, FLR, FLR, BDD, BNN, BRN },
+				{ FLR, FLR, FLR, FLR, WGG, BNN, BRN },
+				{ WWW, WGW, BDD, WGG, WGG, BNN, BRN },
+				{ WWW, BNN, BNN, BNN, BNN, BNN, BRN },
+				{ WWW, BRN, BRN, BRN, BRN, BRN, BWW },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, BGW, BNN, BRN },
+				{ FLR, FLR, FLR, FLR, BDD, BNN, BRN },
+				{ FLR, FLR, FLR, FLR, BGW, BNN, BRN },
+				{ WWW, BGW, BDD, BGW, BWW, BNN, BRN },
+				{ WWW, BNN, BNN, BNN, BNN, BWW, BWW },
+				{ WWW, BRN, BRN, BRN, BRN, BWW, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, BGW, BNN, BRN },
+				{ FLR, FLR, FLR, FLR, BDD, BNN, BRN },
+				{ FLR, FLR, FLR, FLR, BGG, BNN, BRN },
+				{ WWW, BGW, BDD, BGG, BNN, BNN, WWW },
+				{ WWW, BNN, BNN, BNN, BNN, BWW, opt },
+				{ WWW, BRN, BRN, BRN, WWW, opt, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
+				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
+				{ FLR, FLR, BWW, BNN, BNN, BNN, BRN },
+				{ FLR, FLR, BWW, BNN, BNN, BNN, BRN },
+				{ FLR, FLR, BDD, BNN, BNN, BNN, BRN },
+				{ WWW, WGG, WWW, BRN, BRN, BRN, BRN },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, WGG, non },
+				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
+				{ FLR, FLR, FLR, BDD, BNN, BNN, BRN },
+				{ FLR, FLR, WWW, BNN, BNN, BNN, BRN },
+				{ WWW, WGG, WWW, BNN, BNN, BNN, BRN },
+				{ WWW, non, WWW, BRN, BRN, BRN, BRN },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
+				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
+				{ FLR, FLR, BWW, BNN, BNN, BNN, BRN },
+				{ FLR, FLR, BWW, BNN, BNN, BNN, BRN },
+				{ FLR, FLR, BDD, BNN, BNN, BNN, BRN },
+				{ WWW, Wgg, WWW, BRN, BRN, BRN, BRN },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, Wgg, non },
+				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
+				{ FLR, FLR, FLR, BDD, BNN, BNN, BRN },
+				{ FLR, FLR, WWW, BNN, BNN, BNN, BRN },
+				{ WWW, Wgg, WWW, BNN, BNN, BNN, BRN },
+				{ WWW, non, WWW, BRN, BRN, BRN, BRN },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, WGW, BNN, BrN },
+				{ FLR, FLR, FLR, FLR, BDD, BNN, BrN },
+				{ FLR, FLR, FLR, FLR, WGG, BNN, BrN },
+				{ WWW, WGW, BDD, WGG, WGG, BNN, BrN },
+				{ WWW, BNN, BNN, BNN, BNN, BNN, BrN },
+				{ WWW, BrN, BrN, BrN, BrN, BrN, BWW },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, BGW, BNN, BrN },
+				{ FLR, FLR, FLR, FLR, BDD, BNN, BrN },
+				{ FLR, FLR, FLR, FLR, BGW, BNN, BrN },
+				{ WWW, BGW, BDD, BGW, BWW, BNN, BrN },
+				{ WWW, BNN, BNN, BNN, BNN, BWW, BWW },
+				{ WWW, BrN, BrN, BrN, BrN, BWW, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, BGW, BNN, BrN },
+				{ FLR, FLR, FLR, FLR, BDD, BNN, BrN },
+				{ FLR, FLR, FLR, FLR, BGG, BNN, BrN },
+				{ WWW, BGW, BDD, BGG, BNN, BNN, WWW },
+				{ WWW, BNN, BNN, BNN, BNN, BWW, opt },
+				{ WWW, BrN, BrN, BrN, WWW, opt, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
+				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
+				{ FLR, FLR, BWW, BNN, BNN, BNN, BrN },
+				{ FLR, FLR, BWW, BNN, BNN, BNN, BrN },
+				{ FLR, FLR, BDD, BNN, BNN, BNN, BrN },
+				{ WWW, WGG, WWW, BrN, BrN, BrN, BrN },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, WGG, non },
+				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
+				{ FLR, FLR, FLR, BDD, BNN, BNN, BrN },
+				{ FLR, FLR, WWW, BNN, BNN, BNN, BrN },
+				{ WWW, WGG, WWW, BNN, BNN, BNN, BrN },
+				{ WWW, non, WWW, BrN, BrN, BrN, BrN },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
+				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
+				{ FLR, FLR, BWW, BNN, BNN, BNN, BrN },
+				{ FLR, FLR, BWW, BNN, BNN, BNN, BrN },
+				{ FLR, FLR, BDD, BNN, BNN, BNN, BrN },
+				{ WWW, WGG, WWW, BrN, BrN, BrN, WWW },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
+				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
+				{ FLR, FLR, BWW, BNN, BNN, BNN, BrN },
+				{ FLR, FLR, BWW, BNN, BNN, BNN, BrN },
+				{ FLR, FLR, BDD, BNN, BNN, BNN, BrN },
+				{ WWW, Wgg, WWW, BrN, BrN, BrN, BrN },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, Wgg, non },
+				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
+				{ FLR, FLR, FLR, BDD, BNN, BNN, BrN },
+				{ FLR, FLR, WWW, BNN, BNN, BNN, BrN },
+				{ WWW, Wgg, WWW, BNN, BNN, BNN, BrN },
+				{ WWW, non, WWW, BrN, BrN, BrN, BrN },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
+				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
+				{ FLR, FLR, BWW, BNN, BNN, BNN, BrN },
+				{ FLR, FLR, BWW, BNN, BNN, BNN, BrN },
+				{ FLR, FLR, BDD, BNN, BNN, BNN, BrN },
+				{ WWW, Wgg, WWW, BrN, BrN, BrN, WWW },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, WGW, BNN, BgN },
+				{ FLR, FLR, FLR, FLR, BDD, BNN, BgN },
+				{ FLR, FLR, FLR, FLR, WGG, BNN, BgN },
+				{ WWW, WGW, BDD, WGG, WGG, BNN, BgN },
+				{ WWW, BNN, BNN, BNN, BNN, BNN, BgN },
+				{ WWW, BgN, BgN, BgN, BgN, BgN, BWW },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, BGW, BNN, BgN },
+				{ FLR, FLR, FLR, FLR, BDD, BNN, BgN },
+				{ FLR, FLR, FLR, FLR, BGW, BNN, BgN },
+				{ WWW, BGW, BDD, BGW, BWW, BNN, BgN },
+				{ WWW, BNN, BNN, BNN, BNN, BWW, BWW },
+				{ WWW, BgN, BgN, BgN, BgN, BWW, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, BGW, BNN, BgN },
+				{ FLR, FLR, FLR, FLR, BDD, BNN, BgN },
+				{ FLR, FLR, FLR, FLR, BGG, BNN, BgN },
+				{ WWW, BGW, BDD, BGG, BNN, BNN, WWW },
+				{ WWW, BNN, BNN, BNN, BNN, BWW, opt },
+				{ WWW, BgN, BgN, BgN, WWW, opt, non },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
+				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
+				{ FLR, FLR, BWW, BNN, BNN, BNN, BgN },
+				{ FLR, FLR, BWW, BNN, BNN, BNN, BgN },
+				{ FLR, FLR, BDD, BNN, BNN, BNN, BgN },
+				{ WWW, WGG, WWW, BgN, BgN, BgN, BgN },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, WGG, non },
+				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
+				{ FLR, FLR, FLR, BDD, BNN, BNN, BgN },
+				{ FLR, FLR, WWW, BNN, BNN, BNN, BgN },
+				{ WWW, WGG, WWW, BNN, BNN, BNN, BgN },
+				{ WWW, non, WWW, BgN, BgN, BgN, BgN },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
+				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
+				{ FLR, FLR, BWW, BNN, BNN, BNN, BgN },
+				{ FLR, FLR, BWW, BNN, BNN, BNN, BgN },
+				{ FLR, FLR, BDD, BNN, BNN, BNN, BgN },
+				{ WWW, WGG, WWW, BgN, BgN, BgN, WWW },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
+				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
+				{ FLR, FLR, BWW, BNN, BNN, BNN, BgN },
+				{ FLR, FLR, BWW, BNN, BNN, BNN, BgN },
+				{ FLR, FLR, BDD, BNN, BNN, BNN, BgN },
+				{ WWW, Wgg, WWW, BgN, BgN, BgN, BgN },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, Wgg, non },
+				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
+				{ FLR, FLR, FLR, BDD, BNN, BNN, BgN },
+				{ FLR, FLR, WWW, BNN, BNN, BNN, BgN },
+				{ WWW, Wgg, WWW, BNN, BNN, BNN, BgN },
+				{ WWW, non, WWW, BgN, BgN, BgN, BgN },
+		}));
+
+		corners.add(new CustomCorner(new byte[][] {
+				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
+				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
+				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
+				{ FLR, FLR, BWW, BNN, BNN, BNN, BgN },
+				{ FLR, FLR, BWW, BNN, BNN, BNN, BgN },
+				{ FLR, FLR, BDD, BNN, BNN, BNN, BgN },
+				{ WWW, Wgg, WWW, BgN, BgN, BgN, WWW },
+		}));
 
 //		corners.add(new CustomCorner(new byte[][] {
 //		}));
