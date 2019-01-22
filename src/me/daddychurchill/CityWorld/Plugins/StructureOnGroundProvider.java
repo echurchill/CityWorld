@@ -827,16 +827,18 @@ public class StructureOnGroundProvider extends Provider {
 			if (located) {
 
 				// north and south ones
-				for (int x = x1; x <= x2; x++) {
-					chunk.setEmptyBlock(x, y2 + 1, z1, materialFence);
-					chunk.setEmptyBlock(x, y2 + 1, z2, materialFence);
-				}
+				chunk.setEmptyBlocks(x1 + 1, x2, y2 + 1, z1, z1 + 1, materialFence, BlockFace.EAST, BlockFace.WEST);
+				chunk.setEmptyBlocks(x1 + 1, x2, y2 + 1, z2, z2 + 1, materialFence, BlockFace.EAST, BlockFace.WEST);
 
 				// west and east ones
-				for (int z = z1; z <= z2; z++) {
-					chunk.setEmptyBlock(x1, y2 + 1, z, materialFence);
-					chunk.setEmptyBlock(x2, y2 + 1, z, materialFence);
-				}
+				chunk.setEmptyBlocks(x1, x1 + 1, y2 + 1, z1 + 1, z2, materialFence, BlockFace.NORTH, BlockFace.SOUTH);
+				chunk.setEmptyBlocks(x2, x2 + 1, y2 + 1, z1 + 1, z2, materialFence, BlockFace.NORTH, BlockFace.SOUTH);
+
+				// corners
+				chunk.setEmptyBlock(x1, y2 + 1, z1, materialFence, BlockFace.SOUTH, BlockFace.EAST);
+				chunk.setEmptyBlock(x1, y2 + 1, z2, materialFence, BlockFace.NORTH, BlockFace.EAST);
+				chunk.setEmptyBlock(x2, y2 + 1, z1, materialFence, BlockFace.SOUTH, BlockFace.WEST);
+				chunk.setEmptyBlock(x2, y2 + 1, z2, materialFence, BlockFace.NORTH, BlockFace.WEST);
 			}
 		}
 
