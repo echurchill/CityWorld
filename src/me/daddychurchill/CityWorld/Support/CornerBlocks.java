@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 
+import static me.daddychurchill.CityWorld.Support.CornerBlocks.UnitType.*;
+
 public final class CornerBlocks {
 
 	public final static int CornerWidth = 7;
@@ -12,38 +14,38 @@ public final class CornerBlocks {
 	// TODO I have made this generate glass blocks instead of glass panes due to
 	// oddities with direction and 1.13.2. I will need to think hard on how we can
 	// do this the right way
+	enum UnitType {
+		non, // nothing here
+		opt,
+		FLR,
+		WWW, // solid vertical wall
+		GGG, // vertical glass wall
+		WGG, // wall - glass - glass : solid bottom block topped with two blocks of glass
+		GWG, // glass - wall - glass
+		GGW, // glass - glass - wall
+		GWW, // glass - wall - wall
+		WGW, // wall - glass - wall
+		WWG, // wall - wall - glass
+		Wgg, // wall - pane - pane
+		ggg, // pane - pane - pane
+		ggW, // pane - pane - wall
 
-	// ideally these would be an ENUM but I haven't figured a way to do that without
-	// introducing icky looking mini-schematics
-	private final static byte non = 0; // nothing here
-	private final static byte opt = 1;
-	private final static byte FLR = 2;
-	private final static byte WWW = 3; // solid vertical wall
-	private final static byte GGG = 4; // vertical glass wall
-	private final static byte WGG = 5; // wall - glass - glass : solid bottom block topped with two blocks of glass
-	private final static byte GWG = 6; // glass - wall - glass
-	private final static byte GGW = 7; // glass - glass - wall
-	private final static byte GWW = 8; // glass - wall - wall
-	private final static byte WGW = 9; // wall - glass - wall
-	private final static byte WWG = 10; // wall - wall - glass
-	private final static byte Wgg = 11; // wall - pane - pane
-	private final static byte ggg = 12; // pane - pane - pane
-	private final static byte ggW = 13; // pane - pane - wall
+		// these won't show up on the roof
+		BRN, // balcony floor block, single iron railing, and nothing above it
+		BrN, // balcony floor block, single wood fence, and nothing above it
+		BgN, // balcony floor block, single thin glass pane, and nothing above it
+		BDD, // balcony floor block, door (these are just an empty hole right now), and wall
 
-	// these won't show up on the roof
-	private final static byte BRN = 20; // balcony floor block, single iron railing, and nothing above it
-	private final static byte BrN = 21; // balcony floor block, single wood fence, and nothing above it
-	private final static byte BgN = 22; // balcony floor block, single thin glass pane, and nothing above it
-	private final static byte BDD = 23; // balcony floor block, door (these are just an empty hole right now), and wall
-	// blocks above it
-	private final static byte BNN = 24; // balcony floor block, and nothing but air above it
-	private final static byte BWW = 25; // balcony floor block, and wall blocks above it (WWW)
-	private final static byte BGG = 26; // balcony floor block, and glass above it (WGG)
-	private final static byte BGW = 27; // balcony floor block, glass and wall blocks above it (WGW)
+		// blocks above it
+		BNN, // balcony floor block, and nothing but air above it
+		BWW, // balcony floor block, and wall blocks above it (WWW)
+		BGG, // balcony floor block, and glass above it (WGG)
+		BGW, // balcony floor block, glass and wall blocks above it (WGW)
 
-	private final static byte Wnn = 40; // single wall block, and nothing but air above it
-	private final static byte nWn = 41; // nothing but air, glass block, topped with nothing but air
-	private final static byte nnW = 42; // nothing but air, topped with a single wall block
+		Wnn, // single wall block, and nothing but air above it
+		nWn, // nothing but air, glass block, topped with nothing but air
+		nnW, // nothing but air, topped with a single wall block
+	}
 
 	public boolean isOldRoundedCorner(int i) {
 		return i == 0; // should always be the first one
@@ -65,7 +67,7 @@ public final class CornerBlocks {
 //		corners.add(new CustomCorner(new byte[][] {
 //		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, WGG, opt },
 				{ FLR, FLR, FLR, FLR, WGG, opt, non },
@@ -75,7 +77,7 @@ public final class CornerBlocks {
 				{ WWW, opt, non, non, non, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
@@ -85,7 +87,7 @@ public final class CornerBlocks {
 				{ WGG, WGG, WGG, WWW, opt, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
@@ -95,7 +97,7 @@ public final class CornerBlocks {
 				{ WWW, WGG, WGG, WWW, non, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
@@ -105,7 +107,7 @@ public final class CornerBlocks {
 				{ WWW, Wgg, Wgg, WWW, non, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, WGG, opt },
 				{ FLR, FLR, FLR, FLR, WWW, opt, non },
@@ -115,7 +117,7 @@ public final class CornerBlocks {
 				{ WWW, opt, non, non, WGW, opt, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, GGG },
 				{ FLR, FLR, FLR, FLR, WWW, GGG, GGG },
@@ -125,7 +127,7 @@ public final class CornerBlocks {
 				{ WWW, GGG, GGG, non, non, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, ggg },
 				{ FLR, FLR, FLR, FLR, WWW, ggg, ggg },
@@ -135,7 +137,7 @@ public final class CornerBlocks {
 				{ WWW, ggg, ggg, non, non, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, WGG, opt },
 				{ FLR, FLR, FLR, FLR, FLR, WGG, non },
 				{ FLR, FLR, FLR, FLR, FLR, WWW, non },
@@ -145,7 +147,7 @@ public final class CornerBlocks {
 				{ opt, non, non, non, non, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, WGG, WGG, WGW },
@@ -155,7 +157,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, WGW, non, non, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, WGG, WGG, WGG, WGG, WGG },
@@ -165,7 +167,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, WGG, non, WWW, WWW, WWW },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, WGG, WGG, WGG, WGG, WGG },
@@ -175,7 +177,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, WGG, non, WWW, nWn, WWW },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
@@ -185,7 +187,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, Wgg, non, WWW, WWW, WWW },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
@@ -195,7 +197,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, Wgg, non, WWW, nWn, WWW },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, GWG, GWG, GWG, GWG, GWG },
@@ -205,7 +207,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, GWG, nWn, non, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, GWG, GWG, GWG, GWG, GWG },
@@ -215,7 +217,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, GWG, WWW, non, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, GGW },
 				{ FLR, FLR, GGW, GGW, GGW, GGW, GGW },
@@ -225,7 +227,7 @@ public final class CornerBlocks {
 				{ WWW, GGW, GGW, non, non, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, GGW, GGW, GGW, GGW, nnW },
@@ -235,7 +237,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, nnW, nnW, non, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, ggW },
 				{ FLR, FLR, ggW, ggW, ggW, ggW, ggW },
@@ -245,7 +247,7 @@ public final class CornerBlocks {
 				{ WWW, ggW, ggW, non, non, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, ggW, WWW },
 				{ FLR, FLR, ggW, ggW, ggW, ggW, nnW },
@@ -255,7 +257,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, nnW, nnW, non, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, WGG, Wnn },
 				{ FLR, FLR, FLR, FLR, FLR, WGG, Wnn },
 				{ FLR, FLR, FLR, FLR, WGG, Wnn, non },
@@ -265,7 +267,7 @@ public final class CornerBlocks {
 				{ Wnn, Wnn, non, non, non, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, GGG, GGG, GGG, GGG, WGW },
@@ -275,7 +277,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, WGW, WWW, non, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, ggg, ggg, ggg, ggg, WGW },
@@ -285,7 +287,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, WGW, WWW, non, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWG },
 				{ FLR, FLR, FLR, FLR, FLR, WGW, non },
@@ -295,7 +297,7 @@ public final class CornerBlocks {
 				{ WWW, WWG, non, non, non, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, WGG, WGG, WGG, WGG, WGG },
@@ -305,7 +307,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, WGG, non, nWn, nWn, nWn },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, WGG, WGG, WGG, WGG, WGG },
@@ -315,7 +317,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, WGG, non, WWW, WWW, WWW },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, WGG, WGG, WGG, WGG, WGG },
@@ -325,7 +327,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, WGG, non, WWW, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, WGG, WGG, WGG, WGG, WGG },
@@ -335,7 +337,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, WGG, non, WWW, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, WGG, WGG, WGG, WGG, WGG },
@@ -345,7 +347,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, WGG, opt, WWW, opt, WWW },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
@@ -355,7 +357,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, Wgg, non, nWn, nWn, nWn },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
@@ -365,7 +367,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, Wgg, non, WWW, WWW, WWW },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
@@ -375,7 +377,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, Wgg, non, WWW, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
@@ -385,7 +387,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, Wgg, non, WWW, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, Wgg, Wgg, Wgg, Wgg, Wgg },
@@ -395,7 +397,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, Wgg, opt, WWW, opt, WWW },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, GGG, WWW },
 				{ FLR, FLR, FLR, FLR, GGG, opt, non },
@@ -405,7 +407,7 @@ public final class CornerBlocks {
 				{ WWW, WWW, non, non, non, WWW, WWW },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, GGG },
 				{ FLR, FLR, FLR, FLR, WWW, GGG, GGG },
@@ -415,7 +417,7 @@ public final class CornerBlocks {
 				{ WWW, GGG, GGG, non, non, non, GGG },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, WGW, non },
 				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
@@ -425,7 +427,7 @@ public final class CornerBlocks {
 				{ WWW, non, WWW, WGW, WWW, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, WGG, non },
 				{ FLR, FLR, FLR, FLR, FLR, WGG, non },
@@ -435,7 +437,7 @@ public final class CornerBlocks {
 				{ WWW, non, non, non, non, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, WGG, non },
 				{ FLR, FLR, FLR, FLR, FLR, WGG, non },
@@ -445,7 +447,7 @@ public final class CornerBlocks {
 				{ WWW, non, non, WWW, WGG, WGG, WGG },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, Wgg, non },
 				{ FLR, FLR, FLR, FLR, FLR, Wgg, non },
@@ -455,7 +457,7 @@ public final class CornerBlocks {
 				{ WWW, non, non, non, non, non, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, Wgg, non },
 				{ FLR, FLR, FLR, FLR, FLR, Wgg, non },
@@ -465,7 +467,7 @@ public final class CornerBlocks {
 				{ WWW, non, non, WWW, Wgg, Wgg, Wgg },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
 				{ FLR, FLR, FLR, FLR, WGW, BNN, BRN },
 				{ FLR, FLR, FLR, FLR, BDD, BNN, BRN },
@@ -475,7 +477,7 @@ public final class CornerBlocks {
 				{ WWW, BRN, BRN, BRN, BRN, BRN, BWW },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
 				{ FLR, FLR, FLR, FLR, BGW, BNN, BRN },
 				{ FLR, FLR, FLR, FLR, BDD, BNN, BRN },
@@ -485,7 +487,7 @@ public final class CornerBlocks {
 				{ WWW, BRN, BRN, BRN, BRN, BWW, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
 				{ FLR, FLR, FLR, FLR, BGW, BNN, BRN },
 				{ FLR, FLR, FLR, FLR, BDD, BNN, BRN },
@@ -495,7 +497,7 @@ public final class CornerBlocks {
 				{ WWW, BRN, BRN, BRN, WWW, opt, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
 				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
@@ -505,7 +507,7 @@ public final class CornerBlocks {
 				{ WWW, WGG, WWW, BRN, BRN, BRN, BRN },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, WGG, non },
 				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
@@ -515,7 +517,7 @@ public final class CornerBlocks {
 				{ WWW, non, WWW, BRN, BRN, BRN, BRN },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
 				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
@@ -525,7 +527,7 @@ public final class CornerBlocks {
 				{ WWW, Wgg, WWW, BRN, BRN, BRN, BRN },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, Wgg, non },
 				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
@@ -535,7 +537,7 @@ public final class CornerBlocks {
 				{ WWW, non, WWW, BRN, BRN, BRN, BRN },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
 				{ FLR, FLR, FLR, FLR, WGW, BNN, BrN },
 				{ FLR, FLR, FLR, FLR, BDD, BNN, BrN },
@@ -545,7 +547,7 @@ public final class CornerBlocks {
 				{ WWW, BrN, BrN, BrN, BrN, BrN, BWW },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
 				{ FLR, FLR, FLR, FLR, BGW, BNN, BrN },
 				{ FLR, FLR, FLR, FLR, BDD, BNN, BrN },
@@ -555,7 +557,7 @@ public final class CornerBlocks {
 				{ WWW, BrN, BrN, BrN, BrN, BWW, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
 				{ FLR, FLR, FLR, FLR, BGW, BNN, BrN },
 				{ FLR, FLR, FLR, FLR, BDD, BNN, BrN },
@@ -565,7 +567,7 @@ public final class CornerBlocks {
 				{ WWW, BrN, BrN, BrN, WWW, opt, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
 				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
@@ -575,7 +577,7 @@ public final class CornerBlocks {
 				{ WWW, WGG, WWW, BrN, BrN, BrN, BrN },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, WGG, non },
 				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
@@ -585,7 +587,7 @@ public final class CornerBlocks {
 				{ WWW, non, WWW, BrN, BrN, BrN, BrN },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
 				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
@@ -595,7 +597,7 @@ public final class CornerBlocks {
 				{ WWW, WGG, WWW, BrN, BrN, BrN, WWW },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
 				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
@@ -605,7 +607,7 @@ public final class CornerBlocks {
 				{ WWW, Wgg, WWW, BrN, BrN, BrN, BrN },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, Wgg, non },
 				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
@@ -615,7 +617,7 @@ public final class CornerBlocks {
 				{ WWW, non, WWW, BrN, BrN, BrN, BrN },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
 				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
@@ -625,7 +627,7 @@ public final class CornerBlocks {
 				{ WWW, Wgg, WWW, BrN, BrN, BrN, WWW },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
 				{ FLR, FLR, FLR, FLR, WGW, BNN, BgN },
 				{ FLR, FLR, FLR, FLR, BDD, BNN, BgN },
@@ -635,7 +637,7 @@ public final class CornerBlocks {
 				{ WWW, BgN, BgN, BgN, BgN, BgN, BWW },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
 				{ FLR, FLR, FLR, FLR, BGW, BNN, BgN },
 				{ FLR, FLR, FLR, FLR, BDD, BNN, BgN },
@@ -645,7 +647,7 @@ public final class CornerBlocks {
 				{ WWW, BgN, BgN, BgN, BgN, BWW, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
 				{ FLR, FLR, FLR, FLR, BGW, BNN, BgN },
 				{ FLR, FLR, FLR, FLR, BDD, BNN, BgN },
@@ -655,7 +657,7 @@ public final class CornerBlocks {
 				{ WWW, BgN, BgN, BgN, WWW, opt, non },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
 				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
@@ -665,7 +667,7 @@ public final class CornerBlocks {
 				{ WWW, WGG, WWW, BgN, BgN, BgN, BgN },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, WGG, non },
 				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
@@ -675,7 +677,7 @@ public final class CornerBlocks {
 				{ WWW, non, WWW, BgN, BgN, BgN, BgN },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
 				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
@@ -685,7 +687,7 @@ public final class CornerBlocks {
 				{ WWW, WGG, WWW, BgN, BgN, BgN, WWW },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
 				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
@@ -695,7 +697,7 @@ public final class CornerBlocks {
 				{ WWW, Wgg, WWW, BgN, BgN, BgN, BgN },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, WWW, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, Wgg, non },
 				{ FLR, FLR, FLR, FLR, WWW, WWW, WWW },
@@ -705,7 +707,7 @@ public final class CornerBlocks {
 				{ WWW, non, WWW, BgN, BgN, BgN, BgN },
 		}));
 
-		corners.add(new CustomCorner(new byte[][] {
+		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
 				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
@@ -835,28 +837,28 @@ public final class CornerBlocks {
 	}
 
 	public class CustomCorner extends Corner {
-		private CustomCorner(byte[][] source) {
+		private CustomCorner(UnitType[][] source) {
 			NW = source;
 			NE = flipWE(NW);
 			SE = flipNS(NE);
 			SW = flipNS(NW);
 		}
 
-		private byte[][] NW;
-		private byte[][] NE;
-		private byte[][] SW;
-		private byte[][] SE;
+		private UnitType[][] NW;
+		private UnitType[][] NE;
+		private UnitType[][] SW;
+		private UnitType[][] SE;
 
-		private byte[][] flipWE(byte[][] source) {
-			byte[][] result = new byte[CornerBlocks.CornerWidth][CornerBlocks.CornerWidth];
+		private UnitType[][] flipWE(UnitType[][] source) {
+			UnitType[][] result = new UnitType[CornerBlocks.CornerWidth][CornerBlocks.CornerWidth];
 			for (int x = 0; x < CornerBlocks.CornerWidth; x++) {
 				System.arraycopy(source[x], 0, result[CornerBlocks.CornerWidth - x - 1], 0, CornerBlocks.CornerWidth);
 			}
 			return result;
 		}
 
-		private byte[][] flipNS(byte[][] source) {
-			byte[][] result = new byte[CornerBlocks.CornerWidth][CornerBlocks.CornerWidth];
+		private UnitType[][] flipNS(UnitType[][] source) {
+			UnitType[][] result = new UnitType[CornerBlocks.CornerWidth][CornerBlocks.CornerWidth];
 			for (int x = 0; x < CornerBlocks.CornerWidth; x++) {
 				for (int z = 0; z < CornerBlocks.CornerWidth; z++) {
 					result[x][CornerBlocks.CornerWidth - z - 1] = source[x][z];
@@ -917,7 +919,7 @@ public final class CornerBlocks {
 			setHorizontals(SE, blocks, xInset, y1, y2, zInset, primary, secondary, outsetEffect, onRoof);
 		}
 
-		private void setVerticals(byte[][] source, AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
+		private void setVerticals(UnitType[][] source, AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
 				Material primary, Material secondary, boolean outsetEffect, boolean onRoof, BlockFace connectedTo) {
 			for (int x = 0; x < CornerBlocks.CornerWidth; x++) {
 				for (int z = 0; z < CornerBlocks.CornerWidth; z++) {
@@ -1051,7 +1053,7 @@ public final class CornerBlocks {
 			}
 		}
 
-		private void setHorizontals(byte[][] source, AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
+		private void setHorizontals(UnitType[][] source, AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
 				Material primary, Material secondary, boolean outsetEffect, boolean onRoof) {
 			for (int x = 0; x < CornerBlocks.CornerWidth; x++) {
 				for (int z = 0; z < CornerBlocks.CornerWidth; z++) {
@@ -1098,7 +1100,7 @@ public final class CornerBlocks {
 	}
 
 	// Detect direction (Maybe we need some better ways?)
-	private BlockFace[] getDirections(byte[][] source, int x, int z, BlockFace connectedTo) {
+	private BlockFace[] getDirections(UnitType[][] source, int x, int z, BlockFace connectedTo) {
 		if (connectedTo == BlockFace.SOUTH_WEST) {
 			if (x + z + 1 == CornerBlocks.CornerWidth) {
 				return new BlockFace[] { BlockFace.SOUTH, BlockFace.WEST };
@@ -1141,7 +1143,7 @@ public final class CornerBlocks {
 
 	// Detect door direction (Maybe we need some better ways?)
 	// Maybe hardcode in/with corners list?
-	private BlockFace getDoorDirection(byte[][] source, int x, int z, BlockFace connectedTo) {
+	private BlockFace getDoorDirection(UnitType[][] source, int x, int z, BlockFace connectedTo) {
 		// TODO: Split door direction of door in convex angle and concave angle
 		//   The following is for door in convex angle
 		if (connectedTo == BlockFace.SOUTH_WEST) {
