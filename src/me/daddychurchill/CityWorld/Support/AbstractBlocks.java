@@ -304,7 +304,7 @@ public abstract class AbstractBlocks {
 
 	public final int findFirstEmptyAbove(int x, int y, int z, int maxY) {
 		int y1 = y;
-		while (y1 < maxY - 1) {
+		while (y1 < height - 1 && y1 < maxY - 1) {
 			if (isEmpty(x, y1, z))
 				return y1;
 			y1++;
@@ -318,7 +318,7 @@ public abstract class AbstractBlocks {
 
 	public final int findLastEmptyAbove(int x, int y, int z, int maxY) {
 		int y1 = y;
-		while (y1 < maxY - 1 && isEmpty(x, y1 + 1, z)) {
+		while (y1 < height - 1 && y1 < maxY - 1 && isEmpty(x, y1 + 1, z)) {
 			y1++;
 		}
 		return y1;
@@ -330,7 +330,7 @@ public abstract class AbstractBlocks {
 
 	public final int findLastEmptyBelow(int x, int y, int z, int minY) {
 		int y1 = y;
-		while (y1 > minY && isEmpty(x, y1 - 1, z)) {
+		while (y1 > 0 && y1 > minY && isEmpty(x, y1 - 1, z)) {
 			y1--;
 		}
 		return y1;
