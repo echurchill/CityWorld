@@ -25,7 +25,7 @@ public abstract class AbstractBlocks {
 		this.width = sectionBlockWidth;
 		this.height = generator.height;
 	}
-	
+
 	public boolean onEdgeXZ(int x, int z) {
 		return x == 0 || x == width - 1 || z == 0 || z == width - 1;
 	}
@@ -205,9 +205,37 @@ public abstract class AbstractBlocks {
 
 	public abstract void clearBlock(int x, int y, int z);
 
-	public abstract boolean setEmptyBlock(int x, int y, int z, Material material);
+	public final boolean setEmptyBlock(int x, int y, int z, Material material) {
+		if (!isEmpty(x, y, z)) {
+			return false;
+		}
+		setBlock(x, y, z, material);
+		return true;
+	}
 
-	public abstract void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, Material material);
+	public final boolean setEmptyBlock(int x, int y, int z, Material material, BlockFace... facing) {
+		if (!isEmpty(x, y, z)) {
+			return false;
+		}
+		setBlock(x, y, z, material, facing);
+		return true;
+	}
+
+	public final void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				setEmptyBlock(x, y, z, material);
+			}
+		}
+	}
+
+	public final void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, Material material, BlockFace... facing) {
+		for (int x = x1; x < x2; x++) {
+			for (int z = z1; z < z2; z++) {
+				setEmptyBlock(x, y, z, material, facing);
+			}
+		}
+	}
 
 	public abstract void setDoor(int x, int y, int z, Material material, BlockFace facing);
 

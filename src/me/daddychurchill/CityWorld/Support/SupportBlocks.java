@@ -7,20 +7,9 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
-import org.bukkit.block.data.Ageable;
-import org.bukkit.block.data.Bisected;
+import org.bukkit.block.data.*;
 import org.bukkit.block.data.Bisected.Half;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.block.data.Directional;
-import org.bukkit.block.data.Levelled;
-import org.bukkit.block.data.MultipleFacing;
-import org.bukkit.block.data.Openable;
-import org.bukkit.block.data.Orientable;
-import org.bukkit.block.data.Powerable;
-import org.bukkit.block.data.Rail;
 import org.bukkit.block.data.Rail.Shape;
-import org.bukkit.block.data.Rotatable;
-import org.bukkit.block.data.Waterlogged;
 import org.bukkit.block.data.type.Bed;
 import org.bukkit.block.data.type.Bed.Part;
 import org.bukkit.block.data.type.Chest;
@@ -115,7 +104,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		if (!isOfTypes(x, y, z, types))
 			setBlock(x, y, z, types[0]);
 	}
-	
+
 	protected boolean isEmpty(Block block) {
 		if (onEdgeXZ(block.getX(), block.getZ()))
 			return block.getType() == Material.AIR;
@@ -128,7 +117,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	public final boolean isEmpty(int x, int y, int z) {
 		if (onEdgeXZ(x, z))
 			return isType(x, y, z, Material.AIR);
-		else 
+		else
 			return getActualBlock(x, y, z).isEmpty();
 	}
 
@@ -280,30 +269,9 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		return blocky + height;
 	}
 
-	@Override
-	public final boolean setEmptyBlock(int x, int y, int z, Material material) {
-		Block block = getActualBlock(x, y, z);
-		if (isEmpty(block)) {
-			block.setType(material, getDoPhysics(x, z));
-			return true;
-		} else
-			return false;
-	}
-
-	@Override
-	public final void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				Block block = getActualBlock(x, y, z);
-				if (isEmpty(block))
-					block.setType(material, getDoPhysics(x, z));
-			}
-		}
-	}
-
 	// @@ I REALLY NEED TO FIGURE A DIFFERENT WAY TO DO THIS
 	public final boolean isNonstackableBlock(Block block) { // either because it really isn't or it just doesn't look
-															// good
+		// good
 		return !block.getType().isOccluding();
 //		switch (block.getType()) {
 //		default: 
@@ -598,7 +566,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		return block;
 	}
 
-//@@	public void setDoor(int x, int y, int z, Material material, BadMagic.Door direction) {
+	//@@	public void setDoor(int x, int y, int z, Material material, BadMagic.Door direction) {
 	public void setDoor(int x, int y, int z, Material material, BlockFace facing) {
 		clearBlock(x, y, z);
 		clearBlock(x, y + 1, z);

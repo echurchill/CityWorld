@@ -226,25 +226,6 @@ public final class InitialBlocks extends AbstractBlocks {
 	}
 
 	@Override
-	public final boolean setEmptyBlock(int x, int y, int z, Material material) {
-		if (isEmpty(x, y, z)) {
-			setBlock(x, y, z, material);
-			return true;
-		} else
-			return false;
-	}
-
-	@Override
-	public final void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
-		for (int x = x1; x < x2; x++) {
-			for (int z = z1; z < z2; z++) {
-				if (isEmpty(x, y, z))
-					setBlock(x, y, z, material);
-			}
-		}
-	}
-
-	@Override
 	public void setDoor(int x, int y, int z, Material material, BlockFace facing) {
 		clearBlock(x, y, z);
 		clearBlock(x, y + 1, z);
