@@ -60,7 +60,7 @@ public class RoundaboutCenterLot extends IsolatedLot {
 
 	@Override
 	public boolean isPlaceableAt(CityWorldGenerator generator, int chunkX, int chunkZ) {
-		return generator.settings.inRoadRange(chunkX, chunkZ);
+		return generator.getSettings().inRoadRange(chunkX, chunkZ);
 	}
 
 	@Override
@@ -118,7 +118,7 @@ public class RoundaboutCenterLot extends IsolatedLot {
 			chunk.setCircle(8, 8, 6, ySurface, brickMaterial, false);
 
 			// fill with water
-			if (generator.settings.includeAbovegroundFluids)
+			if (generator.getSettings().includeAbovegroundFluids)
 				chunk.setCircle(8, 8, 5, ySurface, generator.oreProvider.fluidFluidMaterial, true);
 			break;
 		case GRASS:
@@ -154,7 +154,7 @@ public class RoundaboutCenterLot extends IsolatedLot {
 		boolean somethingInTheCenter = chunkOdds.playOdds(context.oddsOfArt);
 
 		// where to start?
-		if (generator.settings.includeSewers) {
+		if (generator.getSettings().includeSewers) {
 			int yPitTop = generator.streetLevel - 1;
 			int yPitBottom = 29;
 			int yWaterBottom = 8;
@@ -174,7 +174,7 @@ public class RoundaboutCenterLot extends IsolatedLot {
 				chunk.pepperBlocks(4, 12, yPitBottom - 1, 4, 12, chunkOdds, Material.LAVA);
 
 				// spawner?
-				if (generator.settings.spawnersInSewers) {
+				if (generator.getSettings().spawnersInSewers) {
 					chunk.setBlocks(8, yPitBottom - 2, yPitBottom + 4, 8, Material.OBSIDIAN);
 					generator.spawnProvider.setSpawner(generator, chunk, chunkOdds, 8, yPitBottom + 4, 8,
 							generator.spawnProvider.itemsEntities_LavaPit);
@@ -234,7 +234,7 @@ public class RoundaboutCenterLot extends IsolatedLot {
 				chunk.pepperBlocks(4, 12, yWaterBottom + 1, 4, 12, chunkOdds, Material.PRISMARINE);
 
 				// spawner?
-				if (generator.settings.spawnersInSewers) {
+				if (generator.getSettings().spawnersInSewers) {
 					chunk.setBlocks(8, yWaterBottom, yWaterBottom + 4, 8, Material.PRISMARINE);
 					generator.spawnProvider.setSpawner(generator, chunk, chunkOdds, 8, yWaterBottom + 4, 8,
 							generator.spawnProvider.itemsEntities_WaterPit);
@@ -251,9 +251,9 @@ public class RoundaboutCenterLot extends IsolatedLot {
 		case WATER:
 
 			// add some water to the mix
-			if (generator.settings.includeAbovegroundFluids) {
+			if (generator.getSettings().includeAbovegroundFluids) {
 				Material liquid = Material.WATER;
-				if (generator.settings.includeDecayedNature)
+				if (generator.getSettings().includeDecayedNature)
 					liquid = Material.LAVA;
 				int fountianY = ySurface + 1;
 
@@ -297,7 +297,7 @@ public class RoundaboutCenterLot extends IsolatedLot {
 		}
 
 		// if we have not placed something in the center... place a "ART!" like thingy
-		if (somethingInTheCenter && !generator.settings.includeDecayedRoads) {
+		if (somethingInTheCenter && !generator.getSettings().includeDecayedRoads) {
 
 			generateArt(chunk, chunkOdds, 6, ySurface, 6, baseMaterial);
 		}

@@ -9,7 +9,7 @@ public class OreProvider_Decayed extends OreProvider_Normal {
 	public OreProvider_Decayed(CityWorldGenerator generator) {
 		super(generator);
 
-		if (generator.settings.includeLavaFields) {
+		if (generator.getSettings().includeLavaFields) {
 			fluidMaterial = Material.LAVA;
 			fluidFluidMaterial = Material.LAVA;
 			fluidFrozenMaterial = Material.OBSIDIAN;

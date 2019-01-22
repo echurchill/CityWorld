@@ -46,7 +46,7 @@ public abstract class PlatLot {
 		this.chunkZ = chunkZ;
 		this.style = LotStyle.NATURE;
 		this.trulyIsolated = false;
-		this.inACity = platmap.generator.settings.inCityRange(chunkX, chunkZ);
+		this.inACity = platmap.generator.getSettings().inCityRange(chunkX, chunkZ);
 
 		// pavement is 0, read in RoadLot
 		// lines is 1, read in RoadLot
@@ -91,7 +91,7 @@ public abstract class PlatLot {
 	}
 
 	protected void reportLocation(CityWorldGenerator generator, String title, int originX, int originZ) {
-		if (generator.settings.broadcastSpecialPlaces)
+		if (generator.getSettings().broadcastSpecialPlaces)
 			generator.reportMessage(title + " placed at " + originX + ", " + originZ);
 	}
 
@@ -100,7 +100,7 @@ public abstract class PlatLot {
 	}
 
 	public boolean isPlaceableAt(CityWorldGenerator generator, int chunkX, int chunkZ) {
-		return generator.settings.inCityRange(chunkX, chunkZ);
+		return generator.getSettings().inCityRange(chunkX, chunkZ);
 	}
 
 	public PlatLot validateLot(PlatMap platmap, int platX, int platZ) {
@@ -239,7 +239,7 @@ public abstract class PlatLot {
 	public void generateMines(CityWorldGenerator generator, InitialBlocks chunk) {
 
 		// get shafted! (this builds down to keep the support poles happy)
-		if (generator.settings.includeMines)
+		if (generator.getSettings().includeMines)
 			for (int y = (blockYs.getMinHeight() / 16 - 1) * 16; y >= lowestMineSegment; y -= 16) {
 				if (isShaftableLevel(generator, y))
 					generateHorizontalMineLevel(generator, chunk, y);
@@ -349,7 +349,7 @@ public abstract class PlatLot {
 	public void generateMines(CityWorldGenerator generator, SupportBlocks chunk) {
 
 		// get shafted!
-		if (generator.settings.includeMines)
+		if (generator.getSettings().includeMines)
 			for (int y = lowestMineSegment; y + 16 < blockYs.getMinHeight(); y += 16) {
 				if (isShaftableLevel(generator, y))
 					generateVerticalMineLevel(generator, chunk, y);
@@ -478,7 +478,7 @@ public abstract class PlatLot {
 
 	private void generateMineAlcove(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, int prizeX,
 			int prizeZ) {
-		if (chunkOdds.playOdds(generator.settings.oddsOfAlcoveInMines)) {
+		if (chunkOdds.playOdds(generator.getSettings().oddsOfAlcoveInMines)) {
 			if (!chunk.isEmpty(x, y, z) && !chunk.isEmpty(x + 1, y, z) && !chunk.isEmpty(x, y, z + 1)
 					&& !chunk.isEmpty(x + 1, y, z + 1)) {
 				chunk.setBlocks(x, x + 2, y + 1, y + 4, z, z + 2, Material.AIR);
@@ -537,7 +537,7 @@ public abstract class PlatLot {
 	private void generateMineTreat(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
 
 		// cool stuff?
-		if (generator.settings.treasuresInMines && chunkOdds.playOdds(generator.settings.oddsOfTreasureInMines)) {
+		if (generator.getSettings().treasuresInMines && chunkOdds.playOdds(generator.getSettings().oddsOfTreasureInMines)) {
 			chunk.setChest(generator, x, y, z, BlockFace.SOUTH, chunkOdds, generator.lootProvider, LootLocation.MINE);
 		}
 	}
@@ -545,7 +545,7 @@ public abstract class PlatLot {
 	private void generateMineTrick(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
 		// not so cool stuff?
 		generator.spawnProvider.setSpawnOrSpawner(generator, chunk, chunkOdds, x, y, z,
-				generator.settings.spawnersInMines, generator.spawnProvider.itemsEntities_Mine);
+				generator.getSettings().spawnersInMines, generator.spawnProvider.itemsEntities_Mine);
 	}
 
 	public boolean isValidStrataY(CityWorldGenerator generator, int blockX, int blockY, int blockZ) {
@@ -555,14 +555,14 @@ public abstract class PlatLot {
 	public void generateBones(CityWorldGenerator generator, SupportBlocks chunk) {
 
 		// fossils?
-		if (generator.settings.includeBones && chunkOdds.playOdds(Odds.oddsExceedinglyUnlikely))
+		if (generator.getSettings().includeBones && chunkOdds.playOdds(Odds.oddsExceedinglyUnlikely))
 			generator.thingProvider.generateBones(generator, this, chunk, blockYs, chunkOdds);
 	}
 
 	public void generateOres(CityWorldGenerator generator, SupportBlocks chunk) {
 
 		// shape the world
-		if (generator.settings.includeOres || generator.settings.includeUndergroundFluids)
+		if (generator.getSettings().includeOres || generator.getSettings().includeUndergroundFluids)
 			generator.oreProvider.sprinkleOres(generator, this, chunk, blockYs, chunkOdds);
 	}
 

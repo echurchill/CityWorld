@@ -40,7 +40,7 @@ public class MountainShackLot extends MountainFlatLot {
 				5);
 
 		// not a happy place?
-		if (generator.settings.includeDecayedBuildings)
+		if (generator.getSettings().includeDecayedBuildings)
 			destroyBuilding(generator, atY, floors);
 		else
 			generateSurface(generator, chunk, false);

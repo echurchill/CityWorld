@@ -31,7 +31,7 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
-public class CityWorldGenerator extends ChunkGenerator {
+public class CityWorldGenerator extends ChunkGenerator implements CityWorldLog {
 
 	private CityWorld plugin;
 	private World world;
@@ -58,7 +58,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 
 	public WorldBlocks decayBlocks;
 
-	public CityWorldSettings settings;
+	private CityWorldSettings settings;
 
 	public int streetLevel;
 
@@ -184,7 +184,7 @@ public class CityWorldGenerator extends ChunkGenerator {
 	}
 
 	public CityWorldGenerator(CityWorld plugin, String worldName, String worldStyle) {
-		CityWorld.log.info("CityWorld creating world " + worldName);
+		CityWorld.log.info("CityWorld creating world '" + worldName + "'");
 
 		this.plugin = plugin;
 		this.worldName = worldName;
@@ -241,7 +241,9 @@ public class CityWorldGenerator extends ChunkGenerator {
 			materialProvider = new MaterialProvider(this);
 			odonymProvider = OdonymProvider.loadProvider(this, new Odds(getRelatedSeed()));
 
-			settings = new CityWorldSettings(this);
+			settings = CityWorldSettings.loadSettings(this, aWorld);
+			
+			worldEnvironment = world.getEnvironment();
 			worldSeed = world.getSeed();
 			connectionKeyGen = new Odds(getRelatedSeed());
 
@@ -410,11 +412,15 @@ public class CityWorldGenerator extends ChunkGenerator {
 	}
 
 	public void reportFormatted(String format, Object... objects) {
-		plugin.reportMessage(String.format(format, objects));
+		plugin.reportFormatted(format, objects);
 	}
 
 	public void reportException(String message, Exception e) {
 		plugin.reportException(message, e);
+	}
+
+	public CityWorldSettings getSettings() {
+		return settings;
 	}
 
 	private class CityWorldBlockPopulator extends BlockPopulator {

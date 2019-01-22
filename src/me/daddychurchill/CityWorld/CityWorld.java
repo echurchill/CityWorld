@@ -8,7 +8,7 @@ import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class CityWorld extends JavaPlugin {
+public class CityWorld extends JavaPlugin implements CityWorldLog {
 
 	public final static Logger log = Logger.getLogger("Minecraft.CityWorld");
 
@@ -28,17 +28,24 @@ public class CityWorld extends JavaPlugin {
 		saveConfig();
 
 		// tell the world we are out of here
-		// reportMessage("Disabled");
+		 reportMessage("Disabled");
+	}
+	
+	private CityWorldSettings defaults;
+	
+	public CityWorldSettings getDefaults() {
+		return defaults;
 	}
 
 	@Override
 	public void onEnable() {
 		addCommand("cityworld", new CommandCityWorld(this));
 		addCommand("citychunk", new CommandCityChunk(this));
-		// addCommand("citylines", new CommandCityLines(this));
 		addCommand("cityinfo", new CommandCityInfo(this)); // added by Sablednah (see below)
+		
 		// configFile can be retrieved via getConfig()
-		// reportMessage("Enabled" );
+		defaults = CityWorldSettings.loadSettings(this);
+		reportMessage("Enabled");
 	}
 
 	private void addCommand(String keyword, CommandExecutor exec) {
@@ -67,6 +74,10 @@ public class CityWorld extends JavaPlugin {
 	public void reportMessage(String message1, String message2) {
 		reportMessage(message1);
 		log.info(" \\__" + message2);
+	}
+
+	public void reportFormatted(String format, Object ... objects) {
+		reportMessage(String.format(format, objects));
 	}
 
 	public void reportException(String message, Exception e) {

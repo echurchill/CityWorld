@@ -62,7 +62,7 @@ public class FloatingNatureContext extends NatureContext {
 						if (x > 0 && x < PlatMap.Width - 1 && z > 0 && z < PlatMap.Width - 1) {
 
 							// floating building?
-							if (generator.settings.includeHouses) {
+							if (generator.getSettings().includeHouses) {
 								if (shapeProvider.isIsolatedConstructAt(originX + x, originZ + z,
 										oddsOfIsolatedConstructs))
 									current = new FloatingHouseLot(platmap, originX + x, originZ + z,

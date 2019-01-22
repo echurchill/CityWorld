@@ -33,7 +33,7 @@ public class SurfaceProvider_SandDunes extends SurfaceProvider_Flooded {
 
 				// trees? but only if we are not too close to the edge
 				if (includeTrees) {
-					if (generator.settings.includeAbovegroundFluids) {
+					if (generator.getSettings().includeAbovegroundFluids) {
 
 					} else {
 						if (primary < cactusOdds && x % 2 == 0 && z % 2 != 0) {

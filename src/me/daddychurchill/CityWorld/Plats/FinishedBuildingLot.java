@@ -144,16 +144,16 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		// calculate the defaults
 		calculateOptions(context);
 
-		wallsWE = new OutsideWEWallFactory(chunkOdds, platmap.generator.settings.includeDecayedBuildings);
+		wallsWE = new OutsideWEWallFactory(chunkOdds, platmap.generator.getSettings().includeDecayedBuildings);
 		wallsNS = new OutsideNSWallFactory(wallsWE);
 		wallsCurved = new CurvedWallFactory(wallsWE);
 
-		wallsWEAlt = new OutsideWEWallFactory(chunkOdds, platmap.generator.settings.includeDecayedBuildings);
+		wallsWEAlt = new OutsideWEWallFactory(chunkOdds, platmap.generator.getSettings().includeDecayedBuildings);
 		wallsNSAlt = new OutsideNSWallFactory(wallsWEAlt);
 		wallsCurvedAlt = new CurvedWallFactory(wallsWEAlt);
 		wallStyle = pickWallStyle();
 
-		wallsInterior = new InteriorWallFactory(chunkOdds, platmap.generator.settings.includeDecayedBuildings);
+		wallsInterior = new InteriorWallFactory(chunkOdds, platmap.generator.getSettings().includeDecayedBuildings);
 
 		// final validation
 		validateOptions();
@@ -940,7 +940,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 
 		// happy place?
-		if (!generator.settings.includeDecayedBuildings) {
+		if (!generator.getSettings().includeDecayedBuildings) {
 
 			// maybe draw a navlight?
 			drawNavLight(chunk, context);
@@ -1079,7 +1079,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			Material materialGlass, StairWell stairLocation, Surroundings heights) {
 
 		DoorStyle drawExteriorDoors = floor == 0 ? DoorStyle.WOOD : DoorStyle.NONE;
-		if (drawExteriorDoors == DoorStyle.WOOD && generator.settings.includeDecayedBuildings)
+		if (drawExteriorDoors == DoorStyle.WOOD && generator.getSettings().includeDecayedBuildings)
 			drawExteriorDoors = chunkOdds.flipCoin() ? DoorStyle.HOLE : DoorStyle.WOOD;
 
 		if (drawExteriorDoors != DoorStyle.NONE)
@@ -1536,7 +1536,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			Surroundings heights) {
 
 		// skip the rooms?
-		if (!generator.settings.includeBuildingInteriors)
+		if (!generator.getSettings().includeBuildingInteriors)
 			return;
 
 		// outer rooms?

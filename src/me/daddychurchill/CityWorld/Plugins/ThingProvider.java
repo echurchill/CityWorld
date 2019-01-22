@@ -249,7 +249,7 @@ public class ThingProvider extends Provider {
 			Odds odds, boolean smaller) {
 		Material matBlock = Material.QUARTZ_BLOCK;
 		Material matStair = Material.QUARTZ_STAIRS;
-		if (generator.settings.includeDecayedNature) {
+		if (generator.getSettings().includeDecayedNature) {
 			matBlock = Material.SANDSTONE;
 			matStair = Material.SANDSTONE_STAIRS;
 		}

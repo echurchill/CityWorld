@@ -137,7 +137,7 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 				int groundY = findGroundY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 
 				// which one are we doing?
-				switch (generator.settings.subSurfaceStyle) {
+				switch (generator.getSettings().subSurfaceStyle) {
 				case LAND:
 					// make the base
 					chunk.setBlock(x, 0, z, ores.substratumMaterial);
@@ -149,8 +149,8 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 					if (groundY < seaLevel) {
 						chunk.setBlock(x, groundY - 1, z, ores.fluidSubsurfaceMaterial);
 						chunk.setBlock(x, groundY, z, ores.fluidSurfaceMaterial);
-						if (generator.settings.includeAbovegroundFluids) {
-							if (generator.settings.includeDecayedNature)
+						if (generator.getSettings().includeAbovegroundFluids) {
+							if (generator.getSettings().includeDecayedNature)
 								chunk.setBlocks(x, groundY + 1, deepSeaLevel, z, ores.fluidMaterial);
 							else
 								chunk.setBlocks(x, groundY + 1, seaLevel, z, ores.fluidMaterial);

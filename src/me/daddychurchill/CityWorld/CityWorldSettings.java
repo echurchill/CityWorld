@@ -1,9 +1,16 @@
 package me.daddychurchill.CityWorld;
 
+import java.io.File;
+
+import org.bukkit.World;
+import org.bukkit.World.Environment;
+import org.bukkit.WorldType;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.util.Vector;
 
+import me.daddychurchill.CityWorld.CityWorldGenerator.WorldStyle;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider_Floating;
 import me.daddychurchill.CityWorld.Plugins.SurfaceProvider_Floating.SubSurfaceStyle;
 import me.daddychurchill.CityWorld.Plugins.TreeProvider;
@@ -13,7 +20,7 @@ import me.daddychurchill.CityWorld.Support.Odds;
 
 public class CityWorldSettings {
 
-	public boolean darkEnvironment;
+	public boolean darkEnvironment = false;
 
 	public boolean includeRoads = true;
 	public boolean includeRoundabouts = true;
@@ -162,13 +169,163 @@ public class CityWorldSettings {
 //	public final static String tagOddsOfTreasureInBuildings = "OddsOfTreasureInBuildings";
 //	public final static String tagOddsOfAlcovesInMines = "OddsOfAlcovesInMines";
 
-	public CityWorldSettings(CityWorldGenerator generator) {
+	public CityWorldSettings() {
 		super();
-		String worldname = generator.worldName;
-		generator.worldEnvironment = generator.getWorld().getEnvironment();
+	}
+	
+	public static CityWorldSettings loadSettings(CityWorld plugin) {
+		plugin.reportMessage("Loading default settings");
+		CityWorldSettings settings = new CityWorldSettings();
+		
+		FileConfiguration config = plugin.getConfig();
+		settings.loadSettings(null, config, "default", Environment.NORMAL, WorldType.NORMAL, WorldStyle.NORMAL);
+		plugin.saveConfig();
+		
+		return settings;
+	}
+	
+	public static CityWorldSettings loadSettings(CityWorldGenerator generator, World aWorld) {
+		String worldName = generator.worldName;
+		generator.reportMessage("Loading settings for '" + worldName + "'");
+		CityWorldSettings settings = new CityWorldSettings();
+		Environment worldEnv = aWorld.getEnvironment();
+		WorldType worldType = aWorld.getWorldType();
+		WorldStyle worldStyle = generator.worldStyle;
+		
+		try {
+			
+			File pluginFolder = generator.getPlugin().getDataFolder();
+			if (pluginFolder.isDirectory()) {
+				File worldConfig = new File(pluginFolder, worldName + ".yml");
+				
+				// if this returns true then we need to copy over the defaults
+				if (worldConfig.createNewFile()) {
+					
+					FileConfiguration defaults = generator.getPlugin().getConfig();
+					if (defaults.isConfigurationSection(worldName)) {
+						
+						CityWorldSettings oldSettings = new CityWorldSettings();
+						oldSettings.loadSettings(generator, defaults, worldName, worldEnv, worldType, worldStyle);
+						settings.copySettings(oldSettings);
+						
+						generator.reportMessage("*********************************************");
+						generator.reportMessage("Copied the settings from CityWorld/config.yml");
+						generator.reportMessage(" to " + worldName + ".yml. You should verify");
+						generator.reportMessage(" that everything copied over to it correctly.");
+						generator.reportMessage(" Note: material, spawn, loot and names not copied.");
+						generator.reportMessage("*********************************************");
+
+					} else {
+						settings.copySettings(generator.getPlugin().getDefaults());
+					}
+				} else {
+					FileConfiguration defaults = generator.getPlugin().getConfig();
+					if (defaults.isConfigurationSection(worldName)) {
+						generator.reportMessage("*********************************************");
+						generator.reportMessage("Note: CityWorld/config.yml still contains information");
+						generator.reportMessage(" information about " + worldName + ", you should consider");
+						generator.reportMessage(" remove it from there since it is no longer used.");
+						generator.reportMessage("*********************************************");
+					}
+				}
+					
+				// now load it
+				YamlConfiguration config = YamlConfiguration.loadConfiguration(worldConfig);
+				try {
+					settings.loadSettings(generator, config, worldName, worldEnv, worldType, worldStyle);
+					
+				} finally {
+					config.save(worldConfig);
+				}
+			}
+		} catch (Exception e) {
+			generator.reportException("Could not load settings", e);
+			return null;
+		}
+		return settings;
+	}
+	
+	private void copySettings(CityWorldSettings otherSettings) {
+		darkEnvironment = otherSettings.darkEnvironment; 
+
+		includeRoads = otherSettings.includeRoads; 
+		includeRoundabouts = otherSettings.includeRoundabouts; 
+		includeSewers = otherSettings.includeSewers; 
+		includeCisterns = otherSettings.includeCisterns; 
+		includeBasements = otherSettings.includeBasements; 
+		includeMines = otherSettings.includeMines; 
+		includeBunkers = otherSettings.includeBunkers; 
+		includeBuildings = otherSettings.includeBuildings; 
+		includeHouses = otherSettings.includeHouses; 
+		includeFarms = otherSettings.includeFarms; 
+		includeAirborneStructures = otherSettings.includeAirborneStructures; 
+
+		includeCaves = otherSettings.includeCaves; 
+		includeLavaFields = otherSettings.includeLavaFields; 
+		includeSeas = otherSettings.includeSeas; 
+		includeMountains = otherSettings.includeMountains; 
+		includeOres = otherSettings.includeOres; 
+		includeBones = otherSettings.includeBones; 
+
+		spawnBeings = otherSettings.spawnBeings; 
+		spawnBaddies = otherSettings.spawnBaddies; 
+		spawnAnimals = otherSettings.spawnAnimals; 
+		spawnVagrants = otherSettings.spawnVagrants; 
+		nameVillagers = otherSettings.nameVillagers; 
+		showVillagersNames = otherSettings.showVillagersNames; 
+
+		spawnersInBunkers = otherSettings.spawnersInBunkers; 
+		spawnersInMines = otherSettings.spawnersInMines; 
+		spawnersInSewers = otherSettings.spawnersInSewers; 
+
+		treasuresInBunkers = otherSettings.treasuresInBunkers; 
+		treasuresInMines = otherSettings.treasuresInMines; 
+		treasuresInSewers = otherSettings.treasuresInSewers; 
+		treasuresInBuildings = otherSettings.treasuresInBuildings; 
+
+		includeUndergroundFluids = otherSettings.includeUndergroundFluids; 
+		includeAbovegroundFluids = otherSettings.includeAbovegroundFluids; 
+		includeWorkingLights = otherSettings.includeWorkingLights; 
+		includeNamedRoads = otherSettings.includeNamedRoads; 
+		includeDecayedRoads = otherSettings.includeDecayedRoads; 
+		includeDecayedBuildings = otherSettings.includeDecayedBuildings; 
+		includeDecayedNature = otherSettings.includeDecayedNature; 
+		includeBuildingInteriors = otherSettings.includeBuildingInteriors; 
+
+		forceLoadWorldEdit = otherSettings.forceLoadWorldEdit; 
+		broadcastSpecialPlaces = otherSettings.broadcastSpecialPlaces; 
+
+		treeStyle = otherSettings.treeStyle; 
+		spawnTrees = otherSettings.spawnTrees; 
+		subSurfaceStyle = otherSettings.subSurfaceStyle; 
+
+		centerPointOfChunkRadiusX = otherSettings.centerPointOfChunkRadiusX; 
+		centerPointOfChunkRadiusZ = otherSettings.centerPointOfChunkRadiusZ; 
+		constructChunkRadius = otherSettings.constructChunkRadius; 
+		checkConstructRange = otherSettings.checkConstructRange; 
+		roadChunkRadius = otherSettings.roadChunkRadius; 
+		checkRoadRange = otherSettings.checkRoadRange; 
+		cityChunkRadius = otherSettings.cityChunkRadius; 
+		checkCityRange = otherSettings.checkCityRange; 
+		buildOutsideRadius = otherSettings.buildOutsideRadius; 
+
+		minInbetweenChunkDistanceOfCities = otherSettings.minInbetweenChunkDistanceOfCities; 
+		checkMinInbetweenChunkDistanceOfCities = otherSettings.checkMinInbetweenChunkDistanceOfCities; 
+		ruralnessLevel = otherSettings.ruralnessLevel; 
+
+		oddsOfTreasureInSewers = otherSettings.oddsOfTreasureInSewers; 
+		oddsOfTreasureInBunkers = otherSettings.oddsOfTreasureInBunkers; 
+		oddsOfTreasureInMines = otherSettings.oddsOfTreasureInMines; 
+		oddsOfTreasureInBuildings = otherSettings.oddsOfTreasureInBuildings; 
+		oddsOfAlcoveInMines = otherSettings.oddsOfAlcoveInMines; 
+		
+		
+	}
+
+	private void loadSettings(CityWorldGenerator generator, FileConfiguration config, String worldname, Environment environment, WorldType worldtype, WorldStyle worldstyle) {
 
 		// get the right defaults
-		switch (generator.worldEnvironment) {
+		switch (environment) {
 		case NORMAL:
 			darkEnvironment = false;
 			treeStyle = TreeStyle.NORMAL;
@@ -191,7 +348,7 @@ public class CityWorldSettings {
 		}
 
 		// Initialize based world style settings
-		validateSettingsAgainstWorldStyle(generator);
+		validateSettingsAgainstWorldStyle(worldstyle);
 
 		// generator.reportMessage("Items.Count = " + itemsTreasureInBunkers.count());
 
@@ -204,9 +361,11 @@ public class CityWorldSettings {
 //			schematicsFolder = findFolder(pluginFolder, "Schematics for " + generator.worldName);
 
 		// add/get the configuration
-		CityWorld plugin = generator.getPlugin();
-		FileConfiguration config = plugin.getConfig();
-		config.options().header("CityWorld Plugin Options");
+		if (generator != null) {
+			config.options().header("CityWorld World Options");
+		} else {
+			config.options().header("CityWorld Default Options");
+		}
 		config.options().copyDefaults(true);
 
 		// get the right section
@@ -334,9 +493,11 @@ public class CityWorldSettings {
 			treasuresInSewers = section.getBoolean(tagTreasuresInSewers, treasuresInSewers);
 			treasuresInBuildings = section.getBoolean(tagTreasuresInBuildings, treasuresInBuildings);
 
-			generator.materialProvider.read(generator, section);
-			generator.spawnProvider.read(generator, section);
-			generator.odonymProvider.read(generator, section);
+			if (generator != null) {
+				generator.materialProvider.read(generator, section);
+				generator.spawnProvider.read(generator, section);
+				generator.odonymProvider.read(generator, section);
+			}
 
 			includeUndergroundFluids = section.getBoolean(tagIncludeUndergroundFluids, includeUndergroundFluids);
 			includeAbovegroundFluids = section.getBoolean(tagIncludeAbovegroundFluids, includeAbovegroundFluids);
@@ -426,7 +587,7 @@ public class CityWorldSettings {
 
 			// ===========================================================================
 			// validate settings against world style settings
-			validateSettingsAgainstWorldStyle(generator);
+			validateSettingsAgainstWorldStyle(worldstyle);
 
 			// ===========================================================================
 			// write things back out with corrections
@@ -492,32 +653,35 @@ public class CityWorldSettings {
 			section.set(tagMinInbetweenChunkDistanceOfCities, minInbetweenChunkDistanceOfCities);
 			section.set(tagRuralnessLevel, ruralnessLevel);
 
-			generator.materialProvider.write(generator, section);
-			generator.spawnProvider.write(generator, section);
-			generator.odonymProvider.write(generator, section);
+			if (generator != null) {
+				generator.materialProvider.write(generator, section);
+				generator.spawnProvider.write(generator, section);
+				generator.odonymProvider.write(generator, section);
+			}
 
 			// ===========================================================================
 			// note the depreciations
 			deprecateOption(section, "IncludeWoolRoads",
 					"DEPRECATED: CityWorld now uses stained clay and quartz for roads");
-			deprecateOption(section, "IncludePavedRoads", "DEPRECATED: See deprecated note for IncludeWoolRoads");
-			deprecateOption(section, "RoadRange", "DEPRECATED: Use RoadChunkRadius instead");
-			deprecateOption(section, "CityRange", "DEPRECATED: Use CityChunkRadius instead");
-			deprecateOption(section, "IncludeTekkitMaterials", "DEPRECATED: ForgeTekkit is auto-recognized");
-			deprecateOption(section, "ForceLoadTekkit", "DEPRECATED: Direct Tekkit support removed as of 3.0");
-			deprecateOption(section, "IncludeFloatingSubsurface", "DEPRECATED: Use SubSurfaceStyle instead");
-
-			// ===========================================================================
-			// write it back out
-			plugin.saveConfig();
+			deprecateOption(section, "IncludePavedRoads", 
+					"DEPRECATED: See deprecated note for IncludeWoolRoads");
+			deprecateOption(section, "RoadRange", 
+					"DEPRECATED: Use RoadChunkRadius instead");
+			deprecateOption(section, "CityRange", 
+					"DEPRECATED: Use CityChunkRadius instead");
+			deprecateOption(section, "IncludeTekkitMaterials", 
+					"DEPRECATED: ForgeTekkit is auto-recognized");
+			deprecateOption(section, "ForceLoadTekkit", 
+					"DEPRECATED: Direct Tekkit support removed as of 3.0");
+			deprecateOption(section, "IncludeFloatingSubsurface", 
+					"DEPRECATED: Use SubSurfaceStyle instead");
 		}
-
 	}
 
-	private void validateSettingsAgainstWorldStyle(CityWorldGenerator generator) {
+	private void validateSettingsAgainstWorldStyle(WorldStyle style) {
 		// now get the right defaults for the world style
 		// anything commented out is up for user modification
-		switch (generator.worldStyle) {
+		switch (style) {
 		case NORMAL:
 		case METRO:
 			subSurfaceStyle = SubSurfaceStyle.NONE; // DIFFERENT

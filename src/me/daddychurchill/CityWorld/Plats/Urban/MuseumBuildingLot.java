@@ -75,7 +75,7 @@ public class MuseumBuildingLot extends FinishedBuildingLot {
 		drawExteriorDoors(generator, chunk, context, floor, floorAt, floorHeight, insetNS, insetWE, allowRounded,
 				materialWall, materialGlass, stairLocation, heights);
 
-		if (singleFloor && generator.settings.includeBones) {
+		if (singleFloor && generator.getSettings().includeBones) {
 
 			// calculate if we should do it
 			boolean placeBones = false;
@@ -107,7 +107,7 @@ public class MuseumBuildingLot extends FinishedBuildingLot {
 						true);
 
 				// it looked so nice for a moment... but the moment has passed
-				if (generator.settings.includeDecayedBuildings) {
+				if (generator.getSettings().includeDecayedBuildings) {
 					destroyLot(generator, sidewalkLevel, sidewalkLevel + firstFloorHeight);
 
 				} else {

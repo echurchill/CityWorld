@@ -12,7 +12,7 @@ public abstract class ConstructLot extends IsolatedLot {
 
 	@Override
 	public boolean isPlaceableAt(CityWorldGenerator generator, int chunkX, int chunkZ) {
-		return generator.settings.inConstructRange(chunkX, chunkZ);
+		return generator.getSettings().inConstructRange(chunkX, chunkZ);
 	}
 
 	@Override

@@ -20,7 +20,7 @@ public class StorageFilledChestsRoom extends StorageRoom {
 	@Override
 	public void drawFixture(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int floor, int x, int y, int z,
 			int width, int height, int depth, BlockFace sideWithWall, Material materialWall, Material materialGlass) {
-		if (generator.settings.treasuresInBuildings) {
+		if (generator.getSettings().treasuresInBuildings) {
 			switch (sideWithWall) {
 			default:
 			case NORTH:
@@ -69,15 +69,15 @@ public class StorageFilledChestsRoom extends StorageRoom {
 
 	protected void drawChests(CityWorldGenerator generator, RealBlocks chunk, Odds odds, BlockFace direction, int x,
 			int y, int z, int height) {
-		if (odds.playOdds(generator.settings.oddsOfTreasureInBuildings))
+		if (odds.playOdds(generator.getSettings().oddsOfTreasureInBuildings))
 			drawChest(generator, chunk, odds, direction, x, y, z);
 		if (height > 3) {
 			chunk.setBlock(x, y + 1, z, matPole, Type.TOP);
-			if (odds.playOdds(generator.settings.oddsOfTreasureInBuildings))
+			if (odds.playOdds(generator.getSettings().oddsOfTreasureInBuildings))
 				drawChest(generator, chunk, odds, direction, x, y + 2, z);
 			if (height > 5) {
 				chunk.setBlock(x, y + 3, z, matPole, Type.TOP);
-				if (odds.playOdds(generator.settings.oddsOfTreasureInBuildings))
+				if (odds.playOdds(generator.getSettings().oddsOfTreasureInBuildings))
 					drawChest(generator, chunk, odds, direction, x, y + 4, z);
 			}
 		}

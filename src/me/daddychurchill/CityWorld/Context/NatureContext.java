@@ -38,7 +38,7 @@ public class NatureContext extends UncivilizedContext {
 
 		// random stuff?
 		Odds platmapOdds = platmap.getOddsGenerator();
-		boolean doBunkers = generator.settings.includeBunkers && platmapOdds.playOdds(oddsOfBunkers);
+		boolean doBunkers = generator.getSettings().includeBunkers && platmapOdds.playOdds(oddsOfBunkers);
 		boolean didBunkerEntrance = false;
 
 		// where it all begins
@@ -145,14 +145,14 @@ public class NatureContext extends UncivilizedContext {
 
 	protected PlatLot createBuriedBuildingLot(CityWorldGenerator generator, PlatMap platmap, int x, int z,
 			boolean firstOne) {
-		if (generator.settings.includeBunkers)
+		if (generator.getSettings().includeBunkers)
 			return new BunkerLot(platmap, x, z, firstOne);
 		return null;
 	}
 
 	protected PlatLot createSurfaceBuildingLot(CityWorldGenerator generator, PlatMap platmap, int x, int z,
 			HeightInfo heights) {
-		if (generator.settings.includeHouses)
+		if (generator.getSettings().includeHouses)
 			if (platmap.getOddsGenerator().flipCoin())
 				return new MountainShackLot(platmap, x, z);
 			else
@@ -174,11 +174,11 @@ public class NatureContext extends UncivilizedContext {
 			switch (state) {
 			case DEEPSEA:
 				// Oil rigs
-				if (generator.settings.includeBuildings)
+				if (generator.getSettings().includeBuildings)
 					current = new OilPlatformLot(platmap, platmap.originX + x, platmap.originZ + z);
 				break;
 			case SEA:
-				if (generator.settings.includeAirborneStructures) {
+				if (generator.getSettings().includeAirborneStructures) {
 					if (platmapOdds.playOdds(Odds.oddsEnormouslyUnlikely))
 						current = new FlyingSaucerLot(platmap, platmap.originX + x, platmap.originZ + z);
 					else if (platmapOdds.playOdds(Odds.oddsSomewhatLikely))
@@ -190,7 +190,7 @@ public class NatureContext extends UncivilizedContext {
 //			case BUILDING:
 //				break;
 			case LOWLAND:
-				if (generator.settings.includeAirborneStructures) {
+				if (generator.getSettings().includeAirborneStructures) {
 					if (platmapOdds.playOdds(Odds.oddsEnormouslyUnlikely))
 						current = new FlyingSaucerLot(platmap, platmap.originX + x, platmap.originZ + z);
 					else if (platmapOdds.playOdds(Odds.oddsSomewhatLikely))
@@ -201,17 +201,17 @@ public class NatureContext extends UncivilizedContext {
 				break;
 			case MIDLAND:
 				// Mine entrance
-				if (generator.settings.includeMines)
+				if (generator.getSettings().includeMines)
 					current = new MineEntranceLot(platmap, platmap.originX + x, platmap.originZ + z);
 				break;
 			case HIGHLAND:
 				// Radio towers
-				if (generator.settings.includeBuildings)
+				if (generator.getSettings().includeBuildings)
 					current = new RadioTowerLot(platmap, platmap.originX + x, platmap.originZ + z);
 				break;
 			case PEAK:
 				// Old castle
-				if (generator.settings.includeBuildings)
+				if (generator.getSettings().includeBuildings)
 					current = new OldCastleLot(platmap, platmap.originX + x, platmap.originZ + z);
 				break;
 			default:

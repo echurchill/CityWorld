@@ -105,7 +105,7 @@ public class RoadLot extends ConnectedLot {
 
 	@Override
 	public boolean isPlaceableAt(CityWorldGenerator generator, int chunkX, int chunkZ) {
-		return generator.settings.inRoadRange(chunkX, chunkZ);
+		return generator.getSettings().inRoadRange(chunkX, chunkZ);
 	}
 
 	@Override
@@ -547,7 +547,7 @@ public class RoadLot extends ConnectedLot {
 		int sewerY = base1Y + 1;
 		int base2Y = base1Y + DataContext.FloorHeight + 1;
 		int pavementLevel = generator.streetLevel;
-		boolean doSewer = generator.settings.includeSewers && inACity;
+		boolean doSewer = generator.getSettings().includeSewers && inACity;
 
 		// look around
 		SurroundingRoads roads = new SurroundingRoads(platmap, platX, platZ);
@@ -716,7 +716,7 @@ public class RoadLot extends ConnectedLot {
 			}
 
 			// not a happy place?
-			if (generator.settings.includeDecayedRoads)
+			if (generator.getSettings().includeDecayedRoads)
 				destroyLot(generator, pavementLevel + 5, pavementLevel + 7);
 
 			// half as likely in the middle of the road
@@ -930,7 +930,7 @@ public class RoadLot extends ConnectedLot {
 					sidewalkWidth, chunk.width - sidewalkWidth, crosswalkEast, doingTunnel);
 
 			// decay please
-			if (generator.settings.includeDecayedRoads) {
+			if (generator.getSettings().includeDecayedRoads) {
 
 				// center bit
 				decayRoad(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, sidewalkWidth,
@@ -1004,7 +1004,7 @@ public class RoadLot extends ConnectedLot {
 							chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
 
 					// put signs up?
-					if (generator.settings.includeNamedRoads) {
+					if (generator.getSettings().includeNamedRoads) {
 
 						// if we haven't calculated crosswalks yet do so
 						calculateCrosswalks(roads);
@@ -1566,7 +1566,7 @@ public class RoadLot extends ConnectedLot {
 	protected boolean generateLightPost(CityWorldGenerator generator, RealBlocks chunk, DataContext context,
 			int sidewalkLevel, int x, int z) {
 		chunk.setBlock(x, sidewalkLevel, z, lightpostbaseMaterial);
-		if (generator.settings.includeDecayedRoads) {
+		if (generator.getSettings().includeDecayedRoads) {
 			int y = sidewalkLevel + 1;
 			while (y < sidewalkLevel + lightpostHeight + 1) {
 				if (chunkOdds.playOdds(0.25))
@@ -1595,7 +1595,7 @@ public class RoadLot extends ConnectedLot {
 		int y = sidewalkLevel + lightpostHeight;
 
 		// decay or not?
-		if (generator.settings.includeDecayedRoads) {
+		if (generator.getSettings().includeDecayedRoads) {
 
 			// put the signs up
 			if (chunkOdds.playOdds(oddsOfDecayedSign)) {
@@ -1669,7 +1669,7 @@ public class RoadLot extends ConnectedLot {
 	private void generateTreat(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z) {
 
 		// cool stuff?
-		if (generator.settings.treasuresInSewers && chunkOdds.playOdds(generator.settings.oddsOfTreasureInSewers)) {
+		if (generator.getSettings().treasuresInSewers && chunkOdds.playOdds(generator.getSettings().oddsOfTreasureInSewers)) {
 			chunk.setChest(generator, x, y, z, BlockFace.NORTH, chunkOdds, generator.lootProvider, LootLocation.SEWER);
 		}
 	}
@@ -1678,6 +1678,6 @@ public class RoadLot extends ConnectedLot {
 
 		// not so cool stuff?
 		generator.spawnProvider.setSpawnOrSpawner(generator, chunk, chunkOdds, x, y, z,
-				generator.settings.spawnersInSewers, generator.spawnProvider.itemsEntities_Sewers);
+				generator.getSettings().spawnersInSewers, generator.spawnProvider.itemsEntities_Sewers);
 	}
 }

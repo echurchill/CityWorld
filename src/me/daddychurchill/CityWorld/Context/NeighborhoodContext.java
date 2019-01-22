@@ -33,7 +33,7 @@ public class NeighborhoodContext extends RuralContext {
 				if (current == null) {
 
 					// make houses? but only if they are right beside a road
-					if (generator.settings.includeHouses) {
+					if (generator.getSettings().includeHouses) {
 
 						// check for roads?
 						if (checkForRoads) {

@@ -40,7 +40,7 @@ public abstract class TreeProvider {
 		TreeProvider provider = null;
 
 		// get the right defaults
-		switch (generator.settings.treeStyle) {
+		switch (generator.getSettings().treeStyle) {
 		case SPOOKY:
 			provider = new TreeProvider_Spooky(generator);
 			break;

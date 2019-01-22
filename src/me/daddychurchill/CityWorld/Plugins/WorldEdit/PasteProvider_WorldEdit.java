@@ -132,7 +132,7 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 			if (!isPlugInVersionOrBetter(generator, worldEditPlugin, pluginMinVersion))
 
 				// Use it anyway?
-				if (generator.settings.forceLoadWorldEdit) {
+				if (generator.getSettings().forceLoadWorldEdit) {
 					generator.reportMessage("'" + CityWorldSettings.tagForceLoadWorldEdit + "' setting enabled!");
 
 					// Well that didn't work... let's tell the user about a potential workaround

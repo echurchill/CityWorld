@@ -138,12 +138,12 @@ public class ParkLot extends ConnectedLot {
 		int highestY = generator.streetLevel - groundDepth - 1;
 
 		// cistern?
-		if (generator.settings.includeCisterns) {
+		if (generator.getSettings().includeCisterns) {
 			chunk.setLayer(lowestY, cisternMaterial);
 
 			// fill with water
 			lowestY++;
-			if (generator.settings.includeAbovegroundFluids)
+			if (generator.getSettings().includeAbovegroundFluids)
 				chunk.setBlocks(0, chunk.width, lowestY, lowestY + waterDepth, 0, chunk.width,
 						generator.oreProvider.fluidMaterial);
 
@@ -469,7 +469,7 @@ public class ParkLot extends ConnectedLot {
 //		int surfaceY = generator.streetLevel + 1;
 
 		// if things are bad
-		if (generator.settings.includeDecayedBuildings) {
+		if (generator.getSettings().includeDecayedBuildings) {
 			destroyLot(generator, surfaceY - 2, surfaceY + 2);
 		} else {
 
@@ -567,7 +567,7 @@ public class ParkLot extends ConnectedLot {
 			}
 
 			// way down?
-			if (generator.settings.includeCisterns) {
+			if (generator.getSettings().includeCisterns) {
 //				SurroundingLots neighbors = new SurroundingLots(platmap, platX, platZ);
 				if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
 //					int lowestY = generator.streetLevel - cisternDepth + 1 + waterDepth;

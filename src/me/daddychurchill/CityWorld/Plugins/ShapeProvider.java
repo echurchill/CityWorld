@@ -73,14 +73,14 @@ public abstract class ShapeProvider extends Provider {
 			natureContext.validateMap(generator, platmap);
 
 			// place and validate the roads
-			if (generator.settings.includeRoads) {
+			if (generator.getSettings().includeRoads) {
 				platmap.context = getContext(platmap);
 				platmap.populateRoads(); // this will see the platmap's context as natural since it hasn't been re-set
 											// yet, see below
 				platmap.validateRoads();
 
 				// place the buildings
-				if (generator.settings.includeBuildings) {
+				if (generator.getSettings().includeBuildings) {
 
 					// recalculate the context based on the "natural-ness" of the platmap
 //					platmap.context = getContext(platmap);
@@ -236,7 +236,7 @@ public abstract class ShapeProvider extends Provider {
 			if (lot.isValidStrataY(generator, blockX, y, blockZ)
 					&& generator.shapeProvider.notACave(generator, blockX, y, blockZ))
 				chunk.setBlock(x, y, z, stratumMaterial);
-			else if (y <= OreProvider.lavaFieldLevel && generator.settings.includeLavaFields)
+			else if (y <= OreProvider.lavaFieldLevel && generator.getSettings().includeLavaFields)
 				chunk.setBlock(x, y, z, Material.LAVA);
 
 		// aggregate bits

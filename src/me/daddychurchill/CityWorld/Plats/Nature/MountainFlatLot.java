@@ -37,7 +37,7 @@ public abstract class MountainFlatLot extends ConstructLot {
 
 					// backfill
 				} else {
-					if (generator.settings.includeDecayedNature) {
+					if (generator.getSettings().includeDecayedNature) {
 						chunk.setBlocks(x, y - 2, blockYs.getAverageHeight() + 1, z, Material.SAND);
 					} else {
 						chunk.setBlocks(x, y - 2, blockYs.getAverageHeight(), z, generator.oreProvider.subsurfaceMaterial);
@@ -62,7 +62,7 @@ public abstract class MountainFlatLot extends ConstructLot {
 			for (int z = bevelInset; z < chunk.width - bevelInset; z++) {
 				int y = getBlockY(x, z);
 
-				if (generator.settings.includeDecayedNature) {
+				if (generator.getSettings().includeDecayedNature) {
 					chunk.setBlocks(x, y - 2, blockYs.getAverageHeight() + 1, z, Material.SAND);
 				} else {
 					chunk.setBlocks(x, y - 2, blockYs.getAverageHeight(), z, generator.oreProvider.subsurfaceMaterial);

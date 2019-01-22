@@ -104,7 +104,7 @@ public class SpawnProvider extends Provider {
 
 	public final void spawnAnimals(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z,
 			EntityType entity) {
-		if (!generator.settings.includeDecayedBuildings) {
+		if (!generator.getSettings().includeDecayedBuildings) {
 			int herdSize = itemsEntities_SeaAnimals.getHerdSize(odds, entity);
 			if (herdSize > 0)
 				spawnAnimal(generator, blocks, odds, x, y, z, entity);
@@ -123,7 +123,7 @@ public class SpawnProvider extends Provider {
 
 	private final void spawnAnimal(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z,
 			EntityType entity) {
-		if (odds.playOdds(generator.settings.spawnAnimals) && blocks.insideXYZ(x, y, z))
+		if (odds.playOdds(generator.getSettings().spawnAnimals) && blocks.insideXYZ(x, y, z))
 			spawnEntity(generator, blocks, odds, x, y, z, entity, false, true);
 	}
 
@@ -134,7 +134,7 @@ public class SpawnProvider extends Provider {
 
 	private final void spawnSeaAnimals(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y,
 			int z, EntityType entity) {
-		if (!generator.settings.includeDecayedBuildings) {
+		if (!generator.getSettings().includeDecayedBuildings) {
 			int herdSize = itemsEntities_SeaAnimals.getHerdSize(odds, entity);
 			if (herdSize > 0)
 				spawnSeaAnimal(generator, blocks, odds, x, y, z, entity);
@@ -153,7 +153,7 @@ public class SpawnProvider extends Provider {
 
 	private final void spawnSeaAnimal(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y,
 			int z, EntityType entity) {
-		if (odds.playOdds(generator.settings.spawnAnimals) && blocks.insideXYZ(x, y, z)) {
+		if (odds.playOdds(generator.getSettings().spawnAnimals) && blocks.insideXYZ(x, y, z)) {
 			if (blocks.isWater(x, y - 1, z) && blocks.isWater(x, y, z)) {
 				spawnEntity(generator, blocks, odds, x, y, z, entity, true, false);
 			}
@@ -175,7 +175,7 @@ public class SpawnProvider extends Provider {
 
 	public final void spawnBeing(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z,
 			EntityType goody, EntityType baddy) {
-		if (odds.playOdds(generator.settings.spawnBeings))
+		if (odds.playOdds(generator.getSettings().spawnBeings))
 			spawnGoodOrBad(generator, blocks, odds, x, y, z, goody, baddy);
 	}
 
@@ -190,14 +190,14 @@ public class SpawnProvider extends Provider {
 
 	public final void spawnVagrant(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z,
 			EntityType goody, EntityType baddy) {
-		if (odds.playOdds(generator.settings.spawnVagrants))
+		if (odds.playOdds(generator.getSettings().spawnVagrants))
 			spawnGoodOrBad(generator, blocks, odds, x, y, z, goody, baddy);
 	}
 
 	private final void spawnGoodOrBad(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y,
 			int z, EntityType goody, EntityType baddy) {
 		if (!blocks.isEmpty(x, y, z) && !blocks.isEmpty(x, y - 1, z))
-			if (generator.settings.includeDecayedBuildings || odds.playOdds(generator.settings.spawnBaddies))
+			if (generator.getSettings().includeDecayedBuildings || odds.playOdds(generator.getSettings().spawnBaddies))
 				spawnEntity(generator, blocks, odds, x, y, z, baddy, false, true);
 			else
 				spawnEntity(generator, blocks, odds, x, y, z, goody, false, true);
@@ -249,10 +249,10 @@ public class SpawnProvider extends Provider {
 				if (being != null) {
 					being.setVelocity(odds.getRandomVelocity());
 
-					if (generator.settings.nameVillagers && entity == EntityType.VILLAGER) {
+					if (generator.getSettings().nameVillagers && entity == EntityType.VILLAGER) {
 						String beingName = generator.odonymProvider.generateVillagerName(generator, odds);
 						being.setCustomName(beingName);
-						if (generator.settings.showVillagersNames)
+						if (generator.getSettings().showVillagersNames)
 							being.setCustomNameVisible(true);
 //						blocks.setSignPost(x, y + 11, z, BlockFace.NORTH, "Created", "named", beingName);
 //					} else {
@@ -283,7 +283,7 @@ public class SpawnProvider extends Provider {
 
 	private final void setSpawner(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z,
 			EntityType entity) {
-		if (entity.isAlive() && odds.playOdds(generator.settings.spawnBaddies)) {
+		if (entity.isAlive() && odds.playOdds(generator.getSettings().spawnBaddies)) {
 			Block block = blocks.getActualBlock(x, y, z);
 			block.setType(Material.SPAWNER);
 			block.getState().update(true); // for good measure

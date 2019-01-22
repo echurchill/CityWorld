@@ -199,7 +199,7 @@ public class ConcreteLot extends BuildingLot {
 		}
 
 		// it looked so nice for a moment... but the moment has passed
-		if (generator.settings.includeDecayedBuildings)
+		if (generator.getSettings().includeDecayedBuildings)
 			destroyLot(generator, sidewalkLevel, sidewalkLevel + 4);
 	}
 

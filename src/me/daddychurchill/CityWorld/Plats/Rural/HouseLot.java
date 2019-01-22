@@ -42,7 +42,7 @@ public class HouseLot extends IsolatedLot {
 		chunk.airoutLayer(generator, generator.streetLevel + 1, DataContext.FloorHeight * 2, 2, true);
 
 		// ground please
-		if (generator.settings.includeDecayedNature)
+		if (generator.getSettings().includeDecayedNature)
 			chunk.setLayer(generator.streetLevel, Material.SAND);
 		else
 			chunk.setLayer(generator.streetLevel, generator.oreProvider.surfaceMaterial);
@@ -56,7 +56,7 @@ public class HouseLot extends IsolatedLot {
 		int floors = generator.structureOnGroundProvider.generateHouse(generator, chunk, context, chunkOdds, atY, 2);
 
 		// not a happy place?
-		if (generator.settings.includeDecayedBuildings)
+		if (generator.getSettings().includeDecayedBuildings)
 			destroyBuilding(generator, atY, floors);
 		else
 			generateSurface(generator, chunk, false);

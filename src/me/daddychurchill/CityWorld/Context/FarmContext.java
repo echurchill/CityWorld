@@ -88,18 +88,18 @@ public class FarmContext extends RuralContext {
 					// TODO Barns and Wells
 
 					// farm house here?
-					if (!housePlaced && platmapOdds.playOdds(oddsOfFarmHouse) && generator.settings.includeHouses) {
+					if (!housePlaced && platmapOdds.playOdds(oddsOfFarmHouse) && generator.getSettings().includeHouses) {
 						housePlaced = platmap.setLot(x, z,
 								getHouseLot(generator, platmap, platmapOdds, originX + x, originZ + z));
 
 						// barn here?
-					} else if (!barnPlaced && platmapOdds.playOdds(oddsOfBarn) && generator.settings.includeBuildings) {
+					} else if (!barnPlaced && platmapOdds.playOdds(oddsOfBarn) && generator.getSettings().includeBuildings) {
 						barnPlaced = platmap.setLot(x, z,
 								getBarnLot(generator, platmap, platmapOdds, originX + x, originZ + z));
 
 						// barn here?
 					} else if (!waterTowerPlaced && platmapOdds.playOdds(oddsOfWaterTower)
-							&& generator.settings.includeBuildings) {
+							&& generator.getSettings().includeBuildings) {
 						waterTowerPlaced = platmap.setLot(x, z,
 								getWaterTowerLot(generator, platmap, platmapOdds, originX + x, originZ + z));
 
@@ -135,7 +135,7 @@ public class FarmContext extends RuralContext {
 		}
 
 		// did we miss out placing the farm house?
-		if (!housePlaced && platmap.isEmptyLot(lastX, lastZ) && generator.settings.includeHouses) {
+		if (!housePlaced && platmap.isEmptyLot(lastX, lastZ) && generator.getSettings().includeHouses) {
 			platmap.setLot(lastX, lastZ,
 					getHouseLot(generator, platmap, platmapOdds, originX + lastX, originZ + lastZ));
 		}

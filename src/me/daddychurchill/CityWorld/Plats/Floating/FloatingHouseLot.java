@@ -75,7 +75,7 @@ public class FloatingHouseLot extends ConstructLot {
 				groundLevel + 1, 1, 4);
 
 		// not a happy place?
-		if (generator.settings.includeDecayedBuildings)
+		if (generator.getSettings().includeDecayedBuildings)
 			destroyBuilding(generator, groundLevel + 1, floors);
 		else
 			generateSurface(generator, chunk, false);

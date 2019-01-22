@@ -189,7 +189,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 			return lowriseContext;
 		else if (nature < 0.55) // 15
 			return neighborhoodContext;
-		else if (nature < 0.70 && platmap.generator.settings.includeFarms) // 10
+		else if (nature < 0.70 && platmap.generator.getSettings().includeFarms) // 10
 			return farmContext;
 		else if (nature < 0.75) // 5
 			return outlandContext;
@@ -265,7 +265,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 					// possibly buildable?
 				} else if (y == generator.streetLevel) {
 					generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial, y - 3,
-							ores.subsurfaceMaterial, y, ores.surfaceMaterial, generator.settings.includeDecayedNature);
+							ores.subsurfaceMaterial, y, ores.surfaceMaterial, generator.getSettings().includeDecayedNature);
 
 					// won't likely have a building
 				} else {
@@ -274,14 +274,14 @@ public class ShapeProvider_Normal extends ShapeProvider {
 					if (y == generator.seaLevel) {
 						generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial,
 								y - 2, ores.fluidSubsurfaceMaterial, y, ores.fluidSurfaceMaterial,
-								generator.settings.includeDecayedNature);
+								generator.getSettings().includeDecayedNature);
 						biome = Biome.BEACH;
 
 						// we are in the water! ...or are we?
 					} else if (y < generator.seaLevel) {
 						biome = Biome.DESERT;
-						if (generator.settings.includeDecayedNature)
-							if (generator.settings.includeAbovegroundFluids && y < generator.deepseaLevel)
+						if (generator.getSettings().includeDecayedNature)
+							if (generator.getSettings().includeAbovegroundFluids && y < generator.deepseaLevel)
 								generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial,
 										ores.stratumMaterial, y - 2, ores.fluidSubsurfaceMaterial, y,
 										ores.fluidSurfaceMaterial, generator.deepseaLevel, ores.fluidMaterial, false);
@@ -289,7 +289,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 								generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial,
 										ores.stratumMaterial, y - 2, ores.fluidSubsurfaceMaterial, y,
 										ores.fluidSurfaceMaterial, true);
-						else if (generator.settings.includeAbovegroundFluids) {
+						else if (generator.getSettings().includeAbovegroundFluids) {
 							generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial,
 									y - 2, ores.fluidSubsurfaceMaterial, y, ores.fluidSurfaceMaterial,
 									generator.seaLevel, ores.fluidMaterial, false);
@@ -305,7 +305,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 						if (y < generator.treeLevel) {
 							generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial, ores.stratumMaterial,
 									y - 3, ores.subsurfaceMaterial, y, ores.surfaceMaterial,
-									generator.settings.includeDecayedNature);
+									generator.getSettings().includeDecayedNature);
 							biome = Biome.FOREST;
 
 							// regular trees and some evergreen trees
@@ -322,7 +322,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 
 							// only snow up here!
 						} else {
-							if (generator.settings.includeAbovegroundFluids && y > generator.snowLevel + 2)
+							if (generator.getSettings().includeAbovegroundFluids && y > generator.snowLevel + 2)
 								generateStratas(generator, lot, chunk, x, z, ores.substratumMaterial,
 										ores.stratumMaterial, y - 1, ores.stratumMaterial, y, ores.fluidFrozenMaterial,
 										surfaceCaves);
@@ -336,7 +336,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 				}
 
 				// set biome for block
-				if (generator.settings.includeDecayedNature)
+				if (generator.getSettings().includeDecayedNature)
 					biome = Biome.DESERT;
 				biomes.setBiome(x, z, remapBiome(generator, lot, biome));
 			}
@@ -455,9 +455,9 @@ public class ShapeProvider_Normal extends ShapeProvider {
 		}
 
 		// for real?
-		if (!generator.settings.includeMountains)
+		if (!generator.getSettings().includeMountains)
 			y = Math.min(seaLevel + 1, y);
-		if (!generator.settings.includeSeas)
+		if (!generator.getSettings().includeSeas)
 			y = Math.max(seaLevel + 1, y);
 
 		// range validation
@@ -481,7 +481,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 
 	@Override
 	public boolean notACave(CityWorldGenerator generator, int blockX, int blockY, int blockZ) {
-		if (generator.settings.includeCaves) {
+		if (generator.getSettings().includeCaves) {
 			double cave = caveShape.noise(blockX * caveScale, blockY * caveScaleY, blockZ * caveScale);
 			return !(cave > caveThreshold || cave < -caveThreshold);
 		} else

@@ -35,7 +35,7 @@ public class WaterTowerLot extends IsolatedLot {
 			DataContext context, int platX, int platZ) {
 
 		// if things are bad
-		if (generator.settings.includeDecayedBuildings) {
+		if (generator.getSettings().includeDecayedBuildings) {
 			destroyLot(generator, generator.streetLevel - 2, generator.streetLevel + 2);
 		} else {
 			generator.structureOnGroundProvider.drawWaterTower(generator, chunk, 4, generator.streetLevel + 1, 4,

@@ -40,7 +40,7 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 
 				// trees? but only if we are not too close to the edge
 				if (includeTrees) {
-					if (generator.settings.includeAbovegroundFluids) {
+					if (generator.getSettings().includeAbovegroundFluids) {
 						if (primary < reedOdds) {
 							if (chunk.isType(x, y, z, Material.SAND)) {
 								foliage.generateCoverage(generator, chunk, x, y + 1, z, CoverageType.REED);
@@ -123,7 +123,7 @@ public class SurfaceProvider_Normal extends SurfaceProvider {
 
 			// below sea level?
 			if (y < generator.seaLevel) {
-				if (generator.settings.includeAbovegroundFluids) {
+				if (generator.getSettings().includeAbovegroundFluids) {
 
 					// trees? but only if we are not too close to the edge
 					if (includeTrees && primary < treeOdds && x % 2 == 0 && z % 2 != 0) {

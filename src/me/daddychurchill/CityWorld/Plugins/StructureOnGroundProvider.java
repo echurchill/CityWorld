@@ -1112,7 +1112,7 @@ public class StructureOnGroundProvider extends Provider {
 		chunk.setCircle(x + 4, x + 4, 4, y3 + 5, topMat, true);
 		chunk.setCircle(x + 4, x + 4, 3, y3 + 6, topMat, true);
 
-		if (generator.settings.includeAbovegroundFluids) {
+		if (generator.getSettings().includeAbovegroundFluids) {
 			chunk.setCircle(x + 4, x + 4, 3, y3 + 1, y3 + 2 + odds.getRandomInt(3),
 					generator.oreProvider.fluidFluidMaterial, true);
 		}

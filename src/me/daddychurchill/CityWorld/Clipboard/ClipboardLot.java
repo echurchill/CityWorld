@@ -86,7 +86,7 @@ public class ClipboardLot extends IsolatedLot {
 
 	@Override
 	public boolean isPlaceableAt(CityWorldGenerator generator, int chunkX, int chunkZ) {
-		return generator.settings.inCityRange(chunkX, chunkZ);
+		return generator.getSettings().inCityRange(chunkX, chunkZ);
 	}
 
 	@Override
@@ -170,7 +170,7 @@ public class ClipboardLot extends IsolatedLot {
 
 		// mr. creeper says: that is a nice building you have there, too bad something
 		// bad has to happen to it
-		if (clip.decayable && generator.settings.includeDecayedBuildings)
+		if (clip.decayable && generator.getSettings().includeDecayedBuildings)
 			destroyLot(generator, depth, edgeY3);
 	}
 

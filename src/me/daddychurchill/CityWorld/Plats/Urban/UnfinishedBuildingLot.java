@@ -206,7 +206,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 			boolean craned = drawCrane(generator, chunk, context);
 
 			// it looked so nice for a moment... but the moment has passed
-			if (generator.settings.includeDecayedBuildings) {
+			if (generator.getSettings().includeDecayedBuildings) {
 
 				// what is the top floor?
 				int floors = height;

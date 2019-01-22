@@ -82,7 +82,7 @@ public abstract class OreProvider extends Provider {
 					provider = new OreProvider_TheEnd(generator);
 					break;
 				case NORMAL:
-					if (generator.settings.includeDecayedNature)
+					if (generator.getSettings().includeDecayedNature)
 						provider = new OreProvider_Decayed(generator);
 					else
 						provider = new OreProvider_Normal(generator);
@@ -151,7 +151,7 @@ public abstract class OreProvider extends Provider {
 			boolean liquid) {
 
 		// do we do this one?
-		if ((liquid && generator.settings.includeUndergroundFluids) || (!liquid && generator.settings.includeOres)) {
+		if ((liquid && generator.getSettings().includeUndergroundFluids) || (!liquid && generator.getSettings().includeOres)) {
 			if (material != stratumMaterial) {
 
 				// sprinkle it around!

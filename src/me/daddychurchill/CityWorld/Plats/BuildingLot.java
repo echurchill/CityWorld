@@ -82,7 +82,7 @@ public abstract class BuildingLot extends ConnectedLot {
 
 		cornerLotStyle = cornerBlocks.pickCornerStyle(chunkOdds);
 
-		if (platmap.generator.settings.includeBasements)
+		if (platmap.generator.getSettings().includeBasements)
 			depth = 1 + chunkOdds.getRandomInt(context.maximumFloorsBelow);
 	}
 

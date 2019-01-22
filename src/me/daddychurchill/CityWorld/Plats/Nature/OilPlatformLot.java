@@ -148,7 +148,7 @@ public class OilPlatformLot extends ConstructLot {
 		chunk.setBlocks(12, 14, y4 + 9, 12, 14, Material.FIRE);
 
 		// it looked so nice for a moment... but the moment has passed
-		if (generator.settings.includeDecayedBuildings) {
+		if (generator.getSettings().includeDecayedBuildings) {
 
 			// do we take out a bit of it?
 			decayEdge(generator, chunk.getBlockX(7) + chunkOdds.getRandomInt(3) - 1, y1,

@@ -52,7 +52,7 @@ public class PlatMap {
 	}
 
 	public double getNaturePercent() {
-		return naturalPlats / (Width * Width) + generator.settings.ruralnessLevel;
+		return naturalPlats / (Width * Width) + generator.getSettings().ruralnessLevel;
 	}
 
 	public Odds getOddsGenerator() {
@@ -217,7 +217,7 @@ public class PlatMap {
 	}
 
 	public void paveLot(int x, int z, boolean roundaboutPart) {
-		if (generator.settings.inRoadRange(originX + x, originZ + z)
+		if (generator.getSettings().inRoadRange(originX + x, originZ + z)
 				&& (platLots[x][z] == null || roundaboutPart || platLots[x][z].style != LotStyle.ROAD)) {
 
 			// remember the old one
@@ -337,7 +337,7 @@ public class PlatMap {
 
 	protected void placeIntersection(int x, int z) {
 		boolean roadToNorth = false, roadToSouth = false, roadToEast = false, roadToWest = false, roadHere = false;
-		assert (generator.settings != null && generator.shapeProvider != null && context != null);
+		assert (generator.getSettings() != null && generator.shapeProvider != null && context != null);
 
 		// is there a road here?
 		if (isEmptyLot(x, z)) {
@@ -355,7 +355,7 @@ public class PlatMap {
 				// are all the surrounding chunks empty (connecting roads shouldn't be there
 				// yet)
 //				generator.reportMessage("Roundabout? " + generator.settings.includeRoundabouts + ", odds: " + context.oddsOfRoundAbouts + " context: " + context.toString());
-				if (generator.settings.includeRoundabouts && generator.settings.inCityRange(originX + x, originZ + z)
+				if (generator.getSettings().includeRoundabouts && generator.getSettings().inCityRange(originX + x, originZ + z)
 						&& generator.shapeProvider.isRoundaboutAt(originX + x, originZ + z, context.oddsOfRoundAbouts)
 						&&
 

@@ -470,7 +470,7 @@ public abstract class CoverProvider extends Provider {
 			break;
 
 		case BRAIN_CORAL:
-			if (y < generator.seaLevel || !generator.settings.includeAbovegroundFluids)
+			if (y < generator.seaLevel || !generator.getSettings().includeAbovegroundFluids)
 				generateCoral(generator, chunk, x, y, z, Material.BRAIN_CORAL, Material.BRAIN_CORAL_FAN,
 						Material.BRAIN_CORAL_WALL_FAN, Material.BRAIN_CORAL_BLOCK);
 			else
@@ -478,7 +478,7 @@ public abstract class CoverProvider extends Provider {
 						Material.DEAD_BRAIN_CORAL_WALL_FAN, Material.DEAD_BRAIN_CORAL_BLOCK);
 			break;
 		case BUBBLE_CORAL:
-			if (y < generator.seaLevel || !generator.settings.includeAbovegroundFluids)
+			if (y < generator.seaLevel || !generator.getSettings().includeAbovegroundFluids)
 				generateCoral(generator, chunk, x, y, z, Material.BUBBLE_CORAL, Material.BUBBLE_CORAL_FAN,
 						Material.BUBBLE_CORAL_WALL_FAN, Material.BUBBLE_CORAL_BLOCK);
 			else
@@ -486,7 +486,7 @@ public abstract class CoverProvider extends Provider {
 						Material.DEAD_BUBBLE_CORAL_WALL_FAN, Material.DEAD_BUBBLE_CORAL_BLOCK);
 			break;
 		case FIRE_CORAL:
-			if (y < generator.seaLevel || !generator.settings.includeAbovegroundFluids)
+			if (y < generator.seaLevel || !generator.getSettings().includeAbovegroundFluids)
 				generateCoral(generator, chunk, x, y, z, Material.FIRE_CORAL, Material.FIRE_CORAL_FAN,
 						Material.FIRE_CORAL_WALL_FAN, Material.FIRE_CORAL_BLOCK);
 			else
@@ -494,7 +494,7 @@ public abstract class CoverProvider extends Provider {
 						Material.DEAD_FIRE_CORAL_WALL_FAN, Material.DEAD_FIRE_CORAL_BLOCK);
 			break;
 		case HORN_CORAL:
-			if (y < generator.seaLevel || !generator.settings.includeAbovegroundFluids)
+			if (y < generator.seaLevel || !generator.getSettings().includeAbovegroundFluids)
 				generateCoral(generator, chunk, x, y, z, Material.HORN_CORAL, Material.HORN_CORAL_FAN,
 						Material.HORN_CORAL_WALL_FAN, Material.HORN_CORAL_BLOCK);
 			else
@@ -502,7 +502,7 @@ public abstract class CoverProvider extends Provider {
 						Material.DEAD_HORN_CORAL_WALL_FAN, Material.DEAD_HORN_CORAL_BLOCK);
 			break;
 		case TUBE_CORAL:
-			if (y < generator.seaLevel || !generator.settings.includeAbovegroundFluids)
+			if (y < generator.seaLevel || !generator.getSettings().includeAbovegroundFluids)
 				generateCoral(generator, chunk, x, y, z, Material.TUBE_CORAL, Material.TUBE_CORAL_FAN,
 						Material.TUBE_CORAL_WALL_FAN, Material.TUBE_CORAL_BLOCK);
 			else
@@ -511,7 +511,7 @@ public abstract class CoverProvider extends Provider {
 			break;
 		case SEAGRASS:
 			if (y < generator.seaLevel && odds.playOdds(Odds.oddsLikely)) {
-				if (generator.settings.includeAbovegroundFluids) {
+				if (generator.getSettings().includeAbovegroundFluids) {
 					if (chunk.isWater(x, y, z) && !chunk.isWater(x, y - 1, z)) {
 						if (odds.flipCoin())
 							chunk.setBlock(x, y, z, Material.SEAGRASS);
@@ -532,7 +532,7 @@ public abstract class CoverProvider extends Provider {
 
 		case KELP:
 			if (y < generator.seaLevel && odds.playOdds(Odds.oddsLikely)) {
-				if (generator.settings.includeAbovegroundFluids) {
+				if (generator.getSettings().includeAbovegroundFluids) {
 					if (chunk.isWater(x, y, z) && !chunk.isWater(x, y - 1, z)) {
 						if (odds.flipCoin())
 							chunk.setBlock(x, y, z, Material.KELP);
@@ -555,7 +555,7 @@ public abstract class CoverProvider extends Provider {
 			break;
 
 		default:
-			if (odds.playOdds(generator.settings.spawnTrees) && !chunk.onEdgeXZ(x, z)) {
+			if (odds.playOdds(generator.getSettings().spawnTrees) && !chunk.onEdgeXZ(x, z)) {
 				switch (coverageType) {
 				case MINI_OAK_TRUNK:
 					generator.treeProvider.generateMiniTrunk(generator, chunk, x, y, z, TreeType.TREE);
@@ -752,7 +752,7 @@ public abstract class CoverProvider extends Provider {
 	}
 
 	protected boolean likelyCover(CityWorldGenerator generator) {
-		return !generator.settings.darkEnvironment || odds.playOdds(oddsOfDarkCover);
+		return !generator.getSettings().darkEnvironment || odds.playOdds(oddsOfDarkCover);
 	}
 
 	public ColorSet getColorSet() {
@@ -788,7 +788,7 @@ public abstract class CoverProvider extends Provider {
 					provider = new CoverProvider_TheEnd(odds);
 					break;
 				default:
-					if (generator.settings.includeDecayedNature)
+					if (generator.getSettings().includeDecayedNature)
 						provider = new CoverProvider_Decayed(odds);
 					else
 						provider = new CoverProvider_Normal(odds);

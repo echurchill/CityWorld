@@ -335,7 +335,7 @@ public class BarnLot extends IsolatedLot {
 		}
 
 		// not a happy place?
-		if (generator.settings.includeDecayedBuildings)
+		if (generator.getSettings().includeDecayedBuildings)
 			destroyBuilding(generator, y1, 3);
 	}
 

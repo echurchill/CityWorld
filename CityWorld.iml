@@ -39,14 +39,5 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.avaje:ebean:2.7.3" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: javax.persistence:persistence-api:1.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.sk89q:dummypermscompat:1.7" level="project" />
-    <orderEntry type="module-library">
-      <library name="Maven: com.codisimus.plugins:phatloots:4.2.3">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/PhatLoots.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
   </component>
 </module>

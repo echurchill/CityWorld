@@ -78,7 +78,7 @@ public abstract class DataContext {
 	public DataContext(CityWorldGenerator generator) {
 
 		// lights?
-		if (generator.settings.includeWorkingLights) {
+		if (generator.getSettings().includeWorkingLights) {
 			lightMat = Material.GLOWSTONE;
 			torchMat = Material.TORCH;
 		} else {

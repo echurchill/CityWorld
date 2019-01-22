@@ -896,7 +896,7 @@ public class BunkerLot extends ConnectedLot {
 			int z) {
 
 		// cool stuff?
-		if (generator.settings.treasuresInBunkers && odds.playOdds(generator.settings.oddsOfTreasureInBunkers)) {
+		if (generator.getSettings().treasuresInBunkers && odds.playOdds(generator.getSettings().oddsOfTreasureInBunkers)) {
 			chunk.setChest(generator, x, y, z, BlockFace.NORTH, odds, generator.lootProvider, LootLocation.BUNKER);
 		}
 	}
@@ -905,7 +905,7 @@ public class BunkerLot extends ConnectedLot {
 			int z) {
 
 		// not so cool stuff?
-		generator.spawnProvider.setSpawnOrSpawner(generator, chunk, odds, x, y, z, generator.settings.spawnersInBunkers,
+		generator.spawnProvider.setSpawnOrSpawner(generator, chunk, odds, x, y, z, generator.getSettings().spawnersInBunkers,
 				generator.spawnProvider.itemsEntities_Bunker);
 	}
 
@@ -1005,7 +1005,7 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setBlocks(x, y + 1, y + 4, z, Material.AIR);
 
 		// make a step... or not...
-		if (!generator.settings.includeDecayedBuildings || odds.playOdds(oddsOfStairs)) {
+		if (!generator.getSettings().includeDecayedBuildings || odds.playOdds(oddsOfStairs)) {
 			chunk.setBlock(x, y, z, stairs, direction);
 			if (chunk.isEmpty(x, y - 1, z))
 				chunk.setBlock(x, y - 1, z, stairs, underdirection, Half.TOP);
@@ -1023,7 +1023,7 @@ public class BunkerLot extends ConnectedLot {
 		chunk.setBlocks(x, y, y + 3, z, Material.AIR);
 
 		// make a landing... or not...
-		if (!generator.settings.includeDecayedBuildings || odds.playOdds(oddsOfLanding)) {
+		if (!generator.getSettings().includeDecayedBuildings || odds.playOdds(oddsOfLanding)) {
 			chunk.setBlock(x, y - 1, z, landing);
 			if (chunk.isEmpty(x, y - 2, z))
 				chunk.setBlock(x, y - 2, z, stairs, underdirection, Half.TOP);

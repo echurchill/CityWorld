@@ -147,7 +147,7 @@ public class FloatingRoadLot extends RoadLot {
 				chunk.width - sidewalkWidth, crosswalkEast, false);
 
 		// decay please
-		if (generator.settings.includeDecayedRoads) {
+		if (generator.getSettings().includeDecayedRoads) {
 
 			// center bit
 			decayRoad(chunk, sidewalkWidth, chunk.width - sidewalkWidth, pavementLevel, sidewalkWidth,
@@ -196,7 +196,7 @@ public class FloatingRoadLot extends RoadLot {
 					chunk.width - sidewalkWidth, chunk.width - sidewalkWidth);
 
 			// put signs up?
-			if (generator.settings.includeNamedRoads) {
+			if (generator.getSettings().includeNamedRoads) {
 
 				// if we haven't calculated crosswalks yet do so
 				calculateCrosswalks(roads);

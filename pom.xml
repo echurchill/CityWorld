@@ -68,13 +68,6 @@
                     </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>com.codisimus.plugins</groupId>
-            <artifactId>phatloots</artifactId>
-            <version>4.2.3</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/lib/PhatLoots.jar</systemPath>
-        </dependency>
     </dependencies>
 
 </project>

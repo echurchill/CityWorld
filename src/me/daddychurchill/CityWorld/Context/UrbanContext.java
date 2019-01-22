@@ -44,7 +44,7 @@ public abstract class UrbanContext extends CivilizedContext {
 				if (current == null) {
 
 					// TODO I need to come up with a more elegant way of doing this!
-					if (generator.settings.includeBuildings) {
+					if (generator.getSettings().includeBuildings) {
 
 						// what to build?
 						boolean buildPark = platmapOdds.playOdds(oddsOfParks);

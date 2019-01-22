@@ -85,7 +85,7 @@ public class FloatingBlimpLot extends IsolatedLot {
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
 			DataContext context, int platX, int platZ) {
-		if (generator.settings.includeDecayedBuildings)
+		if (generator.getSettings().includeDecayedBuildings)
 			destroyLot(generator, generator.streetLevel - 1, generator.streetLevel + 3);
 		generator.spawnProvider.spawnBeing(generator, chunk, chunkOdds, 8, generator.streetLevel + 1, 8);
 

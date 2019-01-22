@@ -16,6 +16,6 @@ public class ClipboardRoadLot extends ClipboardLot {
 
 	@Override
 	public boolean isPlaceableAt(CityWorldGenerator generator, int chunkX, int chunkZ) {
-		return generator.settings.inRoadRange(chunkX, chunkZ);
+		return generator.getSettings().inRoadRange(chunkX, chunkZ);
 	}
 }

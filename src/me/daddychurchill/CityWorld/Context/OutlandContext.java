@@ -77,8 +77,8 @@ public class OutlandContext extends RuralContext {
 		populateSchematics(generator, platmap);
 
 		// fill with more stuff
-		if (!generator.settings.includeDecayedBuildings) {
-			boolean stoneworks = platmapOdds.flipCoin() && generator.settings.includeMines;
+		if (!generator.getSettings().includeDecayedBuildings) {
+			boolean stoneworks = platmapOdds.flipCoin() && generator.getSettings().includeMines;
 			for (int x = 0; x < PlatMap.Width; x++) {
 				for (int z = 0; z < PlatMap.Width; z++) {
 					PlatLot current = platmap.getLot(x, z);

@@ -107,7 +107,7 @@ public class RadioTowerLot extends ConstructLot {
 		generateSurface(generator, chunk, false);
 
 		// blow it all up?
-		if (generator.settings.includeDecayedBuildings) {
+		if (generator.getSettings().includeDecayedBuildings) {
 			int x1 = chunk.getBlockX(originX);
 			int z1 = chunk.getBlockZ(originZ);
 			generator.decayBlocks.destroyWithin(x1, x1 + platformWidth, blockYs.getAverageHeight(), platformY + 3, z1,

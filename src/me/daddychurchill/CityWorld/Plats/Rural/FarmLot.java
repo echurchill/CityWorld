@@ -52,17 +52,17 @@ public class FarmLot extends ConnectedLot {
 
 		// crop type please
 		if (platmap.generator.worldEnvironment == Environment.NETHER)
-			if (platmap.generator.settings.includeDecayedNature)
+			if (platmap.generator.getSettings().includeDecayedNature)
 				cropType = setDecayedNetherCrop();
 			else
 				cropType = setNetherCrop();
-		else if (platmap.generator.settings.includeDecayedNature)
+		else if (platmap.generator.getSettings().includeDecayedNature)
 			cropType = setDecayedNormalCrop();
 		else
 			cropType = setNormalCrop();
 
 		// decayed world?
-		if (platmap.generator.settings.includeDecayedNature)
+		if (platmap.generator.getSettings().includeDecayedNature)
 			oddsOfCrop = Odds.oddsSomewhatUnlikely;
 	}
 
@@ -223,7 +223,7 @@ public class FarmLot extends ConnectedLot {
 			case TALL_PLANTS:
 			case ALL_PLANTS:
 			case DECAY_PLANTS:
-				if (generator.settings.includeAbovegroundFluids)
+				if (generator.getSettings().includeAbovegroundFluids)
 					plowField(chunk, cropY, Material.COARSE_DIRT, waterMaterial, 2);
 				else
 					fallowField = true;
@@ -246,7 +246,7 @@ public class FarmLot extends ConnectedLot {
 				plowField(chunk, cropY, Material.SAND, Material.SAND, 2);
 				break;
 			case REED:
-				if (generator.settings.includeAbovegroundFluids)
+				if (generator.getSettings().includeAbovegroundFluids)
 					plowField(chunk, cropY, Material.SAND, waterMaterial, 2);
 				else
 					fallowField = true;
@@ -258,7 +258,7 @@ public class FarmLot extends ConnectedLot {
 			case CARROT:
 			case POTATO:
 			case BEETROOT:
-				if (generator.settings.includeAbovegroundFluids)
+				if (generator.getSettings().includeAbovegroundFluids)
 					plowField(chunk, cropY, Material.FARMLAND, waterMaterial, 2);
 				else
 					fallowField = true;
@@ -266,7 +266,7 @@ public class FarmLot extends ConnectedLot {
 			case MELON:
 			case PUMPKIN:
 			case EDIBLE_PLANTS:
-				if (generator.settings.includeAbovegroundFluids)
+				if (generator.getSettings().includeAbovegroundFluids)
 					plowField(chunk, cropY, Material.FARMLAND, waterMaterial, 3);
 				else
 					fallowField = true;
@@ -466,7 +466,7 @@ public class FarmLot extends ConnectedLot {
 				plantField(generator, chunk, cropY, CoverageSets.DECAY_PLANTS, 1, 2);
 				break;
 			case HOTAIR_BALLOON:
-				if (!generator.settings.includeDecayedNature) {
+				if (!generator.getSettings().includeDecayedNature) {
 
 					// place stuff
 					generateSurface(generator, chunk, false);
@@ -484,7 +484,7 @@ public class FarmLot extends ConnectedLot {
 			}
 		}
 
-		if (generator.settings.includeDecayedNature)
+		if (generator.getSettings().includeDecayedNature)
 			destroyLot(generator, cropY - 3, cropY + 3);
 	}
 

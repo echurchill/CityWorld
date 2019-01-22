@@ -335,7 +335,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 		chunk.setBlock(10, groundY + 1, 7, Material.RED_STAINED_GLASS_PANE, BlockFace.NORTH, BlockFace.SOUTH);
 
 		// too bad I have to goof it up now
-		if (generator.settings.includeDecayedBuildings) {
+		if (generator.getSettings().includeDecayedBuildings) {
 			if (chunkOdds.playOdds(Odds.oddsLikely)) {
 				chunk.setCircle(8, 8, 2, groundY + 6, smokestackY1, smokestackMat);
 				chunk.pepperBlocks(5, 11, groundY, smokestackY1, 5, 11, chunkOdds, Odds.oddsPrettyUnlikely,
