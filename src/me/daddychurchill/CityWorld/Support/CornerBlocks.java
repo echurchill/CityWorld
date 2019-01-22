@@ -34,7 +34,8 @@ public final class CornerBlocks {
 		BRN, // balcony floor block, single iron railing, and nothing above it
 		BrN, // balcony floor block, single wood fence, and nothing above it
 		BgN, // balcony floor block, single thin glass pane, and nothing above it
-		BDD, // balcony floor block, door (these are just an empty hole right now), and wall
+		BDD, // balcony floor block, door (auto detect direction in convex angle) , and wall
+		Bdd, // balcony floor block, door (auto detect direction in concave angle) , and wall
 
 		// blocks above it
 		BNN, // balcony floor block, and nothing but air above it
@@ -500,10 +501,10 @@ public final class CornerBlocks {
 		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
-				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
+				{ FLR, FLR, FLR, BWW, BWW, Bdd, WWW },
 				{ FLR, FLR, BWW, BNN, BNN, BNN, BRN },
 				{ FLR, FLR, BWW, BNN, BNN, BNN, BRN },
-				{ FLR, FLR, BDD, BNN, BNN, BNN, BRN },
+				{ FLR, FLR, Bdd, BNN, BNN, BNN, BRN },
 				{ WWW, WGG, WWW, BRN, BRN, BRN, BRN },
 		}));
 
@@ -520,10 +521,10 @@ public final class CornerBlocks {
 		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
-				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
+				{ FLR, FLR, FLR, BWW, BWW, Bdd, WWW },
 				{ FLR, FLR, BWW, BNN, BNN, BNN, BRN },
 				{ FLR, FLR, BWW, BNN, BNN, BNN, BRN },
-				{ FLR, FLR, BDD, BNN, BNN, BNN, BRN },
+				{ FLR, FLR, Bdd, BNN, BNN, BNN, BRN },
 				{ WWW, Wgg, WWW, BRN, BRN, BRN, BRN },
 		}));
 
@@ -570,10 +571,10 @@ public final class CornerBlocks {
 		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
-				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
+				{ FLR, FLR, FLR, BWW, BWW, Bdd, WWW },
 				{ FLR, FLR, BWW, BNN, BNN, BNN, BrN },
 				{ FLR, FLR, BWW, BNN, BNN, BNN, BrN },
-				{ FLR, FLR, BDD, BNN, BNN, BNN, BrN },
+				{ FLR, FLR, Bdd, BNN, BNN, BNN, BrN },
 				{ WWW, WGG, WWW, BrN, BrN, BrN, BrN },
 		}));
 
@@ -590,20 +591,20 @@ public final class CornerBlocks {
 		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
-				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
+				{ FLR, FLR, FLR, BWW, BWW, Bdd, WWW },
 				{ FLR, FLR, BWW, BNN, BNN, BNN, BrN },
 				{ FLR, FLR, BWW, BNN, BNN, BNN, BrN },
-				{ FLR, FLR, BDD, BNN, BNN, BNN, BrN },
+				{ FLR, FLR, Bdd, BNN, BNN, BNN, BrN },
 				{ WWW, WGG, WWW, BrN, BrN, BrN, WWW },
 		}));
 
 		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
-				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
+				{ FLR, FLR, FLR, BWW, BWW, Bdd, WWW },
 				{ FLR, FLR, BWW, BNN, BNN, BNN, BrN },
 				{ FLR, FLR, BWW, BNN, BNN, BNN, BrN },
-				{ FLR, FLR, BDD, BNN, BNN, BNN, BrN },
+				{ FLR, FLR, Bdd, BNN, BNN, BNN, BrN },
 				{ WWW, Wgg, WWW, BrN, BrN, BrN, BrN },
 		}));
 
@@ -620,10 +621,10 @@ public final class CornerBlocks {
 		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
-				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
+				{ FLR, FLR, FLR, BWW, BWW, Bdd, WWW },
 				{ FLR, FLR, BWW, BNN, BNN, BNN, BrN },
 				{ FLR, FLR, BWW, BNN, BNN, BNN, BrN },
-				{ FLR, FLR, BDD, BNN, BNN, BNN, BrN },
+				{ FLR, FLR, Bdd, BNN, BNN, BNN, BrN },
 				{ WWW, Wgg, WWW, BrN, BrN, BrN, WWW },
 		}));
 
@@ -660,10 +661,10 @@ public final class CornerBlocks {
 		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
-				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
+				{ FLR, FLR, FLR, BWW, BWW, Bdd, WWW },
 				{ FLR, FLR, BWW, BNN, BNN, BNN, BgN },
 				{ FLR, FLR, BWW, BNN, BNN, BNN, BgN },
-				{ FLR, FLR, BDD, BNN, BNN, BNN, BgN },
+				{ FLR, FLR, Bdd, BNN, BNN, BNN, BgN },
 				{ WWW, WGG, WWW, BgN, BgN, BgN, BgN },
 		}));
 
@@ -680,20 +681,20 @@ public final class CornerBlocks {
 		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WGG },
-				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
+				{ FLR, FLR, FLR, BWW, BWW, Bdd, WWW },
 				{ FLR, FLR, BWW, BNN, BNN, BNN, BgN },
 				{ FLR, FLR, BWW, BNN, BNN, BNN, BgN },
-				{ FLR, FLR, BDD, BNN, BNN, BNN, BgN },
+				{ FLR, FLR, Bdd, BNN, BNN, BNN, BgN },
 				{ WWW, WGG, WWW, BgN, BgN, BgN, WWW },
 		}));
 
 		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
-				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
+				{ FLR, FLR, FLR, BWW, BWW, Bdd, WWW },
 				{ FLR, FLR, BWW, BNN, BNN, BNN, BgN },
 				{ FLR, FLR, BWW, BNN, BNN, BNN, BgN },
-				{ FLR, FLR, BDD, BNN, BNN, BNN, BgN },
+				{ FLR, FLR, Bdd, BNN, BNN, BNN, BgN },
 				{ WWW, Wgg, WWW, BgN, BgN, BgN, BgN },
 		}));
 
@@ -710,10 +711,10 @@ public final class CornerBlocks {
 		corners.add(new CustomCorner(new UnitType[][] {
 				{ FLR, FLR, FLR, FLR, FLR, FLR, WWW },
 				{ FLR, FLR, FLR, FLR, FLR, FLR, Wgg },
-				{ FLR, FLR, FLR, BWW, BWW, BDD, WWW },
+				{ FLR, FLR, FLR, BWW, BWW, Bdd, WWW },
 				{ FLR, FLR, BWW, BNN, BNN, BNN, BgN },
 				{ FLR, FLR, BWW, BNN, BNN, BNN, BgN },
-				{ FLR, FLR, BDD, BNN, BNN, BNN, BgN },
+				{ FLR, FLR, Bdd, BNN, BNN, BNN, BgN },
 				{ WWW, Wgg, WWW, BgN, BgN, BgN, WWW },
 		}));
 
@@ -1000,7 +1001,15 @@ public final class CornerBlocks {
 							// Put a door here
 							blocks.setBlocks(xInset + x, y1 + 2, y2, zInset + z, primary);
 							blocks.setDoor(xInset + x, y1, zInset + z, Material.SPRUCE_DOOR,
-									getDoorDirection(source, x, z, connectedTo));
+									getDoorDirectionOfConvexAngle(source, x, z, connectedTo));
+						}
+						break;
+					case Bdd:
+						if (!onRoof) {
+							// Put a door here
+							blocks.setBlocks(xInset + x, y1 + 2, y2, zInset + z, primary);
+							blocks.setDoor(xInset + x, y1, zInset + z, Material.SPRUCE_DOOR,
+									getDoorDirectionOfConcaveAngle(source, x, z, connectedTo));
 						}
 						break;
 					case BRN:
@@ -1141,11 +1150,9 @@ public final class CornerBlocks {
 		return new BlockFace[] {};
 	}
 
-	// Detect door direction (Maybe we need some better ways?)
+	// Detect door direction in convex angle (Maybe we need some better ways?)
 	// Maybe hardcode in/with corners list?
-	private BlockFace getDoorDirection(UnitType[][] source, int x, int z, BlockFace connectedTo) {
-		// TODO: Split door direction of door in convex angle and concave angle
-		//   The following is for door in convex angle
+	private BlockFace getDoorDirectionOfConvexAngle(UnitType[][] source, int x, int z, BlockFace connectedTo) {
 		if (connectedTo == BlockFace.SOUTH_WEST) {
 			if (x + z + 1 < CornerBlocks.CornerWidth) {
 				return BlockFace.NORTH;
@@ -1172,6 +1179,41 @@ public final class CornerBlocks {
 				return BlockFace.SOUTH;
 			} else if (x > z) {
 				return BlockFace.EAST;
+			}
+		}
+
+		return BlockFace.EAST;
+	}
+
+	// Detect door direction in concave angle (Maybe we need some better ways?)
+	// Maybe hardcode in/with corners list?
+	private BlockFace getDoorDirectionOfConcaveAngle(UnitType[][] source, int x, int z, BlockFace connectedTo) {
+		if (connectedTo == BlockFace.SOUTH_WEST) {
+			if (x + z + 1 < CornerBlocks.CornerWidth) {
+				return BlockFace.EAST;
+			} else if (x + z + 1 > CornerBlocks.CornerWidth) {
+				return BlockFace.NORTH;
+			}
+		}
+		if (connectedTo == BlockFace.NORTH_EAST) {
+			if (x + z + 1 < CornerBlocks.CornerWidth) {
+				return BlockFace.SOUTH;
+			} else if (x + z + 1 > CornerBlocks.CornerWidth) {
+				return BlockFace.WEST;
+			}
+		}
+		if (connectedTo == BlockFace.SOUTH_EAST) {
+			if (x < z) {
+				return BlockFace.NORTH;
+			} else if (x > z) {
+				return BlockFace.WEST;
+			}
+		}
+		if (connectedTo == BlockFace.NORTH_WEST) {
+			if (x < z) {
+				return BlockFace.EAST;
+			} else if (x > z) {
+				return BlockFace.SOUTH;
 			}
 		}
 
