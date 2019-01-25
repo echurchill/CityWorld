@@ -111,7 +111,7 @@
 				},
 				{
 					"type": "item",
-					"name": "minecraft:cook_porkchop",
+					"name": "minecraft:cooked_porkchop",
 					"functions": [
 						{
 							"function": "set_count",

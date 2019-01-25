@@ -83,7 +83,7 @@
 				},
 				{
 					"type": "item",
-					"name": "minecraft:glistening_melon_slice",
+					"name": "minecraft:glistering_melon_slice",
 					"functions": [
 						{
 							"function": "set_count",
