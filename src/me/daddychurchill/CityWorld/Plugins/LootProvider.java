@@ -10,8 +10,8 @@ import me.daddychurchill.CityWorld.Support.Odds;
 public abstract class LootProvider extends Provider {
 
 	public enum LootLocation {
-		EMPTY, RANDOM, SEWER, MINE, BUNKER, BUILDING, WAREHOUSE, FOOD, STORAGESHED, FARMWORKS, FARMWORKSOUTPUT,
-		WOODWORKS, WOODWORKSOUTPUT, STONEWORKS, STONEWORKSOUTPUT
+		EMPTY, RANDOM, SEWER, MINE, BUNKER, BUILDING, WAREHOUSE, FOOD, STORAGE_SHED, FARMWORKS, FARMWORKS_OUTPUT,
+		WOODWORKS, WOODWORKS_OUTPUT, STONEWORKS, STONEWORKS_OUTPUT
 	}
 
 	public abstract void setLoot(CityWorldGenerator generator, Odds odds, String worldPrefix,

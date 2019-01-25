@@ -94,13 +94,13 @@ public class WoodworksLot extends ConstructLot {
 				if (chunkOdds.flipCoin())
 					direction = BlockFace.SOUTH;
 				chunk.setDoubleChest(generator, chunk.clampXZ(chunkOdds.calcRandomRange(x + 1, x + 4)), y, z, direction,
-						chunkOdds, generator.lootProvider, LootLocation.WOODWORKSOUTPUT);
+						chunkOdds, generator.lootProvider, LootLocation.WOODWORKS_OUTPUT);
 			} else {
 				direction = BlockFace.WEST;
 				if (chunkOdds.flipCoin())
 					direction = BlockFace.EAST;
 				chunk.setDoubleChest(generator, x, y, chunk.clampXZ(chunkOdds.calcRandomRange(z + 1, z + 4)), direction,
-						chunkOdds, generator.lootProvider, LootLocation.WOODWORKSOUTPUT);
+						chunkOdds, generator.lootProvider, LootLocation.WOODWORKS_OUTPUT);
 			}
 			break;
 		case 10:
