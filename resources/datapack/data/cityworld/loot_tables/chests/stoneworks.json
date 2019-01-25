@@ -1,0 +1,127 @@
+{
+	"pools": [
+		{
+			"rolls": {
+				"min": 1,
+				"max": 4
+			},
+			"entries": [
+				{
+					"type": "item",
+					"name": "minecraft:stone_shovel",
+					"functions": [
+						{
+							"function": "enchant_randomly"
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:stone_pickaxe",
+					"functions": [
+						{
+							"function": "enchant_randomly"
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:iron_shovel",
+					"functions": [
+						{
+							"function": "enchant_randomly"
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:iron_pickaxe",
+					"functions": [
+						{
+							"function": "enchant_randomly"
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:iron_helmet",
+					"functions": [
+						{
+							"function": "enchant_randomly"
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:flint_and_steel",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:torch",
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 1,
+								"max": 2
+							}
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:bucket",
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 1,
+								"max": 2
+							}
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:cooked_beef",
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 1,
+								"max": 2
+							}
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:cooked_chicken",
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 1,
+								"max": 2
+							}
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "empty",
+					"weight": 5
+				}
+			]
+		}
+	]
+}

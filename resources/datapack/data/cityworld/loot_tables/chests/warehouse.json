@@ -1,0 +1,263 @@
+{
+	"pools": [
+		{
+			"rolls": 1,
+			"entries": [
+				{
+					"type": "item",
+					"name": "minecraft:flint_and_steel",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:rabbit_foot",
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 1,
+								"max": 32
+							}
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:rabbit_hide",
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 1,
+								"max": 32
+							}
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:leather",
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 1,
+								"max": 32
+							}
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:leather_boots",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:leather_chestplate",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:leather_helmet",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:leather_leggings",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:iron_boots",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:iron_chestplate",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:iron_helmet",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:iron_leggings",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:chainmail_boots",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:chainmail_chestplate",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:chainmail_helmet",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:chainmail_leggings",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:stone_hoe",
+					"functions": [
+						{
+							"function": "enchant_randomly"
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:stone_axe",
+					"functions": [
+						{
+							"function": "enchant_randomly"
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:stone_pickaxe",
+					"functions": [
+						{
+							"function": "enchant_randomly"
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:stone_sword",
+					"functions": [
+						{
+							"function": "enchant_randomly"
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:lead",
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 1,
+								"max": 32
+							}
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:carrot_on_a_stick",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:fishing_rod",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:totem_of_undying",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:music_disc_11",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:music_disc_13",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:music_disc_blocks",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:music_disc_cat",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:music_disc_chirp",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:music_disc_far",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:music_disc_mall",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:music_disc_mellohi",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:music_disc_stal",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:music_disc_strad",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:music_disc_wait",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:music_disc_ward",
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:rotten_flesh",
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 1,
+								"max": 32
+							}
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "empty",
+					"weight": 5
+				}
+			]
+		}
+	]
+}
