@@ -14,7 +14,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.Plugin;
@@ -39,9 +38,9 @@ public class CityWorld extends JavaPlugin implements CityWorldLog, Listener {
 		// tell the world we are out of here
 		reportMessage("Disabled");
 	}
-	
+
 	private CityWorldSettings defaults;
-	
+
 	public CityWorldSettings getDefaults() {
 		return defaults;
 	}
@@ -70,21 +69,28 @@ public class CityWorld extends JavaPlugin implements CityWorldLog, Listener {
 
 	@EventHandler
 	public void onWorldLoad(WorldLoadEvent event) {
-		// Extract our loot datapack to the world folder
-		File datapack = new File(event.getWorld().getWorldFolder(), "datapacks/cityworld");
-		extractResource("datapack/pack.mcmeta", new File(datapack, "pack.mcmeta"), true);
+		// Extract our loot datapack to the default world folder, they're only loaded from here
+		File datapack = new File(Bukkit.getWorlds().get(0).getWorldFolder(), "datapacks/cityworld");
+		boolean dataReload = extractResource("datapack/pack.mcmeta", new File(datapack, "pack.mcmeta"));
+
 		// Exclude EMPTY and RANDOM
 		for (LootProvider.LootLocation location : Arrays.copyOfRange(LootProvider.LootLocation.values(), 2, LootProvider.LootLocation.values().length)) {
-			String path = "data/cityworld/loot_tables/chests/" + location.name().toLowerCase(Locale.ROOT) + ".json";
-			File destination = new File(datapack, path);
-			extractResource("datapack/" + path, destination, false);
+			String path = "data/cityworld/loot_tables/chests/%s" + location.name().toLowerCase(Locale.ROOT) + ".json";
+			// Destination should have world prefix, internal path doesn't
+			// This allows for world specific loot tables
+			File destination = new File(datapack, String.format(path, event.getWorld().getName().toLowerCase(Locale.ROOT) + "_"));
+			dataReload = extractResource("datapack/" + String.format(path, ""), destination);
 		}
-		Bukkit.reloadData();
+
+		if (dataReload) {
+			// Reload all server datapacks to ensure that we can actually use them at gen time
+			Bukkit.reloadData();
+		}
 	}
 
 	@SuppressWarnings("ResultOfMethodCallIgnored")
-	private void extractResource(String resource, File destination, boolean overwrite) {
-		if (!destination.exists() || overwrite) {
+	private boolean extractResource(String resource, File destination) {
+		if (!destination.exists()) {
 			destination.getParentFile().mkdirs();
 			try (InputStream stream = getResource(resource);
 				 ReadableByteChannel rbc = Channels.newChannel(stream);
@@ -93,7 +99,9 @@ public class CityWorld extends JavaPlugin implements CityWorldLog, Listener {
 			} catch (Exception e) {
 				reportFormatted("Unable to extract file %s (%s)", resource, e.getMessage());
 			}
+			return true;
 		}
+		return false;
 	}
 
 	public String getPluginName() {
@@ -115,7 +123,7 @@ public class CityWorld extends JavaPlugin implements CityWorldLog, Listener {
 		log.info(" \\__" + message2);
 	}
 
-	public void reportFormatted(String format, Object ... objects) {
+	public void reportFormatted(String format, Object... objects) {
 		reportMessage(String.format(format, objects));
 	}
 
