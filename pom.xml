@@ -34,12 +34,7 @@
         <finalName>${project.name}</finalName>
         <resources>
             <resource>
-                <directory>.</directory>
-                <filtering>true</filtering>
-                <targetPath>.</targetPath>
-                <includes>
-                    <include>plugin.yml</include>
-                </includes>
+                <directory>resources</directory>
             </resource>
         </resources>
     </build>
