@@ -45,7 +45,9 @@ public abstract class LootProvider extends Provider {
 
 		// populate
 		for (int i = 0; i < count; i++) {
-			items[i] = new ItemStack(materials.getRandomMaterial(odds), odds.getRandomInt(maxStack) + 1);
+			ItemStack itemStack = new ItemStack(materials.getRandomMaterial(odds));
+			itemStack.setAmount(itemStack.getMaxStackSize() == 1 ? 1 : odds.getRandomInt(maxStack) + 1);
+			items[i] = itemStack;
 		}
 
 		// all done

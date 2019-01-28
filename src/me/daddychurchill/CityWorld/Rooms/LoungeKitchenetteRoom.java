@@ -56,7 +56,8 @@ public class LoungeKitchenetteRoom extends LoungeRoom {
 
 	private void placeStuff(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int x, int y, int z,
 			BlockFace facing) {
-		if (odds.playOdds(generator.getSettings().oddsOfTreasureInBuildings))
+		if (generator.getSettings().treasuresInBuildings
+				&& odds.playOdds(generator.getSettings().oddsOfTreasureInBuildings))
 			chunk.setChest(generator, x, y, z, facing, odds, generator.lootProvider, LootLocation.FOOD);
 		else
 			chunk.setBlock(x, y, z, Material.PISTON, BlockFace.UP);
