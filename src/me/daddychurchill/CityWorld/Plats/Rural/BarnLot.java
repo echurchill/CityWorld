@@ -376,7 +376,7 @@ public class BarnLot extends IsolatedLot {
 	private void placeChest(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z, BlockFace towards) {
 		if (chunkOdds.flipCoin()) {
 			chunk.setChest(generator, x, y, z, towards, chunkOdds, generator.lootProvider,
-					LootLocation.FARMWORKSOUTPUT);
+					LootLocation.FARMWORKS_OUTPUT);
 		} else if (chunkOdds.flipCoin()) {
 			chunk.setChest(generator, x, y, z, towards, chunkOdds, generator.lootProvider, LootLocation.FARMWORKS);
 		}

@@ -44,19 +44,19 @@ public class LootProvider_Normal extends LootProvider {
 			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_WarehouseChests, odds, 1, 32);
 		case FOOD:
 			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_FoodChests, odds, 5, 3);
-		case STORAGESHED:
+		case STORAGE_SHED:
 			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_StorageShedChests, odds, 3, 2);
 		case FARMWORKS:
 			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_FarmChests, odds, 4, 2);
-		case FARMWORKSOUTPUT:
+		case FARMWORKS_OUTPUT:
 			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_FarmOutputChests, odds, 8, 6);
 		case WOODWORKS:
 			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_LumberChests, odds, 4, 2);
-		case WOODWORKSOUTPUT:
+		case WOODWORKS_OUTPUT:
 			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_LumberOutputChests, odds, 8, 6);
 		case STONEWORKS:
 			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_QuaryChests, odds, 4, 2);
-		case STONEWORKSOUTPUT:
+		case STONEWORKS_OUTPUT:
 			return pickFromTreasures(generator.materialProvider.itemsRandomMaterials_QuaryOutputChests, odds, 10, 6);
 		case RANDOM:
 			lootLocation = LootLocation.values()[odds.getRandomInt(LootLocation.values().length - 1) + 1];

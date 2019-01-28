@@ -82,7 +82,7 @@ public class StorageLot extends BuildingLot {
 			break;
 		case SHED:
 			generator.structureOnGroundProvider.generateShed(generator, chunk, context, chunkOdds, 7, groundY, 7,
-					2 + chunkOdds.getRandomInt(2), LootLocation.STORAGESHED);
+					2 + chunkOdds.getRandomInt(2), LootLocation.STORAGE_SHED);
 			break;
 		case TANK:
 			Material wallMat = generator.materialProvider.itemsSelectMaterial_FactoryInsides

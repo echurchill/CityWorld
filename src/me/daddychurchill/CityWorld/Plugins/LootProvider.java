@@ -10,8 +10,8 @@ import me.daddychurchill.CityWorld.Support.Odds;
 public abstract class LootProvider extends Provider {
 
 	public enum LootLocation {
-		EMPTY, RANDOM, SEWER, MINE, BUNKER, BUILDING, WAREHOUSE, FOOD, STORAGESHED, FARMWORKS, FARMWORKSOUTPUT,
-		WOODWORKS, WOODWORKSOUTPUT, STONEWORKS, STONEWORKSOUTPUT
+		EMPTY, RANDOM, SEWER, MINE, BUNKER, BUILDING, WAREHOUSE, FOOD, STORAGE_SHED, FARMWORKS, FARMWORKS_OUTPUT,
+		WOODWORKS, WOODWORKS_OUTPUT, STONEWORKS, STONEWORKS_OUTPUT
 	}
 
 	public abstract void setLoot(CityWorldGenerator generator, Odds odds, String worldPrefix,
@@ -23,11 +23,13 @@ public abstract class LootProvider extends Provider {
 		// Based on work contributed by drew-bahrue
 		// (https://github.com/echurchill/CityWorld/pull/2)
 
-		LootProvider provider = null;
+		LootProvider provider;
 
 		// REMOVED PHATLOOTS, the plugin is currently either forking or being retired, hard to tell
 		// try PhatLoots...
 		//provider = LootProvider_Phat.loadPhatLoots(generator);
+
+		provider = new LootProvider_LootTable();
 
 		// default to stock LootProvider
 		if (provider == null) {
