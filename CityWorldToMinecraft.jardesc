@@ -10,9 +10,12 @@
             <packagesToUnSeal/>
         </sealing>
     </manifest>
-    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+    <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
         <file path="/CityWorld/.project"/>
+        <file path="/CityWorld/plugin.yml"/>
         <javaElement handleIdentifier="=CityWorld/src"/>
+        <folder path="/CityWorld/resources"/>
         <file path="/CityWorld/.classpath"/>
+        <file path="/CityWorld/pom.xml"/>
     </selectedElements>
 </jardesc>
