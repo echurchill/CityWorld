@@ -179,11 +179,11 @@ public class ShapeProvider_Normal extends ShapeProvider {
 			return highriseContext;
 		else if (nature < 0.10) // 5
 			return constructionContext;
-		else if (nature < 0.15) // 5
+		else if (nature < 0.15 && platmap.generator.getSettings().includeMunicipalities) // 5
 			return municipalContext;
 		else if (nature < 0.25) // 10
 			return midriseContext;
-		else if (nature < 0.30) // 5
+		else if (nature < 0.30 && platmap.generator.getSettings().includeIndustrialSectors) // 5
 			return industrialContext;
 		else if (nature < 0.40) // 10
 			return lowriseContext;

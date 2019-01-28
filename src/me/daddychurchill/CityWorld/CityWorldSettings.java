@@ -32,6 +32,8 @@ public class CityWorldSettings {
 	public boolean includeBuildings = true;
 	public boolean includeHouses = true;
 	public boolean includeFarms = true;
+	public boolean includeMunicipalities = true;
+	public boolean includeIndustrialSectors = true;
 	public boolean includeAirborneStructures = true;
 
 	public boolean includeCaves = true;
@@ -110,6 +112,8 @@ public class CityWorldSettings {
 	public final static String tagIncludeBuildings = "IncludeBuildings";
 	public final static String tagIncludeHouses = "IncludeHouses";
 	public final static String tagIncludeFarms = "IncludeFarms";
+	public final static String tagIncludeMunicipalities = "IncludeMunicipalities";
+	public final static String tagIncludeIndustrialSectors = "IncludeIndustrialSectors";
 	public final static String tagIncludeAirborneStructures = "IncludeAirborneStructures";
 
 	public final static String tagIncludeCaves = "IncludeCaves";
@@ -257,7 +261,9 @@ public class CityWorldSettings {
 		includeBunkers = otherSettings.includeBunkers; 
 		includeBuildings = otherSettings.includeBuildings; 
 		includeHouses = otherSettings.includeHouses; 
-		includeFarms = otherSettings.includeFarms; 
+		includeFarms = otherSettings.includeFarms;
+		includeMunicipalities = otherSettings.includeMunicipalities;
+		includeIndustrialSectors = otherSettings.includeIndustrialSectors;
 		includeAirborneStructures = otherSettings.includeAirborneStructures; 
 
 		includeCaves = otherSettings.includeCaves; 
@@ -404,6 +410,8 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeBuildings, includeBuildings);
 			section.addDefault(tagIncludeHouses, includeHouses);
 			section.addDefault(tagIncludeFarms, includeFarms);
+			section.addDefault(tagIncludeMunicipalities, includeMunicipalities);
+			section.addDefault(tagIncludeIndustrialSectors, includeIndustrialSectors);
 			section.addDefault(tagIncludeAirborneStructures, includeAirborneStructures);
 
 			section.addDefault(tagIncludeCaves, includeCaves);
@@ -468,6 +476,8 @@ public class CityWorldSettings {
 			includeBuildings = section.getBoolean(tagIncludeBuildings, includeBuildings);
 			includeHouses = section.getBoolean(tagIncludeHouses, includeHouses);
 			includeFarms = section.getBoolean(tagIncludeFarms, includeFarms);
+			includeMunicipalities = section.getBoolean(tagIncludeMunicipalities, includeMunicipalities);
+			includeIndustrialSectors = section.getBoolean(tagIncludeIndustrialSectors, includeIndustrialSectors);
 			includeAirborneStructures = section.getBoolean(tagIncludeAirborneStructures, includeAirborneStructures);
 
 			includeCaves = section.getBoolean(tagIncludeCaves, includeCaves);
@@ -601,6 +611,8 @@ public class CityWorldSettings {
 			section.set(tagIncludeBuildings, includeBuildings);
 			section.set(tagIncludeHouses, includeHouses);
 			section.set(tagIncludeFarms, includeFarms);
+			section.set(tagIncludeMunicipalities, includeMunicipalities);
+			section.set(tagIncludeIndustrialSectors, includeIndustrialSectors);
 			section.set(tagIncludeAirborneStructures, includeAirborneStructures);
 
 			section.set(tagIncludeCaves, includeCaves);
