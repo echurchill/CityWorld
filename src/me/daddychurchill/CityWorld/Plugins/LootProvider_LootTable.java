@@ -18,13 +18,16 @@ public class LootProvider_LootTable extends LootProvider {
 	public void setLoot(CityWorldGenerator generator, Odds odds, String worldPrefix, LootLocation chestLocation,
 			Block block) {
 		Chest chest = (Chest) block.getState();
+		
+		// if random then lets see what we get out of it
 		if (chestLocation == LootLocation.RANDOM) {
-			// Exclude EMPTY and RANDOM
 			chestLocation = Arrays.copyOfRange(LootLocation.values(), 2, LootLocation.values().length)[odds.getRandomInt(LootLocation.values().length - 1) + 1];
 		}
 		
+		// special case for Empty
 		if (chestLocation == LootLocation.EMPTY) {
 			chest.setLootTable(Bukkit.getLootTable(NamespacedKey.minecraft("empty")));
+		
 		} else {
 			String lootTable = "chests/" + generator.getWorld().getName().toLowerCase(Locale.ROOT) + "_" + chestLocation.name().toLowerCase(Locale.ROOT);
 			
