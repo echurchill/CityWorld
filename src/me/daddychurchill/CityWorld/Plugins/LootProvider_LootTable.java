@@ -26,6 +26,8 @@ public class LootProvider_LootTable extends LootProvider {
 			chest.setLootTable(Bukkit.getLootTable(NamespacedKey.minecraft("empty")));
 		} else {
 			String lootTable = "chests/" + generator.getWorld().getName().toLowerCase(Locale.ROOT) + "_" + chestLocation.name().toLowerCase(Locale.ROOT);
+			
+			// SIGH... I really wish this wasn't true
 			// Bukkit doesn't seem to want us to use this API for custom namespaces, but doesn't offer any proper API solutions
 			NamespacedKey key = new NamespacedKey("cityworld", lootTable);
 			chest.setLootTable(Bukkit.getLootTable(key));

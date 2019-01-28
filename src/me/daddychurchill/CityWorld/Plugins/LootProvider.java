@@ -29,12 +29,10 @@ public abstract class LootProvider extends Provider {
 		// try PhatLoots...
 		//provider = LootProvider_Phat.loadPhatLoots(generator);
 
-		provider = new LootProvider_LootTable();
-
-		// default to stock LootProvider
-		if (provider == null) {
+		if (generator.getSettings().useMinecraftLootTables)
+			provider = new LootProvider_LootTable();
+		else
 			provider = new LootProvider_Normal();
-		}
 
 		return provider;
 	}

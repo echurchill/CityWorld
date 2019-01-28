@@ -71,6 +71,7 @@ public class CityWorldSettings {
 //	public boolean includeFloatingSubclouds = true;
 //	public double spawnCities = Odds.oddsAlwaysGoingToHappen;
 
+	public boolean useMinecraftLootTables = true;
 	public boolean forceLoadWorldEdit = false;
 	public boolean broadcastSpecialPlaces = false;
 
@@ -149,6 +150,7 @@ public class CityWorldSettings {
 	public final static String tagIncludeBuildingInteriors = "IncludeBuildingInteriors";
 	public final static String tagIncludeFloatingSubsurface = "IncludeFloatingSubsurface";
 
+	public final static String tagUseMinecraftLootTables = "UseMinecraftLootTables";
 	public final static String tagForceLoadWorldEdit = "ForceLoadWorldEdit";
 	public final static String tagBroadcastSpecialPlaces = "BroadcastSpecialPlaces";
 
@@ -298,6 +300,7 @@ public class CityWorldSettings {
 		includeDecayedNature = otherSettings.includeDecayedNature; 
 		includeBuildingInteriors = otherSettings.includeBuildingInteriors; 
 
+		useMinecraftLootTables = otherSettings.useMinecraftLootTables;
 		forceLoadWorldEdit = otherSettings.forceLoadWorldEdit; 
 		broadcastSpecialPlaces = otherSettings.broadcastSpecialPlaces; 
 
@@ -446,6 +449,7 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeDecayedNature, includeDecayedNature);
 			section.addDefault(tagIncludeBuildingInteriors, includeBuildingInteriors);
 
+			section.addDefault(tagUseMinecraftLootTables, useMinecraftLootTables);
 			section.addDefault(tagForceLoadWorldEdit, forceLoadWorldEdit);
 			section.addDefault(tagBroadcastSpecialPlaces, broadcastSpecialPlaces);
 
@@ -518,6 +522,7 @@ public class CityWorldSettings {
 			includeDecayedNature = section.getBoolean(tagIncludeDecayedNature, includeDecayedNature);
 			includeBuildingInteriors = section.getBoolean(tagIncludeBuildingInteriors, includeBuildingInteriors);
 
+			useMinecraftLootTables = section.getBoolean(tagUseMinecraftLootTables, useMinecraftLootTables);
 			forceLoadWorldEdit = section.getBoolean(tagForceLoadWorldEdit, forceLoadWorldEdit);
 			broadcastSpecialPlaces = section.getBoolean(tagBroadcastSpecialPlaces, broadcastSpecialPlaces);
 
@@ -647,6 +652,7 @@ public class CityWorldSettings {
 			section.set(tagIncludeDecayedNature, includeDecayedNature);
 			section.set(tagIncludeBuildingInteriors, includeBuildingInteriors);
 
+			section.set(tagUseMinecraftLootTables, useMinecraftLootTables);
 			section.set(tagForceLoadWorldEdit, forceLoadWorldEdit);
 			section.set(tagBroadcastSpecialPlaces, broadcastSpecialPlaces);
 

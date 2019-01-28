@@ -88,10 +88,12 @@ public class CityWorld extends JavaPlugin implements CityWorldLog, Listener {
 		}
 	}
 
-	@SuppressWarnings("ResultOfMethodCallIgnored")
+// I am curious, WHY?
+//	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private boolean extractResource(String resource, File destination) {
 		if (!destination.exists()) {
-			destination.getParentFile().mkdirs();
+			if (!destination.getParentFile().mkdirs())
+				reportMessage("!!! COULD NOT PERFORM MKDIR() for '" + destination.getParentFile().getAbsolutePath() + "'");
 			try (InputStream stream = getResource(resource);
 				 ReadableByteChannel rbc = Channels.newChannel(stream);
 				 FileOutputStream fos = new FileOutputStream(destination)) {
