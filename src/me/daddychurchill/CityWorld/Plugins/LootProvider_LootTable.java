@@ -22,6 +22,7 @@ public class LootProvider_LootTable extends LootProvider {
 			// Exclude EMPTY and RANDOM
 			chestLocation = Arrays.copyOfRange(LootLocation.values(), 2, LootLocation.values().length)[odds.getRandomInt(LootLocation.values().length - 1) + 1];
 		}
+		
 		if (chestLocation == LootLocation.EMPTY) {
 			chest.setLootTable(Bukkit.getLootTable(NamespacedKey.minecraft("empty")));
 		} else {
