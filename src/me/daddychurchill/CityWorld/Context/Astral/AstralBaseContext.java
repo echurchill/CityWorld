@@ -49,7 +49,7 @@ public class AstralBaseContext extends AstralDataContext {
 
 					// get the height info for this chunk
 					heights = HeightInfo.getHeightsFaster(generator, blockX, blockZ);
-					if (!heights.anyEmpties && heights.averageHeight < generator.seaLevel - 8) {
+					if (!heights.anyEmpties && heights.getAverageHeight() < generator.seaLevel - 8) {
 						if (!addingBases)
 							addingBases = odds.playOdds(oddsOfIsolatedLots);
 

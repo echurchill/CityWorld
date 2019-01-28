@@ -11,6 +11,7 @@ import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
+import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.RealBlocks;
 
@@ -27,12 +28,10 @@ public class OilPlatformLot extends ConstructLot {
 		return new OilPlatformLot(platmap, chunkX, chunkZ);
 	}
 
-	private final static Material platformMaterial = Material.STONE;
 	private final static Material headMaterial = Material.STONE_SLAB;
 	private final static Material railingMaterial = Material.IRON_BARS;
-	private final static Material drillMaterial = Material.NETHER_BRICK_FENCE;
-	private final static Material supportMaterial = Material.NETHER_BRICKS;
-	private final static Material topperMaterial = Material.NETHER_BRICK_STAIRS;
+	private final static Material drillSupportMaterial = Material.BIRCH_FENCE;
+	private final static Material drillMaterial = Material.IRON_BARS;
 
 	private final static int aboveSea = 6;
 
@@ -41,9 +40,14 @@ public class OilPlatformLot extends ConstructLot {
 		return generator.seaLevel + aboveSea;
 	}
 
+//	@Override
+//	public int getTopY(CityWorldGenerator generator, AbstractCachedYs blockYs, int x, int z) {
+//		return getBottomY(generator) + DataContext.FloorHeight * 4 + 1;
+//	}
+//
 	@Override
 	public int getTopY(CityWorldGenerator generator, AbstractCachedYs blockYs, int x, int z) {
-		return getBottomY(generator) + DataContext.FloorHeight * 4 + 1;
+		return blockYs.getBlockY(x, z);// + generator.landRange;
 	}
 
 	@Override
@@ -56,6 +60,9 @@ public class OilPlatformLot extends ConstructLot {
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
 			DataContext context, int platX, int platZ) {
 		reportLocation(generator, "Oil Platform", chunk);
+		
+		Material platformMaterial = generator.materialProvider.itemsSelectMaterial_OilPlatformFloor.getRandomMaterial(chunkOdds, Material.STONE);
+		Material supportMaterial = generator.materialProvider.itemsSelectMaterial_OilPlatformColumn.getRandomMaterial(chunkOdds, Material.STONE);
 
 		// working levels
 		int y0 = generator.seaLevel;
@@ -65,6 +72,8 @@ public class OilPlatformLot extends ConstructLot {
 		int y4 = y3 + DataContext.FloorHeight;
 //		Material emptyMaterial = getAirMaterial(generator, y1);
 
+		generateSurface(generator, chunk, false);
+		
 		// access levels
 		chunk.setBlocks(2, 6, y0, y0 + 1, 2, 6, platformMaterial);
 		chunk.setBlocks(10, 14, y0, y0 + 1, 10, 14, platformMaterial);
@@ -120,25 +129,28 @@ public class OilPlatformLot extends ConstructLot {
 		chunk.setBlocks(2, y3, y3 + 2, 13, supportMaterial);
 
 		// drill down
-		chunk.setWaterLoggedBlocks(8, generator.deepseaLevel, generator.seaLevel + 1, 8, drillMaterial);
+		chunk.setWaterLoggedBlocks(8, blockYs.getBlockY(8, 8), generator.seaLevel + 1, 8, drillMaterial);
 		chunk.setBlocks(8, generator.seaLevel + 1, y4 + 3, 8, drillMaterial);
 
 		// extra drill bits
-		chunk.setBlocks(5, y2 + 2, y3 + 2, 1, drillMaterial);
-		chunk.setBlocks(7, y2 + 2, y3 + 2, 1, drillMaterial);
-		// chunk.setBlocks(9, y2 + 2, y3 + 2, 1, drillId);
-		chunk.setBlocks(11, y2 + 2, y3 + 2, 1, drillMaterial);
-		chunk.setBlocks(13, y4 + 4, y4 + 8, 2, drillMaterial); // bit hanging from the crane
+		for (int i = 5; i < 13; i++)
+			drawExtraPipes(chunk, i, y3, 1);
+//		chunk.setBlocks(5, y2 + 2, y3 + 2, 1, drillMaterial);
+//		chunk.setBlocks(7, y2 + 2, y3 + 2, 1, drillMaterial);
+//		chunk.setBlocks(9, y2 + 2, y3 + 2, 1, drillMaterial);
+//		chunk.setBlocks(11, y2 + 2, y3 + 2, 1, drillMaterial);
+
+		 // bit hanging from the crane
+		chunk.setBlocks(13, y4 + 7, y4 + 8, 2, drillSupportMaterial); 
+		chunk.setBlocks(13, y4 + 3, y4 + 7, 2, drillMaterial);
 
 		// ladder from access level to the balcony
 		chunk.setLadder(3, y0 + 1, y4 - 2, 4, BlockFace.SOUTH); // fixed
 		chunk.setLadder(12, y0 + 1, y4 + 2, 11, BlockFace.NORTH); // fixed
 
 		// now draw the crane
-		chunk.setBlock(2, y4 - 2, 3, topperMaterial, BlockFace.EAST);
 		chunk.clearBlock(2, y4 - 1, 2);
 		chunk.clearBlock(2, y4 - 1, 3);
-		chunk.setBlock(3, y4 - 1, 3, topperMaterial, BlockFace.NORTH);
 		chunk.setBlocks(2, y4 - 2, y4, 2, Material.IRON_BARS, BlockFace.EAST);
 		chunk.drawCrane(context, chunkOdds, 3, y4, 2);
 
@@ -171,6 +183,14 @@ public class OilPlatformLot extends ConstructLot {
 		}
 		generator.spawnProvider.spawnBeing(generator, chunk, chunkOdds, 5, y2 + 1, 5);
 		generator.spawnProvider.spawnBeing(generator, chunk, chunkOdds, 5, y3 + 1, 5);
+	}
+	
+	private void drawExtraPipes(RealBlocks chunk, int x, int y, int z) {
+		if (chunkOdds.playOdds(Odds.oddsVeryLikely)) {
+			chunk.setBlock(x, y + 1, z, drillMaterial);
+			chunk.setBlock(x, y, z, drillSupportMaterial, BlockFace.SOUTH);
+			chunk.setBlocks(x, y - 2, y, z, drillMaterial);
+		}
 	}
 
 	private final static double decayedEdgeOdds = 0.25;

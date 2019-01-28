@@ -12,8 +12,8 @@ import me.daddychurchill.CityWorld.Plats.Nature.OldCastleLot;
 import me.daddychurchill.CityWorld.Plats.Nature.RadioTowerLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.RoadLot;
+import me.daddychurchill.CityWorld.Support.AbstractYs.HeightState;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
-import me.daddychurchill.CityWorld.Support.HeightInfo.HeightState;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
@@ -78,17 +78,17 @@ public class NatureContext extends UncivilizedContext {
 						if (x > 0 && x < PlatMap.Width - 1 && z > 0 && z < PlatMap.Width - 1) {
 
 							// extreme changes?
-							if (heights.minHeight < minHeight) {
-								minHeight = heights.minHeight;
+							if (heights.getMinHeight() < minHeight) {
+								minHeight = heights.getMinHeight() ;
 								minHeightX = x;
 								minHeightZ = z;
-								minState = heights.state;
+								minState = heights.getState();
 							}
-							if (heights.maxHeight > maxHeight) {
-								maxHeight = heights.maxHeight;
+							if (heights.getMaxHeight() > maxHeight) {
+								maxHeight = heights.getMaxHeight();
 								maxHeightX = x;
 								maxHeightZ = z;
-								maxState = heights.state;
+								maxState = heights.getState();
 							}
 
 							// innermost chunks?
@@ -99,7 +99,7 @@ public class NatureContext extends UncivilizedContext {
 							boolean doBunkerEntrance = doBunkers && !didBunkerEntrance && !potentialRoads;
 
 							// what type of height are we talking about?
-							switch (heights.state) {
+							switch (heights.getState()) {
 							case MIDLAND:
 								if (doBunkers && minHeight > BunkerLot.calcBunkerMinHeight(generator)) {
 									current = createBuriedBuildingLot(generator, platmap, chunkX, chunkZ,

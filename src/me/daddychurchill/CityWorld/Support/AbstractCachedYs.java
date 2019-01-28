@@ -4,29 +4,19 @@ import org.bukkit.util.noise.NoiseGenerator;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 
-public abstract class AbstractCachedYs {
+public abstract class AbstractCachedYs extends AbstractYs {
 
 	// extremes
-	protected int minHeight = Integer.MAX_VALUE;
-	protected int minHeightX = 0;
-	protected int minHeightZ = 0;
-	protected int maxHeight = Integer.MIN_VALUE;
-	protected int maxHeightX = 0;
-	protected int maxHeightZ = 0;
-	protected int averageHeight;
 	protected int segmentWidth;
 
-	protected final static int width = AbstractBlocks.sectionBlockWidth;
 	protected double[][] blockYs = new double[width][width];
 
 	public AbstractCachedYs(CityWorldGenerator generator, int chunkX, int chunkZ) {
 
-		// total height
-		int sumHeight = 0;
-
 		// compute offset to start of chunk
 		int originX = chunkX * width;
 		int originZ = chunkZ * width;
+		double sumHeight = 0.0;
 
 		// calculate the Ys for this chunk
 		for (int x = 0; x < width; x++) {
@@ -34,29 +24,14 @@ public abstract class AbstractCachedYs {
 
 				// how high are we?
 				blockYs[x][z] = generator.shapeProvider.findPerciseY(generator, originX + x, originZ + z);
+				sumHeight = sumHeight + blockYs[x][z];
 
 				// keep the tally going
-				sumHeight += blockYs[x][z];
-				calcTally(blockYs[x][z], x, z);
+				calcMinMax(x, NoiseGenerator.floor(blockYs[x][z]), z);
 			}
 		}
-
-		// what was the average height
-		averageHeight = sumHeight / (width * width);
-	}
-
-	private void calcTally(double realY, int x, int z) {
-		int y = NoiseGenerator.floor(realY);
-		if (y < minHeight) {
-			minHeight = y;
-			minHeightX = x;
-			minHeightZ = z;
-		}
-		if (y > maxHeight) {
-			maxHeight = y;
-			maxHeightX = x;
-			maxHeightZ = z;
-		}
+		
+		calcState(generator, NoiseGenerator.floor(sumHeight), width * width);
 	}
 	
 	public int getMaxYWithin(int x1, int x2, int z1, int z2) {
@@ -91,14 +66,17 @@ public abstract class AbstractCachedYs {
 		return 0;
 	}
 
+	@Override
 	public int getMinHeight() {
 		return minHeight;
 	}
 
+	@Override
 	public int getMaxHeight() {
 		return maxHeight;
 	}
 
+	@Override
 	public int getAverageHeight() {
 		return averageHeight;
 	}
@@ -106,50 +84,4 @@ public abstract class AbstractCachedYs {
 	public int getSegmentWidth() {
 		return segmentWidth;
 	}
-
-//	public void lift(int h) {
-//		// total height
-//		int sumHeight = 0;
-//		
-//		// change the height
-//		for (int x = 0; x < width; x++) {
-//			for (int z = 0; z < width; z++) {
-//				blockYs[x][z] = blockYs[x][z] + h;
-//				
-//				// keep the tally going
-//				sumHeight += blockYs[x][z];
-//				calcTally(blockYs[x][z], x, z);
-//			}
-//		}
-//		
-//		// what was the average height
-//		averageHeight = sumHeight / (width * width);
-//	}
-
-//	public void draw(AbstractBlocks chunk) {
-//		for (int x = 0; x < width; x++) {
-//			for (int z = 0; z < width; z++) {
-//				chunk.setBlock(x, getBlockY(x, z), z, Material.GOLD_BLOCK);
-//			}
-//		}
-//		chunk.setBlock(minHeightX, minHeight, minHeightZ, Material.DIAMOND_BLOCK);
-//		chunk.setBlock(maxHeightX, maxHeight, maxHeightZ, Material.LAPIS_BLOCK);
-//		chunk.setBlock(0, averageHeight - 1, 0, Material.COAL_BLOCK);
-//		chunk.setBlock(0, averageHeight + 1, 0, Material.COAL_BLOCK);
-//	}
-//	
-//	public void report(CityWorldGenerator generator, String prefix) {
-//		generator.reportFormatted("%s minHeight = %s maxHeight = %s averageHeight = %s streetLevel = %s", 
-//				prefix, minHeight, maxHeight, averageHeight, generator.streetLevel);
-//	}
-//
-//	public void reportMatrix(CityWorldGenerator generator, String prefix) {
-//		for (int z = 0; z < width; z++) {
-//			StringBuilder line = new StringBuilder(String.format("%s [%2s] =", prefix, z));
-//			for (int x = 0; x < width; x++) {
-//				line.append(String.format(" %4s", getBlockY(x, z)));
-//			}
-//			generator.reportMessage(line.toString());
-//		}
-//	}
 }

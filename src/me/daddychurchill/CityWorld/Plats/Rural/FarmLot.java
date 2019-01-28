@@ -60,6 +60,11 @@ public class FarmLot extends ConnectedLot {
 			cropType = setDecayedNormalCrop();
 		else
 			cropType = setNormalCrop();
+		
+		if (!platmap.generator.getSettings().includeAirborneStructures && cropType == CropType.HOTAIR_BALLOON)
+			cropType = CropType.PADDOCK;
+		if (cropType == CropType.HOTAIR_BALLOON && chunkOdds.playOdds(Odds.oddsPrettyLikely))
+			cropType = CropType.PADDOCK;
 
 		// decayed world?
 		if (platmap.generator.getSettings().includeDecayedNature)
@@ -88,11 +93,6 @@ public class FarmLot extends ConnectedLot {
 	protected final static Material cropNone = Material.DIRT;
 	protected Material waterMaterial = Material.WATER;
 
-//	private final static Material soilMaterial = Material.FARMLAND;
-//	private final static Material sandMaterial = Material.SAND;
-//	private final static Material mycelMaterial = Material.MYCELIUM;
-//	private final static Material dirtMaterial = Material.DIRT;
-//	private final static Material soulMaterial = Material.SOUL_SAND;
 	private final static Material poleMaterial = Material.SPRUCE_FENCE;
 	private final static Material trellisMaterial = Material.SPRUCE_PLANKS;
 
@@ -103,7 +103,8 @@ public class FarmLot extends ConnectedLot {
 
 	@Override
 	public int getTopY(CityWorldGenerator generator, AbstractCachedYs blockYs, int x, int z) {
-		return generator.streetLevel + DataContext.FloorHeight * 3 + 1;
+//		return generator.streetLevel + DataContext.FloorHeight * 3 + 1;
+		return generator.streetLevel;
 	}
 
 	@Override
@@ -182,15 +183,14 @@ public class FarmLot extends ConnectedLot {
 			case PADDOCK:
 				chunk.setWalls(1, 15, cropY, cropY + 1, 1, 15, Material.SPRUCE_FENCE);
 
-				// @@ TODO: I fix the gates one of these days
 				if (chunkOdds.flipCoin())
-					chunk.setGate(7, cropY, 1, Material.SPRUCE_FENCE_GATE, BlockFace.NORTH, false);
+					chunk.setGate(7, cropY, 1, Material.SPRUCE_FENCE_GATE, BlockFace.NORTH, chunkOdds.playOdds(Odds.oddsUnlikely));
 				if (chunkOdds.flipCoin())
-					chunk.setGate(7, cropY, 14, Material.SPRUCE_FENCE_GATE, BlockFace.SOUTH, false);
+					chunk.setGate(7, cropY, 14, Material.SPRUCE_FENCE_GATE, BlockFace.SOUTH, chunkOdds.playOdds(Odds.oddsUnlikely));
 				if (chunkOdds.flipCoin())
-					chunk.setGate(1, cropY, 7, Material.SPRUCE_FENCE_GATE, BlockFace.WEST, false);
+					chunk.setGate(1, cropY, 7, Material.SPRUCE_FENCE_GATE, BlockFace.WEST, chunkOdds.playOdds(Odds.oddsUnlikely));
 				if (chunkOdds.flipCoin())
-					chunk.setGate(14, cropY, 7, Material.SPRUCE_FENCE_GATE, BlockFace.EAST, false);
+					chunk.setGate(14, cropY, 7, Material.SPRUCE_FENCE_GATE, BlockFace.EAST, chunkOdds.playOdds(Odds.oddsUnlikely));
 				break;
 			case TRELLIS:
 			case VINES:

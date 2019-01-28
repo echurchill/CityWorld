@@ -92,7 +92,7 @@ public abstract class PlatLot {
 
 	protected void reportLocation(CityWorldGenerator generator, String title, int originX, int originZ) {
 		if (generator.getSettings().broadcastSpecialPlaces)
-			generator.reportMessage(title + " placed at " + originX + ", " + originZ);
+			generator.reportMessage(">> " + title + " placed near " + originX + ", " + originZ + ", in the world '" + generator.worldName + "'");
 	}
 
 	public Biome getChunkBiome() {

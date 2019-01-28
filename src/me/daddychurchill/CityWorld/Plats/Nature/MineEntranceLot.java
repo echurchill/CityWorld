@@ -6,7 +6,6 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.ConstructLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
-import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
 import me.daddychurchill.CityWorld.Support.InitialBlocks;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
@@ -36,10 +35,11 @@ public class MineEntranceLot extends ConstructLot {
 		return 0;
 	}
 
-	@Override
-	public int getTopY(CityWorldGenerator generator, AbstractCachedYs blockYs, int x, int z) {
-		return generator.streetLevel + DataContext.FloorHeight;
-	}
+//	@Override
+//	public int getTopY(CityWorldGenerator generator, AbstractCachedYs blockYs, int x, int z) {
+//		return blockYs.getBlockY(x, z);// + generator.landRange;
+////		return generator.streetLevel + DataContext.FloorHeight;
+//	}
 
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,

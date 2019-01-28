@@ -52,7 +52,7 @@ public class AstralMushroomContext extends AstralDataContext {
 
 					// get the height info for this chunk
 					heights = HeightInfo.getHeightsFaster(generator, blockX, blockZ);
-					if (!heights.anyEmpties && heights.averageHeight < generator.seaLevel)
+					if (!heights.anyEmpties && heights.getAverageHeight() < generator.seaLevel)
 						current = generateMushroomLot(platmap, odds, originX + x, originZ + z, getPopulationOdds(x, z));
 
 					// did current get defined?

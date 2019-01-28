@@ -28,7 +28,7 @@ public abstract class ConstructLot extends IsolatedLot {
 
 	@Override
 	public int getTopY(CityWorldGenerator generator, AbstractCachedYs blockYs, int x, int z) {
-		// TODO Auto-generated method stub
-		return generator.streetLevel;
+		return blockYs.getBlockY(x, z);
+//		return generator.streetLevel;
 	}
 }

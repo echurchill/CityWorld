@@ -12,7 +12,7 @@ public final class Mapper {
 		if (entry != null)
 			return entry.stairs;
 		else
-			return Material.BRICK_STAIRS;
+			return Material.STONE_BRICK_STAIRS;
 	}
 
 	public static final Material getStairWallFor(Material material) {
@@ -20,7 +20,7 @@ public final class Mapper {
 		if (entry != null)
 			return entry.stairWalls;
 		else
-			return Material.BRICKS;
+			return Material.STONE_BRICKS;
 	}
 
 	public static final Material getStairPlatformFor(Material material) {
@@ -28,7 +28,7 @@ public final class Mapper {
 		if (entry != null)
 			return entry.stairPlatform;
 		else
-			return Material.BRICKS;
+			return Material.STONE;
 	}
 
 	public static final Material getDoorsFor(Material material) {
@@ -108,8 +108,12 @@ public final class Mapper {
 						mapping.put(material, new MapperEntry(Material.IRON_BARS, Material.BIRCH_DOOR, Material.STONE_BRICKS, Material.STONE_BRICK_STAIRS, Material.STONE_BRICKS));
 					else if (name.contains("COBBLESTONE"))
 						mapping.put(material, new MapperEntry(Material.COBBLESTONE_WALL, Material.BIRCH_DOOR, Material.COBBLESTONE, Material.COBBLESTONE_STAIRS, Material.COBBLESTONE));
-					else //if (name.contains("BRICK"))
+					else if (name.contains("STONE"))
+						mapping.put(material, new MapperEntry(Material.IRON_BARS, Material.OAK_DOOR, Material.STONE, Material.STONE_BRICK_STAIRS, Material.STONE));
+					else if (name.contains("BRICK"))
 						mapping.put(material, new MapperEntry(Material.COBBLESTONE_WALL, Material.BIRCH_DOOR, Material.BRICKS, Material.BRICK_STAIRS, Material.BRICKS));
+					else //if (name.contains("STONE"))
+						mapping.put(material, new MapperEntry(Material.COBBLESTONE_WALL, Material.DARK_OAK_DOOR, Material.STONE, Material.DARK_OAK_STAIRS, Material.STONE));
 				}
 			}
 		}

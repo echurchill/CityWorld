@@ -4,8 +4,8 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.NatureContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.SnowDunes.SnowDunesNatureLot;
+import me.daddychurchill.CityWorld.Support.AbstractYs.HeightState;
 import me.daddychurchill.CityWorld.Support.HeightInfo;
-import me.daddychurchill.CityWorld.Support.HeightInfo.HeightState;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class SnowDunesNatureContext extends NatureContext {
@@ -23,7 +23,7 @@ public class SnowDunesNatureContext extends NatureContext {
 	@Override
 	public PlatLot createSurfaceBuildingLot(CityWorldGenerator generator, PlatMap platmap, int x, int z,
 			HeightInfo heights) {
-		if (heights.averageHeight > generator.shapeProvider.findHighestFloodY(generator))
+		if (heights.getAverageHeight() > generator.shapeProvider.findHighestFloodY(generator))
 			return super.createSurfaceBuildingLot(generator, platmap, x, z, heights);
 		return null;
 	}

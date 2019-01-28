@@ -1,5 +1,7 @@
 package me.daddychurchill.CityWorld.Support;
 
+import org.bukkit.util.noise.NoiseGenerator;
+
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 public final class SegmentedCachedYs extends AbstractCachedYs {
@@ -13,15 +15,12 @@ public final class SegmentedCachedYs extends AbstractCachedYs {
 		segmentWidth = calcSegmentWidth(generator.seaLevel);
 		int currentSegment = 1;
 
-		// total height
-		int sumHeight = 0;
-
 		// which segment are we doing?
 		switch (getSegmentWidth()) {
 		case 2: // two by two
 			for (int x = 0; x < width; x = x + 2) {
 				for (int z = 0; z < width; z = z + 2) {
-					sumHeight = flattenSegment(x, z, 2, 2, currentSegment);
+					flattenSegment(x, z, 2, 2, currentSegment);
 					currentSegment++;
 				}
 			}
@@ -30,7 +29,7 @@ public final class SegmentedCachedYs extends AbstractCachedYs {
 		case 4: // four by four
 			for (int x = 0; x < width; x = x + 4) {
 				for (int z = 0; z < width; z = z + 4) {
-					sumHeight = flattenSegment(x, z, 4, 4, currentSegment);
+					flattenSegment(x, z, 4, 4, currentSegment);
 					currentSegment++;
 				}
 			}
@@ -39,14 +38,14 @@ public final class SegmentedCachedYs extends AbstractCachedYs {
 		case 8: // eight by eight
 			for (int x = 0; x < width; x = x + 8) {
 				for (int z = 0; z < width; z = z + 8) {
-					sumHeight = flattenSegment(x, z, 8, 8, currentSegment);
+					flattenSegment(x, z, 8, 8, currentSegment);
 					currentSegment++;
 				}
 			}
 			break;
 
 		case 16: // sixteen by sixteen
-			sumHeight = flattenSegment(0, 0, 16, 16, currentSegment);
+			flattenSegment(0, 0, 16, 16, currentSegment);
 			break;
 
 		default:// one by one
@@ -61,7 +60,13 @@ public final class SegmentedCachedYs extends AbstractCachedYs {
 		}
 
 		// what was the average height
-		averageHeight = sumHeight / (width * width);
+		double height = 0.0;
+		for (int x = 0; x < width; x++) {
+			for (int z = 0; z < width; z++) {
+				height = height + blockYs[x][z];
+			}
+		}
+		calcState(generator, NoiseGenerator.floor(height), width * width);
 	}
 
 	@Override
@@ -91,8 +96,7 @@ public final class SegmentedCachedYs extends AbstractCachedYs {
 			return 1;
 	}
 
-	private int flattenSegment(int x1, int z1, int xw, int zw, int currentSegment) {
-		int sumHeight = 0;
+	private void flattenSegment(int x1, int z1, int xw, int zw, int currentSegment) {
 
 		// find the topmost one
 		double atY = average(blockYs[x1][z1], blockYs[x1 + xw - 1][z1], blockYs[x1][z1 + zw - 1],
@@ -102,12 +106,9 @@ public final class SegmentedCachedYs extends AbstractCachedYs {
 		for (int x = x1; x < x1 + xw; x++) {
 			for (int z = z1; z < z1 + zw; z++) {
 				blockYs[x][z] = atY;
-				sumHeight += atY;
 				segmentYs[x][z] = currentSegment;
 			}
 		}
-
-		return sumHeight;
 	}
 
 	private double average(double... values) {

@@ -169,7 +169,10 @@ public class RoadLot extends ConnectedLot {
 
 	@Override
 	public int getTopY(CityWorldGenerator generator, AbstractCachedYs blockYs, int x, int z) {
-		return generator.streetLevel + DataContext.FloorHeight * 2 + 1; // TODO is this really right?
+		if (blockYs.isSea())
+			return blockYs.getBlockY(x, z);
+		else
+			return generator.streetLevel + DataContext.FloorHeight * 2 + 1; // TODO is this really right?
 	}
 
 	@Override
@@ -559,6 +562,7 @@ public class RoadLot extends ConnectedLot {
 			// clear a little space
 //			chunk.setLayer(pavementLevel, 4, Material.IRON_BLOCK);
 			chunk.airoutLayer(generator, pavementLevel, 4); // @@@
+			generateSurface(generator, chunk, false);
 
 			// bridge to the east/west
 			if (roads.toWest() && roads.toEast()) {
