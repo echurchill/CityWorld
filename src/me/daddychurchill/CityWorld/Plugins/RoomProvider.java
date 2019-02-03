@@ -17,7 +17,7 @@ public abstract class RoomProvider extends Provider {
 
 	public RoomProvider() {
 		super();
-		roomTypes = new ArrayList<PlatRoom>();
+		roomTypes = new ArrayList<>();
 	}
 
 	private PlatRoom getRandomRoomGenerator(Odds odds) {

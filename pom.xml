@@ -6,7 +6,7 @@
 
     <groupId>me.daddychurchill</groupId>
     <artifactId>CityWorld</artifactId>
-    <version>4.000</version>
+    <version>4.050</version>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>

@@ -1,10 +1,10 @@
 name: CityWorld
 main: me.daddychurchill.CityWorld.CityWorld
-version: 4.05
+version: 4.050
 api-version: 1.13
-load: startup
+load: STARTUP
 author: DaddyChurchill
-website: http://dev.bukkit.org/server-mods/cityworld/
+website: https://www.spigotmc.org/resources/cityworld.2250/
 description: The great outdoors is all good and fine but sometimes you just want to go to town.
 softdepend: [WorldEdit]
 loadbefore: [Multiverse-Core, dimension-door, multiworld]

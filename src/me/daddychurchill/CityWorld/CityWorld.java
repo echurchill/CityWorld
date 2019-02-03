@@ -71,6 +71,7 @@ public class CityWorld extends JavaPlugin implements CityWorldLog, Listener {
 	public void onWorldLoad(WorldLoadEvent event) {
 		// Extract our loot datapack to the default world folder, they're only loaded from here
 		File datapack = new File(Bukkit.getWorlds().get(0).getWorldFolder(), "datapacks/cityworld");
+		reportMessage("DATAPACK = " + datapack.getAbsolutePath());
 		boolean dataReload = extractResource("datapack/pack.mcmeta", new File(datapack, "pack.mcmeta"));
 
 		// Exclude EMPTY and RANDOM
@@ -79,11 +80,13 @@ public class CityWorld extends JavaPlugin implements CityWorldLog, Listener {
 			// Destination should have world prefix, internal path doesn't
 			// This allows for world specific loot tables
 			File destination = new File(datapack, String.format(path, event.getWorld().getName().toLowerCase(Locale.ROOT) + "_"));
+			reportMessage("DESTINATION = " + destination.getAbsolutePath());
 			dataReload = extractResource("datapack/" + String.format(path, ""), destination);
 		}
 
 		if (dataReload) {
 			// Reload all server datapacks to ensure that we can actually use them at gen time
+			reportMessage("DATARELOAD!");
 			Bukkit.reloadData();
 		}
 	}
@@ -92,21 +95,24 @@ public class CityWorld extends JavaPlugin implements CityWorldLog, Listener {
 //	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private boolean extractResource(String resource, File destination) {
 		if (!destination.exists()) {
-			if (!destination.getParentFile().mkdirs())
-				reportMessage("!!! COULD NOT PERFORM MKDIR() for '" + destination.getParentFile().getAbsolutePath() + "'");
-			try (InputStream stream = getResource(resource);
-				 ReadableByteChannel rbc = Channels.newChannel(stream);
-				 FileOutputStream fos = new FileOutputStream(destination)) {
-				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
-			} catch (Exception e) {
-				reportFormatted("Unable to extract file %s (%s)", resource, e.getMessage());
+			if (!destination.getParentFile().mkdirs()) {
+				reportMessage(">>> COULD NOT PERFORM MKDIR() for '" + destination.getParentFile().getAbsolutePath() + "' - '" + resource + "'");
+			} else {
+				reportMessage("@@@ MKDIR() WORKED for '" + destination.getParentFile().getAbsolutePath() + "' - '" + resource + "'");
+				try (InputStream stream = getResource(resource);
+					 ReadableByteChannel rbc = Channels.newChannel(stream);
+					 FileOutputStream fos = new FileOutputStream(destination)) {
+					fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+				} catch (Exception e) {
+					reportFormatted("Unable to extract file %s (%s)", resource, e.getMessage());
+				}
 			}
 			return true;
 		}
 		return false;
 	}
 
-	public String getPluginName() {
+	private String getPluginName() {
 		return getDescription().getName();
 	}
 
