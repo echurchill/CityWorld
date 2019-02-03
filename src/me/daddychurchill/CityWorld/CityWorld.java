@@ -96,13 +96,16 @@ public class CityWorld extends JavaPlugin implements CityWorldLog, Listener {
 	private boolean extractResource(String resource, File destination) {
 		if (!destination.exists()) {
 			if (!destination.getParentFile().mkdirs()) {
-				reportMessage(">>> COULD NOT PERFORM MKDIR() for '" + destination.getParentFile().getAbsolutePath() + "' - '" + resource + "'");
+				reportMessage(">>> MKDIR() FAILED for '" + destination.getParentFile().getAbsolutePath() + "'");
 			} else {
-				reportMessage("@@@ MKDIR() WORKED for '" + destination.getParentFile().getAbsolutePath() + "' - '" + resource + "'");
+				reportMessage("@@@ MKDIR() WORKED for '" + destination.getParentFile().getAbsolutePath() +"'");
 				try (InputStream stream = getResource(resource);
 					 ReadableByteChannel rbc = Channels.newChannel(stream);
 					 FileOutputStream fos = new FileOutputStream(destination)) {
+
+					reportMessage("### Transfering " + destination.getAbsolutePath());
 					fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+
 				} catch (Exception e) {
 					reportFormatted("Unable to extract file %s (%s)", resource, e.getMessage());
 				}
