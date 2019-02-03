@@ -112,7 +112,7 @@ public class CityWorld extends JavaPlugin implements CityWorldLog, Listener {
 		return false;
 	}
 
-	private String getPluginName() {
+	protected String getPluginName() {
 		return getDescription().getName();
 	}
 
