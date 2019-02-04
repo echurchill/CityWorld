@@ -199,6 +199,6 @@ public class OilPlatformLot extends ConstructLot {
 		if (chunkOdds.playOdds(decayedEdgeOdds))
 
 			// make it go away
-			generator.decayBlocks.desperseArea(x, y, z, chunkOdds.getRandomInt(2) + 2);
+			generator.destroyArea(x, y, z, chunkOdds.getRandomInt(2) + 2);
 	}
 }

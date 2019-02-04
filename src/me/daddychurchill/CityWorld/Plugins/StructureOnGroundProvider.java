@@ -27,7 +27,7 @@ public class StructureOnGroundProvider extends Provider {
 
 	}
 
-	public final static StructureOnGroundProvider loadProvider(CityWorldGenerator generator) {
+	public static StructureOnGroundProvider loadProvider(CityWorldGenerator generator) {
 		// for now
 		return new StructureOnGroundProvider();
 	}
@@ -230,7 +230,8 @@ public class StructureOnGroundProvider extends Provider {
 			if (odds.playOdds(Odds.oddsPrettyLikely)) {
 				chunk.clearBlocks(9, 14, baseY, 9, 14); // we do this to keep the grass and such away from the fire so
 														// it doesn't go firebug on us
-				chunk.setBlock(11, baseY, 11, matFire);
+				if (generator.getSettings().includeFires)
+					chunk.setBlock(11, baseY, 11, matFire);
 			}
 		}
 

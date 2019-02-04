@@ -248,7 +248,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		if (chunkOdds.playOdds(decayedEdgeOdds)) {
 
 			// make it go away
-			generator.decayBlocks.desperseArea(x, y, z, 2 + chunkOdds.getRandomInt(2));
+			generator.destroyArea(x, y, z, 2 + chunkOdds.getRandomInt(2));
 		}
 	}
 

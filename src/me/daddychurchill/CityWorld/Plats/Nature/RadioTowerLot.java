@@ -110,7 +110,7 @@ public class RadioTowerLot extends ConstructLot {
 		if (generator.getSettings().includeDecayedBuildings) {
 			int x1 = chunk.getBlockX(originX);
 			int z1 = chunk.getBlockZ(originZ);
-			generator.decayBlocks.destroyWithin(x1, x1 + platformWidth, blockYs.getAverageHeight(), platformY + 3, z1,
+			generator.destroyWithin(x1, x1 + platformWidth, blockYs.getAverageHeight(), platformY + 3, z1,
 					z1 + platformWidth);
 
 			// place a door but only if everything is "normal"

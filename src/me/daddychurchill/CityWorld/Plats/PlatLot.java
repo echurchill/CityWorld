@@ -226,7 +226,7 @@ public abstract class PlatLot {
 	protected void destroyLot(CityWorldGenerator generator, int y1, int y2) {
 		int x1 = chunkX * SupportBlocks.sectionBlockWidth;
 		int z1 = chunkZ * SupportBlocks.sectionBlockWidth;
-		generator.decayBlocks.destroyWithin(x1, x1 + SupportBlocks.sectionBlockWidth, y1, y2, z1,
+		generator.destroyWithin(x1, x1 + SupportBlocks.sectionBlockWidth, y1, y2, z1,
 				z1 + SupportBlocks.sectionBlockWidth);
 	}
 

@@ -207,8 +207,8 @@ public class OldCastleLot extends ConstructLot {
 //		int thirdZ1 = chunkRandom.nextBoolean() ? secondZ1 : secondZ1 + 4;
 
 		// always an ex-castle
-		generator.decayBlocks.destroyWithin(originX + insetChaos, originX + 16 - insetChaos, y1, y3,
-				originZ + insetChaos, originZ + 16 - insetChaos);
+		generator.destroyWithin(originX + insetChaos, originX + 16 - insetChaos, y1, y3,
+				originZ + insetChaos, originZ + 16 - insetChaos, false);
 
 		// who is the king of the hill
 		int x = 7;

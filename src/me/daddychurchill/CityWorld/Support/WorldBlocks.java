@@ -16,7 +16,7 @@ public final class WorldBlocks extends SupportBlocks {
 	// ====================
 
 	protected Odds odds;
-	protected int farthestFall;
+	private int farthestFall;
 
 	public WorldBlocks(CityWorldGenerator generator, Odds odds) {
 		super(generator);
@@ -45,7 +45,7 @@ public final class WorldBlocks extends SupportBlocks {
 		return isWater(x - 1, y, z) || isWater(x + 1, y, z) || isWater(x, y, z - 1) || isWater(x, y, z + 1);
 	}
 
-	public void destroyWithin(int x1, int x2, int y1, int y2, int z1, int z2) {
+	public void destroyWithin(int x1, int x2, int y1, int y2, int z1, int z2, boolean withFire) {
 		int count = Math.max(1, (y2 - y1) / DataContext.FloorHeight);
 
 		// now destroy it
@@ -58,11 +58,24 @@ public final class WorldBlocks extends SupportBlocks {
 			int radius = odds.getRandomInt(3) + 3;
 
 			// make it go away
-			desperseArea(cx, cy, cz, radius);
+			destroyArea(cx, cy, cz, radius, withFire);
 
 			// done with this round
 			count--;
 		}
+	}
+
+
+	public void destroyArea(int x, int y, int z, int radius, boolean withFire) {
+
+		// debris
+		Stack<debrisItem> debris = new Stack<>();
+
+		// clear out the space
+		desperseSphere(x, y, z, radius, debris);
+
+		// now sprinkle blocks around
+		sprinkleDebris(x, y, z, radius, debris, withFire);
 	}
 
 	private static class debrisItem {
@@ -128,7 +141,7 @@ public final class WorldBlocks extends SupportBlocks {
 	private static double oddsOfDebris = Odds.oddsLikely;// Odds.oddsPrettyLikely; // Reduced the amount of debris to
 															// speed things up
 
-	private void sprinkleDebris(int cx, int cy, int cz, int radius, Stack<debrisItem> debris) {
+	private void sprinkleDebris(int cx, int cy, int cz, int radius, Stack<debrisItem> debris, boolean withFire) {
 
 		// calculate a few things
 		int r2 = radius * 2;
@@ -173,23 +186,20 @@ public final class WorldBlocks extends SupportBlocks {
 						// other blocks?
 					} else {
 //						setBlock(x, y, z, item.oldMaterial, item.oldData);
-						setBlock(x, y, z, item.oldMaterial);
+						boolean done = false;
+						if (withFire && odds.playOdds(Odds.oddsSomewhatUnlikely) && y > 1) {
+							if (!isEmpty(x, y - 1, z)) {
+								setBlock(x, y - 1, z, Material.NETHERRACK);
+								setBlock(x, y, z, Material.FIRE);
+								done = true;
+							}
+						}
+
+						if (!done)
+							setBlock(x, y, z, item.oldMaterial);
 					}
 				}
 			}
 		}
 	}
-
-	public void desperseArea(int x, int y, int z, int radius) {
-
-		// debris
-		Stack<debrisItem> debris = new Stack<debrisItem>();
-
-		// clear out the space
-		desperseSphere(x, y, z, radius, debris);
-
-		// now sprinkle blocks around
-		sprinkleDebris(x, y, z, radius, debris);
-	}
-
 }

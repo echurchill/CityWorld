@@ -56,7 +56,7 @@ public class CityWorldGenerator extends ChunkGenerator implements CityWorldLog {
 	public SpawnProvider spawnProvider;
 	public MaterialProvider materialProvider;
 
-	public WorldBlocks decayBlocks;
+	private WorldBlocks decayBlocks;
 
 	private CityWorldSettings settings;
 
@@ -462,4 +462,17 @@ public class CityWorldGenerator extends ChunkGenerator implements CityWorldLog {
 			}
 		}
 	}
+
+	public void destroyWithin(int x1, int x2, int y1, int y2, int z1, int z2, boolean withFire) {
+		decayBlocks.destroyWithin(x1, x2, y1, y2, z1, z2, withFire && getSettings().includeFires);
+	}
+
+	public void destroyWithin(int x1, int x2, int y1, int y2, int z1, int z2) {
+		decayBlocks.destroyWithin(x1, x2, y1, y2, z1, z2, getSettings().includeFires);
+	}
+
+	public void destroyArea(int x, int y, int z, int radius) {
+		decayBlocks.destroyArea(x, y, z, radius, getSettings().includeFires);
+	}
+
 }

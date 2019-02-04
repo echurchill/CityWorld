@@ -16,12 +16,12 @@ public abstract class MaterialFactory {
 		WG, WGG, WGGG, WWG, WWGG, GGGG, RANDOM
 	}
 
-	public VerticalStyle verticalStyle;
-	public HorizontalStyle horizontalStyle;
+	private VerticalStyle verticalStyle;
+	private HorizontalStyle horizontalStyle;
 	protected Boolean decayed;
 	protected Odds odds;
 
-	protected double oddsOfDecay = Odds.oddsSomewhatLikely;
+	protected static double oddsOfDecay = Odds.oddsSomewhatLikely;
 
 	public MaterialFactory(Odds odds, boolean decayed) {
 		super();
@@ -94,7 +94,7 @@ public abstract class MaterialFactory {
 		}
 	}
 
-	protected void decayMaterial(AbstractBlocks blocks, int x, int y1, int y2, int z) {
+	private void decayMaterial(AbstractBlocks blocks, int x, int y1, int y2, int z) {
 		if (decayed && odds.playOdds(oddsOfDecay)) {
 			int range = Math.max(1, y2 - y1);
 			blocks.clearBlock(x, y1 + odds.getRandomInt(range), z);

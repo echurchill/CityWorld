@@ -42,6 +42,7 @@ public class CityWorldSettings {
 	public boolean includeMountains = true;
 	public boolean includeOres = true;
 	public boolean includeBones = true;
+	public boolean includeFires = true;
 
 	public double spawnBeings = Odds.oddsLikely;
 	public double spawnBaddies = Odds.oddsPrettyUnlikely;
@@ -123,6 +124,7 @@ public class CityWorldSettings {
 	public final static String tagIncludeMountains = "IncludeMountains";
 	public final static String tagIncludeOres = "IncludeOres";
 	public final static String tagIncludeBones = "IncludeBones";
+	public final static String tagIncludeFires = "IncludeFires";
 
 	public final static String tagSpawnAnimals = "SpawnAnimals";
 	public final static String tagSpawnBeings = "SpawnBeings";
@@ -273,7 +275,8 @@ public class CityWorldSettings {
 		includeSeas = otherSettings.includeSeas; 
 		includeMountains = otherSettings.includeMountains; 
 		includeOres = otherSettings.includeOres; 
-		includeBones = otherSettings.includeBones; 
+		includeBones = otherSettings.includeBones;
+		includeFires = otherSettings.includeFires;
 
 		spawnBeings = otherSettings.spawnBeings; 
 		spawnBaddies = otherSettings.spawnBaddies; 
@@ -423,6 +426,7 @@ public class CityWorldSettings {
 			section.addDefault(tagIncludeMountains, includeMountains);
 			section.addDefault(tagIncludeOres, includeOres);
 			section.addDefault(tagIncludeBones, includeBones);
+			section.addDefault(tagIncludeFires, includeFires);
 
 			section.addDefault(tagSpawnAnimals, spawnAnimals);
 			section.addDefault(tagSpawnBeings, spawnBeings);
@@ -490,6 +494,7 @@ public class CityWorldSettings {
 			includeMountains = section.getBoolean(tagIncludeMountains, includeMountains);
 			includeOres = section.getBoolean(tagIncludeOres, includeOres);
 			includeBones = section.getBoolean(tagIncludeBones, includeBones);
+			includeFires = section.getBoolean(tagIncludeFires, includeFires);
 
 			spawnAnimals = limitTo(section.getDouble(tagSpawnAnimals, spawnAnimals), 0.0, 1.0);
 			spawnBeings = limitTo(section.getDouble(tagSpawnBeings, spawnBeings), 0.0, 1.0);
@@ -626,6 +631,7 @@ public class CityWorldSettings {
 			section.set(tagIncludeMountains, includeMountains);
 			section.set(tagIncludeOres, includeOres);
 			section.set(tagIncludeBones, includeBones);
+			section.set(tagIncludeFires, includeFires);
 
 			section.set(tagSpawnAnimals, spawnAnimals);
 			section.set(tagSpawnBeings, spawnBeings);
@@ -776,6 +782,7 @@ public class CityWorldSettings {
 			includeMountains = true; // THIS MUST BE SET TO TRUE
 			includeOres = false; // DIFFERENT
 			includeBones = false; // DIFFERENT
+			includeFires = false; // DIFFERENT
 
 			spawnersInBunkers = false; // DIFFERENT
 			spawnersInMines = false; // DIFFERENT
@@ -800,6 +807,7 @@ public class CityWorldSettings {
 			includeLavaFields = false; // DIFFERENT
 			includeSeas = true; // THIS MUST BE SET TO TRUE
 			includeMountains = true; // THIS MUST BE SET TO TRUE
+			includeFires = false; // DIFFERENT
 
 			spawnersInBunkers = false; // DIFFERENT
 			spawnersInMines = false; // DIFFERENT
