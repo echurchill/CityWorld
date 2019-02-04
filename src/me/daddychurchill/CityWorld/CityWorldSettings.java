@@ -81,20 +81,20 @@ public class CityWorldSettings {
 //	public double oddsOfFoliage = Odds.oddsAlwaysGoingToHappen;
 	public SubSurfaceStyle subSurfaceStyle = SubSurfaceStyle.LAND;
 
-	public final static int maxRadius = 30000000 / AbstractBlocks.sectionBlockWidth; // 1875000 is the actual maximum
+	private final static int maxRadius = 30000000 / AbstractBlocks.sectionBlockWidth; // 1875000 is the actual maximum
 																						// chunk limit for today's
 																						// minecraft world format
-	public int centerPointOfChunkRadiusX = 0;
-	public int centerPointOfChunkRadiusZ = 0;
-	public int constructChunkRadius = maxRadius;
+	private int centerPointOfChunkRadiusX = 0;
+	private int centerPointOfChunkRadiusZ = 0;
+	private int constructChunkRadius = maxRadius;
 	private boolean checkConstructRange = false;
-	public int roadChunkRadius = maxRadius;
+	private int roadChunkRadius = maxRadius;
 	private boolean checkRoadRange = false;
-	public int cityChunkRadius = maxRadius;
+	private int cityChunkRadius = maxRadius;
 	private boolean checkCityRange = false;
 	private boolean buildOutsideRadius = false;
 
-	public int minInbetweenChunkDistanceOfCities = 0;
+	private int minInbetweenChunkDistanceOfCities = 0;
 	private boolean checkMinInbetweenChunkDistanceOfCities = false;
 	public double ruralnessLevel = 0.0;
 
@@ -104,78 +104,78 @@ public class CityWorldSettings {
 	public double oddsOfTreasureInBuildings = Odds.oddsLikely;
 	public double oddsOfAlcoveInMines = Odds.oddsVeryLikely;
 
-	public final static String tagIncludeRoads = "IncludeRoads";
-	public final static String tagIncludeRoundabouts = "IncludeRoundabouts";
-	public final static String tagIncludeSewers = "IncludeSewers";
-	public final static String tagIncludeCisterns = "IncludeCisterns";
-	public final static String tagIncludeBasements = "IncludeBasements";
-	public final static String tagIncludeMines = "IncludeMines";
-	public final static String tagIncludeBunkers = "IncludeBunkers";
-	public final static String tagIncludeBuildings = "IncludeBuildings";
-	public final static String tagIncludeHouses = "IncludeHouses";
-	public final static String tagIncludeFarms = "IncludeFarms";
-	public final static String tagIncludeMunicipalities = "IncludeMunicipalities";
-	public final static String tagIncludeIndustrialSectors = "IncludeIndustrialSectors";
-	public final static String tagIncludeAirborneStructures = "IncludeAirborneStructures";
+	private static String tagIncludeRoads = "IncludeRoads";
+	private static String tagIncludeRoundabouts = "IncludeRoundabouts";
+	private static String tagIncludeSewers = "IncludeSewers";
+	private static String tagIncludeCisterns = "IncludeCisterns";
+	private static String tagIncludeBasements = "IncludeBasements";
+	private static String tagIncludeMines = "IncludeMines";
+	private static String tagIncludeBunkers = "IncludeBunkers";
+	private static String tagIncludeBuildings = "IncludeBuildings";
+	private static String tagIncludeHouses = "IncludeHouses";
+	private static String tagIncludeFarms = "IncludeFarms";
+	private static String tagIncludeMunicipalities = "IncludeMunicipalities";
+	private static String tagIncludeIndustrialSectors = "IncludeIndustrialSectors";
+	private static String tagIncludeAirborneStructures = "IncludeAirborneStructures";
 
-	public final static String tagIncludeCaves = "IncludeCaves";
-	public final static String tagIncludeLavaFields = "IncludeLavaFields";
-	public final static String tagIncludeSeas = "IncludeSeas";
-	public final static String tagIncludeMountains = "IncludeMountains";
-	public final static String tagIncludeOres = "IncludeOres";
-	public final static String tagIncludeBones = "IncludeBones";
-	public final static String tagIncludeFires = "IncludeFires";
+	private static String tagIncludeCaves = "IncludeCaves";
+	private static String tagIncludeLavaFields = "IncludeLavaFields";
+	private static String tagIncludeSeas = "IncludeSeas";
+	private static String tagIncludeMountains = "IncludeMountains";
+	private static String tagIncludeOres = "IncludeOres";
+	private static String tagIncludeBones = "IncludeBones";
+	private static String tagIncludeFires = "IncludeFires";
 
-	public final static String tagSpawnAnimals = "SpawnAnimals";
-	public final static String tagSpawnBeings = "SpawnBeings";
-	public final static String tagSpawnBaddies = "SpawnBaddies";
-	public final static String tagSpawnVagrants = "SpawnVagrants";
-	public final static String tagNameVillagers = "NameVillagers";
-	public final static String tagShowVillagersNames = "ShowVillagersNames";
+	private static String tagSpawnAnimals = "SpawnAnimals";
+	private static String tagSpawnBeings = "SpawnBeings";
+	private static String tagSpawnBaddies = "SpawnBaddies";
+	private static String tagSpawnVagrants = "SpawnVagrants";
+	private static String tagNameVillagers = "NameVillagers";
+	private static String tagShowVillagersNames = "ShowVillagersNames";
 
-	public final static String tagSpawnersInBunkers = "SpawnersInBunkers";
-	public final static String tagSpawnersInMines = "SpawnersInMines";
-	public final static String tagSpawnersInSewers = "SpawnersInSewers";
+	private static String tagSpawnersInBunkers = "SpawnersInBunkers";
+	private static String tagSpawnersInMines = "SpawnersInMines";
+	private static String tagSpawnersInSewers = "SpawnersInSewers";
 
-	public final static String tagTreasuresInBunkers = "TreasuresInBunkers";
-	public final static String tagTreasuresInMines = "TreasuresInMines";
-	public final static String tagTreasuresInSewers = "TreasuresInSewers";
-	public final static String tagTreasuresInBuildings = "TreasuresInBuildings";
+	private static String tagTreasuresInBunkers = "TreasuresInBunkers";
+	private static String tagTreasuresInMines = "TreasuresInMines";
+	private static String tagTreasuresInSewers = "TreasuresInSewers";
+	private static String tagTreasuresInBuildings = "TreasuresInBuildings";
 
-	public final static String tagIncludeUndergroundFluids = "IncludeUndergroundFluids";
-	public final static String tagIncludeAbovegroundFluids = "IncludeAbovegroundFluids";
-	public final static String tagIncludeWorkingLights = "IncludeWorkingLights";
-	public final static String tagIncludeNamedRoads = "IncludeNamedRoads";
-	public final static String tagIncludeDecayedRoads = "IncludeDecayedRoads";
-	public final static String tagIncludeDecayedBuildings = "IncludeDecayedBuildings";
-	public final static String tagIncludeDecayedNature = "IncludeDecayedNature";
-	public final static String tagIncludeBuildingInteriors = "IncludeBuildingInteriors";
-	public final static String tagIncludeFloatingSubsurface = "IncludeFloatingSubsurface";
+	private static String tagIncludeUndergroundFluids = "IncludeUndergroundFluids";
+	private static String tagIncludeAbovegroundFluids = "IncludeAbovegroundFluids";
+	private static String tagIncludeWorkingLights = "IncludeWorkingLights";
+	private static String tagIncludeNamedRoads = "IncludeNamedRoads";
+	private static String tagIncludeDecayedRoads = "IncludeDecayedRoads";
+	private static String tagIncludeDecayedBuildings = "IncludeDecayedBuildings";
+	private static String tagIncludeDecayedNature = "IncludeDecayedNature";
+	private static String tagIncludeBuildingInteriors = "IncludeBuildingInteriors";
+	private static String tagIncludeFloatingSubsurface = "IncludeFloatingSubsurface";
 
-	public final static String tagUseMinecraftLootTables = "UseMinecraftLootTables";
-	public final static String tagForceLoadWorldEdit = "ForceLoadWorldEdit";
-	public final static String tagBroadcastSpecialPlaces = "BroadcastSpecialPlaces";
+	private static String tagUseMinecraftLootTables = "UseMinecraftLootTables";
+	private static String tagBroadcastSpecialPlaces = "BroadcastSpecialPlaces";
+	public static String tagForceLoadWorldEdit = "ForceLoadWorldEdit";
 
-	public final static String tagTreeStyle = "TreeStyle";
-	public final static String tagSpawnTrees = "SpawnTrees";
-//	public final static String tagOddsOfFoliage = "OddsOfFoliage";
-	public final static String tagSubSurfaceStyle = "SubSurfaceStyle";
+	private static String tagTreeStyle = "TreeStyle";
+	private static String tagSpawnTrees = "SpawnTrees";
+//	private static String tagOddsOfFoliage = "OddsOfFoliage";
+	private static String tagSubSurfaceStyle = "SubSurfaceStyle";
 
-	public final static String tagCenterPointOfChunkRadiusX = "CenterPointOfChunkRadiusX";
-	public final static String tagCenterPointOfChunkRadiusZ = "CenterPointOfChunkRadiusZ";
-	public final static String tagConstructChunkRadius = "ConstructChunkRadius";
-	public final static String tagRoadChunkRadius = "RoadChunkRadius";
-	public final static String tagCityChunkRadius = "CityChunkRadius";
-	public final static String tagBuildOutsideRadius = "BuildOutsideRadius";
+	private static String tagCenterPointOfChunkRadiusX = "CenterPointOfChunkRadiusX";
+	private static String tagCenterPointOfChunkRadiusZ = "CenterPointOfChunkRadiusZ";
+	private static String tagConstructChunkRadius = "ConstructChunkRadius";
+	private static String tagRoadChunkRadius = "RoadChunkRadius";
+	private static String tagCityChunkRadius = "CityChunkRadius";
+	private static String tagBuildOutsideRadius = "BuildOutsideRadius";
 
-	public final static String tagMinInbetweenChunkDistanceOfCities = "MinInbetweenChunkDistanceOfCities";
-	public final static String tagRuralnessLevel = "RuralnessLevel";
+	private static String tagMinInbetweenChunkDistanceOfCities = "MinInbetweenChunkDistanceOfCities";
+	private static String tagRuralnessLevel = "RuralnessLevel";
 
-//	public final static String tagOddsOfTreasureInSewers = "OddsOfTreasureInSewers";
-//	public final static String tagOddsOfTreasureInBunkers = "OddsOfTreasureInBunkers";
-//	public final static String tagOddsOfTreasureInMines = "OddsOfTreasureInMines";
-//	public final static String tagOddsOfTreasureInBuildings = "OddsOfTreasureInBuildings";
-//	public final static String tagOddsOfAlcovesInMines = "OddsOfAlcovesInMines";
+//	private static String tagOddsOfTreasureInSewers = "OddsOfTreasureInSewers";
+//	private static String tagOddsOfTreasureInBunkers = "OddsOfTreasureInBunkers";
+//	private static String tagOddsOfTreasureInMines = "OddsOfTreasureInMines";
+//	private static String tagOddsOfTreasureInBuildings = "OddsOfTreasureInBuildings";
+//	private static String tagOddsOfAlcovesInMines = "OddsOfAlcovesInMines";
 
 	public CityWorldSettings() {
 		super();

@@ -16,8 +16,8 @@ public abstract class MaterialFactory {
 		WG, WGG, WGGG, WWG, WWGG, GGGG, RANDOM
 	}
 
-	private VerticalStyle verticalStyle;
-	private HorizontalStyle horizontalStyle;
+	public VerticalStyle verticalStyle;
+	public HorizontalStyle horizontalStyle;
 	protected Boolean decayed;
 	protected Odds odds;
 
