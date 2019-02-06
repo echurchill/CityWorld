@@ -35,7 +35,7 @@ public class WoodframeLot extends WoodworksLot {
 //				sections[x][z] = true;
 
 		// set up the list
-		ArrayList<Integer> sectionsLeft = new ArrayList<Integer>();
+		ArrayList<Integer> sectionsLeft = new ArrayList<>();
 		for (int i = 0; i < 9; i++)
 			sectionsLeft.add(i);
 
@@ -45,8 +45,7 @@ public class WoodframeLot extends WoodworksLot {
 
 		// work through the list
 		while (!sectionsLeft.isEmpty()) {
-			for (int i = 0; i < sectionsLeft.size(); i++) {
-				int v = sectionsLeft.get(i);
+			for (int v : sectionsLeft) {
 				x = v / 3;
 				z = v - (x * 3);
 				generateSection(chunk, x * sectionWidth, y, z * sectionWidth);

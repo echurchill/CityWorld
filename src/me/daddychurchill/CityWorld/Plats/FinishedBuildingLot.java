@@ -31,11 +31,11 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	protected Material wallMaterial;
 	protected Material foundationMaterial;
 	protected Material ceilingMaterial;
-	protected Material glassMaterial;
-	protected Material stairMaterial;
-	protected Material stairPlatformMaterial;
-	protected Material stairWallMaterial;
-	protected Material doorMaterial;
+	private Material glassMaterial;
+	private Material stairMaterial;
+	private Material stairPlatformMaterial;
+	private Material stairWallMaterial;
+	private Material doorMaterial;
 	protected Material roofMaterial;
 
 	private MaterialFactory wallsWE;
@@ -66,20 +66,20 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 
 	protected RoofStyle roofStyle;
 	protected RoofFeature roofFeature;
-	protected int roofScale;
+	private int roofScale;
 
 	protected enum InteriorStyle {
 		EMPTY, COLUMNS_ONLY, WALLS_ONLY, COLUMNS_OFFICES, WALLS_OFFICES, RANDOM
 	}
 
 	protected InteriorStyle interiorStyle;
-	protected double oddsOfAnInteriorDoor = Odds.oddsExtremelyLikely;
-//	protected double oddsOfAnExteriorDoor = Odds.oddsHalvedPrettyLikely;
+	private final double oddsOfAnInteriorDoor = Odds.oddsExtremelyLikely;
+	//	protected double oddsOfAnExteriorDoor = Odds.oddsHalvedPrettyLikely;
 	protected Material columnMaterial;
-	protected boolean forceNarrowInteriorMode = false;
-	protected double differentInteriorModes = Odds.oddsUnlikely;
-	protected Material interiorDoorMaterial;
-	protected Material exteriorDoorMaterial;
+	private boolean forceNarrowInteriorMode = false;
+	private double differentInteriorModes = Odds.oddsUnlikely;
+	private Material interiorDoorMaterial;
+	private Material exteriorDoorMaterial;
 
 	protected enum CornerWallStyle {
 		EMPTY, FILLED, WOODCOLUMN, STONECOLUMN, FILLEDTHENEMPTY, WOODTHENFILLED, STONETHENFILLED
@@ -87,9 +87,9 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 
 	protected CornerWallStyle cornerWallStyle;
 
-	protected int navLightX = 0;
-	protected int navLightY = 0;
-	protected int navLightZ = 0;
+	private int navLightX = 0;
+	private int navLightY = 0;
+	private int navLightZ = 0;
 
 	// TODO columns height
 	protected boolean rounded; // rounded corners if possible? (only if the insets match)
@@ -106,10 +106,10 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	protected int insetInsetMidAt;
 	protected int insetInsetHighAt;
 	protected boolean outsetEffects;
-	protected int outsetEffectDivisor;
+	private int outsetEffectDivisor;
 
 	protected int firstFloorHeight;
-	protected int otherFloorHeight;
+	private int otherFloorHeight;
 
 	@Override
 	public PlatLot validateLot(PlatMap platmap, int platX, int platZ) {
@@ -134,7 +134,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		return null;
 	}
 
-	public FinishedBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
+	protected FinishedBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 
 		DataContext context = platmap.context;
@@ -250,7 +250,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 
 	}
 
-	protected void validateOptions() {
+	private void validateOptions() {
 		// Fix up any material issues
 		// thin glass should not be used with ceiling inset, it looks goofy
 		// thin glass should not be used with double-step walls, the glass does not
@@ -337,8 +337,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		return generator.streetLevel + firstFloorHeight + (height * aboveFloorHeight);
 	}
 
-	private static int minimumInset = 0;
-	private static int maximumInset = 2;
+	private static final int minimumInset = 0;
+	private static final int maximumInset = 2;
 
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk,
@@ -1528,7 +1528,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 	}
 
-	private static int maxInsetForRooms = 2;
+	private static final int maxInsetForRooms = 2;
 
 	private void drawInteriorRooms(CityWorldGenerator generator, RealBlocks chunk, DataContext context,
 			boolean drawNarrowInteriors, RoomProvider rooms, int floor, int y1, int height, int insetNS, int insetWE,
@@ -1734,8 +1734,8 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 	}
 
 	// TODO I need to actually make this dynamic based on how much room there is
-	private static int roomWidth = 3;
-	private static int roomDepth = 3;
+	private static final int roomWidth = 3;
+	private static final int roomDepth = 3;
 
 	private void drawInteriorRoom(CityWorldGenerator generator, RealBlocks chunk, RoomProvider rooms, int floor, int x,
 			int y, int z, int height, BlockFace sideWithWall, Material materialWall, Material materialGlass) {
@@ -1848,7 +1848,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 				roofStyle);
 	}
 
-	protected void drawRoof(CityWorldGenerator generator, InitialBlocks chunk, DataContext context, int y1, int insetNS,
+	private void drawRoof(CityWorldGenerator generator, InitialBlocks chunk, DataContext context, int y1, int insetNS,
 			int insetWE, int floor, boolean allowRounded, boolean outsetEffect, Material material, Surroundings heights,
 			RoofStyle thisStyle) {
 
@@ -2153,7 +2153,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 			break;
 		case SKYLIGHT_NS:
 			chunk.setBlocks(6, 10, y1 - 1, 6, 7, Material.GLASS); // TODO these should only create class if the
-																	// surrounding blocks are set to something
+			// surrounding blocks are set to something
 			chunk.setBlocks(6, 10, y1 - 1, 9, 10, Material.GLASS);
 			break;
 		case SKYLIGHT_WE:
@@ -2200,7 +2200,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 	}
 
-	protected void drawNavLight(RealBlocks chunk, DataContext context) {
+	private void drawNavLight(RealBlocks chunk, DataContext context) {
 		if (navLightY > 0)
 //			chunk.setTorch(navLightX, navLightY, navLightZ, context.torchMat, BadMagic.Torch.FLOOR);
 			chunk.setBlock(navLightX, navLightY, navLightZ, Material.END_ROD);
@@ -2259,7 +2259,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 	}
 
-	protected WallStyle pickWallStyle() {
+	private WallStyle pickWallStyle() {
 		if (wallsWE.isSame(wallsWEAlt))
 			return WallStyle.SAME;
 		else {
@@ -2277,19 +2277,19 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 	}
 
-	protected RoofStyle pickRoofStyle() {
+	private RoofStyle pickRoofStyle() {
 //		return RoofStyle.BOXED;
 		RoofStyle[] values = RoofStyle.values();
 		return values[chunkOdds.getRandomInt(values.length)];
 	}
 
-	protected RoofFeature pickRoofFeature() {
+	private RoofFeature pickRoofFeature() {
 //		return RoofFeature.TILE;
 		RoofFeature[] values = RoofFeature.values();
 		return values[chunkOdds.getRandomInt(values.length)];
 	}
 
-	protected Material pickGlassMaterial() {
+	private Material pickGlassMaterial() {
 		switch (chunkOdds.getRandomInt(2)) {
 		case 0:
 		default:
@@ -2318,7 +2318,7 @@ public abstract class FinishedBuildingLot extends BuildingLot {
 		}
 	}
 
-	protected CornerWallStyle pickCornerStyle() {
+	private CornerWallStyle pickCornerStyle() {
 		switch (chunkOdds.getRandomInt(16)) {
 		case 0:
 			return CornerWallStyle.WOODCOLUMN;

@@ -9,19 +9,9 @@ import org.bukkit.util.noise.SimplexNoiseGenerator;
 import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
-import me.daddychurchill.CityWorld.Context.Astral.AstralBaseContext;
-import me.daddychurchill.CityWorld.Context.Astral.AstralBlackZoneContext;
-import me.daddychurchill.CityWorld.Context.Astral.AstralBuriedCityContext;
-import me.daddychurchill.CityWorld.Context.Astral.AstralCrystalSpiresContext;
-import me.daddychurchill.CityWorld.Context.Astral.AstralDataContext;
-import me.daddychurchill.CityWorld.Context.Astral.AstralForestContext;
+import me.daddychurchill.CityWorld.Context.Astral.*;
 import me.daddychurchill.CityWorld.Context.Astral.AstralForestContext.ForestStyle;
-import me.daddychurchill.CityWorld.Context.Astral.AstralMushroomContext;
 import me.daddychurchill.CityWorld.Context.Astral.AstralMushroomContext.MushroomStyle;
-import me.daddychurchill.CityWorld.Context.Astral.AstralNatureContext;
-import me.daddychurchill.CityWorld.Context.Astral.AstralNexusContext;
-import me.daddychurchill.CityWorld.Context.Astral.AstralRoadContext;
-import me.daddychurchill.CityWorld.Context.Astral.AstralWhiteZoneContext;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
@@ -33,53 +23,53 @@ import me.daddychurchill.CityWorld.Support.SegmentedCachedYs;
 
 public class ShapeProvider_Astral extends ShapeProvider {
 
-	public SimplexOctaveGenerator landShape1;
-	public SimplexOctaveGenerator landShape2;
-	public SimplexOctaveGenerator seaShape;
-	public SimplexOctaveGenerator noiseShape;
-	public SimplexOctaveGenerator featureShape;
-//	public SimplexNoiseGenerator caveShape;
-	public SimplexNoiseGenerator ecoShape;
+	private final SimplexOctaveGenerator landShape1;
+	private final SimplexOctaveGenerator landShape2;
+	private final SimplexOctaveGenerator seaShape;
+	private final SimplexOctaveGenerator noiseShape;
+	private final SimplexOctaveGenerator featureShape;
+	//	public SimplexNoiseGenerator caveShape;
+	private final SimplexNoiseGenerator ecoShape;
 
-	protected int height;
-	protected int seaLevel;
-	protected int landRange;
-	protected int seaRange;
-	protected int constructMin;
-	protected int constructRange;
+	private final int height;
+	private final int seaLevel;
+	private final int landRange;
+	private final int seaRange;
+	private final int constructMin;
+	private final int constructRange;
 
-	public final static int landFlattening = 32;
-	public final static int seaFlattening = 4;
-	public final static int landFactor1to2 = 3;
-	public final static int noiseVerticalScale = 3;
-	public final static int featureVerticalScale = 10;
-	public final static int fudgeVerticalScale = noiseVerticalScale * landFactor1to2
+	private final static int landFlattening = 32;
+	private final static int seaFlattening = 4;
+	private final static int landFactor1to2 = 3;
+	private final static int noiseVerticalScale = 3;
+	private final static int featureVerticalScale = 10;
+	private final static int fudgeVerticalScale = noiseVerticalScale * landFactor1to2
 			+ featureVerticalScale * landFactor1to2;
 
-	public final static double landFrequency1 = 1.50;
-	public final static double landAmplitude1 = 20.0;
-	public final static double landHorizontalScale1 = 1.0 / 1024;// 2048.0;
-	public final static double landFrequency2 = 1.0;
-	public final static double landAmplitude2 = landAmplitude1 / landFactor1to2;
-	public final static double landHorizontalScale2 = landHorizontalScale1 * landFactor1to2;
+	private final static double landFrequency1 = 1.50;
+	private final static double landAmplitude1 = 20.0;
+	private final static double landHorizontalScale1 = 1.0 / 1024;// 2048.0;
+	private final static double landFrequency2 = 1.0;
+	private final static double landAmplitude2 = landAmplitude1 / landFactor1to2;
+	private final static double landHorizontalScale2 = landHorizontalScale1 * landFactor1to2;
 
-	public final static double seaFrequency = 1.00;
-	public final static double seaAmplitude = 2.00;
-	public final static double seaHorizontalScale = 1.0 / 256;// 384.0;
+	private final static double seaFrequency = 1.00;
+	private final static double seaAmplitude = 2.00;
+	private final static double seaHorizontalScale = 1.0 / 256;// 384.0;
 
-	public final static double noiseFrequency = 1.50;
-	public final static double noiseAmplitude = 0.70;
-	public final static double noiseHorizontalScale = 1.0 / 32.0;
+	private final static double noiseFrequency = 1.50;
+	private final static double noiseAmplitude = 0.70;
+	private final static double noiseHorizontalScale = 1.0 / 32.0;
 
-	public final static double featureFrequency = 1.50;
-	public final static double featureAmplitude = 0.75;
-	public final static double featureHorizontalScale = 1.0 / 64.0;
+	private final static double featureFrequency = 1.50;
+	private final static double featureAmplitude = 0.75;
+	private final static double featureHorizontalScale = 1.0 / 64.0;
 
-//	public final static double caveScale = 1.0 / 64.0;
+	//	public final static double caveScale = 1.0 / 64.0;
 //	public final static double caveScaleY = caveScale * 2;
 //	public final static double caveThreshold = 0.75; // smaller the number the more larger the caves will be
 //	
-	public final static double ecoScale = 1.0 / 4.0;
+	private final static double ecoScale = 1.0 / 4.0;
 	public final static double ecoScaleY = ecoScale;
 
 	public ShapeProvider_Astral(CityWorldGenerator generator, Odds odds) {
@@ -151,7 +141,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 			brownMushroomsContext = new AstralMushroomContext(generator, MushroomStyle.BROWN); // brown ones
 			redMushroomsContext = new AstralMushroomContext(generator, MushroomStyle.RED); // red ones
 			mixedMushroomsContext = new AstralMushroomContext(generator, MushroomStyle.REDBROWN); // mix of brown and
-																									// red ones
+			// red ones
 			yellowSpongesContext = new AstralMushroomContext(generator, MushroomStyle.YELLOW); // yellow ones
 
 			fernForestContext = new AstralForestContext(generator, ForestStyle.FERN);
@@ -237,7 +227,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 			double rawValue = (Math.max(-0.9999, Math.min(0.9999, ecoShape.noise(originX, originZ) * 1.375)) + 1.0)
 					/ 2.0;
 			switch (NoiseGenerator.floor(rawValue * 13)) { // the constant here should ALWAYS be one more than the
-															// biggest case statement constant!
+			// biggest case statement constant!
 			default: // always leave default at zero
 			case 0:
 				return natureContext;
@@ -362,7 +352,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 //		lot.generateMines(generator, chunk);
 	}
 
-	private static Material[] coloredGlass = { Material.BLACK_STAINED_GLASS, Material.BLUE_STAINED_GLASS,
+	private static final Material[] coloredGlass = { Material.BLACK_STAINED_GLASS, Material.BLUE_STAINED_GLASS,
 			Material.BROWN_STAINED_GLASS, Material.CYAN_STAINED_GLASS, Material.GRAY_STAINED_GLASS,
 			Material.GREEN_STAINED_GLASS, Material.LIGHT_BLUE_STAINED_GLASS, Material.LIGHT_GRAY_STAINED_GLASS,
 			Material.LIME_STAINED_GLASS, Material.MAGENTA_STAINED_GLASS, Material.ORANGE_STAINED_GLASS,
@@ -500,7 +490,7 @@ public class ShapeProvider_Astral extends ShapeProvider {
 				- landFlattening;
 		double land2 = seaLevel
 				+ (landShape2.noise(blockX, blockZ, landFrequency2, landAmplitude2, true)
-						* (landRange / (double) landFactor1to2))
+				* (landRange / (double) landFactor1to2))
 				+ (noise * noiseVerticalScale + feature * featureVerticalScale) - landFlattening;
 		double landY = Math.max(land1, land2);
 

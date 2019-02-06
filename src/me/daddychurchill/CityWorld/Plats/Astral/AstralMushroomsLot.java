@@ -12,7 +12,7 @@ import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
 public abstract class AstralMushroomsLot extends AstralNatureLot {
 
-	public AstralMushroomsLot(PlatMap platmap, int chunkX, int chunkZ, double populationChance) {
+	AstralMushroomsLot(PlatMap platmap, int chunkX, int chunkZ, double populationChance) {
 		super(platmap, chunkX, chunkZ, populationChance);
 
 	}
@@ -71,9 +71,9 @@ public abstract class AstralMushroomsLot extends AstralNatureLot {
 		}
 	}
 
-	private static BlockFace flesh = MushroomBlockTexture.ALL_PORES.getCapFace();
-	private static BlockFace shell = MushroomBlockTexture.ALL_CAP.getCapFace();
-	private static BlockFace trunk = MushroomBlockTexture.STEM_SIDES.getCapFace();
+	private static final BlockFace flesh = MushroomBlockTexture.ALL_PORES.getCapFace();
+	private static final BlockFace shell = MushroomBlockTexture.ALL_CAP.getCapFace();
+	private static final BlockFace trunk = MushroomBlockTexture.STEM_SIDES.getCapFace();
 
 	private int mushX = 0;
 	private int mushZ = 0;
@@ -81,7 +81,7 @@ public abstract class AstralMushroomsLot extends AstralNatureLot {
 
 	protected abstract Material getMushroomMaterial();
 
-	protected void startMushroom(WorldBlocks blocks, int baseX, int baseY, int baseZ, int heightY) {
+	void startMushroom(WorldBlocks blocks, int baseX, int baseY, int baseZ, int heightY) {
 
 		mushX = baseX;
 		mushZ = baseZ;
@@ -90,15 +90,15 @@ public abstract class AstralMushroomsLot extends AstralNatureLot {
 		blocks.setBlocks(mushX, baseY, layerY - 2, mushZ, getMushroomMaterial(), trunk);
 	}
 
-	protected void nextMushroomLevel() {
+	void nextMushroomLevel() {
 		layerY--;
 	}
 
-	protected void prevMushroomLevel() {
+	private void prevMushroomLevel() {
 		layerY++;
 	}
 
-	protected void drawMushroomSlice(WorldBlocks blocks, int r) {
+	void drawMushroomSlice(WorldBlocks blocks, int r) {
 		if (r > 0) {
 			drawMushroomShell(blocks, r);
 			prevMushroomLevel();
@@ -109,7 +109,7 @@ public abstract class AstralMushroomsLot extends AstralNatureLot {
 		}
 	}
 
-	protected void drawMushroomShell(WorldBlocks blocks, int r) {
+	void drawMushroomShell(WorldBlocks blocks, int r) {
 		if (r > 0) {
 			blocks.setBlocks(mushX - r + 1, mushX + r, layerY, layerY + 1, mushZ - r, mushZ - r + 1,
 					getMushroomMaterial(), shell);
@@ -124,7 +124,7 @@ public abstract class AstralMushroomsLot extends AstralNatureLot {
 		nextMushroomLevel();
 	}
 
-	protected void drawMushroomTop(WorldBlocks blocks, int r) {
+	void drawMushroomTop(WorldBlocks blocks, int r) {
 		if (r > 0)
 			blocks.setBlocks(mushX - r, mushX + r + 1, layerY, layerY + 1, mushZ - r, mushZ + r + 1,
 					getMushroomMaterial(), shell);
@@ -133,7 +133,7 @@ public abstract class AstralMushroomsLot extends AstralNatureLot {
 		nextMushroomLevel();
 	}
 
-	protected void drawMushroomFlesh(WorldBlocks blocks, int r) {
+	private void drawMushroomFlesh(WorldBlocks blocks, int r) {
 		if (r > 0) {
 			blocks.setBlocks(mushX - r + 1, mushX + r, layerY, layerY + 1, mushZ - r + 1, mushZ + r,
 					getMushroomMaterial(), flesh);

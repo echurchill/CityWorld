@@ -34,7 +34,7 @@ public abstract class CoverProvider extends Provider {
 
 		WHEAT, CARROTS, POTATO, MELON, PUMPKIN, BEETROOT,
 
-//		TALL_BROWN_MUSHROOM, TALL_RED_MUSHROOM,
+		//		TALL_BROWN_MUSHROOM, TALL_RED_MUSHROOM,
 		BROWN_MUSHROOM, RED_MUSHROOM, NETHERWART,
 
 		BRAIN_CORAL, BUBBLE_CORAL, FIRE_CORAL, HORN_CORAL, TUBE_CORAL, SEAGRASS, KELP,
@@ -44,13 +44,13 @@ public abstract class CoverProvider extends Provider {
 
 	/*
 	 * BUBBLE_COLUMN(13758, BubbleColumn.class),
-	 * 
-	 * 
+	 *
+	 *
 	 * SEAGRASS(23942), TALL_SEAGRASS(27189, Bisected.class),
-	 * 
+	 *
 	 * SEA_LANTERN(16984), SEA_PICKLE(19562, SeaPickle.class),
-	 * 
-	 * 
+	 *
+	 *
 	 */
 
 	public enum CoverageSets {
@@ -144,15 +144,15 @@ public abstract class CoverProvider extends Provider {
 	private final static CoverageType[] SeaCoral = { CoverageType.BRAIN_CORAL, CoverageType.BUBBLE_CORAL,
 			CoverageType.FIRE_CORAL, CoverageType.HORN_CORAL, CoverageType.TUBE_CORAL };
 
-	protected final static double oddsOfDarkCover = Odds.oddsLikely;
-	protected Odds odds;
+	private final static double oddsOfDarkCover = Odds.oddsLikely;
+	final Odds odds;
 
-	public CoverProvider(Odds odds) {
+	CoverProvider(Odds odds) {
 		super();
 		this.odds = odds;
 	}
 
-	public abstract boolean generateCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+	public abstract void generateCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
 			CoverageType coverageType);
 
 	private CoverageType getRandomCoverage(CoverageType... types) {
@@ -252,7 +252,7 @@ public abstract class CoverProvider extends Provider {
 		}
 	}
 
-	protected void setCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+	void setCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
 			CoverageType coverageType) {
 		Material topsoil = generator.oreProvider.surfaceMaterial;
 		switch (coverageType) {
@@ -411,14 +411,14 @@ public abstract class CoverProvider extends Provider {
 					Material.FARMLAND)) {
 				TreeSpecies species = odds.getRandomWoodSpecies();
 				chunk.setLeaves(x, y + 1, y + odds.getRandomInt(2, 4), z, Trees.getRandomWoodLeaves(species), true); // @@
-																														// why
-																														// are
-																														// these
-																														// decaying
-																														// when
-																														// set
-																														// to
-																														// false?
+				// why
+				// are
+				// these
+				// decaying
+				// when
+				// set
+				// to
+				// false?
 				chunk.setBlock(x, y, z, Trees.getRandomWoodLog(species));
 			}
 			break;
@@ -675,7 +675,7 @@ public abstract class CoverProvider extends Provider {
 		}
 	}
 
-	protected void generateCoral(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, Material coral,
+	private void generateCoral(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z, Material coral,
 			Material coralFan, Material coralWall, Material coralBlock) {
 		// if under water then living ones
 		// if on sand then
@@ -751,7 +751,7 @@ public abstract class CoverProvider extends Provider {
 		}
 	}
 
-	protected boolean likelyCover(CityWorldGenerator generator) {
+	boolean likelyCover(CityWorldGenerator generator) {
 		return !generator.getSettings().darkEnvironment || odds.playOdds(oddsOfDarkCover);
 	}
 

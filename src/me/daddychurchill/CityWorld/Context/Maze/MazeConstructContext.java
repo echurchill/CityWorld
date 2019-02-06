@@ -9,7 +9,7 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public abstract class MazeConstructContext extends MazeNatureContext {
 
-	public MazeConstructContext(CityWorldGenerator generator) {
+	MazeConstructContext(CityWorldGenerator generator) {
 		super(generator);
 		// TODO Auto-generated constructor stub
 	}
@@ -30,7 +30,7 @@ public abstract class MazeConstructContext extends MazeNatureContext {
 //		}
 //	}
 
-	private int openingWidth = 6;
+	private final int openingWidth = 6;
 
 	private double getSpecialOdds(Odds odds, int x, int z, boolean specialMade) {
 		if (specialMade)
@@ -56,7 +56,7 @@ public abstract class MazeConstructContext extends MazeNatureContext {
 
 	protected abstract PlatLot generateNormalLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ);
 
-	protected PlatLot generateSpecialTooLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	PlatLot generateSpecialTooLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return generateSpecialOneLot(platmap, odds, chunkX, chunkZ);
 	}
 
@@ -72,9 +72,9 @@ public abstract class MazeConstructContext extends MazeNatureContext {
 //	private static int[] xS = {1, 2, 2, 1,  1, 2, 3, 3, 1, 2, 0, 0,  0, 3, 3, 0};
 //	private static int[] zS = {1, 1, 2, 2,  0, 0, 1, 2, 3, 3, 1, 2,  0, 0, 3, 3};
 
-	private static int[] xS = { 2, 3, 3, 2, 2, 3, 4, 4, 3, 2, 1, 1, 1, 4, 4, 1, 1, 2, 3, 4, 5, 5, 5, 5, 4, 3, 2, 1, 0,
+	private static final int[] xS = { 2, 3, 3, 2, 2, 3, 4, 4, 3, 2, 1, 1, 1, 4, 4, 1, 1, 2, 3, 4, 5, 5, 5, 5, 4, 3, 2, 1, 0,
 			0, 0, 0, 0, 5, 5, 0 };
-	private static int[] zS = { 2, 2, 3, 3, 1, 1, 2, 3, 4, 4, 3, 2, 1, 1, 4, 4, 0, 0, 0, 0, 1, 2, 3, 4, 5, 5, 5, 5, 4,
+	private static final int[] zS = { 2, 2, 3, 3, 1, 1, 2, 3, 4, 4, 3, 2, 1, 1, 4, 4, 0, 0, 0, 0, 1, 2, 3, 4, 5, 5, 5, 5, 4,
 			3, 2, 1, 0, 0, 5, 5 };
 
 	@Override

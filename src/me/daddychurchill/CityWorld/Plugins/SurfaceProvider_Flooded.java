@@ -15,7 +15,7 @@ public class SurfaceProvider_Flooded extends SurfaceProvider_Normal {
 		// TODO Auto-generated constructor stub
 	}
 
-	private static int shoreRange = 4;
+	private static final int shoreRange = 4;
 
 	@Override
 	public void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk,
@@ -38,12 +38,12 @@ public class SurfaceProvider_Flooded extends SurfaceProvider_Normal {
 		}
 	}
 
-	protected void generateNormalPoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk,
+	void generateNormalPoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk,
 			CoverProvider foliage, int x, double perciseY, int z, boolean includeTrees) {
 		super.generateSurfacePoint(generator, lot, chunk, foliage, x, perciseY, z, includeTrees);
 	}
 
-	protected void generateShorePoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk,
+	void generateShorePoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk,
 			CoverProvider foliage, int x, int y, int z, boolean includeTrees) {
 		// roll the dice
 		double primary = odds.getRandomDouble();
@@ -60,7 +60,7 @@ public class SurfaceProvider_Flooded extends SurfaceProvider_Normal {
 		}
 	}
 
-	protected void generateFloodedPoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk,
+	void generateFloodedPoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk,
 			CoverProvider foliage, int x, int y, int z, int floodY) {
 
 		if (odds.playOdds(vagrantOdds)) {

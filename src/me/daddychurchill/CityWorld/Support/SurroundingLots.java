@@ -4,7 +4,7 @@ import me.daddychurchill.CityWorld.Plats.PlatLot;
 
 public final class SurroundingLots extends Surroundings {
 
-	public boolean[][] neighbors;
+	private final boolean[][] neighbors;
 
 	public SurroundingLots(PlatMap platmap, int platX, int platZ) {
 		neighbors = new boolean[3][3];

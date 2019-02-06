@@ -13,11 +13,11 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class ThingProvider extends Provider {
 
-	public ThingProvider() {
+	private ThingProvider() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public final static ThingProvider loadProvider(CityWorldGenerator generator) {
+	public static ThingProvider loadProvider(CityWorldGenerator generator) {
 		// for now
 		return new ThingProvider();
 	}
@@ -198,7 +198,7 @@ public class ThingProvider extends Provider {
 				case WHT:
 //					if (cI % 2 == 0)
 					chunk.setBlock(x + xI, y, z + zI, Material.WHITE_WOOL);
-//					else 
+//					else
 //						chunk.setBlock(x + xI, y, z + zI, Material.WHITE_WOOL, DyeColor.LIGHT_GRAY);
 					break;
 				case YEL:
@@ -239,7 +239,7 @@ public class ThingProvider extends Provider {
 		generateBones(generator, lot, chunk, y, odds);
 	}
 
-	public void generateBones(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, int y, Odds odds) {
+	private void generateBones(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, int y, Odds odds) {
 		int x = 7;
 		int z = 15;
 		generateBones(generator, lot, chunk, x, y, z, odds, false);
@@ -247,12 +247,10 @@ public class ThingProvider extends Provider {
 
 	public void generateBones(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, int x, int y, int z,
 			Odds odds, boolean smaller) {
-		Material matBlock = Material.QUARTZ_BLOCK;
+//		generator.reportLocation("Fossil", chunk);
+//		Material matBlock = Material.QUARTZ_BLOCK;
+		Material matBlock = Material.BONE_BLOCK;
 		Material matStair = Material.QUARTZ_STAIRS;
-		if (generator.getSettings().includeDecayedNature) {
-			matBlock = Material.SANDSTONE;
-			matStair = Material.SANDSTONE_STAIRS;
-		}
 
 		// figure the starting location within the chunk
 //		chunk.setBlocks(0, 16, 255, 0, 16, Material.GLASS);

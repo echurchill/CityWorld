@@ -40,7 +40,7 @@ public class OilPlatformLot extends ConstructLot {
 		return generator.seaLevel + aboveSea;
 	}
 
-//	@Override
+	//	@Override
 //	public int getTopY(CityWorldGenerator generator, AbstractCachedYs blockYs, int x, int z) {
 //		return getBottomY(generator) + DataContext.FloorHeight * 4 + 1;
 //	}
@@ -59,8 +59,8 @@ public class OilPlatformLot extends ConstructLot {
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
 			DataContext context, int platX, int platZ) {
-		reportLocation(generator, "Oil Platform", chunk);
-		
+		generator.reportLocation("Oil Platform", chunk);
+
 		Material platformMaterial = generator.materialProvider.itemsSelectMaterial_OilPlatformFloor.getRandomMaterial(chunkOdds, Material.STONE);
 		Material supportMaterial = generator.materialProvider.itemsSelectMaterial_OilPlatformColumn.getRandomMaterial(chunkOdds, Material.STONE);
 
@@ -73,7 +73,7 @@ public class OilPlatformLot extends ConstructLot {
 //		Material emptyMaterial = getAirMaterial(generator, y1);
 
 		generateSurface(generator, chunk, false);
-		
+
 		// access levels
 		chunk.setBlocks(2, 6, y0, y0 + 1, 2, 6, platformMaterial);
 		chunk.setBlocks(10, 14, y0, y0 + 1, 10, 14, platformMaterial);
@@ -140,8 +140,8 @@ public class OilPlatformLot extends ConstructLot {
 //		chunk.setBlocks(9, y2 + 2, y3 + 2, 1, drillMaterial);
 //		chunk.setBlocks(11, y2 + 2, y3 + 2, 1, drillMaterial);
 
-		 // bit hanging from the crane
-		chunk.setBlocks(13, y4 + 7, y4 + 8, 2, drillSupportMaterial); 
+		// bit hanging from the crane
+		chunk.setBlocks(13, y4 + 7, y4 + 8, 2, drillSupportMaterial);
 		chunk.setBlocks(13, y4 + 3, y4 + 7, 2, drillMaterial);
 
 		// ladder from access level to the balcony
@@ -184,7 +184,7 @@ public class OilPlatformLot extends ConstructLot {
 		generator.spawnProvider.spawnBeing(generator, chunk, chunkOdds, 5, y2 + 1, 5);
 		generator.spawnProvider.spawnBeing(generator, chunk, chunkOdds, 5, y3 + 1, 5);
 	}
-	
+
 	private void drawExtraPipes(RealBlocks chunk, int x, int y, int z) {
 		if (chunkOdds.playOdds(Odds.oddsVeryLikely)) {
 			chunk.setBlock(x, y + 1, z, drillMaterial);

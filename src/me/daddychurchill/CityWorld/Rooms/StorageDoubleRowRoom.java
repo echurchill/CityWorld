@@ -34,7 +34,7 @@ public class StorageDoubleRowRoom extends StorageSingleRowRoom {
 		}
 	}
 
-	public void drawNSMaterialShelves(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int x, int y, int z,
+	private void drawNSMaterialShelves(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int x, int y, int z,
 			int width, int height, int depth, int i) {
 		int minheight = odds.getRandomInt(height - 1);
 		for (int offset = 0; offset < width; offset += 2) {
@@ -45,7 +45,7 @@ public class StorageDoubleRowRoom extends StorageSingleRowRoom {
 		}
 	}
 
-	public void drawWEMaterialShelves(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int x, int y, int z,
+	private void drawWEMaterialShelves(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int x, int y, int z,
 			int width, int height, int depth, int i) {
 		int minheight = odds.getRandomInt(height - 1);
 		for (int offset = 0; offset < depth; offset += 2) {

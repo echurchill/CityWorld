@@ -10,13 +10,13 @@ import me.daddychurchill.CityWorld.Support.WorldBlocks;
 
 public abstract class AstralForestLot extends AstralNatureLot {
 
-	public AstralForestLot(PlatMap platmap, int chunkX, int chunkZ, double populationChance) {
+	AstralForestLot(PlatMap platmap, int chunkX, int chunkZ, double populationChance) {
 		super(platmap, chunkX, chunkZ, populationChance);
 		// TODO Auto-generated constructor stub
 	}
 
-	final static int maxTrees = 9;
-	final static int maxHeight = 18;
+	private final static int maxTrees = 9;
+	private final static int maxHeight = 18;
 	final static int minHeight = maxHeight / 2;
 
 	protected abstract void plantTree(CityWorldGenerator generator, WorldBlocks blocks, int blockX, int blockY,
@@ -68,7 +68,7 @@ public abstract class AstralForestLot extends AstralNatureLot {
 		}
 	}
 
-	protected void setLeaves(WorldBlocks blocks, int x1, int x2, int y, int z1, int z2, int data) {
+	void setLeaves(WorldBlocks blocks, int x1, int x2, int y, int z1, int z2, int data) {
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
 				setLeaf(blocks, x, y, z, data);
@@ -76,7 +76,7 @@ public abstract class AstralForestLot extends AstralNatureLot {
 		}
 	}
 
-	protected void setLeaf(WorldBlocks blocks, int x, int y, int z, int data) {
+	void setLeaf(WorldBlocks blocks, int x, int y, int z, int data) {
 		if (blocks.isEmpty(x, y, z))
 			blocks.setBlock(x, y, z, Material.BIRCH_LEAVES, data);
 	}

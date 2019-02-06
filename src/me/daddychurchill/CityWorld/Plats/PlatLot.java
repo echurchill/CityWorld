@@ -21,11 +21,11 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 public abstract class PlatLot {
 
 	// extremes
-	protected int chunkX;
-	protected int chunkZ;
-	protected AbstractCachedYs blockYs;
+	protected final int chunkX;
+	protected final int chunkZ;
+	protected final AbstractCachedYs blockYs;
 
-//	protected Odds platmapOdds;
+	//	protected Odds platmapOdds;
 	protected Odds chunkOdds;
 
 	// styling!
@@ -35,12 +35,12 @@ public abstract class PlatLot {
 
 	public LotStyle style;
 	public boolean trulyIsolated;
-	public boolean inACity;
+	protected final boolean inACity;
 
-	protected Material pavementSidewalk;
-	protected Material dirtroadSidewalk;
+	final Material pavementSidewalk;
+	final Material dirtroadSidewalk;
 
-	public PlatLot(PlatMap platmap, int chunkX, int chunkZ) {
+	PlatLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super();
 		this.chunkX = chunkX;
 		this.chunkZ = chunkZ;
@@ -62,7 +62,7 @@ public abstract class PlatLot {
 		blockYs = platmap.generator.shapeProvider.getCachedYs(platmap.generator, chunkX, chunkZ);
 	}
 
-	public abstract long getConnectedKey();
+	protected abstract long getConnectedKey();
 
 	public abstract boolean makeConnected(PlatLot relative);
 
@@ -84,15 +84,6 @@ public abstract class PlatLot {
 
 	public int getChunkZ() {
 		return chunkZ;
-	}
-
-	protected void reportLocation(CityWorldGenerator generator, String title, AbstractBlocks chunk) {
-		reportLocation(generator, title, chunk.getOriginX(), chunk.getOriginZ());
-	}
-
-	protected void reportLocation(CityWorldGenerator generator, String title, int originX, int originZ) {
-		if (generator.getSettings().broadcastSpecialPlaces)
-			generator.reportMessage(">> " + title + " placed near " + originX + ", " + originZ + ", in the world '" + generator.worldName + "'");
 	}
 
 	public Biome getChunkBiome() {
@@ -137,7 +128,7 @@ public abstract class PlatLot {
 		return blockYs == null ? 0 : blockYs.getBlockY(x, z);
 	}
 
-//	public double getAverageY() {
+	//	public double getAverageY() {
 //		return blockYs == null ? 0 : blockYs.averageHeight;
 //	}
 //	
@@ -149,7 +140,7 @@ public abstract class PlatLot {
 		return getSurfaceAtY(x, 15 - x, z, 15 - z);
 	}
 
-	protected int getSurfaceAtY(int x1, int x2, int z1, int z2) {
+	private int getSurfaceAtY(int x1, int x2, int z1, int z2) {
 		int surfaceY = Math.min(getBlockY(x1, z1), getBlockY(x2, z1));
 		surfaceY = Math.min(surfaceY, getBlockY(x1, z2));
 		surfaceY = Math.min(surfaceY, getBlockY(x2, z2));
@@ -230,7 +221,7 @@ public abstract class PlatLot {
 				z1 + SupportBlocks.sectionBlockWidth);
 	}
 
-	public void destroyBuilding(CityWorldGenerator generator, int y, int floors) {
+	protected void destroyBuilding(CityWorldGenerator generator, int y, int floors) {
 		destroyLot(generator, y, y + DataContext.FloorHeight * (floors + 1));
 	}
 
@@ -555,7 +546,7 @@ public abstract class PlatLot {
 	public void generateBones(CityWorldGenerator generator, SupportBlocks chunk) {
 
 		// fossils?
-		if (generator.getSettings().includeBones && chunkOdds.playOdds(Odds.oddsExceedinglyUnlikely))
+		if (generator.getSettings().includeBones && chunkOdds.playOdds(Odds.oddsTremendouslyUnlikely))
 			generator.thingProvider.generateBones(generator, this, chunk, blockYs, chunkOdds);
 	}
 
@@ -597,7 +588,7 @@ public abstract class PlatLot {
 		generateSurface(generator, chunk, 0, includeTrees);
 	}
 
-	public void generateSurface(CityWorldGenerator generator, SupportBlocks chunk, int addTo, boolean includeTrees) {
+	protected void generateSurface(CityWorldGenerator generator, SupportBlocks chunk, int addTo, boolean includeTrees) {
 
 		// plant grass or snow... sometimes we want the sprinker to start a little
 		// higher

@@ -13,14 +13,14 @@ public abstract class MountainFlatLot extends ConstructLot {
 
 	private final static Material retainingWallMaterial = Material.SMOOTH_STONE;
 
-	public MountainFlatLot(PlatMap platmap, int chunkX, int chunkZ) {
+	MountainFlatLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 
 		style = LotStyle.NATURE;
 		trulyIsolated = true;
 	}
 
-	protected void generateRetainerLot(CityWorldGenerator generator, InitialBlocks chunk, DataContext context) {
+	void generateRetainerLot(CityWorldGenerator generator, InitialBlocks chunk, DataContext context) {
 
 		// flatten things out a bit
 		for (int x = 0; x < chunk.width; x++) {
@@ -51,7 +51,7 @@ public abstract class MountainFlatLot extends ConstructLot {
 
 	private final static int bevelInset = 2;
 
-	protected void generateSmoothedLot(CityWorldGenerator generator, InitialBlocks chunk, DataContext context) {
+	void generateSmoothedLot(CityWorldGenerator generator, InitialBlocks chunk, DataContext context) {
 
 		// blend the edges
 		for (int i = 0; i < bevelInset; i++)

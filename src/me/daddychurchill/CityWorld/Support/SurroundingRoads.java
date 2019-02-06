@@ -5,7 +5,7 @@ import me.daddychurchill.CityWorld.Plats.RoadLot;
 
 public final class SurroundingRoads extends Surroundings {
 
-	private boolean[][] roads;
+	private final boolean[][] roads;
 
 	public SurroundingRoads(PlatMap platmap, int platX, int platZ) {
 		super();
@@ -15,7 +15,7 @@ public final class SurroundingRoads extends Surroundings {
 		updateNeighbors(platmap, platX, platZ);
 	}
 
-	protected void updateNeighbors(PlatMap platmap, int platX, int platZ) {
+	private void updateNeighbors(PlatMap platmap, int platX, int platZ) {
 		PlatLot platlot = platmap.getLot(platX, platZ);
 
 		// get a list of qualified neighbors

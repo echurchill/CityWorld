@@ -6,7 +6,7 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public abstract class ConstructLot extends IsolatedLot {
 
-	public ConstructLot(PlatMap platmap, int chunkX, int chunkZ) {
+	protected ConstructLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 	}
 

@@ -15,7 +15,7 @@ public class AstralMushroomsSpongeLot extends AstralNatureLot {
 
 	}
 
-	final static int belowSurface = 15;
+	private final static int belowSurface = 15;
 
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,

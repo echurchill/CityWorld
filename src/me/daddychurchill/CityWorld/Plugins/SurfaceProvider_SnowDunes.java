@@ -10,7 +10,7 @@ import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 import me.daddychurchill.CityWorld.Support.Trees;
 
-public class SurfaceProvider_SnowDunes extends SurfaceProvider_Flooded {
+class SurfaceProvider_SnowDunes extends SurfaceProvider_Flooded {
 
 	public SurfaceProvider_SnowDunes(Odds odds) {
 		super(odds);

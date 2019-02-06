@@ -15,11 +15,11 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class FloatingBlimpLot extends IsolatedLot {
 
-	protected final static Material base = Material.SMOOTH_STONE;
-	protected final static Material underlayment = Material.STONE;
-	protected final static Material pedestal = Material.STONE;
+	private final static Material base = Material.SMOOTH_STONE;
+	private final static Material underlayment = Material.STONE;
+	private final static Material pedestal = Material.STONE;
 
-	boolean manyBalloons;
+	private final boolean manyBalloons;
 
 	public FloatingBlimpLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);

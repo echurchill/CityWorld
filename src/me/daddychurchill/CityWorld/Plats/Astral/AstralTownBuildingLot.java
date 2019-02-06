@@ -10,7 +10,7 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class AstralTownBuildingLot extends AstralTownEmptyLot {
 
-	BunkerType buildingType;
+	private final BunkerType buildingType;
 
 	public AstralTownBuildingLot(PlatMap platmap, int chunkX, int chunkZ, BunkerType bunkerType) {
 		super(platmap, chunkX, chunkZ);

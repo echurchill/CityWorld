@@ -37,7 +37,7 @@ public abstract class LootProvider extends Provider {
 		return provider;
 	}
 
-	protected ItemStack[] pickFromTreasures(MaterialList materials, Odds odds, int maxCount, int maxStack) {
+	ItemStack[] pickFromTreasures(MaterialList materials, Odds odds, int maxCount, int maxStack) {
 		int count = maxCount > 0 ? odds.getRandomInt(maxCount) + 1 : 0;
 
 		// make room

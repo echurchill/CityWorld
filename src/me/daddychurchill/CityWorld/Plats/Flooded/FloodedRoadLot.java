@@ -6,7 +6,7 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class FloodedRoadLot extends RoadLot {
 
-	public FloodedRoadLot(PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey, boolean roundaboutPart) {
+	private FloodedRoadLot(PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey, boolean roundaboutPart) {
 		super(platmap, chunkX, chunkZ, globalconnectionkey, roundaboutPart);
 
 	}

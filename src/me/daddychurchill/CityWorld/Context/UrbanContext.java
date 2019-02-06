@@ -14,11 +14,11 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public abstract class UrbanContext extends CivilizedContext {
 
-	protected double oddsOfFloodFill = Odds.oddsVeryLikely;
-	protected double oddsOfFloodDecay = Odds.oddsLikely;
-	protected int minSizeOfBuilding = 1;
+	double oddsOfFloodFill = Odds.oddsVeryLikely;
+	double oddsOfFloodDecay = Odds.oddsLikely;
+	int minSizeOfBuilding = 1;
 
-	public UrbanContext(CityWorldGenerator generator) {
+	UrbanContext(CityWorldGenerator generator) {
 		super(generator);
 
 		maximumFloorsAbove = 2;
@@ -110,13 +110,13 @@ public abstract class UrbanContext extends CivilizedContext {
 		}
 	}
 
-	protected void addToBigBuilding(CityWorldGenerator generator, PlatMap platmap, PlatLot source, int x, int z) {
+	private void addToBigBuilding(CityWorldGenerator generator, PlatMap platmap, PlatLot source, int x, int z) {
 		PlatLot destination = source.newLike(platmap, platmap.originX + x, platmap.originZ + z);
 		destination.makeConnected(source);
 		platmap.setLot(x, z, destination);
 	}
 
-	protected boolean fillOutBuilding(CityWorldGenerator generator, PlatMap platmap, Odds odds, double theOdds,
+	private boolean fillOutBuilding(CityWorldGenerator generator, PlatMap platmap, Odds odds, double theOdds,
 			PlatLot source, int x, int z) {
 		if (odds.playOdds(oddsOfFloodFill) && platmap.inBounds(x, z) && platmap.isEmptyLot(x, z)) {
 			addToBigBuilding(generator, platmap, source, x, z);

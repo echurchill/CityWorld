@@ -38,7 +38,7 @@ public class FarmLot extends ConnectedLot {
 		PADDOCK, HOTAIR_BALLOON
 	}
 
-	protected CropType cropType;
+	private CropType cropType;
 
 	private boolean directionNorthSouth;
 	private double oddsOfCrop = Odds.oddsExtremelyLikely;
@@ -60,7 +60,7 @@ public class FarmLot extends ConnectedLot {
 			cropType = setDecayedNormalCrop();
 		else
 			cropType = setNormalCrop();
-		
+
 		if (!platmap.generator.getSettings().includeAirborneStructures && cropType == CropType.HOTAIR_BALLOON)
 			cropType = CropType.PADDOCK;
 		if (cropType == CropType.HOTAIR_BALLOON && chunkOdds.playOdds(Odds.oddsPrettyLikely))
@@ -174,7 +174,7 @@ public class FarmLot extends ConnectedLot {
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
 			DataContext context, int platX, int platZ) {
 		int cropY = generator.streetLevel + 1;
-		
+
 		Material fallowMaterial = generator.shapeProvider.findAtmosphereMaterialAt(generator, cropY - 1);
 		boolean fallowField = fallowMaterial != Material.AIR;
 
@@ -472,7 +472,7 @@ public class FarmLot extends ConnectedLot {
 					generateSurface(generator, chunk, false);
 
 					// hot air balloon
-					reportLocation(generator, "Hot Air Balloon, Landed", chunk);
+					generator.reportLocation("Hot Air Balloon, Landed", chunk);
 					generator.structureInAirProvider.generateHotairBalloon(generator, chunk, context, cropY + 1,
 							chunkOdds);
 
@@ -581,7 +581,7 @@ public class FarmLot extends ConnectedLot {
 			generator.coverProvider.generateCoverage(generator, chunk, x, y, z + i * 5, coverageSet);
 	}
 
-	private static int stepVineRowDelta = 2;
+	private static final int stepVineRowDelta = 2;
 
 	private void buildVineyard(SupportBlocks chunk, int cropLevel) {
 		if (directionNorthSouth) {
@@ -685,7 +685,7 @@ public class FarmLot extends ConnectedLot {
 			return setNetherCrop();
 	}
 
-	protected CropType pickACrop(CropType... types) {
+	private CropType pickACrop(CropType... types) {
 		return types[chunkOdds.getRandomInt(types.length)];
 	}
 }

@@ -1,20 +1,9 @@
 package me.daddychurchill.CityWorld.Rooms.Populators;
 
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
-import me.daddychurchill.CityWorld.Rooms.DividedEllRoom;
-import me.daddychurchill.CityWorld.Rooms.DividedSingleRoom;
-import me.daddychurchill.CityWorld.Rooms.EmptyRoom;
-import me.daddychurchill.CityWorld.Rooms.LibraryDoubleRoom;
-import me.daddychurchill.CityWorld.Rooms.LibrarySingleRoom;
-import me.daddychurchill.CityWorld.Rooms.LibraryStudyRoom;
-import me.daddychurchill.CityWorld.Rooms.LoungeChairsRoom;
-import me.daddychurchill.CityWorld.Rooms.LoungeCouchRoom;
-import me.daddychurchill.CityWorld.Rooms.LoungeEllCouchRoom;
-import me.daddychurchill.CityWorld.Rooms.LoungeGameRoom;
-import me.daddychurchill.CityWorld.Rooms.LoungeQuadRoom;
-import me.daddychurchill.CityWorld.Rooms.LoungeTrioRoom;
+import me.daddychurchill.CityWorld.Rooms.*;
 
-public class BusinessWithBooks extends RoomProvider {
+class BusinessWithBooks extends RoomProvider {
 
 	public BusinessWithBooks() {
 		super();

@@ -7,8 +7,8 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class CoverProvider_Nether extends CoverProvider_Decayed {
 
-	private double oddsOfCrop = Odds.oddsLikely;
-	private double oddsOfFire = Odds.oddsSomewhatUnlikely;
+	private final double oddsOfCrop = Odds.oddsLikely;
+	private final double oddsOfFire = Odds.oddsSomewhatUnlikely;
 
 	public CoverProvider_Nether(Odds odds) {
 		super(odds);

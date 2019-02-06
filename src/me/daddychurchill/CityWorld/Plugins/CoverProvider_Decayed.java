@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class CoverProvider_Decayed extends CoverProvider {
 
-	private double oddsOfCrop = Odds.oddsLikely;
+	private final double oddsOfCrop = Odds.oddsLikely;
 
 	public CoverProvider_Decayed(Odds odds) {
 		super(odds);
@@ -19,15 +19,14 @@ public class CoverProvider_Decayed extends CoverProvider {
 	}
 
 	@Override
-	public boolean generateCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+	public void generateCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
 			CoverageType coverageType) {
 		if (likelyCover(generator))
 			setCoverage(generator, chunk, x, y, z, coverageType);
-		return true;
 	}
 
 	@Override
-	protected void setCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+	void setCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
 			CoverageType coverageType) {
 		switch (coverageType) {
 		case GRASS:

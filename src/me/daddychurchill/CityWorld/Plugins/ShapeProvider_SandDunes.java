@@ -21,10 +21,10 @@ import me.daddychurchill.CityWorld.Support.Odds;
 
 public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 
-	protected int floodY;
+	private final int floodY;
 
-	private SimplexOctaveGenerator duneFeature1;
-	private SimplexOctaveGenerator duneFeature2;
+	private final SimplexOctaveGenerator duneFeature1;
+	private final SimplexOctaveGenerator duneFeature2;
 //	private SimplexOctaveGenerator duneNoise;
 
 	private final static int featureOctaves = 2;
@@ -135,7 +135,7 @@ public class ShapeProvider_SandDunes extends ShapeProvider_Normal {
 		actualGenerateSand(generator, lot, chunk, x, z, subsurfaceY);
 	}
 
-	protected void actualGenerateSand(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, int x, int z,
+	private void actualGenerateSand(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, int x, int z,
 			int subsurfaceY) {
 		int y = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 		if (y > subsurfaceY) {

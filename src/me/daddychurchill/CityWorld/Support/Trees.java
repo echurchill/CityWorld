@@ -5,7 +5,7 @@ import org.bukkit.TreeSpecies;
 
 public final class Trees {
 
-	private Odds odds;
+	private final Odds odds;
 
 	public Trees(Odds odds) {
 		this.odds = odds;
@@ -42,7 +42,7 @@ public final class Trees {
 		return getRandomWoodStairs(odds.getRandomWoodSpecies());
 	}
 
-	public static Material getRandomWoodStairs(TreeSpecies species) {
+	private static Material getRandomWoodStairs(TreeSpecies species) {
 		switch (species) {
 		default:
 		case ACACIA:
@@ -64,7 +64,7 @@ public final class Trees {
 		return getRandomWoodSlab(odds.getRandomWoodSpecies());
 	}
 
-	public static Material getRandomWoodSlab(TreeSpecies species) {
+	private static Material getRandomWoodSlab(TreeSpecies species) {
 		switch (species) {
 		default:
 		case ACACIA:
@@ -86,7 +86,7 @@ public final class Trees {
 		return getRandomWoodDoor(odds.getRandomWoodSpecies());
 	}
 
-	public static Material getRandomWoodDoor(TreeSpecies species) {
+	private static Material getRandomWoodDoor(TreeSpecies species) {
 		switch (species) {
 		default:
 		case ACACIA:
@@ -108,7 +108,7 @@ public final class Trees {
 		return getRandomWoodTrapDoor(odds.getRandomWoodSpecies());
 	}
 
-	public static Material getRandomWoodTrapDoor(TreeSpecies species) {
+	private static Material getRandomWoodTrapDoor(TreeSpecies species) {
 		switch (species) {
 		default:
 		case ACACIA:
@@ -130,7 +130,7 @@ public final class Trees {
 		return getRandomWoodFence(odds.getRandomWoodSpecies());
 	}
 
-	public static Material getRandomWoodFence(TreeSpecies species) {
+	private static Material getRandomWoodFence(TreeSpecies species) {
 		switch (species) {
 		default:
 		case ACACIA:

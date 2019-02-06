@@ -8,25 +8,25 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public abstract class SurfaceProvider extends Provider {
 
-	public SurfaceProvider(Odds odds) {
+	SurfaceProvider(Odds odds) {
 		super();
 		this.odds = odds;
 	}
 
-	protected final static double treeOdds = Odds.oddsVeryUnlikely;
-	protected final static double treeTallOdds = Odds.oddsLikely;
-	protected final static double treeAltOdds = Odds.oddsLikely;
-	protected final static double treeAltTallOdds = Odds.oddsVeryUnlikely;
-	protected final static double foliageOdds = Odds.oddsSomewhatLikely;
-	protected final static double cactusOdds = Odds.oddsUnlikely;
-	protected final static double reedOdds = Odds.oddsPrettyUnlikely;
+	final static double treeOdds = Odds.oddsVeryUnlikely;
+	final static double treeTallOdds = Odds.oddsLikely;
+	final static double treeAltOdds = Odds.oddsLikely;
+	final static double treeAltTallOdds = Odds.oddsVeryUnlikely;
+	final static double foliageOdds = Odds.oddsSomewhatLikely;
+	final static double cactusOdds = Odds.oddsUnlikely;
+	final static double reedOdds = Odds.oddsPrettyUnlikely;
 	protected final static double flowerRedOdds = Odds.oddsVeryUnlikely;
 	protected final static double flowerYellowOdds = Odds.oddsExtremelyUnlikely;
-	protected final static double flowerFernOdds = Odds.oddsSomewhatLikely;
+	final static double flowerFernOdds = Odds.oddsSomewhatLikely;
 
-	protected final static double vagrantOdds = Odds.oddsTremendouslyUnlikely;
+	final static double vagrantOdds = Odds.oddsTremendouslyUnlikely;
 
-	protected Odds odds;
+	final Odds odds;
 
 	protected abstract void generateSurfacePoint(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk,
 			CoverProvider foliage, int x, double perciseY, int z, boolean includeTrees);
@@ -36,11 +36,11 @@ public abstract class SurfaceProvider extends Provider {
 		generateSurface(generator, lot, chunk, blockYs, 0, includeTrees);
 	}
 
-	protected boolean inTreeRange(int x, int z) {
+	boolean inTreeRange(int x, int z) {
 		return x > 2 && x < 15 && z > 2 && z < 15;// && x % 2 == 0 && z % 2 != 0;
 	}
 
-	protected boolean inBigTreeRange(int x, int z) {
+	boolean inBigTreeRange(int x, int z) {
 		return x > 4 && x < 11 && z > 4 && z < 11 && x % 2 == 0 && z % 2 != 0;
 	}
 

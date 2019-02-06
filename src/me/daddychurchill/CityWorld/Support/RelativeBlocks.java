@@ -6,8 +6,8 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 public final class RelativeBlocks extends SupportBlocks {
 
-	private int originX;
-	private int originZ;
+	private final int originX;
+	private final int originZ;
 
 	public RelativeBlocks(CityWorldGenerator generator, SupportBlocks relative) {
 		super(generator);

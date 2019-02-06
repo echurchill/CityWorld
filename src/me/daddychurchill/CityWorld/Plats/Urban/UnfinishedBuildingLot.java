@@ -27,12 +27,12 @@ public class UnfinishedBuildingLot extends BuildingLot {
 	private final static Material ceilingMaterial = Material.STONE;
 	private final static Material floorMaterial = ceilingMaterial;
 
-	protected final static int inset = 2;
+	private final static int inset = 2;
 
 	// our special bits
-	protected boolean unfinishedBasementOnly;
-	protected int floorsBuilt;
-	protected int lastHorizontalGirder;
+	private boolean unfinishedBasementOnly;
+	private int floorsBuilt;
+	private int lastHorizontalGirder;
 
 	public UnfinishedBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
@@ -231,7 +231,7 @@ public class UnfinishedBuildingLot extends BuildingLot {
 		}
 	}
 
-	protected boolean drawCrane(CityWorldGenerator generator, RealBlocks chunk, DataContext context) {
+	private boolean drawCrane(CityWorldGenerator generator, RealBlocks chunk, DataContext context) {
 		if (lastHorizontalGirder > 0 && chunkOdds.playOdds(context.oddsOfCranes)) {
 			if (chunkOdds.flipCoin())
 				chunk.drawCrane(context, chunkOdds, inset + 2, lastHorizontalGirder + 1, inset);

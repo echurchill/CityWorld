@@ -9,17 +9,7 @@ import org.bukkit.generator.ChunkGenerator.BiomeGrid;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plugins.LootProvider.LootLocation;
-import me.daddychurchill.CityWorld.Support.AbstractBlocks;
-import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
-import me.daddychurchill.CityWorld.Support.HeightInfo;
-import me.daddychurchill.CityWorld.Support.InitialBlocks;
-import me.daddychurchill.CityWorld.Support.Odds;
-import me.daddychurchill.CityWorld.Support.PlatMap;
-import me.daddychurchill.CityWorld.Support.RealBlocks;
-import me.daddychurchill.CityWorld.Support.SupportBlocks;
-import me.daddychurchill.CityWorld.Support.SurroundingRoads;
-import me.daddychurchill.CityWorld.Support.Surroundings;
-import me.daddychurchill.CityWorld.Support.Trees;
+import me.daddychurchill.CityWorld.Support.*;
 
 public class RoadLot extends ConnectedLot {
 
@@ -29,47 +19,47 @@ public class RoadLot extends ConnectedLot {
 
 	protected final static int sidewalkWidth = 3;
 	protected final static int lightpostHeight = 3;
-	protected final static int crossDitchEdge = 7;
-	protected final static int tunnelHeight = 8;
-	protected final static int fenceHeight = 2;
+	private final static int crossDitchEdge = 7;
+	private final static int tunnelHeight = 8;
+	private final static int fenceHeight = 2;
 
-	protected final static Material lightpostbaseMaterial = Material.STONE;
-	protected final static Material lightpostMaterial = Material.SPRUCE_FENCE;
+	private final static Material lightpostbaseMaterial = Material.STONE;
+	private final static Material lightpostMaterial = Material.SPRUCE_FENCE;
 
 	public final static Material sewerMaterial = Material.SMOOTH_STONE;
-	public final static Material sewerFloor = Material.STONE_BRICKS;
-	public final static Material sewerWall = Material.MOSSY_COBBLESTONE;
-	public final static Material sewerCeiling = Material.COBBLESTONE;
+	private final static Material sewerFloor = Material.STONE_BRICKS;
+	private final static Material sewerWall = Material.MOSSY_COBBLESTONE;
+	private final static Material sewerCeiling = Material.COBBLESTONE;
 
 	// protected final static Material vineMaterial = Material.VINE;
 
-	protected final static Material retainingWallMaterial = Material.SMOOTH_STONE;
-	protected final static Material retainingFenceMaterial = Material.IRON_BARS;
+	private final static Material retainingWallMaterial = Material.SMOOTH_STONE;
+	private final static Material retainingFenceMaterial = Material.IRON_BARS;
 
 	protected final static Material tunnelWallMaterial = Material.SMOOTH_STONE;
-	protected final static Material tunnelTileMaterial = Material.SANDSTONE;
-	protected final static Material tunnelCeilingMaterial = Material.GLASS;
+	private final static Material tunnelTileMaterial = Material.SANDSTONE;
+	private final static Material tunnelCeilingMaterial = Material.GLASS;
 
-	protected final static Material bridgePavement1Material = Material.BIRCH_SLAB;
-	protected final static Material bridgePavement2Material = Material.BIRCH_SLAB;
-	protected final static Material bridgeSidewalk1Material = Material.STONE_SLAB;
-	protected final static Material bridgeSidewalk2Material = Material.STONE_SLAB;
+	private final static Material bridgePavement1Material = Material.BIRCH_SLAB;
+	private final static Material bridgePavement2Material = Material.BIRCH_SLAB;
+	private final static Material bridgeSidewalk1Material = Material.STONE_SLAB;
+	private final static Material bridgeSidewalk2Material = Material.STONE_SLAB;
 	protected final static Material bridgeEdgeMaterial = Material.SMOOTH_STONE;
-	protected final static Material bridgeRailMaterial = Material.SPRUCE_FENCE;
+	private final static Material bridgeRailMaterial = Material.SPRUCE_FENCE;
 
-	protected Material pavementMat;
-	protected Material linesMat;
-	protected boolean pavementIsClay;
-	protected final static Material pavementClay = Material.CYAN_TERRACOTTA;
-//	protected final static DyeColor crosswalkColor = DyeColor.YELLOW;
-	protected Material dirtroadMat;
-	protected final static Material dirtroadClay = Material.LIME_TERRACOTTA;
-	protected boolean dirtroadIsClay;
+	private final Material pavementMat;
+	private final Material linesMat;
+	private final boolean pavementIsClay;
+	private final static Material pavementClay = Material.CYAN_TERRACOTTA;
+	//	protected final static DyeColor crosswalkColor = DyeColor.YELLOW;
+	private final Material dirtroadMat;
+	private final static Material dirtroadClay = Material.LIME_TERRACOTTA;
+	private final boolean dirtroadIsClay;
 
-	protected boolean roundaboutRoad;
-	private int bottomOfRoad;
+	protected final boolean roundaboutRoad;
+	private final int bottomOfRoad;
 	private int topOfRoad;
-	public final static int sewerDepth = 32;
+	private final static int sewerDepth = 32;
 
 	public RoadLot(PlatMap platmap, int chunkX, int chunkZ, long globalconnectionkey, boolean roundaboutPart) {
 		super(platmap, chunkX, chunkZ);
@@ -131,7 +121,7 @@ public class RoadLot extends ConnectedLot {
 	protected boolean crosswalkSouth = false;
 	protected boolean crosswalkWest = false;
 	protected boolean crosswalkEast = false;
-	protected boolean crosswalksFound = false;
+	private boolean crosswalksFound = false;
 
 	// where are the crosswalks
 	protected void calculateCrosswalks(Surroundings roads) {
@@ -1411,7 +1401,7 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 
-	protected void paveRoadArea(CityWorldGenerator generator, SupportBlocks chunk, int x1, int x2, int y, int z1,
+	private void paveRoadArea(CityWorldGenerator generator, SupportBlocks chunk, int x1, int x2, int y, int z1,
 			int z2, boolean doingFolage, boolean doingTunnel) {
 		if (inACity)
 			if (pavementIsClay)
@@ -1452,7 +1442,7 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 
-	protected void paveSidewalk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+	private void paveSidewalk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
 			boolean doingTunnel) {
 		if (inACity)
 			chunk.setBlock(x, y, z, pavementSidewalk);
@@ -1468,7 +1458,7 @@ public class RoadLot extends ConnectedLot {
 		}
 	}
 
-	protected void paveRoadLot(CityWorldGenerator generator, SupportBlocks chunk, int y, boolean doingTunnel) {
+	private void paveRoadLot(CityWorldGenerator generator, SupportBlocks chunk, int y, boolean doingTunnel) {
 		paveRoadArea(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, y - 1, sidewalkWidth,
 				chunk.width - sidewalkWidth, false, doingTunnel);
 		paveRoadArea(generator, chunk, sidewalkWidth, chunk.width - sidewalkWidth, y, sidewalkWidth,

@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class ClipboardRoadLot extends ClipboardLot {
 
-	public ClipboardRoadLot(PlatMap platmap, int chunkX, int chunkZ, Clipboard clip, BlockFace facing, int lotX,
+	ClipboardRoadLot(PlatMap platmap, int chunkX, int chunkZ, Clipboard clip, BlockFace facing, int lotX,
 			int lotZ) {
 		super(platmap, chunkX, chunkZ, clip, facing, lotX, lotZ);
 

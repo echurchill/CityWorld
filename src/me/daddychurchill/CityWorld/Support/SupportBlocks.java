@@ -32,7 +32,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	private boolean doPhysics;
 	private boolean doClearData;
 
-	public SupportBlocks(CityWorldGenerator generator) {
+	SupportBlocks(CityWorldGenerator generator) {
 		super(generator);
 
 		doPhysics = false;
@@ -55,10 +55,9 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		return doClearData;
 	}
 
-	public final boolean setDoClearData(boolean docleardata) {
+	public final void setDoClearData(boolean docleardata) {
 		boolean was = doClearData;
 		doClearData = docleardata;
-		return was;
 	}
 
 	@Override
@@ -68,14 +67,14 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			setActualBlock(block, material, getDoPhysics(x, z));
 	}
 
-	private final boolean getDoPhysics(int x, int z) {
+	private boolean getDoPhysics(int x, int z) {
 		boolean thisDoPhysics = doPhysics;
 		if (thisDoPhysics)
 			thisDoPhysics = !onEdgeXZ(x, z);
 		return thisDoPhysics;
 	}
 
-	private final void setActualBlock(Block block, Material material, boolean thisDoPhysics) {
+	private void setActualBlock(Block block, Material material, boolean thisDoPhysics) {
 		block.setType(material, thisDoPhysics);
 	}
 
@@ -84,7 +83,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		setActualBlock(getActualBlock(x, y, z), material, getDoPhysics(x, z));
 	}
 
-	protected final boolean isType(Block block, Material... types) {
+	private boolean isType(Block block, Material... types) {
 		Material type = block.getType();
 		for (Material test : types)
 			if (type == test)
@@ -105,7 +104,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			setBlock(x, y, z, types[0]);
 	}
 
-	protected boolean isEmpty(Block block) {
+	private boolean isEmpty(Block block) {
 		if (onEdgeXZ(block.getX(), block.getZ()))
 			return block.getType() == Material.AIR;
 		else
@@ -236,7 +235,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		fillBlocks(x1, x2, y, y + 1, z1, z2, material);
 	}
 
-	public final void fillBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
+	private void fillBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Material material) {
 		if (!(material.createBlockData() instanceof MultipleFacing)) {
 			setBlocks(x1, x2, y1, y2, z1, z2, material);
 		}
@@ -270,7 +269,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	}
 
 	// @@ I REALLY NEED TO FIGURE A DIFFERENT WAY TO DO THIS
-	public final boolean isNonstackableBlock(Block block) { // either because it really isn't or it just doesn't look
+	final boolean isNonstackableBlock(Block block) { // either because it really isn't or it just doesn't look
 		// good
 		return !block.getType().isOccluding();
 //		switch (block.getType()) {
@@ -358,7 +357,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		return NoiseGenerator.floor((value - NoiseGenerator.floor(value)) * (max - min)) + min;
 	}
 
-	public final Block setBlock(int x, int y, int z, Material material, double level) {
+	public final void setBlock(int x, int y, int z, Material material, double level) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(material, false);
 		BlockData data = block.getBlockData();
@@ -377,7 +376,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			block.setBlockData(data, getDoPhysics(x, z));
 		}
 
-		return block;
 	}
 
 	public final void setCauldron(int x, int y, int z, Odds odds) {
@@ -419,7 +417,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			setVine(x, y, z, faces);
 	}
 
-	public final Block setBlock(int x, int y, int z, Material material, Shape shape, boolean powered) {
+	public final void setBlock(int x, int y, int z, Material material, Shape shape, boolean powered) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(material, false);
 		BlockData data = block.getBlockData();
@@ -431,7 +429,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		} finally {
 			block.setBlockData(data, getDoPhysics(x, z));
 		}
-		return block;
 	}
 
 	@Override
@@ -492,11 +489,11 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 
-	public final Block setStair(int x, int y, int z, Material material, BlockFace facing) {
-		return setStair(x, y, z, material, facing, Stairs.Shape.STRAIGHT);
+	public final void setStair(int x, int y, int z, Material material, BlockFace facing) {
+		setStair(x, y, z, material, facing, Stairs.Shape.STRAIGHT);
 	}
 
-	public final Block setStair(int x, int y, int z, Material material, BlockFace facing, Stairs.Shape shape) {
+	public final void setStair(int x, int y, int z, Material material, BlockFace facing, Stairs.Shape shape) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(material, false);
 		BlockData data = block.getBlockData();
@@ -510,7 +507,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		} finally {
 			block.setBlockData(data, getDoPhysics(x, z));
 		}
-		return block;
 	}
 
 	public final void drawCrane(DataContext context, Odds odds, int x, int y, int z) {
@@ -549,7 +545,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		setBlock(x, y + 1, z, tableTop);
 	}
 
-	private final Block setDoorBlock(int x, int y, int z, Material material, BlockFace facing, Half half, Hinge hinge,
+	private void setDoorBlock(int x, int y, int z, Material material, BlockFace facing, Half half, Hinge hinge,
 			boolean doPhysics) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(material, false);
@@ -563,7 +559,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		} finally {
 			block.setBlockData(data, getDoPhysics(x, z));
 		}
-		return block;
 	}
 
 	//@@	public void setDoor(int x, int y, int z, Material material, BadMagic.Door direction) {
@@ -625,7 +620,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		setBlock(x, y + 1, z, material, Half.TOP);
 	}
 
-	public final Block setBlock(int x, int y, int z, Material material, Half half) {
+	private void setBlock(int x, int y, int z, Material material, Half half) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(material, false);
 		BlockData data = block.getBlockData();
@@ -635,10 +630,9 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		} finally {
 			block.setBlockData(data, getDoPhysics(x, z));
 		}
-		return block;
 	}
 
-	public final Block setBlock(int x, int y, int z, Material material, BlockFace facing, Half half) {
+	public final void setBlock(int x, int y, int z, Material material, BlockFace facing, Half half) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(material, false);
 		BlockData data = block.getBlockData();
@@ -650,7 +644,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		} finally {
 			block.setBlockData(data, getDoPhysics(x, z));
 		}
-		return block;
 	}
 
 	public final void setBlocks(int x1, int x2, int y, int z1, int z2, Material material, BlockFace facing) {
@@ -755,7 +748,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 
 //	private int lastDistance = -1;
 
-	public final Block setLeaf(int x, int y, int z, Material material, boolean isPersistent) {
+	public final void setLeaf(int x, int y, int z, Material material, boolean isPersistent) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(material, false);
 		BlockData data = block.getBlockData();
@@ -773,7 +766,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 //				}
 //			}
 		}
-		return block;
 	}
 
 	public final void setLeaves(int x, int y1, int y2, int z, Material material, boolean isPersistent) {
@@ -797,7 +789,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		setLeaves(x2 - 1, x2, y1, y2, z1 + 1, z2 - 1, material, isPersistent); // E
 	}
 
-	private final Block setBedBlock(int x, int y, int z, Material material, BlockFace facing, Part part,
+	private void setBedBlock(int x, int y, int z, Material material, BlockFace facing, Part part,
 			boolean doPhysics) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(material, false);
@@ -810,7 +802,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		} finally {
 			block.setBlockData(data, getDoPhysics(x, z));
 		}
-		return block;
 	}
 
 	public final void setBed(int x, int y, int z, Material material, BlockFace facing) {
@@ -910,7 +901,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		}
 	}
 
-	public final Block setGate(int x, int y, int z, Material material, BlockFace facing, boolean isOpen) {
+	public final void setGate(int x, int y, int z, Material material, BlockFace facing, boolean isOpen) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(material, false);
 		BlockData data = block.getBlockData();
@@ -924,7 +915,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		} finally {
 			block.setBlockData(data, getDoPhysics(x, z));
 		}
-		return block;
 	}
 
 	public final void setWaterLoggedBlocks(int x, int y1, int y2, int z, Material material) {
@@ -932,7 +922,7 @@ public abstract class SupportBlocks extends AbstractBlocks {
 			setWaterLoggedBlock(x, y, z, material);
 	}
 
-	public final Block setWaterLoggedBlock(int x, int y, int z, Material material) {
+	private void setWaterLoggedBlock(int x, int y, int z, Material material) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(material, false);
 		BlockData data = block.getBlockData();
@@ -943,6 +933,5 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		} finally {
 			block.setBlockData(data, getDoPhysics(x, z));
 		}
-		return block;
 	}
 }

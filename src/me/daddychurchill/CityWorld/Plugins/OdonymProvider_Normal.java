@@ -1,6 +1,7 @@
 package me.daddychurchill.CityWorld.Plugins;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -26,7 +27,7 @@ public class OdonymProvider_Normal extends OdonymProvider {
 		return result;
 	}
 
-	protected String generateStreetBlockNumbers(int i) {
+	private String generateStreetBlockNumbers(int i) {
 		// TODO need to work on orientation
 //		int streetN = generateStreetNumber(i);
 //		if (i < 0)
@@ -36,11 +37,11 @@ public class OdonymProvider_Normal extends OdonymProvider {
 		return "";
 	}
 
-	protected int generateStreetNumber(int chunkN) {
+	private int generateStreetNumber(int chunkN) {
 		return (Math.max(0, Math.abs(chunkN - 2) + 2) / 5) * (chunkN < 0 ? -1 : 1); // normalize it and then re-sign it
 	}
 
-	protected String generateNumericName(int streetN, String central) {
+	private String generateNumericName(int streetN, String central) {
 		if (streetN == 0)
 			return central;
 		else {
@@ -72,7 +73,7 @@ public class OdonymProvider_Normal extends OdonymProvider {
 		}
 	}
 
-	protected String generateNumericPrefix(int streetN, String negative, String positive) {
+	private String generateNumericPrefix(int streetN, String negative, String positive) {
 		if (streetN == 0)
 			return "";
 		else
@@ -91,7 +92,7 @@ public class OdonymProvider_Normal extends OdonymProvider {
 		return result;
 	}
 
-	protected String generateStreetNamedPrefix(Random random, int streetN, String negative, String positive) {
+	private String generateStreetNamedPrefix(Random random, int streetN, String negative, String positive) {
 		if (streetN == 0)
 			return "";
 		else
@@ -106,7 +107,7 @@ public class OdonymProvider_Normal extends OdonymProvider {
 			return "";
 	}
 
-	protected String generateStreetNamedName(Random random, int streetN, String central) {
+	private String generateStreetNamedName(Random random, int streetN, String central) {
 		if (streetN == 0)
 			return central;
 		else {
@@ -161,17 +162,17 @@ public class OdonymProvider_Normal extends OdonymProvider {
 				+ villagerSuffixes.get(odds.getRandomInt(villagerSuffixes.size()));
 	}
 
-	private String tagVillagerPrefixes = "VillagerGivenNames";
-	private String tagVillagerSuffixes = "VillagerSurnames";
+	private final String tagVillagerPrefixes = "VillagerGivenNames";
+	private final String tagVillagerSuffixes = "VillagerSurnames";
 
-	private String tagFossilPrefixes = "FossilPrefixes";
-	private String tagFossilSuffixes = "FossilSuffixes";
+	private final String tagFossilPrefixes = "FossilPrefixes";
+	private final String tagFossilSuffixes = "FossilSuffixes";
 
-	private String tagStreetTerms = "StreetTerms";
-	private String tagStreetPrefixes = "StreetPrefixes";
-	private String tagStreetStarts = "StreetStarts";
-	private String tagStreetEnds = "StreetEnds";
-	private String tagStreetSuffixes = "StreetSuffixes";
+	private final String tagStreetTerms = "StreetTerms";
+	private final String tagStreetPrefixes = "StreetPrefixes";
+	private final String tagStreetStarts = "StreetStarts";
+	private final String tagStreetEnds = "StreetEnds";
+	private final String tagStreetSuffixes = "StreetSuffixes";
 
 	private List<String> villagerPrefixes = createList(
 			// these should be more global but it is hard to find the world wide list of the
@@ -299,10 +300,7 @@ public class OdonymProvider_Normal extends OdonymProvider {
 			"noid");
 
 	private List<String> createList(String... items) {
-		List<String> result = new ArrayList<String>();
-		for (String item : items)
-			result.add(item);
-		return result;
+		return new ArrayList<>(Arrays.asList(items));
 	}
 
 	private List<String> getNames(ConfigurationSection section, String name, List<String> values) {
@@ -333,14 +331,14 @@ public class OdonymProvider_Normal extends OdonymProvider {
 			return values.get(index);
 	}
 
-	private static String termDeclaration = "These strings represents cardinal prefixes and central roads";
-	private static String termNorth = "North";
-	private static String termMain = "Main";
-	private static String termSouth = "South";
+	private static final String termDeclaration = "These strings represents cardinal prefixes and central roads";
+	private static final String termNorth = "North";
+	private static final String termMain = "Main";
+	private static final String termSouth = "South";
 
-	private static String termWest = "West";
-	private static String termCentral = "Central";
-	private static String termEast = "East";
+	private static final String termWest = "West";
+	private static final String termCentral = "Central";
+	private static final String termEast = "East";
 
 	private String getTerm(int index, String value) {
 		if (streetTerms.size() > index)

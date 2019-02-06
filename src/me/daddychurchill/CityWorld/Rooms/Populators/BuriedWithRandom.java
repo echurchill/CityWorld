@@ -1,16 +1,7 @@
 package me.daddychurchill.CityWorld.Rooms.Populators;
 
 import me.daddychurchill.CityWorld.Plugins.RoomProvider;
-import me.daddychurchill.CityWorld.Rooms.DeskAdminRoom;
-import me.daddychurchill.CityWorld.Rooms.DeskCornerRoom;
-import me.daddychurchill.CityWorld.Rooms.DeskExecutiveRoom;
-import me.daddychurchill.CityWorld.Rooms.DeskInternsRoom;
-import me.daddychurchill.CityWorld.Rooms.LoungeCouchRoom;
-import me.daddychurchill.CityWorld.Rooms.LoungeQuadRoom;
-import me.daddychurchill.CityWorld.Rooms.LoungeTableRoom;
-import me.daddychurchill.CityWorld.Rooms.LoungeTrioRoom;
-import me.daddychurchill.CityWorld.Rooms.MeetingForFourRoom;
-import me.daddychurchill.CityWorld.Rooms.MeetingForSixRoom;
+import me.daddychurchill.CityWorld.Rooms.*;
 
 public class BuriedWithRandom extends RoomProvider {
 

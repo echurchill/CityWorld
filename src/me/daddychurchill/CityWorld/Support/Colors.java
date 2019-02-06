@@ -5,35 +5,35 @@ import org.bukkit.Material;
 
 public final class Colors {
 
-	public static enum ColorSet {
+	public enum ColorSet {
 		ALL, GREEN, WHITE, TAN, PINK, NETHER, THEEND, DARK, LIGHT, RANDOM
 	}
 
-	private static DyeColor[] setAll = { DyeColor.WHITE, DyeColor.ORANGE, DyeColor.MAGENTA, DyeColor.LIGHT_BLUE,
+	private static final DyeColor[] setAll = { DyeColor.WHITE, DyeColor.ORANGE, DyeColor.MAGENTA, DyeColor.LIGHT_BLUE,
 			DyeColor.YELLOW, DyeColor.LIME, DyeColor.PINK, DyeColor.GRAY, DyeColor.LIGHT_GRAY, DyeColor.CYAN,
 			DyeColor.PURPLE, DyeColor.BLUE, DyeColor.BROWN, DyeColor.GREEN, DyeColor.RED, DyeColor.BLACK };
 
-	private static DyeColor[] setGreen = { DyeColor.BROWN, DyeColor.GREEN, DyeColor.GRAY };
+	private static final DyeColor[] setGreen = { DyeColor.BROWN, DyeColor.GREEN, DyeColor.GRAY };
 
-	private static DyeColor[] setDark = { DyeColor.GRAY, DyeColor.CYAN, DyeColor.PURPLE, DyeColor.BLUE, DyeColor.BROWN,
+	private static final DyeColor[] setDark = { DyeColor.GRAY, DyeColor.CYAN, DyeColor.PURPLE, DyeColor.BLUE, DyeColor.BROWN,
 			DyeColor.GREEN, DyeColor.RED, DyeColor.BLACK };
 
-	private static DyeColor[] setLight = { DyeColor.WHITE, DyeColor.ORANGE, DyeColor.MAGENTA, DyeColor.LIGHT_BLUE,
+	private static final DyeColor[] setLight = { DyeColor.WHITE, DyeColor.ORANGE, DyeColor.MAGENTA, DyeColor.LIGHT_BLUE,
 			DyeColor.YELLOW, DyeColor.LIME, DyeColor.PINK, DyeColor.LIGHT_GRAY };
 
-	private static DyeColor[] setNether = { DyeColor.RED, DyeColor.BROWN, DyeColor.PURPLE, DyeColor.BLACK,
+	private static final DyeColor[] setNether = { DyeColor.RED, DyeColor.BROWN, DyeColor.PURPLE, DyeColor.BLACK,
 			DyeColor.GRAY };
 
-	private static DyeColor[] setTan = { DyeColor.ORANGE, DyeColor.YELLOW };
+	private static final DyeColor[] setTan = { DyeColor.ORANGE, DyeColor.YELLOW };
 
-	private static DyeColor[] setPink = { DyeColor.PINK, DyeColor.LIGHT_GRAY, DyeColor.RED };
+	private static final DyeColor[] setPink = { DyeColor.PINK, DyeColor.LIGHT_GRAY, DyeColor.RED };
 
-	private static DyeColor[] setWhite = { DyeColor.WHITE, DyeColor.LIGHT_GRAY };
+	private static final DyeColor[] setWhite = { DyeColor.WHITE, DyeColor.LIGHT_GRAY };
 
-	private static DyeColor[] setEnd = { DyeColor.WHITE, DyeColor.LIGHT_GRAY, DyeColor.PINK };
+	private static final DyeColor[] setEnd = { DyeColor.WHITE, DyeColor.LIGHT_GRAY, DyeColor.PINK };
 
 	private DyeColor[] colors;
-	private Odds odds;
+	private final Odds odds;
 
 	public Colors(Odds odds) {
 		this.odds = odds;
@@ -115,7 +115,7 @@ public final class Colors {
 		return getGlass(getRandomColor());
 	}
 
-	public static Material getGlass(DyeColor color) {
+	private static Material getGlass(DyeColor color) {
 		switch (color) {
 		default:
 		case BLACK:
@@ -199,7 +199,7 @@ public final class Colors {
 		return getCarpet(getRandomColor());
 	}
 
-	public static Material getCarpet(DyeColor color) {
+	private static Material getCarpet(DyeColor color) {
 		switch (color) {
 		default:
 		case BLACK:
@@ -241,7 +241,7 @@ public final class Colors {
 		return getWool(getRandomColor());
 	}
 
-	public static Material getWool(DyeColor color) {
+	private static Material getWool(DyeColor color) {
 		switch (color) {
 		default:
 		case BLACK:
@@ -283,7 +283,7 @@ public final class Colors {
 		return getBed(getRandomColor());
 	}
 
-	public static Material getBed(DyeColor color) {
+	private static Material getBed(DyeColor color) {
 		switch (color) {
 		default:
 		case BLACK:
@@ -325,7 +325,7 @@ public final class Colors {
 		return getTerracotta(getRandomColor());
 	}
 
-	public static Material getTerracotta(DyeColor color) {
+	private static Material getTerracotta(DyeColor color) {
 		switch (color) {
 		default:
 		case BLACK:
@@ -367,7 +367,7 @@ public final class Colors {
 		return getGlazedTerracotta(getRandomColor());
 	}
 
-	public static Material getGlazedTerracotta(DyeColor color) {
+	private static Material getGlazedTerracotta(DyeColor color) {
 		switch (color) {
 		default:
 		case BLACK:
@@ -409,7 +409,7 @@ public final class Colors {
 		return getConcrete(getRandomColor());
 	}
 
-	public static Material getConcrete(DyeColor color) {
+	private static Material getConcrete(DyeColor color) {
 		switch (color) {
 		default:
 		case BLACK:
@@ -451,7 +451,7 @@ public final class Colors {
 		return getConcretePowder(getRandomColor());
 	}
 
-	public static Material getConcretePowder(DyeColor color) {
+	private static Material getConcretePowder(DyeColor color) {
 		switch (color) {
 		default:
 		case BLACK:

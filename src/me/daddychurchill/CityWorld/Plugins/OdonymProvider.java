@@ -22,14 +22,14 @@ public abstract class OdonymProvider extends Provider {
 	public abstract void write(CityWorldGenerator generator, ConfigurationSection section);
 
 	// yep it is a little one... we will make it bigger in a moment
-	int baseSeed;
+	private final int baseSeed;
 
-	public OdonymProvider(int baseSeed) {
+	OdonymProvider(int baseSeed) {
 		super();
 		this.baseSeed = baseSeed;
 	}
 
-	protected Random getRandomFor(int i) {
+	Random getRandomFor(int i) {
 		return new Random((long) i * (long) Integer.MAX_VALUE + (long) baseSeed);
 	}
 
@@ -41,8 +41,8 @@ public abstract class OdonymProvider extends Provider {
 
 	private final static double oddsOfDecay = Odds.oddsExtremelyLikely;
 
-	public String decayLine(Odds odds, String line) {
-		StringBuffer result = new StringBuffer();
+	private String decayLine(Odds odds, String line) {
+		StringBuilder result = new StringBuilder();
 		for (int i = 0; i < line.length(); i++) {
 			if (odds.playOdds(oddsOfDecay))
 				result.append(line.charAt(i));

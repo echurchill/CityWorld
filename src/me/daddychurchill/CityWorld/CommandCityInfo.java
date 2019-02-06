@@ -11,7 +11,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CommandCityInfo implements CommandExecutor {
+class CommandCityInfo implements CommandExecutor {
 	// This class was created by Sablednah
 	// https://github.com/echurchill/CityWorld/pull/4
 	// Modified a bit by DaddyChurchill

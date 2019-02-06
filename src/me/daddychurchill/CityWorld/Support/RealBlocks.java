@@ -6,7 +6,7 @@ import org.bukkit.block.Block;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 public final class RealBlocks extends SupportBlocks {
-	private Chunk chunk;
+	private final Chunk chunk;
 
 	public RealBlocks(CityWorldGenerator generator, Chunk aChunk) {
 		super(generator);

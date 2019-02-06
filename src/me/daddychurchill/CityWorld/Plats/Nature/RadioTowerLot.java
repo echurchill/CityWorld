@@ -31,13 +31,13 @@ public class RadioTowerLot extends ConstructLot {
 	private final static int heightRange = 15;
 	private final static int heightShortest = 10;
 	private final static int heightTallest = heightShortest + heightRange;
-	private boolean antennaBuilt = false;
+	private final boolean antennaBuilt = false;
 	private boolean tallestBuilt = false;
 
 	private final static Material platformMaterial = Material.SMOOTH_STONE;
 	private final static Material supportMaterial = Material.COBBLESTONE;
 	private final static Material wallMaterial = Material.STONE;
-//	private final static Material roofMaterial = Material.STONE_SLAB;
+	//	private final static Material roofMaterial = Material.STONE_SLAB;
 	private final static Material baseMaterial = Material.CLAY;
 	private final static Material antennaMaterial = Material.IRON_BARS;
 
@@ -54,7 +54,7 @@ public class RadioTowerLot extends ConstructLot {
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk,
 			BiomeGrid biomes, DataContext context, int platX, int platZ) {
-		
+
 		// compute offset to start of chunk
 		int platformOffset = platformWidth / 2;
 		Point highPoint = blockYs.getHighPoint();
@@ -94,7 +94,7 @@ public class RadioTowerLot extends ConstructLot {
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
 			DataContext context, int platX, int platZ) {
-		reportLocation(generator, "Radio Tower", chunk);
+		generator.reportLocation("Radio Tower", chunk);
 
 		// compute offset to start of chunk
 		int platformOffset = platformWidth / 2;
@@ -190,8 +190,8 @@ public class RadioTowerLot extends ConstructLot {
 				// top of the tallest one?
 				if (antennaHeight == heightTallest) {
 					chunk.setBlocks(x, x + 2, y + antennaHeight, z, z + 2, Material.END_ROD); // @@ really should be a
-																								// lantern or something
-																								// like that
+					// lantern or something
+					// like that
 				}
 			}
 		}

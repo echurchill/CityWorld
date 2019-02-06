@@ -57,7 +57,7 @@ public abstract class ShapeProvider extends Provider {
 
 	public abstract DataContext getContext(int originX, int originZ);
 
-	public abstract DataContext getContext(PlatMap platmap);
+	protected abstract DataContext getContext(PlatMap platmap);
 
 	public AbstractCachedYs getCachedYs(CityWorldGenerator generator, int chunkX, int chunkZ) {
 		return new TraditionalCachedYs(generator, chunkX, chunkZ);
@@ -76,7 +76,7 @@ public abstract class ShapeProvider extends Provider {
 			if (generator.getSettings().includeRoads) {
 				platmap.context = getContext(platmap);
 				platmap.populateRoads(); // this will see the platmap's context as natural since it hasn't been re-set
-											// yet, see below
+				// yet, see below
 				platmap.validateRoads();
 
 				// place the buildings
@@ -97,13 +97,13 @@ public abstract class ShapeProvider extends Provider {
 		}
 	}
 
-	protected boolean contextInitialized = false;
-	public DataContext natureContext;
-	public RoadContext roadContext;
+	boolean contextInitialized = false;
+	DataContext natureContext;
+	RoadContext roadContext;
 
-	private SimplexNoiseGenerator macroShape;
-	private SimplexNoiseGenerator microShape;
-	protected Odds odds;
+	private final SimplexNoiseGenerator macroShape;
+	private final SimplexNoiseGenerator microShape;
+	final Odds odds;
 
 	public int getStructureLevel() {
 		return getStreetLevel();
@@ -149,7 +149,7 @@ public abstract class ShapeProvider extends Provider {
 //		return BlackMagic.airId;
 //	}
 
-	public Material findGroundCoverMaterialAt(CityWorldGenerator generator, int blockY) {
+	Material findGroundCoverMaterialAt(CityWorldGenerator generator, int blockY) {
 		return Material.AIR;
 	}
 
@@ -166,7 +166,7 @@ public abstract class ShapeProvider extends Provider {
 		return roadContext.createRoundaboutStatueLot(generator, platmap, x, z);
 	}
 
-	public ShapeProvider(CityWorldGenerator generator, Odds odds) {
+	ShapeProvider(CityWorldGenerator generator, Odds odds) {
 		super();
 		this.odds = odds;
 		long seed = generator.getWorldSeed();
@@ -217,9 +217,9 @@ public abstract class ShapeProvider extends Provider {
 		return provider;
 	}
 
-	private static int bottomOfWorld = 0;
+	private static final int bottomOfWorld = 0;
 
-	protected void actualGenerateStratas(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, int x, int z,
+	void actualGenerateStratas(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, int x, int z,
 			Material substratumMaterial, Material stratumMaterial, int stratumY, Material subsurfaceMaterial,
 			int subsurfaceY, Material surfaceMaterial, boolean surfaceCaves) {
 
@@ -254,7 +254,7 @@ public abstract class ShapeProvider extends Provider {
 		}
 	}
 
-	protected void generateStratas(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, int x, int z,
+	void generateStratas(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, int x, int z,
 			Material substratumMaterial, Material stratumMaterial, int stratumY, Material subsurfaceMaterial,
 			int subsurfaceY, Material surfaceMaterial, boolean surfaceCaves) {
 
@@ -263,7 +263,7 @@ public abstract class ShapeProvider extends Provider {
 				subsurfaceMaterial, subsurfaceY, surfaceMaterial, surfaceCaves);
 	}
 
-	protected void generateStratas(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, int x, int z,
+	void generateStratas(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, int x, int z,
 			Material substratumMaterial, Material stratumMaterial, int stratumY, Material subsurfaceMaterial,
 			int subsurfaceY, Material surfaceMaterial, int coverY, Material coverMaterial, boolean surfaceCaves) {
 
@@ -287,21 +287,21 @@ public abstract class ShapeProvider extends Provider {
 
 	// TODO refactor this so that it is a positive (maybe ifCave) instead of a
 	// negative
-	public abstract boolean notACave(CityWorldGenerator generator, int blockX, int blockY, int blockZ);
+	protected abstract boolean notACave(CityWorldGenerator generator, int blockX, int blockY, int blockZ);
 
 	// macro slots
 	private final static int macroRandomGeneratorSlot = 0;
-	protected final static int macroNSBridgeSlot = 1;
+	private final static int macroNSBridgeSlot = 1;
 
 	// micro slots
 	private final static int microRandomGeneratorSlot = 0;
-	protected final static int microRoundaboutSlot = 1;
-	protected final static int microSurfaceCaveSlot = 2;
-	protected final static int microIsolatedLotSlot = 3;
-	protected final static int microIsolatedConstructSlot = 4;
+	private final static int microRoundaboutSlot = 1;
+	private final static int microSurfaceCaveSlot = 2;
+	private final static int microIsolatedLotSlot = 3;
+	private final static int microIsolatedConstructSlot = 4;
 
-	private double macroScale = 1.0 / 384.0;
-	private double microScale = 2.0;
+	private final double macroScale = 1.0 / 384.0;
+	private final double microScale = 2.0;
 
 	private double getMicroNoiseAt(double x, double z, int a) {
 		return microShape.noise(x * microScale, z * microScale, a);
@@ -347,7 +347,7 @@ public abstract class ShapeProvider extends Provider {
 		return macroBooleanAt(chunkX, chunkZ, macroNSBridgeSlot);
 	}
 
-	public boolean isSurfaceCaveAt(double chunkX, double chunkZ) {
+	boolean isSurfaceCaveAt(double chunkX, double chunkZ) {
 		return microBooleanAt(chunkX, chunkZ, microSurfaceCaveSlot);
 	}
 

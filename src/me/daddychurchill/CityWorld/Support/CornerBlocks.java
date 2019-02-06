@@ -61,7 +61,7 @@ public final class CornerBlocks {
 	}
 
 	public CornerBlocks() {
-		corners = new ArrayList<Corner>();
+		corners = new ArrayList<>();
 
 		corners.add(new RoundedCorner()); // always put this in first
 
@@ -763,31 +763,31 @@ public final class CornerBlocks {
 		getCorner(i).drawSEHorizontals(blocks, xInset, y1, y2, zInset, primary, secondary, outsetEffect, onRoof);
 	}
 
-	private ArrayList<Corner> corners;
+	private final ArrayList<Corner> corners;
 
 	private abstract class Corner {
-		public abstract void drawNWVerticals(AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
+		protected abstract void drawNWVerticals(AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
 				Material primary, Material secondary, boolean outsetEffect, boolean onRoof);
 
-		public abstract void drawNEVerticals(AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
+		protected abstract void drawNEVerticals(AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
 				Material primary, Material secondary, boolean outsetEffect, boolean onRoof);
 
-		public abstract void drawSWVerticals(AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
+		protected abstract void drawSWVerticals(AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
 				Material primary, Material secondary, boolean outsetEffect, boolean onRoof);
 
-		public abstract void drawSEVerticals(AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
+		protected abstract void drawSEVerticals(AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
 				Material primary, Material secondary, boolean outsetEffect, boolean onRoof);
 
-		public abstract void drawNWHorizontals(AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
+		protected abstract void drawNWHorizontals(AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
 				Material primary, Material secondary, boolean outsetEffect, boolean onRoof);
 
-		public abstract void drawNEHorizontals(AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
+		protected abstract void drawNEHorizontals(AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
 				Material primary, Material secondary, boolean outsetEffect, boolean onRoof);
 
-		public abstract void drawSWHorizontals(AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
+		protected abstract void drawSWHorizontals(AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
 				Material primary, Material secondary, boolean outsetEffect, boolean onRoof);
 
-		public abstract void drawSEHorizontals(AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
+		protected abstract void drawSEHorizontals(AbstractBlocks blocks, int xInset, int y1, int y2, int zInset,
 				Material primary, Material secondary, boolean outsetEffect, boolean onRoof);
 	}
 
@@ -837,7 +837,7 @@ public final class CornerBlocks {
 		}
 	}
 
-	public class CustomCorner extends Corner {
+	protected class CustomCorner extends Corner {
 		private CustomCorner(UnitType[][] source) {
 			NW = source;
 			NE = flipWE(NW);
@@ -845,10 +845,10 @@ public final class CornerBlocks {
 			SW = flipNS(NW);
 		}
 
-		private UnitType[][] NW;
-		private UnitType[][] NE;
-		private UnitType[][] SW;
-		private UnitType[][] SE;
+		private final UnitType[][] NW;
+		private final UnitType[][] NE;
+		private final UnitType[][] SW;
+		private final UnitType[][] SE;
 
 		private UnitType[][] flipWE(UnitType[][] source) {
 			UnitType[][] result = new UnitType[CornerBlocks.CornerWidth][CornerBlocks.CornerWidth];

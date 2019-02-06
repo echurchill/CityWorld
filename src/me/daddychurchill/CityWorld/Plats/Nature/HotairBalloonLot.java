@@ -45,7 +45,7 @@ public class HotairBalloonLot extends ConstructLot {
 		int atY = getBottomY(generator);
 
 		// hot air balloon
-		reportLocation(generator, "Hot Air Balloon", chunk);
+		generator.reportLocation("Hot Air Balloon", chunk);
 		int rangeY = Math.max(2, chunk.height - StructureInAirProvider.hotairBalloonHeight - atY);
 		generator.structureInAirProvider.generateHotairBalloon(generator, chunk, context,
 				atY + chunkOdds.getRandomInt(rangeY), chunkOdds);

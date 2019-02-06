@@ -15,8 +15,8 @@ public final class WorldBlocks extends SupportBlocks {
 	// absolute (unlike init and real sections)
 	// ====================
 
-	protected Odds odds;
-	private int farthestFall;
+	private final Odds odds;
+	private final int farthestFall;
 
 	public WorldBlocks(CityWorldGenerator generator, Odds odds) {
 		super(generator);
@@ -79,10 +79,10 @@ public final class WorldBlocks extends SupportBlocks {
 	}
 
 	private static class debrisItem {
-		protected Material oldMaterial;
+		final Material oldMaterial;
 //		protected MaterialData oldData;
 
-		public debrisItem(Block block) {
+		debrisItem(Block block) {
 			oldMaterial = block.getType();
 //			oldData = block.getState().getData().clone();
 		}
@@ -138,9 +138,6 @@ public final class WorldBlocks extends SupportBlocks {
 		disperseCircle(cx, cz, r, cy, debris);
 	}
 
-	private static double oddsOfDebris = Odds.oddsLikely;// Odds.oddsPrettyLikely; // Reduced the amount of debris to
-															// speed things up
-
 	private void sprinkleDebris(int cx, int cy, int cz, int radius, Stack<debrisItem> debris, boolean withFire) {
 
 		// calculate a few things
@@ -156,7 +153,7 @@ public final class WorldBlocks extends SupportBlocks {
 			debrisItem item = debris.pop();
 
 			// do this one?
-			if (odds.playOdds(oddsOfDebris)) {
+			if (odds.playOdds(Odds.oddsLikely)) {
 
 				// where do we drop it?
 				int x = x1 + odds.getRandomInt(r4);

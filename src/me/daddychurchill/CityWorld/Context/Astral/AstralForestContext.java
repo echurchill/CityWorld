@@ -18,7 +18,7 @@ public class AstralForestContext extends AstralDataContext {
 		FERN, HEDGE, CANOPY, FRACTAL
 	}
 
-	private ForestStyle style;
+	private final ForestStyle style;
 
 	public AstralForestContext(CityWorldGenerator generator, ForestStyle style) {
 		super(generator);

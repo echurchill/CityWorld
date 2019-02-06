@@ -12,10 +12,10 @@ public class ClipboardList implements Iterable<Clipboard> {
 	public ClipboardList() {
 		super();
 
-		list = new HashMap<String, Clipboard>();
+		list = new HashMap<>();
 	}
 
-	private HashMap<String, Clipboard> list;
+	private final HashMap<String, Clipboard> list;
 
 	public boolean isEmpty() {
 		return list.isEmpty();
@@ -25,9 +25,8 @@ public class ClipboardList implements Iterable<Clipboard> {
 		return list.get(key);
 	}
 
-	public Clipboard put(Clipboard value) {
+	public void put(Clipboard value) {
 		list.put(value.name, value);
-		return value;
 	}
 
 	@Override

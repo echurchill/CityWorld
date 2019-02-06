@@ -18,7 +18,7 @@ public class AstralMushroomContext extends AstralDataContext {
 		RED, BROWN, REDBROWN, YELLOW
 	}
 
-	private MushroomStyle style;
+	private final MushroomStyle style;
 
 	public AstralMushroomContext(CityWorldGenerator generator, MushroomStyle style) {
 		super(generator);

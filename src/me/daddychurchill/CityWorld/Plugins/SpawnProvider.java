@@ -25,29 +25,29 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class SpawnProvider extends Provider {
 
-	public final static String tagEntities_Goodies = "Entities_For_Goodies";
-	public AbstractEntityList itemsEntities_Goodies = createBeingList(tagEntities_Goodies, EntityType.VILLAGER,
+	private final static String tagEntities_Goodies = "Entities_For_Goodies";
+	private final AbstractEntityList itemsEntities_Goodies = createBeingList(tagEntities_Goodies, EntityType.VILLAGER,
 			EntityType.VILLAGER, EntityType.VILLAGER, EntityType.VILLAGER, EntityType.VILLAGER, EntityType.VILLAGER,
 			EntityType.VILLAGER, EntityType.VILLAGER, EntityType.VILLAGER, EntityType.WITCH);
 
-	public final static String tagEntities_Baddies = "Entities_For_Baddies";
-	public AbstractEntityList itemsEntities_Baddies = createBeingList(tagEntities_Baddies, EntityType.CREEPER,
+	private final static String tagEntities_Baddies = "Entities_For_Baddies";
+	private final AbstractEntityList itemsEntities_Baddies = createBeingList(tagEntities_Baddies, EntityType.CREEPER,
 			EntityType.CREEPER, EntityType.CREEPER, EntityType.CREEPER, EntityType.SKELETON, EntityType.SKELETON,
 			EntityType.SKELETON, EntityType.SKELETON, EntityType.ZOMBIE, EntityType.ZOMBIE, EntityType.ZOMBIE,
 			EntityType.ZOMBIE, EntityType.ZOMBIE_HORSE, EntityType.ZOMBIE_VILLAGER, EntityType.SPIDER,
 			EntityType.SPIDER, EntityType.SPIDER, EntityType.WITCH, EntityType.WITCH, EntityType.PIG_ZOMBIE,
 			EntityType.ENDERMAN, EntityType.PHANTOM, EntityType.BLAZE);
 
-	public final static String tagEntities_Animals = "Entities_For_Animals";
-	public AbstractEntityList itemsEntities_Animals = createAnimalList(tagEntities_Animals, EntityType.HORSE,
+	private final static String tagEntities_Animals = "Entities_For_Animals";
+	private final AbstractEntityList itemsEntities_Animals = createAnimalList(tagEntities_Animals, EntityType.HORSE,
 			EntityType.HORSE, EntityType.DONKEY, EntityType.LLAMA, EntityType.COW, EntityType.COW, EntityType.SHEEP,
 			EntityType.SHEEP, EntityType.PIG, EntityType.PIG, EntityType.PARROT, EntityType.PARROT, EntityType.CHICKEN,
 			EntityType.CHICKEN, EntityType.CHICKEN, EntityType.CHICKEN, EntityType.CHICKEN, EntityType.CHICKEN,
 			EntityType.RABBIT, EntityType.RABBIT, EntityType.RABBIT, EntityType.RABBIT, EntityType.WOLF,
 			EntityType.OCELOT);
 
-	public final static String tagEntities_SeaAnimals = "Entities_For_SeaAnimals";
-	public AbstractEntityList itemsEntities_SeaAnimals = createSeaAnimalList(tagEntities_SeaAnimals,
+	private final static String tagEntities_SeaAnimals = "Entities_For_SeaAnimals";
+	private final AbstractEntityList itemsEntities_SeaAnimals = createSeaAnimalList(tagEntities_SeaAnimals,
 			EntityType.TROPICAL_FISH, EntityType.TROPICAL_FISH, EntityType.TROPICAL_FISH, EntityType.TROPICAL_FISH,
 			EntityType.TROPICAL_FISH, EntityType.PUFFERFISH, EntityType.PUFFERFISH, EntityType.PUFFERFISH,
 			EntityType.SALMON, EntityType.SALMON, EntityType.SALMON, EntityType.DOLPHIN, EntityType.DOLPHIN,
@@ -55,44 +55,44 @@ public class SpawnProvider extends Provider {
 //			EntityType.ELDER_GUARDIAN,
 			EntityType.SQUID, EntityType.SQUID, EntityType.COD, EntityType.COD, EntityType.COD);
 
-	public final static String tagEntities_Vagrants = "Entities_For_Vagrants";
-	public AbstractEntityList itemsEntities_Vagrants = createBeingList(tagEntities_Vagrants, EntityType.CHICKEN,
+	private final static String tagEntities_Vagrants = "Entities_For_Vagrants";
+	private final AbstractEntityList itemsEntities_Vagrants = createBeingList(tagEntities_Vagrants, EntityType.CHICKEN,
 			EntityType.CHICKEN, EntityType.RABBIT, EntityType.RABBIT, EntityType.WOLF, EntityType.WOLF,
 			EntityType.OCELOT, EntityType.OCELOT, EntityType.HORSE, EntityType.DONKEY, EntityType.LLAMA,
 			EntityType.VILLAGER, EntityType.VILLAGER, EntityType.PARROT,
 //			EntityType.POLAR_BEAR,
 			EntityType.SPIDER, EntityType.CREEPER);
 
-	public final static String tagEntities_Sewers = "Entities_For_Sewers";
-	public AbstractEntityList itemsEntities_Sewers = createBeingList(tagEntities_Sewers, EntityType.ZOMBIE,
+	private final static String tagEntities_Sewers = "Entities_For_Sewers";
+	public final AbstractEntityList itemsEntities_Sewers = createBeingList(tagEntities_Sewers, EntityType.ZOMBIE,
 			EntityType.ZOMBIE, EntityType.CREEPER, EntityType.SPIDER, EntityType.BAT, EntityType.BAT, EntityType.BAT,
 			EntityType.BAT);
 
-	public final static String tagEntities_Mine = "Entities_For_Mine";
-	public AbstractEntityList itemsEntities_Mine = createBeingList(tagEntities_Mine, EntityType.ZOMBIE,
+	private final static String tagEntities_Mine = "Entities_For_Mine";
+	public final AbstractEntityList itemsEntities_Mine = createBeingList(tagEntities_Mine, EntityType.ZOMBIE,
 			EntityType.ZOMBIE, EntityType.SKELETON, EntityType.SKELETON, EntityType.CREEPER, EntityType.CREEPER,
 			EntityType.CAVE_SPIDER, EntityType.CAVE_SPIDER, EntityType.BAT, EntityType.BAT, EntityType.BAT,
 			EntityType.BAT, EntityType.ENDERMITE);
 
-	public final static String tagEntities_Bunker = "Entities_For_Bunker";
-	public AbstractEntityList itemsEntities_Bunker = createBeingList(tagEntities_Bunker, EntityType.PIG_ZOMBIE,
+	private final static String tagEntities_Bunker = "Entities_For_Bunker";
+	public final AbstractEntityList itemsEntities_Bunker = createBeingList(tagEntities_Bunker, EntityType.PIG_ZOMBIE,
 			EntityType.ENDERMAN, EntityType.EVOKER, EntityType.ILLUSIONER, EntityType.BAT, EntityType.BAT,
 			EntityType.BLAZE);
 
-	public final static String tagEntities_WaterPit = "Entities_For_WaterPit";
-	public AbstractEntityList itemsEntities_WaterPit = createBeingList(tagEntities_WaterPit, EntityType.SQUID,
+	private final static String tagEntities_WaterPit = "Entities_For_WaterPit";
+	public final AbstractEntityList itemsEntities_WaterPit = createBeingList(tagEntities_WaterPit, EntityType.SQUID,
 			EntityType.SQUID, EntityType.SQUID, EntityType.SQUID, EntityType.SQUID, EntityType.SQUID, EntityType.SQUID,
 			EntityType.SQUID, EntityType.GUARDIAN);
 
-	public final static String tagEntities_LavaPit = "Entities_For_LavaPit";
-	public AbstractEntityList itemsEntities_LavaPit = createBeingList(tagEntities_LavaPit, EntityType.BLAZE,
+	private final static String tagEntities_LavaPit = "Entities_For_LavaPit";
+	public final AbstractEntityList itemsEntities_LavaPit = createBeingList(tagEntities_LavaPit, EntityType.BLAZE,
 			EntityType.WITHER, EntityType.MAGMA_CUBE, EntityType.SHULKER);
 
 	private List<AbstractEntityList> listOfLists;
-	private Map<EntityType, Biome> entityToBiome;
+	private final Map<EntityType, Biome> entityToBiome;
 
 	public SpawnProvider(CityWorldGenerator generator) {
-		entityToBiome = new HashMap<EntityType, Biome>();
+		entityToBiome = new HashMap<>();
 		entityToBiome.put(EntityType.WOLF, Biome.FOREST);
 		entityToBiome.put(EntityType.OCELOT, Biome.JUNGLE);
 	}
@@ -121,7 +121,7 @@ public class SpawnProvider extends Provider {
 		}
 	}
 
-	private final void spawnAnimal(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z,
+	private void spawnAnimal(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z,
 			EntityType entity) {
 		if (odds.playOdds(generator.getSettings().spawnAnimals) && blocks.insideXYZ(x, y, z))
 			spawnEntity(generator, blocks, odds, x, y, z, entity, false, true);
@@ -132,7 +132,7 @@ public class SpawnProvider extends Provider {
 		spawnSeaAnimals(generator, blocks, odds, x, y, z, itemsEntities_SeaAnimals.getRandomEntity(odds));
 	}
 
-	private final void spawnSeaAnimals(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y,
+	private void spawnSeaAnimals(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y,
 			int z, EntityType entity) {
 		if (!generator.getSettings().includeDecayedBuildings) {
 			int herdSize = itemsEntities_SeaAnimals.getHerdSize(odds, entity);
@@ -151,7 +151,7 @@ public class SpawnProvider extends Provider {
 		}
 	}
 
-	private final void spawnSeaAnimal(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y,
+	private void spawnSeaAnimal(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y,
 			int z, EntityType entity) {
 		if (odds.playOdds(generator.getSettings().spawnAnimals) && blocks.insideXYZ(x, y, z)) {
 			if (blocks.isWater(x, y - 1, z) && blocks.isWater(x, y, z)) {
@@ -194,7 +194,7 @@ public class SpawnProvider extends Provider {
 			spawnGoodOrBad(generator, blocks, odds, x, y, z, goody, baddy);
 	}
 
-	private final void spawnGoodOrBad(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y,
+	private void spawnGoodOrBad(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y,
 			int z, EntityType goody, EntityType baddy) {
 		if (!blocks.isEmpty(x, y, z) && !blocks.isEmpty(x, y - 1, z))
 			if (generator.getSettings().includeDecayedBuildings || odds.playOdds(generator.getSettings().spawnBaddies))
@@ -203,7 +203,7 @@ public class SpawnProvider extends Provider {
 				spawnEntity(generator, blocks, odds, x, y, z, goody, false, true);
 	}
 
-	private final void spawnEntity(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z,
+	private void spawnEntity(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z,
 			EntityType entity, boolean ignoreFlood, boolean ensureSpace) {
 		if (blocks.insideXYZ(x, y, z) && entity != null && entity.isAlive()) {
 
@@ -281,7 +281,7 @@ public class SpawnProvider extends Provider {
 		setSpawner(generator, blocks, odds, x, y, z, list.getRandomEntity(odds));
 	}
 
-	private final void setSpawner(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z,
+	private void setSpawner(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z,
 			EntityType entity) {
 		if (entity.isAlive() && odds.playOdds(generator.getSettings().spawnBaddies)) {
 			Block block = blocks.getActualBlock(x, y, z);
@@ -299,7 +299,7 @@ public class SpawnProvider extends Provider {
 
 		// add it to the big list so we can generically remember it
 		if (listOfLists == null)
-			listOfLists = new ArrayList<AbstractEntityList>();
+			listOfLists = new ArrayList<>();
 		listOfLists.add(list);
 
 		// return it so we can specifically remember it

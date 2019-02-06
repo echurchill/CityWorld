@@ -44,7 +44,7 @@ public class MineEntranceLot extends ConstructLot {
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
 			DataContext context, int platX, int platZ) {
-		reportLocation(generator, "Mine Entrance", chunk);
+		generator.reportLocation("Mine Entrance", chunk);
 
 		// find the bottom of the world
 		int shaftY = findHighestShaftableLevel(generator, context, chunk);
@@ -65,11 +65,11 @@ public class MineEntranceLot extends ConstructLot {
 				break;
 			y = makeSpace(generator, chunk, chunkOdds, 3, y, 0);
 		}
-		
+
 		// place snow
 		generateSurface(generator, chunk, false);
 	}
-	
+
 	private int makeSpace(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y, int z) {
 		chunk.airoutBlocks(generator, x, x + 3, y, y + 3, z, z + 3);
 		generateMineFloor(chunk, x, x + 3, y - 1, z, z + 3);

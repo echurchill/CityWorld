@@ -15,13 +15,20 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class ClipboardLot extends IsolatedLot {
 
-	private Clipboard clip;
-	private BlockFace facing;
-	private int lotX, lotZ;
-	private int depth;
+	private final Clipboard clip;
+	private final BlockFace facing;
+	private final int lotX;
+	private final int lotZ;
+	private final int depth;
 
 	// a place for our bits
-	private int edgeX1, edgeX2, edgeY1, edgeY2, edgeY3, edgeZ1, edgeZ2;
+	private final int edgeX1;
+	private final int edgeX2;
+	private final int edgeY1;
+	private final int edgeY2;
+	private final int edgeY3;
+	private final int edgeZ1;
+	private final int edgeZ2;
 
 	public ClipboardLot(PlatMap platmap, int chunkX, int chunkZ, Clipboard clip, BlockFace facing, int lotX, int lotZ) {
 		super(platmap, chunkX, chunkZ);
@@ -134,7 +141,7 @@ public class ClipboardLot extends IsolatedLot {
 
 		// echo the location?
 		if (clip.broadcastLocation && lotX == 0 && lotZ == 0)
-			reportLocation(generator, clip.name, originX, originZ);
+			generator.reportLocation(clip.name, originX, originZ);
 
 		// sub region calculation
 		int subX1, subX2, subZ1, subZ2;

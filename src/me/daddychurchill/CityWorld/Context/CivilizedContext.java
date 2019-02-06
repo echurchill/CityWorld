@@ -8,7 +8,7 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public abstract class CivilizedContext extends DataContext {
 
-	public CivilizedContext(CityWorldGenerator generator) {
+	CivilizedContext(CityWorldGenerator generator) {
 		super(generator);
 
 		oddsOfIsolatedLots = Odds.oddsExtremelyLikely;

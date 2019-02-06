@@ -6,7 +6,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 public final class SegmentedCachedYs extends AbstractCachedYs {
 
-	private int[][] segmentYs = new int[width][width];
+	private final int[][] segmentYs = new int[width][width];
 
 	public SegmentedCachedYs(CityWorldGenerator generator, int chunkX, int chunkZ) {
 		super(generator, chunkX, chunkZ);

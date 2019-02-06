@@ -13,10 +13,10 @@ public final class MazeArray {
 		HALL, WALL
 	}
 
-	private Random random;
-	private MazeBit[][] maze;
-	private int width;
-	private int height;
+	private final Random random;
+	private final MazeBit[][] maze;
+	private final int width;
+	private final int height;
 
 	public MazeArray(Odds odds, int width, int height) {
 		this.random = new Random(odds.getRandomLong());
@@ -73,9 +73,9 @@ public final class MazeArray {
 		Integer[] randDirs = generateRandomDirections();
 
 		// Examine each direction
-		for (int i = 0; i < randDirs.length; i++) {
+		for (Integer randDir : randDirs) {
 
-			switch (randDirs[i]) {
+			switch (randDir) {
 			case 1: // Up
 
 				// Whether 2 cells up is out or not
@@ -127,12 +127,12 @@ public final class MazeArray {
 
 	/**
 	 * Generate an array with random directions 1-4
-	 * 
+	 *
 	 * @return Array containing 4 directions in random order
 	 */
 	private Integer[] generateRandomDirections() {
 
-		ArrayList<Integer> randoms = new ArrayList<Integer>();
+		ArrayList<Integer> randoms = new ArrayList<>();
 		for (int i = 0; i < 4; i++)
 			randoms.add(i + 1);
 		Collections.shuffle(randoms);

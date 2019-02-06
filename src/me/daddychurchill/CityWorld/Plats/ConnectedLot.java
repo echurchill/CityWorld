@@ -6,7 +6,7 @@ public abstract class ConnectedLot extends PlatLot {
 
 	protected long connectedkey;
 
-	public ConnectedLot(PlatMap platmap, int chunkX, int chunkZ) {
+	protected ConnectedLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 
 		connectedkey = platmap.generator.getConnectionKey();

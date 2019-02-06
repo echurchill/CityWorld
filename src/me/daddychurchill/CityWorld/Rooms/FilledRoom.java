@@ -1,8 +1,8 @@
 package me.daddychurchill.CityWorld.Rooms;
 
-public abstract class FilledRoom extends PlatRoom {
+abstract class FilledRoom extends PlatRoom {
 
-	public FilledRoom() {
+	FilledRoom() {
 		// TODO Auto-generated constructor stub
 	}
 

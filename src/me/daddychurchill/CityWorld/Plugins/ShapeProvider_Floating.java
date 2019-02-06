@@ -88,18 +88,18 @@ public class ShapeProvider_Floating extends ShapeProvider_Normal {
 	}
 
 	// private int streetLevel;
-	private SimplexNoiseGenerator terrainShape;
-	private SimplexNoiseGenerator noiseShape;
+	private final SimplexNoiseGenerator terrainShape;
+	private final SimplexNoiseGenerator noiseShape;
 
-	public final static int seaBed = 8;
-	public final static int gapRange = 8;
-	public final static int landRange = 16;
-	public final static int seaLevel = seaBed + gapRange;
-	public final static int deepSeaLevel = seaLevel - gapRange / 2;
+	private final static int seaBed = 8;
+	private final static int gapRange = 8;
+	private final static int landRange = 16;
+	private final static int seaLevel = seaBed + gapRange;
+	private final static int deepSeaLevel = seaLevel - gapRange / 2;
 
-	public final static int noiseRange = seaBed / 2;
-	public final static int midRange = (gapRange + landRange) / 2;
-	public final static int midPoint = seaBed + midRange;
+	private final static int noiseRange = seaBed / 2;
+	private final static int midRange = (gapRange + landRange) / 2;
+	private final static int midPoint = seaBed + midRange;
 	public final static int snowPoint = midPoint + midRange - 2;
 
 	private final static double terrainScale = 1.0 / 281.0;

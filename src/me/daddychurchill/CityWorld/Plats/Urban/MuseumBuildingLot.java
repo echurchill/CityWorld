@@ -103,6 +103,7 @@ public class MuseumBuildingLot extends FinishedBuildingLot {
 				int sidewalkLevel = getSidewalkLevel(generator);
 				Colors colors = new Colors(chunkOdds);
 				chunk.setBlocks(3, 13, sidewalkLevel, 3, 13, colors.getConcrete());
+				generator.reportLocation("Museum", chunk);
 				generator.thingProvider.generateBones(generator, this, chunk, 7, sidewalkLevel + 1, 11, chunkOdds,
 						true);
 

@@ -7,8 +7,8 @@ public final class SurroundingFloors extends Surroundings {
 	// TODO optimize the lookup logic to use an array of booleans after taking the
 	// SurroundingLots
 
-	public int[][] floors;
-	public boolean[][] neighbors;
+	public final int[][] floors;
+	private final boolean[][] neighbors;
 
 	public SurroundingFloors() {
 		super();

@@ -31,16 +31,16 @@ public class BunkerLot extends ConnectedLot {
 	private final static int bunkerMinHeight = bunkerSegment * 2;
 	private final static int bunkerMaxHeight = bunkerSegment * 6;
 
-//	private boolean firstOne = false;
-	protected int bottomOfBunker;
-	protected int topOfBunker;
+	//	private boolean firstOne = false;
+	final int bottomOfBunker;
+	final int topOfBunker;
 
 	public enum BunkerType {
 		ENTRY, PYRAMID, TANK, QUAD, RECALL, BALLSY, FLOORED, GROWING, SAUCER, ROAD
 	} // MISSILE, FARM, VENT
 
-	protected int bilgeType;
-	protected BunkerType buildingType;
+	private int bilgeType;
+	private final BunkerType buildingType;
 
 	public BunkerLot(PlatMap platmap, int chunkX, int chunkZ, boolean firstOne) {
 		super(platmap, chunkX, chunkZ);
@@ -117,7 +117,7 @@ public class BunkerLot extends ConnectedLot {
 		return calcSegmentOrigin(generator.streetLevel) + bunkerMinHeight - bunkerBelowStreet + bunkerBuffer;
 	}
 
-	public static int calcBunkerMaxHeight(CityWorldGenerator generator) {
+	private static int calcBunkerMaxHeight(CityWorldGenerator generator) {
 		return calcSegmentOrigin(generator.streetLevel) + bunkerMaxHeight - bunkerBelowStreet + bunkerBuffer;
 	}
 
@@ -150,7 +150,7 @@ public class BunkerLot extends ConnectedLot {
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
 			DataContext context, int platX, int platZ) {
 		if (buildingType == BunkerType.ENTRY)
-			reportLocation(generator, "Bunker", chunk);
+			generator.reportLocation("Bunker", chunk);
 
 		// where is the surface?
 //		int surfaceY = getSurfaceAtY(6, 6);
@@ -166,17 +166,17 @@ public class BunkerLot extends ConnectedLot {
 	}
 
 	private static class BunkerMaterials {
-		public Material pillar = Material.QUARTZ_PILLAR;
-		public Material support = Material.QUARTZ_BLOCK;
-		public Material platform = Material.QUARTZ_BLOCK;
-		public Material crosswalk = Material.QUARTZ_BLOCK;
-		public Material building = Material.WHITE_TERRACOTTA;
-		public Material bilge = Material.AIR;
+		Material pillar = Material.QUARTZ_PILLAR;
+		Material support = Material.QUARTZ_BLOCK;
+		Material platform = Material.QUARTZ_BLOCK;
+		Material crosswalk = Material.QUARTZ_BLOCK;
+		Material building = Material.WHITE_TERRACOTTA;
+		Material bilge = Material.AIR;
 
-		public Material railing = Material.IRON_BARS;
-		public Material window = Material.GLASS;
+		final Material railing = Material.IRON_BARS;
+		final Material window = Material.GLASS;
 
-		public BunkerMaterials(CityWorldGenerator generator, Odds odds) {
+		BunkerMaterials(CityWorldGenerator generator, Odds odds) {
 			platform = generator.materialProvider.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds, platform);
 			crosswalk = generator.materialProvider.itemsSelectMaterial_BunkerPlatforms.getRandomMaterial(odds,
 					crosswalk);
@@ -195,7 +195,7 @@ public class BunkerLot extends ConnectedLot {
 			materials = new BunkerMaterials(generator, odds);
 	}
 
-	protected static int generateBunker(CityWorldGenerator generator, PlatMap platmap, SupportBlocks chunk, Odds odds,
+	static int generateBunker(CityWorldGenerator generator, PlatMap platmap, SupportBlocks chunk, Odds odds,
 			DataContext context, int platX, int platZ, AbstractCachedYs blockYs, int bottomOfBunker, int topOfBunker,
 			BunkerType buildingType) {
 
@@ -329,7 +329,7 @@ public class BunkerLot extends ConnectedLot {
 		return 0;
 	}
 
-	public static int generateEntryBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk,
+	private static int generateEntryBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk,
 			Odds odds, int y1, int y2, int topOfBunker, AbstractCachedYs blockYs) {
 		int surfaceY = blockYs.getMaxYWithin(6, 10, 6, 10);
 		int topY = surfaceY + DataContext.FloorHeight + 1;
@@ -384,7 +384,7 @@ public class BunkerLot extends ConnectedLot {
 		return 7;
 	}
 
-	public static int generateSaucerBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk,
+	private static int generateSaucerBunker(CityWorldGenerator generator, DataContext context, SupportBlocks chunk,
 			Odds odds, int y1, int y2, int topOfBunker, AbstractCachedYs blockYs) {
 
 		// make sure we know what we using to make things
@@ -821,9 +821,9 @@ public class BunkerLot extends ConnectedLot {
 		return 0;
 	}
 
-	private static double oddsOfWayDownFromTunnel = Odds.oddsVeryLikely;
+	private static final double oddsOfWayDownFromTunnel = Odds.oddsVeryLikely;
 
-	public static int generateRoadTunnel(CityWorldGenerator generator, DataContext context, SupportBlocks chunk,
+	private static int generateRoadTunnel(CityWorldGenerator generator, DataContext context, SupportBlocks chunk,
 			Odds odds, int y1, int y2) {
 		// make sure we know what we using to make things
 		loadMaterials(generator, odds);
@@ -942,11 +942,11 @@ public class BunkerLot extends ConnectedLot {
 			Material center) {
 
 		// drill down
-		chunk.setBlocks(offX + 0, offX + 4, shaftY, clearToY, offZ + 0, offZ + 4, Material.AIR);
+		chunk.setBlocks(offX, offX + 4, shaftY, clearToY, offZ, offZ + 4, Material.AIR);
 		chunk.setBlocks(offX + 1, offX + 3, shaftY, surfaceY, offZ + 1, offZ + 3, center);
 
 		// make the surface bits
-		chunk.setBlocks(offX + 0, offX + 4, minHeight, surfaceY + 1, offZ + 0, offZ + 4, landing);
+		chunk.setBlocks(offX, offX + 4, minHeight, surfaceY + 1, offZ, offZ + 4, landing);
 
 		// now do the stair
 		do {
@@ -954,53 +954,53 @@ public class BunkerLot extends ConnectedLot {
 					BlockFace.SOUTH, stairs);
 			if (shaftY > surfaceY)
 				break;
-			
+
 			shaftY = generateStairs(generator, chunk, odds, offX + 3, shaftY, offZ + 1, BlockFace.NORTH, BlockFace.EAST,
 					stairs);
 			if (shaftY > surfaceY)
 				break;
-			
-			generateLanding(generator, chunk, odds, offX + 3, shaftY, offZ + 0, BlockFace.EAST, stairs, landing);
 
-			shaftY = generateStairs(generator, chunk, odds, offX + 2, shaftY, offZ + 0, BlockFace.WEST, BlockFace.EAST,
+			generateLanding(generator, chunk, odds, offX + 3, shaftY, offZ, BlockFace.EAST, stairs, landing);
+
+			shaftY = generateStairs(generator, chunk, odds, offX + 2, shaftY, offZ, BlockFace.WEST, BlockFace.EAST,
 					stairs);
 			if (shaftY > surfaceY)
 				break;
-			
-			shaftY = generateStairs(generator, chunk, odds, offX + 1, shaftY, offZ + 0, BlockFace.WEST, BlockFace.NORTH,
+
+			shaftY = generateStairs(generator, chunk, odds, offX + 1, shaftY, offZ, BlockFace.WEST, BlockFace.NORTH,
 					stairs);
 			if (shaftY > surfaceY)
 				break;
-			
-			generateLanding(generator, chunk, odds, offX + 0, shaftY, offZ + 0, BlockFace.NORTH, stairs, landing);
 
-			shaftY = generateStairs(generator, chunk, odds, offX + 0, shaftY, offZ + 1, BlockFace.SOUTH,
+			generateLanding(generator, chunk, odds, offX, shaftY, offZ, BlockFace.NORTH, stairs, landing);
+
+			shaftY = generateStairs(generator, chunk, odds, offX, shaftY, offZ + 1, BlockFace.SOUTH,
 					BlockFace.NORTH, stairs);
 			if (shaftY > surfaceY)
 				break;
-			
-			shaftY = generateStairs(generator, chunk, odds, offX + 0, shaftY, offZ + 2, BlockFace.SOUTH, BlockFace.WEST,
+
+			shaftY = generateStairs(generator, chunk, odds, offX, shaftY, offZ + 2, BlockFace.SOUTH, BlockFace.WEST,
 					stairs);
 			if (shaftY > surfaceY)
 				break;
-			
-			generateLanding(generator, chunk, odds, offX + 0, shaftY, offZ + 3, BlockFace.WEST, stairs, landing);
+
+			generateLanding(generator, chunk, odds, offX, shaftY, offZ + 3, BlockFace.WEST, stairs, landing);
 
 			shaftY = generateStairs(generator, chunk, odds, offX + 1, shaftY, offZ + 3, BlockFace.EAST, BlockFace.WEST,
 					stairs);
 			if (shaftY > surfaceY)
 				break;
-			
+
 			shaftY = generateStairs(generator, chunk, odds, offX + 2, shaftY, offZ + 3, BlockFace.EAST, BlockFace.SOUTH,
 					stairs);
 			if (shaftY > surfaceY)
 				break;
-			
+
 			generateLanding(generator, chunk, odds, offX + 3, shaftY, offZ + 3, BlockFace.SOUTH, stairs, landing);
 		} while (shaftY <= surfaceY);
 	}
 
-	public static int generateStairs(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y, int z,
+	private static int generateStairs(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y, int z,
 			BlockFace direction, BlockFace underdirection, Material stairs) {
 		chunk.setBlocks(x, y + 1, y + 4, z, Material.AIR);
 
@@ -1018,7 +1018,7 @@ public class BunkerLot extends ConnectedLot {
 		return y;
 	}
 
-	public static void generateLanding(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y,
+	private static void generateLanding(CityWorldGenerator generator, SupportBlocks chunk, Odds odds, int x, int y,
 			int z, BlockFace underdirection, Material stairs, Material landing) {
 		chunk.setBlocks(x, y, y + 3, z, Material.AIR);
 

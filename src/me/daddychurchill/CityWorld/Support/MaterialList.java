@@ -11,7 +11,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 public class MaterialList {
 
-	public String listName;
+	private final String listName;
 	private List<ItemStack> items;
 
 	public MaterialList(String name) {
@@ -27,19 +27,19 @@ public class MaterialList {
 
 	private void init(boolean clear) {
 		if (items == null)
-			items = new ArrayList<ItemStack>();
+			items = new ArrayList<>();
 		else if (clear)
 			items.clear();
 	}
 
-	public void add(Material... materials) {
+	private void add(Material... materials) {
 		init(false);
 		for (Material material : materials) {
 			items.add(new ItemStack(material));
 		}
 	}
 
-	public void add(Material material) {
+	private void add(Material material) {
 		init(false);
 		items.add(new ItemStack(material));
 	}
@@ -74,7 +74,7 @@ public class MaterialList {
 	}
 
 	public void write(CityWorldGenerator generator, ConfigurationSection section) {
-		List<String> names = new ArrayList<String>();
+		List<String> names = new ArrayList<>();
 		if (items != null) {
 			for (ItemStack item : items) {
 				names.add(item.getType().name());

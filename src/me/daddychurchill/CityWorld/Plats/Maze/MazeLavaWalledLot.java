@@ -14,7 +14,7 @@ public class MazeLavaWalledLot extends MazeNatureLot {
 	}
 
 	@Override
-	protected Material getWallMaterial(CityWorldGenerator generator) {
+	Material getWallMaterial(CityWorldGenerator generator) {
 		return Material.LAVA;
 	}
 

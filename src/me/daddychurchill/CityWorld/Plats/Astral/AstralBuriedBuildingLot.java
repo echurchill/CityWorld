@@ -16,7 +16,7 @@ public class AstralBuriedBuildingLot extends AstralBuriedCityLot {
 
 	private Material wallMaterial;
 	private Material stepMaterial;
-	private static RoomProvider roomRandom = new BuriedWithRandom();
+	private static final RoomProvider roomRandom = new BuriedWithRandom();
 
 	public AstralBuriedBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);

@@ -4,7 +4,7 @@ import org.bukkit.Material;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 
-public class OreProvider_Decayed extends OreProvider_Normal {
+class OreProvider_Decayed extends OreProvider_Normal {
 
 	public OreProvider_Decayed(CityWorldGenerator generator) {
 		super(generator);

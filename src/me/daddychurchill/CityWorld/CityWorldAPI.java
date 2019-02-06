@@ -17,7 +17,7 @@ public class CityWorldAPI {
 	// https://github.com/echurchill/CityWorld/pull/4
 	// https://github.com/echurchill/CityWorld/pull/5 (but with some changes)
 
-	private CityWorld plugin;
+	private final CityWorld plugin;
 
 	public CityWorldAPI(CityWorld plugin) {
 		this.plugin = plugin;
@@ -31,7 +31,7 @@ public class CityWorldAPI {
 		// Unneeded debug info
 		// plugin.reportMessage(CityWorld.pluginName + " API Full info called");
 
-		HashMap<String, String> info = new HashMap<String, String>();
+		HashMap<String, String> info = new HashMap<>();
 		String classname;
 
 		World genWorld = c.getWorld();

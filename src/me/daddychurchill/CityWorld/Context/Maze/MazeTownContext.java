@@ -19,7 +19,7 @@ public class MazeTownContext extends MazeConstructContext {
 		// TODO Auto-generated constructor stub
 	}
 
-	private int connectParkMagicValue = 21436587;
+	private final int connectParkMagicValue = 21436587;
 
 	@Override
 	protected PlatLot generateSpecialOneLot(PlatMap platmap, Odds odds, int chunkX, int chunkZ) {

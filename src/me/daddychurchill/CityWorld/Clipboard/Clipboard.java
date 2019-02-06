@@ -12,7 +12,7 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public abstract class Clipboard {
 
-	public String name;
+	public final String name;
 	public double oddsOfAppearance = Odds.oddsSomewhatUnlikely;
 	public int groundLevelY = 0;
 	public boolean broadcastLocation = false;
@@ -21,7 +21,7 @@ public abstract class Clipboard {
 	public int sizeX;
 	public int sizeY;
 	public int sizeZ;
-	public int blockCount;
+	protected int blockCount;
 
 	public int chunkX;
 	public int chunkZ;
@@ -31,13 +31,13 @@ public abstract class Clipboard {
 	public int insetWest;
 	public int insetEast;
 
-//	public Material edgeType = Material.AIR;
+	//	public Material edgeType = Material.AIR;
 //	public MaterialData edgeData = new MaterialData(edgeType);
 	public Material edgeMaterial;
-//	public int edgeData; // TODO: one of these days I need to get this working again
+	//	public int edgeData; // TODO: one of these days I need to get this working again
 	public int edgeRise;
 
-	public Clipboard(CityWorldGenerator generator, File file) throws Exception {
+	protected Clipboard(CityWorldGenerator generator, File file) throws Exception {
 		super();
 		this.name = file.getName();
 

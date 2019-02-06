@@ -15,7 +15,7 @@ import org.bukkit.generator.ChunkGenerator.ChunkData;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 public final class InitialBlocks extends AbstractBlocks {
-	public ChunkData chunkData;
+	public final ChunkData chunkData;
 
 	public InitialBlocks(CityWorldGenerator aGenerator, ChunkData chunk, int sectionX, int sectionZ) {
 		super(aGenerator);

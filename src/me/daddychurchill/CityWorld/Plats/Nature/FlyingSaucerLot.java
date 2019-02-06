@@ -38,7 +38,7 @@ public final class FlyingSaucerLot extends ConstructLot {
 		generateSurface(generator, chunk, false);
 
 		// saucer?
-		reportLocation(generator, "Flying Saucer", chunk);
+		generator.reportLocation("Flying Saucer", chunk);
 		generator.structureInAirProvider.generateSaucer(generator, chunk,
 				(chunk.height - 32) + chunkOdds.getRandomInt(16), false);
 	}

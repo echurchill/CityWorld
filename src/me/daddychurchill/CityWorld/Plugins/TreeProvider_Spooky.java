@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.Support.Colors;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
-public class TreeProvider_Spooky extends TreeProvider {
+class TreeProvider_Spooky extends TreeProvider {
 
 	public TreeProvider_Spooky(CityWorldGenerator generator) {
 		super(generator);

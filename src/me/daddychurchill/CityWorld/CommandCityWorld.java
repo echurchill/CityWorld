@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator.WorldStyle;
 
-public class CommandCityWorld implements CommandExecutor {
+class CommandCityWorld implements CommandExecutor {
 	private final CityWorld plugin;
 
 	public CommandCityWorld(CityWorld plugin) {
@@ -28,25 +28,19 @@ public class CommandCityWorld implements CommandExecutor {
 				boolean error = false;
 
 				// arguments?
-				for (int n = 0; n < split.length; n++) {
-					if (split[n].compareToIgnoreCase("LEAVE") == 0) {
+				for (String s : split) {
+					if (s.compareToIgnoreCase("LEAVE") == 0) {
 						leaving = true;
 						break;
-					}
-
-					else if (split[n].compareToIgnoreCase("NETHER") == 0) {
+					} else if (s.compareToIgnoreCase("NETHER") == 0) {
 						environment = Environment.NETHER;
-					}
-
-					else if (split[n].compareToIgnoreCase("THE_END") == 0) {
+					} else if (s.compareToIgnoreCase("THE_END") == 0) {
 						environment = Environment.THE_END;
-					}
-
-					else
+					} else
 						try {
-							style = WorldStyle.valueOf(split[n].trim().toUpperCase());
+							style = WorldStyle.valueOf(s.trim().toUpperCase());
 						} catch (IllegalArgumentException e) {
-							CityWorld.log.info("[CityWorld] Unknown world style " + split[n]);
+							CityWorld.log.info("[CityWorld] Unknown world style " + s);
 
 							WorldStyle[] styles = WorldStyle.values();
 							StringBuilder worldStyles = new StringBuilder();
@@ -127,9 +121,9 @@ public class CommandCityWorld implements CommandExecutor {
 	}
 
 	// prime world support (loosely based on ExpansiveTerrain)
-	public final static String DEFAULT_WORLD_NAME = "CityWorld";
+	private final static String DEFAULT_WORLD_NAME = "CityWorld";
 
-	public final static String getDefaultWorldName(WorldStyle style, Environment environment) {
+	private static String getDefaultWorldName(WorldStyle style, Environment environment) {
 		String worldName = DEFAULT_WORLD_NAME;
 		style = CityWorldGenerator.validateStyle(style);
 		if (style != WorldStyle.NORMAL)
@@ -139,7 +133,7 @@ public class CommandCityWorld implements CommandExecutor {
 		return worldName;
 	}
 
-	public World getDefaultCityWorld(WorldStyle style, Environment environment) {
+	private World getDefaultCityWorld(WorldStyle style, Environment environment) {
 
 		// built yet?
 		String worldName = getDefaultWorldName(style, environment);

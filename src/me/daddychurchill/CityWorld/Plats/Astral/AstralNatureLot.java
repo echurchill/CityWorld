@@ -14,7 +14,7 @@ public class AstralNatureLot extends AstralLot {
 		style = LotStyle.NATURE;
 	}
 
-	private static double oddsOfBuriedSaucer = Odds.oddsEnormouslyUnlikely;
+	private static final double oddsOfBuriedSaucer = Odds.oddsEnormouslyUnlikely;
 
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,

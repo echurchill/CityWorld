@@ -10,15 +10,15 @@ import me.daddychurchill.CityWorld.Factories.MaterialFactory;
 
 public abstract class AbstractBlocks {
 
-	public World world;
-	public int width;
-	public int height;
+	final World world;
+	public final int width;
+	public final int height;
 	public int sectionX;
 	public int sectionZ;
 
 	public final static int sectionBlockWidth = 16;
 
-	public AbstractBlocks(CityWorldGenerator generator) {
+	AbstractBlocks(CityWorldGenerator generator) {
 		super();
 
 		this.world = generator.getWorld();
@@ -30,7 +30,7 @@ public abstract class AbstractBlocks {
 		return x == 0 || x == width - 1 || z == 0 || z == width - 1;
 	}
 
-	public boolean onNearEdgeXZ(int x, int z) {
+	boolean onNearEdgeXZ(int x, int z) {
 		return x <= 1 || x >= width - 2 || z <= 1 || z >= width - 2;
 	}
 
@@ -46,7 +46,7 @@ public abstract class AbstractBlocks {
 		return value >= 0 && value < width;
 	}
 
-	public boolean insideY(int value) {
+	private boolean insideY(int value) {
 		return value >= 0 && value < height;
 	}
 
@@ -58,11 +58,11 @@ public abstract class AbstractBlocks {
 		return Math.max(Math.min(value, height), 0);
 	}
 
-	public final static int getBlockX(int sectionX, int x) {
+	public static int getBlockX(int sectionX, int x) {
 		return sectionX * sectionBlockWidth + x;
 	}
 
-	public final static int getBlockZ(int sectionZ, int z) {
+	public static int getBlockZ(int sectionZ, int z) {
 		return sectionZ * sectionBlockWidth + z;
 	}
 
@@ -86,7 +86,7 @@ public abstract class AbstractBlocks {
 
 	public abstract void setBlock(int x, int y, int z, Material material);
 
-	public abstract void setBlock(int x, int y, int z, Material material, Type type);
+	protected abstract void setBlock(int x, int y, int z, Material material, Type type);
 
 	public abstract void setBlock(int x, int y, int z, Material material, BlockFace facing);
 
@@ -165,7 +165,7 @@ public abstract class AbstractBlocks {
 		}
 	}
 
-	public abstract void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material);
+	protected abstract void setWalls(int x1, int x2, int y1, int y2, int z1, int z2, Material material);
 
 //	public abstract void setBlock(int x, int y, int z, MaterialData material);
 //	public void setBlock(int x, int y, int z, RealMaterial material) {
@@ -201,7 +201,7 @@ public abstract class AbstractBlocks {
 
 	public abstract boolean isEmpty(int x, int y, int z);
 
-	public abstract void setAtmosphereBlock(int x, int y, int z, Material material);
+	protected abstract void setAtmosphereBlock(int x, int y, int z, Material material);
 
 	public abstract void clearBlock(int x, int y, int z);
 
@@ -213,12 +213,11 @@ public abstract class AbstractBlocks {
 		return true;
 	}
 
-	public final boolean setEmptyBlock(int x, int y, int z, Material material, BlockFace... facing) {
+	public final void setEmptyBlock(int x, int y, int z, Material material, BlockFace... facing) {
 		if (!isEmpty(x, y, z)) {
-			return false;
+			return;
 		}
 		setBlock(x, y, z, material, facing);
-		return true;
 	}
 
 	public final void setEmptyBlocks(int x1, int x2, int y, int z1, int z2, Material material) {
@@ -431,7 +430,7 @@ public abstract class AbstractBlocks {
 		airoutBlock(generator, x, y, z, false);
 	}
 
-	public final void airoutBlock(CityWorldGenerator generator, int x, int y, int z, boolean forceIt) {
+	private void airoutBlock(CityWorldGenerator generator, int x, int y, int z, boolean forceIt) {
 		if (forceIt || generator.shapeProvider.clearAtmosphere(generator))
 			setAtmosphereBlock(x, y, z, generator.shapeProvider.findAtmosphereMaterialAt(generator, y));
 	}
@@ -450,7 +449,7 @@ public abstract class AbstractBlocks {
 		airoutBlocks(generator, x1, x2, y, z1, z2, false);
 	}
 
-	public final void airoutBlocks(CityWorldGenerator generator, int x1, int x2, int y, int z1, int z2,
+	private void airoutBlocks(CityWorldGenerator generator, int x1, int x2, int y, int z1, int z2,
 			boolean forceIt) {
 		if (forceIt || generator.shapeProvider.clearAtmosphere(generator)) {
 			Material air = generator.shapeProvider.findAtmosphereMaterialAt(generator, y);
@@ -511,7 +510,7 @@ public abstract class AbstractBlocks {
 		pepperBlocks(x1, x2, y1, y2, z1, z2, odds, Odds.oddsLikely, material);
 	}
 
-	public final void pepperBlocks(int x, int y1, int y2, int z, Odds odds, double theOdds, Material material) {
+	private void pepperBlocks(int x, int y1, int y2, int z, Odds odds, double theOdds, Material material) {
 		for (int y = y1; y < y2; y++)
 			if (odds.playOdds(theOdds))
 				setBlock(x, y, z, material);
@@ -525,7 +524,7 @@ public abstract class AbstractBlocks {
 					setBlock(x, y, z, material);
 	}
 
-	public final void pepperBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds, double theOdds,
+	private void pepperBlocks(int x1, int x2, int y1, int y2, int z1, int z2, Odds odds, double theOdds,
 			Material material) {
 		for (int x = x1; x < x2; x++)
 			for (int z = z1; z < z2; z++)
@@ -746,7 +745,7 @@ public abstract class AbstractBlocks {
 		}
 	}
 
-	protected BlockFace fixFacing(BlockFace facing) {
+	BlockFace fixFacing(BlockFace facing) {
 		switch (facing) {
 		case WEST_NORTH_WEST:
 		case WEST_SOUTH_WEST:

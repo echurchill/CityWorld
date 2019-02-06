@@ -10,15 +10,15 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 public abstract class AbstractEntityList {
 
-	public AbstractEntityList(String name) {
+	AbstractEntityList(String name) {
 		super();
 		listName = name;
 	}
 
-	public String listName;
+	private final String listName;
 	private List<EntityType> items;
 
-	public AbstractEntityList(String name, EntityType... entities) {
+	AbstractEntityList(String name, EntityType... entities) {
 		super();
 		listName = name;
 		add(entities);
@@ -26,12 +26,12 @@ public abstract class AbstractEntityList {
 
 	private void init(boolean clear) {
 		if (items == null)
-			items = new ArrayList<EntityType>();
+			items = new ArrayList<>();
 		else if (clear)
 			items.clear();
 	}
 
-	public void add(EntityType... entities) {
+	private void add(EntityType... entities) {
 		init(false);
 		for (EntityType entity : entities) {
 			if (entity.isAlive())
@@ -39,7 +39,7 @@ public abstract class AbstractEntityList {
 		}
 	}
 
-	public void add(EntityType entity) {
+	private void add(EntityType entity) {
 		init(false);
 		items.add(entity);
 	}
@@ -51,7 +51,7 @@ public abstract class AbstractEntityList {
 					items.remove(i);
 	}
 
-	public int count() {
+	private int count() {
 		return items == null ? 0 : items.size();
 	}
 
@@ -70,7 +70,7 @@ public abstract class AbstractEntityList {
 		return getRandomEntity(odds, getFirstEntity());
 	}
 
-	public EntityType getRandomEntity(Odds odds, EntityType defaultEntity) {
+	private EntityType getRandomEntity(Odds odds, EntityType defaultEntity) {
 		if (items == null || count() == 0)
 			return defaultEntity;
 		else
@@ -78,7 +78,7 @@ public abstract class AbstractEntityList {
 	}
 
 	public void write(CityWorldGenerator generator, ConfigurationSection section) {
-		List<String> names = new ArrayList<String>();
+		List<String> names = new ArrayList<>();
 		if (items != null) {
 			for (EntityType item : items) {
 				names.add(item.name());
@@ -97,12 +97,12 @@ public abstract class AbstractEntityList {
 				try {
 
 					// look through our list of possibilities
-					for (int i = 0; i < entities.length; i++)
-						if (entities[i].name().equalsIgnoreCase(name)) {
+					for (EntityType entity1 : entities)
+						if (entity1.name().equalsIgnoreCase(name)) {
 
 							// if the one found is one that is alive then great!
-							if (entities[i].isAlive())
-								entity = entities[i];
+							if (entity1.isAlive())
+								entity = entity1;
 							else
 								generator.reportMessage("Ignoring " + generator.worldName + ".Entities." + listName
 										+ ": " + name + ", it is nonliving");

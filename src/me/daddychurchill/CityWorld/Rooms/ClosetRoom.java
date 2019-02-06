@@ -68,14 +68,11 @@ public class ClosetRoom extends FilledRoom {
 	}
 
 	private Material getShelveMaterial(Odds odds, Material wall) {
-		switch (wall) {
-		case QUARTZ_BLOCK:
+		if (wall == Material.QUARTZ_BLOCK) {
 			return Material.STONE_SLAB;
-
-		default: // WOOD
-			Trees trees = new Trees(odds);
-			return trees.getRandomWoodSlab();
 		}
+		Trees trees = new Trees(odds);
+		return trees.getRandomWoodSlab();
 	}
 
 }

@@ -13,7 +13,7 @@ public class AstralNexusLot extends AstralStructureLot {
 		NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEAST
 	}
 
-	private NexusSegment segment;
+	private final NexusSegment segment;
 
 	public AstralNexusLot(PlatMap platmap, int chunkX, int chunkZ, NexusSegment segment) {
 		super(platmap, chunkX, chunkZ);

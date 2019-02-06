@@ -14,9 +14,9 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class FarmContext extends RuralContext {
 
-	protected final static double oddsOfFarmHouse = Odds.oddsSomewhatUnlikely;
-	protected final static double oddsOfBarn = Odds.oddsSomewhatUnlikely;
-	protected final static double oddsOfWaterTower = Odds.oddsSomewhatUnlikely;
+	private final static double oddsOfFarmHouse = Odds.oddsSomewhatUnlikely;
+	private final static double oddsOfBarn = Odds.oddsSomewhatUnlikely;
+	private final static double oddsOfWaterTower = Odds.oddsSomewhatUnlikely;
 
 	public FarmContext(CityWorldGenerator generator) {
 		super(generator);
@@ -63,7 +63,7 @@ public class FarmContext extends RuralContext {
 							&& platmap.isEmptyLot(x, z - 1) && platmap.isEmptyLot(x, z + 1))
 						platmap.emptyLot(x, z);
 
-					// get rid of roundabouts
+						// get rid of roundabouts
 					else if (current.style == LotStyle.ROUNDABOUT) {
 						platmap.paveLot(x, z, false);
 						platmap.emptyLot(x - 1, z - 1);
@@ -154,11 +154,11 @@ public class FarmContext extends RuralContext {
 		return new HouseLot(platmap, chunkX, chunkZ);
 	}
 
-	protected PlatLot getBarnLot(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
+	private PlatLot getBarnLot(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX, int chunkZ) {
 		return new BarnLot(platmap, chunkX, chunkZ);
 	}
 
-	protected PlatLot getWaterTowerLot(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX,
+	private PlatLot getWaterTowerLot(CityWorldGenerator generator, PlatMap platmap, Odds odds, int chunkX,
 			int chunkZ) {
 		return new WaterTowerLot(platmap, chunkX, chunkZ);
 	}

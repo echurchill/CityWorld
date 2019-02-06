@@ -19,9 +19,9 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class BarnLot extends IsolatedLot {
 
-	private Material wallMat;
-	private Material roofMat;
-	private Material windowsMat;
+	private final Material wallMat;
+	private final Material roofMat;
+	private final Material windowsMat;
 
 	public BarnLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);

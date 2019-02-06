@@ -29,11 +29,11 @@ public class RoundaboutCenterLot extends IsolatedLot {
 
 	private final static Material curbMaterial = Material.STONE;
 	private final static Material brickMaterial = Material.SMOOTH_STONE;
-//	private final static Material fenceMaterial = Material.SPRUCE_FENCE;
+	//	private final static Material fenceMaterial = Material.SPRUCE_FENCE;
 	private final static Material baseMaterial = Material.QUARTZ_BLOCK;
 
-	private BaseStyle baseStyle;
-	private PitStyle pitStyle;
+	private final BaseStyle baseStyle;
+	private final PitStyle pitStyle;
 
 	public RoundaboutCenterLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
@@ -94,13 +94,13 @@ public class RoundaboutCenterLot extends IsolatedLot {
 		// clear out underneath
 		chunk.setLayer(ySurface - 1, 2, curbMaterial);
 		chunk.pepperBlocks(0, 16, yPitTop, 0, 16, chunkOdds, generator.oreProvider.stratumMaterial); // replace some
-																										// dirt with
-																										// stone
+		// dirt with
+		// stone
 		chunk.clearBlocks(0, 16, yPitTop - 1, 0, 16, chunkOdds); // remove some dirt
 		chunk.pepperBlocks(0, 16, yPitTop - 1, 0, 16, chunkOdds, generator.oreProvider.stratumMaterial); // replace some
-																											// dirt or
-																											// air with
-																											// stone
+		// dirt or
+		// air with
+		// stone
 		chunk.clearBlocks(0, 16, yPitTop - 5, yPitTop - 1, 0, 16); // remove the rest of the stone
 
 		// what to build?
@@ -303,7 +303,7 @@ public class RoundaboutCenterLot extends IsolatedLot {
 		}
 	}
 
-	public final static void generateArt(SupportBlocks chunk, Odds odds, int atX, int atY, int atZ, Material base) {
+	public static void generateArt(SupportBlocks chunk, Odds odds, int atX, int atY, int atZ, Material base) {
 
 		// simple glass or colored blocks?
 		boolean woolArt = odds.playOdds(Odds.oddsUnlikely);

@@ -7,13 +7,13 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public abstract class AstralDataContext extends DataContext {
 
-	public AstralDataContext(CityWorldGenerator generator) {
+	AstralDataContext(CityWorldGenerator generator) {
 		super(generator);
 
 		oddsOfIsolatedConstructs = Odds.oddsSomewhatUnlikely;
 	}
 
-	protected double getPopulationOdds(int x, int z) {
+	double getPopulationOdds(int x, int z) {
 		double result = 1.0;
 		result = result / getPopulationOdds(x);
 		result = result / getPopulationOdds(z);

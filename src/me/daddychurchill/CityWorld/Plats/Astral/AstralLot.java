@@ -15,9 +15,9 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public abstract class AstralLot extends IsolatedLot {
 
-	protected double populationChance;
+	final double populationChance;
 
-	public AstralLot(PlatMap platmap, int chunkX, int chunkZ, double populationChance) {
+	AstralLot(PlatMap platmap, int chunkX, int chunkZ, double populationChance) {
 		super(platmap, chunkX, chunkZ);
 
 		this.populationChance = populationChance;
@@ -46,12 +46,12 @@ public abstract class AstralLot extends IsolatedLot {
 		return blockYs.getMaxHeight();
 	}
 
-	protected boolean getSuperSpecial() {
+	boolean getSuperSpecial() {
 		return false;
 	}
 
-	private static int railOffset = 0;
-	private static int specialOffset = 7;
+	private static final int railOffset = 0;
+	private static final int specialOffset = 7;
 
 	@Override
 	public void generateMines(CityWorldGenerator generator, SupportBlocks chunk) {

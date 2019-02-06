@@ -2,7 +2,7 @@ package me.daddychurchill.CityWorld.Plugins;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 
-public class TreeProvider_Normal extends TreeProvider {
+class TreeProvider_Normal extends TreeProvider {
 
 	public TreeProvider_Normal(CityWorldGenerator generator) {
 		super(generator);

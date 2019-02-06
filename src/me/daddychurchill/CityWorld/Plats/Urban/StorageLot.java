@@ -29,7 +29,7 @@ public class StorageLot extends BuildingLot {
 		EMPTY, SHED, TANK
 	}
 
-	private ContentType contentType;
+	private final ContentType contentType;
 
 	private ContentType pickContentType() {
 		ContentType[] values = ContentType.values();

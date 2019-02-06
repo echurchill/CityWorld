@@ -7,28 +7,28 @@ import org.bukkit.block.Block;
 
 public final class RememberedBlocks {
 
-	private SupportBlocks blocks;
-	private Stack<rememberedBlock> originals;
+	private final SupportBlocks blocks;
+	private final Stack<rememberedBlock> originals;
 
 	public RememberedBlocks(SupportBlocks chunk) {
 		blocks = chunk;
-		originals = new Stack<rememberedBlock>();
+		originals = new Stack<>();
 	}
 
 	private static class rememberedBlock {
-		private Material origMaterial;
-		private int origX;
-		private int origY;
-		private int origZ;
+		private final Material origMaterial;
+		private final int origX;
+		private final int origY;
+		private final int origZ;
 
-		public rememberedBlock(Block block, int x, int y, int z) {
+		rememberedBlock(Block block, int x, int y, int z) {
 			origMaterial = block.getType();
 			origX = x;
 			origY = y;
 			origZ = z;
 		}
 
-		public void restoreBlock(SupportBlocks blocks) {
+		void restoreBlock(SupportBlocks blocks) {
 			blocks.setBlock(origX, origY, origZ, origMaterial);
 		}
 	}

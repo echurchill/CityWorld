@@ -7,9 +7,9 @@ import me.daddychurchill.CityWorld.Support.Colors;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
-public class TreeProvider_Crystal extends TreeProvider {
+class TreeProvider_Crystal extends TreeProvider {
 
-	private Odds odds;
+	private final Odds odds;
 
 	public TreeProvider_Crystal(CityWorldGenerator generator) {
 		super(generator);

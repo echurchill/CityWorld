@@ -16,8 +16,8 @@ public class FloodedOfficeBuildingLot extends OfficeBuildingLot {
 
 	}
 
-	private static RoomProvider contentsEmpty = new EmptyWithNothing();
-	private static RoomProvider contentsWalls = new EmptyWithRooms();
+	private static final RoomProvider contentsEmpty = new EmptyWithNothing();
+	private static final RoomProvider contentsWalls = new EmptyWithRooms();
 
 	@Override
 	public PlatLot newLike(PlatMap platmap, int chunkX, int chunkZ) {

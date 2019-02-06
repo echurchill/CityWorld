@@ -6,7 +6,7 @@ import me.daddychurchill.CityWorld.CityWorldGenerator;
 
 public abstract class Provider {
 
-	public Provider() {
+	protected Provider() {
 		// TODO Auto-generated constructor stub
 	}
 

@@ -16,9 +16,9 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class OldCastleLot extends ConstructLot {
 
-	private Material platformMaterial;
-	private Material supportMaterial;
-	private Material wallMaterial;
+	private final Material platformMaterial;
+	private final Material supportMaterial;
+	private final Material wallMaterial;
 
 	public OldCastleLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
@@ -185,12 +185,12 @@ public class OldCastleLot extends ConstructLot {
 			chunk.airoutBlocks(generator, x, x + 2, y, y + 3, z, z + 1, true);
 	}
 
-	private static int insetChaos = 3;
+	private static final int insetChaos = 3;
 
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,
 			DataContext context, int platX, int platZ) {
-		reportLocation(generator, "Castle", chunk);
+		generator.reportLocation("Castle", chunk);
 
 		// main bits
 		int floorHeight = DataContext.FloorHeight;

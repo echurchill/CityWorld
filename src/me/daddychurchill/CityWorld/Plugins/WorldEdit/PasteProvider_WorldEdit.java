@@ -18,8 +18,8 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class PasteProvider_WorldEdit extends PasteProvider {
 
-	private static String pluginName = "WorldEdit";
-	private static String pluginMinVersion = "7.0";
+	private static final String pluginName = "WorldEdit";
+	private static final String pluginMinVersion = "7.0";
 	private File schematicsFolder;
 
 	@Override
@@ -28,7 +28,7 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 				"[WorldEdit] Loaded " + schematicsLoaded + " schematic(s) for world " + generator.worldName);
 	}
 
-	public PasteProvider_WorldEdit(CityWorldGenerator generator) throws Exception {
+	private PasteProvider_WorldEdit(CityWorldGenerator generator) {
 		super();
 
 		// find the files
@@ -46,7 +46,7 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 		}
 	}
 
-	private File findFolder(File parent, String name) throws Exception {
+	private File findFolder(File parent, String name) {
 		name = toCamelCase(name);
 		File result = new File(parent, name);
 		if (!result.isDirectory())
@@ -65,12 +65,11 @@ public class PasteProvider_WorldEdit extends PasteProvider {
 	}
 
 	private String toCamelCase(String text) {
-		return text.substring(0, 1).toUpperCase() + text.substring(1, text.length()).toLowerCase();
+		return text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase();
 	}
 
 	@Override
-	public void loadClips(CityWorldGenerator generator, SchematicFamily family, ClipboardList clips, int maxX, int maxZ)
-			throws Exception {
+	public void loadClips(CityWorldGenerator generator, SchematicFamily family, ClipboardList clips, int maxX, int maxZ) {
 
 		// things aren't happy
 		if (schematicsFolder != null) {

@@ -16,14 +16,14 @@ public abstract class MaterialFactory {
 		WG, WGG, WGGG, WWG, WWGG, GGGG, RANDOM
 	}
 
-	public VerticalStyle verticalStyle;
-	public HorizontalStyle horizontalStyle;
-	protected Boolean decayed;
-	protected Odds odds;
+	private final VerticalStyle verticalStyle;
+	public final HorizontalStyle horizontalStyle;
+	private final Boolean decayed;
+	final Odds odds;
 
-	protected static double oddsOfDecay = Odds.oddsSomewhatLikely;
+	private static final double oddsOfDecay = Odds.oddsSomewhatLikely;
 
-	public MaterialFactory(Odds odds, boolean decayed) {
+	MaterialFactory(Odds odds, boolean decayed) {
 		super();
 		this.odds = odds;
 		this.decayed = decayed;
@@ -31,7 +31,7 @@ public abstract class MaterialFactory {
 		horizontalStyle = pickHorizontalStyle();
 	}
 
-	public MaterialFactory(MaterialFactory other) {
+	MaterialFactory(MaterialFactory other) {
 		super();
 		odds = other.odds;
 		decayed = other.decayed;
@@ -43,7 +43,7 @@ public abstract class MaterialFactory {
 		return verticalStyle == other.verticalStyle && horizontalStyle == other.horizontalStyle;
 	}
 
-	protected VerticalStyle pickVerticalStyle() {
+	VerticalStyle pickVerticalStyle() {
 		switch (odds.getRandomInt(3)) {
 		default:
 			return VerticalStyle.GGGG;
@@ -56,7 +56,7 @@ public abstract class MaterialFactory {
 		}
 	}
 
-	protected HorizontalStyle pickHorizontalStyle() {
+	HorizontalStyle pickHorizontalStyle() {
 		switch (odds.getRandomInt(7)) {
 		default:
 			return HorizontalStyle.RANDOM;
@@ -75,7 +75,7 @@ public abstract class MaterialFactory {
 		}
 	}
 
-	protected Material pickMaterial(Material primary, Material secondary, int i) {
+	Material pickMaterial(Material primary, Material secondary, int i) {
 		switch (horizontalStyle) {
 		case WG:
 			return i % 2 == 0 ? primary : secondary;
@@ -104,7 +104,7 @@ public abstract class MaterialFactory {
 	public abstract void placeMaterial(AbstractBlocks blocks, Material primary, Material secondary, int x, int y1,
 			int y2, int z, BlockFace... facing);
 
-	protected void placeMaterial(AbstractBlocks blocks, Material primary, Material secondary, Material glass, int x,
+	void placeMaterial(AbstractBlocks blocks, Material primary, Material secondary, Material glass, int x,
 			int y1, int y2, int z, BlockFace... facing) {
 		switch (verticalStyle) {
 		case WGGG:

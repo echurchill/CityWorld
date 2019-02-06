@@ -60,7 +60,7 @@ public class OutlandContext extends RuralContext {
 							&& platmap.isEmptyLot(x, z - 1) && platmap.isEmptyLot(x, z + 1))
 						platmap.emptyLot(x, z);
 
-					// get rid of roundabouts
+						// get rid of roundabouts
 					else if (current.style == LotStyle.ROUNDABOUT) {
 						platmap.paveLot(x, z, false);
 						platmap.emptyLot(x - 1, z - 1);
@@ -115,8 +115,7 @@ public class OutlandContext extends RuralContext {
 							}
 
 							// remember what we did
-							if (current != null)
-								platmap.setLot(x, z, current);
+							platmap.setLot(x, z, current);
 						}
 					}
 				}

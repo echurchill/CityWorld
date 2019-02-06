@@ -43,8 +43,8 @@ public class GovernmentBuildingLot extends FinishedBuildingLot {
 
 	private Material foundationSteps;
 
-	private static int higher = 2;
-	private static int deeper = 3;
+	private static final int higher = 2;
+	private static final int deeper = 3;
 
 	@Override
 	protected void calculateOptions(DataContext context) {

@@ -91,7 +91,7 @@ public class CityWorld extends JavaPlugin implements CityWorldLog, Listener {
 		}
 	}
 
-// I am curious, WHY?
+	// I am curious, WHY?
 //	@SuppressWarnings("ResultOfMethodCallIgnored")
 	private boolean extractResource(String resource, File destination) {
 		if (!destination.exists()) {

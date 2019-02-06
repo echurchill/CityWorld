@@ -9,10 +9,10 @@ import me.daddychurchill.CityWorld.Context.DataContext;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
-public class CityWorldEvent extends Event {
-	private Chunk chunk;
-	private PlatMap platmap;
-	private PlatLot platlot;
+class CityWorldEvent extends Event {
+	private final Chunk chunk;
+	private final PlatMap platmap;
+	private final PlatLot platlot;
 
 	public CityWorldEvent(Chunk chunk, PlatMap platmap, PlatLot platlot) {
 		super();
@@ -83,7 +83,7 @@ public class CityWorldEvent extends Event {
 	/**
 	 * @return the true if Chunk's CityWorld platlot uses a schematic
 	 */
-	public boolean hasSchematic() {
+	private boolean hasSchematic() {
 		return platlot instanceof ClipboardLot;
 	}
 

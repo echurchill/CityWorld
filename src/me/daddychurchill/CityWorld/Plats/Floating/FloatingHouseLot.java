@@ -14,7 +14,7 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class FloatingHouseLot extends ConstructLot {
 
-	private int groundLevel;
+	private final int groundLevel;
 
 	public FloatingHouseLot(PlatMap platmap, int chunkX, int chunkZ, int floatingAt) {
 		super(platmap, chunkX, chunkZ);

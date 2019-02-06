@@ -28,12 +28,12 @@ public abstract class TreeProvider {
 		}
 	}
 
-	public TreeProvider(CityWorldGenerator generator) {
+	TreeProvider(CityWorldGenerator generator) {
 		this.generator = generator;
 	}
 
-	protected CityWorldGenerator generator;
-	protected Odds odds;
+	private final CityWorldGenerator generator;
+	Odds odds;
 
 	public static TreeProvider loadProvider(CityWorldGenerator generator, Odds odds) {
 
@@ -105,12 +105,12 @@ public abstract class TreeProvider {
 	}
 
 	//NOTE when used as the default world generator (via bukkit.yml), placing leafs beyond the current chunk causes exceptions
-	protected void generateLeafBlock(SupportBlocks chunk, int x, int y, int z, Material material, Colors colors) {
+	void generateLeafBlock(SupportBlocks chunk, int x, int y, int z, Material material, Colors colors) {
 		// this variant does nothing with the special color
 		if (chunk.insideXYZ(x, y, z))
 //			try {
-				if (chunk.isEmpty(x, y, z))
-					chunk.setLeaf(x, y, z, material, false);
+			if (chunk.isEmpty(x, y, z))
+				chunk.setLeaf(x, y, z, material, false);
 //			} catch (Exception e) {
 //				generator.reportFormatted("LEAF EXCEPTION at %d, %d, %d", x, y, z);
 //				generator.reportException("EXCEPTION", e);
@@ -118,21 +118,21 @@ public abstract class TreeProvider {
 //			}
 	}
 
-	protected void generateTrunkBlock(SupportBlocks chunk, int x, int y, int z, int w, int h, Material material) {
+	void generateTrunkBlock(SupportBlocks chunk, int x, int y, int z, int w, int h, Material material) {
 		chunk.setBlocks(x, x + w, y, y + h, z, z + w, material);
 	}
 
-	public final boolean generateMiniTrunk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+	public final void generateMiniTrunk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
 			TreeType treeType) {
-		return generateMiniTree(generator, chunk, x, y, z, treeType, false);
+		generateMiniTree(generator, chunk, x, y, z, treeType, false);
 	}
 
-	public final boolean generateMiniTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+	public final void generateMiniTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
 			TreeType treeType) {
-		return generateMiniTree(generator, chunk, x, y, z, treeType, true);
+		generateMiniTree(generator, chunk, x, y, z, treeType, true);
 	}
 
-	protected boolean generateMiniTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+	private void generateMiniTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
 			TreeType treeType, Boolean includeLeaves) {
 		int trunkHeight = 2;
 
@@ -238,14 +238,12 @@ public abstract class TreeProvider {
 				generateLeafBlock(blocks, x, y + trunkHeight, z, leavesMaterial, leafColor);
 			}
 
-			return true;
-		} else
-			return false;
+		}
 	}
 
-	private static int maxDepth = 5;
+	private static final int maxDepth = 5;
 
-	protected int generateRootBall(SupportBlocks chunk, RememberedBlocks originalBlocks, int x1, int x2, int y1, int z1,
+	private int generateRootBall(SupportBlocks chunk, RememberedBlocks originalBlocks, int x1, int x2, int y1, int z1,
 			int z2, Material root) {
 
 		// set things up
@@ -291,7 +289,7 @@ public abstract class TreeProvider {
 		}
 	}
 
-	public final boolean generateNormalTrunk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+	public final void generateNormalTrunk(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
 			TreeType treeType) {
 
 		// how wide is the trunk?
@@ -329,7 +327,6 @@ public abstract class TreeProvider {
 		RememberedBlocks originalBlocks = new RememberedBlocks(chunk);
 		int rootAt = generateRootBall(chunk, originalBlocks, x, x + trunkWidth, y, z, z + trunkWidth, root);
 		if (rootAt < 1) {
-			return false;
 		}
 
 		// lets put a trunk on that then
@@ -345,16 +342,15 @@ public abstract class TreeProvider {
 				chunk.clearBlocks(x, x + trunkWidth, rootAt + trunkHeight - 1, z, z + trunkWidth, odds);
 
 			// all done then
-			return true;
 		}
 	}
 
-	public final boolean generateNormalTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+	public final void generateNormalTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
 			TreeType treeType) {
-		return generateNormalTree(generator, chunk, x, y, z, treeType, true);
+		generateNormalTree(generator, chunk, x, y, z, treeType, true);
 	}
 
-	protected boolean generateNormalTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+	private void generateNormalTree(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
 			TreeType treeType, boolean includeLeaves) {
 		Material trunkMaterial = Material.SPRUCE_LOG;
 		Material leavesMaterial = Material.SPRUCE_LEAVES;
@@ -570,9 +566,7 @@ public abstract class TreeProvider {
 				}
 			}
 
-			return true;
-		} else
-			return false;
+		}
 	}
 
 	private final static double edgeOdds = 0.00; // Not chance of edge bits

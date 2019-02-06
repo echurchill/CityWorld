@@ -14,8 +14,8 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class RoadThroughBunkerLot extends RoadLot {
 
-	protected int bottomOfBunker;
-	protected int topOfBunker;
+	private final int bottomOfBunker;
+	private final int topOfBunker;
 
 	public final static Material wallMaterial = tunnelWallMaterial;
 

@@ -34,7 +34,7 @@ public class LibraryDoubleRoom extends LibraryRoom {
 		}
 	}
 
-	public void drawNSBookshelves(RealBlocks chunk, int x, int y, int z, int width, int height, int depth, int i) {
+	private void drawNSBookshelves(RealBlocks chunk, int x, int y, int z, int width, int height, int depth, int i) {
 		for (int offset = 0; offset < width; offset += 2) {
 			chunk.setBlocks(x + offset, x + 1 + offset, y, y + height, z, z + depth, Material.BOOKSHELF);
 			if (offset < width - 1)
@@ -43,7 +43,7 @@ public class LibraryDoubleRoom extends LibraryRoom {
 		}
 	}
 
-	public void drawWEBookshelves(RealBlocks chunk, int x, int y, int z, int width, int height, int depth, int i) {
+	private void drawWEBookshelves(RealBlocks chunk, int x, int y, int z, int width, int height, int depth, int i) {
 		for (int offset = 0; offset < depth; offset += 2) {
 			chunk.setBlocks(x, x + width, y, y + height, z + offset, z + 1 + offset, Material.BOOKSHELF);
 			if (offset < depth - 1)

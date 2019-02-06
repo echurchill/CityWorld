@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
-public class CommandCityChunk implements CommandExecutor {
+class CommandCityChunk implements CommandExecutor {
 	private final CityWorld plugin;
 
 	public CommandCityChunk(CityWorld plugin) {
@@ -45,14 +45,14 @@ public class CommandCityChunk implements CommandExecutor {
 				int radius = 0;
 
 				// arguments?
-				for (int n = 0; n < split.length; n++) {
-					if (split[n].compareToIgnoreCase("CLEAN") == 0 && !cleaning)
+				for (String s : split) {
+					if (s.compareToIgnoreCase("CLEAN") == 0 && !cleaning)
 						cleaning = true;
-					else if (split[n].compareToIgnoreCase("REGEN") == 0 && !regening)
+					else if (s.compareToIgnoreCase("REGEN") == 0 && !regening)
 						regening = true;
 					else if (cleaning || regening) {
 						try {
-							radius = Integer.parseInt(split[n]);
+							radius = Integer.parseInt(s);
 						} catch (NumberFormatException e) {
 							error = true;
 							break;

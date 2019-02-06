@@ -11,7 +11,7 @@ public abstract class PasteProvider extends Provider {
 		ASTRAL, OUTLAND
 	}
 
-	public PasteProvider() {
+	protected PasteProvider() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
@@ -35,7 +35,7 @@ public abstract class PasteProvider extends Provider {
 	}
 
 	protected abstract void loadClips(CityWorldGenerator generator, SchematicFamily family, ClipboardList clips,
-			int maxX, int maxZ) throws Exception;
+			int maxX, int maxZ);
 
 	protected int schematicsLoaded = 0;
 

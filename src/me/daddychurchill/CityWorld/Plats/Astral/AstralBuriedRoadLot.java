@@ -14,7 +14,7 @@ public class AstralBuriedRoadLot extends AstralBuriedCityLot {
 		NONE, NORTHSOUTH, EASTWEST, INTERSECTION
 	}
 
-	private SidewalkStyle style;
+	private final SidewalkStyle style;
 
 	public AstralBuriedRoadLot(PlatMap platmap, int chunkX, int chunkZ, SidewalkStyle style) {
 		super(platmap, chunkX, chunkZ);
@@ -22,9 +22,9 @@ public class AstralBuriedRoadLot extends AstralBuriedCityLot {
 		this.style = style;
 	}
 
-	private static Material roadMaterial = Material.BLACK_TERRACOTTA;
-	private static Material sidewalkMaterial = Material.STONE; // @@ Material.slab DOUBLE_STEP;
-	private static double oddsOfLandedSaucer = Odds.oddsEnormouslyUnlikely;
+	private static final Material roadMaterial = Material.BLACK_TERRACOTTA;
+	private static final Material sidewalkMaterial = Material.STONE; // @@ Material.slab DOUBLE_STEP;
+	private static final double oddsOfLandedSaucer = Odds.oddsEnormouslyUnlikely;
 
 	@Override
 	protected void generateActualBlocks(CityWorldGenerator generator, PlatMap platmap, RealBlocks chunk,

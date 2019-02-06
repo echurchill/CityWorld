@@ -19,11 +19,11 @@ public class PlatMap {
 
 	// Instance data
 //	public World world;
-	public CityWorldGenerator generator;
-	public int originX;
-	public int originZ;
+	public final CityWorldGenerator generator;
+	public final int originX;
+	public final int originZ;
 	public DataContext context;
-	protected PlatLot[][] platLots;
+	private final PlatLot[][] platLots;
 	private float naturalPlats;
 
 	public PlatMap(CityWorldGenerator generator, ShapeProvider shapeProvider, int originX, int originZ) {
@@ -530,7 +530,7 @@ public class PlatMap {
 		}
 	}
 
-	public void placeSpecificClip(CityWorldGenerator generator, Odds odds, Clipboard clip, int placeX, int placeZ) {
+	private void placeSpecificClip(CityWorldGenerator generator, Odds odds, Clipboard clip, int placeX, int placeZ) {
 		int chunksX = clip.chunkX;
 		int chunksZ = clip.chunkZ;
 

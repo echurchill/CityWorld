@@ -9,7 +9,7 @@ import me.daddychurchill.CityWorld.Plugins.CoverProvider.CoverageType;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
-public class SurfaceProvider_SandDunes extends SurfaceProvider_Flooded {
+class SurfaceProvider_SandDunes extends SurfaceProvider_Flooded {
 
 	public SurfaceProvider_SandDunes(Odds odds) {
 		super(odds);

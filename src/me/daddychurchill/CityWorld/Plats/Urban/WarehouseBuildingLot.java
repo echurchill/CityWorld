@@ -14,12 +14,12 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class WarehouseBuildingLot extends IndustrialBuildingLot {
 
-	private static RoomProvider contentsRandom = new WarehouseWithRandom();
-	private static RoomProvider contentsBooks = new WarehouseWithBooks();
-	private static RoomProvider contentsBoxes = new WarehouseWithBoxes();
-	private static RoomProvider contentsEmpty = new WarehouseWithNothing();
-	private static RoomProvider contentsChests = new WarehouseWithChests();
-	private static RoomProvider contentsStacks = new WarehouseWithStacks();
+	private static final RoomProvider contentsRandom = new WarehouseWithRandom();
+	private static final RoomProvider contentsBooks = new WarehouseWithBooks();
+	private static final RoomProvider contentsBoxes = new WarehouseWithBoxes();
+	private static final RoomProvider contentsEmpty = new WarehouseWithNothing();
+	private static final RoomProvider contentsChests = new WarehouseWithChests();
+	private static final RoomProvider contentsStacks = new WarehouseWithStacks();
 
 	public enum ContentStyle {
 		RANDOM, BOOKS, BOXES, EMPTY, STACKS, CHESTS
@@ -34,7 +34,7 @@ public class WarehouseBuildingLot extends IndustrialBuildingLot {
 		firstFloorHeight = aboveFloorHeight * 2;
 	}
 
-	protected ContentStyle pickContentStyle() {
+	private ContentStyle pickContentStyle() {
 		ContentStyle[] values = ContentStyle.values();
 		return values[chunkOdds.getRandomInt(values.length)];
 	}

@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.Rooms.LoungeQuadRoom;
 import me.daddychurchill.CityWorld.Rooms.LoungeTrioRoom;
 import me.daddychurchill.CityWorld.Rooms.MeetingForSixRoom;
 
-public class BusinessWithCafe extends RoomProvider {
+class BusinessWithCafe extends RoomProvider {
 
 	public BusinessWithCafe() {
 		super();

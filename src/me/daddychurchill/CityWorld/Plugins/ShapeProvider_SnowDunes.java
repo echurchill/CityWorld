@@ -23,10 +23,10 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 
-	protected int floodY;
+	private final int floodY;
 
-	private SimplexOctaveGenerator duneFeature1;
-	private SimplexOctaveGenerator duneFeature2;
+	private final SimplexOctaveGenerator duneFeature1;
+	private final SimplexOctaveGenerator duneFeature2;
 //	private SimplexOctaveGenerator duneNoise;
 
 	private final static int featureOctaves = 2;
@@ -175,7 +175,7 @@ public class ShapeProvider_SnowDunes extends ShapeProvider_Normal {
 		actualGenerateSnow(generator, lot, chunk, x, z, subsurfaceY);
 	}
 
-	protected void actualGenerateSnow(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, int x, int z,
+	private void actualGenerateSnow(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, int x, int z,
 			int y) {
 		int baseY = chunk.findLastEmptyBelow(x, y + 1, z, y - 6);
 		int snowY = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));

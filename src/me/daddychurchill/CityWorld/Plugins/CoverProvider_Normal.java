@@ -11,11 +11,10 @@ public class CoverProvider_Normal extends CoverProvider {
 	}
 
 	@Override
-	public boolean generateCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
+	public void generateCoverage(CityWorldGenerator generator, SupportBlocks chunk, int x, int y, int z,
 			CoverageType coverageType) {
 		if (likelyCover(generator))
 			setCoverage(generator, chunk, x, y, z, coverageType);
-		return true;
 	}
 
 }

@@ -15,12 +15,12 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class LibraryBuildingLot extends FinishedBuildingLot {
 
-	private static RoomProvider contentsRandom = new LibraryWithRandom();
-	private static RoomProvider contentsNoBooks = new LibraryWithNoBooks();
-	private static RoomProvider contentsSomeBooks = new LibraryWithSomeBooks();
-	private static RoomProvider contentsMostlyBooks = new LibraryWithMostlyBooks();
-	private static RoomProvider contentsAllBooks = new LibraryWithAllBooks();
-	private static RoomProvider contentsLounges = new LibraryWithLounges();
+	private static final RoomProvider contentsRandom = new LibraryWithRandom();
+	private static final RoomProvider contentsNoBooks = new LibraryWithNoBooks();
+	private static final RoomProvider contentsSomeBooks = new LibraryWithSomeBooks();
+	private static final RoomProvider contentsMostlyBooks = new LibraryWithMostlyBooks();
+	private static final RoomProvider contentsAllBooks = new LibraryWithAllBooks();
+	private static final RoomProvider contentsLounges = new LibraryWithLounges();
 
 	public LibraryBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);

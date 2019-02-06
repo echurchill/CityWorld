@@ -13,9 +13,9 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public abstract class RoomProvider extends Provider {
 
-	protected List<PlatRoom> roomTypes;
+	protected final List<PlatRoom> roomTypes;
 
-	public RoomProvider() {
+	protected RoomProvider() {
 		super();
 		roomTypes = new ArrayList<>();
 	}

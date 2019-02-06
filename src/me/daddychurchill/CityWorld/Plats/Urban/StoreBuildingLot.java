@@ -13,10 +13,10 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class StoreBuildingLot extends FinishedBuildingLot {
 
-	private static RoomProvider contentsRandom = new StoreWithRandom();
-	private static RoomProvider contentsBooks = new StoreWithBooks();
-	private static RoomProvider contentsEmpty = new StoreWithNothing();
-	private static RoomProvider contentsRegisters = new StoreWithRegisters();
+	private static final RoomProvider contentsRandom = new StoreWithRandom();
+	private static final RoomProvider contentsBooks = new StoreWithBooks();
+	private static final RoomProvider contentsEmpty = new StoreWithNothing();
+	private static final RoomProvider contentsRegisters = new StoreWithRegisters();
 
 	public enum ContentStyle {
 		RANDOM, BOOKS, EMPTY
@@ -29,7 +29,7 @@ public class StoreBuildingLot extends FinishedBuildingLot {
 		contentStyle = pickContentStyle();
 	}
 
-	protected ContentStyle pickContentStyle() {
+	private ContentStyle pickContentStyle() {
 		switch (chunkOdds.getRandomInt(5)) {
 		case 1:
 			return ContentStyle.BOOKS;

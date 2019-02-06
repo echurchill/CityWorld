@@ -22,7 +22,7 @@ public class StructureOnGroundProvider extends Provider {
 //	private static RoomProvider contentsDiningRoom = new HouseDiningRooms();
 //	private static RoomProvider contentsLivingRoom = new HouseLivingRooms();
 
-	public StructureOnGroundProvider() {
+	private StructureOnGroundProvider() {
 		super();
 
 	}
@@ -229,7 +229,7 @@ public class StructureOnGroundProvider extends Provider {
 			chunk.setBlock(11, baseY - 1, 11, matFireBase);
 			if (odds.playOdds(Odds.oddsPrettyLikely)) {
 				chunk.clearBlocks(9, 14, baseY, 9, 14); // we do this to keep the grass and such away from the fire so
-														// it doesn't go firebug on us
+				// it doesn't go firebug on us
 				if (generator.getSettings().includeFires)
 					chunk.setBlock(11, baseY, 11, matFire);
 			}
@@ -348,11 +348,11 @@ public class StructureOnGroundProvider extends Provider {
 						if (f == 0)
 							rooms[f][x][z].missing = false;
 
-						// each additional floors must include any missing rooms from below
+							// each additional floors must include any missing rooms from below
 						else if (rooms[f - 1][x][z].missing)
 							rooms[f][x][z].missing = true;
 
-						// only one new missing room per floor
+							// only one new missing room per floor
 						else if (rooms[f][x][z].missing) {
 							if (!missingRoom)
 								missingRoom = true;
@@ -576,7 +576,7 @@ public class StructureOnGroundProvider extends Provider {
 						int yAt = y + roofBottom;
 						if (chunk.isOfTypes(x, yAt, z, matRoof, matTrapDoor)
 								&& (chunk.isEmpty(x - 1, yAt, z) || chunk.isEmpty(x + 1, yAt, z)
-										|| chunk.isEmpty(x, yAt, z - 1) || chunk.isEmpty(x, yAt, z + 1)))
+								|| chunk.isEmpty(x, yAt, z - 1) || chunk.isEmpty(x, yAt, z + 1)))
 							chunk.setBlock(x, yAt + 1, z, matRoof);
 					}
 				}
@@ -593,7 +593,7 @@ public class StructureOnGroundProvider extends Provider {
 					for (int z = 1; z < chunk.width - 1; z++) {
 						int yAt = y + roofBottom;
 						if (/* !chunk.isEmpty(x, yAt + 1, z)) */
-						chunk.isType(x, yAt, z, matRoof))
+								chunk.isType(x, yAt, z, matRoof))
 							chunk.setBlock(x, yAt, z, Material.BEDROCK); // mark potential attic space
 					}
 				}
@@ -700,14 +700,14 @@ public class StructureOnGroundProvider extends Provider {
 			BED, KITCHEN, DINING, ENTRY, LIVING
 		}
 
-		public int widthX;
-		public int widthZ;
-		public boolean missing;
-		public boolean walls;
-		public Style style;
-		public Material trapDoor;
+		int widthX;
+		int widthZ;
+		boolean missing;
+		final boolean walls;
+		Style style;
+		final Material trapDoor;
 
-		public Room(boolean aMissing, int aWidthX, int aWidthZ, boolean aWalls, Style aStyle, Material aTrapDoor) {
+		Room(boolean aMissing, int aWidthX, int aWidthZ, boolean aWalls, Style aStyle, Material aTrapDoor) {
 			super();
 
 			missing = aMissing;
@@ -729,7 +729,7 @@ public class StructureOnGroundProvider extends Provider {
 		int y1;
 		int y2;
 
-		protected void Locate(DataContext context, int floor, int floors, int x, int z, int roomOffsetX,
+		void Locate(DataContext context, int floor, int floors, int x, int z, int roomOffsetX,
 				int roomOffsetZ, int baseY) {
 			if (!located) {
 				located = true;
@@ -744,7 +744,7 @@ public class StructureOnGroundProvider extends Provider {
 			}
 		}
 
-		protected void DrawWalls(RealBlocks chunk, DataContext context, int floor, int floors, int x, int z,
+		void DrawWalls(RealBlocks chunk, DataContext context, int floor, int floors, int x, int z,
 				int roomOffsetX, int roomOffsetZ, int baseY, Material matWall) {
 
 			// find ourselves
@@ -791,7 +791,7 @@ public class StructureOnGroundProvider extends Provider {
 			}
 		}
 
-		protected void DrawFloor(RealBlocks chunk, DataContext context, int floor, int floors, int x, int z,
+		void DrawFloor(RealBlocks chunk, DataContext context, int floor, int floors, int x, int z,
 				int roomOffsetX, int roomOffsetZ, int baseY, Material matFloor) {
 
 			// find ourselves
@@ -801,7 +801,7 @@ public class StructureOnGroundProvider extends Provider {
 			chunk.setBlocks(x1, x2 + 1, y1 - 1, y1, z1, z2 + 1, matFloor);
 		}
 
-		protected void DrawCeiling(RealBlocks chunk, DataContext context, int floor, int floors, int x, int z,
+		void DrawCeiling(RealBlocks chunk, DataContext context, int floor, int floors, int x, int z,
 				int roomOffsetX, int roomOffsetZ, int baseY, Material matCeiling) {
 
 			// find ourselves
@@ -811,7 +811,7 @@ public class StructureOnGroundProvider extends Provider {
 			chunk.setBlocks(x1, x2 + 1, y2, y2 + 1, z1, z2 + 1, matCeiling);
 		}
 
-		protected void DrawRoof(RealBlocks chunk, DataContext context, int floor, int floors, int x, int z,
+		void DrawRoof(RealBlocks chunk, DataContext context, int floor, int floors, int x, int z,
 				int roomOffsetX, int roomOffsetZ, int baseY, Material matRoof) {
 
 			// find ourselves
@@ -822,7 +822,7 @@ public class StructureOnGroundProvider extends Provider {
 			chunk.setBlocks(x1, x2 + 1, y2, y2 + 1, z1, z2 + 1, matRoof);
 		}
 
-		protected void DrawRailing(RealBlocks chunk) {
+		void DrawRailing(RealBlocks chunk) {
 
 			// only if we have found ourselves
 			if (located) {
@@ -843,7 +843,7 @@ public class StructureOnGroundProvider extends Provider {
 			}
 		}
 
-		protected void DrawStyle(CityWorldGenerator generator, RealBlocks chunk, DataContext context, Odds odds,
+		void DrawStyle(CityWorldGenerator generator, RealBlocks chunk, DataContext context, Odds odds,
 				int floor, int floors, int x, int z, int roomOffsetX, int roomOffsetZ, int baseY) {
 
 			// which door or halls do we do?

@@ -13,7 +13,7 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public abstract class AstralStructureTowerLot extends AstralStructureLot {
 
-	public AstralStructureTowerLot(PlatMap platmap, int chunkX, int chunkZ) {
+	AstralStructureTowerLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		// TODO Auto-generated constructor stub
 	}
@@ -30,7 +30,7 @@ public abstract class AstralStructureTowerLot extends AstralStructureLot {
 		DARK, LIGHT
 	}
 
-	protected void generateTower(CityWorldGenerator generator, RealBlocks chunk, TowerStyle style) {
+	void generateTower(CityWorldGenerator generator, RealBlocks chunk, TowerStyle style) {
 
 		// set things up for darkness
 		Material wallMaterial = generator.materialProvider.itemsSelectMaterial_AstralTowerDark

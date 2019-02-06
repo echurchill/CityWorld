@@ -15,7 +15,7 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public abstract class GravelLot extends ConstructLot {
 
-	public GravelLot(PlatMap platmap, int chunkX, int chunkZ) {
+	GravelLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		// TODO Auto-generated constructor stub
 	}
@@ -27,12 +27,12 @@ public abstract class GravelLot extends ConstructLot {
 
 	}
 
-	protected static void generateTailings(CityWorldGenerator generator, Odds odds, RealBlocks chunk, int x1, int x2,
+	static void generateTailings(CityWorldGenerator generator, Odds odds, RealBlocks chunk, int x1, int x2,
 			int z1, int z2) {
 		generateTailings(generator, odds, chunk, x1, x2, generator.streetLevel, z1, z2);
 	}
 
-	protected static void generateTailings(CityWorldGenerator generator, Odds odds, RealBlocks chunk, int x1, int x2,
+	private static void generateTailings(CityWorldGenerator generator, Odds odds, RealBlocks chunk, int x1, int x2,
 			int y, int z1, int z2) {
 
 		// clear out some room above the tailings
@@ -69,7 +69,7 @@ public abstract class GravelLot extends ConstructLot {
 		}
 	}
 
-	protected void generateBase(CityWorldGenerator generator, RealBlocks chunk) {
+	void generateBase(CityWorldGenerator generator, RealBlocks chunk) {
 		chunk.setBlocks(1, 15, generator.streetLevel, 1, 15, Material.COBBLESTONE);
 		for (int i = 0; i < 10; i++) {
 			if (chunkOdds.flipCoin())
@@ -83,7 +83,7 @@ public abstract class GravelLot extends ConstructLot {
 		}
 	}
 
-	public static void generatePile(CityWorldGenerator generator, Odds odds, RealBlocks chunk, int x, int z,
+	static void generatePile(CityWorldGenerator generator, Odds odds, RealBlocks chunk, int x, int z,
 			int width) {
 		Material specialMaterial = generator.materialProvider.itemsSelectMaterial_QuaryPiles.getRandomMaterial(odds,
 				Material.COBBLESTONE);
@@ -105,7 +105,7 @@ public abstract class GravelLot extends ConstructLot {
 		}
 	}
 
-	public static void generateHole(CityWorldGenerator generator, Odds odds, RealBlocks chunk, int highestY, int width,
+	static void generateHole(CityWorldGenerator generator, Odds odds, RealBlocks chunk, int highestY, int width,
 			int lowestY) {
 		generateHole(generator, odds, chunk, highestY, width, lowestY, true);
 	}

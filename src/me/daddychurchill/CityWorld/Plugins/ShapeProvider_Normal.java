@@ -8,19 +8,7 @@ import org.bukkit.util.noise.SimplexOctaveGenerator;
 
 import me.daddychurchill.CityWorld.CityWorld;
 import me.daddychurchill.CityWorld.CityWorldGenerator;
-import me.daddychurchill.CityWorld.Context.ConstructionContext;
-import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Context.FarmContext;
-import me.daddychurchill.CityWorld.Context.HighriseContext;
-import me.daddychurchill.CityWorld.Context.IndustrialContext;
-import me.daddychurchill.CityWorld.Context.LowriseContext;
-import me.daddychurchill.CityWorld.Context.MidriseContext;
-import me.daddychurchill.CityWorld.Context.MunicipalContext;
-import me.daddychurchill.CityWorld.Context.NatureContext;
-import me.daddychurchill.CityWorld.Context.NeighborhoodContext;
-import me.daddychurchill.CityWorld.Context.OutlandContext;
-import me.daddychurchill.CityWorld.Context.ParkContext;
-import me.daddychurchill.CityWorld.Context.RoadContext;
+import me.daddychurchill.CityWorld.Context.*;
 import me.daddychurchill.CityWorld.Plats.PlatLot;
 import me.daddychurchill.CityWorld.Plats.PlatLot.LotStyle;
 import me.daddychurchill.CityWorld.Support.AbstractCachedYs;
@@ -31,67 +19,67 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class ShapeProvider_Normal extends ShapeProvider {
 
-	public DataContext parkContext;
-	public DataContext highriseContext;
-	public DataContext constructionContext;
-	public DataContext midriseContext;
-	public DataContext municipalContext;
-	public DataContext industrialContext;
-	public DataContext lowriseContext;
-	public DataContext neighborhoodContext;
-	public DataContext farmContext;
-	public DataContext outlandContext;
+	DataContext parkContext;
+	DataContext highriseContext;
+	DataContext constructionContext;
+	DataContext midriseContext;
+	DataContext municipalContext;
+	DataContext industrialContext;
+	DataContext lowriseContext;
+	DataContext neighborhoodContext;
+	DataContext farmContext;
+	DataContext outlandContext;
 
-	public SimplexOctaveGenerator landShape1;
-	public SimplexOctaveGenerator landShape2;
-	public SimplexOctaveGenerator seaShape;
-	public SimplexOctaveGenerator noiseShape;
-	public SimplexOctaveGenerator featureShape;
-	public SimplexNoiseGenerator caveShape;
-	public SimplexNoiseGenerator mineShape;
+	private final SimplexOctaveGenerator landShape1;
+	private final SimplexOctaveGenerator landShape2;
+	private final SimplexOctaveGenerator seaShape;
+	private final SimplexOctaveGenerator noiseShape;
+	private final SimplexOctaveGenerator featureShape;
+	private final SimplexNoiseGenerator caveShape;
+	private final SimplexNoiseGenerator mineShape;
 
-	protected int height;
-	protected int seaLevel;
-	protected int landRange;
-	protected int seaRange;
-	protected int constructMin;
-	protected int constructRange;
+	final int height;
+	final int seaLevel;
+	private final int landRange;
+	private final int seaRange;
+	int constructMin;
+	int constructRange;
 
-	public final static int landFlattening = 32;
-	public final static int seaFlattening = 4;
-	public final static int landFactor1to2 = 3;
-	public final static int noiseVerticalScale = 3;
-	public final static int featureVerticalScale = 10;
-	public final static int fudgeVerticalScale = noiseVerticalScale * landFactor1to2
+	private final static int landFlattening = 32;
+	private final static int seaFlattening = 4;
+	private final static int landFactor1to2 = 3;
+	final static int noiseVerticalScale = 3;
+	private final static int featureVerticalScale = 10;
+	private final static int fudgeVerticalScale = noiseVerticalScale * landFactor1to2
 			+ featureVerticalScale * landFactor1to2;
 
-	public final static double landFrequency1 = 1.50;
-	public final static double landAmplitude1 = 20.0;
-	public final static double landHorizontalScale1 = 1.0 / 2048.0;
-	public final static double landFrequency2 = 1.0;
-	public final static double landAmplitude2 = landAmplitude1 / landFactor1to2;
-	public final static double landHorizontalScale2 = landHorizontalScale1 * landFactor1to2;
+	private final static double landFrequency1 = 1.50;
+	private final static double landAmplitude1 = 20.0;
+	private final static double landHorizontalScale1 = 1.0 / 2048.0;
+	private final static double landFrequency2 = 1.0;
+	private final static double landAmplitude2 = landAmplitude1 / landFactor1to2;
+	private final static double landHorizontalScale2 = landHorizontalScale1 * landFactor1to2;
 
-	public final static double seaFrequency = 1.00;
-	public final static double seaAmplitude = 2.00;
-	public final static double seaHorizontalScale = 1.0 / 384.0;
+	private final static double seaFrequency = 1.00;
+	private final static double seaAmplitude = 2.00;
+	private final static double seaHorizontalScale = 1.0 / 384.0;
 
-	public final static double noiseFrequency = 1.50;
-	public final static double noiseAmplitude = 0.70;
-	public final static double noiseHorizontalScale = 1.0 / 32.0;
+	private final static double noiseFrequency = 1.50;
+	private final static double noiseAmplitude = 0.70;
+	private final static double noiseHorizontalScale = 1.0 / 32.0;
 
-	public final static double featureFrequency = 1.50;
-	public final static double featureAmplitude = 0.75;
-	public final static double featureHorizontalScale = 1.0 / 64.0;
+	private final static double featureFrequency = 1.50;
+	private final static double featureAmplitude = 0.75;
+	private final static double featureHorizontalScale = 1.0 / 64.0;
 
-	public final static double caveScale = 1.0 / 64.0;
-	public final static double caveScaleY = caveScale * 2;
-	public final static double caveThreshold = 0.75; // smaller the number the more larger the caves will be
+	private final static double caveScale = 1.0 / 64.0;
+	private final static double caveScaleY = caveScale * 2;
+	private final static double caveThreshold = 0.75; // smaller the number the more larger the caves will be
 
-	public final static double mineScale = 1.0 / 4.0;
+	private final static double mineScale = 1.0 / 4.0;
 	public final static double mineScaleY = mineScale;
 
-	protected final static double oddsOfCentralPark = Odds.oddsUnlikely;
+	private final static double oddsOfCentralPark = Odds.oddsUnlikely;
 
 	public ShapeProvider_Normal(CityWorldGenerator generator, Odds odds) {
 		super(generator, odds);
@@ -173,9 +161,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 				return parkContext;
 			else
 				return highriseContext;
-		}
-
-		else if (nature < 0.05) // 5
+		} else if (nature < 0.05) // 5
 			return highriseContext;
 		else if (nature < 0.10) // 5
 			return constructionContext;
@@ -194,7 +180,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 		else if (nature < 0.75) // 5
 			return outlandContext;
 
-		// otherwise just keep what we have
+			// otherwise just keep what we have
 		else
 			return natureContext;
 	}
@@ -217,7 +203,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 //	else if (nature < 0.80)
 //		return outlandContext;
 
-//original dist
+	//original dist
 //	else if (nature < 0.15)
 //		return constructionContext;
 //	else if (nature < 0.25)
@@ -418,7 +404,7 @@ public class ShapeProvider_Normal extends ShapeProvider {
 				- landFlattening;
 		double land2 = seaLevel
 				+ (landShape2.noise(blockX, blockZ, landFrequency2, landAmplitude2, true)
-						* (landRange / (double) landFactor1to2))
+				* (landRange / (double) landFactor1to2))
 				+ (noise * noiseVerticalScale + feature * featureVerticalScale) - landFlattening;
 
 		double landY = Math.max(land1, land2);

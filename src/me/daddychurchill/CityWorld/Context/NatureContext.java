@@ -79,7 +79,7 @@ public class NatureContext extends UncivilizedContext {
 
 							// extreme changes?
 							if (heights.getMinHeight() < minHeight) {
-								minHeight = heights.getMinHeight() ;
+								minHeight = heights.getMinHeight();
 								minHeightX = x;
 								minHeightZ = z;
 								minState = heights.getState();
@@ -95,7 +95,7 @@ public class NatureContext extends UncivilizedContext {
 							boolean potentialRoads = (x == (RoadLot.PlatMapRoadInset - 1)
 									|| x == (PlatMap.Width - RoadLot.PlatMapRoadInset))
 									&& (z == (RoadLot.PlatMapRoadInset - 1)
-											|| z == (PlatMap.Width - RoadLot.PlatMapRoadInset));
+									|| z == (PlatMap.Width - RoadLot.PlatMapRoadInset));
 							boolean doBunkerEntrance = doBunkers && !didBunkerEntrance && !potentialRoads;
 
 							// what type of height are we talking about?
@@ -143,7 +143,7 @@ public class NatureContext extends UncivilizedContext {
 		populateSpecial(generator, platmap, minHeightX, minHeight, minHeightZ, minState);
 	}
 
-	protected PlatLot createBuriedBuildingLot(CityWorldGenerator generator, PlatMap platmap, int x, int z,
+	private PlatLot createBuriedBuildingLot(CityWorldGenerator generator, PlatMap platmap, int x, int z,
 			boolean firstOne) {
 		if (generator.getSettings().includeBunkers)
 			return new BunkerLot(platmap, x, z, firstOne);

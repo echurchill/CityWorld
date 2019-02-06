@@ -5,23 +5,13 @@ import org.bukkit.util.noise.SimplexNoiseGenerator;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
-import me.daddychurchill.CityWorld.Context.Maze.MazeCampgroundContext;
-import me.daddychurchill.CityWorld.Context.Maze.MazeCastleContext;
-import me.daddychurchill.CityWorld.Context.Maze.MazeFarmContext;
-import me.daddychurchill.CityWorld.Context.Maze.MazeMineContext;
-import me.daddychurchill.CityWorld.Context.Maze.MazeNatureContext;
-import me.daddychurchill.CityWorld.Context.Maze.MazeNeighborhoodContext;
-import me.daddychurchill.CityWorld.Context.Maze.MazeNexusContext;
-import me.daddychurchill.CityWorld.Context.Maze.MazeParkContext;
-import me.daddychurchill.CityWorld.Context.Maze.MazeRoadContext;
-import me.daddychurchill.CityWorld.Context.Maze.MazeTownContext;
-import me.daddychurchill.CityWorld.Context.Maze.MazeWoodworksContext;
+import me.daddychurchill.CityWorld.Context.Maze.*;
 import me.daddychurchill.CityWorld.Support.Odds;
 import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public class ShapeProvider_Maze extends ShapeProvider_Normal {
 
-	public SimplexNoiseGenerator ecoShape;
+	private final SimplexNoiseGenerator ecoShape;
 	private MazeNexusContext nexusContext;
 
 	public ShapeProvider_Maze(CityWorldGenerator generator, Odds odds) {
@@ -64,7 +54,7 @@ public class ShapeProvider_Maze extends ShapeProvider_Normal {
 			double rawValue = (Math.max(-0.9999, Math.min(0.9999, ecoShape.noise(originX, originZ) * 1.375)) + 1.0)
 					/ 2.0;
 			switch (NoiseGenerator.floor(rawValue * 9)) { // the constant here should ALWAYS be one more than the
-															// biggest case statement constant!
+			// biggest case statement constant!
 			default: // always leave default at zero
 			case 0:
 				return natureContext;

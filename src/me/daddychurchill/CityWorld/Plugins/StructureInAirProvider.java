@@ -15,12 +15,12 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class StructureInAirProvider extends Provider {
 
-	public StructureInAirProvider() {
+	private StructureInAirProvider() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public final static StructureInAirProvider loadProvider(CityWorldGenerator generator) {
+	public static StructureInAirProvider loadProvider(CityWorldGenerator generator) {
 		// for now
 		return new StructureInAirProvider();
 	}
@@ -156,7 +156,7 @@ public class StructureInAirProvider extends Provider {
 			chunk.setCircle(8, 8, 4, balloonY2 - 2, balloonY2 - 1, Material.AIR, true);
 			chunk.setCircle(8, 8, 3, balloonY2 - 1, balloonY2, Material.AIR, true);
 		}
-		
+
 		// if hollow lets add a burner
 		if (hollow) {
 			chunk.setBlocks(7, 9, balloonY1 - 2, 7, 9, Material.STONE_SLAB, Type.TOP);

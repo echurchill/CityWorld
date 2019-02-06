@@ -26,15 +26,15 @@ public class GovernmentMonumentLot extends ConnectedLot {
 		loadMaterials(platmap);
 	}
 
-	private int botHeight;
-	private int topHeight;
-	private int sectionHeight = 5;
+	private final int botHeight;
+	private final int topHeight;
+	private final int sectionHeight = 5;
 
 	private Material foundationMaterial = Material.QUARTZ_BLOCK;
 	private Material columnMaterial = Material.QUARTZ_BLOCK;
-	private Colors colors;
+	private final Colors colors;
 
-	protected void loadMaterials(PlatMap platmap) {
+	private void loadMaterials(PlatMap platmap) {
 
 		// what is it made of?
 		foundationMaterial = platmap.generator.materialProvider.itemsSelectMaterial_GovernmentFoundations
@@ -47,9 +47,9 @@ public class GovernmentMonumentLot extends ConnectedLot {
 		COLUMN, PYRAMID, PEDESTAL, CHICKEN
 	}
 
-	private MonumentStyle monumentStyle;
+	private final MonumentStyle monumentStyle;
 
-	protected MonumentStyle pickMonumentStyle() {
+	private MonumentStyle pickMonumentStyle() {
 		MonumentStyle[] values = MonumentStyle.values();
 		return values[chunkOdds.getRandomInt(values.length)];
 	}

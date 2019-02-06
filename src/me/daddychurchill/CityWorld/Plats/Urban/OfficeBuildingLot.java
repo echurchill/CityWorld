@@ -14,11 +14,11 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class OfficeBuildingLot extends FinishedBuildingLot {
 
-	private static RoomProvider contentsEmpty = new OfficeWithNothing();
-	private static RoomProvider contentsRandom = new OfficeWithRandom();
-	private static RoomProvider contentsCubes = new OfficeWithCubicles();
-	private static RoomProvider contentsRooms = new OfficeWithRooms();
-	private static RoomProvider contentsLounges = new OfficeWithLounges();
+	private static final RoomProvider contentsEmpty = new OfficeWithNothing();
+	private static final RoomProvider contentsRandom = new OfficeWithRandom();
+	private static final RoomProvider contentsCubes = new OfficeWithCubicles();
+	private static final RoomProvider contentsRooms = new OfficeWithRooms();
+	private static final RoomProvider contentsLounges = new OfficeWithLounges();
 
 	public enum ContentStyle {
 		RANDOM, EMPTY, OFFICES, CUBICLES
@@ -33,7 +33,7 @@ public class OfficeBuildingLot extends FinishedBuildingLot {
 		contentStyle = pickContentStyle();
 	}
 
-	protected ContentStyle pickContentStyle() {
+	private ContentStyle pickContentStyle() {
 		switch (chunkOdds.getRandomInt(10)) {
 		case 1:
 		case 2:

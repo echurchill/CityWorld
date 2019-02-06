@@ -117,10 +117,10 @@ public class WoodworksLot extends ConstructLot {
 		// TODO add decay
 	}
 
-	protected final static int sectionWidth = 5;
-	protected final static int floorHeight = 4;
+	final static int sectionWidth = 5;
+	final static int floorHeight = 4;
 
-	protected void generateSection(RealBlocks chunk, int x, int y, int z) {
+	void generateSection(RealBlocks chunk, int x, int y, int z) {
 		chunk.setBlocks(x, x + sectionWidth + 1, y, y + 1, z, z + sectionWidth + 1, Material.BIRCH_SLAB);
 
 		generateColumn(chunk, x, y, z);
@@ -136,7 +136,7 @@ public class WoodworksLot extends ConstructLot {
 //		}
 	}
 
-	protected void generateStairs(RealBlocks chunk, int x, int y, int z) {
+	void generateStairs(RealBlocks chunk, int x, int y, int z) {
 		chunk.setBlocks(x, x + 1, y, z, z + 3, Material.AIR);
 		chunk.setBlock(x, y - 1, z, Material.BIRCH_STAIRS, BlockFace.NORTH);
 		chunk.setBlock(x, y - 2, z + 1, Material.BIRCH_STAIRS, BlockFace.NORTH);

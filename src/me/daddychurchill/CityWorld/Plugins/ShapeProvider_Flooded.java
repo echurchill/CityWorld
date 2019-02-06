@@ -19,9 +19,9 @@ import me.daddychurchill.CityWorld.Support.Odds;
 
 public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 
-	public final static Material floodMaterial = Material.WATER;
+	private final static Material floodMaterial = Material.WATER;
 
-	protected int floodY;
+	private final int floodY;
 
 	public ShapeProvider_Flooded(CityWorldGenerator generator, Odds odds) {
 		super(generator, odds);
@@ -109,7 +109,7 @@ public class ShapeProvider_Flooded extends ShapeProvider_Normal {
 		actualGenerateFlood(generator, lot, chunk, x, z, subsurfaceY + 1);
 	}
 
-	protected void actualGenerateFlood(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, int x, int z,
+	private void actualGenerateFlood(CityWorldGenerator generator, PlatLot lot, InitialBlocks chunk, int x, int z,
 			int subsurfaceY) {
 		int y = findFloodY(generator, chunk.getBlockX(x), chunk.getBlockZ(z));
 		if (y > subsurfaceY) {

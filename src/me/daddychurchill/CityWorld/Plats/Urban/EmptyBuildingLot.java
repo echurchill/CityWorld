@@ -9,7 +9,7 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public class EmptyBuildingLot extends LibraryBuildingLot {
 
-	private static RoomProvider contentsRooms = new EmptyWithRooms();
+	private static final RoomProvider contentsRooms = new EmptyWithRooms();
 
 	public EmptyBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);

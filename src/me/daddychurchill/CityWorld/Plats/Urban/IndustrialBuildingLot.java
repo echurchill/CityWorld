@@ -6,7 +6,7 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public abstract class IndustrialBuildingLot extends FinishedBuildingLot {
 
-	public IndustrialBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
+	IndustrialBuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 
 		height = 1;

@@ -19,13 +19,13 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public class ConcreteLot extends BuildingLot {
 
-//	more CenterStyles {...WATER_MAZE, WATER_CHECKER, WATER_CIRCLE, WATER_LABYRINTH};
+	//	more CenterStyles {...WATER_MAZE, WATER_CHECKER, WATER_CIRCLE, WATER_LABYRINTH};
 	public enum CenterStyle {
 		EMPTY, QUIET_ZONE, ART_ZONE, CHECKER_ART, SHALLOW_POND, ROUND_POND, PYRAMID_POND, CHECKER_POND, UPWARD_POND,
 		DOWNWARD_POND
 	}
 
-	private CenterStyle centerStyle;
+	private final CenterStyle centerStyle;
 
 	public ConcreteLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);

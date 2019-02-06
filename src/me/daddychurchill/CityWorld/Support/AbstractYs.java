@@ -7,27 +7,29 @@ public abstract class AbstractYs {
 	public enum HeightState {
 		EMPTY, DEEPSEA, SEA, BUILDING, LOWLAND, MIDLAND, HIGHLAND, PEAK
 	}
-	
+
 	private HeightState state;
 
 	public HeightState getState() {
 		return state;
 	}
-	
+
 	public abstract int getMinHeight();
+
 	public abstract int getMaxHeight();
+
 	public abstract int getAverageHeight();
 
-	protected final static int width = AbstractBlocks.sectionBlockWidth;
-	protected int minHeight = Integer.MAX_VALUE;
-	protected int minHeightX = 0;
-	protected int minHeightZ = 0;
-	protected int maxHeight = Integer.MIN_VALUE;
-	protected int maxHeightX = 0;
-	protected int maxHeightZ = 0;
-	protected int averageHeight;
-	
-	public final int getRange() {
+	final static int width = AbstractBlocks.sectionBlockWidth;
+	int minHeight = Integer.MAX_VALUE;
+	int minHeightX = 0;
+	int minHeightZ = 0;
+	int maxHeight = Integer.MIN_VALUE;
+	int maxHeightX = 0;
+	int maxHeightZ = 0;
+	int averageHeight;
+
+	private int getRange() {
 		return maxHeight - minHeight;
 	}
 
@@ -59,7 +61,7 @@ public abstract class AbstractYs {
 		return state == HeightState.DEEPSEA || state == HeightState.SEA;
 	}
 
-	protected void calcMinMax(int x, int y, int z) {
+	void calcMinMax(int x, int y, int z) {
 		if (y < minHeight) {
 			minHeight = y;
 			minHeightX = x;
@@ -71,8 +73,8 @@ public abstract class AbstractYs {
 			maxHeightZ = z;
 		}
 	}
-	
-	protected final void calcState(CityWorldGenerator generator, int sumHeight, int count) {
+
+	final void calcState(CityWorldGenerator generator, int sumHeight, int count) {
 		averageHeight = sumHeight / count;
 		if (maxHeight == 0)
 			state = HeightState.EMPTY;

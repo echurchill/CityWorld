@@ -19,33 +19,33 @@ import me.daddychurchill.CityWorld.Support.Surroundings;
 
 public abstract class BuildingLot extends ConnectedLot {
 
-	private static RoomProvider contentsNothing = new EmptyWithNothing();
-	protected final static CornerBlocks cornerBlocks = new CornerBlocks();
+	private static final RoomProvider contentsNothing = new EmptyWithNothing();
+	private final static CornerBlocks cornerBlocks = new CornerBlocks();
 
 	protected boolean neighborsHaveIdenticalHeights;
-	protected double neighborsHaveSimilarHeightsOdds;
-	protected double neighborsHaveSimilarRoundedOdds;
+	private final double neighborsHaveSimilarHeightsOdds;
+	final double neighborsHaveSimilarRoundedOdds;
 	protected int height; // floors up
 	protected int depth; // floors down
 	protected int aboveFloorHeight;
-	protected int basementFloorHeight;
+	protected final int basementFloorHeight;
 	protected boolean needStairsUp;
 	protected boolean needStairsDown;
 
-	protected final static Material antennaBase = Material.CLAY;
-	protected final static Material antenna = Material.SPRUCE_FENCE;
-	protected final static Material conditioner = Material.STONE;
-	protected final static Material conditionerTrim = Material.STONE_PRESSURE_PLATE;
+	final static Material antennaBase = Material.CLAY;
+	final static Material antenna = Material.SPRUCE_FENCE;
+	final static Material conditioner = Material.STONE;
+	final static Material conditionerTrim = Material.STONE_PRESSURE_PLATE;
 	protected final static Material conditionerGrill = Material.RAIL;
-	protected final static Material duct = Material.STONE_SLAB;
-	protected final static Material tileMaterial = Material.STONE_SLAB;
+	final static Material duct = Material.STONE_SLAB;
+	final static Material tileMaterial = Material.STONE_SLAB;
 
 	public enum StairStyle {
 		STUDIO_A, CROSSED, LANDING, CORNER
 	}
 
-	protected StairStyle stairStyle;
-	protected StairFacing stairDirection;
+	private final StairStyle stairStyle;
+	private final StairFacing stairDirection;
 
 	public enum StairWell {
 		NONE, CENTER, NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEAST, NORTH, SOUTH, WEST, EAST
@@ -55,13 +55,13 @@ public abstract class BuildingLot extends ConnectedLot {
 		NORTH, SOUTH, WEST, EAST
 	}
 
-	protected int cornerLotStyle;
+	int cornerLotStyle;
 
-	public RoomProvider roomProviderForFloor(CityWorldGenerator generator, SupportBlocks chunk, int floor, int floorY) {
+	protected RoomProvider roomProviderForFloor(CityWorldGenerator generator, SupportBlocks chunk, int floor, int floorY) {
 		return contentsNothing;
 	}
 
-	public BuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
+	protected BuildingLot(PlatMap platmap, int chunkX, int chunkZ) {
 		super(platmap, chunkX, chunkZ);
 		style = LotStyle.STRUCTURE;
 
@@ -120,11 +120,11 @@ public abstract class BuildingLot extends ConnectedLot {
 		return blockY >= 0 && blockY < generator.streetLevel - basementFloorHeight * depth - 2 - 16;
 	}
 
-	protected StairFacing pickStairDirection() {
+	private StairFacing pickStairDirection() {
 		return StairFacing.values()[chunkOdds.getRandomInt(StairFacing.values().length)];
 	}
 
-	protected StairStyle pickStairStyle() {
+	private StairStyle pickStairStyle() {
 		return StairStyle.values()[chunkOdds.getRandomInt(StairStyle.values().length)];
 	}
 
@@ -173,14 +173,14 @@ public abstract class BuildingLot extends ConnectedLot {
 	}
 
 	static class StairAt {
-		public int X = 0;
-		public int Z = 0;
+		int X = 0;
+		int Z = 0;
 
 		private static final int stairWidth = 4;
 		private static final int centerX = 8;
 		private static final int centerZ = 8;
 
-		public StairAt(RealBlocks chunk, int stairLength, StairWell where) {
+		StairAt(RealBlocks chunk, int stairLength, StairWell where) {
 			switch (where) {
 			case NORTHWEST:
 				X = centerX - stairLength;
@@ -223,7 +223,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 
-	public StairWell getStairWellLocation(boolean allowRounded, Surroundings heights) {
+	StairWell getStairWellLocation(boolean allowRounded, Surroundings heights) {
 		if (heights.toNorth() && heights.toWest() && !heights.toSouth() && !heights.toEast())
 			return StairWell.NORTHWEST;
 		else if (heights.toNorth() && heights.toEast() && !heights.toSouth() && !heights.toWest())
@@ -606,7 +606,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 
-	protected void drawOtherPillars(RealBlocks chunk, int y1, int floorHeight, StairWell where, Material wallMaterial) {
+	void drawOtherPillars(RealBlocks chunk, int y1, int floorHeight, StairWell where, Material wallMaterial) {
 		int y2 = y1 + floorHeight - 1;
 		if (where != StairWell.SOUTHWEST)
 			chunk.setBlocks(3, 5, y1, y2, 3, 5, wallMaterial);
@@ -618,7 +618,7 @@ public abstract class BuildingLot extends ConnectedLot {
 			chunk.setBlocks(11, 13, y1, y2, 11, 13, wallMaterial);
 	}
 
-	protected boolean willBeRounded(boolean allowRounded, Surroundings heights) {
+	boolean willBeRounded(boolean allowRounded, Surroundings heights) {
 		// rounded and square inset and there are exactly two neighbors?
 		if (allowRounded) {// && rounded) {
 
@@ -626,15 +626,11 @@ public abstract class BuildingLot extends ConnectedLot {
 			if (heights.toSouth()) {
 				if (heights.toWest()) {
 					return true;
-				} else if (heights.toEast()) {
-					return true;
-				}
+				} else return heights.toEast();
 			} else if (heights.toNorth()) {
 				if (heights.toWest()) {
 					return true;
-				} else if (heights.toEast()) {
-					return true;
-				}
+				} else return heights.toEast();
 			}
 		}
 		return false;
@@ -913,7 +909,7 @@ public abstract class BuildingLot extends ConnectedLot {
 
 		// rounded and square inset and there are exactly two neighbors?
 		if (allowRounded) {// && rounded) { // already know that... && insetNS == insetWE &&
-							// heights.getNeighborCount() == 2
+			// heights.getNeighborCount() == 2
 //			int innerCorner = (byteChunk.width - inset * 2) + inset;
 			if (heights.toNorth()) {
 				if (heights.toEast()) {
@@ -995,35 +991,35 @@ public abstract class BuildingLot extends ConnectedLot {
 			chunk.airoutBlocks(generator, i, y1, y2, chunk.width - 1 - inset);
 	}
 
-	protected void drawCornerLotNorthWest(InitialBlocks chunk, int cornerLotStyle, int inset, int y1, int y2,
+	private void drawCornerLotNorthWest(InitialBlocks chunk, int cornerLotStyle, int inset, int y1, int y2,
 			Material primary, Material secondary, boolean doInnerWall, boolean doFill, boolean outsetEffect,
 			boolean onRoof) {
 		drawCornerLotNorthWest(chunk, cornerLotStyle, inset, y1, y2, primary, secondary, null, doInnerWall, doFill,
 				outsetEffect, onRoof);
 	}
 
-	protected void drawCornerLotSouthWest(InitialBlocks chunk, int cornerLotStyle, int inset, int y1, int y2,
+	private void drawCornerLotSouthWest(InitialBlocks chunk, int cornerLotStyle, int inset, int y1, int y2,
 			Material primary, Material secondary, boolean doInnerWall, boolean doFill, boolean outsetEffect,
 			boolean onRoof) {
 		drawCornerLotSouthWest(chunk, cornerLotStyle, inset, y1, y2, primary, secondary, null, doInnerWall, doFill,
 				outsetEffect, onRoof);
 	}
 
-	protected void drawCornerLotNorthEast(InitialBlocks chunk, int cornerLotStyle, int inset, int y1, int y2,
+	private void drawCornerLotNorthEast(InitialBlocks chunk, int cornerLotStyle, int inset, int y1, int y2,
 			Material primary, Material secondary, boolean doInnerWall, boolean doFill, boolean outsetEffect,
 			boolean onRoof) {
 		drawCornerLotNorthEast(chunk, cornerLotStyle, inset, y1, y2, primary, secondary, null, doInnerWall, doFill,
 				outsetEffect, onRoof);
 	}
 
-	protected void drawCornerLotSouthEast(InitialBlocks chunk, int cornerLotStyle, int inset, int y1, int y2,
+	private void drawCornerLotSouthEast(InitialBlocks chunk, int cornerLotStyle, int inset, int y1, int y2,
 			Material primary, Material secondary, boolean doInnerWall, boolean doFill, boolean outsetEffect,
 			boolean onRoof) {
 		drawCornerLotSouthEast(chunk, cornerLotStyle, inset, y1, y2, primary, secondary, null, doInnerWall, doFill,
 				outsetEffect, onRoof);
 	}
 
-	protected void drawCornerLotNorthWest(InitialBlocks chunk, int cornerLotStyle, int inset, int y1, int y2,
+	void drawCornerLotNorthWest(InitialBlocks chunk, int cornerLotStyle, int inset, int y1, int y2,
 			Material primary, Material secondary, MaterialFactory maker, boolean doInnerWall, boolean doFill,
 			boolean outsetEffect, boolean onRoof) {
 		if (cornerBlocks.isOldRoundedCorner(cornerLotStyle)) {
@@ -1076,7 +1072,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 
-	protected void drawCornerLotSouthWest(InitialBlocks chunk, int cornerLotStyle, int inset, int y1, int y2,
+	void drawCornerLotSouthWest(InitialBlocks chunk, int cornerLotStyle, int inset, int y1, int y2,
 			Material primary, Material secondary, MaterialFactory maker, boolean doInnerWall, boolean doFill,
 			boolean outsetEffect, boolean onRoof) {
 		if (cornerBlocks.isOldRoundedCorner(cornerLotStyle)) {
@@ -1125,7 +1121,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 
-	protected void drawCornerLotNorthEast(InitialBlocks chunk, int cornerLotStyle, int inset, int y1, int y2,
+	void drawCornerLotNorthEast(InitialBlocks chunk, int cornerLotStyle, int inset, int y1, int y2,
 			Material primary, Material secondary, MaterialFactory maker, boolean doInnerWall, boolean doFill,
 			boolean outsetEffect, boolean onRoof) {
 		if (cornerBlocks.isOldRoundedCorner(cornerLotStyle)) {
@@ -1173,7 +1169,7 @@ public abstract class BuildingLot extends ConnectedLot {
 		}
 	}
 
-	protected void drawCornerLotSouthEast(InitialBlocks chunk, int cornerLotStyle, int inset, int y1, int y2,
+	void drawCornerLotSouthEast(InitialBlocks chunk, int cornerLotStyle, int inset, int y1, int y2,
 			Material primary, Material secondary, MaterialFactory maker, boolean doInnerWall, boolean doFill,
 			boolean outsetEffect, boolean onRoof) {
 		if (cornerBlocks.isOldRoundedCorner(cornerLotStyle)) {

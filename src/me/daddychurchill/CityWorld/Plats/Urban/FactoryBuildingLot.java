@@ -18,7 +18,7 @@ import me.daddychurchill.CityWorld.Support.Surroundings;
 
 public class FactoryBuildingLot extends IndustrialBuildingLot {
 
-	private static RoomProvider contentsStuff = new FactoryWithStuff();
+	private static final RoomProvider contentsStuff = new FactoryWithStuff();
 
 	private final static double oddsOfSimilarContent = Odds.oddsUnlikely;
 
@@ -63,12 +63,12 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 		wallStyle = pickWallStyle(chunkOdds);
 	}
 
-	protected ContentStyle pickContentStyle(Odds odds) {
+	private ContentStyle pickContentStyle(Odds odds) {
 		ContentStyle[] values = ContentStyle.values();
 		return values[odds.getRandomInt(values.length)];
 	}
 
-	protected WallStyle pickWallStyle(Odds odds) {
+	private WallStyle pickWallStyle(Odds odds) {
 		WallStyle[] values = WallStyle.values();
 		return values[odds.getRandomInt(values.length)];
 	}
@@ -428,20 +428,20 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 		chunk.setCircle(8, 8, 4, bottomOfPit, topOfPit, wallMat); // put the wall up quick!
 	}
 
-	protected void generateStuff(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z, int width,
+	private void generateStuff(CityWorldGenerator generator, RealBlocks chunk, int x, int y, int z, int width,
 			int depth) {
 		contentsStuff.drawFixtures(generator, chunk, chunkOdds, 1, x, y, z, width, DataContext.FloorHeight, depth,
 				BlockFace.NORTH, Material.STONE, Material.GLASS);
 	}
 
-	protected void generateOpenings(RealBlocks chunk, int y) {
+	private void generateOpenings(RealBlocks chunk, int y) {
 		chunk.clearBlocks(7 + chunkOdds.getRandomInt(2), y, y + 2, 3);
 		chunk.clearBlocks(7 + chunkOdds.getRandomInt(2), y, y + 2, 12);
 		chunk.clearBlocks(3, y, y + 2, 7 + chunkOdds.getRandomInt(2));
 		chunk.clearBlocks(12, y, y + 2, 7 + chunkOdds.getRandomInt(2));
 	}
 
-	protected void generateSkyWalkBits(CityWorldGenerator generator, RealBlocks chunk, Surroundings neighbors,
+	private void generateSkyWalkBits(CityWorldGenerator generator, RealBlocks chunk, Surroundings neighbors,
 			int skywalkAt, int roofAt) {
 		boolean doNorthward = neighbors.toNorth();
 		boolean doSouthward = neighbors.toSouth();
@@ -527,7 +527,7 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 				BlockFace.NORTH);
 	}
 
-	protected void generateSkyWalkCross(CityWorldGenerator generator, RealBlocks chunk, Surroundings neighbors,
+	private void generateSkyWalkCross(CityWorldGenerator generator, RealBlocks chunk, Surroundings neighbors,
 			int skywalkAt, int roofAt) {
 		boolean doNorthward = neighbors.toNorth();
 		boolean doSouthward = neighbors.toSouth();

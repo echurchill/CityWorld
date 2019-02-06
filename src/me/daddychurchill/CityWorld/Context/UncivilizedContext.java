@@ -7,7 +7,7 @@ import me.daddychurchill.CityWorld.Support.PlatMap;
 
 public abstract class UncivilizedContext extends DataContext {
 
-	public UncivilizedContext(CityWorldGenerator generator) {
+	UncivilizedContext(CityWorldGenerator generator) {
 		super(generator);
 
 		oddsOfIsolatedLots = Odds.oddsNeverGoingToHappen;

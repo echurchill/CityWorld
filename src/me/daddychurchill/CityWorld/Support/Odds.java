@@ -46,7 +46,7 @@ public final class Odds {
 		random = new Random(seed);
 	}
 
-	private Random random;
+	private final Random random;
 
 	public boolean playOdds(double chances) {
 		return random.nextDouble() < chances;
@@ -56,7 +56,7 @@ public final class Odds {
 		return random.nextBoolean();
 	}
 
-	public int rollDice() {
+	private int rollDice() {
 		return random.nextInt(6);
 	}
 
@@ -96,7 +96,7 @@ public final class Odds {
 		return getRandomVelocity(1.0);
 	}
 
-	public Vector getRandomVelocity(double delta) {
+	private Vector getRandomVelocity(double delta) {
 		return new Vector((random.nextDouble() * delta * 2) - delta, 0, (random.nextDouble() * delta * 2) - delta);
 	}
 
@@ -104,7 +104,7 @@ public final class Odds {
 		return getShimmy(1);
 	}
 
-	public int getShimmy(int max) {
+	private int getShimmy(int max) {
 		return -max + random.nextInt(max * 2 + 1);
 	}
 

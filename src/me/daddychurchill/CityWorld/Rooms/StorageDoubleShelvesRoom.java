@@ -33,13 +33,13 @@ public class StorageDoubleShelvesRoom extends StorageRoom {
 		}
 	}
 
-	public void drawNSEmptyShelves(RealBlocks chunk, int x, int y, int z, int width, int height, int depth, int i) {
+	private void drawNSEmptyShelves(RealBlocks chunk, int x, int y, int z, int width, int height, int depth, int i) {
 		for (int offset = 0; offset < width; offset += 2) {
 			drawNSEmptyShelve(chunk, x + offset, y, z, height, depth);
 		}
 	}
 
-	public void drawWEEmptyShelves(RealBlocks chunk, int x, int y, int z, int width, int height, int depth, int i) {
+	private void drawWEEmptyShelves(RealBlocks chunk, int x, int y, int z, int width, int height, int depth, int i) {
 		for (int offset = 0; offset < depth; offset += 2) {
 			drawWEEmptyShelve(chunk, x, y, z + offset, height, width);
 		}

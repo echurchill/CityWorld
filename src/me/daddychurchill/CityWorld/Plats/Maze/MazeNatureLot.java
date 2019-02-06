@@ -26,15 +26,15 @@ public class MazeNatureLot extends NatureLot {
 			BiomeGrid biomes, DataContext context, int platX, int platZ) {
 	}
 
-	protected final static int mazeWidth = 11;
-	protected final static int mazeHeight = 12;
-	protected final static int mazeDepth = 3;
+	private final static int mazeWidth = 11;
+	final static int mazeHeight = 12;
+	final static int mazeDepth = 3;
 
-	protected Material getWallMaterial(CityWorldGenerator generator) {
+	Material getWallMaterial(CityWorldGenerator generator) {
 		return generator.materialProvider.itemsMaterialListFor_MazeWalls.getNthMaterial(0, Material.OBSIDIAN);
 	}
 
-	protected Material getLaymentMaterial(CityWorldGenerator generator) {
+	Material getLaymentMaterial(CityWorldGenerator generator) {
 		return generator.materialProvider.itemsMaterialListFor_MazeWalls.getNthMaterial(1, Material.OBSIDIAN);
 	}
 
@@ -62,7 +62,7 @@ public class MazeNatureLot extends NatureLot {
 		generateEntities(generator, chunk);
 	}
 
-	protected void generateWallPart(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int z1, int z2) {
+	void generateWallPart(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int z1, int z2) {
 		Material wallMaterial = getWallMaterial(generator);
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {
@@ -75,7 +75,7 @@ public class MazeNatureLot extends NatureLot {
 		}
 	}
 
-	protected void generateHallPart(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int z1, int z2) {
+	void generateHallPart(CityWorldGenerator generator, RealBlocks chunk, int x1, int x2, int z1, int z2) {
 		Material wallMaterial = getWallMaterial(generator);
 		for (int x = x1; x < x2; x++) {
 			for (int z = z1; z < z2; z++) {

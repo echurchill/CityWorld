@@ -10,7 +10,7 @@ public class PasteProvider_Normal extends PasteProvider {
 
 	@Override
 	protected void loadClips(CityWorldGenerator generator, SchematicFamily family, ClipboardList clips, int maxX,
-			int maxZ) throws Exception {
+			int maxZ) {
 
 	}
 

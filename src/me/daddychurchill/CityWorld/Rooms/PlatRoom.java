@@ -9,7 +9,7 @@ import me.daddychurchill.CityWorld.Support.RealBlocks;
 
 public abstract class PlatRoom {
 
-	public PlatRoom() {
+	PlatRoom() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -17,7 +17,7 @@ public abstract class PlatRoom {
 			int z, int width, int height, int depth, BlockFace sideWithWall, Material materialWall,
 			Material materialGlass);
 
-	private Material[] TableTops = { Material.ACACIA_PRESSURE_PLATE, Material.BIRCH_PRESSURE_PLATE,
+	private final Material[] TableTops = { Material.ACACIA_PRESSURE_PLATE, Material.BIRCH_PRESSURE_PLATE,
 			Material.DARK_OAK_PRESSURE_PLATE, Material.JUNGLE_PRESSURE_PLATE, Material.OAK_PRESSURE_PLATE,
 			Material.SPRUCE_PRESSURE_PLATE,
 
@@ -29,17 +29,17 @@ public abstract class PlatRoom {
 			Material.LIME_CARPET, Material.MAGENTA_CARPET, Material.ORANGE_CARPET, Material.PINK_CARPET,
 			Material.PURPLE_CARPET, Material.RED_CARPET, Material.WHITE_CARPET, Material.YELLOW_CARPET };
 
-	private Material[] TableLegs = { Material.ACACIA_FENCE, Material.BIRCH_FENCE, Material.DARK_OAK_FENCE,
+	private final Material[] TableLegs = { Material.ACACIA_FENCE, Material.BIRCH_FENCE, Material.DARK_OAK_FENCE,
 			Material.JUNGLE_FENCE, Material.OAK_FENCE, Material.SPRUCE_FENCE,
 
 			Material.NETHER_BRICK_FENCE, Material.COBBLESTONE_WALL, Material.MOSSY_COBBLESTONE_WALL,
 			Material.IRON_BARS };
 
-	protected Material getTableTop(Odds odds) {
+	Material getTableTop(Odds odds) {
 		return odds.getRandomMaterial(TableTops);
 	}
 
-	protected Material getTableLeg(Odds odds) {
+	Material getTableLeg(Odds odds) {
 		return odds.getRandomMaterial(TableLegs);
 	}
 }

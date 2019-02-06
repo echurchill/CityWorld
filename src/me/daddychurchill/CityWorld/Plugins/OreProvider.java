@@ -14,12 +14,12 @@ import me.daddychurchill.CityWorld.Support.SupportBlocks;
 
 public abstract class OreProvider extends Provider {
 
-//	public final static int lavaFluidLevel = 24;
+	//	public final static int lavaFluidLevel = 24;
 	public final static int lavaFieldLevel = 12;
-	protected final static double oreSprinkleOdds = Odds.oddsLessLikely;
-	protected final static double snowSprinkleOdds = Odds.oddsMoreLikely;
+	private final static double oreSprinkleOdds = Odds.oddsLessLikely;
+	private final static double snowSprinkleOdds = Odds.oddsMoreLikely;
 
-	protected List<Material> ore_types = new ArrayList<Material>();
+	List<Material> ore_types = new ArrayList<>();
 
 	public Material surfaceMaterial;
 	public Material subsurfaceMaterial;
@@ -32,7 +32,7 @@ public abstract class OreProvider extends Provider {
 	public Material fluidSubsurfaceMaterial;
 	public Material fluidFrozenMaterial;
 
-	public OreProvider(CityWorldGenerator generator) {
+	OreProvider(CityWorldGenerator generator) {
 		super();
 
 		surfaceMaterial = Material.GRASS_BLOCK;
@@ -126,12 +126,12 @@ public abstract class OreProvider extends Provider {
 	 */
 
 	// WATER LAVA GRAV COAL IRON GOLD LAPIS REDST DIAM EMER
-	static final int[] ore_iterations = new int[] { 8, 6, 40, 30, 12, 4, 2, 4, 2, 10 };
-	static final int[] ore_amountToDo = new int[] { 1, 1, 12, 8, 8, 3, 3, 10, 3, 1 };
-	static final int[] ore_maxY = new int[] { 128, 32, 111, 128, 61, 29, 25, 16, 15, 32 };
-	static final int[] ore_minY = new int[] { 32, 2, 40, 16, 10, 8, 8, 6, 2, 2 };
-	static final boolean[] ore_upper = new boolean[] { true, false, false, true, true, true, true, true, false, false };
-	static final boolean[] ore_liquid = new boolean[] { true, true, false, false, false, false, false, false, false,
+	private static final int[] ore_iterations = new int[] { 8, 6, 40, 30, 12, 4, 2, 4, 2, 10 };
+	private static final int[] ore_amountToDo = new int[] { 1, 1, 12, 8, 8, 3, 3, 10, 3, 1 };
+	private static final int[] ore_maxY = new int[] { 128, 32, 111, 128, 61, 29, 25, 16, 15, 32 };
+	private static final int[] ore_minY = new int[] { 32, 2, 40, 16, 10, 8, 8, 6, 2, 2 };
+	private static final boolean[] ore_upper = new boolean[] { true, false, false, true, true, true, true, true, false, false };
+	private static final boolean[] ore_liquid = new boolean[] { true, true, false, false, false, false, false, false, false,
 			false };
 
 	public void sprinkleOres(CityWorldGenerator generator, PlatLot lot, SupportBlocks chunk, AbstractCachedYs blockYs,

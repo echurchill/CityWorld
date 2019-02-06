@@ -78,12 +78,12 @@ public class CityWorldSettings {
 
 	public TreeStyle treeStyle = TreeStyle.NORMAL;
 	public double spawnTrees = Odds.oddsLikely;
-//	public double oddsOfFoliage = Odds.oddsAlwaysGoingToHappen;
+	//	public double oddsOfFoliage = Odds.oddsAlwaysGoingToHappen;
 	public SubSurfaceStyle subSurfaceStyle = SubSurfaceStyle.LAND;
 
 	private final static int maxRadius = 30000000 / AbstractBlocks.sectionBlockWidth; // 1875000 is the actual maximum
-																						// chunk limit for today's
-																						// minecraft world format
+	// chunk limit for today's
+	// minecraft world format
 	private int centerPointOfChunkRadiusX = 0;
 	private int centerPointOfChunkRadiusZ = 0;
 	private int constructChunkRadius = maxRadius;
@@ -104,72 +104,72 @@ public class CityWorldSettings {
 	public double oddsOfTreasureInBuildings = Odds.oddsLikely;
 	public double oddsOfAlcoveInMines = Odds.oddsVeryLikely;
 
-	private static String tagIncludeRoads = "IncludeRoads";
-	private static String tagIncludeRoundabouts = "IncludeRoundabouts";
-	private static String tagIncludeSewers = "IncludeSewers";
-	private static String tagIncludeCisterns = "IncludeCisterns";
-	private static String tagIncludeBasements = "IncludeBasements";
-	private static String tagIncludeMines = "IncludeMines";
-	private static String tagIncludeBunkers = "IncludeBunkers";
-	private static String tagIncludeBuildings = "IncludeBuildings";
-	private static String tagIncludeHouses = "IncludeHouses";
-	private static String tagIncludeFarms = "IncludeFarms";
-	private static String tagIncludeMunicipalities = "IncludeMunicipalities";
-	private static String tagIncludeIndustrialSectors = "IncludeIndustrialSectors";
-	private static String tagIncludeAirborneStructures = "IncludeAirborneStructures";
+	private static final String tagIncludeRoads = "IncludeRoads";
+	private static final String tagIncludeRoundabouts = "IncludeRoundabouts";
+	private static final String tagIncludeSewers = "IncludeSewers";
+	private static final String tagIncludeCisterns = "IncludeCisterns";
+	private static final String tagIncludeBasements = "IncludeBasements";
+	private static final String tagIncludeMines = "IncludeMines";
+	private static final String tagIncludeBunkers = "IncludeBunkers";
+	private static final String tagIncludeBuildings = "IncludeBuildings";
+	private static final String tagIncludeHouses = "IncludeHouses";
+	private static final String tagIncludeFarms = "IncludeFarms";
+	private static final String tagIncludeMunicipalities = "IncludeMunicipalities";
+	private static final String tagIncludeIndustrialSectors = "IncludeIndustrialSectors";
+	private static final String tagIncludeAirborneStructures = "IncludeAirborneStructures";
 
-	private static String tagIncludeCaves = "IncludeCaves";
-	private static String tagIncludeLavaFields = "IncludeLavaFields";
-	private static String tagIncludeSeas = "IncludeSeas";
-	private static String tagIncludeMountains = "IncludeMountains";
-	private static String tagIncludeOres = "IncludeOres";
-	private static String tagIncludeBones = "IncludeBones";
-	private static String tagIncludeFires = "IncludeFires";
+	private static final String tagIncludeCaves = "IncludeCaves";
+	private static final String tagIncludeLavaFields = "IncludeLavaFields";
+	private static final String tagIncludeSeas = "IncludeSeas";
+	private static final String tagIncludeMountains = "IncludeMountains";
+	private static final String tagIncludeOres = "IncludeOres";
+	private static final String tagIncludeBones = "IncludeBones";
+	private static final String tagIncludeFires = "IncludeFires";
 
-	private static String tagSpawnAnimals = "SpawnAnimals";
-	private static String tagSpawnBeings = "SpawnBeings";
-	private static String tagSpawnBaddies = "SpawnBaddies";
-	private static String tagSpawnVagrants = "SpawnVagrants";
-	private static String tagNameVillagers = "NameVillagers";
-	private static String tagShowVillagersNames = "ShowVillagersNames";
+	private static final String tagSpawnAnimals = "SpawnAnimals";
+	private static final String tagSpawnBeings = "SpawnBeings";
+	private static final String tagSpawnBaddies = "SpawnBaddies";
+	private static final String tagSpawnVagrants = "SpawnVagrants";
+	private static final String tagNameVillagers = "NameVillagers";
+	private static final String tagShowVillagersNames = "ShowVillagersNames";
 
-	private static String tagSpawnersInBunkers = "SpawnersInBunkers";
-	private static String tagSpawnersInMines = "SpawnersInMines";
-	private static String tagSpawnersInSewers = "SpawnersInSewers";
+	private static final String tagSpawnersInBunkers = "SpawnersInBunkers";
+	private static final String tagSpawnersInMines = "SpawnersInMines";
+	private static final String tagSpawnersInSewers = "SpawnersInSewers";
 
-	private static String tagTreasuresInBunkers = "TreasuresInBunkers";
-	private static String tagTreasuresInMines = "TreasuresInMines";
-	private static String tagTreasuresInSewers = "TreasuresInSewers";
-	private static String tagTreasuresInBuildings = "TreasuresInBuildings";
+	private static final String tagTreasuresInBunkers = "TreasuresInBunkers";
+	private static final String tagTreasuresInMines = "TreasuresInMines";
+	private static final String tagTreasuresInSewers = "TreasuresInSewers";
+	private static final String tagTreasuresInBuildings = "TreasuresInBuildings";
 
-	private static String tagIncludeUndergroundFluids = "IncludeUndergroundFluids";
-	private static String tagIncludeAbovegroundFluids = "IncludeAbovegroundFluids";
-	private static String tagIncludeWorkingLights = "IncludeWorkingLights";
-	private static String tagIncludeNamedRoads = "IncludeNamedRoads";
-	private static String tagIncludeDecayedRoads = "IncludeDecayedRoads";
-	private static String tagIncludeDecayedBuildings = "IncludeDecayedBuildings";
-	private static String tagIncludeDecayedNature = "IncludeDecayedNature";
-	private static String tagIncludeBuildingInteriors = "IncludeBuildingInteriors";
-	private static String tagIncludeFloatingSubsurface = "IncludeFloatingSubsurface";
+	private static final String tagIncludeUndergroundFluids = "IncludeUndergroundFluids";
+	private static final String tagIncludeAbovegroundFluids = "IncludeAbovegroundFluids";
+	private static final String tagIncludeWorkingLights = "IncludeWorkingLights";
+	private static final String tagIncludeNamedRoads = "IncludeNamedRoads";
+	private static final String tagIncludeDecayedRoads = "IncludeDecayedRoads";
+	private static final String tagIncludeDecayedBuildings = "IncludeDecayedBuildings";
+	private static final String tagIncludeDecayedNature = "IncludeDecayedNature";
+	private static final String tagIncludeBuildingInteriors = "IncludeBuildingInteriors";
+	private static final String tagIncludeFloatingSubsurface = "IncludeFloatingSubsurface";
 
-	private static String tagUseMinecraftLootTables = "UseMinecraftLootTables";
-	private static String tagBroadcastSpecialPlaces = "BroadcastSpecialPlaces";
-	public static String tagForceLoadWorldEdit = "ForceLoadWorldEdit";
+	private static final String tagUseMinecraftLootTables = "UseMinecraftLootTables";
+	private static final String tagBroadcastSpecialPlaces = "BroadcastSpecialPlaces";
+	public static final String tagForceLoadWorldEdit = "ForceLoadWorldEdit";
 
-	private static String tagTreeStyle = "TreeStyle";
-	private static String tagSpawnTrees = "SpawnTrees";
-//	private static String tagOddsOfFoliage = "OddsOfFoliage";
-	private static String tagSubSurfaceStyle = "SubSurfaceStyle";
+	private static final String tagTreeStyle = "TreeStyle";
+	private static final String tagSpawnTrees = "SpawnTrees";
+	//	private static String tagOddsOfFoliage = "OddsOfFoliage";
+	private static final String tagSubSurfaceStyle = "SubSurfaceStyle";
 
-	private static String tagCenterPointOfChunkRadiusX = "CenterPointOfChunkRadiusX";
-	private static String tagCenterPointOfChunkRadiusZ = "CenterPointOfChunkRadiusZ";
-	private static String tagConstructChunkRadius = "ConstructChunkRadius";
-	private static String tagRoadChunkRadius = "RoadChunkRadius";
-	private static String tagCityChunkRadius = "CityChunkRadius";
-	private static String tagBuildOutsideRadius = "BuildOutsideRadius";
+	private static final String tagCenterPointOfChunkRadiusX = "CenterPointOfChunkRadiusX";
+	private static final String tagCenterPointOfChunkRadiusZ = "CenterPointOfChunkRadiusZ";
+	private static final String tagConstructChunkRadius = "ConstructChunkRadius";
+	private static final String tagRoadChunkRadius = "RoadChunkRadius";
+	private static final String tagCityChunkRadius = "CityChunkRadius";
+	private static final String tagBuildOutsideRadius = "BuildOutsideRadius";
 
-	private static String tagMinInbetweenChunkDistanceOfCities = "MinInbetweenChunkDistanceOfCities";
-	private static String tagRuralnessLevel = "RuralnessLevel";
+	private static final String tagMinInbetweenChunkDistanceOfCities = "MinInbetweenChunkDistanceOfCities";
+	private static final String tagRuralnessLevel = "RuralnessLevel";
 
 //	private static String tagOddsOfTreasureInSewers = "OddsOfTreasureInSewers";
 //	private static String tagOddsOfTreasureInBunkers = "OddsOfTreasureInBunkers";
@@ -177,21 +177,21 @@ public class CityWorldSettings {
 //	private static String tagOddsOfTreasureInBuildings = "OddsOfTreasureInBuildings";
 //	private static String tagOddsOfAlcovesInMines = "OddsOfAlcovesInMines";
 
-	public CityWorldSettings() {
+	private CityWorldSettings() {
 		super();
 	}
-	
+
 	public static CityWorldSettings loadSettings(CityWorld plugin) {
 		plugin.reportMessage("Loading default settings");
 		CityWorldSettings settings = new CityWorldSettings();
-		
+
 		FileConfiguration config = plugin.getConfig();
 		settings.loadSettings(null, config, "default", Environment.NORMAL, WorldType.NORMAL, WorldStyle.NORMAL);
 		plugin.saveConfig();
-		
+
 		return settings;
 	}
-	
+
 	public static CityWorldSettings loadSettings(CityWorldGenerator generator, World aWorld) {
 		String worldName = generator.worldName;
 		generator.reportMessage("Loading settings for '" + worldName + "'");
@@ -199,23 +199,23 @@ public class CityWorldSettings {
 		Environment worldEnv = aWorld.getEnvironment();
 		WorldType worldType = aWorld.getWorldType();
 		WorldStyle worldStyle = generator.worldStyle;
-		
+
 		try {
-			
+
 			File pluginFolder = generator.getPlugin().getDataFolder();
 			if (pluginFolder.isDirectory()) {
 				File worldConfig = new File(pluginFolder, worldName + ".yml");
-				
+
 				// if this returns true then we need to copy over the defaults
 				if (worldConfig.createNewFile()) {
-					
+
 					FileConfiguration defaults = generator.getPlugin().getConfig();
 					if (defaults.isConfigurationSection(worldName)) {
-						
+
 						CityWorldSettings oldSettings = new CityWorldSettings();
 						oldSettings.loadSettings(generator, defaults, worldName, worldEnv, worldType, worldStyle);
 						settings.copySettings(oldSettings);
-						
+
 						generator.reportMessage("*********************************************");
 						generator.reportMessage("Copied the settings from CityWorld/config.yml");
 						generator.reportMessage(" to " + worldName + ".yml. You should verify");
@@ -236,12 +236,12 @@ public class CityWorldSettings {
 						generator.reportMessage("*********************************************");
 					}
 				}
-					
+
 				// now load it
 				YamlConfiguration config = YamlConfiguration.loadConfiguration(worldConfig);
 				try {
 					settings.loadSettings(generator, config, worldName, worldEnv, worldType, worldStyle);
-					
+
 				} finally {
 					config.save(worldConfig);
 				}
@@ -252,86 +252,86 @@ public class CityWorldSettings {
 		}
 		return settings;
 	}
-	
-	private void copySettings(CityWorldSettings otherSettings) {
-		darkEnvironment = otherSettings.darkEnvironment; 
 
-		includeRoads = otherSettings.includeRoads; 
-		includeRoundabouts = otherSettings.includeRoundabouts; 
-		includeSewers = otherSettings.includeSewers; 
-		includeCisterns = otherSettings.includeCisterns; 
-		includeBasements = otherSettings.includeBasements; 
-		includeMines = otherSettings.includeMines; 
-		includeBunkers = otherSettings.includeBunkers; 
-		includeBuildings = otherSettings.includeBuildings; 
-		includeHouses = otherSettings.includeHouses; 
+	private void copySettings(CityWorldSettings otherSettings) {
+		darkEnvironment = otherSettings.darkEnvironment;
+
+		includeRoads = otherSettings.includeRoads;
+		includeRoundabouts = otherSettings.includeRoundabouts;
+		includeSewers = otherSettings.includeSewers;
+		includeCisterns = otherSettings.includeCisterns;
+		includeBasements = otherSettings.includeBasements;
+		includeMines = otherSettings.includeMines;
+		includeBunkers = otherSettings.includeBunkers;
+		includeBuildings = otherSettings.includeBuildings;
+		includeHouses = otherSettings.includeHouses;
 		includeFarms = otherSettings.includeFarms;
 		includeMunicipalities = otherSettings.includeMunicipalities;
 		includeIndustrialSectors = otherSettings.includeIndustrialSectors;
-		includeAirborneStructures = otherSettings.includeAirborneStructures; 
+		includeAirborneStructures = otherSettings.includeAirborneStructures;
 
-		includeCaves = otherSettings.includeCaves; 
-		includeLavaFields = otherSettings.includeLavaFields; 
-		includeSeas = otherSettings.includeSeas; 
-		includeMountains = otherSettings.includeMountains; 
-		includeOres = otherSettings.includeOres; 
+		includeCaves = otherSettings.includeCaves;
+		includeLavaFields = otherSettings.includeLavaFields;
+		includeSeas = otherSettings.includeSeas;
+		includeMountains = otherSettings.includeMountains;
+		includeOres = otherSettings.includeOres;
 		includeBones = otherSettings.includeBones;
 		includeFires = otherSettings.includeFires;
 
-		spawnBeings = otherSettings.spawnBeings; 
-		spawnBaddies = otherSettings.spawnBaddies; 
-		spawnAnimals = otherSettings.spawnAnimals; 
-		spawnVagrants = otherSettings.spawnVagrants; 
-		nameVillagers = otherSettings.nameVillagers; 
-		showVillagersNames = otherSettings.showVillagersNames; 
+		spawnBeings = otherSettings.spawnBeings;
+		spawnBaddies = otherSettings.spawnBaddies;
+		spawnAnimals = otherSettings.spawnAnimals;
+		spawnVagrants = otherSettings.spawnVagrants;
+		nameVillagers = otherSettings.nameVillagers;
+		showVillagersNames = otherSettings.showVillagersNames;
 
-		spawnersInBunkers = otherSettings.spawnersInBunkers; 
-		spawnersInMines = otherSettings.spawnersInMines; 
-		spawnersInSewers = otherSettings.spawnersInSewers; 
+		spawnersInBunkers = otherSettings.spawnersInBunkers;
+		spawnersInMines = otherSettings.spawnersInMines;
+		spawnersInSewers = otherSettings.spawnersInSewers;
 
-		treasuresInBunkers = otherSettings.treasuresInBunkers; 
-		treasuresInMines = otherSettings.treasuresInMines; 
-		treasuresInSewers = otherSettings.treasuresInSewers; 
-		treasuresInBuildings = otherSettings.treasuresInBuildings; 
+		treasuresInBunkers = otherSettings.treasuresInBunkers;
+		treasuresInMines = otherSettings.treasuresInMines;
+		treasuresInSewers = otherSettings.treasuresInSewers;
+		treasuresInBuildings = otherSettings.treasuresInBuildings;
 
-		includeUndergroundFluids = otherSettings.includeUndergroundFluids; 
-		includeAbovegroundFluids = otherSettings.includeAbovegroundFluids; 
-		includeWorkingLights = otherSettings.includeWorkingLights; 
-		includeNamedRoads = otherSettings.includeNamedRoads; 
-		includeDecayedRoads = otherSettings.includeDecayedRoads; 
-		includeDecayedBuildings = otherSettings.includeDecayedBuildings; 
-		includeDecayedNature = otherSettings.includeDecayedNature; 
-		includeBuildingInteriors = otherSettings.includeBuildingInteriors; 
+		includeUndergroundFluids = otherSettings.includeUndergroundFluids;
+		includeAbovegroundFluids = otherSettings.includeAbovegroundFluids;
+		includeWorkingLights = otherSettings.includeWorkingLights;
+		includeNamedRoads = otherSettings.includeNamedRoads;
+		includeDecayedRoads = otherSettings.includeDecayedRoads;
+		includeDecayedBuildings = otherSettings.includeDecayedBuildings;
+		includeDecayedNature = otherSettings.includeDecayedNature;
+		includeBuildingInteriors = otherSettings.includeBuildingInteriors;
 
 		useMinecraftLootTables = otherSettings.useMinecraftLootTables;
-		forceLoadWorldEdit = otherSettings.forceLoadWorldEdit; 
-		broadcastSpecialPlaces = otherSettings.broadcastSpecialPlaces; 
+		forceLoadWorldEdit = otherSettings.forceLoadWorldEdit;
+		broadcastSpecialPlaces = otherSettings.broadcastSpecialPlaces;
 
-		treeStyle = otherSettings.treeStyle; 
-		spawnTrees = otherSettings.spawnTrees; 
-		subSurfaceStyle = otherSettings.subSurfaceStyle; 
+		treeStyle = otherSettings.treeStyle;
+		spawnTrees = otherSettings.spawnTrees;
+		subSurfaceStyle = otherSettings.subSurfaceStyle;
 
-		centerPointOfChunkRadiusX = otherSettings.centerPointOfChunkRadiusX; 
-		centerPointOfChunkRadiusZ = otherSettings.centerPointOfChunkRadiusZ; 
-		constructChunkRadius = otherSettings.constructChunkRadius; 
-		checkConstructRange = otherSettings.checkConstructRange; 
-		roadChunkRadius = otherSettings.roadChunkRadius; 
-		checkRoadRange = otherSettings.checkRoadRange; 
-		cityChunkRadius = otherSettings.cityChunkRadius; 
-		checkCityRange = otherSettings.checkCityRange; 
-		buildOutsideRadius = otherSettings.buildOutsideRadius; 
+		centerPointOfChunkRadiusX = otherSettings.centerPointOfChunkRadiusX;
+		centerPointOfChunkRadiusZ = otherSettings.centerPointOfChunkRadiusZ;
+		constructChunkRadius = otherSettings.constructChunkRadius;
+		checkConstructRange = otherSettings.checkConstructRange;
+		roadChunkRadius = otherSettings.roadChunkRadius;
+		checkRoadRange = otherSettings.checkRoadRange;
+		cityChunkRadius = otherSettings.cityChunkRadius;
+		checkCityRange = otherSettings.checkCityRange;
+		buildOutsideRadius = otherSettings.buildOutsideRadius;
 
-		minInbetweenChunkDistanceOfCities = otherSettings.minInbetweenChunkDistanceOfCities; 
-		checkMinInbetweenChunkDistanceOfCities = otherSettings.checkMinInbetweenChunkDistanceOfCities; 
-		ruralnessLevel = otherSettings.ruralnessLevel; 
+		minInbetweenChunkDistanceOfCities = otherSettings.minInbetweenChunkDistanceOfCities;
+		checkMinInbetweenChunkDistanceOfCities = otherSettings.checkMinInbetweenChunkDistanceOfCities;
+		ruralnessLevel = otherSettings.ruralnessLevel;
 
-		oddsOfTreasureInSewers = otherSettings.oddsOfTreasureInSewers; 
-		oddsOfTreasureInBunkers = otherSettings.oddsOfTreasureInBunkers; 
-		oddsOfTreasureInMines = otherSettings.oddsOfTreasureInMines; 
-		oddsOfTreasureInBuildings = otherSettings.oddsOfTreasureInBuildings; 
-		oddsOfAlcoveInMines = otherSettings.oddsOfAlcoveInMines; 
-		
-		
+		oddsOfTreasureInSewers = otherSettings.oddsOfTreasureInSewers;
+		oddsOfTreasureInBunkers = otherSettings.oddsOfTreasureInBunkers;
+		oddsOfTreasureInMines = otherSettings.oddsOfTreasureInMines;
+		oddsOfTreasureInBuildings = otherSettings.oddsOfTreasureInBuildings;
+		oddsOfAlcoveInMines = otherSettings.oddsOfAlcoveInMines;
+
+
 	}
 
 	private void loadSettings(CityWorldGenerator generator, FileConfiguration config, String worldname, Environment environment, WorldType worldtype, WorldStyle worldstyle) {
@@ -687,17 +687,17 @@ public class CityWorldSettings {
 			// note the depreciations
 			deprecateOption(section, "IncludeWoolRoads",
 					"DEPRECATED: CityWorld now uses stained clay and quartz for roads");
-			deprecateOption(section, "IncludePavedRoads", 
+			deprecateOption(section, "IncludePavedRoads",
 					"DEPRECATED: See deprecated note for IncludeWoolRoads");
-			deprecateOption(section, "RoadRange", 
+			deprecateOption(section, "RoadRange",
 					"DEPRECATED: Use RoadChunkRadius instead");
-			deprecateOption(section, "CityRange", 
+			deprecateOption(section, "CityRange",
 					"DEPRECATED: Use CityChunkRadius instead");
-			deprecateOption(section, "IncludeTekkitMaterials", 
+			deprecateOption(section, "IncludeTekkitMaterials",
 					"DEPRECATED: ForgeTekkit is auto-recognized");
-			deprecateOption(section, "ForceLoadTekkit", 
+			deprecateOption(section, "ForceLoadTekkit",
 					"DEPRECATED: Direct Tekkit support removed as of 3.0");
-			deprecateOption(section, "IncludeFloatingSubsurface", 
+			deprecateOption(section, "IncludeFloatingSubsurface",
 					"DEPRECATED: Use SubSurfaceStyle instead");
 		}
 	}

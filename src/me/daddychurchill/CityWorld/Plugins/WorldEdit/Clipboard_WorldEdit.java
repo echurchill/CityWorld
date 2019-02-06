@@ -36,7 +36,7 @@ public class Clipboard_WorldEdit extends Clipboard {
 	private final static String tagGroundLevelY = "GroundLevelY";
 	private final static String tagFlipableX = "FlipableX";
 	private final static String tagFlipableZ = "FlipableZ";
-//	private final static String tagScalableX = "ScalableX";
+	//	private final static String tagScalableX = "ScalableX";
 //	private final static String tagScalableZ = "ScalableZ";
 //	private final static String tagScalableY = "ScalableY";
 //	private final static String tagFloorHeightY = "FloorHeightY";

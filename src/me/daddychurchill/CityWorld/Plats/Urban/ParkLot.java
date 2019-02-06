@@ -45,7 +45,7 @@ public class ParkLot extends ConnectedLot {
 		CROSS_PATH, CIRCLE_PATH, WATER_TOWER, HEDGE_MAZE, CIRCLE_MAZE, LABYRINTH_MAZE
 	}
 
-	private CenterStyles centerStyle;
+	private final CenterStyles centerStyle;
 
 	protected int waterDepth;
 
@@ -206,10 +206,10 @@ public class ParkLot extends ConnectedLot {
 		case LABYRINTH_MAZE:
 		case HEDGE_MAZE:
 		case CIRCLE_MAZE:
-			 //TODO @@ putting leaves within range of a log should prevent decay but it doesn't WHY?
+			//TODO @@ putting leaves within range of a log should prevent decay but it doesn't WHY?
 			chunk.setLeafWalls(0, 16, surfaceY, surfaceY + 3, 0, 16, leafMaterial, true);
 			chunk.setWalls(0, 16, surfaceY - 1, surfaceY, 0, 16, logMaterial);
-			
+
 			if (!neighbors.toNorth() && HeightInfo.isBuildableToNorth(generator, chunk)) {
 				chunk.clearBlocks(6, 10, surfaceY, surfaceY + 3, 0, 1);
 				chunk.setBlocks(6, surfaceY, surfaceY + 2, 0, columnMaterial);
@@ -504,7 +504,7 @@ public class ParkLot extends ConnectedLot {
 				contLabyrinth(chunk, 8, 7); // t
 				break;
 			case CIRCLE_MAZE:
-				 //TODO @@ putting leaves within range of a log should prevent decay but it doesn't WHY?
+				//TODO @@ putting leaves within range of a log should prevent decay but it doesn't WHY?
 				chunk.setLeafWalls(2, 14, surfaceY, surfaceY + 2, 2, 14, leafMaterial, true);
 				chunk.setWalls(2, 14, surfaceY - 1, surfaceY, 2, 14, logMaterial);
 				chunk.setLeafWalls(4, 12, surfaceY, surfaceY + 3, 4, 12, leafMaterial, true);
@@ -537,7 +537,7 @@ public class ParkLot extends ConnectedLot {
 						int z2 = z * 3;
 						int xWall = x * 2;
 						int zWall = z * 2;
-						 //TODO @@putting leaves within range of a log should prevent decay but it doesn't WHY?
+						//TODO @@putting leaves within range of a log should prevent decay but it doesn't WHY?
 						if ((x < 5) && (maze.getBit(xWall, zWall - 1) == MazeBit.WALL)) {
 							chunk.setLeaves(x2, x2 + 1, surfaceY, surfaceY + 3, z1, z2, leafMaterial, true);
 							chunk.setBlocks(x2, x2 + 1, surfaceY - 1, surfaceY, z1, z2, logMaterial);
@@ -655,10 +655,10 @@ public class ParkLot extends ConnectedLot {
 		chunk.clearBlocks(x, y, y + 4, z);
 	}
 
-	int lastX;
-	int lastY;
-	int lastZ;
-	Material lastColor;
+	private int lastX;
+	private int lastY;
+	private int lastZ;
+	private Material lastColor;
 
 	private void startLabyrinth(RealBlocks chunk, int x, int y, int z, Material color) {
 		lastX = x;
