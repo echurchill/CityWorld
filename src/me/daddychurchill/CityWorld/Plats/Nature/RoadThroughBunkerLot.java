@@ -49,6 +49,9 @@ public class RoadThroughBunkerLot extends RoadLot {
 	}
 
 	@Override
+	protected boolean isValidWithBones() { return false; }
+
+	@Override
 	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk,
 			BiomeGrid biomes, DataContext context, int platX, int platZ) {
 		super.generateActualChunk(generator, platmap, chunk, biomes, context, platX, platZ);

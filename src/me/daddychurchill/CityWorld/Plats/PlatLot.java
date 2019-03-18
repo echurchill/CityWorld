@@ -543,10 +543,14 @@ public abstract class PlatLot {
 		return true;
 	}
 
+	protected boolean isValidWithBones() {
+		return true;
+	}
+
 	public void generateBones(CityWorldGenerator generator, SupportBlocks chunk) {
 
 		// fossils?
-		if (generator.getSettings().includeBones && chunkOdds.playOdds(Odds.oddsTremendouslyUnlikely))
+		if (isValidWithBones() && generator.getSettings().includeBones && chunkOdds.playOdds(Odds.oddsTremendouslyUnlikely))
 			generator.thingProvider.generateBones(generator, this, chunk, blockYs, chunkOdds);
 	}
 

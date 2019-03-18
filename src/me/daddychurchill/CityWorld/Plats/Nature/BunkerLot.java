@@ -136,6 +136,9 @@ public class BunkerLot extends ConnectedLot {
 	}
 
 	@Override
+	protected boolean isValidWithBones() { return false; }
+
+	@Override
 	public RoadLot repaveLot(CityWorldGenerator generator, PlatMap platmap) {
 		return new RoadThroughBunkerLot(platmap, chunkX, chunkZ, generator.connectedKeyForPavedRoads, false, this);
 	}
