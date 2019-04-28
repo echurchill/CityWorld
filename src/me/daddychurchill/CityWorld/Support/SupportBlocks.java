@@ -670,7 +670,20 @@ public abstract class SupportBlocks extends AbstractBlocks {
 				setBlock(x, y, z, material, half);
 	}
 
-	//NOTE when used as the default world generator (aka bukkit.yml), putting a chest down on or near the edge (0, 1, 14, 15) causes exceptions
+	public final void setChest(CityWorldGenerator generator, int x, int y, int z, Odds odds,
+			LootProvider lootProvider, LootLocation lootLocation) {
+		if (!onEdgeXZ(x, z)) {
+			BlockFace facing = BlockFace.NORTH;
+			if (isEmpty(x - 1, y, z))
+				facing = BlockFace.WEST;
+			else if (isEmpty(x - 1, y, z))
+				facing = BlockFace.EAST;
+			else if (isEmpty(x, y, z + 1))
+				facing = BlockFace.SOUTH;
+			setChest(generator, x, y, z, facing, odds, lootProvider, lootLocation);
+		}
+	}
+
 	public final void setChest(CityWorldGenerator generator, int x, int y, int z, BlockFace facing, Odds odds,
 			LootProvider lootProvider, LootLocation lootLocation) {
 		if (!onNearEdgeXZ(x, z)) {

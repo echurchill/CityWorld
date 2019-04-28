@@ -22,7 +22,7 @@
 				},
 				{
 					"type": "item",
-					"name": "minecraft:sign",
+					"name": "minecraft:oak_door",
 					"functions": [
 						{
 							"function": "set_count",
@@ -36,7 +36,7 @@
 				},
 				{
 					"type": "item",
-					"name": "minecraft:oak_door",
+					"name": "minecraft:oak_sign",
 					"functions": [
 						{
 							"function": "set_count",
@@ -204,6 +204,20 @@
 				},
 				{
 					"type": "item",
+					"name": "minecraft:spruce_sign",
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 1,
+								"max": 6
+							}
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
 					"name": "minecraft:spruce_fence",
 					"functions": [
 						{
@@ -345,6 +359,20 @@
 				{
 					"type": "item",
 					"name": "minecraft:birch_door",
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 1,
+								"max": 6
+							}
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:birch_sign",
 					"functions": [
 						{
 							"function": "set_count",
@@ -512,6 +540,20 @@
 				},
 				{
 					"type": "item",
+					"name": "minecraft:jungle_sign",
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 1,
+								"max": 6
+							}
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
 					"name": "minecraft:jungle_fence",
 					"functions": [
 						{
@@ -666,6 +708,20 @@
 				},
 				{
 					"type": "item",
+					"name": "minecraft:acacia_sign",
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 1,
+								"max": 6
+							}
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
 					"name": "minecraft:acacia_fence",
 					"functions": [
 						{
@@ -807,6 +863,20 @@
 				{
 					"type": "item",
 					"name": "minecraft:dark_oak_door",
+					"functions": [
+						{
+							"function": "set_count",
+							"count": {
+								"min": 1,
+								"max": 6
+							}
+						}
+					],
+					"weight": 10
+				},
+				{
+					"type": "item",
+					"name": "minecraft:dark_oak_sign",
 					"functions": [
 						{
 							"function": "set_count",
