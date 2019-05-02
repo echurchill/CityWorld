@@ -1,7 +1,6 @@
 package me.daddychurchill.CityWorld.Plats.Astral;
 
 import org.bukkit.Material;
-import org.bukkit.block.BlockFace;
 
 import me.daddychurchill.CityWorld.CityWorldGenerator;
 import me.daddychurchill.CityWorld.Context.DataContext;
@@ -45,10 +44,10 @@ public class AstralBlackCubesLot extends AstralNatureLot {
 		case 0:
 			chunk.setBlocks(x + 1, x + cubeWidth - 1, y + 1, y + cubeWidth - 2, z + 1, z + cubeWidth - 1, Material.AIR);
 			if (chunkOdds.playOdds(populationChance))
-				chunk.setChest(generator, x + 3, y + 1, z + 3, BlockFace.NORTH, chunkOdds, generator.lootProvider,
+				chunk.setChest(generator, x + 3, y + 1, z + 3, chunkOdds, generator.lootProvider,
 						LootLocation.RANDOM);
 			if (chunkOdds.playOdds(populationChance))
-				chunk.setChest(generator, x + 2, y + 1, z + 2, BlockFace.NORTH, chunkOdds, generator.lootProvider,
+				chunk.setChest(generator, x + 2, y + 1, z + 2, chunkOdds, generator.lootProvider,
 						LootLocation.RANDOM);
 			break;
 		case 1:

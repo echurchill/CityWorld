@@ -361,8 +361,11 @@ public class FactoryBuildingLot extends IndustrialBuildingLot {
 			chunk.setWalls(6, 10, smokestackY1, smokestackY2, 6, 10, smokestackMat);
 			chunk.setCircle(8, 8, 1, smokestackY2, smokestackY3, smokestackMat);
 
-			if (onFire)
-				chunk.pepperBlocks(7, 9, smokestackY3 - 2, smokestackY3 + 6, 7, 9, chunkOdds, Material.COBWEB);
+			if (onFire) {
+				chunk.setBlock(7, smokestackY3 - 2, 7, Material.CAMPFIRE);
+				chunk.setBlock(8, smokestackY3 - 2, 8, Material.CAMPFIRE);
+//				chunk.pepperBlocks(7, 9, smokestackY3 - 2, smokestackY3 + 6, 7, 9, chunkOdds, Material.COBWEB);
+			}
 		}
 	}
 

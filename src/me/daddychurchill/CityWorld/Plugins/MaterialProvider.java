@@ -120,7 +120,10 @@ public class MaterialProvider {
 			Material.ACACIA_PLANKS, Material.ACACIA_WOOD, Material.DARK_OAK_DOOR, Material.DARK_OAK_FENCE,
 			Material.DARK_OAK_FENCE_GATE, Material.DARK_OAK_STAIRS, Material.DARK_OAK_PRESSURE_PLATE,
 			Material.DARK_OAK_TRAPDOOR, Material.DARK_OAK_SLAB, Material.DARK_OAK_BOAT, Material.DARK_OAK_LOG,
-			Material.DARK_OAK_PLANKS, Material.DARK_OAK_WOOD, Material.SIGN);
+			Material.DARK_OAK_PLANKS, Material.DARK_OAK_WOOD, Material.SPRUCE_SIGN, Material.ACACIA_SIGN,
+			Material.BIRCH_SIGN, Material.DARK_OAK_SIGN, Material.JUNGLE_SIGN, Material.OAK_SIGN,
+			Material.SPRUCE_WALL_SIGN, Material.ACACIA_WALL_SIGN, Material.BIRCH_WALL_SIGN, Material.DARK_OAK_WALL_SIGN,
+			Material.JUNGLE_WALL_SIGN, Material.OAK_WALL_SIGN);
 
 	private final static String tagRandomMaterials_QuaryChests = "Random_Materials_For_Quary_Chests";
 	public final MaterialList itemsRandomMaterials_QuaryChests = createList(tagRandomMaterials_QuaryChests,

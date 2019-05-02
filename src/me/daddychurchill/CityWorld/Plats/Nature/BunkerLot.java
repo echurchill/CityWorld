@@ -136,7 +136,9 @@ public class BunkerLot extends ConnectedLot {
 	}
 
 	@Override
-	protected boolean isValidWithBones() { return false; }
+	protected boolean isValidWithBones() {
+		return false;
+	}
 
 	@Override
 	public RoadLot repaveLot(CityWorldGenerator generator, PlatMap platmap) {
@@ -900,7 +902,7 @@ public class BunkerLot extends ConnectedLot {
 
 		// cool stuff?
 		if (generator.getSettings().treasuresInBunkers && odds.playOdds(generator.getSettings().oddsOfTreasureInBunkers)) {
-			chunk.setChest(generator, x, y, z, BlockFace.NORTH, odds, generator.lootProvider, LootLocation.BUNKER);
+			chunk.setChest(generator, x, y, z, odds, generator.lootProvider, LootLocation.BUNKER);
 		}
 	}
 

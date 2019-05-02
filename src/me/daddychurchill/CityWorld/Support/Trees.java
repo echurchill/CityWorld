@@ -16,6 +16,50 @@ public final class Trees {
 		return values[odds.getRandomInt(values.length)];
 	}
 
+	public Material getRandomWoodSign() {
+		return getRandomWoodSign(odds.getRandomWoodSpecies());
+	}
+
+	public static Material getRandomWoodSign(TreeSpecies species) {
+		switch (species) {
+		default:
+		case ACACIA:
+			return Material.ACACIA_SIGN;
+		case BIRCH:
+			return Material.BIRCH_SIGN;
+		case DARK_OAK:
+			return Material.DARK_OAK_SIGN;
+		case GENERIC:
+			return Material.OAK_SIGN;
+		case JUNGLE:
+			return Material.JUNGLE_SIGN;
+		case REDWOOD:
+			return Material.SPRUCE_SIGN;
+		}
+	}
+
+	public Material getRandomWoodWallSign() {
+		return getRandomWoodWallSign(odds.getRandomWoodSpecies());
+	}
+
+	public static Material getRandomWoodWallSign(TreeSpecies species) {
+		switch (species) {
+		default:
+		case ACACIA:
+			return Material.ACACIA_WALL_SIGN;
+		case BIRCH:
+			return Material.BIRCH_WALL_SIGN;
+		case DARK_OAK:
+			return Material.DARK_OAK_WALL_SIGN;
+		case GENERIC:
+			return Material.OAK_WALL_SIGN;
+		case JUNGLE:
+			return Material.JUNGLE_WALL_SIGN;
+		case REDWOOD:
+			return Material.SPRUCE_WALL_SIGN;
+		}
+	}
+
 	public Material getRandomWoodLog() {
 		return getRandomWoodLog(odds.getRandomWoodSpecies());
 	}

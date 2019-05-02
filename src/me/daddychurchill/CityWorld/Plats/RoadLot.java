@@ -1664,7 +1664,7 @@ public class RoadLot extends ConnectedLot {
 
 		// cool stuff?
 		if (generator.getSettings().treasuresInSewers && chunkOdds.playOdds(generator.getSettings().oddsOfTreasureInSewers)) {
-			chunk.setChest(generator, x, y, z, BlockFace.NORTH, chunkOdds, generator.lootProvider, LootLocation.SEWER);
+			chunk.setChest(generator, x, y, z, chunkOdds, generator.lootProvider, LootLocation.SEWER);
 		}
 	}
 

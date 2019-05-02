@@ -357,6 +357,20 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		return NoiseGenerator.floor((value - NoiseGenerator.floor(value)) * (max - min)) + min;
 	}
 
+	public final void setBlock(int x, int y, int z, Material material, boolean light) {
+		Block block = getActualBlock(x, y, z);
+		block.setType(material, false);
+		BlockData data = block.getBlockData();
+		try {
+			if (data instanceof Lightable) {
+				Lightable lightable = (Lightable) data;
+				lightable.setLit(light);
+			}
+		} finally {
+			block.setBlockData(data, getDoPhysics(x, z));
+		}
+	}
+
 	public final void setBlock(int x, int y, int z, Material material, double level) {
 		Block block = getActualBlock(x, y, z);
 		block.setType(material, false);
@@ -375,7 +389,6 @@ public abstract class SupportBlocks extends AbstractBlocks {
 		} finally {
 			block.setBlockData(data, getDoPhysics(x, z));
 		}
-
 	}
 
 	public final void setCauldron(int x, int y, int z, Odds odds) {
@@ -720,8 +733,12 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	}
 
 	public final void setWallSign(int x, int y, int z, BlockFace facing, String... lines) {
+		setWallSign(x, y, z, Material.BIRCH_WALL_SIGN, facing, lines);
+	}
+
+	public final void setWallSign(int x, int y, int z, Material sign, BlockFace facing, String... lines) {
 		Block block = getActualBlock(x, y, z);
-		block.setType(Material.WALL_SIGN, false);
+		block.setType(sign, false);
 		BlockData data = block.getBlockData();
 		try {
 			if (data instanceof Directional)
@@ -740,8 +757,12 @@ public abstract class SupportBlocks extends AbstractBlocks {
 	}
 
 	public final void setSignPost(int x, int y, int z, BlockFace rotation, String... lines) {
+		setSignPost(x, y, z, Material.BIRCH_SIGN, rotation, lines);
+	}
+
+	public final void setSignPost(int x, int y, int z, Material sign, BlockFace rotation, String... lines) {
 		Block block = getActualBlock(x, y, z);
-		block.setType(Material.SIGN, false);
+		block.setType(sign, false);
 		BlockData data = block.getBlockData();
 		try {
 			if (data instanceof Rotatable)

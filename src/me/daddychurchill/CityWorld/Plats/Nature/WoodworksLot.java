@@ -81,7 +81,7 @@ public class WoodworksLot extends ConstructLot {
 			break;
 		case 8:
 			if (chunkOdds.flipCoin())
-				chunk.setChest(generator, x + 1, y, z, BlockFace.SOUTH, chunkOdds, generator.lootProvider,
+				chunk.setChest(generator, x + 1, y, z, chunkOdds, generator.lootProvider,
 						LootLocation.WOODWORKS);
 			if (chunkOdds.flipCoin())
 				chunk.setBlock(x + 3, y, z, Material.CRAFTING_TABLE);
@@ -131,8 +131,9 @@ public class WoodworksLot extends ConstructLot {
 
 	private void generateColumn(RealBlocks chunk, int x, int y, int z) {
 //		if (chunk.isEmpty(x, y - 1, z)) {
-		chunk.setBlock(x, y - floorHeight, z, Material.SPRUCE_PLANKS);
-		chunk.setBlocks(x, y - floorHeight + 1, y, z, Material.SPRUCE_FENCE);
+//		chunk.setBlock(x, y - floorHeight, z, Material.SPRUCE_PLANKS);
+//		chunk.setBlocks(x, y - floorHeight + 1, y, z, Material.SPRUCE_FENCE);
+		chunk.setBlocks(x, y - floorHeight, y, z, Material.SCAFFOLDING);
 //		}
 	}
 

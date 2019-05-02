@@ -49,7 +49,9 @@ public class RoadThroughBunkerLot extends RoadLot {
 	}
 
 	@Override
-	protected boolean isValidWithBones() { return false; }
+	protected boolean isValidWithBones() {
+		return false;
+	}
 
 	@Override
 	protected void generateActualChunk(CityWorldGenerator generator, PlatMap platmap, InitialBlocks chunk,
