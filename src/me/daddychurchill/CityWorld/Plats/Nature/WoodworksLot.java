@@ -112,6 +112,8 @@ public class WoodworksLot extends ConstructLot {
 					generateStairs(chunk, x + 4, y + floorHeight, z + 1);
 			}
 			break;
+		case 11:
+			generator.structureOnGroundProvider.generateFirePit(generator, chunk, chunkOdds, x, y, z);
 		}
 
 		// TODO add decay

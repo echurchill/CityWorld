@@ -93,23 +93,6 @@ public class StructureOnGroundProvider extends Provider {
 			placeShedChest(generator, chunk, odds, x1 + odds.getRandomInt(xR) + 1, y1, z2, BlockFace.SOUTH, other);
 			break;
 		}
-
-		// now the fire pit
-		switch (odds.getRandomInt(4)) {
-		default:
-		case 0:
-			generateFirePit(generator, chunk, odds, 1, y1 + 1, 1);
-			break;
-		case 1:
-			generateFirePit(generator, chunk, odds, 1, y1 + 1, 12);
-			break;
-		case 2:
-			generateFirePit(generator, chunk, odds, 12, y1 + 1, 1);
-			break;
-		case 3:
-			generateFirePit(generator, chunk, odds, 12, y1 + 1, 12);
-			break;
-		}
 	}
 
 	private void placeShedTable(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int x, int y, int z,
@@ -279,43 +262,25 @@ public class StructureOnGroundProvider extends Provider {
 	private final static Material matFireSmoke = Material.HAY_BLOCK;
 	private final static Material matFireBase = Material.COBBLESTONE;
 	private final static Material matFireRing = Material.COBBLESTONE_STAIRS;
-	private void generateFirePit(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int x, int baseY, int z) {
+	public void generateFirePit(CityWorldGenerator generator, RealBlocks chunk, Odds odds, int x, int baseY, int z) {
 
 		// now the fire pit
-		if (odds.playOdds(Odds.oddsPrettyLikely)) {
-			// stairs around the fire
-//			chunk.setStair(11, baseY - 1, 10, matFireRing, BlockFace.SOUTH);
-//			chunk.setStair(12, baseY - 1, 11, matFireRing, BlockFace.WEST);
-//			chunk.setStair(11, baseY - 1, 12, matFireRing, BlockFace.NORTH);
-//			chunk.setStair(10, baseY - 1, 11, matFireRing, BlockFace.EAST);
-//			chunk.setStair(10, baseY - 1, 10, matFireRing, BlockFace.SOUTH, Stairs.Shape.OUTER_LEFT);
-//			chunk.setStair(12, baseY - 1, 10, matFireRing, BlockFace.WEST, Stairs.Shape.OUTER_LEFT);
-//			chunk.setStair(12, baseY - 1, 12, matFireRing, BlockFace.NORTH, Stairs.Shape.OUTER_LEFT);
-//			chunk.setStair(10, baseY - 1, 12, matFireRing, BlockFace.EAST, Stairs.Shape.OUTER_LEFT);
+		chunk.clearBlocks(x, x + 3, baseY, baseY + 3, z, z + 3);
 
-			chunk.clearBlocks(x, x + 3, baseY, baseY + 3, z, z + 3);
+		chunk.setStair(x + 1, baseY - 1, z, matFireRing, BlockFace.NORTH);
+		chunk.setStair(x + 2, baseY - 1, z + 1, matFireRing, BlockFace.EAST);
+		chunk.setStair(x + 1, baseY - 1, z + 2, matFireRing, BlockFace.SOUTH);
+		chunk.setStair(x, baseY - 1, z + 1, matFireRing, BlockFace.WEST);
+		chunk.setStair(x, baseY - 1, z, matFireRing, BlockFace.NORTH, Stairs.Shape.INNER_LEFT);
+		chunk.setStair(x + 2, baseY - 1, z, matFireRing, BlockFace.EAST, Stairs.Shape.INNER_LEFT);
+		chunk.setStair(x + 2, baseY - 1, z + 2, matFireRing, BlockFace.SOUTH, Stairs.Shape.INNER_LEFT);
+		chunk.setStair(x, baseY - 1, z + 2, matFireRing, BlockFace.WEST, Stairs.Shape.INNER_LEFT);
 
-			chunk.setStair(x + 1, baseY - 1, z, matFireRing, BlockFace.NORTH);
-			chunk.setStair(x + 2, baseY - 1, z + 1, matFireRing, BlockFace.EAST);
-			chunk.setStair(x + 1, baseY - 1, z + 2, matFireRing, BlockFace.SOUTH);
-			chunk.setStair(x, baseY - 1, z + 1, matFireRing, BlockFace.WEST);
-			chunk.setStair(x, baseY - 1, z, matFireRing, BlockFace.NORTH, Stairs.Shape.INNER_LEFT);
-			chunk.setStair(x + 2, baseY - 1, z, matFireRing, BlockFace.EAST, Stairs.Shape.INNER_LEFT);
-			chunk.setStair(x + 2, baseY - 1, z + 2, matFireRing, BlockFace.SOUTH, Stairs.Shape.INNER_LEFT);
-			chunk.setStair(x, baseY - 1, z + 2, matFireRing, BlockFace.WEST, Stairs.Shape.INNER_LEFT);
-
-			// and the fire itself
-//			chunk.setBlock(11, baseY - 1, 11, matFireBase);
-//			if (odds.playOdds(Odds.oddsPrettyLikely)) {
-//				chunk.clearBlocks(9, 14, baseY, 9, 14); // we do this to keep the grass and such away from the fire so
-//				// it doesn't go firebug on us
-				if (odds.flipCoin())
-					chunk.setBlock(x + 1, baseY - 2, z + 1, matFireSmoke);
-				else
-					chunk.setBlock(x + 1, baseY - 2, z + 1, matFireBase);
-				chunk.setBlock(x + 1, baseY - 1, z + 1, matFire, generator.getSettings().includeFires);
-//			}
-		}
+		if (odds.flipCoin())
+			chunk.setBlock(x + 1, baseY - 2, z + 1, matFireSmoke);
+		else
+			chunk.setBlock(x + 1, baseY - 2, z + 1, matFireBase);
+		chunk.setBlock(x + 1, baseY - 1, z + 1, matFire, generator.getSettings().includeFires);
 	}
 
 	private enum HouseRoofStyle {

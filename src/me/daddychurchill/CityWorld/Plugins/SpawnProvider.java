@@ -44,7 +44,7 @@ public class SpawnProvider extends Provider {
 			EntityType.SHEEP, EntityType.PIG, EntityType.PIG, EntityType.PARROT, EntityType.PARROT, EntityType.CHICKEN,
 			EntityType.CHICKEN, EntityType.CHICKEN, EntityType.CHICKEN, EntityType.CHICKEN, EntityType.CHICKEN,
 			EntityType.RABBIT, EntityType.RABBIT, EntityType.RABBIT, EntityType.RABBIT, EntityType.WOLF,
-			EntityType.OCELOT);
+			EntityType.OCELOT, EntityType.CAT, EntityType.FOX);
 
 	private final static String tagEntities_SeaAnimals = "Entities_For_SeaAnimals";
 	private final AbstractEntityList itemsEntities_SeaAnimals = createSeaAnimalList(tagEntities_SeaAnimals,
@@ -57,8 +57,8 @@ public class SpawnProvider extends Provider {
 
 	private final static String tagEntities_Vagrants = "Entities_For_Vagrants";
 	private final AbstractEntityList itemsEntities_Vagrants = createBeingList(tagEntities_Vagrants, EntityType.CHICKEN,
-			EntityType.CHICKEN, EntityType.RABBIT, EntityType.RABBIT, EntityType.WOLF, EntityType.WOLF,
-			EntityType.OCELOT, EntityType.OCELOT, EntityType.HORSE, EntityType.DONKEY, EntityType.LLAMA,
+			EntityType.CHICKEN, EntityType.RABBIT, EntityType.RABBIT, EntityType.WOLF, EntityType.WOLF, EntityType.FOX,
+			EntityType.OCELOT, EntityType.CAT, EntityType.HORSE, EntityType.DONKEY, EntityType.LLAMA,
 			EntityType.VILLAGER, EntityType.VILLAGER, EntityType.PARROT,
 //			EntityType.POLAR_BEAR,
 			EntityType.SPIDER, EntityType.CREEPER);
@@ -72,7 +72,7 @@ public class SpawnProvider extends Provider {
 	public final AbstractEntityList itemsEntities_Mine = createBeingList(tagEntities_Mine, EntityType.ZOMBIE,
 			EntityType.ZOMBIE, EntityType.SKELETON, EntityType.SKELETON, EntityType.CREEPER, EntityType.CREEPER,
 			EntityType.CAVE_SPIDER, EntityType.CAVE_SPIDER, EntityType.BAT, EntityType.BAT, EntityType.BAT,
-			EntityType.BAT, EntityType.ENDERMITE);
+			EntityType.BAT, EntityType.ENDERMITE, EntityType.CAT);
 
 	private final static String tagEntities_Bunker = "Entities_For_Bunker";
 	public final AbstractEntityList itemsEntities_Bunker = createBeingList(tagEntities_Bunker, EntityType.PIG_ZOMBIE,
@@ -105,7 +105,7 @@ public class SpawnProvider extends Provider {
 	public final void spawnAnimals(CityWorldGenerator generator, SupportBlocks blocks, Odds odds, int x, int y, int z,
 			EntityType entity) {
 		if (!generator.getSettings().includeDecayedBuildings) {
-			int herdSize = itemsEntities_SeaAnimals.getHerdSize(odds, entity);
+			int herdSize = itemsEntities_Animals.getHerdSize(odds, entity);
 			if (herdSize > 0)
 				spawnAnimal(generator, blocks, odds, x, y, z, entity);
 			if (herdSize > 1)

@@ -19,7 +19,9 @@ public final class AnimalList extends AbstractEntityList {
 			return odds.getRandomInt(1, 6);
 		case WOLF:
 		case OCELOT:
-			return 1;
+		case CAT:
+		case FOX:
+			return odds.getRandomInt(1, 2);
 		case HORSE:
 		case DONKEY:
 		case LLAMA:
@@ -35,120 +37,4 @@ public final class AnimalList extends AbstractEntityList {
 		HOSTILE, NEUTRAL, FRIENDLY, OTHER
 	}
 
-//	public EntityAffilation getEntityAffilation(EntityType foo) {
-//		switch (foo) {
-//
-//		// bad
-//		case BLAZE:
-//		case CAVE_SPIDER:
-//		case CREEPER:
-//		case ELDER_GUARDIAN:
-//		case ENDER_DRAGON:
-//		case ENDERMAN:
-//		case ENDERMITE:
-//		case EVOKER:
-//		case GHAST:
-//		case GIANT:
-//		case GUARDIAN:
-//		case HUSK:
-//		case ILLUSIONER:
-//		case MAGMA_CUBE:
-//		case SHULKER:
-//		case SILVERFISH:
-//		case SKELETON:
-//		case SKELETON_HORSE:
-//		case SLIME:
-//		case SPIDER:
-//		case STRAY:
-//		case VEX:
-//		case VINDICATOR:
-//		case WITCH:
-//		case WITHER:
-//		case WITHER_SKELETON:
-//		case ZOMBIE:
-//		case ZOMBIE_HORSE:
-//		case ZOMBIE_VILLAGER:
-//		case DROWNED:
-//		case PHANTOM:
-//		case TRIDENT:
-//			return EntityAffilation.HOSTILE;
-//
-//		// neutral
-//		case BAT:
-//		case IRON_GOLEM:
-//		case LLAMA:
-//		case OCELOT:
-//		case PIG_ZOMBIE:
-//		case POLAR_BEAR:
-//		case SNOWMAN:
-//		case SQUID:
-//		case RABBIT:
-//		case WOLF:
-//		case COD:
-//		case DOLPHIN:
-//		case PUFFERFISH:
-//		case SALMON:
-//		case TROPICAL_FISH:
-//		case TURTLE:
-//		case CHICKEN:
-//		case COW:
-//		case DONKEY:
-//		case HORSE:
-//		case MULE:
-//		case MUSHROOM_COW:
-//		case PARROT:
-//		case PIG:
-//		case SHEEP:
-//			return EntityAffilation.NEUTRAL;
-//
-//		// friendly
-//		case VILLAGER:
-//			return EntityAffilation.FRIENDLY;
-//
-//		// Other
-//		case AREA_EFFECT_CLOUD:
-//		case ARMOR_STAND:
-//		case ARROW:
-//		case BOAT:
-//		case DRAGON_FIREBALL:
-//		case DROPPED_ITEM:
-//		case EGG:
-//		case ENDER_CRYSTAL:
-//		case ENDER_PEARL:
-//		case ENDER_SIGNAL:
-//		case EVOKER_FANGS:
-//		case EXPERIENCE_ORB:
-//		case FALLING_BLOCK:
-//		case FIREBALL:
-//		case FIREWORK:
-//		case FISHING_HOOK:
-//		case ITEM_FRAME:
-//		case LEASH_HITCH:
-//		case LIGHTNING:
-//		case LLAMA_SPIT:
-//		case MINECART:
-//		case MINECART_CHEST:
-//		case MINECART_COMMAND:
-//		case MINECART_FURNACE:
-//		case MINECART_HOPPER:
-//		case MINECART_MOB_SPAWNER:
-//		case MINECART_TNT:
-//		case PAINTING:
-//		case PLAYER:
-//		case PRIMED_TNT:
-//		case SHULKER_BULLET:
-//		case SMALL_FIREBALL:
-//		case SNOWBALL:
-//		case SPECTRAL_ARROW:
-//		case SPLASH_POTION:
-//		case THROWN_EXP_BOTTLE:
-//		case UNKNOWN:
-//		case WITHER_SKULL:
-//			return EntityAffilation.OTHER;
-////		default:
-////			break;
-//		}
-//
-//		return EntityAffilation.OTHER;
-//	}
 }
